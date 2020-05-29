@@ -55,7 +55,7 @@ public:
 
 class WindowList: public YFrameClient {
 public:
-    WindowList(YWindow *aParent, YActionListener *wmActionListener);
+    WindowList(YWindow *aParent);
     virtual ~WindowList();
 
     void updateWorkspaces();
@@ -79,7 +79,6 @@ public:
     YMenu* getWindowListAllPopup();
 
 private:
-    YActionListener *wmActionListener;
     osmart<WindowListPopup> windowListPopup;
     osmart<WindowListAllPopup> windowListAllPopup;
     osmart<YScrollView> scroll;

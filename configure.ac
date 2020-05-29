@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.6.4],
+AC_INIT([icewm],[1.6.5],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.6.4])
+AC_REVISION([1.6.5])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -28,7 +28,7 @@ AC_SUBST([DATE])
 MDOCDATE='September 17, 2019'
 AC_SUBST([MDOCDATE])
 
-BRANCH='1.6.2'
+BRANCH='1.6.5'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icehelp'
@@ -42,7 +42,7 @@ AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 
 # Checks for programs.
-AC_LANG_CPLUSPLUS
+AC_LANG([C++])
 AC_PROG_SED
 AC_PROG_AWK
 AC_PROG_CC
@@ -102,14 +102,14 @@ AM_GNU_GETTEXT_VERSION([0.19.2])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],
-    AC_HELP_STRING([--disable-i18n],[Disable internationalization.]))
+    AS_HELP_STRING([--disable-i18n],[Disable internationalization.]))
 if test x$enable_i18n != xno; then
     AC_DEFINE([CONFIG_I18N], [1], [Define to enable internationalization.])
     features="$features i18n"
 fi
 
 AC_ARG_WITH([unicode-set],
-    AC_HELP_STRING([--with-unicode-set=CODESET],[Your iconv unicode set in
+    AS_HELP_STRING([--with-unicode-set=CODESET],[Your iconv unicode set in
 	machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE,
 	UCS-4BE)]),
     [AC_DEFINE_UNQUOTED([CONFIG_UNICODE_SET],"$with_unicode_set",[Preferred unicode set.])])
@@ -118,6 +118,15 @@ PKG_PROG_PKG_CONFIG
 
 # Checks for libraries.
 AC_CHECK_FUNCS(clock_gettime, [], [AC_CHECK_LIB(rt, clock_gettime)])
+case "${target_os}" in
+    *solaris*)
+        AC_CHECK_LIB(socket, socketpair)
+        AC_CHECK_LIB(nsl, gethostbyname)
+        ;;
+    *)
+        :
+        ;;
+esac
 
 # Checks for header files.
 AS_BOX([Header Files])
@@ -130,7 +139,7 @@ AC_CHECK_HEADERS([execinfo.h fcntl.h])
 AC_CHECK_HEADERS([libgen.h])
 AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
 AC_CHECK_HEADERS([sched.h sndfile.h])
-AC_CHECK_HEADERS([sys/dkstat.h sys/file.h sys/ioctl.h sys/param.h])
+AC_CHECK_HEADERS([sys/file.h sys/ioctl.h sys/param.h])
 AC_CHECK_HEADERS([sys/sched.h sys/soundcard.h sys/sysctl.h])
 AC_CHECK_HEADERS([uvm/uvm_param.h wchar.h])
 
@@ -148,16 +157,15 @@ AC_CHECK_SIZEOF(short, 2)
 AC_CHECK_SIZEOF(int, 4)
 AC_CHECK_SIZEOF(long, 4)
 
-AC_TYPE_SIGNAL
-
 # Checks for library functions.
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
 AC_CHECK_FUNCS([abort backtrace_symbols_fd])
-AC_CHECK_FUNCS([if_nametoindex if_nameindex])
+AC_CHECK_FUNCS([freeaddrinfo gai_strerror getnameinfo])
+AC_CHECK_FUNCS([if_freenameindex if_nametoindex if_nameindex])
 AC_CHECK_FUNCS([mblen memmem memmove memrchr nl_langinfo])
-AC_CHECK_FUNCS([select setlocale socket])
+AC_CHECK_FUNCS([select setlocale shutdown socket socketpair])
 AC_CHECK_FUNCS([sysctl sysctlbyname sysinfo wordexp])
 AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
 AC_FUNC_SELECT_ARGTYPES
@@ -194,6 +202,20 @@ AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <string.h>]],[[
                            [Define to 1 if you have the strlcat function.])
               ])
 
+AC_MSG_CHECKING([for C++11 by default])
+AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <regex>]],[[
+               if (__cplusplus < 201103L) return 1;]])],
+              [AC_MSG_RESULT([yes])],
+              [AC_MSG_RESULT([no])
+               AC_MSG_CHECKING([for C++11 when forced])
+               CXXFLAGS="$CXXFLAGS -std=c++11"
+               AC_RUN_IFELSE([AC_LANG_PROGRAM([[#include <regex>]],[[
+                              if (__cplusplus < 201103L) return 1;]])],
+                             [AC_MSG_RESULT([yes])],
+                             [AC_MSG_RESULT([no])
+                              AC_MSG_ERROR([Need C++11. Please set CXXFLAGS.])
+                             ])
+              ])
 
 PKG_CHECK_MODULES([CORE],[fontconfig xrender xcomposite xdamage xfixes xext x11])
 AC_SUBST([CORE_CFLAGS])
@@ -203,7 +225,7 @@ AC_CHECK_LIB([X11],[XInternAtoms],
     [AC_DEFINE([HAVE_XINTERNATOMS],[1],[Define to enable XInternAtoms])])
 
 AC_ARG_ENABLE([sm],
-    AC_HELP_STRING([--disable-sm],[Disable X session management.]))
+    AS_HELP_STRING([--disable-sm],[Disable X session management.]))
 if test x$enable_sm != xno ; then
     PKG_CHECK_MODULES([XSM],[sm ice],[
 	AC_DEFINE([CONFIG_SESSION],[1],[Define to enable X session management])],
@@ -211,7 +233,7 @@ if test x$enable_sm != xno ; then
 fi
 
 AC_ARG_ENABLE([shape],
-    AC_HELP_STRING([--disable-shape],[Disable use of SHAPE extension.]))
+    AS_HELP_STRING([--disable-shape],[Disable use of SHAPE extension.]))
 if test x$enable_shape != xno ; then
     PKG_CHECK_MODULES([SHAPE],[xext],[
 	CORE_CFLAGS="$SHAPE_CFLAGS $CORE_CFLAGS"
@@ -224,7 +246,7 @@ else
 fi
 
 AC_ARG_ENABLE([xrandr],
-    AC_HELP_STRING([--disable-xrandr],[Disable use of RANDR extension.]))
+    AS_HELP_STRING([--disable-xrandr],[Disable use of RANDR extension.]))
 if test x$enable_xrandr != xno; then
     PKG_CHECK_MODULES([RANDR],[xrandr],[
 	CORE_CFLAGS="$RANDR_CFLAGS $CORE_CFLAGS"
@@ -237,7 +259,7 @@ else
 fi
 
 AC_ARG_ENABLE([xfreetype],
-    AC_HELP_STRING([--disable-xfreetype],[Disable use of XFT for text rendering.]))
+    AS_HELP_STRING([--disable-xfreetype],[Disable use of XFT for text rendering.]))
 if test x$enable_xfreetype != xno; then
     PKG_CHECK_MODULES([XFT2],[xft >= 2.0.0],[
 	CORE_CFLAGS="$XFT2_CFLAGS $CORE_CFLAGS"
@@ -251,7 +273,7 @@ else
 fi
 
 AC_ARG_ENABLE([corefonts],
-    AC_HELP_STRING([--enable-corefonts],[Support X11 core fonts.]))
+    AS_HELP_STRING([--enable-corefonts],[Support X11 core fonts.]))
 if test x$enable_corefonts = xyes; then
     AC_DEFINE([CONFIG_COREFONTS],[1],[Define to enable X11 core fonts.])
     features="$features corefonts"
@@ -264,7 +286,7 @@ then
 fi
 
 AC_ARG_WITH([icesound],
-    AC_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound. @<:@default: ALSA,AO,OSS@:>@]),[],
+    AS_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound. @<:@default: ALSA,AO,OSS@:>@]),[],
     [with_icesound='ALSA,AO,OSS'])
 
 for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
@@ -309,7 +331,7 @@ AC_SUBST([AUDIO_CFLAGS])
 AC_SUBST([AUDIO_LIBS])
 
 AC_ARG_ENABLE([xinerama],
-    AC_HELP_STRING([--disable-xinerama],[Disable XINERAMA support.]))
+    AS_HELP_STRING([--disable-xinerama],[Disable XINERAMA support.]))
 if test x$enable_xinerama != xno ; then
     PKG_CHECK_MODULES([XINERAMA],[xinerama],[
 	CORE_CFLAGS="$XINERAMA_CFLAGS $CORE_CFLAGS"
@@ -320,7 +342,7 @@ if test x$enable_xinerama != xno ; then
 fi
 
 AC_ARG_ENABLE([fribidi],
-    AC_HELP_STRING([--disable-fribidi],[Disable right to left support.]))
+    AS_HELP_STRING([--disable-fribidi],[Disable right to left support.]))
 if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
     PKG_CHECK_MODULES([FRIBIDI], [fribidi],[
 	CORE_CFLAGS="$FRIBIDI_CFLAGS $CORE_CFLAGS"
@@ -331,7 +353,7 @@ if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
 fi
 
 AC_ARG_ENABLE([menus-fdo],
-    AC_HELP_STRING([--disable-menus-fdo],[Disable support of freedesktop.org style menus.]))
+    AS_HELP_STRING([--disable-menus-fdo],[Disable support of freedesktop.org style menus.]))
 if test x$enable_menus_fdo != xno; then
 PKG_CHECK_MODULES([GIO],[gio-2.0 gio-unix-2.0],[
 	AC_DEFINE([CONFIG_FDO_MENUS],[1],[Define to support freedesktop.org style menus.])
@@ -343,7 +365,7 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([gdk-pixbuf],
-    AC_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
+    AS_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
 	@<:@default=enabled@:>@]))
 if test "x$enable_gdk_pixbuf" != xno ; then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
@@ -395,7 +417,7 @@ AM_CONDITIONAL([BUILD_ICEWMTRAY],[test x$BUILD_ICEWMTRAY = xyes])
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
 
 AC_ARG_WITH([libdir],
-    AC_HELP_STRING([--with-libdir=PATH],[Package data directory.
+    AS_HELP_STRING([--with-libdir=PATH],[Package data directory.
 	@<:@default=DATADIR/icewm@:>@]))
 if test -z "$with_libdir" -o "x$with_libdir" = xyes ; then
     with_libdir='${datadir}/icewm'
@@ -406,7 +428,7 @@ AC_DEFINE_UNQUOTED([LIBDIR],["${LIBDIR}"],
 AC_SUBST([LIBDIR])
 
 AC_ARG_WITH([cfgdir],
-    AC_HELP_STRING([--with-cfgdir=PATH],[Package configuration directory.
+    AS_HELP_STRING([--with-cfgdir=PATH],[Package configuration directory.
 	@<:@default=SYSCONFDIR/icewm@:>@]))
 if test -z "$with_cfgdir" -o "x$with_cfgdir" = xyes ; then
     with_cfgdir='${sysconfdir}/icewm'
@@ -417,7 +439,7 @@ AC_DEFINE_UNQUOTED([CFGDIR],["${CFGDIR}"],
 AC_SUBST([CFGDIR])
 
 AC_ARG_WITH([docdir],
-    AC_HELP_STRING([--with-docdir=PATH],[Package documentation directory.
+    AS_HELP_STRING([--with-docdir=PATH],[Package documentation directory.
 	@<:@default=DOCDIR@:>@]))
 if test -z "$with_docdir" -o "x$with_docdir" = xyes ; then
     with_docdir='${docdir}'
@@ -431,13 +453,13 @@ AC_DEFINE_UNQUOTED([LOCDIR],["${LOCDIR}"],
 	[Define to locale directory.])
 
 AC_ARG_WITH([theme],
-    AC_HELP_STRING([--with-theme=NAME],[Default theme.
+    AS_HELP_STRING([--with-theme=NAME],[Default theme.
                     [default="default/default.theme"]]),,
                     with_theme="default/default.theme")
 AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
                    "${with_theme}",[Name of default theme])
 AC_ARG_WITH([xterm],
-    AC_HELP_STRING([--with-xterm=xterm],[Default X11 terminal emulator.]),
+    AS_HELP_STRING([--with-xterm=xterm],[Default X11 terminal emulator.]),
         [],[with_xterm=xterm])
 AC_SUBST([XTERMCMD],[${with_xterm}])
 AC_DEFINE_UNQUOTED([XTERMCMD],[${with_xterm}],[Name of terminal emulator.])
@@ -450,14 +472,14 @@ AC_DEFINE_UNQUOTED([ICEHELPIDX],["${DOCDIR}/icewm.html"],
 	[Define to the IceWM help index file.])
 
 AC_ARG_ENABLE([debug],
-    AC_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))
+    AS_HELP_STRING([--enable-debug],[Enable debugging of IceWM.]))
 if test x$enable_debug = xyes ; then
     AC_DEFINE([DEBUG],[1],[Define if you want to debug IceWM.])
     CXXFLAGS="$CXXFLAGS -g -DDEBUG"
     features="$features debugging-symbols"
 fi
 AC_ARG_ENABLE([logevents],
-    AC_HELP_STRING([--enable-logevents],[Support logging of X11 events.]))
+    AS_HELP_STRING([--enable-logevents],[Support logging of X11 events.]))
 if test x$enable_logevents = xyes ; then
     AC_DEFINE([LOGEVENTS],[1],[Define to enable X11 event logging support.])
     features="$features logevents"

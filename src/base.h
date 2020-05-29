@@ -1,22 +1,10 @@
-#ifndef __BASE_H
-#define __BASE_H
+#ifndef BASE_H
+#define BASE_H
 
 #include <stddef.h>
 
 #ifndef __GNUC__
 #define __attribute__(a)
-#endif
-
-// use override helper keyword where available
-#if __cplusplus < 201103L
-#define OVERRIDE
-#else
-#define OVERRIDE override
-#endif
-#if __cplusplus == 199711L
-#define nullptr NULL
-#define override
-#define final
 #endif
 
 /*** Essential Arithmetic Functions *******************************************/
@@ -98,6 +86,10 @@ unsigned long strhash(const char* str);
 
 inline bool nonempty(const char* s) { return s && *s; }
 inline bool isEmpty(const char* s) { return !(s && *s); }
+
+#ifndef HAVE_MEMRCHR
+void* memrchr(const void*, char, size_t);
+#endif
 
 /*** Message Functions ********************************************************/
 

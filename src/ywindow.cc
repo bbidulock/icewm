@@ -1655,7 +1655,7 @@ void YWindow::requestSelection(bool selection) {
     Atom sel = selection ? XA_PRIMARY : _XA_CLIPBOARD;
 
     XConvertSelection(xapp->display(),
-                      sel, XA_STRING,
+                      sel, _XA_UTF8_STRING,
                       sel, handle(), xapp->getEventTime("requestSelection"));
 }
 

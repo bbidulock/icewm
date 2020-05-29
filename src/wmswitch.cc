@@ -121,12 +121,12 @@ class WindowItemsCtrlr : public ISwitchItems
 
 public:
 
-    virtual int getCount() OVERRIDE
+    virtual int getCount() override
     {
         return zList.getCount();
     }
 
-    virtual ref<YIcon> getIcon(int itemIdx) OVERRIDE
+    virtual ref<YIcon> getIcon(int itemIdx) override
     {
         if (inrange(itemIdx, 0, getCount() - 1)) {
             YFrameWindow* winItem = zList[itemIdx];
@@ -135,11 +135,11 @@ public:
         return null;
     }
 
-    int moveTarget(bool zdown) OVERRIDE {
+    int moveTarget(bool zdown) override {
         const int cnt = getCount();
         return setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
     }
-    inline virtual int setTarget(int zPosition) OVERRIDE
+    inline virtual int setTarget(int zPosition) override
     {
         zTarget=zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
@@ -162,35 +162,35 @@ public:
             free(fWMClass);
     }
 
-    virtual int getActiveItem() OVERRIDE
+    virtual int getActiveItem() override
     {
         return zTarget;
     }
 
-    virtual ustring getTitle(int idx) OVERRIDE
+    virtual ustring getTitle(int idx) override
     {
         if (inrange(idx, 0, getCount() - 1))
             return zList[idx]->client()->windowTitle();
         return null;
     }
 
-    virtual void setWMClass(char* wmclass) OVERRIDE {
+    virtual void setWMClass(char* wmclass) override {
         if (fWMClass)
             free(fWMClass);
         fWMClass = wmclass;
     }
 
-    virtual void updateList() OVERRIDE {
+    virtual void updateList() override {
         freeList();
         getZList();
     }
 
-    void displayFocusChange(int idx) OVERRIDE {
+    void displayFocusChange(int idx) override {
         if (inrange(idx, 0, getCount() - 1))
             displayFocusChange(zList[idx]);
     }
 
-    virtual void begin(bool zdown) OVERRIDE
+    virtual void begin(bool zdown) override
     {
         fLastWindow = fActiveWindow = manager->getFocus();
         updateList();
@@ -198,11 +198,11 @@ public:
         moveTarget(zdown);
     }
 
-    virtual void reset() OVERRIDE {
+    virtual void reset() override {
         zTarget = 0;
     }
 
-    virtual void cancel() OVERRIDE {
+    virtual void cancel() override {
         if (fLastWindow) {
             displayFocusChange(fLastWindow);
         } else if (fActiveWindow) {
@@ -212,7 +212,7 @@ public:
         fLastWindow = fActiveWindow = 0;
     }
 
-    virtual void accept(IClosablePopup *parent) OVERRIDE {
+    virtual void accept(IClosablePopup *parent) override {
         if (fActiveWindow == 0)
             cancel();
         else {
@@ -223,7 +223,7 @@ public:
         fLastWindow = fActiveWindow = 0;
     }
 
-    virtual void destroyedItem(void *item) OVERRIDE
+    virtual void destroyedItem(void *item) override
     {
         if (getCount() == 0)
             return;
@@ -239,7 +239,7 @@ public:
         displayFocusChange(fActiveWindow);
     }
 
-    virtual bool isKey(KeySym k, unsigned int vm) OVERRIDE {
+    virtual bool isKey(KeySym k, unsigned int vm) override {
         return gKeySysSwitchNext.eq(k, vm) ||
               (gKeySysSwitchClass.eq(k, vm) && fWMClass != 0);
     }

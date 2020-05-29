@@ -148,4 +148,16 @@ void ObjectButton::popupMenu() {
     YButton::popupMenu();
 }
 
+void ObjectBar::handleButton(const XButtonEvent& up) {
+    parent()->handleButton(up);
+}
+
+void ObjectButton::handleButton(const XButtonEvent& up) {
+    if (up.button == Button1) {
+        YButton::handleButton(up);
+    } else {
+        parent()->handleButton(up);
+    }
+}
+
 // vim: set sw=4 ts=4 et:

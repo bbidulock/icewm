@@ -1423,8 +1423,7 @@ ustring YFrameClient::getClientId(Window leader) { /// !!! fix
     if (!prop.sm_client_id)
         return null;
 
-    YProperty prop(leader, _XA_SM_CLIENT_ID, F8, 256, XA_STRING);
-    return prop ? ustring(prop.retrieve<char>()) : null;
+    return YProperty(leader, _XA_SM_CLIENT_ID, F8, 256, XA_STRING).data<char>();
 }
 
 bool YFrameClient::getNetWMStrut(int *left, int *right, int *top, int *bottom) {

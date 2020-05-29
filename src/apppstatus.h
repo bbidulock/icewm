@@ -8,15 +8,6 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
-#ifndef HAVE_NET_STATUS
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__OpenBSD__) || defined(__FreeBSD_kernel__)
-#define HAVE_NET_STATUS 1
-#endif
-#endif
-
-#if HAVE_NET_STATUS
-
 #include "ypointer.h"
 
 class IAppletContainer;
@@ -76,6 +67,14 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
+class NetDummyDevice : public NetDevice {
+public:
+    NetDummyDevice(cstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp() { return false; }
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
+    { }
+};
+
 class NetStatus: public IApplet, private Picturer {
 public:
     NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
@@ -111,12 +110,12 @@ private:
     // methods local to this class
     void getCurrent(long *in, long *out, const void* sharedData);
     void updateStatus(const void* sharedData);
-    virtual void updateToolTip() OVERRIDE;
+    virtual void updateToolTip() override;
 
     // methods overridden from superclasses
-    virtual void handleClick(const XButtonEvent &up, int count) OVERRIDE;
+    virtual void handleClick(const XButtonEvent &up, int count) override;
 
-    virtual bool picture() OVERRIDE;
+    virtual bool picture() override;
     void fill(Graphics& g);
     void draw(Graphics& g);
 };
@@ -168,14 +167,12 @@ public:
     IterType getIterator() { return fNetStatus.iterator(); }
 
     // subclassing method overrides
-    virtual bool handleTimer(YTimer *t) OVERRIDE;
-    virtual void handleClick(const XButtonEvent &up, cstring netdev) OVERRIDE;
-    virtual void runCommandOnce(const char *resource, const char *cmdline) OVERRIDE;
-    virtual void actionPerformed(YAction, unsigned int) OVERRIDE;
-    virtual void relayout() OVERRIDE;
+    virtual bool handleTimer(YTimer *t) override;
+    virtual void handleClick(const XButtonEvent &up, cstring netdev) override;
+    virtual void runCommandOnce(const char *resource, const char *cmdline) override;
+    virtual void actionPerformed(YAction, unsigned int) override;
+    virtual void relayout() override;
 };
-
-#endif
 
 #endif // NETSTATUS_H
 

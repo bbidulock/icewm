@@ -9,68 +9,64 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <regex.h>
+#include <new>
 #include "base.h"
 #include "ascii.h"
 
-MStringData *MStringData::alloc(size_t length) {
-    size_t size = sizeof(MStringData) + length + 1;
-    MStringData *ud = static_cast<MStringData *>(malloc(size));
-    ud->fRefCount = 0;
-    return ud;
+void MStringRef::alloc(size_t len) {
+    fStr = new (malloc(sizeof(MStringData) + len + 1)) MStringData();
 }
 
-MStringData *MStringData::create(const char *str, size_t length) {
-    MStringData *ud = MStringData::alloc(length+1);
-    memcpy(ud->fStr, str, length);
-    ud->fStr[length] = 0;
-    return ud;
-}
-
-MStringData *MStringData::create(const char *str) {
-    return create(str, strlen(str));
-}
-
-mstring::mstring(MStringData *fStr, size_t fOffset, size_t fCount):
-    fStr(fStr),
-    fOffset(fOffset),
-    fCount(fCount)
-{
-    if (fStr) acquire();
-}
-
-void mstring::init(const char *str, size_t len) {
-    if (str) {
-        fStr = MStringData::create(str, len);
-        fOffset = 0;
-        fCount = len;
-        acquire();
+void MStringRef::create(const char* str, size_t len) {
+    if (len) {
+        alloc(len);
+        if (str) {
+            strncpy(fStr->fStr, str, len);
+            fStr->fStr[len] = 0;
+        } else {
+            memset(fStr->fStr, 0, len + 1);
+        }
     } else {
         fStr = nullptr;
-        fOffset = 0;
-        fCount = 0;
     }
 }
 
-mstring::mstring(const char *str) {
-    init(str, str ? strlen(str) : 0);
+mstring::mstring(const MStringRef& str, size_t offset, size_t count):
+    fRef(str),
+    fOffset(offset),
+    fCount(count)
+{
+    acquire();
 }
 
-mstring::mstring(const char *str, size_t len) {
-    init(str, len);
-}
-
-mstring::mstring(const char *str1, const char *str2) {
-    size_t len1 = str1 ? strlen(str1) : 0;
-    size_t len2 = str2 ? strlen(str2) : 0;
-    if (len1) {
-        init(str1, len1 + len2);
+mstring::mstring(const char* str1, size_t len1, const char* str2, size_t len2):
+    fRef(len1 + len2), fOffset(0), fCount(len1 + len2)
+{
+    if (fRef) {
+        if (len1)
+            strncpy(fRef->fStr, str1, len1);
         if (len2)
-            strlcpy(fStr->fStr + len1, str2, len2 + 1);
-    } else {
-        init(str2, len2);
+            strncpy(fRef->fStr + len1, str2, len2);
+        fRef[fCount] = 0;
+        fRef.acquire();
     }
+}
+
+mstring::mstring(const char* str):
+    mstring(str, str ? strlen(str) : 0)
+{
+}
+
+mstring::mstring(const char* str, size_t len):
+    fRef(str, len), fOffset(0), fCount(len)
+{
+    acquire();
+}
+
+mstring::mstring(const char *str1, const char *str2):
+    mstring(str1, str1 ? strlen(str1) : 0, str2, str2 ? strlen(str2) : 0)
+{
 }
 
 mstring::mstring(const char *str1, const char *str2, const char *str3) {
@@ -79,74 +75,51 @@ mstring::mstring(const char *str1, const char *str2, const char *str3) {
     size_t len3 = str3 ? strlen(str3) : 0;
     fOffset = 0;
     fCount = len1 + len2 + len3;
-    fStr = MStringData::alloc(fCount);
-    memcpy(fStr->fStr, str1, len1);
-    memcpy(fStr->fStr + len1, str2, len2);
-    memcpy(fStr->fStr + len1 + len2, str3, len3);
-    fStr->fStr[fCount] = 0;
-    acquire();
+    fRef.alloc(fCount);
+    if (len1) memcpy(fRef->fStr, str1, len1);
+    if (len2) memcpy(fRef->fStr + len1, str2, len2);
+    if (len3) memcpy(fRef->fStr + len1 + len2, str3, len3);
+    fRef[fCount] = 0;
+    fRef.acquire();
 }
 
-mstring::mstring(long n) {
-    char num[24];
-    snprintf(num, sizeof num, "%ld", n);
-    init(num, strlen(num));
-}
-
-void mstring::destroy() {
-    free(fStr); fStr = nullptr;
-}
-
-mstring::~mstring() {
-    if (fStr)
-        release();
+mstring::mstring(long n):
+    fRef(size_t(23)), fOffset(0), fCount(0)
+{
+    snprintf(fRef->fStr, 23, "%ld", n);
+    fCount = strlen(fRef->fStr);
+    fRef.acquire();
 }
 
 mstring mstring::operator+(const mstring& rv) const {
-    if (isEmpty()) return rv;
-    if (rv.isEmpty()) return *this;
-    size_t newCount = length() + rv.length();
-    MStringData *ud = MStringData::alloc(newCount);
-    memcpy(ud->fStr, data(), length());
-    memcpy(ud->fStr + length(), rv.data(), rv.length());
-    ud->fStr[newCount] = 0;
-    return mstring(ud, 0, newCount);
+    return rv.isEmpty() ? *this : isEmpty() ? rv :
+        mstring(data(), length(), rv.data(), rv.length());
 }
 
-mstring& mstring::operator+=(const mstring& rv) {
-    return *this = *this + rv;
+void mstring::operator+=(const mstring& rv) {
+    *this = *this + rv;
 }
 
 mstring& mstring::operator=(const mstring& rv) {
-    if (fStr != rv.fStr) {
-        if (fStr) release();
-        fStr = rv.fStr;
-        if (fStr) acquire();
+    if (fRef != rv.fRef) {
+        release();
+        fRef = rv.fRef;
+        acquire();
     }
     fOffset = rv.fOffset;
     fCount = rv.fCount;
     return *this;
 }
 
-mstring& mstring::operator=(null_ref &) {
-    if (fStr) {
-        release();
-        fStr = nullptr;
-        fCount = 0;
-        fOffset = 0;
-    }
-    return *this;
-}
-
 mstring mstring::substring(size_t pos) const {
     return pos <= length()
-        ? mstring(fStr, fOffset + pos, fCount - pos)
+        ? mstring(fRef, fOffset + pos, fCount - pos)
         : null;
 }
 
 mstring mstring::substring(size_t pos, size_t len) const {
     return pos <= length()
-        ? mstring(fStr, fOffset + pos, min(len, fCount - pos))
+        ? mstring(fRef, fOffset + pos, min(len, fCount - pos))
         : null;
 }
 
@@ -155,8 +128,8 @@ bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
     int splitAt = indexOf(char(token));
     if (splitAt >= 0) {
         size_t i = size_t(splitAt);
-        mstring l = substring(0, i);
-        mstring r = substring(i + 1, length() - i - 1);
+        mstring l(substring(0, i));
+        mstring r(substring(i + 1, length() - i - 1));
         *left = l;
         *remain = r;
         return true;
@@ -281,34 +254,27 @@ mstring mstring::searchAndReplaceAll(const mstring& s, const mstring& r) const {
 }
 
 mstring mstring::lower() const {
-    if (fStr) {
-        MStringData *ud = MStringData::create(data(), fCount);
-        for (unsigned i = 0; i < fCount; ++i) {
-            ud->fStr[i] = ASCII::toLower(ud->fStr[i]);
-        }
-        return mstring(ud, 0, fCount);
+    mstring mstr(nullptr, fCount);
+    for (size_t i = 0; i < fCount; ++i) {
+        mstr.fRef[i] = ASCII::toLower(data()[i]);
     }
-    return null;
+    return mstr;
 }
 
 mstring mstring::upper() const {
-    if (*this == null) {
-        return null;
-    } else {
-        MStringData *ud = MStringData::create(data(), fCount);
-        for (unsigned i = 0; i < fCount; ++i) {
-            ud->fStr[i] = ASCII::toUpper(ud->fStr[i]);
-        }
-        return mstring(ud, 0, fCount);
+    mstring mstr(nullptr, fCount);
+    for (size_t i = 0; i < fCount; ++i) {
+        mstr.fRef[i] = ASCII::toUpper(data()[i]);
     }
+    return mstr;
 }
 
 mstring mstring::trim() const {
     size_t k = 0, n = length();
-    while (k < n && isspace(static_cast<unsigned char>(data()[k]))) {
+    while (k < n && ASCII::isWhiteSpace(data()[k])) {
         ++k;
     }
-    while (k < n && isspace(static_cast<unsigned char>(data()[n - 1]))) {
+    while (k < n && ASCII::isWhiteSpace(data()[n - 1])) {
         --n;
     }
     return substring(k, n - k);
@@ -316,13 +282,11 @@ mstring mstring::trim() const {
 
 void mstring::normalize()
 {
-    if (fStr) {
-        if (data()[fCount]) {
-            MStringData *ud = MStringData::create(data(), fCount);
-            release();
-            fStr = ud;
-            fOffset = 0;
-            acquire();
+    if (fRef && data()[fCount]) {
+        if (fRef->fRefCount == 1) {
+            fRef[fOffset + fCount] = 0;
+        } else {
+            *this = mstring(data(), fCount);
         }
     }
 }
@@ -360,15 +324,5 @@ mstring mstring::match(const char* regex, const char* flags) const {
 
     return mstring(data() + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
 }
-
-cstring::cstring(const mstring &s): str(s) {
-    str.normalize();
-}
-
-cstring& cstring::operator=(const cstring& cs) {
-    str = cs.str;
-    return *this;
-}
-
 
 // vim: set sw=4 ts=4 et:

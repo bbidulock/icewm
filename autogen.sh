@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ "$(uname)" = SunOS ]; then
+    alias gettext=ggettext
+fi
+
 cd "$(dirname "$0")"
 
 PACKAGE=$(grep AC_INIT configure.ac|head -1|sed -r 's,AC_INIT[(][[],,;s,[]].*,,')

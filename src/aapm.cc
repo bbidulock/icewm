@@ -47,8 +47,6 @@
 #endif
 #endif
 
-#include <math.h>
-
 extern YColorName taskBarBg;
 
 #define AC_UNKNOWN      0
@@ -330,7 +328,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
             fclose(fd);
         }
 #else // some FreeBSD kernel
-#define ACPIDEV         "/dev/acpi"
         int acpifd = open(ACPIDEV, O_RDONLY);
         if (acpifd != -1) {
             union acpi_battery_ioctl_arg battio;
@@ -412,7 +409,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
 #endif
 
         if (BATpresent == BAT_PRESENT &&
-            //did we parse the needed values successfully?
             BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
            energyFull += BATcapacity_full;
@@ -426,19 +422,18 @@ void YApm::AcpiStr(char *s, bool Tool) {
             BATpresent == BAT_PRESENT &&
             //bios calculates remaining time, only while discharging
             BATstatus == BAT_DISCHARGING &&
-            //did we parse the needed values successfully?
-            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
+            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0)
+        {
             if (BATtime_remain == -1)
-                BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
+                BATtime_remain = (60 * BATcapacity_remain) / BATrate;
             snprintf(bat_info, sizeof bat_info, "%d:%02d",
                      BATtime_remain / 60, BATtime_remain % 60);
         }
         else if (BATpresent == BAT_PRESENT &&
-                 //did we parse the needed values successfully?
-                 BATcapacity_remain >= 0 && BATcapacity_full >= 0)
+                 BATcapacity_remain >= 0 && BATcapacity_full > 0)
         {
-            snprintf(bat_info, sizeof bat_info, "%3.0f%%",
-                    100 * (double)BATcapacity_remain / BATcapacity_full);
+            snprintf(bat_info, sizeof bat_info, "%3d%%",
+                    (100 * BATcapacity_remain) / BATcapacity_full);
         }
 
         if (BATstatus == BAT_CHARGING) {
@@ -521,8 +516,8 @@ void YApm::SysStr(char *s, bool Tool) {
         strcat3(buf, "/sys/class/power_supply/", BATname, "/status", sizeof(buf));
         FILE* fd = fopen(buf, "r");
         if (fd == NULL) {
-                strcat3(buf, "/sys/class/power_supply/", BATname, "/power_now", sizeof(buf));
-                fd = fopen(buf, "r");
+            strcat3(buf, "/sys/class/power_supply/", BATname, "/power_now", sizeof(buf));
+            fd = fopen(buf, "r");
         }
 
         if (fd != NULL) {
@@ -616,15 +611,15 @@ void YApm::SysStr(char *s, bool Tool) {
                 }
                 if (fd != NULL) {
                     if (fgets(buf, sizeof(buf), fd)) {
-                            //in case it contains non-numeric value
-                            if (sscanf(buf, "%d", &BATcapacity_full)<=0) {
-                                BATcapacity_full = -1;
-                            }
+                        //in case it contains non-numeric value
+                        if (sscanf(buf, "%d", &BATcapacity_full) <= 0) {
+                            BATcapacity_full = -1;
+                        }
                     }
                     fclose(fd);
                 }
                 if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
-                        BATcapacity_full = BATcapacity_design;
+                    BATcapacity_full = BATcapacity_design;
                 acpiBatteries[i]->capacity_full = BATcapacity_full;
             }
             else {
@@ -636,10 +631,10 @@ void YApm::SysStr(char *s, bool Tool) {
         // the code above caches BATcapacity_full when battery is installed;
         // however, this value and _remain can increase slightly while the battery is charging,
         // so set a limit to not display resulting value over 100% to the user
-        if (BATcapacity_remain > BATcapacity_full) BATcapacity_remain = BATcapacity_full;
+        if (BATcapacity_remain > BATcapacity_full)
+            BATcapacity_remain = BATcapacity_full;
 
         if (BATpresent == BAT_PRESENT &&
-            //did we parse the needed values successfully?
             BATcapacity_remain >= 0 && BATcapacity_full >= 0)
         {
            energyFull += BATcapacity_full;
@@ -650,19 +645,18 @@ void YApm::SysStr(char *s, bool Tool) {
             BATpresent == BAT_PRESENT &&
             //bios calculates remaining time, only while discharging
             BATstatus == BAT_DISCHARGING &&
-            //did we parse the needed values successfully?
-            BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0) {
-            BATtime_remain = (int) (60 * (double)(BATcapacity_remain) / BATrate);
-            snprintf(bat_info, sizeof bat_info, "%d:%02d (%3.0f%%)",
+            BATcapacity_full > 0 && BATcapacity_remain >= 0 && BATrate > 0)
+        {
+            BATtime_remain = (60 * BATcapacity_remain) / BATrate;
+            snprintf(bat_info, sizeof bat_info, "%d:%02d (%3d%%)",
                     BATtime_remain / 60, BATtime_remain % 60,
-                    round(double(100) * BATcapacity_remain / BATcapacity_full));
+                    (100 * BATcapacity_remain) / BATcapacity_full);
         }
         else if (BATpresent == BAT_PRESENT &&
-                 //did we parse the needed values successfully?
-                 BATcapacity_remain >= 0 && BATcapacity_full >= 0)
+                 BATcapacity_remain >= 0 && BATcapacity_full > 0)
         {
-            snprintf(bat_info, sizeof bat_info, "%3.0f%%",
-                     round(double(100) * BATcapacity_remain / BATcapacity_full));
+            snprintf(bat_info, sizeof bat_info, "%3d%%",
+                     (100 * BATcapacity_remain) / BATcapacity_full);
         }
         else {
             //battery is absent or we didn't parse some needed values
@@ -754,7 +748,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
         rem_time /= 60;
 
       if (battery_present &&
-          //did we parse the needed values successfully?
           charge >= 0 && max_charge >= 0)
       {
          energyFull += max_charge;
@@ -1049,7 +1042,7 @@ void YApm::draw(Graphics &g) {
        g.setColor(apmColorGraphBg);
        g.fillRect(0, 0, taskBarApmGraphWidth, height());
 
-       int new_h = (int) round((double(energyNow)/double(energyFull)) * height());
+       int new_h = (height() * energyNow) / non_zero(energyFull);
        g.setColor(acIsOnLine ? apmColorOnLine : apmColorBattery);
        g.fillRect(0, height() - new_h, taskBarApmGraphWidth, new_h);
     } else if (prettyClock) {

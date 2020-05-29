@@ -26,12 +26,16 @@ static YColorName listBoxFg(&clrListBoxText);
 static YColorName listBoxSelBg(&clrListBoxSelected);
 static YColorName listBoxSelFg(&clrListBoxSelectedText);
 
+inline int getIconSize() {
+    return int(YIcon::smallSize());
+}
+
 int YListBox::fAutoScrollDelta = 0;
 
 int YListItem::getWidth() {
     int width = 3 + 20 + getOffset();
     if (getIcon() != null) {
-        width += YIcon::menuSize();
+        width += getIconSize();
     }
     if (getText() != null && listBoxFont != null) {
         width += listBoxFont->textWidth(getText()) + 3;
@@ -159,7 +163,7 @@ YListItem *YListBox::getItem(int no) {
 }
 
 int YListBox::getLineHeight() {
-    return max(int(YIcon::smallSize()), listBoxFont->height()) + 2;
+    return max(getIconSize(), listBoxFont->height()) + 2;
 }
 
 void YListBox::ensureVisibility(int item) { //!!! horiz too
@@ -540,7 +544,7 @@ void YListBox::paintItem(Graphics &g, int n) {
 
     ref<YIcon> icon = a->getIcon();
     if (icon != null) {
-        ref<YImage> scaled = icon->getScaledIcon(YIcon::menuSize());
+        ref<YImage> scaled = icon->getScaledIcon(getIconSize());
         if (scaled != null) {
             int dx = xpos + x - fOffsetX;
             int dy = y - fOffsetY + 1;

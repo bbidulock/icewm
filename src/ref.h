@@ -1,11 +1,5 @@
-#ifndef __REF_H
-#define __REF_H
-
-#if __cplusplus == 199711L
-#define nullptr NULL
-#define override
-#define final
-#endif
+#ifndef REF_H
+#define REF_H
 
 class refcounted {
 public:

@@ -142,7 +142,8 @@ public:
 
     void alert();
 
-    void setClipboardText(const ustring &data);
+    void setClipboardText(cstring data);
+    void dropClipboard();
 
     static YCursor leftPointer;
     static YCursor rightPointer;
@@ -205,7 +206,7 @@ private:
     int fGrabMouse;
     YWindow *fGrabWindow;
 
-    lazy<YClipboard> fClip;
+    lazy<class YClipboard> fClip;
     bool fReplayEvent;
 
     virtual bool handleXEvents();

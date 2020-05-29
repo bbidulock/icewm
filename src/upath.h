@@ -100,12 +100,14 @@ private:
 class fileptr {
     FILE* fp;
 public:
-    fileptr(FILE* fp) : fp(fp) { }
+    fileptr(const char* n, const char* m) : fp(fopen(n, m)) { }
+    explicit fileptr(FILE* fp) : fp(fp) { }
     ~fileptr() { close(); }
     void close() { if (fp) { fclose(fp); fp = 0; } }
-    fileptr& operator=(FILE* ptr) { close(); fp = ptr; return *this; }
     operator FILE*() const { return fp; }
     FILE* operator->() const { return fp; }
+private:
+    void operator=(FILE* ptr) { close(); fp = ptr; }
 };
 
 upath findPath(ustring path, int mode, upath name);

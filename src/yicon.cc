@@ -281,9 +281,9 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
         base = huge();
 
     if (base == null) {
-        base = fHuge != null ? fHuge
-             : fLarge != null ? fLarge
-             : fSmall;
+        base = huge() != null ? fHuge
+             : large() != null ? fLarge
+             : small();
     }
 
     if (base != null) {

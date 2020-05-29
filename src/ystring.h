@@ -5,17 +5,11 @@
  *  Release under terms of the GNU Library General Public License
  */
 
-#ifndef __YSTRING_H
-#define __YSTRING_H
+#ifndef YSTRING_H
+#define YSTRING_H
 
 #include "ylocale.h"
 #include <string.h>
-
-#if __cplusplus == 199711L
-#define nullptr NULL
-#define override
-#define final
-#endif
 
 template <class DataType> class YString {
 public:

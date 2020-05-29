@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-02-27 23:18+0100\n"
+"POT-Creation-Date: 2020-05-27 23:00+0200\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -14,27 +14,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
+#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
 msgid " - Power"
 msgstr " - Сілкаваньне"
 
-#: src/aapm.cc:189 src/aapm.cc:472 src/aapm.cc:694
+#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:193 src/aapm.cc:446 src/aapm.cc:674 src/aapm.cc:784
+#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
 msgid " - Charging"
 msgstr " - Зарад"
 
-#: src/aapm.cc:195 src/aapm.cc:448 src/aapm.cc:676
+#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:450
+#: src/aapm.cc:445
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:998
+#: src/aapm.cc:991
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -52,7 +52,7 @@ msgstr ""
 msgid "Default"
 msgstr "Выдаліць"
 
-#: src/aclock.cc:179 src/acpustatus.cc:862 src/amailbox.cc:955
+#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:955
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -61,62 +61,62 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:233
+#: src/acpustatus.cc:226
 #, c-format
 msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
 
-#: src/acpustatus.cc:238
+#: src/acpustatus.cc:231
 #, c-format
 msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:296
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Загрузка CPU: %3.2f %3.2f %3.2f, %u працэсаў"
 
-#: src/acpustatus.cc:309
+#: src/acpustatus.cc:302
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:307
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:320
+#: src/acpustatus.cc:313
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:339 src/acpustatus.cc:379
+#: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:356 src/acpustatus.cc:858
+#: src/acpustatus.cc:349 src/acpustatus.cc:657
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:356
+#: src/acpustatus.cc:349
 msgid "Load: "
 msgstr ""
 
-#: src/acpustatus.cc:371
+#: src/acpustatus.cc:364
 #, c-format
 msgid ""
 "\n"
@@ -125,25 +125,25 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:438
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:770
+#: src/acpustatus.cc:600
 #, c-format
 msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 msgstr ""
 
-#: src/acpustatus.cc:859
+#: src/acpustatus.cc:658
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:864
+#: src/acpustatus.cc:663
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:866
+#: src/acpustatus.cc:665
 msgid "_Separate"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:199
+#: src/apppstatus.cc:197
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -289,7 +289,7 @@ msgstr ""
 "  Перададзена (нам/вонкі):\t%lli %s/%lli %s\n"
 "  Час на лініі:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:211
+#: src/apppstatus.cc:209
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -297,7 +297,7 @@ msgstr ""
 "\n"
 "  Id выклікальніка:\t"
 
-#: src/apppstatus.cc:712
+#: src/apppstatus.cc:710
 msgid "NET"
 msgstr ""
 
@@ -507,129 +507,136 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Тую ж гульню"
 
-#: src/icesh.cc:66
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1331
+#: src/icesh.cc:1490
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Прайменаваныя сымбалі вобласьці `%s' (лікавы дыяпазон: %ld-%ld):\n"
 
-#: src/icesh.cc:1472
+#: src/icesh.cc:1631
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Варштат па-за межамі: %d"
 
-#: src/icesh.cc:1493
+#: src/icesh.cc:1652
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Дрэннае імя варштата: `%s'"
 
 # Set the IceWM tray option hint??
-#: src/icesh.cc:1758
+#: src/icesh.cc:1929
 msgid "GNOME window state"
 msgstr "Стан вакна GNOME'а"
 
-#: src/icesh.cc:1759
+#: src/icesh.cc:1930
 msgid "GNOME window hint"
 msgstr "Падказка вакна GNOME'а"
 
-#: src/icesh.cc:1760
+#: src/icesh.cc:1931
 msgid "GNOME window layer"
 msgstr "Пласт вакна GNOME'а"
 
-#: src/icesh.cc:1761
+#: src/icesh.cc:1932
 msgid "IceWM tray option"
 msgstr "Опцыя сподка IceWM"
 
-#: src/icesh.cc:1762
+#: src/icesh.cc:1933
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1763
+#: src/icesh.cc:1934
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Любімыя дастасаваньні"
 
-#: src/icesh.cc:1764
+#: src/icesh.cc:1935
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Любімыя дастасаваньні"
 
-#: src/icesh.cc:1843
+# Set the IceWM tray option hint??
+#: src/icesh.cc:1936
+#, fuzzy
+#| msgid "GNOME window state"
+msgid "EWMH window state"
+msgstr "Стан вакна GNOME'а"
+
+#: src/icesh.cc:2015
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Працоўнае поле #%d: `%s'\n"
 
-#: src/icesh.cc:2809
+#: src/icesh.cc:2989
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:2834
+#: src/icesh.cc:3014
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:2882
+#: src/icesh.cc:3062
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Дзеяньне `%s' патрабуе прынамсі %d парамэтраў."
 
-#: src/icesh.cc:2892
+#: src/icesh.cc:3072
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Няправільны выраз: `%s'"
 
-#: src/icesh.cc:2903 src/icesound.cc:795 src/icewmhint.cc:36 src/wmapp.cc:1190
-#: src/yxapp.cc:1060
+#: src/icesh.cc:3083 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/yxapp.cc:1055
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Немагчыма адкрыць дысплей: %s. Патрэбна запусьціць X і ўстанавіць $DISPLAY."
 
-#: src/icesh.cc:2916
+#: src/icesh.cc:3096
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:2953
+#: src/icesh.cc:3131
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:2968
+#: src/icesh.cc:3146
 msgid "No actions specified."
 msgstr "Ня вызначана дзеяньняў."
 
-#: src/icesh.cc:3046
+#: src/icesh.cc:3238
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Дрэнны вызначнік вакна: `%s'"
+
+#: src/icesh.cc:3255
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:3082
+#: src/icesh.cc:3291
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3321 src/icesh.cc:3335 src/icesh.cc:3734
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:3167
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Дрэнны вызначнік вакна: `%s'"
-
-#: src/icesh.cc:3823
+#: src/icesh.cc:4051
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Невядомае дзеяньне: `%s'"
@@ -639,7 +646,7 @@ msgstr "Невядомае дзеяньне: `%s'"
 msgid "Socket error: %d"
 msgstr "Памылка сокета: %d"
 
-#: src/icesm.cc:57
+#: src/icesm.cc:59
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -649,33 +656,35 @@ msgid ""
 "  --sync              Synchronize communication with X11 server.\n"
 "\n"
 "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
 "  -b, --nobg          Do not start icewmbg.\n"
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:135
+#: src/icesm.cc:153
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Невядомае дзеяньне: `%s'"
 
-#: src/icesm.cc:331 src/icesm.cc:449
+#: src/icesm.cc:379 src/icesm.cc:497
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Перазапуск"
 
-#: src/icesm.cc:337
+#: src/icesm.cc:385
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:343 src/icesm.cc:455
+#: src/icesm.cc:391 src/icesm.cc:503
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:377
+#: src/icesm.cc:425
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -684,82 +693,82 @@ msgid ""
 "\t2: Abort this session?\n"
 msgstr ""
 
-#: src/icesm.cc:382
+#: src/icesm.cc:430
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
 msgstr "Опцыя сподка IceWM"
 
-#: src/icesound.cc:215 src/icesound.cc:323 src/icesound.cc:483
+#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Іграю ўзор #%d (%s)"
 
-#: src/icesound.cc:333
+#: src/icesound.cc:334
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:339 src/icesound.cc:344
+#: src/icesound.cc:340 src/icesound.cc:345
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:349 src/icesound.cc:377
+#: src/icesound.cc:350 src/icesound.cc:378
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:361
+#: src/icesound.cc:362
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:365
+#: src/icesound.cc:366
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:372
+#: src/icesound.cc:373
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "Немагчыма загрузіць шрыфтовае мноства \"%s\"."
 
-#: src/icesound.cc:401
+#: src/icesound.cc:402
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "Немагчыма знайсьці мапу піксаляў %s"
 
-#: src/icesound.cc:406
+#: src/icesound.cc:407
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:411
+#: src/icesound.cc:412
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:416
+#: src/icesound.cc:417
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:503
+#: src/icesound.cc:504
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:514
+#: src/icesound.cc:515
 msgid "ao_play failed"
 msgstr ""
 
 # fixme
-#: src/icesound.cc:677
+#: src/icesound.cc:678
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/icesound.cc:680 src/icesound.cc:973
+#: src/icesound.cc:681 src/icesound.cc:974
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Нераспазнаны парамэтар: %s\n"
 
-#: src/icesound.cc:689
+#: src/icesound.cc:690
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -849,51 +858,51 @@ msgstr ""
 "  3     Памылка падсыстэмы (г.зн. немагчыма злучыцца з сэрвэрам).\n"
 "\n"
 
-#: src/icesound.cc:780
+#: src/icesound.cc:781
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:857
+#: src/icesound.cc:858
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:861
+#: src/icesound.cc:862
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:865
+#: src/icesound.cc:866
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:879
+#: src/icesound.cc:880
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:883
+#: src/icesound.cc:884
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Падтрымка для інтэрфэйсу %s ня ўлучаная."
 
-#: src/icesound.cc:916
+#: src/icesound.cc:917
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Інтэрфэйс %s не падтрымліваецца."
 
-#: src/icesound.cc:925
+#: src/icesound.cc:926
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:929
+#: src/icesound.cc:930
 #, fuzzy, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icesound.cc:941
+#: src/icesound.cc:942
 #, fuzzy, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Атрыманы сыгнал %d: Сканчэньне працы..."
@@ -932,12 +941,12 @@ msgstr "Пераносіць радкі"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:78
+#: src/icewmbg.cc:74
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icewmbg.cc:885
+#: src/icewmbg.cc:881
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -988,7 +997,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:1100
+#: src/icewmbg.cc:1096
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1002,11 +1011,11 @@ msgstr "Ужывай: icewmhint [кляса.асобнік] опцыя пара�
 msgid "Out of memory (len=%d)."
 msgstr "Не стае памяці (даўжыня=%d)."
 
-#: src/misc.cc:572 src/misc.cc:584
+#: src/misc.cc:569 src/misc.cc:581
 msgid "Warning: "
 msgstr "Увага: "
 
-#: src/misc.cc:860
+#: src/misc.cc:875
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1018,7 +1027,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:888
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
@@ -1140,7 +1149,7 @@ msgstr "_Пад усімі вокнамі"
 msgid "D_esktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmapp.cc:578 src/wmwinlist.cc:355
+#: src/wmapp.cc:578 src/wmwinlist.cc:354
 msgid "_Restore"
 msgstr "Вернуць ранейшы _стан"
 
@@ -1152,15 +1161,15 @@ msgstr "_Перасунуць вакно"
 msgid "_Size"
 msgstr "Зьмяніць па_мер"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:356
+#: src/wmapp.cc:584 src/wmwinlist.cc:355
 msgid "Mi_nimize"
 msgstr "З_гарнуць"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:357
+#: src/wmapp.cc:586 src/wmwinlist.cc:356
 msgid "Ma_ximize"
 msgstr "_Разгарнуць"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:358
+#: src/wmapp.cc:587 src/wmwinlist.cc:357
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
@@ -1172,15 +1181,15 @@ msgstr "Разгарнуць"
 msgid "MaximizeHori_z"
 msgstr "Разгарнуць"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:359
+#: src/wmapp.cc:591 src/wmwinlist.cc:358
 msgid "_Fullscreen"
 msgstr "На поўны _экран"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:361
+#: src/wmapp.cc:594 src/wmwinlist.cc:360
 msgid "_Hide"
 msgstr "С_хаваць"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:362
+#: src/wmapp.cc:596 src/wmwinlist.cc:361
 msgid "Roll_up"
 msgstr "С_круціць угору"
 
@@ -1188,19 +1197,19 @@ msgstr "С_круціць угору"
 msgid "R_aise"
 msgstr "Уз_ьняць над усімі вокнамі"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:364
+#: src/wmapp.cc:605 src/wmwinlist.cc:363
 msgid "_Lower"
 msgstr "Ап_усьціць пад усе вокны"
 
-#: src/wmapp.cc:607 src/wmwinlist.cc:365
+#: src/wmapp.cc:607 src/wmwinlist.cc:364
 msgid "La_yer"
 msgstr "Узровень разьмя_шчэньня"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:367
+#: src/wmapp.cc:611 src/wmwinlist.cc:366
 msgid "Move _To"
 msgstr "Перамесьціць на _варштат"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:368
+#: src/wmapp.cc:612 src/wmwinlist.cc:367
 msgid "Occupy _All"
 msgstr "Хай займае _ўсе варштаты"
 
@@ -1208,15 +1217,15 @@ msgstr "Хай займае _ўсе варштаты"
 msgid "Limit _Workarea"
 msgstr "_Абмежаваць вобласьць"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:369
+#: src/wmapp.cc:622 src/wmwinlist.cc:368
 msgid "Tray _icon"
 msgstr "Значка _панэлі"
 
-#: src/wmapp.cc:627 src/wmwinlist.cc:384 src/wmwinlist.cc:392
+#: src/wmapp.cc:627 src/wmwinlist.cc:383 src/wmwinlist.cc:391
 msgid "_Close"
 msgstr "За_крыць"
 
-#: src/wmapp.cc:629 src/wmwinlist.cc:386
+#: src/wmapp.cc:629 src/wmwinlist.cc:385
 msgid "_Kill Client"
 msgstr "Заб_іць кліент"
 
@@ -1241,7 +1250,7 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1191 src/yxapp.cc:1061
+#: src/wmapp.cc:1191 src/yxapp.cc:1056
 msgid "<none>"
 msgstr "<няма>"
 
@@ -1331,22 +1340,22 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 # fixme
-#: src/wmapp.cc:1699
+#: src/wmapp.cc:1696
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Нераспазнаная опцыя: %s\n"
 
 # fixme
-#: src/wmapp.cc:1763
+#: src/wmapp.cc:1779
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/wmapp.cc:1835
+#: src/wmapp.cc:1831
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1836
+#: src/wmapp.cc:1832
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1403,11 +1412,11 @@ msgstr "_Перазапусьціць icewm"
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:1411
+#: src/wmframe.cc:1412
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1418
+#: src/wmframe.cc:1419
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1415,28 +1424,28 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:3024
+#: src/wmframe.cc:3030
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: src/wmframe.cc:3027 src/wmtitle.cc:71
+#: src/wmframe.cc:3033 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "Разгарнуць"
 
-#: src/wmframe.cc:3057
+#: src/wmframe.cc:3063
 msgid "Rolldown"
 msgstr "Раскруціць"
 
-#: src/wmframe.cc:3059 src/wmtitle.cc:129
+#: src/wmframe.cc:3065 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "Пракруціць"
 
-#: src/wmoption.cc:232
+#: src/wmoption.cc:231
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Невядомая опцыя вакна: %s"
 
-#: src/wmoption.cc:344
+#: src/wmoption.cc:343
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Сынтаксычная памылка ў опцыях вакна"
@@ -1526,37 +1535,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Кіраўнік сэсій: невядомы радок %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:370 src/wmwinlist.cc:403
 msgid "Tile _Vertically"
 msgstr "Побач па _вэртыкалі"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:371 src/wmwinlist.cc:404
 msgid "T_ile Horizontally"
 msgstr "Побач па _гарызанталі"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:372 src/wmwinlist.cc:405
 msgid "Ca_scade"
 msgstr "_Каскадам"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:374 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:373 src/wmwinlist.cc:406
 msgid "_Arrange"
 msgstr "_Упарадкавана"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:375 src/wmwinlist.cc:407
 msgid "_Minimize All"
 msgstr "_Згарнуць усе"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:376 src/wmwinlist.cc:408
 msgid "_Hide All"
 msgstr "_Схаваць усе"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:378 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:377 src/wmwinlist.cc:409
 msgid "_Undo"
 msgstr "_Вернуць"
 
@@ -1570,7 +1579,7 @@ msgstr "Упарадкаваць _значкі"
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1593,7 +1602,7 @@ msgstr "Мэню сьпісу вакон"
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmtaskbar.cc:931
+#: src/wmtaskbar.cc:929
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1617,30 +1626,30 @@ msgstr "Узьняць/апусьціць"
 msgid "All Workspaces"
 msgstr "Працоўнае поле: "
 
-#: src/wmwinlist.cc:360
+#: src/wmwinlist.cc:359
 msgid "_Show"
 msgstr "Па_казаць"
 
-#: src/wmwinlist.cc:363
+#: src/wmwinlist.cc:362
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "Уз_ьняць над усімі вокнамі"
 
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:383
 #, fuzzy
 msgid "Del"
 msgstr "Выдаліць"
 
-#: src/wmwinlist.cc:388
+#: src/wmwinlist.cc:387
 msgid "_Terminate Process"
 msgstr "Ск_ончыць працэс"
 
-#: src/wmwinlist.cc:389
+#: src/wmwinlist.cc:388
 msgid "Kill _Process"
 msgstr "Забіць _працэс"
 
-#: src/wmwinlist.cc:424 src/wmwinlist.cc:425
+#: src/wmwinlist.cc:423 src/wmwinlist.cc:424
 msgid "Window list"
 msgstr "Сьпіс вакон"
 
@@ -1649,7 +1658,7 @@ msgstr "Сьпіс вакон"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Варштат %-.32s"
 
-#: src/yapp.cc:287
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr ""
@@ -1768,24 +1777,24 @@ msgstr "Вылучыць _усё"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:46
+#: src/ylocale.cc:55
 #, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Настройкі лякалі не падтрымліваюцца бібліятэкай C: ужываю лякаль \\'С\\'."
 
-#: src/ylocale.cc:72
+#: src/ylocale.cc:94
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Няўдалае вызначэньне кодавага набору ў данай лякалі. Ужываецца ISO-8859-1.\n"
 
-#: src/ylocale.cc:104 src/ylocale.cc:111
+#: src/ylocale.cc:127 src/ylocale.cc:135
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv не забясьпечвае (дастаткова) пераўтварэньне з %s у %s."
 
-#: src/ylocale.cc:167
+#: src/ylocale.cc:235
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Няправільны шматбайтавы радок \"%s\": %s"
@@ -1823,7 +1832,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:1021
+#: src/yxapp.cc:1016
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

@@ -49,7 +49,7 @@ Atom _XA_WM_WINDOW_ROLE;
 Atom _XA_WM_ZOOM_HINTS;
 
 Atom _XATOM_MWM_HINTS;
-//Atom _XA_MOTIF_WM_INFO;!!!
+Atom _XATOM_MWM_INFO;
 Atom _XA_WINDOW_ROLE;
 Atom _XA_SM_CLIENT_ID;
 Atom _XA_ICEWM_ACTION;
@@ -210,35 +210,16 @@ int xeventcount = 0;
 
 class YClipboard: public YWindow {
 public:
-    YClipboard(): YWindow() {
-        fLen = 0;
-        fData = 0;
-    }
-    ~YClipboard() {
-        if (fData)
-            delete [] fData;
-        fData = 0;
-        fLen = 0;
-    }
-
-    void setData(const char *data, int len) {
-        if (fData)
-            delete [] fData;
-        fLen = len;
-        fData = new char[len];
-        if (fData)
-            memcpy(fData, data, size_t(len));
-        if (fLen == 0)
+    void setData(cstring data) {
+        fData = data;
+        if (length() == 0)
             clearSelection(false);
         else
             acquireSelection(false);
     }
     void handleSelectionClear(const XSelectionClearEvent &clear) {
         if (clear.selection == _XA_CLIPBOARD) {
-            if (fData)
-                delete [] fData;
-            fLen = 0;
-            fData = 0;
+            fData = null;
         }
     }
     void handleSelectionRequest(const XSelectionRequestEvent &request) {
@@ -253,43 +234,52 @@ public:
             notify.property = request.property;
 
             if (request.selection == _XA_CLIPBOARD &&
-                request.target == XA_STRING &&
-                fLen > 0)
+                (request.target == XA_STRING ||
+                 request.target == _XA_UTF8_STRING) &&
+                length() > 0)
             {
-                unsigned char nil = 0;
                 unsigned char *data =
-                    reinterpret_cast<unsigned char *>(fData);
+                    reinterpret_cast<unsigned char *>(
+                            const_cast<char *>(fData.c_str()));
                 XChangeProperty(xapp->display(),
                                 request.requestor,
                                 request.property,
                                 request.target,
                                 8, PropModeReplace,
-                                data ? data : &nil,
-                                fLen);
+                                data, length());
             } else if (request.selection == _XA_CLIPBOARD &&
                        request.target == _XA_TARGETS &&
-                       fLen > 0)
+                       length() > 0)
             {
-                Atom type = XA_STRING;
+                Atom targets[] = {
+                    XA_STRING,
+                    _XA_UTF8_STRING,
+                };
+                unsigned char* data =
+                    reinterpret_cast<unsigned char *>(targets);
+                const int count = int ACOUNT(targets);
 
                 XChangeProperty(xapp->display(),
                                 request.requestor,
                                 request.property,
                                 request.target,
                                 32, PropModeReplace,
-                                reinterpret_cast<unsigned char *>(&type), 1);
+                                data, count);
             } else {
                 notify.property = None;
             }
 
-            XSendEvent(xapp->display(), notify.requestor, False, 0L,
+            XSendEvent(xapp->display(), notify.requestor, False, None,
                        reinterpret_cast<XEvent *>(&notify));
         }
     }
 
+    int length() const {
+        return fData.length();
+    }
+
 private:
-    int fLen;
-    char *fData;
+    cstring fData;
 };
 
 YAtomName YXApplication::atom_info[] = {
@@ -327,6 +317,7 @@ YAtomName YXApplication::atom_info[] = {
         { &_XA_XROOTCOLOR_PIXEL                 , "_XROOTCOLOR_PIXEL"                   },
         { &_XA_GDK_TIMESTAMP_PROP               , "GDK_TIMESTAMP_PROP"                  },
         { &_XATOM_MWM_HINTS                     , _XA_MOTIF_WM_HINTS                    },
+        { &_XATOM_MWM_INFO                      , _XA_MOTIF_WM_INFO                     },
 
         { &_XA_KWM_DOCKWINDOW                   , "KWM_DOCKWINDOW"                      },
         { &_XA_KWM_WIN_ICON                     , "KWM_WIN_ICON"                        },
@@ -1012,8 +1003,12 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(const ustring &data) {
-    fClip->setData(cstring(data), data.length());
+void YXApplication::setClipboardText(cstring data) {
+    fClip->setData(data);
+}
+
+void YXApplication::dropClipboard() {
+    fClip = null;
 }
 
 const char* YXApplication::getHelpText() {

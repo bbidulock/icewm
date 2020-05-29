@@ -5,6 +5,8 @@
 #include "ytime.h"
 #include "sysdep.h"
 #include "appnames.h"
+#include "ascii.h"
+using namespace ASCII;
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
 #endif
@@ -21,10 +23,10 @@ class SessionManager: public YApplication {
 private:
     char* trim(char *line) {
         size_t len = strlen(line);
-        while (len > 0 && isspace((unsigned char) line[len - 1])) {
+        while (len > 0 && isWhiteSpace(line[len - 1])) {
             line[--len] = 0;
         }
-        while (*line && isspace((unsigned char) *line))
+        while (*line && isWhiteSpace(*line))
             ++line;
         return line;
     }
@@ -62,6 +64,8 @@ private:
         "  --sync              Synchronize communication with X11 server.\n"
         "\n"
         "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+        "  -o, --output=FILE   Redirect all output to FILE.\n"
+        "\n"
         "  -b, --nobg          Do not start icewmbg.\n"
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
@@ -106,6 +110,20 @@ private:
                 }
                 else if (GetArgument(value, "i", "icewm", arg, *argv+*argc)) {
                     icewmExe = value;
+                }
+                else if (GetArgument(value, "o", "output", arg, *argv+*argc)) {
+                    upath path(upath(value).expand());
+                    int flags = O_WRONLY|O_CREAT|O_TRUNC|O_NOCTTY|O_APPEND;
+                    int fd(path.open(flags, 0600));
+                    if (fd == -1) {
+                        perror(path.string());
+                    } else {
+                        dup2(fd, 1);
+                        dup2(fd, 2);
+                        if (fd > 2) {
+                            close(fd);
+                        }
+                    }
                 }
                 else if (is_switch(*arg, "a", "alpha")) {
                     alphaArg = *arg;
@@ -173,6 +191,13 @@ public:
                 }
             }
             fclose(ef);
+        }
+
+        const char opts[] = "ICEWM_OPTIONS";
+        const char* value = getenv(opts);
+        if (value) {
+            wmoptions = mstring(value).trim();
+            unsetenv(opts);
         }
     }
 
@@ -277,7 +302,6 @@ public:
     }
 
     void runWM(bool quit = false) {
-        const char *args[12] = { icewmExe, "--notify", 0 };
         if (quit) {
             if (wm_pid != -1) {
                 kill(wm_pid, SIGTERM);
@@ -287,8 +311,32 @@ public:
             wm_pid = -1;
         }
         else {
-            appendOptions(args, 2, ACOUNT(args));
+            const int size = 24;
+            const char* args[size] = {
+                icewmExe, "--notify", nullptr
+            };
+            appendOptions(args, 2, size);
+            char* copy = nullptr;
+            if (wmoptions.length()) {
+                copy = strdup(wmoptions);
+                if (nonempty(copy)) {
+                    int count = 0;
+                    while (count < size && args[count])
+                        count++;
+                    for (char* tok = strtok(copy, " ");
+                        tok; tok = strtok(nullptr, " "))
+                    {
+                        if (count + 1 < size) {
+                            args[count++] = tok;
+                            args[count] = nullptr;
+                        }
+                    }
+                }
+            }
             wm_pid = runProgram(args[0], args);
+            if (copy) {
+                free(copy);
+            }
         }
     }
 
@@ -482,6 +530,7 @@ private:
     int sound_pid;
     int bg_pid;
     timeval crashtime;
+    cstring wmoptions;
 };
 
 int main(int argc, char **argv) {
