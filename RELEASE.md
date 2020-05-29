@@ -1,6 +1,6 @@
 [icewm -- release notes.  2020-01-07]: #
 
-Release 1.6.5
+Release 1.6.6
 =============
 
 Included in the release is an autoconf tarball for building the package
