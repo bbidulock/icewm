@@ -159,6 +159,8 @@ inline char const * niceUnit(T & val, char const * const units[],
 
 bool testOnce(const char* file, const int line);
 
+bool little();
+
 /*** Bit Operations ***********************************************************/
 
 template <class M, class B>

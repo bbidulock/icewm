@@ -746,6 +746,16 @@ char* demangle(const char* str) {
     return strdup(str);
 }
 
+bool little() {
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    return true;
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    return false;
+#else
+#error undefined byte order
+#endif
+}
+
 unsigned long strhash(const char* str) {
     unsigned long hash = 5381;
     for (; *str; ++str)

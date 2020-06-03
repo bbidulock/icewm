@@ -5,51 +5,31 @@
  *  Release under terms of the GNU Library General Public License
  */
 
-#ifndef __YLOCALE_H
-#define __YLOCALE_H
+#ifndef YLOCALE_H
+#define YLOCALE_H
 
-#ifdef CONFIG_I18N
-#include <iconv.h>
-
-#if defined(CONFIG_LIBICONV) && !defined (_LIBICONV_VERSION)
-#error libiconv in use but included iconv.h not from libiconv
-#endif
-#if !defined(CONFIG_LIBICONV) && defined (_LIBICONV_VERSION)
-#if !defined(__OpenBSD__) && !defined(__FreeBSD__)
-#error libiconv not in use but included iconv.h is from libiconv
-#endif
-#endif
-
-#endif
+#include <stddef.h>
 
 typedef char YLChar;
 typedef wchar_t YUChar;
 
 class YLocale {
 public:
-    YLocale(char const * localeName = "");
+    YLocale(char const* localeName = "");
     ~YLocale();
 
+    static const char* getLocaleName();
+    static int getRating(const char* localeStr);
+
 #ifdef CONFIG_I18N
-    static iconv_t getConverter (char const *from, char const **& to);
-    static YLChar *localeString(YUChar const *uStr, size_t const uLen,
-                                size_t &lLen);
-    static YUChar *unicodeString(YLChar const *lStr, size_t const lLen,
-                                 size_t &uLen);
+    static YLChar* localeString(YUChar const* uStr, size_t uLen, size_t& lLen);
+    static YUChar* unicodeString(YLChar const* lStr, size_t lLen, size_t& uLen);
 #endif
 
-    static const char *getLocaleName();
-    static int getRating(const char *localeStr);
-
-#ifdef CONFIG_I18N
 private:
-    static YLocale *instance;
-    const char *fLocaleName;
+    class YConverter* converter;
 
-    iconv_t toUnicode;
-    iconv_t toLocale;
-
-#endif
+    static YLocale* instance;
 };
 
 #endif
