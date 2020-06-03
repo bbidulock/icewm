@@ -220,6 +220,19 @@ input focus to I<Chrome> pop-ups and asks to close them immediately.
   google-chrome.pop-up.startClose: 1
   google-chrome.pop-up.startMinimized: 1
 
+IceWM doesn't support dockapps, but this can be emulated.
+A dockapp should appear on all workspaces, have no decorations,
+and be always visible in a fixed location.
+
+  wmtime.wmtime.allWorkspaces: 1
+  wmtime.wmtime.ignoreTaskBar: 1
+  wmtime.wmtime.ignoreQuickSwitch: 1
+  wmtime.wmtime.ignoreWinList: 1
+  wmtime.wmtime.layer: Below
+  wmtime.wmtime.dTitleBar: 0
+  wmtime.wmtime.dBorder: 1
+  wmtime.wmtime.geometry: 64x64-74-100
+
 Following is the example window options file that ships with L<icewm(1)>
 and typically installs to F</usr/share/icewm/winoptions>.
 
