@@ -808,15 +808,18 @@ Resize the focused window to occupy the right half of the desktop area.
 
     icesh -f sizeto 49% 100% sync top sync right sync raise activate
 
-=head1 ENVIRONMENT
+Toggle the frame border of the focused window.
 
-The following environment variables are examined by B<icesh>:
+    if icesh -f motif | grep -q 'decor:$'; then \
+        icesh -f motif decor All; else icesh -f motif decor ""; fi
+
+=head1 ENVIRONMENT
 
 =over
 
 =item B<DISPLAY>
 
-The display to use if the B<-display> option is unspecified.
+The default display.
 
 =back
 
