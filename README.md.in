@@ -98,11 +98,9 @@ Included Utilities
 Currently, the only included utilities are:
 
  - [__icewmbg__(1)][22] (_a background setting program_),
- - [__icewmtray__(1)][28] (_a system tray for the IceWM taskbar_), and,
  - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
  - [__icewm-menu-fdo__(1)][24] (_a utility to genenerate XDG menus_),
- - [__icewm-menu-gnome2__(1)][25] (_a utility to generate GNOME menus_),
  - [__icewmhint__(1)][23] (_a utility to set IceWM-specific window options hint_).
  - [__icesound__(1)][21] (_play audio files when interesting GUI events happen_).
 
@@ -183,9 +181,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
 [23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
 [24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
-[25]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-gnome2.pod
 [26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
 [27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
-[28]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmtray.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #
