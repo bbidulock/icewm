@@ -7,13 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2000-10-21 12:13+2000\n"
-"Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
-"Language-Team: English\n"
+"PO-Revision-Date: 2020-06-29 19:44+0000\n"
+"Last-Translator: Jens Maucher <jens.maucher@gmx.de>\n"
+"Language-Team: English <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:187 src/aapm.cc:469 src/aapm.cc:691 src/aapm.cc:816
 msgid " - Power"
@@ -977,11 +980,11 @@ msgstr ""
 
 #: src/wmabout.cc:38
 msgid "Language:"
-msgstr ""
+msgstr "Sprache:"
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
-msgstr ""
+msgstr "icewm - Über"
 
 #: src/wmapp.cc:80
 msgid "A window manager is already running, use --replace to replace it"
@@ -998,7 +1001,7 @@ msgstr ""
 
 #: src/wmapp.cc:107
 msgid "done."
-msgstr ""
+msgstr "Fertig."
 
 #: src/wmapp.cc:411
 msgid "Unable to get current font path."
@@ -1010,7 +1013,7 @@ msgstr ""
 
 #: src/wmapp.cc:508
 msgid "_Logout"
-msgstr ""
+msgstr "_Abmelden"
 
 #: src/wmapp.cc:509
 msgid "_Cancel logout"
@@ -1022,11 +1025,11 @@ msgstr ""
 
 #: src/wmapp.cc:516 src/wmdialog.cc:78
 msgid "Re_boot"
-msgstr ""
+msgstr "_Neustart"
 
 #: src/wmapp.cc:518 src/wmdialog.cc:79
 msgid "Shut_down"
-msgstr ""
+msgstr "_Herunterfahren"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
 #: src/wmapp.cc:520 src/wmdialog.cc:75
@@ -1035,15 +1038,15 @@ msgstr ""
 
 #: src/wmapp.cc:525
 msgid "Restart _Icewm"
-msgstr ""
+msgstr "Neustart _Icewm"
 
 #: src/wmapp.cc:527
 msgid "Restart _Xterm"
-msgstr ""
+msgstr "Neustart _Xterm"
 
 #: src/wmapp.cc:537
 msgid "_Menu"
-msgstr ""
+msgstr "_Menü"
 
 #: src/wmapp.cc:538
 msgid "_Above Dock"
