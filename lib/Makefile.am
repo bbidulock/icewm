@@ -510,6 +510,7 @@ nobase_dist_pkgdata_DATA = \
 	themes/NanoBlue/icons/IceWM_16x16.xpm \
 	themes/NanoBlue/icons/IceWM_32x32.xpm \
 	themes/NanoBlue/icons/app_16x16.xpm \
+	themes/NanoBlue/icons/app_32x32.xpm \
 	themes/NanoBlue/icons/firefox_16x16.xpm \
 	themes/NanoBlue/icons/firefox_32x32.xpm \
 	themes/NanoBlue/icons/folder_16x16.xpm \
