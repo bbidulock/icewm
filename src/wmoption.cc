@@ -86,26 +86,15 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         if (inrange(opaq, 0, 100))
             op->opacity = opaq;
     } else if (strcmp(opt, "geometry") == 0) {
-        int rx, ry;
-        unsigned int rw, rh;
-
         op->gx = 0;
         op->gy = 0;
         op->gw = 0;
         op->gh = 0;
-
-        //msg("parsing %s", arg);
-        if ((op->gflags = XParseGeometry(arg, &rx, &ry, &rw, &rh)) != 0) {
-            if (op->gflags & XNegative)
-                rx = - rx;
-            if (op->gflags & YNegative)
-                ry = - ry;
-            op->gx = rx;
-            op->gy = ry;
-            op->gw = rw;
-            op->gh = rh;
-            //msg("parsed %d %d %d %d %X", rx, ry, rw, rh, op->gflags);
-        }
+        op->gflags = XParseGeometry(arg, &op->gx, &op->gy, &op->gw, &op->gh);
+        if (op->gflags & XNegative)
+            op->gx = -op->gx;
+        if (op->gflags & YNegative)
+            op->gy = -op->gy;
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
         long l = strtol(arg, &endptr, 10);
