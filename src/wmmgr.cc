@@ -943,6 +943,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     if (w == None || focusUnset) {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
                        xapp->getEventTime("setFocus"));
+        notifyActive(nullptr);
     }
 
     if (c &&
@@ -1079,6 +1080,7 @@ void YWindowManager::unmanageClients() {
     }
 
     XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
+    notifyActive(nullptr);
     ungrabServer();
     XSync(xapp->display(), True);
     unlockWorkArea();
@@ -1703,6 +1705,7 @@ void YWindowManager::focusTopWindow() {
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
+        notifyActive(nullptr);
         return ;
     }
     if (!focusTop(topLayer(WinLayerNormal)))
@@ -1840,6 +1843,7 @@ void YWindowManager::focusLastWindow() {
         return;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
+        notifyActive(nullptr);
         return ;
     }
 
