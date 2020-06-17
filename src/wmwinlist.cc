@@ -329,11 +329,12 @@ WindowList::WindowList(YWindow *aParent):
 {
     addStyle(wsNoExpose);
     scroll->setView(list);
-    list->show();
-    scroll->show();
 
     updateWorkspaces();
     setupClient();
+
+    list->show();
+    scroll->show();
 }
 
 void WindowList::updateWindowListApps() {

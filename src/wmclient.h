@@ -24,8 +24,8 @@ public:
         res_class = strdup(klas);
     }
     ClassHint(const ClassHint& hint) {
-        res_name = strdup(hint.res_name);
-        res_class = strdup(hint.res_class);
+        res_name = hint.res_name ? strdup(hint.res_name) : nullptr;
+        res_class = hint.res_class ? strdup(hint.res_class) : nullptr;
     }
     ~ClassHint() { reset(); }
     void reset() {
@@ -37,8 +37,12 @@ public:
     void operator=(const ClassHint& hint) {
         if (this != &hint) {
             reset();
-            res_name = strdup(hint.res_name);
-            res_class = strdup(hint.res_class);
+            if (hint.res_name) {
+                res_name = strdup(hint.res_name);
+            }
+            if (hint.res_class) {
+                res_class = strdup(hint.res_class);
+            }
         }
     }
     bool operator==(const ClassHint& hint) {
