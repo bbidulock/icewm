@@ -65,30 +65,33 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fClientLeader = None;
     fMwmHints = 0;
     fPid = 0;
+    prop = {};
 
-    getPropertiesList();
-
-    getProtocols(false);
-    getNameHint();
-    getIconNameHint();
-    getNetWmName();
-    getNetWmIconName();
     getSizeHints();
-    getClassHint();
-    getTransient();
-    getClientLeader();
-    getWMHints();
-    getWMWindowRole();
-    getWindowRole();
-    getWinHintsHint(&fWinHints);
-    getMwmHints();
+    if (win) {
+        getPropertiesList();
+        getProtocols(false);
+        getNameHint();
+        getIconNameHint();
+        getNetWmName();
+        getNetWmIconName();
+        getClassHint();
+        getTransient();
+        getClientLeader();
+        getWMHints();
+        getWMWindowRole();
+        getWindowRole();
+        getWinHintsHint(&fWinHints);
+        getMwmHints();
 
 #ifdef CONFIG_SHAPE
-    if (shapes.supported) {
-        XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
-        queryShape();
-    }
+        if (shapes.supported) {
+            XShapeSelectInput(xapp->display(), handle(), ShapeNotifyMask);
+            queryShape();
+        }
 #endif
+    }
+
     if (getFrame()) {
         frameContext.save(handle(), getFrame());
     }
