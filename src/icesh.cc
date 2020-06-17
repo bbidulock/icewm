@@ -496,6 +496,7 @@ public:
         YProperty(window, property, XA_WINDOW, count)
     {
     }
+    Window* data() { return YProperty::data<Window>(); }
     Window* extract() { return YProperty::extract<Window>(); }
 };
 
@@ -860,6 +861,7 @@ public:
         if (have(window) == false) {
             fChildren.push_back(window);
         }
+        fFiltered.clear();
     }
 
     void query(Window window) {
@@ -880,7 +882,7 @@ public:
         YClient clients(root, property, 100000);
         if (clients) {
             unsigned num = clients.count();
-            Window* data = clients.data<Window>();
+            Window* data = clients.data();
             copy(data, data + num, back_inserter(fChildren));
             fParent = None;
         }
@@ -895,8 +897,11 @@ public:
     }
 
     void filterLast() {
-        if (1 < count()) {
-            single(fChildren.back());
+        if (count()) {
+            Window w = fChildren.back();
+            fChildren.pop_back();
+            fFiltered = fChildren;
+            fChildren.push_back(w);
         }
     }
 
@@ -1134,6 +1139,7 @@ public:
 
     void release() {
         fChildren.clear();
+        fFiltered.clear();
         fParent = None;
     }
 
@@ -1188,6 +1194,7 @@ private:
     Confine fConfine;
     Window fParent;
     vector<Window> fChildren;
+    vector<Window> fFiltered;
     YTreeLeaf fLeaf;
 };
 
@@ -2562,7 +2569,7 @@ static void setIconTitle(Window window, const char* title) {
 /******************************************************************************/
 
 static Window getActive() {
-    Window active;
+    Window active = None;
 
     YClient client(root, ATOM_NET_ACTIVE_WINDOW);
     if (client) {
@@ -3154,10 +3161,15 @@ void IceSh::flag(char* arg)
         return;
     }
     if (isOptArg(arg, "-focus", "") || isOptArg(arg, "+focus", "")) {
-        if (*arg == '+') {
-            addWindow(getActive());
-        } else {
-            setWindow(getActive());
+        Window active = getActive();
+        if (active && *arg == '+') {
+            addWindow(active);
+        }
+        else if (active && *arg == '-') {
+            setWindow(active);
+        }
+        else if (*arg == '-') {
+            windowList.release();
         }
         MSG(("focus window selected"));
         selecting = true;
