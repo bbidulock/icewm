@@ -40,7 +40,7 @@ enum ViewerDimensions {
 
 char const * ApplicationName = "icehelp";
 
-static bool verbose, nodelete;
+static bool verbose, nodelete, complain;
 
 class cbuffer {
     size_t cap, ins;
@@ -427,9 +427,11 @@ const char *node::to_string(node_type type) {
         TS(footer);
         TS(main);
     }
-    tlog("Unknown node_type %d, after %s, before %s", type,
-            type > unknown ? to_string((node_type)(type - 1)) : "",
-            type < input ? to_string((node_type)(type + 1)) : "");
+    if (complain) {
+        tlog("Unknown node_type %d, after %s, before %s", type,
+                type > unknown ? to_string((node_type)(type - 1)) : "",
+                type < input ? to_string((node_type)(type + 1)) : "");
+    }
 
     return "??";
 }
@@ -523,7 +525,9 @@ node::node_type node::get_type(const char *buf)
         if (0 == strcmp(buf, ignored[i]))
             return node::unknown;
     }
-    tlog("unknown tag %s", buf);
+    if (complain) {
+        tlog("unknown tag %s", buf);
+    }
     return node::unknown;
 }
 
@@ -772,7 +776,9 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                             c = (char) special;
                         }
                         else {
-                            tlog("unknown special '%s'", entity.peek());
+                            if (complain) {
+                                tlog("unknown special '%s'", entity.peek());
+                            }
                             c = ' ';
                         }
                     }
@@ -1682,7 +1688,9 @@ void HTextView::layout(
             }
             break;
         default:
-            tlog("default layout for node type %s", node::to_string(n->type));
+            if (complain) {
+                tlog("default layout for node type %s", node::to_string(n->type));
+            }
             if (n->container)
                 layout(n, n->container, left, right, x, y, w, h, flags, state);
             break;
@@ -2275,6 +2283,13 @@ int main(int argc, char **argv) {
             helpfile = *arg;
         }
     }
+#ifdef PRECON
+    complain = true;
+#elif DEBUG
+    complain = (debug | verbose);
+#else
+    complain = verbose;
+#endif
 
     if (helpfile == nullptr) {
         helpfile = ICEHELPIDX;
