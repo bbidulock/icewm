@@ -1263,6 +1263,7 @@ private:
     bool setWorkspaceName();
     bool setWorkspaceNames();
     bool colormaps();
+    bool current();
     void click();
     bool delay();
     bool desktops();
@@ -2004,6 +2005,22 @@ bool IceSh::listScreens()
     return false;
 }
 
+bool IceSh::current()
+{
+    if ( !isAction("current", 0))
+        return false;
+
+    long current = currentWorkspace();
+    const char* name = "";
+    WorkspaceInfo info;
+    if (info && inrange(current, 0L, info.count())) {
+        name = info[current];
+    }
+    printf(_("workspace #%d: `%s'\n"), int(current), name);
+
+    return true;
+}
+
 bool IceSh::listWorkspaces()
 {
     if ( !isAction("listWorkspaces", 0))
@@ -2388,6 +2405,7 @@ bool IceSh::icewmAction()
         || delay()
         || desktops()
         || desktop()
+        || current()
         || wmcheck()
         || change()
         || sync()
