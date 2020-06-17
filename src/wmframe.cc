@@ -247,8 +247,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         XSizeHints *sh = client()->sizeHints();
         normalX = x;
         normalY = y;
-        normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
-        normalH = sh ? (h - sh->base_height) / sh->height_inc : h;
+        normalW = sh ? (w - sh->base_width) / non_zero(sh->width_inc) : w;
+        normalH = sh ? (h - sh->base_height) / non_zero(sh->height_inc) : h;
 
 
         if (sh && (sh->flags & PWinGravity) &&
@@ -2730,8 +2730,8 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     XSizeHints *sh = client()->sizeHints();
     normalX = x;
     normalY = y;
-    normalW = sh ? (w - sh->base_width) / sh->width_inc : w;
-    normalH = sh ? (h - sh->base_height) / sh->height_inc : h ;
+    normalW = sh ? (w - sh->base_width) / non_zero(sh->width_inc) : w;
+    normalH = sh ? (h - sh->base_height) / non_zero(sh->height_inc) : h ;
 
     updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) |
                       (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
@@ -2882,11 +2882,15 @@ void YFrameWindow::updateNormalSize() {
         normalY = posY + borderYN();
     if (cw) {
         normalW = posW - 2 * borderXN();
-        normalW = sh ? (normalW - sh->base_width) / sh->width_inc : normalW;
+        if (sh) {
+            normalW = (normalW - sh->base_width) / non_zero(sh->width_inc);
+        }
     }
     if (ch) {
         normalH = posH - (2 * borderYN() + titleYN());
-        normalH = sh ? (normalH - sh->base_height) / sh->height_inc : normalH;
+        if (sh) {
+            normalH = (normalH - sh->base_height) / non_zero(sh->height_inc);
+        }
     }
     MSG(("updateNormalSize> %d %d %d %d", normalX, normalY, normalW, normalH));
 }
