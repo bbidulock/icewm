@@ -234,6 +234,9 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     fClientContainer = new YClientContainer(this, this, depth, visual, clmap);
 
     fClient = clientw;
+    if (hintOptions && hintOptions->nonempty()) {
+        getWindowOptions(hintOptions, *fHintOption, true);
+    }
 
     {
         int x = client()->x();
@@ -268,7 +271,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     }
 
     updateIcon();
-    manage(fClient);
+    manage();
     manager->appendCreatedFrame(this);
     bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
     insertFrame(!isRunning);
@@ -512,12 +515,11 @@ void YFrameWindow::grabKeys() {
     container()->regrabMouse();
 }
 
-void YFrameWindow::manage(YFrameClient *client) {
-    PRECONDITION(client != 0);
-    fClient = client;
+void YFrameWindow::manage() {
+    PRECONDITION(client());
 
-    if (client->getBorder()) {
-        client->setBorderWidth(0U);
+    if (client()->getBorder()) {
+        client()->setBorderWidth(0U);
     }
 
 #if 0
@@ -526,17 +528,17 @@ void YFrameWindow::manage(YFrameClient *client) {
         xswa.backing_store = Always;
         xswa.win_gravity = NorthWestGravity;
 
-        XChangeWindowAttributes(xapp->display(), client->handle(),
+        XChangeWindowAttributes(xapp->display(), client()->handle(),
                                 CWBackingStore | CWWinGravity, &xswa);
     }
 #endif
 
-    if (client->adopted())
-        XAddToSaveSet(xapp->display(), client->handle());
+    if (client()->adopted())
+        XAddToSaveSet(xapp->display(), client()->handle());
 
-    client->reparent(fClientContainer, 0, 0);
+    client()->reparent(fClientContainer, 0, 0);
 
-    client->setFrame(this);
+    client()->setFrame(this);
 
 #if 0
     sendConfigure();
@@ -589,9 +591,8 @@ void YFrameWindow::unmanage(bool reparent) {
     else
         fClient->unmanageWindow();
 
-    client()->setFrame(0);
-
-    fClient = 0;
+    client()->setFrame(nullptr);
+    fClient = nullptr;
 
     hide();
 }
@@ -2033,8 +2034,7 @@ void YFrameWindow::getFrameHints() {
     if (client()->shaped())
         fFrameDecors &= ~(fdTitleBar | fdBorder);
 
-    WindowOption wo(null);
-    getWindowOptions(wo, false);
+    WindowOption wo(getWindowOption());
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
             wo.function_mask, wo.functions,
@@ -2056,17 +2056,23 @@ void YFrameWindow::getFrameHints() {
     }
 }
 
-void YFrameWindow::getWindowOptions(WindowOption &opt, bool remove) {
-    if (defOptions) getWindowOptions(defOptions, opt, false);
-    if (hintOptions) getWindowOptions(hintOptions, opt, remove);
+WindowOption YFrameWindow::getWindowOption() {
+    WindowOption wo;
+    if (fHintOption) {
+        wo = *fHintOption;
+    }
+    if (defOptions) {
+        getWindowOptions(defOptions, wo, false);
+    }
+    return wo;
 }
 
 void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
-    ustring klass = h ? h->res_class : 0;
-    ustring name = h ? h->res_name : 0;
+    ustring klass = h ? h->res_class : nullptr;
+    ustring name = h ? h->res_name : nullptr;
     ustring role = client()->windowRole();
 
     if (klass != null) {
@@ -2092,11 +2098,10 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
 }
 
 void YFrameWindow::getDefaultOptions(bool &requestFocus) {
-    WindowOption wo(null);
-    getWindowOptions(wo, true);
+    WindowOption wo(getWindowOption());
 
-    if (wo.icon && wo.icon[0]) {
-        ref<YIcon> icon = YIcon::getIcon(wo.icon);
+    if (wo.icon.nonempty()) {
+        ref<YIcon> icon = YIcon::getIcon(cstring(wo.icon));
         if (icon != null)
             fFrameIcon = icon;
     }

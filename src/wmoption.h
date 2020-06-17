@@ -6,10 +6,10 @@
 #include "ypointer.h"
 
 struct WindowOption {
-    WindowOption(ustring n_class_instance);
+    WindowOption(ustring n_class_instance = null);
 
     ustring w_class_instance;
-    csmart icon;
+    ustring icon;
     unsigned functions, function_mask;
     unsigned decors, decor_mask;
     unsigned options, option_mask;
@@ -33,6 +33,8 @@ public:
                            bool remove);
 
     int getCount() const { return fWinOptions.getCount(); }
+    bool nonempty() const { return getCount(); }
+    bool isEmpty() const { return !getCount(); }
 
 private:
     YObjectArray<WindowOption> fWinOptions;

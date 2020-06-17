@@ -543,11 +543,14 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         break;
 
     case XA_WM_CLASS:
-        if (new_prop) prop.wm_class = true;
-        getClassHint();
-        if (getFrame())
-            getFrame()->getFrameHints();
         prop.wm_class = new_prop;
+        if (prop.wm_class) {
+            ClassHint old(fClassHint);
+            getClassHint();
+            if (fClassHint.nonempty() && fClassHint != old && getFrame()) {
+                getFrame()->getFrameHints();
+            }
+        }
         break;
 
     case XA_WM_HINTS:

@@ -33,7 +33,7 @@ public:
 
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
     void afterManage();
-    void manage(YFrameClient *client);
+    void manage();
     void unmanage(bool reparent = true);
     void sendConfigure();
 
@@ -257,8 +257,8 @@ public:
     void updateAllowed();
     void updateNetWMState();
     void getFrameHints();
-    void getWindowOptions(WindowOption &opt, bool remove); /// !!! fix kludges
-    void getWindowOptions(WindowOptions *list, WindowOption &opt, bool remove);
+    WindowOption getWindowOption();
+    void getWindowOptions(WindowOptions* list, WindowOption& opt, bool remove);
 
     YMenu *windowMenu();
 
@@ -482,6 +482,7 @@ private:
     MiniIcon *fMiniIcon;
     WindowListItem *fWinListItem;
     ref<YIcon> fFrameIcon;
+    lazy<WindowOption> fHintOption;
 
     YFrameWindow *fOwner;
     YFrameWindow *fTransient;

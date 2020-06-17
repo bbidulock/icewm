@@ -15,7 +15,6 @@ lazy<WindowOptions> hintOptions;
 
 WindowOption::WindowOption(ustring n_class_instance):
     w_class_instance(n_class_instance),
-    icon(0),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
     options(0), option_mask(0),
@@ -75,7 +74,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
     // msg("%s . %s : %s", cstring(n_class_instance).c_str(), opt, arg);
 
     if (strcmp(opt, "icon") == 0) {
-        op->icon = newstr(arg);
+        op->icon = arg;
     } else if (strcmp(opt, "workspace") == 0) {
         int workspace = atoi(arg);
         op->workspace = max(workspace, int(WinWorkspaceInvalid));
@@ -255,7 +254,7 @@ void WindowOptions::mergeWindowOption(WindowOption &cm,
 }
 
 void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (!cm.icon && n.icon) cm.icon = newstr(n.icon);
+    if (cm.icon.isEmpty() && n.icon.nonempty()) cm.icon = n.icon;
     cm.functions |= n.functions & ~cm.function_mask;
     cm.function_mask |= n.function_mask;
     cm.decors |= n.decors & ~cm.decor_mask;

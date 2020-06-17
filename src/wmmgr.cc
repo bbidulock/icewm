@@ -1377,8 +1377,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     else
 #endif
     if (newClient) {
-        WindowOption wo(null);
-        frame->getWindowOptions(wo, true);
+        WindowOption wo(frame->getWindowOption());
 
         if (frame->frameOptions() & YFrameWindow::foClose) {
             frame->wmClose();

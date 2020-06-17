@@ -18,18 +18,43 @@ typedef int FrameState;
 
 class ClassHint : public XClassHint {
 public:
-    ClassHint() { res_name = res_class = 0; }
+    ClassHint() { res_name = res_class = nullptr; }
     ClassHint(const char* name, const char* klas) {
         res_name = strdup(name);
         res_class = strdup(klas);
     }
+    ClassHint(const ClassHint& hint) {
+        res_name = strdup(hint.res_name);
+        res_class = strdup(hint.res_class);
+    }
     ~ClassHint() { reset(); }
     void reset() {
-        if (res_name) { XFree(res_name); res_name = 0; }
-        if (res_class) { XFree(res_class); res_class = 0; }
+        if (res_name) { XFree(res_name); res_name = nullptr; }
+        if (res_class) { XFree(res_class); res_class = nullptr; }
     }
     bool match(const char* resource) const;
     char* resource() const;
+    void operator=(const ClassHint& hint) {
+        if (this != &hint) {
+            reset();
+            res_name = strdup(hint.res_name);
+            res_class = strdup(hint.res_class);
+        }
+    }
+    bool operator==(const ClassHint& hint) {
+        return ((res_name && hint.res_name) ?
+                !strcmp(res_name, hint.res_name) :
+                res_name == hint.res_name) &&
+               ((res_class && hint.res_class) ?
+                !strcmp(res_class, hint.res_class) :
+                res_class == hint.res_class);
+    }
+    bool operator!=(const ClassHint& hint) {
+        return !operator==(hint);
+    }
+    bool nonempty() {
+        return ::nonempty(res_name) || ::nonempty(res_class);
+    }
 };
 
 class ClientData {
