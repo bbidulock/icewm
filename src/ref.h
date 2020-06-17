@@ -90,8 +90,8 @@ public:
 
     operator T*() { return ptr ? ptr : ptr = new T; }
     operator bool() { return ptr != 0; }
-    T* operator->() { return *this; }
-    T& operator*() { return **this; }
+    T* operator->() { return operator T*(); }
+    T& operator*() { return *operator T*(); }
     T** operator&() { return &ptr; }
     T* _ptr() const { return ptr; }
     bool operator==(const T* q) const { return q == ptr; }
