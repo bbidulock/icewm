@@ -26,6 +26,57 @@ WindowOption::WindowOption(ustring n_class_instance):
 {
 }
 
+void WindowOption::combine(const WindowOption& n) {
+    if (n.icon.nonempty() && icon.isEmpty())
+        icon = n.icon;
+    if (n.functions) {
+        functions |= n.functions & ~function_mask;
+        function_mask |= n.function_mask;
+    }
+    if (n.decor_mask) {
+        decors |= n.decors & ~decor_mask;
+        decor_mask |= n.decor_mask;
+    }
+    if (n.option_mask) {
+        options |= n.options & ~option_mask;
+        option_mask |= n.option_mask;
+    }
+    if (n.workspace >= 0 && workspace == WinWorkspaceInvalid)
+        workspace = n.workspace;
+    if (n.layer >= 0 && layer == WinLayerInvalid)
+        layer = n.layer;
+    if (n.tray >= 0 && tray == WinTrayInvalid)
+        tray = n.tray;
+    if (n.order && order == 0)
+        order = n.order;
+    if (n.opacity > 0 && opacity == 0)
+        opacity = n.opacity;
+    if ((n.gflags & XValue) && !(gflags & XValue)) {
+        gx = n.gx;
+        gflags |= XValue;
+        if (n.gflags & XNegative)
+            gflags |= XNegative;
+        else
+            gflags &= ~XNegative;
+    }
+    if ((n.gflags & YValue) && !(gflags & YValue)) {
+        gy = n.gy;
+        gflags |= YValue;
+        if (n.gflags & YNegative)
+            gflags |= YNegative;
+        else
+            gflags &= ~YNegative;
+    }
+    if ((n.gflags & WidthValue) && !(gflags & WidthValue)) {
+        gw = n.gw;
+        gflags |= WidthValue;
+    }
+    if ((n.gflags & HeightValue) && !(gflags & HeightValue)) {
+        gh = n.gh;
+        gflags |= HeightValue;
+    }
+}
+
 bool WindowOptions::findOption(ustring a_class_instance, int *index) {
     int lo = 0, hi = fWinOptions.getCount();
 
@@ -246,50 +297,9 @@ void WindowOptions::mergeWindowOption(WindowOption &cm,
 {
     int lo;
     if (findOption(a_class_instance, &lo)) {
-        WindowOption *wo = fWinOptions[lo];
-        combineOptions(cm, *wo);
+        cm.combine(*fWinOptions[lo]);
         if (remove)
             fWinOptions.remove(lo);
-    }
-}
-
-void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (cm.icon.isEmpty() && n.icon.nonempty()) cm.icon = n.icon;
-    cm.functions |= n.functions & ~cm.function_mask;
-    cm.function_mask |= n.function_mask;
-    cm.decors |= n.decors & ~cm.decor_mask;
-    cm.decor_mask |= n.decor_mask;
-    cm.options |= n.options & ~cm.option_mask;
-    cm.option_mask |= n.option_mask;
-    if (n.workspace != WinWorkspaceInvalid)
-        cm.workspace = n.workspace;
-    if (n.layer != (long)WinLayerInvalid)
-        cm.layer = n.layer;
-    if (n.tray != (long)WinTrayInvalid)
-        cm.tray = n.tray;
-    if (n.order)
-        cm.order = n.order;
-    if (n.opacity && inrange(n.opacity, 1, 100))
-        cm.opacity = n.opacity;
-    if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
-        cm.gx = n.gx;
-        cm.gflags |= XValue;
-        if (n.gflags & XNegative)
-            cm.gflags |= XNegative;
-    }
-    if ((n.gflags & YValue) && !(cm.gflags & YValue)) {
-        cm.gy = n.gy;
-        cm.gflags |= YValue;
-        if (n.gflags & YNegative)
-            cm.gflags |= YNegative;
-    }
-    if ((n.gflags & WidthValue) && !(cm.gflags & WidthValue)) {
-        cm.gw = n.gw;
-        cm.gflags |= WidthValue;
-    }
-    if ((n.gflags & HeightValue) && !(cm.gflags & HeightValue)) {
-        cm.gh = n.gh;
-        cm.gflags |= HeightValue;
     }
 }
 

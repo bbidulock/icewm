@@ -7,6 +7,7 @@
 
 struct WindowOption {
     WindowOption(ustring n_class_instance = null);
+    void combine(const WindowOption& n);
 
     ustring w_class_instance;
     ustring icon;
@@ -42,8 +43,6 @@ private:
     bool findOption(ustring a_class_instance, int *index);
 
     WindowOption *getOption(ustring a_class_instance);
-
-    static void combineOptions(WindowOption &cm, WindowOption &n);
 };
 
 extern lazy<WindowOptions> defOptions;
