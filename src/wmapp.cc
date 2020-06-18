@@ -333,10 +333,10 @@ void YWMApp::unregisterProtocols() {
     if (managerWindow) {
         YAtom wmSx("WM_S", true);
         if (managerWindow == XGetSelectionOwner(xapp->display(), wmSx)) {
+            XSelectInput(xapp->display(), xapp->root(), None);
             XDeleteProperty(xapp->display(), xapp->root(), _XA_WIN_PROTOCOLS);
             XSetSelectionOwner(xapp->display(), wmSx, None, CurrentTime);
         }
-        XDestroyWindow(xapp->display(), managerWindow);
         managerWindow = None;
         xapp->sync();
     }
