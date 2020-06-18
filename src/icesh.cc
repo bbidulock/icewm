@@ -1264,6 +1264,7 @@ private:
     bool setWorkspaceNames();
     bool colormaps();
     bool current();
+    bool runonce();
     void click();
     bool delay();
     bool desktops();
@@ -2021,6 +2022,22 @@ bool IceSh::current()
     return true;
 }
 
+bool IceSh::runonce()
+{
+    if ( !isAction("runonce", 1))
+        return false;
+
+    if (count() == 0 || windowList.isRoot()) {
+        execvp(argp[0], argp);
+        perror(argp[0]);
+        THROW(1);
+    } else {
+        THROW(0);
+    }
+
+    return true;
+}
+
 bool IceSh::listWorkspaces()
 {
     if ( !isAction("listWorkspaces", 0))
@@ -2406,6 +2423,7 @@ bool IceSh::icewmAction()
         || desktops()
         || desktop()
         || current()
+        || runonce()
         || wmcheck()
         || change()
         || sync()
@@ -4024,15 +4042,6 @@ void IceSh::parseAction()
             }
             FOREACH_WINDOW(window)
                 opacity(window, opaq);
-        }
-        else if (isAction("runonce", 1)) {
-            if (count() == 0 || windowList.isRoot()) {
-                execvp(argp[0], argp);
-                perror(argp[0]);
-                THROW(1);
-            } else {
-                THROW(0);
-            }
         }
         else if (isAction("motif", 0)) {
             char** args = argp;

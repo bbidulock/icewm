@@ -19,7 +19,7 @@ There are two types of commands:
 
 =over
 
-=item 1. Commands to directly interact with icewm.
+=item 1. Commands to directly interact with icewm:
 
 These are listed in the section "MANAGER ACTIONS" below.
 They are easy to use, because they don't require to select one
@@ -27,9 +27,9 @@ or more windows. For example, C<icesh restart> will restart
 icewm and C<icesh clients> lists the applications which
 are managed by icewm.
 
-=item 2. Commands which operate on a selection of windows.
+=item 2. Commands which operate on a selection of windows:
 
-These are called C<WINDOW ACTIONS>. For example, C<icesh close>
+See the section C<WINDOW ACTIONS> below. For example, C<icesh close>
 is a request to close a window, but which window? Now icesh
 will turn the mouse pointer into a crosshair. Click on a window
 and a close request will be sent to that application.
@@ -201,7 +201,8 @@ A question mark C<?> filters clients with any bit set in I<STATE>.
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
 Filter clients by workspace. Workspace I<WORKSPACE> is either a
-workspace name or a workspace number counting from zero.
+workspace name, or a workspace number counting from zero, or the word
+C<this> for the current workspace, or the word C<All> for all workspaces.
 If I<WORKSPACE> starts with an exclamation mark then the filtering is
 inverted.
 
