@@ -67,14 +67,16 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fPid = 0;
     prop = {};
 
-    getSizeHints();
-    if (win) {
+    if (win == None) {
+        getSizeHints();
+    } else {
         getPropertiesList();
         getProtocols(false);
         getNameHint();
         getIconNameHint();
         getNetWmName();
         getNetWmIconName();
+        getSizeHints();
         getClassHint();
         getTransient();
         getClientLeader();
