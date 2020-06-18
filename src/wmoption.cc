@@ -29,7 +29,7 @@ WindowOption::WindowOption(ustring n_class_instance):
 void WindowOption::combine(const WindowOption& n) {
     if (n.icon.nonempty() && icon.isEmpty())
         icon = n.icon;
-    if (n.functions) {
+    if (n.functions_mask) {
         functions |= n.functions & ~function_mask;
         function_mask |= n.function_mask;
     }
