@@ -1392,26 +1392,18 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
             frame->setNetOpacity(opaq);
         }
 
-        //msg("positioning %d %d %d %d %X", wo.gx, wo.gy, wo.gw, wo.gh, wo.gflags);
-        if (wo.gh != 0 && wo.gw != 0) {
-            if ((wo.gflags & (WidthValue | HeightValue)) ==
-                (WidthValue | HeightValue))
-            {
-                posWidth = wo.gw + frameWidth;
-                posHeight = wo.gh + frameHeight;
-            }
+        if (hasbits(wo.gflags, WidthValue | HeightValue) && wo.gh && wo.gw) {
+            posWidth = wo.gw + frameWidth;
+            posHeight = wo.gh + frameHeight;
         }
 
-        if ((wo.gflags & (XValue | YValue)) == (XValue | YValue)) {
-            int wox = wo.gx;
-            int woy = wo.gy;
-
+        if (hasbits(wo.gflags, XValue | YValue)) {
+            posX = wo.gx;
+            posY = wo.gy;
             if (wo.gflags & XNegative)
-                wox = desktop->width() - frame->width() - wox;
+                posX += desktop->width() - posWidth;
             if (wo.gflags & YNegative)
-                woy = desktop->height() - frame->height() - woy;
-            posX = wox;
-            posY = woy;
+                posY += desktop->height() - posHeight;
             goto setGeo; /// FIX
         }
     }

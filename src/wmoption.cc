@@ -141,10 +141,6 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         op->gw = 0;
         op->gh = 0;
         op->gflags = XParseGeometry(arg, &op->gx, &op->gy, &op->gw, &op->gh);
-        if (op->gflags & XNegative)
-            op->gx = -op->gx;
-        if (op->gflags & YNegative)
-            op->gy = -op->gy;
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
         long l = strtol(arg, &endptr, 10);
