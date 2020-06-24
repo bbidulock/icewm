@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-02-27 23:18+0100\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
+"PO-Revision-Date: 2020-06-29 19:44+0000\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fi/>\n"
@@ -571,7 +571,7 @@ msgstr "Työpöytä #%d: `%s'\n"
 #: src/icesh.cc:2809
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Ikkunan muotoa ei saada 0x%lx"
 
 #: src/icesh.cc:2834
 #, c-format
@@ -603,7 +603,7 @@ msgstr "Virheellinen argumentti: `%s'"
 
 #: src/icesh.cc:2953
 msgid "No windows found."
-msgstr ""
+msgstr "Ikkunoita ei löytynyt."
 
 #: src/icesh.cc:2968
 msgid "No actions specified."
@@ -695,24 +695,24 @@ msgstr "Toistetaan näytettä #%d (%s)"
 #: src/icesound.cc:333
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Virheellinen kanavien lukumäärä"
 
 #: src/icesound.cc:339 src/icesound.cc:344
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "OSS-kanavia ei voitu asettaa"
 
 #: src/icesound.cc:349 src/icesound.cc:377
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "OSS ei voitu synkronoida"
 
 #: src/icesound.cc:361
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS-kirjoitus epäonnistui"
 
 #: src/icesound.cc:365
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS puutteellinen kirjoitus (%d/%d)"
 
 #: src/icesound.cc:372
 msgid "Could not post OSS"
