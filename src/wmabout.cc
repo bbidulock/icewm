@@ -66,7 +66,7 @@ AboutDlg::AboutDlg(): YDialog() {
     setClassHint("about", "IceWM");
 
     setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,

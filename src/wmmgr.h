@@ -4,6 +4,7 @@
 #include "WinMgr.h"
 #include "ylist.h"
 #include "yaction.h"
+#include "workspaces.h"
 
 extern YAction layerActionSet[WinLayerCount];
 
@@ -170,8 +171,8 @@ public:
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
-    YFrameWindow *getFrameUnderMouse(long workspace = -1);
-    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = -1);
+    YFrameWindow *getFrameUnderMouse(long workspace = AllWorkspaces);
+    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = AllWorkspaces);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int screen, int dx, int dy);

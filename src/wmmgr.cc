@@ -664,7 +664,8 @@ void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
 #if 1
     if (unmap.send_event) {
         if (unmap.window != handle() && handle() != 0) {
-            xapp->handleWindowEvent(unmap.window, *(XEvent *)&unmap);
+            XEvent event; event.xunmap = unmap;
+            xapp->handleWindowEvent(unmap.window, event);
         } else {
             MSG(("unhandled root window unmap: %lX %lX", (long)unmap.window, (long)handle()));
         }
@@ -1749,7 +1750,7 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
 }
 
 YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspace) {
-    if (workspace == -1)
+    if (workspace == AllWorkspaces)
         workspace = activeWorkspace();
 
     YFrameWindow *toFocus = 0;
@@ -2287,7 +2288,7 @@ void YWindowManager::announceWorkArea() {
                     (unsigned char *)area, nw * 4);
     delete [] area;
 
-    if (fActiveWorkspace != -1 && fActiveWorkspace < workspaceCount()) {
+    if (fActiveWorkspace != AllWorkspaces && fActiveWorkspace < workspaceCount()) {
         long area[4];
         int cw = fActiveWorkspace;
         area[0] = fWorkArea[cw][0].fMinX;

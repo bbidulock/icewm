@@ -367,7 +367,7 @@ public:
     bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
     bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
     bool isSticky() const { return (getState() & WinStateSticky) ? true : false; }
-    bool isAllWorkspaces() const { return (getWorkspace() == -1) ? true : false; }
+    bool isAllWorkspaces() const { return (getWorkspace() == AllWorkspaces); }
     //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
     //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
 

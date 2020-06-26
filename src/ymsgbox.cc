@@ -47,7 +47,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     }
     autoSize();
     setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     {
 

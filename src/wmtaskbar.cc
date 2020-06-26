@@ -151,7 +151,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
 
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);

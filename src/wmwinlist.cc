@@ -216,7 +216,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
     bool ishidden = true;
     bool rolledup = true;
     bool trayicon = true;
-    long workspace = -1;
+    long workspace = AllWorkspaces;
     bool sameWorkspace = false;
     bool restores = false;
     bool minifies = false;
@@ -263,7 +263,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             closable |= (frame->canClose());
 
             long ws = frame->getWorkspace();
-            if (workspace == -1) {
+            if (workspace == AllWorkspaces) {
                 workspace = ws;
                 sameWorkspace = true;
             } else if (workspace != ws) {
@@ -308,7 +308,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
         popup->disableCommand(actionClose);
 
     moveMenu->enableCommand(actionNull);
-    if (sameWorkspace && workspace != -1) {
+    if (sameWorkspace && workspace != AllWorkspaces) {
         for (int i = 0; i < moveMenu->itemCount(); i++) {
             YMenuItem *item = moveMenu->getItem(i);
             for (int w = 0; w < workspaceCount; w++)
@@ -428,7 +428,7 @@ void WindowList::setupClient() {
 
     setWinHintsHint(WinHintsSkipTaskBar |
                     WinHintsSkipWindowMenu);
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinLayerHint(WinLayerAboveDock);
 }
 
