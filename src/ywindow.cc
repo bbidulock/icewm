@@ -125,8 +125,8 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fColormap(colormap),
     fParentWindow(parent),
     fFocusedWindow(0),
-
-    fHandle(win), flags(0), fStyle(0), fX(0), fY(0), fWidth(1), fHeight(1),
+    fHandle(win), flags(0), fStyle(0),
+    fX(0), fY(0), fWidth(1), fHeight(1),
     fPointer(), unmapCount(0),
     fGraphics(0),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
@@ -140,9 +140,10 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     if (fHandle != None) {
         MSG(("adopting window %lX", fHandle));
         flags |= wfAdopted;
-        create();
-    } else if (fParentWindow == 0) {
-        PRECONDITION(desktop != 0);
+        adopt();
+    }
+    else if (fParentWindow == nullptr) {
+        PRECONDITION(desktop);
         fParentWindow = desktop;
     }
     insertWindow();
@@ -325,125 +326,132 @@ void YWindow::readAttributes() {
 }
 
 Window YWindow::create() {
-    if (flags & wfCreated) return fHandle;
+    if (flags & wfCreated)
+        return fHandle;
 
-    if (fHandle == None) {
-        XSetWindowAttributes attributes = { 0, };
-        unsigned int attrmask = CWEventMask;
-        const bool output = notbit(fStyle, wsInputOnly);
+    XSetWindowAttributes attributes = { 0, };
+    unsigned int attrmask = CWEventMask;
+    const bool output = notbit(fStyle, wsInputOnly);
 
-        fEventMask |=
-            ExposureMask |
-            ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+    fEventMask |=
+        ExposureMask |
+        ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
-        if (fStyle & wsToolTip)
-            fEventMask = ExposureMask;
+    if (fStyle & wsToolTip)
+        fEventMask = ExposureMask;
 
-        if (fStyle & wsPointerMotion)
-            fEventMask |= PointerMotionMask;
+    if (fStyle & wsPointerMotion)
+        fEventMask |= PointerMotionMask;
 
-        if (fParentWindow == desktop && !(fStyle & wsOverrideRedirect))
-            fEventMask |= StructureNotifyMask | SubstructureRedirectMask;
-        if (fStyle & wsManager)
-            fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
-        if (fStyle & (wsInputOnly | wsNoExpose)) {
-            fEventMask &= ~(ExposureMask);
-            if (fStyle & wsInputOnly)
-                fEventMask &= ~(FocusChangeMask);
-            fDoubleBuffer = false;
-        }
-
-        if (fStyle & wsSaveUnder) {
-            attributes.save_under = True;
-            attrmask |= CWSaveUnder;
-        }
-        if (fStyle & wsOverrideRedirect) {
-            attributes.override_redirect = True;
-            attrmask |= CWOverrideRedirect;
-        }
-        if (fPointer.handle() != None) {
-            attrmask |= CWCursor;
-            attributes.cursor = fPointer.handle();
-        }
-        if (fBitGravity != ForgetGravity) {
-            attributes.bit_gravity = fBitGravity;
-            attrmask |= CWBitGravity;
-        }
-        if (fWinGravity != NorthWestGravity) {
-            attributes.win_gravity = fWinGravity;
-            attrmask |= CWWinGravity;
-        }
-        if (fDepth && output) {
-            attributes.background_pixel = xapp->black();
-            attrmask |= CWBackPixel;
-            attributes.border_pixel = xapp->black();
-            attrmask |= CWBorderPixel;
-        }
-        if (fVisual && output) {
-            attributes.colormap = colormap();
-            attrmask |= CWColormap;
-        }
-
-        attributes.event_mask = fEventMask;
-        unsigned zw = width();
-        unsigned zh = height();
-        if (zw == 0 || zh == 0) {
-            zw = 1;
-            zh = 1;
-            flags |= wfNullSize;
-        }
-        fHandle = XCreateWindow(xapp->display(),
-                                parent()->handle(),
-                                x(), y(), zw, zh,
-                                0,
-                                output ? fDepth : CopyFromParent,
-                                output ? InputOutput : InputOnly,
-                                output ? fVisual : CopyFromParent,
-                                attrmask,
-                                &attributes);
-
-        XWindowAttributes wa;
-        if (XGetWindowAttributes(xapp->display(), fHandle, &wa) == False) {
-            flags |= (wfCreated | wfDestroyed);
-            return None;
-        }
-        fDepth = unsigned(wa.depth);
-        fVisual = wa.visual;
-        if (parent() == desktop &&
-            !(flags & (wsManager | wsOverrideRedirect)))
-            XSetWMProtocols(xapp->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
-
-        if ((flags & wfVisible) && !(flags & wfNullSize))
-            XMapWindow(xapp->display(), fHandle);
-    } else {
-        readAttributes();
-
-        fEventMask = 0;
-
-        if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
-            (fHandle != xapp->root()))
-            fEventMask |=
-                StructureNotifyMask |
-                ColormapChangeMask |
-                PropertyChangeMask;
-
-        if (fStyle & wsManager) {
-            fEventMask |=
-                FocusChangeMask |
-                SubstructureRedirectMask | SubstructureNotifyMask |
-                ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
-
-
-            if (!grabRootWindow &&
-                fHandle == xapp->root())
-                fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
-        }
-
-        XSelectInput(xapp->display(), fHandle, fEventMask);
+    if (fParentWindow == desktop && !(fStyle & wsOverrideRedirect))
+        fEventMask |= StructureNotifyMask | SubstructureRedirectMask;
+    if (fStyle & wsManager)
+        fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
+    if (fStyle & (wsInputOnly | wsNoExpose)) {
+        fEventMask &= ~(ExposureMask);
+        if (fStyle & wsInputOnly)
+            fEventMask &= ~(FocusChangeMask);
+        fDoubleBuffer = false;
     }
+
+    if (fStyle & wsSaveUnder) {
+        attributes.save_under = True;
+        attrmask |= CWSaveUnder;
+    }
+    if (fStyle & wsOverrideRedirect) {
+        attributes.override_redirect = True;
+        attrmask |= CWOverrideRedirect;
+    }
+    if (fPointer.handle() != None) {
+        attrmask |= CWCursor;
+        attributes.cursor = fPointer.handle();
+    }
+    if (fBitGravity != ForgetGravity) {
+        attributes.bit_gravity = fBitGravity;
+        attrmask |= CWBitGravity;
+    }
+    if (fWinGravity != NorthWestGravity) {
+        attributes.win_gravity = fWinGravity;
+        attrmask |= CWWinGravity;
+    }
+    if (fDepth && output) {
+        attributes.background_pixel = xapp->black();
+        attrmask |= CWBackPixel;
+        attributes.border_pixel = xapp->black();
+        attrmask |= CWBorderPixel;
+    }
+    if (fVisual && output) {
+        attributes.colormap = colormap();
+        attrmask |= CWColormap;
+    }
+
+    attributes.event_mask = fEventMask;
+    unsigned zw = width();
+    unsigned zh = height();
+    if (zw == 0 || zh == 0) {
+        zw = 1;
+        zh = 1;
+        flags |= wfNullSize;
+    }
+    fHandle = XCreateWindow(xapp->display(),
+                            parent()->handle(),
+                            x(), y(), zw, zh,
+                            0,
+                            output ? fDepth : CopyFromParent,
+                            output ? InputOutput : InputOnly,
+                            output ? fVisual : CopyFromParent,
+                            attrmask,
+                            &attributes);
+
+    XWindowAttributes wa;
+    if (XGetWindowAttributes(xapp->display(), fHandle, &wa) == False) {
+        flags |= (wfCreated | wfDestroyed);
+        return None;
+    }
+    fDepth = unsigned(wa.depth);
+    fVisual = wa.visual;
+    if (parent() == desktop &&
+        !(flags & (wsManager | wsOverrideRedirect)))
+        XSetWMProtocols(xapp->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
+
+    if ((flags & wfVisible) && !(flags & wfNullSize))
+        XMapWindow(xapp->display(), fHandle);
+
     windowContext.save(fHandle, this);
     flags |= wfCreated;
+
     return fHandle;
+}
+
+void YWindow::adopt() {
+    readAttributes();
+
+    fEventMask = 0;
+
+    if ((fStyle & wsDesktopAware) || (fStyle & wsManager) ||
+        (fHandle != xapp->root()))
+        fEventMask |=
+            StructureNotifyMask |
+            ColormapChangeMask |
+            PropertyChangeMask;
+
+    if (fStyle & wsManager) {
+        fEventMask |=
+            FocusChangeMask |
+            SubstructureRedirectMask | SubstructureNotifyMask |
+            ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
+
+
+        if (!grabRootWindow &&
+            fHandle == xapp->root())
+            fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+    }
+
+    if (destroyed() == false)
+        XSelectInput(xapp->display(), fHandle, fEventMask);
+
+    windowContext.save(fHandle, this);
+    flags |= wfCreated;
 }
 
 void YWindow::destroy() {

@@ -268,6 +268,7 @@ private:
     };
 
     Window create();
+    void adopt();
     void destroy();
 
     void insertWindow();
