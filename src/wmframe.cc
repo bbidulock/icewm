@@ -2486,10 +2486,18 @@ bool YFrameWindow::getInputFocusHint() {
 
 
 void YFrameWindow::setWorkspace(int workspace) {
-    if (workspace >= workspaceCount || workspace < -1)
+    if ( ! inrange(workspace + 1, 0, int(workspaceCount)))
         return ;
     if (workspace != fWinWorkspace) {
-        bool refocus = (this == manager->getFocus());
+        int activeWS = int(manager->activeWorkspace());
+        bool otherWS = (workspace != AllWorkspaces && workspace != activeWS);
+        bool refocus = (this == manager->getFocus() && otherWS);
+        if (otherWS) {
+            int ws = (fWinWorkspace >= 0 ? fWinWorkspace : activeWS);
+            if (workspaces[ws].focused == this) {
+                workspaces[ws].focused = nullptr;
+            }
+        }
         fWinWorkspace = workspace;
         client()->setWinWorkspaceHint(fWinWorkspace);
         updateState();
@@ -2498,11 +2506,8 @@ void YFrameWindow::setWorkspace(int workspace) {
         updateTaskBar();
         if (windowList && fWinListItem)
             windowList->updateWindowListApp(fWinListItem);
-        YFrameWindow *t = transient();
-
-        while (t != 0) {
+        for (YFrameWindow *t = transient(); t; t = t->nextTransient()) {
             t->setWorkspace(getWorkspace());
-            t = t->nextTransient();
         }
     }
 }
@@ -3133,7 +3138,7 @@ void YFrameWindow::setState(long mask, long state) {
 }
 
 void YFrameWindow::setAllWorkspaces() {
-    setWorkspace(-1);
+    setWorkspace(AllWorkspaces);
 
     if (windowList && fWinListItem)
         windowList->updateWindowListApp(fWinListItem);
