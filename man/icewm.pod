@@ -429,7 +429,7 @@ with the names 1, 2, 3 and 4 thus:
  WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
 
 This syntax is typical for B<icewm> options which receive multiple
-values.  It is a list of comma separated values each of which can be
+values.  It is a list of comma-separated values each of which can be
 quoted.
 
 The work spaces are visible on the toolbar.  One can switch to a

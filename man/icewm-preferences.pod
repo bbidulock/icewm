@@ -47,7 +47,8 @@ Splash image on startup (IceWM.jpg)
 
 =item B<Trace>=""
 
-Enable tracing for the given modules
+Enable tracing for the given list of modules.
+Modules which are traceable include B<conf, icon, prog, systray>.
 
 =item B<ClickToFocus>=1
 
@@ -148,6 +149,7 @@ Consider border frames when maximizing vertically.
 =item B<ConsiderSizeHintsMaximized>=1
 
 Consider XSizeHints if frame is maximized.
+Turning this off allows the titlebar to cover the width of the screen.
 
 =item B<CenterMaximizedWindows>=0
 
