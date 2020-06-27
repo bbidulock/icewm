@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <fnmatch.h>
 #include "base.h"
 #include "yapp.h"
 #include "ypointer.h"
@@ -172,6 +173,11 @@ int upath::remove() const {
 
 int upath::renameAs(const pstring& dest) const {
     return ::rename(string(), cstring(dest));
+}
+
+int upath::fnMatch(const char* pattern, int flags) const
+{
+    return fnmatch(pattern, string(), flags);
 }
 
 char* upath::loadText() const {

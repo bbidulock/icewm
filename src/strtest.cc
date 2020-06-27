@@ -8,6 +8,7 @@
 #include <libgen.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <fnmatch.h>
 
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
@@ -16,6 +17,9 @@ static const char source[] = __FILE__;
 
 #define expect(u, s)    if (++testsrun, (u) == mstring(s) && equal(u, s)) \
         ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+
+// XXX: those argument ordering and purpose := strange.
+// Also name collision with regular assert macro.
 
 #define assert(u, b)    if (++testsrun, (b)) ++passed; else \
         test_failed(cstring(u), #b, __LINE__)
@@ -26,8 +30,15 @@ static const char source[] = __FILE__;
 #define sequal(u, s)    if (++testsrun, equal(u, s)) \
         ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
 
+#define ASSERT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
+		else { test_failed(#l, #r, __LINE__); return; }
+#define EXPECT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
+        else test_failed(#l, #r, __LINE__);
+
 static int testsrun, passed, failed;
 static const char *prog;
+static int total_failed = 0;
+
 
 class strtest {
     const char *name;
@@ -54,15 +65,12 @@ static void test_failed(cstring u, const char *s, int l)
             u == null ? "NULL" : u.c_str(),
             s == 0 ? "NULL" : s);
     ++failed;
+    ++total_failed;
 }
 
 static void test_failed(cstring u, cstring s, int l)
 {
-    printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
-            prog, source, l,
-            u == null ? "NULL" : u.c_str(),
-            s == null ? "NULL" : s.c_str());
-    ++failed;
+    return test_failed(u, s == null ? "NULL" : s.c_str(), l);
 }
 
 static void test_mstring()
@@ -351,6 +359,11 @@ static void test_upath()
     expect(hm.expand(), getenv("HOME"));
     hm = "$HOME/";
     assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
+
+    upath nothing("/else/matters");
+    EXPECT_EQ(0, nothing.fnMatch("/else/ma*"));
+    EXPECT_EQ(0, nothing.fnMatch("/el*/ma*"));
+    EXPECT_EQ(FNM_NOMATCH, nothing.fnMatch("/else/mata*"));
 }
 
 static void test_strlc()
@@ -528,7 +541,7 @@ int main(int argc, char **argv)
     test_adir();
     test_sdir();
 
-    return 0;
+    return total_failed != 0;
 }
 
 // vim: set sw=4 ts=4 et:
