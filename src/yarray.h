@@ -13,8 +13,8 @@
  *  - introduced YStringArray
  */
 
-#ifndef __YARRAY_H
-#define __YARRAY_H
+#ifndef YARRAY_H
+#define YARRAY_H
 
 #include <string.h>
 #include "base.h"
@@ -357,7 +357,7 @@ public:
  * An array of mstrings
  ******************************************************************************/
 
-#ifdef __MSTRING_H
+#ifdef MSTRING_H
 class MStringArray: public YArray<mstring> {
 public:
     typedef YArray<mstring> BaseType;
@@ -402,7 +402,7 @@ public:
     mstring& operator[](const SizeType index) const {
         return getItem(index);
     }
-    MStringArray& operator+=(mstring& item) {
+    MStringArray& operator+=(const mstring& item) {
         append(item); return *this;
     }
 
@@ -433,7 +433,7 @@ private:
                 const_cast<void *>(YBaseArray::getItem(index)));
     }
 };
-#endif  /*__MSTRING_H*/
+#endif /* MSTRING_H */
 
 /*******************************************************************************
  * An associative array
