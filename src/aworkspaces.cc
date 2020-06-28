@@ -48,6 +48,7 @@ void WorkspaceButton::repaint() {
 
 void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
     if (taskbackPixbuf != null) {
+        g.clearArea(r.x(), r.y(), r.width(), r.height());
         g.drawGradient(taskbackPixbuf,
                        r.x(), r.y(), r.width(), r.height(),
                        0, 0, width(), height());
