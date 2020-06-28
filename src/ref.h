@@ -90,6 +90,7 @@ public:
 
     operator T*() { return ptr ? ptr : ptr = new T; }
     operator bool() { return ptr != 0; }
+    operator bool() const { return ptr != 0; }
     T* operator->() { return operator T*(); }
     T& operator*() { return *operator T*(); }
     T** operator&() { return &ptr; }
