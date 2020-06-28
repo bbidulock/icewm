@@ -87,11 +87,14 @@ private:
     YObjectArray<DockRequest> fDockRequests;
     typedef YObjectArray<DockRequest>::IterType DockIter;
     mstring toolTip;
+    unsigned char error_code;
+    unsigned char request_code;
     static YXTrayProxy* singleton;
 
     bool requestDock(Window win);
-    cstring fetchTitle(Window win);
     bool enableBackingStore(Window win);
+    void handleError(XErrorEvent *xerr);
+    mstring fetchTitle(Window win);
     static int dockError(Display *disp, XErrorEvent *xerr);
 
     typedef YObjectArray<TrayMessage> MessageListType;
@@ -118,7 +121,9 @@ YXTrayProxy* YXTrayProxy::singleton;
 
 YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     _NET_SYSTEM_TRAY_S0(atom),
-    fTray(tray)
+    fTray(tray),
+    error_code(0),
+    request_code(0)
 {
     singleton = this;
     addStyle(wsNoExpose);
@@ -285,7 +290,7 @@ bool YXTrayProxy::requestDock(Window win) {
     cstring title(fetchTitle(win));
     MSG(("systemTrayRequestDock 0x%lX, title \"%s\"", win, title.c_str()));
 
-    if (title == null && windowDestroyed(win)) {
+    if (title == null && (error_code == BadWindow || windowDestroyed(win))) {
         MSG(("Ignoring tray request for unknown window 0x%08lX", win));
         return false;
     }
@@ -309,19 +314,45 @@ bool YXTrayProxy::requestDock(Window win) {
     return fTray->trayRequestDock(win, title);
 }
 
-cstring YXTrayProxy::fetchTitle(Window win) {
+mstring YXTrayProxy::fetchTitle(Window win) {
+    mstring title;
     xsmart<char> name;
-    if (XFetchName(xapp->display(), win, &name) && name && name[0]) {
-    } else {
-        XTextProperty text = {};
-        if (XGetTextProperty(xapp->display(), win, &text, _XA_NET_WM_NAME))
-            name = (char *) text.value;
+    error_code = request_code = 0;
+    if (XFetchName(xapp->display(), win, &name)) {
+        title = (char *) name;
     }
-    return name && name[0] ? cstring(name) : null;
+    else if (error_code == BadWindow) {
+        return null;
+    }
+    if (title.isEmpty()) {
+        XTextProperty text = {};
+        if (XGetTextProperty(xapp->display(), win, &text, _XA_NET_WM_NAME)) {
+            title = reinterpret_cast<char *>(text.value);
+            XFree(text.value);
+        }
+        else if (error_code == BadWindow) {
+            return null;
+        }
+    }
+    if (title.isEmpty()) {
+        XClassHint hint;
+        if (XGetClassHint(xapp->display(), win, &hint)) {
+            title = hint.res_name;
+            XFree(hint.res_name);
+            XFree(hint.res_class);
+        }
+        else if (error_code == BadWindow) {
+            return null;
+        }
+    }
+    return title;
 }
 
-int YXTrayProxy::dockError(Display *disp, XErrorEvent* e) {
-    if (singleton && singleton->trace()) {
+void YXTrayProxy::handleError(XErrorEvent* e) {
+    request_code = e->request_code;
+    error_code = e->error_code;
+
+    if (trace()) {
         Display* display = xapp->display();
         char message[80], req[80], number[80];
 
@@ -337,7 +368,12 @@ int YXTrayProxy::dockError(Display *disp, XErrorEvent* e) {
 
         tlog("systray %s(0x%08lx): %s", req, e->resourceid, message);
     }
+}
 
+int YXTrayProxy::dockError(Display *disp, XErrorEvent* e) {
+    if (singleton) {
+        singleton->handleError(e);
+    }
     // Ignore bad dock attempts.
     return Success;
 }
@@ -351,6 +387,7 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
         if (opcode == SYSTEM_TRAY_REQUEST_DOCK) {
             const Window dock = message.data.l[2];
             XErrorHandler old = XSetErrorHandler(dockError);
+            error_code = request_code = 0;
             requestDock(dock);
             XSetErrorHandler(old);
         }
