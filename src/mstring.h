@@ -1,7 +1,7 @@
-#ifndef __MSTRING_H
-#define __MSTRING_H
+#ifndef MSTRING_H
+#define MSTRING_H
 
-#ifdef __YARRAY_H
+#ifdef YARRAY_H
 #error include yarray.h after mstring.h
 #endif
 
@@ -98,6 +98,8 @@ public:
     bool operator!=(const char *rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
+    bool operator==(null_ref &) const { return isEmpty(); }
+    bool operator!=(null_ref &) const { return nonempty(); }
 
     mstring operator=(null_ref &) { return *this = mstring(); }
     mstring substring(size_t pos) const;
@@ -149,7 +151,7 @@ public:
     cstring(const cstring& s): str(s.str) {}
     cstring(const mstring& s): str(s) { str.normalize(); }
     cstring(const char* cstr): str(cstr) {}
-    cstring(const null_ref &): str() {}
+    cstring(null_ref &): str() {}
     explicit cstring(long n): str(n) {}
 
     cstring operator=(const cstring& cs) { return str = cs.str; }
@@ -160,12 +162,14 @@ public:
     operator const mstring&() const { return str; }
     bool operator==(const char* cstr) const { return str == cstr; }
     bool operator!=(const char* cstr) const { return str != cstr; }
-    bool operator==(const null_ref &) const { return str == null; }
-    bool operator!=(const null_ref &) const { return str != null; }
+    bool operator==(null_ref &) const { return str == null; }
+    bool operator!=(null_ref &) const { return str != null; }
     bool operator==(const cstring& c) const { return str == c.str; }
     bool operator!=(const cstring& c) const { return str != c.str; }
     int c_str_len() const { return int(str.length()); }
     int length()    const { return int(str.length()); }
+    bool isEmpty()  const { return 0 == length(); }
+    bool nonempty() const { return 0 < length(); }
 };
 
 inline bool operator==(const char* s, const cstring& c) { return c == s; }
