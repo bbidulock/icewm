@@ -3199,8 +3199,10 @@ void YWindowManager::updateKeyboard(int configIndex) {
 }
 
 void YWindowManager::setKeyboard(int configIndex) {
-    fDefaultKeyboard = configIndex;
-    setKeyboard(configKeyboards[configIndex]);
+    if (inrange(configIndex, 0, configKeyboards.getCount() - 1)) {
+        fDefaultKeyboard = configIndex;
+        setKeyboard(configKeyboards[configIndex]);
+    }
 }
 
 void YWindowManager::setKeyboard(mstring keyboard) {

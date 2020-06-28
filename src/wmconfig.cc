@@ -56,7 +56,9 @@ void addKeyboard(const char *, const char *value, bool append) {
     if (!append) {
         configKeyboards.clear();
     }
-    configKeyboards += value;
+    if (nonempty(value)) {
+        configKeyboards += value;
+    }
 }
 
 static const struct {
