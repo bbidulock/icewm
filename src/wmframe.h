@@ -257,6 +257,8 @@ public:
     void updateAllowed();
     void updateNetWMState();
     void getFrameHints();
+    bool haveHintOption() const { return fHintOption; }
+    WindowOption& getHintOption() { return *fHintOption; }
     WindowOption getWindowOption();
     void getWindowOptions(WindowOptions* list, WindowOption& opt, bool remove);
 

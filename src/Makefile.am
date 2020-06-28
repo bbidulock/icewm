@@ -287,6 +287,8 @@ icewm_SOURCES = \
 	aworkspaces.h \
 	amailbox.cc \
 	amailbox.h \
+	akeyboard.cc \
+	akeyboard.h \
 	aclock.cc \
 	aclock.h \
 	acpustatus.cc \

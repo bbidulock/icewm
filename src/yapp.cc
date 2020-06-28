@@ -414,7 +414,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         else
             execlp(path, path, static_cast<void *>(NULL));
 
-        fail("%s", path);
+        fail(_("Failed to execute %s"), path);
         _exit(99);
     }
     return cpid;

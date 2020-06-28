@@ -235,7 +235,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
 
     fClient = clientw;
     if (hintOptions && hintOptions->nonempty()) {
-        getWindowOptions(hintOptions, *fHintOption, true);
+        getWindowOptions(hintOptions, getHintOption(), true);
     }
 
     {
@@ -2058,8 +2058,8 @@ void YFrameWindow::getFrameHints() {
 
 WindowOption YFrameWindow::getWindowOption() {
     WindowOption wo;
-    if (fHintOption) {
-        wo = *fHintOption;
+    if (haveHintOption()) {
+        wo = getHintOption();
     }
     if (defOptions) {
         getWindowOptions(defOptions, wo, false);
@@ -2105,14 +2105,14 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         if (icon != null)
             fFrameIcon = icon;
     }
-    if (wo.workspace != WinWorkspaceInvalid && wo.workspace < workspaceCount) {
+    if (inrange(wo.workspace, 0, workspaceCount - 1)) {
         setWorkspace(wo.workspace);
         if (wo.workspace != manager->activeWorkspace())
             requestFocus = false;
     }
-    if (wo.layer != (long)WinLayerInvalid && wo.layer < WinLayerCount)
+    if (inrange(wo.layer, 0, WinLayerCount - 1))
         setRequestedLayer(wo.layer);
-    if (wo.tray != (long)WinTrayInvalid && wo.tray < WinTrayOptionCount)
+    if (inrange(wo.tray, 0, WinTrayOptionCount - 1))
         setTrayOption(wo.tray);
     fTrayOrder = wo.order;
 }

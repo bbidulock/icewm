@@ -1,9 +1,10 @@
-#ifndef __WMMGR_H
-#define __WMMGR_H
+#ifndef WMMGR_H
+#define WMMGR_H
 
 #include "WinMgr.h"
 #include "ylist.h"
 #include "yaction.h"
+#include "ymsgbox.h"
 #include "workspaces.h"
 
 extern YAction layerActionSet[WinLayerCount];
@@ -80,7 +81,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
 };
 
-class YWindowManager: public YDesktop {
+class YWindowManager: public YDesktop, private YMsgBoxListener {
 public:
     YWindowManager(
         IApp *app,
@@ -109,6 +110,7 @@ public:
     virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
     virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
+    virtual void handleMsgBox(YMsgBox *msgbox, int operation);
 
     void manageClients();
     void unmanageClients();
@@ -214,7 +216,7 @@ public:
     void setDesktopViewport();
 
     void announceWorkArea();
-    void setWinWorkspace(long workspace);
+    void setWinWorkspace(int workspace);
     void updateWorkArea();
     void updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
@@ -254,8 +256,11 @@ public:
 
     bool haveClients();
     void setupRootProxy();
-
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
+    void setKeyboard(mstring keyboard);
+    void setKeyboard(int configIndex);
+    mstring getKeyboard();
+    void updateKeyboard(int configIndex);
 
     void updateFullscreenLayer();
     void updateFullscreenLayerEnable(bool enable);
@@ -363,6 +368,8 @@ private:
     bool fLayeredUpdated;
 
     DesktopLayout fLayout;
+    mstring fCurrentKeyboard;
+    int fDefaultKeyboard;
 };
 
 extern YWindowManager *manager;

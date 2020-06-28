@@ -433,7 +433,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     wmmenu.cc wmprog.cc atasks.cc aworkspaces.cc
     amailbox.cc aclock.cc acpustatus.cc amemstatus.cc
     applet.cc apppstatus.cc aaddressbar.cc objbar.cc
-    aapm.cc atray.cc ysmapp.cc yxtray.cc
+    akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
 
 SET(MISC_SRCS misc.cc yarray.cc mstring.cc ref.cc)

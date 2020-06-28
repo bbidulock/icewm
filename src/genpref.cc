@@ -10,6 +10,7 @@ char const *ApplicationName;
 #include "sysdep.h"
 
 void addWorkspace(const char *, const char *, bool) {}
+void addKeyboard(const char *, const char *, bool) {}
 void setLook(const char *, const char *, bool) {}
 void addBgImage(const char *, const char *, bool) {}
 

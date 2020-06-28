@@ -156,7 +156,7 @@ server.  This is irrelevant for normal use of B<icewm>.
 
 =item B<-h>, B<--help>
 
-Gives a complete list of all the available command line options with
+Gives a complete list of all the available command-line options with
 some very brief explanation.
 
 =item B<-V>, B<--version>
@@ -451,7 +451,7 @@ in the window menu of the window frame.
 
 If B<EnableAddressBar>=1 then B<KeySysAddressBar>=C<Alt+Ctrl+Space>
 activates the address bar in the task bar.
-If B<ShowAddressBar>=1 it is always shown. This is a command line in
+If B<ShowAddressBar>=1 it is always shown. This is a command-line in
 the task bar where a shell command can be typed.
 Pressing C<Enter> will execute the command.
 B<AddressBarCommand>=C</bin/sh> will be used to execute the command.
@@ -512,6 +512,37 @@ repeatedly pressing the first letter cycles over those windows.
 C<Home> selects the first entry and C<End> the last. C<PageUp> and
 C<PageDown> move up or down by ten entries. Combine this with the
 C<Shift> key to extend a selection over the range of motion.
+
+=head2 KEYBOARD LAYOUT SWITCHING
+
+To control keyboard layouts on the task bar, define in F<preferences>
+the option B<KeyboardLayouts> to a comma-separated list of your
+preferred keyboard layouts:
+
+ KeyboardLayouts="de","fr","jp"
+
+A keyboard layout can be a two-letter keyboard layout name, but if
+it is enclosed in double quotes, it can be a space-separated list of
+command-line arguments to an invocation of the C<setxkbmap> program.
+
+The first layout is the default. It will be installed when icewm starts.
+The task bar will show the current keyboard layout. If an icon can
+be found for the first two letters of the layout, then that icon
+will be shown. Otherwise the first two letters of the name of the
+layout will be shown.
+
+Click on the current keyboard layout to cycle through all the
+available keyboard layouts. Click with the right mouse button
+to open a menu of all available keyboard layouts.
+
+It is also possible to configure a default keyboard layout for
+each program individually in the L<icewm-winoptions(5)> file.
+Whenever such a program receives input focus, icewm will install
+this configured keyboard layout. The task bar will show this.
+
+Please note that for keyboard layout switching to work, the
+C<setxkbmap> program must be installed. To see your current
+keyboard layout settings, do C<setxkbmap -query>.
 
 =head2 KEYBOARD SHORTCUTS
 
@@ -1006,7 +1037,7 @@ Global keybindings to launch applications, which need not be window
 manager related.  Each non-empty line starts with the word C<key>.
 After one or more spaces follows a double-quoted string of the bound X11
 key combination like C<Alt+Ctrl+Shift+X>.  Then after at least one space
-follows a shell command line which will be executed by B<icewm> whenever
+follows a shell command-line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
@@ -1078,7 +1109,7 @@ After one or more spaces follows a name, which is displayed in a tool
 tip whenever the mouse cursor hovers over the toolbar icon.  This name
 may be a double quoted string.  Then follows the bare name of the icon
 to use without extensions.  This icon will be shown in the toolbar.  The
-last component is a shell command line which will be executed whenever
+last component is a shell command-line which will be executed whenever
 the user presses the icon in the toolbar.  For example, the following
 line in toolbar will create a button with tool tip C<Mozilla Firefox>
 with the F<firefox> icon which launches L<firefox(1)> when clicked:
@@ -1227,6 +1258,7 @@ L<icewm-toolbar(5)>,
 L<icewm-winoptions(5)>,
 L<icewmbg(1)>,
 L<icewmhint(1)>,
+L<setxkbmap(1)>,
 L<Xorg(1)>,
 L<Xserver(1)>,
 L<xinit(1)>,

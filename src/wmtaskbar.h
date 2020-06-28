@@ -13,6 +13,7 @@ class MEMStatus;
 class CPUStatusControl;
 class NetStatusControl;
 class AddressBar;
+class KeyboardStatus;
 class MailBoxControl;
 class MailBoxStatus;
 class YButton;
@@ -86,6 +87,7 @@ public:
     void workspacesRepaint();
     void workspacesUpdateButtons();
     void workspacesRelabelButtons();
+    void keyboardUpdate(mstring keyboard);
 
     void removeTasksApp(YFrameWindow *w);
     class TaskBarApp *addTasksApp(YFrameWindow *w);
@@ -139,6 +141,7 @@ private:
     ObjectButton *fCollapseButton;
     TrayPane *fWindowTray;
     YClock *fClock;
+    KeyboardStatus *fKeyboardStatus;
     MailBoxControl *fMailBoxStatus;
     MEMStatus *fMEMStatus;
     CPUStatusControl *fCPUStatus;

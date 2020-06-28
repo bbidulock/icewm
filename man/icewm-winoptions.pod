@@ -142,6 +142,15 @@ pane, the tray pane and the system tray.
 Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
 1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
 
+=item B<keyboard>: I<layout> (default: none)
+
+Specifies the keyboard layout to use for this window. 
+The I<layout> is the name of a keyboard layout.
+It can be a space-separated list of arguments to the
+B<setxkbmap> program. Please note that B<setxkbmap>
+must be installed for this to work. Also define
+a default keyboard layout in F<preferences>.
+
 =back
 
 =head2 FUNCTION OPTIONS
@@ -299,6 +308,7 @@ read and the remainder ignored.
 L<icewm(1)>,
 L<icesh(1)>,
 L<icewmhint(1)>,
+L<setxkbmap(1)>,
 L<XParseGeometry(3)>.
 
 =head1 AUTHOR

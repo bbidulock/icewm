@@ -23,6 +23,7 @@
 #include "intl.h"
 
 YStringArray configWorkspaces;
+MStringArray configKeyboards;
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
@@ -49,6 +50,13 @@ void addWorkspace(const char *, const char *value, bool append) {
         configWorkspaces.clear();
     }
     configWorkspaces += value;
+}
+
+void addKeyboard(const char *, const char *value, bool append) {
+    if (!append) {
+        configKeyboards.clear();
+    }
+    configKeyboards += value;
 }
 
 static const struct {

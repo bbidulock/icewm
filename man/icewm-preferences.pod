@@ -709,6 +709,20 @@ Maximum scaled height of tray icons.
 
 Surround the tray with plastic border.
 
+=item B<KeyboardLayouts>=""
+
+A comma-separated list of keyboard layouts.
+A layout may be enclosed in double quotes.
+Each layout is a name with optional arguments,
+which is to be parsed by the C<setxkbmap> program.
+To support changing keyboard layouts, the
+C<setxkbmap> program must be installed.
+The first in the list is the default layout.
+Programs may have their own keyboard layout
+defined in the F<winoptions> file.
+The first two letters of a layout are used
+to locate an icon image file.
+
 =back
 
 =head2 MENUS

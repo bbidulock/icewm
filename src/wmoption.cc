@@ -29,6 +29,8 @@ WindowOption::WindowOption(ustring n_class_instance):
 void WindowOption::combine(const WindowOption& n) {
     if (n.icon.nonempty() && icon.isEmpty())
         icon = n.icon;
+    if (n.keyboard.nonempty() && keyboard.isEmpty())
+        keyboard = n.keyboard;
     if (n.function_mask) {
         functions |= n.functions & ~function_mask;
         function_mask |= n.function_mask;
@@ -126,6 +128,8 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 
     if (strcmp(opt, "icon") == 0) {
         op->icon = arg;
+    } else if (strcmp(opt, "keyboard") == 0) {
+        op->keyboard = arg;
     } else if (strcmp(opt, "workspace") == 0) {
         int workspace = atoi(arg);
         op->workspace = max(workspace, int(WinWorkspaceInvalid));

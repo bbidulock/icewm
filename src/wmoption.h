@@ -10,6 +10,7 @@ struct WindowOption {
     void combine(const WindowOption& n);
 
     ustring w_class_instance;
+    ustring keyboard;
     ustring icon;
     unsigned functions, function_mask;
     unsigned decors, decor_mask;
