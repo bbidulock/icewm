@@ -53,6 +53,7 @@ public:
     char* loadText() const;
     bool copyFrom(const upath& from, int mode = 0666) const;
     bool testWritable(int mode = 0666) const;
+    int fnMatch(const char* pattern, int flags = 0) const;
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;

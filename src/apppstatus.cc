@@ -25,7 +25,6 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <net/if.h>
-#include <fnmatch.h>
 
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #include <sys/sysctl.h>
@@ -631,7 +630,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
             while (++iter) {
                 if (fNetStatus.has(iter))
                     continue;
-                if (fnmatch(devStr, iter, 0) == 0) {
+                if (upath(iter).fnMatch(devStr) == 0) {
                     createNetStatus(*iter);
                 }
             }
@@ -788,7 +787,7 @@ void NetStatusControl::linuxUpdate() {
     for (int i = 0; i < pending.getCount(); ++i) {
         const netpair stat = pending[i];
         YStringArray::IterType pat = patterns.iterator();
-        while (++pat && fnmatch(pat, stat.name(), 0));
+        while (++pat && upath(stat.name()).fnMatch(pat));
         if (pat) {
             createNetStatus(stat.name())->timedUpdate(stat.data());
         } else {
