@@ -708,6 +708,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
         fMenu = new YMenu();
         fMenu->setActionListener(this);
         fMenu->addItem(_("NET"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
         YStringArray::IterType iter = interfaces.iterator();
         while (++iter) {
             bool enable = true;

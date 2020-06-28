@@ -171,6 +171,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
         fMenu = new YMenu();
         fMenu->setActionListener(this);
         fMenu->addItem(_("CLOCK"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
         fMenu->addItem("%H:%M:%S", -2, null, actionHide);
         fMenu->addItem("%d %H:%M", -2, null, actionShow);
         if (!prettyClock)

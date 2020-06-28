@@ -318,8 +318,8 @@ void MailCheck::startCheck() {
 
 void MailCheck::startSSL() {
     const char file[] = "openssl";
-    cstring path(findPath(getenv("PATH"), X_OK, file));
-    if (path == null) {
+    csmart path(path_lookup(file));
+    if (path == nullptr) {
         if (ONCE)
             warn(_("Failed to find %s command"), file);
         return;
@@ -327,6 +327,7 @@ void MailCheck::startSSL() {
 
     int other;
     if (sk.socketpair(&other) == 0 && other > 0) {
+        XFlush(xapp->display());
         fflush(stderr);
         fflush(stdout);
         fPid = fork();
@@ -348,7 +349,7 @@ void MailCheck::startSSL() {
                 "-connect", hostnamePort, 0
             };
             execv(path, (char* const*) args);
-            fail(_("Failed to execute %s"), path.c_str());
+            fail(_("Failed to execute %s"), (char *) path);
             _exit(1);
         }
         else {
@@ -951,6 +952,7 @@ void MailBoxControl::handleClick(const XButtonEvent &up, MailBoxStatus *client)
         fMenu = new YMenu;
         fMenu->setActionListener(this);
         fMenu->addItem(_("MAIL"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
         fMenu->addItem(_("_Check"), -2, null, actionRun);
         fMenu->addItem(_("_Disable"), -2, null, actionClose);
         fMenu->addItem(_("_Suspend"), -2, null, actionSuspend)
