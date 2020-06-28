@@ -117,6 +117,7 @@ public:
     void switchToNext();
     void movePrev();
     void moveNext();
+    void refresh();
 
 private:
     void popOut();

@@ -38,6 +38,7 @@ public:
 
     void layoutButtons();
     void raiseButtons();
+    void refresh();
 
     static YColor background(bool active);
 

@@ -3409,8 +3409,21 @@ void YWindowManager::updateScreenSize(XEvent *event) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }
     }
+
+    refresh();
 }
 #endif
+
+void YWindowManager::refresh() {
+    if (taskBar) {
+        taskBar->refresh();
+    }
+    for (YFrameIter frame(focusedIterator()); ++frame; ) {
+        if (frame->visibleOn(activeWorkspace())) {
+            frame->refresh();
+        }
+    }
+}
 
 void YWindowManager::appendCreatedFrame(YFrameWindow *f) {
     fCreationOrder.append(f);

@@ -428,6 +428,7 @@ public:
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
 
     int getScreen();
+    void refresh();
 
     long getOldLayer() { return fOldLayer; }
     void saveOldLayer() { fOldLayer = fWinActiveLayer; }

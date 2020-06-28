@@ -27,6 +27,7 @@ public:
     virtual void paint(Graphics &g, const YRect &r);
 
     void addButton(const ustring &name, ref<YIcon> icon, ObjectButton *button);
+    void refresh();
 
 private:
     ArrayType objects;

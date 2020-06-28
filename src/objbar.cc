@@ -160,4 +160,12 @@ void ObjectButton::handleButton(const XButtonEvent& up) {
     }
 }
 
+void ObjectBar::refresh() {
+    for (IterType iter(objects.iterator()); ++iter; ) {
+        if (*iter) {
+            iter->repaint();
+        }
+    }
+}
+
 // vim: set sw=4 ts=4 et:

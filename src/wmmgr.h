@@ -308,6 +308,7 @@ private:
     void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
     void setWmState(WMState newWmState);
+    void refresh();
 
     IApp *app;
     YActionListener *wmActionListener;

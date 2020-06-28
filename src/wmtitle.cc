@@ -413,6 +413,24 @@ int YFrameTitleBar::titleLen() const {
     return tlen;
 }
 
+void YFrameTitleBar::refresh() {
+    repaint();
+    if (fCloseButton)
+        fCloseButton->repaint();
+    if (fMenuButton)
+        fMenuButton->repaint();
+    if (fMaximizeButton)
+        fMaximizeButton->repaint();
+    if (fMinimizeButton)
+        fMinimizeButton->repaint();
+    if (fHideButton)
+        fHideButton->repaint();
+    if (fRollupButton)
+        fRollupButton->repaint();
+    if (fDepthButton)
+        fDepthButton->repaint();
+}
+
 void YFrameTitleBar::repaint() {
     if (isVisible && width() > 1 && height() > 1) {
         GraphicsBuffer(this).paint();

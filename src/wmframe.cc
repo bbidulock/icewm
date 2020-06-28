@@ -1634,6 +1634,13 @@ MiniIcon *YFrameWindow::getMiniIcon() {
     return fMiniIcon;
 }
 
+void YFrameWindow::refresh() {
+    repaint();
+    if (titlebar()) {
+        titlebar()->refresh();
+    }
+}
+
 void YFrameWindow::repaint() {
     paint(getGraphics(), geometry());
 }
