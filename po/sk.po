@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-06-28 13:34+0200\n"
-"PO-Revision-Date: 2020-06-29 19:44+0000\n"
+"PO-Revision-Date: 2020-07-02 07:26+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -600,10 +600,8 @@ msgid "Motif decorations"
 msgstr "Dekorácie Motif"
 
 #: src/icesh.cc:1938
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME stav okna"
+msgstr "EWMH stav okna"
 
 #: src/icesh.cc:2020 src/icesh.cc:2049
 #, c-format
@@ -682,19 +680,6 @@ msgid "Socket error: %d"
 msgstr "Chyba soketu: %d"
 
 #: src/icesm.cc:59
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -718,6 +703,8 @@ msgstr ""
 "  --sync              Synchronizuje komunikáciu s X11 serverom.\n"
 "\n"
 "  -i, --icewm=SÚBOR    Použije SÚBOR ako správca okien IceWM.\n"
+"  -o, --output=FILE   Presmeruje celý výstup do SÚBOR-u.\n"
+"\n"
 "  -b, --nobg           Nespustí icewmbg.\n"
 "  -n, --notray        Nespustí icewmtray.\n"
 "  -s, --sound         Tiež spustí icesound.\n"
@@ -1583,11 +1570,11 @@ msgstr "Z_rolovať"
 
 #: src/wmmgr.cc:3226
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Chýba program setxkbmap"
 
 #: src/wmmgr.cc:3227
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
 #: src/wmoption.cc:270
 #, c-format
