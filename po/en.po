@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-06-28 13:34+0200\n"
-"PO-Revision-Date: 2020-06-29 19:44+0000\n"
+"PO-Revision-Date: 2020-07-02 07:26+0000\n"
 "Last-Translator: Jens Maucher <jens.maucher@gmx.de>\n"
-"Language-Team: English <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/en/>\n"
+"Language-Team: English <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,7 +36,7 @@ msgstr ""
 
 #: src/aapm.cc:445
 msgid " - Full"
-msgstr ""
+msgstr " - Voll"
 
 #: src/aapm.cc:991
 #, c-format
@@ -49,7 +49,7 @@ msgstr ""
 
 #: src/aclock.cc:178
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: src/aclock.cc:179 src/themes.cc:78
 msgid "Default"
@@ -81,7 +81,7 @@ msgstr ""
 #: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "CPU %s Last: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:302
 #, c-format
@@ -89,6 +89,8 @@ msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Ram (frei): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:307
 #, c-format
@@ -96,6 +98,8 @@ msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
+"\n"
+"Swap (frei): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:313
 #, c-format
@@ -103,6 +107,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Temp: "
 
 #: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
@@ -110,10 +116,12 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Freq: %.3fGHz"
 
 #: src/acpustatus.cc:349 src/acpustatus.cc:657
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:349
 msgid "Load: "
@@ -130,7 +138,7 @@ msgstr ""
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:431
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:600
 #, c-format
@@ -237,19 +245,19 @@ msgstr ""
 
 #: src/amemstatus.cc:145
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:149
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:153
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:157
 msgid "bytes"
-msgstr ""
+msgstr "bytes"
 
 #: src/amemstatus.cc:177
 msgid "Memory Total: "
