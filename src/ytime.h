@@ -8,6 +8,7 @@ timeval monotime();
 timeval millitime(long msec);
 timeval maketime(long sec, long usec);
 long seconds();
+bool fsleep(double delay);
 
 inline bool operator<(const timeval& a, const timeval& b) {
     return a.tv_sec != b.tv_sec ?
