@@ -58,10 +58,10 @@ static bool windowDestroyed(Window win) {
 
 static int getOrder(cstring title) {
     WindowOption opt(title);
-    if (defOptions)
-        defOptions->mergeWindowOption(opt, title, false);
     if (hintOptions)
         hintOptions->mergeWindowOption(opt, title, true);
+    if (defOptions)
+        defOptions->mergeWindowOption(opt, title, false);
     return opt.order;
 }
 
