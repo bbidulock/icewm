@@ -667,9 +667,13 @@ void TaskBar::updateLocation() {
     unsigned int w = 0;
     unsigned int h = 0;
 
-    w = (dw/100.0) * taskBarWidthPercentage;
-    if (strcmp(taskBarJustify, "right") == 0) x = dw - w;
-    if (strcmp(taskBarJustify, "center") == 0) x = (dw - w)/2;
+    if (taskBarWidthPercentage < 100) {
+        w = (dw * taskBarWidthPercentage + 50) / 100;
+        if (strcmp(taskBarJustify, "right") == 0)
+            x = dx + (dw - w);
+        if (strcmp(taskBarJustify, "center") == 0)
+            x = dx + (dw - w)/2;
+    }
 
     updateLayout(w, h);
 
@@ -681,7 +685,7 @@ void TaskBar::updateLocation() {
             w = h = 0;
         }
 
-        x = dw - w;
+        x = dx + (dw - w);
 
         if (fCollapseButton) {
             fCollapseButton->show();
