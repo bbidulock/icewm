@@ -58,7 +58,6 @@
 #cmakedefine HAVE_SYSCTLBYNAME 1
 #cmakedefine HAVE_SYSINFO 1
 #cmakedefine HAVE_UNAME 1
-#cmakedefine HAVE_WORDEXP 1
 
 #cmakedefine HAVE_FCNTL_H 1
 #cmakedefine HAVE_LANGINFO_H 1
