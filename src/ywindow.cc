@@ -742,13 +742,11 @@ void YWindow::handleEvent(const XEvent &event) {
 #ifdef CONFIG_XRANDR
         if (xrandr.isEvent(event.type, RRScreenChangeNotify)) {
             handleRRScreenChangeNotify(
-                *reinterpret_cast<const XRRScreenChangeNotifyEvent *>
-                (&event));
+                reinterpret_cast<const XRRScreenChangeNotifyEvent&>(event));
             break;
         }
         else if (xrandr.isEvent(event.type, RRNotify)) {
-            handleRRNotify(
-                *reinterpret_cast<const XRRNotifyEvent *>(&event));
+            handleRRNotify(reinterpret_cast<const XRRNotifyEvent&>(event));
             break;
         }
 #endif
