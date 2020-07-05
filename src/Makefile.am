@@ -334,7 +334,7 @@ icewm_session_SOURCES = \
 	ytime.h \
 	ytimer.h \
 	icesm.cc
-icewm_session_LDADD = libice.la @LIBINTL@
+icewm_session_LDADD = libice.la $(X_LIBS) -lX11 @LIBINTL@
 
 icewmhint_SOURCES = \
 	intl.h \
