@@ -35,6 +35,7 @@
 #endif
 #undef override
 #include <X11/Xproto.h>
+#include <wordexp.h>
 #include "intl.h"
 
 char const *ApplicationName("IceWM");
@@ -766,7 +767,7 @@ int YWMApp::runProgram(const char *path, const char *const *args) {
     YTraceProg trace;
     if (trace.tracing()) {
         command = path;
-        if (command == "/bin/sh" && nonempty(*args)) {
+        if (nonempty(*args)) {
             for (int i = 1; args[i]; ++i) {
                 command = mstring(command, " ", args[i]);
             }
@@ -789,8 +790,18 @@ void YWMApp::runOnce(const char *resource, long *pid,
 }
 
 void YWMApp::runCommand(const char *cmdline) {
-    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
-    runProgram(argv[0], argv);
+    const char shell[] = "&();<>`{}|";
+    wordexp_t exp = {};
+    if (strpbrk(cmdline, shell) == nullptr &&
+        wordexp(cmdline, &exp, WRDE_NOCMD) == 0)
+    {
+        runProgram(exp.we_wordv[0], exp.we_wordv);
+        wordfree(&exp);
+    }
+    else {
+        char const * argv[] = { "/bin/sh", "-c", cmdline, nullptr };
+        runProgram(argv[0], argv);
+    }
 }
 
 void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid) {
@@ -800,9 +811,18 @@ void YWMApp::runCommandOnce(const char *resource, const char *cmdline, long *pid
     if (mapClientByResource(resource, pid))
         return;
 
-    char const *const argv[] = { "/bin/sh", "-c", cmdline, nullptr };
-
-    *pid = runProgram(argv[0], argv);
+    const char shell[] = "&();<>`{}|";
+    wordexp_t exp = {};
+    if (strpbrk(cmdline, shell) == nullptr &&
+        wordexp(cmdline, &exp, WRDE_NOCMD) == 0)
+    {
+        *pid = runProgram(exp.we_wordv[0], exp.we_wordv);
+        wordfree(&exp);
+    }
+    else {
+        char const *const argv[] = { "/bin/sh", "-c", cmdline, nullptr };
+        *pid = runProgram(argv[0], argv);
+    }
 }
 
 bool YWMApp::mapClientByPid(const char* resource, long pid) {
