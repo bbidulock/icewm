@@ -3383,8 +3383,8 @@ void YWindowManager::handleRRNotify(const XRRNotifyEvent &notify) {
 }
 
 void YWindowManager::updateScreenSize(XEvent *event) {
-    unsigned nw = xapp->displayWidth();
-    unsigned nh = xapp->displayHeight();
+    unsigned nw = width();
+    unsigned nh = height();
 
     XRRUpdateConfiguration(event);
 
