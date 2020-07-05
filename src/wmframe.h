@@ -244,16 +244,18 @@ public:
         foIgnoreTaskBar            = (1 << 14),
         foIgnoreUrgent             = (1 << 15),
         foIgnoreWinList            = (1 << 16),
-        foNoFocusOnAppRaise        = (1 << 17),
-        foNoFocusOnMap             = (1 << 18),
-        foNoIgnoreTaskBar          = (1 << 19),
-        foNonICCCMConfigureRequest = (1 << 20),
-        foClose                    = (1 << 21),
+        foIgnoreActivationMessages = (1 << 17),
+        foNoFocusOnAppRaise        = (1 << 18),
+        foNoFocusOnMap             = (1 << 19),
+        foNoIgnoreTaskBar          = (1 << 20),
+        foNonICCCMConfigureRequest = (1 << 21),
+        foClose                    = (1 << 22),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }
     unsigned frameDecors() const { return fFrameDecors; }
     unsigned frameOptions() const { return fFrameOptions; }
+    bool frameOption(YFrameOptions o) const { return hasbit(fFrameOptions, o); }
     void updateAllowed();
     void updateNetWMState();
     void getFrameHints();
@@ -266,8 +268,9 @@ public:
 
     long getState() const { return fWinState; }
     void setState(long mask, long state);
+    bool hasState(long bit) const { return hasbit(fWinState, bit); }
 
-    bool isFullscreen() const { return (getState() & WinStateFullscreen); }
+    bool isFullscreen() const { return hasState(WinStateFullscreen); }
 
     int borderXN() const;
     int borderYN() const;
@@ -357,24 +360,22 @@ public:
     long getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(long option);
     void setDoNotCover(bool flag);
-    bool isMaximized() const { return (getState() &
-                                 (WinStateMaximizedHoriz |
-                                  WinStateMaximizedVert)) ? true : false; }
-    bool isMaximizedVert() const { return (getState() & WinStateMaximizedVert) ? true : false; }
-    bool isMaximizedHoriz() const { return (getState() & WinStateMaximizedHoriz) ? true : false; }
+    bool isMaximized() const { return hasState(WinStateMaximizedBoth); }
+    bool isMaximizedVert() const { return hasState(WinStateMaximizedVert); }
+    bool isMaximizedHoriz() const { return hasState(WinStateMaximizedHoriz); }
     bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
-    bool isMinimized() const { return (getState() & WinStateMinimized) ? true : false; }
-    bool isHidden() const { return (getState() & WinStateHidden) ? true : false; }
-    bool isSkipPager() const { return (getState() & WinStateSkipPager) ? true : false; }
-    bool isSkipTaskBar() const { return (getState() & WinStateSkipTaskBar) ? true : false; }
-    bool isRollup() const { return (getState() & WinStateRollup) ? true : false; }
-    bool isSticky() const { return (getState() & WinStateSticky) ? true : false; }
+    bool isMinimized() const { return hasState(WinStateMinimized); }
+    bool isHidden() const { return hasState(WinStateHidden); }
+    bool isSkipPager() const { return hasState(WinStateSkipPager); }
+    bool isSkipTaskBar() const { return hasState(WinStateSkipTaskBar); }
+    bool isRollup() const { return hasState(WinStateRollup); }
+    bool isSticky() const { return hasState(WinStateSticky); }
     bool isAllWorkspaces() const { return (getWorkspace() == AllWorkspaces); }
-    //bool isHidWorkspace() { return (getState() & WinStateHidWorkspace) ? true : false; }
-    //bool isHidTransient() { return (getState() & WinStateHidTransient) ? true : false; }
+    //bool isHidWorkspace() { return hasState(WinStateHidWorkspace); }
+    //bool isHidTransient() { return hasState(WinStateHidTransient); }
 
-    bool wasMinimized() const { return (getState() & WinStateWasMinimized) ? true : false; }
-    bool wasHidden() const { return (getState() & WinStateWasHidden) ? true : false; }
+    bool wasMinimized() const { return hasState(WinStateWasMinimized); }
+    bool wasHidden() const { return hasState(WinStateWasHidden); }
 
     bool isIconic() const { return isMinimized() && fMiniIcon; }
 
@@ -400,9 +401,7 @@ public:
     bool inWorkArea() const;
     bool affectsWorkArea() const;
 
-    bool doNotCover() const {
-        return (frameOptions() & foDoNotCover) ? true : false;
-    }
+    bool doNotCover() const { return frameOption(foDoNotCover); }
 
     virtual ref<YIcon> getIcon() const { return clientIcon(); }
 
@@ -438,7 +437,7 @@ public:
     Window topLeftIndicator() const { return topLeft; }
     Window topRightIndicator() const { return topRight; }
     Time since() const { return fStartManaged; }
-    bool startMinimized() const { return hasbit(fFrameOptions, foMinimized); }
+    bool startMinimized() const { return frameOption(foMinimized); }
 
     void addToWindowList();
     void removeFromWindowList();

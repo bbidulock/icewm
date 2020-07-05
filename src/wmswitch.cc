@@ -97,7 +97,7 @@ class WindowItemsCtrlr : public ISwitchItems
                     } else {
                         if (pass == 2) append(w);
                     }
-                } else if (w->frameOptions() & YFrameWindow::foIgnoreQSwitch) {
+                } else if (w->frameOption(YFrameWindow::foIgnoreQSwitch)) {
                 } else if (w->avoidFocus()) {
                     if (pass == 5) append(w);
                 } else if (w->isHidden()) {

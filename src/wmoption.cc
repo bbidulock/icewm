@@ -101,22 +101,12 @@ bool WindowOptions::findOption(ustring a_class_instance, int *index) {
     return false;
 }
 
-WindowOption *WindowOptions::getOption(ustring a_class_instance) {
-    int lo;
-    if (findOption(a_class_instance, &lo))
-        return fWinOptions[lo];
-
-    WindowOption *newopt = new WindowOption(a_class_instance);
-
-    MSG(("inserting window option %p at position %d", newopt, lo));
-    fWinOptions.insert(lo, newopt);
-
-#ifdef DEBUG
-    for (int i = 0; i < fWinOptions.getCount(); ++i)
-        MSG(("> %d: %p", i, fWinOptions[i]));
-#endif
-
-    return newopt;
+WindowOption* WindowOptions::getOption(ustring a_class_instance) {
+    int where;
+    if (findOption(a_class_instance, &where) == false) {
+        fWinOptions.insert(where, new WindowOption(a_class_instance));
+    }
+    return fWinOptions[where];
 }
 
 void WindowOptions::setWinOption(ustring n_class_instance,
@@ -233,6 +223,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { "fRollup",                  YFrameWindow::ffRollup },
             { "forcedClose",              YFrameWindow::foForcedClose },
             { "fullKeys",                 YFrameWindow::foFullKeys },
+            { "ignoreActivationMessages", YFrameWindow::foIgnoreActivationMessages },
             { "ignoreNoFocusHint",        YFrameWindow::foIgnoreNoFocusHint },
             { "ignorePagerPreview",       YFrameWindow::foIgnorePagerPreview },
             { "ignorePositionHint",       YFrameWindow::foIgnorePosition },

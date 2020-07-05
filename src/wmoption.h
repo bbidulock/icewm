@@ -35,8 +35,8 @@ public:
                            bool remove);
 
     int getCount() const { return fWinOptions.getCount(); }
-    bool nonempty() const { return getCount(); }
-    bool isEmpty() const { return !getCount(); }
+    bool nonempty() const { return fWinOptions.nonempty(); }
+    bool isEmpty() const { return fWinOptions.isEmpty(); }
 
 private:
     YObjectArray<WindowOption> fWinOptions;

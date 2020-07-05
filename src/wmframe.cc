@@ -427,7 +427,7 @@ void YFrameWindow::afterManage() {
 #ifdef CONFIG_SHAPE
     setShape();
 #endif
-    if (!(frameOptions() & foFullKeys))
+    if ( !frameOption(foFullKeys))
         grabKeys();
     fClientContainer->grabButtons();
     addToWindowList();
@@ -621,7 +621,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
             cx = cr.x;
         else {
             cx = cr.x + container()->x();
-            if (frameOptions() & foNonICCCMConfigureRequest) {
+            if (frameOption(foNonICCCMConfigureRequest)) {
                 warn("nonICCCMpositioning: adjusting x %d by %d", cx, -container()->x());
                 cx -= container()->x();
             }
@@ -647,7 +647,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
             cy = cr.y;
         else {
             cy = cr.y + container()->y();
-            if (frameOptions() & foNonICCCMConfigureRequest) {
+            if (frameOption(foNonICCCMConfigureRequest)) {
                 warn("nonICCCMpositioning: adjusting y %d by %d", cy, -container()->y());
                 cy -= container()->y();
             }
@@ -732,7 +732,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
 #if 1
 
 #if 1
-                    if ( !(frameOptions() & foNoFocusOnAppRaise) &&
+                    if ( !frameOption(foNoFocusOnAppRaise) &&
                         (clickFocus || !strongPointerFocus))
                     {
                         if (focusChangesWorkspace ||
@@ -982,7 +982,7 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
 #if 0
-        if ((flags & fwfSwitchable) && (p->frameOptions() & foIgnoreQSwitch))
+        if ((flags & fwfSwitchable) && p->frameOption(foIgnoreQSwitch))
             goto next;
 #endif
         if (!p->client()->adopted() || p->client()->destroyed())
@@ -1399,7 +1399,7 @@ void YFrameWindow::wmClose() {
     if (client()->protocols() & YFrameClient::wpDeleteWindow) {
         client()->sendDelete();
     } else {
-        if (frameOptions() & foForcedClose) {
+        if (frameOption(foForcedClose)) {
             wmKill();
         } else {
             wmConfirmKill();
@@ -1512,7 +1512,7 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
     if (avoidFocus())
         doActivate = false;
 
-    if (frameOptions() & foNoFocusOnMap)
+    if (frameOption(foNoFocusOnMap))
         doActivate = false;
 
     if (!onCurrentWorkspace && !focusChangesWorkspace && !focusCurrentWorkspace)
@@ -2348,7 +2348,7 @@ YFrameWindow *YFrameWindow::prevLayer() {
 }
 
 YMenu *YFrameWindow::windowMenu() {
-    //if (frameOptions() & foFullKeys)
+    //if (frameOption(foFullKeys))
     //    return windowMenuNoKeys;
     //else
     return wmapp->getWindowMenu();
@@ -2461,17 +2461,17 @@ bool YFrameWindow::canFocusByMouse() {
 }
 
 bool YFrameWindow::avoidFocus() {
-    if (frameOptions() & foDoNotFocus)
+    if (frameOption(foDoNotFocus))
         return true;
 
     if (getInputFocusHint())
         return false;
 
-    if (frameOptions() & foIgnoreNoFocusHint)
+    if (frameOption(foIgnoreNoFocusHint))
         return false;
 
     if ((client()->protocols() & YFrameClient::wpTakeFocus) ||
-        (frameOptions() & foAppTakesFocus))
+        frameOption(foAppTakesFocus))
         return false;
 
     return true;
@@ -2481,11 +2481,11 @@ bool YFrameWindow::getInputFocusHint() {
     XWMHints *hints = fClient->hints();
     bool input = true;
 
-    if (!(frameOptions() & YFrameWindow::foIgnoreNoFocusHint) &&
+    if ( !frameOption(foIgnoreNoFocusHint) &&
         (hints && (hints->flags & InputHint) && !hints->input)) {
         input = false;
     }
-    if (frameOptions() & foDoNotFocus) {
+    if (frameOption(foDoNotFocus)) {
         input = false;
     }
     return input;
@@ -3235,9 +3235,9 @@ void YFrameWindow::updateTaskBar() {
         if (isUrgent())
             needTaskBarApp = true;
 
-        if (frameOptions() & foIgnoreTaskBar)
+        if (frameOption(foIgnoreTaskBar))
             needTaskBarApp = false;
-        if (frameOptions() & foNoIgnoreTaskBar)
+        if (frameOption(foNoIgnoreTaskBar))
             needTaskBarApp = true;
 
         if (needTaskBarApp && fTaskBarApp == 0)
@@ -3378,7 +3378,7 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
 void YFrameWindow::updateUrgency() {
     fClientUrgency = false;
     XWMHints *h = client()->hints();
-    if ( !(frameOptions() & foIgnoreUrgent) &&
+    if ( !frameOption(foIgnoreUrgent) &&
             h && (h->flags & XUrgencyHint))
         fClientUrgency = true;
 
@@ -3393,7 +3393,7 @@ void YFrameWindow::updateUrgency() {
 
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
 
-    if (!(frameOptions() & foIgnoreUrgent))
+    if ( !frameOption(foIgnoreUrgent))
     {
         bool change = (wmUrgency != isUrgent());
         fWmUrgency = wmUrgency;

@@ -259,7 +259,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             rollable |= (frame->canRollup());
             raiseable |= (frame->canRaise());
             lowerable |= (frame->canLower());
-            traytoggle |= !(frame->frameOptions() & YFrameWindow::foIgnoreTaskBar);
+            traytoggle |= notbit(frame->frameOptions(), YFrameWindow::foIgnoreTaskBar);
             closable |= (frame->canClose());
 
             long ws = frame->getWorkspace();

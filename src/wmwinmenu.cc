@@ -69,7 +69,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     continue;
                 if (!frame->visibleOn(workspace))
                     continue;
-                if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
+                if (frame->frameOption(YFrameWindow::foIgnoreWinList))
                     continue;
                 if (workspace != activeWorkspace() &&
                     frame->visibleOn(activeWorkspace()))

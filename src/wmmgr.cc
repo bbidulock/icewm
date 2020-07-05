@@ -26,6 +26,7 @@
 #include "workspaces.h"
 #include "ystring.h"
 #include "intl.h"
+#include <wordexp.h>
 
 YContext<YFrameClient> clientContext("clientContext", false);
 YContext<YFrameWindow> frameContext("framesContext", false);
@@ -727,7 +728,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         if (attributes.override_redirect)
             return;
 
-        YFrameClient* client = new YFrameClient(desktop, 0);
+        YFrameClient* client = new YFrameClient(desktop, nullptr);
         client->setSize(attributes.width, attributes.height);
         client->setPosition(attributes.x, attributes.y);
         client->setBorder(attributes.border_width);
@@ -952,7 +953,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     if (c &&
         w == c->handle() &&
         ((c->protocols() & YFrameClient::wpTakeFocus) ||
-         (f->frameOptions() & YFrameWindow::foAppTakesFocus)))
+         f->frameOption(YFrameWindow::foAppTakesFocus)))
     {
         c->sendTakeFocus();
     }
@@ -1394,7 +1395,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     if (newClient) {
         WindowOption wo(frame->getWindowOption());
 
-        if (frame->frameOptions() & YFrameWindow::foClose) {
+        if (frame->frameOption(YFrameWindow::foClose)) {
             frame->wmClose();
             doActivate = false;
         }
@@ -1426,7 +1427,7 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     if (newClient && client->adopted() && client->sizeHints() &&
         (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
          ((client->sizeHints()->flags & PPosition)
-          && (frame->frameOptions() & YFrameWindow::foIgnorePosition)
+          && frame->frameOption(YFrameWindow::foIgnorePosition)
          )))
     {
         int xiscreen = 0;
@@ -1501,7 +1502,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (!mapClient && attributes.map_state == IsUnmapped)
             goto end;
 
-        client = new YFrameClient(0, 0, win,
+        client = new YFrameClient(nullptr, nullptr, win,
                                   attributes.depth,
                                   attributes.visual,
                                   attributes.colormap);
@@ -1609,11 +1610,11 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     }
 
     if (wmState() == YWindowManager::wmRUNNING) {
-        if (frame->frameOptions() & YFrameWindow::foAllWorkspaces)
+        if (frame->frameOption(YFrameWindow::foAllWorkspaces))
             frame->setAllWorkspaces();
-        if (frame->frameOptions() & YFrameWindow::foFullscreen)
+        if (frame->frameOption(YFrameWindow::foFullscreen))
             frame->setState(WinStateFullscreen, WinStateFullscreen);
-        if (frame->frameOptions() & YFrameWindow::foMaximizedBoth)
+        if (frame->frameOption(YFrameWindow::foMaximizedBoth))
             frame->setState(WinStateMaximizedBoth,
                   (frame->frameOptions() & WinStateMaximizedBoth));
         if (frame->startMinimized()) {
@@ -1622,7 +1623,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
             requestFocus = false;
         }
 
-        if (frame->frameOptions() & YFrameWindow::foNoFocusOnMap)
+        if (frame->frameOption(YFrameWindow::foNoFocusOnMap))
             requestFocus = false;
     }
 
@@ -2803,7 +2804,7 @@ int YWindowManager::windowCount(long workspace) {
         for (YFrameWindow *frame = top(layer); frame; frame = frame->next()) {
             if (!frame->visibleOn(workspace))
                 continue;
-            if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
+            if (frame->frameOption(YFrameWindow::foIgnoreWinList))
                 continue;
             if (workspace != activeWorkspace() &&
                 frame->visibleOn(activeWorkspace()))
@@ -3208,17 +3209,16 @@ void YWindowManager::setKeyboard(int configIndex) {
 void YWindowManager::setKeyboard(mstring keyboard) {
     if (keyboard != null && keyboard != fCurrentKeyboard) {
         fCurrentKeyboard = keyboard;
-        csmart copy(newstr(cstring(keyboard)));
-        YStringArray args;
         const char program[] = "setxkbmap";
         char* path = path_lookup(program);
         if (path) {
-            args += path;
-            for (char* s = strtok(copy, " \t"); s; s = strtok(nullptr, " \t")) {
-                args += newstr(s);
+            wordexp_t exp = {};
+            exp.we_offs = 1;
+            if (wordexp(cstring(keyboard), &exp, WRDE_NOCMD) == 0) {
+                exp.we_wordv[0] = strdup(program);
+                wmapp->runProgram(program, exp.we_wordv);
+                wordfree(&exp);
             }
-            args += nullptr;
-            wmapp->runProgram(args[0], args.getCArray());
             if (taskBar) {
                 taskBar->keyboardUpdate(keyboard);
             }
