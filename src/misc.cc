@@ -401,7 +401,7 @@ void logRandrScreen(const union _XEvent& xev) {
     const XRRScreenChangeNotifyEvent& evt =
         (const XRRScreenChangeNotifyEvent &)xev;
     msg("window=0x%lX: %s index=%u order=%u "
-        "rotation=%u width=%d(%d) height=%d(%d)",
+        "rotation=%u width=%dpx(%dmm) height=%dpx(%dmm)",
         evt.window, "XRRScreenChangeNotifyEvent",
         evt.size_index, evt.subpixel_order, (evt.rotation & 15) * 45,
         evt.width, evt.mwidth, evt.height, evt.mheight
@@ -795,36 +795,36 @@ void* memrchr(const void* ptr, char chr, size_t num) {
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
-        unsigned int alen=strlen(name);
-        if (**argpp != '-' || strncmp((*argpp)+1, name, alen))
-                return false;
-        if (*((*argpp)+1+alen))
-        {
-                ret=(*argpp)+1+alen;
-                return true;
-        }
-        else if (argpp+1>=endpp)
-                return false;
-        ++argpp;
-        ret=*argpp;
+    unsigned int alen = strlen(name);
+    if (**argpp != '-' || strncmp((*argpp) + 1, name, alen))
+        return false;
+    char ch = (*argpp)[1 + alen];
+    if (ch) {
+        ret = (*argpp) + 1 + alen + (ch == '=');
         return true;
+    }
+    else if (argpp + 1 >= endpp)
+        return false;
+    ++argpp;
+    ret = *argpp;
+    return true;
 }
 
 bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
-        unsigned int alen=strlen(name);
-        if (strncmp(*argpp, "--", 2) || strncmp((*argpp)+2, name, alen))
-                return false;
-        if (*((*argpp)+2+alen) == '=')
-        {
-                ret=(*argpp)+3+alen;
-                return true;
-        }
-        if (argpp+1>=endpp)
-                return false;
-        ++argpp;
-        ret = *argpp;
+    unsigned int alen = strlen(name);
+    if (strncmp(*argpp, "--", 2) || strncmp((*argpp) + 2, name, alen))
+        return false;
+    char ch = (*argpp)[2 + alen];
+    if (ch == '=') {
+        ret = (*argpp) + 3 + alen;
         return true;
+    }
+    if (argpp + 1 >= endpp)
+        return false;
+    ++argpp;
+    ret = *argpp;
+    return true;
 }
 
 bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end)
