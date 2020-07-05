@@ -221,10 +221,10 @@ which configuration was chosen or whether option formatting was correct.
 
 Give a list of the current X extensions, their versions and status.
 
-=item B<--trace>=I<conf>,I<icon>,I<prog>
+=item B<--trace>=I<conf>,I<icon>,I<prog>,I<systray>
 
 Enable tracing of the paths which are used to load configuration,
-and/or icons, and/or executed programs.
+and/or icons, and/or executed programs, and/or system tray applets.
 
 =back
 
@@ -284,13 +284,8 @@ The I<Memory Applet> monitors memory usage.
 
 The I<CPU Applet> monitors processor utilization.
 
-The I<Mailbox Applet> monitors mailbox status changes.  The location of
-the mailbox is given by the C<MailBoxPath> preferences option or else by
-the C<MAILPATH> or C<MAIL> environment variables.  It can be the path of
-a local mail spool file or the specification of a remote POP3 or IMAP
-location.  For example:
-
- MailBoxPath="pop3://myname:password@host.com/"
+The I<Mailbox Applet> monitors mailbox status changes.
+See the section MAILBOX MONITORING below.
 
 The I<Clock Applet> shows the current time and date.  It is configured
 by the C<TimeFormat> option.
@@ -513,16 +508,85 @@ C<Home> selects the first entry and C<End> the last. C<PageUp> and
 C<PageDown> move up or down by ten entries. Combine this with the
 C<Shift> key to extend a selection over the range of motion.
 
+=head2 MAILBOX MONITORING
+
+The task bar can show one or more icons to reflect the status of a
+mailbox. The mailbox can be a local file or a remote POP or IMAP
+account. For this a couple of options must be set. First,
+F<TaskBarShowMailboxStatus> must be enabled, which it is by default.
+Then the location of the mailbox must be set.  Icewm first looks for
+F<MailBoxPath> in preferences. If this is unset, it looks at the
+environment variables C<MAILPATH> and C<MAIL>.  F<MailBoxPath> may
+contain a space-separated list of mailboxes, while C<MAILPATH> may
+contain a colon-separated list of mailboxes.  If a mailbox starts
+with a slash C</>, then it is a local file, otherwise a URL.
+These are six examples of possible mailboxes:
+
+    file:///var/spool/mail/captnmark
+    file:///home/captnmark/Maildir/
+    pop3://markus:%2f%40%3a@maol.ch/
+    pop3s://markus:password@pop.gmail.com/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+    imaps://mathias:password@imap.gmail.com/INBOX
+
+The POP3S and IMAPS schemes use C<openssl> for TLS/SSL encryption.
+Note that for IceWM to access Gmail you must first configure
+your Gmail account to enable POP3 or IMAP access.
+Make sure you have secure file permissions on your IceWM
+preferences file and the directory which contains it.
+
+Reserved characters in the password, like I<slash>, I<at> and I<colon>
+can be specified using escape sequences with a hexadecimal encoding
+like C<%2f> for the slash or C<%40> for the at sign.
+For example, to hex-encode C<!p@a%s&s~> use this Perl snippet:
+
+    perl -e 'foreach(split("", $ARGV[0])) { printf "%%%02x", ord($_); };
+    print "\n";' '!p@a%s&s~'
+
+Which will print:
+
+    %21%40%23%24%25%5e%26%2a%7e
+
+This is the hex-encoded password. However, it is unwise to store a
+password in your preferences. Consider a wallet extension for IceWM.
+
+IceWM will check a mailbox periodically. The period in seconds can
+be set by the F<MailCheckDelay> option, which is 30 seconds by default.
+
+Whenever new mail arrives, the mailbox icon will be highlighted.
+The color will indicate if the mail has been read or not. Hovering
+the mouse over the mailbox icon will show a tooltip with more details.
+A command can be also be run on new mail. Set the F<NewMailCommand>
+option. Its environment will have these variables set by IceWM:
+
+=over
+
+=item ICEWM_MAILBOX
+
+The mailbox index number of F<MailBoxPath> starting from 1.
+
+=item ICEWM_COUNT
+
+The total number of messages in this mailbox.
+
+=item ICEWM_UNREAD
+
+The number of unread messages in this mailbox.
+
+=back
+
 =head2 KEYBOARD LAYOUT SWITCHING
 
 To control keyboard layouts on the task bar, define in F<preferences>
 the option B<KeyboardLayouts> to a comma-separated list of your
-preferred keyboard layouts:
+preferred keyboard layouts. For example:
 
  KeyboardLayouts="de","fr","jp"
 
-A keyboard layout can be a two-letter keyboard layout name, but if
-it is enclosed in double quotes, it can be a space-separated list of
+A keyboard layout can simply be a name. Usually this is a two-letter
+country code. See the directory F</usr/share/X11/xkb/symbols> for
+a list of available keyboard layouts for your system.  If it is
+enclosed in double quotes, it can also be a space-separated list of
 command-line arguments to an invocation of the C<setxkbmap> program.
 
 The first layout is the default. It will be installed when icewm starts.
@@ -538,7 +602,8 @@ to open a menu of all available keyboard layouts.
 It is also possible to configure a default keyboard layout for
 each program individually in the L<icewm-winoptions(5)> file.
 Whenever such a program receives input focus, icewm will install
-this configured keyboard layout. The task bar will show this.
+this configured keyboard layout automatically. The keyboard status
+on the task bar will be updated to reflect this.
 
 Please note that for keyboard layout switching to work, the
 C<setxkbmap> program must be installed. To see your current
