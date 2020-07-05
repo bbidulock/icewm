@@ -16,6 +16,7 @@
 #ifdef USE_SIGNALFD
 #include <sys/signalfd.h>
 #endif
+#include <wordexp.h>
 #include <pwd.h>
 
 IMainLoop *mainLoop;
@@ -412,7 +413,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         if (args)
             execvp(path, const_cast<char **>(args));
         else
-            execlp(path, path, static_cast<void *>(NULL));
+            execlp(path, path, nullptr);
 
         fail(_("Failed to execute %s"), path);
         _exit(99);
@@ -432,9 +433,18 @@ int YApplication::waitProgram(int p) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
-/// TODO #warning calling /bin/sh is considered to be bloat
-    char const * argv[] = { "/bin/sh", "-c", cmdline, NULL };
-    runProgram(argv[0], argv);
+    const char shell[] = "&();<>`{}|";
+    wordexp_t exp = {};
+    if (strpbrk(cmdline, shell) == nullptr &&
+        wordexp(cmdline, &exp, WRDE_NOCMD) == 0)
+    {
+        runProgram(exp.we_wordv[0], exp.we_wordv);
+        wordfree(&exp);
+    }
+    else {
+        char const * argv[] = { "/bin/sh", "-c", cmdline, nullptr };
+        runProgram(argv[0], argv);
+    }
 }
 
 #ifndef USE_SIGNALFD
