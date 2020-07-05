@@ -1,6 +1,6 @@
 #!/bin/bash
 
-unset ACONF DBGCM RELCM TESTC jobs prefix xterm
+unset ACONF DBGCM DEPEN RELCM TESTC jobs prefix xterm
 prefix=/usr
 xterm=urxvt
 
@@ -10,6 +10,7 @@ do
     case $x in
         (-a) ACONF=1 ;;  # enable autoconf+cscope
         (-c) DBGCM=1 ;;  # enable CMake debug build
+        (-d) DEPEN=1 ;;  # check the dependencies
         (-r) RELCM=1 ;;  # enable CMake release build
         (-t) TESTC=1 ;;  # test all combinations of configure options
         (-j*) jobs=$x ;; # number of gmake procs
@@ -20,7 +21,7 @@ do
 done
 
 # set default
-[[ -v ACONF || -v DBGCM || -v RELCM || -v TESTC ]] || ACONF=1
+[[ -v ACONF || -v DBGCM || -v DEPEN || -v RELCM || -v TESTC ]] || ACONF=1
 
 # gmake jobs
 [[ -v jobs ]] || jobs=-j$(($(nproc 2>/dev/null||echo 4)<<1))
@@ -93,6 +94,22 @@ if [[ -v RELCM ]]; then
         -DENABLE_LTO=ON \
         -DXTERMCMD=$xterm &&
     make "$jobs"
+fi
+
+# check the dependencies
+if [[ -v DEPEN ]]; then
+    for p in \
+        x11 xext xcomposite xdamage xfixes \
+        xrender xrandr xinerama xft \
+        fontconfig sm ice \
+        sndfile alsa ao \
+        gio-2.0 gio-unix-2.0 \
+        gdk-pixbuf-xlib-2.0 librsvg-2.0 \
+        xpm libpng libjpeg
+    do
+        printf "%-20s: " "$p"
+        pkg-config --modversion --print-errors --errors-to-stdout $p
+    done
 fi
 
 # test combinations of configure options
