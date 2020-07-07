@@ -13,7 +13,7 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const pstring& path): fPath(path) {}
-    upath(const cstring& path): fPath(path.m_str()) {}
+    upath(cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}

@@ -839,7 +839,7 @@ public:
             array.insert(++where, new cstring(s));
         }
     }
-    const cstring& current() {
+    cstring& current() {
         if (empty()) array.insert(++where, new cstring());
         return *array[where];
     }
@@ -943,7 +943,7 @@ FontRef FontTable::get(int size, int flags) {
 
 class HTListener {
 public:
-    virtual void activateURL(const cstring& url, bool relative = false) = 0;
+    virtual void activateURL(cstring url, bool relative = false) = 0;
     virtual void handleClose() = 0;
 protected:
     virtual ~HTListener() {}
@@ -1816,7 +1816,7 @@ public:
         delete scroll;
     }
 
-    void activateURL(const cstring& url, bool relative = false);
+    void activateURL(cstring url, bool relative = false);
 
     virtual void configure(const YRect &r) {
         YWindow::configure(r);
@@ -1899,7 +1899,7 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
                      &size, &wmhints, &klas);
 }
 
-void FileView::activateURL(const cstring& url, bool relative) {
+void FileView::activateURL(cstring url, bool relative) {
     if (verbose) {
         tlog("activateURL('%s', %s)", url.c_str(),
                 relative ? "relative" : "not-relative");

@@ -86,7 +86,7 @@ YCoreFont::~YCoreFont() {
 
 int YCoreFont::textWidth(const ustring &s) const {
     cstring cs(s);
-    return textWidth(cs.c_str(), cs.c_str_len());
+    return textWidth(cs.c_str(), cs.length());
 }
 
 int YCoreFont::textWidth(const char *str, int len) const {
@@ -152,7 +152,7 @@ YFontSet::~YFontSet() {
 
 int YFontSet::textWidth(const ustring &s) const {
     cstring cs(s);
-    return textWidth(cs.c_str(), cs.c_str_len());
+    return textWidth(cs.c_str(), cs.length());
 }
 
 int YFontSet::textWidth(const char *str, int len) const {

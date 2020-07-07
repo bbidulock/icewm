@@ -68,7 +68,7 @@ bool AddressBar::appendCommand(const char* cmd, class YStringArray& args) {
 bool AddressBar::handleReturn(int mask) {
     const bool control(hasbit(mask, ControlMask));
     const mstring line(getText());
-    const cstring text(line);
+    cstring text(line);
     YStringArray args;
 
     if (line.nonempty()) {

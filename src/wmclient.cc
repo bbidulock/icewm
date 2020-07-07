@@ -746,7 +746,7 @@ void YFrameClient::setWindowTitle(const char *title) {
                     _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
                     (const unsigned char *)cs.c_str(),
-                    cs.c_str_len());
+                    cs.length());
         } else {
             XDeleteProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_NAME);
@@ -764,7 +764,7 @@ void YFrameClient::setIconTitle(const char *title) {
                     _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
                     (const unsigned char *)cs.c_str(),
-                    cs.c_str_len());
+                    cs.length());
         } else {
             XDeleteProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_ICON_NAME);

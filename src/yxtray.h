@@ -56,7 +56,7 @@ private:
     YXTray *const fTray;
     YXEmbedClient *const fClient;
     const Window fLeader;
-    const cstring fTitle;
+    cstring fTitle;
     Damage fDamage;
     bool fComposing;
     const int fOrder;

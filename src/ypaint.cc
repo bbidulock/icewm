@@ -274,7 +274,7 @@ void Graphics::drawArc(int x, int y, unsigned width, unsigned height, int a1, in
 void Graphics::drawChars(const ustring &s, int x, int y) {
     if (fFont != null && s != null) {
         cstring cs(s);
-        fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.c_str_len());
+        fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.length());
     }
 }
 

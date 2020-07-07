@@ -34,7 +34,7 @@ public:
     cstring name() const { return fDevName; }
 
 protected:
-    cstring const fDevName;
+    cstring fDevName;
 };
 
 class NetLinuxDevice : public NetDevice {
@@ -103,7 +103,7 @@ private:
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
-    cstring const fDevName;   // name of the device
+    cstring fDevName;         // name of the device
     osmart<NetDevice> fDevice;
 
     void updateVisible(bool aVisible);

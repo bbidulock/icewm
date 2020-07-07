@@ -93,7 +93,7 @@ static inline bool isIconFile(const upath& name) {
 upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     char iconName[1024];
     const size_t iconSize = sizeof iconName;
-    const cstring cbase(base.string());
+    cstring cbase(base.string());
     const char* cBaseStr = cbase.c_str();
     static const char iconExts[][5] = {
             ".png",
@@ -109,7 +109,7 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
         return fullpath;
 
     bool hasImageExtension = false;
-    const cstring cbaseExt(base.getExtension());
+    cstring cbaseExt(base.getExtension());
     if (cbaseExt.length() == 4) {
         for (int i = 0; i < numIconExts; ++i) {
             hasImageExtension |= (0 == strcmp(iconExts[i], cbaseExt));

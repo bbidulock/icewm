@@ -142,38 +142,36 @@ typedef class mstring ustring;
 /*
  * Constant strings with a conversion to nul-terminated C strings.
  */
-class cstring {
-private:
-    mstring str;
-
+class cstring : public mstring {
 public:
-    cstring() : str() {}
-    cstring(const cstring& s): str(s.str) {}
-    cstring(const mstring& s): str(s) { str.normalize(); }
-    cstring(const char* cstr): str(cstr) {}
-    cstring(null_ref &): str() {}
-    explicit cstring(long n): str(n) {}
+    const mstring& m_str() const { return *this; }
+    cstring(): mstring() { }
+    cstring(const cstring& s): mstring(s) { }
+    cstring(const mstring& s): mstring(s) { }
+    cstring(const char* s): mstring(s) { }
+    explicit cstring(long n): mstring(n) { }
 
-    cstring operator=(const cstring& cs) { return str = cs.str; }
-    cstring operator+(const mstring& rv) const { return str + rv; }
-    operator const char *() const { return c_str(); }
-    const char *c_str() const { return str.fRef ? str.data() : ""; }
-    const mstring& m_str() const { return str; }
-    operator const mstring&() const { return str; }
-    bool operator==(const char* cstr) const { return str == cstr; }
-    bool operator!=(const char* cstr) const { return str != cstr; }
-    bool operator==(null_ref &) const { return str == null; }
-    bool operator!=(null_ref &) const { return str != null; }
-    bool operator==(const cstring& c) const { return str == c.str; }
-    bool operator!=(const cstring& c) const { return str != c.str; }
-    int c_str_len() const { return int(str.length()); }
-    int length()    const { return int(str.length()); }
-    bool isEmpty()  const { return 0 == length(); }
-    bool nonempty() const { return 0 < length(); }
+    operator const char *() { return c_str(); }
+    const char *c_str() {
+        normalize();
+        return fRef ? data() : "";
+    }
+    void operator=(const cstring& s) {
+        mstring::operator=(s);
+    }
+    void operator=(const mstring& s) {
+        mstring::operator=(s);
+    }
+    void operator=(null_ref&) {
+        mstring::operator=(null);
+    }
+    void operator=(const char* s) {
+        mstring::operator=(s);
+    }
 };
 
-inline bool operator==(const char* s, const cstring& c) { return c == s; }
-inline bool operator!=(const char* s, const cstring& c) { return c != s; }
+inline bool operator==(const char* s, cstring& c) { return c == s; }
+inline bool operator!=(const char* s, cstring& c) { return c != s; }
 
 inline mstring operator+(const char* s, const mstring& m) {
     return mstring(s) + m;

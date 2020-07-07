@@ -27,7 +27,7 @@ public:
 
     int read(char *buf, int len);
     int write(const char *buf, int len);
-    int write(const cstring& str);
+    int write(cstring& str);
     void shutdown();
 
     void setListener(YSocketListener *l) { fListener = l; }

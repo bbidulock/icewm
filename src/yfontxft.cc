@@ -193,7 +193,7 @@ YXftFont::~YXftFont() {
 
 int YXftFont::textWidth(const ustring &s) const {
     cstring cs(s);
-    return textWidth(cs.c_str(), cs.c_str_len());
+    return textWidth(cs.c_str(), cs.length());
 }
 
 int YXftFont::textWidth(string_t const & text) const {

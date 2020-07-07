@@ -440,7 +440,7 @@ int MailCheck::write(const char *buf, int len) {
     return n;
 }
 
-int MailCheck::write(const cstring& str) {
+int MailCheck::write(cstring str) {
     return write(str, str.length());
 }
 

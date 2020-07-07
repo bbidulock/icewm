@@ -129,7 +129,7 @@ int YSocket::write(const char *buf, int len) {
     return -1;
 }
 
-int YSocket::write(const cstring& str) {
+int YSocket::write(cstring& str) {
     return write(str, str.length());
 }
 
