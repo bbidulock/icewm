@@ -33,11 +33,11 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-static NetDevice* getNetDevice(cstring netdev)
+static NetDevice* getNetDevice(mstring netdev)
 {
     return
 #if defined(__linux__)
-        netdev.m_str().startsWith("ippp")
+        netdev.startsWith("ippp")
             ? (NetDevice *) new NetIsdnDevice(netdev)
             : (NetDevice *) new NetLinuxDevice(netdev)
 #elif defined(__FreeBSD__)
@@ -51,7 +51,7 @@ static NetDevice* getNetDevice(cstring netdev)
 }
 
 NetStatus::NetStatus(
-    cstring netdev,
+    mstring netdev,
     NetStatusHandler* handler,
     YWindow *aParent):
     IApplet(this, aParent),
@@ -72,7 +72,7 @@ NetStatus::NetStatus(
     statusUpdateCount(0),
     unchanged(0),
     wasUp(false),
-    useIsdn(netdev.m_str().startsWith("ippp")),
+    useIsdn(netdev.startsWith("ippp")),
     fDevName(netdev),
     fDevice(getNetDevice(netdev))
 {
@@ -90,7 +90,7 @@ NetStatus::NetStatus(
     if (isUp()) {
         updateVisible(true);
     }
-    setTitle(cstring("NET-" + netdev));
+    setTitle("NET-" + netdev);
     updateToolTip();
 }
 
@@ -621,7 +621,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     while (devList.splitall(' ', &devName, &devList)) {
         if (devName.isEmpty())
             continue;
-        cstring devStr(devName);
+        mstring devStr(devName);
 
         if (strpbrk(devStr, "*?[]\\.")) {
             if (interfaces.isEmpty())
@@ -649,7 +649,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     fUpdateTimer->setTimer(taskBarNetDelay, this, true);
 }
 
-NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
+NetStatus* NetStatusControl::createNetStatus(mstring netdev) {
     NetStatus*& status = fNetStatus[netdev];
     if (status == 0)
         status = new NetStatus(netdev, this, aParent);
@@ -698,7 +698,7 @@ void NetStatusControl::relayout()
     taskBar->relayout();
 }
 
-void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
+void NetStatusControl::handleClick(const XButtonEvent &up, mstring netdev)
 {
     if (up.button == Button3) {
         interfaces.clear();

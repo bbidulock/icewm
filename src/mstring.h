@@ -46,7 +46,6 @@ private:
  */
 class mstring {
 private:
-    friend class cstring;
     friend class MStringArray;
     friend mstring operator+(const char* s, const mstring& m);
 
@@ -115,7 +114,7 @@ public:
     bool equals(const char *s) const;
     bool equals(const char *s, size_t len) const;
     bool equals(const mstring &s) const;
-    int collate(const mstring &s, bool ignoreCase = false) const;
+    int collate(mstring s, bool ignoreCase = false);
     int compareTo(const mstring &s) const;
     bool copyTo(char *dst, size_t len) const;
 
@@ -134,42 +133,12 @@ public:
     mstring lower() const;
     mstring upper() const;
 
-    void normalize();
-};
-
-/*
- * Constant strings with a conversion to nul-terminated C strings.
- */
-class cstring : public mstring {
-public:
-    const mstring& m_str() const { return *this; }
-    cstring(): mstring() { }
-    cstring(const cstring& s): mstring(s) { }
-    cstring(const mstring& s): mstring(s) { }
-    cstring(const char* s): mstring(s) { }
-    explicit cstring(long n): mstring(n) { }
-
     operator const char *() { return c_str(); }
-    const char *c_str() {
-        normalize();
-        return fRef ? data() : "";
-    }
-    void operator=(const cstring& s) {
-        mstring::operator=(s);
-    }
-    void operator=(const mstring& s) {
-        mstring::operator=(s);
-    }
-    void operator=(null_ref&) {
-        mstring::operator=(null);
-    }
-    void operator=(const char* s) {
-        mstring::operator=(s);
-    }
+    const char* c_str();
 };
 
-inline bool operator==(const char* s, cstring& c) { return c == s; }
-inline bool operator!=(const char* s, cstring& c) { return c != s; }
+inline bool operator==(const char* s, const mstring& c) { return c == s; }
+inline bool operator!=(const char* s, const mstring& c) { return c != s; }
 
 inline mstring operator+(const char* s, const mstring& m) {
     return mstring(s) + m;

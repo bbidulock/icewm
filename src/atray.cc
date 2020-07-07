@@ -47,7 +47,7 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     fRepainted = false;
     setParentRelative();
     setToolTip(frame->getTitle());
-    setTitle(cstring(frame->getTitle()));
+    setTitle(frame->getTitle());
     //setDND(true);
 }
 

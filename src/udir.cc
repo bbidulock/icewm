@@ -16,7 +16,7 @@ private:
 
 public:
     DirPtr(const char * path) : own(false), ptr(0), de(0) { open(path); }
-    DirPtr(const upath& path) : own(false), ptr(0), de(0) { open(path.string()); }
+    DirPtr(upath path) : own(false), ptr(0), de(0) { open(path.string()); }
     DirPtr(void *vp) : own(false), ptr(static_cast<DIR*>(vp)), de(0) { }
 
     ~DirPtr() { if (own) close(); }

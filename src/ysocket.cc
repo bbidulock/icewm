@@ -129,10 +129,6 @@ int YSocket::write(const char *buf, int len) {
     return -1;
 }
 
-int YSocket::write(cstring& str) {
-    return write(str, str.length());
-}
-
 void YSocket::shutdown() {
     if (fd() > 0)
         ::shutdown(fd(), SHUT_RDWR);

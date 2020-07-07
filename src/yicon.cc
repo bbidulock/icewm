@@ -85,7 +85,7 @@ static upath joinPath(const upath& dir, const upath& name) {
     return dir.relative(name);
 }
 
-static inline bool isIconFile(const upath& name) {
+static inline bool isIconFile(upath name) {
     bool exist = name.fileExists();
     return exist;
 }
@@ -93,8 +93,7 @@ static inline bool isIconFile(const upath& name) {
 upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     char iconName[1024];
     const size_t iconSize = sizeof iconName;
-    cstring cbase(base.string());
-    const char* cBaseStr = cbase.c_str();
+    const char* cBaseStr = base.string();
     static const char iconExts[][5] = {
             ".png",
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
@@ -109,7 +108,7 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
         return fullpath;
 
     bool hasImageExtension = false;
-    cstring cbaseExt(base.getExtension());
+    mstring cbaseExt(base.getExtension());
     if (cbaseExt.length() == 4) {
         for (int i = 0; i < numIconExts; ++i) {
             hasImageExtension |= (0 == strcmp(iconExts[i], cbaseExt));
@@ -188,7 +187,7 @@ upath YIcon::findIcon(unsigned size) {
         }
     }
 
-    MSG(("Icon \"%s\" not found.", fPath.string().c_str()));
+    MSG(("Icon \"%s\" not found.", fPath.string()));
 
     return null;
 }
@@ -205,9 +204,9 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             loadPath = findIcon(size);
         }
         if (loadPath != null) {
-            cstring cs(loadPath.path());
-            YTraceIcon trace(cs);
-            icon = YImage::load(cs.c_str());
+            const char* s(loadPath.string());
+            YTraceIcon trace(s);
+            icon = YImage::load(s);
         }
     }
 

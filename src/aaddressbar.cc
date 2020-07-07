@@ -67,8 +67,7 @@ bool AddressBar::appendCommand(const char* cmd, class YStringArray& args) {
 
 bool AddressBar::handleReturn(int mask) {
     const bool control(hasbit(mask, ControlMask));
-    const mstring line(getText());
-    cstring text(line);
+    mstring line(getText());
     YStringArray args;
 
     if (line.nonempty()) {
@@ -85,7 +84,7 @@ bool AddressBar::handleReturn(int mask) {
         args += "/bin/sh";
         args += "-c";
     }
-    args += text;
+    args += line;
     args += 0;
 
     if (line.isEmpty())

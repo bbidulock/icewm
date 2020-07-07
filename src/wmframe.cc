@@ -2108,7 +2108,7 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
     WindowOption wo(getWindowOption());
 
     if (wo.icon.nonempty()) {
-        ref<YIcon> icon = YIcon::getIcon(cstring(wo.icon));
+        ref<YIcon> icon = YIcon::getIcon(wo.icon);
         if (icon != null)
             fFrameIcon = icon;
     }

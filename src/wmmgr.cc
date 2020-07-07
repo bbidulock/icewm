@@ -926,10 +926,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
              xapp->getEventTime("focus1"), w));
     } else if (f && w == f->handle()) {
         MSG(("%lX Focus 0x%lX frame %s",
-             xapp->getEventTime("focus1"), w, cstring(f->getTitle()).c_str()));
+             xapp->getEventTime("focus1"), w, f->getTitle()).c_str());
     } else if (f && c && w == c->handle()) {
         MSG(("%lX Focus 0x%lX client %s",
-             xapp->getEventTime("focus1"), w, cstring(f->getTitle()).c_str()));
+             xapp->getEventTime("focus1"), w, f->getTitle()).c_str());
     } else {
         MSG(("%lX Focus 0x%lX",
              xapp->getEventTime("focus1"), w));
@@ -1831,10 +1831,10 @@ gotit:
             xapp->getEventTime(0), w);
     } else if (f && w == f->handle()) {
         msg("%lX Focus 0x%lX frame %s",
-            xapp->getEventTime(0), w, cstring(f->getTitle()).c_str());
+            xapp->getEventTime(0), w, f->getTitle().c_str());
     } else if (f && c && w == c->handle()) {
         msg("%lX Focus 0x%lX client %s",
-            xapp->getEventTime(0), w, cstring(f->getTitle()).c_str());
+            xapp->getEventTime(0), w, f->getTitle().c_str());
     } else {
         msg("%lX Focus 0x%lX",
             xapp->getEventTime(0), w);
@@ -2126,7 +2126,7 @@ void YWindowManager::updateWorkAreaInner() {
         }
 
         MSG(("workarea window %s: ws:%d s:%d x:%d y:%d w:%d h:%d",
-            cstring(w->getTitle()).c_str(), w->getWorkspace(), w->getScreen(),
+            w->getTitle().c_str(), w->getWorkspace(), w->getScreen(),
             w->x(), w->y(), w->width(), w->height()));
         if (w->haveStruts())
         {
@@ -3214,7 +3214,7 @@ void YWindowManager::setKeyboard(mstring keyboard) {
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
-            if (wordexp(cstring(keyboard), &exp, WRDE_NOCMD) == 0) {
+            if (wordexp(keyboard, &exp, WRDE_NOCMD) == 0) {
                 exp.we_wordv[0] = strdup(program);
                 wmapp->runProgram(program, exp.we_wordv);
                 wordfree(&exp);

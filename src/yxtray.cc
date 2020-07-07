@@ -56,7 +56,7 @@ static bool windowDestroyed(Window win) {
     return None == XGetWindowAttributes(xapp->display(), win, &attr);
 }
 
-static int getOrder(cstring title) {
+static int getOrder(mstring title) {
     WindowOption opt(title);
     if (hintOptions)
         hintOptions->mergeWindowOption(opt, title, true);
@@ -68,8 +68,8 @@ static int getOrder(cstring title) {
 struct DockRequest {
     Window window;
     lazy<YTimer> timer;
-    cstring title;
-    DockRequest(Window w, YTimer* t, cstring s):
+    mstring title;
+    DockRequest(Window w, YTimer* t, mstring s):
         window(w), timer(t), title(s)
     { }
 };
@@ -287,7 +287,7 @@ bool YXTrayProxy::enableBackingStore(Window win) {
 }
 
 bool YXTrayProxy::requestDock(Window win) {
-    cstring title(fetchTitle(win));
+    mstring title(fetchTitle(win));
     MSG(("systemTrayRequestDock 0x%lX, title \"%s\"", win, title.c_str()));
 
     if (title == null && (error_code == BadWindow || windowDestroyed(win))) {
@@ -416,7 +416,7 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, cstring title):
+YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, mstring title):
     YWindow(tray),
     fVisible(false),
     fTray(tray),
@@ -616,7 +616,7 @@ Window YXTray::getLeader(Window win) {
     return prop ? *prop : None;
 }
 
-bool YXTray::trayRequestDock(Window win, cstring title) {
+bool YXTray::trayRequestDock(Window win, mstring title) {
     if (trace())
         tlog("systray dock requested 0x%08lx \"%s\"", win, title.c_str());
 

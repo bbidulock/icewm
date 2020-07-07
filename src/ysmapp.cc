@@ -121,7 +121,7 @@ static void setSMProperties() {
     discardVal[1].length = strlen(rmarg);
     discardVal[1].value = (char *)rmarg;
     discardVal[2].length = sidfile.length();
-    discardVal[2].value = (char *)cstring(sidfile).c_str();
+    discardVal[2].value = (char *)sidfile.string();
 
     SmcSetProperties(SMconn,
                      (int) ACOUNT(props),

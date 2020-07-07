@@ -360,7 +360,7 @@ void YWMApp::initIconSize() {
 }
 
 static void initFontPath(IApp *app) {
-    if (themeName) { // =================== find the current theme directory ===
+    if (themeName) { // === find the current theme directory ===
         upath themesFile(themeName);
         upath themesDir = themesFile.parent();
         upath fonts_dirFile = themesDir.child("fonts.dir");
@@ -368,7 +368,7 @@ static void initFontPath(IApp *app) {
         upath fonts_dirDir(null);
 
         if (fonts_dirPath != null)
-            upath fonts_dirDir = fonts_dirPath.parent();
+            fonts_dirDir = fonts_dirPath.parent();
 
 #if 0
         char themeSubdir[PATH_MAX];
@@ -378,7 +378,7 @@ static void initFontPath(IApp *app) {
         char * strfn(strrchr(themeSubdir, '/'));
         if (strfn) *strfn = '\0';
 
-        // ================================ is there a file named fonts.dir? ===
+        // === is there a file named fonts.dir? ===
         upath fontsdir;
 
         if (*themeName == '/')
@@ -390,9 +390,9 @@ static void initFontPath(IApp *app) {
         }
 #endif
 
-        if (fonts_dirDir != null) { // =========================== build a new font path ===
-            cstring dir(fonts_dirDir.path());
-            const char *fontsdir = dir.c_str();
+        if (fonts_dirDir != null) { // === build a new font path ===
+            mstring direct(fonts_dirDir.path());
+            const char* fontsdir = direct.c_str();
 
 #ifdef CONFIG_XFREETYPE
             MSG(("font dir add %s", fontsdir));
@@ -400,10 +400,10 @@ static void initFontPath(IApp *app) {
 #endif
 #ifdef CONFIG_COREFONTS
 
-            int ndirs; // ------------------- retrieve the old X's font path ---
-            char ** fontPath(XGetFontPath(xapp->display(), &ndirs));
+            int ndirs; // --- retrieve the old X's font path ---
+            char** fontPath(XGetFontPath(xapp->display(), &ndirs));
 
-            char ** newFontPath = new char *[ndirs + 1];
+            char** newFontPath = new char *[ndirs + 1];
             newFontPath[ndirs] = (char *)fontsdir;
 
             if (fontPath)
@@ -416,7 +416,7 @@ static void initFontPath(IApp *app) {
                 MSG(("Font path element %d: %s", n, newFontPath[n]));
 #endif
 
-            char * icewmFontPath; // ---------- find death icewm's font path ---
+            char* icewmFontPath; // --- find death icewm's font path ---
             Atom r_type; int r_format;
             unsigned long count, bytes_remain;
 
@@ -429,7 +429,7 @@ static void initFontPath(IApp *app) {
                                    (unsigned char **) &icewmFontPath) ==
                 Success && icewmFontPath) {
                 if (r_type == XA_STRING && r_format == 8) {
-                    for (int n(ndirs - 1); n > 0; --n) // ---- remove death paths ---
+                    for (int n(ndirs - 1); n > 0; --n) // --- remove death paths ---
                         if (!strcmp(icewmFontPath, newFontPath[n])) {
                             memmove(newFontPath + n, newFontPath + n + 1,
                                     (ndirs - n) * sizeof(char *));
@@ -445,7 +445,7 @@ static void initFontPath(IApp *app) {
             for (int n = 0; n < ndirs + 1; ++n)
                 MSG(("Font path element %d: %s", n, newFontPath[n]));
 #endif
-            // ----------------------------------------- set the new font path ---
+            // --- set the new font path ---
             XChangeProperty(xapp->display(), manager->handle(),
                             _XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
                             (unsigned char *) fontsdir, strlen(fontsdir));
@@ -692,10 +692,10 @@ int YWMApp::handleError(XErrorEvent *xev) {
 #ifdef DEBUG
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
     YFrameWindow *p = manager->top(w->getActiveLayer());
-    msg("---- %s ", oper);
+    msg("--- %s ", oper);
     while (p) {
         if (p && p->client()) {
-            cstring cs(p->client()->windowTitle());
+            mstring cs(p->client()->windowTitle());
             msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
         } else
             msg("?? 0x%lX", p->handle());
@@ -763,7 +763,7 @@ void YWMApp::restartClient(const char *cpath, char *const *cargs) {
 }
 
 int YWMApp::runProgram(const char *path, const char *const *args) {
-    cstring command;
+    mstring command;
     YTraceProg trace;
     if (trace.tracing()) {
         command = path;
@@ -1148,7 +1148,7 @@ void YWMApp::loadFocusMode() {
             }
         }
         else {
-            cstring mode(mstring(focusMode).lower());
+            mstring mode(mstring(focusMode).lower());
             for (int i = 0; i < int ACOUNT(models); ++i) {
                 if (mode == models[i].str) {
                     this->focusMode = models[i].num;
@@ -1618,7 +1618,7 @@ static void print_themes_list() {
             if (thmp.dirExists()) {
                 for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {
                     upath theme(thmdir.path() + thmdir.entry());
-                    puts(cstring(theme));
+                    puts(theme.string());
                 }
             }
         }
@@ -1631,8 +1631,9 @@ static void print_confdir(const char *name, const char *path) {
 }
 
 static void print_directories(const char *argv0) {
+    upath priv(YApplication::getPrivConfDir());
     printf(_("%s configuration directories:\n"), argv0);
-    print_confdir("PrivConfDir", YApplication::getPrivConfDir().string());
+    print_confdir("PrivConfDir", priv.string());
     print_confdir("CFGDIR", CFGDIR);
     print_confdir("LIBDIR", LIBDIR);
     print_confdir("LOCDIR", LOCDIR);

@@ -22,12 +22,12 @@ public:
     void operator=(mstring url);
     static mstring unescape(mstring str);
 
-    cstring scheme;
-    cstring user;
-    cstring pass;
-    cstring host;
-    cstring port;
-    cstring path;
+    mstring scheme;
+    mstring user;
+    mstring pass;
+    mstring host;
+    mstring port;
+    mstring path;
 };
 
 #endif

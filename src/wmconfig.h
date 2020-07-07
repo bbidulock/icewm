@@ -10,7 +10,7 @@ public:
     static void loadConfiguration(IApp *app, const char *fileName);
     static bool loadThemeConfiguration(IApp *app, const char *themeName);
     static void freeConfiguration();
-    static void setDefault(const char *basename, cstring config);
+    static void setDefault(const char *basename, mstring config);
     static void setDefaultFocus(long focusMode);
     static void setDefaultTheme(mstring themeName);
     static void printPrefs(long focus, cfoption* startup);

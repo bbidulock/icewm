@@ -105,13 +105,12 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(const mstring &title) {
-    cstring cs(title);
-    setWindowTitle(cs.c_str());
+void YMsgBox::setTitle(mstring title) {
+    setWindowTitle(title);
     autoSize();
 }
 
-void YMsgBox::setText(const mstring &text) {
+void YMsgBox::setText(mstring text) {
     if (fLabel) {
         fLabel->setText(text);
         fLabel->show();

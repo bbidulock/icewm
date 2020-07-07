@@ -237,9 +237,9 @@ char **YStringArray::release() {
 
 static int mstring_compare(const void *p1, const void *p2)
 {
-    const mstring *s1 = (const mstring *) p1;
-    const mstring *s2 = (const mstring *) p2;
-    return s1->collate(*s2);
+    const mstring* s1 = static_cast<const mstring*>(p1);
+    const mstring* s2 = static_cast<const mstring*>(p2);
+    return const_cast<mstring*>(s1)->collate(*const_cast<mstring*>(s2));
 }
 
 void MStringArray::sort() {

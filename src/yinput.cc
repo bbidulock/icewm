@@ -683,7 +683,7 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 
 void YInputLine::complete() {
     char* res = 0;
-    int res_count = globit_best(cstring(fText), &res, 0, 0);
+    int res_count = globit_best(fText, &res, 0, 0);
     // directory is not a final match
     if(res_count == 1 && upath(res).dirExists())
         res_count++;

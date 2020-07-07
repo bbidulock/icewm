@@ -120,7 +120,7 @@ void YURL::operator=(mstring url) {
         "(/.*)?"
         "$";
 
-    cstring str(url);
+    mstring str(url);
     Matches mat(str, Count);
     Pattern rex(re);
 

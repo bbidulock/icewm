@@ -15,7 +15,7 @@
 #define MAX_ACPI_BATTERY_NUM 3
 
 struct Battery {
-    cstring name;
+    mstring name;
     bool present;
     int capacity_full;
 

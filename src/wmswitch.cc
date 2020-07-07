@@ -605,7 +605,7 @@ void SwitchWindow::paintVertical(Graphics &g) {
 
             if (cTitle != null) {
                 const int titleY = contentY + (iconSize + g.font()->ascent())/2;
-                g.drawStringEllipsis(titleX, titleY, cstring(cTitle).c_str(), strWid);
+                g.drawStringEllipsis(titleX, titleY, cTitle.c_str(), strWid);
             }
             ref<YIcon> icon = zItems->getIcon(i);
             if (icon != null) {

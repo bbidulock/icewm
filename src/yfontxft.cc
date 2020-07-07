@@ -40,7 +40,7 @@ public:
     virtual bool valid() const { return (fFontCount > 0); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
-    virtual int textWidth(const mstring &s) const;
+    virtual int textWidth(mstring s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual int textWidth(string_t const & str) const;
@@ -143,11 +143,10 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
         //while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
         //endptr[1] = '\0';
 
-        cstring cs(fname);
         if (use_xlfd) {
-            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), cs.c_str());
+            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
         } else {
-            font = XftFontOpenName(xapp->display(), xapp->screen(), cs.c_str());
+            font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
         }
 
         if (NULL != font) {
@@ -155,13 +154,13 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
             fDescent = max(fDescent, (unsigned) max(0, font->descent));
             ++fptr;
         } else {
-            warn(_("Could not load font \"%s\"."), cs.c_str());
+            warn(_("Could not load font \"%s\"."), fname.c_str());
             --fFontCount;
         }
     }
 
     if (0 == fFontCount) {
-        msg("xft: fallback from '%s'", cstring(name).c_str());
+        msg("xft: fallback from '%s'", name.c_str());
         XftFont *sans =
             XftFontOpen(xapp->display(), xapp->screen(),
                         XFT_FAMILY, XftTypeString, "sans-serif",
@@ -191,9 +190,8 @@ YXftFont::~YXftFont() {
     delete[] fFonts;
 }
 
-int YXftFont::textWidth(const mstring &s) const {
-    cstring cs(s);
-    return textWidth(cs.c_str(), cs.length());
+int YXftFont::textWidth(mstring s) const {
+    return textWidth(s.c_str(), s.length());
 }
 
 int YXftFont::textWidth(string_t const & text) const {
@@ -323,7 +321,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 ref<YFont> getXftFontXlfd(mstring name, bool antialias) {
     ref<YFont> font(new YXftFont(name, true, antialias));
     if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", cstring(name).c_str());
+        msg("failed to load font '%s', trying fallback", name.c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid()) {
             msg("Could not load fallback Xft font.");
@@ -336,7 +334,7 @@ ref<YFont> getXftFontXlfd(mstring name, bool antialias) {
 ref<YFont> getXftFont(mstring name, bool antialias) {
     ref<YFont>font(new YXftFont(name, false, antialias));
     if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", cstring(name).c_str());
+        msg("failed to load font '%s', trying fallback", name.c_str());
         font.init(new YXftFont("sans-serif:size=12", false, antialias));
         if (font == null || !font->valid()) {
             msg("Could not load fallback Xft font.");

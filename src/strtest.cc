@@ -13,22 +13,22 @@
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
 
-#define equal(p, s)     (0 == strcmp(cstring(p), cstring(s)))
+#define equal(p, s)     (mstring(p) == mstring(s))
 
 #define expect(u, s)    if (++testsrun, (u) == mstring(s) && equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
 
 // XXX: those argument ordering and purpose := strange.
 // Also name collision with regular assert macro.
 
 #define assert(u, b)    if (++testsrun, (b)) ++passed; else \
-        test_failed(cstring(u), #b, __LINE__)
+        test_failed(mstring(u), #b, __LINE__)
 
 #define ispath(u, s)    if (++testsrun, (u) == upath(s) && equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
 
 #define sequal(u, s)    if (++testsrun, equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
 
 #define ASSERT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
 		else { test_failed(#l, #r, __LINE__); return; }
@@ -58,7 +58,7 @@ public:
     }
 };
 
-static void test_failed(cstring u, const char *s, int l)
+static void test_failed(mstring u, const char *s, int l)
 {
     printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
             prog, source, l,
@@ -68,7 +68,7 @@ static void test_failed(cstring u, const char *s, int l)
     ++total_failed;
 }
 
-static void test_failed(cstring u, cstring s, int l)
+static void test_failed(mstring u, mstring s, int l)
 {
     return test_failed(u, s == null ? "NULL" : s.c_str(), l);
 }
@@ -222,7 +222,7 @@ static void test_mstring()
     expect(u, "");
     u = mstring(nullptr) + "aha";
     expect(u, "aha");
-    u = mstring("aha") + NULL;
+    u = mstring("aha") + nullptr;
     expect(u, "aha");
 
     u = mstring("ab", "cd");
@@ -519,7 +519,7 @@ static void test_sdir()
         assert(s.path(), s.isOpen());
         char buf[300] = "";
         while (s.next()) {
-            cstring c(s.entry());
+            mstring c(s.entry());
             const char *e = c.c_str();
             assert(e, strcoll(buf, e) < 0);
             strlcpy(buf, e, sizeof buf);

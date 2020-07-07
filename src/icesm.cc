@@ -599,7 +599,7 @@ private:
     int sound_pid;
     int rescue_pid;
     timeval crashtime;
-    cstring wmoptions;
+    mstring wmoptions;
 };
 
 void SessionManager::rescueFocus() {

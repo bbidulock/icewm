@@ -23,7 +23,7 @@ ref<YFont> YFont::getFont(mstring name, mstring xftFont, bool antialias) {
             ret = getXftFontXlfd(name, antialias);
     }
     if (ret == null)
-        ret = getCoreFont(cstring(name));
+        ret = getCoreFont(name);
 
 #elif defined(CONFIG_XFREETYPE)
     if (xftFont.nonempty())
@@ -32,7 +32,7 @@ ref<YFont> YFont::getFont(mstring name, mstring xftFont, bool antialias) {
         ret = getXftFontXlfd(name, antialias);
 
 #elif defined(CONFIG_COREFONTS)
-    ret = getCoreFont(cstring(name));
+    ret = getCoreFont(name);
 
 #else
     (void) antialias;
@@ -85,11 +85,6 @@ YDimension YFont::multilineAlloc(const char *str) const {
     alloc.w = max(alloc.w, tab ? tabPos + textWidth(tab + 1) : textWidth(str));
 
     return alloc;
-}
-
-YDimension YFont::multilineAlloc(const mstring &str) const {
-    cstring cs(str);
-    return multilineAlloc(cs.c_str());
 }
 
 // vim: set sw=4 ts=4 et:

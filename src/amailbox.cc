@@ -61,7 +61,7 @@ MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     else if (fURL.scheme != null)
         warn(_("Invalid mailbox protocol: \"%s\""), fURL.scheme.c_str());
     else
-        warn(_("Invalid mailbox path: \"%s\""), cstring(url).c_str());
+        warn(_("Invalid mailbox path: \"%s\""), url.c_str());
 
     if (net()) {
         resolve();
@@ -127,7 +127,7 @@ void MailCheck::resolve() {
             hints.ai_family = AF_INET6;
             hints.ai_flags |= AI_NUMERICHOST;
         }
-        int rc = getaddrinfo(fURL.host, cstring(fPort), &hints, &fAddr);
+        int rc = getaddrinfo(fURL.host, mstring(fPort), &hints, &fAddr);
         if (rc) {
             snprintf(bf, sizeof bf,
                      _("DNS name lookup failed for %s"),
@@ -267,11 +267,11 @@ void MailCheck::startCheck() {
         }
         else if (S_ISDIR(st.st_mode)) {
             fLastUnseen = 0;
-            cdir dir(cstring(upath(fURL.path).child("new")));
+            cdir dir(upath(fURL.path).child("new").string());
             while (dir.next())
                 fLastUnseen++;
             fLastCount = fLastUnseen;
-            dir.open(cstring(upath(fURL.path).child("cur")));
+            dir.open(upath(fURL.path).child("cur").string());
             while (dir.next())
                 fLastCount++;
             if (fLastCount < 1)
@@ -343,7 +343,7 @@ void MailCheck::startSSL() {
                 close(other);
             dup2(open("/dev/null", O_WRONLY), 2);
 
-            cstring hostnamePort(mstring(fURL.host, ":", cstring(fPort)));
+            mstring hostnamePort(mstring(fURL.host, ":", mstring(fPort)));
             const char* args[] = {
                 file, "s_client", "-quiet", "-no_ign_eof",
                 "-connect", hostnamePort, 0
@@ -399,7 +399,7 @@ void MailCheck::error(mstring str) {
     fMbx->mailChecked(MailBoxStatus::mbxError, -1, -1);
 }
 
-cstring MailCheck::inbox() {
+mstring MailCheck::inbox() {
    return fURL.path == null || fURL.path == "/" ? "INBOX" : fURL.path + 1;
 }
 
@@ -440,7 +440,7 @@ int MailCheck::write(const char *buf, int len) {
     return n;
 }
 
-int MailCheck::write(cstring str) {
+int MailCheck::write(mstring str) {
     return write(str, str.length());
 }
 
@@ -679,7 +679,7 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     setSize(16, 16);
     setTitle("MailBox");
     if (mailbox != null) {
-        MSG((_("Using MailBox \"%s\"\n"), cstring(mailbox).c_str()));
+        MSG((_("Using MailBox \"%s\"\n"), mailbox.c_str()));
         checkMail();
         if (mailCheckDelay > 0) {
             // caution creating too many openssl processes hogging the cpu
@@ -805,7 +805,7 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
 }
 
 void MailBoxStatus::updateToolTip() {
-    cstring header(check.url().host.length()
+    mstring header(check.url().host.length()
                    ? check.url().user + "@" + check.url().host + "\n"
                    : check.url().path + "\n");
     if (suspended())
@@ -841,10 +841,10 @@ void MailBoxStatus::newMailArrived(long count, long unread) {
         xapp->alert();
     if (nonempty(newMailCommand)) {
         const int size = 3;
-        struct { const char* name; cstring value; } envs[size] = {
-            { "ICEWM_MAILBOX", cstring(check.inst()), },
-            { "ICEWM_COUNT",   cstring(count), },
-            { "ICEWM_UNREAD",  cstring(unread), },
+        struct { const char* name; mstring value; } envs[size] = {
+            { "ICEWM_MAILBOX", mstring(check.inst()), },
+            { "ICEWM_COUNT",   mstring(count), },
+            { "ICEWM_UNREAD",  mstring(unread), },
         };
         for (int i = 0; i < size; ++i)
             setenv(envs[i].name, envs[i].value, True);

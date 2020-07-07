@@ -142,7 +142,7 @@ public:
 
     void alert();
 
-    void setClipboardText(cstring data);
+    void setClipboardText(mstring data);
     void dropClipboard();
 
     static YCursor leftPointer;

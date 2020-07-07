@@ -210,7 +210,7 @@ int xeventcount = 0;
 
 class YClipboard: public YWindow {
 public:
-    void setData(cstring data) {
+    void setData(mstring data) {
         fData = data;
         if (length() == 0)
             clearSelection(false);
@@ -279,7 +279,7 @@ public:
     }
 
 private:
-    cstring fData;
+    mstring fData;
 };
 
 YAtomName YXApplication::atom_info[] = {
@@ -1003,7 +1003,7 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(cstring data) {
+void YXApplication::setClipboardText(mstring data) {
     fClip->setData(data);
 }
 

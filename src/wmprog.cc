@@ -139,10 +139,10 @@ DProgram *DProgram::newProgram(
     YStringArray &args)
 {
     if (exe != null) {
-        MSG(("LOOKING FOR: %s\n", exe.string().c_str()));
+        MSG(("LOOKING FOR: %s\n", exe.string()));
         upath fullname = findPath(getenv("PATH"), X_OK, exe);
         if (fullname == null) {
-            MSG(("Program %s (%s) not found.", name, exe.string().c_str()));
+            MSG(("Program %s (%s) not found.", name, exe.string()));
             return 0;
         }
 
@@ -684,21 +684,21 @@ public:
         return res ? res : newstr("\n");
     }
 
-    static void writePrefs(const upath dest, const char* text, size_t tlen) {
-        const upath temp(dest.path() + ".tmp");
+    static void writePrefs(upath dest, const char* text, size_t tlen) {
+        upath temp(dest.path() + ".tmp");
         int fd = temp.open(O_CREAT | O_WRONLY | O_TRUNC, 0600);
         if (fd == -1) {
-            fail(_("Unable to write to %s"), temp.string().c_str());
+            fail(_("Unable to write to %s"), temp.string());
         } else {
             ssize_t w = write(fd, text, tlen);
             if (size_t(w) != tlen)
-                fail(_("Unable to write to %s"), temp.string().c_str());
+                fail(_("Unable to write to %s"), temp.string());
             close(fd);
             if (size_t(w) == tlen) {
                 if (temp.renameAs(dest))
                     fail(_("Unable to rename %s to %s"),
-                         temp.string().c_str(),
-                         dest.string().c_str());
+                         temp.string(),
+                         dest.string());
                 else
                     mods.clear();
             }

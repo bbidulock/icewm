@@ -220,7 +220,7 @@ public:
         rel = 8,
         maxattr = rel
     } atype;
-    cstring value;
+    mstring value;
     attr *next;
     attr() : atype(noattr), value(null), next(0) {}
     attr(attr_type t, const mstring& s) : atype(t), value(s), next(0) {}
@@ -824,24 +824,24 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
 
 class History {
 private:
-    YObjectArray<cstring> array;
+    MStringArray array;
     int where;
 public:
     History() : where(-1) { }
     bool empty() const { return array.isEmpty(); }
     int size() const { return array.getCount(); }
-    const char* get(int i) const { return *array[i]; }
+    const char* get(int i) const { return array[i]; }
     void push(const mstring& s) {
         if (where == -1 || (s.nonempty() && s != get(where))) {
             for (int k = size() - 1; k > where; --k) {
                 array.remove(k);
             }
-            array.insert(++where, new cstring(s));
+            array.insert(++where, s);
         }
     }
-    cstring& current() {
-        if (empty()) array.insert(++where, new cstring());
-        return *array[where];
+    mstring& current() {
+        if (empty()) array.insert(++where, null);
+        return array[where];
     }
     bool hasLeft() const { return where > 0; }
     bool left() {
@@ -943,7 +943,7 @@ FontRef FontTable::get(int size, int flags) {
 
 class HTListener {
 public:
-    virtual void activateURL(cstring url, bool relative = false) = 0;
+    virtual void activateURL(mstring url, bool relative = false) = 0;
     virtual void handleClose() = 0;
 protected:
     virtual ~HTListener() {}
@@ -1170,9 +1170,9 @@ private:
     ActionItem actionLink[10];
     HTListener *listener;
 
-    cstring prevURL;
-    cstring nextURL;
-    cstring contentsURL;
+    mstring prevURL;
+    mstring nextURL;
+    mstring contentsURL;
     History history;
 
     void flagFont(int n) {
@@ -1816,7 +1816,7 @@ public:
         delete scroll;
     }
 
-    void activateURL(cstring url, bool relative = false);
+    void activateURL(mstring url, bool relative = false);
 
     virtual void configure(const YRect &r) {
         YWindow::configure(r);
@@ -1830,9 +1830,9 @@ public:
     }
 
 private:
-    bool loadFile(const upath& path);
-    bool loadHttp(const upath& path);
-    void invalidPath(const upath& path, const char *reason);
+    bool loadFile(upath path);
+    bool loadHttp(upath path);
+    void invalidPath(upath path, const char *reason);
 
     upath fPath;
     YApplication *app;
@@ -1899,7 +1899,7 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
                      &size, &wmhints, &klas);
 }
 
-void FileView::activateURL(cstring url, bool relative) {
+void FileView::activateURL(mstring url, bool relative) {
     if (verbose) {
         tlog("activateURL('%s', %s)", url.c_str(),
                 relative ? "relative" : "not-relative");
@@ -1913,7 +1913,7 @@ void FileView::activateURL(cstring url, bool relative) {
      */
 
     mstring path, frag;
-    if (url.m_str().splitall('#', &path, &frag) == false ||
+    if (url.splitall('#', &path, &frag) == false ||
         path.length() + frag.length() == 0) {
         return; // empty
     }
@@ -1962,7 +1962,7 @@ void FileView::activateURL(cstring url, bool relative) {
     }
     if (frag.length() > 0 && view->contentHeight() > view->height()) {
         // search
-        view->find_fragment(cstring(frag));
+        view->find_fragment(frag);
     }
     view->repaint();
     if (frag.length() > 0) {
@@ -1972,12 +1972,12 @@ void FileView::activateURL(cstring url, bool relative) {
         path = fPath.path() + path;
     }
     view->addHistory(path);
-    setTitle(cstring(path + " -- IceHelp"));
+    setTitle(path + " -- IceHelp");
     fPath = path;
 }
 
-void FileView::invalidPath(const upath& path, const char *reason) {
-    const char *cstr = cstring(path);
+void FileView::invalidPath(upath path, const char *reason) {
+    const char *cstr = path.string();
     const char *cfmt = _("Invalid path: %s\n");
     const char *crea = reason;
     tlog(cfmt, cstr);
@@ -1999,12 +1999,12 @@ void FileView::invalidPath(const upath& path, const char *reason) {
     view->setData(root);
 }
 
-bool FileView::loadFile(const upath& path) {
+bool FileView::loadFile(upath path) {
     if (path.fileExists() == false) {
         invalidPath(path, _("Path does not refer to a file."));
         return false;
     }
-    FILE *fp = fopen(cstring(path), "r");
+    FILE *fp = fopen(path.string(), "r");
     if (fp == 0) {
         invalidPath(path, _("Failed to open file for reading."));
         return false;
@@ -2024,7 +2024,7 @@ private:
     FILE *fp;
     cbuffer cbuf;
     bool init(const char *tdir) {
-        cbuf = cstring(upath(tdir) + "iceXXXXXX");
+        cbuf = (upath(tdir) + "iceXXXXXX").string();
         int fd = mkstemp(cbuf.peek());
         if (fd >= 0) fp = fdopen(fd, "w+b");
         return fp;
@@ -2123,8 +2123,8 @@ public:
         char b[3];
         return read_fd(fd, b, 3) >= 2 && b[0] == '\x1F' && b[1] == '\x8B';
     }
-    static bool command(const mstring& mcmd) {
-        const char *cmd = cstring(mcmd);
+    static bool command(mstring mcmd) {
+        const char *cmd = mcmd;
         int xit = ::system(cmd);
         if (xit) {
             tlog(_("Failed to execute system(%s) (%d)"), cmd, xit);
@@ -2155,13 +2155,13 @@ public:
     }
 };
 
-bool FileView::loadHttp(const upath& path) {
+bool FileView::loadHttp(upath path) {
     downloader loader;
     if (!loader) {
         invalidPath(path, _("Could not locate curl or wget in PATH"));
         return false;
     }
-    if (!loader.is_safe(cstring(path))) {
+    if (!loader.is_safe(path.string())) {
         invalidPath(path, _("Unsafe characters in URL"));
         return false;
     }
@@ -2169,7 +2169,7 @@ bool FileView::loadHttp(const upath& path) {
     if (!temp) {
         return false;
     }
-    if (loader.downloadTo(cstring(path), temp)) {
+    if (loader.downloadTo(path.string(), temp)) {
         return loadFile(temp.path());
     }
     return false;

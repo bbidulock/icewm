@@ -502,7 +502,7 @@ const upath& YApplication::getPrivConfDir() {
                     dir.mkdir();
             }
         }
-        MSG(("using %s for private configuration files", cstring(dir).c_str()));
+        MSG(("using %s for private configuration files", dir.string()));
     }
     return dir;
 }

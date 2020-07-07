@@ -174,7 +174,7 @@ bool WorkspaceButton::handleTimer(YTimer *t) {
 
 void WorkspaceButton::inputReturn(YInputLine* input) {
     if (input == fInput) {
-        cstring text(input->getText());
+        mstring text(input->getText());
         if (text != name()) {
             csmart str(newstr(text));
             swap(*&str, *workspaces[fWorkspace]);
@@ -439,7 +439,7 @@ ref<YImage> WorkspaceIcons::load(const char* name) {
             }
         }
     }
-    cstring trim(mstring(name).trim());
+    mstring trim(mstring(name).trim());
     return (trim.length() && trim != name) ? load(trim) : null;
 }
 
@@ -685,7 +685,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             snprintf(label, sizeof label, "%d", int(fWorkspace+1) % 100);
         }
         else if (pagerShowLabels) {
-            strlcpy(label, cstring(baseName()), min(5, int(sizeof label)));
+            strlcpy(label, baseName(), min(5, int(sizeof label)));
         }
         if (label[0] != 0) {
             ref<YFont> font = getFont();

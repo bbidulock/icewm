@@ -71,7 +71,7 @@ static mstring guessIconNameFromExe(const char* exe)
         fullname = findPath(getenv("PATH"), X_OK, fullname);
         if (fullname == null)
             return "-";
-        ssize_t linkLen = readlink(fullname.string().c_str(), buf, ACOUNT(buf));
+        ssize_t linkLen = readlink(fullname.string(), buf, ACOUNT(buf));
         if (linkLen < 0)
             break;
         fullname = upath(buf, linkLen);
@@ -166,7 +166,7 @@ char* MenuLoader::parseProgram(char *word, char *p, ObjectContainer *container)
     {
         mstring iconName = guessIconNameFromExe(command);
         if (iconName.charAt(0) != '-')
-            icon = YIcon::getIcon(cstring(iconName));
+            icon = YIcon::getIcon(iconName);
 
     }
     else if (icons[0] != '-')
@@ -452,7 +452,7 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
     if (menufile.isEmpty())
         return;
 
-    MSG(("menufile: %s", menufile.string().c_str()));
+    MSG(("menufile: %s", menufile.string()));
     YTraceConfig trace(menufile.string());
     char *buf = menufile.loadText();
     if (buf) {

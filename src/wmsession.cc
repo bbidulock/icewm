@@ -106,7 +106,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
                     instance.equals(window->key.windowInstance))
                 {
                     MSG(("got c %s %s %s %d:%d:%d:%d %d %ld %d",
-                         cstring(cid).c_str(), cstring(klass).c_str(), cstring(instance).c_str(),
+                         cid.c_str(), klass.c_str(), instance.c_str(),
                          window->x, window->y, window->width, window->height,
                          window->workspace, window->state, window->layer));
                     f->configureClient(window->x, window->y,
@@ -286,8 +286,8 @@ void YWMApp::smSaveYourselfPhase2() {
                 if (role != null) {
                     fprintf(fp, "r ");
                     //%s %s ", cid, role);
-                    wr_str(fp, cstring(cid).c_str());
-                    wr_str(fp, cstring(role).c_str());
+                    wr_str(fp, cid.c_str());
+                    wr_str(fp, role.c_str());
                 } else {
                     f->client()->getClassHint();
                     char *klass = 0;
@@ -302,9 +302,9 @@ void YWMApp::smSaveYourselfPhase2() {
                         //msg("k=%s, i=%s", klass, instance);
                         fprintf(fp, "c ");
                         //%s %s %s ", cid, klass, instance);
-                        wr_str(fp, cstring(cid).c_str());
-                        wr_str(fp, cstring(klass).c_str());
-                        wr_str(fp, cstring(instance).c_str());
+                        wr_str(fp, cid.c_str());
+                        wr_str(fp, klass);
+                        wr_str(fp, instance);
                     } else {
                         continue;
                     }

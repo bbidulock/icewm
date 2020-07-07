@@ -1,5 +1,5 @@
-#ifndef __UPATH_H
-#define __UPATH_H
+#ifndef UPATH_H
+#define UPATH_H
 
 #include "mstring.h"
 #ifndef BUFSIZ
@@ -12,7 +12,6 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const mstring& path): fPath(path) {}
-    upath(cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
@@ -30,29 +29,29 @@ public:
     mstring getExtension() const;
     upath removeExtension() const;
     upath replaceExtension(const char *ext) const;
-    cstring expand() const;
+    mstring expand() const;
 
-    bool fileExists() const;
-    bool dirExists() const;
+    bool fileExists();
+    bool dirExists();
     bool isAbsolute() const;
     bool isRelative() const;
-    bool isReadable() const;
-    bool isWritable() const;
-    bool isExecutable() const;
+    bool isReadable();
+    bool isWritable();
+    bool isExecutable();
     bool isHttp() const;
     bool hasProtocol() const;
-    int access(int mode = 0) const;
-    int mkdir(int mode = 0700) const;
-    int open(int flags, int mode = 0666) const;
-    FILE* fopen(const char *mode) const;
-    int stat(struct stat *st) const;
-    int remove() const;
-    int renameAs(const mstring& dest) const;
-    off_t fileSize() const;
-    char* loadText() const;
-    bool copyFrom(const upath& from, int mode = 0666) const;
-    bool testWritable(int mode = 0666) const;
-    int fnMatch(const char* pattern, int flags = 0) const;
+    int access(int mode = 0);
+    int mkdir(int mode = 0700);
+    int open(int flags, int mode = 0666);
+    FILE* fopen(const char *mode);
+    int stat(struct stat *st);
+    int remove();
+    int renameAs(mstring dest);
+    off_t fileSize();
+    char* loadText();
+    bool copyFrom(upath from, int mode = 0666);
+    bool testWritable(int mode = 0666);
+    int fnMatch(const char* pattern, int flags = 0);
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -75,17 +74,17 @@ public:
 
     const mstring& path() const { return fPath; }
     operator const mstring&() const { return path(); }
-    cstring string() const { return cstring(path()); }
+    const char* string() { return fPath; }
 
     static const mstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
 
-    static bool hasglob(const char* pattern);
-    static bool glob(const char* pat, YStringArray& list, const char* opt = 0);
+    static bool hasglob(mstring pattern);
+    static bool glob(mstring pat, YStringArray& list, const char* opt = 0);
 
-    bool hasglob() const { return hasglob(string()); }
+    bool hasglob() const { return hasglob(path()); }
     bool glob(YStringArray& list, const char* opt = 0) const {
-        return glob(string(), list, opt);
+        return glob(path(), list, opt);
     }
 
 private:

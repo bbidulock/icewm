@@ -71,7 +71,7 @@ public:
             image = YPixmap::load(path);
         }
         if (image == null) {
-            tlog(_("Failed to load image '%s'."), cstring(name).c_str());
+            tlog(_("Failed to load image '%s'."), name.c_str());
         }
         return image;
     }
@@ -214,7 +214,7 @@ private:
     ref<YPixmap> currentBackgroundPixmap;
     ref<YPixmap> currentTransparencyPixmap;
     YColor currentBackgroundColor;
-    cstring pixmapName;
+    mstring pixmapName;
     YArray<int> sequence;
     lazy<YTimer> cycleTimer;
 
@@ -974,7 +974,7 @@ static void bgParse(const char* name, const char* value) {
     for (int i = 0; str.splitall(',', &opt, &str); ++i) {
         if (i + 1 < ICEBG_MAX_ARGS) {
             if ((opt = opt.trim()).nonempty()) {
-                globalBg->add(name, cstring(opt), 0 < i);
+                globalBg->add(name, opt, 0 < i);
             }
         }
     }

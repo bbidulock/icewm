@@ -741,7 +741,7 @@ void YFrameClient::setWindowTitle(const char *title) {
     if (title == 0 || fWindowTitle == null || !fWindowTitle.equals(title)) {
         fWindowTitle = mstring(title);
         if (title != 0) {
-            cstring cs(fWindowTitle);
+            mstring cs(fWindowTitle);
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
@@ -759,7 +759,7 @@ void YFrameClient::setIconTitle(const char *title) {
     if (title == 0 || fIconTitle == null || !fIconTitle.equals(title)) {
         fIconTitle = mstring(title);
         if (title != 0) {
-            cstring cs(fIconTitle);
+            mstring cs(fIconTitle);
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
@@ -1682,7 +1682,7 @@ bool ClassHint::match(const char* resource) const {
 
 char* ClassHint::resource() const {
     mstring str(res_name, ".", res_class);
-    return str == "." ? nullptr : strdup(cstring(str));
+    return str == "." ? nullptr : strdup(str);
 }
 
 // vim: set sw=4 ts=4 et:

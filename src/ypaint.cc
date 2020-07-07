@@ -271,10 +271,9 @@ void Graphics::drawArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 /******************************************************************************/
 
-void Graphics::drawChars(const mstring &s, int x, int y) {
+void Graphics::drawChars(mstring s, int x, int y) {
     if (fFont != null && s != null) {
-        cstring cs(s);
-        fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.length());
+        fFont->drawGlyphs(*this, x, y, s.c_str(), s.length());
     }
 }
 
@@ -354,11 +353,6 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     }
 }
 
-void Graphics::drawStringEllipsis(int x, int y, const mstring &str, int maxWidth) {
-    cstring cs(str);
-    return drawStringEllipsis(x, y, cs.c_str(), maxWidth);
-}
-
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 /// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
     int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
@@ -403,11 +397,6 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
         drawLine(x + left, y + 2, x + right, y + 2);
 }
 
-void Graphics::drawCharUnderline(int x, int y, const mstring &str, int charPos) {
-    cstring cs(str);
-    return drawCharUnderline(x, y, cs.c_str(), charPos);
-}
-
 void Graphics::drawStringMultiline(int x, int y, const char *str) {
     unsigned const tx(x + fFont->multilineTabPos(str));
 
@@ -434,11 +423,6 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     }
     else
         drawChars(str, 0, int(strlen(str)), x, y);
-}
-
-void Graphics::drawStringMultiline(int x, int y, const mstring &str) {
-    cstring cs(str);
-    return drawStringMultiline(x, y, cs.c_str());
 }
 
 /******************************************************************************/

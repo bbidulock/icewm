@@ -22,7 +22,7 @@ protected:
 
 class YXTrayEmbedder: public YWindow, public YXEmbed {
 public:
-    YXTrayEmbedder(YXTray *tray, Window win, Window leader, cstring title);
+    YXTrayEmbedder(YXTray *tray, Window win, Window leader, mstring title);
     ~YXTrayEmbedder();
     virtual void paint(Graphics &g, const YRect &r);
     virtual void repaint();
@@ -41,7 +41,7 @@ public:
     Window client_handle() const { return fClient->handle(); }
     YXEmbedClient *client() const { return fClient; }
     Window leader() const { return fLeader; }
-    cstring title() const { return fTitle; }
+    mstring title() const { return fTitle; }
     int order() const { return fOrder; }
     bool trace() const;
 
@@ -56,7 +56,7 @@ private:
     YXTray *const fTray;
     YXEmbedClient *const fClient;
     const Window fLeader;
-    cstring fTitle;
+    mstring fTitle;
     Damage fDamage;
     bool fComposing;
     const int fOrder;
@@ -87,7 +87,7 @@ public:
     void relayout(bool enforce = false);
     int countClients() const { return fDocked.getCount(); }
 
-    bool trayRequestDock(Window win, cstring title);
+    bool trayRequestDock(Window win, mstring title);
     void detachTray();
     void updateTrayWindows();
     void regainTrayWindows();

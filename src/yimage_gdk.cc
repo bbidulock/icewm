@@ -83,7 +83,7 @@ ref<YImage> YImage::load(upath filename) {
 }
 
 void YImageGDK::save(upath filename) {
-    cstring handle(filename.replaceExtension(".png"));
+    mstring handle(filename.replaceExtension(".png"));
     GError *gerror = 0;
     gdk_pixbuf_save(fPixbuf, handle, "png", &gerror, (void *) NULL);
     if (gerror) {

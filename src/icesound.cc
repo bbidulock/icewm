@@ -891,7 +891,7 @@ int IceSound::chooseInterface() {
         if (name.isEmpty())
             continue;
         name = name.upper();
-        const char* val = cstring(name);
+        const char* val = name;
         if (name == "OSS") {
 #ifdef ENABLE_OSS
             audio = new YOSSAudio();

@@ -114,8 +114,6 @@ void WindowOptions::setWinOption(mstring n_class_instance,
 {
     WindowOption *op = getOption(n_class_instance);
 
-    // msg("%s . %s : %s", cstring(n_class_instance).c_str(), opt, arg);
-
     if (strcmp(opt, "icon") == 0) {
         op->icon = arg;
     } else if (strcmp(opt, "keyboard") == 0) {

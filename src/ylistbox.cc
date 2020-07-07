@@ -344,7 +344,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
 
                 for (int n = 0; n < 2 * getItemCount(); ++n) {
                     int i = (fFocusedItem + 1 + n) % getItemCount();
-                    cstring title(getItem(i)->getText());
+                    mstring title(getItem(i)->getText());
                     if (n < getItemCount()
                         ? strncasecmp(title, kstr, klen) == 0
                         : strstr(title, kstr) != nullptr)
