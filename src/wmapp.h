@@ -96,7 +96,7 @@ public:
     static YCursor scrollUpPointer;
     static YCursor scrollDownPointer;
 
-    static ref<YIcon> getDefaultAppIcon();
+    ref<YIcon> getDefaultAppIcon();
 
     bool hasCtrlAltDelete() const { return ctrlAltDelete != 0; }
     CtrlAltDelete* getCtrlAltDelete();
@@ -137,12 +137,11 @@ private:
 
     FocusModels focusMode;
     Window managerWindow;
+    ref<YIcon> defaultAppIcon;
 
-    static void initPointers();
-    static void initIcons();
-    static void termIcons();
-    static void initIconSize();
-    static void initPixmaps();
+    void initPointers();
+    void initIcons();
+    void initIconSize();
 };
 
 extern YWMApp * wmapp;

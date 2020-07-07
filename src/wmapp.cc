@@ -64,8 +64,6 @@ lazily<SharedWindowList> windowListMenu;
 lazy<LogoutMenu> logoutMenu;
 lazily<RootMenu> rootMenu;
 
-static ref<YIcon> defaultAppIcon;
-
 static bool replace_wm;
 static bool post_preferences;
 static bool show_extensions;
@@ -344,9 +342,7 @@ void YWMApp::unregisterProtocols() {
 }
 
 void YWMApp::initIconSize() {
-    XIconSize *is;
-
-    is = XAllocIconSize();
+    XIconSize *is = XAllocIconSize();
     if (is) {
         is->min_width = 32;
         is->min_height = 32;
@@ -359,111 +355,10 @@ void YWMApp::initIconSize() {
     }
 }
 
-static void initFontPath(IApp *app) {
-    if (themeName) { // === find the current theme directory ===
-        upath themesFile(themeName);
-        upath themesDir = themesFile.parent();
-        upath fonts_dirFile = themesDir.child("fonts.dir");
-        upath fonts_dirPath = app->findConfigFile(fonts_dirFile);
-        upath fonts_dirDir(null);
-
-        if (fonts_dirPath != null)
-            fonts_dirDir = fonts_dirPath.parent();
-
-#if 0
-        char themeSubdir[PATH_MAX];
-        strncpy(themeSubdir, themeName, sizeof(themeSubdir) - 1);
-        themeSubdir[sizeof(themeSubdir) - 1] = '\0';
-
-        char * strfn(strrchr(themeSubdir, '/'));
-        if (strfn) *strfn = '\0';
-
-        // === is there a file named fonts.dir? ===
-        upath fontsdir;
-
-        if (*themeName == '/')
-            fontsdir = cstrJoin(themeSubdir, "/fonts.dir", NULL);
-        else {
-            strfn = cstrJoin("themes/", themeSubdir, "/fonts.dir", NULL);
-            fontsdir = (app->findConfigFile(strfn));
-            delete[] strfn;
-        }
-#endif
-
-        if (fonts_dirDir != null) { // === build a new font path ===
-            mstring direct(fonts_dirDir.path());
-            const char* fontsdir = direct.c_str();
-
-#ifdef CONFIG_XFREETYPE
-            MSG(("font dir add %s", fontsdir));
-            FcConfigAppFontAddDir(0, (FcChar8 *)fontsdir);
-#endif
-#ifdef CONFIG_COREFONTS
-
-            int ndirs; // --- retrieve the old X's font path ---
-            char** fontPath(XGetFontPath(xapp->display(), &ndirs));
-
-            char** newFontPath = new char *[ndirs + 1];
-            newFontPath[ndirs] = (char *)fontsdir;
-
-            if (fontPath)
-                memcpy(newFontPath, fontPath, ndirs * sizeof (char *));
-            else
-                warn(_("Unable to get current font path."));
-
-#ifdef DEBUG
-            for (int n = 0; n < ndirs + 1; ++n)
-                MSG(("Font path element %d: %s", n, newFontPath[n]));
-#endif
-
-            char* icewmFontPath; // --- find death icewm's font path ---
-            Atom r_type; int r_format;
-            unsigned long count, bytes_remain;
-
-            if (XGetWindowProperty(xapp->display(),
-                                   manager->handle(),
-                                   _XA_ICEWM_FONT_PATH,
-                                   0, PATH_MAX, False, XA_STRING,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   (unsigned char **) &icewmFontPath) ==
-                Success && icewmFontPath) {
-                if (r_type == XA_STRING && r_format == 8) {
-                    for (int n(ndirs - 1); n > 0; --n) // --- remove death paths ---
-                        if (!strcmp(icewmFontPath, newFontPath[n])) {
-                            memmove(newFontPath + n, newFontPath + n + 1,
-                                    (ndirs - n) * sizeof(char *));
-                            --ndirs;
-                        }
-                } else
-                    warn(_("Unexpected format of ICEWM_FONT_PATH property"));
-
-                XFree(icewmFontPath);
-            }
-
-#ifdef DEBUG
-            for (int n = 0; n < ndirs + 1; ++n)
-                MSG(("Font path element %d: %s", n, newFontPath[n]));
-#endif
-            // --- set the new font path ---
-            XChangeProperty(xapp->display(), manager->handle(),
-                            _XA_ICEWM_FONT_PATH, XA_STRING, 8, PropModeReplace,
-                            (unsigned char *) fontsdir, strlen(fontsdir));
-            XSetFontPath(xapp->display(), newFontPath, ndirs + 1);
-
-            if (fontPath) XFreeFontPath(fontPath);
-            delete[] newFontPath;
-#endif
-        }
-    }
-}
-
 void YWMApp::initIcons() {
     defaultAppIcon = YIcon::getIcon("app");
 }
-void YWMApp::termIcons() {
-    defaultAppIcon = null;
-}
+
 ref<YIcon> YWMApp::getDefaultAppIcon() {
     return defaultAppIcon;
 }
@@ -1294,7 +1189,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
     registerProtocols2(managerWindow);
 
-    initFontPath(this);
     initIcons();
     initIconSize();
     WPixRes::initPixmaps();
@@ -1374,7 +1268,6 @@ YWMApp::~YWMApp() {
     }
 
     delete switchWindow; switchWindow = 0;
-    termIcons();
     delete ctrlAltDelete; ctrlAltDelete = 0;
     delete taskBar; taskBar = 0;
 

@@ -3186,7 +3186,7 @@ ref<YIcon> YFrameWindow::clientIcon() const {
         if (f->getClientIcon() != null)
             return f->getClientIcon();
 
-    return YWMApp::getDefaultAppIcon();
+    return wmapp->getDefaultAppIcon();
 }
 
 void YFrameWindow::updateProperties() {
