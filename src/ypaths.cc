@@ -106,7 +106,7 @@ ref<YImage> YResourcePaths::loadImageFile(const upath& file) {
 }
 
 template<class Pict>
-bool YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
+bool YResourcePaths::loadPict(upath baseName, ref<Pict>* pict) const {
     for (int i = 0; i < getCount(); ++i) {
         upath path = getPath(i) + baseName;
         if (path.fileExists() && loadPictFile(path, pict))

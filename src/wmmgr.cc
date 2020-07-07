@@ -926,10 +926,10 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
              xapp->getEventTime("focus1"), w));
     } else if (f && w == f->handle()) {
         MSG(("%lX Focus 0x%lX frame %s",
-             xapp->getEventTime("focus1"), w, f->getTitle()).c_str());
+             xapp->getEventTime("focus1"), w, f->getTitle().c_str()));
     } else if (f && c && w == c->handle()) {
         MSG(("%lX Focus 0x%lX client %s",
-             xapp->getEventTime("focus1"), w, f->getTitle()).c_str());
+             xapp->getEventTime("focus1"), w, f->getTitle().c_str()));
     } else {
         MSG(("%lX Focus 0x%lX",
              xapp->getEventTime("focus1"), w));
@@ -2502,7 +2502,7 @@ void YWindowManager::setDesktopGeometry() {
 }
 
 void YWindowManager::setShowingDesktop() {
-    MSG(("setting: _NET_SHOWING_DESKTOP = %lu", fShowingDesktop));
+    MSG(("setting: _NET_SHOWING_DESKTOP = %d", fShowingDesktop));
     setProperty(_XA_NET_SHOWING_DESKTOP, XA_CARDINAL, fShowingDesktop);
 }
 

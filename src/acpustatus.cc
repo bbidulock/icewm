@@ -223,7 +223,7 @@ void CPUStatus::draw(Graphics& g) {
                 g.drawLine(i, y, i, y - (iowaitbar - 1));
                 y -= iowaitbar;
             }
-            MSG((_("stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, "
+         /* MSG((_("stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, "
                 "iowait = %llu, intr = %llu, softirq = %llu, steal = %llu\n"),
                 cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS],
                 cpu[i][IWM_IDLE], cpu[i][IWM_IOWAIT], cpu[i][IWM_INTR],
@@ -231,7 +231,7 @@ void CPUStatus::draw(Graphics& g) {
             MSG((_("bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, "
                 "intr = %llu, softirq = %llu, steal = %llu (h = %i)\n"),
                 userbar, nicebar, sysbar, iowaitbar, intrbar,
-                softirqbar, stealbar, h));
+                softirqbar, stealbar, h)); */
         }
         if (y > 0) {
             if (color[IWM_IDLE]) {
@@ -597,7 +597,7 @@ void CPUStatus::getStatus() {
 
     getStatusPlatform();
 
-    MSG((_("CPU: %llu %llu %llu %llu %llu %llu %llu %llu"),
+ /* MSG((_("CPU: %llu %llu %llu %llu %llu %llu %llu %llu"),
         cpu[taskBarCPUSamples - 1][IWM_USER],
         cpu[taskBarCPUSamples - 1][IWM_NICE],
         cpu[taskBarCPUSamples - 1][IWM_SYS],
@@ -605,7 +605,7 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_IOWAIT],
         cpu[taskBarCPUSamples - 1][IWM_INTR],
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
-        cpu[taskBarCPUSamples - 1][IWM_STEAL]));
+        cpu[taskBarCPUSamples - 1][IWM_STEAL])); */
 
     ++statusUpdateCount;
 

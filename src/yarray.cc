@@ -107,7 +107,6 @@ void YBaseArray::extend(const SizeType extendedCount) {
 }
 
 void YBaseArray::remove(const SizeType index) {
-    MSG(("remove %d %d", index, fCount));
     PRECONDITION(index < getCount());
     if (fCount > 0)
         memmove(getElement(index), getElement(index + 1),
@@ -117,7 +116,6 @@ void YBaseArray::remove(const SizeType index) {
 }
 
 void YBaseArray::shrink(const SizeType reducedCount) {
-    MSG(("shrink %d %d", reducedCount, fCount));
     if (reducedCount >= 0 && reducedCount <= fCount)
         fCount = reducedCount;
     else { PRECONDITION(false); }

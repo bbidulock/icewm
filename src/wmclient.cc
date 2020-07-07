@@ -692,6 +692,11 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             prop.net_wm_window_type = new_prop;
         } else if (property.atom == _XA_NET_WM_PID) {
             prop.net_wm_pid = new_prop;
+        } else if (property.atom == _XA_NET_WM_VISIBLE_NAME) {
+        } else if (property.atom == _XA_NET_WM_VISIBLE_ICON_NAME) {
+        } else if (property.atom == _XA_NET_WM_ALLOWED_ACTIONS) {
+        } else if (property.atom == _XA_NET_FRAME_EXTENTS) {
+        } else if (property.atom == _XA_WIN_TRAY) {
         } else {
             MSG(("Unknown property changed: %s, window=0x%lX",
                  XGetAtomName(xapp->display(), property.atom), handle()));
@@ -1408,7 +1413,7 @@ void YFrameClient::getWindowRole() {
     YProperty prop(this, _XA_WINDOW_ROLE, F8, 256, XA_STRING);
     if (prop) {
         fWindowRole = prop.data<char>();
-        MSG(("window_role=%s", fWindowRole));
+        MSG(("window_role=%s", fWindowRole.c_str()));
     } else {
         fWindowRole = null;
     }
@@ -1421,7 +1426,7 @@ void YFrameClient::getWMWindowRole() {
     YProperty prop(this, _XA_WM_WINDOW_ROLE, F8, 256, XA_STRING);
     if (prop) {
         fWMWindowRole = prop.data<char>();
-        MSG(("wm_window_role=%s", fWMWindowRole));
+        MSG(("wm_window_role=%s", fWMWindowRole.c_str()));
     } else {
         fWMWindowRole = null;
     }
