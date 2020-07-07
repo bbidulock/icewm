@@ -22,7 +22,7 @@ public:
     virtual bool valid() const { return (NULL != fFont); }
     virtual int descent() const { return fFont->max_bounds.descent; }
     virtual int ascent() const { return fFont->max_bounds.ascent; }
-    virtual int textWidth(const ustring &s) const;
+    virtual int textWidth(const mstring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
@@ -41,7 +41,7 @@ public:
     virtual bool valid() const { return (None != fFontSet); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
-    int textWidth(const ustring &s) const;
+    int textWidth(const mstring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
@@ -84,7 +84,7 @@ YCoreFont::~YCoreFont() {
     }
 }
 
-int YCoreFont::textWidth(const ustring &s) const {
+int YCoreFont::textWidth(const mstring &s) const {
     cstring cs(s);
     return textWidth(cs.c_str(), cs.length());
 }
@@ -150,7 +150,7 @@ YFontSet::~YFontSet() {
     }
 }
 
-int YFontSet::textWidth(const ustring &s) const {
+int YFontSet::textWidth(const mstring &s) const {
     cstring cs(s);
     return textWidth(cs.c_str(), cs.length());
 }

@@ -638,27 +638,27 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     beginAutoScroll(deltaX || deltaY, motion);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, const char *icons) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0), icons);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu), icons);
 }
 
-YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons) {
+YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu), icons);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action) {
     return add(new YMenuItem(name, hotCharPos, param, action, 0));
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu));
 }
 
-YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu) {
+YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu));
 }
 
@@ -666,7 +666,7 @@ YMenuItem * YMenu::addSeparator() {
     return add(new YMenuItem());
 }
 
-YMenuItem *YMenu::addLabel(const ustring &name) {
+YMenuItem *YMenu::addLabel(const mstring &name) {
     return add(new YMenuItem(name));
 }
 
@@ -728,10 +728,10 @@ YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     return 0;
 }
 
-YMenuItem *YMenu::findName(const ustring &name, const int first) {
+YMenuItem *YMenu::findName(const mstring &name, const int first) {
     if (name != null)
         for (int i = first; i < itemCount(); i++) {
-            ustring iname = getItem(i)->getName();
+            mstring iname = getItem(i)->getName();
             if (iname != null && iname.equals(name))
                 return getItem(i);
     }
@@ -744,7 +744,7 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
         firstLet = ASCII::toUpper(firstLet);
     for (int i = first; i < itemCount(); i++) {
         YMenuItem *temp = getItem(i);
-        ustring iLetterRef = temp->getName();
+        mstring iLetterRef = temp->getName();
         if (iLetterRef != null) {
             int iLetter = iLetterRef.charAt(0);
             if (ignCase)
@@ -998,8 +998,8 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
     int const fontBaseLine(menuFont->ascent());
 
     YMenuItem *mitem = getItem(i);
-    ustring name = mitem->getName();
-    ustring param = mitem->getParam();
+    mstring name = mitem->getName();
+    mstring param = mitem->getParam();
 
     if (mitem->getName() == null && mitem->getSubmenu() == 0) {
         if (draw && t + 4 >= minY && t <= maxY)

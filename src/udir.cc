@@ -184,7 +184,7 @@ bool udir::next() {
     return false;
 }
 
-bool udir::nextExt(const ustring& extension) {
+bool udir::nextExt(const mstring& extension) {
     while (next()) {
         if (fEntry.endsWith(extension)) {
             return true;
@@ -231,11 +231,11 @@ bool sdir::next() {
     return 1 + fLast < count() && ++fLast >= 0;
 }
 
-const ustring& sdir::entry() const {
+const mstring& sdir::entry() const {
     return fName[fLast];
 }
 
-bool sdir::nextExt(const ustring& extension) {
+bool sdir::nextExt(const mstring& extension) {
     while (next()) {
         if (entry().endsWith(extension)) {
             return true;

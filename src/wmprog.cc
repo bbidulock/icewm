@@ -38,7 +38,7 @@ void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction /*
     fObject->open();
 }
 
-DFile::DFile(IApp *app, const ustring &name, ref<YIcon> icon, upath path): DObject(app, name, icon) {
+DFile::DFile(IApp *app, const mstring &name, ref<YIcon> icon, upath path): DObject(app, name, icon) {
     this->app = app;
     fPath = path;
 }
@@ -70,7 +70,7 @@ void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
 
-void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *container) {
+void ObjectMenu::addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
         YMenuItem *item =
             addSubmenu(name, -3, container);
@@ -80,7 +80,7 @@ void ObjectMenu::addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *
     }
 }
 
-DObject::DObject(IApp *app, const ustring &name, ref<YIcon> icon):
+DObject::DObject(IApp *app, const mstring &name, ref<YIcon> icon):
     fName(name), fIcon(icon)
 {
     this->app = app;
@@ -96,7 +96,7 @@ void DObject::open() {
 DProgram::DProgram(
     IApp *app,
     YSMListener *smActionListener,
-    const ustring &name,
+    const mstring &name,
     ref<YIcon> icon,
     const bool restart,
     const char *wmclass,
@@ -230,7 +230,7 @@ public:
     virtual int getActiveItem() override {
         return zTarget;
     }
-    virtual ustring getTitle(int idx) override {
+    virtual mstring getTitle(int idx) override {
         if (idx<0 || idx>=this->getCount())
             return null;
         return menu->getItem(idx)->getName();
@@ -264,7 +264,7 @@ MenuFileMenu::MenuFileMenu(
     IApp *app,
     YSMListener *smActionListener,
     YActionListener *wmActionListener,
-    ustring name,
+    mstring name,
     YWindow *parent)
     :
     ObjectMenu(wmActionListener, parent),
@@ -321,7 +321,7 @@ MenuProgMenu::MenuProgMenu(
     IApp *app,
     YSMListener *smActionListener,
     YActionListener *wmActionListener,
-    ustring name,
+    mstring name,
     upath command,
     YStringArray &args,
     long timeout,
@@ -540,7 +540,7 @@ public:
     static upath preferencesPath() {
         const int perm = 0600;
 
-        ustring conf(wmapp->getConfigFile());
+        mstring conf(wmapp->getConfigFile());
         if (conf.nonempty() && conf != "preferences") {
             upath path(wmapp->findConfigFile(conf));
             if (path.isWritable())

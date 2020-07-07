@@ -30,7 +30,7 @@ static ref<YIcon> file;
 
 class ObjectListItem: public YListItem {
 public:
-    ObjectListItem(char *container, ustring name):
+    ObjectListItem(char *container, mstring name):
         fPath(upath(container) + name),
         fName(name),
         fFolder(fPath.dirExists())
@@ -38,14 +38,14 @@ public:
     }
     virtual ~ObjectListItem() { }
 
-    virtual ustring getText() { return fName; }
+    virtual mstring getText() { return fName; }
     bool isFolder() { return fFolder; }
     virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
     const char* getLocation() { return fPath.string(); }
 private:
     upath fPath;
-    ustring fName;
+    mstring fName;
     bool fFolder;
 };
 

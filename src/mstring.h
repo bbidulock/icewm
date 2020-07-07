@@ -137,8 +137,6 @@ public:
     void normalize();
 };
 
-typedef class mstring ustring;
-
 /*
  * Constant strings with a conversion to nul-terminated C strings.
  */

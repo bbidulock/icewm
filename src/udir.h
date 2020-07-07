@@ -57,21 +57,21 @@ private:
     int fLast;
 };
 
-// upath directory returns ustrings.
+// upath directory returns mstrings.
 class udir {
 public:
     explicit udir(const upath& path = null);
     ~udir() { close(); }
     void close();
     const upath& path() const { return fPath; }
-    const ustring& entry() const { return fEntry; }
+    const mstring& entry() const { return fEntry; }
     operator bool() const { return isOpen(); }
 
     bool open(const upath& path);
     bool open();
     bool isOpen() const { return impl; }
     bool next();
-    bool nextExt(const ustring& extension);
+    bool nextExt(const mstring& extension);
 
 private:
     udir(const udir&);  // unavailable
@@ -79,24 +79,24 @@ private:
 
     upath fPath;
     void *impl;
-    ustring fEntry;
+    mstring fEntry;
 };
 
-// sorted directory for ustrings.
+// sorted directory for mstrings.
 class sdir {
 public:
     explicit sdir(const upath& path = null);
     ~sdir() { close(); }
     void close();
     const upath& path() const { return fPath; }
-    const ustring& entry() const;
+    const mstring& entry() const;
     operator bool() const { return isOpen() && fLast < count(); }
 
     bool open(const upath& path);
     bool open();
     bool isOpen() const { return fPath.nonempty() && count(); }
     bool next();
-    bool nextExt(const ustring& extension);
+    bool nextExt(const mstring& extension);
     void rewind() { fLast = -1; }
     int count() const { return fName.getCount(); }
 

@@ -77,7 +77,7 @@ public:
     void doRaise();
     void wmClose();
     void wmConfirmKill();
-    static YMsgBox* wmConfirmKill(const ustring& title, YMsgBoxListener *recvr);
+    static YMsgBox* wmConfirmKill(const mstring& title, YMsgBoxListener *recvr);
     void wmKill();
     void wmNextWindow();
     void wmPrevWindow();
@@ -405,8 +405,8 @@ public:
 
     virtual ref<YIcon> getIcon() const { return clientIcon(); }
 
-    virtual ustring getTitle() const { return client()->windowTitle(); }
-    virtual ustring getIconTitle() const { return client()->iconTitle(); }
+    virtual mstring getTitle() const { return client()->windowTitle(); }
+    virtual mstring getIconTitle() const { return client()->iconTitle(); }
 
     void updateNetWMStrut();
     void updateNetWMStrutPartial();

@@ -281,7 +281,7 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
             return;
     }
 
-    ustring str = getFrame()->getIconTitle();
+    mstring str = getFrame()->getIconTitle();
     if (str == null || str.length() == 0)
         str = getFrame()->getTitle();
 

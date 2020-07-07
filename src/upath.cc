@@ -16,7 +16,7 @@
 #include "yapp.h"
 #include "ypointer.h"
 
-const pstring upath::slash("/");
+const mstring upath::slash("/");
 const upath upath::rootPath(slash);
 
 bool upath::isSeparator(int ch) const {
@@ -37,7 +37,7 @@ upath upath::parent() const {
     return upath( fPath.substring(0, size_t(len)) );
 }
 
-pstring upath::name() const {
+mstring upath::name() const {
     int start = 1 + fPath.lastIndexOf('/');
     return fPath.substring(size_t(start), size_t(length() - start));
 }
@@ -68,7 +68,7 @@ upath upath::addExtension(const char *ext) const {
     return upath(path().append(ext));
 }
 
-pstring upath::getExtension() const {
+mstring upath::getExtension() const {
     int dot = path().lastIndexOf('.');
     int sep = path().lastIndexOf('/');
     if (dot > sep + 1 && dot + 1 < length())
@@ -171,7 +171,7 @@ int upath::remove() const {
     return ::remove(string());
 }
 
-int upath::renameAs(const pstring& dest) const {
+int upath::renameAs(const mstring& dest) const {
     return ::rename(string(), cstring(dest));
 }
 

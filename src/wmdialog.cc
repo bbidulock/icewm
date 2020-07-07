@@ -227,7 +227,7 @@ void CtrlAltDelete::deactivate() {
     //manager->setFocus(manager->getFocus());
 }
 
-YActionButton* CtrlAltDelete::addButton(const ustring& str, unsigned& maxW, unsigned& maxH)
+YActionButton* CtrlAltDelete::addButton(const mstring& str, unsigned& maxW, unsigned& maxH)
 {
     YActionButton* b = new YActionButton(this);
     b->setText(str, -2);

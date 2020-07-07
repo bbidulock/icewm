@@ -17,10 +17,10 @@
 class YURL {
 public:
     YURL();
-    YURL(ustring url);
+    YURL(mstring url);
 
-    void operator=(ustring url);
-    static ustring unescape(ustring str);
+    void operator=(mstring url);
+    static mstring unescape(mstring str);
 
     cstring scheme;
     cstring user;

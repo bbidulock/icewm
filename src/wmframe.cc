@@ -1413,7 +1413,7 @@ void YFrameWindow::wmConfirmKill() {
         fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
 }
 
-YMsgBox* YFrameWindow::wmConfirmKill(const ustring& title,
+YMsgBox* YFrameWindow::wmConfirmKill(const mstring& title,
         YMsgBoxListener *recvr) {
     YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK | YMsgBox::mbCancel);
     msgbox->setTitle(title);
@@ -2078,23 +2078,23 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
     XClassHint const *h(client()->classHint());
-    ustring klass = h ? h->res_class : nullptr;
-    ustring name = h ? h->res_name : nullptr;
-    ustring role = client()->windowRole();
+    mstring klass = h ? h->res_class : nullptr;
+    mstring name = h ? h->res_name : nullptr;
+    mstring role = client()->windowRole();
 
     if (klass != null) {
         if (name != null) {
-            ustring klass_instance(h->res_class, ".", h->res_name);
+            mstring klass_instance(h->res_class, ".", h->res_name);
             list->mergeWindowOption(opt, klass_instance, remove);
 
-            ustring name_klass(h->res_name, ".", h->res_class);
+            mstring name_klass(h->res_name, ".", h->res_class);
             list->mergeWindowOption(opt, name_klass, remove);
         }
         list->mergeWindowOption(opt, klass, remove);
     }
     if (name != null) {
         if (role != null) {
-            ustring name_role = name.append(".").append(role);
+            mstring name_role = name.append(".").append(role);
             list->mergeWindowOption(opt, name_role, remove);
         }
         list->mergeWindowOption(opt, name, remove);

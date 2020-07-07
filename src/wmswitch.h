@@ -41,7 +41,7 @@ public:
 
     // XXX: convert to iterator
     virtual int getActiveItem()=0;
-    virtual ustring getTitle(int idx) =0;
+    virtual mstring getTitle(int idx) =0;
     virtual ref<YIcon> getIcon(int idx) =0;
 
     // Manager notification about windows disappearing under the fingers

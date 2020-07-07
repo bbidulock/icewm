@@ -74,7 +74,7 @@ public:
     static ref<YImage> loadjpg(upath filename);
 #endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
-    static pstring detectImageType(upath filename);
+    static mstring detectImageType(upath filename);
 
     bool isBitmap() const { return fBitmap; }
     bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
@@ -134,7 +134,7 @@ bool YImage::supportsDepth(unsigned depth) {
 ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;
-    pstring ext(filename.getExtension().lower());
+    mstring ext(filename.getExtension().lower());
     bool unsup = false;
 
     if (ext.isEmpty())
@@ -171,7 +171,7 @@ ref<YImage> YImage::load(upath filename)
     return image;
 }
 
-pstring YXImage::detectImageType(upath filename) {
+mstring YXImage::detectImageType(upath filename) {
      const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
      char buf[len+1];
      memset(buf, 0, sizeof buf);

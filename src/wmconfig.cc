@@ -114,7 +114,7 @@ static bool ensureDirectory(const upath& path) {
     return path.dirExists();
 }
 
-static upath getDefaultsFilePath(const pstring& basename) {
+static upath getDefaultsFilePath(const mstring& basename) {
     upath prv(YApplication::getPrivConfDir());
     if (ensureDirectory(prv)) {
         return prv + basename;

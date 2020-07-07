@@ -51,7 +51,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
 YInputLine::~YInputLine() {
 }
 
-void YInputLine::setText(const ustring &text, bool asMarked) {
+void YInputLine::setText(const mstring &text, bool asMarked) {
     fText = text;
     leftOfs = 0;
     curPos = fText.length();
@@ -60,7 +60,7 @@ void YInputLine::setText(const ustring &text, bool asMarked) {
     repaint();
 }
 
-ustring YInputLine::getText() {
+mstring YInputLine::getText() {
     return fText;
 }
 
@@ -323,7 +323,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 char s[16];
 
                 if (getCharFromEvent(key, s, sizeof(s))) {
-                    replaceSelection(ustring(s, strlen(s)));
+                    replaceSelection(mstring(s, strlen(s)));
                     return true;
                 }
             }
@@ -530,7 +530,7 @@ void YInputLine::limit() {
     }
 }
 
-void YInputLine::replaceSelection(const ustring &str) {
+void YInputLine::replaceSelection(const mstring &str) {
     unsigned from = min(curPos, markPos);
     unsigned to = max(curPos, markPos);
     fText = fText.replace(from, to - from, str);

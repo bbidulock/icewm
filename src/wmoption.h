@@ -6,12 +6,12 @@
 #include "ypointer.h"
 
 struct WindowOption {
-    WindowOption(ustring n_class_instance = null);
+    WindowOption(mstring n_class_instance = null);
     void combine(const WindowOption& n);
 
-    ustring w_class_instance;
-    ustring keyboard;
-    ustring icon;
+    mstring w_class_instance;
+    mstring keyboard;
+    mstring icon;
     unsigned functions, function_mask;
     unsigned decors, decor_mask;
     unsigned options, option_mask;
@@ -27,11 +27,11 @@ struct WindowOption {
 
 class WindowOptions {
 public:
-    void setWinOption(ustring n_class_instance,
+    void setWinOption(mstring n_class_instance,
                       const char *opt, const char *arg);
 
     void mergeWindowOption(WindowOption &cm,
-                           ustring a_class_instance,
+                           mstring a_class_instance,
                            bool remove);
 
     int getCount() const { return fWinOptions.getCount(); }
@@ -41,9 +41,9 @@ public:
 private:
     YObjectArray<WindowOption> fWinOptions;
 
-    bool findOption(ustring a_class_instance, int *index);
+    bool findOption(mstring a_class_instance, int *index);
 
-    WindowOption *getOption(ustring a_class_instance);
+    WindowOption *getOption(mstring a_class_instance);
 };
 
 extern lazy<WindowOptions> defOptions;

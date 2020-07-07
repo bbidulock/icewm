@@ -51,13 +51,13 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
     }
 }
 
-void YToolTipWindow::setText(const ustring& tip) {
+void YToolTipWindow::setText(const mstring& tip) {
     fText = tip;
     YDimension size(toolTipFont->multilineAlloc(fText));
     setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
 }
 
-void YToolTip::setText(const ustring& tip) {
+void YToolTip::setText(const mstring& tip) {
     fText = tip;
     if (fWindow) {
         fWindow->setText(tip);

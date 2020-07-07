@@ -338,7 +338,7 @@ void CPUStatus::updateToolTip() {
                         form, maxf / 1e6, minf / 1e6, perc + 4);
             }
         }
-        setToolTip(ustring(fmt));
+        setToolTip(mstring(fmt));
     }
 #else
     char buf[99];

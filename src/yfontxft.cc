@@ -34,13 +34,13 @@ public:
     typedef XftChar8 char_t;
 #endif
 
-    YXftFont(ustring name, bool xlfd, bool antialias);
+    YXftFont(mstring name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
     virtual bool valid() const { return (fFontCount > 0); }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
-    virtual int textWidth(const ustring &s) const;
+    virtual int textWidth(const mstring &s) const;
     virtual int textWidth(char const * str, int len) const;
 
     virtual int textWidth(string_t const & str) const;
@@ -116,11 +116,11 @@ public:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(ustring name, bool use_xlfd, bool /*antialias*/):
+YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
     fFontCount(0), fAscent(0), fDescent(0)
 {
     fFontCount = 0;
-    ustring s(null), r(null);
+    mstring s(null), r(null);
 
     for (s = name; s.splitall(',', &s, &r); s = r) {
         if (s.nonempty())
@@ -137,7 +137,7 @@ YXftFont::YXftFont(ustring name, bool use_xlfd, bool /*antialias*/):
 //    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
         XftFont *& font(*fptr);
 
-        ustring fname = s.trim();
+        mstring fname = s.trim();
         //char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
         //char * endptr(fname + strlen(fname) - 1);
         //while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;
@@ -191,7 +191,7 @@ YXftFont::~YXftFont() {
     delete[] fFonts;
 }
 
-int YXftFont::textWidth(const ustring &s) const {
+int YXftFont::textWidth(const mstring &s) const {
     cstring cs(s);
     return textWidth(cs.c_str(), cs.length());
 }
@@ -320,7 +320,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-ref<YFont> getXftFontXlfd(ustring name, bool antialias) {
+ref<YFont> getXftFontXlfd(mstring name, bool antialias) {
     ref<YFont> font(new YXftFont(name, true, antialias));
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", cstring(name).c_str());
@@ -333,7 +333,7 @@ ref<YFont> getXftFontXlfd(ustring name, bool antialias) {
     return font;
 }
 
-ref<YFont> getXftFont(ustring name, bool antialias) {
+ref<YFont> getXftFont(mstring name, bool antialias) {
     ref<YFont>font(new YXftFont(name, false, antialias));
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", cstring(name).c_str());

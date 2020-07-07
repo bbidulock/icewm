@@ -271,7 +271,7 @@ void Graphics::drawArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 /******************************************************************************/
 
-void Graphics::drawChars(const ustring &s, int x, int y) {
+void Graphics::drawChars(const mstring &s, int x, int y) {
     if (fFont != null && s != null) {
         cstring cs(s);
         fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.length());
@@ -354,7 +354,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     }
 }
 
-void Graphics::drawStringEllipsis(int x, int y, const ustring &str, int maxWidth) {
+void Graphics::drawStringEllipsis(int x, int y, const mstring &str, int maxWidth) {
     cstring cs(str);
     return drawStringEllipsis(x, y, cs.c_str(), maxWidth);
 }
@@ -403,7 +403,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
         drawLine(x + left, y + 2, x + right, y + 2);
 }
 
-void Graphics::drawCharUnderline(int x, int y, const ustring &str, int charPos) {
+void Graphics::drawCharUnderline(int x, int y, const mstring &str, int charPos) {
     cstring cs(str);
     return drawCharUnderline(x, y, cs.c_str(), charPos);
 }
@@ -436,7 +436,7 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
         drawChars(str, 0, int(strlen(str)), x, y);
 }
 
-void Graphics::drawStringMultiline(int x, int y, const ustring &str) {
+void Graphics::drawStringMultiline(int x, int y, const mstring &str) {
     cstring cs(str);
     return drawStringMultiline(x, y, cs.c_str());
 }

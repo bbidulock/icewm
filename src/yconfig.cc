@@ -13,7 +13,7 @@
 #include "ascii.h"
 #include "argument.h"
 
-upath findPath(ustring path, int mode, upath name) {
+upath findPath(mstring path, int mode, upath name) {
     if (name.isAbsolute()) { // check for root in XFreeOS/2
         if (name.fileExists() && name.access(mode) == 0)
             return name;
@@ -21,7 +21,7 @@ upath findPath(ustring path, int mode, upath name) {
         if (path == null)
             return null;
 
-        ustring s(null), r(null);
+        mstring s(null), r(null);
         for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
             if (s.isEmpty())
                 continue;

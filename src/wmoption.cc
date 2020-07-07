@@ -13,7 +13,7 @@
 lazy<WindowOptions> defOptions;
 lazy<WindowOptions> hintOptions;
 
-WindowOption::WindowOption(ustring n_class_instance):
+WindowOption::WindowOption(mstring n_class_instance):
     w_class_instance(n_class_instance),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
@@ -79,7 +79,7 @@ void WindowOption::combine(const WindowOption& n) {
     }
 }
 
-bool WindowOptions::findOption(ustring a_class_instance, int *index) {
+bool WindowOptions::findOption(mstring a_class_instance, int *index) {
     int lo = 0, hi = fWinOptions.getCount();
 
     while (lo < hi) {
@@ -101,7 +101,7 @@ bool WindowOptions::findOption(ustring a_class_instance, int *index) {
     return false;
 }
 
-WindowOption* WindowOptions::getOption(ustring a_class_instance) {
+WindowOption* WindowOptions::getOption(mstring a_class_instance) {
     int where;
     if (findOption(a_class_instance, &where) == false) {
         fWinOptions.insert(where, new WindowOption(a_class_instance));
@@ -109,7 +109,7 @@ WindowOption* WindowOptions::getOption(ustring a_class_instance) {
     return fWinOptions[where];
 }
 
-void WindowOptions::setWinOption(ustring n_class_instance,
+void WindowOptions::setWinOption(mstring n_class_instance,
                                  const char *opt, const char *arg)
 {
     WindowOption *op = getOption(n_class_instance);
@@ -283,7 +283,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 }
 
 void WindowOptions::mergeWindowOption(WindowOption &cm,
-                                      ustring a_class_instance,
+                                      mstring a_class_instance,
                                       bool remove)
 {
     int lo;

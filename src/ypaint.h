@@ -54,7 +54,7 @@ struct YDimension {
 
 class YFont: public virtual refcounted {
 public:
-    static ref<YFont> getFont(ustring name, ustring xftFont, bool antialias = true);
+    static ref<YFont> getFont(mstring name, mstring xftFont, bool antialias = true);
 
     virtual ~YFont() {}
 
@@ -62,7 +62,7 @@ public:
     virtual int height() const { return ascent() + descent(); }
     virtual int descent() const = 0;
     virtual int ascent() const = 0;
-    virtual int textWidth(const ustring &s) const = 0;
+    virtual int textWidth(const mstring &s) const = 0;
     virtual int textWidth(char const * str, int len) const = 0;
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
@@ -71,7 +71,7 @@ public:
     int textWidth(char const * str) const;
     int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
-    YDimension multilineAlloc(const ustring &str) const;
+    YDimension multilineAlloc(const mstring &str) const;
 };
 
 /******************************************************************************/
@@ -116,17 +116,17 @@ public:
     void drawArc(int x, int y, unsigned width, unsigned height, int a1, int a2);
     void drawArrow(YDirection direction, int x, int y, unsigned size, bool pressed = false);
 
-    void drawChars(const ustring &s, int x, int y);
+    void drawChars(const mstring &s, int x, int y);
     void drawChars(char const * data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);
 
-    void drawCharUnderline(int x, int y, const ustring &str, int charPos);
+    void drawCharUnderline(int x, int y, const mstring &str, int charPos);
 
     void drawString(int x, int y, char const * str);
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
-    void drawStringEllipsis(int x, int y, const ustring &str, int maxWidth);
+    void drawStringEllipsis(int x, int y, const mstring &str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
-    void drawStringMultiline(int x, int y, const ustring &str);
+    void drawStringMultiline(int x, int y, const mstring &str);
 
     void drawPixmap(ref<YPixmap> pix, int const x, int const y);
     void drawPixmap(ref<YPixmap> pix, int const x, int const y, unsigned w, unsigned h, int dx, int dy);

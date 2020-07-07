@@ -408,7 +408,7 @@ void YFrameTitleBar::deactivate() {
 }
 
 int YFrameTitleBar::titleLen() const {
-    ustring title = getFrame()->client()->windowTitle();
+    mstring title = getFrame()->client()->windowTitle();
     int tlen = title != null ? titleFont->textWidth(title) : 0;
     return tlen;
 }
@@ -489,7 +489,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
 
     g.setFont(titleFont);
 
-    ustring title = getFrame()->getTitle();
+    mstring title = getFrame()->getTitle();
     int const yPos(int(height() - titleFont->height()) / 2 +
                    titleFont->ascent() + titleBarVertOffset);
     int tlen = title != null ? titleFont->textWidth(title) : 0;
@@ -689,7 +689,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         onLeft += x();
         onRight += x();
 
-        ustring title = getFrame()->getTitle();
+        mstring title = getFrame()->getTitle();
         int tlen = title != null ? titleFont->textWidth(title) : 0;
         bool const pi(focused());
 

@@ -66,8 +66,8 @@ public:
     virtual void setWinListItem(WindowListItem *i) = 0;
     virtual YFrameWindow *owner() const = 0;
     virtual ref<YIcon> getIcon() const = 0;
-    virtual ustring getTitle() const = 0;
-    virtual ustring getIconTitle() const = 0;
+    virtual mstring getTitle() const = 0;
+    virtual mstring getIconTitle() const = 0;
     virtual void activateWindow(bool raise, bool curWork) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMaximized() const = 0;
@@ -191,8 +191,8 @@ public:
     void setWindowTitle(const XTextProperty & title);
     void setIconTitle(const XTextProperty & title);
 #endif
-    ustring windowTitle() { return fWindowTitle; }
-    ustring iconTitle() { return fIconTitle; }
+    mstring windowTitle() { return fWindowTitle; }
+    mstring iconTitle() { return fIconTitle; }
 
     bool getWinIcons(Atom *type, int *count, long **elem);
 
@@ -249,9 +249,9 @@ public:
     void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    ustring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
+    mstring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
 
-    ustring getClientId(Window leader);
+    mstring getClientId(Window leader);
     void getPropertiesList();
 
     // virtual void configure(const YRect2 &rect);
@@ -279,12 +279,12 @@ private:
     long fWinHints;
     long fPid;
 
-    ustring fWindowTitle;
-    ustring fIconTitle;
+    mstring fWindowTitle;
+    mstring fIconTitle;
 
     Window fClientLeader;
-    ustring fWMWindowRole;
-    ustring fWindowRole;
+    mstring fWMWindowRole;
+    mstring fWindowRole;
 
     MwmHints *fMwmHints;
 

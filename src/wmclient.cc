@@ -1427,7 +1427,7 @@ void YFrameClient::getWMWindowRole() {
     }
 }
 
-ustring YFrameClient::getClientId(Window leader) { /// !!! fix
+mstring YFrameClient::getClientId(Window leader) { /// !!! fix
 
     if (!prop.sm_client_id)
         return null;

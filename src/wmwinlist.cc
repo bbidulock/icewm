@@ -38,7 +38,7 @@ int WindowListItem::getOffset() {
     return ofs;
 }
 
-ustring WindowListItem::getText() {
+mstring WindowListItem::getText() {
     if (fFrame)
         return getFrame()->getTitle();
     else if (fWorkspace < 0)

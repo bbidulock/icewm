@@ -62,7 +62,7 @@ static char *getCommandArgs(char *source, Argument *command,
     return p;
 }
 
-static ustring guessIconNameFromExe(const char* exe)
+static mstring guessIconNameFromExe(const char* exe)
 {
     upath fullname(exe);
     char buf[1024];
@@ -77,7 +77,7 @@ static ustring guessIconNameFromExe(const char* exe)
         fullname = upath(buf, linkLen);
     }
     // crop to the generic name
-    ustring s(fullname);
+    mstring s(fullname);
     int spos = s.lastIndexOf('/');
     if (spos >= 0)
         s = s.remove(0, spos + 1);
@@ -164,7 +164,7 @@ char* MenuLoader::parseProgram(char *word, char *p, ObjectContainer *container)
 
     if (icons[0] == '!')
     {
-        ustring iconName = guessIconNameFromExe(command);
+        mstring iconName = guessIconNameFromExe(command);
         if (iconName.charAt(0) != '-')
             icon = YIcon::getIcon(cstring(iconName));
 

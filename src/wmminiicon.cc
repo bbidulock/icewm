@@ -69,7 +69,7 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
         getFrame()->clientIcon()->draw(g, 2 + tx + 1, 4, YIcon::smallSize());
     }
 
-    ustring str = getFrame()->client()->iconTitle();
+    mstring str = getFrame()->client()->iconTitle();
 
     if (str == null || str.length() == 0)
         str = getFrame()->client()->windowTitle();

@@ -22,12 +22,12 @@ SMWindowKey::SMWindowKey(YFrameWindow *):
 {
 }
 
-SMWindowKey::SMWindowKey(ustring id, ustring role):
+SMWindowKey::SMWindowKey(mstring id, mstring role):
     clientId(id), windowRole(role), windowClass(null), windowInstance(null)
 {
 }
 
-SMWindowKey::SMWindowKey(ustring id, ustring klass, ustring instance):
+SMWindowKey::SMWindowKey(mstring id, mstring klass, mstring instance):
     clientId(id), windowRole(null), windowClass(klass), windowInstance(instance)
 {
 }
@@ -38,7 +38,7 @@ SMWindowKey::~SMWindowKey() {
 SMWindowInfo::SMWindowInfo(YFrameWindow *f): key(f) {
 }
 
-SMWindowInfo::SMWindowInfo(ustring id, ustring role,
+SMWindowInfo::SMWindowInfo(mstring id, mstring role,
                            int ax, int ay, int w, int h,
                            unsigned long astate, int alayer, int aworkspace): key(id, role)
 {
@@ -51,7 +51,7 @@ SMWindowInfo::SMWindowInfo(ustring id, ustring role,
     workspace = aworkspace;
 }
 
-SMWindowInfo::SMWindowInfo(ustring id, ustring klass, ustring instance,
+SMWindowInfo::SMWindowInfo(mstring id, mstring klass, mstring instance,
                            int ax, int ay, int w, int h,
                            unsigned long astate, int alayer, int aworkspace): key(id, klass, instance)
 {
@@ -83,7 +83,7 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
     Window leader = f->client()->clientLeader();
     if (leader == None) return false;
 
-    ustring cid = f->client()->getClientId(leader);
+    mstring cid = f->client()->getClientId(leader);
     if (cid == null) return false;
 
     for (int i = 0; i < fWindows.getCount(); ++i) {
@@ -93,8 +93,8 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
             if (window->key.windowClass != null &&
                 window->key.windowInstance != null)
             {
-                ustring klass = null;
-                ustring instance = null;
+                mstring klass = null;
+                mstring instance = null;
                 XClassHint *ch = f->client()->classHint();
 
                 if (ch) {
@@ -277,11 +277,11 @@ void YWMApp::smSaveYourselfPhase2() {
         //msg("window=%s", f->client()->windowTitle());
         if (leader != None) {
             //msg("leader=%lX", leader);
-            ustring cid = f->client()->getClientId(leader);
+            mstring cid = f->client()->getClientId(leader);
 
             if (cid != null) {
                 f->client()->getWindowRole();
-                ustring role = f->client()->windowRole();
+                mstring role = f->client()->windowRole();
 
                 if (role != null) {
                     fprintf(fp, "r ");

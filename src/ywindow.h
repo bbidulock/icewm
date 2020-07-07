@@ -209,7 +209,7 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
-    void setToolTip(const ustring &tip);
+    void setToolTip(const mstring &tip);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);

@@ -24,8 +24,8 @@ public:
     YInputLine(YWindow *parent = 0, YInputListener *listener = 0);
     virtual ~YInputLine();
 
-    void setText(const ustring &text, bool asMarked);
-    ustring getText();
+    void setText(const mstring &text, bool asMarked);
+    mstring getText();
     ref<YFont> getFont() const { return inputFont; }
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -43,7 +43,7 @@ public:
 
     bool move(unsigned pos, bool extend);
     bool hasSelection() const { return (curPos != markPos) ? true : false; }
-    void replaceSelection(const ustring &str);
+    void replaceSelection(const mstring &str);
     bool deleteSelection();
     bool deleteNextChar();
     bool deletePreviousChar();
@@ -68,7 +68,7 @@ private:
     void autoScroll(int delta, const XMotionEvent *mouse);
     unsigned offsetToPos(int offset);
 
-    ustring fText;
+    mstring fText;
     unsigned markPos;
     unsigned curPos;
     int leftOfs;

@@ -14,7 +14,7 @@ YColorName YLabel::labelFg(&clrLabelText);
 YColorName YLabel::labelBg(&clrLabel);
 ref<YFont> YLabel::labelFont;
 
-YLabel::YLabel(const ustring &label, YWindow *parent):
+YLabel::YLabel(const mstring &label, YWindow *parent):
     YWindow(parent),
     fLabel(label),
     fPainted(false)
@@ -65,7 +65,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
         int y = 1 + labelFont->ascent();
         int x = 1;
         int h = labelFont->height();
-        ustring s(null), r(null);
+        mstring s(null), r(null);
 
         g.setColor(labelFg);
         g.setFont(labelFont);
@@ -77,7 +77,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
     }
 }
 
-void YLabel::setText(const ustring &label) {
+void YLabel::setText(const mstring &label) {
     fLabel = label;
     autoSize();
 }
@@ -87,7 +87,7 @@ void YLabel::autoSize() {
     int w = 0;
     if (fLabel != null) {
         int w1;
-        ustring s(null), r(null);
+        mstring s(null), r(null);
         int n = 0;
 
         for (s = fLabel; s.splitall('\n', &s, &r); s = r) {

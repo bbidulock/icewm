@@ -28,7 +28,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
     upath privDir(YApplication::getPrivConfDir());
 
     upath themeFile(themeName);
-    pstring themeExt(themeFile.getExtension());
+    mstring themeExt(themeFile.getExtension());
     upath themeDir(themeExt.isEmpty() ? themeFile : themeFile.parent());
 
     if (themeDir.isAbsolute()) {

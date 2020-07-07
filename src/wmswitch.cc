@@ -167,7 +167,7 @@ public:
         return zTarget;
     }
 
-    virtual ustring getTitle(int idx) override
+    virtual mstring getTitle(int idx) override
     {
         if (inrange(idx, 0, getCount() - 1))
             return zList[idx]->client()->windowTitle();
@@ -313,7 +313,7 @@ void SwitchWindow::resize(int xiscreen) {
 
     MSG(("got geometry for %d: %d %d %d %d", xiscreen, dx, dy, dw, dh));
 
-    ustring cTitle = zItems->getTitle(zItems->getActiveItem());
+    mstring cTitle = zItems->getTitle(zItems->getActiveItem());
 
     int aWidth =
         quickSwitchSmallWindow ?
@@ -325,7 +325,7 @@ void SwitchWindow::resize(int xiscreen) {
         int space = (int) switchFont->textWidth(" ");   /* make entries one space character wider */
         int zCount = zItems->getCount();
         for (int i = 0; i < zCount; i++) {
-            ustring title = zItems->getTitle(i);
+            mstring title = zItems->getTitle(i);
             int oWidth = title != null ? (int) switchFont->textWidth(title) + space : 0;
             if (oWidth > tWidth)
                 tWidth = oWidth;
@@ -461,7 +461,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
         g.setColor(switchFg);
         g.setFont(switchFont);
 
-        ustring cTitle = zItems->getTitle(zItems->getActiveItem());
+        mstring cTitle = zItems->getTitle(zItems->getActiveItem());
         if (cTitle != null) {
             const int x = max((width() - tOfs -
                                switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs;
@@ -601,7 +601,7 @@ void SwitchWindow::paintVertical(Graphics &g) {
             else
                 g.setColor(switchFg);
 
-            ustring cTitle = zItems->getTitle(i);
+            mstring cTitle = zItems->getTitle(i);
 
             if (cTitle != null) {
                 const int titleY = contentY + (iconSize + g.font()->ascent())/2;

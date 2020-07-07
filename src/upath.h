@@ -6,13 +6,12 @@
 #include <stdio.h>
 #endif
 
-typedef mstring pstring;
 class YStringArray;
 
 class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
-    upath(const pstring& path): fPath(path) {}
+    upath(const mstring& path): fPath(path) {}
     upath(cstring& path): fPath(path.m_str()) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}
@@ -24,11 +23,11 @@ public:
     bool nonempty() const { return fPath.nonempty(); }
 
     upath parent() const;
-    pstring name() const;
+    mstring name() const;
     upath relative(const upath &path) const;
     upath child(const char *path) const;
     upath addExtension(const char *ext) const;
-    pstring getExtension() const;
+    mstring getExtension() const;
     upath removeExtension() const;
     upath replaceExtension(const char *ext) const;
     cstring expand() const;
@@ -48,7 +47,7 @@ public:
     FILE* fopen(const char *mode) const;
     int stat(struct stat *st) const;
     int remove() const;
-    int renameAs(const pstring& dest) const;
+    int renameAs(const mstring& dest) const;
     off_t fileSize() const;
     char* loadText() const;
     bool copyFrom(const upath& from, int mode = 0666) const;
@@ -74,11 +73,11 @@ public:
 
     bool equals(const upath &s) const;
 
-    const pstring& path() const { return fPath; }
-    operator const pstring&() const { return path(); }
+    const mstring& path() const { return fPath; }
+    operator const mstring&() const { return path(); }
     cstring string() const { return cstring(path()); }
 
-    static const pstring& sep() { return slash; }
+    static const mstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
 
     static bool hasglob(const char* pattern);
@@ -90,11 +89,11 @@ public:
     }
 
 private:
-    pstring fPath;
+    mstring fPath;
 
     bool isSeparator(int) const;
 
-    static const pstring slash;
+    static const mstring slash;
     static const upath rootPath;
 };
 
@@ -111,7 +110,7 @@ private:
     void operator=(FILE* ptr) { close(); fp = ptr; }
 };
 
-upath findPath(ustring path, int mode, upath name);
+upath findPath(mstring path, int mode, upath name);
 
 #endif
 

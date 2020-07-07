@@ -534,7 +534,7 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
         if (listBoxFont != null) {
-            ustring t = a->getText();
+            mstring t = a->getText();
             if (t != null)
                 cw += listBoxFont->textWidth(t) + 3;
         }
@@ -552,7 +552,7 @@ void YListBox::paintItem(Graphics &g, int n) {
         }
     }
 
-    ustring title = a->getText();
+    mstring title = a->getText();
 
     if (title != null) {
         g.setColor(s ? listBoxSelFg : listBoxFg);

@@ -18,8 +18,8 @@
 
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")");
-    ustring copyright =
-        ustring("Copyright ")
+    mstring copyright =
+        mstring("Copyright ")
         .append(_("(C)"))
         .append(" 1997-2008 Marko Macek, ")
         .append(_("(C)"))

@@ -352,7 +352,7 @@ void YButton::setImage(ref<YImage> image) {
     updateSize();
 }
 
-void YButton::setText(const ustring &str, int hotChar) {
+void YButton::setText(const mstring &str, int hotChar) {
     if (hotKey != -1) {
         removeAccelerator(hotKey, 0, this);
         if (xapp->AltMask != 0)

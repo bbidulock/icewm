@@ -20,8 +20,8 @@ public:
     void begin();
     virtual void end() { hide(); }
 
-    virtual ustring getStatus() = 0;
-    virtual ustring longestStatus() = 0;
+    virtual mstring getStatus() = 0;
+    virtual mstring longestStatus() = 0;
 
 protected:
     static YColorName statusFg;
@@ -41,8 +41,8 @@ public:
     virtual ~MoveSizeStatus();
 
     virtual void end();
-    virtual ustring getStatus();
-    virtual ustring longestStatus();
+    virtual mstring getStatus();
+    virtual mstring longestStatus();
 
     void begin(YFrameWindow *frame);
     void setStatus(YFrameWindow *frame, const YRect &r);
@@ -60,15 +60,15 @@ public:
     virtual ~WorkspaceStatus();
 
     virtual void end();
-    virtual ustring getStatus();
-    virtual ustring longestStatus();
+    virtual mstring getStatus();
+    virtual mstring longestStatus();
 
     void begin(long workspace);
     virtual void setStatus(long workspace);
     virtual bool handleTimer(YTimer *timer);
 private:
-    WorkspaceStatus(YWindow *aParent, ustring templateString);
-    static ustring getStatus(const char* name);
+    WorkspaceStatus(YWindow *aParent, mstring templateString);
+    static mstring getStatus(const char* name);
 
     long workspace;
     YTimer timer;
