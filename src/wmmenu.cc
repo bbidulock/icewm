@@ -6,6 +6,7 @@
 #include "config.h"
 #include "wmprog.h"
 #include "yconfig.h"
+#include "ypointer.h"
 #include "wmapp.h"
 #include "sysdep.h"
 #include "ascii.h"
@@ -64,28 +65,22 @@ static char *getCommandArgs(char *source, Argument *command,
 
 static mstring guessIconNameFromExe(const char* exe)
 {
-    upath fullname(exe);
-    char buf[1024];
-    for (int i=7; i; --i)
-    {
-        fullname = findPath(getenv("PATH"), X_OK, fullname);
-        if (fullname == null)
-            return "-";
-        ssize_t linkLen = readlink(fullname.string(), buf, ACOUNT(buf));
+    csmart path(path_lookup(exe));
+    for (int i = 7; i && path; --i) {
+        char buf[PATH_MAX];
+        ssize_t linkLen = readlink(path, buf, PATH_MAX);
         if (linkLen < 0)
             break;
-        fullname = upath(buf, linkLen);
+        path = newstr(buf, linkLen);
     }
-    // crop to the generic name
-    mstring s(fullname);
-    int spos = s.lastIndexOf('/');
-    if (spos >= 0)
-        s = s.remove(0, spos + 1);
-    // scripts have a suffix sometimes which is not part of the icon name
-    spos = s.indexOf('.');
-    if (spos >= 0)
-        s = s.substring(0, spos);
-    return s;
+    if (path) {
+        char* base = const_cast<char*>(my_basename(path));
+        // scripts may have a suffix which is not part of the icon name
+        char* dot = strchr(base, '.');
+        if (dot) *dot = '\0';
+        return base;
+    }
+    return "-";
 }
 
 char* MenuLoader::parseKey(char *word, char *p)
@@ -285,8 +280,8 @@ char* MenuLoader::parseMenuProg(char *p, ObjectContainer *container)
         icon = YIcon::getIcon(icons);
     MSG(("menuprog %s %s", name.cstr(), command.cstr()));
 
-    upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
-    if (fullPath != null) {
+    csmart path(path_lookup(command.cstr()));
+    if (path) {
         ObjectMenu *progmenu = new MenuProgMenu(
                 app, smActionListener, wmActionListener,
                 name.cstr(), command.cstr(), args);
@@ -329,8 +324,8 @@ char* MenuLoader::parseMenuProgReload(char *p, ObjectContainer *container)
         icon = YIcon::getIcon(icons);
     MSG(("menuprogreload %s %s", name.cstr(), command.cstr()));
 
-    upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
-    if (fullPath != null) {
+    csmart path(path_lookup(command.cstr()));
+    if (path) {
         ObjectMenu *progmenu = new MenuProgMenu(
                 app, smActionListener, wmActionListener,
                 name.cstr(), command.cstr(), args, timeout);

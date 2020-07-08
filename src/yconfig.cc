@@ -13,27 +13,6 @@
 #include "ascii.h"
 #include "argument.h"
 
-upath findPath(mstring path, int mode, upath name) {
-    if (name.isAbsolute()) { // check for root in XFreeOS/2
-        if (name.fileExists() && name.access(mode) == 0)
-            return name;
-    } else {
-        if (path == null)
-            return null;
-
-        mstring s(null), r(null);
-        for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
-            if (s.isEmpty())
-                continue;
-
-            upath prog = upath(s).relative(name);
-            if (prog.access(mode) == 0)
-                return prog;
-        }
-    }
-    return null;
-}
-
 char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     char *p = source;
     while (ASCII::isSpaceOrTab(*p))

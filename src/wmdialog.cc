@@ -26,9 +26,10 @@ bool couldRunCommand(const char *cmd) {
         return false;
     // else-case. Defined, but check whether it's executable first
     csmart copy(newstr(cmd));
-    char *save = 0;
+    char *save = nullptr;
     char *tokn = strtok_r(copy, " \t\n", &save);
-    return tokn && findPath(getenv("PATH"), X_OK, tokn) != null;
+    csmart path(path_lookup(tokn));
+    return path;
 }
 
 bool canLock()
