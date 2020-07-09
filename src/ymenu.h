@@ -10,7 +10,7 @@ class YMenuItem;
 
 class YMenu: public YPopupWindow, public YTimerListener {
 public:
-    YMenu(YWindow *parent = 0);
+    YMenu(YWindow *parent = nullptr);
     virtual ~YMenu();
 
     virtual void sizePopup(int hspace);

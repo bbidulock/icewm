@@ -149,7 +149,7 @@ void YURL::operator=(mstring url) {
 mstring YURL::unescape(mstring str) {
     if (0 <= str.indexOf('%')) {
         csmart nstr(new char[str.length()]);
-        if (nstr == 0)
+        if (nstr == nullptr)
             return null;
         char *d = nstr;
 

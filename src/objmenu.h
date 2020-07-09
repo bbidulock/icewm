@@ -21,7 +21,7 @@ private:
 
 class ObjectMenu: public YMenu, public ObjectContainer {
 public:
-    ObjectMenu(YActionListener *wmActionListener, YWindow *parent = 0);
+    ObjectMenu(YActionListener *wmActionListener, YWindow *parent = nullptr);
     virtual ~ObjectMenu();
 
     virtual void addObject(DObject *object);

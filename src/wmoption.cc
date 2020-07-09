@@ -314,7 +314,7 @@ static char *parseWinOptions(char *data, const char* filename) {
         }
 
         word = p;
-        dot = 0;
+        dot = nullptr;
         while (*p && *p != ':' && *p != '\n') {
             if (*p == '\\' && p[1] != 0) {
                 if (*++p == '\n')
@@ -326,7 +326,7 @@ static char *parseWinOptions(char *data, const char* filename) {
         }
         end = p;
 
-        if (*p == 0 || dot == 0 || end == word || *end != ':') {
+        if (*p == 0 || dot == nullptr || end == word || *end != ':') {
             msg(_("Syntax error in window options on line %d of %s"),
                     linenum, filename);
             while (*p && *p != '\n')

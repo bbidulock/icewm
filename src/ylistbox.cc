@@ -412,7 +412,7 @@ void YListBox::handleButton(const XButtonEvent &button) {
                 setFocusedItem(no, false, true, true);
             fDragging = false;
             applySelection();
-            autoScroll(0, 0);
+            autoScroll(0, nullptr);
         }
     }
     if (fVerticalScroll->handleScrollMouse(button) == false)
@@ -498,7 +498,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     int y = n * lh;
     int yPos = y + lh - (lh - fh) / 2 - listBoxFont->descent();
 
-    if (a == 0)
+    if (a == nullptr)
         return ;
 
     xpos += a->getOffset();

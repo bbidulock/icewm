@@ -129,7 +129,7 @@ struct cfoption {
         : type(CF_FUNC), name(n), description(d) {
         v.f.notify = f;
     }
-    cfoption() : type(CF_NONE), name(0), description(0) { }
+    cfoption() : type(CF_NONE), name(nullptr), description(nullptr) { }
     bool boolval() { return *v.b.bool_value; }
     int intval() { return *v.i.int_value; }
     unsigned uintval() { return *v.u.uint_value; }

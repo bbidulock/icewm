@@ -103,7 +103,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner) = 0;
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
-                         YWindow *forWindow = 0) = 0;
+                         YWindow *forWindow = nullptr) = 0;
     virtual void updateSubmenus() = 0;
     virtual Time since() const = 0;
 protected:
@@ -115,7 +115,7 @@ class YFrameClient: public YWindow
 {
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
-                 int depth = 0, Visual *visual = 0, Colormap cmap = 0);
+                 int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
     virtual ~YFrameClient();
 
     virtual void handleProperty(const XPropertyEvent &property);

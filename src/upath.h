@@ -80,10 +80,10 @@ public:
     static const upath& root() { return rootPath; }
 
     static bool hasglob(mstring pattern);
-    static bool glob(mstring pat, YStringArray& list, const char* opt = 0);
+    static bool glob(mstring pat, YStringArray& list, const char* opt = nullptr);
 
     bool hasglob() const { return hasglob(path()); }
-    bool glob(YStringArray& list, const char* opt = 0) const {
+    bool glob(YStringArray& list, const char* opt = nullptr) const {
         return glob(path(), list, opt);
     }
 
@@ -102,7 +102,7 @@ public:
     fileptr(const char* n, const char* m) : fp(fopen(n, m)) { }
     explicit fileptr(FILE* fp) : fp(fp) { }
     ~fileptr() { close(); }
-    void close() { if (fp) { fclose(fp); fp = 0; } }
+    void close() { if (fp) { fclose(fp); fp = nullptr; } }
     operator FILE*() const { return fp; }
     FILE* operator->() const { return fp; }
 private:

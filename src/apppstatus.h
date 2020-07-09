@@ -77,7 +77,7 @@ public:
 
 class NetStatus: public IApplet, private Picturer {
 public:
-    NetStatus(mstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
+    NetStatus(mstring netdev, NetStatusHandler* handler, YWindow *aParent = nullptr);
     ~NetStatus();
 
     mstring name() const { return fDevName; }

@@ -375,7 +375,7 @@ private:
 
 extern YWindowManager *manager;
 
-void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = 0);
+void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 
 extern Atom _XA_WIN_APP_STATE;
 extern Atom _XA_WIN_AREA_COUNT;

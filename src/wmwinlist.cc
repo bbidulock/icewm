@@ -148,14 +148,14 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
                 if (hasSelection()) {
                     YMenu* windowListPopup = windowList->getWindowListPopup();
                     enableCommands(windowListPopup);
-                    windowListPopup->popup(0, 0, 0,
+                    windowListPopup->popup(nullptr, nullptr, nullptr,
                                            key.x_root, key.y_root,
                                            YPopupWindow::pfCanFlipVertical |
                                            YPopupWindow::pfCanFlipHorizontal |
                                            YPopupWindow::pfPopupMenu);
                 } else {
                     YMenu* windowListAllPopup = windowList->getWindowListAllPopup();
-                    windowListAllPopup->popup(0, 0, 0, key.x_root, key.y_root,
+                    windowListAllPopup->popup(nullptr, nullptr, nullptr, key.x_root, key.y_root,
                                               YPopupWindow::pfCanFlipVertical |
                                               YPopupWindow::pfCanFlipHorizontal |
                                               YPopupWindow::pfPopupMenu);
@@ -188,14 +188,14 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
             }
             YMenu* windowListPopup = windowList->getWindowListPopup();
             enableCommands(windowListPopup);
-            windowListPopup->popup(0, 0, 0,
+            windowListPopup->popup(nullptr, nullptr, nullptr,
                                    up.x_root, up.y_root,
                                    YPopupWindow::pfCanFlipVertical |
                                    YPopupWindow::pfCanFlipHorizontal |
                                    YPopupWindow::pfPopupMenu);
         } else {
             YMenu* windowListAllPopup = windowList->getWindowListAllPopup();
-            windowListAllPopup->popup(0, 0, 0, up.x_root, up.y_root,
+            windowListAllPopup->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                                       YPopupWindow::pfCanFlipVertical |
                                       YPopupWindow::pfCanFlipHorizontal |
                                       YPopupWindow::pfPopupMenu);
@@ -524,7 +524,7 @@ void WindowList::showFocused(int x, int y) {
                              : workspaceItem[manager->activeWorkspace()];
         list->focusSelectItem(list->findItem(item));
     }
-    if (getFrame() == 0) {
+    if (getFrame() == nullptr) {
         int scn = desktop->getScreenForRect(x, y, 1, 1);
         YRect geo(desktop->getScreenGeometry(scn));
         long dw = geo.width();
@@ -538,7 +538,7 @@ void WindowList::showFocused(int x, int y) {
         setGeometry(YRect(x, y, w, h));
         manager->manageClient(handle(), false);
     }
-    if (getFrame() != 0) {
+    if (getFrame() != nullptr) {
         if (x != -1 && y != -1) {
             int px, py;
 

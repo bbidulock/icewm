@@ -43,11 +43,11 @@ MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     fCurUnseen(0),
     fLastCountSize(-1),
     fLastCountTime(0),
-    fAddr(0),
+    fAddr(nullptr),
     fPort(0),
     fPid(0),
     fInst(++fInstanceCounter),
-    fTrace(getenv("ICEWM_MAILCHECK_TRACE") != 0)
+    fTrace(getenv("ICEWM_MAILCHECK_TRACE") != nullptr)
 {
     bf[0] = '\0';
     sk.setListener(this);
@@ -72,7 +72,7 @@ MailCheck::~MailCheck() {
     release();
     if (fAddr) {
         freeaddrinfo(fAddr);
-        fAddr = 0;
+        fAddr = nullptr;
     }
 }
 
@@ -346,7 +346,7 @@ void MailCheck::startSSL() {
             mstring hostnamePort(mstring(fURL.host, ":", mstring(fPort)));
             const char* args[] = {
                 file, "s_client", "-quiet", "-no_ign_eof",
-                "-connect", hostnamePort, 0
+                "-connect", hostnamePort, nullptr
             };
             execv(path, (char* const*) args);
             fail(_("Failed to execute %s"), (char *) path);
@@ -663,7 +663,7 @@ const char* MailCheck::s(ProtocolState p) {
         case ERROR:       return "ERROR";
         case SUCCESS:     return "SUCCESS";
     }
-    return 0;
+    return nullptr;
 }
 
 MailBoxStatus::MailBoxStatus(MailHandler* handler,
@@ -883,7 +883,7 @@ MailBoxControl::MailBoxControl(IApp *app, YSMListener *smActionListener,
     smActionListener(smActionListener),
     taskBar(taskBar),
     aParent(aParent),
-    fMenuClient(0),
+    fMenuClient(nullptr),
     fPid(0)
 {
     populate();
@@ -903,21 +903,21 @@ void MailBoxControl::populate()
             }
         }
     }
-    if (fMailBoxStatus.isEmpty() && (env = getenv("MAILPATH")) != 0) {
+    if (fMailBoxStatus.isEmpty() && (env = getenv("MAILPATH")) != nullptr) {
         for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
             if (0 <= s.indexOf('/')) {
                 createStatus(s);
             }
         }
     }
-    if (fMailBoxStatus.isEmpty() && (env = getenv("MAIL")) != 0) {
+    if (fMailBoxStatus.isEmpty() && (env = getenv("MAIL")) != nullptr) {
         mstring s(env);
         if (0 <= s.indexOf('/')) {
             createStatus(s);
         }
     }
     if (fMailBoxStatus.isEmpty() &&
-        ((env = getenv("LOGNAME")) != 0 || (env = getlogin()) != 0))
+        ((env = getenv("LOGNAME")) != nullptr || (env = getlogin()) != nullptr))
     {
         const char* varmail[] = { "/var/spool/mail/", "/var/mail/", };
         for (int i = 0; i < int ACOUNT(varmail); ++i) {
@@ -958,7 +958,7 @@ void MailBoxControl::handleClick(const XButtonEvent &up, MailBoxStatus *client)
         fMenu->addItem(_("_Suspend"), -2, null, actionSuspend)
              ->setChecked(client->suspended());
         fMenuClient = client;
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);
@@ -978,8 +978,8 @@ void MailBoxControl::actionPerformed(YAction action, unsigned int modifiers)
     else if (action == actionSuspend) {
         fMenuClient->suspend(fMenuClient->suspended() ^ true);
     }
-    fMenu = 0;
-    fMenuClient = 0;
+    fMenu = nullptr;
+    fMenuClient = nullptr;
 }
 
 // vim: set sw=4 ts=4 et:

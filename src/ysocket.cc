@@ -27,8 +27,8 @@ static const int sockStreamFlags = SOCK_STREAM
                                  ;
 
 YSocket::YSocket() :
-    fListener(0),
-    rdbuf(0),
+    fListener(nullptr),
+    rdbuf(nullptr),
     rdbuflen(0),
     connecting(false),
     reading(false)

@@ -4,7 +4,7 @@
 template <class Node>
 class YListNode {
 public:
-    YListNode() : nextNode(0), prevNode(0) { }
+    YListNode() : nextNode(nullptr), prevNode(nullptr) { }
     ~YListNode() { PRECONDITION(zero()); }
 
     bool zero() const { return !nextNode && !prevNode; }
@@ -29,7 +29,7 @@ class YListIter;
 template <class Node>
 class YList {
 public:
-    YList() : head(0), tail(0), size(0) { }
+    YList() : head(nullptr), tail(nullptr), size(0) { }
     ~YList() { PRECONDITION(!head && !tail && !size); }
 
     Node* front() const { return head; }

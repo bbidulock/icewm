@@ -22,7 +22,7 @@
 #include "intl.h"
 
 DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -3, null, YAction(), 0)
+    YMenuItem(object->getName(), -3, null, YAction(), nullptr)
 {
     fObject = object;
     if (object->getIcon() != null)
@@ -47,7 +47,7 @@ DFile::~DFile() {
 }
 
 void DFile::open() {
-    const char *args[] = { openCommand, fPath.string(), 0 };
+    const char *args[] = { openCommand, fPath.string(), nullptr };
     app->runProgram(openCommand, args);
 }
 
@@ -112,7 +112,7 @@ DProgram::DProgram(
     this->app = app;
     this->smActionListener = smActionListener;
     if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
-        fArgs.append(0);
+        fArgs.append(nullptr);
 }
 
 DProgram::~DProgram() {
@@ -156,7 +156,7 @@ DProgram *DProgram::newProgram(
 KProgramArrayType keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg)
-    : fKey(NoSymbol), fMod(0), bIsDynSwitchMenu(bIsDynSwitchMenuProg), fProg(prog), pSwitchWindow(0)
+    : fKey(NoSymbol), fMod(0), bIsDynSwitchMenu(bIsDynSwitchMenuProg), fProg(prog), pSwitchWindow(nullptr)
 {
     YConfig::parseKey(key, &fKey, &fMod);
     keyProgs.append(this);
@@ -172,7 +172,7 @@ class MenuProgSwitchItems: public ISwitchItems {
 public:
     MenuProgSwitchItems(DProgram* prog, KeySym key, unsigned keymod) : ISwitchItems()
         , zTarget(0), key(key), mod(keymod) {
-        menu = new MenuProgMenu(wmapp, wmapp, NULL /* no wmaction handling*/,
+        menu = new MenuProgMenu(wmapp, wmapp, nullptr /* no wmaction handling*/,
                 "switch popup internal menu", prog->fCmd, prog->fArgs);
     }
     virtual void updateList() override {
@@ -222,7 +222,7 @@ public:
         YMenuItem* item=menu->getItem(zTarget);
         if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
-        item->actionPerformed(0, actionRun, 0);
+        item->actionPerformed(nullptr, actionRun, 0);
         parent->close();
     }
 
@@ -340,7 +340,7 @@ MenuProgMenu::~MenuProgMenu() {
 }
 
 void MenuProgMenu::updatePopup() {
-    time_t now = time(NULL);
+    time_t now = time(nullptr);
     if (fModTime == 0 || (0 < fTimeout && now >= fModTime + fTimeout)) {
         refresh();
         fModTime = now;
@@ -449,7 +449,7 @@ public:
                            0 == strncmp(o->name, "Quic", 4) ? qs :
                            0 == strncmp(o->name, "Show", 4) ||
                            0 == strncmp(o->name, "Page", 4) ? sh :
-                           0 != strstr(o->name, "Focus") ? fo :
+                           nullptr != strstr(o->name, "Focus") ? fo :
                            o->name[0] <= 'L' ? al : mz;
                 item = m->addItem(o->name, -2, null, EAction(index[k] + 1));
                 if (o->boolval()) {
@@ -477,7 +477,7 @@ public:
                     size_t len = strlcpy(val, str, sizeof val);
                     if (len >= sizeof val)
                         strlcpy(val + sizeof val - 4, "...", 4);
-                    if ((str = strstr(val, "://")) != 0 && strlen(str) > 6)
+                    if ((str = strstr(val, "://")) != nullptr && strlen(str) > 6)
                         strlcpy(val + (str - val) + 3, "...", 4);
                     st->addItem(o->name, -2, val, actionNull);
                 }
@@ -568,7 +568,7 @@ public:
             return fail(_("Unable to write to %s"), "preferences");
 
         csmart text(path.loadText());
-        if (text == 0)
+        if (text == nullptr)
             (text = new char[1])[0] = 0;
         size_t tlen = strlen(text);
         for (int k = 0; k < n; ++k) {
@@ -657,7 +657,7 @@ public:
 
     static char* retrieveComment(cfoption* o) {
         static const char path[] = LIBDIR "/preferences";
-        char* res = 0;
+        char* res = nullptr;
         csmart text(load_text_file(path));
         if (text) {
             char buf[99];
@@ -732,7 +732,7 @@ HelpMenu::HelpMenu(
             upath path = upath(ICEHELPIDX).parent() + help[k].name;
             args.append(path.string());
         }
-        args.append(0);
+        args.append(nullptr);
 
         DProgram *prog = DProgram::newProgram(
             app,
@@ -781,7 +781,7 @@ void StartMenu::refresh() {
     int const oldItemCount = itemCount();
 
     if (showPrograms) {
-        ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", 0);
+        ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", nullptr);
         ///    if (programs->itemCount() > 0)
         addSubmenu(_("Programs"), 0, programs, "programs");
     }
@@ -806,7 +806,7 @@ void StartMenu::refresh() {
 
     if (!showTaskBar) {
         if (showAbout)
-            addItem(_("_About"), -2, actionAbout, 0, "about");
+            addItem(_("_About"), -2, actionAbout, nullptr, "about");
     }
 
     if (showHelp) {

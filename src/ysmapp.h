@@ -13,7 +13,7 @@ public:
 
 class YSMApplication: public YXApplication { /// !!! should be possible without X
 public:
-    YSMApplication(int *argc, char ***argv, const char *displayName = 0);
+    YSMApplication(int *argc, char ***argv, const char *displayName = nullptr);
     virtual ~YSMApplication();
 
     bool haveSessionManager();

@@ -11,16 +11,16 @@ private:
     struct dirent *de;
 
     void open(const char *path) { ptr = opendir(path); own = true; }
-    bool read() { return (de = readdir(ptr)) != 0; }
+    bool read() { return (de = readdir(ptr)) != nullptr; }
     bool dots() const { return '.' == *name(); }
 
 public:
-    DirPtr(const char * path) : own(false), ptr(0), de(0) { open(path); }
-    DirPtr(upath path) : own(false), ptr(0), de(0) { open(path.string()); }
-    DirPtr(void *vp) : own(false), ptr(static_cast<DIR*>(vp)), de(0) { }
+    DirPtr(const char * path) : own(false), ptr(nullptr), de(nullptr) { open(path); }
+    DirPtr(upath path) : own(false), ptr(nullptr), de(nullptr) { open(path.string()); }
+    DirPtr(void *vp) : own(false), ptr(static_cast<DIR*>(vp)), de(nullptr) { }
 
     ~DirPtr() { if (own) close(); }
-    void close() { if (ptr) { closedir(ptr); ptr = 0; own = false; de = 0; } }
+    void close() { if (ptr) { closedir(ptr); ptr = nullptr; own = false; de = nullptr; } }
 
     operator DIR *() const { return ptr; }
 
@@ -35,7 +35,7 @@ public:
 };
 
 cdir::cdir(const char* path)
-    : fPath(path), impl(0)
+    : fPath(path), impl(nullptr)
 {
     if (path) {
         open();
@@ -45,7 +45,7 @@ cdir::cdir(const char* path)
 void cdir::close() {
     if (impl) {
         DirPtr(impl).close();
-        impl = 0;
+        impl = nullptr;
     }
 }
 
@@ -131,7 +131,7 @@ const char* adir::entry() const {
     if (fLast >= 0 && fLast < count()) {
         return fName[fLast];
     }
-    return 0;
+    return nullptr;
 }
 
 bool adir::nextExt(const char *extension) {
@@ -146,7 +146,7 @@ bool adir::nextExt(const char *extension) {
 }
 
 udir::udir(const upath& path)
-    : fPath(path), impl(0)
+    : fPath(path), impl(nullptr)
 {
     if (fPath.nonempty()) {
         open();
@@ -156,7 +156,7 @@ udir::udir(const upath& path)
 void udir::close() {
     if (impl) {
         DirPtr(impl).close();
-        impl = 0;
+        impl = nullptr;
     }
 }
 

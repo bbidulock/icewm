@@ -16,7 +16,7 @@ protected:
 
 class YMsgBox: public YDialog, public YActionListener {
 public:
-    YMsgBox(int buttons, YWindow *owner = 0);
+    YMsgBox(int buttons, YWindow *owner = nullptr);
     virtual ~YMsgBox();
 
     void setTitle(mstring title);

@@ -85,8 +85,8 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
-    getCurrent(0, 0, 0);
-    updateStatus(0);
+    getCurrent(nullptr, nullptr, nullptr);
+    updateStatus(nullptr);
     if (isUp()) {
         updateVisible(true);
     }
@@ -143,8 +143,8 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-        char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
-        char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", NULL };
+        char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", nullptr };
+        char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", nullptr };
 
         long const period(long(toDouble(monotime() - start_time)));
 
@@ -581,7 +581,7 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 
 NetStatusControl::~NetStatusControl() {
     for (int i = 0; i < fNetStatus.getCount(); ++i) {
-        NetStatus* status = 0;
+        NetStatus* status = nullptr;
         swap(status, fNetStatus[i].value);
         if (status)
             delete status;
@@ -592,10 +592,10 @@ NetStatusControl::~NetStatusControl() {
 void NetStatusControl::fetchSystemData() {
     devStats.clear();
     devicesText = load_text_file("/proc/net/dev");
-    if (devicesText == 0)
+    if (devicesText == nullptr)
         return;
 
-    for (char* p = devicesText; (p = strchr(p, '\n')) != 0; ) {
+    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
         *p = 0;
         while (*++p == ' ');
         char* name = p;
@@ -651,7 +651,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
 
 NetStatus* NetStatusControl::createNetStatus(mstring netdev) {
     NetStatus*& status = fNetStatus[netdev];
-    if (status == 0)
+    if (status == nullptr)
         status = new NetStatus(netdev, this, aParent);
     return status;
 }
@@ -725,7 +725,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, mstring netdev)
             item->setChecked(visible);
             item->setEnabled(enable);
         }
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);
@@ -748,7 +748,7 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
             relayout();
         }
     }
-    fMenu = 0;
+    fMenu = nullptr;
     interfaces.clear();
 }
 
@@ -782,7 +782,7 @@ void NetStatusControl::linuxUpdate() {
     // mark disappeared devices as down without additional ioctls
     for (int i = 0; i < count; ++i)
         if (covered[i] == false && fNetStatus[i])
-            fNetStatus[i]->timedUpdate(0, true);
+            fNetStatus[i]->timedUpdate(nullptr, true);
 
     for (int i = 0; i < pending.getCount(); ++i) {
         const netpair stat = pending[i];
@@ -797,7 +797,7 @@ void NetStatusControl::linuxUpdate() {
     }
 
     devStats.clear();
-    devicesText = 0;
+    devicesText = nullptr;
 }
 #endif
 

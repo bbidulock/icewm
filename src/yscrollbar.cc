@@ -26,7 +26,7 @@ YScrollBar::YScrollBar(YWindow *aParent): YWindow(aParent) {
     fOrientation = Vertical;
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
     fUnitIncrement = fBlockIncrement = 1;
-    fListener = 0;
+    fListener = nullptr;
     fScrollTo = goNone;
     fDNDScroll = false;
     fConfigured = false;
@@ -42,7 +42,7 @@ YWindow(aParent)
 
     fMinimum = fMaximum = fValue = fVisibleAmount = 0;
     fUnitIncrement = fBlockIncrement = 1;
-    fListener = 0;
+    fListener = nullptr;
     fScrollTo = goNone;
     fDNDScroll = false;
     fConfigured = false;
@@ -61,7 +61,7 @@ YScrollBar::YScrollBar(Orientation anOrientation,
     fValue = aValue;
 
     fUnitIncrement = fBlockIncrement = 1;
-    fListener = 0;
+    fListener = nullptr;
     fScrollTo = goNone;
     fDNDScroll = false;
     fConfigured = false;

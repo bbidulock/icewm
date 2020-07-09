@@ -43,10 +43,10 @@ class WindowItemsCtrlr : public ISwitchItems
         } else
             GetZListWorkspace(false, -1);
 
-        if (fActiveWindow != 0 && find(zList, fActiveWindow) == -1)
-            fActiveWindow = 0;
-        if (fLastWindow != 0 && find(zList, fLastWindow) == -1)
-            fLastWindow = 0;
+        if (fActiveWindow != nullptr && find(zList, fActiveWindow) == -1)
+            fActiveWindow = nullptr;
+        if (fLastWindow != nullptr && find(zList, fLastWindow) == -1)
+            fLastWindow = nullptr;
     }
 
     void freeList() {
@@ -145,14 +145,14 @@ public:
         if (inrange(zTarget, 0, getCount() - 1))
             fActiveWindow = zList[zTarget];
         else
-            fActiveWindow = 0;
+            fActiveWindow = nullptr;
         return zPosition;
     }
 
 
     WindowItemsCtrlr() :
-        zTarget(0), fRoot(manager), fActiveWindow(0), fLastWindow(0),
-        fWMClass(0)
+        zTarget(0), fRoot(manager), fActiveWindow(nullptr), fLastWindow(nullptr),
+        fWMClass(nullptr)
     {
     }
 
@@ -209,18 +209,18 @@ public:
             fActiveWindow->activateWindow(true, false);
         }
         freeList();
-        fLastWindow = fActiveWindow = 0;
+        fLastWindow = fActiveWindow = nullptr;
     }
 
     virtual void accept(IClosablePopup *parent) override {
-        if (fActiveWindow == 0)
+        if (fActiveWindow == nullptr)
             cancel();
         else {
             fActiveWindow->activateWindow(true, false);
             parent->close();
         }
         freeList();
-        fLastWindow = fActiveWindow = 0;
+        fLastWindow = fActiveWindow = nullptr;
     }
 
     virtual void destroyedItem(void *item) override
@@ -230,9 +230,9 @@ public:
 
         YFrameWindow* frame = (YFrameWindow*) item;
         if (frame == fLastWindow)
-            fLastWindow = 0;
+            fLastWindow = nullptr;
         updateList();
-        if (frame == fActiveWindow || fActiveWindow == 0) {
+        if (frame == fActiveWindow || fActiveWindow == nullptr) {
             zTarget = -1;
             moveTarget(true);
         }
@@ -241,7 +241,7 @@ public:
 
     virtual bool isKey(KeySym k, unsigned int vm) override {
         return gKeySysSwitchNext.eq(k, vm) ||
-              (gKeySysSwitchClass.eq(k, vm) && fWMClass != 0);
+              (gKeySysSwitchClass.eq(k, vm) && fWMClass != nullptr);
     }
 };
 
@@ -651,7 +651,7 @@ void SwitchWindow::begin(bool zdown, int mods, char* wmclass) {
     int item = zItems->getActiveItem();
     if (item >= 0) {
         displayFocus(item);
-        isUp = popup(0, 0, 0, xiscreen, YPopupWindow::pfNoPointerChange);
+        isUp = popup(nullptr, nullptr, nullptr, xiscreen, YPopupWindow::pfNoPointerChange);
     }
 
     if (zItems->getCount() < 1) {

@@ -126,7 +126,7 @@ bool SMWindows::removeWindowInfo(YFrameWindow *) {
     return false;
 }
 
-SMWindows *sminfo = 0;
+SMWindows *sminfo = nullptr;
 
 static int wr_str(FILE *f, const char *s) {
     if (!s)
@@ -198,10 +198,10 @@ void loadWindowInfo() {
 
     upath name = getsesfile();
     FILE *fp = name.fopen("r");
-    if (fp == NULL)
+    if (fp == nullptr)
         return ;
 
-    while (fgets(line, sizeof(line), fp) != 0) {
+    while (fgets(line, sizeof(line), fp) != nullptr) {
         if (line[0] == 'c') {
             if (sscanf(line, "c %s %s %s %d:%d:%d:%d %ld %lu %ld",
                        cid, klass, instance, &x, &y, &w, &h,
@@ -263,9 +263,9 @@ void YWMApp::smDie() {
 
 void YWMApp::smSaveYourselfPhase2() {
     upath name = getsesfile();
-    YFrameWindow *f = 0;
+    YFrameWindow *f = nullptr;
     FILE *fp = name.fopen("w+");
-    if (fp == NULL)
+    if (fp == nullptr)
         goto end;
 
     f = manager->topLayer();
@@ -290,8 +290,8 @@ void YWMApp::smSaveYourselfPhase2() {
                     wr_str(fp, role.c_str());
                 } else {
                     f->client()->getClassHint();
-                    char *klass = 0;
-                    char *instance = 0;
+                    char *klass = nullptr;
+                    char *instance = nullptr;
                     XClassHint *ch = f->client()->classHint();
                     if (ch) {
                         klass = ch->res_class;

@@ -257,7 +257,7 @@ public:
         // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Refresh"), -2, null, actionRefresh);
         // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-        addItem(_("_About"), -2, actionAbout, 0);
+        addItem(_("_About"), -2, actionAbout, nullptr);
         if (showLogoutMenu) {
             addSeparator();
             if (showLogoutSubMenu)
@@ -442,7 +442,7 @@ struct LayoutInfo {
     bool expand;
 
     LayoutInfo() :
-        w(0), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
+        w(nullptr), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
     LayoutInfo(YWindow *_w, bool l, int r, bool s, int p, int o, bool e) :
         w(_w), left(l), row(r), show(s), pre(p), post(o), expand(e) {}
 };
@@ -557,7 +557,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     right[0] = w;
     right[1] = w;
-    if (taskBarShowWindows && fTasks != 0) {
+    if (taskBarShowWindows && fTasks != nullptr) {
         h[0] = max(h[0], max(YIcon::smallSize() + 8, fTasks->maxHeight()));
     }
 
@@ -822,7 +822,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
-    taskBarMenu->popup(this, 0, 0, x_root, y_root,
+    taskBarMenu->popup(this, nullptr, nullptr, x_root, y_root,
                        YPopupWindow::pfCanFlipVertical |
                        YPopupWindow::pfCanFlipHorizontal);
 }
@@ -916,10 +916,10 @@ void TaskBar::popOut() {
 }
 
 void TaskBar::showBar() {
-    if (getFrame() == 0) {
+    if (getFrame() == nullptr) {
         manager->lockWorkArea();
         manager->mapClient(handle());
-        if (getFrame() != 0) {
+        if (getFrame() != nullptr) {
             setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                             fIsCollapsed ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
@@ -981,7 +981,7 @@ TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
     if (taskPane())
         return taskPane()->addApp(w);
     else
-        return 0;
+        return nullptr;
 }
 
 void TaskBar::relayoutTasks() {
@@ -998,7 +998,7 @@ TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
     if (windowTrayPane())
         return windowTrayPane()->addApp(w);
     else
-        return 0;
+        return nullptr;
 }
 
 void TaskBar::relayoutTray() {
@@ -1008,7 +1008,7 @@ void TaskBar::relayoutTray() {
 
 void TaskBar::showAddressBar() {
     popOut();
-    if (fAddressBar != 0)
+    if (fAddressBar != nullptr)
         fAddressBar->showNow();
 }
 

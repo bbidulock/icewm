@@ -33,7 +33,7 @@ class YPixel {
 public:
     YPixel(unsigned long pix, unsigned long col) :
         fPixel(pix), fColor(col), fBright(), fDarken()
-        INIT_XFREETYPE(fXftColor, 0) { }
+        INIT_XFREETYPE(fXftColor, nullptr) { }
 
     ~YPixel();
 

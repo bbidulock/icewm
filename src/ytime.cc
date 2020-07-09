@@ -14,7 +14,7 @@
  */
 static inline timeval timeofday() {
     timeval tv;
-    gettimeofday(&tv, 0);
+    gettimeofday(&tv, nullptr);
     return tv;
 }
 

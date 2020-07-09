@@ -116,8 +116,8 @@ static Window registerProtocols1(char **argv, int argc) {
 
     static char wm_name[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
 
-    Xutf8SetWMProperties(xapp->display(), xid, wm_name, NULL,
-            argv, argc, NULL, NULL, &class_hint);
+    Xutf8SetWMProperties(xapp->display(), xid, wm_name, nullptr,
+            argv, argc, nullptr, nullptr, &class_hint);
 
     XClientMessageEvent ev;
 
@@ -364,15 +364,15 @@ ref<YIcon> YWMApp::getDefaultAppIcon() {
 }
 
 CtrlAltDelete* YWMApp::getCtrlAltDelete() {
-    if (ctrlAltDelete == 0) {
+    if (ctrlAltDelete == nullptr) {
         ctrlAltDelete = new CtrlAltDelete(this, manager);
     }
     return ctrlAltDelete;
 }
 
 SwitchWindow* YWMApp::getSwitchWindow() {
-    if (switchWindow == 0 && quickSwitch) {
-        switchWindow = new SwitchWindow(manager, NULL, quickSwitchVertical);
+    if (switchWindow == nullptr && quickSwitch) {
+        switchWindow = new SwitchWindow(manager, nullptr, quickSwitchVertical);
     }
     return switchWindow;
 }
@@ -534,12 +534,12 @@ YMenu* YWMApp::getWindowMenu() {
 bool YWMApp::handleTimer(YTimer *timer) {
     if (timer == errorTimer) {
         errorTimer = null;
-        if (errorRequestCode == X_SetInputFocus && errorFrame != 0) {
+        if (errorRequestCode == X_SetInputFocus && errorFrame != nullptr) {
             if (errorFrame == manager->getFocus()) {
                 if (errorFrame->client()) {
                     errorFrame->client()->testDestroyed();
                 }
-                manager->setFocus(0);
+                manager->setFocus(nullptr);
                 manager->focusLastWindow();
             }
         }
@@ -620,7 +620,7 @@ void YWMApp::runRestart(const char *path, char *const *args) {
         }
     } else {
         if (mainArgv[0][0] == '/' ||
-            (strchr(mainArgv[0], '/') != 0 &&
+            (strchr(mainArgv[0], '/') != nullptr &&
              access(mainArgv[0], X_OK) == 0))
         {
             execv(mainArgv[0], mainArgv);
@@ -639,7 +639,7 @@ void YWMApp::runRestart(const char *path, char *const *args) {
 void YWMApp::restartClient(const char *cpath, char *const *cargs) {
     csmart path(newstr(cpath));
     YStringArray sargs((const char**) cargs);
-    char *const *args = (cargs == 0) ? 0 : sargs.getCArray();
+    char *const *args = (cargs == nullptr) ? nullptr : sargs.getCArray();
 
     wmapp->signalGuiEvent(geRestart);
     manager->unmanageClients();
@@ -787,7 +787,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             this->exit(ICESM_EXIT_RESTART);
         else
 #endif
-            restartClient(0, 0);
+            restartClient(nullptr, nullptr);
     }
     else if (action == actionRestartXterm) {
         struct t_executor : public YMsgBoxListener {
@@ -830,7 +830,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             w->hide();
         }
     } else if (action == actionAbout) {
-        if (aboutDlg == 0)
+        if (aboutDlg == nullptr)
             aboutDlg = new AboutDlg();
         else
             aboutDlg->getFrame()->setWorkspace(manager->activeWorkspace());
@@ -839,7 +839,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionTileVertical ||
                action == actionTileHorizontal)
     {
-        YFrameWindow **w = 0;
+        YFrameWindow **w = nullptr;
         int count = 0;
 
         manager->getWindowsToArrange(&w, &count);
@@ -849,7 +849,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             delete [] w;
         }
     } else if (action == actionArrange) {
-        YFrameWindow **w = 0;
+        YFrameWindow **w = nullptr;
         int count = 0;
         manager->getWindowsToArrange(&w, &count);
         if (w) {
@@ -857,7 +857,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             delete [] w;
         }
     } else if (action == actionHideAll || action == actionMinimizeAll) {
-        YFrameWindow **w = 0;
+        YFrameWindow **w = nullptr;
         int count = 0;
         manager->getWindowsToArrange(&w, &count);
         if (w) {
@@ -865,7 +865,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             delete [] w;
         }
     } else if (action == actionShowDesktop) {
-        YFrameWindow **w = 0;
+        YFrameWindow **w = nullptr;
         int count = 0;
         manager->getWindowsToArrange(&w, &count, true, true);
         if (w && count > 0) {
@@ -877,7 +877,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         }
         delete [] w;
     } else if (action == actionCascade) {
-        YFrameWindow **w = 0;
+        YFrameWindow **w = nullptr;
         int count = 0;
         manager->getWindowsToArrange(&w, &count);
         if (w) {
@@ -895,7 +895,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         loadWinOptions(findConfigFile("winoptions"));
     } else if (action == actionReloadKeys) {
         keyProgs.clear();
-        MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), 0);
+        MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), nullptr);
         if (manager && !initializing) {
             if (manager->wmState() == YWindowManager::wmRUNNING) {
                 manager->grabKeys();
@@ -1090,7 +1090,7 @@ static int restartWM(const char* displayName, const char* overrideTheme) {
             WMConfig::setDefaultTheme(overrideTheme);
         }
         XClientMessageEvent message = {
-            ClientMessage, 0UL, False, 0, DefaultRootWindow(display),
+            ClientMessage, 0UL, False, nullptr, DefaultRootWindow(display),
             XInternAtom(display, "_ICEWM_ACTION", False), 32,
         };
         message.data.l[0] = CurrentTime;
@@ -1117,13 +1117,13 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     configFile(configFile),
     notifyParent(notifyParent),
     notifiedParent(0),
-    fLogoutMsgBox(0),
-    aboutDlg(0),
-    ctrlAltDelete(0),
-    switchWindow(0),
-    windowMenu(0),
+    fLogoutMsgBox(nullptr),
+    aboutDlg(nullptr),
+    ctrlAltDelete(nullptr),
+    switchWindow(nullptr),
+    windowMenu(nullptr),
     errorRequestCode(0),
-    errorFrame(0),
+    errorFrame(nullptr),
     splashWindow(splash(splashFile)),
     focusMode(FocusClick),
     managerWindow(None)
@@ -1131,7 +1131,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     wmapp = this;
 
     WMConfig::loadConfiguration(this, configFile);
-    if (themeName != 0) {
+    if (themeName != nullptr) {
         MSG(("themeName=%s", themeName));
 
         bool ok = WMConfig::loadThemeConfiguration(this, themeName);
@@ -1260,16 +1260,16 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 YWMApp::~YWMApp() {
     if (fLogoutMsgBox) {
         manager->unmanageClient(fLogoutMsgBox);
-        fLogoutMsgBox = 0;
+        fLogoutMsgBox = nullptr;
     }
     if (aboutDlg) {
         manager->unmanageClient(aboutDlg);
-        aboutDlg = 0;
+        aboutDlg = nullptr;
     }
 
-    delete switchWindow; switchWindow = 0;
-    delete ctrlAltDelete; ctrlAltDelete = 0;
-    delete taskBar; taskBar = 0;
+    delete switchWindow; switchWindow = nullptr;
+    delete ctrlAltDelete; ctrlAltDelete = nullptr;
+    delete taskBar; taskBar = nullptr;
 
     if (statusMoveSize)
         statusMoveSize = null;
@@ -1281,7 +1281,7 @@ YWMApp::~YWMApp() {
 
     if (windowMenu) {
         windowMenu->setShared(false);
-        delete windowMenu; windowMenu = 0;
+        delete windowMenu; windowMenu = nullptr;
     }
 
     // shared menus last
@@ -1357,7 +1357,7 @@ bool YWMApp::handleIdle() {
     if ((QLength(display()) >> qbits) > 0) {
         ++qbits;
     }
-    else if (taskBar == 0 && showTaskBar) {
+    else if (taskBar == nullptr && showTaskBar) {
         createTaskBar();
         busy = true;
     }
@@ -1503,7 +1503,7 @@ static void print_usage(const char *argv0) {
 }
 
 static void print_themes_list() {
-    themeName = 0;
+    themeName = nullptr;
     ref<YResourcePaths> res(YResourcePaths::subdirs(null, true));
     for (int i = 0; i < res->getCount(); ++i) {
         for (sdir dir(res->getPath(i)); dir.next(); ) {
@@ -1633,13 +1633,13 @@ int main(int argc, char **argv) {
     YLocale locale;
     bool restart_wm(false);
     bool notify_parent(false);
-    const char* configFile(0);
-    const char* displayName(0);
-    const char* overrideTheme(0);
+    const char* configFile(nullptr);
+    const char* displayName(nullptr);
+    const char* overrideTheme(nullptr);
 
     for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-            char *value(0);
+            char *value(nullptr);
             if (GetArgument(value, "c", "config", arg, argv+argc))
                 configFile = value;
             else if (GetArgument(value, "t", "theme", arg, argv+argc))
@@ -1719,7 +1719,7 @@ int main(int argc, char **argv) {
 }
 
 void YWMApp::createTaskBar() {
-    if (showTaskBar && taskBar == 0) {
+    if (showTaskBar && taskBar == nullptr) {
         manager->lockWorkArea();
         taskBar = new TaskBar(this, manager, this, this);
         for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
@@ -1736,7 +1736,7 @@ void YWMApp::doLogout(RebootShutdown reboot) {
     if (!confirmLogout)
         logout();
     else {
-        if (fLogoutMsgBox == 0) {
+        if (fLogoutMsgBox == nullptr) {
             YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK|YMsgBox::mbCancel);
             fLogoutMsgBox = msgbox;
             msgbox->setTitle(_("Confirm Logout"));
@@ -1791,7 +1791,7 @@ void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fLogoutMsgBox && fLogoutMsgBox) {
         if (fLogoutMsgBox) {
             manager->unmanageClient(fLogoutMsgBox);
-            fLogoutMsgBox = 0;
+            fLogoutMsgBox = nullptr;
         }
         if (operation == YMsgBox::mbOK) {
             logout();
@@ -1838,7 +1838,7 @@ class SplashWindow : public YWindow {
     ref<YImage> image;
 public:
     SplashWindow(ref<YImage> image, int depth, Visual* visual) :
-        YWindow(0, None, depth, visual),
+        YWindow(nullptr, None, depth, visual),
         image(image)
     {
         setToplevel(true);
@@ -1879,7 +1879,7 @@ public:
 };
 
 YWindow* YWMApp::splash(const char* splashFile) {
-    YWindow* window(0);
+    YWindow* window(nullptr);
     if (splashFile && 4 < strlen(splashFile)) {
         upath path(findConfigFile(splashFile));
         if (path.nonempty()) {

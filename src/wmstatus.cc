@@ -216,7 +216,7 @@ void WorkspaceStatus::setStatus(long workspace) {
 }
 
 mstring WorkspaceStatus::longestStatus() {
-    const char* longestWorkspaceName = NULL;
+    const char* longestWorkspaceName = nullptr;
     int maxWorkspaceNameLength = 0;
 
     for (int w = 0; w < workspaceCount; ++w) {

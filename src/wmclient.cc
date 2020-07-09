@@ -55,7 +55,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fShaped = false;
     fPinging = false;
     fPingTime = 0;
-    fHints = 0;
+    fHints = nullptr;
     fWinHints = 0;
     fSavedFrameState = InvalidFrameState;
     fSavedWinState[0] = 0;
@@ -63,7 +63,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fSizeHints = XAllocSizeHints();
     fTransientFor = 0;
     fClientLeader = None;
-    fMwmHints = 0;
+    fMwmHints = nullptr;
     fPid = 0;
     prop = {};
 
@@ -110,16 +110,16 @@ YFrameClient::~YFrameClient() {
         clientContext.remove(handle());
     }
 
-    if (fSizeHints) { XFree(fSizeHints); fSizeHints = 0; }
-    if (fHints) { XFree(fHints); fHints = 0; }
-    if (fMwmHints) { XFree(fMwmHints); fMwmHints = 0; }
+    if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
+    if (fHints) { XFree(fHints); fHints = nullptr; }
+    if (fMwmHints) { XFree(fMwmHints); fMwmHints = nullptr; }
 }
 
 void YFrameClient::getProtocols(bool force) {
     if (!prop.wm_protocols && !force)
         return;
 
-    Atom *wmp = 0;
+    Atom *wmp = nullptr;
     int count = 0;
 
     fProtocols &= wpDeleteWindow; // always keep WM_DELETE_WINDOW
@@ -298,7 +298,7 @@ void YFrameClient::gravityOffsets(int &xp, int &yp) {
     xp = 0;
     yp = 0;
 
-    if (fSizeHints == 0 || notbit(fSizeHints->flags, PWinGravity))
+    if (fSizeHints == nullptr || notbit(fSizeHints->flags, PWinGravity))
         return;
 
     static struct {
@@ -379,14 +379,14 @@ bool YFrameClient::sendPing() {
 }
 
 bool YFrameClient::handleTimer(YTimer* timer) {
-    if (timer == 0 || timer != fPingTimer) {
+    if (timer == nullptr || timer != fPingTimer) {
         return false;
     }
 
     fPingTimer = null;
     fPinging = false;
 
-    if (destroyed() || getFrame() == 0) {
+    if (destroyed() || getFrame() == nullptr) {
         return false;
     }
 
@@ -743,9 +743,9 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    if (title == 0 || fWindowTitle == null || !fWindowTitle.equals(title)) {
+    if (title == nullptr || fWindowTitle == null || !fWindowTitle.equals(title)) {
         fWindowTitle = mstring(title);
-        if (title != 0) {
+        if (title != nullptr) {
             mstring cs(fWindowTitle);
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
@@ -761,9 +761,9 @@ void YFrameClient::setWindowTitle(const char *title) {
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    if (title == 0 || fIconTitle == null || !fIconTitle.equals(title)) {
+    if (title == nullptr || fIconTitle == null || !fIconTitle.equals(title)) {
         fIconTitle = mstring(title);
-        if (title != 0) {
+        if (title != nullptr) {
             mstring cs(fIconTitle);
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
@@ -780,11 +780,11 @@ void YFrameClient::setIconTitle(const char *title) {
 
 #ifdef CONFIG_I18N
 void YFrameClient::setWindowTitle(const XTextProperty & title) {
-    if (NULL == title.value /*|| title.encoding == XA_STRING*/)
+    if (nullptr == title.value /*|| title.encoding == XA_STRING*/)
         setWindowTitle((const char *)title.value);
     else {
         int count;
-        char ** strings(NULL);
+        char ** strings(nullptr);
 
         if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
@@ -798,11 +798,11 @@ void YFrameClient::setWindowTitle(const XTextProperty & title) {
 }
 
 void YFrameClient::setIconTitle(const XTextProperty & title) {
-    if (NULL == title.value /*|| title.encoding == XA_STRING*/)
+    if (nullptr == title.value /*|| title.encoding == XA_STRING*/)
         setIconTitle((const char *)title.value);
     else {
         int count;
-        char ** strings(NULL);
+        char ** strings(nullptr);
 
         if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
                                       &strings, &count) >= 0 &&
@@ -1015,7 +1015,7 @@ void YFrameClient::getNameHint() {
 #endif
     }
     else
-        setWindowTitle(NULL);
+        setWindowTitle(nullptr);
 }
 
 void YFrameClient::getNetWmName() {
@@ -1030,7 +1030,7 @@ void YFrameClient::getNetWmName() {
         XFree(name.value);
     }
     else
-        setWindowTitle(NULL);
+        setWindowTitle(nullptr);
 }
 
 void YFrameClient::getIconNameHint() {
@@ -1055,7 +1055,7 @@ void YFrameClient::getIconNameHint() {
 #endif
     }
     else
-        setIconTitle(NULL);
+        setIconTitle(nullptr);
 }
 
 void YFrameClient::getNetWmIconName() {
@@ -1070,7 +1070,7 @@ void YFrameClient::getNetWmIconName() {
         XFree(name.value);
     }
     else
-        setIconTitle(NULL);
+        setIconTitle(nullptr);
 }
 
 void YFrameClient::getWMHints() {
@@ -1202,7 +1202,7 @@ bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
 bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     *type = None;
     *count = 0;
-    *elem = 0;
+    *elem = nullptr;
 
     if (!prop.win_icons)
         return false;

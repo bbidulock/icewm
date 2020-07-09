@@ -21,7 +21,7 @@ protected:
 
 class YInputLine: public YWindow, public YTimerListener, public YActionListener {
 public:
-    YInputLine(YWindow *parent = 0, YInputListener *listener = 0);
+    YInputLine(YWindow *parent = nullptr, YInputListener *listener = nullptr);
     virtual ~YInputLine();
 
     void setText(const mstring &text, bool asMarked);

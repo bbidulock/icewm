@@ -331,7 +331,7 @@ void CPUStatus::updateToolTip() {
             }
             const char *const form = _("\nCPU Freq: %.3fGHz");
             const char *const perc = strstr(form, "%.3f");
-            if (cpus < 2 || perc == NULL) {
+            if (cpus < 2 || perc == nullptr) {
                 snprintf(pos, rest, form, maxf / 1e6);
             } else {
                 snprintf(pos, rest, "%.*s%.3f %.3f %s", (int)(perc - form),
@@ -490,12 +490,12 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
 
 void CPUStatus::getStatusPlatform() {
 #ifdef __linux__
-    char *p = 0, buf[4096], *end = 0;
+    char *p = nullptr, buf[4096], *end = nullptr;
     unsigned long long cur[IWM_STATES];
     int s;
 
     fileptr fd(fopen("/proc/stat", "r"));
-    if (fd == NULL)
+    if (fd == nullptr)
         return;
 
     while (fgets(buf, sizeof buf, fd) && 0 == strncmp(buf, "cpu", 3)) {
@@ -512,7 +512,7 @@ void CPUStatus::getStatusPlatform() {
         }
     }
     fd.close();
-    if (p == 0)
+    if (p == nullptr)
         return;
 
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
@@ -666,7 +666,7 @@ void CPUStatusControl::handleClick(const XButtonEvent &up, int cpuid) {
             fMenu->addItem(_("_Separate"), -2, null, actionCascade);
         }
         fMenuCPU = cpuid;
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);

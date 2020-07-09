@@ -85,10 +85,10 @@ bool AddressBar::handleReturn(int mask) {
         args += "-c";
     }
     args += line;
-    args += 0;
+    args += nullptr;
 
     if (line.isEmpty())
-        args.replace(control, 0);
+        args.replace(control, nullptr);
     if (args[0])
         app->runProgram(args[0], args.getCArray());
     selectAll();

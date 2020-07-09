@@ -116,15 +116,15 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
 }
 
 CtrlAltDelete::~CtrlAltDelete() {
-    delete lockButton; lockButton = 0;
-    delete suspendButton; suspendButton = 0;
-    delete cancelButton; cancelButton = 0;
-    delete logoutButton; logoutButton = 0;
-    delete rebootButton; rebootButton = 0;
-    delete shutdownButton; shutdownButton = 0;
-    delete windowListButton; windowListButton = 0;
-    delete restartButton; restartButton = 0;
-    delete aboutButton; aboutButton = 0;
+    delete lockButton; lockButton = nullptr;
+    delete suspendButton; suspendButton = nullptr;
+    delete cancelButton; cancelButton = nullptr;
+    delete logoutButton; logoutButton = nullptr;
+    delete rebootButton; rebootButton = nullptr;
+    delete shutdownButton; shutdownButton = nullptr;
+    delete windowListButton; windowListButton = nullptr;
+    delete restartButton; restartButton = nullptr;
+    delete aboutButton; aboutButton = nullptr;
 }
 
 void CtrlAltDelete::configure(const YRect2& r) {

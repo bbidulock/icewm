@@ -25,9 +25,9 @@ static void initIconPaths() {
     }
     if (iconDirs.isEmpty() && nonempty(iconPath)) {
         char* copy = newstr(iconPath);
-        char* save = 0;
+        char* save = nullptr;
         for (char *tok = strtok_r(copy, ":", &save);
-            tok != 0; tok = strtok_r(0, ":", &save))
+            tok != nullptr; tok = strtok_r(nullptr, ":", &save))
         {
             wordexp_t exp;
             if (wordexp(tok, &exp, WRDE_NOCMD) == 0) {
@@ -120,12 +120,12 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     static const char* xdg_icon_patterns[] = {
             "/%ux%u/apps/%s",
             "/%ux%u/categories/%s",
-            0
+            nullptr
     };
     static const char* xdg_folder_patterns[] = {
             "/%ux%u/apps",
             "/%ux%u/categories",
-            0
+            nullptr
     };
 
 

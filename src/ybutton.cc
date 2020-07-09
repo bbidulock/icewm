@@ -41,7 +41,7 @@ YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
     fPressed(false),
     fEnabled(true),
     fHotCharPos(-1), hotKey(-1),
-    fListener(NULL),
+    fListener(nullptr),
     fSelected(false), fArmed(false),
     wasPopupActive(false),
     fPopupActive(false)
@@ -287,7 +287,7 @@ void YButton::handleButton(const XButtonEvent &button) {
 }
 
 void YButton::handleClick(const XButtonEvent &button, int count) {
-    if (fEnabled && fPopup == 0) {
+    if (fEnabled && fPopup == nullptr) {
         bool wasArmed = fArmed;
 
         setArmed(false, false);
@@ -410,7 +410,7 @@ void YButton::popup(bool mouseDown) {
         fPopup->setActionListener(getActionListener());
 
         int xiscreen = desktop->getScreenForRect(x, y, width(), height());
-        if (fPopup->popup(this, this, 0,
+        if (fPopup->popup(this, this, nullptr,
                           x - 2,
                           y + height(),
                           0,

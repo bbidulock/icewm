@@ -64,7 +64,7 @@ private:
 YAutoScroll::YAutoScroll() :
     fAutoScrollTimer(autoScrollDelay, this, false)
 {
-    fWindow = 0;
+    fWindow = nullptr;
     fScrolling = false;
 }
 
@@ -82,9 +82,9 @@ void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mo
     if (motion)
         fMotion = *motion;
     else
-        w = 0;
+        w = nullptr;
     fWindow = w;
-    if (w == 0)
+    if (w == nullptr)
         autoScroll = false;
     fScrolling = autoScroll;
     if (autoScroll) {
@@ -97,8 +97,8 @@ void YAutoScroll::autoScroll(YWindow *w, bool autoScroll, const XMotionEvent *mo
 /******************************************************************************/
 /******************************************************************************/
 
-YAutoScroll *YWindow::fAutoScroll = 0;
-YWindow *YWindow::fClickWindow = 0;
+YAutoScroll *YWindow::fAutoScroll = nullptr;
+YWindow *YWindow::fClickWindow = nullptr;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
 XButtonEvent YWindow::fClickEvent;
@@ -124,17 +124,17 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fVisual(visual ? visual : xapp->visual()),
     fColormap(colormap),
     fParentWindow(parent),
-    fFocusedWindow(0),
+    fFocusedWindow(nullptr),
     fHandle(win), flags(0), fStyle(0),
     fX(0), fY(0), fWidth(1), fHeight(1),
     fPointer(), unmapCount(0),
-    fGraphics(0),
+    fGraphics(nullptr),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
     fEnabled(true), fToplevel(false),
     fDoubleBuffer(doubleBuffer),
-    accel(0),
+    accel(nullptr),
     fDND(false), XdndDragSource(None), XdndDropTarget(None)
 {
     if (fHandle != None) {
@@ -154,13 +154,13 @@ YWindow::~YWindow() {
         fAutoScroll->isScrolling() &&
         fAutoScroll->getWindow() == this)
     {
-        fAutoScroll->autoScroll(0, false, 0);
+        fAutoScroll->autoScroll(nullptr, false, nullptr);
         delete fAutoScroll;
-        fAutoScroll = 0;
+        fAutoScroll = nullptr;
     }
-    fFocusedWindow = 0;
+    fFocusedWindow = nullptr;
     removeWindow();
-    while (nextWindow() != 0)
+    while (nextWindow() != nullptr)
            nextWindow()->removeWindow();
     while (accel) {
         YAccelerator *next = accel->next;
@@ -168,9 +168,9 @@ YWindow::~YWindow() {
         accel = next;
     }
     if (fClickWindow == this)
-        fClickWindow = 0;
+        fClickWindow = nullptr;
     if (fGraphics) {
-        delete fGraphics; fGraphics = 0;
+        delete fGraphics; fGraphics = nullptr;
     }
     if (flags & wfCreated)
         destroy();
@@ -474,7 +474,7 @@ void YWindow::destroy() {
 void YWindow::removeWindow() {
     if (fParentWindow) {
         fParentWindow->remove(this);
-        fParentWindow = 0;
+        fParentWindow = nullptr;
     }
 }
 
@@ -911,7 +911,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fClickButtonDown = 0;
             handleClick(button, fClickCount);
         } else {
-            fClickWindow = 0;
+            fClickWindow = nullptr;
             fClickCount = 1;
             fClickButtonDown = 0;
             fClickButton = 0;
@@ -1291,7 +1291,7 @@ YWindow *YWindow::toplevel() {
             return w;
         w = w->fParentWindow;
     }
-    return 0;
+    return nullptr;
 }
 
 void YWindow::nextFocus() {
@@ -1323,7 +1323,7 @@ YWindow *YWindow::getFocusWindow() {
 bool YWindow::changeFocus(bool next) {
     YWindow *cur = getFocusWindow();
 
-    if (cur == 0) {
+    if (cur == nullptr) {
         if (next)
             cur = lastWindow();
         else
@@ -1397,7 +1397,7 @@ void YWindow::setFocus(YWindow *window) {
     }
 }
 void YWindow::gotFocus() {
-    if (parent() == 0 || isToplevel() || parent()->focused()) {
+    if (parent() == nullptr || isToplevel() || parent()->focused()) {
         if (!(flags & wfFocused)) {
             flags |= wfFocused;
             repaintFocus();
@@ -1419,7 +1419,7 @@ void YWindow::lostFocus() {
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (fToplevel || fParentWindow == 0) {
+    if (fToplevel || fParentWindow == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1435,7 +1435,7 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
         }
 
         a = new YAccelerator;
-        if (a == 0)
+        if (a == nullptr)
             return ;
 
         a->key = key;
@@ -1449,7 +1449,7 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (fToplevel || fParentWindow == 0) {
+    if (fToplevel || fParentWindow == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1541,7 +1541,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
     {
         Window target, child;
         int x, y, nx, ny;
-        YWindow *pwin = 0;
+        YWindow *pwin = nullptr;
 
         XdndDragSource = static_cast<unsigned long>(message.data.l[0]);
         x = int(message.data.l[2] >> 16);
@@ -1572,14 +1572,14 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
 
         if (target != XdndDropTarget) {
             if (XdndDropTarget) {
-                YWindow *ptr = 0;
+                YWindow *ptr = nullptr;
 
                 if (windowContext.find(XdndDropTarget, &ptr))
                     ptr->handleDNDLeave();
             }
             XdndDropTarget = target;
             if (XdndDropTarget) {
-                YWindow *ptr = 0;
+                YWindow *ptr = nullptr;
 
                 if (windowContext.find(XdndDropTarget, &ptr))
                 {
@@ -1588,7 +1588,7 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
                 }
             }
         }
-        if (pwin == 0 && XdndDropTarget) { // !!! optimize this
+        if (pwin == nullptr && XdndDropTarget) { // !!! optimize this
             windowContext.find(XdndDropTarget, &pwin);
         }
         if (pwin)
@@ -1628,7 +1628,7 @@ bool YWindow::handleAutoScroll(const XMotionEvent & /*mouse*/) {
 }
 
 void YWindow::beginAutoScroll(bool doScroll, const XMotionEvent *motion) {
-    if (fAutoScroll == 0)
+    if (fAutoScroll == nullptr)
         fAutoScroll = new YAutoScroll();
     if (fAutoScroll)
         fAutoScroll->autoScroll(this, doScroll, motion);
@@ -1690,7 +1690,7 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 }
 
 YDesktop::~YDesktop() {
-    for (YWindow* w; (w = firstWindow()) != 0; delete w) {
+    for (YWindow* w; (w = firstWindow()) != nullptr; delete w) {
         char* name = demangle(typeid(*w).name());
         INFO("deleting stray %s", name);
         free(name);
@@ -1832,7 +1832,7 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *s, int maxLen) {
     XKeyEvent kev = key;
 
     // FIXME:
-    int klen = XLookupString(&kev, keyBuf, sizeof(keyBuf), &ksym, NULL);
+    int klen = XLookupString(&kev, keyBuf, sizeof(keyBuf), &ksym, nullptr);
 #ifndef USE_XmbLookupString
     if ((klen == 0)  && (ksym < 0x1000)) {
         klen = 1;
@@ -1862,7 +1862,7 @@ void YWindow::scrollWindow(int dx, int dy) {
     XRectangle r[2];
     int nr = 0;
 
-    GC scrollGC = XCreateGC(xapp->display(), handle(), 0, NULL);
+    GC scrollGC = XCreateGC(xapp->display(), handle(), 0, nullptr);
 
     XCopyArea(xapp->display(), handle(), handle(), scrollGC,
               dx, dy, width(), height(), 0, 0);

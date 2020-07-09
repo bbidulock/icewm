@@ -42,7 +42,7 @@ public:
     int getNameWidth() const;
     int getParamWidth() const;
 
-    bool isSeparator() { return getName() == null && getSubmenu() == 0; }
+    bool isSeparator() { return getName() == null && getSubmenu() == nullptr; }
 
     void setIcon(ref<YIcon> icon);
 private:

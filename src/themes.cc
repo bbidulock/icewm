@@ -39,7 +39,7 @@ void DTheme::open() {
 
     WMConfig::setDefaultTheme(fTheme);
 
-    const char *bg[] = { ICEWMBGEXE, "-r", 0 };
+    const char *bg[] = { ICEWMBGEXE, "-r", nullptr };
     int pid = app->runProgram(bg[0], bg);
     app->waitProgram(pid);
 
@@ -104,7 +104,7 @@ YMenuItem * ThemesMenu::newThemeItem(
             return item;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void ThemesMenu::findThemes(const upath& path, YMenu *container) {
@@ -114,7 +114,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
     char subName[5] = { 'X', '.','.','.', 0};
 
     for (udir dir(path); dir.next(); ) {
-        YMenuItem *im(NULL);
+        YMenuItem *im(nullptr);
         YMenu* targetMenu = container;
         upath subdir = path + dir.entry();
         upath defThemePath = subdir + defTheme;
@@ -164,9 +164,9 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
         }
 
         if (im) {
-            if (targetMenu->addSorted(im, false, true) == 0) {
+            if (targetMenu->addSorted(im, false, true) == nullptr) {
                 delete im;
-                im = 0;
+                im = nullptr;
             }
         }
         if (im) {
@@ -199,7 +199,7 @@ void ThemesMenu::findThemeAlternatives(
             if (altThemePath.isReadable()) {
                 YMenu *sub(item->getSubmenu());
 
-                if (sub == NULL)
+                if (sub == nullptr)
                     item->setSubmenu(sub = new YMenu());
 
                 if (sub) {

@@ -79,7 +79,7 @@ void WorkspaceButton::handleClick(const XButtonEvent &up, int count) {
     switch (up.button) {
         case 1:
             if (count == 2) {
-                if (fInput == 0) {
+                if (fInput == nullptr) {
                     fInput = new YInputLine(this, this);
                 }
                 if (fInput) {
@@ -181,19 +181,19 @@ void WorkspaceButton::inputReturn(YInputLine* input) {
             manager->setDesktopNames();
             fPane->relabel(fWorkspace);
         }
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
 void WorkspaceButton::inputEscape(YInputLine* input) {
     if (input == fInput) {
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
 void WorkspaceButton::inputLostFocus(YInputLine* input) {
     if (input == fInput) {
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
@@ -259,7 +259,7 @@ long WorkspacesPane::limitWidth(long paneWidth) {
     long maxButtons = 0;
     long maxPercent = 0;
     if (nonempty(str)) {
-        char* end = 0;
+        char* end = nullptr;
         long num = strtol(str, &end, 0);
         if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
             maxPixels = max(50L, taskBarWidth - x() - reserved);

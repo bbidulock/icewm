@@ -6,8 +6,8 @@ class YColorName;
 
 class YColor {
 public:
-    YColor() : fPixel(0) { }
-    explicit YColor(const char* s) : fPixel(0) { if (s) alloc(s, 0); }
+    YColor() : fPixel(nullptr) { }
+    explicit YColor(const char* s) : fPixel(nullptr) { if (s) alloc(s, 0); }
     YColor(unsigned char r, unsigned char g, unsigned char b, unsigned char a = 0);
     YColor(const YColor& c) : fPixel(c.fPixel) { }
     YColor& operator=(const YColor& c) { fPixel = c.fPixel; return *this; }
@@ -22,7 +22,7 @@ public:
     bool operator!=(YColor& c);
     operator bool() { return fPixel; }
     operator bool() const { return fPixel; }
-    void release() { fPixel = 0; }
+    void release() { fPixel = nullptr; }
 
     unsigned char red();
     unsigned char green();
@@ -48,8 +48,8 @@ private:
 
 class YColorName {
 public:
-    YColorName(const char* clr = 0) : fName(clr), fNamePtr(&fName) { }
-    YColorName(const char** clrp) : fName(0), fNamePtr(clrp) { }
+    YColorName(const char* clr = nullptr) : fName(clr), fNamePtr(&fName) { }
+    YColorName(const char** clrp) : fName(nullptr), fNamePtr(clrp) { }
 
     const char* name() const { return *fNamePtr; }
     YColor color() { if (!fColor) alloc(); return fColor; }
@@ -63,7 +63,7 @@ public:
     YColor* operator->() { if (!fColor) alloc(); return &fColor; }
 
     void operator=(const char* clr) { fName = clr; fNamePtr = &fName; release(); }
-    void operator=(const char** clrp) { fName = 0; fNamePtr = clrp; release(); }
+    void operator=(const char** clrp) { fName = nullptr; fNamePtr = clrp; release(); }
 
 private:
     void alloc() { fColor.alloc(name(), 0); }

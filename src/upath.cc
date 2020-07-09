@@ -185,7 +185,7 @@ char* upath::loadText() {
 
 bool upath::copyFrom(upath from, int mode) {
     csmart text(from.loadText());
-    if (text == 0)
+    if (text == nullptr)
         return false;
     int fd = open(O_WRONLY | O_CREAT | O_TRUNC, mode);
     if (fd == -1)
@@ -231,7 +231,7 @@ bool upath::hasglob(mstring pattern) {
 bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
     bool okay = false;
     int flagbits = 0;
-    int (*const errfunc) (const char *epath, int eerrno) = 0;
+    int (*const errfunc) (const char *epath, int eerrno) = nullptr;
     glob_t gl = {};
 
     if (flags) {

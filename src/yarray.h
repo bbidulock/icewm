@@ -35,7 +35,7 @@ public:
     typedef unsigned char StorageType;
 
     explicit YBaseArray(SizeType elementSize):
-        fElementSize(elementSize), fCapacity(0), fCount(0), fElements(0) {}
+        fElementSize(elementSize), fCapacity(0), fCount(0), fElements(nullptr) {}
     YBaseArray(YBaseArray &other);
     YBaseArray(const YBaseArray& other);
     virtual ~YBaseArray() { clear(); }
@@ -80,11 +80,11 @@ public:
     }
     const void *getItem(const SizeType index) const {
         PRECONDITION(index < getCount());
-        return (index < getCount() ? getElement(index) : 0);
+        return (index < getCount() ? getElement(index) : nullptr);
     }
     void *getItem(const SizeType index) {
         PRECONDITION(index < getCount());
-        return (index < getCount() ? getElement(index) : 0);
+        return (index < getCount() ? getElement(index) : nullptr);
     }
 
     const void *operator[](const SizeType index) const {
@@ -458,8 +458,8 @@ public:
         return hash < hash2 ? -1 :
                hash > hash2 ? +1 :
                key == key2 ? 0 :
-               key == 0 && key2 != 0 ? -1 :
-               key != 0 && key2 == 0 ? +1 :
+               key == nullptr && key2 != nullptr ? -1 :
+               key != nullptr && key2 == nullptr ? +1 :
                strcmp(key, key2);
     }
 

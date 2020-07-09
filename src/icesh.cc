@@ -2260,7 +2260,7 @@ bool IceSh::colormaps()
     while (running) {
         int n = 0;
         Colormap* map = XListInstalledColormaps(display, root, &n);
-        if (n != m || old == 0 || memcmp(map, old, n * sizeof(Colormap)) || !(++k % 100)) {
+        if (n != m || old == nullptr || memcmp(map, old, n * sizeof(Colormap)) || !(++k % 100)) {
             char buf[2000] = "";
             for (int i = 0; i < n; ++i) {
                 snprintf(buf + strlen(buf), sizeof buf - strlen(buf),
@@ -2722,7 +2722,7 @@ static Window pickWindow() {
 
 static bool isOptArg(const char* arg, const char* opt, const char* val) {
     const char buf[3] = { opt[0], opt[1], '\0', };
-    return (strpcmp(arg, opt) == 0 || strcmp(arg, buf) == 0) && val != 0;
+    return (strpcmp(arg, opt) == 0 || strcmp(arg, buf) == 0) && val != nullptr;
 }
 
 static void removeOpacity(Window window) {

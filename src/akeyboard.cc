@@ -82,7 +82,7 @@ void KeyboardStatus::handleClick(const XButtonEvent& up, int count) {
                            EAction(actionShow + 2 * i))
                             ->setChecked(i == fIndex);
         }
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);

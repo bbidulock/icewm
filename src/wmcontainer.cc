@@ -244,7 +244,7 @@ void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
                  crossing.mode == NotifyNormal &&
                  manager->colormapWindow() == getFrame())
         {
-            manager->setColormapWindow(0);
+            manager->setColormapWindow(nullptr);
         }
     }
 }

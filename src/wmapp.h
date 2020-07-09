@@ -98,9 +98,9 @@ public:
 
     ref<YIcon> getDefaultAppIcon();
 
-    bool hasCtrlAltDelete() const { return ctrlAltDelete != 0; }
+    bool hasCtrlAltDelete() const { return ctrlAltDelete != nullptr; }
     CtrlAltDelete* getCtrlAltDelete();
-    bool hasSwitchWindow() const { return switchWindow != 0; }
+    bool hasSwitchWindow() const { return switchWindow != nullptr; }
     SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
     FocusModels getFocusMode() const { return focusMode; }

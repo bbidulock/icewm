@@ -31,7 +31,7 @@ Graphics::Graphics(YWindow & window,
     rDepth = (window.depth() ? window.depth() : xapp->depth());
     gc = XCreateGC(display(), drawable(), vmask, gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -47,7 +47,7 @@ Graphics::Graphics(YWindow & window):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -63,7 +63,7 @@ Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -77,7 +77,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
 {
     gc = XCreateGC(display(), drawable, vmask, gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -91,7 +91,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -107,7 +107,7 @@ Graphics::~Graphics() {
 #ifdef CONFIG_XFREETYPE
     if (fXftDraw) {
         XftDrawDestroy(fXftDraw);
-        fXftDraw = 0;
+        fXftDraw = nullptr;
     }
 #endif
 }
@@ -303,7 +303,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         int sl(0), sw(0);
 
 #ifdef CONFIG_I18N
-        if (multiByte) mblen(NULL, 0);
+        if (multiByte) mblen(nullptr, 0);
 #endif
 
         if (maxW > 0) {
@@ -361,7 +361,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     int c = 0, cp = 0;
 
 #ifdef CONFIG_I18N
-    if (multiByte) mblen(NULL, 0);
+    if (multiByte) mblen(nullptr, 0);
 #endif
     while (c <= len && cp <= charPos + 1) {
         if (charPos == cp) {
@@ -1055,7 +1055,7 @@ void Graphics::setClipMask(Pixmap mask) {
 void Graphics::resetClip() {
     XSetClipMask(display(), gc, None);
 #ifdef CONFIG_XFREETYPE
-    XftDrawSetClip(handleXft(), 0);
+    XftDrawSetClip(handleXft(), nullptr);
 #endif
 }
 

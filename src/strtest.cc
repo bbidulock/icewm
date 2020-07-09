@@ -63,7 +63,7 @@ static void test_failed(mstring u, const char *s, int l)
     printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
             prog, source, l,
             u == null ? "NULL" : u.c_str(),
-            s == 0 ? "NULL" : s);
+            s == nullptr ? "NULL" : s);
     ++failed;
     ++total_failed;
 }
@@ -102,7 +102,7 @@ static void test_mstring()
     expect(m, "");
     assert(m, m.length() == 0);
 
-    mstring n(0, (size_t) 0);
+    mstring n(nullptr, (size_t) 0);
     expect(n, "");
     assert(n, n.length() == 0);
 
@@ -218,7 +218,7 @@ static void test_mstring()
     q = ul.upper();
     expect(q, "ABCD.");
 
-    mstring u = NULL;
+    mstring u = nullptr;
     expect(u, "");
     u = mstring(nullptr) + "aha";
     expect(u, "aha");
@@ -229,7 +229,7 @@ static void test_mstring()
     expect(u, "abcd");
     u = mstring("ab", nullptr);
     expect(u, "ab");
-    u = mstring(NULL, "cd");
+    u = mstring(nullptr, "cd");
     expect(u, "cd");
     u = mstring(nullptr, nullptr);
     assert(u, u.isEmpty());
@@ -240,7 +240,7 @@ static void test_mstring()
     expect(u, "abcd");
     u = mstring("ab", nullptr, "ef");
     expect(u, "abef");
-    u = mstring(NULL, "cd", "ef");
+    u = mstring(nullptr, "cd", "ef");
     expect(u, "cdef");
     u = mstring(nullptr, nullptr, nullptr);
     expect(u, "");

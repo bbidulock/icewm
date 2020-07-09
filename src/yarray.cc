@@ -129,7 +129,7 @@ void YBaseArray::clear() {
 }
 
 void YBaseArray::release() {
-    fElements = 0;
+    fElements = nullptr;
     fCapacity = 0;
     fCount = 0;
 }
@@ -165,7 +165,7 @@ YStringArray::YStringArray(const char* cstr[], SizeType num, SizeType cap) :
         if (num == npos) {
             for (SizeType i = 0; cstr[i]; ++i)
                 append(cstr[i]);
-            append(0);
+            append(nullptr);
         }
         else {
             for (SizeType i = 0; i < num; ++i)

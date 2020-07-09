@@ -80,10 +80,10 @@ private:
     void options(int *argc, char ***argv) {
         const char* outputArg = nullptr;
         argv0 = **argv;
-        displayArg = 0;
-        configArg = 0;
-        themeArg = 0;
-        alphaArg = 0;
+        displayArg = nullptr;
+        configArg = nullptr;
+        themeArg = nullptr;
+        alphaArg = nullptr;
         icewmExe = ICEWMEXE;
         syncArg = false;
         nobgArg = false;
@@ -92,7 +92,7 @@ private:
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
-                char *value(0);
+                char *value(nullptr);
                 if (GetArgument(value, "d", "display", arg, *argv+*argc)) {
                     if (value && *value)
                         displayArg = value;
@@ -217,7 +217,7 @@ public:
 
     virtual int runProgram(const char *file, const char *const *args) {
         upath path;
-        if (strchr(file, '/') == NULL && strchr(argv0, '/') != NULL) {
+        if (strchr(file, '/') == nullptr && strchr(argv0, '/') != nullptr) {
             path = upath(argv0).parent() + file;
             if (path.isExecutable()) {
                 file = path.string();
@@ -233,7 +233,7 @@ public:
         if (scriptFile.nonempty() && scriptFile.isExecutable()) {
             const char *cs = scriptFile.string();
             MSG(("Running session script: %s", cs));
-            runProgram(cs, 0);
+            runProgram(cs, nullptr);
         }
     }
 
@@ -258,12 +258,12 @@ public:
             args[k++] = "--sync";
         }
         if (k < narg) {
-            args[k] = 0;
+            args[k] = nullptr;
         }
     }
 
     void runIcewmbg(bool quit = false) {
-        const char *args[12] = { ICEWMBGEXE, 0, 0 };
+        const char *args[12] = { ICEWMBGEXE, nullptr, nullptr };
 
         if (nobgArg) {
             return;
@@ -278,7 +278,7 @@ public:
     }
 
     void runIcewmtray(bool quit = false) {
-        const char *args[12] = { ICEWMTRAYEXE, "--notify", 0 };
+        const char *args[12] = { ICEWMTRAYEXE, "--notify", nullptr };
         if (quit) {
             if (tray_pid != -1) {
                 kill(tray_pid, SIGTERM);
@@ -297,7 +297,7 @@ public:
     }
 
     void runIcesound(bool quit = false) {
-        const char *args[12] = { ICESOUNDEXE, "--verbose", 0 };
+        const char *args[12] = { ICESOUNDEXE, "--verbose", nullptr };
         if (soundArg == false) {
             return;
         }

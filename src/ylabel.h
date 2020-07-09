@@ -5,7 +5,7 @@
 
 class YLabel: public YWindow {
 public:
-    YLabel(const mstring &label, YWindow *parent = 0);
+    YLabel(const mstring &label, YWindow *parent = nullptr);
     virtual ~YLabel();
 
     virtual void paint(Graphics &g, const YRect &r);

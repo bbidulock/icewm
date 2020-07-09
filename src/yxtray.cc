@@ -39,7 +39,7 @@ public:
 bool TrayMessage::append(const char* data, long size) {
     MSG(("TrayMessage::append"));
     if (offset < length) {
-        if (bytes == NULL) {
+        if (bytes == nullptr) {
             bytes = new char[1 + length];
         }
         long extra = min(length - offset, size);
@@ -574,7 +574,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
                YWindow *aParent,
                bool drawBevel):
     YWindow(aParent),
-    fTrayProxy(0),
+    fTrayProxy(nullptr),
     fNotifier(notifier),
     fLocked(false),
     fRunProxy(internal == false),
@@ -590,7 +590,7 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 }
 
 YXTray::~YXTray() {
-    delete fTrayProxy; fTrayProxy = 0;
+    delete fTrayProxy; fTrayProxy = nullptr;
 }
 
 void YXTray::getScaleSize(unsigned& w, unsigned& h)

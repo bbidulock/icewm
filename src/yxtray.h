@@ -73,7 +73,7 @@ struct Lock {
 class YXTray: public YWindow {
 public:
     YXTray(YXTrayNotifier *notifier, bool internal,
-           const class YAtom& trayatom, YWindow *aParent = 0,
+           const class YAtom& trayatom, YWindow *aParent = nullptr,
            bool drawBevel = false);
     virtual ~YXTray();
 

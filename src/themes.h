@@ -22,7 +22,7 @@ private:
 
 class ThemesMenu: public ObjectMenu {
 public:
-    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = 0);
+    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = nullptr);
     virtual ~ThemesMenu();
 
     virtual void updatePopup();

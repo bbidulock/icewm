@@ -7,7 +7,7 @@
 // unsorted directory for const C-style strings.
 class cdir {
 public:
-    explicit cdir(const char* path = 0);
+    explicit cdir(const char* path = nullptr);
     ~cdir() { close(); }
     void close();
     const char* path() const { return fPath; }
@@ -33,7 +33,7 @@ private:
 // sorted directory for const C-style strings.
 class adir {
 public:
-    explicit adir(const char* path = 0);
+    explicit adir(const char* path = nullptr);
     ~adir() { close(); }
     void close();
     const char* path() const { return fPath; }

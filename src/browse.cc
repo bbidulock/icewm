@@ -48,7 +48,7 @@ void BrowseMenu::updatePopup() {
             mstring entry(dir.entry());
             upath npath(fPath + entry);
 
-            YMenu *sub = 0;
+            YMenu *sub = nullptr;
             if (npath.dirExists())
                 sub = new BrowseMenu(app, smActionListener, wmActionListener, npath);
 

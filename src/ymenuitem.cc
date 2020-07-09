@@ -44,18 +44,18 @@ YMenuItem::YMenuItem(const mstring &name, int aHotCharPos, const mstring &param,
 
 YMenuItem::YMenuItem(const mstring &name) :
     fName(name), fParam(null), fAction(actionNull), fHotCharPos(-1),
-    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(true) {
+    fSubmenu(nullptr), fIcon(null), fChecked(false), fEnabled(true) {
 }
 
 YMenuItem::YMenuItem():
     fName(null), fParam(null), fAction(actionNull), fHotCharPos(-1),
-    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(false) {
+    fSubmenu(nullptr), fIcon(null), fChecked(false), fEnabled(false) {
 }
 
 YMenuItem::~YMenuItem() {
     if (fSubmenu && !fSubmenu->isShared())
         delete fSubmenu;
-    fSubmenu = 0;
+    fSubmenu = nullptr;
 }
 
 void YMenuItem::setChecked(bool c) {

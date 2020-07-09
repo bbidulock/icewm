@@ -49,11 +49,11 @@ protected:
 public:
     SizeType size;
     DataType *data;
-    inline YVec(): capa(0), size(0), data(0) {}
+    inline YVec(): capa(0), size(0), data(nullptr) {}
     inline YVec(SizeType initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
     inline void reset() {
         if (!size) return;
-        delete[] data; data = 0;
+        delete[] data; data = nullptr;
         capa = size = 0;
     }
     inline void preserve(SizeType wanted) { if (wanted > capa) resize(wanted); }

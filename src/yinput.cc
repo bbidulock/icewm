@@ -345,7 +345,7 @@ void YInputLine::handleButton(const XButtonEvent &button) {
             }
         }
     } else if (button.type == ButtonRelease) {
-        autoScroll(0, 0);
+        autoScroll(0, nullptr);
         if (fSelecting && button.button == 1) {
             fSelecting = false;
             //curPos = offsetToPos(button.x + leftOfs);
@@ -410,7 +410,7 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
         inputMenu->setActionListener(this);
-        inputMenu->popup(this, 0, 0, up.x_root, up.y_root,
+        inputMenu->popup(this, nullptr, nullptr, up.x_root, up.y_root,
                          YPopupWindow::pfCanFlipVertical |
                          YPopupWindow::pfCanFlipHorizontal);
     } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
@@ -682,8 +682,8 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    char* res = 0;
-    int res_count = globit_best(fText, &res, 0, 0);
+    char* res = nullptr;
+    int res_count = globit_best(fText, &res, nullptr, nullptr);
     // directory is not a final match
     if(res_count == 1 && upath(res).dirExists())
         res_count++;

@@ -73,8 +73,8 @@ YApplication::YApplication(int * /*argc*/, char *** /*argv*/) :
 {
     ::mainLoop = this;
 
-    setvbuf(stdout, NULL, _IOLBF, BUFSIZ);
-    setvbuf(stderr, NULL, _IOLBF, BUFSIZ);
+    setvbuf(stdout, nullptr, _IOLBF, BUFSIZ);
+    setvbuf(stderr, nullptr, _IOLBF, BUFSIZ);
 
     initSignals();
 }
@@ -166,7 +166,7 @@ bool YApplication::getTimeout(timeval *timeout) {
 
 void YApplication::handleTimeouts() {
     timeval now = monotime();
-    YTimer *timeout = 0;
+    YTimer *timeout = nullptr;
     YArrayIterator<YTimer*> iter = timers.reverseIterator();
     // we must be careful since the callback may modify the array.
     while (iter.hasNext()) {
@@ -259,21 +259,21 @@ int YApplication::mainLoop() {
         timeval timeout = {0, 0L};
         timeval *tp = &timeout;
         if (!didIdle && getTimeout(tp) == false)
-            tp = 0;
+            tp = nullptr;
 
 #ifndef USE_SIGNALFD
-        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+        sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
 #endif
 
         int rc;
         rc = select(sizeof(fd_set) * 8,
                     SELECT_TYPE_ARG234 &read_fds,
                     SELECT_TYPE_ARG234 &write_fds,
-                    0,
+                    nullptr,
                     tp);
 
 #ifndef USE_SIGNALFD
-        sigprocmask(SIG_BLOCK, &signalMask, NULL);
+        sigprocmask(SIG_BLOCK, &signalMask, nullptr);
 #endif
 
         {
@@ -344,7 +344,7 @@ static void sig_handler(int sig) {
 
 void YApplication::catchSignal(int sig) {
     sigaddset(&signalMask, sig);
-    sigprocmask(SIG_BLOCK, &signalMask, NULL);
+    sigprocmask(SIG_BLOCK, &signalMask, nullptr);
 
 #ifdef USE_SIGNALFD
     signalPipe[0]=signalfd(signalPipe[0], &signalMask, 0);
@@ -353,12 +353,12 @@ void YApplication::catchSignal(int sig) {
     sa.sa_handler = sig_handler;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = 0;
-    sigaction(sig, &sa, NULL);
+    sigaction(sig, &sa, nullptr);
 #endif
 }
 
 void YApplication::resetSignals() {
-    sigprocmask(SIG_SETMASK, &oldSignalMask, 0);
+    sigprocmask(SIG_SETMASK, &oldSignalMask, nullptr);
 }
 
 void YApplication::closeFiles() {
@@ -397,7 +397,7 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         resetSignals();
         sigemptyset(&signalMask);
         sigaddset(&signalMask, SIGHUP);
-        sigprocmask(SIG_UNBLOCK, &signalMask, NULL);
+        sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
 
         /* perhaps the right thing to to:
          create ptys .. and show console window when an application

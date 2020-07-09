@@ -95,7 +95,7 @@ public:
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         mstring name,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
     virtual ~MenuFileMenu();
     virtual void updatePopup();
     virtual void refresh();
@@ -117,7 +117,7 @@ public:
         upath command,
         YStringArray &args,
         long timeout = 60L,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
 
     virtual ~MenuProgMenu();
     virtual void updatePopup();
@@ -150,7 +150,7 @@ public:
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         const char *name,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void updatePopup();

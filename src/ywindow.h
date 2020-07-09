@@ -331,7 +331,7 @@ private:
 
 class YDesktop: public YWindow {
 public:
-    YDesktop(YWindow *aParent = 0, Window win = 0);
+    YDesktop(YWindow *aParent = nullptr, Window win = 0);
     virtual ~YDesktop();
 
     bool updateXineramaInfo(unsigned& horizontal, unsigned& vertical);

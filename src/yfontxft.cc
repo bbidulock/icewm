@@ -85,7 +85,7 @@ public:
 
         if (len >= bufsize) {
             big = new char_t[len+1];
-            if (big == 0)
+            if (big == nullptr)
                 return;
             vis_str = big;
         }
@@ -94,7 +94,7 @@ public:
 
         if (fribidi_log2vis(str, len, &pbase_dir, //input
                             vis_str, // output
-                            NULL, NULL, NULL // "statistics" that we don't need
+                            nullptr, nullptr, nullptr // "statistics" that we don't need
                             ))
         {
             str = vis_str;
@@ -149,7 +149,7 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
             font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
         }
 
-        if (NULL != font) {
+        if (nullptr != font) {
             fAscent = max(fAscent, (unsigned) max(0, font->ascent));
             fDescent = max(fDescent, (unsigned) max(0, font->descent));
             ++fptr;
@@ -167,7 +167,7 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
                         XFT_PIXEL_SIZE, XftTypeInteger, 12,
                         NULL);
 
-        if (NULL != sans) {
+        if (nullptr != sans) {
             delete[] fFonts;
 
             fFontCount = 1;
@@ -184,7 +184,7 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
 YXftFont::~YXftFont() {
     for (unsigned n = 0; n < fFontCount; ++n) {
         // this leaks memory when xapp is destroyed before fonts
-        if (xapp != 0)
+        if (xapp != nullptr)
             XftFontClose(xapp->display(), fFonts[n]);
     }
     delete[] fFonts;
@@ -267,7 +267,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
 {
     XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);
-    XftFont ** font(NULL);
+    XftFont ** font(nullptr);
     char_t * c(str);
 
     if (fFonts == nullptr || fFontCount == 0)
@@ -280,7 +280,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
             ++probe;
 
         if (probe != font) {
-            if (NULL != font) {
+            if (nullptr != font) {
                 TextPart *parts = partitions(c, len - (c - str), nparts + 1);
                 parts[nparts].length = (c - str);
 
@@ -289,7 +289,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
                     parts[nparts].font = *font;
                     parts[nparts].width = extends.xOff;
                 } else {
-                    parts[nparts].font = NULL;
+                    parts[nparts].font = nullptr;
                     parts[nparts].width = 0;
                     MSG(("glyph not found: %d", *(c - 1)));
                 }
@@ -301,17 +301,17 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     }
 
     TextPart *parts = new TextPart[nparts + 2];
-    parts[nparts + 1].font =  NULL;
+    parts[nparts + 1].font =  nullptr;
     parts[nparts + 1].width = 0;
     parts[nparts + 1].length = 0;
     parts[nparts].length = (c - str);
 
-    if (NULL != font && font < lFont) {
+    if (nullptr != font && font < lFont) {
         XftGraphics::textExtents(*font, str, (c - str), extends);
         parts[nparts].font = *font;
         parts[nparts].width = extends.xOff;
     } else {
-        parts[nparts].font = NULL;
+        parts[nparts].font = nullptr;
         parts[nparts].width = 0;
     }
 

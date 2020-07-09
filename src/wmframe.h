@@ -187,7 +187,7 @@ public:
 
     void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
-                         YWindow *forWindow = 0);
+                         YWindow *forWindow = nullptr);
     virtual void popupSystemMenu(YWindow *owner);
     virtual void handlePopDown(YPopupWindow *popup);
 

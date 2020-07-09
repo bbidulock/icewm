@@ -181,9 +181,9 @@ void AboutDlg::showFocused() {
     unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
-    if (getFrame() == 0)
+    if (getFrame() == nullptr)
         manager->manageClient(handle(), false);
-    if (getFrame() != 0) {
+    if (getFrame() != nullptr) {
         getFrame()->setNormalPositionOuter(
             dx + int(dw / 2 - getFrame()->width() / 2),
             dy + int(dh / 2 - getFrame()->height() / 2));

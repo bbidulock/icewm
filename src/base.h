@@ -140,7 +140,7 @@ inline const char* boolstr(bool bval) {
 template <class T>
 inline char const * niceUnit(T & val, char const * const units[],
                              T const lim = 10240, T const div = 1024) {
-    char const * uname(0);
+    char const * uname(nullptr);
 
     if (units && *units) {
         uname = *units++;

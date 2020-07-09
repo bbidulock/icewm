@@ -9,7 +9,7 @@ class YIcon;
 
 class YButton: public YWindow {
 public:
-    YButton(YWindow *parent, YAction action, YMenu *popup = 0);
+    YButton(YWindow *parent, YAction action, YMenu *popup = nullptr);
     virtual ~YButton();
 
     virtual void paint(Graphics &g, const YRect &r);

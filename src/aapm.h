@@ -31,7 +31,7 @@ class YApm:
 {
 public:
     // if autodetect==true and no battery then go to sleep
-    YApm(YWindow *aParent = 0, bool autodetect = false);
+    YApm(YWindow *aParent = nullptr, bool autodetect = false);
     virtual ~YApm();
 
     virtual void updateToolTip();
