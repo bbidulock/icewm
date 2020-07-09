@@ -68,7 +68,7 @@ public:
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             char const * str, int len) = 0;
 
-    virtual int textWidth(char const * str) const;
+    int textWidth(char const * str) const;
     int multilineTabPos(char const * str) const;
     YDimension multilineAlloc(char const * str) const;
 };
