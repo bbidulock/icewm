@@ -664,16 +664,12 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 }
 
 void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
-#if 1
     if (unmap.send_event) {
-        if (unmap.window != handle() && handle() != 0) {
-            XEvent event; event.xunmap = unmap;
-            xapp->handleWindowEvent(unmap.window, event);
-        } else {
-            MSG(("unhandled root window unmap: %lX %lX", (long)unmap.window, (long)handle()));
+        YFrameWindow* frame = findFrame(unmap.window);
+        if (frame) {
+            frame->client()->handleUnmapNotify(unmap);
         }
     }
-#endif
 }
 
 void YWindowManager::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow) {
@@ -802,6 +798,15 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             smActionListener->handleSMAction(action);
             break;
         }
+    }
+    else if (message.message_type == _XA_WM_CHANGE_STATE) {
+        YFrameWindow* frame = findFrame(message.window);
+        if (frame) {
+            frame->client()->handleClientMessage(message);
+        }
+    }
+    else if (message.message_type == _XA_WM_COLORMAP_NOTIFY) {
+        // unimplemented ICCCM page 36
     }
 }
 
