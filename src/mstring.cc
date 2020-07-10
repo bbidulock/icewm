@@ -292,6 +292,7 @@ const char* mstring::c_str()
             const char* str = data();
             fRef.release();
             fRef.create(str, fCount);
+            fRef.acquire();
             fOffset = 0;
         }
     }
