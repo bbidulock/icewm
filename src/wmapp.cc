@@ -399,28 +399,28 @@ void LogoutMenu::updatePopup() {
         return;
 
     if (showLogoutMenu) {
-        logoutMenu->setShared(true); /// !!! get rid of this (refcount objects)
+        setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
-            logoutMenu->addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
-            logoutMenu->addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
-            logoutMenu->addSeparator();
+            addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
+            addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
+            addSeparator();
 
-            int const oldItemCount = logoutMenu->itemCount();
+            int const oldItemCount = itemCount();
             if (canLock())
-                logoutMenu->addItem(_("Lock _Workstation"), -2, null, actionLock, "lock");
+                addItem(_("Lock _Workstation"), -2, null, actionLock, "lock");
             if (canShutdown(Reboot))
-                logoutMenu->addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
+                addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
             if (canShutdown(Shutdown))
-                logoutMenu->addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
+                addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
             if (couldRunCommand(suspendCommand))
-                logoutMenu->addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
+                addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
 
-            if (logoutMenu->itemCount() != oldItemCount)
-                logoutMenu->addSeparator();
+            if (itemCount() != oldItemCount)
+                addSeparator();
 
-            logoutMenu->addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
+            addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
-            logoutMenu->addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
+            addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
 
         }
     }
@@ -430,13 +430,13 @@ void LayerMenu::updatePopup() {
     if (itemCount())
         return;
 
-    layerMenu->addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
-    layerMenu->addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
-    layerMenu->addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
-    layerMenu->addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
-    layerMenu->addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
-    layerMenu->addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
-    layerMenu->addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
+    addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
+    addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
+    addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
+    addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
+    addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
+    addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
+    addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
 }
 
 void MoveMenu::updatePopup() {
@@ -446,7 +446,7 @@ void MoveMenu::updatePopup() {
     for (int w = 1; w <= workspaceCount; w++) {
         char s[128];
         snprintf(s, sizeof s, "%2d.  %s ", w, workspaceNames[w - 1]);
-        moveMenu->addItem(s, 1,
+        addItem(s, 1,
                 w ==  1 ? KEY_NAME(gKeySysWorkspace1TakeWin)  :
                 w ==  2 ? KEY_NAME(gKeySysWorkspace2TakeWin)  :
                 w ==  3 ? KEY_NAME(gKeySysWorkspace3TakeWin)  :
