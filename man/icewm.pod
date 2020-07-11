@@ -618,333 +618,333 @@ their preferences names and short descriptions of their effect:
 
 =over
 
-=item C<Alt+F1>
+=item B<KeyWinRaise>=C<Alt+F1>
 
-C<KeyWinRaise> raises the window which currently has input focus.
+Raises the window which currently has input focus.
 
-=item C<Alt+F2>
+=item B<KeyWinOccupyAll>=C<Alt+F2>
 
-C<KeyWinOccupyAll> makes the active window occupy all work spaces.
+Makes the active window occupy all work spaces.
 
-=item C<Alt+F3>
+=item B<KeyWinLower>=C<Alt+F3>
 
-C<KeyWinLower> lowers the window which currently has input focus.
+Lowers the window which currently has input focus.
 
-=item C<Alt+F4>
+=item B<KeyWinClose>=C<Alt+F4>
 
-C<KeyWinClose> closes the active window.
+Closes the active window.
 
-=item C<Alt+F5>
+=item B<KeyWinRestore>=C<Alt+F5>
 
-C<KeyWinRestore> restores the active window to its visible state.
+Restores the active window to its visible state.
 
-=item C<Alt+F6>
+=item B<KeyWinNext>=C<Alt+F6>
 
-C<KeyWinNext> switches focus to the next window.
+Switches focus to the next window.
 
-=item C<Alt+Shift+F6>
+=item B<KeyWinPrev>=C<Alt+Shift+F6>
 
-C<KeyWinPrev> switches focus to the previous window.
+Switches focus to the previous window.
 
-=item C<Alt+F7>
+=item B<KeyWinMove>=C<Alt+F7>
 
-C<KeyWinMove> starts movement of the active window.
+Starts movement of the active window.
 
-=item C<Alt+F8>
+=item B<KeyWinSize>=C<Alt+F8>
 
-C<KeyWinSize> starts resizing of the active window.
+Starts resizing of the active window.
 
-=item C<Alt+F9>
+=item B<KeyWinMinimize>=C<Alt+F9>
 
-C<KeyWinMinimize> iconifies the active window.
+Iconifies the active window.
 
-=item C<Alt+F10>
+=item B<KeyWinMaximize>=C<Alt+F10>
 
-C<KeyWinMaximize> maximizes the active window with borders.
+Maximizes the active window with borders.
 
-=item C<Alt+Shift+F10>
+=item B<KeyWinMaximizeVert>=C<Alt+Shift+F10>
 
-C<KeyWinMaximizeVert> maximizes the active window vertically.
+Maximizes the active window vertically.
 
-=item C<undefined>
+=item B<KeyWinMaximizeHoriz>=C<undefined>
 
-C<KeyWinMaximizeHoriz> maximizes the active window horizontally.
+Maximizes the active window horizontally.
 
-=item C<Alt+F11>
+=item B<KeyWinFullscreen>=C<Alt+F11>
 
-C<KeyWinFullscreen> maximizes the active window without borders.
+Maximizes the active window without borders.
 
-=item C<Alt+F12>
+=item B<KeyWinRollup>=C<Alt+F12>
 
-C<KeyWinRollup> rolls up the active window.
+Rolls up the active window.
 
-=item C<Alt+Shift+F12>
+=item B<KeyWinHide>=C<Alt+Shift+F12>
 
-C<KeyWinHide> hides the active window.
+Hides the active window.
 
-=item C<Alt+Space>
+=item B<KeyWinMenu>=C<Alt+Space>
 
-C<KeyWinMenu> posts the window menu.
+Posts the window menu.
 
-=item C<Ctrl+Alt+KP_7>
+=item B<KeyWinArrangeNW>=C<Ctrl+Alt+KP_7>
 
-C<KeyWinArrangeNW> moves the active window to the top left corner of the screen.
+Moves the active window to the top left corner of the screen.
 
-=item C<Ctrl+Alt+KP_8>
+=item B<KeyWinArrangeN>=C<Ctrl+Alt+KP_8>
 
-C<KeyWinArrangeN> moves the active window to the top middle of the screen.
+Moves the active window to the top middle of the screen.
 
-=item C<Ctrl+Alt+KP_9>
+=item B<KeyWinArrangeNE>=C<Ctrl+Alt+KP_9>
 
-C<KeyWinArrangeNE> moves the active window to the top right of the screen.
+Moves the active window to the top right of the screen.
 
-=item C<Ctrl+Alt+KP_6>
+=item B<KeyWinArrangeE>=C<Ctrl+Alt+KP_6>
 
-C<KeyWinArrangeE> moves the active window to the middle right of the screen.
+Moves the active window to the middle right of the screen.
 
-=item C<Ctrl+Alt+KP_3>
+=item B<KeyWinArrangeSE>=C<Ctrl+Alt+KP_3>
 
-C<KeyWinArrangeSE> moves the active window to the bottom right of the screen.
+Moves the active window to the bottom right of the screen.
 
-=item C<Ctrl+Alt+KP_2>
+=item B<KeyWinArrangeS>=C<Ctrl+Alt+KP_2>
 
-C<KeyWinArrangeS> moves the active window to the bottom middle of the screen.
+Moves the active window to the bottom middle of the screen.
 
-=item C<Ctrl+Alt+KP_1>
+=item B<KeyWinArrangeSW>=C<Ctrl+Alt+KP_1>
 
-C<KeyWinArrangeSW> moves the active window to the bottom left of the screen.
+Moves the active window to the bottom left of the screen.
 
-=item C<Ctrl+Alt+KP_4>
+=item B<KeyWinArrangeW>=C<Ctrl+Alt+KP_4>
 
-C<KeyWinArrangeW> moves the active window to the middle left of the screen.
+Moves the active window to the middle left of the screen.
 
-=item C<Ctrl+Alt+KP_5>
+=item B<KeyWinArrangeC>=C<Ctrl+Alt+KP_5>
 
-C<KeyWinArrangeC> moves the active window to the center of the screen.
+Moves the active window to the center of the screen.
 
-=item C<Shift+Esc>
+=item B<KeySysWinMenu>=C<Shift+Esc>
 
-C<KeySysWinMenu> posts the system window menu.
+Posts the system window menu.
 
-=item C<Alt+Esc>
+=item B<KeySysWinNext>=C<Alt+Esc>
 
-C<KeySysWinNext> give focus to the next window and raise it.
+Give focus to the next window and raise it.
 
-=item C<Alt+Shift+Esc>
+=item B<KeySysWinPrev>=C<Alt+Shift+Esc>
 
-C<KeySysWinPrev> give focus to the previous window and raise it.
+Give focus to the previous window and raise it.
 
-=item C<Alt+Ctrl+Del>
+=item B<KeySysDialog>=C<Alt+Ctrl+Del>
 
-C<KeySysDialog> opens the IceWM system dialog in the center of the screen.
+Opens the IceWM system dialog in the center of the screen.
 
-=item C<Ctrl+Esc>
+=item B<KeySysMenu>=C<Ctrl+Esc>
 
-C<KeySysMenu> activates the IceWM root menu in the lower left corner.
+Activates the IceWM root menu in the lower left corner.
 
-=item C<Alt+Ctrl+Esc>
+=item B<KeySysWindowList>=C<Alt+Ctrl+Esc>
 
-C<KeySysWindowList> opens the IceWM system window list in the center of the screen.
+Opens the IceWM system window list in the center of the screen.
 
-=item C<Alt+Ctrl+Space>
+=item B<KeySysAddressBar>=C<Alt+Ctrl+Space>
 
-C<KeySysAddressBar> opens the address bar in the task bar where a command can be typed.
+Opens the address bar in the task bar where a command can be typed.
 
-=item C<Alt+Ctrl+Left>
+=item B<KeySysWorkspacePrev>=C<Alt+Ctrl+Left>
 
-C<KeySysWorkspacePrev> goes one workspace to the left.
+Goes one workspace to the left.
 
-=item C<Alt+Ctrl+Right>
+=item B<KeySysWorkspaceNext>=C<Alt+Ctrl+Right>
 
-C<KeySysWorkspaceNext> goes one workspace to the right.
+Goes one workspace to the right.
 
-=item C<Alt+Ctrl+Down>
+=item B<KeySysWorkspaceLast>=C<Alt+Ctrl+Down>
 
-C<KeySysWorkspaceLast> goes to the previous workspace.
+Goes to the previous workspace.
 
-=item C<Alt+Ctrl+Shift+Left>
+=item B<KeySysWorkspacePrevTakeWin>=C<Alt+Ctrl+Shift+Left>
 
-C<KeySysWorkspacePrevTakeWin> takes the active window one workspace to the left.
+Takes the active window one workspace to the left.
 
-=item C<Alt+Ctrl+Shift+Right>
+=item B<KeySysWorkspaceNextTakeWin>=C<Alt+Ctrl+Shift+Right>
 
-C<KeySysWorkspaceNextTakeWin> takes the active window one workspace to the right.
+Takes the active window one workspace to the right.
 
-=item C<Alt+Ctrl+Shift+Down>
+=item B<KeySysWorkspaceLastTakeWin>=C<Alt+Ctrl+Shift+Down>
 
-C<KeySysWorkspaceLastTakeWin> takes the active window to the previous workspace.
+Takes the active window to the previous workspace.
 
-=item C<Alt+Ctrl+1>
+=item B<KeySysWorkspace1>=C<Alt+Ctrl+1>
 
-C<KeySysWorkspace1> goes to workspace 1.
+Goes to workspace 1.
 
-=item C<Alt+Ctrl+2>
+=item B<KeySysWorkspace2>=C<Alt+Ctrl+2>
 
-C<KeySysWorkspace2> goes to workspace 2.
+Goes to workspace 2.
 
-=item C<Alt+Ctrl+3>
+=item B<KeySysWorkspace3>=C<Alt+Ctrl+3>
 
-C<KeySysWorkspace3> goes to workspace 3.
+Goes to workspace 3.
 
-=item C<Alt+Ctrl+4>
+=item B<KeySysWorkspace4>=C<Alt+Ctrl+4>
 
-C<KeySysWorkspace4> goes to workspace 4.
+Goes to workspace 4.
 
-=item C<Alt+Ctrl+5>
+=item B<KeySysWorkspace5>=C<Alt+Ctrl+5>
 
-C<KeySysWorkspace5> goes to workspace 5.
+Goes to workspace 5.
 
-=item C<Alt+Ctrl+6>
+=item B<KeySysWorkspace6>=C<Alt+Ctrl+6>
 
-C<KeySysWorkspace6> goes to workspace 6.
+Goes to workspace 6.
 
-=item C<Alt+Ctrl+7>
+=item B<KeySysWorkspace7>=C<Alt+Ctrl+7>
 
-C<KeySysWorkspace7> goes to workspace 7.
+Goes to workspace 7.
 
-=item C<Alt+Ctrl+8>
+=item B<KeySysWorkspace8>=C<Alt+Ctrl+8>
 
-C<KeySysWorkspace8> goes to workspace 8.
+Goes to workspace 8.
 
-=item C<Alt+Ctrl+9>
+=item B<KeySysWorkspace9>=C<Alt+Ctrl+9>
 
-C<KeySysWorkspace9> goes to workspace 9.
+Goes to workspace 9.
 
-=item C<Alt+Ctrl+0>
+=item B<KeySysWorkspace10>=C<Alt+Ctrl+0>
 
-C<KeySysWorkspace10> goes to workspace 10.
+Goes to workspace 10.
 
-=item C<Alt+Ctrl+bracketleft>
+=item B<KeySysWorkspace11>=C<Alt+Ctrl+bracketleft>
 
-C<KeySysWorkspace11> goes to workspace 11.
+Goes to workspace 11.
 
-=item C<Alt+Ctrl+bracketright>
+=item B<KeySysWorkspace12>=C<Alt+Ctrl+bracketright>
 
-C<KeySysWorkspace12> goes to workspace 12.
+Goes to workspace 12.
 
-=item C<Alt+Ctrl+Shift+1>
+=item B<KeySysWorkspace1TakeWin>=C<Alt+Ctrl+Shift+1>
 
-C<KeySysWorkspace1TakeWin> takes the active window to workspace 1.
+Takes the active window to workspace 1.
 
-=item C<Alt+Ctrl+Shift+2>
+=item B<KeySysWorkspace2TakeWin>=C<Alt+Ctrl+Shift+2>
 
-C<KeySysWorkspace2TakeWin> takes the active window to workspace 2.
+Takes the active window to workspace 2.
 
-=item C<Alt+Ctrl+Shift+3>
+=item B<KeySysWorkspace3TakeWin>=C<Alt+Ctrl+Shift+3>
 
-C<KeySysWorkspace3TakeWin> takes the active window to workspace 3.
+Takes the active window to workspace 3.
 
-=item C<Alt+Ctrl+Shift+4>
+=item B<KeySysWorkspace4TakeWin>=C<Alt+Ctrl+Shift+4>
 
-C<KeySysWorkspace4TakeWin> takes the active window to workspace 4.
+Takes the active window to workspace 4.
 
-=item C<Alt+Ctrl+Shift+5>
+=item B<KeySysWorkspace5TakeWin>=C<Alt+Ctrl+Shift+5>
 
-C<KeySysWorkspace5TakeWin> takes the active window to workspace 5.
+Takes the active window to workspace 5.
 
-=item C<Alt+Ctrl+Shift+6>
+=item B<KeySysWorkspace6TakeWin>=C<Alt+Ctrl+Shift+6>
 
-C<KeySysWorkspace6TakeWin> takes the active window to workspace 6.
+Takes the active window to workspace 6.
 
-=item C<Alt+Ctrl+Shift+7>
+=item B<KeySysWorkspace7TakeWin>=C<Alt+Ctrl+Shift+7>
 
-C<KeySysWorkspace7TakeWin> takes the active window to workspace 7.
+Takes the active window to workspace 7.
 
-=item C<Alt+Ctrl+Shift+8>
+=item B<KeySysWorkspace8TakeWin>=C<Alt+Ctrl+Shift+8>
 
-C<KeySysWorkspace8TakeWin> takes the active window to workspace 8.
+Takes the active window to workspace 8.
 
-=item C<Alt+Ctrl+Shift+9>
+=item B<KeySysWorkspace9TakeWin>=C<Alt+Ctrl+Shift+9>
 
-C<KeySysWorkspace9TakeWin> takes the active window to workspace 9.
+Takes the active window to workspace 9.
 
-=item C<Alt+Ctrl+Shift+0>
+=item B<KeySysWorkspace10TakeWin>=C<Alt+Ctrl+Shift+0>
 
-C<KeySysWorkspace10TakeWin> takes the active window to workspace 10.
+Takes the active window to workspace 10.
 
-=item C<Alt+Ctrl+Shift+bracketleft>
+=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+bracketleft>
 
-C<KeySysWorkspace11TakeWin> takes the active window to workspace 11.
+Takes the active window to workspace 11.
 
-=item C<Alt+Ctrl+Shift+bracketright>
+=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+bracketright>
 
-C<KeySysWorkspace12TakeWin> takes the active window to workspace 12.
+Takes the active window to workspace 12.
 
-=item C<Alt+Shift+F2>
+=item B<KeySysTileVertical>=C<Alt+Shift+F2>
 
-C<KeySysTileVertical> tiles all windows from left to right maximized vertically.
+Tiles all windows from left to right maximized vertically.
 
-=item C<Alt+Shift+F3>
+=item B<KeySysTileHorizontal>=C<Alt+Shift+F3>
 
-C<KeySysTileHorizontal> tiles all windows from top to bottom maximized horizontally.
+Tiles all windows from top to bottom maximized horizontally.
 
-=item C<Alt+Shift+F4>
+=item B<KeySysCascade>=C<Alt+Shift+F4>
 
-C<KeySysCascade> makes a horizontal cascade of all windows which are maximized vertically.
+Makes a horizontal cascade of all windows which are maximized vertically.
 
-=item C<Alt+Shift+F5>
+=item B<KeySysArrange>=C<Alt+Shift+F5>
 
-C<KeySysArrange> rearranges the windows.
+Rearranges the windows.
 
-=item C<Alt+Shift+F7>
+=item B<KeySysUndoArrange>=C<Alt+Shift+F7>
 
-C<KeySysUndoArrange> undoes arrangement.
+Undoes arrangement.
 
-=item C<Alt+Shift+F8>
+=item B<KeySysArrangeIcons>=C<Alt+Shift+F8>
 
-C<KeySysArrangeIcons> rearranges icons.
+Rearranges icons.
 
-=item C<Alt+Shift+F9>
+=item B<KeySysMinimizeAll>=C<Alt+Shift+F9>
 
-C<KeySysMinimizeAll> minimizes all windows.
+Minimizes all windows.
 
-=item C<Alt+Shift+F11>
+=item B<KeySysHideAll>=C<Alt+Shift+F11>
 
-C<KeySysHideAll> hides all windows.
+Hides all windows.
 
-=item C<Alt+Ctrl+d>
+=item B<KeySysShowDesktop>=C<Alt+Ctrl+d>
 
-C<KeySysShowDesktop> unmaps all windows to show the desktop.
+Unmaps all windows to show the desktop.
 
-=item C<Alt+Ctrl+h>
+=item B<KeySysCollapseTaskBar>=C<Alt+Ctrl+h>
 
-C<KeySysCollapseTaskBar> hides the task bar.
+Hides the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarSwitchNext>=C<undefined>
 
-C<KeyTaskBarSwitchNext> switches to the next window in the task bar.
+Switches to the next window in the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarSwitchPrev>=C<undefined>
 
-C<KeyTaskBarSwitchPrev> switches to the previous window in the task bar.
+Switches to the previous window in the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarMoveNext>=C<undefined>
 
-C<KeyTaskBarMoveNext> moves the task bar button of the current window
+Moves the task bar button of the current window
 right.
 
-=item C<undefined>
+=item B<KeyTaskBarMovePrev>=C<undefined>
 
-C<KeyTaskBarMovePrev> moves the task bar button of the current window
+Moves the task bar button of the current window
 left.
 
-=item C<undefined>
+=item B<KeySysWinListMenu>=C<undefined>
 
-C<KeySysWinListMenu> shows the window list menu.
+Shows the window list menu.
 
-=item C<Alt+Tab>
+=item B<KeySysSwitchNext>=C<Alt+Tab>
 
-C<KeySysSwitchNext> opens the C<QuickSwitch> popup (see L<INPUT FOCUS>)
+Opens the C<QuickSwitch> popup (see L<INPUT FOCUS>)
 and/or moves the selector in the C<QuickSwitch> popup.
 
-=item C<Alt+Shift+Tab>
+=item B<KeySysSwitchLast>=C<Alt+Shift+Tab>
 
-C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the
+Works like C<KeySysSwitchNext> but moving in the
 opposite direction.
 
-=item C<Alt+grave>
+=item B<KeySysSwitchClass>=C<Alt+grave>
 
-C<KeySysSwitchClass> is like C<KeySysSwitchNext> but only for windows
+Is like C<KeySysSwitchNext> but only for windows
 with the same WM_CLASS property as the currently focused window.
 
 =back
@@ -955,23 +955,23 @@ You can control windows by a modified mouse button press:
 
 =over
 
-=item C<Alt+Pointer_Button1>
+=item B<MouseWinMove>=C<Alt+Pointer_Button1>
 
-C<MouseWinMove> moves the window under the mouse over the screen.
+Moves the window under the mouse over the screen.
 
-=item C<Alt+Pointer_Button3>
+=item B<MouseWinSize>=C<Alt+Pointer_Button3>
 
-C<MouseWinSize> resizes the window.  Keep the key and button pressed.
+Resizes the window.  Keep the key and button pressed.
 To enlarge the window move the mouse button away from the center.  To
 shrink it move towards the centre.
 
-=item C<Ctrl+Alt+Pointer_Button1>
+=item B<MouseWinRaise>=C<Ctrl+Alt+Pointer_Button1>
 
-C<MouseWinRaise> raises the window under the mouse.
+Raises the window under the mouse.
 
-=item C<Ctrl+Alt+Pointer_Button1>
+=item B<MouseWinLower>=C<Ctrl+Alt+Pointer_Button1>
 
-C<MouseWinLower> lowers the window under the mouse.
+Lowers the window under the mouse.
 If this is equal to C<MouseWinRaise> and the window can be raised
 then C<MouseWinRaise> takes preference over C<MouseWinLower>.
 
