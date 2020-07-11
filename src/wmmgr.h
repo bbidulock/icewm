@@ -102,7 +102,6 @@ public:
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
-    virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleFocus(const XFocusChangeEvent &focus);
@@ -139,7 +138,7 @@ public:
     void removeClientFrame(YFrameWindow *frame);
 
     void updateScreenSize(XEvent *event);
-    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
+    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1);
     void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
@@ -294,6 +293,8 @@ public:
         int columns;
         int rows;
         int corner;
+        DesktopLayout(int o, int c, int r, int k) :
+            orient(o), columns(c), rows(r), corner(k) { }
     };
 
     const DesktopLayout& layout() const { return fLayout; }
