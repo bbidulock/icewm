@@ -385,6 +385,14 @@ which is navigable by the Up and Down keys. A rich set of editing
 operations is supported, including cut-/copy-/paste-operations and
 file completion using *Tab* or *Ctrl-I*.
 
+* `Ctrl+Alt+d`
++
+Show the desktop.
+
+* `Ctrl+Alt+h`
++
+Toggle taskbar visibility.
+
 [[the-resource-path]]
 == The Resource Path
 

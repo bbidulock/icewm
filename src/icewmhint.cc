@@ -30,12 +30,12 @@ class Hinter {
 
 public:
     Hinter() :
-        display(XOpenDisplay(NULL))
+        display(XOpenDisplay(nullptr))
     {
         if (display == nullptr)
             die(1,  _("Can't open display: %s. "
                       "X must be running and $DISPLAY set."),
-                    XDisplayName(NULL));
+                    XDisplayName(nullptr));
 
         XSynchronize(display, True);
     }

@@ -33,7 +33,7 @@ class YPixel {
 public:
     YPixel(unsigned long pix, unsigned long col) :
         fPixel(pix), fColor(col), fBright(), fDarken()
-        INIT_XFREETYPE(fXftColor, 0) { }
+        INIT_XFREETYPE(fXftColor, nullptr) { }
 
     ~YPixel();
 
@@ -240,16 +240,16 @@ void YColor::alloc(const char* name) {
 
         mstring str(name);
         if (str.match("^[0-9a-f]{6}$", "i") != null)
-            return alloc(cstring("#" + str));
+            return alloc("#" + str);
         if (str.match("^#[0-9a-f]{5}$", "i") != null)
-            return alloc(cstring(str + &name[5]));
+            return alloc(str + &name[5]);
 
         mstring rgb(str.match("rgb:[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i"));
         if (rgb != null)
-            return alloc(cstring(rgb));
+            return alloc(rgb);
         rgb = str.match("[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i");
         if (rgb != null)
-            return alloc(cstring("rgb:" + rgb));
+            return alloc("rgb:" + rgb);
     }
     fPixel = cache.black();
 }

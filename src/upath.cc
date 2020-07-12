@@ -11,11 +11,12 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <fnmatch.h>
 #include "base.h"
 #include "yapp.h"
 #include "ypointer.h"
 
-const pstring upath::slash("/");
+const mstring upath::slash("/");
 const upath upath::rootPath(slash);
 
 bool upath::isSeparator(int ch) const {
@@ -36,7 +37,7 @@ upath upath::parent() const {
     return upath( fPath.substring(0, size_t(len)) );
 }
 
-pstring upath::name() const {
+mstring upath::name() const {
     int start = 1 + fPath.lastIndexOf('/');
     return fPath.substring(size_t(start), size_t(length() - start));
 }
@@ -67,7 +68,7 @@ upath upath::addExtension(const char *ext) const {
     return upath(path().append(ext));
 }
 
-pstring upath::getExtension() const {
+mstring upath::getExtension() const {
     int dot = path().lastIndexOf('.');
     int sep = path().lastIndexOf('/');
     if (dot > sep + 1 && dot + 1 < length())
@@ -83,7 +84,7 @@ upath upath::replaceExtension(const char* ext) const {
     return removeExtension().addExtension(ext);
 }
 
-cstring upath::expand() const {
+mstring upath::expand() const {
     int c = fPath[0];
     if (c == '~') {
         int k = fPath[1];
@@ -94,7 +95,7 @@ cstring upath::expand() const {
     else if (c == '$') {
         mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
         if (m.nonempty()) {
-            const char* e = getenv(cstring(m.substring(1)));
+            const char* e = getenv(m.substring(1));
             if (e && *e && *e != '~' && *e != '$') {
                 return e + fPath.substring(m.length());
             }
@@ -108,7 +109,7 @@ bool upath::isAbsolute() const {
     if (isSeparator(c))
         return true;
     if (c == '~' || c == '$') {
-        c = expand().m_str()[0];
+        c = expand()[0];
         if (isSeparator(c))
             return true;
     }
@@ -119,68 +120,72 @@ bool upath::isRelative() const {
     return false == isAbsolute() && false == hasProtocol();
 }
 
-bool upath::fileExists() const {
+bool upath::fileExists() {
     struct stat sb;
     return stat(&sb) == 0 && S_ISREG(sb.st_mode);
 }
 
-off_t upath::fileSize() const {
+off_t upath::fileSize() {
     struct stat sb;
     return stat(&sb) == 0 ? sb.st_size : off_t(-1);
 }
 
-bool upath::dirExists() const {
+bool upath::dirExists() {
     struct stat sb;
     return stat(&sb) == 0 && S_ISDIR(sb.st_mode);
 }
 
-bool upath::isReadable() const {
+bool upath::isReadable() {
     return access(R_OK) == 0;
 }
 
-int upath::access(int mode) const {
+int upath::access(int mode) {
     return ::access(string(), mode);
 }
 
-bool upath::isWritable() const {
+bool upath::isWritable() {
     return access(W_OK) == 0;
 }
 
-bool upath::isExecutable() const {
+bool upath::isExecutable() {
     return access(X_OK) == 0;
 }
 
-int upath::mkdir(int mode) const {
+int upath::mkdir(int mode) {
     return ::mkdir(string(), mode_t(mode));
 }
 
-int upath::open(int flags, int mode) const {
+int upath::open(int flags, int mode) {
     return ::open(string(), flags, mode);
 }
 
-FILE* upath::fopen(const char *mode) const {
+FILE* upath::fopen(const char *mode) {
     return ::fopen(string(), mode);
 }
 
-int upath::stat(struct stat *st) const {
+int upath::stat(struct stat *st) {
     return ::stat(string(), st);
 }
 
-int upath::remove() const {
+int upath::remove() {
     return ::remove(string());
 }
 
-int upath::renameAs(const pstring& dest) const {
-    return ::rename(string(), cstring(dest));
+int upath::renameAs(mstring dest) {
+    return ::rename(string(), dest);
 }
 
-char* upath::loadText() const {
+int upath::fnMatch(const char* pattern, int flags) {
+    return fnmatch(pattern, string(), flags);
+}
+
+char* upath::loadText() {
     return ::load_text_file(expand());
 }
 
-bool upath::copyFrom(const upath& from, int mode) const {
+bool upath::copyFrom(upath from, int mode) {
     csmart text(from.loadText());
-    if (text == 0)
+    if (text == nullptr)
         return false;
     int fd = open(O_WRONLY | O_CREAT | O_TRUNC, mode);
     if (fd == -1)
@@ -191,7 +196,7 @@ bool upath::copyFrom(const upath& from, int mode) const {
     return 0 <= wr && size_t(wr) == len;
 }
 
-bool upath::testWritable(int mode) const {
+bool upath::testWritable(int mode) {
     int fd = open(O_WRONLY | O_CREAT | O_APPEND, mode);
     if (0 <= fd) close(fd);
     return 0 <= fd;
@@ -216,17 +221,17 @@ bool upath::equals(const upath &s) const {
 #include <glob.h>
 #include "yarray.h"
 
-bool upath::hasglob(const char* pattern) {
+bool upath::hasglob(mstring pattern) {
     const char* s = pattern;
     while (*s && *s != '*' && *s != '?' && *s != '[')
         s += 1 + (*s == '\\' && s[1]);
     return *s != 0;
 }
 
-bool upath::glob(const char* pattern, YStringArray& list, const char* flags) {
+bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
     bool okay = false;
     int flagbits = 0;
-    int (*const errfunc) (const char *epath, int eerrno) = 0;
+    int (*const errfunc) (const char *epath, int eerrno) = nullptr;
     glob_t gl = {};
 
     if (flags) {

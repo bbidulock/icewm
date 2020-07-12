@@ -14,17 +14,51 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 91 commands to change or query a window's state,
-and to interact with the L<icewm(1)> window manager. Command arguments
-are called actions. Window actions operate on a selection of windows.
-B<icesh> has several options to select and filter windows.  Options and
-actions can be interspersed. They are processed and evaluated one after
-another from left to right. Therefore, an option can only affect a
-subsequent action, but not a previous one. Because of this, an action
-can operate on a different selection of windows than a previous action,
-if it is preceded by a new select option. In combination with filter
-options, this gives B<icesh> its expressive power. Use it in
-L<icewm-keys(5)> to define your own window management hotkeys.
+B<icesh> provides 92 commands to interact with the L<icewm(1)> window manager.
+There are two types of commands:
+
+=over
+
+=item 1. Commands to directly interact with icewm:
+
+These are listed in the section "MANAGER ACTIONS" below.
+They are easy to use, because they don't require to select one
+or more windows. For example, C<icesh restart> will restart
+icewm and C<icesh clients> lists the applications which
+are managed by icewm.
+
+=item 2. Commands which operate on a selection of windows:
+
+See the section C<WINDOW ACTIONS> below. For example, C<icesh close>
+is a request to close a window, but which window? Now icesh
+will turn the mouse pointer into a crosshair. Click on a window
+and a close request will be sent to that application.
+
+The power of icesh lies in its ability to programmatically
+select one or more windows and operate on that selection.
+This can be used in scripts and in L<icewm-keys(5)>
+to define your own window management hotkeys.  For example, to
+immediately close all xterm windows do C<icesh -c xterm close>.
+
+There are about ten C<SELECT OPTIONS> to select windows.
+They start with a minus sign '-' or with a plus sign '+'.
+The first starts a new selection. The second adds more
+windows to an existing selection.
+
+This selection of windows can be reduced by C<FILTER OPTIONS>.
+These remove unwanted windows from the current selection.
+Multiple filter options can be given. For example,
+C<icesh -c xterm -W this close> will close only those xterms
+which are shown on the current workspace. The xterms on other
+workspaces are filtered out by the C<-W this> filter option.
+
+There is no limit to the number of selections, filters and
+actions which you can give to a single icesh command.
+They are processed and evaluated one by one from left to right.
+This makes icesh a small declarative programming language.
+Have a look at some examples near the end of this document.
+
+=back
 
 =head1 OPTIONS
 
@@ -167,7 +201,8 @@ A question mark C<?> filters clients with any bit set in I<STATE>.
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
 Filter clients by workspace. Workspace I<WORKSPACE> is either a
-workspace name or a workspace number counting from zero.
+workspace name, or a workspace number counting from zero, or the word
+C<this> for the current workspace, or the word C<All> for all workspaces.
 If I<WORKSPACE> starts with an exclamation mark then the filtering is
 inverted.
 
@@ -510,6 +545,10 @@ do not require a window I<select> or I<filter> option:
 
 List the names of all workspaces.
 
+=item B<current>
+
+Show the number and name of the current workspace.
+
 =item B<goto> I<WORKSPACE>
 
 Change the current workspace to I<WORKSPACE>.
@@ -808,15 +847,18 @@ Resize the focused window to occupy the right half of the desktop area.
 
     icesh -f sizeto 49% 100% sync top sync right sync raise activate
 
-=head1 ENVIRONMENT
+Toggle the frame border of the focused window.
 
-The following environment variables are examined by B<icesh>:
+    if icesh -f motif | grep -q 'decor:$'; then \
+        icesh -f motif decor All; else icesh -f motif decor ""; fi
+
+=head1 ENVIRONMENT
 
 =over
 
 =item B<DISPLAY>
 
-The display to use if the B<-display> option is unspecified.
+The default display.
 
 =back
 

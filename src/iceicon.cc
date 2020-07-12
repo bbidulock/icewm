@@ -433,7 +433,7 @@ ref<YIcon> ObjectIconItem::getIcon() {
         return folder;
     }
     else {
-        pstring ext(fPath.getExtension().lower());
+        mstring ext(fPath.getExtension().lower());
         if (ext == ".xpm" || ext == ".png" || ext == ".svg") {
             ref<YIcon> icon = YIcon::getIcon(fPath.string());
             if (icon != null) {

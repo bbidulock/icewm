@@ -14,7 +14,7 @@ void* operator new(size_t size, null_arena& arena);
 
 // place anything at NULL
 void* null_arena::allocate(size_t) {
-    return static_cast<void *>(0);
+    return static_cast<void *>(nullptr);
 }
 
 // arena for null_ref

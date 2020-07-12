@@ -654,7 +654,7 @@ public:
 
     void loadFile() {
         upath path(fPath);
-        pstring ext(path.getExtension().lower());
+        mstring ext(path.getExtension().lower());
         if (ext == ".xpm" || ext == ".png" || ext == ".svg" ||
             ext == ".jpg" || ext == ".jpeg")
         {

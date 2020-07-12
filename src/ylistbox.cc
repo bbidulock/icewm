@@ -344,7 +344,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
 
                 for (int n = 0; n < 2 * getItemCount(); ++n) {
                     int i = (fFocusedItem + 1 + n) % getItemCount();
-                    cstring title(getItem(i)->getText());
+                    mstring title(getItem(i)->getText());
                     if (n < getItemCount()
                         ? strncasecmp(title, kstr, klen) == 0
                         : strstr(title, kstr) != nullptr)
@@ -412,7 +412,7 @@ void YListBox::handleButton(const XButtonEvent &button) {
                 setFocusedItem(no, false, true, true);
             fDragging = false;
             applySelection();
-            autoScroll(0, 0);
+            autoScroll(0, nullptr);
         }
     }
     if (fVerticalScroll->handleScrollMouse(button) == false)
@@ -498,7 +498,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     int y = n * lh;
     int yPos = y + lh - (lh - fh) / 2 - listBoxFont->descent();
 
-    if (a == 0)
+    if (a == nullptr)
         return ;
 
     xpos += a->getOffset();
@@ -534,7 +534,7 @@ void YListBox::paintItem(Graphics &g, int n) {
         g.setPenStyle(true);
         int cw = 3 + 20 + a->getOffset();
         if (listBoxFont != null) {
-            ustring t = a->getText();
+            mstring t = a->getText();
             if (t != null)
                 cw += listBoxFont->textWidth(t) + 3;
         }
@@ -552,7 +552,7 @@ void YListBox::paintItem(Graphics &g, int n) {
         }
     }
 
-    ustring title = a->getText();
+    mstring title = a->getText();
 
     if (title != null) {
         g.setColor(s ? listBoxSelFg : listBoxFg);

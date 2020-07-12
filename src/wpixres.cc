@@ -39,12 +39,12 @@ public:
 
     PixmapResource(ref<YPixmap>& p,
             const char *n, const char *a = nullptr, const char *o = nullptr) :
-        pixmapRef(&p), imageRef(0), filename(n), alternative(a), other(o)
+        pixmapRef(&p), imageRef(nullptr), filename(n), alternative(a), other(o)
     { }
 
     PixmapResource(ref<YImage>& i,
             const char *n, const char *a = nullptr, const char *o = nullptr) :
-        pixmapRef(0), imageRef(&i), filename(n), alternative(a), other(o)
+        pixmapRef(nullptr), imageRef(&i), filename(n), alternative(a), other(o)
     { }
 
     bool nameEqual(const char *str) const {
@@ -54,15 +54,15 @@ public:
         return (alternative && str && checkName(alternative, str))
             || (other && str && checkName(other, str));
     }
-    bool needPixmap() const { return pixmapRef != 0 && *pixmapRef == null; }
-    bool needImage() const { return imageRef != 0 && *imageRef == null; }
+    bool needPixmap() const { return pixmapRef != nullptr && *pixmapRef == null; }
+    bool needImage() const { return imageRef != nullptr && *imageRef == null; }
     bool needLoad() const {
-        return (pixmapRef != 0) ? *pixmapRef == null : needImage();
+        return (pixmapRef != nullptr) ? *pixmapRef == null : needImage();
     }
     void loadFromFile(const upath& file) const;
     void reset() const {
-        if (pixmapRef != 0) *pixmapRef = null;
-        if (imageRef != 0) *imageRef = null;
+        if (pixmapRef != nullptr) *pixmapRef = null;
+        if (imageRef != nullptr) *imageRef = null;
     }
     const char* name() const { return filename; }
     const char* altn() const { return alternative; }
@@ -94,7 +94,7 @@ void PixmapResource::loadFromFile(const upath& file) const
 
 class GradientResource : public PixmapResource {
 public:
-    GradientResource(ref<YImage>& i, const char *n, const char *a = 0) :
+    GradientResource(ref<YImage>& i, const char *n, const char *a = nullptr) :
         PixmapResource(i, n, a)
     {
         isGradient.set(true);
@@ -329,7 +329,7 @@ public:
 };
 
 static PixmapsDescription pixdes[] = {
-    { themePixRes, ACOUNT(themePixRes), 0, true },
+    { themePixRes, ACOUNT(themePixRes), nullptr, true },
     { taskbarPixRes, ACOUNT(taskbarPixRes), "taskbar", true },
     { taskbar2PixRes, ACOUNT(taskbar2PixRes), "taskbar", false },
     { mailboxPixRes, ACOUNT(mailboxPixRes), "mailbox", false },

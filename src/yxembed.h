@@ -1,5 +1,5 @@
-#ifndef __YXEMBED_H
-#define __YXEMBED_H
+#ifndef YXEMBED_H
+#define YXEMBED_H
 
 #include "ywindow.h"
 #include "yxapp.h"
@@ -54,9 +54,12 @@ public:
     void sendNotify();
     void sendActivate();
     void sendMessage(long type, long detail = 0, long data1 = 0, long data2 = 0);
+    bool trace() const { return fTrace; }
 
 private:
     YXEmbed *fEmbedder;
+    Atom fInfo[2];
+    bool fTrace;
 };
 
 #endif

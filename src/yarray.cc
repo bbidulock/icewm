@@ -107,7 +107,6 @@ void YBaseArray::extend(const SizeType extendedCount) {
 }
 
 void YBaseArray::remove(const SizeType index) {
-    MSG(("remove %d %d", index, fCount));
     PRECONDITION(index < getCount());
     if (fCount > 0)
         memmove(getElement(index), getElement(index + 1),
@@ -117,7 +116,6 @@ void YBaseArray::remove(const SizeType index) {
 }
 
 void YBaseArray::shrink(const SizeType reducedCount) {
-    MSG(("shrink %d %d", reducedCount, fCount));
     if (reducedCount >= 0 && reducedCount <= fCount)
         fCount = reducedCount;
     else { PRECONDITION(false); }
@@ -131,7 +129,7 @@ void YBaseArray::clear() {
 }
 
 void YBaseArray::release() {
-    fElements = 0;
+    fElements = nullptr;
     fCapacity = 0;
     fCount = 0;
 }
@@ -167,7 +165,7 @@ YStringArray::YStringArray(const char* cstr[], SizeType num, SizeType cap) :
         if (num == npos) {
             for (SizeType i = 0; cstr[i]; ++i)
                 append(cstr[i]);
-            append(0);
+            append(nullptr);
         }
         else {
             for (SizeType i = 0; i < num; ++i)
@@ -237,9 +235,9 @@ char **YStringArray::release() {
 
 static int mstring_compare(const void *p1, const void *p2)
 {
-    const mstring *s1 = (const mstring *) p1;
-    const mstring *s2 = (const mstring *) p2;
-    return s1->collate(*s2);
+    const mstring* s1 = static_cast<const mstring*>(p1);
+    const mstring* s2 = static_cast<const mstring*>(p2);
+    return const_cast<mstring*>(s1)->collate(*const_cast<mstring*>(s2));
 }
 
 void MStringArray::sort() {

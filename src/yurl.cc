@@ -19,18 +19,18 @@
 
 class Matches {
 private:
-    ustring const str;
+    mstring const str;
     int const size;
     asmart<regmatch_t> const match;
 public:
-    Matches(ustring s, int n) : str(s), size(n), match(new regmatch_t[n]) {}
+    Matches(mstring s, int n) : str(s), size(n), match(new regmatch_t[n]) {}
     int num() const { return size; }
     int beg(int i) const { return match[i].rm_so; }
     int end(int i) const { return match[i].rm_eo; }
     int len(int i) const { return end(i) - beg(i); }
     bool has(int i) const { return 0 <= beg(i) && beg(i) <= end(i); }
-    ustring get(int i) const { return str.substring(beg(i), len(i)); }
-    ustring operator[](int i) const { return has(i) ? get(i) : null; }
+    mstring get(int i) const { return str.substring(beg(i), len(i)); }
+    mstring operator[](int i) const { return has(i) ? get(i) : null; }
     regmatch_t* ptr() const { return match; }
 };
 
@@ -69,11 +69,11 @@ public:
 YURL::YURL() {
 }
 
-YURL::YURL(ustring url) {
+YURL::YURL(mstring url) {
     *this = url;
 }
 
-void YURL::operator=(ustring url) {
+void YURL::operator=(mstring url) {
     scheme = null;
     user = null;
     pass = null;
@@ -120,7 +120,7 @@ void YURL::operator=(ustring url) {
         "(/.*)?"
         "$";
 
-    cstring str(url);
+    mstring str(url);
     Matches mat(str, Count);
     Pattern rex(re);
 
@@ -146,10 +146,10 @@ void YURL::operator=(ustring url) {
     }
 }
 
-ustring YURL::unescape(ustring str) {
+mstring YURL::unescape(mstring str) {
     if (0 <= str.indexOf('%')) {
         csmart nstr(new char[str.length()]);
-        if (nstr == 0)
+        if (nstr == nullptr)
             return null;
         char *d = nstr;
 
@@ -174,7 +174,7 @@ ustring YURL::unescape(ustring str) {
             }
             *d++ = (char)c;
         }
-        str = ustring(nstr, d - nstr);
+        str = mstring(nstr, d - nstr);
     }
     return str;
 }

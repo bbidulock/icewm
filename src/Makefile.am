@@ -287,6 +287,8 @@ icewm_SOURCES = \
 	aworkspaces.h \
 	amailbox.cc \
 	amailbox.h \
+	akeyboard.cc \
+	akeyboard.h \
 	aclock.cc \
 	aclock.h \
 	acpustatus.cc \
@@ -332,7 +334,7 @@ icewm_session_SOURCES = \
 	ytime.h \
 	ytimer.h \
 	icesm.cc
-icewm_session_LDADD = libice.la @LIBINTL@
+icewm_session_LDADD = libice.la $(X_LIBS) -lX11 @LIBINTL@
 
 icewmhint_SOURCES = \
 	intl.h \

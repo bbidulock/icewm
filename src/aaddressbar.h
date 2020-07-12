@@ -7,7 +7,7 @@ class IApp;
 
 class AddressBar: public YInputLine {
 public:
-    AddressBar(IApp *app, YWindow *parent = 0);
+    AddressBar(IApp *app, YWindow *parent = nullptr);
     virtual ~AddressBar();
 
     virtual bool handleKey(const XKeyEvent &key);

@@ -37,12 +37,12 @@ private:
     YObjectArray<upath> fPaths;
 
     YResourcePaths() {}
-    void addDir(const upath& dir);
+    void addDir(upath dir);
 
     template<class Pict>
-    bool loadPict(const upath& baseName, ref<Pict>* pict) const;
+    bool loadPict(upath baseName, ref<Pict>* pict) const;
     template<class Pict>
-    static bool loadPictFile(const upath& file, ref<Pict>* pict);
+    static bool loadPictFile(upath file, ref<Pict>* pict);
 };
 
 #endif

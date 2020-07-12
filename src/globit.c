@@ -59,7 +59,7 @@ globit_escape(const char *istr)
 	size_t i;
 
 	if (!(cp = ostr = (char*) calloc((i = strlen(istr)) + 1, 2)))
-		return (NULL);
+		return (nullptr);
 
 	/* strictly spoken, newline should be single-quoted instead */
 	while (i--) {
@@ -113,7 +113,7 @@ int
 globit_best(const char *pattern_, char **result,
         void(*callback)(const void *, const char * const *, unsigned cnt), const void* cback_user_parm)
 {
-	char c, *cp, **results = NULL;
+	char c, *cp, **results = nullptr;
 	size_t z, nresults = 0;
 	int i, j=0;
 	int glob_flags = GLOB_MARK |
@@ -122,10 +122,10 @@ globit_best(const char *pattern_, char **result,
 #endif
 	    GLOB_NOSORT;
 	int is_absolute = 0;
-	char *pattern, *pf = NULL, *pp = NULL, *pathpfx = NULL, *pathstr = NULL;
+	char *pattern, *pf = nullptr, *pp = nullptr, *pathpfx = nullptr, *pathstr = nullptr;
 	size_t pathlen = 0, joinlen;
 	glob_t glob_block;
-	const char *errstr = NULL;
+	const char *errstr = nullptr;
 
 	/* initialise pattern, with '*' appended unless it already has magic */
 	if (!(pattern = (char*) malloc((z = strlen(pattern_)) + 2))) {
@@ -194,7 +194,7 @@ globit_best(const char *pattern_, char **result,
 
 	/* collect (one round of) glob results */
 	memset(&glob_block, '\0', sizeof(glob_block));
-	switch (glob(cp, glob_flags, NULL, &glob_block)) {
+	switch (glob(cp, glob_flags, nullptr, &glob_block)) {
 	case 0:
 		/* success */
 		if ((i = glob_block.gl_pathc) < 0) {
@@ -268,7 +268,7 @@ globit_best(const char *pattern_, char **result,
 			errstr = "too many results";
 			goto errout;
 		}
-		if ((r2 = (char**) realloc(results, z * sizeof(char *))) == NULL) {
+		if ((r2 = (char**) realloc(results, z * sizeof(char *))) == nullptr) {
  oom:
 			errstr = "not enough memory";
 			goto errout;
@@ -320,6 +320,6 @@ globit_best(const char *pattern_, char **result,
 	free(pathpfx);
 	free(pathstr);
 	free(pattern);
-	*result = errstr ? strdup(errstr) : NULL;
+	*result = errstr ? strdup(errstr) : nullptr;
 	return (-1);
 }

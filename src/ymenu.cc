@@ -43,7 +43,7 @@ int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
 int YMenu::fAutoScrollMouseX = -1;
 int YMenu::fAutoScrollMouseY = -1;
-YMenu *YMenu::fPointedMenu = 0;
+YMenu *YMenu::fPointedMenu = nullptr;
 
 void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
@@ -73,9 +73,9 @@ YMenu::YMenu(YWindow *parent):
 
     paintedItem = selectedItem = -1;
     submenuItem = -1;
-    fPopup = 0;
-    fActionListener = 0;
-    fPopupActive = 0;
+    fPopup = nullptr;
+    fActionListener = nullptr;
+    fPopupActive = nullptr;
     fShared = false;
     fRaised = false;
     activatedX = -1;
@@ -122,7 +122,7 @@ void YMenu::activatePopup(int flags) {
 void YMenu::deactivatePopup() {
     hideSubmenu();
     if (fPointedMenu == this)
-        fPointedMenu = 0;
+        fPointedMenu = nullptr;
     if (fMenuTimer)
         fMenuTimer->disableTimerListener(this);
 }
@@ -131,7 +131,7 @@ void YMenu::donePopup(YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
     if (fPointedMenu == this)
-        fPointedMenu = 0;
+        fPointedMenu = nullptr;
     if (fPopup) {
         hideSubmenu();
         if (selectedItem != -1)
@@ -204,7 +204,7 @@ void YMenu::focusItem(int itemNo) {
 }
 
 void YMenu::activateSubMenu(int item, bool byMouse) {
-    YMenu *sub = 0;
+    YMenu *sub = nullptr;
     if (item != -1 && getItem(item)->isEnabled())
         sub = getItem(item)->getSubmenu();
 
@@ -219,9 +219,9 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             getOffsets(l, t, r, b);
             findItemPos(item, xp, yp, ih);
             YRect rect(x(), y(), width(), height());
-            if (sub->getActionListener() == 0)
+            if (sub->getActionListener() == nullptr)
                 sub->setActionListener(getActionListener());
-            sub->popup(0, this, 0,
+            sub->popup(nullptr, this, nullptr,
                        x() + int(width()) - r, y() + yp - t,
                        int(width()) - r - l, -1,
                        getXiScreen(),
@@ -268,7 +268,7 @@ int YMenu::activateItem(int modifiers, bool byMouse) {
         if (item->getAction() != actionNull) {
             finishPopup(item, item->getAction(), modifiers);
         }
-        else if (item->getSubmenu() != 0) {
+        else if (item->getSubmenu() != nullptr) {
             focusItem(selectedItem);
             activateSubMenu(selectedItem, byMouse);
         }
@@ -370,7 +370,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                 } else if (k == XK_Return || k == XK_KP_Enter) {
                     if (selectedItem != -1 &&
                         (getItem(selectedItem)->getAction() != actionNull ||
-                         getItem(selectedItem)->getSubmenu() != 0))
+                         getItem(selectedItem)->getSubmenu() != nullptr))
                     {
                         activateItem(key.state, false);
                         return true;
@@ -434,7 +434,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
         if (button.type == ButtonPress) {
             fPopupActive = fPopup;
         } else if (button.type == ButtonRelease) {
-            if (fPopupActive == fPopup && fPopup != 0 && nocascade) {
+            if (fPopupActive == fPopup && fPopup != nullptr && nocascade) {
                 hideSubmenu();
                 focusItem(selItem);
                 paintItems();
@@ -452,7 +452,7 @@ void YMenu::handleButton(const XButtonEvent &button) {
             if (selectedItem != -1) {
                 noAction =
                 getItem(selectedItem)->getAction() == actionNull &&
-                getItem(selectedItem)->getSubmenu() == 0;
+                getItem(selectedItem)->getSubmenu() == nullptr;
             }
 
             if (selectedItem == -1 || noAction) {
@@ -462,10 +462,10 @@ void YMenu::handleButton(const XButtonEvent &button) {
                     focusItem(findActiveItem(itemCount() - 1, 1));
             } else {
                 if ((getItem(selectedItem)->getAction() != actionNull ||
-                     getItem(selectedItem)->getSubmenu() != 0)
+                     getItem(selectedItem)->getSubmenu() != nullptr)
                     &&
                     (getItem(selectedItem)->getAction() == actionNull ||
-                     getItem(selectedItem)->getSubmenu() == 0 || !nocascade)
+                     getItem(selectedItem)->getSubmenu() == nullptr || !nocascade)
                    )
                 {
 
@@ -638,27 +638,27 @@ void YMenu::autoScroll(int deltaX, int deltaY, int mx, int my, const XMotionEven
     beginAutoScroll(deltaX || deltaY, motion);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, const char *icons) {
-    return add(new YMenuItem(name, hotCharPos, param, action, 0), icons);
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action, const char *icons) {
+    return add(new YMenuItem(name, hotCharPos, param, action, nullptr), icons);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu), icons);
 }
 
-YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons) {
+YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu, const char *icons) {
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu), icons);
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action) {
-    return add(new YMenuItem(name, hotCharPos, param, action, 0));
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action) {
+    return add(new YMenuItem(name, hotCharPos, param, action, nullptr));
 }
 
-YMenuItem *YMenu::addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu) {
+YMenuItem *YMenu::addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, null, action, submenu));
 }
 
-YMenuItem *YMenu::addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu) {
+YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu) {
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu));
 }
 
@@ -666,7 +666,7 @@ YMenuItem * YMenu::addSeparator() {
     return add(new YMenuItem());
 }
 
-YMenuItem *YMenu::addLabel(const ustring &name) {
+YMenuItem *YMenu::addLabel(const mstring &name) {
     return add(new YMenuItem(name));
 }
 
@@ -709,7 +709,7 @@ YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates, bool ignoreCase) 
             fItems.insert(i, item);
             return item;
         } else {
-            return 0;
+            return nullptr;
         }
     }
     if (item) fItems.append(item);
@@ -719,24 +719,24 @@ YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates, bool ignoreCase) 
 YMenuItem *YMenu::findAction(YAction action) {
     for (int i = 0; i < itemCount(); i++)
         if (action == getItem(i)->getAction()) return getItem(i);
-    return 0;
+    return nullptr;
 }
 
 YMenuItem *YMenu::findSubmenu(const YMenu *sub) {
     for (int i = 0; i < itemCount(); i++)
         if (sub == getItem(i)->getSubmenu()) return getItem(i);
-    return 0;
+    return nullptr;
 }
 
-YMenuItem *YMenu::findName(const ustring &name, const int first) {
+YMenuItem *YMenu::findName(const mstring &name, const int first) {
     if (name != null)
         for (int i = first; i < itemCount(); i++) {
-            ustring iname = getItem(i)->getName();
+            mstring iname = getItem(i)->getName();
             if (iname != null && iname.equals(name))
                 return getItem(i);
     }
 
-    return 0;
+    return nullptr;
 }
 
 int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
@@ -744,7 +744,7 @@ int YMenu::findFirstLetRef(char firstLet, const int first, const int ignCase) {
         firstLet = ASCII::toUpper(firstLet);
     for (int i = first; i < itemCount(); i++) {
         YMenuItem *temp = getItem(i);
-        ustring iLetterRef = temp->getName();
+        mstring iLetterRef = temp->getName();
         if (iLetterRef != null) {
             int iLetter = iLetterRef.charAt(0);
             if (ignCase)
@@ -998,10 +998,10 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
     int const fontBaseLine(menuFont->ascent());
 
     YMenuItem *mitem = getItem(i);
-    ustring name = mitem->getName();
-    ustring param = mitem->getParam();
+    mstring name = mitem->getName();
+    mstring param = mitem->getParam();
 
-    if (mitem->getName() == null && mitem->getSubmenu() == 0) {
+    if (mitem->getName() == null && mitem->getSubmenu() == nullptr) {
         if (draw && t + 4 >= minY && t <= maxY)
             drawSeparator(g, 1, t, width() - 2);
     } else {
@@ -1146,7 +1146,7 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                     g.setColor(fg);
                     g.drawChars(param,
                                 paramPos + delta, baseLine);
-                } else if (mitem->getSubmenu() != 0) {
+                } else if (mitem->getSubmenu() != nullptr) {
                     if (mitem->getAction() != actionNull) {
                         g.setColor(menuBg);
                         if (false) {
@@ -1234,8 +1234,8 @@ void YMenu::paint(Graphics &g, const YRect &r1) {
 void YMenu::hideSubmenu() {
     if (fPopup)
         fPopup->popdown();
-    fPopup = 0;
-    fPopupActive = 0;
+    fPopup = nullptr;
+    fPopupActive = nullptr;
     submenuItem = -1;
 }
 

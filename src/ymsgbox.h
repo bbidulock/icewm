@@ -16,11 +16,11 @@ protected:
 
 class YMsgBox: public YDialog, public YActionListener {
 public:
-    YMsgBox(int buttons, YWindow *owner = 0);
+    YMsgBox(int buttons, YWindow *owner = nullptr);
     virtual ~YMsgBox();
 
-    void setTitle(const ustring &title);
-    void setText(const ustring &text);
+    void setTitle(mstring title);
+    void setText(mstring text);
     void setPixmap(ref<YPixmap> pixmap);
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }

@@ -8,11 +8,11 @@
 
 #include <string.h>
 
-extern ref<YFont> getXftFont(ustring name, bool antialias);
-extern ref<YFont> getXftFontXlfd(ustring name, bool antialias);
+extern ref<YFont> getXftFont(mstring name, bool antialias);
+extern ref<YFont> getXftFontXlfd(mstring name, bool antialias);
 extern ref<YFont> getCoreFont(const char*);
 
-ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
+ref<YFont> YFont::getFont(mstring name, mstring xftFont, bool antialias) {
     ref<YFont> ret;
 
 #if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
@@ -23,7 +23,7 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
             ret = getXftFontXlfd(name, antialias);
     }
     if (ret == null)
-        ret = getCoreFont(cstring(name));
+        ret = getCoreFont(name);
 
 #elif defined(CONFIG_XFREETYPE)
     if (xftFont.nonempty())
@@ -32,7 +32,7 @@ ref<YFont> YFont::getFont(ustring name, ustring xftFont, bool antialias) {
         ret = getXftFontXlfd(name, antialias);
 
 #elif defined(CONFIG_COREFONTS)
-    ret = getCoreFont(cstring(name));
+    ret = getCoreFont(name);
 
 #else
     (void) antialias;
@@ -85,11 +85,6 @@ YDimension YFont::multilineAlloc(const char *str) const {
     alloc.w = max(alloc.w, tab ? tabPos + textWidth(tab + 1) : textWidth(str));
 
     return alloc;
-}
-
-YDimension YFont::multilineAlloc(const ustring &str) const {
-    cstring cs(str);
-    return multilineAlloc(cs.c_str());
 }
 
 // vim: set sw=4 ts=4 et:

@@ -15,7 +15,7 @@
 #define MAX_ACPI_BATTERY_NUM 3
 
 struct Battery {
-    cstring name;
+    mstring name;
     bool present;
     int capacity_full;
 
@@ -31,7 +31,7 @@ class YApm:
 {
 public:
     // if autodetect==true and no battery then go to sleep
-    YApm(YWindow *aParent = 0, bool autodetect = false);
+    YApm(YWindow *aParent = nullptr, bool autodetect = false);
     virtual ~YApm();
 
     virtual void updateToolTip();

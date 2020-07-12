@@ -14,7 +14,7 @@ private:
     char* copyTo(char *p) const { memcpy(p, cstr(), len+1); return p; }
     void replace(char *p, int n) { dispose(); arg2 = p; siz = n; }
 public:
-    Argument() : arg2(0), siz(128), len(0) { *arg1 = 0; }
+    Argument() : arg2(nullptr), siz(128), len(0) { *arg1 = 0; }
     ~Argument() { dispose(); }
 
     operator char *() { return str(); }
@@ -25,7 +25,7 @@ public:
 
     int size() const { return siz; }
     int length() const { return len; }
-    void reset() { dispose(); arg2 = 0; siz = 128; arg1[len = 0] = 0; }
+    void reset() { dispose(); arg2 = nullptr; siz = 128; arg1[len = 0] = 0; }
     void expand(int n) { if (n > siz) replace(copyTo(new char[n]), n); }
     char operator[](int at) const { return at < len ? cstr()[at] : 0; }
     void push(char ch) {
@@ -35,7 +35,7 @@ public:
     }
     void operator+=(char ch) { push(ch); }
 
-    Argument(const Argument& c) : arg2(0), siz(128) { *arg1 = 0; *this = c; }
+    Argument(const Argument& c) : arg2(nullptr), siz(128) { *arg1 = 0; *this = c; }
     Argument& operator=(const Argument& copy) {
         if (this != &copy) {
             int k = 1 + copy.len;

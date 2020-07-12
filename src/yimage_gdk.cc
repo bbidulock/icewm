@@ -28,7 +28,7 @@ public:
                             unsigned w, unsigned h, int dx, int dy);
     virtual unsigned depth() const;
     virtual bool hasAlpha() const;
-    virtual bool valid() const { return fPixbuf != 0; }
+    virtual bool valid() const { return fPixbuf != nullptr; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
     virtual void save(upath filename);
 
@@ -50,10 +50,10 @@ unsigned YImageGDK::depth() const {
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;
-    GError *gerror = 0;
+    GError *gerror = nullptr;
     GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename.string(), &gerror);
 
-    if (pixbuf != NULL) {
+    if (pixbuf != nullptr) {
         image.init(new YImageGDK(gdk_pixbuf_get_width(pixbuf),
                                  gdk_pixbuf_get_height(pixbuf),
                                  pixbuf));
@@ -64,11 +64,11 @@ ref<YImage> YImage::load(upath filename) {
     const int lim = 64;
     for (int k = 9; --k > 0 && inrange(int(filename.fileSize()), 5, lim); ) {
         fileptr fp(filename.fopen("r"));
-        if (fp == 0)
+        if (fp == nullptr)
             break;
 
         char buf[lim];
-        if (fgets(buf, lim, fp) == 0)
+        if (fgets(buf, lim, fp) == nullptr)
             break;
 
         mstring match(mstring(buf).match("^[a-z][-_a-z0-9]*\\.xpm$", "i"));
@@ -83,9 +83,9 @@ ref<YImage> YImage::load(upath filename) {
 }
 
 void YImageGDK::save(upath filename) {
-    cstring handle(filename.replaceExtension(".png"));
-    GError *gerror = 0;
-    gdk_pixbuf_save(fPixbuf, handle, "png", &gerror, (void *) NULL);
+    mstring handle(filename.replaceExtension(".png"));
+    GError *gerror = nullptr;
+    gdk_pixbuf_save(fPixbuf, handle, "png", &gerror, (void *) nullptr);
     if (gerror) {
         msg("Cannot save YImageGDK %s: %s", handle.c_str(), gerror->message);
         g_error_free(gerror);
@@ -101,7 +101,7 @@ ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
     pixbuf = gdk_pixbuf_scale_simple(fPixbuf,
                                      w, h,
                                      GDK_INTERP_BILINEAR);
-    if (pixbuf != NULL) {
+    if (pixbuf != nullptr) {
         image.init(new YImageGDK(w, h, pixbuf));
     }
 
@@ -226,11 +226,11 @@ ref<YPixmap> YImageGDK::renderToPixmap(unsigned depth, bool premult) {
         int height = int(this->height());
         Visual* visual = xapp->visualForDepth(depth);
         XImage* image = XCreateImage(xapp->display(), visual, depth,
-                                     ZPixmap, 0, NULL, width, height, 8, 0);
+                                     ZPixmap, 0, nullptr, width, height, 8, 0);
         if (image)
             image->data = (char *) calloc(image->bytes_per_line * height, 1);
         XImage* imask = XCreateImage(xapp->display(), visual, 1,
-                                     XYPixmap, 0, NULL, width, height, 8, 0);
+                                     XYPixmap, 0, nullptr, width, height, 8, 0);
         if (imask)
             imask->data = (char *) calloc(imask->bytes_per_line * height, 1);
 

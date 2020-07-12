@@ -9,7 +9,7 @@ class YIcon;
 
 class YButton: public YWindow {
 public:
-    YButton(YWindow *parent, YAction action, YMenu *popup = 0);
+    YButton(YWindow *parent, YAction action, YMenu *popup = nullptr);
     virtual ~YButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -24,8 +24,8 @@ public:
     void setPopup(YMenu * popup);
     void setIcon(ref<YIcon> image, int size);
     void setImage(ref<YImage> image);
-    void setText(const ustring &str, int hot = -1);
-    ustring getText() const { return fText; }
+    void setText(const mstring &str, int hot = -1);
+    mstring getText() const { return fText; }
     bool hasImage() const { return fImage != null; }
     bool hasText() const { return fText.nonempty(); }
     bool hasPopup() const { return fPopup; }
@@ -69,7 +69,7 @@ private:
     ref<YIcon> fIcon;
     int fIconSize;
     ref<YImage> fImage;
-    ustring fText;
+    mstring fText;
     int fPressed;
     bool fEnabled;
     int fHotCharPos;

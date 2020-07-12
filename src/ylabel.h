@@ -5,7 +5,7 @@
 
 class YLabel: public YWindow {
 public:
-    YLabel(const ustring &label, YWindow *parent = 0);
+    YLabel(const mstring &label, YWindow *parent = nullptr);
     virtual ~YLabel();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -13,10 +13,10 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
 
-    void setText(const ustring &label);
-    const ustring getText() const { return fLabel; }
+    void setText(const mstring &label);
+    const mstring getText() const { return fLabel; }
 private:
-    ustring fLabel;
+    mstring fLabel;
     bool fPainted;
 
     void autoSize();

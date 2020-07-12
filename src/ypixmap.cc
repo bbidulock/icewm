@@ -53,12 +53,12 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
 
 YPixmap::~YPixmap() {
     if (fPixmap != None) {
-        if (xapp != 0)
+        if (xapp != nullptr)
             XFreePixmap(xapp->display(), fPixmap);
         fPixmap = 0;
     }
     if (fMask != None) {
-        if (xapp != 0)
+        if (xapp != nullptr)
             XFreePixmap(xapp->display(), fMask);
         fMask = 0;
     }

@@ -41,7 +41,7 @@ public:
 
     // XXX: convert to iterator
     virtual int getActiveItem()=0;
-    virtual ustring getTitle(int idx) =0;
+    virtual mstring getTitle(int idx) =0;
     virtual ref<YIcon> getIcon(int idx) =0;
 
     // Manager notification about windows disappearing under the fingers
@@ -55,14 +55,14 @@ public:
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
 public:
-    SwitchWindow(YWindow *parent = 0,
-                 ISwitchItems *items = 0, bool verticalStyle=true);
+    SwitchWindow(YWindow *parent = nullptr,
+                 ISwitchItems *items = nullptr, bool verticalStyle=true);
     virtual ~SwitchWindow();
 
     virtual void paint(Graphics &g, const YRect &r) override;
     virtual void repaint() override;
 
-    void begin(bool zdown, int mods, char* wmclass = 0);
+    void begin(bool zdown, int mods, char* wmclass = nullptr);
 
     virtual void activatePopup(int flags) override;
     virtual void deactivatePopup() override;

@@ -10,19 +10,19 @@ class YActionListener;
 
 class DTheme: public DObject {
 public:
-    DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme);
+    DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme);
     virtual ~DTheme();
 
     virtual void open();
 private:
     YSMListener *smActionListener;
-    ustring fTheme;
+    mstring fTheme;
     IApp *app;
 };
 
 class ThemesMenu: public ObjectMenu {
 public:
-    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = 0);
+    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = nullptr);
     virtual ~ThemesMenu();
 
     virtual void updatePopup();
@@ -34,14 +34,14 @@ private:
     static YMenuItem *newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
-        const ustring& label,
-        const ustring& relThemeName);
+        const mstring& label,
+        const mstring& relThemeName);
 
     static void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
         const upath& path,
-        const ustring& relName,
+        const mstring& relName,
         YMenuItem *item);
 
     // this solution isn't nice. Saving it globaly somewhere would be

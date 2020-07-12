@@ -13,27 +13,6 @@
 #include "ascii.h"
 #include "argument.h"
 
-upath findPath(ustring path, int mode, upath name) {
-    if (name.isAbsolute()) { // check for root in XFreeOS/2
-        if (name.fileExists() && name.access(mode) == 0)
-            return name;
-    } else {
-        if (path == null)
-            return null;
-
-        ustring s(null), r(null);
-        for (s = path; s.splitall(PATHSEP, &s, &r); s = r) {
-            if (s.isEmpty())
-                continue;
-
-            upath prog = upath(s).relative(name);
-            if (prog.access(mode) == 0)
-                return prog;
-        }
-    }
-    return null;
-}
-
 char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     char *p = source;
     while (ASCII::isSpaceOrTab(*p))
@@ -169,7 +148,7 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
             break;
         case cfoption::CF_UINT:
             if (options[a].v.u.uint_value) {
-                unsigned const v(strtoul(arg, NULL, 0));
+                unsigned const v(strtoul(arg, nullptr, 0));
 
                 if (v >= options[a].v.u.min && v <= options[a].v.u.max)
                     *(options[a].v.u.uint_value) = v;
@@ -250,12 +229,12 @@ static char *parseOption(cfoption *options, char *str) {
         }
 
         p = YConfig::getArgument(&argument, p, true);
-        if (p == 0)
+        if (p == nullptr)
             break;
 
         p = setOption(options, name, argument, append, p);
-        if (p == 0)
-            return 0;
+        if (p == nullptr)
+            return nullptr;
 
         while (ASCII::isSpaceOrTab(*p))
             p++;
@@ -285,7 +264,7 @@ bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
         parseConfiguration(options, buf);
         delete[] buf;
     }
-    return buf != 0;
+    return buf != nullptr;
 }
 
 void YConfig::freeConfig(cfoption *options) {
@@ -295,7 +274,7 @@ void YConfig::freeConfig(cfoption *options) {
             *o->v.s.string_value)
         {
             delete[] const_cast<char *>(*o->v.s.string_value);
-            *o->v.s.string_value = 0;
+            *o->v.s.string_value = nullptr;
         }
     }
 }

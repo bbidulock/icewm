@@ -9,7 +9,7 @@
 YPipeReader::YPipeReader() :
     YPollBase(),
     fListener(nullptr),
-    rdbuf(0),
+    rdbuf(nullptr),
     rdbuflen(0),
     reading(false)
 {

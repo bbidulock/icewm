@@ -19,7 +19,7 @@
 
 extern ref<YFont> menuFont;
 
-YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
+YMenuItem::YMenuItem(const mstring &name, int aHotCharPos, const mstring &param,
                      YAction action, YMenu *submenu) :
     fName(name), fParam(param), fAction(action),
     fHotCharPos(aHotCharPos), fSubmenu(submenu), fIcon(null),
@@ -42,20 +42,20 @@ YMenuItem::YMenuItem(const ustring &name, int aHotCharPos, const ustring &param,
         fHotCharPos = -1;
 }
 
-YMenuItem::YMenuItem(const ustring &name) :
+YMenuItem::YMenuItem(const mstring &name) :
     fName(name), fParam(null), fAction(actionNull), fHotCharPos(-1),
-    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(true) {
+    fSubmenu(nullptr), fIcon(null), fChecked(false), fEnabled(true) {
 }
 
 YMenuItem::YMenuItem():
     fName(null), fParam(null), fAction(actionNull), fHotCharPos(-1),
-    fSubmenu(0), fIcon(null), fChecked(false), fEnabled(false) {
+    fSubmenu(nullptr), fIcon(null), fChecked(false), fEnabled(false) {
 }
 
 YMenuItem::~YMenuItem() {
     if (fSubmenu && !fSubmenu->isShared())
         delete fSubmenu;
-    fSubmenu = 0;
+    fSubmenu = nullptr;
 }
 
 void YMenuItem::setChecked(bool c) {
@@ -112,12 +112,12 @@ int YMenuItem::getIconWidth() const {
 }
 
 int YMenuItem::getNameWidth() const {
-    ustring name = getName();
+    mstring name = getName();
     return name != null ? menuFont->textWidth(name) : 0;
 }
 
 int YMenuItem::getParamWidth() const {
-    ustring param = getParam();
+    mstring param = getParam();
     return  param != null ? menuFont->textWidth(param) : 0;
 }
 

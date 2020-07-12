@@ -27,8 +27,8 @@ static const int sockStreamFlags = SOCK_STREAM
                                  ;
 
 YSocket::YSocket() :
-    fListener(0),
-    rdbuf(0),
+    fListener(nullptr),
+    rdbuf(nullptr),
     rdbuflen(0),
     connecting(false),
     reading(false)
@@ -127,10 +127,6 @@ int YSocket::write(const char *buf, int len) {
             return rc;
     } while (errno == EINTR);
     return -1;
-}
-
-int YSocket::write(const cstring& str) {
-    return write(str, str.length());
 }
 
 void YSocket::shutdown() {

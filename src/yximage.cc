@@ -74,7 +74,7 @@ public:
     static ref<YImage> loadjpg(upath filename);
 #endif
     static ref<YImage> combine(XImage *xdraw, XImage *xmask);
-    static pstring detectImageType(upath filename);
+    static mstring detectImageType(upath filename);
 
     bool isBitmap() const { return fBitmap; }
     bool hasAlpha() const { return fImage ? fImage->depth == 32 : false; }
@@ -134,7 +134,7 @@ bool YImage::supportsDepth(unsigned depth) {
 ref<YImage> YImage::load(upath filename)
 {
     ref<YImage> image;
-    pstring ext(filename.getExtension().lower());
+    mstring ext(filename.getExtension().lower());
     bool unsup = false;
 
     if (ext.isEmpty())
@@ -163,15 +163,15 @@ ref<YImage> YImage::load(upath filename)
     else {
         unsup = true;
         if (ONCE)
-            warn(_("Unsupported file format: %s"), cstring(ext).c_str());
+            warn(_("Unsupported file format: %s"), ext.c_str());
     }
 
     if (image == null && !unsup)
-        fail(_("Could not load image \"%s\""), filename.string().c_str());
+        fail(_("Could not load image \"%s\""), filename.string());
     return image;
 }
 
-pstring YXImage::detectImageType(upath filename) {
+mstring YXImage::detectImageType(upath filename) {
      const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
      char buf[len+1];
      memset(buf, 0, sizeof buf);
@@ -186,11 +186,11 @@ pstring YXImage::detectImageType(upath filename) {
              return ".jpg";
          }
          else {
-             msg("Unknown image type: \"%s\".", filename.string().c_str());
+             msg("Unknown image type: \"%s\".", filename.string());
              return null;
          }
      }
-     fail(_("Could not load image \"%s\""), filename.string().c_str());
+     fail(_("Could not load image \"%s\""), filename.string());
      return null;
 }
 
@@ -205,7 +205,7 @@ ref <YImage> YXImage::loadxbm(upath filename)
 
     status = XReadBitmapFileData(filename.string(), &w, &h, (unsigned char **) &data, &x, &y);
     if (status != BitmapSuccess) {
-        tlog("ERROR: could not read pixmap file %s\n", filename.string().c_str());
+        tlog("ERROR: could not read pixmap file %s\n", filename.string());
         goto error;
     }
     xdraw = createBitmap(w, h, data);
@@ -306,15 +306,15 @@ ref<YImage> YXImage::loadpng(upath filename)
     FILE *f;
 
     if (!(f = fopen(filename.string(), "rb"))) {
-        tlog("could not open %s: %s\n", filename.string().c_str(), strerror(errno));
+        tlog("could not open %s: %s\n", filename.string(), strerror(errno));
         goto nofile;
     }
     if ((ret = fread(buf, 1, 8, f)) != 8) {
-        tlog("could not read PNG signature %s: %s\n", filename.string().c_str(), strerror(errno));
+        tlog("could not read PNG signature %s: %s\n", filename.string(), strerror(errno));
         goto noread;
     }
     if (png_sig_cmp(buf, 0, 8)) {
-        tlog("invalid PNG signature in %s\n", filename.string().c_str());
+        tlog("invalid PNG signature in %s\n", filename.string());
         goto noread;
     }
     if (!(png_ptr = png_create_read_struct(png_get_libpng_ver(NULL), NULL, NULL, NULL))) {
@@ -437,7 +437,7 @@ void YXImage::save(upath filename) {
     const char* error = "";
     if (savepng(filename, &error) == false) {
         fail("Cannot write YXImage %s: %s",
-            filename.string().c_str(), error);
+            filename.string(), error);
     }
 #endif
 }
@@ -530,7 +530,7 @@ ref<YImage> YXImage::loadjpg(upath filename)
     int row_stride;
     FILE* infile = filename.fopen("rb");
     if (infile == 0) {
-        fail("could not open %s", filename.string().c_str());
+        fail("could not open %s", filename.string());
         return yximage;
     }
 

@@ -45,10 +45,10 @@ void BrowseMenu::updatePopup() {
         ref<YIcon> folder = YIcon::getIcon("folder");
 
         for (adir dir(fPath.string()); dir.next(); ) {
-            ustring entry(dir.entry());
+            mstring entry(dir.entry());
             upath npath(fPath + entry);
 
-            YMenu *sub = 0;
+            YMenu *sub = nullptr;
             if (npath.dirExists())
                 sub = new BrowseMenu(app, smActionListener, wmActionListener, npath);
 

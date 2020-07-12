@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2019-08-22]: #
+[icewm -- read me first file.  2020-05-29]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -16,7 +16,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the `icewm-1.6.4` package, released 2020-01-07.  This release, and
+This is the `icewm-1.6.6` package, released 2020-05-29.  This release, and
 the latest version, can be obtained from [GitHub][1], using a command such as:
 
     $> git clone https://github.com/bbidulock/icewm.git
@@ -98,11 +98,9 @@ Included Utilities
 Currently, the only included utilities are:
 
  - [__icewmbg__(1)][22] (_a background setting program_),
- - [__icewmtray__(1)][28] (_a system tray for the IceWM taskbar_), and,
  - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
  - [__icewm-menu-fdo__(1)][24] (_a utility to genenerate XDG menus_),
- - [__icewm-menu-gnome2__(1)][25] (_a utility to generate GNOME menus_),
  - [__icewmhint__(1)][23] (_a utility to set IceWM-specific window options hint_).
  - [__icesound__(1)][21] (_play audio files when interesting GUI events happen_).
 
@@ -183,9 +181,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [22]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewmbg.pod
 [23]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewmhint.pod
 [24]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewm-menu-fdo.pod
-[25]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewm-menu-gnome2.pod
 [26]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewm.pod
 [27]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewm-session.pod
-[28]: https://github.com/ice-wm/icewm/blob/1.6.1/man/icewmtray.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #

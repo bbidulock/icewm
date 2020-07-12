@@ -5,7 +5,7 @@
 
 class YDialog: public YFrameClient {
 public:
-    YDialog(YWindow *owner = 0);
+    YDialog(YWindow *owner = nullptr);
     virtual ~YDialog();
 
     virtual void paint(Graphics &g, const YRect &r);

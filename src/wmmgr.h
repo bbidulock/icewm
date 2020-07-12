@@ -1,9 +1,11 @@
-#ifndef __WMMGR_H
-#define __WMMGR_H
+#ifndef WMMGR_H
+#define WMMGR_H
 
 #include "WinMgr.h"
 #include "ylist.h"
 #include "yaction.h"
+#include "ymsgbox.h"
+#include "workspaces.h"
 
 extern YAction layerActionSet[WinLayerCount];
 
@@ -79,7 +81,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
 };
 
-class YWindowManager: public YDesktop {
+class YWindowManager: public YDesktop, private YMsgBoxListener {
 public:
     YWindowManager(
         IApp *app,
@@ -100,7 +102,6 @@ public:
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
-    virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleFocus(const XFocusChangeEvent &focus);
@@ -108,6 +109,7 @@ public:
     virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
     virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
+    virtual void handleMsgBox(YMsgBox *msgbox, int operation);
 
     void manageClients();
     void unmanageClients();
@@ -136,7 +138,7 @@ public:
     void removeClientFrame(YFrameWindow *frame);
 
     void updateScreenSize(XEvent *event);
-    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1) const;
+    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1);
     void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
@@ -170,8 +172,8 @@ public:
 
     void restackWindows(YFrameWindow *win);
     void focusTopWindow();
-    YFrameWindow *getFrameUnderMouse(long workspace = -1);
-    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = -1);
+    YFrameWindow *getFrameUnderMouse(long workspace = AllWorkspaces);
+    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = AllWorkspaces);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
     void relocateWindows(long workspace, int screen, int dx, int dy);
@@ -213,7 +215,7 @@ public:
     void setDesktopViewport();
 
     void announceWorkArea();
-    void setWinWorkspace(long workspace);
+    void setWinWorkspace(int workspace);
     void updateWorkArea();
     void updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
@@ -253,8 +255,11 @@ public:
 
     bool haveClients();
     void setupRootProxy();
-
     void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
+    void setKeyboard(mstring keyboard);
+    void setKeyboard(int configIndex);
+    mstring getKeyboard();
+    void updateKeyboard(int configIndex);
 
     void updateFullscreenLayer();
     void updateFullscreenLayerEnable(bool enable);
@@ -288,6 +293,8 @@ public:
         int columns;
         int rows;
         int corner;
+        DesktopLayout(int o, int c, int r, int k) :
+            orient(o), columns(c), rows(r), corner(k) { }
     };
 
     const DesktopLayout& layout() const { return fLayout; }
@@ -302,6 +309,7 @@ private:
     void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
     void setWmState(WMState newWmState);
+    void refresh();
 
     IApp *app;
     YActionListener *wmActionListener;
@@ -362,11 +370,13 @@ private:
     bool fLayeredUpdated;
 
     DesktopLayout fLayout;
+    mstring fCurrentKeyboard;
+    int fDefaultKeyboard;
 };
 
 extern YWindowManager *manager;
 
-void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = 0);
+void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 
 extern Atom _XA_WIN_APP_STATE;
 extern Atom _XA_WIN_AREA_COUNT;

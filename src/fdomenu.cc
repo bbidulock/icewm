@@ -22,7 +22,7 @@
 #include "appnames.h"
 #include <ctype.h>
 
-char const *ApplicationName(0);
+char const *ApplicationName(nullptr);
 
 #ifndef LPCSTR // mind the MFC
 // easier to read...
@@ -60,8 +60,8 @@ static int cmpUtf8(const void *p1, const void *p2) {
 class tDesktopInfo;
 typedef YVec<const gchar*> tCharVec;
 tCharVec sys_folders, home_folders;
-tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, 0 };
-tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, 0 };
+tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, nullptr };
+tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, nullptr };
 
 struct tListMeta {
     LPCSTR title, key, icon;
@@ -83,7 +83,7 @@ tListMeta* lookup_category(LPCSTR key)
     if(ret)
     {
         // auto-translate the default title for the user's language
-        if(ret->title == NULL)
+        if(ret->title == nullptr)
             ret->title = _(ret->key);
     }
     return ret;
@@ -102,7 +102,7 @@ protected:
     LPCSTR progCmd;
 public:
     const tListMeta *meta;
-    t_menu_node(const tListMeta* desc): store(0), progCmd(0), meta(desc) {}
+    t_menu_node(const tListMeta* desc): store(nullptr), progCmd(nullptr), meta(desc) {}
 
     struct t_print_meta {
         int count, level;
@@ -171,7 +171,7 @@ public:
      * Usual print method for the root node
      */
     void print() {
-        t_print_meta ctx = {0,0,0};
+        t_print_meta ctx = {0,0,nullptr};
         print(&ctx);
     }
 
@@ -207,8 +207,8 @@ public:
         // skip the rest of the further nesting (cannot fit into any)
         bool skipping = false;
 
-        tListMeta* pNewCatInfo = 0;
-        tListMeta** ppLastMainCat = 0;
+        tListMeta* pNewCatInfo = nullptr;
+        tListMeta** ppLastMainCat = nullptr;
 
         for (const char * const *pSubCatName = subCatCandidate->parent_sec;
                 *pSubCatName; ++pSubCatName) {
@@ -223,7 +223,7 @@ public:
                 pTree->get_subtree(subCatCandidate)->add(pNode);
                 // main menu was served, don't come here again
                 if (ppLastMainCat)
-                    *ppLastMainCat = 0;
+                    *ppLastMainCat = nullptr;
             }
 
             skipping = true;
@@ -283,7 +283,7 @@ public:
         for (tListMeta** p = matched_main_cats.data;
                 p < matched_main_cats.data + matched_main_cats.size; ++p) {
 
-            if (*p == NULL)
+            if (*p == nullptr)
                 continue;
             get_subtree(*p)->add(pNode);
         }
@@ -317,7 +317,7 @@ public:
 // tear down if not permitted
         if (!g_app_info_should_show(*this)) {
             g_object_unref(pInfo);
-            pInfo = 0;
+            pInfo = nullptr;
             return;
         }
     }
@@ -334,7 +334,7 @@ public:
 
     LPCSTR get_name() const {
         if (!pInfo)
-            return 0;
+            return nullptr;
         return g_app_info_get_display_name((GAppInfo*) pInfo);
     }
 
@@ -345,18 +345,18 @@ public:
         if (pIcon) {
             char *icon_path = g_icon_to_string(pIcon);
             if (!icon_path)
-                return 0;
+                return nullptr;
             // if absolute then we are done here
             if (icon_path[0] == '/')
                 return icon_path;
             // err, not owned! auto_gfree free_orig_icon_path(icon_path);
             return icon_path;
         }
-        return 0;
+        return nullptr;
     }
 };
 
-tListMeta no_description = {0,0,0,0};
+tListMeta no_description = {nullptr,nullptr,nullptr,nullptr};
 
 t_menu_node root(&no_description);
 
@@ -454,9 +454,9 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
     GKeyFile *kf = g_key_file_new();
     auto_raii<GKeyFile*, g_key_file_free> free_kf(kf);
 
-    if (!g_key_file_load_from_file(kf, szDesktopFile, G_KEY_FILE_NONE, 0))
+    if (!g_key_file_load_from_file(kf, szDesktopFile, G_KEY_FILE_NONE, nullptr))
         return;
-    LPCSTR cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name", 0);
+    LPCSTR cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name", nullptr);
     // looks like bad data
     if(!cat_name || !*cat_name)
         return;
@@ -485,7 +485,7 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
         return;
     if (pCat->load_state_icon < tListMeta::SYSTEM_ICON) {
         LPCSTR icon_name = g_key_file_get_string (kf, "Desktop Entry",
-                                                       "Icon", 0);
+                                                       "Icon", nullptr);
         if (icon_name && *icon_name) {
             pCat->icon = icon_name;
             pCat->load_state_icon = tListMeta::SYSTEM_ICON;
@@ -494,12 +494,12 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
     if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED) {
         LPCSTR cat_title = g_key_file_get_locale_string (kf,
                                                               "Desktop Entry",
-                                                              "Name", NULL,
-                                                              NULL);
+                                                              "Name", nullptr,
+                                                              nullptr);
         if (!cat_title) return;
         pCat->title = cat_title;
         LPCSTR cat_title_c = g_key_file_get_string (kf, "Desktop Entry",
-                                                         "Name", 0);
+                                                         "Name", nullptr);
         bool same_trans = 0 == strcmp (cat_title_c, cat_title);
         if (!same_trans) pCat->load_state_title = tListMeta::SYSTEM_TRANSLATED;
         // otherwise: not sure, keep searching for a better translation
@@ -547,13 +547,13 @@ void proc_dir_rec(LPCSTR syspath, unsigned depth,
         LPCSTR szFileSfx) {
     gchar *path = g_strjoin("/", syspath, szSubfolder, NULL);
     auto_gfree relmem_path(path);
-    GDir *pdir = g_dir_open(path, 0, NULL);
+    GDir *pdir = g_dir_open(path, 0, nullptr);
     if (!pdir)
         return;
     auto_raii<GDir*, g_dir_close> dircloser(pdir);
 
-    const gchar *szFilename(NULL);
-    while (NULL != (szFilename = g_dir_read_name(pdir))) {
+    const gchar *szFilename(nullptr);
+    while (nullptr != (szFilename = g_dir_read_name(pdir))) {
         if (!szFilename || !checkSuffix(szFilename, szFileSfx))
             continue;
 
@@ -605,8 +605,8 @@ bool launch(LPCSTR dfile, LPCSTR *argv, int argc) {
     (void) argc;
 #endif
     return g_app_info_launch((GAppInfo *) pInfo,
-    NULL,
-    NULL, NULL);
+    nullptr,
+    nullptr, nullptr);
 }
 
 static void init() {
@@ -677,7 +677,7 @@ int main(int argc, LPCSTR *argv) {
 
     LPCSTR usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
-        usershare = g_strjoin(NULL, getenv("HOME"), "/.local/share", NULL);
+        usershare = g_strjoin(nullptr, getenv("HOME"), "/.local/share", NULL);
 
     // system dirs, either from environment or from static locations
     LPCSTR sysshare = getenv("XDG_DATA_DIRS");

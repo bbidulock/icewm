@@ -17,7 +17,7 @@
 #define CFGDEF
 #include "icewmbg_prefs.h"
 
-char const *ApplicationName = NULL;
+char const *ApplicationName = nullptr;
 
 class PixFile {
 public:
@@ -38,7 +38,7 @@ public:
     }
     mstring file() const { return name; }
     Pixmap pixmap(Paths paths) {
-        time_t now = time(NULL);
+        time_t now = time(nullptr);
         if (pix == null) {
             if (last == 0 || last + 2 < now) {
                 pix = load(paths);
@@ -71,7 +71,7 @@ public:
             image = YPixmap::load(path);
         }
         if (image == null) {
-            tlog(_("Failed to load image '%s'."), cstring(name).c_str());
+            tlog(_("Failed to load image '%s'."), name.c_str());
         }
         return image;
     }
@@ -214,7 +214,7 @@ private:
     ref<YPixmap> currentBackgroundPixmap;
     ref<YPixmap> currentTransparencyPixmap;
     YColor currentBackgroundColor;
-    cstring pixmapName;
+    mstring pixmapName;
     YArray<int> sequence;
     lazy<YTimer> cycleTimer;
 
@@ -272,7 +272,7 @@ upath Background::getThemeDir() {
     if (themeDir == null && nonempty(themeName)) {
         upath path(themeName);
         if (path.isAbsolute() == false) {
-            if (strchr(themeName, '/') == 0) {
+            if (strchr(themeName, '/') == nullptr) {
                 path = upath("themes") + path + "default.theme";
             }
             else {
@@ -401,7 +401,7 @@ void Background::addImage(Strings& images, const char* name, bool append) {
 }
 
 void Background::add(const char* name, const char* value, bool append) {
-    if (value == 0 || *value == 0) {
+    if (value == nullptr || *value == 0) {
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         addImage(backgroundImages, value, append);
@@ -564,7 +564,7 @@ long* Background::getLongProperties(Atom property, int n) const {
     Atom r_type;
     int r_format;
     unsigned long nitems, lbytes;
-    unsigned char *prop(0);
+    unsigned char *prop(nullptr);
 
     if (XGetWindowProperty(display(), window(), property,
                            0, n, False, XA_CARDINAL,
@@ -577,7 +577,7 @@ long* Background::getLongProperties(Atom property, int n) const {
         }
         XFree(prop);
     }
-    return 0;
+    return nullptr;
 }
 
 int Background::getLongProperty(Atom property) const {
@@ -776,7 +776,7 @@ void Background::changeBackground(bool force) {
 void Background::restart() const {
     if (verbose) tlog("restart");
     if (mainArgv[0][0] == '/' ||
-        (strchr(mainArgv[0], '/') != 0 &&
+        (strchr(mainArgv[0], '/') != nullptr &&
          access(mainArgv[0], X_OK) == 0))
     {
         execv(mainArgv[0], mainArgv);
@@ -944,7 +944,7 @@ void addBgImage(const char* name, const char* value, bool append) {
 
 static void bgLoadConfig(const char *configFile, const char *overrideTheme)
 {
-    if (configFile == 0 || *configFile == 0)
+    if (configFile == nullptr || *configFile == 0)
         configFile = "preferences";
     if (overrideTheme && *overrideTheme)
         themeName = overrideTheme;
@@ -959,7 +959,7 @@ static void bgLoadConfig(const char *configFile, const char *overrideTheme)
         YConfig::findLoadConfigFile(globalBg, theme_prefs, "theme");
     }
     YConfig::findLoadConfigFile(globalBg, icewmbg_prefs, configFile);
-    if (themeName != 0) {
+    if (themeName != nullptr) {
         MSG(("themeName=%s", themeName));
 
         YConfig::findLoadThemeFile(globalBg, icewmbg_prefs,
@@ -974,7 +974,7 @@ static void bgParse(const char* name, const char* value) {
     for (int i = 0; str.splitall(',', &opt, &str); ++i) {
         if (i + 1 < ICEBG_MAX_ARGS) {
             if ((opt = opt.trim()).nonempty()) {
-                globalBg->add(name, cstring(opt), 0 < i);
+                globalBg->add(name, opt, 0 < i);
             }
         }
     }
@@ -997,21 +997,21 @@ int main(int argc, char **argv) {
     bool replace = false;
     bool shuffle = false;
     bool verbose = false;
-    const char* overrideTheme = 0;
-    const char* configFile = 0;
-    const char* image = 0;
-    const char* color = 0;
-    const char* trans = 0;
-    const char* semis = 0;
-    const char* center = 0;
-    const char* scaled = 0;
-    const char* multi = 0;
-    const char* cycle = 0;
-    const char* shuffleArg = 0;
+    const char* overrideTheme = nullptr;
+    const char* configFile = nullptr;
+    const char* image = nullptr;
+    const char* color = nullptr;
+    const char* trans = nullptr;
+    const char* semis = nullptr;
+    const char* center = nullptr;
+    const char* scaled = nullptr;
+    const char* multi = nullptr;
+    const char* cycle = nullptr;
+    const char* shuffleArg = nullptr;
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-            char *value(0);
+            char *value(nullptr);
             if (is_switch(*arg, "r", "restart")) {
                 sendRestart = true;
             }
@@ -1128,7 +1128,7 @@ int main(int argc, char **argv) {
         cycleBackgroundsPeriod = atoi(cycle);
     }
 
-    globalBg = NULL;
+    globalBg = nullptr;
 
     return bg.mainLoop();
 }

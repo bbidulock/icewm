@@ -18,8 +18,8 @@
 
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")");
-    ustring copyright =
-        ustring("Copyright ")
+    mstring copyright =
+        mstring("Copyright ")
         .append(_("(C)"))
         .append(" 1997-2008 Marko Macek, ")
         .append(_("(C)"))
@@ -66,7 +66,7 @@ AboutDlg::AboutDlg(): YDialog() {
     setClassHint("about", "IceWM");
 
     setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
@@ -181,9 +181,9 @@ void AboutDlg::showFocused() {
     unsigned dw, dh;
     manager->getScreenGeometry(&dx, &dy, &dw, &dh);
 
-    if (getFrame() == 0)
+    if (getFrame() == nullptr)
         manager->manageClient(handle(), false);
-    if (getFrame() != 0) {
+    if (getFrame() != nullptr) {
         getFrame()->setNormalPositionOuter(
             dx + int(dw / 2 - getFrame()->width() / 2),
             dy + int(dh / 2 - getFrame()->height() / 2));

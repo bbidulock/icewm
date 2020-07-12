@@ -223,7 +223,7 @@ void CPUStatus::draw(Graphics& g) {
                 g.drawLine(i, y, i, y - (iowaitbar - 1));
                 y -= iowaitbar;
             }
-            MSG((_("stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, "
+         /* MSG((_("stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, "
                 "iowait = %llu, intr = %llu, softirq = %llu, steal = %llu\n"),
                 cpu[i][IWM_USER], cpu[i][IWM_NICE], cpu[i][IWM_SYS],
                 cpu[i][IWM_IDLE], cpu[i][IWM_IOWAIT], cpu[i][IWM_INTR],
@@ -231,7 +231,7 @@ void CPUStatus::draw(Graphics& g) {
             MSG((_("bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, "
                 "intr = %llu, softirq = %llu, steal = %llu (h = %i)\n"),
                 userbar, nicebar, sysbar, iowaitbar, intrbar,
-                softirqbar, stealbar, h));
+                softirqbar, stealbar, h)); */
         }
         if (y > 0) {
             if (color[IWM_IDLE]) {
@@ -331,14 +331,14 @@ void CPUStatus::updateToolTip() {
             }
             const char *const form = _("\nCPU Freq: %.3fGHz");
             const char *const perc = strstr(form, "%.3f");
-            if (cpus < 2 || perc == NULL) {
+            if (cpus < 2 || perc == nullptr) {
                 snprintf(pos, rest, form, maxf / 1e6);
             } else {
                 snprintf(pos, rest, "%.*s%.3f %.3f %s", (int)(perc - form),
                         form, maxf / 1e6, minf / 1e6, perc + 4);
             }
         }
-        setToolTip(ustring(fmt));
+        setToolTip(mstring(fmt));
     }
 #else
     char buf[99];
@@ -490,12 +490,12 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
 
 void CPUStatus::getStatusPlatform() {
 #ifdef __linux__
-    char *p = 0, buf[4096], *end = 0;
+    char *p = nullptr, buf[4096], *end = nullptr;
     unsigned long long cur[IWM_STATES];
     int s;
 
     fileptr fd(fopen("/proc/stat", "r"));
-    if (fd == NULL)
+    if (fd == nullptr)
         return;
 
     while (fgets(buf, sizeof buf, fd) && 0 == strncmp(buf, "cpu", 3)) {
@@ -512,7 +512,7 @@ void CPUStatus::getStatusPlatform() {
         }
     }
     fd.close();
-    if (p == 0)
+    if (p == nullptr)
         return;
 
     s = sscanf(p, "%llu %llu %llu %llu %llu %llu %llu %llu",
@@ -597,7 +597,7 @@ void CPUStatus::getStatus() {
 
     getStatusPlatform();
 
-    MSG((_("CPU: %llu %llu %llu %llu %llu %llu %llu %llu"),
+ /* MSG((_("CPU: %llu %llu %llu %llu %llu %llu %llu %llu"),
         cpu[taskBarCPUSamples - 1][IWM_USER],
         cpu[taskBarCPUSamples - 1][IWM_NICE],
         cpu[taskBarCPUSamples - 1][IWM_SYS],
@@ -605,7 +605,7 @@ void CPUStatus::getStatus() {
         cpu[taskBarCPUSamples - 1][IWM_IOWAIT],
         cpu[taskBarCPUSamples - 1][IWM_INTR],
         cpu[taskBarCPUSamples - 1][IWM_SOFTIRQ],
-        cpu[taskBarCPUSamples - 1][IWM_STEAL]));
+        cpu[taskBarCPUSamples - 1][IWM_STEAL])); */
 
     ++statusUpdateCount;
 
@@ -657,6 +657,7 @@ void CPUStatusControl::handleClick(const XButtonEvent &up, int cpuid) {
         if (cpuid < 0) strlcpy(title, _("CPU"), sizeof title);
         else snprintf(title, sizeof title, _("CPU%d"), cpuid);
         fMenu->addItem(title, -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
 
         fMenu->addItem(_("_Disable"), -2, null, actionClose);
         if (cpuid >= 0) {
@@ -665,7 +666,7 @@ void CPUStatusControl::handleClick(const XButtonEvent &up, int cpuid) {
             fMenu->addItem(_("_Separate"), -2, null, actionCascade);
         }
         fMenuCPU = cpuid;
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);

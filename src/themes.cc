@@ -23,7 +23,7 @@
 
 #include "intl.h"
 
-DTheme::DTheme(IApp *app, YSMListener *smActionListener, const ustring &label, const ustring &theme):
+DTheme::DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme):
     DObject(app, label, null), fTheme(theme)
 {
     this->app = app;
@@ -39,7 +39,7 @@ void DTheme::open() {
 
     WMConfig::setDefaultTheme(fTheme);
 
-    const char *bg[] = { ICEWMBGEXE, "-r", 0 };
+    const char *bg[] = { ICEWMBGEXE, "-r", nullptr };
     int pid = app->runProgram(bg[0], bg);
     app->waitProgram(pid);
 
@@ -59,7 +59,7 @@ void ThemesMenu::updatePopup() {
 void ThemesMenu::refresh() {
     removeAll();
 
-    pstring themes("/themes/");
+    mstring themes("/themes/");
     upath libThemes = YApplication::getLibDir() + themes;
     upath cnfThemes = YApplication::getConfigDir() + themes;
     upath prvThemes = YApplication::getPrivConfDir() + themes;
@@ -92,8 +92,8 @@ ThemesMenu::~ThemesMenu() {
 YMenuItem * ThemesMenu::newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
-        const ustring& label,
-        const ustring& relThemeName) {
+        const mstring& label,
+        const mstring& relThemeName) {
     DTheme *dtheme = new DTheme(app, smActionListener, label, relThemeName);
 
     if (dtheme) {
@@ -104,23 +104,23 @@ YMenuItem * ThemesMenu::newThemeItem(
             return item;
         }
     }
-    return NULL;
+    return nullptr;
 }
 
 void ThemesMenu::findThemes(const upath& path, YMenu *container) {
-    ustring defTheme("/default.theme");
+    mstring defTheme("/default.theme");
 
     bool bNesting = inrange(nestedThemeMenuMinNumber, 1, themeCount - 1);
     char subName[5] = { 'X', '.','.','.', 0};
 
     for (udir dir(path); dir.next(); ) {
-        YMenuItem *im(NULL);
+        YMenuItem *im(nullptr);
         YMenu* targetMenu = container;
         upath subdir = path + dir.entry();
         upath defThemePath = subdir + defTheme;
 
         if (defThemePath.isReadable()) {
-            ustring relThemeName = dir.entry() + defTheme;
+            mstring relThemeName = dir.entry() + defTheme;
             im = newThemeItem(app, smActionListener, dir.entry(), relThemeName);
         }
 
@@ -144,7 +144,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
             }
             else if (0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0, 1)))
             {
-                MSG(("adding: %s to main menu", subdir.string().c_str()));
+                MSG(("adding: %s to main menu", subdir.string()));
             }
             else
             {
@@ -152,8 +152,8 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
                 // which needs to be moved to submenu
                 YMenuItem *relatedItem = container->getItem(relatedItemPos);
                 MSG(("Moving %s to submenu to prepare for %s",
-                                cstring(relatedItem->getName()).c_str(),
-                                subdir.string().c_str()));
+                                relatedItem->getName().c_str(),
+                                subdir.string()));
                 YMenu *smenu = new YMenu();
                 smenu->addSorted(relatedItem, false, true);
                 YMenuItem *newItem = new YMenuItem(subName, 0, null, actionNull, smenu);
@@ -164,9 +164,9 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
         }
 
         if (im) {
-            if (targetMenu->addSorted(im, false, true) == 0) {
+            if (targetMenu->addSorted(im, false, true) == nullptr) {
                 delete im;
-                im = 0;
+                im = nullptr;
             }
         }
         if (im) {
@@ -186,26 +186,26 @@ void ThemesMenu::findThemeAlternatives(
     IApp *app,
     YSMListener *smActionListener,
     const upath& path,
-    const ustring& relName,
+    const mstring& relName,
     YMenuItem *item)
 {
-    ustring defTheme("default.theme");
-    ustring extension(".theme");
+    mstring defTheme("default.theme");
+    mstring extension(".theme");
     for (udir dir(path); dir.nextExt(extension); ) {
-        const ustring entry(dir.entry());
+        const mstring entry(dir.entry());
         if (entry != defTheme) {
             upath altThemePath(path + entry);
 
             if (altThemePath.isReadable()) {
                 YMenu *sub(item->getSubmenu());
 
-                if (sub == NULL)
+                if (sub == nullptr)
                     item->setSubmenu(sub = new YMenu());
 
                 if (sub) {
                     int prefixLength = entry.length() - extension.length();
-                    ustring tname(entry.substring(0, prefixLength));
-                    ustring relThemeName = upath(relName) + entry;
+                    mstring tname(entry.substring(0, prefixLength));
+                    mstring relThemeName = upath(relName) + entry;
                     YMenuItem *im = newThemeItem(app, smActionListener,
                                 tname, relThemeName);
                     sub->add(im);

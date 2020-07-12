@@ -281,7 +281,7 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
             return;
     }
 
-    ustring str = getFrame()->getIconTitle();
+    mstring str = getFrame()->getIconTitle();
     if (str == null || str.length() == 0)
         str = getFrame()->getTitle();
 
@@ -472,7 +472,7 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
     fTaskBar = taskBar;
     fNeedRelayout = true;
     fForceImmediate = false;
-    fDragging = 0;
+    fDragging = nullptr;
     fDragX = fDragY = 0;
 
     addStyle(wsNoExpose);
@@ -483,7 +483,7 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
 }
 
 TaskPane::~TaskPane() {
-    if (fDragging != 0)
+    if (fDragging != nullptr)
         endDrag();
 }
 
@@ -508,7 +508,7 @@ TaskBarApp* TaskPane::predecessor(TaskBarApp *tapp) {
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 TaskBarApp* TaskPane::successor(TaskBarApp *tapp) {
@@ -522,7 +522,7 @@ TaskBarApp* TaskPane::successor(TaskBarApp *tapp) {
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 TaskBarApp* TaskPane::findApp(YFrameWindow *frame) {
@@ -537,7 +537,7 @@ TaskBarApp* TaskPane::getActive() {
 
 TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
     TaskBarApp *tapp = new TaskBarApp(frame, this, this);
-    if (tapp != 0) {
+    if (tapp != nullptr) {
         insert(tapp);
     }
     return tapp;
@@ -643,7 +643,7 @@ unsigned TaskPane::maxHeight() {
 }
 
 void TaskPane::handleMotion(const XMotionEvent &motion) {
-    if (fDragging != 0) {
+    if (fDragging != nullptr) {
         processDrag(motion.x, motion.y);
     }
 }
@@ -661,7 +661,7 @@ void TaskPane::configure(const YRect2& r) {
 }
 
 void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
-    if (fDragging == 0) {
+    if (fDragging == nullptr) {
         if (!xapp->grabEvents(this, YXApplication::movePointer.handle(),
                               ButtonPressMask |
                               ButtonReleaseMask |
@@ -676,7 +676,7 @@ void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
 }
 
 void TaskPane::processDrag(int mx, int my) {
-    if (fDragging == 0)
+    if (fDragging == nullptr)
         return;
 
     const int w2 = width() - fDragging->width() - 2;
@@ -710,9 +710,9 @@ void TaskPane::processDrag(int mx, int my) {
 }
 
 void TaskPane::endDrag() {
-    if (fDragging != 0) {
+    if (fDragging != nullptr) {
         xapp->releaseEvents();
-        fDragging = 0;
+        fDragging = nullptr;
         relayout(true);
     }
 }

@@ -27,7 +27,7 @@ private:
     Display* dpy() const { return xapp->display(); }
 
 public:
-    YAnyContext(const char* title = 0, bool verbose = false) :
+    YAnyContext(const char* title = nullptr, bool verbose = false) :
         unique(0),
         title(title),
         verbose(verbose)
@@ -51,7 +51,7 @@ public:
 
     // lookup pointer by window
     bool find(Window w, AnyPointer* p) {
-        char* q = 0;
+        char* q = nullptr;
         int rc = XFindContext(dpy(), w, context(), &q);
         if (verbose) {
             if (rc == 0)
@@ -81,7 +81,7 @@ template <typename T>
 class YContext : private YAnyContext {
     typedef T* TPtr;
 public:
-    YContext(const char* title = 0, bool verbose = false) :
+    YContext(const char* title = nullptr, bool verbose = false) :
         YAnyContext(title, verbose) { }
 
     // store mapping of window to pointer
@@ -91,7 +91,7 @@ public:
 
     // lookup pointer by window
     bool find(Window w, TPtr* ptr) {
-        AnyPointer p = 0;
+        AnyPointer p = nullptr;
         if (YAnyContext::find(w, &p)) {
             *ptr = TPtr(p);
             return true;
@@ -101,7 +101,7 @@ public:
 
     // lookup pointer by window
     TPtr find(Window w) {
-        AnyPointer p = 0;
+        AnyPointer p = nullptr;
         YAnyContext::find(w, &p);
         return TPtr(p);
     }

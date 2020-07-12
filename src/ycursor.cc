@@ -112,10 +112,10 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
 
     if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-               path.string().c_str(), XpmGetErrorString(rc));
+               path.string(), XpmGetErrorString(rc));
     else if (fAttributes.npixels != 2)
         warn("Invalid cursor pixmap: \"%s\" contains too many unique colors",
-               path.string().c_str());
+               path.string());
     else {
         fBackground.pixel = fAttributes.pixels[0];
         fForeground.pixel = fAttributes.pixels[1];
@@ -134,7 +134,7 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
 YCursorPixmap::YCursorPixmap(upath path):
     fHotspotX(0), fHotspotY(0)
 {
-    cstring cs(path.path());
+    mstring cs(path.path());
     fImage = Imlib_load_image(hImlib, (char *)cs.c_str());
 
     if (fImage == NULL) {

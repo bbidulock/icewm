@@ -20,33 +20,33 @@ public:
     virtual ~NetStatusHandler() { }
     virtual void relayout() = 0;
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
-    virtual void handleClick(const XButtonEvent &up, cstring netdev) = 0;
+    virtual void handleClick(const XButtonEvent &up, mstring netdev) = 0;
 };
 
 class NetDevice {
 public:
-    NetDevice(cstring netdev) : fDevName(netdev) {}
+    NetDevice(mstring netdev) : fDevName(netdev) {}
     virtual bool isUp() = 0;
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData) = 0;
     virtual const char* getPhoneNumber() { return ""; }
     virtual ~NetDevice() {}
 
-    cstring name() const { return fDevName; }
+    mstring name() const { return fDevName; }
 
 protected:
-    cstring const fDevName;
+    mstring fDevName;
 };
 
 class NetLinuxDevice : public NetDevice {
 public:
-    NetLinuxDevice(cstring netdev) : NetDevice(netdev) {}
+    NetLinuxDevice(mstring netdev) : NetDevice(netdev) {}
     virtual bool isUp();
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
 class NetIsdnDevice : public NetLinuxDevice {
 public:
-    NetIsdnDevice(cstring netdev) : NetLinuxDevice(netdev) { *phoneNumber = 0; }
+    NetIsdnDevice(mstring netdev) : NetLinuxDevice(netdev) { *phoneNumber = 0; }
     virtual bool isUp();
     virtual const char* getPhoneNumber() { return phoneNumber; }
 private:
@@ -55,21 +55,21 @@ private:
 
 class NetFreeDevice : public NetDevice {
 public:
-    NetFreeDevice(cstring netdev) : NetDevice(netdev) {}
+    NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
     virtual bool isUp();
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
 class NetOpenDevice : public NetDevice {
 public:
-    NetOpenDevice(cstring netdev) : NetDevice(netdev) {}
+    NetOpenDevice(mstring netdev) : NetDevice(netdev) {}
     virtual bool isUp();
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
 class NetDummyDevice : public NetDevice {
 public:
-    NetDummyDevice(cstring netdev) : NetDevice(netdev) {}
+    NetDummyDevice(mstring netdev) : NetDevice(netdev) {}
     virtual bool isUp() { return false; }
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
     { }
@@ -77,10 +77,10 @@ public:
 
 class NetStatus: public IApplet, private Picturer {
 public:
-    NetStatus(cstring netdev, NetStatusHandler* handler, YWindow *aParent = 0);
+    NetStatus(mstring netdev, NetStatusHandler* handler, YWindow *aParent = nullptr);
     ~NetStatus();
 
-    cstring name() const { return fDevName; }
+    mstring name() const { return fDevName; }
     void timedUpdate(const void* sharedData, bool forceDown = false);
     bool isUp() const { return fDevice && fDevice->isUp(); }
 
@@ -103,7 +103,7 @@ private:
 
     bool wasUp;               // previous link status
     bool useIsdn;             // netdevice is an IsdnDevice
-    cstring const fDevName;   // name of the device
+    mstring fDevName;         // name of the device
     osmart<NetDevice> fDevice;
 
     void updateVisible(bool aVisible);
@@ -156,7 +156,7 @@ private:
     YStringArray patterns;
     YStringArray interfaces;
 
-    NetStatus* createNetStatus(cstring netdev);
+    NetStatus* createNetStatus(mstring netdev);
     void getInterfaces(YStringArray& interfaces);
 
 public:
@@ -168,7 +168,7 @@ public:
 
     // subclassing method overrides
     virtual bool handleTimer(YTimer *t) override;
-    virtual void handleClick(const XButtonEvent &up, cstring netdev) override;
+    virtual void handleClick(const XButtonEvent &up, mstring netdev) override;
     virtual void runCommandOnce(const char *resource, const char *cmdline) override;
     virtual void actionPerformed(YAction, unsigned int) override;
     virtual void relayout() override;

@@ -17,7 +17,7 @@
 #include <fcntl.h>
 
 
-void YResourcePaths::addDir(const upath& dir) {
+void YResourcePaths::addDir(upath dir) {
     if (dir.dirExists())
         fPaths.append(new upath(dir));
 }
@@ -28,11 +28,11 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
     upath privDir(YApplication::getPrivConfDir());
 
     upath themeFile(themeName);
-    pstring themeExt(themeFile.getExtension());
+    mstring themeExt(themeFile.getExtension());
     upath themeDir(themeExt.isEmpty() ? themeFile : themeFile.parent());
 
     if (themeDir.isAbsolute()) {
-        MSG(("Searching `%s' resources at absolute location", cstring(subdir.path()).c_str()));
+        MSG(("Searching `%s' resources at absolute location", subdir.string()));
 
         if (themeOnly) {
             paths->addDir(themeDir);
@@ -43,7 +43,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
             paths->addDir(YApplication::getLibDir());
         }
     } else {
-        MSG(("Searching `%s' resources at relative locations", cstring(subdir.path()).c_str()));
+        MSG(("Searching `%s' resources at relative locations", subdir.string()));
 
         upath themes("/themes/");
         upath themesPlusThemeDir(themes + themeDir);
@@ -67,8 +67,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
         MSG(("Initial search path:"));
         for (int i = 0; i < paths->getCount(); i++) {
             upath path = paths->getPath(i) + "/icons/";
-            cstring cs(path.path());
-            MSG(("%s", cs.c_str()));
+            MSG(("%s", path.string()));
         }
     }
 
@@ -85,14 +84,14 @@ void YResourcePaths::verifyPaths(upath base) {
 }
 
 template<class Pict>
-bool YResourcePaths::loadPictFile(const upath& file, ref<Pict>* pict) {
+bool YResourcePaths::loadPictFile(upath file, ref<Pict>* pict) {
     if (file.isReadable()) {
         *pict = Pict::load(file);
         if (*pict != null) {
             return true;
         }
     }
-    warn(_("Image not readable: %s"), file.string().c_str());
+    warn(_("Image not readable: %s"), file.string());
     return false;
 }
 
@@ -107,7 +106,7 @@ ref<YImage> YResourcePaths::loadImageFile(const upath& file) {
 }
 
 template<class Pict>
-bool YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
+bool YResourcePaths::loadPict(upath baseName, ref<Pict>* pict) const {
     for (int i = 0; i < getCount(); ++i) {
         upath path = getPath(i) + baseName;
         if (path.fileExists() && loadPictFile(path, pict))
@@ -115,7 +114,7 @@ bool YResourcePaths::loadPict(const upath& baseName, ref<Pict>* pict) const {
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("Could not find image %s"), baseName.string().c_str());
+        warn(_("Could not find image %s"), baseName.string());
 #endif
     return false;
 }
