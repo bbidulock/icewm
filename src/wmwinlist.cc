@@ -320,6 +320,10 @@ void WindowListBox::enableCommands(YMenu *popup) {
         moveMenu->disableCommand(actionNull);
         popup->disableCommand(actionNull);
     }
+    else {
+        moveMenu->setActionListener(this);
+        layerMenu->setActionListener(this);
+    }
 }
 
 WindowList::WindowList(YWindow *aParent):
