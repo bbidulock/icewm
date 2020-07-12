@@ -11,12 +11,12 @@
 
 #include <X11/SM/SMlib.h>
 
-YSMApplication *smapp = 0;
+YSMApplication *smapp = nullptr;
 static int IceSMfd = -1;
-static IceConn IceSMconn = NULL;
-static SmcConn SMconn = NULL;
-static char *oldSessionId = NULL;
-static char *newSessionId = NULL;
+static IceConn IceSMconn = nullptr;
+static SmcConn SMconn = nullptr;
+static char *oldSessionId = nullptr;
+static char *newSessionId = nullptr;
 static char *sessionProg;
 
 upath getsesfile() {
@@ -72,10 +72,10 @@ static void dieProc(SmcConn /*conn*/, SmPointer /*client_data*/) {
 }
 
 static void setSMProperties() {
-    SmPropValue programVal = { 0, NULL };
-    SmPropValue userIDVal = { 0, NULL };
-    SmPropValue restartVal[3] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
-    SmPropValue discardVal[4] = { { 0, NULL }, { 0, NULL }, { 0, NULL } };
+    SmPropValue programVal = { 0, nullptr };
+    SmPropValue userIDVal = { 0, nullptr };
+    SmPropValue restartVal[3] = { { 0, nullptr }, { 0, nullptr }, { 0, nullptr } };
+    SmPropValue discardVal[4] = { { 0, nullptr }, { 0, nullptr }, { 0, nullptr } };
 
     // broken headers in SMlib?
     SmProp programProp = { (char *)SmProgram, (char *)SmLISTofARRAY8, 1, &programVal };
@@ -121,7 +121,7 @@ static void setSMProperties() {
     discardVal[1].length = strlen(rmarg);
     discardVal[1].value = (char *)rmarg;
     discardVal[2].length = sidfile.length();
-    discardVal[2].value = (char *)cstring(sidfile).c_str();
+    discardVal[2].value = (char *)sidfile.string();
 
     SmcSetProperties(SMconn,
                      (int) ACOUNT(props),
@@ -129,9 +129,9 @@ static void setSMProperties() {
 }
 
 static void initSM() {
-    if (getenv("SESSION_MANAGER") == 0)
+    if (getenv("SESSION_MANAGER") == nullptr)
         return;
-    if (IceAddConnectionWatch(&iceWatchFD, NULL) == 0) {
+    if (IceAddConnectionWatch(&iceWatchFD, nullptr) == 0) {
         warn("Session Manager: IceAddConnectionWatch failed.");
         return ;
     }
@@ -141,16 +141,16 @@ static void initSM() {
 
     memset(&smcall, 0, sizeof(smcall));
     smcall.save_yourself.callback = &saveYourselfProc;
-    smcall.save_yourself.client_data = NULL;
+    smcall.save_yourself.client_data = nullptr;
     smcall.die.callback = &dieProc;
-    smcall.die.client_data = NULL;
+    smcall.die.client_data = nullptr;
     smcall.save_complete.callback = &saveCompleteProc;
-    smcall.save_complete.client_data = NULL;
+    smcall.save_complete.client_data = nullptr;
     smcall.shutdown_cancelled.callback = &shutdownCancelledProc;
-    smcall.shutdown_cancelled.client_data = NULL;
+    smcall.shutdown_cancelled.client_data = nullptr;
 
-    if ((SMconn = SmcOpenConnection(NULL, /* network ids */
-                                    NULL, /* context */
+    if ((SMconn = SmcOpenConnection(nullptr, /* network ids */
+                                    nullptr, /* context */
                                     1, 0, /* protocol major, minor */
                                     SmcSaveYourselfProcMask |
                                     SmcSaveCompleteProcMask |
@@ -158,7 +158,7 @@ static void initSM() {
                                     SmcDieProcMask,
                                     &smcall,
                                     oldSessionId, &newSessionId,
-                                    sizeof(error_str), error_str)) == NULL)
+                                    sizeof(error_str), error_str)) == nullptr)
     {
         warn("Session Manager: Init error: %s", error_str);
         return ;
@@ -169,7 +169,7 @@ static void initSM() {
 }
 
 void YSMApplication::smSaveYourself(bool /*shutdown*/, bool /*fast*/) {
-    SmcRequestSaveYourselfPhase2(SMconn, &saveYourselfPhase2Proc, NULL);
+    SmcRequestSaveYourselfPhase2(SMconn, &saveYourselfPhase2Proc, nullptr);
 }
 
 void YSMApplication::smSaveYourselfPhase2() {
@@ -196,7 +196,7 @@ void YSMApplication::smDie() {
 }
 
 bool YSMApplication::haveSessionManager() {
-    if (SMconn != NULL)
+    if (SMconn != nullptr)
         return true;
     return false;
 }
@@ -232,10 +232,10 @@ YXApplication(argc, argv, displayName)
 }
 
 YSMApplication::~YSMApplication() {
-    if (SMconn != 0) {
-        SmcCloseConnection(SMconn, 0, NULL);
-        SMconn = NULL;
-        IceSMconn = NULL;
+    if (SMconn != nullptr) {
+        SmcCloseConnection(SMconn, 0, nullptr);
+        SMconn = nullptr;
+        IceSMconn = nullptr;
         IceSMfd = -1;
         unregisterPoll(&psm);
     }
@@ -243,11 +243,11 @@ YSMApplication::~YSMApplication() {
 
 void YSMPoll::notifyRead() {
     Bool rep;
-    if (IceProcessMessages(IceSMconn, NULL, &rep)
+    if (IceProcessMessages(IceSMconn, nullptr, &rep)
         == IceProcessMessagesIOError)
     {
-        SmcCloseConnection(SMconn, 0, NULL);
-        IceSMconn = NULL;
+        SmcCloseConnection(SMconn, 0, nullptr);
+        IceSMconn = nullptr;
         IceSMfd = -1;
         unregisterPoll();
     }

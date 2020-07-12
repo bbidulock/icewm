@@ -8,26 +8,37 @@
 #include <libgen.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <fnmatch.h>
 
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
 
-#define equal(p, s)     (0 == strcmp(cstring(p), cstring(s)))
+#define equal(p, s)     (mstring(p) == mstring(s))
 
 #define expect(u, s)    if (++testsrun, (u) == mstring(s) && equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
+
+// XXX: those argument ordering and purpose := strange.
+// Also name collision with regular assert macro.
 
 #define assert(u, b)    if (++testsrun, (b)) ++passed; else \
-        test_failed(cstring(u), #b, __LINE__)
+        test_failed(mstring(u), #b, __LINE__)
 
 #define ispath(u, s)    if (++testsrun, (u) == upath(s) && equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
 
 #define sequal(u, s)    if (++testsrun, equal(u, s)) \
-        ++passed; else test_failed(cstring(u), cstring(s), __LINE__)
+        ++passed; else test_failed(u, s, __LINE__)
+
+#define ASSERT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
+		else { test_failed(#l, #r, __LINE__); return; }
+#define EXPECT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
+        else test_failed(#l, #r, __LINE__);
 
 static int testsrun, passed, failed;
 static const char *prog;
+static int total_failed = 0;
+
 
 class strtest {
     const char *name;
@@ -47,22 +58,19 @@ public:
     }
 };
 
-static void test_failed(cstring u, const char *s, int l)
+static void test_failed(mstring u, const char *s, int l)
 {
     printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
             prog, source, l,
             u == null ? "NULL" : u.c_str(),
-            s == 0 ? "NULL" : s);
+            s == nullptr ? "NULL" : s);
     ++failed;
+    ++total_failed;
 }
 
-static void test_failed(cstring u, cstring s, int l)
+static void test_failed(mstring u, mstring s, int l)
 {
-    printf("%s: Test failed in %s:%d: u = \"%s\", s = \"%s\"\n",
-            prog, source, l,
-            u == null ? "NULL" : u.c_str(),
-            s == null ? "NULL" : s.c_str());
-    ++failed;
+    return test_failed(u, s == null ? "NULL" : s.c_str(), l);
 }
 
 static void test_mstring()
@@ -94,7 +102,7 @@ static void test_mstring()
     expect(m, "");
     assert(m, m.length() == 0);
 
-    mstring n(0, (size_t) 0);
+    mstring n(nullptr, (size_t) 0);
     expect(n, "");
     assert(n, n.length() == 0);
 
@@ -210,18 +218,18 @@ static void test_mstring()
     q = ul.upper();
     expect(q, "ABCD.");
 
-    mstring u = NULL;
+    mstring u = nullptr;
     expect(u, "");
     u = mstring(nullptr) + "aha";
     expect(u, "aha");
-    u = mstring("aha") + NULL;
+    u = mstring("aha") + nullptr;
     expect(u, "aha");
 
     u = mstring("ab", "cd");
     expect(u, "abcd");
     u = mstring("ab", nullptr);
     expect(u, "ab");
-    u = mstring(NULL, "cd");
+    u = mstring(nullptr, "cd");
     expect(u, "cd");
     u = mstring(nullptr, nullptr);
     assert(u, u.isEmpty());
@@ -232,7 +240,7 @@ static void test_mstring()
     expect(u, "abcd");
     u = mstring("ab", nullptr, "ef");
     expect(u, "abef");
-    u = mstring(NULL, "cd", "ef");
+    u = mstring(nullptr, "cd", "ef");
     expect(u, "cdef");
     u = mstring(nullptr, nullptr, nullptr);
     expect(u, "");
@@ -351,6 +359,11 @@ static void test_upath()
     expect(hm.expand(), getenv("HOME"));
     hm = "$HOME/";
     assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
+
+    upath nothing("/else/matters");
+    EXPECT_EQ(0, nothing.fnMatch("/else/ma*"));
+    EXPECT_EQ(0, nothing.fnMatch("/el*/ma*"));
+    EXPECT_EQ(FNM_NOMATCH, nothing.fnMatch("/else/mata*"));
 }
 
 static void test_strlc()
@@ -506,7 +519,7 @@ static void test_sdir()
         assert(s.path(), s.isOpen());
         char buf[300] = "";
         while (s.next()) {
-            cstring c(s.entry());
+            mstring c(s.entry());
             const char *e = c.c_str();
             assert(e, strcoll(buf, e) < 0);
             strlcpy(buf, e, sizeof buf);
@@ -528,7 +541,7 @@ int main(int argc, char **argv)
     test_adir();
     test_sdir();
 
-    return 0;
+    return total_failed != 0;
 }
 
 // vim: set sw=4 ts=4 et:

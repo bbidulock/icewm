@@ -142,6 +142,15 @@ pane, the tray pane and the system tray.
 Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
 1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
 
+=item B<keyboard>: I<layout> (default: none)
+
+Specifies the keyboard layout to use for this window. 
+The I<layout> is the name of a keyboard layout.
+It can be a space-separated list of arguments to the
+B<setxkbmap> program. Please note that B<setxkbmap>
+must be installed for this to work. Also define
+a default keyboard layout in F<preferences>.
+
 =back
 
 =head2 FUNCTION OPTIONS
@@ -194,6 +203,7 @@ the application.  The following options are defined:
   ignoreTaskBar:            {1|0}  not on task bar.
   ignoreUrgentHint:         {1|0}  ignore urgent hints.
   ignoreWinList:            {1|0}  not on window list.
+  ignoreActivationMessages: {1|0}  only user can focus window.
   noFocusOnAppRaise:        {1|0}  no focus on raise.
   noFocusOnMap:             {1|0}  do not focus when mapped.
   noIgnoreTaskBar:          {1|0}  on task bar.
@@ -219,6 +229,19 @@ input focus to I<Chrome> pop-ups and asks to close them immediately.
   google-chrome.pop-up.noFocusOnMap: 1
   google-chrome.pop-up.startClose: 1
   google-chrome.pop-up.startMinimized: 1
+
+IceWM doesn't support dockapps, but this can be emulated.
+A dockapp should appear on all workspaces, have no decorations,
+and be always visible in a fixed location.
+
+  wmtime.wmtime.allWorkspaces: 1
+  wmtime.wmtime.ignoreTaskBar: 1
+  wmtime.wmtime.ignoreQuickSwitch: 1
+  wmtime.wmtime.ignoreWinList: 1
+  wmtime.wmtime.layer: Below
+  wmtime.wmtime.dTitleBar: 0
+  wmtime.wmtime.dBorder: 1
+  wmtime.wmtime.geometry: 64x64-74-100
 
 Following is the example window options file that ships with L<icewm(1)>
 and typically installs to F</usr/share/icewm/winoptions>.
@@ -286,6 +309,7 @@ read and the remainder ignored.
 L<icewm(1)>,
 L<icesh(1)>,
 L<icewmhint(1)>,
+L<setxkbmap(1)>,
 L<XParseGeometry(3)>.
 
 =head1 AUTHOR

@@ -196,9 +196,9 @@ unsigned long long MEMStatus::parseField(const char *buf, size_t bufLen,
                                          const char *needle) {
 #ifdef USE_PROC_MEMINFO
     ptrdiff_t needleLen = strlen(needle);
-    for (const char* str(buf); str && (str = strstr(str, needle)) != 0; ) {
+    for (const char* str(buf); str && (str = strstr(str, needle)) != nullptr; ) {
         if (str == buf || str[-1] == '\n') {
-            char *endptr = NULL;
+            char *endptr = nullptr;
             membytes result = strtoull(str+needleLen, &endptr, 10);
 
             while (*endptr != 0 && *endptr == ' ')
@@ -253,7 +253,7 @@ void MEMStatus::actionPerformed(YAction action, unsigned int modifiers) {
         hide();
         taskBar->relayout();
     }
-    fMenu = 0;
+    fMenu = nullptr;
 }
 
 void MEMStatus::handleClick(const XButtonEvent &up, int count) {
@@ -261,8 +261,9 @@ void MEMStatus::handleClick(const XButtonEvent &up, int count) {
         fMenu = new YMenu();
         fMenu->setActionListener(this);
         fMenu->addItem(_("MEM"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
         fMenu->addItem(_("_Disable"), -2, null, actionClose);
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);

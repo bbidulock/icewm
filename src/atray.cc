@@ -47,7 +47,7 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     fRepainted = false;
     setParentRelative();
     setToolTip(frame->getTitle());
-    setTitle(cstring(frame->getTitle()));
+    setTitle(frame->getTitle());
     //setDND(true);
 }
 
@@ -277,7 +277,7 @@ TrayApp* TrayPane::predecessor(TrayApp *tapp) {
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 TrayApp* TrayPane::successor(TrayApp *tapp) {
@@ -291,7 +291,7 @@ TrayApp* TrayPane::successor(TrayApp *tapp) {
             }
         }
     }
-    return 0;
+    return nullptr;
 }
 
 TrayApp* TrayPane::findApp(YFrameWindow *frame) {
@@ -307,7 +307,7 @@ TrayApp* TrayPane::getActive() {
 TrayApp *TrayPane::addApp(YFrameWindow *frame) {
     TrayApp *tapp = new TrayApp(frame, this, this);
 
-    if (tapp != 0) {
+    if (tapp != nullptr) {
         IterType it = fApps.reverseIterator();
         while (++it && it->getOrder() > tapp->getOrder());
         (--it).insert(tapp);

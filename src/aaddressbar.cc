@@ -11,6 +11,7 @@
 #include "wmmgr.h"
 #include "default.h"
 #include <X11/keysym.h>
+#include <wordexp.h>
 
 AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent),
@@ -50,45 +51,23 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
 
 bool AddressBar::appendCommand(const char* cmd, class YStringArray& args) {
     const int count = args.getCount();
-    if (cmd && *cmd) {
-        if (strchr(cmd, ' ')) {
-            char *str = newstr(cmd), *tok = 0;
-            for (char *ptr = str; *ptr; ++ptr) {
-                if (*ptr == ' ') {
-                    if (tok) {
-                        *ptr = 0;
-                        args += tok;
-                        tok = 0;
-                    }
+    if (nonempty(cmd)) {
+        wordexp_t exp = {};
+        if (wordexp(cmd, &exp, WRDE_NOCMD) == 0) {
+            for (size_t i = 0; i < exp.we_wordc; ++i) {
+                if (exp.we_wordv[i]) {
+                    args += exp.we_wordv[i];
                 }
-                else if (*ptr == '\'') {
-                    bool put = (tok == 0);
-                    if (put)
-                        tok = 1 + ptr;
-                    while (ptr[1] && *++ptr != '\'');
-                    if (put) {
-                        if (*ptr == '\'')
-                            *ptr = 0;
-                        args += tok;
-                        tok = 0;
-                    }
-                }
-                else if (tok == 0)
-                    tok = ptr;
             }
-            if (tok)
-                args += tok;
-            delete[] str;
+            wordfree(&exp);
         }
-        else args += cmd;
     }
     return count < args.getCount();
 }
 
 bool AddressBar::handleReturn(int mask) {
     const bool control(hasbit(mask, ControlMask));
-    const mstring line(getText());
-    const cstring text(line);
+    mstring line(getText());
     YStringArray args;
 
     if (line.nonempty()) {
@@ -105,11 +84,11 @@ bool AddressBar::handleReturn(int mask) {
         args += "/bin/sh";
         args += "-c";
     }
-    args += text;
-    args += 0;
+    args += line;
+    args += nullptr;
 
     if (line.isEmpty())
-        args.replace(control, 0);
+        args.replace(control, nullptr);
     if (args[0])
         app->runProgram(args[0], args.getCArray());
     selectAll();

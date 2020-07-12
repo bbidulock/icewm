@@ -11,7 +11,7 @@
 
 bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
-    if (fPopup == 0) {
+    if (fPopup == nullptr) {
         //        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
         Cursor changePointer = (dontRotateMenuPointer ||
                                 (popup->popupFlags() & YPopupWindow::pfNoPointerChange) ?
@@ -39,16 +39,16 @@ void YXApplication::popdown(YPopupWindow *popdown) {
     }
     fPopup = fPopup->prevPopup();
 
-    if (fPopup == 0) {
+    if (fPopup == nullptr) {
         releaseEvents();
     }
 }
 
 YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
-    fForWindow = 0;
-    fPopDownListener = 0;
-    fPrevPopup = 0;
-    fOwner = 0;
+    fForWindow = nullptr;
+    fPopDownListener = nullptr;
+    fPrevPopup = nullptr;
+    fOwner = nullptr;
     fFlags = 0;
     fUp = false;
     fXiScreen = -1;
@@ -78,7 +78,7 @@ bool YPopupWindow::popup(YWindow *owner,
                          unsigned int flags)
 {
     PRECONDITION(fUp == false);
-    fPrevPopup = 0;
+    fPrevPopup = nullptr;
     fFlags = flags;
     fForWindow = forWindow;
     fPopDownListener = popDown;
@@ -95,7 +95,7 @@ bool YPopupWindow::popup(YWindow *owner,
     } else {
         hide();
         fFlags = 0;
-        fForWindow = 0;
+        fForWindow = nullptr;
         return false;
     }
 }
@@ -172,7 +172,7 @@ bool YPopupWindow::popup(YWindow *owner,
             y = dy;
     }
 
-    if (forWindow == 0) {
+    if (forWindow == nullptr) {
         if ((x + int(width()) > dx + dw))
             x = dw - int(width());
 
@@ -212,7 +212,7 @@ void YPopupWindow::popdown() {
         fUp = false;
 
         fFlags = 0;
-        fForWindow = 0;
+        fForWindow = nullptr;
     }
 }
 

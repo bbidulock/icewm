@@ -205,11 +205,11 @@ bool mstring::equals(const mstring &str) const {
     return equals(str.data(), str.length());
 }
 
-int mstring::collate(const mstring &s, bool ignoreCase) const {
+int mstring::collate(mstring s, bool ignoreCase) {
     if (!ignoreCase)
-        return strcoll(cstring(*this), cstring(s));
+        return strcoll(*this, s);
     else
-        return strcoll(cstring(this->lower()), cstring(s.lower()));
+        return strcoll(this->lower(), s.lower());
 }
 
 int mstring::compareTo(const mstring &s) const {
@@ -280,15 +280,23 @@ mstring mstring::trim() const {
     return substring(k, n - k);
 }
 
-void mstring::normalize()
+const char* mstring::c_str()
 {
-    if (fRef && data()[fCount]) {
+    if (isEmpty()) {
+        return "";
+    }
+    else if (data()[fCount]) {
         if (fRef->fRefCount == 1) {
-            fRef[fOffset + fCount] = 0;
+            fRef[fOffset + fCount] = '\0';
         } else {
-            *this = mstring(data(), fCount);
+            const char* str = data();
+            fRef.release();
+            fRef.create(str, fCount);
+            fRef.acquire();
+            fOffset = 0;
         }
     }
+    return data();
 }
 
 mstring mstring::match(const char* regex, const char* flags) const {

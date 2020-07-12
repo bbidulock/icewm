@@ -9,13 +9,13 @@ class YMenu;
 
 class YMenuItem {
 public:
-    YMenuItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, YMenu *submenu);
-    YMenuItem(const ustring &name);
+    YMenuItem(const mstring &name, int hotCharPos, const mstring &param, YAction action, YMenu *submenu);
+    YMenuItem(const mstring &name);
     YMenuItem();
     virtual ~YMenuItem();
 
-    ustring getName() const { return fName; }
-    ustring getParam() const { return fParam; }
+    mstring getName() const { return fName; }
+    mstring getParam() const { return fParam; }
     YAction getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
 
@@ -42,12 +42,12 @@ public:
     int getNameWidth() const;
     int getParamWidth() const;
 
-    bool isSeparator() { return getName() == null && getSubmenu() == 0; }
+    bool isSeparator() { return getName() == null && getSubmenu() == nullptr; }
 
     void setIcon(ref<YIcon> icon);
 private:
-    ustring fName;
-    ustring fParam;
+    mstring fName;
+    mstring fParam;
     YAction fAction;
     int fHotCharPos;
     YMenu *fSubmenu;

@@ -12,9 +12,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "ypaths.h"
-#ifdef HAVE_WORDEXP
 #include <wordexp.h>
-#endif
 
 #include "intl.h"
 
@@ -27,11 +25,10 @@ static void initIconPaths() {
     }
     if (iconDirs.isEmpty() && nonempty(iconPath)) {
         char* copy = newstr(iconPath);
-        char* save = 0;
+        char* save = nullptr;
         for (char *tok = strtok_r(copy, ":", &save);
-            tok != 0; tok = strtok_r(0, ":", &save))
+            tok != nullptr; tok = strtok_r(nullptr, ":", &save))
         {
-#ifdef HAVE_WORDEXP
             wordexp_t exp;
             if (wordexp(tok, &exp, WRDE_NOCMD) == 0) {
                 for (unsigned i = 0; i < exp.we_wordc; ++i) {
@@ -44,9 +41,6 @@ static void initIconPaths() {
                 }
                 wordfree(&exp);
             }
-#else
-            iconDirs.append(tok);
-#endif
         }
         delete[] copy;
 
@@ -91,7 +85,7 @@ static upath joinPath(const upath& dir, const upath& name) {
     return dir.relative(name);
 }
 
-static inline bool isIconFile(const upath& name) {
+static inline bool isIconFile(upath name) {
     bool exist = name.fileExists();
     return exist;
 }
@@ -99,8 +93,7 @@ static inline bool isIconFile(const upath& name) {
 upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     char iconName[1024];
     const size_t iconSize = sizeof iconName;
-    const cstring cbase(base.string());
-    const char* cBaseStr = cbase.c_str();
+    const char* cBaseStr = base.string();
     static const char iconExts[][5] = {
             ".png",
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
@@ -115,7 +108,7 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
         return fullpath;
 
     bool hasImageExtension = false;
-    const cstring cbaseExt(base.getExtension());
+    mstring cbaseExt(base.getExtension());
     if (cbaseExt.length() == 4) {
         for (int i = 0; i < numIconExts; ++i) {
             hasImageExtension |= (0 == strcmp(iconExts[i], cbaseExt));
@@ -127,12 +120,12 @@ upath YIcon::findIcon(upath dir, upath base, unsigned size) {
     static const char* xdg_icon_patterns[] = {
             "/%ux%u/apps/%s",
             "/%ux%u/categories/%s",
-            0
+            nullptr
     };
     static const char* xdg_folder_patterns[] = {
             "/%ux%u/apps",
             "/%ux%u/categories",
-            0
+            nullptr
     };
 
 
@@ -194,7 +187,7 @@ upath YIcon::findIcon(unsigned size) {
         }
     }
 
-    MSG(("Icon \"%s\" not found.", fPath.string().c_str()));
+    MSG(("Icon \"%s\" not found.", fPath.string()));
 
     return null;
 }
@@ -211,9 +204,9 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             loadPath = findIcon(size);
         }
         if (loadPath != null) {
-            cstring cs(loadPath.path());
-            YTraceIcon trace(cs);
-            icon = YImage::load(cs.c_str());
+            const char* s(loadPath.string());
+            YTraceIcon trace(s);
+            icon = YImage::load(s);
         }
     }
 

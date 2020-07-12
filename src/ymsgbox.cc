@@ -21,9 +21,9 @@
 #include "intl.h"
 
 YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
-    fListener = 0;
-    fButtonOK = 0;
-    fButtonCancel = 0;
+    fListener = nullptr;
+    fButtonOK = nullptr;
+    fButtonCancel = nullptr;
     fLabel = new YLabel(null, this);
 
     setToplevel(true);
@@ -47,7 +47,7 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     }
     autoSize();
     setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     {
 
@@ -66,9 +66,9 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
 }
 
 YMsgBox::~YMsgBox() {
-    delete fLabel; fLabel = 0;
-    delete fButtonOK; fButtonOK = 0;
-    delete fButtonCancel; fButtonCancel = 0;
+    delete fLabel; fLabel = nullptr;
+    delete fButtonOK; fButtonOK = nullptr;
+    delete fButtonCancel; fButtonCancel = nullptr;
 }
 
 void YMsgBox::autoSize() {
@@ -105,13 +105,12 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(const ustring &title) {
-    cstring cs(title);
-    setWindowTitle(cs.c_str());
+void YMsgBox::setTitle(mstring title) {
+    setWindowTitle(title);
     autoSize();
 }
 
-void YMsgBox::setText(const ustring &text) {
+void YMsgBox::setText(mstring text) {
     if (fLabel) {
         fLabel->setText(text);
         fLabel->show();

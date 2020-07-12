@@ -24,7 +24,7 @@
 class ActivateWindowMenuItem: public YMenuItem {
 public:
     ActivateWindowMenuItem(YFrameWindow *frame):
-        YMenuItem(frame->getTitle(), -1, null, YAction(), 0),
+        YMenuItem(frame->getTitle(), -1, null, YAction(), nullptr),
         fFrame(frame)
     {
         if (fFrame->clientIcon() != null)
@@ -60,7 +60,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     /// !!! fix performance (smarter update, on change only)
     for (int layer = 0 ; layer < WinLayerCount; layer++) {
         layerCount = 0;
-        if (top(layer) == 0)
+        if (top(layer) == nullptr)
             continue;
         for (level = 0; level < 4; level++) {
             levelCount = 0;
@@ -69,7 +69,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     continue;
                 if (!frame->visibleOn(workspace))
                     continue;
-                if (frame->frameOptions() & YFrameWindow::foIgnoreWinList)
+                if (frame->frameOption(YFrameWindow::foIgnoreWinList))
                     continue;
                 if (workspace != activeWorkspace() &&
                     frame->visibleOn(activeWorkspace()))
@@ -125,9 +125,9 @@ void WindowListMenu::updatePopup() {
                 _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
                 workspaceNames[d]);
 
-        YMenu *sub = 0;
+        YMenu *sub = nullptr;
         if (manager->windowCount(d) > 0) // !!! do lazy create menu instead
-            sub = manager->createWindowMenu(0, d);
+            sub = manager->createWindowMenu(nullptr, d);
         addItem(s, (d < 10) ? 0 : -1, workspaceActionActivate[d], sub);
     }
     addSeparator();

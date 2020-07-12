@@ -6,6 +6,7 @@
 #include "config.h"
 #include "wmprog.h"
 #include "yconfig.h"
+#include "ypointer.h"
 #include "wmapp.h"
 #include "sysdep.h"
 #include "ascii.h"
@@ -30,7 +31,7 @@ static char *getCommandArgs(char *source, Argument *command,
 {
     char *p = source;
     p = YConfig::getArgument(command, p);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Missing command argument"));
         return p;
     }
@@ -48,7 +49,7 @@ static char *getCommandArgs(char *source, Argument *command,
 
         // parse the argument into argx and set the new position
         p = YConfig::getArgument(&argx, p);
-        if (p == 0) {
+        if (p == nullptr) {
             msg(_("Bad argument %d to command '%s'"),
                     args.getCount() + 1, command->cstr());
             return p;
@@ -57,35 +58,29 @@ static char *getCommandArgs(char *source, Argument *command,
         args.append(argx);
         MSG(("ARG: %s\n", argx.cstr()));
     }
-    args.append(0);
+    args.append(nullptr);
 
     return p;
 }
 
-static ustring guessIconNameFromExe(const char* exe)
+static mstring guessIconNameFromExe(const char* exe)
 {
-    upath fullname(exe);
-    char buf[1024];
-    for (int i=7; i; --i)
-    {
-        fullname = findPath(getenv("PATH"), X_OK, fullname);
-        if (fullname == null)
-            return "-";
-        ssize_t linkLen = readlink(fullname.string().c_str(), buf, ACOUNT(buf));
+    csmart path(path_lookup(exe));
+    for (int i = 7; i && path; --i) {
+        char buf[PATH_MAX];
+        ssize_t linkLen = readlink(path, buf, PATH_MAX);
         if (linkLen < 0)
             break;
-        fullname = upath(buf, linkLen);
+        path = newstr(buf, linkLen);
     }
-    // crop to the generic name
-    ustring s(fullname);
-    int spos = s.lastIndexOf('/');
-    if (spos >= 0)
-        s = s.remove(0, spos + 1);
-    // scripts have a suffix sometimes which is not part of the icon name
-    spos = s.indexOf('.');
-    if (spos >= 0)
-        s = s.substring(0, spos);
-    return s;
+    if (path) {
+        char* base = const_cast<char*>(my_basename(path));
+        // scripts may have a suffix which is not part of the icon name
+        char* dot = strchr(base, '.');
+        if (dot) *dot = '\0';
+        return base;
+    }
+    return "-";
 }
 
 char* MenuLoader::parseKey(char *word, char *p)
@@ -96,20 +91,20 @@ char* MenuLoader::parseKey(char *word, char *p)
     Argument key;
 
     p = YConfig::getArgument(&key, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument wmclass;
 
     if (runonce) {
         p = YConfig::getArgument(&wmclass, p);
-        if (p == 0) return p;
+        if (p == nullptr) return p;
     }
 
     Argument command;
     YStringArray args;
 
     p = getCommandArgs(p, &command, args);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Error at keyword '%s' for %s"), word, key.cstr());
         return p;
     }
@@ -120,7 +115,7 @@ char* MenuLoader::parseKey(char *word, char *p)
         key,
         null,
         false,
-        runonce ? wmclass.cstr() : NULL,
+        runonce ? wmclass.cstr() : nullptr,
         command.cstr(),
         args);
 
@@ -137,25 +132,25 @@ char* MenuLoader::parseProgram(char *word, char *p, ObjectContainer *container)
     Argument name;
 
     p = YConfig::getArgument(&name, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument icons;
 
     p = YConfig::getArgument(&icons, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument wmclass;
 
     if (runonce) {
         p = YConfig::getArgument(&wmclass, p);
-        if (p == 0) return p;
+        if (p == nullptr) return p;
     }
 
     Argument command;
     YStringArray args;
 
     p = getCommandArgs(p, &command, args);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Error at %s '%s'"), word, name.cstr());
         return p;
     }
@@ -164,9 +159,9 @@ char* MenuLoader::parseProgram(char *word, char *p, ObjectContainer *container)
 
     if (icons[0] == '!')
     {
-        ustring iconName = guessIconNameFromExe(command);
+        mstring iconName = guessIconNameFromExe(command);
         if (iconName.charAt(0) != '-')
-            icon = YIcon::getIcon(cstring(iconName));
+            icon = YIcon::getIcon(iconName);
 
     }
     else if (icons[0] != '-')
@@ -178,7 +173,7 @@ char* MenuLoader::parseProgram(char *word, char *p, ObjectContainer *container)
         name,
         icon,
         restart,
-        runonce ? wmclass.cstr() : NULL,
+        runonce ? wmclass.cstr() : nullptr,
         command.cstr(),
         args);
 
@@ -192,19 +187,19 @@ char* MenuLoader::parseAMenu(char *p, ObjectContainer *container)
     Argument name;
 
     p = YConfig::getArgument(&name, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument icons;
 
     p = YConfig::getArgument(&icons, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     while (ASCII::isWhiteSpace(*p))
         ++p;
 
     char word[32];
     p = getWord(word, sizeof(word), p);
-    if (*p != '{') return 0;
+    if (*p != '{') return nullptr;
     p++;
 
     ref<YIcon> icon;
@@ -233,17 +228,17 @@ char* MenuLoader::parseMenuFile(char *p, ObjectContainer *container)
     Argument name;
 
     p = YConfig::getArgument(&name, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument icons;
 
     p = YConfig::getArgument(&icons, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument menufile;
 
     p = YConfig::getArgument(&menufile, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     ref<YIcon> icon;
     if (icons[0] != '-')
@@ -251,7 +246,7 @@ char* MenuLoader::parseMenuFile(char *p, ObjectContainer *container)
 
     ObjectMenu *filemenu = new MenuFileMenu(
             app, smActionListener, wmActionListener,
-            menufile.cstr(), 0);
+            menufile.cstr(), nullptr);
 
     if (menufile)
         container->addContainer(name.cstr(), icon, filemenu);
@@ -264,18 +259,18 @@ char* MenuLoader::parseMenuProg(char *p, ObjectContainer *container)
     Argument name;
 
     p = YConfig::getArgument(&name, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument icons;
 
     p = YConfig::getArgument(&icons, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument command;
     YStringArray args;
 
     p = getCommandArgs(p, &command, args);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Error at menuprog '%s'"), name.cstr());
         return p;
     }
@@ -285,8 +280,8 @@ char* MenuLoader::parseMenuProg(char *p, ObjectContainer *container)
         icon = YIcon::getIcon(icons);
     MSG(("menuprog %s %s", name.cstr(), command.cstr()));
 
-    upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
-    if (fullPath != null) {
+    csmart path(path_lookup(command.cstr()));
+    if (path) {
         ObjectMenu *progmenu = new MenuProgMenu(
                 app, smActionListener, wmActionListener,
                 name.cstr(), command.cstr(), args);
@@ -302,24 +297,24 @@ char* MenuLoader::parseMenuProgReload(char *p, ObjectContainer *container)
     Argument name;
 
     p = YConfig::getArgument(&name, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument icons;
 
     p = YConfig::getArgument(&icons, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
 
     Argument timeoutStr;
 
     p = YConfig::getArgument(&timeoutStr, p);
-    if (p == 0) return p;
+    if (p == nullptr) return p;
     long timeout = atol(timeoutStr);
 
     Argument command;
     YStringArray args;
 
     p = getCommandArgs(p, &command, args);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Error at menuprogreload: '%s'"), name.cstr());
         return p;
     }
@@ -329,8 +324,8 @@ char* MenuLoader::parseMenuProgReload(char *p, ObjectContainer *container)
         icon = YIcon::getIcon(icons);
     MSG(("menuprogreload %s %s", name.cstr(), command.cstr()));
 
-    upath fullPath = findPath(getenv("PATH"), X_OK, command.cstr());
-    if (fullPath != null) {
+    csmart path(path_lookup(command.cstr()));
+    if (path) {
         ObjectMenu *progmenu = new MenuProgMenu(
                 app, smActionListener, wmActionListener,
                 name.cstr(), command.cstr(), args, timeout);
@@ -346,7 +341,7 @@ char* MenuLoader::parseIncludeStatement(char *p, ObjectContainer *container)
     Argument filename;
 
     p = YConfig::getArgument(&filename, p);
-    if (p == 0) {
+    if (p == nullptr) {
         warn(_("Missing filename argument to include statement"));
         return p;
     }
@@ -364,7 +359,7 @@ char* MenuLoader::parseIncludeProgStatement(char *p, ObjectContainer *container)
     YStringArray args;
 
     p = getCommandArgs(p, &command, args);
-    if (p == 0) {
+    if (p == nullptr) {
         msg(_("Error at includeprog '%s'"), command.cstr());
         return p;
     }
@@ -409,7 +404,7 @@ char* MenuLoader::parseWord(char *word, char *p, ObjectContainer *container)
         }
         else {
             msg(_("Unknown keyword '%s'"), word);
-            return 0;
+            return nullptr;
         }
     }
     else if (!strcmp(word, "key")
@@ -421,7 +416,7 @@ char* MenuLoader::parseWord(char *word, char *p, ObjectContainer *container)
     else {
         msg(_("Unknown keyword for a non-container: '%s'.\n"
               "Expected either 'key' or 'runonce' here.\n"), word);
-        return 0;
+        return nullptr;
     }
     return p;
 }
@@ -444,7 +439,7 @@ char* MenuLoader::parseMenus(char *data, ObjectContainer *container)
             p = parseWord(word, p, container);
         }
     }
-    return 0;
+    return nullptr;
 }
 
 void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
@@ -452,7 +447,7 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
     if (menufile.isEmpty())
         return;
 
-    MSG(("menufile: %s", menufile.string().c_str()));
+    MSG(("menufile: %s", menufile.string()));
     YTraceConfig trace(menufile.string());
     char *buf = menufile.loadText();
     if (buf) {
@@ -467,7 +462,7 @@ void MenuLoader::progMenus(
     ObjectContainer *container)
 {
     fileptr fpt(tmpfile());
-    if (fpt == 0) {
+    if (fpt == nullptr) {
         fail("tmpfile");
         return;
     }

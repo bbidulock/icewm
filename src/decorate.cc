@@ -304,7 +304,7 @@ void YFrameWindow::performLayout()
 }
 
 void YFrameWindow::layoutTitleBar() {
-    if (titlebar() == 0)
+    if (titlebar() == nullptr)
         return;
 
     if (titleY() == 0) {
@@ -452,7 +452,7 @@ bool YFrameWindow::canRaise() {
                 o = o->owner();
                 if (o == this)
                     break;
-                else if (o == 0)
+                else if (o == nullptr)
                     return true;
             }
         }

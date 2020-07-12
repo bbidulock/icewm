@@ -30,13 +30,13 @@ public:
         }
     }
 
-    ref(): ptr(0) {}
-    ref(null_ref &): ptr(0) {}
+    ref(): ptr(nullptr) {}
+    ref(null_ref &): ptr(nullptr) {}
     explicit ref(T *r) : ptr(r) { if (ptr) __ref(); }
     ref(const ref<T> &p): ptr(p.ptr) { if (ptr) __ref(); }
     template<class T2>
     ref(const ref<T2> &p): ptr(static_cast<T *>(p._ptr())) { if (ptr) __ref(); }
-    ~ref() { if (ptr) { __unref(); ptr = 0; } }
+    ~ref() { if (ptr) { __unref(); ptr = nullptr; } }
 
     const T& operator*() const { return *ptr; }
     T& operator*() { return *ptr; }
@@ -70,13 +70,13 @@ public:
     }
     bool operator==(const ref<T> &r) const { return ptr == r.ptr; }
     bool operator!=(const ref<T> &r) const { return ptr != r.ptr; }
-    bool operator==(null_ref &) const { return ptr == 0; }
-    bool operator!=(null_ref &) const { return ptr != 0; }
+    bool operator==(null_ref &) const { return ptr == nullptr; }
+    bool operator!=(null_ref &) const { return ptr != nullptr; }
 
     void operator=(null_ref &) {
         if (ptr) {
             __unref();
-            ptr = 0;
+            ptr = nullptr;
         }
     }
     T *_ptr() const { return ptr; }
@@ -85,19 +85,20 @@ public:
 template<class T>
 class lazy {
 public:
-    lazy() : ptr(0) {}
+    lazy() : ptr(nullptr) {}
     explicit lazy(T* p) : ptr(p) {}
 
     operator T*() { return ptr ? ptr : ptr = new T; }
-    operator bool() { return ptr != 0; }
-    T* operator->() { return *this; }
-    T& operator*() { return **this; }
+    operator bool() { return ptr != nullptr; }
+    operator bool() const { return ptr != nullptr; }
+    T* operator->() { return operator T*(); }
+    T& operator*() { return *operator T*(); }
     T** operator&() { return &ptr; }
     T* _ptr() const { return ptr; }
     bool operator==(const T* q) const { return q == ptr; }
     bool operator!=(const T* q) const { return q != ptr; }
 
-    void operator=(null_ref &) { if (ptr) { delete ptr; ptr = 0; } }
+    void operator=(null_ref &) { if (ptr) { delete ptr; ptr = nullptr; } }
     ~lazy() { *this = null; }
 
 private:

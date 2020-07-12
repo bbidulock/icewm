@@ -59,7 +59,7 @@ public:
     bool typed(Atom type) const { return fData && type == fType; }
 
     template<class T> T* data() const { return reinterpret_cast<T*>(fData); }
-    template<class T> T* retrieve() { T* t(data<T>()); fData = 0; return t; }
+    template<class T> T* retrieve() { T* t(data<T>()); fData = nullptr; return t; }
     long operator[](int i) const { return data<long>()[i]; }
     long operator*() const { return *data<long>(); }
     template<class T> T* operator->() const { return data<T>(); }
@@ -86,7 +86,7 @@ public:
 
 class YXApplication: public YApplication {
 public:
-    YXApplication(int *argc, char ***argv, const char *displayName = 0);
+    YXApplication(int *argc, char ***argv, const char *displayName = nullptr);
     virtual ~YXApplication();
 
     Display * display()   const { return fDisplay; }
@@ -142,7 +142,7 @@ public:
 
     void alert();
 
-    void setClipboardText(cstring data);
+    void setClipboardText(mstring data);
     void dropClipboard();
 
     static YCursor leftPointer;

@@ -10,6 +10,7 @@ char const *ApplicationName;
 #include "sysdep.h"
 
 void addWorkspace(const char *, const char *, bool) {}
+void addKeyboard(const char *, const char *, bool) {}
 void setLook(const char *, const char *, bool) {}
 void addBgImage(const char *, const char *, bool) {}
 
@@ -170,10 +171,10 @@ int main(int argc, char **argv)
 
     check_argv(argc, argv, help, VERSION);
 
-    char* output = 0;
+    char* output = nullptr;
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
-            char *value(0);
+            char *value(nullptr);
             if (GetArgument(value, "o", "output", arg, argv + argc)) {
                 output = value;
             }
@@ -186,7 +187,7 @@ int main(int argc, char **argv)
         }
     }
     if (output) {
-        if (0 == freopen(output, "w", stdout)) {
+        if (nullptr == freopen(output, "w", stdout)) {
             fail("%s", output);
             exit(1);
         }

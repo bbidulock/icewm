@@ -13,9 +13,8 @@
 lazy<WindowOptions> defOptions;
 lazy<WindowOptions> hintOptions;
 
-WindowOption::WindowOption(ustring n_class_instance):
+WindowOption::WindowOption(mstring n_class_instance):
     w_class_instance(n_class_instance),
-    icon(0),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
     options(0), option_mask(0),
@@ -27,7 +26,60 @@ WindowOption::WindowOption(ustring n_class_instance):
 {
 }
 
-bool WindowOptions::findOption(ustring a_class_instance, int *index) {
+void WindowOption::combine(const WindowOption& n) {
+    if (n.icon.nonempty() && icon.isEmpty())
+        icon = n.icon;
+    if (n.keyboard.nonempty() && keyboard.isEmpty())
+        keyboard = n.keyboard;
+    if (n.function_mask) {
+        functions |= n.functions & ~function_mask;
+        function_mask |= n.function_mask;
+    }
+    if (n.decor_mask) {
+        decors |= n.decors & ~decor_mask;
+        decor_mask |= n.decor_mask;
+    }
+    if (n.option_mask) {
+        options |= n.options & ~option_mask;
+        option_mask |= n.option_mask;
+    }
+    if (n.workspace >= 0 && workspace == WinWorkspaceInvalid)
+        workspace = n.workspace;
+    if (n.layer >= 0 && layer == WinLayerInvalid)
+        layer = n.layer;
+    if (n.tray >= 0 && tray == WinTrayInvalid)
+        tray = n.tray;
+    if (n.order && order == 0)
+        order = n.order;
+    if (n.opacity > 0 && opacity == 0)
+        opacity = n.opacity;
+    if ((n.gflags & XValue) && !(gflags & XValue)) {
+        gx = n.gx;
+        gflags |= XValue;
+        if (n.gflags & XNegative)
+            gflags |= XNegative;
+        else
+            gflags &= ~XNegative;
+    }
+    if ((n.gflags & YValue) && !(gflags & YValue)) {
+        gy = n.gy;
+        gflags |= YValue;
+        if (n.gflags & YNegative)
+            gflags |= YNegative;
+        else
+            gflags &= ~YNegative;
+    }
+    if ((n.gflags & WidthValue) && !(gflags & WidthValue)) {
+        gw = n.gw;
+        gflags |= WidthValue;
+    }
+    if ((n.gflags & HeightValue) && !(gflags & HeightValue)) {
+        gh = n.gh;
+        gflags |= HeightValue;
+    }
+}
+
+bool WindowOptions::findOption(mstring a_class_instance, int *index) {
     int lo = 0, hi = fWinOptions.getCount();
 
     while (lo < hi) {
@@ -49,33 +101,23 @@ bool WindowOptions::findOption(ustring a_class_instance, int *index) {
     return false;
 }
 
-WindowOption *WindowOptions::getOption(ustring a_class_instance) {
-    int lo;
-    if (findOption(a_class_instance, &lo))
-        return fWinOptions[lo];
-
-    WindowOption *newopt = new WindowOption(a_class_instance);
-
-    MSG(("inserting window option %p at position %d", newopt, lo));
-    fWinOptions.insert(lo, newopt);
-
-#ifdef DEBUG
-    for (int i = 0; i < fWinOptions.getCount(); ++i)
-        MSG(("> %d: %p", i, fWinOptions[i]));
-#endif
-
-    return newopt;
+WindowOption* WindowOptions::getOption(mstring a_class_instance) {
+    int where;
+    if (findOption(a_class_instance, &where) == false) {
+        fWinOptions.insert(where, new WindowOption(a_class_instance));
+    }
+    return fWinOptions[where];
 }
 
-void WindowOptions::setWinOption(ustring n_class_instance,
+void WindowOptions::setWinOption(mstring n_class_instance,
                                  const char *opt, const char *arg)
 {
     WindowOption *op = getOption(n_class_instance);
 
-    // msg("%s . %s : %s", cstring(n_class_instance).c_str(), opt, arg);
-
     if (strcmp(opt, "icon") == 0) {
-        op->icon = newstr(arg);
+        op->icon = arg;
+    } else if (strcmp(opt, "keyboard") == 0) {
+        op->keyboard = arg;
     } else if (strcmp(opt, "workspace") == 0) {
         int workspace = atoi(arg);
         op->workspace = max(workspace, int(WinWorkspaceInvalid));
@@ -86,26 +128,11 @@ void WindowOptions::setWinOption(ustring n_class_instance,
         if (inrange(opaq, 0, 100))
             op->opacity = opaq;
     } else if (strcmp(opt, "geometry") == 0) {
-        int rx, ry;
-        unsigned int rw, rh;
-
         op->gx = 0;
         op->gy = 0;
         op->gw = 0;
         op->gh = 0;
-
-        //msg("parsing %s", arg);
-        if ((op->gflags = XParseGeometry(arg, &rx, &ry, &rw, &rh)) != 0) {
-            if (op->gflags & XNegative)
-                rx = - rx;
-            if (op->gflags & YNegative)
-                ry = - ry;
-            op->gx = rx;
-            op->gy = ry;
-            op->gw = rw;
-            op->gh = rh;
-            //msg("parsed %d %d %d %d %X", rx, ry, rw, rh, op->gflags);
-        }
+        op->gflags = XParseGeometry(arg, &op->gx, &op->gy, &op->gw, &op->gh);
     } else if (strcmp(opt, "layer") == 0) {
         char *endptr;
         long l = strtol(arg, &endptr, 10);
@@ -194,6 +221,7 @@ void WindowOptions::setWinOption(ustring n_class_instance,
             { "fRollup",                  YFrameWindow::ffRollup },
             { "forcedClose",              YFrameWindow::foForcedClose },
             { "fullKeys",                 YFrameWindow::foFullKeys },
+            { "ignoreActivationMessages", YFrameWindow::foIgnoreActivationMessages },
             { "ignoreNoFocusHint",        YFrameWindow::foIgnoreNoFocusHint },
             { "ignorePagerPreview",       YFrameWindow::foIgnorePagerPreview },
             { "ignorePositionHint",       YFrameWindow::foIgnorePosition },
@@ -253,55 +281,14 @@ void WindowOptions::setWinOption(ustring n_class_instance,
 }
 
 void WindowOptions::mergeWindowOption(WindowOption &cm,
-                                      ustring a_class_instance,
+                                      mstring a_class_instance,
                                       bool remove)
 {
     int lo;
     if (findOption(a_class_instance, &lo)) {
-        WindowOption *wo = fWinOptions[lo];
-        combineOptions(cm, *wo);
+        cm.combine(*fWinOptions[lo]);
         if (remove)
             fWinOptions.remove(lo);
-    }
-}
-
-void WindowOptions::combineOptions(WindowOption &cm, WindowOption &n) {
-    if (!cm.icon && n.icon) cm.icon = newstr(n.icon);
-    cm.functions |= n.functions & ~cm.function_mask;
-    cm.function_mask |= n.function_mask;
-    cm.decors |= n.decors & ~cm.decor_mask;
-    cm.decor_mask |= n.decor_mask;
-    cm.options |= n.options & ~cm.option_mask;
-    cm.option_mask |= n.option_mask;
-    if (n.workspace != WinWorkspaceInvalid)
-        cm.workspace = n.workspace;
-    if (n.layer != (long)WinLayerInvalid)
-        cm.layer = n.layer;
-    if (n.tray != (long)WinTrayInvalid)
-        cm.tray = n.tray;
-    if (n.order)
-        cm.order = n.order;
-    if (n.opacity && inrange(n.opacity, 1, 100))
-        cm.opacity = n.opacity;
-    if ((n.gflags & XValue) && !(cm.gflags & XValue)) {
-        cm.gx = n.gx;
-        cm.gflags |= XValue;
-        if (n.gflags & XNegative)
-            cm.gflags |= XNegative;
-    }
-    if ((n.gflags & YValue) && !(cm.gflags & YValue)) {
-        cm.gy = n.gy;
-        cm.gflags |= YValue;
-        if (n.gflags & YNegative)
-            cm.gflags |= YNegative;
-    }
-    if ((n.gflags & WidthValue) && !(cm.gflags & WidthValue)) {
-        cm.gw = n.gw;
-        cm.gflags |= WidthValue;
-    }
-    if ((n.gflags & HeightValue) && !(cm.gflags & HeightValue)) {
-        cm.gh = n.gh;
-        cm.gflags |= HeightValue;
     }
 }
 
@@ -327,7 +314,7 @@ static char *parseWinOptions(char *data, const char* filename) {
         }
 
         word = p;
-        dot = 0;
+        dot = nullptr;
         while (*p && *p != ':' && *p != '\n') {
             if (*p == '\\' && p[1] != 0) {
                 if (*++p == '\n')
@@ -339,7 +326,7 @@ static char *parseWinOptions(char *data, const char* filename) {
         }
         end = p;
 
-        if (*p == 0 || dot == 0 || end == word || *end != ':') {
+        if (*p == 0 || dot == nullptr || end == word || *end != ':') {
             msg(_("Syntax error in window options on line %d of %s"),
                     linenum, filename);
             while (*p && *p != '\n')

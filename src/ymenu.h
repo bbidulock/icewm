@@ -10,7 +10,7 @@ class YMenuItem;
 
 class YMenu: public YPopupWindow, public YTimerListener {
 public:
-    YMenu(YWindow *parent = 0);
+    YMenu(YWindow *parent = nullptr);
     virtual ~YMenu();
 
     virtual void sizePopup(int hspace);
@@ -32,21 +32,21 @@ public:
     void trackMotion(const int x_root, const int y_root, const unsigned state, bool submenu);
 
     YMenuItem *add(YMenuItem *item, const char *icons);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action, const char *icons);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons);
-    YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu, const char *icons);
+    YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action, const char *icons);
+    YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu, const char *icons);
+    YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu, const char *icons);
 
     YMenuItem *add(YMenuItem *item);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, const ustring &param, YAction action);
-    YMenuItem *addItem(const ustring &name, int hotCharPos, YAction action, YMenu *submenu);
-    YMenuItem *addSubmenu(const ustring &name, int hotCharPos, YMenu *submenu);
+    YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action);
+    YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu);
+    YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu);
     YMenuItem *addSeparator();
-    YMenuItem *addLabel(const ustring &name);
+    YMenuItem *addLabel(const mstring &name);
     void removeAll();
     YMenuItem *findAction(YAction action);
     YMenuItem *findSubmenu(const YMenu *sub);
-    YMenuItem *findName(const ustring &name, const int first = 0);
+    YMenuItem *findName(const mstring &name, const int first = 0);
     int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
 
     void enableCommand(YAction action); // 0 == All

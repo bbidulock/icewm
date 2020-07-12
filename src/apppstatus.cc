@@ -25,7 +25,6 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <net/if.h>
-#include <fnmatch.h>
 
 #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 #include <sys/sysctl.h>
@@ -34,11 +33,11 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
-static NetDevice* getNetDevice(cstring netdev)
+static NetDevice* getNetDevice(mstring netdev)
 {
     return
 #if defined(__linux__)
-        netdev.m_str().startsWith("ippp")
+        netdev.startsWith("ippp")
             ? (NetDevice *) new NetIsdnDevice(netdev)
             : (NetDevice *) new NetLinuxDevice(netdev)
 #elif defined(__FreeBSD__)
@@ -52,7 +51,7 @@ static NetDevice* getNetDevice(cstring netdev)
 }
 
 NetStatus::NetStatus(
-    cstring netdev,
+    mstring netdev,
     NetStatusHandler* handler,
     YWindow *aParent):
     IApplet(this, aParent),
@@ -73,7 +72,7 @@ NetStatus::NetStatus(
     statusUpdateCount(0),
     unchanged(0),
     wasUp(false),
-    useIsdn(netdev.m_str().startsWith("ippp")),
+    useIsdn(netdev.startsWith("ippp")),
     fDevName(netdev),
     fDevice(getNetDevice(netdev))
 {
@@ -86,12 +85,12 @@ NetStatus::NetStatus(
 
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
-    getCurrent(0, 0, 0);
-    updateStatus(0);
+    getCurrent(nullptr, nullptr, nullptr);
+    updateStatus(nullptr);
     if (isUp()) {
         updateVisible(true);
     }
-    setTitle(cstring("NET-" + netdev));
+    setTitle("NET-" + netdev);
     updateToolTip();
 }
 
@@ -144,8 +143,8 @@ void NetStatus::updateToolTip() {
     char status[400];
 
     if (isUp()) {
-        char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", NULL };
-        char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", NULL };
+        char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", nullptr };
+        char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", nullptr };
 
         long const period(long(toDouble(monotime() - start_time)));
 
@@ -582,7 +581,7 @@ void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
 
 NetStatusControl::~NetStatusControl() {
     for (int i = 0; i < fNetStatus.getCount(); ++i) {
-        NetStatus* status = 0;
+        NetStatus* status = nullptr;
         swap(status, fNetStatus[i].value);
         if (status)
             delete status;
@@ -593,10 +592,10 @@ NetStatusControl::~NetStatusControl() {
 void NetStatusControl::fetchSystemData() {
     devStats.clear();
     devicesText = load_text_file("/proc/net/dev");
-    if (devicesText == 0)
+    if (devicesText == nullptr)
         return;
 
-    for (char* p = devicesText; (p = strchr(p, '\n')) != 0; ) {
+    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
         *p = 0;
         while (*++p == ' ');
         char* name = p;
@@ -622,7 +621,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     while (devList.splitall(' ', &devName, &devList)) {
         if (devName.isEmpty())
             continue;
-        cstring devStr(devName);
+        mstring devStr(devName);
 
         if (strpbrk(devStr, "*?[]\\.")) {
             if (interfaces.isEmpty())
@@ -631,7 +630,7 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
             while (++iter) {
                 if (fNetStatus.has(iter))
                     continue;
-                if (fnmatch(devStr, iter, 0) == 0) {
+                if (upath(iter).fnMatch(devStr) == 0) {
                     createNetStatus(*iter);
                 }
             }
@@ -650,9 +649,9 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     fUpdateTimer->setTimer(taskBarNetDelay, this, true);
 }
 
-NetStatus* NetStatusControl::createNetStatus(cstring netdev) {
+NetStatus* NetStatusControl::createNetStatus(mstring netdev) {
     NetStatus*& status = fNetStatus[netdev];
-    if (status == 0)
+    if (status == nullptr)
         status = new NetStatus(netdev, this, aParent);
     return status;
 }
@@ -699,7 +698,7 @@ void NetStatusControl::relayout()
     taskBar->relayout();
 }
 
-void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
+void NetStatusControl::handleClick(const XButtonEvent &up, mstring netdev)
 {
     if (up.button == Button3) {
         interfaces.clear();
@@ -708,6 +707,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
         fMenu = new YMenu();
         fMenu->setActionListener(this);
         fMenu->addItem(_("NET"), -2, null, actionNull)->setEnabled(false);
+        fMenu->addSeparator();
         YStringArray::IterType iter = interfaces.iterator();
         while (++iter) {
             bool enable = true;
@@ -725,7 +725,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, cstring netdev)
             item->setChecked(visible);
             item->setEnabled(enable);
         }
-        fMenu->popup(0, 0, 0, up.x_root, up.y_root,
+        fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);
@@ -748,7 +748,7 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
             relayout();
         }
     }
-    fMenu = 0;
+    fMenu = nullptr;
     interfaces.clear();
 }
 
@@ -782,12 +782,12 @@ void NetStatusControl::linuxUpdate() {
     // mark disappeared devices as down without additional ioctls
     for (int i = 0; i < count; ++i)
         if (covered[i] == false && fNetStatus[i])
-            fNetStatus[i]->timedUpdate(0, true);
+            fNetStatus[i]->timedUpdate(nullptr, true);
 
     for (int i = 0; i < pending.getCount(); ++i) {
         const netpair stat = pending[i];
         YStringArray::IterType pat = patterns.iterator();
-        while (++pat && fnmatch(pat, stat.name(), 0));
+        while (++pat && upath(stat.name()).fnMatch(pat));
         if (pat) {
             createNetStatus(stat.name())->timedUpdate(stat.data());
         } else {
@@ -797,7 +797,7 @@ void NetStatusControl::linuxUpdate() {
     }
 
     devStats.clear();
-    devicesText = 0;
+    devicesText = nullptr;
 }
 #endif
 

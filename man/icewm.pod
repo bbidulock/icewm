@@ -156,7 +156,7 @@ server.  This is irrelevant for normal use of B<icewm>.
 
 =item B<-h>, B<--help>
 
-Gives a complete list of all the available command line options with
+Gives a complete list of all the available command-line options with
 some very brief explanation.
 
 =item B<-V>, B<--version>
@@ -221,10 +221,10 @@ which configuration was chosen or whether option formatting was correct.
 
 Give a list of the current X extensions, their versions and status.
 
-=item B<--trace>=I<conf>,I<icon>,I<prog>
+=item B<--trace>=I<conf>,I<icon>,I<prog>,I<systray>
 
 Enable tracing of the paths which are used to load configuration,
-and/or icons, and/or executed programs.
+and/or icons, and/or executed programs, and/or system tray applets.
 
 =back
 
@@ -284,13 +284,8 @@ The I<Memory Applet> monitors memory usage.
 
 The I<CPU Applet> monitors processor utilization.
 
-The I<Mailbox Applet> monitors mailbox status changes.  The location of
-the mailbox is given by the C<MailBoxPath> preferences option or else by
-the C<MAILPATH> or C<MAIL> environment variables.  It can be the path of
-a local mail spool file or the specification of a remote POP3 or IMAP
-location.  For example:
-
- MailBoxPath="pop3://myname:password@host.com/"
+The I<Mailbox Applet> monitors mailbox status changes.
+See the section MAILBOX MONITORING below.
 
 The I<Clock Applet> shows the current time and date.  It is configured
 by the C<TimeFormat> option.
@@ -429,7 +424,7 @@ with the names 1, 2, 3 and 4 thus:
  WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
 
 This syntax is typical for B<icewm> options which receive multiple
-values.  It is a list of comma separated values each of which can be
+values.  It is a list of comma-separated values each of which can be
 quoted.
 
 The work spaces are visible on the toolbar.  One can switch to a
@@ -451,7 +446,7 @@ in the window menu of the window frame.
 
 If B<EnableAddressBar>=1 then B<KeySysAddressBar>=C<Alt+Ctrl+Space>
 activates the address bar in the task bar.
-If B<ShowAddressBar>=1 it is always shown. This is a command line in
+If B<ShowAddressBar>=1 it is always shown. This is a command-line in
 the task bar where a shell command can be typed.
 Pressing C<Enter> will execute the command.
 B<AddressBarCommand>=C</bin/sh> will be used to execute the command.
@@ -513,342 +508,444 @@ C<Home> selects the first entry and C<End> the last. C<PageUp> and
 C<PageDown> move up or down by ten entries. Combine this with the
 C<Shift> key to extend a selection over the range of motion.
 
+=head2 MAILBOX MONITORING
+
+The task bar can show one or more icons to reflect the status of a
+mailbox. The mailbox can be a local file or a remote POP or IMAP
+account. For this a couple of options must be set. First,
+F<TaskBarShowMailboxStatus> must be enabled, which it is by default.
+Then the location of the mailbox must be set.  Icewm first looks for
+F<MailBoxPath> in preferences. If this is unset, it looks at the
+environment variables C<MAILPATH> and C<MAIL>.  F<MailBoxPath> may
+contain a space-separated list of mailboxes, while C<MAILPATH> may
+contain a colon-separated list of mailboxes.  If a mailbox starts
+with a slash C</>, then it is a local file, otherwise a URL.
+These are six examples of possible mailboxes:
+
+    file:///var/spool/mail/captnmark
+    file:///home/captnmark/Maildir/
+    pop3://markus:%2f%40%3a@maol.ch/
+    pop3s://markus:password@pop.gmail.com/
+    imap://mathias@localhost/INBOX.Maillisten.icewm-user
+    imaps://mathias:password@imap.gmail.com/INBOX
+
+The POP3S and IMAPS schemes use C<openssl> for TLS/SSL encryption.
+Note that for IceWM to access Gmail you must first configure
+your Gmail account to enable POP3 or IMAP access.
+Make sure you have secure file permissions on your IceWM
+preferences file and the directory which contains it.
+
+Reserved characters in the password, like I<slash>, I<at> and I<colon>
+can be specified using escape sequences with a hexadecimal encoding
+like C<%2f> for the slash or C<%40> for the at sign.
+For example, to hex-encode C<!p@a%s&s~> use this Perl snippet:
+
+    perl -e 'foreach(split("", $ARGV[0])) { printf "%%%02x", ord($_); };
+    print "\n";' '!p@a%s&s~'
+
+Which will print:
+
+    %21%40%23%24%25%5e%26%2a%7e
+
+This is the hex-encoded password. However, it is unwise to store a
+password in your preferences. Consider a wallet extension for IceWM.
+
+IceWM will check a mailbox periodically. The period in seconds can
+be set by the F<MailCheckDelay> option, which is 30 seconds by default.
+
+Whenever new mail arrives, the mailbox icon will be highlighted.
+The color will indicate if the mail has been read or not. Hovering
+the mouse over the mailbox icon will show a tooltip with more details.
+A command can be also be run on new mail. Set the F<NewMailCommand>
+option. Its environment will have these variables set by IceWM:
+
+=over
+
+=item ICEWM_MAILBOX
+
+The mailbox index number of F<MailBoxPath> starting from 1.
+
+=item ICEWM_COUNT
+
+The total number of messages in this mailbox.
+
+=item ICEWM_UNREAD
+
+The number of unread messages in this mailbox.
+
+=back
+
+=head2 KEYBOARD LAYOUT SWITCHING
+
+To control keyboard layouts on the task bar, define in F<preferences>
+the option B<KeyboardLayouts> to a comma-separated list of your
+preferred keyboard layouts. For example:
+
+ KeyboardLayouts="de","fr","jp"
+
+A keyboard layout can simply be a name. Usually this is a two-letter
+country code. See the directory F</usr/share/X11/xkb/symbols> for
+a list of available keyboard layouts for your system.  If it is
+enclosed in double quotes, it can also be a space-separated list of
+command-line arguments to an invocation of the C<setxkbmap> program.
+
+The first layout is the default. It will be installed when icewm starts.
+The task bar will show the current keyboard layout. If an icon can
+be found for the first two letters of the layout, then that icon
+will be shown. Otherwise the first two letters of the name of the
+layout will be shown.
+
+Click on the current keyboard layout to cycle through all the
+available keyboard layouts. Click with the right mouse button
+to open a menu of all available keyboard layouts.
+
+It is also possible to configure a default keyboard layout for
+each program individually in the L<icewm-winoptions(5)> file.
+Whenever such a program receives input focus, icewm will install
+this configured keyboard layout automatically. The keyboard status
+on the task bar will be updated to reflect this.
+
+Please note that for keyboard layout switching to work, the
+C<setxkbmap> program must be installed. To see your current
+keyboard layout settings, do C<setxkbmap -query>.
+
 =head2 KEYBOARD SHORTCUTS
 
 B<icewm> supports a large number of hotkeys to activate some behaviour
 with a single key combination.  These are all configurable in the
-F<preferences> file.  Here we give their default values, followed by
-their preferences names and short descriptions of their effect:
+F<preferences> file.  Here we give their preferences name, followed by
+their default value in double quotes, and a short descriptions of their
+effect:
 
 =over
 
-=item C<Alt+F1>
+=item B<KeyWinRaise>=C<Alt+F1>
 
-C<KeyWinRaise> raises the window which currently has input focus.
+Raises the window which currently has input focus.
 
-=item C<Alt+F2>
+=item B<KeyWinOccupyAll>=C<Alt+F2>
 
-C<KeyWinOccupyAll> makes the active window occupy all work spaces.
+Makes the active window occupy all work spaces.
 
-=item C<Alt+F3>
+=item B<KeyWinLower>=C<Alt+F3>
 
-C<KeyWinLower> lowers the window which currently has input focus.
+Lowers the window which currently has input focus.
 
-=item C<Alt+F4>
+=item B<KeyWinClose>=C<Alt+F4>
 
-C<KeyWinClose> closes the active window.
+Closes the active window.
 
-=item C<Alt+F5>
+=item B<KeyWinRestore>=C<Alt+F5>
 
-C<KeyWinRestore> restores the active window to its visible state.
+Restores the active window to its visible state.
 
-=item C<Alt+F6>
+=item B<KeyWinNext>=C<Alt+F6>
 
-C<KeyWinNext> switches focus to the next window.
+Switches focus to the next window.
 
-=item C<Alt+Shift+F6>
+=item B<KeyWinPrev>=C<Alt+Shift+F6>
 
-C<KeyWinPrev> switches focus to the previous window.
+Switches focus to the previous window.
 
-=item C<Alt+F7>
+=item B<KeyWinMove>=C<Alt+F7>
 
-C<KeyWinMove> starts movement of the active window.
+Starts movement of the active window.
 
-=item C<Alt+F8>
+=item B<KeyWinSize>=C<Alt+F8>
 
-C<KeyWinSize> starts resizing of the active window.
+Starts resizing of the active window.
 
-=item C<Alt+F9>
+=item B<KeyWinMinimize>=C<Alt+F9>
 
-C<KeyWinMinimize> iconifies the active window.
+Iconifies the active window.
 
-=item C<Alt+F10>
+=item B<KeyWinMaximize>=C<Alt+F10>
 
-C<KeyWinMaximize> maximizes the active window with borders.
+Maximizes the active window with borders.
 
-=item C<Alt+Shift+F10>
+=item B<KeyWinMaximizeVert>=C<Alt+Shift+F10>
 
-C<KeyWinMaximizeVert> maximizes the active window vertically.
+Maximizes the active window vertically.
 
-=item C<undefined>
+=item B<KeyWinMaximizeHoriz>=C<undefined>
 
-C<KeyWinMaximizeHoriz> maximizes the active window horizontally.
+Maximizes the active window horizontally.
 
-=item C<Alt+F11>
+=item B<KeyWinFullscreen>=C<Alt+F11>
 
-C<KeyWinFullscreen> maximizes the active window without borders.
+Maximizes the active window without borders.
 
-=item C<Alt+F12>
+=item B<KeyWinRollup>=C<Alt+F12>
 
-C<KeyWinRollup> rolls up the active window.
+Rolls up the active window.
 
-=item C<Alt+Shift+F12>
+=item B<KeyWinHide>=C<Alt+Shift+F12>
 
-C<KeyWinHide> hides the active window.
+Hides the active window.
 
-=item C<Alt+Space>
+=item B<KeyWinMenu>=C<Alt+Space>
 
-C<KeyWinMenu> posts the window menu.
+Posts the window menu.
 
-=item C<Ctrl+Alt+KP_7>
+=item B<KeyWinArrangeNW>=C<Ctrl+Alt+KP_7>
 
-C<KeyWinArrangeNW> moves the active window to the top left corner of the screen.
+Moves the active window to the top left corner of the screen.
 
-=item C<Ctrl+Alt+KP_8>
+=item B<KeyWinArrangeN>=C<Ctrl+Alt+KP_8>
 
-C<KeyWinArrangeN> moves the active window to the top middle of the screen.
+Moves the active window to the top middle of the screen.
 
-=item C<Ctrl+Alt+KP_9>
+=item B<KeyWinArrangeNE>=C<Ctrl+Alt+KP_9>
 
-C<KeyWinArrangeNE> moves the active window to the top right of the screen.
+Moves the active window to the top right of the screen.
 
-=item C<Ctrl+Alt+KP_6>
+=item B<KeyWinArrangeE>=C<Ctrl+Alt+KP_6>
 
-C<KeyWinArrangeE> moves the active window to the middle right of the screen.
+Moves the active window to the middle right of the screen.
 
-=item C<Ctrl+Alt+KP_3>
+=item B<KeyWinArrangeSE>=C<Ctrl+Alt+KP_3>
 
-C<KeyWinArrangeSE> moves the active window to the bottom right of the screen.
+Moves the active window to the bottom right of the screen.
 
-=item C<Ctrl+Alt+KP_2>
+=item B<KeyWinArrangeS>=C<Ctrl+Alt+KP_2>
 
-C<KeyWinArrangeS> moves the active window to the bottom middle of the screen.
+Moves the active window to the bottom middle of the screen.
 
-=item C<Ctrl+Alt+KP_1>
+=item B<KeyWinArrangeSW>=C<Ctrl+Alt+KP_1>
 
-C<KeyWinArrangeSW> moves the active window to the bottom left of the screen.
+Moves the active window to the bottom left of the screen.
 
-=item C<Ctrl+Alt+KP_4>
+=item B<KeyWinArrangeW>=C<Ctrl+Alt+KP_4>
 
-C<KeyWinArrangeW> moves the active window to the middle left of the screen.
+Moves the active window to the middle left of the screen.
 
-=item C<Ctrl+Alt+KP_5>
+=item B<KeyWinArrangeC>=C<Ctrl+Alt+KP_5>
 
-C<KeyWinArrangeC> moves the active window to the center of the screen.
+Moves the active window to the center of the screen.
 
-=item C<Shift+Esc>
+=item B<KeySysWinMenu>=C<Shift+Esc>
 
-C<KeySysWinMenu> posts the system window menu.
+Posts the system window menu.
 
-=item C<Alt+Esc>
+=item B<KeySysWinNext>=C<Alt+Esc>
 
-C<KeySysWinNext> give focus to the next window and raise it.
+Give focus to the next window and raise it.
 
-=item C<Alt+Shift+Esc>
+=item B<KeySysWinPrev>=C<Alt+Shift+Esc>
 
-C<KeySysWinPrev> give focus to the previous window and raise it.
+Give focus to the previous window and raise it.
 
-=item C<Alt+Ctrl+Del>
+=item B<KeySysDialog>=C<Alt+Ctrl+Del>
 
-C<KeySysDialog> opens the IceWM system dialog in the center of the screen.
+Opens the IceWM system dialog in the center of the screen.
 
-=item C<Ctrl+Esc>
+=item B<KeySysMenu>=C<Ctrl+Esc>
 
-C<KeySysMenu> activates the IceWM root menu in the lower left corner.
+Activates the IceWM root menu in the lower left corner.
 
-=item C<Alt+Ctrl+Esc>
+=item B<KeySysWindowList>=C<Alt+Ctrl+Esc>
 
-C<KeySysWindowList> opens the IceWM system window list in the center of the screen.
+Opens the IceWM system window list in the center of the screen.
 
-=item C<Alt+Ctrl+Space>
+=item B<KeySysAddressBar>=C<Alt+Ctrl+Space>
 
-C<KeySysAddressBar> opens the address bar in the task bar where a command can be typed.
+Opens the address bar in the task bar where a command can be typed.
 
-=item C<Alt+Ctrl+Left>
+=item B<KeySysWorkspacePrev>=C<Alt+Ctrl+Left>
 
-C<KeySysWorkspacePrev> goes one workspace to the left.
+Goes one workspace to the left.
 
-=item C<Alt+Ctrl+Right>
+=item B<KeySysWorkspaceNext>=C<Alt+Ctrl+Right>
 
-C<KeySysWorkspaceNext> goes one workspace to the right.
+Goes one workspace to the right.
 
-=item C<Alt+Ctrl+Down>
+=item B<KeySysWorkspaceLast>=C<Alt+Ctrl+Down>
 
-C<KeySysWorkspaceLast> goes to the previous workspace.
+Goes to the previous workspace.
 
-=item C<Alt+Ctrl+Shift+Left>
+=item B<KeySysWorkspacePrevTakeWin>=C<Alt+Ctrl+Shift+Left>
 
-C<KeySysWorkspacePrevTakeWin> takes the active window one workspace to the left.
+Takes the active window one workspace to the left.
 
-=item C<Alt+Ctrl+Shift+Right>
+=item B<KeySysWorkspaceNextTakeWin>=C<Alt+Ctrl+Shift+Right>
 
-C<KeySysWorkspaceNextTakeWin> takes the active window one workspace to the right.
+Takes the active window one workspace to the right.
 
-=item C<Alt+Ctrl+Shift+Down>
+=item B<KeySysWorkspaceLastTakeWin>=C<Alt+Ctrl+Shift+Down>
 
-C<KeySysWorkspaceLastTakeWin> takes the active window to the previous workspace.
+Takes the active window to the previous workspace.
 
-=item C<Alt+Ctrl+1>
+=item B<KeySysWorkspace1>=C<Alt+Ctrl+1>
 
-C<KeySysWorkspace1> goes to workspace 1.
+Goes to workspace 1.
 
-=item C<Alt+Ctrl+2>
+=item B<KeySysWorkspace2>=C<Alt+Ctrl+2>
 
-C<KeySysWorkspace2> goes to workspace 2.
+Goes to workspace 2.
 
-=item C<Alt+Ctrl+3>
+=item B<KeySysWorkspace3>=C<Alt+Ctrl+3>
 
-C<KeySysWorkspace3> goes to workspace 3.
+Goes to workspace 3.
 
-=item C<Alt+Ctrl+4>
+=item B<KeySysWorkspace4>=C<Alt+Ctrl+4>
 
-C<KeySysWorkspace4> goes to workspace 4.
+Goes to workspace 4.
 
-=item C<Alt+Ctrl+5>
+=item B<KeySysWorkspace5>=C<Alt+Ctrl+5>
 
-C<KeySysWorkspace5> goes to workspace 5.
+Goes to workspace 5.
 
-=item C<Alt+Ctrl+6>
+=item B<KeySysWorkspace6>=C<Alt+Ctrl+6>
 
-C<KeySysWorkspace6> goes to workspace 6.
+Goes to workspace 6.
 
-=item C<Alt+Ctrl+7>
+=item B<KeySysWorkspace7>=C<Alt+Ctrl+7>
 
-C<KeySysWorkspace7> goes to workspace 7.
+Goes to workspace 7.
 
-=item C<Alt+Ctrl+8>
+=item B<KeySysWorkspace8>=C<Alt+Ctrl+8>
 
-C<KeySysWorkspace8> goes to workspace 8.
+Goes to workspace 8.
 
-=item C<Alt+Ctrl+9>
+=item B<KeySysWorkspace9>=C<Alt+Ctrl+9>
 
-C<KeySysWorkspace9> goes to workspace 9.
+Goes to workspace 9.
 
-=item C<Alt+Ctrl+0>
+=item B<KeySysWorkspace10>=C<Alt+Ctrl+0>
 
-C<KeySysWorkspace10> goes to workspace 10.
+Goes to workspace 10.
 
-=item C<Alt+Ctrl+bracketleft>
+=item B<KeySysWorkspace11>=C<Alt+Ctrl+bracketleft>
 
-C<KeySysWorkspace11> goes to workspace 11.
+Goes to workspace 11.
 
-=item C<Alt+Ctrl+bracketright>
+=item B<KeySysWorkspace12>=C<Alt+Ctrl+bracketright>
 
-C<KeySysWorkspace12> goes to workspace 12.
+Goes to workspace 12.
 
-=item C<Alt+Ctrl+Shift+1>
+=item B<KeySysWorkspace1TakeWin>=C<Alt+Ctrl+Shift+1>
 
-C<KeySysWorkspace1TakeWin> takes the active window to workspace 1.
+Takes the active window to workspace 1.
 
-=item C<Alt+Ctrl+Shift+2>
+=item B<KeySysWorkspace2TakeWin>=C<Alt+Ctrl+Shift+2>
 
-C<KeySysWorkspace2TakeWin> takes the active window to workspace 2.
+Takes the active window to workspace 2.
 
-=item C<Alt+Ctrl+Shift+3>
+=item B<KeySysWorkspace3TakeWin>=C<Alt+Ctrl+Shift+3>
 
-C<KeySysWorkspace3TakeWin> takes the active window to workspace 3.
+Takes the active window to workspace 3.
 
-=item C<Alt+Ctrl+Shift+4>
+=item B<KeySysWorkspace4TakeWin>=C<Alt+Ctrl+Shift+4>
 
-C<KeySysWorkspace4TakeWin> takes the active window to workspace 4.
+Takes the active window to workspace 4.
 
-=item C<Alt+Ctrl+Shift+5>
+=item B<KeySysWorkspace5TakeWin>=C<Alt+Ctrl+Shift+5>
 
-C<KeySysWorkspace5TakeWin> takes the active window to workspace 5.
+Takes the active window to workspace 5.
 
-=item C<Alt+Ctrl+Shift+6>
+=item B<KeySysWorkspace6TakeWin>=C<Alt+Ctrl+Shift+6>
 
-C<KeySysWorkspace6TakeWin> takes the active window to workspace 6.
+Takes the active window to workspace 6.
 
-=item C<Alt+Ctrl+Shift+7>
+=item B<KeySysWorkspace7TakeWin>=C<Alt+Ctrl+Shift+7>
 
-C<KeySysWorkspace7TakeWin> takes the active window to workspace 7.
+Takes the active window to workspace 7.
 
-=item C<Alt+Ctrl+Shift+8>
+=item B<KeySysWorkspace8TakeWin>=C<Alt+Ctrl+Shift+8>
 
-C<KeySysWorkspace8TakeWin> takes the active window to workspace 8.
+Takes the active window to workspace 8.
 
-=item C<Alt+Ctrl+Shift+9>
+=item B<KeySysWorkspace9TakeWin>=C<Alt+Ctrl+Shift+9>
 
-C<KeySysWorkspace9TakeWin> takes the active window to workspace 9.
+Takes the active window to workspace 9.
 
-=item C<Alt+Ctrl+Shift+0>
+=item B<KeySysWorkspace10TakeWin>=C<Alt+Ctrl+Shift+0>
 
-C<KeySysWorkspace10TakeWin> takes the active window to workspace 10.
+Takes the active window to workspace 10.
 
-=item C<Alt+Ctrl+Shift+bracketleft>
+=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+bracketleft>
 
-C<KeySysWorkspace11TakeWin> takes the active window to workspace 11.
+Takes the active window to workspace 11.
 
-=item C<Alt+Ctrl+Shift+bracketright>
+=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+bracketright>
 
-C<KeySysWorkspace12TakeWin> takes the active window to workspace 12.
+Takes the active window to workspace 12.
 
-=item C<Alt+Shift+F2>
+=item B<KeySysTileVertical>=C<Alt+Shift+F2>
 
-C<KeySysTileVertical> tiles all windows from left to right maximized vertically.
+Tiles all windows from left to right maximized vertically.
 
-=item C<Alt+Shift+F3>
+=item B<KeySysTileHorizontal>=C<Alt+Shift+F3>
 
-C<KeySysTileHorizontal> tiles all windows from top to bottom maximized horizontally.
+Tiles all windows from top to bottom maximized horizontally.
 
-=item C<Alt+Shift+F4>
+=item B<KeySysCascade>=C<Alt+Shift+F4>
 
-C<KeySysCascade> makes a horizontal cascade of all windows which are maximized vertically.
+Makes a horizontal cascade of all windows which are maximized vertically.
 
-=item C<Alt+Shift+F5>
+=item B<KeySysArrange>=C<Alt+Shift+F5>
 
-C<KeySysArrange> rearranges the windows.
+Rearranges the windows.
 
-=item C<Alt+Shift+F7>
+=item B<KeySysUndoArrange>=C<Alt+Shift+F7>
 
-C<KeySysUndoArrange> undoes arrangement.
+Undoes arrangement.
 
-=item C<Alt+Shift+F8>
+=item B<KeySysArrangeIcons>=C<Alt+Shift+F8>
 
-C<KeySysArrangeIcons> rearranges icons.
+Rearranges icons.
 
-=item C<Alt+Shift+F9>
+=item B<KeySysMinimizeAll>=C<Alt+Shift+F9>
 
-C<KeySysMinimizeAll> minimizes all windows.
+Minimizes all windows.
 
-=item C<Alt+Shift+F11>
+=item B<KeySysHideAll>=C<Alt+Shift+F11>
 
-C<KeySysHideAll> hides all windows.
+Hides all windows.
 
-=item C<Alt+Ctrl+d>
+=item B<KeySysShowDesktop>=C<Alt+Ctrl+d>
 
-C<KeySysShowDesktop> unmaps all windows to show the desktop.
+Unmaps all windows to show the desktop.
 
-=item C<Alt+Ctrl+h>
+=item B<KeySysCollapseTaskBar>=C<Alt+Ctrl+h>
 
-C<KeySysCollapseTaskBar> hides the task bar.
+Hides the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarSwitchNext>=C<undefined>
 
-C<KeyTaskBarSwitchNext> switches to the next window in the task bar.
+Switches to the next window in the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarSwitchPrev>=C<undefined>
 
-C<KeyTaskBarSwitchPrev> switches to the previous window in the task bar.
+Switches to the previous window in the task bar.
 
-=item C<undefined>
+=item B<KeyTaskBarMoveNext>=C<undefined>
 
-C<KeyTaskBarMoveNext> moves the task bar button of the current window
+Moves the task bar button of the current window
 right.
 
-=item C<undefined>
+=item B<KeyTaskBarMovePrev>=C<undefined>
 
-C<KeyTaskBarMovePrev> moves the task bar button of the current window
+Moves the task bar button of the current window
 left.
 
-=item C<undefined>
+=item B<KeySysWinListMenu>=C<undefined>
 
-C<KeySysWinListMenu> shows the window list menu.
+Shows the window list menu.
 
-=item C<Alt+Tab>
+=item B<KeySysSwitchNext>=C<Alt+Tab>
 
-C<KeySysSwitchNext> opens the C<QuickSwitch> popup (see L<INPUT FOCUS>)
+Opens the C<QuickSwitch> popup (see L<INPUT FOCUS>)
 and/or moves the selector in the C<QuickSwitch> popup.
 
-=item C<Alt+Shift+Tab>
+=item B<KeySysSwitchLast>=C<Alt+Shift+Tab>
 
-C<KeySysSwitchLast> works like C<KeySysSwitchNext> but moving in the
+Works like C<KeySysSwitchNext> but moving in the
 opposite direction.
 
-=item C<Alt+grave>
+=item B<KeySysSwitchClass>=C<Alt+grave>
 
-C<KeySysSwitchClass> is like C<KeySysSwitchNext> but only for windows
+Is like C<KeySysSwitchNext> but only for windows
 with the same WM_CLASS property as the currently focused window.
 
 =back
@@ -859,42 +956,43 @@ You can control windows by a modified mouse button press:
 
 =over
 
-=item C<Alt+Pointer_Button1>
+=item B<MouseWinMove>=C<Alt+Pointer_Button1>
 
-C<MouseWinMove> moves the window under the mouse over the screen.
+Moves the window under the mouse over the screen.
 
-=item C<Alt+Pointer_Button3>
+=item B<MouseWinSize>=C<Alt+Pointer_Button3>
 
-C<MouseWinSize> resizes the window.  Keep the key and button pressed.
+Resizes the window.  Keep the key and button pressed.
 To enlarge the window move the mouse button away from the center.  To
 shrink it move towards the centre.
 
-=item C<Ctrl+Alt+Pointer_Button1>
+=item B<MouseWinRaise>=C<Ctrl+Alt+Pointer_Button1>
 
-C<MouseWinRaise> raises the window under the mouse.
+Raises the window under the mouse.
 
-=item C<Ctrl+Alt+Pointer_Button1>
+=item B<MouseWinLower>=C<Ctrl+Alt+Pointer_Button1>
 
-C<MouseWinLower> lowers the window under the mouse.
+Lowers the window under the mouse.
 If this is equal to C<MouseWinRaise> and the window can be raised
 then C<MouseWinRaise> takes preference over C<MouseWinLower>.
 
 =back
 
-Clicking on the desktop activates a menu.  The middle button shows the
-window list (C<DesktopWinListButton=2>).  The right button shows the
-root menu (C<DesktopMenuButton=3>).
-
 The title frame of a window also listens for mouse clicks.  Left double
 clicking maximizes the window (C<TitleBarMaximizeButton=1>).  Middle
 double clicking rolls up the window (C<TitleBarRollupButton=2>).
-Pressing a mouse button and moving it will move the window.  C<Alt+left>
-button lowers the window.
+Pressing a mouse button and moving it will move the window.
+C<Alt+Pointer_Button1> lowers the window.
 
 When the mouse is on the window frame then a left click raises the
 window.  Dragging with the left button down resizes the window.
 Clicking the right button pops up the context menu.  Dragging with the
 right button moves the window.
+
+Clicking on the desktop activates a menu.  The middle button shows the
+window list (C<DesktopWinListButton=2>).  The right button shows the
+root menu (C<DesktopMenuButton=3>). If you press C<Ctrl+Alt> then
+the mouse wheel will focus all applications in turn.
 
 =head1 SIGNALS
 
@@ -1006,7 +1104,7 @@ Global keybindings to launch applications, which need not be window
 manager related.  Each non-empty line starts with the word C<key>.
 After one or more spaces follows a double-quoted string of the bound X11
 key combination like C<Alt+Ctrl+Shift+X>.  Then after at least one space
-follows a shell command line which will be executed by B<icewm> whenever
+follows a shell command-line which will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
@@ -1078,7 +1176,7 @@ After one or more spaces follows a name, which is displayed in a tool
 tip whenever the mouse cursor hovers over the toolbar icon.  This name
 may be a double quoted string.  Then follows the bare name of the icon
 to use without extensions.  This icon will be shown in the toolbar.  The
-last component is a shell command line which will be executed whenever
+last component is a shell command-line which will be executed whenever
 the user presses the icon in the toolbar.  For example, the following
 line in toolbar will create a button with tool tip C<Mozilla Firefox>
 with the F<firefox> icon which launches L<firefox(1)> when clicked:
@@ -1227,6 +1325,7 @@ L<icewm-toolbar(5)>,
 L<icewm-winoptions(5)>,
 L<icewmbg(1)>,
 L<icewmhint(1)>,
+L<setxkbmap(1)>,
 L<Xorg(1)>,
 L<Xserver(1)>,
 L<xinit(1)>,

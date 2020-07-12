@@ -26,7 +26,7 @@ public:
 
 class IceRun : public YXApplication, public YInputListener {
     YInputLine *input;
-    cstring cmdPrefix;
+    mstring cmdPrefix;
     ref<YPixmap> large;
 
 public:
@@ -34,7 +34,7 @@ public:
     ~IceRun() { delete input; }
 
     virtual void inputReturn(YInputLine* input) {
-        cstring command(input->getText());
+        mstring command(input->getText());
         if (command != cmdPrefix) {
             msg("%s", command.c_str());
             runCommand(command);

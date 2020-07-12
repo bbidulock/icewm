@@ -18,18 +18,47 @@ typedef int FrameState;
 
 class ClassHint : public XClassHint {
 public:
-    ClassHint() { res_name = res_class = 0; }
+    ClassHint() { res_name = res_class = nullptr; }
     ClassHint(const char* name, const char* klas) {
         res_name = strdup(name);
         res_class = strdup(klas);
     }
+    ClassHint(const ClassHint& hint) {
+        res_name = hint.res_name ? strdup(hint.res_name) : nullptr;
+        res_class = hint.res_class ? strdup(hint.res_class) : nullptr;
+    }
     ~ClassHint() { reset(); }
     void reset() {
-        if (res_name) { XFree(res_name); res_name = 0; }
-        if (res_class) { XFree(res_class); res_class = 0; }
+        if (res_name) { XFree(res_name); res_name = nullptr; }
+        if (res_class) { XFree(res_class); res_class = nullptr; }
     }
     bool match(const char* resource) const;
     char* resource() const;
+    void operator=(const ClassHint& hint) {
+        if (this != &hint) {
+            reset();
+            if (hint.res_name) {
+                res_name = strdup(hint.res_name);
+            }
+            if (hint.res_class) {
+                res_class = strdup(hint.res_class);
+            }
+        }
+    }
+    bool operator==(const ClassHint& hint) {
+        return ((res_name && hint.res_name) ?
+                !strcmp(res_name, hint.res_name) :
+                res_name == hint.res_name) &&
+               ((res_class && hint.res_class) ?
+                !strcmp(res_class, hint.res_class) :
+                res_class == hint.res_class);
+    }
+    bool operator!=(const ClassHint& hint) {
+        return !operator==(hint);
+    }
+    bool nonempty() {
+        return ::nonempty(res_name) || ::nonempty(res_class);
+    }
 };
 
 class ClientData {
@@ -37,8 +66,8 @@ public:
     virtual void setWinListItem(WindowListItem *i) = 0;
     virtual YFrameWindow *owner() const = 0;
     virtual ref<YIcon> getIcon() const = 0;
-    virtual ustring getTitle() const = 0;
-    virtual ustring getIconTitle() const = 0;
+    virtual mstring getTitle() const = 0;
+    virtual mstring getIconTitle() const = 0;
     virtual void activateWindow(bool raise, bool curWork) = 0;
     virtual bool isHidden() const = 0;
     virtual bool isMaximized() const = 0;
@@ -74,7 +103,7 @@ public:
     virtual void popupSystemMenu(YWindow *owner) = 0;
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,
-                         YWindow *forWindow = 0) = 0;
+                         YWindow *forWindow = nullptr) = 0;
     virtual void updateSubmenus() = 0;
     virtual Time since() const = 0;
 protected:
@@ -86,7 +115,7 @@ class YFrameClient: public YWindow
 {
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
-                 int depth = 0, Visual *visual = 0, Colormap cmap = 0);
+                 int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
     virtual ~YFrameClient();
 
     virtual void handleProperty(const XPropertyEvent &property);
@@ -162,8 +191,8 @@ public:
     void setWindowTitle(const XTextProperty & title);
     void setIconTitle(const XTextProperty & title);
 #endif
-    ustring windowTitle() { return fWindowTitle; }
-    ustring iconTitle() { return fIconTitle; }
+    mstring windowTitle() { return fWindowTitle; }
+    mstring iconTitle() { return fIconTitle; }
 
     bool getWinIcons(Atom *type, int *count, long **elem);
 
@@ -220,9 +249,9 @@ public:
     void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    ustring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
+    mstring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
 
-    ustring getClientId(Window leader);
+    mstring getClientId(Window leader);
     void getPropertiesList();
 
     // virtual void configure(const YRect2 &rect);
@@ -250,12 +279,12 @@ private:
     long fWinHints;
     long fPid;
 
-    ustring fWindowTitle;
-    ustring fIconTitle;
+    mstring fWindowTitle;
+    mstring fIconTitle;
 
     Window fClientLeader;
-    ustring fWMWindowRole;
-    ustring fWindowRole;
+    mstring fWMWindowRole;
+    mstring fWindowRole;
 
     MwmHints *fMwmHints;
 

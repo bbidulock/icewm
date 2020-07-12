@@ -58,7 +58,7 @@ public:
 
     void startCheck();
     void startSSL();
-    cstring inbox();
+    mstring inbox();
     int portNumber();
     void setState(ProtocolState newState);
 
@@ -70,7 +70,7 @@ public:
     void parseImap();
 
     int write(const char* buf, int len = 0);
-    int write(const cstring& str);
+    int write(mstring str);
     void error(mstring str);
     void release();
     bool ssl() const;

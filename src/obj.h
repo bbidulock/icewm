@@ -8,16 +8,16 @@ class YIcon;
 
 class DObject {
 public:
-    DObject(IApp *app, const ustring &name, ref<YIcon> icon);
+    DObject(IApp *app, const mstring &name, ref<YIcon> icon);
     virtual ~DObject();
 
-    ustring getName() { return fName; }
+    mstring getName() { return fName; }
     ref<YIcon> getIcon() { return fIcon; }
 
     virtual void open();
 
 private:
-    ustring fName;
+    mstring fName;
     ref<YIcon> fIcon;
 protected:
     IApp *app;
@@ -29,7 +29,7 @@ class ObjectContainer {
 public:
     virtual void addObject(DObject *object) = 0;
     virtual void addSeparator() = 0;
-    virtual void addContainer(const ustring &name, ref<YIcon> icon, ObjectMenu *container) = 0;
+    virtual void addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container) = 0;
 protected:
     virtual ~ObjectContainer() {}
 };

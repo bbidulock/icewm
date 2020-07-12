@@ -23,6 +23,7 @@
 #include "intl.h"
 
 YStringArray configWorkspaces;
+MStringArray configKeyboards;
 
 void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
     YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
@@ -49,6 +50,15 @@ void addWorkspace(const char *, const char *value, bool append) {
         configWorkspaces.clear();
     }
     configWorkspaces += value;
+}
+
+void addKeyboard(const char *, const char *value, bool append) {
+    if (!append) {
+        configKeyboards.clear();
+    }
+    if (nonempty(value)) {
+        configKeyboards += value;
+    }
 }
 
 static const struct {
@@ -95,16 +105,16 @@ void setLook(const char *name, const char *arg, bool) {
     }
 }
 
-static bool ensureDirectory(const upath& path) {
+static bool ensureDirectory(upath path) {
     if (path.dirExists())
         return true;
     if (path.mkdir() != 0) {
-        fail(_("Unable to create directory %s"), path.string().c_str());
+        fail(_("Unable to create directory %s"), path.string());
     }
     return path.dirExists();
 }
 
-static upath getDefaultsFilePath(const pstring& basename) {
+static upath getDefaultsFilePath(const mstring& basename) {
     upath prv(YApplication::getPrivConfDir());
     if (ensureDirectory(prv)) {
         return prv + basename;
@@ -112,7 +122,7 @@ static upath getDefaultsFilePath(const pstring& basename) {
     return null;
 }
 
-void WMConfig::setDefault(const char *basename, cstring content) {
+void WMConfig::setDefault(const char *basename, mstring content) {
     upath confOld(getDefaultsFilePath(basename));
     if (confOld == null) {
         return; // no directory
@@ -126,7 +136,7 @@ void WMConfig::setDefault(const char *basename, cstring content) {
             fputc('\n', fpNew);
     }
     if (fpNew == nullptr || fflush(fpNew) || ferror(fpNew)) {
-        fail(_("Unable to write to %s"), confNew.string().c_str());
+        fail(_("Unable to write to %s"), confNew.string());
         if (fpNew)
             fclose(fpNew);
         confNew.remove();
@@ -163,7 +173,7 @@ void WMConfig::setDefault(const char *basename, cstring content) {
     }
     if (confNew.renameAs(confOld)) {
         fail(_("Unable to rename %s to %s"),
-                confNew.string().c_str(), confOld.string().c_str());
+                confNew.string(), confOld.string());
         confNew.remove();
     }
 }

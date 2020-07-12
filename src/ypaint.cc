@@ -31,7 +31,7 @@ Graphics::Graphics(YWindow & window,
     rDepth = (window.depth() ? window.depth() : xapp->depth());
     gc = XCreateGC(display(), drawable(), vmask, gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -47,7 +47,7 @@ Graphics::Graphics(YWindow & window):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -63,7 +63,7 @@ Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable(), GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -77,7 +77,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
 {
     gc = XCreateGC(display(), drawable, vmask, gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -91,7 +91,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     XGCValues gcv; gcv.graphics_exposures = False;
     gc = XCreateGC(display(), drawable, GCGraphicsExposures, &gcv);
 #ifdef CONFIG_XFREETYPE
-    fXftDraw = 0;
+    fXftDraw = nullptr;
 #endif
 }
 
@@ -107,7 +107,7 @@ Graphics::~Graphics() {
 #ifdef CONFIG_XFREETYPE
     if (fXftDraw) {
         XftDrawDestroy(fXftDraw);
-        fXftDraw = 0;
+        fXftDraw = nullptr;
     }
 #endif
 }
@@ -271,10 +271,9 @@ void Graphics::drawArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 /******************************************************************************/
 
-void Graphics::drawChars(const ustring &s, int x, int y) {
+void Graphics::drawChars(mstring s, int x, int y) {
     if (fFont != null && s != null) {
-        cstring cs(s);
-        fFont->drawGlyphs(*this, x, y, cs.c_str(), cs.c_str_len());
+        fFont->drawGlyphs(*this, x, y, s.c_str(), s.length());
     }
 }
 
@@ -304,7 +303,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         int sl(0), sw(0);
 
 #ifdef CONFIG_I18N
-        if (multiByte) mblen(NULL, 0);
+        if (multiByte) mblen(nullptr, 0);
 #endif
 
         if (maxW > 0) {
@@ -354,11 +353,6 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     }
 }
 
-void Graphics::drawStringEllipsis(int x, int y, const ustring &str, int maxWidth) {
-    cstring cs(str);
-    return drawStringEllipsis(x, y, cs.c_str(), maxWidth);
-}
-
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 /// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
     int left = 0; //fFont ? fFont->textWidth(str, charPos) : 0;
@@ -367,7 +361,7 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
     int c = 0, cp = 0;
 
 #ifdef CONFIG_I18N
-    if (multiByte) mblen(NULL, 0);
+    if (multiByte) mblen(nullptr, 0);
 #endif
     while (c <= len && cp <= charPos + 1) {
         if (charPos == cp) {
@@ -403,11 +397,6 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
         drawLine(x + left, y + 2, x + right, y + 2);
 }
 
-void Graphics::drawCharUnderline(int x, int y, const ustring &str, int charPos) {
-    cstring cs(str);
-    return drawCharUnderline(x, y, cs.c_str(), charPos);
-}
-
 void Graphics::drawStringMultiline(int x, int y, const char *str) {
     unsigned const tx(x + fFont->multilineTabPos(str));
 
@@ -434,11 +423,6 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
     }
     else
         drawChars(str, 0, int(strlen(str)), x, y);
-}
-
-void Graphics::drawStringMultiline(int x, int y, const ustring &str) {
-    cstring cs(str);
-    return drawStringMultiline(x, y, cs.c_str());
 }
 
 /******************************************************************************/
@@ -1071,7 +1055,7 @@ void Graphics::setClipMask(Pixmap mask) {
 void Graphics::resetClip() {
     XSetClipMask(display(), gc, None);
 #ifdef CONFIG_XFREETYPE
-    XftDrawSetClip(handleXft(), 0);
+    XftDrawSetClip(handleXft(), nullptr);
 #endif
 }
 

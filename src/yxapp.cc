@@ -14,9 +14,9 @@
 #include <X11/extensions/Xinerama.h>
 #endif
 
-YXApplication *xapp = 0;
+YXApplication *xapp = nullptr;
 
-YDesktop *desktop = 0;
+YDesktop *desktop = nullptr;
 YContext<YWindow> windowContext;
 
 YCursor YXApplication::leftPointer;
@@ -210,7 +210,7 @@ int xeventcount = 0;
 
 class YClipboard: public YWindow {
 public:
-    void setData(cstring data) {
+    void setData(mstring data) {
         fData = data;
         if (length() == 0)
             clearSelection(false);
@@ -279,7 +279,7 @@ public:
     }
 
 private:
-    cstring fData;
+    mstring fData;
 };
 
 YAtomName YXApplication::atom_info[] = {
@@ -640,7 +640,7 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
             if (w->toplevel())
                 w = w->toplevel();
 
-            if (w->getFocusWindow() != 0)
+            if (w->getFocusWindow() != nullptr)
                 w = w->getFocusWindow();
         }
 
@@ -700,7 +700,7 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             if ( ! windowContext.find(xev.xbutton.subwindow, &win.ptr))
             {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win.ptr = 0;
+                    win.ptr = nullptr;
                 else
                     win.ptr = fGrabWindow;
             }
@@ -708,12 +708,12 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             if ( ! windowContext.find(xev.xbutton.window, &win.ptr))
             {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
-                    win.ptr = 0;
+                    win.ptr = nullptr;
                 else
                     win.ptr = fGrabWindow;
             }
         }
-        if (win.ptr == 0)
+        if (win.ptr == nullptr)
             return ;
         {
             YWindow *p = win.ptr;
@@ -722,7 +722,7 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
                     break;
                 p = p->parent();
             }
-            if (p == 0) {
+            if (p == nullptr) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
                     return ;
                 else
@@ -760,9 +760,9 @@ void YXApplication::releaseGrabEvents(YWindow *win) {
 int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
     int rc;
 
-    if (fGrabWindow != 0)
+    if (fGrabWindow != nullptr)
         return 0;
-    if (win == 0)
+    if (win == nullptr)
         return 0;
 
     fGrabTree = grabTree;
@@ -805,10 +805,10 @@ int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, 
 }
 
 int YXApplication::releaseEvents() {
-    if (fGrabWindow == 0)
+    if (fGrabWindow == nullptr)
         return 0;
-    fGrabWindow = 0;
-    fXGrabWindow = 0;
+    fGrabWindow = nullptr;
+    fXGrabWindow = nullptr;
     fGrabTree = 0;
     if (fGrabMouse) {
         XUngrabPointer(display(), CurrentTime);
@@ -1003,7 +1003,7 @@ void YXApplication::alert() {
     XBell(display(), 100);
 }
 
-void YXApplication::setClipboardText(cstring data) {
+void YXApplication::setClipboardText(mstring data) {
     fClip->setData(data);
 }
 
@@ -1086,18 +1086,18 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     fWhite( WhitePixel(display(), screen())),
 
     lastEventTime(CurrentTime),
-    fPopup(0),
+    fPopup(nullptr),
     xfd(this),
     fGrabTree(0),
-    fXGrabWindow(0),
+    fXGrabWindow(nullptr),
     fGrabMouse(0),
-    fGrabWindow(0),
+    fGrabWindow(nullptr),
     fReplayEvent(false)
 {
     xapp = this;
     xfd.registerPoll(ConnectionNumber(display()));
 
-    new YDesktop(0, root());
+    new YDesktop(nullptr, root());
     extern void image_init();
     image_init();
 
@@ -1139,7 +1139,7 @@ YXApplication::~YXApplication() {
 
     xfd.unregisterPoll();
     XCloseDisplay(display());
-    xapp = 0;
+    xapp = nullptr;
 }
 
 bool YXApplication::handleXEvents() {
@@ -1213,18 +1213,18 @@ bool YXApplication::handleIdle() {
 void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     struct {
         YWindow *ptr;
-    } window = { 0 };
+    } window = { nullptr };
 
     if (windowContext.find(xwindow, &window.ptr))
     {
         if ((xev.type == KeyPress || xev.type == KeyRelease)
-            && window.ptr->toplevel() != 0)
+            && window.ptr->toplevel() != nullptr)
         {
             YWindow *w = window.ptr;
 
             w = w->toplevel();
 
-            if (w->getFocusWindow() != 0)
+            if (w->getFocusWindow() != nullptr)
                 w = w->getFocusWindow();
 
             dispatchEvent(w, xev);
@@ -1245,7 +1245,7 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                 xev.xmaprequest.window);
             desktop->handleEvent(xev);
         }
-        else if (xev.type == ClientMessage && desktop != 0) {
+        else if (xev.type == ClientMessage && desktop != nullptr) {
             Atom mesg = xev.xclient.message_type;
             if (mesg == _XA_NET_REQUEST_FRAME_EXTENTS) {
                 desktop->handleEvent(xev);

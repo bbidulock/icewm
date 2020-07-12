@@ -48,6 +48,7 @@ void WorkspaceButton::repaint() {
 
 void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
     if (taskbackPixbuf != null) {
+        g.clearArea(r.x(), r.y(), r.width(), r.height());
         g.drawGradient(taskbackPixbuf,
                        r.x(), r.y(), r.width(), r.height(),
                        0, 0, width(), height());
@@ -78,7 +79,7 @@ void WorkspaceButton::handleClick(const XButtonEvent &up, int count) {
     switch (up.button) {
         case 1:
             if (count == 2) {
-                if (fInput == 0) {
+                if (fInput == nullptr) {
                     fInput = new YInputLine(this, this);
                 }
                 if (fInput) {
@@ -173,26 +174,26 @@ bool WorkspaceButton::handleTimer(YTimer *t) {
 
 void WorkspaceButton::inputReturn(YInputLine* input) {
     if (input == fInput) {
-        cstring text(input->getText());
+        mstring text(input->getText());
         if (text != name()) {
             csmart str(newstr(text));
             swap(*&str, *workspaces[fWorkspace]);
             manager->setDesktopNames();
             fPane->relabel(fWorkspace);
         }
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
 void WorkspaceButton::inputEscape(YInputLine* input) {
     if (input == fInput) {
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
 void WorkspaceButton::inputLostFocus(YInputLine* input) {
     if (input == fInput) {
-        fInput = 0;
+        fInput = nullptr;
     }
 }
 
@@ -258,7 +259,7 @@ long WorkspacesPane::limitWidth(long paneWidth) {
     long maxButtons = 0;
     long maxPercent = 0;
     if (nonempty(str)) {
-        char* end = 0;
+        char* end = nullptr;
         long num = strtol(str, &end, 0);
         if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
             maxPixels = max(50L, taskBarWidth - x() - reserved);
@@ -438,7 +439,7 @@ ref<YImage> WorkspaceIcons::load(const char* name) {
             }
         }
     }
-    cstring trim(mstring(name).trim());
+    mstring trim(mstring(name).trim());
     return (trim.length() && trim != name) ? load(trim) : null;
 }
 
@@ -684,7 +685,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             snprintf(label, sizeof label, "%d", int(fWorkspace+1) % 100);
         }
         else if (pagerShowLabels) {
-            strlcpy(label, cstring(baseName()), min(5, int(sizeof label)));
+            strlcpy(label, baseName(), min(5, int(sizeof label)));
         }
         if (label[0] != 0) {
             ref<YFont> font = getFont();

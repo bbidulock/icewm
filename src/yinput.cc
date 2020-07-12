@@ -51,7 +51,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
 YInputLine::~YInputLine() {
 }
 
-void YInputLine::setText(const ustring &text, bool asMarked) {
+void YInputLine::setText(const mstring &text, bool asMarked) {
     fText = text;
     leftOfs = 0;
     curPos = fText.length();
@@ -60,7 +60,7 @@ void YInputLine::setText(const ustring &text, bool asMarked) {
     repaint();
 }
 
-ustring YInputLine::getText() {
+mstring YInputLine::getText() {
     return fText;
 }
 
@@ -323,7 +323,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 char s[16];
 
                 if (getCharFromEvent(key, s, sizeof(s))) {
-                    replaceSelection(ustring(s, strlen(s)));
+                    replaceSelection(mstring(s, strlen(s)));
                     return true;
                 }
             }
@@ -345,7 +345,7 @@ void YInputLine::handleButton(const XButtonEvent &button) {
             }
         }
     } else if (button.type == ButtonRelease) {
-        autoScroll(0, 0);
+        autoScroll(0, nullptr);
         if (fSelecting && button.button == 1) {
             fSelecting = false;
             //curPos = offsetToPos(button.x + leftOfs);
@@ -410,7 +410,7 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
     if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
         inputMenu->setActionListener(this);
-        inputMenu->popup(this, 0, 0, up.x_root, up.y_root,
+        inputMenu->popup(this, nullptr, nullptr, up.x_root, up.y_root,
                          YPopupWindow::pfCanFlipVertical |
                          YPopupWindow::pfCanFlipHorizontal);
     } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
@@ -530,7 +530,7 @@ void YInputLine::limit() {
     }
 }
 
-void YInputLine::replaceSelection(const ustring &str) {
+void YInputLine::replaceSelection(const mstring &str) {
     unsigned from = min(curPos, markPos);
     unsigned to = max(curPos, markPos);
     fText = fText.replace(from, to - from, str);
@@ -682,8 +682,8 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    char* res = 0;
-    int res_count = globit_best(cstring(fText), &res, 0, 0);
+    char* res = nullptr;
+    int res_count = globit_best(fText, &res, nullptr, nullptr);
     // directory is not a final match
     if(res_count == 1 && upath(res).dirExists())
         res_count++;

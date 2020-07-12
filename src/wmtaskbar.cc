@@ -16,6 +16,7 @@
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmclient.h"
+#include "wmconfig.h"
 #include "wmaction.h"
 #include "wmprog.h"
 #include "workspaces.h"
@@ -26,6 +27,7 @@
 
 #include "aaddressbar.h"
 #include "aclock.h"
+#include "akeyboard.h"
 #include "acpustatus.h"
 #include "amemstatus.h"
 #include "apppstatus.h"
@@ -41,7 +43,7 @@
 
 #include "intl.h"
 
-TaskBar *taskBar = 0;
+TaskBar *taskBar;
 
 YColorName taskBarBg(&clrDefaultTaskBar);
 
@@ -111,24 +113,25 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
-    YFrameClient(aParent, 0),
+    YFrameClient(aParent, nullptr),
     fGraphics(this),
     fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
-    fTasks(0),
-    fCollapseButton(0),
-    fWindowTray(0),
-    fMailBoxStatus(0),
-    fMEMStatus(0),
-    fCPUStatus(0),
-    fApm(0),
-    fNetStatus(0),
-    fObjectBar(0),
-    fApplications(0),
-    fWinList(0),
-    fShowDesktop(0),
-    fAddressBar(0),
-    fWorkspaces(0),
-    fDesktopTray(0),
+    fTasks(nullptr),
+    fCollapseButton(nullptr),
+    fWindowTray(nullptr),
+    fKeyboardStatus(nullptr),
+    fMailBoxStatus(nullptr),
+    fMEMStatus(nullptr),
+    fCPUStatus(nullptr),
+    fApm(nullptr),
+    fNetStatus(nullptr),
+    fObjectBar(nullptr),
+    fApplications(nullptr),
+    fWinList(nullptr),
+    fShowDesktop(nullptr),
+    fAddressBar(nullptr),
+    fWorkspaces(nullptr),
+    fDesktopTray(nullptr),
     wmActionListener(wmActionListener),
     smActionListener(smActionListener),
     app(app),
@@ -139,7 +142,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fMenuShown(false),
     fNeedRelayout(false),
     fButtonUpdate(false),
-    fEdgeTrigger(0)
+    fEdgeTrigger(nullptr)
 {
     taskBar = this;
 
@@ -151,7 +154,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
 
-    setWinWorkspaceHint(-1);
+    setWinWorkspaceHint(AllWorkspaces);
     setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                     fIsCollapsed ? WinLayerAboveDock :
                     taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
@@ -193,28 +196,29 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 
 TaskBar::~TaskBar() {
     detachDesktopTray();
-    delete fEdgeTrigger; fEdgeTrigger = 0;
-    delete fClock; fClock = 0;
-    delete fMailBoxStatus; fMailBoxStatus = 0;
+    delete fEdgeTrigger; fEdgeTrigger = nullptr;
+    delete fClock; fClock = nullptr;
+    delete fKeyboardStatus; fKeyboardStatus = nullptr;
+    delete fMailBoxStatus; fMailBoxStatus = nullptr;
 #ifdef MEM_STATES
-    delete fMEMStatus; fMEMStatus = 0;
+    delete fMEMStatus; fMEMStatus = nullptr;
 #endif
-    delete fWinList; fWinList = 0;
-    delete fApplications; fApplications = 0;
-    delete fObjectBar; fObjectBar = 0;
-    delete fWorkspaces; fWorkspaces = 0;
+    delete fWinList; fWinList = nullptr;
+    delete fApplications; fApplications = nullptr;
+    delete fObjectBar; fObjectBar = nullptr;
+    delete fWorkspaces; fWorkspaces = nullptr;
 #ifdef MAX_ACPI_BATTERY_NUM
-    delete fApm; fApm = 0;
+    delete fApm; fApm = nullptr;
 #endif
 #ifdef IWM_STATES
-    delete fCPUStatus; fCPUStatus = 0;
+    delete fCPUStatus; fCPUStatus = nullptr;
 #endif
-    delete fNetStatus; fNetStatus = 0;
-    delete fAddressBar; fAddressBar = 0;
-    delete fTasks; fTasks = 0;
-    delete fWindowTray; fWindowTray = 0;
-    delete fCollapseButton; fCollapseButton = 0;
-    delete fShowDesktop; fShowDesktop = 0;
+    delete fNetStatus; fNetStatus = nullptr;
+    delete fAddressBar; fAddressBar = nullptr;
+    delete fTasks; fTasks = nullptr;
+    delete fWindowTray; fWindowTray = nullptr;
+    delete fCollapseButton; fCollapseButton = nullptr;
+    delete fShowDesktop; fShowDesktop = nullptr;
     xapp->dropClipboard();
     taskBar = nullptr;
     if (getFrame())
@@ -253,7 +257,7 @@ public:
         // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
         addItem(_("_Refresh"), -2, null, actionRefresh);
         // TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-        addItem(_("_About"), -2, actionAbout, 0);
+        addItem(_("_About"), -2, actionAbout, nullptr);
         if (showLogoutMenu) {
             addSeparator();
             if (showLogoutSubMenu)
@@ -274,14 +278,14 @@ void TaskBar::initApplets() {
     if (taskBarShowMEMStatus)
         fMEMStatus = new MEMStatus(this, this);
     else
-        fMEMStatus = 0;
+        fMEMStatus = nullptr;
 #endif
 
 #ifdef IWM_STATES
     if (taskBarShowCPUStatus)
         fCPUStatus = new CPUStatusControl(smActionListener, this, this);
     else
-        fCPUStatus = 0;
+        fCPUStatus = nullptr;
 #endif
 
     if (taskBarShowNetStatus)
@@ -292,7 +296,7 @@ void TaskBar::initApplets() {
     if (taskBarShowClock)
         fClock = new YClock(smActionListener, this, this);
     else
-        fClock = 0;
+        fClock = nullptr;
 
 #ifdef MAX_ACPI_BATTERY_NUM
     if (taskBarShowApm && (access(APMDEV, 0) == 0 ||
@@ -309,12 +313,12 @@ void TaskBar::initApplets() {
         fApm = new YApm(this, true);
         if ( ! fApm->hasBatteries()) {
                 delete fApm;
-                fApm = 0;
+                fApm = nullptr;
         }
         else fApm->setTitle("IceAPM");
     }
     else
-        fApm = 0;
+        fApm = nullptr;
 #endif
 
     if (taskBarShowCollapseButton) {
@@ -328,12 +332,17 @@ void TaskBar::initApplets() {
             fCollapseButton->setTitle("Collapse");
         }
     } else
-        fCollapseButton = 0;
+        fCollapseButton = nullptr;
 
     if (taskBarShowMailboxStatus) {
         fMailBoxStatus = new MailBoxControl(app, smActionListener, this, this);
     } else
-        fMailBoxStatus = 0;
+        fMailBoxStatus = nullptr;
+
+    if (configKeyboards.nonempty()) {
+        fKeyboardStatus = new KeyboardStatus(this, this);
+    } else
+        fKeyboardStatus = nullptr;
 
     if (taskBarShowStartMenu) {
         class LazyRootMenu : public LazyMenu {
@@ -345,7 +354,7 @@ void TaskBar::initApplets() {
         fApplications->setToolTip(_("Favorite Applications"));
         fApplications->setTitle("TaskBarMenu");
     } else
-        fApplications = 0;
+        fApplications = nullptr;
 
     fObjectBar = new ObjectBar(this);
     if (fObjectBar) {
@@ -366,7 +375,7 @@ void TaskBar::initApplets() {
         fWinList->setToolTip(_("Window List Menu"));
         fWinList->setTitle("ShowWindowList");
     } else
-        fWinList = 0;
+        fWinList = nullptr;
     if (taskBarShowShowDesktopButton) {
         fShowDesktop = new ObjectButton(this, actionShowDesktop);
         fShowDesktop->setText("__");
@@ -389,12 +398,12 @@ void TaskBar::initApplets() {
         fTasks = new TaskPane(this, this);
         fTasks->setTitle("TaskPane");
     } else
-        fTasks = 0;
+        fTasks = nullptr;
     if (taskBarShowTray) {
         fWindowTray = new TrayPane(this, this);
         fWindowTray->setTitle("TrayPane");
     } else
-        fWindowTray = 0;
+        fWindowTray = nullptr;
 
     if (taskBarEnableSystemTray) {
         const char atomstr[] =
@@ -412,7 +421,7 @@ void TaskBar::initApplets() {
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
     } else
-        fDesktopTray = 0;
+        fDesktopTray = nullptr;
 
     if (fCollapseButton) {
         fCollapseButton->raise();
@@ -433,7 +442,7 @@ struct LayoutInfo {
     bool expand;
 
     LayoutInfo() :
-        w(0), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
+        w(nullptr), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
     LayoutInfo(YWindow *_w, bool l, int r, bool s, int p, int o, bool e) :
         w(_w), left(l), row(r), show(s), pre(p), post(o), expand(e) {}
 };
@@ -446,7 +455,7 @@ bool operator==(const LayoutInfo &l1, const LayoutInfo &l2)
 void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     LayoutInfo nw;
     YArray<LayoutInfo> wlist;
-    wlist.setCapacity(13);
+    wlist.setCapacity(14);
 
     bool issue314 = taskBarAtTop;
     nw = LayoutInfo( fApplications, true, issue314, true, 0, 0, true );
@@ -472,6 +481,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
             wlist.append(nw);
         }
+    }
+    if (fKeyboardStatus) {
+        nw = LayoutInfo( fKeyboardStatus, false, 1, true, 1, 1, false );
+        wlist.append(nw);
     }
 
 #ifdef IWM_STATES
@@ -544,7 +557,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     right[0] = w;
     right[1] = w;
-    if (taskBarShowWindows && fTasks != 0) {
+    if (taskBarShowWindows && fTasks != nullptr) {
         h[0] = max(h[0], max(YIcon::smallSize() + 8, fTasks->maxHeight()));
     }
 
@@ -654,9 +667,13 @@ void TaskBar::updateLocation() {
     unsigned int w = 0;
     unsigned int h = 0;
 
-    w = (dw/100.0) * taskBarWidthPercentage;
-    if (strcmp(taskBarJustify, "right") == 0) x = dw - w;
-    if (strcmp(taskBarJustify, "center") == 0) x = (dw - w)/2;
+    if (taskBarWidthPercentage < 100) {
+        w = (dw * taskBarWidthPercentage + 50) / 100;
+        if (strcmp(taskBarJustify, "right") == 0)
+            x = dx + (dw - w);
+        if (strcmp(taskBarJustify, "center") == 0)
+            x = dx + (dw - w)/2;
+    }
 
     updateLayout(w, h);
 
@@ -668,7 +685,7 @@ void TaskBar::updateLocation() {
             w = h = 0;
         }
 
-        x = dw - w;
+        x = dx + (dw - w);
 
         if (fCollapseButton) {
             fCollapseButton->show();
@@ -805,7 +822,7 @@ void TaskBar::handleButton(const XButtonEvent &button) {
 }
 
 void TaskBar::contextMenu(int x_root, int y_root) {
-    taskBarMenu->popup(this, 0, 0, x_root, y_root,
+    taskBarMenu->popup(this, nullptr, nullptr, x_root, y_root,
                        YPopupWindow::pfCanFlipVertical |
                        YPopupWindow::pfCanFlipHorizontal);
 }
@@ -899,10 +916,10 @@ void TaskBar::popOut() {
 }
 
 void TaskBar::showBar() {
-    if (getFrame() == 0) {
+    if (getFrame() == nullptr) {
         manager->lockWorkArea();
         manager->mapClient(handle());
-        if (getFrame() != 0) {
+        if (getFrame() != nullptr) {
             setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
                             fIsCollapsed ? WinLayerAboveDock :
                             taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
@@ -951,7 +968,7 @@ void TaskBar::detachDesktopTray() {
     if (fDesktopTray) {
         MSG(("detach Tray"));
         fDesktopTray->detachTray();
-        delete fDesktopTray; fDesktopTray = 0;
+        delete fDesktopTray; fDesktopTray = nullptr;
     }
 }
 
@@ -964,7 +981,7 @@ TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
     if (taskPane())
         return taskPane()->addApp(w);
     else
-        return 0;
+        return nullptr;
 }
 
 void TaskBar::relayoutTasks() {
@@ -981,7 +998,7 @@ TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
     if (windowTrayPane())
         return windowTrayPane()->addApp(w);
     else
-        return 0;
+        return nullptr;
 }
 
 void TaskBar::relayoutTray() {
@@ -991,7 +1008,7 @@ void TaskBar::relayoutTray() {
 
 void TaskBar::showAddressBar() {
     popOut();
-    if (fAddressBar != 0)
+    if (fAddressBar != nullptr)
         fAddressBar->showNow();
 }
 
@@ -1035,6 +1052,12 @@ void TaskBar::workspacesRelabelButtons() {
     }
 }
 
+void TaskBar::keyboardUpdate(mstring keyboard) {
+    if (fKeyboardStatus) {
+        fKeyboardStatus->updateKeyboard(keyboard);
+    }
+}
+
 bool TaskBar::windowTrayRequestDock(Window w) {
     if (fDesktopTray) {
         fDesktopTray->trayRequestDock(w, "SystemTray");
@@ -1043,27 +1066,35 @@ bool TaskBar::windowTrayRequestDock(Window w) {
     return false;
 }
 
-void TaskBar::switchToPrev()
-{
+void TaskBar::switchToPrev() {
     if (taskPane())
         taskPane()->switchToPrev();
 }
 
-void TaskBar::switchToNext()
-{
+void TaskBar::switchToNext() {
     if (taskPane())
         taskPane()->switchToNext();
 }
 
-void TaskBar::movePrev()
-{
+void TaskBar::movePrev() {
     if (taskPane())
         taskPane()->movePrev();
 }
 
-void TaskBar::moveNext()
-{
+void TaskBar::moveNext() {
     if (taskPane())
         taskPane()->moveNext();
 }
+
+void TaskBar::refresh() {
+    if (fApplications)
+        fApplications->repaint();
+    if (fWinList)
+        fWinList->repaint();
+    if (fShowDesktop)
+        fShowDesktop->repaint();
+    if (fObjectBar)
+        fObjectBar->refresh();
+}
+
 // vim: set sw=4 ts=4 et:

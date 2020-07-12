@@ -16,14 +16,14 @@ YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     scrollVert->show();
     scrollHoriz = new YScrollBar(YScrollBar::Horizontal, this);
     scrollHoriz->show();
-    scrollable = 0;
+    scrollable = nullptr;
     addStyle(wsNoExpose);
     setTitle("ScrollView");
 }
 
 YScrollView::~YScrollView() {
-    delete scrollVert; scrollVert = 0;
-    delete scrollHoriz; scrollHoriz = 0;
+    delete scrollVert; scrollVert = nullptr;
+    delete scrollHoriz; scrollHoriz = nullptr;
 }
 
 void YScrollView::setView(YScrollable *s) {

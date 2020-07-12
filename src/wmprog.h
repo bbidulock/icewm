@@ -62,7 +62,7 @@ protected:
     DProgram(
         IApp *app,
         YSMListener *smActionListener,
-        const ustring &name,
+        const mstring &name,
         ref<YIcon> icon,
         const bool restart,
         const char *wmclass,
@@ -80,7 +80,7 @@ private:
 
 class DFile: public DObject {
 public:
-    DFile(IApp *app, const ustring &name, ref<YIcon> icon, upath path);
+    DFile(IApp *app, const mstring &name, ref<YIcon> icon, upath path);
     virtual ~DFile();
 
     virtual void open();
@@ -94,8 +94,8 @@ public:
         IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
-        ustring name,
-        YWindow *parent = 0);
+        mstring name,
+        YWindow *parent = nullptr);
     virtual ~MenuFileMenu();
     virtual void updatePopup();
     virtual void refresh();
@@ -113,18 +113,18 @@ public:
         IApp *app,
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
-        ustring name,
+        mstring name,
         upath command,
         YStringArray &args,
         long timeout = 60L,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
 
     virtual ~MenuProgMenu();
     virtual void updatePopup();
     virtual void refresh();
 
 private:
-    ustring fName;
+    mstring fName;
     upath fCommand;
     YStringArray fArgs;
     time_t fModTime;
@@ -150,7 +150,7 @@ public:
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         const char *name,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void updatePopup();

@@ -89,7 +89,7 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
     g.setColor(statusFg);
     g.setFont(statusFont);
 
-    ustring status(getStatus());
+    mstring status(getStatus());
     g.drawChars(status,
                 width() / 2 - statusFont->textWidth(status) / 2,
                 height() - statusFont->descent() - 2);
@@ -119,11 +119,11 @@ void MoveSizeStatus::end() {
     statusMoveSize = null;
 }
 
-ustring MoveSizeStatus::longestStatus() {
+mstring MoveSizeStatus::longestStatus() {
    return "9999x9999+9999+9999";
 }
 
-ustring MoveSizeStatus::getStatus() {
+mstring MoveSizeStatus::getStatus() {
     char status[50];
     snprintf(status, 50, "%dx%d%+d%+d", fW, fH, fX, fY);
     return status;
@@ -194,12 +194,12 @@ void WorkspaceStatus::end() {
     statusWorkspace = null;
 }
 
-ustring WorkspaceStatus::getStatus() {
+mstring WorkspaceStatus::getStatus() {
     return getStatus(workspaceNames[workspace]);
 }
 
-ustring WorkspaceStatus::getStatus(const char* name) {
-    return ustring(_("Workspace: ")).append(name);
+mstring WorkspaceStatus::getStatus(const char* name) {
+    return mstring(_("Workspace: ")).append(name);
 }
 
 void WorkspaceStatus::begin(long workspace) {
@@ -215,8 +215,8 @@ void WorkspaceStatus::setStatus(long workspace) {
     timer.startTimer();
 }
 
-ustring WorkspaceStatus::longestStatus() {
-    const char* longestWorkspaceName = NULL;
+mstring WorkspaceStatus::longestStatus() {
+    const char* longestWorkspaceName = nullptr;
     int maxWorkspaceNameLength = 0;
 
     for (int w = 0; w < workspaceCount; ++w) {

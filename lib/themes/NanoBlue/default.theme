@@ -181,7 +181,7 @@ ColorDefaultTaskBar="rgb:00/00/00"
 ColorNormalTaskBarApp="rgb:00/00/00"
 
 # Normal taskbar app text color
-ColorNormalTaskBarAppText="rgb:ff/ff/ff"
+ColorNormalTaskBarAppText="rgb:50/50/50"
 
 # Active taskbar app color
 ColorActiveTaskBarApp="rgb:06/06/06"
@@ -193,7 +193,7 @@ ColorActiveTaskBarAppText="rgb:31/aa/ff"
 ColorMinimizedTaskBarApp="rgb:4a/96/e7"
 
 # Minimized taskbar app text
-ColorMinimizedTaskBarAppText="rgb:50/63/68"
+ColorMinimizedTaskBarAppText="rgb:50/50/50"
 
 # Invisible taskbar app color
 ColorInvisibleTaskBarApp="rgb:ff/ff/ff"
@@ -274,7 +274,7 @@ ScrollBarX=16 # 0-100
 ScrollBarY=16 # 0-100
 
 # Scroll bar color
-ColorScrollBar="rgb:40/40/40"
+ColorScrollBar="rgb:50/50/50"
 
 # Scroll bar arrow color
 ColorScrollBarArrow="rgb:B0/B0/B0"
@@ -339,10 +339,10 @@ ColorActiveTitleBar="rgb:00/00/A0"
 ColorNormalTitleBar="rgb:80/80/80"
 
 # Active title bar text color
-ColorActiveTitleBarText="rgb:ff/ff/ff"
+ColorActiveTitleBarText="rgb:31/aa/ff"
 
 # Normal title bar text color
-ColorNormalTitleBarText="rgb:31/aa/ff"
+ColorNormalTitleBarText="rgb:50/50/50"
 
 # Active title bar shadow
 ColorActiveTitleBarShadow="rgb:00/00/00"
@@ -372,7 +372,7 @@ TitleBarHorzOffset=0 # -128-128
 TitleBarVertOffset=0 # -128-128
 
 # List of gradient images in the current theme
-Gradients="menusep.xpm menubg.xpm menusel.xpm switchbg.xpm taskbarbg.xpm dialogbg.xpm taskbuttonbg.xpm taskbuttonactive.xpm taskbuttonminimized.xpm toolbuttonbg.xpm workspacebuttonbg.xpm workspacebuttonactive.xpm"
+Gradients="menusep.xpm menubg.xpm menusel.xpm switchbg.xpm taskbarbg.xpm"
 
 # Address bar font
 InputFontName="-*-sans-medium-r-normal-*-*-110-*-*-p-*--*-*"
@@ -397,7 +397,7 @@ DesktopBackgroundCenter=0 # 0 / 1
 DesktopBackgroundScaled=1 # 0 / 1
 
 # Desktop background color
-DesktopBackgroundColor="rgb:31/aa/ff"
+DesktopBackgroundColor="rgb:20/20/20"
 
 # Desktop wallpaper image
 DesktopBackgroundImage="eos.jpg"
@@ -407,10 +407,10 @@ DesktopTransparencyColor="rgb:FF/FF/FF"
 
 
 # Color of normal workspace button text
-ColorNormalWorkspaceButtonText="rgb:31/aa/ff"
+ColorNormalWorkspaceButtonText="rgb:50/50/50"
 
 # Color of active workspace button text
-ColorActiveWorkspaceButtonText="rgb:ff/ff/ff"
+ColorActiveWorkspaceButtonText="rgb:31/aa/ff"
 
 # Color of normal workspace button
 ColorNormalWorkspaceButton="rgb:C0/C0/C0"
@@ -428,7 +428,7 @@ ActiveWorkspaceFontNameXft="sans:size=11:medium"
 
 # Status font
 StatusFontName="-*-sans-medium-r-normal-*-*-110-*-*-p-*--*-*"
-StatusFontNameXft="sans:size=11:medium"
+StatusFontNameXft="sans:size=8:medium"
 
 #Memory Manager
 ColorMEMStatusFree=              "rgb:00/00/00"

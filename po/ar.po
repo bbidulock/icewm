@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-05-27 23:00+0200\n"
+"POT-Creation-Date: 2020-07-12 19:51+0200\n"
 "PO-Revision-Date: 2020-05-02 19:50+0000\n"
 "Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
 "Language-Team: Arabic <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -49,40 +49,22 @@ msgstr "الطاقة:\t%s"
 msgid "CLOCK"
 msgstr "الساعة"
 
-#: src/aclock.cc:177
+#: src/aclock.cc:178
 msgid "Date"
 msgstr "التاريخ"
 
-#: src/aclock.cc:178 src/themes.cc:78
+#: src/aclock.cc:179 src/themes.cc:78
 msgid "Default"
 msgstr "إفتراضي"
 
-#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:955
-#: src/amemstatus.cc:264
+#: src/aclock.cc:180 src/acpustatus.cc:662 src/amailbox.cc:957
+#: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Disable"
 
-#: src/aclock.cc:180
+#: src/aclock.cc:181
 msgid "_UTC"
 msgstr "_UTC"
-
-#: src/acpustatus.cc:226
-#, c-format
-msgid ""
-"stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
-"intr = %llu, softirq = %llu, steal = %llu\n"
-msgstr ""
-"الحالة:\tالمستخدم = %llu، nice = %llu، sys = %llu، idle = %llu، iowait = "
-"%llu، intr = %llu, softirq = %llu،  steal = %llu\n"
-
-#: src/acpustatus.cc:231
-#, c-format
-msgid ""
-"bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
-"softirq = %llu, steal = %llu (h = %i)\n"
-msgstr ""
-"أشرطة:\tالمستخدم = %llu، nice = %llu، sys = %llu، iowait = %llu، intr = "
-"%llu، softirq = %llu، steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:296
 #, c-format
@@ -148,21 +130,16 @@ msgstr ""
 msgid "°C"
 msgstr "مئوية"
 
-#: src/acpustatus.cc:600
-#, c-format
-msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr "وحدة المعالجة المركزية: %llu %llu %llu %llu %llu %llu %llu %llu"
-
 #: src/acpustatus.cc:658
 #, c-format
 msgid "CPU%d"
 msgstr "وحدة المعالجة المركزية%d"
 
-#: src/acpustatus.cc:663
+#: src/acpustatus.cc:664
 msgid "_Combine"
 msgstr "_Combine"
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:666
 msgid "_Separate"
 msgstr "_Separate"
 
@@ -196,58 +173,58 @@ msgstr "لا يمكن الاتصال بـ %s: %s"
 msgid "Failed to find %s command"
 msgstr "فشل العثور على الأمر %s"
 
-#: src/amailbox.cc:351
+#: src/amailbox.cc:352 src/yapp.cc:418
 #, c-format
 msgid "Failed to execute %s"
 msgstr "فشل تنفيذ %s"
 
-#: src/amailbox.cc:435
+#: src/amailbox.cc:436
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "فشلت الكتابة للمقبس: %s"
 
-#: src/amailbox.cc:681
+#: src/amailbox.cc:682
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "استخدام البريد \"%s\"\n"
 
-#: src/amailbox.cc:811
+#: src/amailbox.cc:812
 msgid "Suspended"
 msgstr "معلق"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Error checking mailbox."
 msgstr "خطأ فحص البريد."
 
-#: src/amailbox.cc:822
+#: src/amailbox.cc:823
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld رسالة بريد إلكتروني، %ld رسالة غير مقروءة."
 
-#: src/amailbox.cc:823
+#: src/amailbox.cc:824
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld من رسائل البريد الإلكتروني، %ld من الرسائل غير المقروءة."
 
-#: src/amailbox.cc:829
+#: src/amailbox.cc:830
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld رسالة معرف البريد."
 
-#: src/amailbox.cc:830
+#: src/amailbox.cc:831
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld رسالة معرف البريد."
 
-#: src/amailbox.cc:953
+#: src/amailbox.cc:954
 msgid "MAIL"
 msgstr "البريد"
 
-#: src/amailbox.cc:954
+#: src/amailbox.cc:956
 msgid "_Check"
 msgstr "_Check"
 
-#: src/amailbox.cc:956
+#: src/amailbox.cc:958
 msgid "_Suspend"
 msgstr "_توقف مؤقت"
 
@@ -291,7 +268,7 @@ msgstr "المستخدم: "
 msgid "MEM"
 msgstr "الذاكرة"
 
-#: src/apppstatus.cc:197
+#: src/apppstatus.cc:196
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -306,7 +283,7 @@ msgstr ""
 "  منقول (in/out):\t%lli %s/%lli %s\n"
 "  وقت الاتصال:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:209
+#: src/apppstatus.cc:208
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -314,130 +291,130 @@ msgstr ""
 "\n"
 "  هوية المتصل:\t"
 
-#: src/apppstatus.cc:710
+#: src/apppstatus.cc:709
 msgid "NET"
 msgstr "الشبكة"
 
-#: src/aworkspaces.cc:589 src/wmstatus.cc:202
+#: src/aworkspaces.cc:590 src/wmstatus.cc:202
 msgid "Workspace: "
 msgstr "مساحة العمل: "
 
-#: src/icehelp.cc:1214
+#: src/icehelp.cc:1220
 msgid "Back"
 msgstr "للخلف"
 
-#: src/icehelp.cc:1214
+#: src/icehelp.cc:1220
 msgid "Alt+Left"
 msgstr "Alt+يسار"
 
-#: src/icehelp.cc:1216
+#: src/icehelp.cc:1222
 msgid "Forward"
 msgstr "تحويل"
 
-#: src/icehelp.cc:1216
+#: src/icehelp.cc:1222
 msgid "Alt+Right"
 msgstr "Alt+يمين"
 
-#: src/icehelp.cc:1219
+#: src/icehelp.cc:1225
 msgid "Previous"
 msgstr "سابق"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1226
 msgid "Next"
 msgstr "التالي"
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1228
 msgid "Contents"
 msgstr "محتويات"
 
-#: src/icehelp.cc:1223
+#: src/icehelp.cc:1229
 msgid "Index"
 msgstr "فهرست"
 
-#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:68 src/wmtitle.cc:101
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmtitle.cc:101
 msgid "Close"
 msgstr "إغلاق"
 
-#: src/icehelp.cc:1226 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1237
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1233
+#: src/icehelp.cc:1239
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1241
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1237
+#: src/icehelp.cc:1243
 msgid "FAQ"
 msgstr "الأسئلة والإجابات المتداولة"
 
-#: src/icehelp.cc:1239
+#: src/icehelp.cc:1245
 msgid "Manual"
 msgstr "دليل"
 
-#: src/icehelp.cc:1241
+#: src/icehelp.cc:1247
 msgid "Support"
 msgstr "دعم"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1249
 msgid "Theme Howto"
 msgstr "الإرشادات التوضيحية للسمة"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1251
 msgid "Website"
 msgstr "موقع ويب"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1253
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1948
+#: src/icehelp.cc:1956
 msgid "Unsupported protocol."
 msgstr "بروتوكول غير مدعوم."
 
-#: src/icehelp.cc:1973
+#: src/icehelp.cc:1981
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "مسار غير صالح: %s\n"
 
-#: src/icehelp.cc:1996
+#: src/icehelp.cc:2004
 msgid "Path does not refer to a file."
 msgstr "لا يشير المسار إلى ملف."
 
-#: src/icehelp.cc:2001
+#: src/icehelp.cc:2009
 msgid "Failed to open file for reading."
 msgstr "فشل فتح الملف للقراءة."
 
-#: src/icehelp.cc:2030
+#: src/icehelp.cc:2038
 msgid "Failed to create a temporary file"
 msgstr "فشل إنشاء ملف مؤقت"
 
-#: src/icehelp.cc:2122
+#: src/icehelp.cc:2130
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "فشل تنفيذ النظام (%s) (%d)"
 
-#: src/icehelp.cc:2145
+#: src/icehelp.cc:2153
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "فشل إلغاء ضغط الصورة %s"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2161
 msgid "Could not locate curl or wget in PATH"
 msgstr "تعذر تحديد مسار curl أو wget في PATH"
 
-#: src/icehelp.cc:2157
+#: src/icehelp.cc:2165
 msgid "Unsafe characters in URL"
 msgstr "هناك أحرف غير آمنة في URL"
 
-#: src/icehelp.cc:2194
+#: src/icehelp.cc:2202
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -509,7 +486,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2271
+#: src/icehelp.cc:2279
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "تجاهل الخيار: `%s'"
@@ -554,124 +531,124 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "نفس اللعبة"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "للمساعدة برجاء الرجوع إلى صفحة الدليل(1).\n"
 
-#: src/icesh.cc:1490
+#: src/icesh.cc:1502
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "رمز اسم المجال `%s' (نظاق رقمي: %ld-%ld):\n"
 
-#: src/icesh.cc:1631
+#: src/icesh.cc:1643
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "مساحة العمل خارج النطاق: %ld"
 
-#: src/icesh.cc:1652
+#: src/icesh.cc:1664
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "اسم مساحة العمل غير صالح: `%s'"
 
-#: src/icesh.cc:1929
+#: src/icesh.cc:1941
 msgid "GNOME window state"
 msgstr "حالة نوافذ جنوم"
 
-#: src/icesh.cc:1930
+#: src/icesh.cc:1942
 msgid "GNOME window hint"
 msgstr "تلميح نوافذ جنوم"
 
-#: src/icesh.cc:1931
+#: src/icesh.cc:1943
 msgid "GNOME window layer"
 msgstr "طبقة نوافذ جنوم"
 
-#: src/icesh.cc:1932
+#: src/icesh.cc:1944
 msgid "IceWM tray option"
 msgstr "صينية خيارات IceWM"
 
-#: src/icesh.cc:1933
+#: src/icesh.cc:1945
 msgid "Gravity symbols"
 msgstr "رموز الخطورة"
 
-#: src/icesh.cc:1934
+#: src/icesh.cc:1946
 msgid "Motif functions"
 msgstr "وظائف تحرير"
 
-#: src/icesh.cc:1935
+#: src/icesh.cc:1947
 msgid "Motif decorations"
 msgstr "علامات التحرير"
 
-#: src/icesh.cc:1936
+#: src/icesh.cc:1948
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "حالة نوافذ جنوم"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2030 src/icesh.cc:2059
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "مساحة العمل#%d: `%s'\n"
 
-#: src/icesh.cc:2989
+#: src/icesh.cc:3036
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "لا يمكن الحصول على هندسة النافذة 0x%lx"
 
-#: src/icesh.cc:3014
+#: src/icesh.cc:3061
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama غيرصالح: `%s'."
 
-#: src/icesh.cc:3062
+#: src/icesh.cc:3111
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "الحدث`%sيتطلب على الأقل %d حجه."
 
-#: src/icesh.cc:3072
+#: src/icesh.cc:3121
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "تعبير غير صالح: `%s'"
 
-#: src/icesh.cc:3083 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1190
+#: src/icesh.cc:3132 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1105
 #: src/yxapp.cc:1055
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "لا يمكن فتح العرض: %s. يجب تشغيل X وتعيين $DISPLAY."
 
-#: src/icesh.cc:3096
+#: src/icesh.cc:3145
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "حجج غير صالحة: `%s'"
 
-#: src/icesh.cc:3131
+#: src/icesh.cc:3180
 msgid "No windows found."
 msgstr "لم يتم العثور على نوافذ."
 
-#: src/icesh.cc:3146
+#: src/icesh.cc:3195
 msgid "No actions specified."
 msgstr "لم تحدد أي إجراءات."
 
-#: src/icesh.cc:3238
+#: src/icesh.cc:3292
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "مُعرف نافذة خاطئ: `%s'"
 
-#: src/icesh.cc:3255
+#: src/icesh.cc:3309
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID غير صالحة: `%s'"
 
-#: src/icesh.cc:3291
+#: src/icesh.cc:3345
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "layer غير صالحة: `%s'."
 
-#: src/icesh.cc:3321 src/icesh.cc:3335 src/icesh.cc:3734
+#: src/icesh.cc:3375 src/icesh.cc:3389 src/icesh.cc:3830
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "حالة غير صالحة: `%s'."
 
-#: src/icesh.cc:4051
+#: src/icesh.cc:4138
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "إجراء غير معروف: `%s'"
@@ -681,7 +658,7 @@ msgstr "إجراء غير معروف: `%s'"
 msgid "Socket error: %d"
 msgstr "خطأ في المنفذ: %d"
 
-#: src/icesm.cc:59
+#: src/icesm.cc:53
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -722,33 +699,41 @@ msgstr ""
 " -n, --notray        لا يبدأ تشغيل icewmtray.\n"
 "  -s, --sound         يبدأ تشغيل icesound أيضًا.\n"
 
-#: src/icesm.cc:153
+#: src/icesm.cc:151
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "خيار غير معروف: `%s'"
 
-#: src/icesm.cc:379 src/icesm.cc:497
+#: src/icesm.cc:404 src/icesm.cc:564
 #, c-format
 msgid "restart %s."
 msgstr "إعادة التشغيل %s."
 
-#: src/icesm.cc:385
+#: src/icesm.cc:410
 #, c-format
 msgid "%s exited with status %d."
 msgstr "انتهى %s بالحالة %d."
 
-#: src/icesm.cc:391 src/icesm.cc:503
+#: src/icesm.cc:416 src/icesm.cc:570
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "تم إنهاء %s بواسطة الإشارة %d."
 
-#: src/icesm.cc:425
+#: src/icesm.cc:455
+#, fuzzy
+#| msgid ""
+#| " IceWM crashed for the second time in 10 seconds. \n"
+#| " Do you wish to:\n"
+#| "\n"
+#| "\t1: Restart IceWM?\n"
+#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
 "\n"
 "\t1: Restart IceWM?\n"
 "\t2: Abort this session?\n"
+"\t3: Run a terminal?\n"
 msgstr ""
 " تعطل  IceWM للمرة الثانية خلال 10 ثوانٍ. \n"
 " هل ترغب في:\n"
@@ -756,7 +741,7 @@ msgstr ""
 "\t1: إعادة تشغيل IceWM؟\n"
 "\t2: إنهاء هذه الجلسة؟\n"
 
-#: src/icesm.cc:430
+#: src/icesm.cc:461
 msgid "IceWM crash response"
 msgstr "استجابة تعطل IceWM"
 
@@ -1193,177 +1178,169 @@ msgstr "اللغة:"
 msgid "icewm - About"
 msgstr "icewm - حول"
 
-#: src/wmapp.cc:80
+#: src/wmapp.cc:79
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "مدير نوافذ آخر قيد التشغيل بالفعل، استخدم  --استبدال لتبديله"
 
-#: src/wmapp.cc:98
+#: src/wmapp.cc:97
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "فشل أن يصبح مالك تحديد %s"
 
-#: src/wmapp.cc:102
+#: src/wmapp.cc:101
 msgid "Waiting to replace the old window manager"
 msgstr "في انتظار استبدال مدير النوافذ القديم"
 
-#: src/wmapp.cc:107
+#: src/wmapp.cc:106
 msgid "done."
 msgstr "تم."
 
-#: src/wmapp.cc:411
-msgid "Unable to get current font path."
-msgstr "لا يمكن الوصول لمسار الخط الحالي."
-
-#: src/wmapp.cc:438
-msgid "Unexpected format of ICEWM_FONT_PATH property"
-msgstr "صيغة غير متوقعة لمسار إعدادات ICEWM_FONT_PATH"
-
-#: src/wmapp.cc:508
+#: src/wmapp.cc:404
 msgid "_Logout"
 msgstr "_تسجيل خروج"
 
-#: src/wmapp.cc:509
+#: src/wmapp.cc:405
 msgid "_Cancel logout"
 msgstr "_الغاء تسجيل الخروج"
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:410
 msgid "Lock _Workstation"
 msgstr "غلق _محطة العمل"
 
-#: src/wmapp.cc:516 src/wmdialog.cc:78
+#: src/wmapp.cc:412 src/wmdialog.cc:79
 msgid "Re_boot"
 msgstr "إعادة تشغيل"
 
-#: src/wmapp.cc:518 src/wmdialog.cc:79
+#: src/wmapp.cc:414 src/wmdialog.cc:80
 msgid "Shut_down"
 msgstr "إ_غلاق"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:520 src/wmdialog.cc:75
+#: src/wmapp.cc:416 src/wmdialog.cc:76
 msgid "_Sleep mode"
 msgstr "_Sleep mode"
 
-#: src/wmapp.cc:525
+#: src/wmapp.cc:421
 msgid "Restart _Icewm"
 msgstr "إعادة تشغيل _Icewm"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:423
 msgid "Restart _Xterm"
 msgstr "إعادة تشغيل _Xterm"
 
-#: src/wmapp.cc:537
+#: src/wmapp.cc:433
 msgid "_Menu"
 msgstr "_قائمة"
 
-#: src/wmapp.cc:538
+#: src/wmapp.cc:434
 msgid "_Above Dock"
 msgstr "فوق المنصة"
 
-#: src/wmapp.cc:539
+#: src/wmapp.cc:435
 msgid "_Dock"
 msgstr "منصة"
 
-#: src/wmapp.cc:540
+#: src/wmapp.cc:436
 msgid "_OnTop"
 msgstr "في الأعلى"
 
-#: src/wmapp.cc:541
+#: src/wmapp.cc:437
 msgid "_Normal"
 msgstr "عادي"
 
-#: src/wmapp.cc:542
+#: src/wmapp.cc:438
 msgid "_Below"
 msgstr "تحت"
 
-#: src/wmapp.cc:543
+#: src/wmapp.cc:439
 msgid "D_esktop"
 msgstr "سطح المكتب"
 
-#: src/wmapp.cc:578 src/wmwinlist.cc:354
+#: src/wmapp.cc:474 src/wmwinlist.cc:359
 msgid "_Restore"
 msgstr "استعادة"
 
-#: src/wmapp.cc:580
+#: src/wmapp.cc:476
 msgid "_Move"
 msgstr "انقل"
 
-#: src/wmapp.cc:582
+#: src/wmapp.cc:478
 msgid "_Size"
 msgstr "مقاس"
 
-#: src/wmapp.cc:584 src/wmwinlist.cc:355
+#: src/wmapp.cc:480 src/wmwinlist.cc:360
 msgid "Mi_nimize"
 msgstr "تصغير"
 
-#: src/wmapp.cc:586 src/wmwinlist.cc:356
+#: src/wmapp.cc:482 src/wmwinlist.cc:361
 msgid "Ma_ximize"
 msgstr "تكبير"
 
-#: src/wmapp.cc:587 src/wmwinlist.cc:357
+#: src/wmapp.cc:483 src/wmwinlist.cc:362
 msgid "Maximize_Vert"
 msgstr "Maximize_Vert"
 
-#: src/wmapp.cc:588
+#: src/wmapp.cc:484 src/wmwinlist.cc:363
 msgid "MaximizeHori_z"
 msgstr "MaximizeHori_z"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:358
+#: src/wmapp.cc:487 src/wmwinlist.cc:364
 msgid "_Fullscreen"
 msgstr "ملئ الشاشة"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:360
+#: src/wmapp.cc:490 src/wmwinlist.cc:366
 msgid "_Hide"
 msgstr "إخفاء"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:361
+#: src/wmapp.cc:492 src/wmwinlist.cc:367
 msgid "Roll_up"
 msgstr "طي"
 
-#: src/wmapp.cc:603
+#: src/wmapp.cc:499
 msgid "R_aise"
 msgstr "رفع"
 
-#: src/wmapp.cc:605 src/wmwinlist.cc:363
+#: src/wmapp.cc:501 src/wmwinlist.cc:369
 msgid "_Lower"
 msgstr "أسفل"
 
-#: src/wmapp.cc:607 src/wmwinlist.cc:364
+#: src/wmapp.cc:503 src/wmwinlist.cc:370
 msgid "La_yer"
 msgstr "طبقة"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:366
+#: src/wmapp.cc:507 src/wmwinlist.cc:372
 msgid "Move _To"
 msgstr "أنقل إلى"
 
-#: src/wmapp.cc:612 src/wmwinlist.cc:367
+#: src/wmapp.cc:508 src/wmwinlist.cc:373
 msgid "Occupy _All"
 msgstr "شغل الكل"
 
-#: src/wmapp.cc:618
+#: src/wmapp.cc:514
 msgid "Limit _Workarea"
 msgstr "حدود مساحة العمل"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:368
+#: src/wmapp.cc:518 src/wmwinlist.cc:374
 msgid "Tray _icon"
 msgstr "أيقونات التطبيقات"
 
-#: src/wmapp.cc:627 src/wmwinlist.cc:383 src/wmwinlist.cc:391
+#: src/wmapp.cc:523 src/wmwinlist.cc:389 src/wmwinlist.cc:397
 msgid "_Close"
 msgstr "غلق"
 
-#: src/wmapp.cc:629 src/wmwinlist.cc:385
+#: src/wmapp.cc:525 src/wmwinlist.cc:391
 msgid "_Kill Client"
 msgstr "اقتل العميل"
 
-#: src/wmapp.cc:632 src/wmdialog.cc:80 src/wmwinmenu.cc:134
+#: src/wmapp.cc:528 src/wmdialog.cc:81 src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "فائمة النوافذ"
 
-#: src/wmapp.cc:665
+#: src/wmapp.cc:561
 msgid "Another window manager already running, exiting..."
 msgstr "مدير نوافذ آخر قيد التشغيل بالفعل، خروج..."
 
-#: src/wmapp.cc:739
+#: src/wmapp.cc:635
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1372,22 +1349,22 @@ msgstr ""
 "لا يمكن إعادة تشغيل: %s\n"
 "هل المسار يقود إلى %s؟"
 
-#: src/wmapp.cc:889
+#: src/wmapp.cc:804
 msgid "Kill IceWM, replace with Xterm"
 msgstr "إنهاء IceWM، قم باستبداله بـ Xterm"
 
-#: src/wmapp.cc:1191 src/yxapp.cc:1056
+#: src/wmapp.cc:1106 src/yxapp.cc:1056
 msgid "<none>"
 msgstr "<لا شيئ>"
 
-#: src/wmapp.cc:1530
+#: src/wmapp.cc:1443
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      معرف العميل المطلوب استخدامه عند الاتصال بمدير "
 "الجلسة.\n"
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1449
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1398,7 +1375,7 @@ msgstr ""
 "الجلسة.\n"
 "  --debug-z          طباعة رسائل تصحيح الأخطاء المتعلقة بتراص النوافذ.\n"
 
-#: src/wmapp.cc:1544
+#: src/wmapp.cc:1457
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1416,7 +1393,7 @@ msgstr ""
 "-p  --postpreferences   طباعة التفضيلات بعد كل عمليات المعالجة.\n"
 "--trace = رمز ، مسارات التتبع أيقونة المستخدمة لتحميل الاعداد.\n"
 
-#: src/wmapp.cc:1553
+#: src/wmapp.cc:1466
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1475,26 +1452,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1614
+#: src/wmapp.cc:1528
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "دلائل إعداد %s:\n"
 
-#: src/wmapp.cc:1696
+#: src/wmapp.cc:1607
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s خيارات تمت إعدادها:%s\n"
 
-#: src/wmapp.cc:1779
+#: src/wmapp.cc:1690
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "خيار غير معروف '%s'."
 
-#: src/wmapp.cc:1831
+#: src/wmapp.cc:1742
 msgid "Confirm Logout"
 msgstr "تأكيد تسجيل الخروج"
 
-#: src/wmapp.cc:1832
+#: src/wmapp.cc:1743
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1502,59 +1479,59 @@ msgstr ""
 "تسجيل الخروج سيغلق كل العمليات.\n"
 "تسجيل الخروج؟"
 
-#: src/wmconfig.cc:38
+#: src/wmconfig.cc:39
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "فشل تحميل السمة %s"
 
-#: src/wmconfig.cc:94
+#: src/wmconfig.cc:104
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "قيمة غير معروفة '%s' للخيار '%s'."
 
-#: src/wmconfig.cc:102
+#: src/wmconfig.cc:112
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "تعذر إنشاء الدليل %s"
 
-#: src/wmconfig.cc:129 src/wmprog.cc:569 src/wmprog.cc:691 src/wmprog.cc:695
+#: src/wmconfig.cc:139 src/wmprog.cc:568 src/wmprog.cc:690 src/wmprog.cc:694
 #, c-format
 msgid "Unable to write to %s"
 msgstr "تعذرت الكتابة إلى %s"
 
-#: src/wmconfig.cc:165 src/wmprog.cc:699
+#: src/wmconfig.cc:175 src/wmprog.cc:698
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "تعذرت إعادة تسمية %s إلى %s"
 
-#: src/wmdialog.cc:73
+#: src/wmdialog.cc:74
 msgid "Loc_k Workstation"
 msgstr "غلق محطة العمل"
 
-#: src/wmdialog.cc:76 src/ymsgbox.cc:43
+#: src/wmdialog.cc:77 src/ymsgbox.cc:43
 msgid "_Cancel"
 msgstr "الغاء"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:77 src/wmprog.cc:849 src/wmprog.cc:851 src/wmtaskbar.cc:261
-#: src/wmtaskbar.cc:263
+#: src/wmdialog.cc:78 src/wmprog.cc:848 src/wmprog.cc:850 src/wmtaskbar.cc:265
+#: src/wmtaskbar.cc:267
 msgid "_Logout..."
 msgstr "تسجيل الخروج..."
 
-#: src/wmdialog.cc:81
+#: src/wmdialog.cc:82
 msgid "_Restart icewm"
 msgstr "_إعادة تشغيل icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:82 src/wmprog.cc:810 src/wmtaskbar.cc:256
+#: src/wmdialog.cc:83 src/wmprog.cc:809 src/wmtaskbar.cc:260
 msgid "_About"
 msgstr "حول"
 
-#: src/wmframe.cc:1412
+#: src/wmframe.cc:1413
 msgid "Kill Client: "
 msgstr "إنهاء العميل: "
 
-#: src/wmframe.cc:1419
+#: src/wmframe.cc:1420
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1562,106 +1539,114 @@ msgstr ""
 "تحذير! سيتم فقدان جميع التغييرات غير المحفوظة عند\n"
 "قتل هذا العميل. هل ترغب في المتابعة؟"
 
-#: src/wmframe.cc:3030
+#: src/wmframe.cc:3051
 msgid "Restore"
 msgstr "استعادة"
 
-#: src/wmframe.cc:3033 src/wmtitle.cc:71
+#: src/wmframe.cc:3054 src/wmtitle.cc:71
 msgid "Maximize"
 msgstr "تكبير"
 
-#: src/wmframe.cc:3063
+#: src/wmframe.cc:3084
 msgid "Rolldown"
 msgstr "لف للأسفل"
 
-#: src/wmframe.cc:3065 src/wmtitle.cc:129
+#: src/wmframe.cc:3086 src/wmtitle.cc:129
 msgid "Rollup"
 msgstr "لف للأعلى"
 
-#: src/wmoption.cc:231
+#: src/wmmgr.cc:3228
+msgid "Missing program setxkbmap"
+msgstr ""
+
+#: src/wmmgr.cc:3229
+msgid "For keyboard switching, please install setxkbmap."
+msgstr ""
+
+#: src/wmoption.cc:259
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "خيارات النوافذ غير معروفة: %s"
 
-#: src/wmoption.cc:343
+#: src/wmoption.cc:330
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "خطأ بناء جملة في في خيارات النوافذ في السطر %d 1 الخاص بـ %s 2"
 
-#: src/wmprog.cc:397
+#: src/wmprog.cc:396
 msgid "_Click to focus"
 msgstr "انقر للتكبير"
 
-#: src/wmprog.cc:398
+#: src/wmprog.cc:397
 msgid "_Explicit focus"
 msgstr "تركيز _صريح"
 
-#: src/wmprog.cc:399
+#: src/wmprog.cc:398
 msgid "_Sloppy mouse focus"
 msgstr "تركيز فأرة سيئ"
 
-#: src/wmprog.cc:400
+#: src/wmprog.cc:399
 msgid "S_trict mouse focus"
 msgstr "تركيز فأرة د_قيق"
 
-#: src/wmprog.cc:401
+#: src/wmprog.cc:400
 msgid "_Quiet sloppy focus"
 msgstr "تركيز فأرة _سيئ"
 
-#: src/wmprog.cc:402
+#: src/wmprog.cc:401
 msgid "Custo_m"
 msgstr "تخصي_ص"
 
-#: src/wmprog.cc:489
+#: src/wmprog.cc:488
 msgid "Save Modifications"
 msgstr "حفظ التعديلات"
 
-#: src/wmprog.cc:722
+#: src/wmprog.cc:721
 msgid "_Manual"
 msgstr "يدو_ي"
 
-#: src/wmprog.cc:723
+#: src/wmprog.cc:722
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:724
+#: src/wmprog.cc:723
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:725
+#: src/wmprog.cc:724
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:787
+#: src/wmprog.cc:786
 msgid "Programs"
 msgstr "برامج"
 
-#: src/wmprog.cc:792
+#: src/wmprog.cc:791
 msgid "_Run..."
 msgstr "تشغيل..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:797 src/wmtaskbar.cc:251
+#: src/wmprog.cc:796 src/wmtaskbar.cc:255
 msgid "_Windows"
 msgstr "نوافذ"
 
-#: src/wmprog.cc:816
+#: src/wmprog.cc:815
 msgid "_Help"
 msgstr "مساعدة"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:826
 msgid "_Focus"
 msgstr "تركيز"
 
-#: src/wmprog.cc:832
+#: src/wmprog.cc:831
 msgid "_Preferences"
 msgstr "_التفضيلات"
 
-#: src/wmprog.cc:838
+#: src/wmprog.cc:837
 msgid "_Themes"
 msgstr "سمات"
 
-#: src/wmprog.cc:843
+#: src/wmprog.cc:842
 msgid "Se_ttings"
 msgstr "إعدادات"
 
@@ -1671,67 +1656,67 @@ msgid "Session Manager: Unknown line %s"
 msgstr "مدير الجلسة: خط غير معروف %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:370 src/wmwinlist.cc:403
+#: src/wmtaskbar.cc:237 src/wmwinlist.cc:376 src/wmwinlist.cc:409
 msgid "Tile _Vertically"
 msgstr "قرميد عمودي"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:371 src/wmwinlist.cc:404
+#: src/wmtaskbar.cc:239 src/wmwinlist.cc:377 src/wmwinlist.cc:410
 msgid "T_ile Horizontally"
 msgstr "قرميد أفقي"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:372 src/wmwinlist.cc:405
+#: src/wmtaskbar.cc:241 src/wmwinlist.cc:378 src/wmwinlist.cc:411
 msgid "Ca_scade"
 msgstr "تتالي"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:373 src/wmwinlist.cc:406
+#: src/wmtaskbar.cc:243 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "_Arrange"
 msgstr "رتب"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:375 src/wmwinlist.cc:407
+#: src/wmtaskbar.cc:245 src/wmwinlist.cc:381 src/wmwinlist.cc:413
 msgid "_Minimize All"
 msgstr "تصغير الكل"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:243 src/wmwinlist.cc:376 src/wmwinlist.cc:408
+#: src/wmtaskbar.cc:247 src/wmwinlist.cc:382 src/wmwinlist.cc:414
 msgid "_Hide All"
 msgstr "اخفاء الكل"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:245 src/wmwinlist.cc:377 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:249 src/wmwinlist.cc:383 src/wmwinlist.cc:415
 msgid "_Undo"
 msgstr "تراجع"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:248
+#: src/wmtaskbar.cc:252
 msgid "Arrange _Icons"
 msgstr "رتب الايقونات"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:254
+#: src/wmtaskbar.cc:258
 msgid "_Refresh"
 msgstr "تجديد"
 
-#: src/wmtaskbar.cc:327 src/wmtaskbar.cc:929
+#: src/wmtaskbar.cc:331 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "إخفاء شريط المهام"
 
-#: src/wmtaskbar.cc:345
+#: src/wmtaskbar.cc:354
 msgid "Favorite Applications"
 msgstr "التطبيقات المفضلة"
 
-#: src/wmtaskbar.cc:366
+#: src/wmtaskbar.cc:375
 msgid "Window List Menu"
 msgstr "جدول قوائم النوافذ"
 
-#: src/wmtaskbar.cc:375
+#: src/wmtaskbar.cc:384
 msgid "Show Desktop"
 msgstr "عرض سطح المكتب"
 
-#: src/wmtaskbar.cc:929
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "إظهار شريط المهام"
 
@@ -1751,27 +1736,27 @@ msgstr "ارفع/قلل"
 msgid "All Workspaces"
 msgstr "كل مساحات العمل"
 
-#: src/wmwinlist.cc:359
+#: src/wmwinlist.cc:365
 msgid "_Show"
 msgstr "عرض"
 
-#: src/wmwinlist.cc:362
+#: src/wmwinlist.cc:368
 msgid "_Raise"
 msgstr "_Raise"
 
-#: src/wmwinlist.cc:383
+#: src/wmwinlist.cc:389
 msgid "Del"
 msgstr "حذف"
 
-#: src/wmwinlist.cc:387
+#: src/wmwinlist.cc:393
 msgid "_Terminate Process"
 msgstr "إنهاء العملية"
 
-#: src/wmwinlist.cc:388
+#: src/wmwinlist.cc:394
 msgid "Kill _Process"
 msgstr "قتل العملية"
 
-#: src/wmwinlist.cc:423 src/wmwinlist.cc:424
+#: src/wmwinlist.cc:429 src/wmwinlist.cc:430
 msgid "Window list"
 msgstr "قائمة النوافذ"
 
@@ -1780,22 +1765,22 @@ msgstr "قائمة النوافذ"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. مساحة العمل %-.32s"
 
-#: src/yapp.cc:295
+#: src/yapp.cc:296
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: فشل التحديد"
 
-#: src/yconfig.cc:128
+#: src/yconfig.cc:107
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "مفتاح غير معروف %s في %s"
 
-#: src/yconfig.cc:150 src/yconfig.cc:163 src/yconfig.cc:177
+#: src/yconfig.cc:129 src/yconfig.cc:142 src/yconfig.cc:156
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "وسيطة غير صالحة: %s لـ %s [%d,%d]"
 
-#: src/yconfig.cc:214
+#: src/yconfig.cc:193
 #, c-format
 msgid "Bad option: %s"
 msgstr "خيارات سيئة: %s"
@@ -1835,22 +1820,22 @@ msgstr "نهاية غير متوقعة لملف XPM لكن Imlib قادر على
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "عله؟ حرف غير متوقع ولكن Imlib قادرا على تحليل %s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:158
+#: src/yfontcore.cc:72 src/yfontxft.cc:157
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "غير قادر على تحميل الخط %s."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:124 src/yfontxft.cc:181
+#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:180
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "فشل تحميل الخط الاحتياطي %s."
 
-#: src/yfontcore.cc:117
+#: src/yfontcore.cc:116
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "غير قادر على تحميل مجموعة الخط %s."
 
-#: src/yfontcore.cc:129
+#: src/yfontcore.cc:128
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "شفرة مجموعة الخط مفقودة \"%s\":"
@@ -1920,12 +1905,12 @@ msgstr "البيانات المتعددة غير صحيحة \"%s\": %s"
 msgid "_OK"
 msgstr "موافق"
 
-#: src/ypaths.cc:95
+#: src/ypaths.cc:94
 #, c-format
 msgid "Image not readable: %s"
 msgstr "الصورة غير مقرؤة: %s"
 
-#: src/ypaths.cc:118
+#: src/ypaths.cc:117
 #, c-format
 msgid "Could not find image %s"
 msgstr "لا يمكن العثور على الصورة %s"
@@ -2646,6 +2631,29 @@ msgstr "تطوير ويب"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "معالج كلمات"
+
+#~ msgid ""
+#~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+#~ "intr = %llu, softirq = %llu, steal = %llu\n"
+#~ msgstr ""
+#~ "الحالة:\tالمستخدم = %llu، nice = %llu، sys = %llu، idle = %llu، iowait = "
+#~ "%llu، intr = %llu, softirq = %llu،  steal = %llu\n"
+
+#~ msgid ""
+#~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+#~ "softirq = %llu, steal = %llu (h = %i)\n"
+#~ msgstr ""
+#~ "أشرطة:\tالمستخدم = %llu، nice = %llu، sys = %llu، iowait = %llu، intr = "
+#~ "%llu، softirq = %llu، steal = %llu (h = %i)\n"
+
+#~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+#~ msgstr "وحدة المعالجة المركزية: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid "Unable to get current font path."
+#~ msgstr "لا يمكن الوصول لمسار الخط الحالي."
+
+#~ msgid "Unexpected format of ICEWM_FONT_PATH property"
+#~ msgstr "صيغة غير متوقعة لمسار إعدادات ICEWM_FONT_PATH"
 
 #~ msgid "Task Bar"
 #~ msgstr "شريط المهام"

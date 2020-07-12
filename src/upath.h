@@ -1,19 +1,17 @@
-#ifndef __UPATH_H
-#define __UPATH_H
+#ifndef UPATH_H
+#define UPATH_H
 
 #include "mstring.h"
 #ifndef BUFSIZ
 #include <stdio.h>
 #endif
 
-typedef mstring pstring;
 class YStringArray;
 
 class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
-    upath(const pstring& path): fPath(path) {}
-    upath(const cstring& path): fPath(path.m_str()) {}
+    upath(const mstring& path): fPath(path) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
@@ -24,35 +22,36 @@ public:
     bool nonempty() const { return fPath.nonempty(); }
 
     upath parent() const;
-    pstring name() const;
+    mstring name() const;
     upath relative(const upath &path) const;
     upath child(const char *path) const;
     upath addExtension(const char *ext) const;
-    pstring getExtension() const;
+    mstring getExtension() const;
     upath removeExtension() const;
     upath replaceExtension(const char *ext) const;
-    cstring expand() const;
+    mstring expand() const;
 
-    bool fileExists() const;
-    bool dirExists() const;
+    bool fileExists();
+    bool dirExists();
     bool isAbsolute() const;
     bool isRelative() const;
-    bool isReadable() const;
-    bool isWritable() const;
-    bool isExecutable() const;
+    bool isReadable();
+    bool isWritable();
+    bool isExecutable();
     bool isHttp() const;
     bool hasProtocol() const;
-    int access(int mode = 0) const;
-    int mkdir(int mode = 0700) const;
-    int open(int flags, int mode = 0666) const;
-    FILE* fopen(const char *mode) const;
-    int stat(struct stat *st) const;
-    int remove() const;
-    int renameAs(const pstring& dest) const;
-    off_t fileSize() const;
-    char* loadText() const;
-    bool copyFrom(const upath& from, int mode = 0666) const;
-    bool testWritable(int mode = 0666) const;
+    int access(int mode = 0);
+    int mkdir(int mode = 0700);
+    int open(int flags, int mode = 0666);
+    FILE* fopen(const char *mode);
+    int stat(struct stat *st);
+    int remove();
+    int renameAs(mstring dest);
+    off_t fileSize();
+    char* loadText();
+    bool copyFrom(upath from, int mode = 0666);
+    bool testWritable(int mode = 0666);
+    int fnMatch(const char* pattern, int flags = 0);
 
     upath& operator=(const upath& p) {
         fPath = p.fPath;
@@ -73,27 +72,27 @@ public:
 
     bool equals(const upath &s) const;
 
-    const pstring& path() const { return fPath; }
-    operator const pstring&() const { return path(); }
-    cstring string() const { return cstring(path()); }
+    const mstring& path() const { return fPath; }
+    operator const mstring&() const { return path(); }
+    const char* string() { return fPath; }
 
-    static const pstring& sep() { return slash; }
+    static const mstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
 
-    static bool hasglob(const char* pattern);
-    static bool glob(const char* pat, YStringArray& list, const char* opt = 0);
+    static bool hasglob(mstring pattern);
+    static bool glob(mstring pat, YStringArray& list, const char* opt = nullptr);
 
-    bool hasglob() const { return hasglob(string()); }
-    bool glob(YStringArray& list, const char* opt = 0) const {
-        return glob(string(), list, opt);
+    bool hasglob() const { return hasglob(path()); }
+    bool glob(YStringArray& list, const char* opt = nullptr) const {
+        return glob(path(), list, opt);
     }
 
 private:
-    pstring fPath;
+    mstring fPath;
 
     bool isSeparator(int) const;
 
-    static const pstring slash;
+    static const mstring slash;
     static const upath rootPath;
 };
 
@@ -103,14 +102,12 @@ public:
     fileptr(const char* n, const char* m) : fp(fopen(n, m)) { }
     explicit fileptr(FILE* fp) : fp(fp) { }
     ~fileptr() { close(); }
-    void close() { if (fp) { fclose(fp); fp = 0; } }
+    void close() { if (fp) { fclose(fp); fp = nullptr; } }
     operator FILE*() const { return fp; }
     FILE* operator->() const { return fp; }
 private:
     void operator=(FILE* ptr) { close(); fp = ptr; }
 };
-
-upath findPath(ustring path, int mode, upath name);
 
 #endif
 

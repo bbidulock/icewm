@@ -4,7 +4,7 @@
 class WindowListMenu: public YMenu {
     typedef YMenu super;
 public:
-    WindowListMenu(YActionListener *app, YWindow *parent = 0);
+    WindowListMenu(YActionListener *app, YWindow *parent = nullptr);
     virtual void updatePopup();
     virtual void activatePopup(int flags);
 };

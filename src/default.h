@@ -535,6 +535,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysCollapseTaskBar",                gKeySysCollapseTaskBar,         ""),
 
     OKF("WorkspaceNames", addWorkspace, ""),
+    OKF("KeyboardLayouts", addKeyboard, ""),
     OSV("WinMenuItems",                         &winMenuItems,                  "Items supported in menu window (rmsnxfhualytickw)"),
     OK0()
 };

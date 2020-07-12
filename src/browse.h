@@ -10,7 +10,7 @@ public:
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         upath path,
-        YWindow *parent = 0);
+        YWindow *parent = nullptr);
     virtual ~BrowseMenu();
     virtual void updatePopup();
 private:

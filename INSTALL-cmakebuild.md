@@ -38,6 +38,7 @@ Developer/Integrator notes:
    -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
 ```
 
- * There is a configuration example for debug builds in rebuild.sh.
+ * There is a configuration example for cmake builds in rebuild.sh.
+   run: `./rebuild.sh -r --prefix=/usr`
 
 [ vim: set ft=markdown: ]: #

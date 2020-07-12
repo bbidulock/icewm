@@ -6,8 +6,14 @@ YXEmbed::~YXEmbed() {
 
 YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     YWindow(aParent, win),
-    fEmbedder(embedder)
+    fEmbedder(embedder),
+    fTrace(YTrace::traces("systray"))
 {
+    DBG { fTrace = true; }
+
+    fInfo[0] = 0;
+    fInfo[1] = 0;
+
     if (xapp->alpha() == false)
         setParentRelative();
 }
@@ -34,10 +40,12 @@ void YXEmbedClient::handleReparentNotify(const XReparentEvent &reparent) {
                 reparent.window, reparent.parent, handle()));
 
     if (reparent.window == handle() &&
-            reparent.parent != fEmbedder->getHandle()) {
-        if (false == fEmbedder->destroyedClient(handle())) {
-            YWindow::handleReparentNotify(reparent);
-        }
+        reparent.parent != fEmbedder->getHandle())
+    {
+        if (trace())
+            tlog("systray reparent notify 0x%08lx from 0x%08lx to 0x%08lx",
+                    reparent.window, fEmbedder->getHandle(), reparent.parent);
+        fEmbedder->destroyedClient(handle());
     }
 }
 
@@ -47,38 +55,46 @@ void YXEmbedClient::handleConfigure(const XConfigureEvent& event) {
 
     YWindow::handleConfigure(event);
 
-    int ww = (int) fEmbedder->getWidth();
-    int hh = (int) fEmbedder->getHeight();
+    int ww = int(fEmbedder->getWidth());
+    int hh = int(fEmbedder->getHeight());
     if (ww >= 16 && hh >= 16 &&
         (!inrange(event.width,  ww - 4, ww + 8) ||
          !inrange(event.height, hh - 4, hh + 1)))
     {
-        MSG(("embed client configure: setSize ww %u, hh %u", ww, hh));
+        if (trace())
+            tlog("systray configure 0x%08lx from %dx%d to %dx%d",
+                 handle(), event.width, event.height, ww, hh);
         setSize(ww, hh);
     }
 }
 
 void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
-    // logProperty((const XEvent&) property);
-
     if (property.atom == _XA_XEMBED_INFO) {
         YProperty prop(this, _XA_XEMBED_INFO, F32, 2L);
         if (prop && prop.size() == 2L) {
-            long vers = prop[0];
-            long flag = prop[1];
-            if (flag & XEMBED_MAPPED) {
+            Atom vers = prop[0];
+            Atom flag = prop[1];
+            if (vers == fInfo[0] && flag == fInfo[1]) {
+            }
+            else if (flag & XEMBED_MAPPED) {
                 if (vers > XEMBED_PROTOCOL_VERSION) {
-                    TLOG(("embed 0x%lx: %ld, %ld", property.window, vers, flag));
+                    if (trace())
+                        tlog("xembed invalid version 0x%08lx version=%ld flag=%ld",
+                                property.window, vers, flag);
                     infoMapped(true);
                     sendNotify();
                     sendActivate();
                 }
-//              fEmbedder->handleClientMap(handle());
-            } else {
-//              fEmbedder->handleClientUnmap(handle());
+                if (notbit(fInfo[1], XEMBED_MAPPED)) {
+                    fEmbedder->handleClientMap(handle());
+                }
+            }
+            else if (hasbit(fInfo[1], XEMBED_MAPPED)) {
+                fEmbedder->handleClientUnmap(handle());
             }
         }
     }
+    // else logProperty((const XEvent&) property);
 }
 
 void YXEmbedClient::handleUnmap(const XUnmapEvent& unmap) {
@@ -89,16 +105,24 @@ void YXEmbedClient::handleUnmap(const XUnmapEvent& unmap) {
 }
 
 void YXEmbedClient::infoMapped(bool map) {
-    Atom mapped = map ? XEMBED_MAPPED : Atom(0);
-    Atom info[] = { XEMBED_PROTOCOL_VERSION, mapped };
-    setProperty(_XA_XEMBED_INFO, XA_CARDINAL, info, 2);
+    fInfo[0] = XEMBED_PROTOCOL_VERSION;
+    fInfo[1] = map ? XEMBED_MAPPED : Atom(0);
+    if (trace())
+        tlog("xembed info %smapped to  0x%08lx",
+             map ? "" : "un", handle());
+    setProperty(_XA_XEMBED_INFO, XA_CARDINAL, fInfo, 2);
 }
 
 void YXEmbedClient::sendNotify() {
-    sendMessage(XEMBED_EMBEDDED_NOTIFY, 0L, handle(), XEMBED_PROTOCOL_VERSION);
+    if (trace())
+        tlog("xembed send notify to  0x%08lx", handle());
+    sendMessage(XEMBED_EMBEDDED_NOTIFY, None,
+                fEmbedder->getHandle(), XEMBED_PROTOCOL_VERSION);
 }
 
 void YXEmbedClient::sendActivate() {
+    if (trace())
+        tlog("xembed send activating 0x%08lx", handle());
     sendMessage(XEMBED_WINDOW_ACTIVATE);
 }
 

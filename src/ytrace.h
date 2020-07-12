@@ -5,7 +5,7 @@ class YTrace {
 public:
     YTrace(const char* kind, const char* inst = nullptr, bool busy = true) :
         kind(kind), inst(inst), busy(busy),
-        have(kind && conf && strstr(conf, kind))
+        have(kind && traces(kind))
     {
         if (busy && inst && have) {
             show();
@@ -40,9 +40,15 @@ public:
         return have;
     }
 
+    static bool traces(const char* kind) {
+        return conf && strstr(conf, kind);
+    }
+
 protected:
     virtual void show() { show(busy, kind, inst); }
     virtual void show(bool busy, const char* kind, const char* inst);
+    const char* getKind() const { return kind; }
+    const char* getInst() const { return inst; }
 
 private:
     const char* kind;

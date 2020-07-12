@@ -401,7 +401,7 @@ void logRandrScreen(const union _XEvent& xev) {
     const XRRScreenChangeNotifyEvent& evt =
         (const XRRScreenChangeNotifyEvent &)xev;
     msg("window=0x%lX: %s index=%u order=%u "
-        "rotation=%u width=%d(%d) height=%d(%d)",
+        "rotation=%u width=%dpx(%dmm) height=%dpx(%dmm)",
         evt.window, "XRRScreenChangeNotifyEvent",
         evt.size_index, evt.subpixel_order, (evt.rotation & 15) * 45,
         evt.width, evt.mwidth, evt.height, evt.mheight
@@ -600,7 +600,7 @@ void msg(char const *msg, ...) {
 
 void tlog(char const *msg, ...) {
     timeval now;
-    gettimeofday(&now, NULL);
+    gettimeofday(&now, nullptr);
     struct tm *loc = localtime(&now.tv_sec);
 
     fprintf(stderr, "%02d:%02d:%02d.%03u: %s: ", loc->tm_hour,
@@ -621,8 +621,8 @@ char *cstrJoin(char const *str, ...) {
     char *res, *p;
     int len = 0;
 
-    if (str == 0)
-        return 0;
+    if (str == nullptr)
+        return nullptr;
 
     va_start(ap, str);
     s = str;
@@ -632,8 +632,8 @@ char *cstrJoin(char const *str, ...) {
     }
     va_end(ap);
 
-    if ((p = res = new char[len + 1]) == 0)
-        return 0;
+    if ((p = res = new char[len + 1]) == nullptr)
+        return nullptr;
 
     va_start(ap, str);
     s = str;
@@ -718,17 +718,17 @@ size_t strlcat(char *dest, const char *from, size_t dest_size)
 #endif
 
 char *newstr(char const *str) {
-    return (str != NULL ? newstr(str, strlen(str)) : NULL);
+    return (str != nullptr ? newstr(str, strlen(str)) : nullptr);
 }
 
 char *newstr(char const *str, char const *delim) {
-    return (str != NULL ? newstr(str, strcspn(str, delim)) : NULL);
+    return (str != nullptr ? newstr(str, strcspn(str, delim)) : nullptr);
 }
 
 char *newstr(char const *str, int len) {
-    char *s(NULL);
+    char *s(nullptr);
 
-    if (str != NULL && len >= 0 && (s = new char[len + 1]) != NULL) {
+    if (str != nullptr && len >= 0 && (s = new char[len + 1]) != nullptr) {
         memcpy(s, str, len);
         s[len] = '\0';
     }
@@ -739,11 +739,21 @@ char *newstr(char const *str, int len) {
 char* demangle(const char* str) {
 #ifdef HAVE_GCC_ABI_DEMANGLE
     int status = 0;
-    char* c_name = abi::__cxa_demangle(str, 0, 0, &status);
+    char* c_name = abi::__cxa_demangle(str, nullptr, nullptr, &status);
     if (c_name)
         return c_name;
 #endif
     return strdup(str);
+}
+
+bool little() {
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+    return true;
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+    return false;
+#else
+#error undefined byte order
+#endif
 }
 
 unsigned long strhash(const char* str) {
@@ -762,7 +772,7 @@ unsigned long strhash(const char* str) {
  *              "--interface=/tmp" "--interface"
  */
 int strpcmp(char const * str, char const * pfx, char const * delim) {
-    if (str == NULL || pfx == NULL) return -1;
+    if (str == nullptr || pfx == nullptr) return -1;
     while (*pfx == *str && *pfx != '\0') ++str, ++pfx;
 
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
@@ -785,36 +795,36 @@ void* memrchr(const void* ptr, char chr, size_t num) {
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
-        unsigned int alen=strlen(name);
-        if (**argpp != '-' || strncmp((*argpp)+1, name, alen))
-                return false;
-        if (*((*argpp)+1+alen))
-        {
-                ret=(*argpp)+1+alen;
-                return true;
-        }
-        else if (argpp+1>=endpp)
-                return false;
-        ++argpp;
-        ret=*argpp;
+    unsigned int alen = strlen(name);
+    if (**argpp != '-' || strncmp((*argpp) + 1, name, alen))
+        return false;
+    char ch = (*argpp)[1 + alen];
+    if (ch) {
+        ret = (*argpp) + 1 + alen + (ch == '=');
         return true;
+    }
+    else if (argpp + 1 >= endpp)
+        return false;
+    ++argpp;
+    ret = *argpp;
+    return true;
 }
 
 bool GetLongArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
-        unsigned int alen=strlen(name);
-        if (strncmp(*argpp, "--", 2) || strncmp((*argpp)+2, name, alen))
-                return false;
-        if (*((*argpp)+2+alen) == '=')
-        {
-                ret=(*argpp)+3+alen;
-                return true;
-        }
-        if (argpp+1>=endpp)
-                return false;
-        ++argpp;
-        ret = *argpp;
+    unsigned int alen = strlen(name);
+    if (strncmp(*argpp, "--", 2) || strncmp((*argpp) + 2, name, alen))
+        return false;
+    char ch = (*argpp)[2 + alen];
+    if (ch == '=') {
+        ret = (*argpp) + 3 + alen;
         return true;
+    }
+    if (argpp + 1 >= endpp)
+        return false;
+    ++argpp;
+    ret = *argpp;
+    return true;
 }
 
 bool GetArgument(char* &ret, const char *sn, const char *ln, char** &arg, char **end)
@@ -950,24 +960,24 @@ bool isFile(const char* path) {
 // lookup "name" in PATH and return a new string or 0.
 char* path_lookup(const char* name) {
     if (isEmpty(name))
-        return 0;
+        return nullptr;
     if (strchr(name, '/'))
-        return (access(name, X_OK) || !isFile(name)) ? 0 : newstr(name);
+        return (access(name, X_OK) || !isFile(name)) ? nullptr : newstr(name);
 
-    char *env = newstr(getenv("PATH")), *directory, *save = 0, *filebuf = 0;
-    if (env == 0)
-        return 0;
+    char *env = newstr(getenv("PATH")), *directory, *save = nullptr, *filebuf = nullptr;
+    if (env == nullptr)
+        return nullptr;
 
-    while ((directory = strtok_r(save ? 0 : env, ":", &save)) != 0) {
+    while ((directory = strtok_r(save ? nullptr : env, ":", &save)) != nullptr) {
         size_t length = strlen(directory) + strlen(name) + 3;
         filebuf = new char[length];
-        if (filebuf == 0)
+        if (filebuf == nullptr)
             break;
         snprintf(filebuf, length, "%s/%s", directory, name);
         if (access(filebuf, X_OK) == 0 && isFile(filebuf))
             break;
         delete[] filebuf;
-        filebuf = 0;
+        filebuf = nullptr;
     }
     delete[] env;
     return filebuf;
@@ -1003,7 +1013,7 @@ char* progpath() {
             }
         }
     }
-    if (fail && (path = path_lookup(path)) != 0) {
+    if (fail && (path = path_lookup(path)) != nullptr) {
         program_invocation_name = path;
         INFO("2: set program_invocation_name %s", path);
     }
@@ -1111,7 +1121,7 @@ char* load_fd(int fd) {
                 if (len <= 0 || offset + len < bufsiz) {
                     if (len < 0 && offset == 0) {
                         delete[] buf;
-                        buf = 0;
+                        buf = nullptr;
                     }
                     break;
                 }
@@ -1130,12 +1140,12 @@ char* load_fd(int fd) {
             return buf;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /* read a file as a zero-terminated new[] string. */
 char* load_text_file(const char *filename) {
-    char* buf = 0;
+    char* buf = nullptr;
     int fd = open(filename, O_RDONLY | O_TEXT);
     if (fd >= 0) {
         buf = load_fd(fd);

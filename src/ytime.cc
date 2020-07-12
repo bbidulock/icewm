@@ -6,6 +6,7 @@
 #include "ytime.h"
 #include <unistd.h>
 #include <time.h>
+#include <math.h>
 
 /*
  * Note that POSIX.1-2008 marks gettimeofday as obsolete,
@@ -13,7 +14,7 @@
  */
 static inline timeval timeofday() {
     timeval tv;
-    gettimeofday(&tv, 0);
+    gettimeofday(&tv, nullptr);
     return tv;
 }
 
@@ -82,6 +83,17 @@ timeval millitime(long msec) {
  */
 long seconds() {
     return walltime().tv_sec;
+}
+
+bool fsleep(double delay) {
+    int ret = 0;
+    if (delay > 0) {
+        long sec = long(trunc(delay));
+        long nano = long((delay - double(sec)) * 1e9);
+        struct timespec req = { sec, nano };
+        ret = nanosleep(&req, nullptr);
+    }
+    return ret == 0;
 }
 
 // vim: set sw=4 ts=4 et:

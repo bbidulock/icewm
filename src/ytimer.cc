@@ -9,7 +9,7 @@
 #include "yprefs.h"
 
 YTimer::YTimer(long ms) :
-    fListener(0), fInterval(0), fRunning(false), fFixed(false)
+    fListener(nullptr), fInterval(0), fRunning(false), fFixed(false)
 {
     if (ms > 0L) {
         setInterval(ms);
@@ -94,7 +94,7 @@ void YTimer::disableTimerListener(YTimerListener *listener) {
     // if it was the active listener then also stop the timer.
     YTimer* nonNull(this);
     if (nonNull && fListener == listener) {
-        fListener = 0;
+        fListener = nullptr;
         stopTimer();
     }
 }
