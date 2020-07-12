@@ -1,5 +1,21 @@
 #!/bin/bash
 
+usage () {
+cat <<EOI
+Usage: $0 [ options... ]
+Options:
+    -a : autoconf+cscope
+    -c : CMake debug build
+    -d : dependencies check
+    -r : CMake release build
+    -t : test configure options
+    -j# : number of make procs
+    --prefix=... : install prefix
+    --with-xterm=... : set terminal
+EOI
+exit 0
+}
+
 unset ACONF DBGCM DEPEN RELCM TESTC jobs prefix xterm
 prefix=/usr
 xterm=urxvt
@@ -16,6 +32,7 @@ do
         (-j*) jobs=$x ;; # number of gmake procs
         (--prefix=*) prefix=${x#*=} ;; # install prefix
         (--with-xterm=*) xterm=${x#*=} ;; # set terminal
+        (-h|--help|-?) usage ;;
         (*) echo "$0: Unknown option '$x'." >&2 ; exit 1 ;;
     esac
 done
