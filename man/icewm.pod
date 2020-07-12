@@ -613,8 +613,9 @@ keyboard layout settings, do C<setxkbmap -query>.
 
 B<icewm> supports a large number of hotkeys to activate some behaviour
 with a single key combination.  These are all configurable in the
-F<preferences> file.  Here we give their default values, followed by
-their preferences names and short descriptions of their effect:
+F<preferences> file.  Here we give their preferences name, followed by
+their default value in double quotes, and a short descriptions of their
+effect:
 
 =over
 
