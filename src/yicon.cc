@@ -13,8 +13,6 @@
 #include "yprefs.h"
 #include "ypaths.h"
 #include "ypointer.h"
-#include "ycollections.h"
-#include <initializer_list>
 
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
@@ -23,6 +21,9 @@
 #include "intl.h"
 
 #include <fnmatch.h>
+
+#include <vector>
+#include <initializer_list>
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false), loadedH(
@@ -77,8 +78,7 @@ public:
         const std::vector<mstring>& getExtendedSuffixes() const;
     };
 
-    //std::vector<IconCategory> categories;
-    YVec<IconCategory> categories;
+    std::vector<IconCategory> categories;
     // catch all folders without sizetyped subdirs
     IconCategory legacyDirs;
 
