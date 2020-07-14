@@ -16,9 +16,6 @@
 #include "ycollections.h"
 #include <initializer_list>
 
-#include <vector>
-#include <unordered_map>
-
 #ifdef HAVE_WORDEXP
 #include <wordexp.h>
 #endif
@@ -61,6 +58,7 @@ inline bool HasImageExtension(const upath &base) {
 }
 
 class ZIconPathIndex {
+
 public:
 
     struct IconCategory {
@@ -69,7 +67,7 @@ public:
         unsigned sizetype = 0;
 
     public:
-        int getSize() const {
+        unsigned getSize() const {
             return sizetype;
         }
         std::vector<mstring> folders;
@@ -80,13 +78,16 @@ public:
     };
 
     //std::vector<IconCategory> categories;
-    std::unordered_map<unsigned, IconCategory> categories;
+    YVec<IconCategory> categories;
     // catch all folders without sizetyped subdirs
     IconCategory legacyDirs;
 
-    IconCategory& GetCat(int size) {
-        auto it = categories.find(unsigned(size));
-        return it != categories.end() ? it->second : legacyDirs;
+    IconCategory& getCat(unsigned size) {
+        for(auto& cat: categories) {
+            if(cat.getSize() == size)
+                return cat;
+        }
+        return legacyDirs;
     }
 
     void init() {
@@ -96,18 +97,20 @@ public:
             return;
         once = true;
 
+        // add unique(!) category
         for (auto size : { hugeIconSize, largeIconSize, smallIconSize,
                 menuIconSize }) {
-            categories.emplace(size, IconCategory(size));
+            if (&legacyDirs == &(getCat(size))) {
+                categories.emplace_back(IconCategory(size));
+            }
         }
 
         auto probeAndRegisterXdgFolders = [this](const mstring &what) {
             // stop early because this is obviously matching a file!
             if (HasImageExtension(upath(what)))
                 return;
-            for (auto &kv : categories) {
-                mstring szSize(long(kv.first));
-                auto &cat = kv.second;
+            for (auto &cat : categories) {
+                mstring szSize(long(cat.getSize()));
                 // assume that if the folder is there for any usable role then it wil be ok to search for icons
                 for (const auto &contentDir : { "/apps", "/categories" }) {
                     auto testDir = mstring(what) + "/" + szSize + "x" + szSize
@@ -190,7 +193,7 @@ public:
         bool hasSuffix = HasImageExtension(baseName);
         for (unsigned onLegacyFolder = 0; onLegacyFolder < 2;
                 ++onLegacyFolder) {
-            auto &cat = onLegacyFolder ? legacyDirs : GetCat(size);
+            auto &cat = onLegacyFolder ? legacyDirs : getCat(size);
             if (!onLegacyFolder && &cat == &legacyDirs) {
                 onLegacyFolder++;
                 continue;
@@ -219,10 +222,9 @@ const std::vector<mstring>& ZIconPathIndex::IconCategory::getExtendedSuffixes() 
     if (suffixCache.empty()) {
         for (const auto &sfx : iconExts) {
             if (sizetype == 0) {
-                for (auto kv : iconIndex.categories) {
-                    mstring sDim(long(kv.first));
-                    suffixCache.emplace_back(
-                            mstring("_") + sDim + "x" + sDim + sfx);
+                for (auto cat : iconIndex.categories) {
+                    mstring sDim(long(cat.getSize()));
+                    suffixCache.emplace_back(mstring("_") + sDim + "x" + sDim + sfx);
                 }
 
             }
