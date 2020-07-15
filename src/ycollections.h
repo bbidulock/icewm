@@ -30,7 +30,7 @@ template<typename DataType, typename SizeType = size_t>
 class YVec
 {
 protected:
-    SizeType capa = 0;
+    SizeType capa;
     inline void resize(SizeType newSize)
     {
         DataType *old = data;
@@ -48,8 +48,8 @@ protected:
     YVec& operator=(YVec&& other) { other.swap(*this); return *this; }
 
 public:
-    SizeType size = 0;
-    DataType *data = nullptr;
+    SizeType size;
+    DataType *data;
     inline YVec(): capa(0), size(0), data(nullptr) {}
     inline YVec(SizeType initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
     inline YVec(YVec&& src) { src.swap(*this); }
