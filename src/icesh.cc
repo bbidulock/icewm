@@ -613,8 +613,8 @@ public:
 
 class YStringProperty : public YProperty {
 public:
-    YStringProperty(Window window, Atom property) :
-        YProperty(window, property, XA_STRING, BUFSIZ)
+    YStringProperty(Window window, Atom property, Atom kind = XA_STRING) :
+        YProperty(window, property, kind, BUFSIZ)
     {
     }
 
@@ -628,19 +628,11 @@ public:
     }
 };
 
-class YUtf8Property : public YProperty {
+class YUtf8Property : public YStringProperty {
 public:
     YUtf8Property(Window window, Atom property) :
-        YProperty(window, property, ATOM_UTF8_STRING, BUFSIZ)
+        YStringProperty(window, property, ATOM_UTF8_STRING)
     {
-    }
-
-    const char* operator&() const { return data<char>(); }
-
-    char operator[](int index) const { return data<char>()[index]; }
-
-    void replace(const char* text) {
-        YProperty::replace(text, int(strlen(text)), 8);
     }
 };
 
@@ -2125,9 +2117,10 @@ bool IceSh::wmcheck()
 
     YClient check(root, ATOM_NET_SUPPORTING_WM_CHECK);
     if (check) {
+        YUtf8Property netName(*check, ATOM_NET_WM_NAME);
         YStringProperty name(*check, XA_WM_NAME);
-        if (name) {
-            printf("Name: %s\n", &name);
+        if (netName || name) {
+            printf("Name: %s\n", netName ? &netName : &name);
         }
         YStringProperty cls(*check, XA_WM_CLASS);
         if (cls) {
@@ -2947,6 +2940,12 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             }
             if (f & WindowGroupHint) {
                 printf(" Group(%lu)", h->window_group);
+            }
+            if (f & IconPixmapHint) {
+                printf(" Pixmap(0x%lx)", h->icon_pixmap);
+            }
+            if (f & IconWindowHint) {
+                printf(" Window(0x%lx)", h->icon_window);
             }
             newline();
         }
