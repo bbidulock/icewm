@@ -36,7 +36,7 @@ private:
     bool loadedS;
     bool loadedL;
     bool loadedH;
-    bool fCached = false;
+    bool fCached;
 
     upath fPath;
 

@@ -27,12 +27,12 @@
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false), loadedH(
-                false), fPath(filename.expand()) {
+                false), fCached(false), fPath(filename.expand()) {
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
         fSmall(small), fLarge(large), fHuge(huge), loadedS(small != null), loadedL(
-                large != null), loadedH(huge != null), fPath(null) {
+                large != null), loadedH(huge != null), fCached(false), fPath(null) {
 }
 
 YIcon::~YIcon() {
