@@ -13,10 +13,7 @@
 #include "yprefs.h"
 #include "ypaths.h"
 #include "ypointer.h"
-
-#ifdef HAVE_WORDEXP
 #include <wordexp.h>
-#endif
 
 #include "intl.h"
 
@@ -144,38 +141,32 @@ public:
             legacyDirs.folders.emplace_back(iPath);
 
             for (const auto &themeExprTok : matchlist) {
-                bool haveWeMatch = false;
                 mstring themeExpr = iPath + themeExprTok;
-#ifdef HAVE_WORDEXP
-            wordexp_t exp;
-            haveWeMatch = wordexp(themeExpr, &exp, WRDE_NOCMD) == 0;
-            if (haveWeMatch) {
-                for (unsigned i = 0; i < exp.we_wordc; ++i) {
-                    auto match = exp.we_wordv[i];
-                    auto bname = strrchr(match, '/');
-                    if (!bname)
-                        continue;
-                    bname++;
-                    for (const auto &blistPattern : skiplist) {
-                        int ignoreMatched = fnmatch(blistPattern, bname, 0);
-                        if (ignoreMatched == 0)
-                            goto nextMatch;
+                wordexp_t exp;
+                if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
+                    for (unsigned i = 0; i < exp.we_wordc; ++i) {
+                        auto match = exp.we_wordv[i];
+                        // get theme name from folder base name
+                        auto bname = strrchr(match, '/');
+                        if (!bname)
+                            continue;
+                        bname++;
+                        int keep = 1; // non-zero to consider it
+                        for (const auto &blistPattern : skiplist) {
+                            keep = fnmatch(blistPattern, bname, 0);
+                            if (!keep)
+                                break;
+                        }
+                        // found a potential theme folder to consider?
+                        if (keep)
+                            probeAndRegisterXdgFolders(match);
                     }
-                    // ok, we found a potential theme folder to consider
-
-                    probeAndRegisterXdgFolders(match);
-
-                    nextMatch: ;
+                    wordfree(&exp);
+                } else { // wordexp failed?
+                    probeAndRegisterXdgFolders(themeExpr);
                 }
-                wordfree(&exp);
             }
-#endif
-            // wordexp failed or is not available
-            if (!haveWeMatch) {
-                probeAndRegisterXdgFolders(themeExpr);
-            }
-        }
-    }   ;
+        };
 
         auto iceIconPaths = YResourcePaths::subdirs("icons");
         if (iceIconPaths != null) {
