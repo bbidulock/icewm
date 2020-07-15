@@ -32,7 +32,9 @@
 #if __linux__
 #include <sys/sysinfo.h>
 #else
-
+#if __FreeBSD__
+#include <sys/resource.h>
+#endif
 #if __sun__
 #include <sys/loadavg.h>
 #endif
