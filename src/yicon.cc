@@ -170,13 +170,15 @@ public:
 
         auto iceIconPaths = YResourcePaths::subdirs("icons");
         if (iceIconPaths != null) {
+            // this returned icewm directories containing "icons" folder
             for (int i = 0; i < iceIconPaths->getCount(); ++i) {
-                probeIconFolder(iceIconPaths->getPath(i));
+                probeIconFolder(iceIconPaths->getPath(i) + "/icons");
             }
         }
         csmart copy(newstr(iconPath));
         for (auto *itok = strtok_r(copy, ":", &save); itok;
                 itok = strtok_r(0, ":", &save)) {
+
             probeIconFolder(itok);
         }
 
