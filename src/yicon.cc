@@ -26,13 +26,14 @@
 #include <initializer_list>
 
 YIcon::YIcon(upath filename) :
-        fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false), loadedH(
-                false), fCached(false), fPath(filename.expand()) {
+        fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
+        loadedH(false), fCached(false), fPath(filename.expand()) {
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
-        fSmall(small), fLarge(large), fHuge(huge), loadedS(small != null), loadedL(
-                large != null), loadedH(huge != null), fCached(false), fPath(null) {
+        fSmall(small), fLarge(large), fHuge(huge), loadedS(small != null),
+        loadedL(large != null), loadedH(huge != null), fCached(false),
+        fPath(null) {
 }
 
 YIcon::~YIcon() {
@@ -83,8 +84,8 @@ public:
     IconCategory legacyDirs;
 
     IconCategory& getCat(unsigned size) {
-        for(auto& cat: categories) {
-            if(cat.getSize() == size)
+        for (auto &cat : categories) {
+            if (cat.getSize() == size)
                 return cat;
         }
         return legacyDirs;
@@ -127,14 +128,15 @@ public:
 
         char *save = nullptr;
         csmart themesCopy(newstr(iconThemes));
-        for (auto* tok = strtok_r(themesCopy, ":", &save); tok; tok = strtok_r(0, ":", &save)) {
+        for (auto *tok = strtok_r(themesCopy, ":", &save); tok;
+                tok = strtok_r(0, ":", &save)) {
             if (tok[0] == '-')
                 skiplist.emplace_back(tok + 1);
             else
                 matchlist.emplace_back(tok);
         }
 
-        auto probeIconFolder = [&](mstring iPath){
+        auto probeIconFolder = [&](mstring iPath) {
 
             iPath += "/";
 
@@ -145,35 +147,35 @@ public:
                 bool haveWeMatch = false;
                 mstring themeExpr = iPath + themeExprTok;
 #ifdef HAVE_WORDEXP
-                wordexp_t exp;
-                haveWeMatch = wordexp(themeExpr, &exp, WRDE_NOCMD) == 0;
-                if (haveWeMatch) {
-                    for (unsigned i = 0; i < exp.we_wordc; ++i) {
-                        auto match = exp.we_wordv[i];
-                        auto bname = strrchr(match, '/');
-                        if (!bname)
-                            continue;
-                        bname++;
-                        for (const auto &blistPattern : skiplist) {
-                            int ignoreMatched = fnmatch(blistPattern, bname, 0);
-                            if (ignoreMatched == 0)
-                                goto nextMatch;
-                        }
-                        // ok, we found a potential theme folder to consider
-
-                        probeAndRegisterXdgFolders(match);
-
-                        nextMatch: ;
+            wordexp_t exp;
+            haveWeMatch = wordexp(themeExpr, &exp, WRDE_NOCMD) == 0;
+            if (haveWeMatch) {
+                for (unsigned i = 0; i < exp.we_wordc; ++i) {
+                    auto match = exp.we_wordv[i];
+                    auto bname = strrchr(match, '/');
+                    if (!bname)
+                        continue;
+                    bname++;
+                    for (const auto &blistPattern : skiplist) {
+                        int ignoreMatched = fnmatch(blistPattern, bname, 0);
+                        if (ignoreMatched == 0)
+                            goto nextMatch;
                     }
-                    wordfree(&exp);
+                    // ok, we found a potential theme folder to consider
+
+                    probeAndRegisterXdgFolders(match);
+
+                    nextMatch: ;
                 }
-#endif
-                // wordexp failed or is not available
-                if (!haveWeMatch) {
-                    probeAndRegisterXdgFolders(themeExpr);
-                }
+                wordfree(&exp);
             }
-        };
+#endif
+            // wordexp failed or is not available
+            if (!haveWeMatch) {
+                probeAndRegisterXdgFolders(themeExpr);
+            }
+        }
+    }   ;
 
         auto iceIconPaths = YResourcePaths::subdirs("icons");
         if (iceIconPaths != null) {
@@ -194,12 +196,13 @@ public:
         for (unsigned onLegacyFolder = 0; onLegacyFolder < 2;
                 ++onLegacyFolder) {
             auto &cat = onLegacyFolder ? legacyDirs : getCat(size);
+            // didn't find a size-typed folder? Then go to next step ASAP
             if (!onLegacyFolder && &cat == &legacyDirs) {
                 onLegacyFolder++;
                 continue;
             }
             for (const mstring &el : cat.folders) {
-                // XXX: optimize concatenation
+                // XXX: optimize string concatenation?
                 mstring path(el + baseName);
                 if (hasSuffix) {
                     upath testPath(path);
@@ -218,19 +221,20 @@ public:
     }
 } iconIndex;
 
-const std::vector<mstring>& ZIconPathIndex::IconCategory::getExtendedSuffixes() const {
-    if (suffixCache.empty()) {
-        for (const auto &sfx : iconExts) {
-            if (sizetype == 0) {
-                for (auto cat : iconIndex.categories) {
-                    mstring sDim(long(cat.getSize()));
-                    suffixCache.emplace_back(mstring("_") + sDim + "x" + sDim + sfx);
-                }
-
-            }
-            suffixCache.emplace_back(sfx);
+const std::vector<mstring>& ZIconPathIndex::IconCategory::getExtendedSuffixes()
+const {
+    if (!suffixCache.empty())
+        return suffixCache;
+    // if untyped folder, try size-specific suffixes first
+    if (sizetype == 0) {
+        for (auto cat : iconIndex.categories) {
+            mstring sDim(long(cat.getSize()));
+            for (const auto &ex : iconExts)
+                suffixCache.emplace_back(mstring("_") + sDim + "x" + sDim + ex);
         }
     }
+    for (const auto &sfx : iconExts)
+        suffixCache.emplace_back(sfx);
     return suffixCache;
 }
 
