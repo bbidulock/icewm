@@ -2643,6 +2643,7 @@ void YFrameWindow::updateState() {
     FrameState newState = NormalState;
     bool show_frame = true;
     bool show_client = true;
+    bool hide_title = false;
 
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
@@ -2661,6 +2662,7 @@ void YFrameWindow::updateState() {
         show_frame = minimizeToDesktop;
         show_client = false;
         newState = IconicState;
+        hide_title = true;
     } else if (isRollup()) {
         show_frame = true;
         show_client = false;
@@ -2692,6 +2694,9 @@ void YFrameWindow::updateState() {
             fDelayFocusTimer->disableTimerListener(this);
         if (fAutoRaiseTimer)
             fAutoRaiseTimer->disableTimerListener(this);
+    }
+    if (hide_title && fTitleBar) {
+        titlebar()->hide();
     }
 }
 
@@ -3197,9 +3202,9 @@ void YFrameWindow::updateProperties() {
 }
 
 void YFrameWindow::updateTaskBar() {
-    bool needTrayApp(false);
-
     if (taskBar && fManaged) {
+        bool needTrayApp(false);
+
         if (!isHidden() &&
             (notbit(frameOptions(), foIgnoreTaskBar) || isMinimized()) &&
             (getTrayOption() != WinTrayIgnore))
@@ -3215,11 +3220,9 @@ void YFrameWindow::updateTaskBar() {
                 fTrayApp->repaint();
         }
         taskBar->relayoutTray();
-    }
 
-    bool needTaskBarApp = true;
+        bool needTaskBarApp = true;
 
-    if (taskBar && fManaged) {
         if (isSkipTaskBar())
             needTaskBarApp = false;
         if (isHidden())
