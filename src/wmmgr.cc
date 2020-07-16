@@ -2760,8 +2760,6 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
         return;
     }
 
-    static int row, col;
-    static bool init = false;
     MiniIcon *iw = frame->getMiniIcon();
 
     int mrow, mcol, Mrow, Mcol; /* Minimum and maximum for rows and columns */
@@ -2809,7 +2807,7 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
         fIconColumn = scol;
         int h2 = height / 2;
         if (fIconRow >= Mrow - h2 || fIconRow < mrow - h2)
-            init = false;
+            fIconColumn = fIconRow = 0;
     }
 }
 
