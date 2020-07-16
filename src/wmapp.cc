@@ -344,12 +344,26 @@ void YWMApp::unregisterProtocols() {
 void YWMApp::initIconSize() {
     XIconSize *is = XAllocIconSize();
     if (is) {
-        is->min_width = 32;
-        is->min_height = 32;
-        is->max_width = 32;
-        is->max_height = 32;
-        is->width_inc = 1;
-        is->height_inc = 1;
+        unsigned sizes[] = {
+            menuIconSize,
+            smallIconSize,
+            largeIconSize,
+            hugeIconSize
+        };
+        unsigned count = 4;
+        for (unsigned i = 1; i < count; ++i) {
+            for (unsigned j = i; j > 0 && sizes[j-1] > sizes[j]; --j)
+                swap(sizes[j], sizes[j-1]);
+        }
+        unsigned delta = 0;
+        for (unsigned i = 1; i < count; ++i) {
+            unsigned gap = sizes[i] - sizes[i - 1];
+            if (0 < gap && (delta == 0 || gap < delta))
+                delta = gap;
+        }
+        is->min_width = is->min_height = int(sizes[0]);
+        is->max_width = is->max_height = int(sizes[count - 1]);
+        is->width_inc = is->height_inc = int(delta);
         XSetIconSizes(xapp->display(), manager->handle(), is, 1);
         XFree(is);
     }
