@@ -942,9 +942,17 @@ Create four workspaces with names C< 1 >, C< 2 >, C< 3 > and C< 4 >.
 
 =over
 
-=item B<IconPath>="/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps"
+=item B<IconPath>="/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps"
 
-Icon search path (colon separated).
+Icon search path (colon separated). Also, the icons/ subdirectory in
+IceWM resource folders are searched first.
+
+=item B<IconThemes>="*:-HighContrast"
+
+List of icon themes (colon separated), acting as additional filter of
+icon subdirectories in any of the B<IconPath> folders. Expressions can be
+wildcards, also special wildcards (starting with B<->) can exclude matched
+themes from selection.
 
 =item B<MailBoxPath>=""
 
@@ -1080,7 +1088,7 @@ Description of the theme, credits.
 
 Choose a theme look from one of:
 "win95", "motif", "warp3", "warp4",
-"nice", "pixmap", "metal", "gtk", "flat".
+"nice", "metal2", "gtk2", and some others.
 
 =item B<Gradients>=""
 

@@ -769,10 +769,13 @@ Disable use of new XRANDR API for dual head (nvidia workaround)
 +
 Favor *Xft fonts over core X11 fonts where possible.
 
-* `IconPath =
-/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps`
+* `IconPath = /usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps`
 +
-Icon search path (colon separated)
+Icon search path (colon separated). Also, `icons` subdirectories in IceWM resource folders are searched first.
+
+* `IconThemes = *:-HighContrast`
++
+List of icon themes (colon separated), acting as additional filter of icon subdirectories in any of the `IconPath` folders. Expressions can be wildcards, also special wildcards (starting with `-`) can exclude matched themes from selection.
 
 * `MailCommand = xterm -name mutt -e mutt`
 +
