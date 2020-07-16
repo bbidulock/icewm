@@ -447,8 +447,6 @@ nobase_dist_pkgdata_DATA = \
 	themes/NanoBlue/dframeIT.xpm \
 	themes/NanoBlue/dframeITL.xpm \
 	themes/NanoBlue/dframeITR.xpm \
-	themes/NanoBlue/drameAB.xpm \
-	themes/NanoBlue/drameATR.xpm \
 	themes/NanoBlue/eos.jpg \
 	themes/NanoBlue/expandA.xpm \
 	themes/NanoBlue/expandI.xpm \
