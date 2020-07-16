@@ -59,6 +59,8 @@ YWindowManager::YWindowManager(
     fFocusWin = nullptr;
     lockFocusCount = 0;
     fServerGrabCount = 0;
+    fIconColumn = 0;
+    fIconRow = 0;
 
     fColormapWindow = nullptr;
     fActiveWorkspace = WinWorkspaceInvalid;
@@ -1051,9 +1053,9 @@ void YWindowManager::manageClients() {
             if (findClient(winClients[i]) == nullptr)
                 manageClient(winClients[i]);
 
+    setWmState(wmRUNNING);
     ungrabServer();
     unlockWorkArea();
-    setWmState(wmRUNNING);
 
     YProperty prop(this, _XA_NET_ACTIVE_WINDOW, F32, 1, XA_WINDOW);
     if (prop && prop[0]) {
@@ -2082,6 +2084,7 @@ void YWindowManager::updateWorkArea() {
             updateWorkAreaInner();
         } while (fWorkAreaUpdate);
         fWorkAreaLock = false;
+        workAreaUpdated();
     }
 }
 
@@ -2333,10 +2336,20 @@ void YWindowManager::relocateWindows(long workspace, int screen, int dx, int dy)
 
 void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
-        if (f->inWorkArea() && f->client() && !f->client()->destroyed()) {
+        if (f->visibleNow() && f->inWorkArea() && !f->client()->destroyed()) {
             if (f->isMaximized())
                 f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
             f->updateLayout();
+        }
+    }
+}
+
+void YWindowManager::workAreaUpdated() {
+    if (wmState() == wmRUNNING && (taskBar || !showTaskBar)) {
+        for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
+            if (frame->isIconic()) {
+                frame->updateLayout();
+            }
         }
     }
 }
@@ -2741,6 +2754,12 @@ void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
 }
 
 void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
+    if (wmState() == wmSTARTUP || fWorkAreaLock || fWorkAreaUpdate ||
+        (showTaskBar && taskBar == nullptr))
+    {
+        return;
+    }
+
     static int row, col;
     static bool init = false;
     MiniIcon *iw = frame->getMiniIcon();
@@ -2772,25 +2791,24 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     int srow = (drow > 0) ? mrow : (Mrow - height);
     int scol = (dcol > 0) ? mcol : (Mcol - width);
 
-    if (!init) {
-        row = srow;
-        col = scol;
-        init = true;
+    if (fIconColumn == 0 && fIconRow == 0) {
+        fIconRow = srow;
+        fIconColumn = scol;
     }
 
     /* Return values */
-    *iconRow = row;
-    *iconCol = col;
+    *iconRow = fIconRow;
+    *iconCol = fIconColumn;
 
     /* Set row and column to new position */
-    col += width * dcol;
+    fIconColumn += width * dcol;
 
     int w2 = width / 2;
-    if (col >= Mcol - w2 || col < mcol - w2) {
-        row += height * drow;
-        col = scol;
+    if (fIconColumn >= Mcol - w2 || fIconColumn < mcol - w2) {
+        fIconRow += height * drow;
+        fIconColumn = scol;
         int h2 = height / 2;
-        if (row >= Mrow - h2 || row < mrow - h2)
+        if (fIconRow >= Mrow - h2 || fIconRow < mrow - h2)
             init = false;
     }
 }

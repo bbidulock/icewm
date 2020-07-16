@@ -219,6 +219,7 @@ public:
     void updateWorkArea();
     void updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
+    void workAreaUpdated();
     void resizeWindows();
 
     void getIconPosition(YFrameWindow *frame, int *iconX, int *iconY);
@@ -357,6 +358,8 @@ private:
     YWindow *fTopWin;
     bool fWorkAreaMoveWindows;
     bool fOtherScreenFocused;
+    int fIconColumn;
+    int fIconRow;
     int lockFocusCount;
     int fWorkAreaLock;
     int fWorkAreaUpdate;
