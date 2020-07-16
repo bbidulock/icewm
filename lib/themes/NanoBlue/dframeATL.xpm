@@ -1,5 +1,5 @@
 /* XPM */
-static char * ar_xpm[] = {
+static char * dframeATL_xpm[] = {
 "12 27 60 1",
 " 	c None",
 ".	c #000000",
