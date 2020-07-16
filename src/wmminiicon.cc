@@ -23,17 +23,34 @@ static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
 static YColorName activeMinimizedWindowFg(&clrActiveMinimizedWindowText);
 
 MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
-    YWindow(aParent)
+    YWindow(aParent),
+    fFrame(frame),
+    selected(0)
 {
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
 
-    fFrame = frame;
-    selected = 0;
     setGeometry(YRect(0, 0, 120, 24));
 }
 
 MiniIcon::~MiniIcon() {
+}
+
+void MiniIcon::setSelected(int state) {
+    if (state != selected) {
+        selected = state;
+        repaint();
+    }
+}
+
+void MiniIcon::repaint() {
+    paint(getGraphics(), geometry());
+}
+
+void MiniIcon::handleExpose(const XExposeEvent& expose) {
+    if (expose.count == 0) {
+        repaint();
+    }
 }
 
 void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
@@ -65,13 +82,20 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (getFrame()->clientIcon() != null) {
+        XRectangle rect = {
+            (short) (2 + tx + 1),
+            (short) 4,
+            (unsigned short) YIcon::smallSize(),
+            (unsigned short) YIcon::smallSize(),
+        };
+        g.setClipRectangles(&rect, 1);
         //int y = (height() - 3 - frame()->clientIcon()->small()->height()) / 2;
-        getFrame()->clientIcon()->draw(g, 2 + tx + 1, 4, YIcon::smallSize());
+        getFrame()->clientIcon()->draw(g, rect.x, rect.y, YIcon::smallSize());
+        g.resetClip();
     }
 
-    mstring str = getFrame()->client()->iconTitle();
-
-    if (str == null || str.length() == 0)
+    mstring str(getFrame()->client()->iconTitle());
+    if (str.isEmpty())
         str = getFrame()->client()->windowTitle();
 
     if (str != null) {
@@ -91,55 +115,53 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
 void MiniIcon::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (!(button.state & ControlMask) &&
-            (buttonRaiseMask & (1 << (button.button - 1))))
+            (buttonRaiseMask & (1 << (button.button - Button1))))
             getFrame()->wmRaise();
-        manager->setFocus(getFrame(), false);
-        if (button.button == 1) {
-            selected = 2;
-            repaint();
+        // manager->setFocus(getFrame(), false);
+        if (button.button == Button1) {
+            setSelected(2);
         }
-    } else if (button.type == ButtonRelease) {
-        if (button.button == 1) {
-            if (selected == 2) {
-                if (button.state & xapp->AltMask) {
-                    getFrame()->wmLower();
-                } else {
-                    if (!(button.state & ControlMask))
-                        getFrame()->wmRaise();
-                    getFrame()->activate();
-                }
-            }
-            selected = 0;
-            repaint();
-        }
+        YWindow::handleButton(button);
     }
-    YWindow::handleButton(button);
+    else if (button.type == ButtonRelease) {
+        YWindow::handleButton(button);
+        setSelected(0);
+    }
 }
 
 void MiniIcon::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
+    if (up.button == Button3) {
         getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                     YPopupWindow::pfCanFlipVertical |
                                     YPopupWindow::pfCanFlipHorizontal |
                                     YPopupWindow::pfPopupMenu);
+    }
+    else if (up.button == Button1) {
+        if (selected == 2) {
+            if (up.state & xapp->AltMask) {
+                getFrame()->wmLower();
+            } else {
+                if (!(up.state & ControlMask))
+                    getFrame()->wmRaise();
+                getFrame()->activate();
+            }
+        }
     }
 }
 
 void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
     if (selected > 0) {
         if (crossing.type == EnterNotify) {
-            selected = 2;
-            repaint();
+            setSelected(2);
         } else if (crossing.type == LeaveNotify) {
-            selected = 1;
-            repaint();
+            setSelected(1);
         }
     }
 
 }
 
 void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if (down.button != 1) {
+    if (down.button) {
         int x = motion.x_root - down.x;
         int y = motion.y_root - down.y;
 

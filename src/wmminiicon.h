@@ -15,9 +15,14 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleExpose(const XExposeEvent& expose);
+    virtual void repaint();
 
     YFrameWindow *getFrame() const { return fFrame; };
+
 private:
+    void setSelected(int state);
+
     YFrameWindow *fFrame;
     int selected;
 };
