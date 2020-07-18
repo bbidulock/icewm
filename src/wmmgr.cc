@@ -1755,7 +1755,6 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
         strcmp(title, "Frame") == 0 &&
         (frame = (YFrameWindow *) ywin)->isManaged() &&
         frame->visibleOn(workspace) &&
-        !frame->hasState(WinStateMinimized|WinStateHidden|WinStateRollup) &&
         frame->avoidFocus() == false &&
         frame->client()->destroyed() == false &&
         frame->client()->visible() &&
