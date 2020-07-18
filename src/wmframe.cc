@@ -2662,7 +2662,7 @@ void YFrameWindow::updateState() {
         show_frame = minimizeToDesktop;
         show_client = false;
         newState = IconicState;
-        hide_title = true;
+        hide_title = minimizeToDesktop;
     } else if (isRollup()) {
         show_frame = true;
         show_client = false;
