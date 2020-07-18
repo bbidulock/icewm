@@ -463,7 +463,7 @@ bool YFrameWindow::canRaise() {
 unsigned YFrameWindow::overlap(YFrameWindow* f) {
     if (false == f->isHidden() &&
         false == f->isMinimized() &&
-        f->visibleOn(manager->activeWorkspace()))
+        f->visibleNow())
     {
         return geometry().intersect(f->geometry()).pixels();
     }
