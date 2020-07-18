@@ -2648,7 +2648,6 @@ void YFrameWindow::updateState() {
     FrameState newState = NormalState;
     bool show_frame = true;
     bool show_client = true;
-    bool hide_title = false;
 
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
@@ -2667,7 +2666,6 @@ void YFrameWindow::updateState() {
         show_frame = minimizeToDesktop;
         show_client = false;
         newState = IconicState;
-        hide_title = minimizeToDesktop;
     } else if (isRollup()) {
         show_frame = true;
         show_client = false;
@@ -2701,9 +2699,6 @@ void YFrameWindow::updateState() {
             fDelayFocusTimer->disableTimerListener(this);
         if (fAutoRaiseTimer)
             fAutoRaiseTimer->disableTimerListener(this);
-    }
-    if (hide_title && fTitleBar) {
-        titlebar()->hide();
     }
 }
 
@@ -3091,12 +3086,18 @@ void YFrameWindow::setState(long mask, long state) {
 
         if (minimizeToDesktop && getMiniIcon()) {
             if (isMinimized()) {
+                if (fTitleBar) {
+                    fTitleBar->hide();
+                }
                 fMiniIcon->raise();
                 fMiniIcon->show();
             } else {
                 fMiniIcon->hide();
                 iconX = x();
                 iconY = y();
+                if (fTitleBar) {
+                    fTitleBar->show();
+                }
             }
         }
         updateTaskBar();
