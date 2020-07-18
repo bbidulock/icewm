@@ -27,7 +27,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fDelta(0),
     fDownX(0),
     fDragging(false),
-    fGraphics(this),
+    fGraphics(this, true),
     fPane(d)
 {
     addStyle(wsNoExpose);
