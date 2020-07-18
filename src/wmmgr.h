@@ -253,6 +253,7 @@ public:
 
     void saveArrange(YFrameWindow **w, int count);
     void undoArrange();
+    void arrangeIcons();
 
     bool haveClients();
     void setupRootProxy();
@@ -281,6 +282,7 @@ public:
         if (0 == --fWorkAreaLock && fWorkAreaUpdate)
             updateWorkArea();
     }
+    void requestWorkAreaUpdate() { ++fWorkAreaUpdate; }
 
     enum WMState { wmSTARTUP, wmRUNNING, wmSHUTDOWN };
 

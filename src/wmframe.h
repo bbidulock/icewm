@@ -16,9 +16,9 @@ class YFrameTitleBar;
 class YFrameWindow:
     public YWindow,
     public YActionListener,
-    public YTimerListener,
-    public YPopDownListener,
-    public YMsgBoxListener,
+    private YTimerListener,
+    private YPopDownListener,
+    private YMsgBoxListener,
     public ClientData,
     public YLayeredNode,
     public YCreatedNode,
@@ -321,7 +321,7 @@ public:
     void updateIcon();
     void updateState();
     void updateLayer(bool restack = true);
-    //void updateWorkspace();
+    void updateIconPosition();
     void updateLayout();
     void updateExtents();
     void performLayout();
@@ -378,7 +378,7 @@ public:
     bool wasHidden() const { return hasState(WinStateWasHidden); }
 
     bool isIconic() const { return isMinimized() && fMiniIcon; }
-
+    bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
 
     bool isManaged() const { return fManaged; }

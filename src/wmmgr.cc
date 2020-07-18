@@ -1725,6 +1725,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
 
     f = f->findWindow(YFrameWindow::fwfVisible |
                       YFrameWindow::fwfFocusable |
+                      YFrameWindow::fwfNotHidden |
                       YFrameWindow::fwfWorkspace |
                       YFrameWindow::fwfSame |
                       YFrameWindow::fwfLayers |
@@ -1754,6 +1755,7 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
         strcmp(title, "Frame") == 0 &&
         (frame = (YFrameWindow *) ywin)->isManaged() &&
         frame->visibleOn(workspace) &&
+        !frame->hasState(WinStateMinimized|WinStateHidden|WinStateRollup) &&
         frame->avoidFocus() == false &&
         frame->client()->destroyed() == false &&
         frame->client()->visible() &&
@@ -2075,7 +2077,7 @@ void YWindowManager::debugWorkArea(const char* prefix) {
 
 void YWindowManager::updateWorkArea() {
     if (fWorkAreaLock) {
-        fWorkAreaUpdate++;
+        requestWorkAreaUpdate();
     }
     else {
         fWorkAreaLock = true;
@@ -2350,6 +2352,15 @@ void YWindowManager::workAreaUpdated() {
             if (frame->isIconic()) {
                 frame->updateLayout();
             }
+        }
+    }
+}
+
+void YWindowManager::arrangeIcons() {
+    fIconColumn = fIconRow = 0;
+    for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
+        if (frame->hasMiniIcon()) {
+            frame->updateIconPosition();
         }
     }
 }
@@ -2821,7 +2832,7 @@ int YWindowManager::windowCount(long workspace) {
             if (frame->frameOption(YFrameWindow::foIgnoreWinList))
                 continue;
             if (workspace != activeWorkspace() &&
-                frame->visibleOn(activeWorkspace()))
+                frame->visibleNow())
                 continue;
             count++;
         }
@@ -3138,7 +3149,7 @@ bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
         int n = 0;
         for (YFrameWindow *w = topLayer(WinLayerNormal); w; w = w->next()) {
             if (w->owner() == nullptr && // not transient ?
-                w->visibleOn(activeWorkspace()) && // visible
+                w->visibleNow() && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isRollup() &&
                 !w->isMinimized() &&
@@ -3435,7 +3446,7 @@ void YWindowManager::refresh() {
         taskBar->refresh();
     }
     for (YFrameIter frame(focusedIterator()); ++frame; ) {
-        if (frame->visibleOn(activeWorkspace())) {
+        if (frame->visibleNow()) {
             frame->refresh();
         }
     }

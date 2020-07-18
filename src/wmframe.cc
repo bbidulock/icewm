@@ -408,7 +408,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
 
-    if (isHidden() || isMinimized() || isIconic() || client() == taskBar) {
+    if (isHidden() || isMinimized() || client() == taskBar) {
         doActivate = false;
         requestFocus = false;
     }
@@ -737,7 +737,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                     {
                         if (focusChangesWorkspace ||
                             focusCurrentWorkspace ||
-                            visibleOn(manager->activeWorkspace()))
+                            visibleNow())
                         {
                             activate();
                         } else {
@@ -904,6 +904,8 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
+    if (isMinimized() || isHidden() || isRollup() || client()->destroyed())
+        return false;
     if (t == fAutoRaiseTimer) {
         if (canRaise())
             wmRaise();
@@ -1065,7 +1067,8 @@ void YFrameWindow::sendConfigure() {
 
 void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     if (action == actionRestore) {
-        wmRestore();
+        if (canRestore())
+            wmRestore();
     } else if (action == actionMinimize) {
         if (canMinimize())
             wmMinimize();
@@ -1466,7 +1469,7 @@ void YFrameWindow::loseWinFocus() {
                 if (fClientContainer)
                     fClientContainer->grabButtons();
         if (isIconic())
-            getMiniIcon()->repaint();
+            fMiniIcon->repaint();
         else {
             setBackground(inactiveBorderBg);
             repaint();
@@ -1483,7 +1486,7 @@ void YFrameWindow::setWinFocus() {
 
         setState(WinStateFocused, WinStateFocused);
         if (isIconic())
-            getMiniIcon()->repaint();
+            fMiniIcon->repaint();
         else {
             if (titlebar())
                 titlebar()->activate();
@@ -1500,7 +1503,7 @@ void YFrameWindow::setWinFocus() {
 }
 
 void YFrameWindow::updateFocusOnMap(bool& doActivate) {
-    bool onCurrentWorkspace = visibleOn(manager->activeWorkspace());
+    bool onCurrentWorkspace = visibleNow();
 
     if (fDelayFocusTimer) {
         fDelayFocusTimer->stopTimer();
@@ -1609,9 +1612,9 @@ void YFrameWindow::focus(bool canWarp) {
 
 void YFrameWindow::activate(bool canWarp, bool curWork) {
     manager->lockFocus();
-    if (fWinState & (WinStateHidden | WinStateMinimized))
-        setState(WinStateHidden | WinStateMinimized, 0);
-    if (!visibleOn(manager->activeWorkspace())) {
+    if (hasState(WinStateHidden | WinStateMinimized | WinStateRollup))
+        setState(WinStateHidden | WinStateMinimized | WinStateRollup, 0);
+    if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
         else
@@ -1841,7 +1844,7 @@ void YFrameWindow::updateIconTitle() {
     if (fTrayApp)
         fTrayApp->setToolTip(client()->windowTitle());
     if (isIconic()) {
-        getMiniIcon()->repaint();
+        fMiniIcon->repaint();
     }
 }
 
@@ -2319,12 +2322,14 @@ void YFrameWindow::updateIcon() {
         fFrameIcon = oldFrameIcon;
     }
 
-// !!! BAH, we need an internal signaling framework
-    if (titlebar() && titlebar()->menuButton())
-        titlebar()->menuButton()->repaint();
-    if (getMiniIcon()) getMiniIcon()->repaint();
-    if (fTrayApp) fTrayApp->repaint();
-    if (fTaskBarApp) fTaskBarApp->repaint();
+    if (fTitleBar && fTitleBar->menuButton())
+        fTitleBar->menuButton()->repaint();
+    if (fMiniIcon)
+        fMiniIcon->repaint();
+    if (fTrayApp)
+        fTrayApp->repaint();
+    if (fTaskBarApp)
+        fTaskBarApp->repaint();
     if (windowList && fWinListItem && windowList->visible())
         windowList->repaintItem(fWinListItem);
 }
@@ -2611,7 +2616,7 @@ void YFrameWindow::updateLayer(bool restack) {
 
         if (limitByDockLayer &&
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
-            manager->updateWorkArea();
+            manager->requestWorkAreaUpdate();
 
         YFrameWindow *w = transient();
         while (w) {
@@ -2657,7 +2662,7 @@ void YFrameWindow::updateState() {
     } else if (!visibleNow()) {
         show_frame = false;
         show_client = false;
-        newState = isMinimized() || isIconic() ? IconicState : NormalState;
+        newState = isMinimized() ? IconicState : NormalState;
     } else if (isMinimized()) {
         show_frame = minimizeToDesktop;
         show_client = false;
@@ -2682,14 +2687,16 @@ void YFrameWindow::updateState() {
         fClientContainer->show();
     }
 
-    if (show_frame) show();
-    else hide();
+    if (show_frame)
+        show();
+    else
+        hide();
 
     if (!show_client) {
         fClientContainer->hide();
         client()->hide();
     }
-    if (!show_frame) {
+    if (!show_frame || !show_client) {
         if (fDelayFocusTimer)
             fDelayFocusTimer->disableTimerListener(this);
         if (fAutoRaiseTimer)
@@ -2950,13 +2957,28 @@ void YFrameWindow::setCurrentPositionOuter(int x, int y) {
     setCurrentGeometryOuter(YRect(x, y, width(), height()));
 }
 
+void YFrameWindow::updateIconPosition() {
+    if (fMiniIcon) {
+        iconX = iconY = -1;
+        if (minimizeToDesktop && isMinimized()) {
+            manager->getIconPosition(this, &iconX, &iconY);
+            setWindowGeometry(YRect(iconX, iconY,
+                              fMiniIcon->width(), fMiniIcon->height()));
+        }
+        else {
+            delete fMiniIcon;
+            fMiniIcon = nullptr;
+        }
+    }
+}
+
 void YFrameWindow::updateLayout() {
     if (isIconic()) {
         if (iconX == -1 && iconY == -1)
             manager->getIconPosition(this, &iconX, &iconY);
 
         setWindowGeometry(YRect(iconX, iconY,
-                          getMiniIcon()->width(), getMiniIcon()->height()));
+                          fMiniIcon->width(), fMiniIcon->height()));
     } else {
         if (isFullscreen()) {
             // for _NET_WM_FULLSCREEN_MONITORS
@@ -3068,11 +3090,11 @@ void YFrameWindow::setState(long mask, long state) {
             owner()->setState(WinStateMinimized, 0);
 
         if (minimizeToDesktop && getMiniIcon()) {
-            if (isIconic()) {
-                getMiniIcon()->raise();
-                getMiniIcon()->show();
+            if (isMinimized()) {
+                fMiniIcon->raise();
+                fMiniIcon->show();
             } else {
-                getMiniIcon()->hide();
+                fMiniIcon->hide();
                 iconX = x();
                 iconY = y();
             }
@@ -3132,9 +3154,9 @@ void YFrameWindow::setState(long mask, long state) {
         if (!(fNewState & WinStateHidden))
             restoreHiddenTransients();
     }
-    if ((clickFocus || !strongPointerFocus) &&
-        this == manager->getFocus() &&
-        ((fOldState ^ fNewState) & WinStateRollup)) {
+    if (((fOldState ^ fNewState) & WinStateRollup) &&
+        (clickFocus || !strongPointerFocus) &&
+        this == manager->getFocus()) {
         manager->setFocus(this);
     }
     if ((fOldState ^ fNewState) & WinStateFullscreen) {
@@ -3208,7 +3230,7 @@ void YFrameWindow::updateTaskBar() {
         if (!isHidden() &&
             (notbit(frameOptions(), foIgnoreTaskBar) || isMinimized()) &&
             (getTrayOption() != WinTrayIgnore))
-            if (trayShowAllWindows || visibleOn(manager->activeWorkspace()))
+            if (trayShowAllWindows || visibleNow())
                 needTrayApp = true;
 
         if (needTrayApp && fTrayApp == nullptr)
@@ -3233,7 +3255,7 @@ void YFrameWindow::updateTaskBar() {
             needTaskBarApp = false;
         if (owner() != nullptr && !taskBarShowTransientWindows)
             needTaskBarApp = false;
-        if (!visibleOn(manager->activeWorkspace()) && !taskBarShowAllWindows)
+        if (!visibleNow() && !taskBarShowAllWindows)
             needTaskBarApp = false;
         if (isUrgent())
             needTaskBarApp = true;
