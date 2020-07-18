@@ -45,6 +45,7 @@ YFrameButton::~YFrameButton() {
 
 void YFrameButton::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress &&
+        fAction != actionRollup &&
         (buttonRaiseMask & (1 << (button.button - 1))))
     {
         if (!(button.state & ControlMask) && raiseOnClickButton) {
