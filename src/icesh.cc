@@ -49,7 +49,6 @@
 #include "MwmUtil.h"
 #include "wmaction.h"
 #include "ypointer.h"
-#include "yarray.h"
 #include "ytime.h"
 #include "yrect.h"
 #define GUI_EVENT_NAMES
@@ -88,20 +87,81 @@ class NAtom {
     const char* fName;
     Atom fAtom;
     bool fExists;
+    bool fDynamic;
+    static vector<NAtom*> fAtoms;
+    static bool lookup(Atom atom, int* pos) {
+        int lo = 0, hi = int(fAtoms.size());
+        while (lo < hi) {
+            const int pv = (lo + hi) / 2;
+            NAtom* pivot = fAtoms[pv];
+            if (atom > pivot->fAtom)
+                lo = pv + 1;
+            else if (atom < pivot->fAtom)
+                hi = pv;
+            else {
+                *pos = pv;
+                return true;
+            }
+        }
+        *pos = lo;
+        return false;
+    }
+    void insert() {
+        if (fAtom) {
+            int pos;
+            if (lookup(fAtom, &pos)) {
+                NAtom* old = this;
+                std::swap(old, fAtoms[pos]);
+                if (old->fDynamic) {
+                    XFree(const_cast<char *>(old->fName));
+                    delete old;
+                }
+            } else {
+                fAtoms.insert(fAtoms.begin() + pos, this);
+            }
+        }
+    }
 public:
     explicit NAtom(const char* name, bool exists = false) :
-        fName(name), fAtom(None), fExists(exists)
+        fName(name), fAtom(None), fExists(exists), fDynamic(false)
     { }
     const char* name() const { return fName; }
     operator Atom() {
         if (fAtom == None && fName) {
             fAtom = XInternAtom(display, fName, fExists);
+            insert();
         }
         return fAtom;
     }
+    static const char* lookup(Atom atom) {
+        int pos;
+        if (lookup(atom, &pos)) {
+            return fAtoms[pos]->fName;
+        } else {
+            char* name = XGetAtomName(display, atom);
+            NAtom* ptr = new NAtom(name);
+            ptr->fAtom = atom;
+            ptr->fDynamic = true;
+            fAtoms.insert(fAtoms.begin() + pos, ptr);
+            return name;
+        }
+    }
+    static void free() {
+        for (; !fAtoms.empty(); fAtoms.pop_back()) {
+            NAtom* ptr = fAtoms.back();
+            if (ptr->fDynamic) {
+                XFree(const_cast<char *>(ptr->fName));
+                delete ptr;
+            }
+        }
+        fAtoms.clear();
+    }
 };
 
+vector<NAtom*> NAtom::fAtoms;
+
 static NAtom ATOM_WM_STATE("WM_STATE");
+static NAtom ATOM_WM_CHANGE_STATE("WM_CHANGE_STATE");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
@@ -1252,6 +1312,7 @@ private:
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
+    void changeState();
     bool colormaps();
     bool current();
     bool runonce();
@@ -1267,15 +1328,9 @@ private:
     unsigned count() const;
     void xerror(XErrorEvent* evt);
 
-    struct AtomName {
-        AtomName(Atom a, char* n) : atom(a), name(n) { }
-        ~AtomName() { XFree(name); }
-        Atom atom;
-        char* name;
-    };
-    static YObjectArray<AtomName> fAtomNames;
-
-    static const char* atomName(unsigned long atom);
+    const char* atomName(Atom atom) {
+        return NAtom::lookup(atom);
+    }
     static int xerrors(Display* dpy, XErrorEvent* evt);
     static void catcher(int);
     static bool running;
@@ -2274,6 +2329,27 @@ bool IceSh::colormaps()
     return true;
 }
 
+void IceSh::changeState()
+{
+    const char* arg = getArg();
+    int state = -1;
+    if (!strncmp(arg, "NormalState", strlen(arg)))
+        state = NormalState;
+    else if (!strncmp(arg, "IconicState", strlen(arg)))
+        state = IconicState;
+    else if (!strncmp(arg, "WithdrawnState", strlen(arg)))
+        state = WithdrawnState;
+    if (state == -1 || isEmpty(arg)) {
+        msg(_("Invalid state: `%s'."), arg);
+        THROW(1);
+    }
+    else {
+        FOREACH_WINDOW(window) {
+            send(ATOM_WM_CHANGE_STATE, window, state, None);
+        }
+    }
+}
+
 void IceSh::click()
 {
     const char* xs = getArg();
@@ -3084,7 +3160,7 @@ IceSh::IceSh(int ac, char **av) :
     filtering(false)
 {
     singleton = this;
-    setAtomName(atomName);
+    setAtomName(NAtom::lookup);
     if (setjmp(jmpbuf) == 0) {
         xinit();
         flags();
@@ -3601,25 +3677,6 @@ void IceSh::spy()
     }
 }
 
-YObjectArray<IceSh::AtomName> IceSh::fAtomNames;
-
-const char* IceSh::atomName(Atom atom) {
-    int lo = 0, hi = fAtomNames.getCount();
-    while (lo < hi) {
-        const int pv = (lo + hi) / 2;
-        AtomName* pivot = fAtomNames[pv];
-        if (atom > pivot->atom)
-            lo = pv + 1;
-        else if (atom < pivot->atom)
-            hi = pv;
-        else
-            return pivot->name;
-    }
-    char* name = XGetAtomName(display, atom);
-    fAtomNames.insert(lo, new AtomName(atom, name));
-    return name;
-}
-
 IceSh* IceSh::singleton;
 
 int IceSh::xerrors(Display* dpy, XErrorEvent* evt) {
@@ -4133,6 +4190,9 @@ void IceSh::parseAction()
         else if (isAction("click", 3)) {
             click();
         }
+        else if (isAction("changeState", 1)) {
+            changeState();
+        }
         else {
             msg(_("Unknown action: `%s'"), *argp);
             THROW(1);
@@ -4147,6 +4207,7 @@ IceSh::~IceSh()
         XCloseDisplay(display);
         display = nullptr;
         root = None;
+        NAtom::free();
     }
 }
 
