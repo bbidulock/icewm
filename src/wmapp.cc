@@ -870,6 +870,8 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             manager->smartPlace(w, count);
             delete [] w;
         }
+    } else if (action == actionArrangeIcons) {
+        manager->arrangeIcons();
     } else if (action == actionHideAll || action == actionMinimizeAll) {
         YFrameWindow **w = nullptr;
         int count = 0;
