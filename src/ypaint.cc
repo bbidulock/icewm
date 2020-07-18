@@ -1065,7 +1065,7 @@ void GraphicsBuffer::paint(Pixmap pixmap, const YRect& rect) {
     if (window()->handle() && window()->destroyed())
         return;
 
-    const bool clipping = false;
+    bool clipping = false;
     const int x(rect.x());
     const int y(rect.y());
     const unsigned w(rect.width());
@@ -1080,24 +1080,28 @@ void GraphicsBuffer::paint(Pixmap pixmap, const YRect& rect) {
 
     Graphics gfx(pixmap, w, h, depth);
 
-    if (clipping && fNesting == 1) {
-        if (x || y || w < window()->width() || h < window()->height()) {
+    if (fNesting == 1) {
+        if (fClipping || x || y ||
+            w < window()->width() || h < window()->height())
+        {
             XRectangle clip = { short(x), short(y),
                                (unsigned short)w, (unsigned short)h };
             gfx.setClipRectangles(&clip, 1);
+            clipping = true;
         }
-    }
 
-    if (fNesting == 1) {
         gfx.clearArea(x, y, w, h);
     }
 
     window()->paint(gfx, rect);
 
-    if (pixmap == fPixmap && fNesting == 1) {
-        if ( !window()->destroyed()) {
+    if (fNesting == 1) {
+        if (pixmap == fPixmap && !window()->destroyed()) {
             window()->setBackgroundPixmap(pixmap);
             window()->clearArea(x, y, w, h);
+        }
+        if (clipping) {
+            gfx.resetClip();
         }
     }
 

@@ -212,8 +212,9 @@ private:
 
 class GraphicsBuffer {
 public:
-    GraphicsBuffer(YWindow* ywindow) :
+    GraphicsBuffer(YWindow* ywindow, bool clipping = false) :
         fWindow(ywindow),
+        fClipping(clipping),
         fNesting(0),
         fPixmap(None),
         fDim(0, 0)
@@ -230,6 +231,7 @@ public:
 
 private:
     YWindow* fWindow;
+    bool fClipping;
     int fNesting;
     Pixmap fPixmap;
     YDimension fDim;
