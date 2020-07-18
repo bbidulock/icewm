@@ -100,9 +100,6 @@ public:
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
     virtual void handleSelection(const XSelectionEvent &selection);
     virtual void handleVisibility(const XVisibilityEvent &visibility);
-#if 0
-    virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
-#endif
     virtual void handleGravityNotify(const XGravityEvent &gravity);
     virtual void handleMapNotify(const XMapEvent &map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);

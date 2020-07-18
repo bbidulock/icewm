@@ -1009,10 +1009,6 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 void YWindow::handleVisibility(const XVisibilityEvent& visibility) {
 }
 
-#if 0
-    virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
-#endif
-
 void YWindow::handleMapNotify(const XMapEvent &) {
     // ignore "map notify" not implemented or needed due to MapRequest event
 }
