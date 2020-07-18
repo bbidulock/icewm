@@ -811,9 +811,10 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 }
             } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
-                    wmRestore();
-                    if (canRaise())
-                        wmRaise();
+                    if (isMinimized())
+                        wmMinimize();
+                    else
+                        wmRestore();
                 } else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
                     popupSystemMenu(this);
                 }
