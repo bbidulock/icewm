@@ -873,18 +873,23 @@ void YFrameClient::setNetWMAllowedActions(Atom *actions, int count) {
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_WM_CHANGE_STATE) {
-        YFrameWindow *frame = manager->findFrame(message.window);
-
-        if (message.data.l[0] == IconicState) {
-            if (frame && !(frame->isMinimized() || frame->isRollup()))
-                frame->wmMinimize();
-        } else if (message.data.l[0] == NormalState) {
-            if (frame)
-                frame->setState(WinStateHidden |
-                                WinStateRollup |
-                                WinStateMinimized, 0);
-        } // !!! handle WithdrawnState if needed
-
+        const long state = message.data.l[0];
+        YFrameWindow* frame = getFrame();
+        if (state == IconicState && frame &&
+            !frame->hasState(WinStateMinimized | WinStateRollup))
+        {
+            frame->actionPerformed(actionMinimize, None);
+        }
+        else if (state == NormalState && frame &&
+            frame->hasState(WinStateMinimized | WinStateRollup | WinStateHidden))
+        {
+            frame->actionPerformed(actionRestore, None);
+        }
+        else if (state == WithdrawnState && frame &&
+            !frame->hasState(WinStateHidden))
+        {
+            frame->actionPerformed(actionHide, None);
+        }
     } else if (message.message_type == _XA_NET_RESTACK_WINDOW) {
         if (getFrame()) {
             XConfigureRequestEvent cre;
@@ -936,8 +941,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         }
     } else if (message.message_type == _XA_NET_WM_FULLSCREEN_MONITORS) {
         if (getFrame()) {
-            getFrame()->updateNetWMFullscreenMonitors(message.data.l[0], message.data.l[1],
-                                                      message.data.l[2], message.data.l[3]);
+            const long* l = message.data.l;
+            getFrame()->updateNetWMFullscreenMonitors(l[0], l[1], l[2], l[3]);
         }
     } else if (message.message_type == _XA_NET_WM_STATE) {
         long mask =
@@ -1316,7 +1321,7 @@ void YFrameClient::setWinStateHint(long mask, long state) {
     /* the next one is kinda messy */
     if ((state & WinStateMinimized) || (state & WinStateHidden))
         a[i++] = _XA_NET_WM_STATE_HIDDEN;
-    if (state & WinStateFocused)
+    else if ((state & WinStateFocused) && !(state & WinStateRollup))
         a[i++] = _XA_NET_WM_STATE_FOCUSED;
     if (state & WinStateSkipPager)
         a[i++] = _XA_NET_WM_STATE_SKIP_PAGER;
