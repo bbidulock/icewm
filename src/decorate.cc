@@ -304,7 +304,7 @@ void YFrameWindow::performLayout()
 }
 
 void YFrameWindow::layoutTitleBar() {
-    if (titlebar() == nullptr)
+    if (titlebar() == nullptr || isIconic())
         return;
 
     if (titleY() == 0) {
