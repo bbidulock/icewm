@@ -743,78 +743,40 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    if (title == nullptr || fWindowTitle == null || !fWindowTitle.equals(title)) {
-        fWindowTitle = mstring(title);
-        if (title != nullptr) {
-            mstring cs(fWindowTitle);
+    if (fWindowTitle != title) {
+        fWindowTitle = title;
+        if (title) {
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
-                    (const unsigned char *)cs.c_str(),
-                    cs.length());
+                    (const unsigned char *) title,
+                    strlen(title));
         } else {
             XDeleteProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_NAME);
         }
-        if (getFrame()) getFrame()->updateTitle();
+        if (getFrame())
+            getFrame()->updateTitle();
     }
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    if (title == nullptr || fIconTitle == null || !fIconTitle.equals(title)) {
-        fIconTitle = mstring(title);
-        if (title != nullptr) {
-            mstring cs(fIconTitle);
+    if (fIconTitle != title) {
+        fIconTitle = title;
+        if (title) {
             XChangeProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
                     8, PropModeReplace,
-                    (const unsigned char *)cs.c_str(),
-                    cs.length());
+                    (const unsigned char *) title,
+                    strlen(title));
         } else {
             XDeleteProperty(xapp->display(), handle(),
                     _XA_NET_WM_VISIBLE_ICON_NAME);
         }
-        if (getFrame()) getFrame()->updateIconTitle();
+        if (getFrame())
+            getFrame()->updateIconTitle();
     }
 }
-
-#ifdef CONFIG_I18N
-void YFrameClient::setWindowTitle(const XTextProperty & title) {
-    if (nullptr == title.value /*|| title.encoding == XA_STRING*/)
-        setWindowTitle((const char *)title.value);
-    else {
-        int count;
-        char ** strings(nullptr);
-
-        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
-                                      &strings, &count) >= 0 &&
-            count > 0 && strings[0])
-            setWindowTitle((const char *)strings[0]);
-        else
-            setWindowTitle((const char *)title.value);
-
-        if (strings) XFreeStringList(strings);
-    }
-}
-
-void YFrameClient::setIconTitle(const XTextProperty & title) {
-    if (nullptr == title.value /*|| title.encoding == XA_STRING*/)
-        setIconTitle((const char *)title.value);
-    else {
-        int count;
-        char ** strings(nullptr);
-
-        if (XmbTextPropertyToTextList(xapp->display(), const_cast<XTextProperty *>(&title),
-                                      &strings, &count) >= 0 &&
-            count > 0 && strings[0])
-            setIconTitle((const char *)strings[0]);
-        else
-            setIconTitle((const char *)title.value);
-
-        if (strings) XFreeStringList(strings);
-    }
-}
-#endif
 
 void YFrameClient::setColormap(Colormap cmap) {
     fColormap = cmap;
@@ -822,22 +784,24 @@ void YFrameClient::setColormap(Colormap cmap) {
         manager->installColormap(cmap);
 }
 
-#ifdef CONFIG_SHAPE
 void YFrameClient::queryShape() {
+#ifdef CONFIG_SHAPE
     fShaped = false;
 
     if (shapes.supported) {
         int xws, yws, xbs, ybs;
         unsigned wws, hws, wbs, hbs;
-        Bool boundingShaped, clipShaped;
+        Bool boundingShaped = False, clipShaped;
 
-        XShapeQueryExtents(xapp->display(), handle(),
-                           &boundingShaped, &xws, &yws, &wws, &hws,
-                           &clipShaped, &xbs, &ybs, &wbs, &hbs);
-        fShaped = boundingShaped;
+        if (XShapeQueryExtents(xapp->display(), handle(),
+                               &boundingShaped, &xws, &yws, &wws, &hws,
+                               &clipShaped, &xbs, &ybs, &wbs, &hbs))
+        {
+            fShaped = boundingShaped;
+        }
     }
-}
 #endif
+}
 
 long getMask(Atom a) {
     return a == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
@@ -1004,38 +968,20 @@ void YFrameClient::getNameHint() {
     if (prop.net_wm_name)
         return;
 
-#ifdef CONFIG_I18N
-    XTextProperty name;
-    if (XGetWMName(xapp->display(), handle(), &name))
-#else
-    char *name;
-    if (XFetchName(xapp->display(), handle(), &name))
-#endif
-    {
-        setWindowTitle(name);
-#ifdef CONFIG_I18N
-        XFree(name.value);
-#else
-        XFree(name);
-#endif
-    }
-    else
-        setWindowTitle(nullptr);
+    XTextProperty text = { nullptr, None, 0, 0 };
+    XGetWMName(xapp->display(), handle(), &text);
+    setWindowTitle((char *)text.value);
+    XFree(text.value);
 }
 
 void YFrameClient::getNetWmName() {
     if (!prop.net_wm_name)
         return;
 
-    XTextProperty name;
-    if (XGetTextProperty(xapp->display(), handle(), &name,
-                _XA_NET_WM_NAME))
-    {
-        setWindowTitle((char *)name.value);
-        XFree(name.value);
-    }
-    else
-        setWindowTitle(nullptr);
+    XTextProperty text = { nullptr, None, 0, 0 };
+    XGetTextProperty(xapp->display(), handle(), &text, _XA_NET_WM_NAME);
+    setWindowTitle((char *)text.value);
+    XFree(text.value);
 }
 
 void YFrameClient::getIconNameHint() {
@@ -1044,38 +990,20 @@ void YFrameClient::getIconNameHint() {
     if (prop.net_wm_icon_name)
         return;
 
-#ifdef CONFIG_I18N
-    XTextProperty name;
-    if (XGetWMIconName(xapp->display(), handle(), &name))
-#else
-    char *name;
-    if (XGetIconName(xapp->display(), handle(), &name))
-#endif
-    {
-        setIconTitle(name);
-#ifdef CONFIG_I18N
-        XFree(name.value);
-#else
-        XFree(name);
-#endif
-    }
-    else
-        setIconTitle(nullptr);
+    XTextProperty text = { nullptr, None, 0, 0 };
+    XGetWMIconName(xapp->display(), handle(), &text);
+    setIconTitle((char *)text.value);
+    XFree(text.value);
 }
 
 void YFrameClient::getNetWmIconName() {
     if (!prop.net_wm_icon_name)
         return;
 
-    XTextProperty name;
-    if (XGetTextProperty(xapp->display(), handle(), &name,
-                _XA_NET_WM_ICON_NAME))
-    {
-        setIconTitle((char *)name.value);
-        XFree(name.value);
-    }
-    else
-        setIconTitle(nullptr);
+    XTextProperty text = { nullptr, None, 0, 0 };
+    XGetTextProperty(xapp->display(), handle(), &text, _XA_NET_WM_ICON_NAME);
+    setIconTitle((char *)text.value);
+    XFree(text.value);
 }
 
 void YFrameClient::getWMHints() {
