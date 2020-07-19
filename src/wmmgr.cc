@@ -2949,19 +2949,19 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     }
     for (int w = 0; w < workspaceCount(); w++) {
         if (workspaces[w].focused == frame) {
-            workspaces[w].focused = frame->nextLayer();
+            workspaces[w].focused = nullptr;
         }
     }
-    if (wmState() != wmSHUTDOWN) {
+    if (wmState() == wmRUNNING) {
         if (frame == getFocus())
             loseFocus(frame);
         if (frame == getFocus())
             setFocus(nullptr);
+        if (colormapWindow() == frame)
+            setColormapWindow(getFocus());
+        if (frame->affectsWorkArea())
+            updateWorkArea();
     }
-    if (colormapWindow() == frame)
-        setColormapWindow(getFocus());
-    if (frame->affectsWorkArea())
-        updateWorkArea();
 }
 
 void YWindowManager::notifyActive(YFrameWindow *frame) {
