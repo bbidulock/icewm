@@ -34,14 +34,9 @@ public:
         FOR_APP = 1,
         /** Suitable for menu folders */
         FOR_DIR = 2,
-        /** Located in IceWM private icon folders */
-        FROM_RES = 4,
-        /** Located in icon path */
-        FROM_PATH = 8,
 
         FOR_ANY_PURPOSE = FOR_APP | FOR_DIR,
-        FROM_ANY_SOURCE = FROM_RES | FROM_RES,
-        ALL = FOR_ANY_PURPOSE | FROM_ANY_SOURCE
+        ALL = FOR_ANY_PURPOSE // | FROM_ANY_SOURCE
     };
 
 private:
