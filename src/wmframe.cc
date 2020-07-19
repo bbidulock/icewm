@@ -44,6 +44,7 @@ YFrameWindow::YFrameWindow(
     fShapeTitleY = -1;
     fShapeBorderX = -1;
     fShapeBorderY = -1;
+    fShapeDecors = 0;
 
     setDoubleBuffer(false);
     fClient = nullptr;
@@ -424,9 +425,7 @@ void YFrameWindow::afterManage() {
     if (affectsWorkArea())
         manager->updateWorkArea();
     manager->updateClientList();
-#ifdef CONFIG_SHAPE
     setShape();
-#endif
     if ( !frameOption(foFullKeys))
         grabKeys();
     fClientContainer->grabButtons();
@@ -1612,8 +1611,8 @@ void YFrameWindow::focus(bool canWarp) {
 
 void YFrameWindow::activate(bool canWarp, bool curWork) {
     manager->lockFocus();
-    if (hasState(WinStateHidden | WinStateMinimized | WinStateRollup))
-        setState(WinStateHidden | WinStateMinimized | WinStateRollup, 0);
+    if (hasState(WinStateHidden | WinStateMinimized))
+        setState(WinStateHidden | WinStateMinimized, 0);
     if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
@@ -1824,28 +1823,27 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 }
 
 void YFrameWindow::updateTitle() {
+    layoutShape();
     if (titlebar())
         titlebar()->repaint();
-    layoutShape();
     updateIconTitle();
     if (fWinListItem && windowList && windowList->visible())
         windowList->repaintItem(fWinListItem);
     if (fTaskBarApp)
-        fTaskBarApp->setToolTip(client()->windowTitle());
+        fTaskBarApp->setToolTip(getTitle());
     if (fTrayApp)
-        fTrayApp->setToolTip(client()->windowTitle());
+        fTrayApp->setToolTip(getTitle());
 }
 
 void YFrameWindow::updateIconTitle() {
     if (fTaskBarApp) {
         fTaskBarApp->repaint();
-        fTaskBarApp->setToolTip(client()->windowTitle());
+        fTaskBarApp->setToolTip(getTitle());
     }
     if (fTrayApp)
-        fTrayApp->setToolTip(client()->windowTitle());
-    if (isIconic()) {
+        fTrayApp->setToolTip(getTitle());
+    if (isIconic())
         fMiniIcon->repaint();
-    }
 }
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
@@ -3143,10 +3141,9 @@ void YFrameWindow::setState(long mask, long state) {
     updateDerivedSize(fOldState ^ fNewState);
     updateLayout();
 
-#ifdef CONFIG_SHAPE
-    if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized))
+    if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized)) {
         setShape();
-#endif
+    }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         if (!(fNewState & WinStateMinimized))
             restoreMinimizedTransients();

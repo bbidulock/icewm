@@ -399,8 +399,6 @@ void YFrameTitleBar::layoutButtons() {
             }
         }
     }
-
-    activate();
 }
 
 void YFrameTitleBar::deactivate() {
@@ -408,7 +406,7 @@ void YFrameTitleBar::deactivate() {
 }
 
 int YFrameTitleBar::titleLen() const {
-    mstring title = getFrame()->client()->windowTitle();
+    mstring title = getFrame()->getTitle();
     int tlen = title != null ? titleFont->textWidth(title) : 0;
     return tlen;
 }
@@ -635,14 +633,15 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     }
 }
 
+void YFrameTitleBar::renderShape(Graphics& g) {
 #ifdef CONFIG_SHAPE
-void YFrameTitleBar::renderShape(Pixmap shape) {
     if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat))
     {
-        Graphics g(shape, getFrame()->width(), getFrame()->height(), xapp->depth());
-
         int onLeft(0);
         int onRight((int) width());
+
+        if (titleQ[focused()] != null)
+            onRight -= int(titleQ[focused()]->width());
 
         if (titleButtonsLeft)
             for (const char *bc = titleButtonsLeft; *bc; bc++) {
@@ -742,8 +741,7 @@ void YFrameTitleBar::renderShape(Pixmap shape) {
         if (titleQ[pi] != null)
             g.drawMask(titleQ[pi], int(x() + width() - titleQ[pi]->width()), y());
     }
-}
 #endif
-
+}
 
 // vim: set sw=4 ts=4 et:

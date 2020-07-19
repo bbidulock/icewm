@@ -11,13 +11,9 @@ public:
 
     void activate();
     void deactivate();
+    void renderShape(Graphics& g);
 
     virtual void paint(Graphics &g, const YRect &r);
-
-#ifdef CONFIG_SHAPE
-    void renderShape(Pixmap shape);
-#endif
-
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);

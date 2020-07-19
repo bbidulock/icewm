@@ -198,9 +198,7 @@ public:
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
 
-#ifdef CONFIG_SHAPE
     void setShape();
-#endif
 
     enum YFrameFunctions {
         ffMove          = (1 << 0),
@@ -526,6 +524,8 @@ private:
     int fShapeTitleY;
     int fShapeBorderX;
     int fShapeBorderY;
+    unsigned fShapeDecors;
+    mstring fShapeTitle;
 
     bool fHaveStruts;
     bool fWmUrgency;
