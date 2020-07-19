@@ -129,7 +129,9 @@ public:
     operator Atom() {
         if (fAtom == None && fName) {
             fAtom = XInternAtom(display, fName, fExists);
-            insert();
+            if (fExists == false) {
+                insert();
+            }
         }
         return fAtom;
     }
@@ -147,9 +149,8 @@ public:
         }
     }
     static void free() {
-        for (; !fAtoms.empty(); fAtoms.pop_back()) {
-            NAtom* ptr = fAtoms.back();
-            if (ptr->fDynamic) {
+        for (auto ptr : fAtoms) {
+            if (ptr && ptr->fDynamic) {
                 XFree(const_cast<char *>(ptr->fName));
                 delete ptr;
             }
