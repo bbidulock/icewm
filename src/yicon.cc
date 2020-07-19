@@ -20,6 +20,7 @@
 #include <fnmatch.h>
 
 #include <vector>
+#include <array>
 #include <initializer_list>
 
 YIcon::YIcon(upath filename) :
@@ -69,11 +70,16 @@ public:
         unsigned getSize() const {
             return sizetype;
         }
-        std::vector<mstring> folders;
         IconCategory(unsigned size = 0) :
                 sizetype(size) {
         }
+        struct entry {
+            mstring path;
+            int itype; // actually a bit field from IconTypeFilter
+        };
         const std::vector<mstring>& getExtendedSuffixes() const;
+
+        std::vector<entry> folders;
     };
 
     std::vector<IconCategory> categories;
@@ -88,6 +94,14 @@ public:
         return legacyDirs;
     }
 
+    std::array<IconCategory*,2> getCatAndDefault(unsigned size) {
+        for (auto &cat : categories) {
+            if (cat.getSize() == size)
+                return {&cat, &legacyDirs};
+        }
+        return {&legacyDirs, nullptr};
+    }
+
     void init() {
 
         static bool once = false;
@@ -98,15 +112,19 @@ public:
         // add unique(!) category
         for (auto size : { hugeIconSize, largeIconSize, smallIconSize,
                 menuIconSize }) {
+
             if (&legacyDirs == &(getCat(size))) {
                 categories.emplace_back(IconCategory(size));
             }
         }
 
-        auto probeAndRegisterXdgFolders = [this](const mstring &what) {
+        auto probeAndRegisterXdgFolders = [this](const mstring &what,
+                YIcon::TypeFilter privFlag) {
+
             // stop early because this is obviously matching a file!
             if (HasImageExtension(upath(what)))
                 return;
+
             for (auto &cat : categories) {
                 mstring szSize(long(cat.getSize()));
                 // assume that if the folder is there for any usable role then it wil be ok to search for icons
@@ -115,7 +133,10 @@ public:
                             + contentDir;
                     if (upath(testDir).dirExists()) {
                         // finally!
-                        cat.folders.emplace_back(testDir + "/");
+                        auto flags = privFlag | (contentDir[1] == 'a' ?
+                                        YIcon::FOR_APP : YIcon::FOR_DIR);
+                        cat.folders.emplace_back(IconCategory::entry {
+                            testDir + "/", flags });
                     }
                 }
             }
@@ -133,12 +154,15 @@ public:
                 matchlist.emplace_back(tok);
         }
 
-        auto probeIconFolder = [&](mstring iPath) {
+        auto probeIconFolder = [&](mstring iPath, YIcon::TypeFilter privFlag) {
 
             iPath += "/";
 
-            // try base path in any case
-            legacyDirs.folders.emplace_back(iPath);
+            // try base path in any case (later), for any icon type
+            legacyDirs.folders.emplace_back(IconCategory::entry {
+                iPath,
+                YIcon::FOR_ANY_PURPOSE | privFlag
+            });
 
             for (const auto &themeExprTok : matchlist) {
                 mstring themeExpr = iPath + themeExprTok;
@@ -159,51 +183,57 @@ public:
                         }
                         // found a potential theme folder to consider?
                         if (keep)
-                            probeAndRegisterXdgFolders(match);
+                            probeAndRegisterXdgFolders(match, privFlag);
                     }
                     wordfree(&exp);
                 } else { // wordexp failed?
-                    probeAndRegisterXdgFolders(themeExpr);
+                    probeAndRegisterXdgFolders(themeExpr, privFlag);
                 }
             }
         };
 
+        // first scan the private resource folders
         auto iceIconPaths = YResourcePaths::subdirs("icons");
         if (iceIconPaths != null) {
             // this returned icewm directories containing "icons" folder
             for (int i = 0; i < iceIconPaths->getCount(); ++i) {
-                probeIconFolder(iceIconPaths->getPath(i) + "/icons");
+                probeIconFolder(iceIconPaths->getPath(i) + "/icons",
+                        YIcon::FROM_RES);
             }
         }
+        // now test the system icons folders specified by user or defaults
         csmart copy(newstr(iconPath));
         for (auto *itok = strtok_r(copy, ":", &save); itok;
                 itok = strtok_r(0, ":", &save)) {
 
-            probeIconFolder(itok);
+            probeIconFolder(itok, YIcon::FROM_PATH);
         }
 
     }
 
-    upath locateIcon(int size, const mstring &baseName) {
+    upath locateIcon(int size, const mstring &baseName, unsigned filter) {
         bool hasSuffix = HasImageExtension(baseName);
-        for (unsigned onLegacyFolder = 0; onLegacyFolder < 2;
-                ++onLegacyFolder) {
-            auto &cat = onLegacyFolder ? legacyDirs : getCat(size);
-            // didn't find a size-typed folder? Then go to next step ASAP
-            if (!onLegacyFolder && &cat == &legacyDirs) {
-                onLegacyFolder++;
+        for (auto pCat : getCatAndDefault(size)) {
+
+            if (!pCat)
                 continue;
-            }
-            for (const mstring &el : cat.folders) {
+
+            for (const auto &el : pCat->folders) {
+
+                if (0 == (filter & el.itype))
+                    continue;
+
                 // XXX: optimize string concatenation?
-                mstring path(el + baseName);
+                mstring path(el.path + baseName);
                 if (hasSuffix) {
                     upath testPath(path);
                     if (testPath.fileExists())
                         return testPath;
                 } else {
-                    for (const mstring &sfx : cat.getExtendedSuffixes()) {
+                    for (const mstring &sfx : pCat->getExtendedSuffixes()) {
                         upath testPath(path + sfx);
+                        //printf("probing %s\n", testPath.string());
+                        //bool dbgCheck = 0 == strcmp("/usr/share/icons/hicolor/32x32/apps/firefox.png", testPath.string());
                         if (testPath.fileExists())
                             return testPath;
                     }
@@ -234,8 +264,11 @@ const {
 upath YIcon::findIcon(unsigned size) {
 
     iconIndex.init();
-    auto ret = iconIndex.locateIcon(size, fPath);
-
+    // XXX: also differentiate between purpose (menu folder or program)
+    auto ret = iconIndex.locateIcon(size, fPath, FROM_RES);
+    if (ret == null) {
+        ret = iconIndex.locateIcon(size, fPath, FROM_PATH);
+    }
     if (ret == null) {
         MSG(("Icon \"%s\" not found.", fPath.string()));
     }
