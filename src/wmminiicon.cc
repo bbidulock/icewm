@@ -54,7 +54,7 @@ void MiniIcon::handleExpose(const XExposeEvent& expose) {
 }
 
 void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
-    bool focused = getFrame()->focused();
+    bool focused = (getFrame()->focused() && getFrame() == manager->getFocus());
     YColor bg = focused ? activeMinimizedWindowBg : normalMinimizedWindowBg;
     YColor fg = focused ? activeMinimizedWindowFg : normalMinimizedWindowFg;
     int tx = 2;
@@ -94,9 +94,9 @@ void MiniIcon::paint(Graphics &g, const YRect &/*r*/) {
         g.resetClip();
     }
 
-    mstring str(getFrame()->client()->iconTitle());
+    mstring str(getFrame()->getIconTitle());
     if (str.isEmpty())
-        str = getFrame()->client()->windowTitle();
+        str = getFrame()->getTitle();
 
     if (str != null) {
         g.setColor(fg);
@@ -157,7 +157,23 @@ void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
             setSelected(1);
         }
     }
-
+    if (crossing.type == EnterNotify &&
+        (crossing.mode == NotifyNormal ||
+         (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
+        crossing.window == handle() &&
+        (strongPointerFocus ||
+         (crossing.serial != YWindow::getLastEnterNotifySerial() &&
+          crossing.serial != YWindow::getLastEnterNotifySerial() + 1)))
+    {
+        setSelected(2);
+        manager->setFocus(getFrame(), false);
+    }
+    else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal)
+    {
+        if (manager->getFocus() == getFrame())
+            manager->focusLastWindow();
+    }
+    YWindow::handleCrossing(crossing);
 }
 
 void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {
