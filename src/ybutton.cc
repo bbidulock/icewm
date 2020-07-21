@@ -278,9 +278,9 @@ void YButton::handleButton(const XButtonEvent &button) {
 
                 if ((!inWindow || wasPopupActive) && fArmed) {
                     setArmed(false, false);
-                    setSelected(false);
                 }
             }
+            setSelected(false);
         }
     }
     YWindow::handleButton(button);
