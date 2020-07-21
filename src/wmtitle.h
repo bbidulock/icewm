@@ -1,5 +1,5 @@
-#ifndef __WMTITLE_H
-#define __WMTITLE_H
+#ifndef WMTITLE_H
+#define WMTITLE_H
 
 class YFrameButton;
 class YFrameWindow;
@@ -43,7 +43,6 @@ private:
 
     unsigned decors() const { return getFrame()->frameDecors(); }
     bool focused() const { return getFrame()->focused(); }
-    int titleLen() const;
 
     YFrameButton* getButton(char c);
     void positionButton(YFrameButton *b, int &xPos, bool onRight);
@@ -51,7 +50,7 @@ private:
 
     YFrameWindow *fFrame;
     bool wasCanRaise;
-    bool isVisible;
+    bool fVisible;
 
     YFrameButton* fCloseButton;
     YFrameButton* fMenuButton;
@@ -60,6 +59,16 @@ private:
     YFrameButton* fHideButton;
     YFrameButton* fRollupButton;
     YFrameButton* fDepthButton;
+
+    enum {
+        Depth = 'd',
+        Hide  = 'h',
+        Mini  = 'i',
+        Maxi  = 'm',
+        Roll  = 'r',
+        Menu  = 's',
+        Close = 'x',
+    };
 };
 
 #endif
