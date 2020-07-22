@@ -22,6 +22,7 @@
 #include <vector>
 #include <array>
 #include <initializer_list>
+#include <set>
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
@@ -122,8 +123,12 @@ public:
         if (once)
             return;
         once = true;
+        std::set<mstring> dedup;
+        auto add = [&dedup](IconCategory& cat, IconCategory::entry&& el) {
+            if(dedup.insert(el.path).second) cat.folders.emplace_back(std::move(el));
+        };
 
-        auto probeAndRegisterXdgFolders = [this](const mstring &what,
+        auto probeAndRegisterXdgFolders = [this, &add](const mstring &what,
                 bool fromResources) {
 
             // stop early because this is obviously matching a file!
@@ -153,7 +158,7 @@ public:
                                 flags |= YIcon::FOR_MENUCATS;
                                 break;
                             }
-                            cat.folders.emplace_back(IconCategory::entry { testDir + "/", flags });
+                            add(cat, IconCategory::entry { testDir + "/", flags });
                         }
                     }
                 }
@@ -177,7 +182,7 @@ public:
             iPath += "/";
             auto& pool = pools[fromResources];
             // try base path in any case (later), for any icon type
-            pool.legacyDirs.folders.emplace_back(IconCategory::entry {
+            add(pool.legacyDirs, IconCategory::entry {
                 iPath,
                 YIcon::FOR_ANY_PURPOSE //| privFlag
             });

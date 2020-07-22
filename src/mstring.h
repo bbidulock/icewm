@@ -116,6 +116,7 @@ public:
     bool equals(const mstring &s) const;
     int collate(mstring s, bool ignoreCase = false);
     int compareTo(const mstring &s) const;
+    bool operator<(const mstring& other) const { return compareTo(other) < 0; }
     bool copyTo(char *dst, size_t len) const;
 
     bool startsWith(const mstring &s) const;
