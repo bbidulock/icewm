@@ -312,7 +312,7 @@ void YFrameWindow::layoutTitleBar() {
         return;
 
     if (titleY() == 0) {
-        titlebar()->hide();
+        delete fTitleBar; fTitleBar = nullptr;
     } else {
         titlebar()->show();
 
