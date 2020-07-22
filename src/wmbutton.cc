@@ -11,6 +11,7 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "wpixmaps.h"
+#include "intl.h"
 
 static YColorName titleButtonBg(&clrNormalTitleButton);
 static YColorName titleButtonFg(&clrNormalTitleButtonText);
@@ -19,34 +20,85 @@ inline YColor YFrameButton::background(bool active) {
     return YFrameTitleBar::background(active);
 }
 
-YFrameButton::YFrameButton(YWindow *parent,
-                           bool right,
-                           YFrameWindow *frame,
-                           YAction action,
-                           YAction action2):
+YFrameButton::YFrameButton(YFrameTitleBar* parent, char kind) :
     YButton(parent, actionNull),
-    fFrame(frame),
-    fRight(right),
-    fAction(action),
-    fAction2(action2)
+    fParent(parent),
+    fKind(kind)
 {
-    if (right)
+    if (onRight())
         setWinGravity(NorthEastGravity);
 
     addStyle(wsNoExpose);
     setParentRelative();
 
-    if (fAction == actionNull)
-        setPopup(frame->windowMenu());
+    setKind(kind);
 }
 
 YFrameButton::~YFrameButton() {
 }
 
+YFrameWindow *YFrameButton::getFrame() const {
+    return fParent->getFrame();
+};
+
+bool YFrameButton::focused() const {
+    return fParent->getFrame()->focused();
+}
+
+bool YFrameButton::onRight() const {
+    return (strchr(titleButtonsRight, fKind) != nullptr);
+}
+
+void YFrameButton::setKind(char kind) {
+    switch (kind) {
+    case YFrameTitleBar::Depth:
+        setActions(actionDepth, actionDepth);
+        setToolTip(_("Raise/Lower"));
+        setTitle("Lower");
+        break;
+    case YFrameTitleBar::Hide:
+        setActions(actionHide, actionHide);
+        setToolTip(_("Hide"));
+        setTitle("Hide");
+        break;
+    case YFrameTitleBar::Maxi:
+        setActions(actionMaximize, actionMaximizeVert);
+        setToolTip(_("Maximize"));
+        setTitle("Maximize");
+        break;
+    case YFrameTitleBar::Mini:
+        setActions(actionMinimize, actionHide);
+        setToolTip(_("Minimize"));
+        setTitle("Minimize");
+        break;
+    case YFrameTitleBar::Roll:
+        setActions(actionRollup, actionRollup);
+        setToolTip(_("Rollup"));
+        setTitle("Rollup");
+        break;
+    case YFrameTitleBar::Menu:
+        setActions(actionNull, actionNull);
+        setActionListener(getFrame());
+        setPopup(getFrame()->windowMenu());
+        setTitle("SysMenu");
+        break;
+    case YFrameTitleBar::Close:
+        setActions(actionClose, actionKill);
+        setToolTip(_("Close"));
+        setTitle("Close");
+        break;
+    case 'R':
+        setActions(actionRestore, actionRestore);
+        setToolTip(_("Restore"));
+        setTitle("Restore");
+        break;
+    }
+}
+
 void YFrameButton::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress &&
         fAction != actionRollup &&
-        (buttonRaiseMask & (1 << (button.button - 1))))
+        (buttonRaiseMask & (1 << (button.button - Button1))))
     {
         if (!(button.state & ControlMask) && raiseOnClickButton) {
             getFrame()->activate();
@@ -58,7 +110,7 @@ void YFrameButton::handleButton(const XButtonEvent &button) {
 }
 
 void YFrameButton::handleClick(const XButtonEvent &up, int count) {
-    if (fAction == actionNull && up.button == 1) {
+    if (fAction == actionNull && up.button == Button1) {
         if ((count % 2) == 0) {
             setArmed(false, false);
             getFrame()->wmClose();
@@ -69,7 +121,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
     }
-    if (fAction == actionRollup)
+    if (fAction == actionRollup && up.button == Button1)
         actionPerformed(fAction, up.state);
     else
         YButton::handleClick(up, count);
@@ -92,7 +144,9 @@ void YFrameButton::setActions(YAction action, YAction action2) {
     fAction2 = action2;
     if (action != fAction) {
         fAction = action;
-        repaint();
+        if (visible()) {
+            repaint();
+        }
     }
 }
 
@@ -156,10 +210,8 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    int iconSize =
-        YIcon::smallSize();
-    ref<YIcon> icon =
-        (fAction == actionNull) ? getFrame()->clientIcon() : null;
+    int iconSize = YIcon::smallSize();
+    ref<YIcon> icon = (fAction == actionNull) ? getFrame()->clientIcon() : null;
 
     ref<YPixmap> pixmap = getPixmap(pn);
     if (pixmap == null && pn) {

@@ -3082,13 +3082,15 @@ void YFrameWindow::setState(long mask, long state) {
         else if (owner() && owner()->isMinimized())
             owner()->setState(WinStateMinimized, 0);
 
-        if (minimizeToDesktop && getMiniIcon()) {
+        if (minimizeToDesktop) {
             if (isMinimized()) {
-                if (fTitleBar) {
-                    fTitleBar->hide();
+                if (getMiniIcon()) {
+                    if (fTitleBar) {
+                        fTitleBar->hide();
+                    }
+                    fMiniIcon->raise();
+                    fMiniIcon->show();
                 }
-                fMiniIcon->raise();
-                fMiniIcon->show();
             } else {
                 fMiniIcon->hide();
                 iconX = x();

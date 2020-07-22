@@ -22,43 +22,18 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
 
-    YFrameWindow *getFrame() const { return fFrame; };
-
-    YFrameButton* menuButton();
-    YFrameButton* closeButton();
-    YFrameButton* minimizeButton();
-    YFrameButton* maximizeButton();
-    YFrameButton* hideButton();
-    YFrameButton* rollupButton();
-    YFrameButton* depthButton();
+    YFrameWindow* getFrame() const { return fFrame; };
+    YFrameButton* menuButton() const { return fButtons[6]; }
+    YFrameButton* rollupButton() const { return fButtons[5]; }
+    YFrameButton* maximizeButton() const { return fButtons[4]; }
 
     void layoutButtons();
     void raiseButtons();
     void refresh();
 
     static YColor background(bool active);
-
-private:
-    static void initTitleColorsFonts();
-
-    unsigned decors() const { return getFrame()->frameDecors(); }
-    bool focused() const { return getFrame()->focused(); }
-
-    YFrameButton* getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
-    bool isButton(char c);
-
-    YFrameWindow *fFrame;
-    bool wasCanRaise;
-    bool fVisible;
-
-    YFrameButton* fCloseButton;
-    YFrameButton* fMenuButton;
-    YFrameButton* fMaximizeButton;
-    YFrameButton* fMinimizeButton;
-    YFrameButton* fHideButton;
-    YFrameButton* fRollupButton;
-    YFrameButton* fDepthButton;
+    static bool isRight(char c);
+    static bool supported(char c);
 
     enum {
         Depth = 'd',
@@ -69,6 +44,22 @@ private:
         Menu  = 's',
         Close = 'x',
     };
+
+private:
+    static void initTitleColorsFonts();
+
+    unsigned decors() const { return getFrame()->frameDecors(); }
+    bool focused() const { return getFrame()->focused(); }
+
+    YFrameButton* getButton(char c);
+    void positionButton(YFrameButton *b, int &xPos, bool onRight);
+
+    YFrameWindow *fFrame;
+    bool wasCanRaise;
+    bool fVisible;
+
+    enum { Count = 8, };
+    YFrameButton* fButtons[Count];
 };
 
 #endif

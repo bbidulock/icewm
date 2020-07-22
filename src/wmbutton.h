@@ -4,10 +4,11 @@
 #include "yactionbutton.h"
 
 class YFrameWindow;
+class YFrameTitleBar;
 
 class YFrameButton: public YButton {
 public:
-    YFrameButton(YWindow *parent, bool right, YFrameWindow *frame, YAction action, YAction action2 = actionNull);
+    YFrameButton(YFrameTitleBar *parent, char kind);
     virtual ~YFrameButton();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -21,21 +22,22 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     void setActions(YAction action, YAction action2 = actionNull);
+    void setKind(char kind);
     virtual void updatePopup();
 
     ref<YPixmap> getPixmap(int pn) const;
-    YFrameWindow *getFrame() const { return fFrame; };
-    bool onRight() const { return fRight; }
+    YFrameWindow *getFrame() const;
+    bool onRight() const;
+    char getKind() const { return fKind; }
 
 private:
     static YColor background(bool active);
 
-    bool focused() const { return getFrame()->focused(); }
+    bool focused() const;
 
-    YFrameWindow *fFrame;
-    bool fRight;
-    YAction fAction;
-    YAction fAction2;
+    YFrameTitleBar* fParent;
+    YAction fAction, fAction2;
+    char fKind;
 };
 
 #endif
