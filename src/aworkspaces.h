@@ -1,9 +1,7 @@
 #ifndef AWORKSPACES_H_
 #define AWORKSPACES_H_
 
-#include "ywindow.h"
-#include "obj.h"
-#include "objbutton.h"
+#include "ybutton.h"
 #include "yinputline.h"
 
 class WorkspaceDragger {

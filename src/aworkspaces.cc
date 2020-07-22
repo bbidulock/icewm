@@ -404,8 +404,10 @@ WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
     WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
     fButtons += wk;
     if (pagerShowPreview) {
-        double scaled = double(height * desktop->width()) / desktop->height();
-        wk->setSize(unsigned(lround(scaled)), height);
+        unsigned dw = desktop->width();
+        unsigned dh = desktop->height();
+        unsigned scaled = (height * dw + (dh / 2)) / dh;
+        wk->setSize(scaled, height);
         wk->updateName();
     } else {
         label(wk);
@@ -616,9 +618,6 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             x += 1; y += 1; w -= 2; h -= 2;
         }
 
-        unsigned wx, wy, ww, wh;
-        double sf = (double) desktop->width() / w;
-
         ref<YIcon> icon;
         YColor colors[] = {
             surface.color,
@@ -633,16 +632,22 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                 yfw && yfw->getActiveLayer() <= WinLayerDock;
                 yfw = yfw->prevLayer()) {
             if (yfw->isHidden() ||
-                    !yfw->visibleOn(fWorkspace) ||
-                    hasbit(yfw->frameOptions(),
-                        YFrameWindow::foIgnoreWinList |
-                        YFrameWindow::foIgnorePagerPreview))
+                hasbit(yfw->frameOptions(),
+                       YFrameWindow::foIgnoreWinList |
+                       YFrameWindow::foIgnorePagerPreview)) {
                 continue;
-            wx = (unsigned) round(double(yfw->x()) / sf) + x;
-            wy = (unsigned) round(double(yfw->y()) / sf) + y;
-            ww = (unsigned) round(double(yfw->width()) / sf);
-            wh = (unsigned) round(double(yfw->height()) / sf);
-            if (ww < 1 || wh < 1)
+            }
+            if (yfw->isAllWorkspaces() ?
+                fWorkspace != manager->activeWorkspace() :
+                fWorkspace != yfw->getWorkspace()) {
+                continue;
+            }
+            unsigned dw = desktop->width();
+            unsigned wx = x + (yfw->x() * w + (dw / 2)) / dw;
+            unsigned wy = y + (yfw->y() * w + (dw / 2)) / dw;
+            unsigned ww = (yfw->width() * w + (dw / 2)) / dw;
+            unsigned wh = (yfw->height() * w + (dw / 2)) / dw;
+            if (ww <= 1 || wh <= 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack
                 wy = y; wh = h;
@@ -690,8 +695,8 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         if (label[0] != 0) {
             ref<YFont> font = getFont();
 
-            wx = (w - font->textWidth(label)) / 2 + x;
-            wy = (h - font->height()) / 2 + font->ascent() + y;
+            unsigned wx = (w - font->textWidth(label)) / 2 + x;
+            unsigned wy = (h - font->height()) / 2 + font->ascent() + y;
 
             g.setFont(font);
             g.setColor(colors[0]);

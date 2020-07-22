@@ -33,6 +33,7 @@
 #include "apppstatus.h"
 #include "amailbox.h"
 #include "objbar.h"
+#include "objbutton.h"
 #include "atasks.h"
 #include "atray.h"
 #include "aworkspaces.h"
