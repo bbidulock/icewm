@@ -31,11 +31,13 @@ public:
     enum /* class... or better not, simplify! */ TypeFilter {
         NONE = 0,
         /** Suitable for programs */
-        FOR_APP = 1,
+        FOR_APPS = 1,
         /** Suitable for menu folders */
-        FOR_DIR = 2,
+        FOR_MENUCATS = 2,
+        FOR_PLACES = 4,
+        FOR_DEVICES = 8,
 
-        FOR_ANY_PURPOSE = FOR_APP | FOR_DIR,
+        FOR_ANY_PURPOSE = FOR_APPS | FOR_DEVICES | FOR_MENUCATS | FOR_APPS,
         ALL = FOR_ANY_PURPOSE // | FROM_ANY_SOURCE
     };
 

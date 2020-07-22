@@ -133,15 +133,28 @@ public:
             for (auto &cat : pools[fromResources].categories) {
                 mstring szSize(long(cat.getSize()));
                 // assume that if the folder is there for any usable role then it wil be ok to search for icons
-                for (const auto &contentDir : { "/apps", "/categories" }) {
-                    auto testDir = mstring(what) + "/" + szSize + "x" + szSize
-                            + contentDir;
-                    if (upath(testDir).dirExists()) {
-                        // finally!
-                        auto flags = (contentDir[1] == 'a' ?
-                                        YIcon::FOR_APP : YIcon::FOR_DIR);
-                        cat.folders.emplace_back(IconCategory::entry {
-                            testDir + "/", flags });
+                for (const auto &contentDir : { "/apps", "/categories", "/places", "/devices" }) {
+                    for (const auto &subType : { "/", "/base/"}) {
+                        auto testDir = mstring(what) + subType + szSize + "x" + szSize + contentDir;
+                        if (upath(testDir).dirExists()) {
+                            // finally!
+                            int flags = 0;
+                            switch (contentDir[1]) {
+                            case 'a':
+                                flags |= YIcon::FOR_APPS;
+                                break;
+                            case 'p':
+                                flags |= YIcon::FOR_PLACES;
+                                break;
+                            case 'd':
+                                flags |= YIcon::FOR_DEVICES;
+                                break;
+                            case 'c':
+                                flags |= YIcon::FOR_MENUCATS;
+                                break;
+                            }
+                            cat.folders.emplace_back(IconCategory::entry { testDir + "/", flags });
+                        }
                     }
                 }
             }
