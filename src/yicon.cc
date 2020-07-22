@@ -129,45 +129,51 @@ public:
         };
 
         auto probeAndRegisterXdgFolders = [this, &add](const mstring &what,
-                bool fromResources) {
+                bool fromResources) -> unsigned {
 
             // stop early because this is obviously matching a file!
             if (HasImageExtension(upath(what)))
-                return;
-
+                return 0;
+            unsigned ret = 0;
             for (auto &cat : pools[fromResources].categories) {
                 mstring szSize(long(cat.getSize()));
-                // assume that if the folder is there for any usable role then it wil be ok to search for icons
+
                 for (const auto &contentDir : { "/apps", "/categories", "/places", "/devices" }) {
-                    for (const auto &subType : { "/", "/base/"}) {
-                        for (const auto &testDir : {
-                                mstring(what) + subType + szSize + "x" + szSize + contentDir,
-                                // some old themes contain just one dimension and inverted order
-                                mstring(what) + contentDir + subType + szSize
-                        }) {
-                            if (upath(testDir).dirExists()) {
-                                // finally!
-                                int flags = 0;
-                                switch (contentDir[1]) {
-                                case 'a':
-                                    flags |= YIcon::FOR_APPS;
-                                    break;
-                                case 'p':
-                                    flags |= YIcon::FOR_PLACES;
-                                    break;
-                                case 'd':
-                                    flags |= YIcon::FOR_DEVICES;
-                                    break;
-                                case 'c':
-                                    flags |= YIcon::FOR_MENUCATS;
-                                    break;
-                                }
-                                add(cat, IconCategory::entry { testDir + "/", flags });
+                    for (const auto &testDir : {
+
+                            mstring(what) + "/" + szSize + "x" + szSize + contentDir,
+                            mstring(what) + "/base/" + szSize + "x" + szSize + contentDir,
+
+                            // some old themes contain just one dimension and inverted order
+                            mstring(what) + contentDir + "/" + szSize
+                    }) {
+                        if (upath(testDir).dirExists()) {
+                            // finally!
+                            int flags = 0;
+                            switch (contentDir[1]) {
+                            case 'a':
+                                flags |= YIcon::FOR_APPS;
+                                break;
+                            case 'p':
+                                flags |= YIcon::FOR_PLACES;
+                                break;
+                            case 'd':
+                                flags |= YIcon::FOR_DEVICES;
+                                break;
+                            case 'c':
+                                flags |= YIcon::FOR_MENUCATS;
+                                break;
                             }
+                            add(cat, IconCategory::entry { testDir + "/", flags });
+                            ret++;
+                            goto FOUND_FOR_SIZE_AND_PURPOSE;
                         }
                     }
+
+                    FOUND_FOR_SIZE_AND_PURPOSE: ;
                 }
             }
+            return ret;
         };
 
         std::vector<const char*> skiplist, matchlist;
@@ -184,38 +190,50 @@ public:
 
         auto probeIconFolder = [&](mstring iPath, bool fromResources) {
 
-            iPath += "/";
             auto& pool = pools[fromResources];
-            // try base path in any case (later), for any icon type
+            // try base path in any case (later), for any icon type, loading with the filename expansion scheme
             add(pool.legacyDirs, IconCategory::entry {
-                iPath,
+                iPath + "/",
                 YIcon::FOR_ANY_PURPOSE //| privFlag
             });
 
             for (const auto &themeExprTok : matchlist) {
-                mstring themeExpr = iPath + themeExprTok;
-                wordexp_t exp;
-                if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
-                    for (unsigned i = 0; i < exp.we_wordc; ++i) {
-                        auto match = exp.we_wordv[i];
-                        // get theme name from folder base name
-                        auto bname = strrchr(match, '/');
-                        if (!bname)
-                            continue;
-                        bname++;
-                        int keep = 1; // non-zero to consider it
-                        for (const auto &blistPattern : skiplist) {
-                            keep = fnmatch(blistPattern, bname, 0);
-                            if (!keep)
-                                break;
+                // probe the folder like it was specified by user directly up to the theme location
+                // and then also look for themes (by name) underneath that folder
+
+                unsigned nFoundForFolder = 0;
+
+                for (auto themeExpr : { iPath, iPath + "/" + themeExprTok }) {
+
+                    // were already XDG-like found by fishing in the simple attempt?
+                    if(nFoundForFolder)
+                        continue;
+
+                    wordexp_t exp;
+                    if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
+                        for (unsigned i = 0; i < exp.we_wordc; ++i) {
+                            auto match = exp.we_wordv[i];
+                            // get theme name from folder base name
+                            auto bname = strrchr(match, (unsigned) '/');
+                            if (!bname)
+                                continue;
+                            bname++;
+                            int keep = 1; // non-zero to consider it
+                            for (const auto &blistPattern : skiplist) {
+                                keep = fnmatch(blistPattern, bname, 0);
+                                if (!keep)
+                                    break;
+                            }
+
+                            // found a potential theme folder to consider?
+                            // does even the entry folder exist or is this a dead reference?
+                            if (keep && upath(match).dirExists())
+                                nFoundForFolder += probeAndRegisterXdgFolders(match, fromResources);
                         }
-                        // found a potential theme folder to consider?
-                        if (keep)
-                            probeAndRegisterXdgFolders(match, fromResources);
+                        wordfree(&exp);
+                    } else { // wordexp failed?
+                        nFoundForFolder += probeAndRegisterXdgFolders(themeExpr, fromResources);
                     }
-                    wordfree(&exp);
-                } else { // wordexp failed?
-                    probeAndRegisterXdgFolders(themeExpr, fromResources);
                 }
             }
         };
