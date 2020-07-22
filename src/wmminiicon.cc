@@ -31,6 +31,7 @@ MiniIcon::MiniIcon(YWindow *aParent, YFrameWindow *frame):
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
 
     setGeometry(YRect(0, 0, 120, 24));
+    setTitle("MiniIcon");
 }
 
 MiniIcon::~MiniIcon() {
@@ -161,6 +162,7 @@ void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
         (crossing.mode == NotifyNormal ||
          (strongPointerFocus && crossing.mode == NotifyUngrab)) &&
         crossing.window == handle() &&
+        !clickFocus &&
         (strongPointerFocus ||
          (crossing.serial != YWindow::getLastEnterNotifySerial() &&
           crossing.serial != YWindow::getLastEnterNotifySerial() + 1)))
