@@ -355,6 +355,7 @@ void WorkspacesPane::relabelButtons() {
         repositionButtons();
 
     paths = null;
+    repaint();
 }
 
 void WorkspacesPane::configure(const YRect2& r) {
