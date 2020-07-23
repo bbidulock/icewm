@@ -23,6 +23,7 @@
 #include <array>
 #include <initializer_list>
 #include <set>
+#include <map>
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
@@ -57,6 +58,10 @@ inline bool HasImageExtension(const upath &base) {
     }
     return false;
 }
+// XXX: this can be expressed better with constexpr but C++11 did not support complex
+// constexpr functions yet! Maybe should be replaced with a static array and some preprocessor
+// hackery checking for the same values.
+static const std::set<unsigned> dedupSizes = {hugeIconSize, largeIconSize, smallIconSize, menuIconSize};
 
 class ZIconPathIndex {
 
@@ -65,56 +70,26 @@ public:
     struct IconCategory {
     private:
         mutable std::vector<mstring> suffixCache;
-        unsigned sizetype = 0;
 
     public:
-        unsigned getSize() const {
-            return sizetype;
-        }
-        IconCategory(unsigned size = 0) :
-                sizetype(size) {
-        }
         struct entry {
             mstring path;
+#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
             int itype; // actually a bit field from IconTypeFilter
+#endif
         };
-        const std::vector<mstring>& getExtendedSuffixes() const;
 
         std::vector<entry> folders;
     };
-    struct Pool
-    {
-    std::vector<IconCategory> categories;
-    // catch all folders without sizetyped subdirs
-    IconCategory legacyDirs;
-    Pool(){
-
-        // add unique(!) category
-        for (auto size : { hugeIconSize, largeIconSize, smallIconSize,
-                menuIconSize }) {
-
-            if (&legacyDirs == &(getCat(size))) {
-                categories.emplace_back(IconCategory(size));
-            }
+    struct Pool {
+        std::map<unsigned, IconCategory> categories;
+        Pool() {
+            // add unique(!) category
+            for (auto size : dedupSizes)
+                categories[size] = IconCategory();
+            categories[0] = IconCategory();
         }
-    }
-
-    IconCategory& getCat(unsigned size) {
-        for (auto &cat : categories) {
-            if (cat.getSize() == size)
-                return cat;
-        }
-        return legacyDirs;
-    }
-
-    std::array<IconCategory*,2> getCatAndDefault(unsigned size) {
-        for (auto &cat : categories) {
-            if (cat.getSize() == size)
-                return {&cat, &legacyDirs};
-        }
-        return {&legacyDirs, nullptr};
-    }
-    } pools[2];
+    } pools[2]; // zero are resource folders, one is based on IconPath
 
 
     void init() {
@@ -123,9 +98,9 @@ public:
         if (once)
             return;
         once = true;
-        std::set<mstring> dedup;
-        auto add = [&dedup](IconCategory& cat, IconCategory::entry&& el) {
-            if(dedup.insert(el.path).second) cat.folders.emplace_back(std::move(el));
+        std::set<mstring> dedupTestPath;
+        auto add = [&dedupTestPath](IconCategory& cat, IconCategory::entry&& el) {
+            if(dedupTestPath.insert(el.path).second) cat.folders.emplace_back(std::move(el));
         };
 
         auto probeAndRegisterXdgFolders = [this, &add](const mstring &what,
@@ -135,8 +110,9 @@ public:
             if (HasImageExtension(upath(what)))
                 return 0;
             unsigned ret = 0;
-            for (auto &cat : pools[fromResources].categories) {
-                mstring szSize(long(cat.getSize()));
+            for (auto &kv : pools[fromResources].categories) {
+                auto& cat = kv.second;
+                mstring szSize(long(kv.first));
 
                 for (const auto &contentDir : { "/apps", "/categories", "/places", "/devices" }) {
                     for (const auto &testDir : {
@@ -149,6 +125,7 @@ public:
                     }) {
                         if (upath(testDir).dirExists()) {
                             // finally!
+#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
                             int flags = 0;
                             switch (contentDir[1]) {
                             case 'a':
@@ -165,6 +142,9 @@ public:
                                 break;
                             }
                             add(cat, IconCategory::entry { testDir + "/", flags });
+#else
+                            add(cat, IconCategory::entry { testDir + "/"});
+#endif
                             ret++;
                             goto FOUND_FOR_SIZE_AND_PURPOSE;
                         }
@@ -192,9 +172,11 @@ public:
 
             auto& pool = pools[fromResources];
             // try base path in any case (later), for any icon type, loading with the filename expansion scheme
-            add(pool.legacyDirs, IconCategory::entry {
-                iPath + "/",
-                YIcon::FOR_ANY_PURPOSE //| privFlag
+            add(pool.categories[0], IconCategory::entry {
+                iPath + "/"
+#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
+                , YIcon::FOR_ANY_PURPOSE //| privFlag
+#endif
             });
 
             for (const auto &themeExprTok : matchlist) {
@@ -254,62 +236,84 @@ public:
 
             probeIconFolder(itok, false);
         }
-
     }
 
     upath locateIcon(int size, const mstring &baseName, bool fromResources) {
         bool hasSuffix = HasImageExtension(baseName);
-        auto& pool = pools[fromResources];
+        auto &pool = pools[fromResources];
+        upath result = null;
 
-        for (auto pCat : pool.getCatAndDefault(size)) {
+        auto checkFile = [&](const mstring &path) {
+            upath testPath(path);
+            if (testPath.fileExists())
+                result = testPath;
+        };
+        auto checkFilesInFolder = [&](const mstring &dirPath, unsigned size, bool addSizeSfx) {
+            // XXX: optimize string concatenation? Or go back to plain printf?
+            mstring imgPath(dirPath + baseName);
+            if (addSizeSfx) {
+                imgPath += "_";
+                imgPath += mstring(long(size)) + "x" + mstring(long(size));
+            }
+            for (const auto &imgExt : iconExts) {
+                checkFile(imgPath + imgExt);
+                if (result != null)
+                    break;
+            }
+        };
+        auto scanList = [&](IconCategory &cat, bool addSizeSfx, unsigned probeAllButThis = 0) {
+            for (const auto &el : cat.folders) {
 
-            if (!pCat)
-                continue;
-
-            for (const auto &el : pCat->folders) {
-
-                /* Restore if filtering by flags is needed
-                if (0 == (filter & el.itype))
-                    continue;
-                    */
-
-                // XXX: optimize string concatenation?
-                mstring path(el.path + baseName);
                 if (hasSuffix) {
-                    upath testPath(path);
-                    if (testPath.fileExists())
-                        return testPath;
-                } else {
-                    for (const mstring &sfx : pCat->getExtendedSuffixes()) {
-                        upath testPath(path + sfx);
-                        //printf("probing %s\n", testPath.string());
-                        //bool dbgCheck = 0 == strcmp("/usr/share/icons/hicolor/32x32/apps/firefox.png", testPath.string());
-                        if (testPath.fileExists())
-                            return testPath;
-                    }
+                    checkFile(el.path + baseName);
+                    if (result != null)
+                        break;
                 }
+
+                // starting with bigger size so we get those for scaling first, in case that becomes needed
+                if (probeAllButThis) {
+                    for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
+                        if (int(*it) == size)
+                            continue;
+                        checkFilesInFolder(el.path, *it, addSizeSfx);
+                        if (result != null)
+                            break;
+                    }
+                } else
+                    checkFilesInFolder(el.path, size, addSizeSfx);
+
+                if (result != null)
+                    break;
+            }
+        };
+
+
+        // Order of preferences:
+        // in <size> without size-suffix
+        // in 0 with size-suffix
+        // in all-sizes-excl.ours-excl.0, without suffix
+        // in 0 with size-suffix like all-sizes-excl.ours-excl.0
+        //
+        // <RANT> actually we need generator functions which C++ doesn't have
+
+        if (result == null)
+            scanList(pool.categories[size], false);
+        if (result == null && !hasSuffix)
+            scanList(pool.categories[0], true);
+        if (result == null) {
+            for (auto testSize : dedupSizes) {
+                if (int(testSize) != size)
+                    scanList(pool.categories[testSize], false);
+                if (result != null)
+                    break;
             }
         }
-        return null;
+        if (result == null && !hasSuffix)
+            scanList(pool.categories[0], true, size);
+        return result;
     }
 } iconIndex;
 
-const std::vector<mstring>& ZIconPathIndex::IconCategory::getExtendedSuffixes()
-const {
-    if (!suffixCache.empty())
-        return suffixCache;
-    // if untyped folder, try size-specific suffixes first
-    if (sizetype == 0) {
-        for (auto cat : iconIndex.pools[0].categories) {
-            mstring sDim(long(cat.getSize()));
-            for (const auto &ex : iconExts)
-                suffixCache.emplace_back(mstring("_") + sDim + "x" + sDim + ex);
-        }
-    }
-    for (const auto &sfx : iconExts)
-        suffixCache.emplace_back(sfx);
-    return suffixCache;
-}
 
 upath YIcon::findIcon(unsigned size) {
 
