@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-06-28 13:34+0200\n"
-"PO-Revision-Date: 2020-05-07 08:52+0000\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
+"PO-Revision-Date: 2020-07-26 08:51+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
 "Language: id\n"
@@ -603,10 +603,8 @@ msgid "Motif decorations"
 msgstr "Hiasan motif"
 
 #: src/icesh.cc:1938
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "Keadaan jendela GNOME"
+msgstr "Keadaan jendela EWMH"
 
 #: src/icesh.cc:2020 src/icesh.cc:2049
 #, c-format
@@ -683,19 +681,6 @@ msgid "Socket error: %d"
 msgstr "Galat soket: %d"
 
 #: src/icesm.cc:59
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -717,7 +702,7 @@ msgstr ""
 "  -d, --display=NAME  Gunakan NAME untuk terhubung ke peladen X.\n"
 "  -a, --alpha         Gunakan visual 32-bit untuk tembus pandang.\n"
 "  --sync              Sinkronisasi komunikasi dengan peladen X11.\n"
-"\n"
+"  -o, --output=FILE   Mengarahkan semua output ke BERKAS.\n"
 "  -i, --icewm=FILE    Gunakan FILE sebagai pengelola jendela IceWM.\n"
 "  -b, --nobg          Jangan mulai icewmbg.\n"
 "  -n, --notray        Jangan mulai icewmtray.\n"
@@ -1587,11 +1572,11 @@ msgstr "Gulung atas"
 
 #: src/wmmgr.cc:3226
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Tak ada program setxkbmap"
 
 #: src/wmmgr.cc:3227
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Untuk mengubah papan tik, silakan instal setxkbmap."
 
 #: src/wmoption.cc:270
 #, c-format
