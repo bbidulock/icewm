@@ -76,6 +76,7 @@ private:
 
     void updateWMHints();
     void updateLocation();
+    void updateWinLayer();
     virtual void configure(const YRect2 &r);
     virtual void repaint();
 

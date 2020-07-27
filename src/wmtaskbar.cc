@@ -156,9 +156,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipTaskBar);
 
     setWinWorkspaceHint(AllWorkspaces);
-    setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
-                    fIsCollapsed ? WinLayerAboveDock :
-                    taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
+    updateWinLayer();
     Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
@@ -733,6 +731,16 @@ void TaskBar::updateWMHints() {
     }
 }
 
+void TaskBar::updateWinLayer() {
+    long layer = (taskBarAutoHide || fFullscreen) ? WinLayerAboveAll
+               : fIsCollapsed ? WinLayerAboveDock
+               : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
+    if (getFrame()) {
+        getFrame()->setRequestedLayer(layer);
+    } else {
+        setWinLayerHint(layer);
+    }
+}
 
 void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
     unsigned long last = YWindow::getLastEnterNotifySerial();
@@ -920,10 +928,8 @@ void TaskBar::showBar() {
     if (getFrame() == nullptr) {
         manager->lockWorkArea();
         manager->mapClient(handle());
+        updateWinLayer();
         if (getFrame() != nullptr) {
-            setWinLayerHint((taskBarAutoHide || fFullscreen) ? WinLayerAboveAll :
-                            fIsCollapsed ? WinLayerAboveDock :
-                            taskBarKeepBelow ? WinLayerBelow : WinLayerDock);
             getFrame()->setAllWorkspaces();
             if (enableAddressBar && ::showAddressBar && taskBarDoubleHeight)
                 getFrame()->activate(true);
@@ -950,6 +956,7 @@ void TaskBar::handleCollapseButton() {
 
     relayout();
     updateLocation();
+    updateWinLayer();
 }
 
 void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
