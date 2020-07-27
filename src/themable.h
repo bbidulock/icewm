@@ -29,6 +29,7 @@ XIV(unsigned, wsTitleBar,                       20)
 XIV(int, titleBarJustify,                       0)
 XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
+XIV(unsigned, topSideVerticalOffset,            0)
 XIV(unsigned, scrollBarWidth,                   16)
 XIV(unsigned, scrollBarHeight,                  16)
 
