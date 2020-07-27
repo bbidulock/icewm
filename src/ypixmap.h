@@ -27,6 +27,7 @@ public:
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
     unsigned depth() const { return fDepth; }
+    unsigned verticalOffset() const;
     ref<YImage> image();
     Pixmap pixmap32();
     Pixmap pixmap24();
