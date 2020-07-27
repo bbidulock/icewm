@@ -58,10 +58,10 @@ inline bool HasImageExtension(const upath &base) {
     }
     return false;
 }
-// XXX: this can be expressed better with constexpr but C++11 did not support complex
-// constexpr functions yet! Maybe should be replaced with a static array and some preprocessor
-// hackery checking for the same values.
-static const std::set<unsigned> dedupSizes = {hugeIconSize, largeIconSize, smallIconSize, menuIconSize};
+
+// make sure to avoid duplicates, no matter what themable.h defines
+static const std::set<unsigned> dedupSizes = {hugeIconSize, largeIconSize,
+    smallIconSize, menuIconSize};
 
 class ZIconPathIndex {
 
@@ -99,8 +99,11 @@ public:
             return;
         once = true;
         std::set<mstring> dedupTestPath;
-        auto add = [&dedupTestPath](IconCategory& cat, IconCategory::entry&& el) {
-            if(dedupTestPath.insert(el.path).second) cat.folders.emplace_back(std::move(el));
+        auto add = [&dedupTestPath](IconCategory& cat,
+                IconCategory::entry&& el) {
+
+            if(dedupTestPath.insert(el.path).second)
+                cat.folders.emplace_back(std::move(el));
         };
 
         auto probeAndRegisterXdgFolders = [this, &add](const mstring &what,
@@ -114,13 +117,15 @@ public:
                 auto& cat = kv.second;
                 mstring szSize(long(kv.first));
 
-                for (const auto &contentDir : { "/apps", "/categories", "/places", "/devices" }) {
+                for (const auto &contentDir : { "/apps", "/categories",
+                        "/places", "/devices", "/status" }) {
                     for (const auto &testDir : {
 
-                            mstring(what) + "/" + szSize + "x" + szSize + contentDir,
-                            mstring(what) + "/base/" + szSize + "x" + szSize + contentDir,
-
-                            // some old themes contain just one dimension and inverted order
+                            mstring(what) + "/" + szSize + "x" + szSize
+                                    + contentDir,
+                            mstring(what) + "/base/" + szSize + "x" + szSize
+                                    + contentDir,
+// some old themes contain just one dimension and different naming convention
                             mstring(what) + contentDir + "/" + szSize
                     }) {
                         if (upath(testDir).dirExists()) {
@@ -140,8 +145,10 @@ public:
                             case 'c':
                                 flags |= YIcon::FOR_MENUCATS;
                                 break;
+#error FIXME: an enum value for "status"
                             }
-                            add(cat, IconCategory::entry { testDir + "/", flags });
+                            add(cat, IconCategory::entry { testDir + "/",
+                                    flags });
 #else
                             add(cat, IconCategory::entry { testDir + "/"});
 #endif
@@ -171,7 +178,8 @@ public:
         auto probeIconFolder = [&](mstring iPath, bool fromResources) {
 
             auto& pool = pools[fromResources];
-            // try base path in any case (later), for any icon type, loading with the filename expansion scheme
+            // try base path in any case (later), for any icon type, loading
+            // with the filename expansion scheme
             add(pool.categories[0], IconCategory::entry {
                 iPath + "/"
 #ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
@@ -180,14 +188,16 @@ public:
             });
 
             for (const auto &themeExprTok : matchlist) {
-                // probe the folder like it was specified by user directly up to the theme location
-                // and then also look for themes (by name) underneath that folder
+                // probe the folder like it was specified by user directly up to
+                // the theme location and then also look for themes (by name)
+                // underneath that folder
 
                 unsigned nFoundForFolder = 0;
 
                 for (auto themeExpr : { iPath, iPath + "/" + themeExprTok }) {
 
-                    // were already XDG-like found by fishing in the simple attempt?
+                    // were already XDG-like found by fishing in the simple
+                    // attempt?
                     if(nFoundForFolder)
                         continue;
 
@@ -208,13 +218,19 @@ public:
                             }
 
                             // found a potential theme folder to consider?
-                            // does even the entry folder exist or is this a dead reference?
-                            if (keep && upath(match).dirExists())
-                                nFoundForFolder += probeAndRegisterXdgFolders(match, fromResources);
+                            // does even the entry folder exist or is this a
+                            // dead reference?
+                            if (keep && upath(match).dirExists()) {
+
+                                nFoundForFolder +=
+                                        probeAndRegisterXdgFolders(match,
+                                                fromResources);
+                            }
                         }
                         wordfree(&exp);
                     } else { // wordexp failed?
-                        nFoundForFolder += probeAndRegisterXdgFolders(themeExpr, fromResources);
+                        nFoundForFolder += probeAndRegisterXdgFolders(themeExpr,
+                                fromResources);
                     }
                 }
             }
@@ -248,7 +264,8 @@ public:
             if (testPath.fileExists())
                 result = testPath;
         };
-        auto checkFilesInFolder = [&](const mstring &dirPath, unsigned size, bool addSizeSfx) {
+        auto checkFilesInFolder = [&](const mstring &dirPath, unsigned size,
+                bool addSizeSfx) {
             // XXX: optimize string concatenation? Or go back to plain printf?
             mstring imgPath(dirPath + baseName);
             if (addSizeSfx) {
@@ -261,7 +278,9 @@ public:
                     break;
             }
         };
-        auto scanList = [&](IconCategory &cat, bool addSizeSfx, unsigned probeAllButThis = 0) {
+        auto scanList = [&](IconCategory &cat, bool addSizeSfx,
+                unsigned probeAllButThis = 0) {
+
             for (const auto &el : cat.folders) {
 
                 if (hasSuffix) {
@@ -270,11 +289,15 @@ public:
                         break;
                 }
 
-                // starting with bigger size so we get those for scaling first, in case that becomes needed
+                // starting with bigger size so we get those for scaling first,
+                // in case that becomes needed
                 if (probeAllButThis) {
-                    for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
+                    for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin();
+                            it++) {
+
                         if (int(*it) == size)
                             continue;
+
                         checkFilesInFolder(el.path, *it, addSizeSfx);
                         if (result != null)
                             break;
@@ -287,19 +310,20 @@ public:
             }
         };
 
-
         // Order of preferences:
         // in <size> without size-suffix
         // in 0 with size-suffix
         // in all-sizes-excl.ours-excl.0, without suffix
         // in 0 with size-suffix like all-sizes-excl.ours-excl.0
-        //
-        // <RANT> actually we need generator functions which C++ doesn't have
 
         if (result == null)
             scanList(pool.categories[size], false);
+        // plain check in IconPath folders
         if (result == null && !hasSuffix)
             scanList(pool.categories[0], true);
+        if (result == null)
+            scanList(pool.categories[0], false);
+
         if (result == null) {
             for (auto testSize : dedupSizes) {
                 if (int(testSize) != size)
@@ -347,7 +371,8 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             icon = YImage::load(cs);
         }
     }
-    // if the image data which was found in the expected file does not really match the filename, scale the data to fit
+    // if the image data which was found in the expected file does not really
+    // match the filename, scale the data to fit
     if (icon != null) {
         if (size != icon->width() || size != icon->height()) {
             icon = icon->scale(size, size);

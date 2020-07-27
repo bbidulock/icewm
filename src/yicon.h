@@ -28,6 +28,7 @@ public:
     bool draw(Graphics &g, int x, int y, int size);
     upath findIcon(unsigned size);
 
+#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
     enum /* class... or better not, simplify! */ TypeFilter {
         NONE = 0,
         /** Suitable for programs */
@@ -40,6 +41,7 @@ public:
         FOR_ANY_PURPOSE = FOR_APPS | FOR_DEVICES | FOR_MENUCATS | FOR_APPS,
         ALL = FOR_ANY_PURPOSE // | FROM_ANY_SOURCE
     };
+#endif
 
 private:
     ref<YImage> fSmall;
