@@ -328,9 +328,9 @@ void YFrameWindow::layoutTitleBar() {
 }
 
 void YFrameWindow::layoutResizeIndicators() {
-    if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
-        !isRollup() && !isMinimized() && (frameFunctions() & ffResize) &&
-        !isFullscreen())
+    if (hasbits(frameDecors(), fdResize | fdBorder) &&
+        hasbit(frameFunctions(), ffResize) &&
+        !hasState(WinStateRollup | WinStateMinimized | WinStateFullscreen))
     {
         if (!indicatorsCreated)
             createPointerWindows();
@@ -365,32 +365,33 @@ void YFrameWindow::layoutResizeIndicators() {
     if (!indicatorsVisible)
         return;
 
+    int vo = int(min(height(), topSideVerticalOffset));
     int ww(max(3, (int) width()));
-    int hh(max(3, (int) height()));
+    int hh(max(3, (int) height() - vo));
     int bx(max(1, (int) borderX()));
     int by(max(1, (int) borderY()));
     int cx(max(1, (int) wsCornerX));
     int cy(max(1, (int) wsCornerY));
-    int xx(max(1, min(cx, ww / 2)));
-    int yy(max(1, min(cy, hh / 2)));
+    int xx(min(cx, ww / 2));
+    int yy(min(cy, hh / 2));
 
     XMoveResizeWindow(xapp->display(), topSide,
-                      xx, 0, max(1, ww - 2 * xx), by);
+                      xx, vo, max(1, ww - 2 * xx), by);
     XMoveResizeWindow(xapp->display(), leftSide,
-                      0, yy, bx, max(1, hh - 2 * yy));
+                      0, yy + vo, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), rightSide,
-                      ww - bx, yy, bx, max(1, hh - 2 * yy));
+                      ww - bx, yy + vo, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), bottomSide,
-                      xx, hh - by, max(1, ww - 2 * xx), by);
+                      xx, hh - by + vo, max(1, ww - 2 * xx), by);
 
     XMoveResizeWindow(xapp->display(), topLeft,
-                      0, 0, xx, yy);
+                      0, vo, xx, yy);
     XMoveResizeWindow(xapp->display(), topRight,
-                      ww - xx, 0, xx, yy);
+                      ww - xx, vo, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomLeft,
-                      0, hh - yy, xx, yy);
+                      0, hh - yy + vo, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomRight,
-                      ww - xx, hh - yy, xx, yy);
+                      ww - xx, hh - yy + vo, xx, yy);
 }
 
 void YFrameWindow::layoutClient() {

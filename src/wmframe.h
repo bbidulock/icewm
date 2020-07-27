@@ -37,7 +37,7 @@ public:
     void unmanage(bool reparent = true);
     void sendConfigure();
 
-    Window createPointerWindow(Cursor cursor, Window parent);
+    Window createPointerWindow(Cursor cursor, int gravity);
     void createPointerWindows();
     void grabKeys();
 

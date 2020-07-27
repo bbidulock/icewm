@@ -996,36 +996,54 @@ void YFrameWindow::endMoveSize() {
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if ((down.button == 3) && canMove()) {
+    if (down.button == Button3 && canMove()) {
         startMoveSize(true, true,
                       0, 0,
                       down.x, down.y);
         handleDrag(down, motion);
-    } else if ((down.button == 1) && canSize()) {
+    }
+    else if (down.button == Button1 && canSize()) {
+        Window sw = down.subwindow;
+
         grabX = 0;
         grabY = 0;
 
-        if (down.x < int(borderX())) grabX = -1;
-        else if ((int) width() - down.x <= borderX()) grabX = 1;
-
-        if (down.y < int(borderY())) grabY = -1;
-        else if ((int) height() - down.y <= borderY()) grabY = 1;
-
-        if (grabY != 0 && grabX == 0) {
-            if (down.x < int(wsCornerX)) grabX = -1;
-            else if ((int)width() - down.x <= (int) wsCornerX) grabX = 1;
+        if (down.x < int(borderX()) || sw == topLeft ||
+                sw == leftSide || sw == bottomLeft) {
+            grabX = -1;
+        }
+        else if (int(width()) - down.x <= borderX() || sw == topRight ||
+                sw == rightSide || sw == bottomRight) {
+            grabX = 1;
         }
 
-        if (grabX != 0 && grabY == 0) {
-            if (down.y < int(wsCornerY)) grabY = -1;
-            else if ((int)height() - down.y <= (int) wsCornerY) grabY = 1;
+        if (down.y < int(borderY()) + int(topSideVerticalOffset) ||
+                sw == topLeft || sw == topSide || sw == topRight) {
+            grabY = -1;
+        }
+        else if (int(height()) - down.y <= borderY() || sw == bottomLeft ||
+                sw == bottomSide || sw == bottomRight) {
+            grabY = 1;
         }
 
-        if (grabX != 0 || grabY != 0) {
+        if (grabY && !grabX) {
+            if (down.x < int(wsCornerX))
+                grabX = -1;
+            else if (int(width()) - down.x <= int(wsCornerX))
+                grabX = 1;
+        }
+
+        if (grabX && !grabY) {
+            if (down.y < int(wsCornerY) + int(topSideVerticalOffset))
+                grabY = -1;
+            else if (int(height()) - down.y <= int(wsCornerY))
+                grabY = 1;
+        }
+
+        if (grabX || grabY) {
             startMoveSize(false, true,
                           grabX, grabY,
                           down.x_root, down.y_root);
-
         }
     }
 }

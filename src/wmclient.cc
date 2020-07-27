@@ -1115,7 +1115,7 @@ long YFrameClient::mwmDecors() {
     return decors;
 }
 
-bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
+bool YFrameClient::getKwmIcon(long* count, Pixmap** pixmap) {
     *count = 0;
     *pixmap = None;
 
@@ -1132,7 +1132,7 @@ bool YFrameClient::getKwmIcon(int *count, Pixmap **pixmap) {
     return false;
 }
 
-bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
+bool YFrameClient::getWinIcons(Atom* type, long* count, long** elem) {
     *type = None;
     *count = 0;
     *elem = nullptr;
@@ -1150,14 +1150,14 @@ bool YFrameClient::getWinIcons(Atom *type, int *count, long **elem) {
     return false;
 }
 
-bool YFrameClient::getNetWMIcon(int* count, long** elems) {
+bool YFrameClient::getNetWMIcon(long* count, long** elems) {
     *count = 0;
     *elems = nullptr;
     if (prop.net_wm_icon) {
         YProperty prop(this, _XA_NET_WM_ICON, F32, 1L << 22);
         if (prop) {
             if (prop.typed(XA_CARDINAL)) {
-                *count = int(prop.size());
+                *count = prop.size();
                 *elems = prop.retrieve<long>();
             }
             else if (testOnce("_NET_WM_ICON", int(handle()))) {

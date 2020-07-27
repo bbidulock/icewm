@@ -437,12 +437,13 @@ void YFrameWindow::afterManage() {
 }
 
 // create a window to show a resize pointer on the frame border
-Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
-    unsigned long valuemask = CWEventMask | CWCursor;
+Window YFrameWindow::createPointerWindow(Cursor cursor, int gravity) {
+    unsigned long valuemask = CWEventMask | CWCursor | CWWinGravity;
     XSetWindowAttributes attributes;
+    attributes.win_gravity = gravity;
     attributes.event_mask = 0;
     attributes.cursor = cursor;
-    return XCreateWindow(xapp->display(), parent, 0, 0, 1, 1, 0,
+    return XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
                          0, InputOnly, CopyFromParent,
                          valuemask, &attributes);
 }
@@ -450,24 +451,29 @@ Window YFrameWindow::createPointerWindow(Cursor cursor, Window parent) {
 // create 8 resize pointer indicator windows
 void YFrameWindow::createPointerWindows() {
 
-    const Window frameWin = handle();
+    topSide =
+        createPointerWindow(YWMApp::sizeTopPointer, NorthGravity);
+    leftSide =
+        createPointerWindow(YWMApp::sizeLeftPointer, WestGravity);
+    rightSide =
+        createPointerWindow(YWMApp::sizeRightPointer, EastGravity);
+    bottomSide =
+        createPointerWindow(YWMApp::sizeBottomPointer, SouthGravity);
 
-    topSide = createPointerWindow(YWMApp::sizeTopPointer, frameWin);
-    leftSide = createPointerWindow(YWMApp::sizeLeftPointer, frameWin);
-    rightSide = createPointerWindow(YWMApp::sizeRightPointer, frameWin);
-    bottomSide = createPointerWindow(YWMApp::sizeBottomPointer, frameWin);
-
-    topLeft = createPointerWindow(YWMApp::sizeTopLeftPointer, frameWin);
-    topRight = createPointerWindow(YWMApp::sizeTopRightPointer, frameWin);
-    bottomLeft = createPointerWindow(YWMApp::sizeBottomLeftPointer, frameWin);
-    bottomRight = createPointerWindow(YWMApp::sizeBottomRightPointer, frameWin);
+    topLeft =
+        createPointerWindow(YWMApp::sizeTopLeftPointer, NorthWestGravity);
+    topRight =
+        createPointerWindow(YWMApp::sizeTopRightPointer, NorthEastGravity);
+    bottomLeft =
+        createPointerWindow(YWMApp::sizeBottomLeftPointer, SouthWestGravity);
+    bottomRight =
+        createPointerWindow(YWMApp::sizeBottomRightPointer, SouthEastGravity);
 
     indicatorsCreated = true;
 
-    if (titlebar()) {
-        titlebar()->raiseButtons();
+    if (fTitleBar) {
+        fTitleBar->raise();
     }
-    XRaiseWindow(xapp->display(), topSide);
     XStoreName(xapp->display(), topSide, "topSide");
     container()->raise();
 }
@@ -1207,9 +1213,7 @@ bool YFrameWindow::canRestore() const {
 void YFrameWindow::wmRestore() {
     wmapp->signalGuiEvent(geWindowRestore);
     setState(WinStateMaximizedVert | WinStateMaximizedHoriz |
-             WinStateMinimized |
-             WinStateHidden |
-             WinStateRollup, 0);
+             WinStateMinimized | WinStateHidden | WinStateRollup, 0);
 }
 
 void YFrameWindow::wmMinimize() {
@@ -2213,9 +2217,9 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
 }
 
 void YFrameWindow::updateIcon() {
-    int count;
-    long *elem;
-    Pixmap *pixmap;
+    long count;
+    long* elem;
+    Pixmap* pixmap;
     Atom type;
 
 /// TODO #warning "think about winoptions specified icon here"
@@ -2224,47 +2228,56 @@ void YFrameWindow::updateIcon() {
 
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
-        unsigned sizes[] = { YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()};
-        long *largestIconOffset = elem;
-        unsigned largestIconSize = 0;
+        const unsigned sizes[3] = {
+            YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()
+        };
+        long* largestOffset = nullptr;
+        unsigned largestSize = 0;
 
         // Find icons that match Small-/Large-/HugeIconSize and search
         // for the largest icon from NET_WM_ICON set.
         for (long *e = elem;
-             e < elem + count && e[0] > 0 && e[1] > 0;
+             e + 2 < elem + count && e[0] > 0 && e[1] > 0;
              e += 2 + e[0] * e[1]) {
-
-            if (e + 2 + e[0] * e[1] <= elem + count) {
-
-                if (e[0] > largestIconSize && e[0] == e[1]) {
-                    largestIconOffset = e;
-                    largestIconSize = e[0];
-                }
-
-                // It's possible when huge=large=small, so we must go
-                // through all sizes[]
+            long w = e[0], h = e[1], *d = e + 2;
+            if (w == h && d + w*h <= elem + count) {
+                // Maybe huge=large=small, so examine all sizes[].
                 for (int i = 0; i < 3; i++) {
-
-                    if (e[0] == sizes[i] && e[0] == e[1] && icons[i] == null)
-                        icons[i] = YImage::createFromIconProperty(e + 2, e[0], e[1]);
+                    if (w == sizes[i] && icons[i] == null) {
+                        if (i >= 1 && sizes[i - 1] == sizes[i]) {
+                            icons[i] = icons[i - 1];
+                        } else {
+                            icons[i] = YImage::createFromIconProperty(d, w, h);
+                            if (w > largestSize) {
+                                largestOffset = d;
+                                largestSize = w;
+                                largestIcon = icons[i];
+                            }
+                        }
+                    }
+                }
+                if ((w > largestSize && largestSize < sizes[2]) ||
+                    (w > sizes[2] && w < largestSize))
+                {
+                    largestOffset = d;
+                    largestSize = w;
                 }
             }
         }
 
-        // create the largest icon
-        if (largestIconSize > 0) {
-            largestIcon =
-                YImage::createFromIconProperty(largestIconOffset + 2,
-                                               largestIconSize,
-                                               largestIconSize);
-        }
-
-        // create the missing icons by downscaling the largest icon
-        // Q: Do we need to upscale the largest icon up to missing icon size?
-        if (largestIcon != null) {
-            for (int i = 0; i < 3; i++) {
-                if (icons[i] == null && sizes[i] < largestIconSize)
+        // Create missing icons by scaling the largest icon.
+        for (int i = 0; i < 3; i++) {
+            if (icons[i] == null) {
+                // create the largest icon
+                if (largestIcon == null && largestOffset && largestSize) {
+                    largestIcon =
+                        YImage::createFromIconProperty(largestOffset,
+                                                       largestSize,
+                                                       largestSize);
+                }
+                if (largestIcon != null) {
                     icons[i] = largestIcon->scale(sizes[i], sizes[i]);
+                }
             }
         }
         fFrameIcon.init(new YIcon(icons[0], icons[1], icons[2]));
@@ -3064,15 +3077,10 @@ void YFrameWindow::setState(long mask, long state) {
     {
         MSG(("WinStateMaximized: %d", isMaximized()));
 
-        YFrameButton* maximize = titlebar() ? titlebar()->maximizeButton() : nullptr;
-        if (maximize) {
-            if (isMaximized()) {
-                maximize->setActions(actionRestore, actionRestore);
-                maximize->setToolTip(_("Restore"));
-            } else {
-                maximize->setActions(actionMaximize, actionMaximizeVert);
-                maximize->setToolTip(_("Maximize"));
-            }
+        YFrameButton* maxi = titlebar() ? titlebar()->maximizeButton() : nullptr;
+        if (maxi) {
+            maxi->setKind(YFrameTitleBar::Maxi);
+            maxi->repaint();
         }
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
@@ -3108,11 +3116,7 @@ void YFrameWindow::setState(long mask, long state) {
         MSG(("WinStateRollup: %d", isRollup()));
         YFrameButton* rollup = titlebar() ? titlebar()->rollupButton() : nullptr;
         if (rollup) {
-            if (isRollup()) {
-                rollup->setToolTip(_("Rolldown"));
-            } else {
-                rollup->setToolTip(_("Rollup"));
-            }
+            rollup->setKind(YFrameTitleBar::Roll);
             rollup->repaint();
         }
         layoutResizeIndicators();
