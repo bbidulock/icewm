@@ -94,13 +94,6 @@ YFrameButton *YFrameTitleBar::getButton(char c) {
     return fButtons[index];
 }
 
-void YFrameTitleBar::raiseButtons() {
-    raise();
-    for (auto b : fButtons)
-        if (b)
-            b->raise();
-}
-
 void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if ((buttonRaiseMask & (1 << (button.button - Button1))) &&
@@ -112,8 +105,8 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
         }
     }
     else if (button.type == ButtonRelease) {
-        if (button.button == Button1 &&
-            IS_BUTTON(BUTTON_MODMASK(button.state), Button1Mask + Button3Mask))
+        if ((button.button == Button1 || button.button == Button3) &&
+            IS_BUTTON(button.state, Button1Mask + Button3Mask))
         {
             windowList->showFocused(button.x_root, button.y_root);
         }
@@ -208,37 +201,6 @@ void YFrameTitleBar::activate() {
     }
 }
 
-void YFrameTitleBar::positionButton(YFrameButton *b, int &xPos, bool onRight) {
-    const int titleY = getFrame()->titleY();
-
-    /// !!! clean this up
-    if (b == menuButton()) {
-        const unsigned bw(((LOOK(lookPixmap | lookMetal | lookGtk |
-                                 lookFlat | lookMotif ) && showFrameIcon) ||
-                            b->getPixmap(0) == null) ?
-                            titleY : b->getPixmap(0)->width());
-
-        if (onRight) xPos -= bw;
-        b->setGeometry(YRect(xPos, 0, bw, titleY));
-        if (!onRight) xPos += bw;
-    } else if (LOOK(lookPixmap | lookMetal | lookGtk | lookFlat)) {
-        const unsigned bw(b->getPixmap(0) != null
-                ? b->getPixmap(0)->width() : titleY);
-
-        if (onRight) xPos -= bw;
-        b->setGeometry(YRect(xPos, 0, bw, titleY));
-        if (!onRight) xPos += bw;
-    } else if (wmLook == lookWin95) {
-        if (onRight) xPos -= titleY;
-        b->setGeometry(YRect(xPos, 2, titleY, titleY - 3));
-        if (!onRight) xPos += titleY;
-    } else {
-        if (onRight) xPos -= titleY;
-        b->setGeometry(YRect(xPos, 0, titleY, titleY));
-        if (!onRight) xPos += titleY;
-    }
-}
-
 void YFrameTitleBar::layoutButtons() {
     if (getFrame()->titleY() == 0)
         return ;
@@ -258,8 +220,9 @@ void YFrameTitleBar::layoutButtons() {
                     if (left + int(b->width()) >= right) {
                         b->hide();
                     } else {
+                        b->setPosition(left, 0);
+                        left += b->width();
                         b->show();
-                        positionButton(b, left, false);
                     }
                 }
             }
@@ -276,8 +239,9 @@ void YFrameTitleBar::layoutButtons() {
                     if (right - int(b->width()) <= left) {
                         b->hide();
                     } else {
+                        right -= b->width();
+                        b->setPosition(right, 0);
                         b->show();
-                        positionButton(b, right, true);
                     }
                 }
             }

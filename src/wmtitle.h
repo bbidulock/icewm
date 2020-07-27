@@ -28,7 +28,6 @@ public:
     YFrameButton* maximizeButton() const { return fButtons[4]; }
 
     void layoutButtons();
-    void raiseButtons();
     void refresh();
 
     static YColor background(bool active);
@@ -52,7 +51,6 @@ private:
     bool focused() const { return getFrame()->focused(); }
 
     YFrameButton* getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
 
     YFrameWindow *fFrame;
     bool wasCanRaise;

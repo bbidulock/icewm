@@ -264,7 +264,7 @@ void YButton::updatePopup() {
 
 void YButton::handleButton(const XButtonEvent &button) {
     if (fEnabled) {
-        if (button.type == ButtonPress && button.button == 1) {
+        if (button.type == ButtonPress && button.button == Button1) {
             requestFocus(false);
             wasPopupActive = fArmed;
             setSelected(true);
