@@ -115,53 +115,58 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
 }
 
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
+    YAction action(actionNull);
     if (count >= 2 && (count % 2 == 0)) {
         if (up.button == (unsigned) titleMaximizeButton &&
             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
-            if (getFrame()->canMaximize())
-                getFrame()->wmMaximize();
-        } else if (up.button == (unsigned) titleMaximizeButton &&
-                   ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
-        {
-            if (getFrame()->canMaximize())
-                getFrame()->wmMaximizeVert();
-        } else if (up.button == (unsigned) titleMaximizeButton && xapp->AltMask &&
-                   ISMASK(KEY_MODMASK(up.state), xapp->AltMask + ShiftMask, ControlMask))
-        {
-            if (getFrame()->canMaximize())
-                getFrame()->wmMaximizeHorz();
-        } else if (up.button == (unsigned) titleRollupButton &&
-                 ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
-        {
-            if (getFrame()->canRollup())
-                getFrame()->wmRollup();
-        } else if (up.button == (unsigned) titleRollupButton &&
-                   ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
-        {
-            if (getFrame()->canMaximize())
-                getFrame()->wmMaximizeHorz();
+            action = actionMaximize;
         }
-    } else if (count == 1) {
+        else if (up.button == (unsigned) titleMaximizeButton &&
+             ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
+        {
+            action = actionMaximizeVert;
+        }
+        else if (up.button == (unsigned) titleMaximizeButton && xapp->AltMask &&
+             ISMASK(KEY_MODMASK(up.state), xapp->AltMask + ShiftMask, ControlMask))
+        {
+            action = actionMaximizeHoriz;
+        }
+        else if (up.button == (unsigned) titleRollupButton &&
+             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
+        {
+            action = actionRollup;
+        }
+        else if (up.button == (unsigned) titleRollupButton &&
+             ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
+        {
+            action = actionMaximizeHoriz;
+        }
+    }
+    else if (count == 1) {
         if (up.button == Button3 && notbit(KEY_MODMASK(up.state), xapp->AltMask)) {
             getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                         YPopupWindow::pfCanFlipVertical |
                                         YPopupWindow::pfCanFlipHorizontal);
-        } else if (up.button == Button1) {
+        }
+        else if (up.button == Button1) {
             if (KEY_MODMASK(up.state) == xapp->AltMask) {
-                if (getFrame()->canLower()) getFrame()->wmLower();
-            } else if (lowerOnClickWhenRaised &&
-                       (buttonRaiseMask & (1 << (up.button - Button1))) &&
-                       ((up.state & (ControlMask | xapp->ButtonMask)) ==
-                        Button1Mask))
+                action = actionLower;
+            }
+            else if (lowerOnClickWhenRaised &&
+                   (buttonRaiseMask & (1 << (up.button - Button1))) &&
+                   ((up.state & (ControlMask | xapp->ButtonMask)) ==
+                    Button1Mask))
             {
                 if (!wasCanRaise) {
-                    if (getFrame()->canLower())
-                        getFrame()->wmLower();
+                    action = actionLower;
                     wasCanRaise = true;
                 }
             }
         }
+    }
+    if (action != actionNull) {
+        getFrame()->actionPerformed(action, up.state);
     }
 }
 
@@ -178,10 +183,8 @@ void YFrameTitleBar::handleBeginDrag(
          down.subwindow == getFrame()->topRightIndicator()))
     {
         getFrame()->handleBeginDrag(down, motion);
-        return;
-    } else
-
-    if (getFrame()->canMove()) {
+    }
+    else if (getFrame()->canMove()) {
         getFrame()->startMoveSize(true, true,
                                   0, 0,
                                   down.x + x(), down.y + y());
