@@ -129,7 +129,6 @@ public:
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
     void setPointer(const YCursor& pointer);
-    void setGrabPointer(const YCursor& pointer);
     void grabKeyM(int key, unsigned modifiers);
     void grabKey(int key, unsigned modifiers);
     void grabVKey(int key, unsigned vmodifiers);

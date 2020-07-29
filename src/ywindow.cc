@@ -442,9 +442,9 @@ void YWindow::adopt() {
             ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
 
-        if (!grabRootWindow &&
-            fHandle == xapp->root())
+        if (!grabRootWindow && fHandle == xapp->root()) {
             fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+        }
     }
 
     if (destroyed() == false)
@@ -1166,14 +1166,6 @@ void YWindow::setPointer(const YCursor& pointer) {
         XChangeWindowAttributes(xapp->display(), handle(),
                                 CWCursor, &attributes);
     }
-}
-
-void YWindow::setGrabPointer(const YCursor& pointer) {
-    XChangeActivePointerGrab(xapp->display(),
-                             ButtonPressMask|PointerMotionMask|
-                             ButtonReleaseMask,
-                             pointer.handle(), CurrentTime);
-                             //app->getEventTime());
 }
 
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
