@@ -662,16 +662,15 @@ void TaskPane::configure(const YRect2& r) {
 
 void TaskPane::startDrag(TaskBarApp *drag, int /*byMouse*/, int sx, int sy) {
     if (fDragging == nullptr) {
-        if (!xapp->grabEvents(this, YXApplication::movePointer.handle(),
-                              ButtonPressMask |
-                              ButtonReleaseMask |
-                              PointerMotionMask, 1, 1, 0))
+        if (xapp->grabEvents(this, YXApplication::movePointer.handle(),
+                             ButtonPressMask |
+                             ButtonReleaseMask |
+                             PointerMotionMask))
         {
-            return ;
+            fDragging = drag;
+            fDragX = sx;
+            fDragY = sy;
         }
-        fDragging = drag;
-        fDragX = sx;
-        fDragY = sy;
     }
 }
 

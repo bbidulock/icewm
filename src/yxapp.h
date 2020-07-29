@@ -118,8 +118,10 @@ public:
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;
 
-    int grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse = 1, int grabKeyboard = 1, int grabTree = 0);
-    int releaseEvents();
+    bool grabEvents(YWindow *win, Cursor ptr, unsigned long eventMask,
+                    bool grabMouse = true, bool grabKeyboard = true,
+                    bool grabTree = false);
+    bool releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
     virtual bool handleIdle();
     void handleWindowEvent(Window xwindow, XEvent &xev);
@@ -201,12 +203,12 @@ private:
     friend class YXPoll;
     YXPoll xfd;
 
-    int fGrabTree;
+    lazy<class YClipboard> fClip;
     YWindow *fXGrabWindow;
-    int fGrabMouse;
     YWindow *fGrabWindow;
 
-    lazy<class YClipboard> fClip;
+    bool fGrabTree;
+    bool fGrabMouse;
     bool fReplayEvent;
 
     virtual bool handleXEvents();

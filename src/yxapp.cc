@@ -757,66 +757,60 @@ void YXApplication::releaseGrabEvents(YWindow *win) {
     }
 }
 
-int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
-    int rc;
-
-    if (fGrabWindow != nullptr)
-        return 0;
-    if (win == nullptr)
-        return 0;
+bool YXApplication::grabEvents(YWindow *win, Cursor ptr,
+        unsigned long eventMask, bool grabMouse, bool grabKeyboard, bool grabTree)
+{
+    if (fGrabWindow || !win)
+        return false;
 
     fGrabTree = grabTree;
+    fGrabMouse = grabMouse;
     if (grabMouse) {
-        fGrabMouse = 1;
-        rc = XGrabPointer(display(), win->handle(),
-                          grabTree ? True : False,
-                          eventMask,
-                          GrabModeSync, GrabModeAsync,
-                          None, ptr, CurrentTime);
-
-        if (rc != Success) {
+        int rc = XGrabPointer(display(), win->handle(), grabTree,
+                              eventMask, GrabModeSync, GrabModeAsync,
+                              None, ptr, CurrentTime);
+        if (rc) {
             MSG(("grab status = %d\x7", rc));
-            return 0;
+            return false;
         }
-    } else {
-        fGrabMouse = 0;
-
-        XChangeActivePointerGrab(display(),
-                                 eventMask,
-                                 ptr, CurrentTime);
+    }
+    else {
+        XChangeActivePointerGrab(display(), eventMask, ptr, CurrentTime);
     }
 
     if (grabKeyboard) {
-        rc = XGrabKeyboard(display(), win->handle(),
-                           ///False,
-                           grabTree ? True : False,
-                           GrabModeSync, GrabModeAsync, CurrentTime);
-        if (rc != Success && grabMouse) {
+        int rc = XGrabKeyboard(display(), win->handle(), grabTree,
+                               GrabModeSync, GrabModeAsync, CurrentTime);
+        if (rc) {
             MSG(("grab status = %d\x7", rc));
-            XUngrabPointer(display(), CurrentTime);
-            return 0;
+            if (grabMouse) {
+                XUngrabPointer(display(), CurrentTime);
+                fGrabMouse = false;
+            }
+            return false;
         }
     }
     XAllowEvents(xapp->display(), SyncPointer, CurrentTime);
 
     fXGrabWindow = win;
     fGrabWindow = win;
-    return 1;
+    return true;
 }
 
-int YXApplication::releaseEvents() {
+bool YXApplication::releaseEvents() {
     if (fGrabWindow == nullptr)
-        return 0;
+        return false;
+
     fGrabWindow = nullptr;
     fXGrabWindow = nullptr;
-    fGrabTree = 0;
+    fGrabTree = false;
     if (fGrabMouse) {
         XUngrabPointer(display(), CurrentTime);
-        fGrabMouse = 0;
+        fGrabMouse = false;
     }
     XUngrabKeyboard(display(), CurrentTime);
 
-    return 1;
+    return true;
 }
 
 void YXApplication::afterWindowEvent(XEvent & /*xev*/) {
@@ -1088,10 +1082,10 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     lastEventTime(CurrentTime),
     fPopup(nullptr),
     xfd(this),
-    fGrabTree(0),
     fXGrabWindow(nullptr),
-    fGrabMouse(0),
     fGrabWindow(nullptr),
+    fGrabTree(false),
+    fGrabMouse(false),
     fReplayEvent(false)
 {
     xapp = this;
