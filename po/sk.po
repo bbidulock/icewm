@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-07-12 19:51+0200\n"
-"PO-Revision-Date: 2020-06-29 19:44+0000\n"
+"PO-Revision-Date: 2020-07-02 07:26+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/sk/>\n"
@@ -577,10 +577,8 @@ msgid "Motif decorations"
 msgstr "Dekorácie Motif"
 
 #: src/icesh.cc:1948
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME stav okna"
+msgstr "EWMH stav okna"
 
 #: src/icesh.cc:2030 src/icesh.cc:2059
 #, c-format
@@ -659,19 +657,6 @@ msgid "Socket error: %d"
 msgstr "Chyba soketu: %d"
 
 #: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -695,6 +680,8 @@ msgstr ""
 "  --sync              Synchronizuje komunikáciu s X11 serverom.\n"
 "\n"
 "  -i, --icewm=SÚBOR    Použije SÚBOR ako správca okien IceWM.\n"
+"  -o, --output=FILE   Presmeruje celý výstup do SÚBOR-u.\n"
+"\n"
 "  -b, --nobg           Nespustí icewmbg.\n"
 "  -n, --notray        Nespustí icewmtray.\n"
 "  -s, --sound         Tiež spustí icesound.\n"
@@ -1560,11 +1547,11 @@ msgstr "Z_rolovať"
 
 #: src/wmmgr.cc:3228
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Chýba program setxkbmap"
 
 #: src/wmmgr.cc:3229
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
@@ -2639,6 +2626,7 @@ msgstr "Vývoj webu"
 msgid "WordProcessor"
 msgstr "Textový procesor"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2646,6 +2634,7 @@ msgstr "Textový procesor"
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2653,8 +2642,22 @@ msgstr "Textový procesor"
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid ""
+#~ " IceWM crashed for the second time in 10 seconds. \n"
+#~ " Do you wish to:\n"
+#~ "\n"
+#~ "\t1: Restart IceWM?\n"
+#~ "\t2: Abort this session?\n"
+#~ msgstr ""
+#~ " IceWM havarovalo druhýkrát za 10 sekúnd. \n"
+#~ " Prajete si:\n"
+#~ "\n"
+#~ "\t1: Reštartovať IceWM?\n"
+#~ "\t2: Prerušiť toto sedenie?\n"
 
 #~ msgid "Unable to get current font path."
 #~ msgstr "Aktuálnu cestu k písmam nemôžem získať."

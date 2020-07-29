@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-07-12 19:51+0200\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
-"Last-Translator: Juan Sarria <juansarriam@gmail.com>\n"
+"PO-Revision-Date: 2020-07-02 07:26+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/es/>\n"
 "Language: es\n"
@@ -170,7 +170,7 @@ msgstr "No es posible conectar con %s: %s"
 #: src/amailbox.cc:324
 #, c-format
 msgid "Failed to find %s command"
-msgstr "Error al buscar el comando %s"
+msgstr "No se pudo encontrar la orden %s"
 
 #: src/amailbox.cc:352 src/yapp.cc:418
 #, c-format
@@ -579,10 +579,8 @@ msgid "Motif decorations"
 msgstr "Decoraciones de Motif"
 
 #: src/icesh.cc:1948
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "Estado de la ventana de GNOME"
+msgstr "Estado de la ventana de EWMH"
 
 #: src/icesh.cc:2030 src/icesh.cc:2059
 #, c-format
@@ -638,17 +636,17 @@ msgstr "Identificador de ventana no válido: «%s»"
 #: src/icesh.cc:3309
 #, c-format
 msgid "Invalid PID: `%s'"
-msgstr "PID no válido: %s"
+msgstr "PID no válido: «%s»"
 
 #: src/icesh.cc:3345
 #, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Capa no válida: %s."
+msgstr "Capa no válida: «%s»."
 
 #: src/icesh.cc:3375 src/icesh.cc:3389 src/icesh.cc:3830
 #, c-format
 msgid "Invalid state: `%s'."
-msgstr "Estado no válido: %s."
+msgstr "Estado no válido: «%s»."
 
 #: src/icesh.cc:4138
 #, c-format
@@ -661,19 +659,6 @@ msgid "Socket error: %d"
 msgstr "Error de socket: %d"
 
 #: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -698,6 +683,7 @@ msgstr ""
 "  --sync                Sincronizar la comunicación con el servidor X11.\n"
 "\n"
 "  -i, --icewm=ARCHIVO   Usar ARCHIVO como gestor de ventanas de IceWM.\n"
+"  -o, --output=ARCHIVO   Redirigir toda la salida a ARCHIVO.\n"
 "  -b, --nobg            No iniciar icewmbg.\n"
 "  -n, --notray          No iniciar icewmtray.\n"
 "  -s, --sound           Iniciar también icesound.\n"
@@ -1578,11 +1564,11 @@ msgstr "Enrollar"
 
 #: src/wmmgr.cc:3228
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Falta el programa setxkbmap"
 
 #: src/wmmgr.cc:3229
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Instale setxkbmap para cambiar de teclados."
 
 #: src/wmoption.cc:259
 #, c-format
@@ -2660,6 +2646,7 @@ msgstr "Desarrollo web"
 msgid "WordProcessor"
 msgstr "Procesador de textos"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2667,6 +2654,7 @@ msgstr "Procesador de textos"
 #~ "estadísticas:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait "
 #~ "= %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2674,8 +2662,22 @@ msgstr "Procesador de textos"
 #~ "barras:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
 #~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid ""
+#~ " IceWM crashed for the second time in 10 seconds. \n"
+#~ " Do you wish to:\n"
+#~ "\n"
+#~ "\t1: Restart IceWM?\n"
+#~ "\t2: Abort this session?\n"
+#~ msgstr ""
+#~ " IceWM ha fallado por segunda vez en 10 segundos. \n"
+#~ " ¿Qué quiere hacer?:\n"
+#~ "\n"
+#~ "\t1: Reiniciar IceWM.\n"
+#~ "\t2: Cancelar esta sesión.\n"
 
 #~ msgid "Unable to get current font path."
 #~ msgstr "No se puede obtener la ruta de la tipografía actual."

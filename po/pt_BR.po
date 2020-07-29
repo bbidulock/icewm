@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-07-12 19:51+0200\n"
-"PO-Revision-Date: 2020-03-12 14:55+0000\n"
+"PO-Revision-Date: 2020-07-26 08:51+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -581,10 +581,8 @@ msgid "Motif decorations"
 msgstr "Decorações do Motif"
 
 #: src/icesh.cc:1948
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "Estado da janela GNOME"
+msgstr "Estado da janela EWMH"
 
 #: src/icesh.cc:2030 src/icesh.cc:2059
 #, c-format
@@ -663,19 +661,6 @@ msgid "Socket error: %d"
 msgstr "Erro de soquete: %d"
 
 #: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -700,6 +685,8 @@ msgstr ""
 "\n"
 "  -i, --icewm=ARQUIVO    Usar ARQUIVO como o gerenciador de janelas do "
 "IceWM.\n"
+"  -o, --output=ARQUIVO    Redireciona toda a saída para o ARQUIVO.\n"
+"\n"
 "  -b, --nobg          Não iniciar o icewmbg.\n"
 "  -n, --notray        Não iniciar o icewmtray.\n"
 "  -s, --sound         Iniciar também o icesound.\n"
@@ -1566,11 +1553,11 @@ msgstr "Enrolar"
 
 #: src/wmmgr.cc:3228
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Programa setxkbmap faltante"
 
 #: src/wmmgr.cc:3229
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Para alternar o teclado, instale o setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
@@ -2643,6 +2630,7 @@ msgstr "Desenvolvimento Web"
 msgid "WordProcessor"
 msgstr "Processador de texto"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2650,6 +2638,7 @@ msgstr "Processador de texto"
 #~ "stat:\tusuário = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
 #~ "%llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2657,8 +2646,22 @@ msgstr "Processador de texto"
 #~ "bars:\tusuário = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
 #~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid ""
+#~ " IceWM crashed for the second time in 10 seconds. \n"
+#~ " Do you wish to:\n"
+#~ "\n"
+#~ "\t1: Restart IceWM?\n"
+#~ "\t2: Abort this session?\n"
+#~ msgstr ""
+#~ " O IceWM falhou pela segunda vez em 10 segundos. \n"
+#~ " Você deseja:\n"
+#~ "\n"
+#~ "\t1: Reiniciar o IceWM?\n"
+#~ "\t2: Cancelar esta sessão?\n"
 
 #~ msgid "Unable to get current font path."
 #~ msgstr "Não foi possível obter o caminho atual para a fonte."
