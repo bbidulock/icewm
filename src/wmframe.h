@@ -158,8 +158,8 @@ public:
 
     void insertFrame(bool top);
     void removeFrame();
-    void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
-    void setBelow(YFrameWindow *belowFrame); // 0 = at the top
+    bool setAbove(YFrameWindow *aboveFrame);
+    bool setBelow(YFrameWindow *belowFrame);
 
     enum FindWindowFlags {
         fwfVisible    = 1 << 0, // visible windows only

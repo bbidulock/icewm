@@ -681,47 +681,83 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
-
     if (hasbit(configureRequest.value_mask, CWBorderWidth))
         client()->setBorder(configureRequest.border_width);
 
-    int cx, cy, cw, ch;
-    getNewPos(configureRequest, cx, cy, cw, ch);
+    if (hasbit(configureRequest.value_mask, CWX | CWY | CWWidth | CWHeight)) {
+        int cx, cy, cw, ch;
+        getNewPos(configureRequest, cx, cy, cw, ch);
 
-    configureClient(cx, cy, cw, ch);
+        configureClient(cx, cy, cw, ch);
+    }
 
-    if (configureRequest.value_mask & CWStackMode) {
-        struct {
-            YFrameWindow *ptr;
-        } sibling = { nullptr };
+    if (hasbit(configureRequest.value_mask, CWStackMode)) {
+        YFrameWindow* sibling = nullptr;
+        bool change = false;
         XWindowChanges xwc;
-
-        if ((configureRequest.value_mask & CWSibling) &&
-            frameContext.find(configureRequest.above, &sibling.ptr))
-            xwc.sibling = sibling.ptr->handle();
-        else
-            xwc.sibling = configureRequest.above;
-
+        xwc.sibling = None;
         xwc.stack_mode = configureRequest.detail;
+
+        if (hasbit(configureRequest.value_mask, CWSibling)) {
+            sibling = manager->findFrame(configureRequest.above);
+            if (sibling) {
+                xwc.sibling = sibling->handle();
+            }
+        }
 
         /* !!! implement the rest, and possibly fix these: */
 
-        if (sibling.ptr && xwc.sibling != None) { /* ICCCM suggests sibling==None */
+        if (sibling && xwc.sibling) { /* ICCCM suggests sibling==None */
             switch (xwc.stack_mode) {
             case Above:
-                setAbove(sibling.ptr);
+                change = setAbove(sibling);
                 break;
             case Below:
-                setBelow(sibling.ptr);
+                change = setBelow(sibling);
+                break;
+            case TopIf:
+                if (getActiveLayer() == sibling->getActiveLayer()) {
+                    for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                        if (f == sibling) {
+                            change = overlap(sibling) && setAbove(sibling);
+                            break;
+                        }
+                    }
+                }
+                break;
+            case BottomIf:
+                if (getActiveLayer() == sibling->getActiveLayer()) {
+                    for (YFrameWindow* f = next(); f; f = f->next()) {
+                        if (f == sibling) {
+                            change = overlap(sibling) && setBelow(sibling);
+                            break;
+                        }
+                    }
+                }
+                break;
+            case Opposite:
+                if (getActiveLayer() == sibling->getActiveLayer()) {
+                    bool search = true;
+                    for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                        if (f == sibling) {
+                            change = overlap(sibling) && setAbove(sibling);
+                            search = false;
+                            break;
+                        }
+                    }
+                    for (YFrameWindow* f = next(); f && search; f = f->next()) {
+                        if (f == sibling) {
+                            change = overlap(sibling) && setBelow(sibling);
+                            break;
+                        }
+                    }
+                }
                 break;
             default:
                 return;
             }
-            XConfigureWindow(xapp->display(),
-                             handle(),
-                             configureRequest.value_mask & (CWSibling | CWStackMode),
-                             &xwc);
-        } else if (xwc.sibling == None /*&& manager->top(getLayer()) != 0*/) {
+        }
+        else if (xwc.sibling == None) {
             switch (xwc.stack_mode) {
             case Above:
                 if (!focusOnAppRaise) {
@@ -734,9 +770,6 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                     if (canRaise()) {
                         wmRaise();
                     }
-#if 1
-
-#if 1
                     if ( !frameOption(foNoFocusOnAppRaise) &&
                         (clickFocus || !strongPointerFocus))
                     {
@@ -749,46 +782,86 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                             setWmUrgency(true);
                         }
                     }
-#endif
-#if 1
-                    { /* warning, tcl/tk "fix" here */
-                        XEvent xev;
-/// TODO #warning "looks like sendConfigure but not quite, investigate!"
-
-                        memset(&xev, 0, sizeof(xev));
-                        xev.xconfigure.type = ConfigureNotify;
-                        xev.xconfigure.display = xapp->display();
-                        xev.xconfigure.event = handle();
-                        xev.xconfigure.window = handle();
-                        xev.xconfigure.x = x();
-                        xev.xconfigure.y = y();
-                        xev.xconfigure.width = width();
-                        xev.xconfigure.height = height();
-                        xev.xconfigure.border_width = 0;
-
-                        MSG(("sendConfigureHack %d %d %d %d",
-                             xev.xconfigure.x,
-                             xev.xconfigure.y,
-                             xev.xconfigure.width,
-                             xev.xconfigure.height));
-
-                        xev.xconfigure.above = None;
-                        xev.xconfigure.override_redirect = False;
-
-                        XSendEvent(xapp->display(),
-                                   handle(),
-                                   False,
-                                   StructureNotifyMask,
-                                   &xev);
-                    }
-#endif
-#endif
                 }
                 break;
             case Below:
-                wmLower();
+                if (focused()) {
+                    if (owner()) {
+                        doLower();
+                        manager->switchFocusFrom(this);
+                        manager->switchFocusTo(
+                                nextTransient() ? nextTransient() : owner());
+                    } else {
+                        wmLower();
+                    }
+                } else {
+                    doLower();
+                }
                 break;
+            case TopIf:
+                sibling = nullptr;
+                for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                    if (overlap(f)) {
+                        sibling = f;
+                    }
+                }
+                if (sibling) {
+                    while (sibling->prev()) {
+                        sibling = sibling->prev();
+                    }
+                    change = setAbove(sibling);
+                }
+                break;
+            case BottomIf:
+                sibling = nullptr;
+                for (YFrameWindow* f = next(); f; f = f->next()) {
+                    if (overlap(f)) {
+                        sibling = f;
+                    }
+                }
+                if (sibling) {
+                    while (sibling->next()) {
+                        sibling = sibling->next();
+                    }
+                    change = setBelow(sibling);
+                }
+                break;
+            case Opposite:
+                sibling = nullptr;
+                for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                    if (overlap(f)) {
+                        sibling = f;
+                    }
+                }
+                if (sibling) {
+                    while (sibling->prev()) {
+                        sibling = sibling->prev();
+                    }
+                    change = setAbove(sibling);
+                }
+                else {
+                    for (YFrameWindow* f = next(); f; f = f->next()) {
+                        if (overlap(f)) {
+                            sibling = f;
+                        }
+                    }
+                    if (sibling) {
+                        while (sibling->next()) {
+                            sibling = sibling->next();
+                        }
+                        change = setBelow(sibling);
+                    }
+                }
+                break;
+            default:
+                return;
             }
+        }
+        if (change) {
+            XConfigureWindow(xapp->display(), handle(),
+                             configureRequest.value_mask
+                             & (CWSibling | CWStackMode), &xwc);
+            manager->updateClientList();
         }
     }
     sendConfigure();
@@ -959,12 +1032,12 @@ void YFrameWindow::insertFrame(bool top) {
 #endif
 }
 
-void YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
-    manager->setAbove(this, aboveFrame);
+bool YFrameWindow::setAbove(YFrameWindow *aboveFrame) {
+    return manager->setAbove(this, aboveFrame);
 }
 
-void YFrameWindow::setBelow(YFrameWindow *belowFrame) {
-    manager->setBelow(this, belowFrame);
+bool YFrameWindow::setBelow(YFrameWindow *belowFrame) {
+    return manager->setBelow(this, belowFrame);
 }
 
 YFrameWindow *YFrameWindow::findWindow(int flags) {
@@ -1029,8 +1102,6 @@ void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
 
 void YFrameWindow::sendConfigure() {
     XEvent xev;
-
-
     memset(&xev, 0, sizeof(xev));
     xev.xconfigure.type = ConfigureNotify;
     xev.xconfigure.display = xapp->display();
@@ -1041,7 +1112,6 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.width = client()->width();
     xev.xconfigure.height = client()->height();
     xev.xconfigure.border_width = client()->getBorder();
-
     xev.xconfigure.above = None;
     xev.xconfigure.override_redirect = False;
 
@@ -1382,8 +1452,11 @@ void YFrameWindow::doRaise() {
             if (client()->ownerWindow() != manager->handle()) {
                 for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
                 {
-                    if (w->client() && w->client()->clientLeader() == client()->clientLeader() && w->client()->ownerWindow() == manager->handle())
+                    if (w->client() &&
+                        w->client()->clientLeader() == client()->clientLeader() &&
+                        w->client()->ownerWindow() == manager->handle()) {
                         w->doRaise();
+                    }
                 }
             }
         }
