@@ -888,7 +888,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     YFrameClient *c = f ? f->client() : nullptr;
     Window w = None;
 
-    if (focusLocked())
+    if (focusLocked() || f == getFocus())
         return;
     MSG(("SET FOCUS f=%p", f));
 
@@ -1708,7 +1708,7 @@ void YWindowManager::destroyedClient(Window win) {
 }
 
 void YWindowManager::focusTopWindow() {
-    if (wmState() != wmRUNNING)
+    if (wmState() != wmRUNNING || focusLocked())
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
@@ -1884,17 +1884,18 @@ YFrameWindow *YWindowManager::bottomLayer(long layer) {
     return nullptr;
 }
 
-void YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
+bool YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
     const long layer = frame->getActiveLayer();
     if (above != nullptr && layer != above->getActiveLayer()) {
         MSG(("ignore z-order change between layers: win=0x%lX (above: 0x%lX) ",
                     frame->handle(), above->client()->handle()));
-        return;
+        return false;
     }
 
 #ifdef DEBUG
     if (debug_z) dumpZorder("before setAbove", frame, above);
 #endif
+    bool change = false;
     if (above != frame->next() && above != frame) {
         fLayers[layer].remove(frame);
         fLayeredUpdated = true;
@@ -1906,20 +1907,24 @@ void YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
 #ifdef DEBUG
         if (debug_z) dumpZorder("after setAbove", frame, above);
 #endif
+        change = true;
     }
     updateFullscreenLayer();
+    return change;
 }
 
-void YWindowManager::setBelow(YFrameWindow* frame, YFrameWindow* below) {
+bool YWindowManager::setBelow(YFrameWindow* frame, YFrameWindow* below) {
     if (below != nullptr &&
         frame->getActiveLayer() != below->getActiveLayer())
     {
         MSG(("ignore z-order change between layers: win=0x%lX (below %ld)",
                    frame->handle(), below->client()->handle()));
-        return;
+        return false;
     }
-    if (below != frame->prev() && below != frame)
-        setAbove(frame, below ? below->next() : nullptr);
+    if (below != frame->prev() && below != frame) {
+        return setAbove(frame, below ? below->next() : nullptr);
+    }
+    return false;
 }
 
 void YWindowManager::removeLayeredFrame(YFrameWindow *frame) {

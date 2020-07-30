@@ -156,8 +156,8 @@ public:
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
 
-    void setAbove(YFrameWindow* frame, YFrameWindow* above);
-    void setBelow(YFrameWindow* frame, YFrameWindow* below);
+    bool setAbove(YFrameWindow* frame, YFrameWindow* above);
+    bool setBelow(YFrameWindow* frame, YFrameWindow* below);
     void removeLayeredFrame(YFrameWindow *);
     void appendCreatedFrame(YFrameWindow *f);
     void removeCreatedFrame(YFrameWindow *f);
