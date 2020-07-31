@@ -83,7 +83,7 @@ YFrameButton *YFrameTitleBar::getButton(char c) {
     }
     if (index) {
         if (hasbit(decors(), flag)) {
-            if (fButtons[index] == nullptr) {
+            if (fButtons[index] == nullptr && supported(c)) {
                 fButtons[index] = new YFrameButton(this, c);
             }
         } else if (fButtons[index]) {
