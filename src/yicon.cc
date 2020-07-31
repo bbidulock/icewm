@@ -22,8 +22,12 @@
 #include <vector>
 #include <array>
 #include <initializer_list>
+#include <functional>
 #include <set>
 #include <map>
+
+// this marks a special category container for icon dirs w/o known size
+#define ANYSIZE 0
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
@@ -59,9 +63,23 @@ inline bool HasImageExtension(const upath &base) {
     return false;
 }
 
-// make sure to avoid duplicates, no matter what themable.h defines
+// No matter what themable.h defines, this set guarantees two properties:
+// a) ordering by size, b) uniqueness of elements
 static const std::set<unsigned> dedupSizes = {hugeIconSize, largeIconSize,
     smallIconSize, menuIconSize};
+
+inline bool revIterAllSizeButThis(unsigned toSkip,
+        std::function<bool(unsigned)> f) {
+    // starting with bigger size so we get those for scaling first,
+    // in case that becomes needed
+    for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
+        if (toSkip == *it)
+            continue;
+        if (f(*it))
+            return true;
+    }
+    return false;
+}
 
 class ZIconPathIndex {
 
@@ -87,7 +105,7 @@ public:
             // add unique(!) category
             for (auto size : dedupSizes)
                 categories[size] = IconCategory();
-            categories[0] = IconCategory();
+            categories[ANYSIZE] = IconCategory();
         }
     } pools[2]; // zero are resource folders, one is based on IconPath
 
@@ -180,7 +198,7 @@ public:
             auto& pool = pools[fromResources];
             // try base path in any case (later), for any icon type, loading
             // with the filename expansion scheme
-            add(pool.categories[0], IconCategory::entry {
+            add(pool.categories[ANYSIZE], IconCategory::entry {
                 iPath + "/"
 #ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
                 , YIcon::FOR_ANY_PURPOSE //| privFlag
@@ -257,7 +275,7 @@ public:
     upath locateIcon(int size, mstring baseName, bool fromResources) {
         bool hasSuffix = HasImageExtension(baseName);
         auto &pool = pools[fromResources];
-        upath result = null;
+        upath res = null;
 
         // for compaction reasons, the lambdas return true on success,
         // but the success is only found in _this_ lambda only,
@@ -266,7 +284,7 @@ public:
             upath testPath(path);
             if (!testPath.fileExists())
                 return false;
-            result = testPath;
+            res = testPath;
             return true;
         };
         auto checkFilesAtBasePath = [&](mstring basePath, unsigned size,
@@ -287,25 +305,21 @@ public:
             return checkFilesAtBasePath(dirPath + baseName, size, addSizeSfx);
         };
         auto smartScanFolder = [&](const mstring &folder, bool addSizeSfx,
-                unsigned probeAllButThis = 0) {
+                unsigned probeAllButThis = ANYSIZE) {
 
             // full file name with suffix -> no further size/type extensions
             if (hasSuffix)
                 return checkFile(folder + baseName);
-            if (!probeAllButThis)
-                return checkFilesInFolder(folder, size, addSizeSfx);
-            // starting with bigger size so we get those for scaling first,
-            // in case that becomes needed
-            for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
-                if (int(*it) == size)
-                    continue;
-                if (checkFilesInFolder(folder, *it, addSizeSfx))
-                    return true;
+
+            if(probeAllButThis) {
+                return revIterAllSizeButThis(probeAllButThis, [&](unsigned is) {
+                    return checkFilesInFolder(folder, is, addSizeSfx);
+                });
             }
-            return false;
+            return checkFilesInFolder(folder, size, addSizeSfx);
         };
         auto scanList = [&](IconCategory &cat, bool addSizeSfx,
-                unsigned probeAllButThis = 0) {
+                unsigned probeAllButThis = ANYSIZE) {
 
             for (const auto &folder : cat.folders) {
                 if(smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
@@ -316,12 +330,15 @@ public:
 
         if(upath(baseName).isAbsolute())
         {
+            // subset of the resolution scheme to the one below
+            // and applied to just one folder; shifting the parts to emulate
+            // the same concatenation results
             auto what=baseName;
             baseName = mstring();
             return (smartScanFolder(what, false, false)
                     || hasSuffix
-                    || smartScanFolder(what, true, 0)
-                    || smartScanFolder(what, true, size)) ? result : null;
+                    || smartScanFolder(what, true, ANYSIZE)
+                    || smartScanFolder(what, true, size)) ? res : null;
         }
 
         // Order of preferences:
@@ -330,25 +347,20 @@ public:
         // in all-sizes-excl.ours-excl.0, without suffix
         // in 0 with size-suffix like all-sizes-excl.ours-excl.0
 
-        if (result == null)
+        if (res == null)
             scanList(pool.categories[size], false);
         // plain check in IconPath folders
-        if (result == null && !hasSuffix)
-            scanList(pool.categories[0], true);
-        if (result == null)
-            scanList(pool.categories[0], false);
-
-        if (result == null) {
-            for (auto testSize : dedupSizes) {
-                if (int(testSize) != size)
-                    scanList(pool.categories[testSize], false);
-                if (result != null)
-                    break;
-            }
-        }
-        if (result == null && !hasSuffix)
-            scanList(pool.categories[0], true, size);
-        return result;
+        if (res == null && !hasSuffix)
+            scanList(pool.categories[ANYSIZE], true);
+        if (res == null)
+            scanList(pool.categories[ANYSIZE], false);
+        if (res == null
+                && revIterAllSizeButThis(size, [&](unsigned is) {
+                    return scanList(pool.categories[is], false);
+                })) return res;
+        if (res == null && !hasSuffix)
+            scanList(pool.categories[ANYSIZE], true, size);
+        return res;
     }
 } iconIndex;
 
