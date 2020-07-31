@@ -313,14 +313,16 @@ nobase_dist_pkgdata_DATA = \
 	themes/default/rollupI.xpm \
 	themes/default/default.png \
 	themes/CrystalBlue/taskbar/desktop.xpm \
+	themes/CrystalBlue/taskbar/taskbuttonactive.xpm \
 	themes/CrystalBlue/taskbar/taskbuttonminimized.xpm \
-	themes/CrystalBlue/taskbar/toolbuttonbg.xpm \
 	themes/CrystalBlue/taskbar/taskbuttonbg.xpm \
 	themes/CrystalBlue/taskbar/taskbarbg.xpm \
+	themes/CrystalBlue/taskbar/toolbuttonbg.xpm \
+	themes/CrystalBlue/taskbar/workspacebuttonactive.xpm \
+	themes/CrystalBlue/taskbar/workspacebuttonbg.xpm \
 	themes/CrystalBlue/taskbar/expand.xpm \
 	themes/CrystalBlue/taskbar/windows.xpm \
 	themes/CrystalBlue/taskbar/icewm.xpm \
-	themes/CrystalBlue/taskbar/taskbuttonactive.xpm \
 	themes/CrystalBlue/taskbar/collapse.xpm \
 	themes/CrystalBlue/ledclock/dot.xpm \
 	themes/CrystalBlue/ledclock/n3.xpm \
@@ -343,10 +345,8 @@ nobase_dist_pkgdata_DATA = \
 	themes/CrystalBlue/frameAT.xpm \
 	themes/CrystalBlue/frameATL.xpm \
 	themes/CrystalBlue/frameITL.xpm \
-	themes/CrystalBlue/titleAJ.xpm \
 	themes/CrystalBlue/titleAM.xpm \
 	themes/CrystalBlue/rollupA.xpm \
-	themes/CrystalBlue/titleIQ.xpm \
 	themes/CrystalBlue/dframeATR.xpm \
 	themes/CrystalBlue/frameATR.xpm \
 	themes/CrystalBlue/titleAB.xpm \
@@ -368,11 +368,9 @@ nobase_dist_pkgdata_DATA = \
 	themes/CrystalBlue/close.xpm \
 	themes/CrystalBlue/frameIR.xpm \
 	themes/CrystalBlue/frameABR.xpm \
-	themes/CrystalBlue/menuButtonI.xpm \
 	themes/CrystalBlue/titleIM.xpm \
 	themes/CrystalBlue/closeO.xpm \
 	themes/CrystalBlue/restoreO.xpm \
-	themes/CrystalBlue/titleAQ.xpm \
 	themes/CrystalBlue/rollupO.xpm \
 	themes/CrystalBlue/dframeITL.xpm \
 	themes/CrystalBlue/dframeIL.xpm \
@@ -383,10 +381,8 @@ nobase_dist_pkgdata_DATA = \
 	themes/CrystalBlue/frameIB.xpm \
 	themes/CrystalBlue/titleAS.xpm \
 	themes/CrystalBlue/dframeAT.xpm \
-	themes/CrystalBlue/titleIJ.xpm \
 	themes/CrystalBlue/frameIT.xpm \
 	themes/CrystalBlue/dframeIT.xpm \
-	themes/CrystalBlue/menuButtonA.xpm \
 	themes/CrystalBlue/dframeITR.xpm \
 	themes/CrystalBlue/dframeIB.xpm \
 	themes/CrystalBlue/maximizeO.xpm \
