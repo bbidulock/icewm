@@ -581,11 +581,11 @@ static void initPixmapOffsets() {
         frameT[1][1], frameTL[1][1], frameTR[1][1],
     };
     const int count = int ACOUNT(ts);
-    unsigned offset = 0;
+    unsigned offset = UINT_MAX;
     for (int i = 0; i < count; ++i) {
-        if (i < 6 || ts[i]->height() != ts[i - 6]->height()) {
+        if (ts[i] != null) {
             unsigned vo = ts[i]->verticalOffset();
-            if (offset > vo || i == 0) {
+            if (offset > vo) {
                 offset = vo;
             }
             if (vo == 0) {
