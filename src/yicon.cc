@@ -73,7 +73,7 @@ inline bool revIterAllSizeButThis(unsigned toSkip,
     // starting with bigger size so we get those for scaling first,
     // in case that becomes needed
     for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
-        if (toSkip == *it)
+        if (toSkip == *it || 0 == *it)
             continue;
         if (f(*it))
             return true;
@@ -124,60 +124,78 @@ public:
                 cat.folders.emplace_back(std::move(el));
         };
 
-        auto probeAndRegisterXdgFolders = [this, &add](const mstring &what,
-                bool fromResources) -> unsigned {
+        auto probeAndRegisterXdgFolders = [this, &add](
+                const mstring &iconPathToken, bool fromResources) -> unsigned {
+
+            static const auto subcats = { "/apps", "/categories",
+                "/places", "/devices", "/status" };
 
             // stop early because this is obviously matching a file!
-            if (HasImageExtension(upath(what)))
+            if (HasImageExtension(upath(iconPathToken)))
                 return 0;
             unsigned ret = 0;
-            for (auto &kv : pools[fromResources].categories) {
-                auto& cat = kv.second;
-                mstring szSize(long(kv.first));
 
-                for (const auto &contentDir : { "/apps", "/categories",
-                        "/places", "/devices", "/status" }) {
-                    for (const auto &testDir : {
+            auto gotcha = [&](const mstring &testDir, IconCategory& cat) {
+                if (!upath(testDir).dirExists())
+                    return false;
 
-                            mstring(what) + "/" + szSize + "x" + szSize
-                                    + contentDir,
-                            mstring(what) + "/base/" + szSize + "x" + szSize
-                                    + contentDir,
-// some old themes contain just one dimension and different naming convention
-                            mstring(what) + contentDir + "/" + szSize
-                    }) {
-                        if (upath(testDir).dirExists()) {
-                            // finally!
+                // finally!
 #ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
-                            int flags = 0;
-                            switch (contentDir[1]) {
-                            case 'a':
-                                flags |= YIcon::FOR_APPS;
-                                break;
-                            case 'p':
-                                flags |= YIcon::FOR_PLACES;
-                                break;
-                            case 'd':
-                                flags |= YIcon::FOR_DEVICES;
-                                break;
-                            case 'c':
-                                flags |= YIcon::FOR_MENUCATS;
-                                break;
+                int flags = 0;
+                switch (contentDir[1]) {
+                case 'a':
+                    flags |= YIcon::FOR_APPS;
+                    break;
+                case 'p':
+                    flags |= YIcon::FOR_PLACES;
+                    break;
+                case 'd':
+                    flags |= YIcon::FOR_DEVICES;
+                    break;
+                case 'c':
+                    flags |= YIcon::FOR_MENUCATS;
+                    break;
 #error FIXME: an enum value for "status"
-                            }
-                            add(cat, IconCategory::entry { testDir + "/",
-                                    flags });
-#else
-                            add(cat, IconCategory::entry { testDir + "/"});
+                }
+                add(cat, IconCategory::entry { testDir + "/",
+                        flags });
+                #else
+                add(cat, IconCategory::entry { testDir + "/" });
 #endif
-                            ret++;
-                            goto FOUND_FOR_SIZE_AND_PURPOSE;
-                        }
-                    }
-
-                    FOUND_FOR_SIZE_AND_PURPOSE: ;
+                return true;
+            };
+            // try the scalable version if can handle SVG
+#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+            for (const auto &contentDir : subcats) {
+                if (gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
+                        pools[fromResources].categories[0])) {
+                    ret++;
+                    break;
                 }
             }
+#endif
+
+            for (auto &kv : pools[fromResources].categories) {
+                if(!kv.first) continue;
+                mstring szSize(long(kv.first));
+
+                for (const auto &contentDir : subcats) {
+                    for (const auto &testDir : {
+
+                    mstring(iconPathToken) + "/" + szSize + "x" + szSize + contentDir,
+                            mstring(iconPathToken) + "/base/" + szSize + "x" + szSize
+                                    + contentDir,
+// some old themes contain just one dimension and different naming convention
+                            mstring(iconPathToken) + contentDir + "/" + szSize }) {
+                        if (gotcha(testDir, kv.second))
+                            goto FOUND_FOR_SIZE_AND_PURPOSE;
+                    }
+                }
+                continue;
+                // exit case if something was found in this size&category
+                FOUND_FOR_SIZE_AND_PURPOSE: ret++;
+            }
+
             return ret;
         };
 
@@ -396,6 +414,8 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             YTraceIcon trace(cs);
             icon = YImage::load(cs);
         }
+        else msg("Icon not found: %s", fPath.string());
+
     }
     // if the image data which was found in the expected file does not really
     // match the filename, scale the data to fit
