@@ -254,61 +254,75 @@ public:
         }
     }
 
-    upath locateIcon(int size, const mstring &baseName, bool fromResources) {
+    upath locateIcon(int size, mstring baseName, bool fromResources) {
         bool hasSuffix = HasImageExtension(baseName);
         auto &pool = pools[fromResources];
         upath result = null;
 
+        // for compaction reasons, the lambdas return true on success,
+        // but the success is only found in _this_ lambda only,
+        // and this is the only one which touches `result`!
         auto checkFile = [&](const mstring &path) {
             upath testPath(path);
-            if (testPath.fileExists())
-                result = testPath;
+            if (!testPath.fileExists())
+                return false;
+            result = testPath;
+            return true;
+        };
+        auto checkFilesAtBasePath = [&](mstring basePath, unsigned size,
+                bool addSizeSfx) {
+            // XXX: optimize string concatenation? Or go back to plain printf?
+            if (addSizeSfx) {
+                basePath += "_";
+                basePath += mstring(long(size)) + "x" + mstring(long(size));
+            }
+            for (const auto &imgExt : iconExts) {
+                if(checkFile(basePath + imgExt))
+                    return true;
+            }
+            return false;
         };
         auto checkFilesInFolder = [&](const mstring &dirPath, unsigned size,
                 bool addSizeSfx) {
-            // XXX: optimize string concatenation? Or go back to plain printf?
-            mstring imgPath(dirPath + baseName);
-            if (addSizeSfx) {
-                imgPath += "_";
-                imgPath += mstring(long(size)) + "x" + mstring(long(size));
+            return checkFilesAtBasePath(dirPath + baseName, size, addSizeSfx);
+        };
+        auto smartScanFolder = [&](const mstring &folder, bool addSizeSfx,
+                unsigned probeAllButThis = 0) {
+
+            // full file name with suffix -> no further size/type extensions
+            if (hasSuffix)
+                return checkFile(folder + baseName);
+            if (!probeAllButThis)
+                return checkFilesInFolder(folder, size, addSizeSfx);
+            // starting with bigger size so we get those for scaling first,
+            // in case that becomes needed
+            for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin(); it++) {
+                if (int(*it) == size)
+                    continue;
+                if (checkFilesInFolder(folder, *it, addSizeSfx))
+                    return true;
             }
-            for (const auto &imgExt : iconExts) {
-                checkFile(imgPath + imgExt);
-                if (result != null)
-                    break;
-            }
+            return false;
         };
         auto scanList = [&](IconCategory &cat, bool addSizeSfx,
                 unsigned probeAllButThis = 0) {
 
-            for (const auto &el : cat.folders) {
-
-                if (hasSuffix) {
-                    checkFile(el.path + baseName);
-                    if (result != null)
-                        break;
-                }
-
-                // starting with bigger size so we get those for scaling first,
-                // in case that becomes needed
-                if (probeAllButThis) {
-                    for (auto it = dedupSizes.rend(); it != dedupSizes.rbegin();
-                            it++) {
-
-                        if (int(*it) == size)
-                            continue;
-
-                        checkFilesInFolder(el.path, *it, addSizeSfx);
-                        if (result != null)
-                            break;
-                    }
-                } else
-                    checkFilesInFolder(el.path, size, addSizeSfx);
-
-                if (result != null)
-                    break;
+            for (const auto &folder : cat.folders) {
+                if(smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
+                    return true;
             }
+            return false;
         };
+
+        if(upath(baseName).isAbsolute())
+        {
+            auto what=baseName;
+            baseName = mstring();
+            return (smartScanFolder(what, false, false)
+                    || hasSuffix
+                    || smartScanFolder(what, true, 0)
+                    || smartScanFolder(what, true, size)) ? result : null;
+        }
 
         // Order of preferences:
         // in <size> without size-suffix
