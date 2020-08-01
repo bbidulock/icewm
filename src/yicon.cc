@@ -70,15 +70,26 @@ inline void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
     // starting with bigger size so we get those for scaling first,
     // in case that becomes needed
 
-    unsigned seen[5];
-    unsigned last=0;
+    static unsigned consideredIconSizes[] = {
+            #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+                    unsigned(SCALABLE),
+            #endif
+                    hugeIconSize, largeIconSize, smallIconSize,
+                    menuIconSize,
+// those sizes are only considered as last resort, to scale down to our version
+                    128,
+                    64
+            };
+    static unsigned seen[ACOUNT(consideredIconSizes)];
+    static unsigned last=0;
+    // unique list built before?
+    if(last) {
+        for(unsigned i=0; i<last; ++i)
+            f(seen[i]);
+        return;
+    }
 
-    for(auto is : {
-#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
-        unsigned(SCALABLE),
-#endif
-        hugeIconSize, largeIconSize, smallIconSize,
-        menuIconSize}) {
+    for(auto is : consideredIconSizes) {
 
         if(is == toSkip) continue;
         for(unsigned t=0;t<last;++t)
