@@ -31,7 +31,7 @@ YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
         loadedH(false), fCached(false), fPath(filename.expand()) {
     // don't attempt to load if icon is disabled
-    if(fPath == "none" || fPath == "-")
+    if (fPath == "none" || fPath == "-")
         loadedS = loadedL = loadedH = true;
 }
 
@@ -85,7 +85,7 @@ inline void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
     static unsigned seen[ACOUNT(consideredIconSizes)];
     static unsigned last=0;
     // unique list built before?
-    if(last) {
+    if (last) {
         for(unsigned i=0; i<last; ++i)
             f(seen[i]);
         return;
@@ -93,14 +93,14 @@ inline void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
 
     for(auto is : consideredIconSizes) {
 
-        if(is == toSkip) continue;
+        if (is == toSkip) continue;
         for(unsigned t=0;t<last;++t)
         {
-            if(seen[t] == is)
+            if (seen[t] == is)
                 goto seen_that;
         }
         seen[last++] = is;
-        if(!f(is))
+        if (!f(is))
             return;
         seen_that: continue;
     }
@@ -139,7 +139,7 @@ public:
         IconCategory& getCat(unsigned is)
         {
             for(auto& it: categories)
-                if(it.size == is)
+                if (it.size == is)
                     return it;
             categories.emplace_back(is);
             return *categories.rbegin();
@@ -157,7 +157,7 @@ public:
         auto add = [&dedupTestPath](IconCategory& cat,
                 IconCategory::entry&& el) {
 
-            if(dedupTestPath.insert(el.path).second) {
+            if (dedupTestPath.insert(el.path).second) {
                 MSG(("adding specific icon directory: %s", el.path.c_str()));
                 cat.folders.emplace_back(std::move(el));
             }
@@ -268,7 +268,7 @@ public:
 
                     // were already XDG-like found by fishing in the simple
                     // attempt?
-                    if(nFoundForFolder)
+                    if (nFoundForFolder)
                         continue;
 
                     wordexp_t exp;
@@ -347,7 +347,7 @@ public:
                 basePath += mstring(long(size)) + "x" + mstring(long(size));
             }
             for (const auto &imgExt : iconExts) {
-                if(checkFile(basePath + imgExt))
+                if (checkFile(basePath + imgExt))
                     return true;
             }
             return false;
@@ -363,7 +363,7 @@ public:
             if (hasSuffix)
                 return checkFile(folder + baseName);
 
-            if(probeAllButThis) {
+            if (probeAllButThis) {
                 iterUniqueSizeRev([&](unsigned is) {
                     return ! checkFilesInFolder(folder, is, addSizeSfx);
                 }, probeAllButThis);
@@ -375,13 +375,13 @@ public:
                 unsigned probeAllButThis = 0) {
 
             for (const auto &folder : cat.folders) {
-                if(smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
+                if (smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
                     return true;
             }
             return false;
         };
 
-        if(upath(baseName).isAbsolute())
+        if (upath(baseName).isAbsolute())
         {
             // subset of the resolution scheme to the one below
             // and applied to just one folder; shifting the parts to emulate
@@ -481,13 +481,13 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
     else if (size == hugeSize())
         isStandardSize = true, base = huge();
 
-    if(isStandardSize) {
+    if (isStandardSize) {
         // among loaded ones, pick a not-smaller one and scale
-        if(base == null && size >= hugeSize() && loadedH)
+        if (base == null && size >= hugeSize() && loadedH)
             base = huge();
-        if(base == null && size >= largeSize() && loadedL)
+        if (base == null && size >= largeSize() && loadedL)
             base = large();
-        if(base == null && size >= smallSize() && loadedS)
+        if (base == null && size >= smallSize() && loadedS)
             base = small();
     }
     if (base != null) {
