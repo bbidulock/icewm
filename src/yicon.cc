@@ -20,7 +20,6 @@
 #include <fnmatch.h>
 
 #include <vector>
-#include <array>
 #include <initializer_list>
 #include <functional>
 #include <set>
@@ -31,6 +30,9 @@
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
         loadedH(false), fCached(false), fPath(filename.expand()) {
+    // don't attempt to load if icon is disabled
+    if(fPath == "none" || fPath == "-")
+        loadedS = loadedL = loadedH = true;
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
