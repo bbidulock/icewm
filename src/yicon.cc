@@ -189,13 +189,10 @@ public:
             };
             // try the scalable version if can handle SVG
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
-            auto& scaleTegory = pools[fromResources].getCat(SCALABLE);
+            auto& scaleCat = pools[fromResources].getCat(SCALABLE);
             for (const auto &contentDir : subcats) {
-                if (gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
-                        scaleTegory)) {
-                    ret++;
-                    break;
-                }
+                ret += gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
+                        scaleCat);
             }
 #endif
 
@@ -208,15 +205,14 @@ public:
 
                 for (const auto &contentDir : subcats) {
                     for (const auto &testDir : {
-#warning TODO: fix concatenation, use printf, a local realloc-able buffer and reuse the first part
+                            // XXX: optimize concatenation with MStringBuilder
                             mstring(iconPathToken) + "/" + szSize + "x" + szSize
                             + contentDir, mstring(iconPathToken) + "/base/"
                             + szSize + "x" + szSize + contentDir,
 // some old themes contain just one dimension and different naming convention
                             mstring(iconPathToken) + contentDir + "/" + szSize
                     }) {
-                        if (gotcha(testDir, kv))
-                            ret++;
+                        ret+=gotcha(testDir, kv);
                     }
                 }
             }
