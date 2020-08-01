@@ -25,6 +25,9 @@
 #include <functional>
 #include <set>
 
+// place holder for scalable category, a size beyond normal limits
+#define SCALABLE 9000
+
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
         loadedH(false), fCached(false), fPath(filename.expand()) {
@@ -67,10 +70,16 @@ inline void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
     // starting with bigger size so we get those for scaling first,
     // in case that becomes needed
 
-    unsigned seen[4];
+    unsigned seen[5];
     unsigned last=0;
 
-    for(auto is : {hugeIconSize, largeIconSize, smallIconSize, menuIconSize}) {
+    for(auto is : {
+#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+        unsigned(SCALABLE),
+#endif
+        hugeIconSize, largeIconSize, smallIconSize,
+        menuIconSize}) {
+
         if(is == toSkip) continue;
         for(unsigned t=0;t<last;++t)
         {
@@ -180,9 +189,10 @@ public:
             };
             // try the scalable version if can handle SVG
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+            auto& scaleTegory = pools[fromResources].getCat(SCALABLE);
             for (const auto &contentDir : subcats) {
                 if (gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
-                        pools[fromResources].anyCategory)) {
+                        scaleTegory)) {
                     ret++;
                     break;
                 }
@@ -190,17 +200,21 @@ public:
 #endif
 
             for (auto &kv : pools[fromResources].categories) {
+                // special handling above
+                if (kv.size == SCALABLE)
+                    continue;
 
                 mstring szSize(long(kv.size));
 
                 for (const auto &contentDir : subcats) {
                     for (const auto &testDir : {
-
-                    mstring(iconPathToken) + "/" + szSize + "x" + szSize + contentDir,
-                            mstring(iconPathToken) + "/base/" + szSize + "x" + szSize
-                                    + contentDir,
+#warning TODO: fix concatenation, use printf, a local realloc-able buffer and reuse the first part
+                            mstring(iconPathToken) + "/" + szSize + "x" + szSize
+                            + contentDir, mstring(iconPathToken) + "/base/"
+                            + szSize + "x" + szSize + contentDir,
 // some old themes contain just one dimension and different naming convention
-                            mstring(iconPathToken) + contentDir + "/" + szSize }) {
+                            mstring(iconPathToken) + contentDir + "/" + szSize
+                    }) {
                         if (gotcha(testDir, kv))
                             ret++;
                     }
@@ -384,13 +398,11 @@ public:
             scanList(pool.anyCategory, true);
         if (res == null)
             scanList(pool.anyCategory, false);
-        /* Currently not used. The load() code probes the particular sizes
-         * in the order considered more suitable.
-        if (res == null
-                && revIterAllSizeButThis(size, [&](unsigned is) {
-                    return scanList(pool.categories[is], false);
-                })) return res;
-                */
+        if (res == null) {
+            iterUniqueSizeRev([&](unsigned is) {
+                return !scanList(pool.getCat(is), false);
+            }, size);
+        }
         if (res == null && !hasSuffix)
             scanList(pool.anyCategory, true, size);
         return res;
@@ -445,53 +457,18 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
     return icon;
 }
 
-ref<YImage> YIcon::huge() {
-    if (fHuge == null && !loadedH) {
-        fHuge = loadIcon(hugeSize());
-        loadedH = true;
 
-        if (fHuge == null && large() != null)
-            fHuge = large()->scale(hugeSize(), hugeSize());
-
-        if (fHuge == null && small() != null)
-            fHuge = small()->scale(hugeSize(), hugeSize());
-    }
-
-    return fHuge;
-}
-
-ref<YImage> YIcon::large() {
-    if (fLarge == null && !loadedL) {
-        fLarge = loadIcon(largeSize());
-        loadedL = true;
-
-        if (fLarge == null && huge() != null)
-            fLarge = huge()->scale(largeSize(), largeSize());
-
-        if (fLarge == null && small() != null)
-            fLarge = small()->scale(largeSize(), largeSize());
-    }
-
-    return fLarge;
-}
-
-ref<YImage> YIcon::small() {
-    if (fSmall == null && !loadedS) {
-        fSmall = loadIcon(smallSize());
-        loadedS = true;
-
-        if (fSmall == null && large() != null)
-            fSmall = large()->scale(smallSize(), smallSize());
-        if (fSmall == null && huge() != null)
-            fSmall = huge()->scale(smallSize(), smallSize());
-    }
-
-    return fSmall;
+ref<YImage> YIcon::bestLoad(int size, ref<YImage>& img, bool& flag) {
+    if (img != null || flag)
+        return img;
+    img = loadIcon(size);
+    flag = true;
+    return img;
 }
 
 ref<YImage> YIcon::getScaledIcon(unsigned size) {
     ref<YImage> base;
-
+    // exact size match
     if (size == smallSize())
         base = small();
     else if (size == largeSize())
@@ -499,16 +476,21 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
     else if (size == hugeSize())
         base = huge();
 
-    if (base == null) {
-        base = huge() != null ? fHuge : large() != null ? fLarge : small();
-    }
+    // among loaded ones, pick a not-smaller one and scale
+    if(base == null && size >= hugeSize() && loadedH)
+        base = huge();
+    if(base == null && size >= largeSize() && loadedL)
+        base = large();
+    if(base == null && size >= smallSize() && loadedS)
+        base = small();
 
     if (base != null) {
-        if (size != base->width() || size != base->height()) {
-            base = base->scale(size, size);
-        }
-    }
-    return base;
+         if (size != base->width() || size != base->height())
+             base = base->scale(size, size);
+         return base;
+     }
+    else // getting the scaled icon but without caching it
+        return loadIcon(size);
 }
 
 static YRefArray<YIcon> iconCache;
