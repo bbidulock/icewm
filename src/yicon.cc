@@ -410,15 +410,10 @@ upath YIcon::findIcon(unsigned size) {
 
     iconIndex.init();
     // XXX: also differentiate between purpose (menu folder or program)
-    auto ret = iconIndex.locateIcon(size, fPath, true);
-    if (ret == null) {
-        ret = iconIndex.locateIcon(size, fPath, false);
-    }
-    if (ret == null) {
-        MSG(("Icon \"%s\" not found.", fPath.string()));
-    }
 
-    return ret;
+    // search in our resource paths, fallback to IconPath
+    auto ret = iconIndex.locateIcon(size, fPath, true);
+    return ret != null ? ret : iconIndex.locateIcon(size, fPath, false);
 }
 
 ref<YImage> YIcon::loadIcon(unsigned size) {
@@ -465,28 +460,31 @@ ref<YImage> YIcon::bestLoad(int size, ref<YImage>& img, bool& flag) {
 ref<YImage> YIcon::getScaledIcon(unsigned size) {
     ref<YImage> base;
     // exact size match
+    bool isStandardSize = false;
     if (size == smallSize())
-        base = small();
+        isStandardSize = true, base = small();
     else if (size == largeSize())
-        base = large();
+        isStandardSize = true, base = large();
     else if (size == hugeSize())
-        base = huge();
+        isStandardSize = true, base = huge();
 
-    // among loaded ones, pick a not-smaller one and scale
-    if(base == null && size >= hugeSize() && loadedH)
-        base = huge();
-    if(base == null && size >= largeSize() && loadedL)
-        base = large();
-    if(base == null && size >= smallSize() && loadedS)
-        base = small();
-
+    if(isStandardSize) {
+        // among loaded ones, pick a not-smaller one and scale
+        if(base == null && size >= hugeSize() && loadedH)
+            base = huge();
+        if(base == null && size >= largeSize() && loadedL)
+            base = large();
+        if(base == null && size >= smallSize() && loadedS)
+            base = small();
+    }
     if (base != null) {
-         if (size != base->width() || size != base->height())
-             base = base->scale(size, size);
-         return base;
-     }
-    else // getting the scaled icon but without caching it
+        if (size != base->width() || size != base->height())
+            base = base->scale(size, size);
+    } else if (!isStandardSize) { // regular versions were tried above!
+        // this will find/load and scale the best icon, even w/o caching
         return loadIcon(size);
+    }
+    return base;
 }
 
 static YRefArray<YIcon> iconCache;
