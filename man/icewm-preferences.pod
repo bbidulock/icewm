@@ -1604,11 +1604,11 @@ Text color of battery monitor.
 
 =item B<ColorApmBattery> = "rgb:FF/FF/00"
 
-Color of battery monitor when charging.
+Color of battery monitor when discharging.
 
 =item B<ColorApmLine> = "rgb:00/FF/00"
 
-Color of battery monitor when discharging.
+Color of battery monitor when charging.
 
 =item B<ColorApmGraphBg> = "rgb:00/00/00"
 
