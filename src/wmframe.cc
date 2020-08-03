@@ -3058,44 +3058,42 @@ void YFrameWindow::updateLayout() {
 
         setWindowGeometry(YRect(iconX, iconY,
                           fMiniIcon->width(), fMiniIcon->height()));
-    } else {
-        if (isFullscreen()) {
-            // for _NET_WM_FULLSCREEN_MONITORS
-            if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
-                fFullscreenMonitorsLeft >= 0 && fFullscreenMonitorsRight >= 0) {
-                int x, y;
-                unsigned w, h;
-                int monitor[4] = { fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
-                                   fFullscreenMonitorsLeft, fFullscreenMonitorsRight };
-                manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
-                YRect r(x, y, w, h);
-                for (int i = 1; i < 4; i++) {
-                    manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
-                    r.unionRect(x, y, w, h);
-                }
-                setWindowGeometry(r);
-            } else if (fullscreenUseAllMonitors) {
-                setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
-            } else {
-                int xiscreen = manager->getScreenForRect(posX,
-                                                         posY,
-                                                         posW,
-                                                         posH);
-                int dx, dy;
-                unsigned dw, dh;
-                manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
-                setWindowGeometry(YRect(dx, dy, dw, dh));
+    }
+    else if (isFullscreen()) {
+        // for _NET_WM_FULLSCREEN_MONITORS
+        if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
+            fFullscreenMonitorsLeft >= 0 && fFullscreenMonitorsRight >= 0) {
+            int x, y;
+            unsigned w, h;
+            int monitor[4] = {
+                fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
+                fFullscreenMonitorsLeft, fFullscreenMonitorsRight
+            };
+            manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
+            YRect r(x, y, w, h);
+            for (int i = 1; i < 4; i++) {
+                manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
+                r.unionRect(x, y, w, h);
             }
-        } else {
-
-            if (isRollup()) {
-                setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
-            } else {
-                MSG(("updateLayout %d %d %d %d",
-                     posX, posY, posW, posH));
-                setWindowGeometry(YRect(posX, posY, posW, posH));
-            }
+            setWindowGeometry(r);
         }
+        else if (fullscreenUseAllMonitors) {
+            setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
+        }
+        else {
+            int xiscreen = manager->getScreenForRect(posX, posY, posW, posH);
+            int dx, dy;
+            unsigned dw, dh;
+            manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+            setWindowGeometry(YRect(dx, dy, dw, dh));
+        }
+    }
+    else if (isRollup()) {
+        setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
+    }
+    else {
+        MSG(("updateLayout %d %d %d %d", posX, posY, posW, posH));
+        setWindowGeometry(YRect(posX, posY, posW, posH));
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
