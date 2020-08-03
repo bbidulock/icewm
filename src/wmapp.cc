@@ -919,7 +919,6 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         }
     } else if (action == actionCollapseTaskbar && taskBar) {
         taskBar->handleCollapseButton();
-        manager->focusLastWindow();
     } else {
         for (int w = 0; w < workspaceCount; w++) {
             if (workspaceActionActivate[w] == action) {

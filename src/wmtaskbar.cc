@@ -115,7 +115,6 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
     YFrameClient(aParent, nullptr),
-    fGraphics(this),
     fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
     fTasks(nullptr),
     fCollapseButton(nullptr),
@@ -133,6 +132,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fAddressBar(nullptr),
     fWorkspaces(nullptr),
     fDesktopTray(nullptr),
+    fEdgeTrigger(nullptr),
     wmActionListener(wmActionListener),
     smActionListener(smActionListener),
     app(app),
@@ -142,14 +142,9 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsMapped(false),
     fMenuShown(false),
     fNeedRelayout(false),
-    fButtonUpdate(false),
-    fEdgeTrigger(nullptr)
+    fButtonUpdate(false)
 {
     taskBar = this;
-
-    ///setToplevel(true);
-
-    addStyle(wsNoExpose);
 
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
@@ -164,15 +159,12 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
       //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
-
-    {
-        XWMHints wmhints = { InputHint, False, };
-        ClassHint clhint("icewm", "TaskBar");
-        YTextProperty text("TaskBar");
-        XSetWMProperties(xapp->display(), handle(), &text, &text,
-                         nullptr, 0, nullptr, &wmhints, &clhint);
-        setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
-    }
+    XWMHints wmhints = { InputHint, False, };
+    ClassHint clhint("icewm", "TaskBar");
+    YTextProperty text("TaskBar");
+    XSetWMProperties(xapp->display(), handle(), &text, &text,
+                     nullptr, 0, nullptr, &wmhints, &clhint);
+    setNetPid();
 
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
@@ -435,54 +427,53 @@ void TaskBar::trayChanged() {
 struct LayoutInfo {
     YWindow *w;
     bool left;
-    int row; // 0 = bottom, 1 = top
+    bool row; // 0 = bottom, 1 = top
     bool show;
-    int pre, post;
     bool expand;
+    short pre, post;
 
     LayoutInfo() :
-        w(nullptr), left(false), row(0), show(false), pre(0), post(0), expand(false) {}
-    LayoutInfo(YWindow *_w, bool l, int r, bool s, int p, int o, bool e) :
-        w(_w), left(l), row(r), show(s), pre(p), post(o), expand(e) {}
+        w(nullptr), left(false), row(false), show(false),
+        expand(false), pre(0), post(0) {}
+    LayoutInfo(YWindow *w, bool l, bool r, bool s, bool e, short p, short o) :
+        w(w), left(l), row(r), show(s), expand(e), pre(p), post(o) {}
 };
 
-bool operator==(const LayoutInfo &l1, const LayoutInfo &l2)
-{
-    return memcmp(&l1, &l2, sizeof(LayoutInfo)) == 0;
-}
-
 void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
+    enum { Over, Here };
+    enum { Bot, Top };
+    enum { Same, Show };
+    enum { Keep, Grow };
     LayoutInfo nw;
-    YArray<LayoutInfo> wlist;
-    wlist.setCapacity(14);
+    YArray<LayoutInfo> wlist(16);
 
     bool issue314 = taskBarAtTop;
-    nw = LayoutInfo( fApplications, true, issue314, true, 0, 0, true );
+    nw = LayoutInfo( fApplications, Here, issue314, Show, Grow, 0, 0 );
     wlist.append(nw);
-    nw = LayoutInfo( fShowDesktop, true, !issue314, true, 0, 0, true );
+    nw = LayoutInfo( fShowDesktop, Here, !issue314, Show, Grow, 0, 0 );
     wlist.append(nw);
-    nw = LayoutInfo( fWinList, true, !issue314, true, 0, 0, true );
+    nw = LayoutInfo( fWinList, Here, !issue314, Show, Grow, 0, 0 );
     wlist.append(nw);
-    nw = LayoutInfo( fObjectBar, true, 1, true, 4, 0, true );
+    nw = LayoutInfo( fObjectBar, Here, Top, Show, Grow, 4, 0 );
     wlist.append(nw);
-    nw = LayoutInfo( fCollapseButton, false, 0, true, 0, 2, true );
+    nw = LayoutInfo( fCollapseButton, Over, Bot, Show, Grow, 0, 2 );
     wlist.append(nw);
     nw = LayoutInfo( fWorkspaces, taskBarWorkspacesLeft,
                      taskBarDoubleHeight && taskBarWorkspacesTop,
                      taskBarShowWorkspaces && workspaceCount > 0,
-                     4, 4, true );
+                     Grow, 4, 4 );
     wlist.append(nw);
 
-    nw = LayoutInfo( fClock, false, 1, false, 2, 2, false );
+    nw = LayoutInfo( fClock, Over, Top, Same, Keep, 2, 2 );
     wlist.append(nw);
     if (taskBarShowMailboxStatus) {
         for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
-            nw = LayoutInfo( *m, false, 1, true, 1, 1, false );
+            nw = LayoutInfo( *m, Over, Top, Show, Keep, 1, 1 );
             wlist.append(nw);
         }
     }
     if (fKeyboardStatus) {
-        nw = LayoutInfo( fKeyboardStatus, false, 1, true, 1, 1, false );
+        nw = LayoutInfo( fKeyboardStatus, Over, Top, Show, Keep, 1, 1 );
         wlist.append(nw);
     }
 
@@ -491,14 +482,14 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         CPUStatusControl::IterType it = fCPUStatus->getIterator();
         while (++it)
         {
-            nw = LayoutInfo(*it, false, 1, true, 2, 2, false );
+            nw = LayoutInfo(*it, Over, Top, Show, Keep, 2, 2 );
             wlist.append(nw);
         }
     }
 #endif
 
 #ifdef MEM_STATES
-    nw = LayoutInfo( fMEMStatus, false, 1, false, 2, 2, false );
+    nw = LayoutInfo( fMEMStatus, Over, Top, Same, Keep, 2, 2 );
     wlist.append(nw);
 #endif
 
@@ -507,18 +498,18 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         while (++it)
         {
             if (*it != 0) {
-                nw = LayoutInfo(*it, false, 1, false, 2, 2, false);
+                nw = LayoutInfo(*it, Over, Top, Same, Keep, 2, 2 );
                 wlist.append(nw);
             }
         }
     }
 #ifdef MAX_ACPI_BATTERY_NUM
-    nw = LayoutInfo( fApm, false, 1, true, 0, 2, false );
+    nw = LayoutInfo( fApm, Over, Top, Show, Keep, 0, 2 );
     wlist.append(nw);
 #endif
-    nw = LayoutInfo( fDesktopTray, false, 1, true, 1, 1, false );
+    nw = LayoutInfo( fDesktopTray, Over, Top, Show, Keep, 1, 1 );
     wlist.append(nw);
-    nw = LayoutInfo( fWindowTray, false, 0, true, 1, 1, true );
+    nw = LayoutInfo( fWindowTray, Over, Bot, Show, Grow, 1, 1 );
     wlist.append(nw);
     const int wcount = wlist.getCount();
 
@@ -529,12 +520,12 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     if (!taskBarDoubleHeight)
         for (int i = 0; i < wcount; i++)
-            wlist[i].row = 0;
+            wlist[i].row = false;
     for (int i = 0; i < wcount; i++) {
-        if (!wlist[i].w)
-             continue;
-        if (wlist[i].w->height() > h[wlist[i].row])
-            h[wlist[i].row] = wlist[i].w->height();
+        if (wlist[i].w) {
+            if (h[wlist[i].row] < wlist[i].w->height())
+                h[wlist[i].row] = wlist[i].w->height();
+        }
     }
 
     unsigned w = (desktop->getScreenGeometry().width()
@@ -679,18 +670,16 @@ void TaskBar::updateLocation() {
     if (fIsCollapsed) {
         if (fCollapseButton) {
             w = fCollapseButton->width();
-            h = fCollapseButton->height();
-        } else {
+            h = fCollapseButton->height() + 1;
+            fCollapseButton->setPosition(0, 1);
+            fCollapseButton->raise();
+            fCollapseButton->show();
+        }
+        else {
             w = h = 0;
         }
 
         x = dx + (dw - w);
-
-        if (fCollapseButton) {
-            fCollapseButton->show();
-            fCollapseButton->raise();
-            fCollapseButton->setPosition(0, 0);
-        }
     }
 
     int by = taskBarAtTop ? dy : dy + dh - 1;
@@ -780,22 +769,23 @@ void TaskBar::paint(Graphics &g, const YRect& r) {
     //g.draw3DRect(0, 0, width() - 1, height() - 1, true);
 
     // When TaskBarDoubleHeight=1 this draws the upper half.
-    if (fGradient != null)
+    if (fGradient != null) {
         g.drawImage(fGradient, r.x(), r.y(), r.width(), r.height(),
                     r.x(), r.y());
-    else
-    if (taskbackPixmap != null)
+    }
+    else if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap, r.x(), r.y(), r.width(), r.height(),
                      r.x(), r.y());
-    else
-    if (taskBarAtTop) {
+    }
+    else if (taskBarAtTop) {
         bool dh = (r.y() + r.height() == height());
         g.fillRect(r.x(), r.y(), r.width(), r.height() - dh);
         if (dh) {
             g.setColor(taskBarBg->darker());
             g.drawLine(r.x(), height() - 1, r.x() + r.width(), height() - 1);
         }
-    } else {
+    }
+    else {
         bool dy = (r.y() == 0);
         g.fillRect(r.x(), r.y() + dy, r.width(), r.height() - dy);
         if (dy) {
@@ -867,7 +857,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
         //setPosition(x(), taskBarAtTop ? -1 : int(manager->height() - height() + 1));
         manager->setWorkAreaMoveWindows(true);
         updateLocation();
-        repaint();
+        //repaint();
         //manager->updateWorkArea();
         manager->setWorkAreaMoveWindows(false);
     }
@@ -964,12 +954,12 @@ void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 
 void TaskBar::configure(const YRect2& r) {
     if (r.resized() && 1 < r.width()) {
-        fGraphics.paint(r);
+        repaint();
     }
 }
 
 void TaskBar::repaint() {
-    fGraphics.paint();
+    GraphicsBuffer(this).paint();
 }
 
 void TaskBar::detachDesktopTray() {

@@ -1,5 +1,5 @@
-#ifndef __TASKBAR_H
-#define __TASKBAR_H
+#ifndef TASKBAR_H
+#define TASKBAR_H
 
 #include "yaction.h"
 #include "ytimer.h"
@@ -136,7 +136,6 @@ private:
     YXTray *netwmTray() { return fDesktopTray; }
 
 private:
-    GraphicsBuffer fGraphics;
     YSurface fSurface;
     TaskPane *fTasks;
 
@@ -157,30 +156,28 @@ private:
     AddressBar *fAddressBar;
     AWorkspaces *fWorkspaces;
     YXTray *fDesktopTray;
+    EdgeTrigger *fEdgeTrigger;
     YActionListener *wmActionListener;
     YSMListener *smActionListener;
     IApp *app;
+
+    lazy<TaskBarMenu> taskBarMenu;
+    ref<YImage> fGradient;
 
     bool fIsHidden;
     bool fFullscreen;
     bool fIsCollapsed;
     bool fIsMapped;
     bool fMenuShown;
+    bool fNeedRelayout;
+    bool fButtonUpdate;
 
-    lazy<TaskBarMenu> taskBarMenu;
 
     friend class WindowList;
     friend class WindowListBox;
 
-    ref<YImage> fGradient;
-
-    bool fNeedRelayout;
-    bool fButtonUpdate;
-
     void initApplets();
     void updateLayout(unsigned &size_w, unsigned &size_h);
-
-    EdgeTrigger *fEdgeTrigger;
 
     class YStrut {
     public:
