@@ -2220,24 +2220,48 @@ void YWindowManager::updateWorkAreaInner() {
         announceWorkArea();
         long spaces = min(fWorkAreaWorkspaceCount, oldWorkAreaWorkspaceCount);
         int screens = min(fWorkAreaScreenCount, oldWorkAreaScreenCount);
-        for (long ws = 0; ws < spaces; ws++) {
-            for (int s = 0; s < screens; s++) {
-                int deltaX = fWorkArea[ws][s].fMinX
-                           - oldWorkArea[ws][s].fMinX;
-                int deltaY = fWorkArea[ws][s].fMinY
-                           - oldWorkArea[ws][s].fMinY;
-                if (deltaX || deltaY) {
-                    relocateWindows(ws, s, deltaX, deltaY);
+        for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
+            if (f->x() >= 0 && f->y() >= 0 && f->inWorkArea()) {
+                int s = f->getScreen();
+                int w = f->isAllWorkspaces()
+                      ? activeWorkspace() : f->getWorkspace();
+                if (s < spaces && w < spaces &&
+                    fWorkArea[w][s].displaced(oldWorkArea[w][s])) {
+                    int dx =
+                        (f->x() >= oldWorkArea[w][s].fMinX &&
+                         f->x() < fWorkArea[w][s].fMinX) ?
+                        fWorkArea[w][s].fMinX - f->x() :
+                        (f->x() == oldWorkArea[w][s].fMinX &&
+                         f->x() > fWorkArea[w][s].fMinX) ?
+                        fWorkArea[w][s].fMinX - f->x() :
+                        0;
+                    int dy =
+                        (f->y() >= oldWorkArea[w][s].fMinY &&
+                         f->y() < fWorkArea[w][s].fMinY) ?
+                        fWorkArea[w][s].fMinY - f->y() :
+                        (f->y() == oldWorkArea[w][s].fMinY &&
+                         f->y() > fWorkArea[w][s].fMinY) ?
+                        fWorkArea[w][s].fMinY - f->y() :
+                        0;
+                    if (dx || dy) {
+                        f->setNormalPositionOuter(f->x() + dx, f->y() + dy);
+                    }
                 }
-
-                if (fWorkArea[ws][s].width() < oldWorkArea[ws][s].width())
-                    resize = true;
-                if (fWorkArea[ws][s].height() < oldWorkArea[ws][s].height())
-                    resize = true;
             }
         }
-        if (screens < oldWorkAreaScreenCount)
+        if (screens < oldWorkAreaScreenCount) {
             resize = true;
+        }
+        else {
+            for (long ws = 0; ws < spaces; ws++) {
+                for (int s = 0; s < screens; s++) {
+                    if (fWorkArea[ws][s].width() < oldWorkArea[ws][s].width())
+                        resize = true;
+                    if (fWorkArea[ws][s].height() < oldWorkArea[ws][s].height())
+                        resize = true;
+                }
+            }
+        }
     }
 
     if (oldWorkArea) {
@@ -2326,25 +2350,11 @@ void YWindowManager::announceWorkArea() {
     }
 }
 
-void YWindowManager::relocateWindows(long workspace, int screen, int dx, int dy) {
-/// TODO #warning "needs a rewrite (save old work area) for each workspace"
-#if 1
-    for (YFrameWindow * f = topLayer(); f; f = f->nextLayer())
-        if (f->inWorkArea() && f->getScreen() == screen) {
-            if (f->getWorkspace() == workspace ||
-                (f->isAllWorkspaces() && workspace == activeWorkspace()))
-            {
-                f->setNormalPositionOuter(f->x() + dx, f->y() + dy);
-            }
-        }
-#endif
-}
-
 void YWindowManager::resizeWindows() {
     for (YFrameWindow * f = topLayer(); f; f = f->nextLayer()) {
         if (f->visibleNow() && f->inWorkArea() && !f->client()->destroyed()) {
             if (f->isMaximized())
-                f->updateDerivedSize(WinStateMaximizedVert | WinStateMaximizedHoriz);
+                f->updateDerivedSize(WinStateMaximizedBoth);
             f->updateLayout();
         }
     }

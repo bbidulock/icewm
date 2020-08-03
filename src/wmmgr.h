@@ -176,7 +176,6 @@ public:
     YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = AllWorkspaces);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
-    void relocateWindows(long workspace, int screen, int dx, int dy);
     void updateClientList();
     void updateUserTime(const UserTime& userTime);
 
