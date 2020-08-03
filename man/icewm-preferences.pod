@@ -412,7 +412,7 @@ Show clock on task bar.
 
 =item B<TaskBarShowAPMStatus>=0
 
-Show APM/ACPI/Battery/Power status monitor on task bar.
+Show battery status monitor on task bar.
 
 =item B<TaskBarShowAPMAuto>=1
 
@@ -420,11 +420,11 @@ Enable TaskBarShowAPMStatus if a battery is present.
 
 =item B<TaskBarShowAPMTime>=1
 
-Show APM status on task bar in time-format.
+Show battery status on task bar in time-format
 
 =item B<TaskBarShowAPMGraph>=1
 
-Show APM status in graph mode.
+Show battery status in graph mode.
 
 =item B<TaskBarShowMailboxStatus>=1
 
@@ -547,7 +547,7 @@ Enable mouse wheel cycling over workspaces and task buttons in taskbar.
 
 =item B<TaskBarClockLeds>=0 # 0/1
 
-Task bar clock/APM uses nice pixmap LCD display (but then it
+Task bar clock/battery monitor uses nice pixmap LCD display (but then it
 doesn't display correctly in many languages anymore, e.g., for
 Japanese and Korean it works only when a real font is used and not
 the LCD pixmaps.
@@ -683,7 +683,7 @@ Taskbar justify left, right or center.
 
 =item B<TaskBarApmGraphWidth>=10  [1-1000]
 
-Width of APM Monitor.
+Width of battery Monitor.
 
 =item B<TaskBarGraphHeight>=20  [16-1000]
 
@@ -1596,19 +1596,19 @@ Background of non-LCD monitor.
 
 =item B<ColorApm> = "rgb:00/00/00"
 
-Background of APM monitor, leave empty to force transparency.
+Background of battery monitor, leave empty to force transparency.
 
 =item B<ColorApmText> = "rgb:00/FF/00"
 
-Text color of APM monitor.
+Text color of battery monitor.
 
 =item B<ColorApmBattery> = "rgb:FF/FF/00"
 
-Color of APM monitor in battery mode.
+Color of battery monitor when discharging.
 
 =item B<ColorApmLine> = "rgb:00/FF/00"
 
-Color of APM monitor in line mode.
+Color of battery monitor when charging.
 
 =item B<ColorApmGraphBg> = "rgb:00/00/00"
 
