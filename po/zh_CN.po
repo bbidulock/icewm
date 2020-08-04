@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-07-12 19:51+0200\n"
-"PO-Revision-Date: 2020-08-04 12:19+0800\n"
+"PO-Revision-Date: 2020-08-04 14:12+0800\n"
 "Last-Translator: WhiredPlanck <fungdaat31@outlook.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
@@ -58,12 +58,12 @@ msgstr "禁用(_D)"
 
 #: src/aclock.cc:181
 msgid "_UTC"
-msgstr "_UTC"
+msgstr "世界标准时(UTC) (_U)"
 
 #: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU %s 负载：%3.2f %3.2f %3.2f, %u"
+msgstr "CPU %s 负载: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:302
 #, c-format
@@ -72,7 +72,7 @@ msgid ""
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"内存（空闲）：%5.3f (%.3f) G"
+"内存 (空闲): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:307
 #, c-format
@@ -81,7 +81,7 @@ msgid ""
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"交换空间（空闲）：%.3f (%.3f) G"
+"交换空间 (空闲): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:313
 #, c-format
@@ -220,7 +220,7 @@ msgstr "检查(_C)"
 
 #: src/amailbox.cc:958
 msgid "_Suspend"
-msgstr "挂起(s)"
+msgstr "挂起(_S)"
 
 #: src/amemstatus.cc:145
 msgid "GB"
@@ -962,7 +962,7 @@ msgstr "Ctrl+H"
 
 #: src/iceview.cc:65
 msgid "Expand Tabs"
-msgstr "展开 Tab"
+msgstr "展开标签页"
 
 #: src/iceview.cc:65
 msgid "Ctrl+T"
@@ -1138,7 +1138,7 @@ msgstr "主题作者："
 
 #: src/wmabout.cc:37
 msgid "CodeSet:"
-msgstr "代码集："
+msgstr "编码集："
 
 #: src/wmabout.cc:38
 msgid "Language:"
@@ -1167,11 +1167,11 @@ msgstr "完成。"
 
 #: src/wmapp.cc:404
 msgid "_Logout"
-msgstr "退出(_L)"
+msgstr "注销(_L)"
 
 #: src/wmapp.cc:405
 msgid "_Cancel logout"
-msgstr "取消退出(_C)"
+msgstr "取消注销(_C)"
 
 #: src/wmapp.cc:410
 msgid "Lock _Workstation"
@@ -1204,7 +1204,7 @@ msgstr "菜单(_M)"
 
 #: src/wmapp.cc:434
 msgid "_Above Dock"
-msgstr "停放在上面(_A)"
+msgstr "停放在上层(_A)"
 
 #: src/wmapp.cc:435
 msgid "_Dock"
@@ -1268,15 +1268,15 @@ msgstr "卷起(_U)"
 
 #: src/wmapp.cc:499
 msgid "R_aise"
-msgstr "提升(_A)"
+msgstr "上移一层(_A)"
 
 #: src/wmapp.cc:501 src/wmwinlist.cc:369
 msgid "_Lower"
-msgstr "降低(_L)"
+msgstr "下移一层(_L)"
 
 #: src/wmapp.cc:503 src/wmwinlist.cc:370
 msgid "La_yer"
-msgstr "层次(_Y)"
+msgstr "分层排序(_Y)"
 
 #: src/wmapp.cc:507 src/wmwinlist.cc:372
 msgid "Move _To"
@@ -1284,7 +1284,7 @@ msgstr "移动到(_T)"
 
 #: src/wmapp.cc:508 src/wmwinlist.cc:373
 msgid "Occupy _All"
-msgstr "占据所有(_A)"
+msgstr "占据所有工作区(_A)"
 
 #: src/wmapp.cc:514
 msgid "Limit _Workarea"
@@ -1292,7 +1292,7 @@ msgstr "限制工作区(_W)"
 
 #: src/wmapp.cc:518 src/wmwinlist.cc:374
 msgid "Tray _icon"
-msgstr "托盘图标(_I)"
+msgstr "显示为托盘图标(_I)"
 
 #: src/wmapp.cc:523 src/wmwinlist.cc:389 src/wmwinlist.cc:397
 msgid "_Close"
@@ -1546,23 +1546,23 @@ msgstr "点击聚焦(_C)"
 
 #: src/wmprog.cc:397
 msgid "_Explicit focus"
-msgstr "精确聚焦(_e)"
+msgstr "精确聚焦(_E)"
 
 #: src/wmprog.cc:398
 msgid "_Sloppy mouse focus"
-msgstr "粗略的鼠标聚焦(_s)"
+msgstr "粗略鼠标聚焦(_S)"
 
 #: src/wmprog.cc:399
 msgid "S_trict mouse focus"
-msgstr "点击聚焦(_s)"
+msgstr "精确鼠标聚焦(_T)"
 
 #: src/wmprog.cc:400
 msgid "_Quiet sloppy focus"
-msgstr "安静粗略聚焦(_q)"
+msgstr "安静粗略聚焦(_Q)"
 
 #: src/wmprog.cc:401
 msgid "Custo_m"
-msgstr "自定义(_m)"
+msgstr "自定义(_M)"
 
 #: src/wmprog.cc:488
 msgid "Save Modifications"
@@ -1570,7 +1570,7 @@ msgstr "保存修改"
 
 #: src/wmprog.cc:721
 msgid "_Manual"
-msgstr "手册(_m)"
+msgstr "手册(_M)"
 
 #: src/wmprog.cc:722
 msgid "_Icewm(1)"
@@ -1615,7 +1615,7 @@ msgstr "主题(_T)"
 
 #: src/wmprog.cc:842
 msgid "Se_ttings"
-msgstr "设置(_t)"
+msgstr "设置(_T)"
 
 #: src/wmsession.cc:220 src/wmsession.cc:236 src/wmsession.cc:246
 #, c-format
