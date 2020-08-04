@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-07-12 19:51+0200\n"
-"PO-Revision-Date: 2020-05-02 19:50+0000\n"
-"Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
+"PO-Revision-Date: 2020-08-04 14:12+0800\n"
+"Last-Translator: WhiredPlanck <fungdaat31@outlook.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Poedit 2.3.1\n"
 
 #: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
 msgid " - Power"
@@ -49,7 +49,7 @@ msgstr "日期"
 
 #: src/aclock.cc:179 src/themes.cc:78
 msgid "Default"
-msgstr "缺省"
+msgstr "默认"
 
 #: src/aclock.cc:180 src/acpustatus.cc:662 src/amailbox.cc:957
 #: src/amemstatus.cc:265
@@ -58,12 +58,12 @@ msgstr "禁用(_D)"
 
 #: src/aclock.cc:181
 msgid "_UTC"
-msgstr "_UTC"
+msgstr "世界标准时(UTC) (_U)"
 
 #: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU %s 负载：%3.2f %3.2f %3.2f, %u"
+msgstr "CPU %s 负载: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:302
 #, c-format
@@ -72,7 +72,7 @@ msgid ""
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram（空闲）：%5.3f (%.3f) G"
+"内存 (空闲): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:307
 #, c-format
@@ -81,7 +81,7 @@ msgid ""
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap（空闲）：%.3f (%.3f) G"
+"交换空间 (空闲): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:313
 #, c-format
@@ -116,7 +116,7 @@ msgid ""
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram（用户）：%5.3f (%.3f) G"
+"内存（用户）：%5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -220,7 +220,7 @@ msgstr "检查(_C)"
 
 #: src/amailbox.cc:958
 msgid "_Suspend"
-msgstr "挂起(s)"
+msgstr "挂起(_S)"
 
 #: src/amemstatus.cc:145
 msgid "GB"
@@ -271,7 +271,7 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"介面 %s：\n"
+"接口 %s：\n"
 "  当前速率 (进/出)：\t%li %s/%li %s\n"
 "  平均速率 (进/出)：\t%lli %s/%lli %s\n"
 "  已传输 (进/出)：\t%lli %s/%lli %s\n"
@@ -571,10 +571,8 @@ msgid "Motif decorations"
 msgstr "Motif 修饰器"
 
 #: src/icesh.cc:1948
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME 窗口状态"
+msgstr "EWMH 窗口状态"
 
 #: src/icesh.cc:2030 src/icesh.cc:2059
 #, c-format
@@ -648,22 +646,9 @@ msgstr "未知的行为：`%s'"
 #: src/iceskt.cc:42
 #, c-format
 msgid "Socket error: %d"
-msgstr "socket 错误：%d"
+msgstr "套接字错误：%d"
 
 #: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -679,14 +664,16 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=FILE    从 FILE 加载 IceWM 配置。\n"
+"  -c, --config=FILE   从 FILE 加载 IceWM 偏好设置。\n"
 "  -t, --theme=FILE    从 FILE 加载 IceWM 主题。\n"
 "\n"
 "  -d, --display=NAME  使用 NAME 连接到 X 服务器。\n"
-"  -a, --alpha               对半透明使用 32 位 visual。\n"
-"  --sync                     与 X11 服务器同步通信信息。\n"
+"  -a, --alpha         使用 32 位视觉效果实现半透明。\n"
+"  --sync              与 X11 服务器同步通信信息。\n"
 "\n"
-"  -i, --icewm=FILE 使用 FILE 作为 IceWM 窗口管理器。\n"
+"  -i, --icewm=FILE  使用 FILE 作为 IceWM 窗口管理器。\n"
+"  -o, --output=FILE   将所有输出重定向到 FILE。\n"
+"\n"
 "  -b, --nobg          不启动 icewmbg。\n"
 "  -n, --notray        不启动 icewmtray。\n"
 "  -s, --sound         同时启动 icesound。\n"
@@ -712,13 +699,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s 由信号 %d 杀掉。"
 
 #: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -732,6 +712,7 @@ msgstr ""
 "\n"
 "\t1: 重启 IceWM？\n"
 "\t2: 中止此会话？\n"
+"\t3: 运行终端？\n"
 
 #: src/icesm.cc:461
 msgid "IceWM crash response"
@@ -973,7 +954,7 @@ msgstr ""
 
 #: src/iceview.cc:64
 msgid "Hex View"
-msgstr "16进制显示"
+msgstr "16 进制显示"
 
 #: src/iceview.cc:64
 msgid "Ctrl+H"
@@ -981,7 +962,7 @@ msgstr "Ctrl+H"
 
 #: src/iceview.cc:65
 msgid "Expand Tabs"
-msgstr "展开 Tab"
+msgstr "展开标签页"
 
 #: src/iceview.cc:65
 msgid "Ctrl+T"
@@ -1137,7 +1118,7 @@ msgstr ""
 #: src/movesize.cc:888
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "move/resize 请求中包含未知的方向: %d"
+msgstr "移动/调整大小请求中的方向未知：%d"
 
 #: src/wmabout.cc:23 src/wmabout.cc:25
 msgid "(C)"
@@ -1157,7 +1138,7 @@ msgstr "主题作者："
 
 #: src/wmabout.cc:37
 msgid "CodeSet:"
-msgstr "代码集："
+msgstr "编码集："
 
 #: src/wmabout.cc:38
 msgid "Language:"
@@ -1186,11 +1167,11 @@ msgstr "完成。"
 
 #: src/wmapp.cc:404
 msgid "_Logout"
-msgstr "退出(_L)"
+msgstr "注销(_L)"
 
 #: src/wmapp.cc:405
 msgid "_Cancel logout"
-msgstr "取消退出(_C)"
+msgstr "取消注销(_C)"
 
 #: src/wmapp.cc:410
 msgid "Lock _Workstation"
@@ -1223,7 +1204,7 @@ msgstr "菜单(_M)"
 
 #: src/wmapp.cc:434
 msgid "_Above Dock"
-msgstr "停放在上面(_A)"
+msgstr "停放在上层(_A)"
 
 #: src/wmapp.cc:435
 msgid "_Dock"
@@ -1287,15 +1268,15 @@ msgstr "卷起(_U)"
 
 #: src/wmapp.cc:499
 msgid "R_aise"
-msgstr "提升(_A)"
+msgstr "上移一层(_A)"
 
 #: src/wmapp.cc:501 src/wmwinlist.cc:369
 msgid "_Lower"
-msgstr "降低(_L)"
+msgstr "下移一层(_L)"
 
 #: src/wmapp.cc:503 src/wmwinlist.cc:370
 msgid "La_yer"
-msgstr "层次(_Y)"
+msgstr "分层排序(_Y)"
 
 #: src/wmapp.cc:507 src/wmwinlist.cc:372
 msgid "Move _To"
@@ -1303,7 +1284,7 @@ msgstr "移动到(_T)"
 
 #: src/wmapp.cc:508 src/wmwinlist.cc:373
 msgid "Occupy _All"
-msgstr "占据所有(_A)"
+msgstr "占据所有工作区(_A)"
 
 #: src/wmapp.cc:514
 msgid "Limit _Workarea"
@@ -1311,7 +1292,7 @@ msgstr "限制工作区(_W)"
 
 #: src/wmapp.cc:518 src/wmwinlist.cc:374
 msgid "Tray _icon"
-msgstr "托盘图标(_I)"
+msgstr "显示为托盘图标(_I)"
 
 #: src/wmapp.cc:523 src/wmwinlist.cc:389 src/wmwinlist.cc:397
 msgid "_Close"
@@ -1327,7 +1308,7 @@ msgstr "窗口列表(_W)"
 
 #: src/wmapp.cc:561
 msgid "Another window manager already running, exiting..."
-msgstr "另外的 窗口管理器 已经在运行，退出..."
+msgstr "另一个 窗口管理器 已经在运行，正在退出..."
 
 #: src/wmapp.cc:635
 #, c-format
@@ -1543,11 +1524,11 @@ msgstr "卷起"
 
 #: src/wmmgr.cc:3228
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "程序 setxkbmap 缺失"
 
 #: src/wmmgr.cc:3229
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "要使用键盘切换，请安装 setxkbmap。"
 
 #: src/wmoption.cc:259
 #, c-format
@@ -1565,23 +1546,23 @@ msgstr "点击聚焦(_C)"
 
 #: src/wmprog.cc:397
 msgid "_Explicit focus"
-msgstr "精确聚焦(_e)"
+msgstr "精确聚焦(_E)"
 
 #: src/wmprog.cc:398
 msgid "_Sloppy mouse focus"
-msgstr "粗略的鼠标聚焦(_s)"
+msgstr "粗略鼠标聚焦(_S)"
 
 #: src/wmprog.cc:399
 msgid "S_trict mouse focus"
-msgstr "点击聚焦(_s)"
+msgstr "精确鼠标聚焦(_T)"
 
 #: src/wmprog.cc:400
 msgid "_Quiet sloppy focus"
-msgstr "安静粗略聚焦(_q)"
+msgstr "安静粗略聚焦(_Q)"
 
 #: src/wmprog.cc:401
 msgid "Custo_m"
-msgstr "自定义(_m)"
+msgstr "自定义(_M)"
 
 #: src/wmprog.cc:488
 msgid "Save Modifications"
@@ -1589,7 +1570,7 @@ msgstr "保存修改"
 
 #: src/wmprog.cc:721
 msgid "_Manual"
-msgstr "手册(_m)"
+msgstr "手册(_M)"
 
 #: src/wmprog.cc:722
 msgid "_Icewm(1)"
@@ -1609,7 +1590,7 @@ msgstr "程序"
 
 #: src/wmprog.cc:791
 msgid "_Run..."
-msgstr "运行(_r)…"
+msgstr "运行(_R)..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmprog.cc:796 src/wmtaskbar.cc:255
@@ -1634,7 +1615,7 @@ msgstr "主题(_T)"
 
 #: src/wmprog.cc:842
 msgid "Se_ttings"
-msgstr "设置(_t)"
+msgstr "设置(_T)"
 
 #: src/wmsession.cc:220 src/wmsession.cc:236 src/wmsession.cc:246
 #, c-format
@@ -1784,7 +1765,7 @@ msgstr "装载像素图“%s”失败"
 #: src/ycursor.cc:174
 #, c-format
 msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "错误的pixmap指针：“%s” 包含太多颜色"
+msgstr "错误的 pixmap 指针：\"%s\" 包含太多颜色"
 
 #: src/ycursor.cc:196
 #, c-format
@@ -1852,7 +1833,7 @@ msgstr "Ctrl+V"
 
 #: src/yinput.cc:21
 msgid "Paste _Selection"
-msgstr "选择粘贴(_S)"
+msgstr "粘贴所选内容(_S)"
 
 #: src/yinput.cc:21
 msgid "Ctrl+P"
@@ -1868,17 +1849,17 @@ msgstr "Ctrl+A"
 
 #: src/ylocale.cc:55
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "C运行库或 Xlib 不支持该区域。使用默认的 'C' 区域。"
+msgstr "C 运行库或 Xlib 不支持该语言环境。将使用默认的 'C' 区域。"
 
 #: src/ylocale.cc:94
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr "检测当前区域的编码失败，假定为 ISO-8859-1。\n"
+msgstr "检测当前语言环境的编码失败。将假定为 ISO-8859-1。\n"
 
 #: src/ylocale.cc:127 src/ylocale.cc:135
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
-msgstr "iconv没有提供（足够）的%s到%s转换器。"
+msgstr "iconv 没有提供（足够）的 %s 到 %s 转换器。"
 
 #: src/ylocale.cc:235
 #, c-format
@@ -1929,12 +1910,12 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
 msgid "2DGraphics"
-msgstr "2D图像"
+msgstr "2D 图像"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:45
 msgid "3DGraphics"
-msgstr "3D图像"
+msgstr "3D 图像"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
 #: src/fdospecgen.h:47 src/fdospecgen.h:49
@@ -2604,7 +2585,7 @@ msgstr "WINE"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:315
 msgid "WebBrowser"
-msgstr "Web 浏览器"
+msgstr "网页浏览器"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
 #: src/fdospecgen.h:317
