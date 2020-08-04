@@ -569,6 +569,23 @@ void YWindow::lower() {
     XLowerWindow(xapp->display(), handle());
 }
 
+void YWindow::beneath(YWindow* superior) {
+    if (superior) {
+        Window stack[] = { superior->handle(), handle(), };
+        XRestackWindows(xapp->display(), stack, 2);
+    }
+}
+
+void YWindow::raiseTo(YWindow* inferior) {
+    if (inferior) {
+        unsigned mask = CWSibling | CWStackMode;
+        XWindowChanges xwc;
+        xwc.sibling = inferior->handle();
+        xwc.stack_mode = Above;
+        XConfigureWindow(xapp->display(), handle(), mask, &xwc);
+    }
+}
+
 void YWindow::handleEvent(const XEvent &event) {
     switch (event.type) {
     case KeyPress:

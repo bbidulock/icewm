@@ -63,7 +63,8 @@ public:
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
     bool getWindowAttributes(XWindowAttributes* attr);
-
+    void beneath(YWindow* superior);
+    void raiseTo(YWindow* inferior);
     void setWindowFocus();
 
     bool fetchTitle(char** title);
