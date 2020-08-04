@@ -61,6 +61,7 @@ void YFrameWindow::updateSubmenus() {
     if (item)
         item->setEnabled(!isAllWorkspaces());
 
+    moveMenu->updatePopup();
     moveMenu->setActionListener(this);
     for (int i(0); i < moveMenu->itemCount(); i++) {
         item = moveMenu->getItem(i);
@@ -71,6 +72,7 @@ void YFrameWindow::updateSubmenus() {
         }
     }
 
+    layerMenu->updatePopup();
     layerMenu->setActionListener(this);
     int layer = WinLayerCount - 1;
     for (int j(0); j < layerMenu->itemCount(); j++) {
