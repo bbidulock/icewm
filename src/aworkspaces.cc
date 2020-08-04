@@ -46,24 +46,6 @@ void WorkspaceButton::repaint() {
     fGraphics.paint();
 }
 
-void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
-    if (taskbackPixbuf != null) {
-        g.clearArea(r.x(), r.y(), r.width(), r.height());
-        g.drawGradient(taskbackPixbuf,
-                       r.x(), r.y(), r.width(), r.height(),
-                       0, 0, width(), height());
-    }
-    else if (taskbackPixmap != null) {
-        g.fillPixmap(taskbackPixmap,
-                     r.x(), r.y(), r.width(), r.height(),
-                     r.x(), r.y());
-    }
-    else {
-        g.setColor(taskBarBg);
-        g.fillRect(r.x(), r.y(), r.width(), r.height());
-    }
-}
-
 void WorkspaceButton::handleButton(const XButtonEvent &button) {
     if (fDragging &&
         button.type == ButtonPress &&
@@ -601,8 +583,6 @@ void WorkspacesPane::repaint() {
 }
 
 void WorkspaceButton::paint(Graphics &g, const YRect& r) {
-    paintBackground(g, r);
-
     if (!pagerShowPreview) {
         YButton::paint(g, r);
         return;

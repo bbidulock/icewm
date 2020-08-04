@@ -53,7 +53,6 @@ private:
     virtual void inputEscape(YInputLine* input);
     virtual void inputLostFocus(YInputLine* input);
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void paintBackground(Graphics &g, const YRect &r);
 
     int fWorkspace;
     int fDelta;
