@@ -146,6 +146,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 {
     taskBar = this;
 
+    addStyle(wsNoExpose);
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
