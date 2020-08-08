@@ -1,5 +1,5 @@
-#ifndef __WMDIALOG_H
-#define __WMDIALOG_H
+#ifndef WMDIALOG_H
+#define WMDIALOG_H
 
 #include "ywindow.h"
 #include "yaction.h"

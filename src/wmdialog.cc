@@ -6,20 +6,20 @@
  * Dialogs
  */
 #include "config.h"
-
-#include "ypaths.h"
 #include "wmdialog.h"
-#include "wmaction.h"
-#include "yactionbutton.h"
 #include "wpixmaps.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmmgr.h"
-#include "yrect.h"
 #include "ypointer.h"
-#include "sysdep.h"
-
 #include "intl.h"
+
+#define HORZ 10
+#define MIDH 10
+#define VERT 10
+#define MIDV 6
+
+static YColorName cadBg(&clrDialog);
 
 bool couldRunCommand(const char *cmd) {
     if (isEmpty(cmd))
@@ -39,9 +39,9 @@ bool canLock()
 
 bool canShutdown(RebootShutdown reboot) {
     if (reboot == Shutdown && isEmpty(shutdownCommand))
-            return false;
+        return false;
     if (reboot == Reboot && isEmpty(rebootCommand))
-            return false;
+        return false;
     if (nonempty(logoutCommand))
         return false;
 #ifdef CONFIG_SESSION
@@ -51,16 +51,9 @@ bool canShutdown(RebootShutdown reboot) {
     return true;
 }
 
-#define HORZ 10
-#define MIDH 10
-#define VERT 10
-#define MIDV 6
-
-static YColorName cadBg(&clrDialog);
-
 CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     this->app = app;
-    unsigned w = 0, h = 0;
+    unsigned w = 140, h = 22;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
