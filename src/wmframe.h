@@ -1,5 +1,5 @@
-#ifndef __WMFRAME_H
-#define __WMFRAME_H
+#ifndef WMFRAME_H
+#define WMFRAME_H
 
 #include "ymsgbox.h"
 #include "wmoption.h"
@@ -558,7 +558,6 @@ private:
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
     }
-    friend class MiniIcon;
 };
 
 #endif

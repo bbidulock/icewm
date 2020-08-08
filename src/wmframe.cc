@@ -996,15 +996,15 @@ bool YFrameWindow::handleTimer(YTimer *t) {
 
 void YFrameWindow::raise() {
     if (this != manager->top(getActiveLayer())) {
-        YWindow::raise();
         setAbove(manager->top(getActiveLayer()));
+        raiseTo(prevLayer());
     }
 }
 
 void YFrameWindow::lower() {
     if (this != manager->bottom(getActiveLayer())) {
-        YWindow::lower();
         setAbove(nullptr);
+        beneath(nextLayer());
     }
 }
 
@@ -1276,13 +1276,13 @@ void YFrameWindow::wmSize() {
 
 bool YFrameWindow::canRestore() const {
     return hasbit(fWinState,
-            WinStateMaximizedVert | WinStateMaximizedHoriz |
+            WinStateMaximizedBoth |
             WinStateMinimized | WinStateHidden | WinStateRollup);
 }
 
 void YFrameWindow::wmRestore() {
     wmapp->signalGuiEvent(geWindowRestore);
-    setState(WinStateMaximizedVert | WinStateMaximizedHoriz |
+    setState(WinStateMaximizedBoth |
              WinStateMinimized | WinStateHidden | WinStateRollup, 0);
 }
 
@@ -1347,19 +1347,17 @@ void YFrameWindow::DoMaximize(long flags) {
 
     if (isMaximized()) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMaximizedVert |
-                 WinStateMaximizedHoriz |
+        setState(WinStateMaximizedBoth |
                  WinStateMinimized, 0);
     } else {
         wmapp->signalGuiEvent(geWindowMax);
-        setState(WinStateMaximizedVert |
-                 WinStateMaximizedHoriz |
+        setState(WinStateMaximizedBoth |
                  WinStateMinimized, flags);
     }
 }
 
 void YFrameWindow::wmMaximize() {
-    DoMaximize(WinStateMaximizedVert | WinStateMaximizedHoriz);
+    DoMaximize(WinStateMaximizedBoth);
 }
 
 void YFrameWindow::wmMaximizeVert() {
@@ -1708,8 +1706,10 @@ void YFrameWindow::activateWindow(bool raise, bool curWork) {
 }
 
 MiniIcon *YFrameWindow::getMiniIcon() {
-    if (minimizeToDesktop && fMiniIcon == nullptr)
-        fMiniIcon = new MiniIcon(this, this);
+    if (minimizeToDesktop && fMiniIcon == nullptr) {
+        fMiniIcon = new MiniIcon(this);
+        updateIconPosition();
+    }
     return fMiniIcon;
 }
 
@@ -1876,8 +1876,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner) {
             int ax = x() + container()->x();
             int ay = y() + container()->y();
             if (isIconic()) {
-                ax = x();
-                ay = y() + height();
+                ax = fMiniIcon->x();
+                ay = fMiniIcon->y();
             }
             popupSystemMenu(owner, ax, ay,
                             YPopupWindow::pfCanFlipVertical);
@@ -2747,7 +2747,7 @@ void YFrameWindow::updateState() {
         show_client = false;
         newState = isMinimized() ? IconicState : NormalState;
     } else if (isMinimized()) {
-        show_frame = minimizeToDesktop;
+        show_frame = false;
         show_client = false;
         newState = IconicState;
     } else if (isRollup()) {
@@ -2836,8 +2836,7 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     normalW = sh ? (w - sh->base_width) / non_zero(sh->width_inc) : w;
     normalH = sh ? (h - sh->base_height) / non_zero(sh->height_inc) : h ;
 
-    updateDerivedSize((isMaximizedVert() ? WinStateMaximizedVert : 0) |
-                      (isMaximizedHoriz() ? WinStateMaximizedHoriz : 0));
+    updateDerivedSize(getState() & WinStateMaximizedBoth);
     updateLayout();
 }
 
@@ -3003,28 +3002,17 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
          newSize.x(), newSize.y(), newSize.width(), newSize.height()));
     setWindowGeometry(newSize);
 
-    bool cx = true;
-    bool cy = true;
-    bool cw = true;
-    bool ch = true;
-
-    if (isFullscreen() || isIconic())
-        cy = ch = cx = cw = false;
-    if (isRollup())
-        ch = false;
-
-    if (cx)
+    if ( ! isFullscreen()) {
         posX = x();
-    if (cy)
         posY = y();
-    if (cw)
         posW = width();
-    if (ch)
+    }
+    if ( ! hasState(WinStateFullscreen | WinStateRollup)) {
         posH = height();
-
+    }
     if (isIconic()) {
-        iconX = x();
-        iconY = y();
+        iconX = fMiniIcon->x();
+        iconY = fMiniIcon->y();
     }
 
     updateNormalSize();
@@ -3041,8 +3029,10 @@ void YFrameWindow::updateIconPosition() {
         iconX = iconY = -1;
         if (minimizeToDesktop && isMinimized()) {
             manager->getIconPosition(this, &iconX, &iconY);
-            setWindowGeometry(YRect(iconX, iconY,
-                              fMiniIcon->width(), fMiniIcon->height()));
+            fMiniIcon->setPosition(iconX, iconY);
+            if (iconX != -1 || iconY != -1) {
+                fMiniIcon->show();
+            }
         }
         else {
             delete fMiniIcon;
@@ -3054,10 +3044,8 @@ void YFrameWindow::updateIconPosition() {
 void YFrameWindow::updateLayout() {
     if (isIconic()) {
         if (iconX == -1 && iconY == -1)
-            manager->getIconPosition(this, &iconX, &iconY);
-
-        setWindowGeometry(YRect(iconX, iconY,
-                          fMiniIcon->width(), fMiniIcon->height()));
+            updateIconPosition();
+        fMiniIcon->setPosition(iconX, iconY);
     }
     else if (isFullscreen()) {
         // for _NET_WM_FULLSCREEN_MONITORS
@@ -3143,8 +3131,7 @@ void YFrameWindow::setState(long mask, long state) {
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
     //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
-    if ((fOldState ^ fNewState) & (WinStateMaximizedVert |
-                                   WinStateMaximizedHoriz))
+    if ((fOldState ^ fNewState) & WinStateMaximizedBoth)
     {
         MSG(("WinStateMaximized: %d", isMaximized()));
 
@@ -3155,7 +3142,7 @@ void YFrameWindow::setState(long mask, long state) {
         }
     }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
-        MSG(("WinStateMinimized: %d", isMaximized()));
+        MSG(("WinStateMinimized: %d", isMinimized()));
         if (fNewState & WinStateMinimized)
             minimizeTransients();
         else if (owner() && owner()->isMinimized())
@@ -3164,19 +3151,19 @@ void YFrameWindow::setState(long mask, long state) {
         if (minimizeToDesktop) {
             if (isMinimized()) {
                 if (getMiniIcon()) {
-                    if (fTitleBar) {
-                        fTitleBar->hide();
+                    if (iconX != -1 || iconY != -1) {
+                        fMiniIcon->show();
                     }
-                    fMiniIcon->raise();
-                    fMiniIcon->show();
                 }
-            } else {
+            }
+            else if (fMiniIcon) {
                 fMiniIcon->hide();
-                iconX = x();
-                iconY = y();
-                if (fTitleBar) {
-                    fTitleBar->show();
-                }
+                iconX = fMiniIcon->x();
+                iconY = fMiniIcon->y();
+                show();
+            }
+            else {
+                show();
             }
         }
         updateTaskBar();
