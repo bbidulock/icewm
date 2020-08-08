@@ -102,7 +102,7 @@ YWindow *YWindow::fClickWindow = nullptr;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
 XButtonEvent YWindow::fClickEvent;
-int YWindow::fClickDrag = 0;
+bool YWindow::fClickDrag;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
 
@@ -896,7 +896,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
     int const motionDelta(max(dx, dy));
 
     if (button.type == ButtonPress) {
-        fClickDrag = 0;
+        fClickDrag = false;
 
         if (fClickWindow != this) {
             fClickWindow = this;
@@ -932,8 +932,10 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fClickCount = 1;
             fClickButtonDown = 0;
             fClickButton = 0;
-            if (fClickDrag)
+            if (fClickDrag) {
                 handleEndDrag(fClickEvent, button);
+                fClickDrag = false;
+            }
         }
     }
 }
@@ -961,7 +963,7 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
                )
             {
                 //msg("start drag %d %d %d", curButtons, fClickButton, motion.state);
-                fClickDrag = 1;
+                fClickDrag = true;
                 handleBeginDrag(fClickEvent, motion);
             }
         }

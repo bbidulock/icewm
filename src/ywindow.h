@@ -1,5 +1,5 @@
-#ifndef __YWINDOW_H
-#define __YWINDOW_H
+#ifndef YWINDOW_H
+#define YWINDOW_H
 
 #include "ypaint.h"
 #include "ycursor.h"
@@ -229,6 +229,7 @@ public:
     virtual void handleDNDPosition(int x, int y);
 
     bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
+    bool dragging() const { return fClickDrag && fClickWindow == this; }
     int getClickCount() { return fClickCount; }
     int getScreen();
 
@@ -309,7 +310,7 @@ private:
     static YWindow *fClickWindow;
     static Time fClickTime;
     static int fClickCount;
-    static int fClickDrag;
+    static bool fClickDrag;
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
     static unsigned long lastEnterNotifySerial;
