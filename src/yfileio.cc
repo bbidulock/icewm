@@ -2,18 +2,8 @@
 #include "sysdep.h"
 #include <stdio.h>
 
-/* read a file as a zero-terminated new[] string. */
-fcsmart load_text_file(const char *filename) {
-    auto fd = ::open(filename, O_RDONLY | O_TEXT);
-    if (fd == -1)
-        return fcsmart();
-    auto buf = load_fd(fd);
-    close(fd);
-    return buf;
-}
-
 /* read from file descriptor and zero terminate buffer. */
-int read_fd(int fd, char *buf, size_t buflen) {
+int filereader::read_fd(int fd, char *buf, size_t buflen) {
     if (fd == -1 || !buf || !buflen)
         return -1;
     auto ptr = buf;
@@ -30,26 +20,31 @@ int read_fd(int fd, char *buf, size_t buflen) {
 }
 
 /* read from filename and zero terminate the buffer. */
-int read_file(const char *filename, char *buf, size_t buflen) {
-    int len = -1, fd = open(filename, O_RDONLY | O_TEXT);
-    if (fd >= 0) {
-        len = read_fd(fd, buf, buflen);
-        close(fd);
-    }
-    return len;
+filereader::filereader(const char *filename) : m_closeAfter(true) {
+    m_fd = open(filename, O_RDONLY | O_TEXT);
+}
+filereader::~filereader() {
+    if (m_fd != -1 && m_closeAfter)
+        close(m_fd);
 }
 
+/* read from filename and zero terminate the buffer. */
+int filereader::read_all(char *buf, size_t buflen) {
+    return m_fd == -1 ? -1 : read_fd(m_fd, buf, buflen);
+}
+
+
 /* read all of filedescriptor and return a zero-terminated new[] string. */
-fcsmart load_fd(int fd) {
+fcsmart filereader::read_all() {
     struct stat st;
     fcsmart ret(nullptr);
-    if (fstat(fd, &st) == -1)
+    if (fstat(m_fd, &st) == -1)
         return ret;
     if (S_ISREG(st.st_mode) && st.st_size > 0) {
         ret = (char*) malloc(st.st_size + 1);
         if (!ret)
             return ret;
-        int len = read_fd(fd, ret, st.st_size + 1);
+        int len = read_fd(m_fd, ret, st.st_size + 1);
         if (len != st.st_size)
             ret.release();
     } else {
@@ -59,7 +54,7 @@ fcsmart load_fd(int fd) {
         if (!ret)
             return ret;
         while (true) {
-            int len = read_fd(fd, ret.data() + offset, bufsiz + 1 - offset);
+            int len = read_fd(m_fd, ret.data() + offset, bufsiz + 1 - offset);
             if (len <= 0 || offset + len < bufsiz) {
                 if (len < 0 && offset == 0)
                     ret.release();
@@ -79,6 +74,5 @@ fcsmart load_fd(int fd) {
             }
         }
     }
-
     return ret;
 }

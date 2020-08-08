@@ -491,8 +491,7 @@ void MenuLoader::progMenus(
         fail("lseek failed");
     }
     else {
-        auto buf = load_fd(tfd);
-        fpt.close();
+        auto buf = filereader(tfd).read_all();
         if (buf && buf[0]) {
             parseMenus(buf, container);
         }

@@ -179,7 +179,7 @@ int upath::fnMatch(const char* pattern, int flags) {
 }
 
 fcsmart upath::loadText() {
-    return ::load_text_file(expand());
+    return filereader(expand()).read_all();
 }
 
 bool upath::copyFrom(upath from, int mode) {

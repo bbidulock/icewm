@@ -111,6 +111,7 @@ void show_backtrace(const int limit = 0);
 /*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
+#define BUFNSIZE(x) x, sizeof(x)
 
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))

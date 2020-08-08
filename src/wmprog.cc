@@ -51,11 +51,10 @@ void DFile::open() {
     app->runProgram(openCommand, args);
 }
 
-ObjectMenu::ObjectMenu(YActionListener *actionListener, YWindow *parent): YMenu(parent) {
+ObjectMenu::ObjectMenu(YActionListener *actionListener, YWindow *parent):
+        YMenu(parent),
+        wmActionListener(nullptr) {
     setActionListener(actionListener);
-}
-
-ObjectMenu::~ObjectMenu() {
 }
 
 void ObjectMenu::addObject(DObject *fObject) {
@@ -658,7 +657,7 @@ public:
     static char* retrieveComment(cfoption* o) {
         static const char path[] = LIBDIR "/preferences";
         char* res = nullptr;
-        auto text(load_text_file(path));
+        auto text(filereader(path).read_all());
         if (text) {
             char buf[99];
             snprintf(buf, sizeof buf,

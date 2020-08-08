@@ -2121,7 +2121,7 @@ public:
     }
     static bool is_compressed(int fd) {
         char b[3];
-        return read_fd(fd, b, 3) >= 2 && b[0] == '\x1F' && b[1] == '\x8B';
+        return filereader(fd, false).read_all(BUFNSIZE(b)) >= 2 && b[0] == '\x1F' && b[1] == '\x8B';
     }
     static bool command(mstring mcmd) {
         const char *cmd = mcmd;
