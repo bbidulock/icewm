@@ -348,7 +348,7 @@ void NetStatus::draw(Graphics &g) {
  */
 #ifdef __linux__
 bool NetIsdnDevice::isUp() {
-    csmart str(load_text_file("/dev/isdninfo"));
+    auto str(load_text_file("/dev/isdninfo"));
     char val[5][32];
     int busage = 0;
     int bflags = 0;

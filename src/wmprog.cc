@@ -567,9 +567,9 @@ public:
         if (path == null)
             return fail(_("Unable to write to %s"), "preferences");
 
-        csmart text(path.loadText());
-        if (text == nullptr)
-            (text = new char[1])[0] = 0;
+        auto text(path.loadText());
+        if (!text)
+            (text = fcsmart::create(1)).data()[0] = 0;
         size_t tlen = strlen(text);
         for (int k = 0; k < n; ++k) {
             const int i = mods[k];
@@ -658,7 +658,7 @@ public:
     static char* retrieveComment(cfoption* o) {
         static const char path[] = LIBDIR "/preferences";
         char* res = nullptr;
-        csmart text(load_text_file(path));
+        auto text(load_text_file(path));
         if (text) {
             char buf[99];
             snprintf(buf, sizeof buf,

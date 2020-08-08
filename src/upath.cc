@@ -14,7 +14,6 @@
 #include <fnmatch.h>
 #include "base.h"
 #include "yapp.h"
-#include "ypointer.h"
 
 const mstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -179,12 +178,12 @@ int upath::fnMatch(const char* pattern, int flags) {
     return fnmatch(pattern, string(), flags);
 }
 
-char* upath::loadText() {
+fcsmart upath::loadText() {
     return ::load_text_file(expand());
 }
 
 bool upath::copyFrom(upath from, int mode) {
-    csmart text(from.loadText());
+    auto text = from.loadText();
     if (text == nullptr)
         return false;
     int fd = open(O_WRONLY | O_CREAT | O_TRUNC, mode);

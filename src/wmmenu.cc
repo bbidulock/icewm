@@ -449,11 +449,8 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
 
     MSG(("menufile: %s", menufile.string()));
     YTraceConfig trace(menufile.string());
-    char *buf = menufile.loadText();
-    if (buf) {
-        parseMenus(buf, container);
-        delete[] buf;
-    }
+    auto buf = menufile.loadText();
+    if (buf) parseMenus(buf, container);
 }
 
 void MenuLoader::progMenus(
@@ -494,15 +491,14 @@ void MenuLoader::progMenus(
         fail("lseek failed");
     }
     else {
-        char *buf = load_fd(tfd);
+        auto buf = load_fd(tfd);
         fpt.close();
-        if (buf && *buf) {
+        if (buf && buf[0]) {
             parseMenus(buf, container);
         }
         else {
             warn(_("'%s' produces no output"), command);
         }
-        delete[] buf;
     }
 }
 
