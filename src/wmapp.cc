@@ -1647,6 +1647,7 @@ static void loadStartup(const char* configFile)
 int main(int argc, char **argv) {
     YLocale locale;
     bool restart_wm(false);
+    bool log_events(false);
     bool notify_parent(false);
     const char* configFile(nullptr);
     const char* displayName(nullptr);
@@ -1692,7 +1693,7 @@ int main(int argc, char **argv) {
             else if (is_long_switch(*arg, "sync"))
                 YXApplication::synchronizeX11 = true;
             else if (is_long_switch(*arg, "logevents"))
-                loggingEvents = true;
+                log_events = true;
             else if (is_switch(*arg, "a", "alpha"))
                 YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
@@ -1715,6 +1716,7 @@ int main(int argc, char **argv) {
 
     if (nonempty(overrideTheme))
         themeName = overrideTheme;
+    loggingEvents |= log_events;
     if (loggingEvents)
         initLogEvents();
 
