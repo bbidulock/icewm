@@ -216,7 +216,7 @@ public:
     void announceWorkArea();
     void setWinWorkspace(int workspace);
     void updateWorkArea();
-    void updateWorkAreaInner();
+    bool updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
     void workAreaUpdated();
     void resizeWindows();

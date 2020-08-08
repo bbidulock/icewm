@@ -1069,6 +1069,15 @@ void YWindowManager::manageClients() {
     if (getFocus() == nullptr) {
         focusTopWindow();
     }
+    for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
+        if (frame->isIconic()) {
+            MiniIcon* icon = frame->getMiniIcon();
+            if (icon && icon->x() == -1 && icon->y() == -1) {
+                frame->updateLayout();
+                icon->show();
+            }
+        }
+    }
 }
 
 void YWindowManager::unmanageClients() {
@@ -2084,28 +2093,31 @@ void YWindowManager::updateWorkArea() {
         requestWorkAreaUpdate();
     }
     else {
+        bool update = false;
         fWorkAreaLock = true;
         do {
             fWorkAreaUpdate = 0;
-            updateWorkAreaInner();
+            update |= updateWorkAreaInner();
         } while (fWorkAreaUpdate);
         fWorkAreaLock = false;
-        workAreaUpdated();
+        if (update) {
+            workAreaUpdated();
+        }
     }
 }
 
-void YWindowManager::updateWorkAreaInner() {
+bool YWindowManager::updateWorkAreaInner() {
     long oldWorkAreaWorkspaceCount = fWorkAreaWorkspaceCount;
     int oldWorkAreaScreenCount = fWorkAreaScreenCount;
     WorkAreaRect **oldWorkArea = new WorkAreaRect *[::workspaceCount];
     if (oldWorkArea == nullptr)
-        return;
+        return false;
     else {
         long areaCount = ::workspaceCount * getScreenCount();
         oldWorkArea[0] = new WorkAreaRect[areaCount];
         if (oldWorkArea[0] == nullptr) {
             delete[] oldWorkArea;
-            return;
+            return false;
         }
         else {
             fWorkAreaWorkspaceCount = ::workspaceCount;
@@ -2272,6 +2284,7 @@ void YWindowManager::updateWorkAreaInner() {
         MSG(("resizeWindows"));
         resizeWindows();
     }
+    return false;
 }
 
 void YWindowManager::announceWorkArea() {
@@ -2779,7 +2792,7 @@ void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
 }
 
 void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
-    if (wmState() == wmSTARTUP || fWorkAreaLock || fWorkAreaUpdate ||
+    if (wmState() == wmSTARTUP || fWorkAreaUpdate ||
         (showTaskBar && taskBar == nullptr))
     {
         return;
@@ -2791,19 +2804,20 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     int width, height; /* column width and row height */
     int drow, dcol; /* row and column directions */
     int *iconRow, *iconCol;
+    const int margin = 4;
 
     if (miniIconsPlaceHorizontal) {
         getWorkArea(frame, &mcol, &mrow, &Mcol, &Mrow);
-        width = iw->width();
-        height = iw->height();
+        width = iw->width() + 2 * margin;
+        height = iw->height() + 2 * margin;
         drow = (int)miniIconsBottomToTop * -2 + 1;
         dcol = (int)miniIconsRightToLeft * -2 + 1;
         iconRow = iconY;
         iconCol = iconX;
     } else {
         getWorkArea(frame, &mrow, &mcol, &Mrow, &Mcol);
-        width = iw->height();
-        height = iw->width();
+        width = iw->height() + 2 * margin;
+        height = iw->width() + 2 * margin;
         drow = (int)miniIconsRightToLeft * -2 + 1;
         dcol = (int)miniIconsBottomToTop * -2 + 1;
         iconRow = iconX;
@@ -2820,8 +2834,8 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     }
 
     /* Return values */
-    *iconRow = fIconRow;
-    *iconCol = fIconColumn;
+    *iconRow = fIconRow + margin;
+    *iconCol = fIconColumn + margin;
 
     /* Set row and column to new position */
     fIconColumn += width * dcol;
@@ -3410,7 +3424,7 @@ void YWindowManager::doWMAction(WMAction action) {
 
     MSG(("new mask/state: %ld/%ld", xev.data.l[0], xev.data.l[1]));
 
-    XSendEvent(xapp->display(), xapp->root(), False, SubstructureNotifyMask, (XEvent *) &xev);
+    xapp->send(xev, xapp->root(), SubstructureNotifyMask);
 }
 
 #ifdef CONFIG_XRANDR

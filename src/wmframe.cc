@@ -2409,7 +2409,7 @@ void YFrameWindow::updateIcon() {
     if (fTitleBar && fTitleBar->menuButton())
         fTitleBar->menuButton()->repaint();
     if (fMiniIcon)
-        fMiniIcon->repaint();
+        fMiniIcon->updateIcon();
     if (fTrayApp)
         fTrayApp->repaint();
     if (fTaskBarApp)
