@@ -407,7 +407,7 @@ SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
     ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
     ylocale.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc
     yprefs.cc yfont.cc ypixmap.cc ytime.cc
-    yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc yfileio.cc)
+    yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc yfileio.cc ytime.cc)
 
 if(CONFIG_XFREETYPE)
     list(APPEND ICE_COMMON_SRCS yfontxft.cc)
@@ -435,7 +435,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
 
-SET(MISC_SRCS misc.cc yfileio.cc yarray.cc mstring.cc ref.cc)
+SET(MISC_SRCS misc.cc yfileio.cc ytime.cc yarray.cc mstring.cc ref.cc)
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags ${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS})
@@ -448,7 +448,7 @@ set(genpref_pc_flags ${x11_CFLAGS})
 target_compile_options(genpref${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${genpref_pc_flags})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc ref.cc mstring.cc upath.cc udir.cc yapp.cc yxapp.cc ytime.cc ytimer.cc ywindow.cc ypaint.cc ypopup.cc misc.cc yfileio.cc ycursor.cc ysocket.cc ypaths.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc yprefs.cc yfont.cc yfontcore.cc yfontxft.cc ypixmap.cc yimage_gdk.cc yximage.cc ytooltip.cc ylocale.cc ycolor.cc)
+ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc ref.cc mstring.cc upath.cc udir.cc yapp.cc yxapp.cc ytime.cc ytimer.cc ywindow.cc ypaint.cc ypopup.cc misc.cc yfileio.cc ytime.cc ycursor.cc ysocket.cc ypaths.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc yprefs.cc yfont.cc yfontcore.cc yfontxft.cc ypixmap.cc yimage_gdk.cc yximage.cc ytooltip.cc ylocale.cc ycolor.cc)
 target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(strtest ${icewm_libs} ${icewm_img_libs})
 
@@ -459,7 +459,7 @@ IF(CONFIG_FDO_MENUS)
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc yfileio.cc
+ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc yapp.cc misc.cc yfileio.cc ytime.cc
 	mstring.cc upath.cc ytime.cc ytimer.cc yprefs.cc yarray.cc ref.cc)
 set(icewm_session_pc_flags ${x11_CFLAGS})
 target_compile_options(icewm-session${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_session_pc_flags})
@@ -478,7 +478,7 @@ target_compile_options(icewmbg${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_fla
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
-    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc yfileio.cc mstring.cc ytime.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
+    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc yfileio.cc ytime.cc mstring.cc ytime.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc)
     target_compile_options(icesound${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags})
     TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
     INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
