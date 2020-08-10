@@ -446,7 +446,7 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             icon = YImage::load(cs);
         }
         else {
-            MSG(("Icon not found: %s", fPath.string()));
+            TLOG(("Icon not found: %s", fPath.string()));
         }
 
     }
@@ -471,33 +471,38 @@ ref<YImage> YIcon::bestLoad(int size, ref<YImage>& img, bool& flag) {
 }
 
 ref<YImage> YIcon::getScaledIcon(unsigned size) {
-    ref<YImage> base;
-    // exact size match
-    bool isStandardSize = false;
-    if (size == smallSize())
-        isStandardSize = true, base = small();
-    else if (size == largeSize())
-        isStandardSize = true, base = large();
-    else if (size == hugeSize())
-        isStandardSize = true, base = huge();
+    if (size == smallSize() && (loadedS ? fSmall != null : small() != null))
+        return fSmall;
+    if (size == largeSize() && (loadedL ? fLarge != null : large() != null))
+        return fLarge;
+    if (size == hugeSize() && (loadedH ? fHuge != null : huge() != null))
+        return fHuge;
 
-    if (isStandardSize) {
-        // among loaded ones, pick a not-smaller one and scale
-        if (base == null && size >= hugeSize() && loadedH)
-            base = huge();
-        if (base == null && size >= largeSize() && loadedL)
-            base = large();
-        if (base == null && size >= smallSize() && loadedS)
-            base = small();
-    }
-    if (base != null) {
-        if (size != base->width() || size != base->height())
-            base = base->scale(size, size);
-    } else if (!isStandardSize) { // regular versions were tried above!
-        // this will find/load and scale the best icon, even w/o caching
-        return loadIcon(size);
-    }
-    return base;
+    ref<YImage> base;
+    if (size < smallSize() && (loadedS ? fSmall != null : small() != null))
+        if ((base = fSmall->scale(size, size)) != null)
+            return base;
+    if (size < largeSize() && (loadedL ? fLarge != null : large() != null))
+        if ((base = fLarge->scale(size, size)) != null)
+            return base;
+    if (size < hugeSize() && (loadedH ? fHuge != null : huge() != null))
+        if ((base = fHuge->scale(size, size)) != null)
+            return base;
+
+    if ((base = loadIcon(size)) != null)
+        return base;
+
+    if (loadedH ? fHuge != null : huge() != null)
+        if ((base = fHuge->scale(size, size)) != null)
+            return base;
+    if (loadedL ? fLarge != null : large() != null)
+        if ((base = fLarge->scale(size, size)) != null)
+            return base;
+    if (loadedS ? fSmall != null : small() != null)
+        if ((base = fSmall->scale(size, size)) != null)
+            return base;
+
+    return null;
 }
 
 static YRefArray<YIcon> iconCache;
