@@ -22,6 +22,7 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     setStyle(wsOverrideRedirect | wsNoExpose);
     setSize(YIcon::hugeSize(), YIcon::hugeSize());
     setTitle("MiniIcon");
+    setPosition(-1, -1);
 
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
@@ -46,9 +47,21 @@ void MiniIcon::updateIcon() {
     }
 }
 
+void MiniIcon::updatePosition() {
+    int xpos = x();
+    int ypos = y();
+    manager->getIconPosition(fFrame, &xpos, &ypos);
+    if (xpos != x() || ypos != y()) {
+        setPosition(xpos, ypos);
+    }
+}
+
 void MiniIcon::show() {
-    beneath(manager->bottomLayer());
-    YWindow::show();
+    updatePosition();
+    if (x() != -1 || y() != -1) {
+        beneath(manager->bottomLayer());
+        YWindow::show();
+    }
 }
 
 void MiniIcon::handleButton(const XButtonEvent &button) {
@@ -85,7 +98,10 @@ void MiniIcon::handleClick(const XButtonEvent &up, int /*count*/) {
 
 void MiniIcon::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify && !dragging()) {
-        setToolTip(fFrame->getIconTitle());
+        mstring title(fFrame->getIconTitle());
+        if (title.isEmpty())
+            title = fFrame->getTitle();
+        setToolTip(title);
     }
     YWindow::handleCrossing(crossing);
 }

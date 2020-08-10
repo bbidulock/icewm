@@ -1071,11 +1071,7 @@ void YWindowManager::manageClients() {
     }
     for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
         if (frame->isIconic()) {
-            MiniIcon* icon = frame->getMiniIcon();
-            if (icon && icon->x() == -1 && icon->y() == -1) {
-                frame->updateLayout();
-                icon->show();
-            }
+            frame->getMiniIcon()->show();
         }
     }
 }
@@ -2284,7 +2280,7 @@ bool YWindowManager::updateWorkAreaInner() {
         MSG(("resizeWindows"));
         resizeWindows();
     }
-    return false;
+    return resize | changed;
 }
 
 void YWindowManager::announceWorkArea() {
@@ -2377,7 +2373,7 @@ void YWindowManager::workAreaUpdated() {
     if (wmState() == wmRUNNING && (taskBar || !showTaskBar)) {
         for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
             if (frame->isIconic()) {
-                frame->updateLayout();
+                frame->getMiniIcon()->show();
             }
         }
     }
@@ -2823,12 +2819,20 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
         iconRow = iconX;
         iconCol = iconY;
     }
+    if (inrange(*iconX, mcol, Mcol + 1 - (width - 2 * margin)) &&
+        inrange(*iconY, mrow, Mrow + 1 - (height - 2 * margin)))
+    {
+        return;
+    }
 
     /* Calculate start row and start column */
     int srow = (drow > 0) ? mrow : (Mrow - height);
     int scol = (dcol > 0) ? mcol : (Mcol - width);
 
-    if (fIconColumn == 0 && fIconRow == 0) {
+    if ((fIconColumn == 0 && fIconRow == 0) ||
+        !(inrange(fIconRow, mrow, Mrow - height) &&
+          inrange(fIconColumn, mcol, Mcol - width)))
+    {
         fIconRow = srow;
         fIconColumn = scol;
     }
@@ -3071,6 +3075,9 @@ void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
             activateWorkspace(nw);
         }
         unlockWorkArea();
+        if (taskBar) {
+            taskBar->workspacesRepaint();
+        }
     }
 }
 

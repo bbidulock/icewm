@@ -459,8 +459,6 @@ private:
     int posX, posY, posW, posH;
     int extentLeft, extentRight, extentTop, extentBottom;
 
-    int iconX, iconY;
-
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
     YFrameTitleBar *fTitleBar;

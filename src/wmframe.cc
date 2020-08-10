@@ -78,8 +78,6 @@ YFrameWindow::YFrameWindow(
     extentRight = -1;
     extentTop = -1;
     extentBottom = -1;
-    iconX = -1;
-    iconY = -1;
     movingWindow = false;
     sizingWindow = false;
     fFrameFunctions = 0;
@@ -1708,7 +1706,6 @@ void YFrameWindow::activateWindow(bool raise, bool curWork) {
 MiniIcon *YFrameWindow::getMiniIcon() {
     if (minimizeToDesktop && fMiniIcon == nullptr) {
         fMiniIcon = new MiniIcon(this);
-        updateIconPosition();
     }
     return fMiniIcon;
 }
@@ -3010,10 +3007,6 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
     if ( ! hasState(WinStateFullscreen | WinStateRollup)) {
         posH = height();
     }
-    if (isIconic()) {
-        iconX = fMiniIcon->x();
-        iconY = fMiniIcon->y();
-    }
 
     updateNormalSize();
     MSG(("setCurrentGeometryOuter> %d %d %d %d",
@@ -3026,13 +3019,10 @@ void YFrameWindow::setCurrentPositionOuter(int x, int y) {
 
 void YFrameWindow::updateIconPosition() {
     if (fMiniIcon) {
-        iconX = iconY = -1;
         if (minimizeToDesktop && isMinimized()) {
-            manager->getIconPosition(this, &iconX, &iconY);
-            fMiniIcon->setPosition(iconX, iconY);
-            if (iconX != -1 || iconY != -1) {
-                fMiniIcon->show();
-            }
+            fMiniIcon->hide();
+            fMiniIcon->setPosition(-1, -1);
+            fMiniIcon->show();
         }
         else {
             delete fMiniIcon;
@@ -3043,9 +3033,7 @@ void YFrameWindow::updateIconPosition() {
 
 void YFrameWindow::updateLayout() {
     if (isIconic()) {
-        if (iconX == -1 && iconY == -1)
-            updateIconPosition();
-        fMiniIcon->setPosition(iconX, iconY);
+        fMiniIcon->show();
     }
     else if (isFullscreen()) {
         // for _NET_WM_FULLSCREEN_MONITORS
@@ -3151,19 +3139,11 @@ void YFrameWindow::setState(long mask, long state) {
         if (minimizeToDesktop) {
             if (isMinimized()) {
                 if (getMiniIcon()) {
-                    if (iconX != -1 || iconY != -1) {
-                        fMiniIcon->show();
-                    }
+                    fMiniIcon->show();
                 }
             }
             else if (fMiniIcon) {
                 fMiniIcon->hide();
-                iconX = fMiniIcon->x();
-                iconY = fMiniIcon->y();
-                show();
-            }
-            else {
-                show();
             }
         }
         updateTaskBar();
