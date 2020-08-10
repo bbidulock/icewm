@@ -3,7 +3,7 @@ ThemeDescription=                       "CrystalBlue"
 License=                                "GPL"
 
 Look=                                   "flat"
-Gradients=                              "menubg.xpm dialogbg.xpm workspacebuttonbg.xpm workspacebuttonactive.xpm"
+Gradients=                              "menubg.xpm dialogbg.xpm workspacebuttonbg.xpm workspacebuttonactive.xpm buttonA.xpm buttonI.xpm"
 
 #Buttons
 RolloverButtonsSupported=               1
