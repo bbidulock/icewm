@@ -888,7 +888,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     YFrameClient *c = f ? f->client() : nullptr;
     Window w = None;
 
-    if (focusLocked() || f == getFocus())
+    if (focusLocked())
         return;
     MSG(("SET FOCUS f=%p", f));
 
