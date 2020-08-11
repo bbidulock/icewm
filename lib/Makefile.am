@@ -404,6 +404,10 @@ nobase_dist_pkgdata_DATA = \
 	themes/CrystalBlue/maximizeA.xpm \
 	themes/CrystalBlue/rolldown.xpm \
 	themes/CrystalBlue/titleIP.xpm \
+	themes/CrystalBlue/buttonA.xpm \
+	themes/CrystalBlue/buttonI.xpm \
+	themes/CrystalBlue/menuButtonA.xpm \
+	themes/CrystalBlue/menuButtonI.xpm \
 	themes/Helix/closeA.xpm \
 	themes/Helix/closeI.xpm \
 	themes/Helix/maximizeA.xpm \
