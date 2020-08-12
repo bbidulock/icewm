@@ -623,11 +623,11 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                 fWorkspace != yfw->getWorkspace()) {
                 continue;
             }
-            unsigned dw = desktop->width();
-            unsigned wx = x + (yfw->x() * w + (dw / 2)) / dw;
-            unsigned wy = y + (yfw->y() * w + (dw / 2)) / dw;
-            unsigned ww = (yfw->width() * w + (dw / 2)) / dw;
-            unsigned wh = (yfw->height() * w + (dw / 2)) / dw;
+            int dw = int(desktop->width());
+            int wx = x + (yfw->x() * w + (dw / 2)) / dw;
+            int wy = y + (yfw->y() * w + (dw / 2)) / dw;
+            int ww = (int(yfw->width()) * w + (dw / 2)) / dw;
+            int wh = (int(yfw->height()) * w + (dw / 2)) / dw;
             if (ww <= 1 || wh <= 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack
@@ -645,9 +645,12 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                         g.setColor(colors[2]);
                     g.fillRect(wx+1, wy+1, ww-2, wh-2);
 
-                    if (pagerShowWindowIcons && ww > smallIconSize+1 &&
-                            wh > smallIconSize+1 && (icon = yfw->clientIcon()) != null &&
-                            icon->small() != null) {
+                    if (pagerShowWindowIcons &&
+                        ww > 1 + int(smallIconSize) &&
+                        wh > 1 + int(smallIconSize) &&
+                        (icon = yfw->clientIcon()) != null &&
+                        icon->small() != null)
+                    {
                         g.drawImage(icon->small(),
                                     wx + (ww-smallIconSize)/2,
                                     wy + (wh-smallIconSize)/2);
@@ -676,8 +679,8 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         if (label[0] != 0) {
             ref<YFont> font = getFont();
 
-            unsigned wx = (w - font->textWidth(label)) / 2 + x;
-            unsigned wy = (h - font->height()) / 2 + font->ascent() + y;
+            int wx = (w - font->textWidth(label)) / 2 + x;
+            int wy = (h - font->height()) / 2 + font->ascent() + y;
 
             g.setFont(font);
             g.setColor(colors[0]);
