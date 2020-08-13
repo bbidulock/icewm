@@ -1398,7 +1398,6 @@ void YFrameWindow::wmHide() {
         wmapp->signalGuiEvent(geWindowHide);
         setState(WinStateHidden, WinStateHidden);
     }
-    manager->focusLastWindow();
 }
 
 void YFrameWindow::wmLower() {
