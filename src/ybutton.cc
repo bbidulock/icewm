@@ -128,6 +128,9 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
         if (wmLook != lookFlat) {
             paintFocus(g, YRect(x, y, w, h));
         }
+        if (surface.gradient != null) {
+            g.maxOpacity();
+        }
     }
 }
 

@@ -1059,6 +1059,15 @@ void Graphics::resetClip() {
 #endif
 }
 
+void Graphics::maxOpacity() {
+    if (rdepth() == 32 && xapp->alpha()) {
+        setFunction(GXor);
+        setColorPixel(0xFF000000);
+        fillRect(0, 0, rWidth, rHeight);
+        setFunction(GXcopy);
+    }
+}
+
 /******************************************************************************/
 
 void GraphicsBuffer::paint(Pixmap pixmap, const YRect& rect) {

@@ -193,6 +193,8 @@ public:
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
     void resetClip();
+    void maxOpacity();
+
 private:
     Drawable fDrawable;
     GC gc;

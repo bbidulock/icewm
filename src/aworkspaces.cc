@@ -688,6 +688,9 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             g.setColor(colors[3]);
             g.drawChars(label, 0, strlen(label), wx, wy);
         }
+        if (surface.gradient != null) {
+            g.maxOpacity();
+        }
     }
 }
 
