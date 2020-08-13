@@ -272,7 +272,7 @@ void YFrameWindow::layoutShape() {
                           frameR[t][a]->width(), frameR[t][a]->height(),
                           width() - frameR[t][a]->width(), yTR, yBR - yTR);
 
-            if (titlebar() && titleY())
+            if (titleY() && titlebar())
                 titlebar()->renderShape(g);
             XShapeCombineMask(xapp->display(), handle(),
                               ShapeBounding, 0, 0, shape, ShapeSet);
@@ -305,27 +305,24 @@ void YFrameWindow::performLayout()
     layoutResizeIndicators();
     layoutClient();
     layoutShape();
-    if (titlebar())
-        titlebar()->activate();
+    if (fTitleBar)
+        fTitleBar->activate();
 }
 
 void YFrameWindow::layoutTitleBar() {
-    if (titlebar() == nullptr || isIconic())
-        return;
-
-    if (titleY() == 0) {
-        delete fTitleBar; fTitleBar = nullptr;
-    } else {
-        titlebar()->show();
-
-        int title_width = width() - 2 * borderX();
-        titlebar()->setGeometry(
-            YRect(borderX(),
-                  borderY(),
-                  max(1, title_width),
-                  titleY()));
-
-        titlebar()->layoutButtons();
+    int height = titleY();
+    if (height == 0) {
+        if (fTitleBar) {
+            delete fTitleBar;
+            fTitleBar = nullptr;
+        }
+    }
+    else if (isIconic() == false && titlebar()) {
+        int x = borderX(), y = borderY();
+        int w = max(1, int(width()) - 2 * x);
+        fTitleBar->setGeometry(YRect(x, y, w, height));
+        fTitleBar->layoutButtons();
+        fTitleBar->show();
     }
 }
 
