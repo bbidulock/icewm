@@ -1,10 +1,11 @@
 #include "yfileio.h"
 #include "ytime.h"
 #include "sysdep.h"
+#include "debug.h"
 
 void set_nb(int fd) {
 #ifndef F_GETFL
-    return;
+#error fcntl flags not available on this system
 #else
     int flags = fcntl(fd, F_GETFL);
     if(flags == -1)
@@ -16,30 +17,31 @@ void set_nb(int fd) {
 
 /* read from file descriptor and zero terminate buffer. */
 static int read_fd(int fd, char *buf, size_t buflen,
-        const timeval *exp, bool *bTimedOut) {
+        const timeval *pExpTime,
+        bool *bTimedOut) {
     if (fd == -1 || !buf || !buflen)
         return -1;
     auto ptr = buf;
     auto len = ssize_t(buflen) - 1;
     while (len > 0) {
-        if (exp) {
-            auto timeout = *exp - monotime();
+        if (pExpTime) {
+            auto timeout = *pExpTime - monotime();
             fd_set rfds;
             FD_ZERO(&rfds);
             FD_SET(fd, &rfds);
             errno = 0;
-            auto nRes = select(fd+1, &rfds, nullptr, nullptr, &timeout);
-            switch(nRes) {
+            auto nRes = select(fd + 1, &rfds, nullptr, nullptr, &timeout);
+            switch (nRes) {
             case 0:
-                if(bTimedOut)
+                if (bTimedOut)
                     *bTimedOut = true;
                 return -1;
             case 1:
-                if(!FD_ISSET(fd, &rfds))
+                if (!FD_ISSET(fd, &rfds))
                     return -1;
                 break;
             default:
-                printf("select failed, errno: %d.", errno);
+                MSG(("select failed, errno: %d.", errno));
                 return -1;
             }
         }
@@ -49,7 +51,7 @@ static int read_fd(int fd, char *buf, size_t buflen,
             ptr += got;
             len -= got;
             // got not all but is not pending read either?
-            if(shortRead && (errno != EINTR && errno != EAGAIN))
+            if (shortRead && errno != EINTR && errno != EAGAIN)
                 break;
 
         } else if (got != -1 || errno != EINTR)
@@ -60,34 +62,34 @@ static int read_fd(int fd, char *buf, size_t buflen,
 }
 
 /* read from filename and zero terminate the buffer. */
-filereader::filereader(const char *filename) : bFinClose(true) {
+filereader::filereader(const char *filename) :
+        bFinClose(true) {
     nFd = open(filename, O_RDONLY | O_TEXT);
 }
 filereader::~filereader() {
     if (nFd != -1 && bFinClose)
-        close(nFd);
+        close (nFd);
 }
 
 int filereader::read_all(char *buf, size_t buflen) {
     return nFd == -1 ? -1 : read_fd(nFd, buf, buflen, nullptr, nullptr);
 }
 
-
 /* read all of filedescriptor and return a zero-terminated new[] string. */
 fcsmart filereader::read_all(bool assumeRegular, int timeoutMS,
-        bool* bTimedOut) {
+        bool *bTimedOut) {
 
     timeval expTime;
-    timeval* pExpTime = nullptr;
-    if(timeoutMS >= 0) {
-        set_nb(nFd);
+    timeval *pExpTime = nullptr;
+    if (timeoutMS >= 0) {
+        set_nb (nFd);
         expTime = monotime() + millitime(timeoutMS);
         pExpTime = &expTime;
     }
     struct stat st;
-    if (assumeRegular && fstat(nFd, &st) == 0 &&
-            S_ISREG(st.st_mode) && st.st_size > 0) {
-        auto ret = fcsmart::create(st.st_size  + 1);
+    if (assumeRegular && (fstat(nFd, &st) == 0) && S_ISREG(st.st_mode)
+            && (st.st_size > 0)) {
+        auto ret = fcsmart::create(st.st_size + 1);
         if (!ret)
             return ret;
         int len = read_fd(nFd, ret, st.st_size + 1, pExpTime, bTimedOut);
@@ -101,9 +103,10 @@ fcsmart filereader::read_all(bool assumeRegular, int timeoutMS,
     while (ret) {
         int len = read_fd(nFd, ret.data() + offset, bufsiz + 1 - offset,
                 pExpTime, bTimedOut);
-        if (len <= 0 || offset + len < bufsiz) {
-            if (len < 0 && offset == 0)
+        if (len <= 0 || ((offset + len) < bufsiz)) {
+            if (len < 0 && offset == 0) {
                 ret.release();
+            }
             break;
         } else {
             size_t tmpsiz = 2 * bufsiz;
@@ -122,7 +125,9 @@ fcsmart filereader::read_all(bool assumeRegular, int timeoutMS,
 }
 
 file_raii::~file_raii() {
-    if(m_fd != -1) ::close(m_fd);
+    if (m_fd != -1) {
+        ::close (m_fd);
+    }
 }
 
 bool filereader::make_pipe(int fds[2]) {

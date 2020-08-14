@@ -492,7 +492,7 @@ void MenuLoader::progMenus(
             kill(child_pid, SIGKILL);
         }
         int status = 0;
-        if (waitpid(child_pid, &status, 0) == 0 && status != 0) {
+        if ((waitpid(child_pid, &status, 0) == 0) && (status != 0)) {
             warn("'%s' exited with code %d.", command, status);
         }
         else {
