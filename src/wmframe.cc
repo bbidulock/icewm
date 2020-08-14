@@ -689,178 +689,165 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         configureClient(cx, cy, cw, ch);
     }
 
-    if (hasbit(configureRequest.value_mask, CWStackMode)) {
-        YFrameWindow* sibling = nullptr;
-        bool change = false;
-        XWindowChanges xwc;
-        xwc.sibling = None;
-        xwc.stack_mode = configureRequest.detail;
-
-        if (hasbit(configureRequest.value_mask, CWSibling)) {
-            sibling = manager->findFrame(configureRequest.above);
-            if (sibling) {
-                xwc.sibling = sibling->handle();
+    if (hasbit(configureRequest.value_mask, CWStackMode) &&
+        inrange(configureRequest.detail, 0, 4))
+    {
+        YFrameWindow* sibling = hasbit(configureRequest.value_mask, CWSibling)
+                    ? manager->findFrame(configureRequest.above) : nullptr;
+        switch (configureRequest.detail + (sibling ? 5 : 0)) {
+        case 5 + Above:
+            if (setAbove(sibling)) {
+                raiseTo(sibling);
             }
-        }
-
-        /* !!! implement the rest, and possibly fix these: */
-
-        if (sibling && xwc.sibling) { /* ICCCM suggests sibling==None */
-            switch (xwc.stack_mode) {
-            case Above:
-                change = setAbove(sibling);
-                break;
-            case Below:
-                change = setBelow(sibling);
-                break;
-            case TopIf:
-                if (getActiveLayer() == sibling->getActiveLayer()) {
-                    for (YFrameWindow* f = prev(); f; f = f->prev()) {
-                        if (f == sibling) {
-                            change = overlap(sibling) && setAbove(sibling);
-                            break;
-                        }
-                    }
-                }
-                break;
-            case BottomIf:
-                if (getActiveLayer() == sibling->getActiveLayer()) {
-                    for (YFrameWindow* f = next(); f; f = f->next()) {
-                        if (f == sibling) {
-                            change = overlap(sibling) && setBelow(sibling);
-                            break;
-                        }
-                    }
-                }
-                break;
-            case Opposite:
-                if (getActiveLayer() == sibling->getActiveLayer()) {
-                    bool search = true;
-                    for (YFrameWindow* f = prev(); f; f = f->prev()) {
-                        if (f == sibling) {
-                            change = overlap(sibling) && setAbove(sibling);
-                            search = false;
-                            break;
-                        }
-                    }
-                    for (YFrameWindow* f = next(); f && search; f = f->next()) {
-                        if (f == sibling) {
-                            change = overlap(sibling) && setBelow(sibling);
-                            break;
-                        }
-                    }
-                }
-                break;
-            default:
-                return;
+            break;
+        case 5 + Below:
+            if (setBelow(sibling)) {
+                beneath(sibling);
             }
-        }
-        else if (xwc.sibling == None) {
-            switch (xwc.stack_mode) {
-            case Above:
-                if (!focusOnAppRaise) {
-                    if (requestFocusOnAppRaise) {
-                        if (canRaise()) {
-                            setWmUrgency(true);
+            break;
+        case 5 + TopIf:
+            if (getActiveLayer() == sibling->getActiveLayer()) {
+                for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                    if (f == sibling) {
+                        if (overlap(sibling) && setAbove(sibling)) {
+                            raiseTo(sibling);
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        case 5 + BottomIf:
+            if (getActiveLayer() == sibling->getActiveLayer()) {
+                YFrameWindow* f;
+                for (f = next(); f && f != owner(); f = f->next()) {
+                    if (f == sibling) {
+                        if (overlap(sibling) && setBelow(sibling)) {
+                            beneath(sibling);
+                        }
+                        break;
+                    }
+                }
+            }
+            break;
+        case 5 + Opposite:
+            if (getActiveLayer() == sibling->getActiveLayer()) {
+                bool search = true;
+                for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                    if (f == sibling) {
+                        if (overlap(sibling) && setAbove(sibling)) {
+                            raiseTo(sibling);
+                        }
+                        search = false;
+                        break;
+                    }
+                }
+                if (search) {
+                    YFrameWindow* f;
+                    for (f = next(); f && f != owner(); f = f->next()) {
+                        if (f == sibling) {
+                            if (overlap(sibling) && setBelow(sibling)) {
+                                beneath(sibling);
+                            }
+                            break;
                         }
                     }
-                } else {
+                }
+            }
+            break;
+        case Above:
+            if (!focusOnAppRaise) {
+                if (requestFocusOnAppRaise) {
                     if (canRaise()) {
-                        wmRaise();
+                        setWmUrgency(true);
                     }
-                    if ( !frameOption(foNoFocusOnAppRaise) &&
-                        (clickFocus || !strongPointerFocus))
+                }
+            } else {
+                if (canRaise()) {
+                    wmRaise();
+                }
+                if ( !frameOption(foNoFocusOnAppRaise) &&
+                    (clickFocus || !strongPointerFocus))
+                {
+                    if (focusChangesWorkspace ||
+                        focusCurrentWorkspace ||
+                        visibleNow())
                     {
-                        if (focusChangesWorkspace ||
-                            focusCurrentWorkspace ||
-                            visibleNow())
-                        {
-                            activate();
-                        } else {
-                            setWmUrgency(true);
-                        }
-                    }
-                }
-                break;
-            case Below:
-                if (focused()) {
-                    if (owner()) {
-                        doLower();
-                        manager->switchFocusFrom(this);
-                        manager->switchFocusTo(
-                                nextTransient() ? nextTransient() : owner());
+                        activate();
                     } else {
-                        wmLower();
-                    }
-                } else {
-                    doLower();
-                }
-                break;
-            case TopIf:
-                sibling = nullptr;
-                for (YFrameWindow* f = prev(); f; f = f->prev()) {
-                    if (overlap(f)) {
-                        sibling = f;
+                        setWmUrgency(true);
                     }
                 }
-                if (sibling) {
-                    while (sibling->prev()) {
-                        sibling = sibling->prev();
-                    }
-                    change = setAbove(sibling);
-                }
-                break;
-            case BottomIf:
-                sibling = nullptr;
-                for (YFrameWindow* f = next(); f; f = f->next()) {
-                    if (overlap(f)) {
-                        sibling = f;
-                    }
-                }
-                if (sibling) {
-                    while (sibling->next()) {
-                        sibling = sibling->next();
-                    }
-                    change = setBelow(sibling);
-                }
-                break;
-            case Opposite:
-                sibling = nullptr;
-                for (YFrameWindow* f = prev(); f; f = f->prev()) {
-                    if (overlap(f)) {
-                        sibling = f;
-                    }
-                }
-                if (sibling) {
-                    while (sibling->prev()) {
-                        sibling = sibling->prev();
-                    }
-                    change = setAbove(sibling);
-                }
-                else {
-                    for (YFrameWindow* f = next(); f; f = f->next()) {
-                        if (overlap(f)) {
-                            sibling = f;
-                        }
-                    }
-                    if (sibling) {
-                        while (sibling->next()) {
-                            sibling = sibling->next();
-                        }
-                        change = setBelow(sibling);
-                    }
-                }
-                break;
-            default:
-                return;
             }
+            break;
+        case Below:
+            if (owner()) {
+                if (setAbove(owner())) {
+                    raiseTo(owner());
+                }
+            }
+            else if (focused()) {
+                wmLower();
+            }
+            else {
+                doLower();
+            }
+            break;
+        case TopIf:
+            for (YFrameWindow* f = prev(); f; f = f->prev()) {
+                if (overlap(f)) {
+                    while (f->prev()) {
+                        f = f->prev();
+                    }
+                    if (setAbove(f)) {
+                        raiseTo(f);
+                    }
+                    break;
+                }
+            }
+            break;
+        case BottomIf:
+            for (YFrameWindow* f = next(); f && f != owner(); f = f->next()) {
+                if (overlap(f)) {
+                    while (f->next() && f->next() != owner()) {
+                        f = f->next();
+                    }
+                    if (setBelow(f)) {
+                        beneath(f);
+                    }
+                    break;
+                }
+            }
+            break;
+        case Opposite:
+            for (YFrameWindow* f = prev(); ; f = f->prev()) {
+                if (f == nullptr) {
+                    for (f = next(); f && f != owner(); f = f->next()) {
+                        if (overlap(f)) {
+                            while (f->next() && f->next() != owner()) {
+                                f = f->next();
+                            }
+                            if (setBelow(f)) {
+                                beneath(f);
+                            }
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (overlap(f)) {
+                    while (f->prev()) {
+                        f = f->prev();
+                    }
+                    if (setAbove(f)) {
+                        raiseTo(f);
+                    }
+                    break;
+                }
+            }
+            break;
         }
-        if (change) {
-            XConfigureWindow(xapp->display(), handle(),
-                             configureRequest.value_mask
-                             & (CWSibling | CWStackMode), &xwc);
-            manager->updateClientList();
-        }
+        manager->updateClientList();
     }
     sendConfigure();
 }
