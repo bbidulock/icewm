@@ -21,8 +21,11 @@ void YFrameWindow::updateMenu() {
     windowMenu->setActionListener(this);
     windowMenu->enableCommand(actionNull);
 
-    if (!canMaximize())
+    if (!canMaximize()) {
         windowMenu->disableCommand(actionMaximize);
+        windowMenu->disableCommand(actionMaximizeVert);
+        windowMenu->disableCommand(actionMaximizeHoriz);
+    }
     if (!canMinimize())
         windowMenu->disableCommand(actionMinimize);
     if (!canRestore())
