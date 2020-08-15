@@ -127,7 +127,7 @@ private:
     TaskPane *taskPane() const { return fTasks; }
     TrayPane *windowTrayPane() const { return fWindowTray; }
 
-    virtual ref<YImage> getGradient() const { return fGradient; }
+    virtual ref<YImage> getGradient() { return fGradient; }
     const YSurface& getSurface() const { return fSurface; }
 
     void contextMenu(int x_root, int y_root);

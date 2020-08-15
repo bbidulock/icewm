@@ -6,32 +6,23 @@
  * MessageBox
  */
 #include "config.h"
-
-#include "ylib.h"
 #include "ymsgbox.h"
-
-#include "WinMgr.h"
-#include "yapp.h"
 #include "yxapp.h"
 #include "wmframe.h"
-#include "sysdep.h"
-#include "yprefs.h"
 #include "prefs.h"
-
 #include "intl.h"
 
-YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
-    fListener = nullptr;
-    fButtonOK = nullptr;
-    fButtonCancel = nullptr;
-    fLabel = new YLabel(null, this);
-
+YMsgBox::YMsgBox(int buttons):
+    YDialog(),
+    fLabel(nullptr),
+    fButtonOK(nullptr),
+    fButtonCancel(nullptr),
+    fListener(nullptr)
+{
     setToplevel(true);
-
     if (buttons & mbOK) {
         fButtonOK = new YActionButton(this);
         if (fButtonOK) {
-
             fButtonOK->setText(_("_OK"), -2);
             fButtonOK->setActionListener(this);
             fButtonOK->show();
@@ -49,20 +40,12 @@ YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
-    {
-
-        Atom protocols[2];
-        protocols[0] = _XA_WM_DELETE_WINDOW;
-        protocols[1] = _XA_WM_TAKE_FOCUS;
-        XSetWMProtocols(xapp->display(), handle(), protocols, 2);
-        getProtocols(true);
-    }
+    Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
+    XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
-       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
-       0,
-       0));
+       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU));
 }
 
 YMsgBox::~YMsgBox() {
@@ -112,10 +95,17 @@ void YMsgBox::setTitle(mstring title) {
 
 void YMsgBox::setText(mstring text) {
     if (fLabel) {
+        fLabel->hide();
         fLabel->setText(text);
-        fLabel->show();
     }
-    autoSize();
+    else {
+        fLabel = new YLabel(text, this);
+    }
+    if (fLabel) {
+        autoSize();
+        fLabel->show();
+        fLabel->repaint();
+    }
 }
 
 void YMsgBox::setPixmap(ref<YPixmap>/*pixmap*/) {

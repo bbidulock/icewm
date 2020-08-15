@@ -1,5 +1,5 @@
-#ifndef __YMSGBOX_H
-#define __YMSGBOX_H
+#ifndef YMSGBOX_H
+#define YMSGBOX_H
 
 #include "ydialog.h"
 #include "ylabel.h"
@@ -14,9 +14,9 @@ protected:
     virtual ~YMsgBoxListener() {}
 };
 
-class YMsgBox: public YDialog, public YActionListener {
+class YMsgBox: public YDialog, private YActionListener {
 public:
-    YMsgBox(int buttons, YWindow *owner = nullptr);
+    YMsgBox(int buttons);
     virtual ~YMsgBox();
 
     void setTitle(mstring title);

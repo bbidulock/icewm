@@ -1,11 +1,11 @@
-#ifndef __YDIALOG_H
-#define __YDIALOG_H
+#ifndef YDIALOG_H
+#define YDIALOG_H
 
 #include "wmclient.h" // !!! broken, should be ywindow
 
 class YDialog: public YFrameClient {
 public:
-    YDialog(YWindow *owner = nullptr);
+    YDialog();
     virtual ~YDialog();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -13,17 +13,13 @@ public:
     virtual void configure(const YRect2& r2);
     virtual void handleExpose(const XExposeEvent &expose) {}
     virtual bool handleKey(const XKeyEvent &key);
-
-    virtual ref<YImage> getGradient() const { return fGradient; }
-    YWindow *getOwner() const { return fOwner; }
+    virtual ref<YImage> getGradient();
 
 private:
-    YWindow *fOwner;
-
     ref<YImage> fGradient;
     YSurface fSurface;
 
-    const YSurface& getSurface() const { return fSurface; }
+    const YSurface& getSurface();
 };
 
 #endif

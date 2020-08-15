@@ -149,9 +149,8 @@ public:
     void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
     void paintExpose(int ex, int ey, int ew, int eh);
 
-    Graphics & getGraphics();
-
-    virtual ref<YImage> getGradient() const {
+    Graphics& getGraphics();
+    virtual ref<YImage> getGradient() {
         return (parent() ? parent()->getGradient() : null); }
 
     int x() const { return fX; }
