@@ -271,16 +271,17 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         if (getAction() == actionNull) {
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           ((int) width() - iconSize) / 2,
-                           ((int) height() - iconSize) / 2,
+                           (int(width()) - iconSize) / 2,
+                           (int(height()) - iconSize
+                            + MenuButtonIconVertOffset) / 2,
                            iconSize);
             }
         } else {
             if (pixmap != null)
                 g.copyPixmap(pixmap, 0, armed ? 20 : 0,
                              pixmap->width(), pixmap->height() / 2,
-                             ((int) width() - (int) pixmap->width()) / 2,
-                             ((int) height() - (int) pixmap->height() / 2));
+                             (int(width()) - int(pixmap->width())) / 2,
+                             (int(height()) - int(pixmap->height()) / 2));
         }
     }
     else if (LOOK(lookMotif | lookWarp3 | lookNice)) {
@@ -308,8 +309,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
         if (getAction() == actionNull) {
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           xPos + ((int) w - iconSize) / 2,
-                           yPos + ((int) h - iconSize) / 2,
+                           xPos + (int(w) - iconSize) / 2,
+                           yPos + (int(h) - iconSize
+                               + MenuButtonIconVertOffset) / 2,
                            iconSize);
             }
             else if (pixmap != null) {
@@ -326,8 +328,9 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
             g.fillRect(0, 0, width(), height());
             if (icon != null && showFrameIcon) {
                 icon->draw(g,
-                           ((int) width() - iconSize) / 2,
-                           ((int) height() - iconSize) / 2,
+                           (int(width()) - iconSize) / 2,
+                           (int(height()) - iconSize
+                            + MenuButtonIconVertOffset) / 2,
                            iconSize);
             }
         } else {
@@ -356,16 +359,17 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
                g.setColor(background(true).brighter());
            g.fillRect(1, 1, width()-2, height()-3);
            if (pixmap != null) {
-               int x(((int)width()  - (int)pixmap->width())  / 2);
-               int y(((int)height() - (int)pixmap->height()) / 2);
+               int x((int(width())  - int(pixmap->width()))  / 2);
+               int y((int(height()) - int(pixmap->height())) / 2);
                g.drawPixmap(pixmap, x, y);
             }
         }
 
         if (getAction() == actionNull && icon != null && showFrameIcon) {
             icon->draw(g,
-                       ((int)width() - (int)iconSize) / 2,
-                       ((int)height() - (int)iconSize) / 2,
+                       (int(width()) - iconSize) / 2,
+                       (int(height()) - iconSize
+                        + MenuButtonIconVertOffset) / 2,
                        iconSize);
         }
     }

@@ -29,6 +29,7 @@ XIV(unsigned, wsTitleBar,                       20)
 XIV(int, titleBarJustify,                       0)
 XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
+XIV(int, MenuButtonIconVertOffset,              0)
 XIV(unsigned, topSideVerticalOffset,            0)
 XIV(unsigned, scrollBarWidth,                   16)
 XIV(unsigned, scrollBarHeight,                  16)
@@ -179,6 +180,7 @@ cfoption icewm_themable_preferences[] = {
     OIV("TitleBarJustify",                      &titleBarJustify, 0, 100,       "Justification of the window title"),
     OIV("TitleBarHorzOffset",                   &titleBarHorzOffset, -128, 128, "Horizontal offset for the window title text"),
     OIV("TitleBarVertOffset",                   &titleBarVertOffset, -128, 128, "Vertical offset for the window title text"),
+    OIV("MenuButtonIconVertOffset",             &MenuButtonIconVertOffset, -128, 128, "Vertical offset for the menu button icon"),
     OUV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
     OUV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
 

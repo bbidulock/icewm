@@ -1140,6 +1140,10 @@ Horizontal offset for the window title text.
 
 Vertical offset for the window title text.
 
+=item B<MenuButtonIconVertOffset>=0  [-128-128]
+
+Vertical offset for the menu button icon.
+
 =item B<ScrollBarX>=16  [0-64]
 
 Scrollbar width.
