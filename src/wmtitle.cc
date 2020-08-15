@@ -450,6 +450,11 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         if (titleQ[pi] != null)
             g.drawPixmap(titleQ[pi], int(width() - titleQ[pi]->width()), 0);
 
+        if (rgbTitleB[pi] != null || rgbTitleS[pi] != null ||
+            rgbTitleT[pi] != null)
+        {
+            g.maxOpacity();
+        }
         break;
     }
     }
