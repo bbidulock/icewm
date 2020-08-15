@@ -415,7 +415,7 @@ void LogoutMenu::updatePopup() {
     if (showLogoutMenu) {
         setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
-            addItem(_("_Logout"), -2, null, actionLogout)->setChecked(true);
+            addItem(_("_Logout"), -2, null, actionLogout);
             addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
             addSeparator();
 
@@ -1767,6 +1767,11 @@ void YWMApp::doLogout(RebootShutdown reboot) {
 }
 
 void YWMApp::logout() {
+    if (logoutMenu) {
+        logoutMenu->checkCommand(actionLogout, true);
+        logoutMenu->disableCommand(actionLogout);
+        logoutMenu->enableCommand(actionCancelLogout);
+    }
     if (logoutCommand && logoutCommand[0]) {
         runCommand(logoutCommand);
 #ifdef CONFIG_SESSION
@@ -1778,15 +1783,15 @@ void YWMApp::logout() {
         // should we always do this??
         manager->exitAfterLastClient(true);
     }
-
-    if (logoutMenu) {
-        logoutMenu->disableCommand(actionLogout);
-        logoutMenu->enableCommand(actionCancelLogout);
-    }
 }
 
 void YWMApp::cancelLogout() {
     rebootOrShutdown = Logout;
+    if (logoutMenu) {
+        logoutMenu->checkCommand(actionLogout, false);
+        logoutMenu->enableCommand(actionLogout);
+        logoutMenu->disableCommand(actionCancelLogout);
+    }
     if (logoutCancelCommand && logoutCancelCommand[0]) {
         runCommand(logoutCancelCommand);
 #ifdef CONFIG_SESSION
@@ -1796,11 +1801,6 @@ void YWMApp::cancelLogout() {
     } else {
         // should we always do this??
         manager->exitAfterLastClient(false);
-    }
-
-    if (logoutMenu) {
-        logoutMenu->enableCommand(actionLogout);
-        logoutMenu->disableCommand(actionCancelLogout);
     }
 }
 
