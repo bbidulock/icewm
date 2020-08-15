@@ -277,8 +277,12 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
         int const y((height() - 3 - iconSize -
                      (wmLook == lookMetal)) / 2);
         iconDrawn = icon->draw(g, p + max(1, left), p + 1 + y, iconSize);
-        if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(width()))
+        if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(width())) {
+            if (bgGrad != null) {
+                g.maxOpacity();
+            }
             return;
+        }
     }
 
     mstring str = getFrame()->getIconTitle();
@@ -307,6 +311,10 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
             if (0 < wm && p + tx + wm < int(width()))
                 g.drawStringEllipsis(p + tx, p + ty, str, wm);
         }
+    }
+
+    if (bgGrad != null) {
+        g.maxOpacity();
     }
 }
 
