@@ -328,15 +328,17 @@ void YButton::updateSize() {
     int h = 18;
     if (fIcon != null) {
         w = h = fIconSize;
-    } else if (fImage != null) {
+    }
+    else if (fImage != null) {
         w = fImage->width();
         h = fImage->height();
-    } else if (fText != null) {
-        w = activeButtonFont->textWidth(fText);
-        h = activeButtonFont->ascent();
     }
-    setSize(w + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat),
-            h + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat));
+    else if (fText != null) {
+        w = max(w, activeButtonFont->textWidth(fText) + 12);
+        h = max(h, activeButtonFont->height());
+    }
+    setSize(w + 3 + 2 - LOOK(lookMetal | lookFlat),
+            h + 3 + 2 - LOOK(lookMetal | lookFlat));
 }
 
 void YButton::setIcon(ref<YIcon> icon, int iconSize) {
