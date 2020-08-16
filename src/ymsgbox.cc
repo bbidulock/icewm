@@ -90,7 +90,6 @@ void YMsgBox::autoSize() {
 
 void YMsgBox::setTitle(mstring title) {
     setWindowTitle(title);
-    autoSize();
 }
 
 void YMsgBox::setText(mstring text) {
