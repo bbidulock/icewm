@@ -18,6 +18,7 @@ public:
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void configure(const YRect2& r);
     virtual void repaint();
+    virtual YDimension getTextSize();
 };
 
 #endif

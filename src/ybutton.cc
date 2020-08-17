@@ -69,18 +69,19 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fIcon != null)
+    if (fIcon != null) {
         fIcon->draw(g,
                     x + (w - fIconSize) / 2,
                     y + (h - fIconSize) / 2,
                     fIconSize);
-    else
-    if (fImage != null)
+    }
+    else if (fImage != null) {
         g.drawImage(fImage,
                     x + (w - fImage->width()) / 2,
                     y + (h - fImage->height()) / 2);
+    }
     else if (fText != null) {
-        ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
+        ref<YFont> font(getFont());
 
         int const w(font->textWidth(fText));
         int const p((width() - w) / 2);
@@ -323,6 +324,20 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
+ref<YFont> YButton::getActiveFont() {
+    return activeButtonFont;
+}
+
+YDimension YButton::getTextSize() {
+    if (fText != null) {
+        return YDimension(
+            activeButtonFont->textWidth(fText),
+            activeButtonFont->height());
+    } else {
+        return YDimension(1, 1);
+    }
+}
+
 void YButton::updateSize() {
     int w = 72;
     int h = 18;
@@ -334,8 +349,9 @@ void YButton::updateSize() {
         h = fImage->height();
     }
     else if (fText != null) {
-        w = max(w, activeButtonFont->textWidth(fText) + 12);
-        h = max(h, activeButtonFont->height());
+        YDimension d(getTextSize());
+        w = d.w;
+        h = d.h;
     }
     setSize(w + 3 + 2 - LOOK(lookMetal | lookFlat),
             h + 3 + 2 - LOOK(lookMetal | lookFlat));
