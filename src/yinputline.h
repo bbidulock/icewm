@@ -15,6 +15,8 @@ public:
     virtual void inputReturn(YInputLine* input) = 0;
     virtual void inputEscape(YInputLine* input) = 0;
     virtual void inputLostFocus(YInputLine* input) = 0;
+    virtual bool inputRequestCompletion(const mstring &input, mstring &result,
+            bool &asMarked) {return false; }
 protected:
     virtual ~YInputListener() {}
 };
@@ -42,7 +44,7 @@ public:
     virtual void repaint();
 
     bool move(unsigned pos, bool extend);
-    bool hasSelection() const { return (curPos != markPos) ? true : false; }
+    bool hasSelection() const { return (curPos != markPos); }
     void replaceSelection(const mstring &str);
     bool deleteSelection();
     bool deleteNextChar();

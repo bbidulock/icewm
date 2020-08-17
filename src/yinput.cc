@@ -4,7 +4,6 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-#include "globit.h"
 #include "yinputline.h"
 #include "ymenu.h"
 #include "yxapp.h"
@@ -26,7 +25,6 @@ public:
 
 YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     YWindow(parent),
-    fText(null),
     markPos(0),
     curPos(0),
     leftOfs(0),
@@ -682,14 +680,13 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    char* res = nullptr;
-    int res_count = globit_best(fText, &res, nullptr, nullptr);
-    // directory is not a final match
-    if(res_count == 1 && upath(res).dirExists())
-        res_count++;
-    if (1 <= res_count)
-        setText(res, res_count == 1);
-    free(res);
+    if(!fListener)
+        return;
+
+    mstring expanded;
+    bool marked;
+    if (fListener->inputRequestCompletion(fText, expanded, marked))
+        setText(expanded, marked);
 }
 
 // vim: set sw=4 ts=4 et:

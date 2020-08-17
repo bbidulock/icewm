@@ -13,8 +13,12 @@
 #include <X11/keysym.h>
 #include <wordexp.h>
 
+#include "globit.h"
+
+YCmdLineInputListener cmdLineListener;
+
 AddressBar::AddressBar(IApp *app, YWindow *parent):
-    YInputLine(parent),
+    YInputLine(parent, &cmdLineListener),
     app(app),
     location(0)
 {

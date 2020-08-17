@@ -8,6 +8,7 @@
 #include <X11/Xatom.h>
 #include "ylocale.h"
 #include "intl.h"
+#include "globit.h"
 
 const char *ApplicationName = "icerun";
 
@@ -24,7 +25,7 @@ public:
 
 };
 
-class IceRun : public YXApplication, public YInputListener {
+class IceRun : public YXApplication, public YCmdLineInputListener {
     YInputLine *input;
     mstring cmdPrefix;
     ref<YPixmap> large;
@@ -33,7 +34,7 @@ public:
     IceRun(int* argc, char*** argv);
     ~IceRun() { delete input; }
 
-    virtual void inputReturn(YInputLine* input) {
+    void inputReturn(YInputLine* input) override {
         mstring command(input->getText());
         if (command != cmdPrefix) {
             msg("%s", command.c_str());
@@ -41,14 +42,9 @@ public:
         }
         this->exit(0);
     }
-
-    virtual void inputEscape(YInputLine* input) {
+    void inputEscape(YInputLine* input) override {
         this->exit(0);
     }
-
-    virtual void inputLostFocus(YInputLine* input) {
-    }
-
 };
 
 int main(int argc, char **argv) {
