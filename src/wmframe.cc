@@ -2611,9 +2611,7 @@ void YFrameWindow::setRequestedLayer(long layer) {
 
 void YFrameWindow::updateLayer(bool restack) {
     long oldLayer = fWinActiveLayer;
-    long newLayer;
-
-    newLayer = fWinRequestedLayer;
+    long newLayer = fWinRequestedLayer;
 
     switch (fWindowType) {
     case wtCombo:

@@ -1961,12 +1961,7 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
 }
 
 void YWindowManager::restackWindows(YFrameWindow *) {
-    int count = focusedCount();
-
-    count++; // permanent top window
-
-    YArray<Window> w;
-    w.setCapacity(9 + count);
+    YArray<Window> w(10 + focusedCount());
 
     w.append(fTopWin->handle());
 
