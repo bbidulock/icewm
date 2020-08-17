@@ -803,13 +803,13 @@ void YFrameClient::queryShape() {
 #endif
 }
 
-long getMask(Atom a) {
+static long getMask(Atom a) {
     return a == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
            a == _XA_NET_WM_STATE_BELOW ? WinStateBelow :
            a == _XA_NET_WM_STATE_DEMANDS_ATTENTION ? WinStateUrgent :
-        // a == _XA_NET_WM_STATE_FOCUSED ? WinStateFocused :
+           a == _XA_NET_WM_STATE_FOCUSED ? WinStateFocused :
            a == _XA_NET_WM_STATE_FULLSCREEN ? WinStateFullscreen :
-        // a == _XA_NET_WM_STATE_HIDDEN ? WinStateHidden :
+           a == _XA_NET_WM_STATE_HIDDEN ? WinStateHidden :
            a == _XA_NET_WM_STATE_MAXIMIZED_HORZ ? WinStateMaximizedHoriz :
            a == _XA_NET_WM_STATE_MAXIMIZED_VERT ? WinStateMaximizedVert :
            a == _XA_NET_WM_STATE_MODAL ? WinStateModal :
@@ -909,10 +909,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             getFrame()->updateNetWMFullscreenMonitors(l[0], l[1], l[2], l[3]);
         }
     } else if (message.message_type == _XA_NET_WM_STATE) {
-        long mask =
-            getMask(message.data.l[1]) |
-            getMask(message.data.l[2]);
-
+        long mask = (getMask(message.data.l[1]) | getMask(message.data.l[2]))
+                  & ~(_XA_NET_WM_STATE_FOCUSED | _XA_NET_WM_STATE_HIDDEN);
         //printf("new state, mask = %ld\n", mask);
         if (message.data.l[0] == _NET_WM_STATE_ADD) {
             //puts("add");
@@ -1285,22 +1283,7 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     long flags = None;
     YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
     for (int i = 0; i < int(prop.size()); ++i) {
-        Atom flag = Atom(prop[i]);
-        flags |=
-            flag == _XA_NET_WM_STATE_ABOVE ? WinStateAbove :
-            flag == _XA_NET_WM_STATE_BELOW ? WinStateBelow :
-            flag == _XA_NET_WM_STATE_FOCUSED ? WinStateFocused :
-            flag == _XA_NET_WM_STATE_FULLSCREEN ? WinStateFullscreen :
-            flag == _XA_NET_WM_STATE_HIDDEN ? WinStateMinimized :
-            flag == _XA_NET_WM_STATE_MAXIMIZED_HORZ ? WinStateMaximizedHoriz:
-            flag == _XA_NET_WM_STATE_MAXIMIZED_VERT ? WinStateMaximizedVert :
-            flag == _XA_NET_WM_STATE_MODAL ? WinStateModal :
-            flag == _XA_NET_WM_STATE_SHADED ? WinStateRollup :
-            flag == _XA_NET_WM_STATE_DEMANDS_ATTENTION ? WinStateUrgent :
-            flag == _XA_NET_WM_STATE_SKIP_PAGER ? WinStateSkipPager :
-            flag == _XA_NET_WM_STATE_SKIP_TASKBAR ? WinStateSkipTaskBar :
-            flag == _XA_NET_WM_STATE_STICKY ? WinStateSticky :
-            None;
+        flags |= getMask(prop[i]);
     }
     if (manager->wmState() != YWindowManager::wmSTARTUP) {
         flags &= ~WinStateFocused;
