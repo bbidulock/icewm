@@ -9,32 +9,31 @@
 #include "ymsgbox.h"
 #include "yxapp.h"
 #include "wmframe.h"
+#include "ylabel.h"
+#include "yinputline.h"
 #include "prefs.h"
 #include "intl.h"
 
 YMsgBox::YMsgBox(int buttons):
     YDialog(),
     fLabel(nullptr),
+    fInput(nullptr),
     fButtonOK(nullptr),
     fButtonCancel(nullptr),
     fListener(nullptr)
 {
     setToplevel(true);
-    if (buttons & mbOK) {
-        fButtonOK = new YActionButton(this);
-        if (fButtonOK) {
-            fButtonOK->setText(_("_OK"), -2);
-            fButtonOK->setActionListener(this);
-            fButtonOK->show();
+    if (buttons & mbInput) {
+        fInput = new YInputLine(this);
+        if (fInput) {
+            fInput->show();
         }
     }
+    if (buttons & mbOK) {
+        fButtonOK = new YActionButton(this, _("_OK"), -2, this);
+    }
     if (buttons & mbCancel) {
-        fButtonCancel = new YActionButton(this);
-        if (fButtonCancel) {
-            fButtonCancel->setText(_("_Cancel"), -2);
-            fButtonCancel->setActionListener(this);
-            fButtonCancel->show();
-        }
+        fButtonCancel = new YActionButton(this, _("_Cancel"), -2, this);
     }
     autoSize();
     setWinLayerHint(WinLayerAboveDock);
@@ -56,16 +55,19 @@ YMsgBox::~YMsgBox() {
 
 void YMsgBox::autoSize() {
     unsigned lw = fLabel ? fLabel->width() : 0;
-    unsigned w = lw + 24, h;
+    unsigned w = clamp(lw + 24, 240U, desktop->width());
+    unsigned h = 12;
 
-    w = clamp(w, 240U, desktop->width());
-
-    h = 12;
     if (fLabel) {
         fLabel->setPosition((w - lw) / 2, h);
         h += fLabel->height();
     }
     h += 18;
+
+    if (fInput) {
+        fInput->setPosition((w - fInput->width()) / 2, h);
+        h += 18 + fInput->height();
+    }
 
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
                           fButtonCancel ? fButtonCancel->height() : 0));

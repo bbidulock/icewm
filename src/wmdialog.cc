@@ -223,13 +223,20 @@ void CtrlAltDelete::deactivate() {
 
 YActionButton* CtrlAltDelete::addButton(const mstring& str, unsigned& maxW, unsigned& maxH)
 {
-    YActionButton* b = new YActionButton(this);
-    b->setText(str, -2);
-    if (b->width() > maxW) maxW = b->width();
-    if (b->height() > maxH) maxH = b->height();
-    b->setActionListener(this);
-    b->show();
+    YActionButton* b = new YActionButton(this, str, -2, this);
+    maxW = max(maxW, b->width());
+    maxH = max(maxH, b->height());
     return b;
+}
+
+YActionButton::YActionButton(YWindow* parent, const mstring& text, int hotkey,
+                             YActionListener* listener):
+    YButton(parent, YAction())
+{
+    addStyle(wsNoExpose);
+    setText(text, hotkey);
+    setActionListener(listener);
+    show();
 }
 
 void YActionButton::repaint() {

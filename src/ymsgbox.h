@@ -2,10 +2,12 @@
 #define YMSGBOX_H
 
 #include "ydialog.h"
-#include "ylabel.h"
 #include "yactionbutton.h"
 
 class YMsgBox;
+class YLabel;
+class YInputLine;
+class YInputListener;
 
 class YMsgBoxListener {
 public:
@@ -25,6 +27,7 @@ public:
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }
     YMsgBoxListener *getMsgBoxListener() const { return fListener; }
+    YInputLine* input() const { return fInput; }
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClose();
@@ -32,21 +35,19 @@ public:
 
     enum {
         mbOK = 0x1,
-        mbCancel = 0x2
+        mbCancel = 0x2,
+        mbInput = 0x4,
     };
 
     void showFocused();
-
     void autoSize();
 
 private:
-    YLabel *fLabel;
-    YActionButton *fButtonOK;
-    YActionButton *fButtonCancel;
-
-    int addButton(YButton *button);
-
-    YMsgBoxListener *fListener;
+    YLabel* fLabel;
+    YInputLine* fInput;
+    YActionButton* fButtonOK;
+    YActionButton* fButtonCancel;
+    YMsgBoxListener* fListener;
 };
 
 #endif

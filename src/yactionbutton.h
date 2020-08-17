@@ -1,18 +1,12 @@
-#ifndef __YACTIONBUTTON_H
-#define __YACTIONBUTTON_H
+#ifndef YACTIONBUTTON_H
+#define YACTIONBUTTON_H
 
 #include "ybutton.h"
-#include "yaction.h"
 
 class YActionButton: public YButton {
 public:
-    YActionButton(YWindow *parent):
-        YButton(parent, YAction())
-    {
-        addStyle(wsNoExpose);
-        setParentRelative();
-    }
-
+    YActionButton(YWindow* parent, const mstring& str, int hotkey,
+                  YActionListener* listener);
     operator YAction() const { return getAction(); }
 
     virtual void handleExpose(const XExposeEvent& expose) {}
