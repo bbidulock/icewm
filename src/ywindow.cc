@@ -862,14 +862,14 @@ bool YWindow::handleKey(const XKeyEvent &key) {
             for (a = accel; a; a = a->next) {
                 //msg("%c %d - %c %d %d", k, k, a->key, a->key, a->mod);
                 if (m == a->mod && k == a->key)
-                    if (a->win->handleKey(key) == true)
+                    if (a->win->handleKey(key))
                         return true;
             }
             if (ASCII::isLower(char(k))) {
                 k = ASCII::toUpper(char(k));
                 for (a = accel; a; a = a->next)
                     if (m == a->mod && k == a->key)
-                        if (a->win->handleKey(key) == true)
+                        if (a->win->handleKey(key))
                             return true;
             }
         }
@@ -1291,12 +1291,9 @@ void YWindow::requestFocus(bool requestUserFocus) {
 
 
 YWindow *YWindow::toplevel() {
-    YWindow *w = this;
-
-    while (w) {
-        if (w->isToplevel() == true)
+    for (YWindow *w = this; w; w = w->fParentWindow) {
+        if (w->isToplevel())
             return w;
-        w = w->fParentWindow;
     }
     return nullptr;
 }
@@ -1317,12 +1314,8 @@ void YWindow::prevFocus() {
 
 YWindow *YWindow::getFocusWindow() {
     YWindow *w = this;
-
-    while (w) {
-        if (w->fFocusedWindow)
-            w = w->fFocusedWindow;
-        else
-            break;
+    while (w->fFocusedWindow) {
+        w = w->fFocusedWindow;
     }
     return w;
 }
@@ -1674,14 +1667,13 @@ void YWindow::requestSelection(bool selection) {
 
 bool YWindow::hasPopup() {
     YPopupWindow *p = xapp->popup();
-    while (p && p->prevPopup())
-        p = p->prevPopup();
     if (p) {
-        YWindow *w = p->popupOwner();
-        while (w) {
+        while (p->prevPopup()) {
+            p = p->prevPopup();
+        }
+        for (YWindow *w = p->popupOwner(); w; w = w->parent()) {
             if (w == this)
                 return true;
-            w = w->parent();
         }
     }
     return false;

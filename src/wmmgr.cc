@@ -236,12 +236,9 @@ void YWindowManager::grabKeys() {
             grabButton(5, xapp->WinMask);
         }
     }
-    {
-        YFrameWindow *ff = topLayer();
-        while (ff != nullptr) {
-            ff->grabKeys();
-            ff = ff->nextLayer();
-        }
+
+    for (YFrameWindow *ff = topLayer(); ff; ff = ff->nextLayer()) {
+        ff->grabKeys();
     }
 }
 
@@ -1655,7 +1652,7 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
     if (frame->affectsWorkArea())
         updateWorkArea();
     if (wmState() == wmRUNNING) {
-        if (doActivate == true) {
+        if (doActivate) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
@@ -1945,12 +1942,10 @@ void YWindowManager::updateFullscreenLayerEnable(bool enable) {
 }
 
 void YWindowManager::updateFullscreenLayer() { /// HACK !!!
-    YFrameWindow *w = topLayer();
-    while (w) {
-        if (w->getActiveLayer() == WinLayerFullscreen ||
-            w->isFullscreen())
+    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
+        if (w->getActiveLayer() == WinLayerFullscreen || w->isFullscreen()) {
             w->updateLayer();
-        w = w->nextLayer();
+        }
     }
     if (taskBar)
         taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());

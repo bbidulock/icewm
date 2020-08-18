@@ -31,17 +31,14 @@ public:
             setIcon(fFrame->clientIcon());
     }
 
-    virtual void actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int modifiers) {
-        YFrameWindow *f = manager->topLayer();
-
-        while (f) {
-            if ((void *)f == fFrame) {
+    void actionPerformed(YActionListener *, YAction, unsigned modifiers) override {
+        for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
+            if (f == fFrame) {
                 if (modifiers & ShiftMask)
                     f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
                 f->activateWindow(true, false);
                 return ;
             }
-            f = f->nextLayer();
         }
     }
 private:

@@ -2508,11 +2508,9 @@ bool YFrameWindow::isModal() {
 }
 
 bool YFrameWindow::hasModal() {
-    YFrameWindow *w = transient();
-    while (w) {
+    for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
         if (w->isModal())
             return true;
-        w = w->nextTransient();
     }
     /* !!! missing code for app modal dialogs */
     return false;
@@ -2593,8 +2591,9 @@ void YFrameWindow::setWorkspace(int workspace) {
 
 YFrameWindow *YFrameWindow::mainOwner() {
     YFrameWindow *f = this;
-    while (f->owner() != nullptr)
+    while (f->owner()) {
         f = f->owner();
+    }
     return f;
 }
 
@@ -2661,13 +2660,11 @@ void YFrameWindow::updateLayer(bool restack) {
             newLayer = fOwner->getActiveLayer();
     }
     if (isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
-        YFrameWindow *focus = manager->getFocus();
-        while (focus) {
-            if (focus == this) {
+        for (YFrameWindow *f = manager->getFocus(); f; f = f->owner()) {
+            if (f == this) {
                 newLayer = WinLayerFullscreen;
                 break;
             }
-            focus = focus->owner();
         }
     }
 
@@ -2683,10 +2680,8 @@ void YFrameWindow::updateLayer(bool restack) {
            (getActiveLayer() == WinLayerDock || oldLayer == WinLayerDock))
             manager->requestWorkAreaUpdate();
 
-        YFrameWindow *w = transient();
-        while (w) {
+        for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
             w->updateLayer(false);
-            w = w->nextTransient();
         }
 
         if (restack)

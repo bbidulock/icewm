@@ -457,13 +457,10 @@ bool YFrameWindow::canLower() const {
 bool YFrameWindow::canRaise() {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow()) {
-            YFrameWindow *o = w;
-            while (o) {
-                o = o->owner();
-                if (o == this)
-                    break;
-                else if (o == nullptr)
+            for (YFrameWindow* o = w; o != this; o = o->owner()) {
+                if (o == nullptr) {
                     return true;
+                }
             }
         }
     }

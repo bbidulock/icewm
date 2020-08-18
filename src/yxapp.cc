@@ -640,14 +640,13 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
             if (w->toplevel())
                 w = w->toplevel();
 
-            if (w->getFocusWindow() != nullptr)
+            if (w->getFocusWindow())
                 w = w->getFocusWindow();
         }
 
-        while (w && (w->handleKey(xev.xkey) == false)) {
+        for (; w && (w->handleKey(xev.xkey) == false); w = w->parent()) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
-            w = w->parent();
         }
     } else {
         Window child;
@@ -717,10 +716,9 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             return ;
         {
             YWindow *p = win.ptr;
-            while (p) {
+            for (; p; p = p->parent()) {
                 if (p == fXGrabWindow)
                     break;
-                p = p->parent();
             }
             if (p == nullptr) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
@@ -1212,13 +1210,11 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     if (windowContext.find(xwindow, &window.ptr))
     {
         if ((xev.type == KeyPress || xev.type == KeyRelease)
-            && window.ptr->toplevel() != nullptr)
+            && window.ptr->toplevel())
         {
-            YWindow *w = window.ptr;
+            YWindow *w = window.ptr->toplevel();
 
-            w = w->toplevel();
-
-            if (w->getFocusWindow() != nullptr)
+            if (w->getFocusWindow())
                 w = w->getFocusWindow();
 
             dispatchEvent(w, xev);
@@ -1239,7 +1235,7 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                 xev.xmaprequest.window);
             desktop->handleEvent(xev);
         }
-        else if (xev.type == ClientMessage && desktop != nullptr) {
+        else if (xev.type == ClientMessage && desktop) {
             Atom mesg = xev.xclient.message_type;
             if (mesg == _XA_NET_REQUEST_FRAME_EXTENTS) {
                 desktop->handleEvent(xev);

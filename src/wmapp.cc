@@ -600,9 +600,8 @@ int YWMApp::handleError(XErrorEvent *xev) {
 
 #ifdef DEBUG
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
-    YFrameWindow *p = manager->top(w->getActiveLayer());
     msg("--- %s ", oper);
-    while (p) {
+    for (YFrameWindow *p = manager->top(w->getActiveLayer()); p; p = p->next()) {
         if (p && p->client()) {
             mstring cs(p->client()->windowTitle());
             msg(" %c %c 0x%lX: %s", (p == w) ? '*' : ' ',  (p == a) ? '#' : ' ', p->client()->handle(), cs.c_str());
@@ -613,7 +612,6 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a) {
         if (p->next()) {
             PRECONDITION(p->next()->prev() == p);
         }
-        p = p->next();
     }
 }
 #endif
