@@ -81,7 +81,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
                     y + (h - fImage->height()) / 2);
     }
     else if (fText != null) {
-        ref<YFont> font(getFont());
+        ref<YFont> font(fPressed ? activeButtonFont : normalButtonFont);
 
         int const w(font->textWidth(fText));
         int const p((width() - w) / 2);
