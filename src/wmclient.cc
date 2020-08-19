@@ -910,7 +910,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         }
     } else if (message.message_type == _XA_NET_WM_STATE) {
         long mask = (getMask(message.data.l[1]) | getMask(message.data.l[2]))
-                  & ~(_XA_NET_WM_STATE_FOCUSED | _XA_NET_WM_STATE_HIDDEN);
+                  & ~(WinStateFocused | WinStateHidden);
         //printf("new state, mask = %ld\n", mask);
         if (message.data.l[0] == _NET_WM_STATE_ADD) {
             //puts("add");
@@ -1284,6 +1284,9 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
     for (int i = 0; i < int(prop.size()); ++i) {
         flags |= getMask(prop[i]);
+    }
+    if (hasbit(flags, WinStateHidden)) {
+        flags = (flags & ~WinStateHidden) | WinStateMinimized;
     }
     if (manager->wmState() != YWindowManager::wmSTARTUP) {
         flags &= ~WinStateFocused;
