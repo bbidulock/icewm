@@ -2470,8 +2470,14 @@ void YFrameWindow::removeAsTransient() {
 }
 
 void YFrameWindow::addTransients() {
-    for (YFrameWindow * w(manager->bottomLayer()); w; w = w->prevLayer())
-        if (w->owner() == nullptr) w->addAsTransient();
+    for (YFrameWindow * w(manager->bottomLayer()); w; w = w->prevLayer()) {
+        if (w->owner() == nullptr) {
+            Window cow = w->client()->ownerWindow();
+            if (cow && cow == client()->handle()) {
+                w->addAsTransient();
+            }
+        }
+    }
 }
 
 void YFrameWindow::removeTransients() {
@@ -2599,10 +2605,7 @@ YFrameWindow *YFrameWindow::mainOwner() {
 
 
 void YFrameWindow::setRequestedLayer(long layer) {
-    if (layer >= WinLayerCount || layer < 0)
-        return ;
-
-    if (layer != fWinRequestedLayer) {
+    if (fWinRequestedLayer != layer && inrange(layer, 0L, WinLayerAboveAll)) {
         fWinRequestedLayer = layer;
         updateLayer();
     }
@@ -2659,7 +2662,7 @@ void YFrameWindow::updateLayer(bool restack) {
         if (newLayer < fOwner->getActiveLayer())
             newLayer = fOwner->getActiveLayer();
     }
-    if (isFullscreen() && manager->fullscreenEnabled() && !canRaise()) {
+    if (isFullscreen() && manager->fullscreenEnabled()) {
         for (YFrameWindow *f = manager->getFocus(); f; f = f->owner()) {
             if (f == this) {
                 newLayer = WinLayerFullscreen;
