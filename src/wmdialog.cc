@@ -89,7 +89,7 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
 
     int dx, dy;
     unsigned dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
     setPosition(dx + (dw - width()) / 2,
                 dy + (dh - height()) / 2);
 

@@ -81,6 +81,7 @@ public:
     virtual bool focused() const = 0;
     virtual bool visibleNow() const = 0;
     virtual bool canClose() const = 0;
+    virtual bool canShow() const = 0;
     virtual bool canHide() const = 0;
     virtual bool canLower() const = 0;
     virtual bool canMinimize() const = 0;

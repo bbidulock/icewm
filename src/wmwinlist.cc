@@ -254,7 +254,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             restores |= (frame->canRestore());
             minifies |= (frame->canMinimize() && !frame->isMinimized());
             maxifies |= (frame->canMaximize());
-            showable |= (frame->isMinimized() || frame->isHidden());
+            showable |= (frame->canShow());
             hidable |= (frame->canHide() && !frame->isHidden());
             rollable |= (frame->canRollup());
             raiseable |= (frame->canRaise());
@@ -572,7 +572,7 @@ void WindowList::showFocused(int x, int y) {
 
 WindowList* WindowListProxy::acquire() {
     if (wlist == nullptr) {
-        wlist = new WindowList(manager);
+        wlist = new WindowList(desktop);
         wlist->updateWindowListApps();
     }
     return wlist;

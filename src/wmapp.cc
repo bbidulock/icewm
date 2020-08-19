@@ -156,7 +156,7 @@ static void registerWinProtocols(Window xid) {
     };
     int win_count = int ACOUNT(win_proto);
 
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_WIN_PROTOCOLS, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)win_proto, win_count);
 }
@@ -166,17 +166,17 @@ static void registerWinProperties(Window xid) {
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 
     unsigned long ac[2] = { 1, 1 };
     unsigned long ca[2] = { 0, 0 };
 
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_WIN_AREA_COUNT, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ac, 2);
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_WIN_AREA, XA_CARDINAL, 32,
                     PropModeReplace, (unsigned char *)&ca, 2);
 }
@@ -293,7 +293,7 @@ static void registerNetProtocols(Window xid) {
         }
     }
 
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_NET_SUPPORTED, XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)net_proto, net_count);
 }
@@ -316,7 +316,7 @@ static void registerNetProperties(Window xid) {
                     PropModeReplace, (unsigned char *)wmname,
                     strnlen(wmname, sizeof(wmname)));
 
-    XChangeProperty(xapp->display(), manager->handle(),
+    XChangeProperty(xapp->display(), desktop->handle(),
                     _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
                     PropModeReplace, (unsigned char *)&xid, 1);
 }
@@ -364,7 +364,7 @@ void YWMApp::initIconSize() {
         is->min_width = is->min_height = int(sizes[0]);
         is->max_width = is->max_height = int(sizes[count - 1]);
         is->width_inc = is->height_inc = int(delta);
-        XSetIconSizes(xapp->display(), manager->handle(), is, 1);
+        XSetIconSizes(xapp->display(), desktop->handle(), is, 1);
         XFree(is);
     }
 }
@@ -379,14 +379,14 @@ ref<YIcon> YWMApp::getDefaultAppIcon() {
 
 CtrlAltDelete* YWMApp::getCtrlAltDelete() {
     if (ctrlAltDelete == nullptr) {
-        ctrlAltDelete = new CtrlAltDelete(this, manager);
+        ctrlAltDelete = new CtrlAltDelete(this, desktop);
     }
     return ctrlAltDelete;
 }
 
 SwitchWindow* YWMApp::getSwitchWindow() {
     if (switchWindow == nullptr && quickSwitch) {
-        switchWindow = new SwitchWindow(manager, nullptr, quickSwitchVertical);
+        switchWindow = new SwitchWindow(desktop, nullptr, quickSwitchVertical);
     }
     return switchWindow;
 }
@@ -1302,7 +1302,6 @@ YWMApp::~YWMApp() {
     windowListMenu = null;
     layerMenu = null;
     moveMenu = null;
-    delete manager; desktop = manager = nullptr;
 
     keyProgs.clear();
     workspaces.reset();
@@ -1736,7 +1735,7 @@ int main(int argc, char **argv) {
 void YWMApp::createTaskBar() {
     if (showTaskBar && taskBar == nullptr) {
         manager->lockWorkArea();
-        taskBar = new TaskBar(this, manager, this, this);
+        taskBar = new TaskBar(this, desktop, this, this);
         for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
             frame->updateTaskBar();
         }

@@ -204,7 +204,7 @@ void YFrameClient::getTransient() {
                              handle(),
                              &newTransientFor))
     {
-        if (//newTransientFor == manager->handle() || /* bug in xfm */
+        if (//newTransientFor == desktop->handle() || /* bug in xfm */
             //newTransientFor == desktop->handle() ||
             newTransientFor == handle()             /* bug in fdesign */
             /* !!! TODO: check for recursion */

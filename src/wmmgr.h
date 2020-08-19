@@ -81,7 +81,7 @@ public:
     virtual void handleButton(const XButtonEvent &button);
 };
 
-class YWindowManager: public YDesktop, private YMsgBoxListener {
+class YWindowManager: private YDesktop, private YMsgBoxListener {
 public:
     YWindowManager(
         IApp *app,
@@ -138,7 +138,7 @@ public:
     void removeClientFrame(YFrameWindow *frame);
 
     void updateScreenSize(XEvent *event);
-    void getWorkArea(YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1);
+    void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1);
     void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);

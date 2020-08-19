@@ -251,7 +251,7 @@ void KProgram::open(unsigned mods) {
 
     if (bIsDynSwitchMenu) {
         if (!pSwitchWindow) {
-            pSwitchWindow = new SwitchWindow(manager, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
+            pSwitchWindow = new SwitchWindow(desktop, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
         }
         pSwitchWindow->begin(true, mods);
     }

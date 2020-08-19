@@ -79,6 +79,9 @@ YWindowManager::YWindowManager(
     fLayeredUpdated = true;
     fDefaultKeyboard = 0;
 
+    manager = this;
+    desktop = this;
+
     setWmState(wmSTARTUP);
     setStyle(wsManager);
     setPointer(YXApplication::leftPointer);
@@ -1987,7 +1990,7 @@ void YWindowManager::restackWindows(YFrameWindow *) {
     }
 }
 
-void YWindowManager::getWorkArea(YFrameWindow *frame,
+void YWindowManager::getWorkArea(const YFrameWindow* frame,
                                  int *mx, int *my, int *Mx, int *My,
                                  int xiscreen)
 {
@@ -3295,7 +3298,7 @@ void YWindowManager::handleMsgBox(YMsgBox *msgbox, int operation) {
 }
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
-    YWindow(manager),
+    YWindow(desktop),
     fManager(manager),
     fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
                                  : YWMApp::scrollLeftPointer
@@ -3315,10 +3318,10 @@ EdgeSwitch::~EdgeSwitch() {
 }
 
 void EdgeSwitch::setGeometry() {
-    int x = (!fVert && 0 < fDelta) ? int(fManager->width() - 1) : 0;
-    int y = (fVert && 0 < fDelta) ? int(fManager->height() - 1) : 0;
-    unsigned w = !fVert ? 1 : fManager->width();
-    unsigned h = fVert ? 1 : fManager->height();
+    int x = (!fVert && 0 < fDelta) ? int(desktop->width() - 1) : 0;
+    int y = (fVert && 0 < fDelta) ? int(desktop->height() - 1) : 0;
+    unsigned w = !fVert ? 1 : desktop->width();
+    unsigned h = fVert ? 1 : desktop->height();
 
     YWindow::setGeometry(YRect(x, y, w, h));
 }

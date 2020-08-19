@@ -309,7 +309,7 @@ void SwitchWindow::resize(int xiscreen) {
     int dx, dy;
     unsigned dw, dh;
 
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
 
     MSG(("got geometry for %d: %d %d %d %d", xiscreen, dx, dy, dw, dh));
 

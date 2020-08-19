@@ -652,7 +652,7 @@ void TaskBar::updateLocation() {
 
     int dx, dy;
     unsigned dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
 
     int x = dx;
     unsigned int w = 0;
@@ -692,7 +692,7 @@ void TaskBar::updateLocation() {
     if ( !fIsHidden) {
         if (fIsMapped && getFrame()) {
             getFrame()->configureClient(x, y, w, h);
-            getFrame()->wmShow();
+            getFrame()->show();
         } else
             setGeometry(YRect(x, y, w, h));
     }
@@ -855,7 +855,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 
     if (taskBarAtTop != newPosition) {
         taskBarAtTop = newPosition;
-        //setPosition(x(), taskBarAtTop ? -1 : int(manager->height() - height() + 1));
+        //setPosition(x(), taskBarAtTop ? -1 : int(desktop->height() - height() + 1));
         manager->setWorkAreaMoveWindows(true);
         updateLocation();
         //repaint();

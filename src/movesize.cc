@@ -138,7 +138,7 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
         yp += borderY();
         flags |= 16;
     }
-    snapTo(xp, yp, 0, 0, manager->width(), manager->height(), flags);
+    snapTo(xp, yp, 0, 0, desktop->width(), desktop->height(), flags);
     if (flags & 8) {
         xp -= borderX();
         flags &= ~8;

@@ -579,7 +579,7 @@ void YFrameWindow::unmanage(bool reparent) {
         }
 
         if (reparent)
-            client()->reparent(manager, posX, posY);
+            client()->reparent(desktop, posX, posY);
 
         client()->setSize(posWidth, posHeight);
 
@@ -1431,12 +1431,12 @@ void YFrameWindow::doRaise() {
                     w->doRaise();
             }
 
-            if (client()->ownerWindow() != manager->handle()) {
+            if (client()->ownerWindow() != desktop->handle()) {
                 for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
                 {
                     if (w->client() &&
                         w->client()->clientLeader() == client()->clientLeader() &&
-                        w->client()->ownerWindow() == manager->handle()) {
+                        w->client()->ownerWindow() == desktop->handle()) {
                         w->doRaise();
                     }
                 }
@@ -1608,30 +1608,50 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
         doActivate = (fUserTime.time() && fUserTime == manager->lastUserTime());
 }
 
+bool YFrameWindow::canShow() const {
+    if (isHidden() || isMinimized()) {
+        return true;
+    }
+
+    int ax, ay, ar, ab;
+
+    manager->getWorkArea(this, &ax, &ay, &ar, &ab);
+
+    if ( !inrange(x(), ax - borderX(), ar - int(width()) + borderX()) ||
+         !inrange(y(), ay - borderY() - titleY(), ab - int(height()) + borderY()))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 void YFrameWindow::wmShow() {
-    // recover lost (offscreen) windows !!! (unify with code below)
-/// TODO #warning "this is really broken"
-    if (x() >= int(manager->width()) ||
-        y() >= int(manager->height()) ||
-        x() <= - int(width()) ||
-        y() <= - int(height()))
+    int ax, ay, ar, ab;
+
+    manager->getWorkArea(this, &ax, &ay, &ar, &ab);
+
+    if ( !inrange(x(), ax - borderX(), ar - int(width()) + borderX()) ||
+         !inrange(y(), ay - borderY() - titleY(), ab - int(height()) + borderY()))
     {
         int newX = x();
         int newY = y();
 
-        if (x() >= int(manager->width()))
-            newX = int(manager->width() - width() + borderX());
-        if (y() >= int(manager->height()))
-            newY = int(manager->height() - height() + borderY());
+        if (newX > ar - int(width()) + borderX())
+            newX = ar - int(width());
+        if (newX < ax)
+            newX = ax;
+        if (newY > ab - int(height()) + borderY())
+            newY = ab - int(height());
+        if (newY < ay)
+            newY = ay;
 
-        if (newX < int(- borderX()))
-            newX = int(- borderX());
-        if (newY < int(- borderY()))
-            newY = int(- borderY());
         setCurrentPositionOuter(newX, newY);
     }
 
-    setState(WinStateHidden | WinStateMinimized, 0);
+    if (isHidden() || isMinimized()) {
+        setState(WinStateHidden | WinStateMinimized, 0);
+    }
 }
 
 void YFrameWindow::focus(bool canWarp) {
@@ -1639,18 +1659,18 @@ void YFrameWindow::focus(bool canWarp) {
     manager->lockFocus();
     // recover lost (offscreen) windows !!!
     if (limitPosition &&
-        (x() >= int(manager->width()) ||
-         y() >= int(manager->height()) ||
+        (x() >= int(desktop->width()) ||
+         y() >= int(desktop->height()) ||
          x() <= - int(width()) ||
          y() <= - int(height())))
     {
         int newX = x();
         int newY = y();
 
-        if (x() >= int(manager->width()))
-            newX = int(manager->width() - width() + borderX());
-        if (y() >= int(manager->height()))
-            newY = int(manager->height() - height() + borderY());
+        if (x() >= int(desktop->width()))
+            newX = int(desktop->width() - width() + borderX());
+        if (y() >= int(desktop->height()))
+            newY = int(desktop->height() - height() + borderY());
 
         if (newX < int(- borderX()))
             newX = int(- borderX());
@@ -2783,7 +2803,7 @@ bool YFrameWindow::inWorkArea() const {
     return !fHaveStruts;
 }
 
-void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) {
+void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) const {
     XSizeHints *sh = client()->sizeHints();
     *x = normalX;
     *y = normalY;
@@ -2827,10 +2847,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     int nw = sh ? normalW * sh->width_inc + sh->base_width : normalW;
     int nh = sh ? normalH * sh->height_inc + sh->base_height : normalH;
 
-    int xiscreen = manager->getScreenForRect(nx,
-                                             ny,
-                                             nw,
-                                             nh);
+    int xiscreen = desktop->getScreenForRect(nx, ny, nw, nh);
     int mx, my, Mx, My;
     manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
     int Mw = Mx - mx;
@@ -3027,22 +3044,22 @@ void YFrameWindow::updateLayout() {
                 fFullscreenMonitorsTop, fFullscreenMonitorsBottom,
                 fFullscreenMonitorsLeft, fFullscreenMonitorsRight
             };
-            manager->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
+            desktop->getScreenGeometry(&x, &y, &w, &h, monitor[0]);
             YRect r(x, y, w, h);
             for (int i = 1; i < 4; i++) {
-                manager->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
+                desktop->getScreenGeometry(&x, &y, &w, &h, monitor[i]);
                 r.unionRect(x, y, w, h);
             }
             setWindowGeometry(r);
         }
         else if (fullscreenUseAllMonitors) {
-            setWindowGeometry(YRect(0, 0, manager->width(), manager->height()));
+            setWindowGeometry(YRect(0, 0, desktop->width(), desktop->height()));
         }
         else {
-            int xiscreen = manager->getScreenForRect(posX, posY, posW, posH);
+            int xiscreen = desktop->getScreenForRect(posX, posY, posW, posH);
             int dx, dy;
             unsigned dw, dh;
-            manager->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+            desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
             setWindowGeometry(YRect(dx, dy, dw, dh));
         }
     }
@@ -3451,16 +3468,16 @@ void YFrameWindow::setWmUrgency(bool wmUrgency) {
     }
 }
 
-int YFrameWindow::getScreen() {
+int YFrameWindow::getScreen() const {
     int nx, ny, nw, nh;
     getNormalGeometryInner(&nx, &ny, &nw, &nh);
-    return manager->getScreenForRect(nx, ny, nw, nh);
+    return desktop->getScreenForRect(nx, ny, nw, nh);
 }
 
 void YFrameWindow::wmArrange(int tcb, int lcr) {
     int mx, my, Mx, My, newX = 0, newY = 0;
 
-    int xiscreen = manager->getScreenForRect(x(), y(), width(), height());
+    int xiscreen = desktop->getScreenForRect(x(), y(), width(), height());
 
     manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
 
@@ -3496,7 +3513,7 @@ void YFrameWindow::wmArrange(int tcb, int lcr) {
 void YFrameWindow::wmSnapMove(int tcb, int lcr) {
    int mx, my, Mx, My, newX = 0, newY = 0;
 
-    int xiscreen = manager->getScreenForRect(x(), y(), width(), height());
+    int xiscreen = desktop->getScreenForRect(x(), y(), width(), height());
 
     YFrameWindow **w = nullptr;
     int count = 0;

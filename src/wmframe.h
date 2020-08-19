@@ -149,6 +149,7 @@ public:
     bool canMinimize() const;
     bool canRestore() const;
     bool canRollup() const;
+    bool canShow() const;
     bool canHide() const;
     bool canLower() const;
     bool canRaise();
@@ -304,7 +305,7 @@ public:
     ref<YIcon> getClientIcon() const { return fFrameIcon; }
     ref<YIcon> clientIcon() const;
 
-    void getNormalGeometryInner(int *x, int *y, int *w, int *h);
+    void getNormalGeometryInner(int *x, int *y, int *w, int *h) const;
     void setNormalGeometryOuter(int x, int y, int w, int h);
     void setNormalPositionOuter(int x, int y);
     void setNormalGeometryInner(int x, int y, int w, int h);
@@ -424,7 +425,7 @@ public:
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
 
-    int getScreen();
+    int getScreen() const;
     void refresh();
 
     long getOldLayer() { return fOldLayer; }
