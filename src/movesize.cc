@@ -905,7 +905,6 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     buttonDownX = 0;
     buttonDownY = 0;
 
-    manager->setWorkAreaMoveWindows(true);
     if (doMove && grabX == 0 && grabY == 0) {
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
@@ -987,8 +986,6 @@ void YFrameWindow::endMoveSize() {
 
     movingWindow = false;
     sizingWindow = false;
-
-    manager->setWorkAreaMoveWindows(false);
 
     if (taskBar) {
         taskBar->workspacesRepaint();

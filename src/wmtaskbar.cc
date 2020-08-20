@@ -856,11 +856,9 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
     if (taskBarAtTop != newPosition) {
         taskBarAtTop = newPosition;
         //setPosition(x(), taskBarAtTop ? -1 : int(desktop->height() - height() + 1));
-        manager->setWorkAreaMoveWindows(true);
         updateLocation();
         //repaint();
         //manager->updateWorkArea();
-        manager->setWorkAreaMoveWindows(false);
     }
 }
 
