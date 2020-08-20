@@ -268,6 +268,7 @@ public:
     long getState() const { return fWinState; }
     void setState(long mask, long state);
     bool hasState(long bit) const { return hasbit(fWinState, bit); }
+    bool notState(long bit) const { return !hasbit(fWinState, bit); }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
 
@@ -313,6 +314,7 @@ public:
 
     void setCurrentGeometryOuter(YRect newSize);
     void setCurrentPositionOuter(int x, int y);
+    void limitOuterPosition();
     void updateNormalSize();
 
     void updateTitle();

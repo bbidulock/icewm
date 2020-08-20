@@ -54,7 +54,6 @@ YWindowManager::YWindowManager(
     fWmState = WMState(-1);
     fShowingDesktop = false;
     fShuttingDown = false;
-    fOtherScreenFocused = false;
     fActiveWindow = (Window) -1;
     fFocusWin = nullptr;
     lockFocusCount = 0;
@@ -68,7 +67,6 @@ YWindowManager::YWindowManager(
     fArrangeCount = 0;
     fArrangeInfo = nullptr;
     rootProxy = nullptr;
-    fWorkAreaMoveWindows = false;
     fWorkArea = nullptr;
     fWorkAreaWorkspaceCount = 0;
     fWorkAreaScreenCount = 0;
@@ -794,19 +792,15 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 }
 
 void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
-    DBG logFocus((const union _XEvent&) focus);
     if (focus.mode == NotifyNormal) {
+        DBG logFocus((const XEvent&) focus);
         if (focus.type == FocusIn) {
-            if (focus.detail != NotifyInferior) {
-                fOtherScreenFocused = false;
-            }
             if (focus.detail == NotifyDetailNone) {
                 if (clickFocus || !strongPointerFocus)
                     focusLastWindow();
             }
         } else if (focus.type == FocusOut) {
             if (focus.detail != NotifyInferior) {
-                fOtherScreenFocused = true;
                 if (fFocusWin) {
                     fFocusWin->client()->testDestroyed();
                 }
@@ -1679,7 +1673,9 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
     if (frame == nullptr)
         return manageClient(win, true);
     else {
-        frame->setState(WinStateMinimized | WinStateHidden, 0);
+        long mask = WinStateMinimized | WinStateHidden | WinStateRollup;
+        if (frame->hasState(mask))
+            frame->setState(mask, 0);
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
@@ -1736,12 +1732,8 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
                       YFrameWindow::fwfLayers |
                       YFrameWindow::fwfCycle);
     //msg("found focus %lX", f);
-    if (!f) {
-        setFocus(nullptr);
-        return false;
-    }
     setFocus(f);
-    return true;
+    return f;
 }
 
 YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
@@ -1914,7 +1906,6 @@ bool YWindowManager::setAbove(YFrameWindow* frame, YFrameWindow* above) {
 #endif
         change = true;
     }
-    updateFullscreenLayer();
     return change;
 }
 
@@ -1958,7 +1949,7 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     }
 }
 
-void YWindowManager::restackWindows(YFrameWindow *) {
+void YWindowManager::restackWindows() {
     YArray<Window> w(10 + focusedCount());
 
     w.append(fTopWin->handle());
@@ -2128,8 +2119,7 @@ bool YWindowManager::updateWorkAreaInner() {
         if (w->client() == nullptr) {
             continue;
         }
-        if (hasbit(w->getState(),
-                   WinStateHidden | WinStateMinimized | WinStateRollup)) {
+        if (w->hasState(WinStateHidden | WinStateMinimized | WinStateRollup)) {
             continue;
         }
 
@@ -3091,11 +3081,14 @@ void YWindowManager::switchToLastWorkspace(bool takeCurrent) {
 }
 
 void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) {
-    w->setState(WinStateMinimized |
+    long mask = WinStateMinimized |
                 WinStateRollup |
                 WinStateMaximizedVert |
                 WinStateMaximizedHoriz |
-                WinStateHidden, 0);
+                WinStateHidden;
+    if (w->hasState(mask)) {
+        w->setState(mask, 0);
+    }
     tw -= 2 * w->borderXN();
     th -= 2 * w->borderYN() + w->titleYN();
     w->client()->constrainSize(tw, th, ///WinLayerNormal,
@@ -3504,13 +3497,17 @@ void YWindowManager::removeFocusFrame(YFrameWindow* frame) {
 }
 
 void YWindowManager::lowerFocusFrame(YFrameWindow* frame) {
-    fFocusedOrder.remove(frame);
-    fFocusedOrder.prepend(frame);
+    if (frame->YFocusedNode::nodePrev()) {
+        fFocusedOrder.remove(frame);
+        fFocusedOrder.prepend(frame);
+    }
 }
 
 void YWindowManager::raiseFocusFrame(YFrameWindow* frame) {
-    fFocusedOrder.remove(frame);
-    fFocusedOrder.append(frame);
+    if (frame->YFocusedNode::nodeNext()) {
+        fFocusedOrder.remove(frame);
+        fFocusedOrder.append(frame);
+    }
 }
 
 // vim: set sw=4 ts=4 et:

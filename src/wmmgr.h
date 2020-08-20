@@ -170,7 +170,7 @@ public:
     void lowerFocusFrame(YFrameWindow* frame);
     void raiseFocusFrame(YFrameWindow* frame);
 
-    void restackWindows(YFrameWindow *win);
+    void restackWindows();
     void focusTopWindow();
     YFrameWindow *getFrameUnderMouse(long workspace = AllWorkspaces);
     YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = AllWorkspaces);
@@ -256,7 +256,6 @@ public:
 
     bool haveClients();
     void setupRootProxy();
-    void setWorkAreaMoveWindows(bool m) { fWorkAreaMoveWindows = m; }
     void setKeyboard(mstring keyboard);
     void setKeyboard(int configIndex);
     mstring getKeyboard();
@@ -357,8 +356,6 @@ private:
     WindowPosState *fArrangeInfo;
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
-    bool fWorkAreaMoveWindows;
-    bool fOtherScreenFocused;
     int fIconColumn;
     int fIconRow;
     int lockFocusCount;
