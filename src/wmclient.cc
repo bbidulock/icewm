@@ -58,10 +58,10 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fHints = nullptr;
     fWinHints = 0;
     fSavedFrameState = InvalidFrameState;
-    fSavedWinState[0] = 0;
-    fSavedWinState[1] = 0;
+    fSavedWinState[0] = None;
+    fSavedWinState[1] = None;
     fSizeHints = XAllocSizeHints();
-    fTransientFor = 0;
+    fTransientFor = None;
     fClientLeader = None;
     fMwmHints = nullptr;
     fPid = 0;
@@ -1217,8 +1217,8 @@ bool YFrameClient::getWinStateHint(long *mask, long *state) {
     YProperty prop(this, _XA_WIN_STATE, F32, 2, XA_CARDINAL);
     if (prop) {
         MSG(("got state"));
-        *state = *prop;
         *mask = (prop.size() == 2) ? prop[1] : WIN_STATE_ALL;
+        *state = (prop[0] & *mask);
         return true;
     }
     return false;
@@ -1318,8 +1318,8 @@ void YFrameClient::setWinHintsHint(long hints) {
 void YFrameClient::getClientLeader() {
     Window leader = None;
     if (prop.wm_client_leader) {
-        YProperty prop(this, _XA_WM_CLIENT_LEADER);
-        if (prop && prop.typed(XA_WINDOW))
+        YProperty prop(this, _XA_WM_CLIENT_LEADER, F32, 1, XA_WINDOW);
+        if (prop)
             leader = *prop;
     }
     fClientLeader = leader;
