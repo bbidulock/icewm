@@ -448,10 +448,14 @@ bool YFrameWindow::canHide() const {
 }
 
 bool YFrameWindow::canLower() const {
-    if (this != manager->bottom(getActiveLayer()))
-        return true;
-    else
-        return false;
+    for (YFrameWindow* w = next(); w; w = w->next()) {
+        for (YFrameWindow* o = owner(); o != w; o = o->owner()) {
+            if (o == nullptr) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool YFrameWindow::canRaise() {
