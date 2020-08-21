@@ -804,7 +804,12 @@ void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
                 if (fFocusWin) {
                     fFocusWin->client()->testDestroyed();
                 }
+                /* This causes more problems than it solves, as a change of
+                 * focus has already been processed for some other event.
+                 * This is likely to be an old event and no longer relevant.
+                 * Maybe consider only NotifyDetailNone or NotifyPointerRoot.
                 switchFocusFrom(fFocusWin);
+                 * Need to test strongPointerFocus. */
             }
         }
     }
