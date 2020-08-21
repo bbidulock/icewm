@@ -45,9 +45,11 @@ private:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
+    virtual ref<YFont> getActiveFont();
     virtual ref<YFont> getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
+    virtual YDimension getTextSize();
 
     virtual void inputReturn(YInputLine* input);
     virtual void inputEscape(YInputLine* input);

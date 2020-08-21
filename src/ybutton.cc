@@ -81,10 +81,10 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
                     y + (h - fImage->height()) / 2);
     }
     else if (fText != null) {
-        ref<YFont> font(fPressed ? activeButtonFont : normalButtonFont);
+        ref<YFont> font(getFont());
 
         int const w(font->textWidth(fText));
-        int const p((width() - w) / 2);
+        int const p((width() + 1 - w) / 2);
         int yp((height() - font->height()) / 2
                + font->ascent() + d);
 
@@ -330,9 +330,8 @@ ref<YFont> YButton::getActiveFont() {
 
 YDimension YButton::getTextSize() {
     if (fText != null) {
-        return YDimension(
-            activeButtonFont->textWidth(fText),
-            activeButtonFont->height());
+        ref<YFont> font(getActiveFont());
+        return YDimension(font->textWidth(fText), font->height());
     } else {
         return YDimension(1, 1);
     }

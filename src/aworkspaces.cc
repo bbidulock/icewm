@@ -528,18 +528,31 @@ void WorkspacesPane::stopDrag() {
     }
 }
 
+ref<YFont> WorkspaceButton::getActiveFont() {
+    if (activeButtonFont == null) {
+        if (*activeWorkspaceFontName || *activeWorkspaceFontNameXft) {
+            activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName));
+        }
+        if (activeButtonFont == null) {
+            activeButtonFont = YButton::getActiveFont();
+        }
+    }
+    return activeButtonFont;
+}
+
 ref<YFont> WorkspaceButton::getFont() {
-    return isPressed()
-        ? (*activeWorkspaceFontName || *activeWorkspaceFontNameXft)
-        ? activeButtonFont != null
-        ? activeButtonFont
-        : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
-        : YButton::getFont()
-        : (*normalWorkspaceFontName || *normalWorkspaceFontNameXft)
-        ? normalButtonFont != null
-        ? normalButtonFont
-        : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
-        : YButton::getFont();
+    if (isPressed()) {
+        return getActiveFont();
+    }
+    else if (normalButtonFont == null) {
+        if (*normalWorkspaceFontName || *normalWorkspaceFontNameXft) {
+            normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName));
+        }
+        if (normalButtonFont == null) {
+            normalButtonFont = YButton::getFont();
+        }
+    }
+    return normalButtonFont;
 }
 
 YColor WorkspaceButton::getColor() {
@@ -556,6 +569,11 @@ YSurface WorkspaceButton::getSurface() {
             : YSurface(normalButtonBg ? normalButtonBg : normalBackupBg,
                        workspacebuttonPixmap,
                        workspacebuttonPixbuf));
+}
+
+YDimension WorkspaceButton::getTextSize() {
+    ref<YFont> font(getActiveFont());
+    return YDimension(font->textWidth(name()), font->height());
 }
 
 const char* WorkspaceButton::name() const {
