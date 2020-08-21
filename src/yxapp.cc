@@ -1225,14 +1225,14 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
         if (xev.type == MapRequest) {
             // !!! java seems to do this ugliness
             //YFrameWindow *f = getFrame(xev.xany.window);
-            tlog("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+            TLOG(("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
-                xev.xmaprequest.window);
+                xev.xmaprequest.window));
             desktop->handleEvent(xev);
         } else if (xev.type == ConfigureRequest) {
-            tlog("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+            TLOG(("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
-                xev.xmaprequest.window);
+                xev.xmaprequest.window));
             desktop->handleEvent(xev);
         }
         else if (xev.type == ClientMessage && desktop) {
