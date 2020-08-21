@@ -3121,7 +3121,7 @@ void YFrameWindow::setState(long mask, long state) {
 
     fWinState = fNewState;
 
-    TLOG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
+    MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
     //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
     if ((fOldState ^ fNewState) & WinStateMaximizedBoth)
@@ -3185,7 +3185,9 @@ void YFrameWindow::setState(long mask, long state) {
     }
     updateState();
     updateLayer();
-    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+    if (hasbit(fOldState | fNewState, WinStateFullscreen) ||
+        manager->top(WinLayerFullscreen))
+    {
         manager->updateFullscreenLayer();
     }
     updateDerivedSize(fOldState ^ fNewState);
