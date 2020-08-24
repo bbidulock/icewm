@@ -207,6 +207,9 @@ private:
     Picture fPicture;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;
+
+    Graphics(Graphics const&) = delete;
+    Graphics& operator=(Graphics const&) = delete;
 };
 
 /******************************************************************************/
