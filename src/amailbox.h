@@ -1,5 +1,5 @@
-#ifndef __MAILBOX_H
-#define __MAILBOX_H
+#ifndef AMAILBOX_H
+#define AMAILBOX_H
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -110,8 +110,7 @@ private:
 
 class MailBoxStatus:
     public IApplet,
-    private Picturer,
-    private YTimerListener
+    private Picturer
 {
 public:
     enum MailBoxState {
@@ -129,6 +128,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);
 
+    int checkDelay() const;
     void checkMail();
     void mailChecked(MailBoxState mst, long count, long unread);
     void newMailArrived(long count, long unread);
@@ -137,7 +137,6 @@ public:
 
 private:
     virtual bool picture();
-    virtual bool handleTimer(YTimer *t);
     virtual void updateToolTip();
     ref<YPixmap> statePixmap();
     void draw(Graphics& g);
@@ -145,14 +144,17 @@ private:
     MailBoxState fOldState;
     MailBoxState fState;
     MailCheck check;
-    lazy<YTimer> fMailboxCheckTimer;
     MailHandler *fHandler;
     long fCount;
     long fUnread;
     bool fSuspended;
 };
 
-class MailBoxControl : public MailHandler, private YActionListener {
+class MailBoxControl :
+    public MailHandler,
+    private YTimerListener,
+    private YActionListener
+{
 public:
     MailBoxControl(IApp *app, YSMListener *smActionListener,
                    IAppletContainer *taskBar, YWindow *aParent);
@@ -164,11 +166,12 @@ private:
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, MailBoxStatus *client);
+    virtual bool handleTimer(YTimer *t);
     virtual void runCommandOnce(const char *resource, const char *cmdline);
     virtual void runCommand(const char *cmdline);
 
     typedef YObjectArray<MailBoxStatus> ArrayType;
-    ArrayType fMailBoxStatus;
+    ArrayType fMailBoxes;
 
 public:
     IApp *app;
@@ -177,10 +180,14 @@ public:
     YWindow *aParent;
     osmart<YMenu> fMenu;
     MailBoxStatus *fMenuClient;
+    lazy<YTimer> fCheckTimer;
     long fPid;
+    int fCount;
+    int fDelay;
+    int fDelta;
 
     typedef ArrayType::IterType IterType;
-    IterType iterator() { return fMailBoxStatus.reverseIterator(); }
+    IterType iterator() { return fMailBoxes.reverseIterator(); }
 };
 
 #endif
