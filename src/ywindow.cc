@@ -362,6 +362,10 @@ Window YWindow::create() {
         attributes.override_redirect = True;
         attrmask |= CWOverrideRedirect;
     }
+    if (fStyle & wsBackingMapped) {
+        attributes.backing_store = WhenMapped;
+        attrmask |= CWBackingStore;
+    }
     if (fPointer.handle() != None) {
         attrmask |= CWCursor;
         attributes.cursor = fPointer.handle();
