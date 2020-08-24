@@ -19,7 +19,7 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     YWindow(),
     fFrame(frame)
 {
-    setStyle(wsOverrideRedirect | wsNoExpose);
+    setStyle(wsOverrideRedirect | wsBackingMapped);
     setSize(YIcon::hugeSize(), YIcon::hugeSize());
     setTitle("MiniIcon");
     setPosition(-1, -1);
@@ -33,6 +33,24 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
 MiniIcon::~MiniIcon() {
 }
 
+void MiniIcon::handleExpose(const XExposeEvent& expose) {
+    if (expose.count == 0) {
+        repaint();
+    }
+}
+
+void MiniIcon::repaint() {
+    Graphics g(*this);
+    paint(g, geometry());
+}
+
+void MiniIcon::paint(Graphics &g, const YRect &r) {
+    ref<YIcon> icon(fFrame->clientIcon());
+    if (icon != null && icon->huge() != null) {
+        icon->draw(g, 0, 0, YIcon::hugeSize());
+    }
+}
+
 void MiniIcon::updateIcon() {
     ref<YIcon> icon(fFrame->clientIcon());
     if (icon != null && icon->huge() != null) {
@@ -41,8 +59,6 @@ void MiniIcon::updateIcon() {
         if (pixmap != null && pixmap->mask()) {
             XShapeCombineMask(xapp->display(), handle(), ShapeBounding,
                               0, 0, pixmap->mask(), ShapeSet);
-            setBackgroundPixmap(pixmap->pixmap());
-            return;
         }
     }
 }

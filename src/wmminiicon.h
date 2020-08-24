@@ -18,9 +18,9 @@ public:
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleBeginDrag(const XButtonEvent& d, const XMotionEvent& m);
     virtual void handleEndDrag(const XButtonEvent& d, const XButtonEvent& u);
-    virtual void handleExpose(const XExposeEvent& expose) { }
-    virtual void paint(Graphics &g, const YRect &r) { }
-    virtual void repaint() { }
+    virtual void handleExpose(const XExposeEvent& expose);
+    virtual void paint(Graphics &g, const YRect &r);
+    virtual void repaint();
 
     void show();
     void updateIcon();
