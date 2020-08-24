@@ -120,7 +120,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fCollapseButton(nullptr),
     fWindowTray(nullptr),
     fKeyboardStatus(nullptr),
-    fMailBoxStatus(nullptr),
+    fMailBoxControl(nullptr),
     fMEMStatus(nullptr),
     fCPUStatus(nullptr),
     fApm(nullptr),
@@ -191,7 +191,7 @@ TaskBar::~TaskBar() {
     delete fEdgeTrigger; fEdgeTrigger = nullptr;
     delete fClock; fClock = nullptr;
     delete fKeyboardStatus; fKeyboardStatus = nullptr;
-    delete fMailBoxStatus; fMailBoxStatus = nullptr;
+    delete fMailBoxControl; fMailBoxControl = nullptr;
 #ifdef MEM_STATES
     delete fMEMStatus; fMEMStatus = nullptr;
 #endif
@@ -327,9 +327,9 @@ void TaskBar::initApplets() {
         fCollapseButton = nullptr;
 
     if (taskBarShowMailboxStatus) {
-        fMailBoxStatus = new MailBoxControl(app, smActionListener, this, this);
+        fMailBoxControl = new MailBoxControl(app, smActionListener, this, this);
     } else
-        fMailBoxStatus = nullptr;
+        fMailBoxControl = nullptr;
 
     if (configKeyboards.nonempty()) {
         fKeyboardStatus = new KeyboardStatus(this, this);
@@ -468,7 +468,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     nw = LayoutInfo( fClock, Over, Top, Same, Keep, 2, 2 );
     wlist.append(nw);
     if (taskBarShowMailboxStatus) {
-        for (MailBoxControl::IterType m = fMailBoxStatus->iterator(); ++m; ) {
+        for (MailBoxControl::IterType m = fMailBoxControl->iterator(); ++m; ) {
             nw = LayoutInfo( *m, Over, Top, Show, Keep, 1, 1 );
             wlist.append(nw);
         }

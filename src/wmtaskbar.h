@@ -143,7 +143,7 @@ private:
     TrayPane *fWindowTray;
     YClock *fClock;
     KeyboardStatus *fKeyboardStatus;
-    MailBoxControl *fMailBoxStatus;
+    MailBoxControl *fMailBoxControl;
     MEMStatus *fMEMStatus;
     CPUStatusControl *fCPUStatus;
     YApm *fApm;
