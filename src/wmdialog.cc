@@ -6,20 +6,20 @@
  * Dialogs
  */
 #include "config.h"
-
-#include "ypaths.h"
 #include "wmdialog.h"
-#include "wmaction.h"
-#include "yactionbutton.h"
 #include "wpixmaps.h"
 #include "prefs.h"
 #include "wmapp.h"
 #include "wmmgr.h"
-#include "yrect.h"
 #include "ypointer.h"
-#include "sysdep.h"
-
 #include "intl.h"
+
+#define HORZ 10
+#define MIDH 10
+#define VERT 10
+#define MIDV 6
+
+static YColorName cadBg(&clrDialog);
 
 bool couldRunCommand(const char *cmd) {
     if (isEmpty(cmd))
@@ -39,9 +39,9 @@ bool canLock()
 
 bool canShutdown(RebootShutdown reboot) {
     if (reboot == Shutdown && isEmpty(shutdownCommand))
-            return false;
+        return false;
     if (reboot == Reboot && isEmpty(rebootCommand))
-            return false;
+        return false;
     if (nonempty(logoutCommand))
         return false;
 #ifdef CONFIG_SESSION
@@ -51,16 +51,9 @@ bool canShutdown(RebootShutdown reboot) {
     return true;
 }
 
-#define HORZ 10
-#define MIDH 10
-#define VERT 10
-#define MIDV 6
-
-static YColorName cadBg(&clrDialog);
-
 CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     this->app = app;
-    unsigned w = 0, h = 0;
+    unsigned w = 140, h = 22;
 
     setStyle(wsOverrideRedirect);
     setPointer(YXApplication::leftPointer);
@@ -96,7 +89,7 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
 
     int dx, dy;
     unsigned dw, dh;
-    manager->getScreenGeometry(&dx, &dy, &dw, &dh);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
     setPosition(dx + (dw - width()) / 2,
                 dy + (dh - height()) / 2);
 
@@ -230,13 +223,20 @@ void CtrlAltDelete::deactivate() {
 
 YActionButton* CtrlAltDelete::addButton(const mstring& str, unsigned& maxW, unsigned& maxH)
 {
-    YActionButton* b = new YActionButton(this);
-    b->setText(str, -2);
-    if (b->width() > maxW) maxW = b->width();
-    if (b->height() > maxH) maxH = b->height();
-    b->setActionListener(this);
-    b->show();
+    YActionButton* b = new YActionButton(this, str, -2, this);
+    maxW = max(maxW, b->width());
+    maxH = max(maxH, b->height());
     return b;
+}
+
+YActionButton::YActionButton(YWindow* parent, const mstring& text, int hotkey,
+                             YActionListener* listener):
+    YButton(parent, YAction())
+{
+    addStyle(wsNoExpose);
+    setText(text, hotkey);
+    setActionListener(listener);
+    show();
 }
 
 void YActionButton::repaint() {
@@ -249,5 +249,10 @@ void YActionButton::configure(const YRect2& r) {
     }
 }
 
+YDimension YActionButton::getTextSize() {
+    return YDimension(
+            max(72, getActiveFont()->textWidth(getText()) + 12),
+            max(18, getActiveFont()->height()));
+}
 
 // vim: set sw=4 ts=4 et:

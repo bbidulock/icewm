@@ -314,8 +314,7 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
 
         tapp->show();
 
-        if (!(frame->visibleOn(manager->activeWorkspace()) ||
-              trayShowAllWindows))
+        if (!(frame->visibleNow() || trayShowAllWindows))
             tapp->setShown(false);
 
         relayout();

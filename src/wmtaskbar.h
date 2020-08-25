@@ -1,5 +1,5 @@
-#ifndef __TASKBAR_H
-#define __TASKBAR_H
+#ifndef TASKBAR_H
+#define TASKBAR_H
 
 #include "yaction.h"
 #include "ytimer.h"
@@ -76,6 +76,7 @@ private:
 
     void updateWMHints();
     void updateLocation();
+    void updateWinLayer();
     virtual void configure(const YRect2 &r);
     virtual void repaint();
 
@@ -126,7 +127,7 @@ private:
     TaskPane *taskPane() const { return fTasks; }
     TrayPane *windowTrayPane() const { return fWindowTray; }
 
-    virtual ref<YImage> getGradient() const { return fGradient; }
+    virtual ref<YImage> getGradient() { return fGradient; }
     const YSurface& getSurface() const { return fSurface; }
 
     void contextMenu(int x_root, int y_root);
@@ -135,7 +136,6 @@ private:
     YXTray *netwmTray() { return fDesktopTray; }
 
 private:
-    GraphicsBuffer fGraphics;
     YSurface fSurface;
     TaskPane *fTasks;
 
@@ -143,7 +143,7 @@ private:
     TrayPane *fWindowTray;
     YClock *fClock;
     KeyboardStatus *fKeyboardStatus;
-    MailBoxControl *fMailBoxStatus;
+    MailBoxControl *fMailBoxControl;
     MEMStatus *fMEMStatus;
     CPUStatusControl *fCPUStatus;
     YApm *fApm;
@@ -156,30 +156,28 @@ private:
     AddressBar *fAddressBar;
     AWorkspaces *fWorkspaces;
     YXTray *fDesktopTray;
+    EdgeTrigger *fEdgeTrigger;
     YActionListener *wmActionListener;
     YSMListener *smActionListener;
     IApp *app;
+
+    lazy<TaskBarMenu> taskBarMenu;
+    ref<YImage> fGradient;
 
     bool fIsHidden;
     bool fFullscreen;
     bool fIsCollapsed;
     bool fIsMapped;
     bool fMenuShown;
+    bool fNeedRelayout;
+    bool fButtonUpdate;
 
-    lazy<TaskBarMenu> taskBarMenu;
 
     friend class WindowList;
     friend class WindowListBox;
 
-    ref<YImage> fGradient;
-
-    bool fNeedRelayout;
-    bool fButtonUpdate;
-
     void initApplets();
     void updateLayout(unsigned &size_w, unsigned &size_h);
-
-    EdgeTrigger *fEdgeTrigger;
 
     class YStrut {
     public:

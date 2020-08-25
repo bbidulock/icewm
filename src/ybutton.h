@@ -53,8 +53,10 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual ref<YFont> getFont();
+    virtual ref<YFont> getActiveFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
+    virtual YDimension getTextSize();
 
     void setEnabled(bool enabled);
 

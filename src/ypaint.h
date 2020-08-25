@@ -193,6 +193,8 @@ public:
     void setClipRectangles(XRectangle *rect, int count);
     void setClipMask(Pixmap mask = None);
     void resetClip();
+    void maxOpacity();
+
 private:
     Drawable fDrawable;
     GC gc;
@@ -205,6 +207,9 @@ private:
     Picture fPicture;
     int xOrigin, yOrigin;
     unsigned rWidth, rHeight, rDepth;
+
+    Graphics(Graphics const&) = delete;
+    Graphics& operator=(Graphics const&) = delete;
 };
 
 /******************************************************************************/
@@ -212,8 +217,9 @@ private:
 
 class GraphicsBuffer {
 public:
-    GraphicsBuffer(YWindow* ywindow) :
+    GraphicsBuffer(YWindow* ywindow, bool clipping = false) :
         fWindow(ywindow),
+        fClipping(clipping),
         fNesting(0),
         fPixmap(None),
         fDim(0, 0)
@@ -230,6 +236,7 @@ public:
 
 private:
     YWindow* fWindow;
+    bool fClipping;
     int fNesting;
     Pixmap fPixmap;
     YDimension fDim;

@@ -1,5 +1,5 @@
 /* XPM */
-static char * closeI_xpm[] = {
+static char * menuButtonO_xpm[] = {
 "25 50 21 1",
 " 	c None",
 ".	c #4A404A",

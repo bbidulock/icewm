@@ -412,7 +412,7 @@ Show clock on task bar.
 
 =item B<TaskBarShowAPMStatus>=0
 
-Show APM/ACPI/Battery/Power status monitor on task bar.
+Show battery status monitor on task bar.
 
 =item B<TaskBarShowAPMAuto>=1
 
@@ -420,11 +420,11 @@ Enable TaskBarShowAPMStatus if a battery is present.
 
 =item B<TaskBarShowAPMTime>=1
 
-Show APM status on task bar in time-format.
+Show battery status on task bar in time-format
 
 =item B<TaskBarShowAPMGraph>=1
 
-Show APM status in graph mode.
+Show battery status in graph mode.
 
 =item B<TaskBarShowMailboxStatus>=1
 
@@ -547,7 +547,7 @@ Enable mouse wheel cycling over workspaces and task buttons in taskbar.
 
 =item B<TaskBarClockLeds>=0 # 0/1
 
-Task bar clock/APM uses nice pixmap LCD display (but then it
+Task bar clock/battery monitor uses nice pixmap LCD display (but then it
 doesn't display correctly in many languages anymore, e.g., for
 Japanese and Korean it works only when a real font is used and not
 the LCD pixmaps.
@@ -683,7 +683,7 @@ Taskbar justify left, right or center.
 
 =item B<TaskBarApmGraphWidth>=10  [1-1000]
 
-Width of APM Monitor.
+Width of battery Monitor.
 
 =item B<TaskBarGraphHeight>=20  [16-1000]
 
@@ -942,9 +942,17 @@ Create four workspaces with names C< 1 >, C< 2 >, C< 3 > and C< 4 >.
 
 =over
 
-=item B<IconPath>="/usr/share/icons/hicolor:/usr/share/icons:/usr/share/pixmaps"
+=item B<IconPath>="/usr/local/share/icons:/usr/local/share/pixmaps:/usr/share/icons:/usr/share/pixmaps"
 
-Icon search path (colon separated).
+Icon search path (colon separated). Also, the icons/ subdirectory in
+IceWM resource folders are searched first.
+
+=item B<IconThemes>="*:-HighContrast"
+
+List of icon themes (colon separated), acting as additional filter of
+icon subdirectories in any of the B<IconPath> folders. Expressions can be
+wildcards, also special wildcards (starting with B<->) can exclude matched
+themes from selection.
 
 =item B<MailBoxPath>=""
 
@@ -1080,7 +1088,7 @@ Description of the theme, credits.
 
 Choose a theme look from one of:
 "win95", "motif", "warp3", "warp4",
-"nice", "pixmap", "metal", "gtk", "flat".
+"nice", "metal2", "gtk2", and some others.
 
 =item B<Gradients>=""
 
@@ -1131,6 +1139,10 @@ Horizontal offset for the window title text.
 =item B<TitleBarVertOffset>=0  [-128-128]
 
 Vertical offset for the window title text.
+
+=item B<MenuButtonIconVertOffset>=0  [-128-128]
+
+Vertical offset for the menu button icon.
 
 =item B<ScrollBarX>=16  [0-64]
 
@@ -1588,19 +1600,19 @@ Background of non-LCD monitor.
 
 =item B<ColorApm> = "rgb:00/00/00"
 
-Background of APM monitor, leave empty to force transparency.
+Background of battery monitor, leave empty to force transparency.
 
 =item B<ColorApmText> = "rgb:00/FF/00"
 
-Text color of APM monitor.
+Text color of battery monitor.
 
 =item B<ColorApmBattery> = "rgb:FF/FF/00"
 
-Color of APM monitor in battery mode.
+Color of battery monitor when discharging.
 
 =item B<ColorApmLine> = "rgb:00/FF/00"
 
-Color of APM monitor in line mode.
+Color of battery monitor when charging.
 
 =item B<ColorApmGraphBg> = "rgb:00/00/00"
 

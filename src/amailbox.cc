@@ -680,18 +680,21 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     setTitle("MailBox");
     if (mailbox != null) {
         MSG((_("Using MailBox \"%s\"\n"), mailbox.c_str()));
-        checkMail();
-        if (mailCheckDelay > 0) {
-            // caution creating too many openssl processes hogging the cpu
-            long delay = check.ssl() ? max(30, mailCheckDelay)
-                       : check.net() ? max(10, mailCheckDelay)
-                       : mailCheckDelay;
-            fMailboxCheckTimer->setTimer(delay * 1000L, this, true);
-        }
     }
 }
 
 MailBoxStatus::~MailBoxStatus() {
+}
+
+int MailBoxStatus::checkDelay() const {
+    int delay = 0;
+    if (mailCheckDelay > 0) {
+        // caution creating too many openssl processes hogging the cpu
+        delay = check.ssl() ? max(30, mailCheckDelay)
+              : check.net() ? max(10, mailCheckDelay)
+              : mailCheckDelay;
+    }
+    return delay;
 }
 
 bool MailBoxStatus::picture() {
@@ -785,7 +788,9 @@ void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void MailBoxStatus::checkMail() {
-    check.startCheck();
+    if (suspended() == false) {
+        check.startCheck();
+    }
 }
 
 void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
@@ -793,8 +798,6 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
     fCount = count;
     fUnread = unread;
 
-    if (mst != mbxError && fMailboxCheckTimer && mailCheckDelay > 0)
-        fMailboxCheckTimer->startTimer();
     if (mst != fState) {
         fState = mst;
         repaint();
@@ -854,25 +857,14 @@ void MailBoxStatus::newMailArrived(long count, long unread) {
     }
 }
 
-bool MailBoxStatus::handleTimer(YTimer *t) {
-    if (t == fMailboxCheckTimer && suspended() == false) {
-        checkMail();
-        return true;
-    }
-    return false;
-}
-
 void MailBoxStatus::suspend(bool suspend) {
     if (fSuspended != suspend) {
         fSuspended = suspend;
         if (suspend) {
-            fMailboxCheckTimer->stopTimer();
             if (fState != mbxNoMail) {
                 fState = mbxNoMail;
                 repaint();
             }
-        } else {
-            fMailboxCheckTimer->runTimer();
         }
     }
 }
@@ -884,13 +876,41 @@ MailBoxControl::MailBoxControl(IApp *app, YSMListener *smActionListener,
     taskBar(taskBar),
     aParent(aParent),
     fMenuClient(nullptr),
-    fPid(0)
+    fPid(0),
+    fCount(0),
+    fDelay(0),
+    fDelta(1)
 {
     populate();
+    if (fDelay && fMailBoxes.nonempty()) {
+        fCheckTimer->setTimer(fDelta * 1000L, this, true);
+    }
 }
 
 MailBoxControl::~MailBoxControl()
 {
+}
+
+bool MailBoxControl::handleTimer(YTimer* t)
+{
+    if (t == fCheckTimer) {
+        if (fCount < fMailBoxes.getCount()) {
+            fMailBoxes[fCount]->checkMail();
+        }
+        if (++fCount < fMailBoxes.getCount()) {
+            t->setInterval(fDelta * 1000L);
+        }
+        else {
+            int remaining = fDelay - (fCount - 1) * fDelta;
+            if (fCount * fDelta < fDelay) {
+                ++fDelta;
+            }
+            t->setInterval(max(fDelta, remaining) * 1000L);
+            fCount = 0;
+        }
+        return fMailBoxes.nonempty();
+    }
+    return false;
 }
 
 void MailBoxControl::populate()
@@ -903,20 +923,20 @@ void MailBoxControl::populate()
             }
         }
     }
-    if (fMailBoxStatus.isEmpty() && (env = getenv("MAILPATH")) != nullptr) {
+    if (fMailBoxes.isEmpty() && (env = getenv("MAILPATH")) != nullptr) {
         for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
             if (0 <= s.indexOf('/')) {
                 createStatus(s);
             }
         }
     }
-    if (fMailBoxStatus.isEmpty() && (env = getenv("MAIL")) != nullptr) {
+    if (fMailBoxes.isEmpty() && (env = getenv("MAIL")) != nullptr) {
         mstring s(env);
         if (0 <= s.indexOf('/')) {
             createStatus(s);
         }
     }
-    if (fMailBoxStatus.isEmpty() &&
+    if (fMailBoxes.isEmpty() &&
         ((env = getenv("LOGNAME")) != nullptr || (env = getlogin()) != nullptr))
     {
         const char* varmail[] = { "/var/spool/mail/", "/var/mail/", };
@@ -933,7 +953,8 @@ void MailBoxControl::populate()
 void MailBoxControl::createStatus(mstring mailBox)
 {
     MailBoxStatus* box = new MailBoxStatus(this, mailBox, aParent);
-    fMailBoxStatus += box;
+    fMailBoxes += box;
+    fDelay = max(fDelay, box->checkDelay());
 }
 
 void MailBoxControl::runCommandOnce(const char *resource, const char *cmdline)
@@ -968,7 +989,7 @@ void MailBoxControl::handleClick(const XButtonEvent &up, MailBoxStatus *client)
 void MailBoxControl::actionPerformed(YAction action, unsigned int modifiers)
 {
     if (action == actionClose) {
-        if (findRemove(fMailBoxStatus, fMenuClient)) {
+        if (findRemove(fMailBoxes, fMenuClient)) {
             taskBar->relayout();
         }
     }

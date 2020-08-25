@@ -6,63 +6,45 @@
  * MessageBox
  */
 #include "config.h"
-
-#include "ylib.h"
 #include "ymsgbox.h"
-
-#include "WinMgr.h"
-#include "yapp.h"
 #include "yxapp.h"
 #include "wmframe.h"
-#include "sysdep.h"
-#include "yprefs.h"
+#include "ylabel.h"
+#include "yinputline.h"
 #include "prefs.h"
-
 #include "intl.h"
 
-YMsgBox::YMsgBox(int buttons, YWindow *owner): YDialog(owner) {
-    fListener = nullptr;
-    fButtonOK = nullptr;
-    fButtonCancel = nullptr;
-    fLabel = new YLabel(null, this);
-
+YMsgBox::YMsgBox(int buttons):
+    YDialog(),
+    fLabel(nullptr),
+    fInput(nullptr),
+    fButtonOK(nullptr),
+    fButtonCancel(nullptr),
+    fListener(nullptr)
+{
     setToplevel(true);
-
-    if (buttons & mbOK) {
-        fButtonOK = new YActionButton(this);
-        if (fButtonOK) {
-
-            fButtonOK->setText(_("_OK"), -2);
-            fButtonOK->setActionListener(this);
-            fButtonOK->show();
+    if (buttons & mbInput) {
+        fInput = new YInputLine(this);
+        if (fInput) {
+            fInput->show();
         }
     }
+    if (buttons & mbOK) {
+        fButtonOK = new YActionButton(this, _("_OK"), -2, this);
+    }
     if (buttons & mbCancel) {
-        fButtonCancel = new YActionButton(this);
-        if (fButtonCancel) {
-            fButtonCancel->setText(_("_Cancel"), -2);
-            fButtonCancel->setActionListener(this);
-            fButtonCancel->show();
-        }
+        fButtonCancel = new YActionButton(this, _("_Cancel"), -2, this);
     }
     autoSize();
     setWinLayerHint(WinLayerAboveDock);
     setWinWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
-    {
-
-        Atom protocols[2];
-        protocols[0] = _XA_WM_DELETE_WINDOW;
-        protocols[1] = _XA_WM_TAKE_FOCUS;
-        XSetWMProtocols(xapp->display(), handle(), protocols, 2);
-        getProtocols(true);
-    }
+    Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
+    XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
-       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU,
-       0,
-       0));
+       MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU));
 }
 
 YMsgBox::~YMsgBox() {
@@ -73,16 +55,19 @@ YMsgBox::~YMsgBox() {
 
 void YMsgBox::autoSize() {
     unsigned lw = fLabel ? fLabel->width() : 0;
-    unsigned w = lw + 24, h;
+    unsigned w = clamp(lw + 24, 240U, desktop->width());
+    unsigned h = 12;
 
-    w = clamp(w, 240U, desktop->width());
-
-    h = 12;
     if (fLabel) {
         fLabel->setPosition((w - lw) / 2, h);
         h += fLabel->height();
     }
     h += 18;
+
+    if (fInput) {
+        fInput->setPosition((w - fInput->width()) / 2, h);
+        h += 18 + fInput->height();
+    }
 
     unsigned const hh(max(fButtonOK ? fButtonOK->height() : 0,
                           fButtonCancel ? fButtonCancel->height() : 0));
@@ -107,15 +92,21 @@ void YMsgBox::autoSize() {
 
 void YMsgBox::setTitle(mstring title) {
     setWindowTitle(title);
-    autoSize();
 }
 
 void YMsgBox::setText(mstring text) {
     if (fLabel) {
+        fLabel->hide();
         fLabel->setText(text);
-        fLabel->show();
     }
-    autoSize();
+    else {
+        fLabel = new YLabel(text, this);
+    }
+    if (fLabel) {
+        autoSize();
+        fLabel->show();
+        fLabel->repaint();
+    }
 }
 
 void YMsgBox::setPixmap(ref<YPixmap>/*pixmap*/) {

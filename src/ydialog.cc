@@ -14,9 +14,8 @@
 
 static YColorName dialogBg(&clrDialog);
 
-YDialog::YDialog(YWindow *owner):
+YDialog::YDialog():
     YFrameClient(nullptr, nullptr),
-    fOwner(owner),
     fGradient(dialogbackPixbuf),
     fSurface(dialogBg, dialogbackPixmap, getGradient())
 {
@@ -25,7 +24,6 @@ YDialog::YDialog(YWindow *owner):
 }
 
 YDialog::~YDialog() {
-    fGradient = null;
 }
 
 void YDialog::paint(Graphics &g, const YRect& r) {
@@ -33,14 +31,35 @@ void YDialog::paint(Graphics &g, const YRect& r) {
         g.drawSurface(getSurface(), 1, 1, width() - 2, height() - 2);
     g.setColor(dialogBg);
     g.draw3DRect(0, 0, width() - 1, height() - 1, true);
+    if (dialogbackPixbuf != null) {
+        g.maxOpacity();
+    }
+}
+
+ref<YImage> YDialog::getGradient() {
+    if (dialogbackPixbuf != null) {
+        if (width() <= 2 || height() <= 2)
+            fGradient = null;
+        else {
+            unsigned w = width() - 2, h = height() - 2;
+            if (fGradient == null ||
+                w != fGradient->width() ||
+                h != fGradient->height())
+            {
+                fGradient = dialogbackPixbuf->scale(w, h);
+            }
+        }
+    }
+    return fGradient;
+}
+
+const YSurface& YDialog::getSurface() {
+    fSurface.gradient = getGradient();
+    return fSurface;
 }
 
 void YDialog::configure(const YRect2& r) {
     if (r.resized()) {
-        if (dialogbackPixbuf == null || r.width() <= 2 || r.height() <= 2)
-            fGradient = null;
-        else
-            fGradient = dialogbackPixbuf->scale(r.width() - 2, r.height() - 2);
         repaint();
     }
 }

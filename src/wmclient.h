@@ -81,6 +81,7 @@ public:
     virtual bool focused() const = 0;
     virtual bool visibleNow() const = 0;
     virtual bool canClose() const = 0;
+    virtual bool canShow() const = 0;
     virtual bool canHide() const = 0;
     virtual bool canLower() const = 0;
     virtual bool canMinimize() const = 0;
@@ -187,14 +188,8 @@ public:
     void getNetWmIconName();
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
-#ifdef CONFIG_I18N
-    void setWindowTitle(const XTextProperty & title);
-    void setIconTitle(const XTextProperty & title);
-#endif
     mstring windowTitle() { return fWindowTitle; }
     mstring iconTitle() { return fIconTitle; }
-
-    bool getWinIcons(Atom *type, int *count, long **elem);
 
     void setWinWorkspaceHint(long workspace);
     bool getWinWorkspaceHint(long *workspace);
@@ -212,7 +207,10 @@ public:
     bool getWinHintsHint(long *hints);
     long winHints() const { return fWinHints; }
 
-    bool getNetWMIcon(int *count, long **elem);
+    bool getWinIcons(Atom* type, long* count, long** elem);
+    bool getKwmIcon(long* count, Pixmap** pixmap);
+    bool getNetWMIcon(long* count, long** elem);
+
     bool getNetWMStateHint(long *mask, long *state);
     bool getNetWMDesktopHint(long *workspace);
     bool getNetWMPid(long *pid);
@@ -237,12 +235,8 @@ public:
     long mwmFunctions();
     long mwmDecors();
 
-    bool getKwmIcon(int *count, Pixmap **pixmap);
-
     bool shaped() const { return fShaped; }
-#ifdef CONFIG_SHAPE
     void queryShape();
-#endif
 
     void getClientLeader();
     void getWindowRole();

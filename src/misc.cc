@@ -214,7 +214,7 @@ void logConfigureNotify(const union _XEvent& xev) {
 }
 
 void logConfigureRequest(const union _XEvent& xev) {
-    msg("window=0x%lX: %s configureRequest serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, detail=%d, value_mask=0x%lX %s%s%s%s%s%s",
+    msg("window=0x%lX: %s configureRequest serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, sibling=0x%lX, detail=%s, value_mask=0x%lX %s%s%s%s%s%s",
         xev.xconfigurerequest.window,
         xev.xconfigurerequest.send_event ? "synth" : "real",
         (unsigned long) xev.xany.serial,
@@ -225,7 +225,11 @@ void logConfigureRequest(const union _XEvent& xev) {
         xev.xconfigurerequest.height,
         xev.xconfigurerequest.border_width,
         xev.xconfigurerequest.above,
-        xev.xconfigurerequest.detail,
+        xev.xconfigurerequest.detail == Above ? "Above" :
+        xev.xconfigurerequest.detail == Below ? "Below" :
+        xev.xconfigurerequest.detail == TopIf ? "TopIf" :
+        xev.xconfigurerequest.detail == BottomIf ? "BottomIf" :
+        xev.xconfigurerequest.detail == Opposite ? "Opposite" : "Invalid",
         xev.xconfigurerequest.value_mask,
         xev.xconfigurerequest.value_mask & CWX ? "X" : "",
         xev.xconfigurerequest.value_mask & CWY ? "Y" : "",

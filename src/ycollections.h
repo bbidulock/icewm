@@ -45,12 +45,15 @@ protected:
     // shall not be copyable
     YVec(const YVec& other);
     YVec operator=(const YVec& other);
+    YVec& operator=(YVec&& other) { other.swap(*this); return *this; }
 
 public:
     SizeType size;
     DataType *data;
     inline YVec(): capa(0), size(0), data(nullptr) {}
     inline YVec(SizeType initialCapa):  capa(initialCapa), size(0), data(new DataType[initialCapa]) { }
+    inline YVec(YVec&& src) { src.swap(*this); }
+
     inline void reset() {
         if (!size) return;
         delete[] data; data = nullptr;
@@ -59,10 +62,16 @@ public:
     inline void preserve(SizeType wanted) { if (wanted > capa) resize(wanted); }
     inline SizeType remainingCapa() { return capa - size; }
     inline ~YVec() { reset(); }
+    void swap(YVec& other) { if(this == &other) return; ::swap(data, other.data); ::swap(size, other.size); }
     DataType& add(const DataType& element) {
         if (size >= capa)
             inflate();
         return data[size++] = element;
+    }
+    DataType& emplace_back(DataType&& element) {
+        if (size >= capa)
+            inflate();
+        return data[size++] = static_cast<DataType&&>(element);
     }
     DataType& insert(const DataType& element, SizeType destPos)
     {
@@ -89,6 +98,9 @@ public:
     inline iterator getIterator(bool reverse = false) {
         return iterator(this, reverse);
     }
+    // STL-friendly iterator
+    DataType* begin() { return data; }
+    DataType* end() { return data + size; }
 };
 /**
  * Simple container based on YVec but made only for raw pointers of the particular type.

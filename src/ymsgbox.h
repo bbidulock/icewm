@@ -1,11 +1,13 @@
-#ifndef __YMSGBOX_H
-#define __YMSGBOX_H
+#ifndef YMSGBOX_H
+#define YMSGBOX_H
 
 #include "ydialog.h"
-#include "ylabel.h"
 #include "yactionbutton.h"
 
 class YMsgBox;
+class YLabel;
+class YInputLine;
+class YInputListener;
 
 class YMsgBoxListener {
 public:
@@ -14,9 +16,9 @@ protected:
     virtual ~YMsgBoxListener() {}
 };
 
-class YMsgBox: public YDialog, public YActionListener {
+class YMsgBox: public YDialog, private YActionListener {
 public:
-    YMsgBox(int buttons, YWindow *owner = nullptr);
+    YMsgBox(int buttons);
     virtual ~YMsgBox();
 
     void setTitle(mstring title);
@@ -25,6 +27,7 @@ public:
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }
     YMsgBoxListener *getMsgBoxListener() const { return fListener; }
+    YInputLine* input() const { return fInput; }
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClose();
@@ -32,21 +35,19 @@ public:
 
     enum {
         mbOK = 0x1,
-        mbCancel = 0x2
+        mbCancel = 0x2,
+        mbInput = 0x4,
     };
 
     void showFocused();
-
     void autoSize();
 
 private:
-    YLabel *fLabel;
-    YActionButton *fButtonOK;
-    YActionButton *fButtonCancel;
-
-    int addButton(YButton *button);
-
-    YMsgBoxListener *fListener;
+    YLabel* fLabel;
+    YInputLine* fInput;
+    YActionButton* fButtonOK;
+    YActionButton* fButtonCancel;
+    YMsgBoxListener* fListener;
 };
 
 #endif

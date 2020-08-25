@@ -251,7 +251,7 @@ void KProgram::open(unsigned mods) {
 
     if (bIsDynSwitchMenu) {
         if (!pSwitchWindow) {
-            pSwitchWindow = new SwitchWindow(manager, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
+            pSwitchWindow = new SwitchWindow(desktop, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
         }
         pSwitchWindow->begin(true, mods);
     }
@@ -597,7 +597,7 @@ public:
 
     static bool updateOption(cfoption* o, char* text) {
         char buf[99];
-        snprintf(buf, sizeof buf, "^[ \t]*%s[ \t]*=[ \t]*[!-~]", o->name);
+        snprintf(buf, sizeof buf, "^[ \t]*%s[ \t]*=", o->name);
         regex_t pat = {};
         int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);
         if (c) {
@@ -632,7 +632,7 @@ public:
 
     static bool insertOption(cfoption* o, char* text) {
         char buf[99];
-        snprintf(buf, sizeof buf, "^#+[ \t]*%s[ \t]*=[ \t]*[!-~]", o->name);
+        snprintf(buf, sizeof buf, "^#+[ \t]*%s[ \t]*=", o->name);
         regex_t pat = {};
         int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);
         if (c) {
@@ -662,7 +662,7 @@ public:
         if (text) {
             char buf[99];
             snprintf(buf, sizeof buf,
-                     "(\n(#  .*\n)*)#+[ \t]*%s[ \t]*=[ \t]*[!-~]",
+                     "(\n(#  .*\n)*)#+[ \t]*%s[ \t]*=",
                      o->name);
             regex_t pat = {};
             int c = regcomp(&pat, buf, REG_EXTENDED | REG_NEWLINE);

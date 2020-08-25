@@ -1,5 +1,5 @@
-#ifndef __YWINDOW_H
-#define __YWINDOW_H
+#ifndef YWINDOW_H
+#define YWINDOW_H
 
 #include "ypaint.h"
 #include "ycursor.h"
@@ -63,7 +63,8 @@ public:
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
     bool getWindowAttributes(XWindowAttributes* attr);
-
+    void beneath(YWindow* superior);
+    void raiseTo(YWindow* inferior);
     void setWindowFocus();
 
     bool fetchTitle(char** title);
@@ -100,9 +101,6 @@ public:
     virtual void handleSelectionRequest(const XSelectionRequestEvent &request);
     virtual void handleSelection(const XSelectionEvent &selection);
     virtual void handleVisibility(const XVisibilityEvent &visibility);
-#if 0
-    virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
-#endif
     virtual void handleGravityNotify(const XGravityEvent &gravity);
     virtual void handleMapNotify(const XMapEvent &map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
@@ -132,7 +130,6 @@ public:
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
     void setPointer(const YCursor& pointer);
-    void setGrabPointer(const YCursor& pointer);
     void grabKeyM(int key, unsigned modifiers);
     void grabKey(int key, unsigned modifiers);
     void grabVKey(int key, unsigned vmodifiers);
@@ -152,9 +149,8 @@ public:
     void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
     void paintExpose(int ex, int ey, int ew, int eh);
 
-    Graphics & getGraphics();
-
-    virtual ref<YImage> getGradient() const {
+    Graphics& getGraphics();
+    virtual ref<YImage> getGradient() {
         return (parent() ? parent()->getGradient() : null); }
 
     int x() const { return fX; }
@@ -186,6 +182,7 @@ public:
         wsPointerMotion    = 1 << 5,
         wsDesktopAware     = 1 << 6,
         wsToolTip          = 1 << 7,
+        wsBackingMapped    = 1 << 8,
     };
 
     virtual bool isFocusTraversable();
@@ -232,6 +229,7 @@ public:
     virtual void handleDNDPosition(int x, int y);
 
     bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
+    bool dragging() const { return fClickDrag && fClickWindow == this; }
     int getClickCount() { return fClickCount; }
     int getScreen();
 
@@ -312,7 +310,7 @@ private:
     static YWindow *fClickWindow;
     static Time fClickTime;
     static int fClickCount;
-    static int fClickDrag;
+    static bool fClickDrag;
     static unsigned fClickButton;
     static unsigned fClickButtonDown;
     static unsigned long lastEnterNotifySerial;

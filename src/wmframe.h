@@ -1,5 +1,5 @@
-#ifndef __WMFRAME_H
-#define __WMFRAME_H
+#ifndef WMFRAME_H
+#define WMFRAME_H
 
 #include "ymsgbox.h"
 #include "wmoption.h"
@@ -16,9 +16,9 @@ class YFrameTitleBar;
 class YFrameWindow:
     public YWindow,
     public YActionListener,
-    public YTimerListener,
-    public YPopDownListener,
-    public YMsgBoxListener,
+    private YTimerListener,
+    private YPopDownListener,
+    private YMsgBoxListener,
     public ClientData,
     public YLayeredNode,
     public YCreatedNode,
@@ -37,7 +37,7 @@ public:
     void unmanage(bool reparent = true);
     void sendConfigure();
 
-    Window createPointerWindow(Cursor cursor, Window parent);
+    Window createPointerWindow(Cursor cursor, int gravity);
     void createPointerWindows();
     void grabKeys();
 
@@ -149,6 +149,7 @@ public:
     bool canMinimize() const;
     bool canRestore() const;
     bool canRollup() const;
+    bool canShow() const;
     bool canHide() const;
     bool canLower() const;
     bool canRaise();
@@ -158,8 +159,8 @@ public:
 
     void insertFrame(bool top);
     void removeFrame();
-    void setAbove(YFrameWindow *aboveFrame); // 0 = at the bottom
-    void setBelow(YFrameWindow *belowFrame); // 0 = at the top
+    bool setAbove(YFrameWindow *aboveFrame);
+    bool setBelow(YFrameWindow *belowFrame);
 
     enum FindWindowFlags {
         fwfVisible    = 1 << 0, // visible windows only
@@ -198,9 +199,7 @@ public:
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
 
-#ifdef CONFIG_SHAPE
     void setShape();
-#endif
 
     enum YFrameFunctions {
         ffMove          = (1 << 0),
@@ -269,6 +268,7 @@ public:
     long getState() const { return fWinState; }
     void setState(long mask, long state);
     bool hasState(long bit) const { return hasbit(fWinState, bit); }
+    bool notState(long bit) const { return !hasbit(fWinState, bit); }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
 
@@ -306,7 +306,7 @@ public:
     ref<YIcon> getClientIcon() const { return fFrameIcon; }
     ref<YIcon> clientIcon() const;
 
-    void getNormalGeometryInner(int *x, int *y, int *w, int *h);
+    void getNormalGeometryInner(int *x, int *y, int *w, int *h) const;
     void setNormalGeometryOuter(int x, int y, int w, int h);
     void setNormalPositionOuter(int x, int y);
     void setNormalGeometryInner(int x, int y, int w, int h);
@@ -314,6 +314,7 @@ public:
 
     void setCurrentGeometryOuter(YRect newSize);
     void setCurrentPositionOuter(int x, int y);
+    void limitOuterPosition();
     void updateNormalSize();
 
     void updateTitle();
@@ -321,7 +322,7 @@ public:
     void updateIcon();
     void updateState();
     void updateLayer(bool restack = true);
-    //void updateWorkspace();
+    void updateIconPosition();
     void updateLayout();
     void updateExtents();
     void performLayout();
@@ -378,7 +379,7 @@ public:
     bool wasHidden() const { return hasState(WinStateWasHidden); }
 
     bool isIconic() const { return isMinimized() && fMiniIcon; }
-
+    bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
 
     bool isManaged() const { return fManaged; }
@@ -426,7 +427,7 @@ public:
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() { return fWmUrgency || fClientUrgency; }
 
-    int getScreen();
+    int getScreen() const;
     void refresh();
 
     long getOldLayer() { return fOldLayer; }
@@ -460,8 +461,6 @@ private:
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
     int extentLeft, extentRight, extentTop, extentBottom;
-
-    int iconX, iconY;
 
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
@@ -526,6 +525,8 @@ private:
     int fShapeTitleY;
     int fShapeBorderX;
     int fShapeBorderY;
+    unsigned fShapeDecors;
+    mstring fShapeTitle;
 
     bool fHaveStruts;
     bool fWmUrgency;
@@ -558,7 +559,6 @@ private:
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
     }
-    friend class MiniIcon;
 };
 
 #endif

@@ -640,14 +640,13 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
             if (w->toplevel())
                 w = w->toplevel();
 
-            if (w->getFocusWindow() != nullptr)
+            if (w->getFocusWindow())
                 w = w->getFocusWindow();
         }
 
-        while (w && (w->handleKey(xev.xkey) == false)) {
+        for (; w && (w->handleKey(xev.xkey) == false); w = w->parent()) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
-            w = w->parent();
         }
     } else {
         Window child;
@@ -717,10 +716,9 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
             return ;
         {
             YWindow *p = win.ptr;
-            while (p) {
+            for (; p; p = p->parent()) {
                 if (p == fXGrabWindow)
                     break;
-                p = p->parent();
             }
             if (p == nullptr) {
                 if (xev.type == EnterNotify || xev.type == LeaveNotify)
@@ -757,66 +755,60 @@ void YXApplication::releaseGrabEvents(YWindow *win) {
     }
 }
 
-int YXApplication::grabEvents(YWindow *win, Cursor ptr, unsigned int eventMask, int grabMouse, int grabKeyboard, int grabTree) {
-    int rc;
-
-    if (fGrabWindow != nullptr)
-        return 0;
-    if (win == nullptr)
-        return 0;
+bool YXApplication::grabEvents(YWindow *win, Cursor ptr,
+        unsigned long eventMask, bool grabMouse, bool grabKeyboard, bool grabTree)
+{
+    if (fGrabWindow || !win)
+        return false;
 
     fGrabTree = grabTree;
+    fGrabMouse = grabMouse;
     if (grabMouse) {
-        fGrabMouse = 1;
-        rc = XGrabPointer(display(), win->handle(),
-                          grabTree ? True : False,
-                          eventMask,
-                          GrabModeSync, GrabModeAsync,
-                          None, ptr, CurrentTime);
-
-        if (rc != Success) {
+        int rc = XGrabPointer(display(), win->handle(), grabTree,
+                              eventMask, GrabModeSync, GrabModeAsync,
+                              None, ptr, CurrentTime);
+        if (rc) {
             MSG(("grab status = %d\x7", rc));
-            return 0;
+            return false;
         }
-    } else {
-        fGrabMouse = 0;
-
-        XChangeActivePointerGrab(display(),
-                                 eventMask,
-                                 ptr, CurrentTime);
+    }
+    else {
+        XChangeActivePointerGrab(display(), eventMask, ptr, CurrentTime);
     }
 
     if (grabKeyboard) {
-        rc = XGrabKeyboard(display(), win->handle(),
-                           ///False,
-                           grabTree ? True : False,
-                           GrabModeSync, GrabModeAsync, CurrentTime);
-        if (rc != Success && grabMouse) {
+        int rc = XGrabKeyboard(display(), win->handle(), grabTree,
+                               GrabModeSync, GrabModeAsync, CurrentTime);
+        if (rc) {
             MSG(("grab status = %d\x7", rc));
-            XUngrabPointer(display(), CurrentTime);
-            return 0;
+            if (grabMouse) {
+                XUngrabPointer(display(), CurrentTime);
+                fGrabMouse = false;
+            }
+            return false;
         }
     }
     XAllowEvents(xapp->display(), SyncPointer, CurrentTime);
 
     fXGrabWindow = win;
     fGrabWindow = win;
-    return 1;
+    return true;
 }
 
-int YXApplication::releaseEvents() {
+bool YXApplication::releaseEvents() {
     if (fGrabWindow == nullptr)
-        return 0;
+        return false;
+
     fGrabWindow = nullptr;
     fXGrabWindow = nullptr;
-    fGrabTree = 0;
+    fGrabTree = false;
     if (fGrabMouse) {
         XUngrabPointer(display(), CurrentTime);
-        fGrabMouse = 0;
+        fGrabMouse = false;
     }
     XUngrabKeyboard(display(), CurrentTime);
 
-    return 1;
+    return true;
 }
 
 void YXApplication::afterWindowEvent(XEvent & /*xev*/) {
@@ -1088,10 +1080,10 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     lastEventTime(CurrentTime),
     fPopup(nullptr),
     xfd(this),
-    fGrabTree(0),
     fXGrabWindow(nullptr),
-    fGrabMouse(0),
     fGrabWindow(nullptr),
+    fGrabTree(false),
+    fGrabMouse(false),
     fReplayEvent(false)
 {
     xapp = this;
@@ -1218,13 +1210,11 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
     if (windowContext.find(xwindow, &window.ptr))
     {
         if ((xev.type == KeyPress || xev.type == KeyRelease)
-            && window.ptr->toplevel() != nullptr)
+            && window.ptr->toplevel())
         {
-            YWindow *w = window.ptr;
+            YWindow *w = window.ptr->toplevel();
 
-            w = w->toplevel();
-
-            if (w->getFocusWindow() != nullptr)
+            if (w->getFocusWindow())
                 w = w->getFocusWindow();
 
             dispatchEvent(w, xev);
@@ -1235,17 +1225,17 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
         if (xev.type == MapRequest) {
             // !!! java seems to do this ugliness
             //YFrameWindow *f = getFrame(xev.xany.window);
-            tlog("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
+            TLOG(("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
-                xev.xmaprequest.window);
+                xev.xmaprequest.window));
             desktop->handleEvent(xev);
         } else if (xev.type == ConfigureRequest) {
-            tlog("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
+            TLOG(("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
                 xev.xmaprequest.parent,
-                xev.xmaprequest.window);
+                xev.xmaprequest.window));
             desktop->handleEvent(xev);
         }
-        else if (xev.type == ClientMessage && desktop != nullptr) {
+        else if (xev.type == ClientMessage && desktop) {
             Atom mesg = xev.xclient.message_type;
             if (mesg == _XA_NET_REQUEST_FRAME_EXTENTS) {
                 desktop->handleEvent(xev);

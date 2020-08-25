@@ -313,14 +313,16 @@ nobase_dist_pkgdata_DATA = \
 	themes/default/rollupI.xpm \
 	themes/default/default.png \
 	themes/CrystalBlue/taskbar/desktop.xpm \
+	themes/CrystalBlue/taskbar/taskbuttonactive.xpm \
 	themes/CrystalBlue/taskbar/taskbuttonminimized.xpm \
-	themes/CrystalBlue/taskbar/toolbuttonbg.xpm \
 	themes/CrystalBlue/taskbar/taskbuttonbg.xpm \
 	themes/CrystalBlue/taskbar/taskbarbg.xpm \
+	themes/CrystalBlue/taskbar/toolbuttonbg.xpm \
+	themes/CrystalBlue/taskbar/workspacebuttonactive.xpm \
+	themes/CrystalBlue/taskbar/workspacebuttonbg.xpm \
 	themes/CrystalBlue/taskbar/expand.xpm \
 	themes/CrystalBlue/taskbar/windows.xpm \
 	themes/CrystalBlue/taskbar/icewm.xpm \
-	themes/CrystalBlue/taskbar/taskbuttonactive.xpm \
 	themes/CrystalBlue/taskbar/collapse.xpm \
 	themes/CrystalBlue/ledclock/dot.xpm \
 	themes/CrystalBlue/ledclock/n3.xpm \
@@ -339,75 +341,77 @@ nobase_dist_pkgdata_DATA = \
 	themes/CrystalBlue/ledclock/n4.xpm \
 	themes/CrystalBlue/ledclock/slash.xpm \
 	themes/CrystalBlue/ledclock/a.xpm \
-	themes/CrystalBlue/rolldownO.xpm \
+	themes/CrystalBlue/buttonA.xpm \
+	themes/CrystalBlue/buttonI.xpm \
+	themes/CrystalBlue/close.xpm \
+	themes/CrystalBlue/closeA.xpm \
+	themes/CrystalBlue/closeO.xpm \
+	themes/CrystalBlue/default.theme \
+	themes/CrystalBlue/dframeAB.xpm \
+	themes/CrystalBlue/dframeABL.xpm \
+	themes/CrystalBlue/dframeABR.xpm \
+	themes/CrystalBlue/dframeAL.xpm \
+	themes/CrystalBlue/dframeAR.xpm \
+	themes/CrystalBlue/dframeAT.xpm \
+	themes/CrystalBlue/dframeATL.xpm \
+	themes/CrystalBlue/dframeATR.xpm \
+	themes/CrystalBlue/dframeIB.xpm \
+	themes/CrystalBlue/dframeIBL.xpm \
+	themes/CrystalBlue/dframeIBR.xpm \
+	themes/CrystalBlue/dframeIL.xpm \
+	themes/CrystalBlue/dframeIR.xpm \
+	themes/CrystalBlue/dframeIT.xpm \
+	themes/CrystalBlue/dframeITL.xpm \
+	themes/CrystalBlue/dframeITR.xpm \
+	themes/CrystalBlue/frameAB.xpm \
+	themes/CrystalBlue/frameABL.xpm \
+	themes/CrystalBlue/frameABR.xpm \
+	themes/CrystalBlue/frameAL.xpm \
+	themes/CrystalBlue/frameAR.xpm \
 	themes/CrystalBlue/frameAT.xpm \
 	themes/CrystalBlue/frameATL.xpm \
+	themes/CrystalBlue/frameATR.xpm \
+	themes/CrystalBlue/frameIB.xpm \
+	themes/CrystalBlue/frameIBL.xpm \
+	themes/CrystalBlue/frameIBR.xpm \
+	themes/CrystalBlue/frameIL.xpm \
+	themes/CrystalBlue/frameIR.xpm \
+	themes/CrystalBlue/frameIT.xpm \
 	themes/CrystalBlue/frameITL.xpm \
+	themes/CrystalBlue/frameITR.xpm \
+	themes/CrystalBlue/maximize.xpm \
+	themes/CrystalBlue/maximizeA.xpm \
+	themes/CrystalBlue/maximizeO.xpm \
+	themes/CrystalBlue/menuButtonA.xpm \
+	themes/CrystalBlue/menuButtonI.xpm \
+	themes/CrystalBlue/menubg.xpm \
+	themes/CrystalBlue/menusel.xpm \
+	themes/CrystalBlue/minimize.xpm \
+	themes/CrystalBlue/minimizeA.xpm \
+	themes/CrystalBlue/minimizeO.xpm \
+	themes/CrystalBlue/restore.xpm \
+	themes/CrystalBlue/restoreA.xpm \
+	themes/CrystalBlue/restoreO.xpm \
+	themes/CrystalBlue/rolldown.xpm \
+	themes/CrystalBlue/rolldownA.xpm \
+	themes/CrystalBlue/rolldownO.xpm \
+	themes/CrystalBlue/rollup.xpm \
+	themes/CrystalBlue/rollupA.xpm \
+	themes/CrystalBlue/rollupO.xpm \
+	themes/CrystalBlue/titleAB.xpm \
 	themes/CrystalBlue/titleAJ.xpm \
 	themes/CrystalBlue/titleAM.xpm \
-	themes/CrystalBlue/rollupA.xpm \
-	themes/CrystalBlue/titleIQ.xpm \
-	themes/CrystalBlue/dframeATR.xpm \
-	themes/CrystalBlue/frameATR.xpm \
-	themes/CrystalBlue/titleAB.xpm \
-	themes/CrystalBlue/restoreA.xpm \
-	themes/CrystalBlue/frameAL.xpm \
-	themes/CrystalBlue/default.theme \
-	themes/CrystalBlue/frameIBR.xpm \
-	themes/CrystalBlue/frameIBL.xpm \
-	themes/CrystalBlue/minimize.xpm \
-	themes/CrystalBlue/titleIT.xpm \
-	themes/CrystalBlue/dframeABR.xpm \
-	themes/CrystalBlue/dframeIBR.xpm \
-	themes/CrystalBlue/titleIS.xpm \
-	themes/CrystalBlue/frameAB.xpm \
-	themes/CrystalBlue/rolldownA.xpm \
-	themes/CrystalBlue/frameABL.xpm \
-	themes/CrystalBlue/closeA.xpm \
-	themes/CrystalBlue/dframeABL.xpm \
-	themes/CrystalBlue/close.xpm \
-	themes/CrystalBlue/frameIR.xpm \
-	themes/CrystalBlue/frameABR.xpm \
-	themes/CrystalBlue/menuButtonI.xpm \
-	themes/CrystalBlue/titleIM.xpm \
-	themes/CrystalBlue/closeO.xpm \
-	themes/CrystalBlue/restoreO.xpm \
-	themes/CrystalBlue/titleAQ.xpm \
-	themes/CrystalBlue/rollupO.xpm \
-	themes/CrystalBlue/dframeITL.xpm \
-	themes/CrystalBlue/dframeIL.xpm \
-	themes/CrystalBlue/dframeIBL.xpm \
-	themes/CrystalBlue/titleIB.xpm \
 	themes/CrystalBlue/titleAP.xpm \
-	themes/CrystalBlue/frameITR.xpm \
-	themes/CrystalBlue/frameIB.xpm \
+	themes/CrystalBlue/titleAQ.xpm \
 	themes/CrystalBlue/titleAS.xpm \
-	themes/CrystalBlue/dframeAT.xpm \
-	themes/CrystalBlue/titleIJ.xpm \
-	themes/CrystalBlue/frameIT.xpm \
-	themes/CrystalBlue/dframeIT.xpm \
-	themes/CrystalBlue/menuButtonA.xpm \
-	themes/CrystalBlue/dframeITR.xpm \
-	themes/CrystalBlue/dframeIB.xpm \
-	themes/CrystalBlue/maximizeO.xpm \
-	themes/CrystalBlue/dframeAB.xpm \
-	themes/CrystalBlue/dframeAL.xpm \
-	themes/CrystalBlue/menusel.xpm \
-	themes/CrystalBlue/dframeIR.xpm \
-	themes/CrystalBlue/minimizeO.xpm \
-	themes/CrystalBlue/dframeAR.xpm \
-	themes/CrystalBlue/minimizeA.xpm \
 	themes/CrystalBlue/titleAT.xpm \
-	themes/CrystalBlue/menubg.xpm \
-	themes/CrystalBlue/rollup.xpm \
-	themes/CrystalBlue/maximize.xpm \
-	themes/CrystalBlue/restore.xpm \
-	themes/CrystalBlue/dframeATL.xpm \
-	themes/CrystalBlue/frameIL.xpm \
-	themes/CrystalBlue/frameAR.xpm \
-	themes/CrystalBlue/maximizeA.xpm \
-	themes/CrystalBlue/rolldown.xpm \
+	themes/CrystalBlue/titleIB.xpm \
+	themes/CrystalBlue/titleIJ.xpm \
+	themes/CrystalBlue/titleIM.xpm \
 	themes/CrystalBlue/titleIP.xpm \
+	themes/CrystalBlue/titleIQ.xpm \
+	themes/CrystalBlue/titleIS.xpm \
+	themes/CrystalBlue/titleIT.xpm \
 	themes/Helix/closeA.xpm \
 	themes/Helix/closeI.xpm \
 	themes/Helix/maximizeA.xpm \
@@ -447,8 +451,6 @@ nobase_dist_pkgdata_DATA = \
 	themes/NanoBlue/dframeIT.xpm \
 	themes/NanoBlue/dframeITL.xpm \
 	themes/NanoBlue/dframeITR.xpm \
-	themes/NanoBlue/drameAB.xpm \
-	themes/NanoBlue/drameATR.xpm \
 	themes/NanoBlue/eos.jpg \
 	themes/NanoBlue/expandA.xpm \
 	themes/NanoBlue/expandI.xpm \

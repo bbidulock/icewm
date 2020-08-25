@@ -1,5 +1,5 @@
 /* XPM */
-static char * frameABR_xpm[] = {
+static char * dframeIBR_xpm[] = {
 "12 14 46 1",
 " 	c None",
 ".	c #000000",

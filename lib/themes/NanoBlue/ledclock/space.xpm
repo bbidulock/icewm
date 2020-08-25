@@ -1,5 +1,5 @@
 /* XPM */
-static char * n1_xpm[] = {
+static char * space_xpm[] = {
 "10 20 15 1",
 " 	c None",
 ".	c #313831",

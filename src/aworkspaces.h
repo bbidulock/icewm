@@ -1,9 +1,7 @@
 #ifndef AWORKSPACES_H_
 #define AWORKSPACES_H_
 
-#include "ywindow.h"
-#include "obj.h"
-#include "objbutton.h"
+#include "ybutton.h"
 #include "yinputline.h"
 
 class WorkspaceDragger {
@@ -47,15 +45,16 @@ private:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
+    virtual ref<YFont> getActiveFont();
     virtual ref<YFont> getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
+    virtual YDimension getTextSize();
 
     virtual void inputReturn(YInputLine* input);
     virtual void inputEscape(YInputLine* input);
     virtual void inputLostFocus(YInputLine* input);
     virtual void paint(Graphics &g, const YRect &r);
-    virtual void paintBackground(Graphics &g, const YRect &r);
 
     int fWorkspace;
     int fDelta;

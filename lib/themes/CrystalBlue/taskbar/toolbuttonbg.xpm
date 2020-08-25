@@ -1,5 +1,5 @@
 /* XPM */
-static char * taskbarbg_xpm[] = {
+static char * toolbuttonbg_xpm[] = {
 "1 25 25 1",
 " 	c None",
 ".	c #7987CF",

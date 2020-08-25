@@ -1,7 +1,13 @@
-icewm -- authors file.  2020-05-29
+icewm -- authors file.  2020-07-12
 
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Author: Stanislav Brabec <sbrabec@suse.cz>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: Kimmo Kujansuu <mrkujansuu@gmail.com>
+Author: Jens Maucher <jens.maucher@gmx.de>
 Author: Eduard Bloch <blade@debian.org>
+Author: CJ Kucera <pez@apocalyptech.com>
+Author: Efstathios Iosifidis <eiosifidis@gmail.com>
 Author: Markéta Calábková <meggy.calabkova@gmail.com>
 Author: ingemar karlsson <ingemar_bengt@hotmail.com>
 Author: Andika Triwidada <andika@gmail.com>
@@ -11,18 +17,15 @@ Author: Davide Aiello <davidea@novilinguists.com>
 Author: Kukuh Syafaat <syafaatkukuh@gmail.com>
 Author: Franziska Weinberger <f.weinberger@gemino.de>
 Author: Christine Gabriel <christine@stoquart.com>
-Author: Kimmo Kujansuu <mrkujansuu@gmail.com>
 Author: Grace Yu <grace.yu@excel-gits.com>
 Author: mohammad alhargan <malham1@gmail.com>
 Author: Kukuh Syafaat <kukuh@syafaat.id>
 Author: scootergrisen <scootergrisen@gmail.com>
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
 Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
 Author: Freek de Kruijf <freek@opensuse.org>
 Author: Aleš Kastner <alkas@volny.cz>
 Author: David Medina <medipas@gmail.com>
 Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Author: Stanislav Brabec <sbrabec@suse.cz>
 Author: openSUSE Weblate <weblate-noreply@opensuse.org>
 Author: Sarah Kriesch <ada.lovelace@gmx.de>
 Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
@@ -91,7 +94,6 @@ Author: Dmitry Semyonov <linulin@gmail.com>
 Author: Attila Kinali <attila@kinali.ch>
 Author: Benoît Monin <benoit.monin@gmx.fr>
 Author: Karl Ove Hufthammer <karl@huftis.org>
-Author: Efstathios Iosifidis <eiosifidis@gmail.com>
 Author: Guillaume GARDET <guillaume.gardet@opensuse.org>
 Author: Bernhard Wiedemann <bwiedemann@suse.com>
 Author: Mario <kdesi@kdesi.sk>
