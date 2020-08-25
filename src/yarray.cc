@@ -224,11 +224,11 @@ void YStringArray::sort() {
 }
 
 char * const *YStringArray::getCArray() const {
-    return (char * const*) getBegin();
+    return (char * const*) begin();
 }
 
 char **YStringArray::release() {
-    char **strings = (char **) getBegin();
+    char **strings = (char **) begin();
     YBaseArray::release();
     return strings;
 }

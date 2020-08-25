@@ -27,7 +27,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fDelta(0),
     fDownX(0),
     fDragging(false),
-    fGraphics(this),
+    fGraphics(this, true),
     fPane(d)
 {
     addStyle(wsNoExpose);
@@ -44,24 +44,6 @@ void WorkspaceButton::configure(const YRect2& r) {
 
 void WorkspaceButton::repaint() {
     fGraphics.paint();
-}
-
-void WorkspaceButton::paintBackground(Graphics& g, const YRect& r) {
-    if (taskbackPixbuf != null) {
-        g.clearArea(r.x(), r.y(), r.width(), r.height());
-        g.drawGradient(taskbackPixbuf,
-                       r.x(), r.y(), r.width(), r.height(),
-                       0, 0, width(), height());
-    }
-    else if (taskbackPixmap != null) {
-        g.fillPixmap(taskbackPixmap,
-                     r.x(), r.y(), r.width(), r.height(),
-                     r.x(), r.y());
-    }
-    else {
-        g.setColor(taskBarBg);
-        g.fillRect(r.x(), r.y(), r.width(), r.height());
-    }
 }
 
 void WorkspaceButton::handleButton(const XButtonEvent &button) {
@@ -355,6 +337,7 @@ void WorkspacesPane::relabelButtons() {
         repositionButtons();
 
     paths = null;
+    repaint();
 }
 
 void WorkspacesPane::configure(const YRect2& r) {
@@ -404,8 +387,10 @@ WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
     WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
     fButtons += wk;
     if (pagerShowPreview) {
-        double scaled = double(height * desktop->width()) / desktop->height();
-        wk->setSize(unsigned(lround(scaled)), height);
+        unsigned dw = desktop->width();
+        unsigned dh = desktop->height();
+        unsigned scaled = (height * dw + (dh / 2)) / dh;
+        wk->setSize(scaled, height);
         wk->updateName();
     } else {
         label(wk);
@@ -543,18 +528,31 @@ void WorkspacesPane::stopDrag() {
     }
 }
 
+ref<YFont> WorkspaceButton::getActiveFont() {
+    if (activeButtonFont == null) {
+        if (*activeWorkspaceFontName || *activeWorkspaceFontNameXft) {
+            activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName));
+        }
+        if (activeButtonFont == null) {
+            activeButtonFont = YButton::getActiveFont();
+        }
+    }
+    return activeButtonFont;
+}
+
 ref<YFont> WorkspaceButton::getFont() {
-    return isPressed()
-        ? (*activeWorkspaceFontName || *activeWorkspaceFontNameXft)
-        ? activeButtonFont != null
-        ? activeButtonFont
-        : activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName))
-        : YButton::getFont()
-        : (*normalWorkspaceFontName || *normalWorkspaceFontNameXft)
-        ? normalButtonFont != null
-        ? normalButtonFont
-        : normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName))
-        : YButton::getFont();
+    if (isPressed()) {
+        return getActiveFont();
+    }
+    else if (normalButtonFont == null) {
+        if (*normalWorkspaceFontName || *normalWorkspaceFontNameXft) {
+            normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName));
+        }
+        if (normalButtonFont == null) {
+            normalButtonFont = YButton::getFont();
+        }
+    }
+    return normalButtonFont;
 }
 
 YColor WorkspaceButton::getColor() {
@@ -571,6 +569,11 @@ YSurface WorkspaceButton::getSurface() {
             : YSurface(normalButtonBg ? normalButtonBg : normalBackupBg,
                        workspacebuttonPixmap,
                        workspacebuttonPixbuf));
+}
+
+YDimension WorkspaceButton::getTextSize() {
+    ref<YFont> font(getActiveFont());
+    return YDimension(font->textWidth(name()), font->height());
 }
 
 const char* WorkspaceButton::name() const {
@@ -598,8 +601,6 @@ void WorkspacesPane::repaint() {
 }
 
 void WorkspaceButton::paint(Graphics &g, const YRect& r) {
-    paintBackground(g, r);
-
     if (!pagerShowPreview) {
         YButton::paint(g, r);
         return;
@@ -616,9 +617,6 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             x += 1; y += 1; w -= 2; h -= 2;
         }
 
-        unsigned wx, wy, ww, wh;
-        double sf = (double) desktop->width() / w;
-
         ref<YIcon> icon;
         YColor colors[] = {
             surface.color,
@@ -633,16 +631,22 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                 yfw && yfw->getActiveLayer() <= WinLayerDock;
                 yfw = yfw->prevLayer()) {
             if (yfw->isHidden() ||
-                    !yfw->visibleOn(fWorkspace) ||
-                    hasbit(yfw->frameOptions(),
-                        YFrameWindow::foIgnoreWinList |
-                        YFrameWindow::foIgnorePagerPreview))
+                hasbit(yfw->frameOptions(),
+                       YFrameWindow::foIgnoreWinList |
+                       YFrameWindow::foIgnorePagerPreview)) {
                 continue;
-            wx = (unsigned) round(double(yfw->x()) / sf) + x;
-            wy = (unsigned) round(double(yfw->y()) / sf) + y;
-            ww = (unsigned) round(double(yfw->width()) / sf);
-            wh = (unsigned) round(double(yfw->height()) / sf);
-            if (ww < 1 || wh < 1)
+            }
+            if (yfw->isAllWorkspaces() ?
+                fWorkspace != manager->activeWorkspace() :
+                fWorkspace != yfw->getWorkspace()) {
+                continue;
+            }
+            int dw = int(desktop->width());
+            int wx = x + (yfw->x() * w + (dw / 2)) / dw;
+            int wy = y + (yfw->y() * w + (dw / 2)) / dw;
+            int ww = (int(yfw->width()) * w + (dw / 2)) / dw;
+            int wh = (int(yfw->height()) * w + (dw / 2)) / dw;
+            if (ww <= 1 || wh <= 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack
                 wy = y; wh = h;
@@ -659,9 +663,12 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                         g.setColor(colors[2]);
                     g.fillRect(wx+1, wy+1, ww-2, wh-2);
 
-                    if (pagerShowWindowIcons && ww > smallIconSize+1 &&
-                            wh > smallIconSize+1 && (icon = yfw->clientIcon()) != null &&
-                            icon->small() != null) {
+                    if (pagerShowWindowIcons &&
+                        ww > 1 + int(smallIconSize) &&
+                        wh > 1 + int(smallIconSize) &&
+                        (icon = yfw->clientIcon()) != null &&
+                        icon->small() != null)
+                    {
                         g.drawImage(icon->small(),
                                     wx + (ww-smallIconSize)/2,
                                     wy + (wh-smallIconSize)/2);
@@ -690,14 +697,17 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         if (label[0] != 0) {
             ref<YFont> font = getFont();
 
-            wx = (w - font->textWidth(label)) / 2 + x;
-            wy = (h - font->height()) / 2 + font->ascent() + y;
+            int wx = (w - font->textWidth(label)) / 2 + x;
+            int wy = (h - font->height()) / 2 + font->ascent() + y;
 
             g.setFont(font);
             g.setColor(colors[0]);
             g.drawChars(label, 0, strlen(label), wx+1, wy+1);
             g.setColor(colors[3]);
             g.drawChars(label, 0, strlen(label), wx, wy);
+        }
+        if (surface.gradient != null) {
+            g.maxOpacity();
         }
     }
 }

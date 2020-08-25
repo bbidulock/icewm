@@ -259,11 +259,11 @@ Activate the window, aka. I<to focus>.
 
 =item B<close>
 
-Close the window.
+Send a close request to the client that created the window.
 
 =item B<kill>
 
-Terminate the window.
+Force an immediate close down of the client that created the window.
 
 =item B<id>
 

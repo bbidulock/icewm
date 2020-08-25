@@ -1,5 +1,5 @@
-#ifndef __WMTITLE_H
-#define __WMTITLE_H
+#ifndef WMTITLE_H
+#define WMTITLE_H
 
 class YFrameButton;
 class YFrameWindow;
@@ -11,13 +11,9 @@ public:
 
     void activate();
     void deactivate();
+    void renderShape(Graphics& g);
 
     virtual void paint(Graphics &g, const YRect &r);
-
-#ifdef CONFIG_SHAPE
-    void renderShape(Pixmap shape);
-#endif
-
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
@@ -26,44 +22,42 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
 
-    YFrameWindow *getFrame() const { return fFrame; };
-
-    YFrameButton* menuButton();
-    YFrameButton* closeButton();
-    YFrameButton* minimizeButton();
-    YFrameButton* maximizeButton();
-    YFrameButton* hideButton();
-    YFrameButton* rollupButton();
-    YFrameButton* depthButton();
+    YFrameWindow* getFrame() const { return fFrame; };
+    YFrameButton* menuButton() const { return fButtons[6]; }
+    YFrameButton* rollupButton() const { return fButtons[5]; }
+    YFrameButton* maximizeButton() const { return fButtons[4]; }
 
     void layoutButtons();
-    void raiseButtons();
     void refresh();
 
     static YColor background(bool active);
+    static bool isRight(char c);
+    static bool supported(char c);
+
+    enum {
+        Depth = 'd',
+        Hide  = 'h',
+        Mini  = 'i',
+        Maxi  = 'm',
+        Roll  = 'r',
+        Menu  = 's',
+        Close = 'x',
+    };
 
 private:
     static void initTitleColorsFonts();
 
     unsigned decors() const { return getFrame()->frameDecors(); }
     bool focused() const { return getFrame()->focused(); }
-    int titleLen() const;
 
     YFrameButton* getButton(char c);
-    void positionButton(YFrameButton *b, int &xPos, bool onRight);
-    bool isButton(char c);
 
     YFrameWindow *fFrame;
     bool wasCanRaise;
-    bool isVisible;
+    bool fVisible;
 
-    YFrameButton* fCloseButton;
-    YFrameButton* fMenuButton;
-    YFrameButton* fMaximizeButton;
-    YFrameButton* fMinimizeButton;
-    YFrameButton* fHideButton;
-    YFrameButton* fRollupButton;
-    YFrameButton* fDepthButton;
+    enum { Count = 8, };
+    YFrameButton* fButtons[Count];
 };
 
 #endif

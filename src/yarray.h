@@ -64,16 +64,16 @@ protected:
         return fElements + (index * fElementSize);
     }
 
-    const void *getBegin() const { return getElement(0); }
-    const void *getEnd() const { return getElement(getCount()); }
+    const void* begin() const { return getElement(0); }
+    const void* end() const { return getElement(getCount()); }
 
     void release();
     void swap(YBaseArray& other);
 
 public:
     SizeType getIndex(void const * ptr) const {
-        PRECONDITION(ptr >= getBegin() && ptr < getEnd());
-        return (ptr >= getBegin() && ptr < getEnd()
+        PRECONDITION(ptr >= begin() && ptr < end());
+        return (ptr >= begin() && ptr < end()
              ? SizeType(static_cast<const StorageType *>(ptr) - fElements)
                  / fElementSize
              : npos);
@@ -161,6 +161,12 @@ public:
     }
     void swap(YArray<DataType>& other) {
         YBaseArray::swap(other);
+    }
+    const DataType* begin() const {
+        return (const DataType*) YBaseArray::begin();
+    }
+    const DataType* end() const {
+        return (const DataType*) YBaseArray::end();
     }
     IterType iterator();
     IterType reverseIterator();
@@ -255,6 +261,13 @@ public:
         for (SizeType n = getCount(); n > reducedCount; )
             getItemPtr(--n)->__unref();
         YBaseArray::shrink(reducedCount);
+    }
+
+    const ref<DataType>* begin() const {
+        return (const ref<DataType>*) YBaseArray::begin();
+    }
+    const ref<DataType>* end() const {
+        return (const ref<DataType>*) YBaseArray::end();
     }
 
 private:

@@ -69,21 +69,22 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     YSurface surface(getSurface());
     g.drawSurface(surface, x, y, w, h);
 
-    if (fIcon != null)
+    if (fIcon != null) {
         fIcon->draw(g,
                     x + (w - fIconSize) / 2,
                     y + (h - fIconSize) / 2,
                     fIconSize);
-    else
-    if (fImage != null)
+    }
+    else if (fImage != null) {
         g.drawImage(fImage,
                     x + (w - fImage->width()) / 2,
                     y + (h - fImage->height()) / 2);
+    }
     else if (fText != null) {
-        ref<YFont> font = fPressed ? activeButtonFont : normalButtonFont;
+        ref<YFont> font(getFont());
 
         int const w(font->textWidth(fText));
-        int const p((width() - w) / 2);
+        int const p((width() + 1 - w) / 2);
         int yp((height() - font->height()) / 2
                + font->ascent() + d);
 
@@ -127,6 +128,9 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
 
         if (wmLook != lookFlat) {
             paintFocus(g, YRect(x, y, w, h));
+        }
+        if (surface.gradient != null) {
+            g.maxOpacity();
         }
     }
 }
@@ -264,7 +268,7 @@ void YButton::updatePopup() {
 
 void YButton::handleButton(const XButtonEvent &button) {
     if (fEnabled) {
-        if (button.type == ButtonPress && button.button == 1) {
+        if (button.type == ButtonPress && button.button == Button1) {
             requestFocus(false);
             wasPopupActive = fArmed;
             setSelected(true);
@@ -278,9 +282,9 @@ void YButton::handleButton(const XButtonEvent &button) {
 
                 if ((!inWindow || wasPopupActive) && fArmed) {
                     setArmed(false, false);
-                    setSelected(false);
                 }
             }
+            setSelected(false);
         }
     }
     YWindow::handleButton(button);
@@ -320,20 +324,36 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
+ref<YFont> YButton::getActiveFont() {
+    return activeButtonFont;
+}
+
+YDimension YButton::getTextSize() {
+    if (fText != null) {
+        ref<YFont> font(getActiveFont());
+        return YDimension(font->textWidth(fText), font->height());
+    } else {
+        return YDimension(1, 1);
+    }
+}
+
 void YButton::updateSize() {
     int w = 72;
     int h = 18;
     if (fIcon != null) {
         w = h = fIconSize;
-    } else if (fImage != null) {
+    }
+    else if (fImage != null) {
         w = fImage->width();
         h = fImage->height();
-    } else if (fText != null) {
-        w = activeButtonFont->textWidth(fText);
-        h = activeButtonFont->ascent();
     }
-    setSize(w + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat),
-            h + 3 + 2 - (wmLook == lookMetal || wmLook == lookFlat));
+    else if (fText != null) {
+        YDimension d(getTextSize());
+        w = d.w;
+        h = d.h;
+    }
+    setSize(w + 3 + 2 - LOOK(lookMetal | lookFlat),
+            h + 3 + 2 - LOOK(lookMetal | lookFlat));
 }
 
 void YButton::setIcon(ref<YIcon> icon, int iconSize) {

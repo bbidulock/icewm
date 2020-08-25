@@ -573,6 +573,30 @@ static void initPixmapOffsets() {
             taskbuttonPixbufOffsets[i].split(taskbuttonIconOffset);
         }
     }
+
+    ref<YPixmap> ts[] = {
+        frameT[0][0], frameTL[0][0], frameTR[0][0],
+        frameT[0][1], frameTL[0][1], frameTR[0][1],
+        frameT[1][0], frameTL[1][0], frameTR[1][0],
+        frameT[1][1], frameTL[1][1], frameTR[1][1],
+    };
+    const int count = int ACOUNT(ts);
+    unsigned offset = UINT_MAX;
+    for (int i = 0; i < count; ++i) {
+        if (ts[i] != null) {
+            unsigned vo = ts[i]->verticalOffset();
+            if (offset > vo) {
+                offset = vo;
+            }
+            if (vo == 0) {
+                break;
+            }
+        }
+    }
+    if (offset) {
+        extern unsigned topSideVerticalOffset;
+        topSideVerticalOffset = offset;
+    }
 }
 
 static void freePixmapOffsets() {

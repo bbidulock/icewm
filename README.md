@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2020-05-29]: #
+[icewm -- read me first file.  2020-07-12]: #
 
 Ice Window Manager (IceWM)
 ==========================

@@ -138,7 +138,7 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
         yp += borderY();
         flags |= 16;
     }
-    snapTo(xp, yp, 0, 0, manager->width(), manager->height(), flags);
+    snapTo(xp, yp, 0, 0, desktop->width(), desktop->height(), flags);
     if (flags & 8) {
         xp -= borderX();
         flags &= ~8;
@@ -811,7 +811,10 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 }
             } else if (isIconic() || isRollup()) {
                 if (k == XK_Return || k == XK_KP_Enter) {
-                    wmRestore();
+                    if (isMinimized())
+                        wmMinimize();
+                    else
+                        wmRestore();
                 } else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
                     popupSystemMenu(this);
                 }
@@ -902,7 +905,6 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     buttonDownX = 0;
     buttonDownY = 0;
 
-    manager->setWorkAreaMoveWindows(true);
     if (doMove && grabX == 0 && grabY == 0) {
         buttonDownX = mouseXroot;
         buttonDownY = mouseYroot;
@@ -985,44 +987,60 @@ void YFrameWindow::endMoveSize() {
     movingWindow = false;
     sizingWindow = false;
 
-    manager->setWorkAreaMoveWindows(false);
-
     if (taskBar) {
         taskBar->workspacesRepaint();
     }
 }
 
 void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if ((down.button == 3) && canMove()) {
+    if (down.button == Button3 && canMove()) {
         startMoveSize(true, true,
                       0, 0,
                       down.x, down.y);
         handleDrag(down, motion);
-    } else if ((down.button == 1) && canSize()) {
+    }
+    else if (down.button == Button1 && canSize()) {
+        Window sw = down.subwindow;
+
         grabX = 0;
         grabY = 0;
 
-        if (down.x < int(borderX())) grabX = -1;
-        else if ((int) width() - down.x <= borderX()) grabX = 1;
-
-        if (down.y < int(borderY())) grabY = -1;
-        else if ((int) height() - down.y <= borderY()) grabY = 1;
-
-        if (grabY != 0 && grabX == 0) {
-            if (down.x < int(wsCornerX)) grabX = -1;
-            else if ((int)width() - down.x <= (int) wsCornerX) grabX = 1;
+        if (down.x < int(borderX()) || sw == topLeft ||
+                sw == leftSide || sw == bottomLeft) {
+            grabX = -1;
+        }
+        else if (int(width()) - down.x <= borderX() || sw == topRight ||
+                sw == rightSide || sw == bottomRight) {
+            grabX = 1;
         }
 
-        if (grabX != 0 && grabY == 0) {
-            if (down.y < int(wsCornerY)) grabY = -1;
-            else if ((int)height() - down.y <= (int) wsCornerY) grabY = 1;
+        if (down.y < int(borderY()) + int(topSideVerticalOffset) ||
+                sw == topLeft || sw == topSide || sw == topRight) {
+            grabY = -1;
+        }
+        else if (int(height()) - down.y <= borderY() || sw == bottomLeft ||
+                sw == bottomSide || sw == bottomRight) {
+            grabY = 1;
         }
 
-        if (grabX != 0 || grabY != 0) {
+        if (grabY && !grabX) {
+            if (down.x < int(wsCornerX))
+                grabX = -1;
+            else if (int(width()) - down.x <= int(wsCornerX))
+                grabX = 1;
+        }
+
+        if (grabX && !grabY) {
+            if (down.y < int(wsCornerY) + int(topSideVerticalOffset))
+                grabY = -1;
+            else if (int(height()) - down.y <= int(wsCornerY))
+                grabY = 1;
+        }
+
+        if (grabX || grabY) {
             startMoveSize(false, true,
                           grabX, grabY,
                           down.x_root, down.y_root);
-
         }
     }
 }

@@ -31,17 +31,14 @@ public:
             setIcon(fFrame->clientIcon());
     }
 
-    virtual void actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int modifiers) {
-        YFrameWindow *f = manager->topLayer();
-
-        while (f) {
-            if ((void *)f == fFrame) {
+    void actionPerformed(YActionListener *, YAction, unsigned modifiers) override {
+        for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
+            if (f == fFrame) {
                 if (modifiers & ShiftMask)
                     f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
                 f->activateWindow(true, false);
                 return ;
             }
-            f = f->nextLayer();
         }
     }
 private:
@@ -71,8 +68,7 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     continue;
                 if (frame->frameOption(YFrameWindow::foIgnoreWinList))
                     continue;
-                if (workspace != activeWorkspace() &&
-                    frame->visibleOn(activeWorkspace()))
+                if (workspace != activeWorkspace() && frame->visibleNow())
                     continue;
 
                 windowLevel = 0;

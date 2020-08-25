@@ -102,7 +102,7 @@ YWindow *YWindow::fClickWindow = nullptr;
 Time YWindow::fClickTime = 0;
 int YWindow::fClickCount = 0;
 XButtonEvent YWindow::fClickEvent;
-int YWindow::fClickDrag = 0;
+bool YWindow::fClickDrag;
 unsigned int YWindow::fClickButton = 0;
 unsigned int YWindow::fClickButtonDown = 0;
 
@@ -362,6 +362,10 @@ Window YWindow::create() {
         attributes.override_redirect = True;
         attrmask |= CWOverrideRedirect;
     }
+    if (fStyle & wsBackingMapped) {
+        attributes.backing_store = WhenMapped;
+        attrmask |= CWBackingStore;
+    }
     if (fPointer.handle() != None) {
         attrmask |= CWCursor;
         attributes.cursor = fPointer.handle();
@@ -442,9 +446,9 @@ void YWindow::adopt() {
             ButtonPressMask | ButtonReleaseMask | ButtonMotionMask;
 
 
-        if (!grabRootWindow &&
-            fHandle == xapp->root())
+        if (!grabRootWindow && fHandle == xapp->root()) {
             fEventMask &= ~(ButtonPressMask | ButtonReleaseMask | ButtonMotionMask);
+        }
     }
 
     if (destroyed() == false)
@@ -567,6 +571,23 @@ void YWindow::raise() {
 
 void YWindow::lower() {
     XLowerWindow(xapp->display(), handle());
+}
+
+void YWindow::beneath(YWindow* superior) {
+    if (superior) {
+        Window stack[] = { superior->handle(), handle(), };
+        XRestackWindows(xapp->display(), stack, 2);
+    }
+}
+
+void YWindow::raiseTo(YWindow* inferior) {
+    if (inferior) {
+        unsigned mask = CWSibling | CWStackMode;
+        XWindowChanges xwc;
+        xwc.sibling = inferior->handle();
+        xwc.stack_mode = Above;
+        XConfigureWindow(xapp->display(), handle(), mask, &xwc);
+    }
 }
 
 void YWindow::handleEvent(const XEvent &event) {
@@ -845,14 +866,14 @@ bool YWindow::handleKey(const XKeyEvent &key) {
             for (a = accel; a; a = a->next) {
                 //msg("%c %d - %c %d %d", k, k, a->key, a->key, a->mod);
                 if (m == a->mod && k == a->key)
-                    if (a->win->handleKey(key) == true)
+                    if (a->win->handleKey(key))
                         return true;
             }
             if (ASCII::isLower(char(k))) {
                 k = ASCII::toUpper(char(k));
                 for (a = accel; a; a = a->next)
                     if (m == a->mod && k == a->key)
-                        if (a->win->handleKey(key) == true)
+                        if (a->win->handleKey(key))
                             return true;
             }
         }
@@ -879,7 +900,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
     int const motionDelta(max(dx, dy));
 
     if (button.type == ButtonPress) {
-        fClickDrag = 0;
+        fClickDrag = false;
 
         if (fClickWindow != this) {
             fClickWindow = this;
@@ -915,8 +936,10 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fClickCount = 1;
             fClickButtonDown = 0;
             fClickButton = 0;
-            if (fClickDrag)
+            if (fClickDrag) {
                 handleEndDrag(fClickEvent, button);
+                fClickDrag = false;
+            }
         }
     }
 }
@@ -944,7 +967,7 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
                )
             {
                 //msg("start drag %d %d %d", curButtons, fClickButton, motion.state);
-                fClickDrag = 1;
+                fClickDrag = true;
                 handleBeginDrag(fClickEvent, motion);
             }
         }
@@ -1008,10 +1031,6 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
 
 void YWindow::handleVisibility(const XVisibilityEvent& visibility) {
 }
-
-#if 0
-    virtual void handleCreateWindow(const XCreateWindowEvent &createWindow);
-#endif
 
 void YWindow::handleMapNotify(const XMapEvent &) {
     // ignore "map notify" not implemented or needed due to MapRequest event
@@ -1172,14 +1191,6 @@ void YWindow::setPointer(const YCursor& pointer) {
     }
 }
 
-void YWindow::setGrabPointer(const YCursor& pointer) {
-    XChangeActivePointerGrab(xapp->display(),
-                             ButtonPressMask|PointerMotionMask|
-                             ButtonReleaseMask,
-                             pointer.handle(), CurrentTime);
-                             //app->getEventTime());
-}
-
 void YWindow::grabKeyM(int keycode, unsigned int modifiers) {
     MSG(("grabKey %d %d %s", keycode, modifiers,
          XKeysymToString(keyCodeToKeySym(keycode))));
@@ -1284,12 +1295,9 @@ void YWindow::requestFocus(bool requestUserFocus) {
 
 
 YWindow *YWindow::toplevel() {
-    YWindow *w = this;
-
-    while (w) {
-        if (w->isToplevel() == true)
+    for (YWindow *w = this; w; w = w->fParentWindow) {
+        if (w->isToplevel())
             return w;
-        w = w->fParentWindow;
     }
     return nullptr;
 }
@@ -1310,12 +1318,8 @@ void YWindow::prevFocus() {
 
 YWindow *YWindow::getFocusWindow() {
     YWindow *w = this;
-
-    while (w) {
-        if (w->fFocusedWindow)
-            w = w->fFocusedWindow;
-        else
-            break;
+    while (w->fFocusedWindow) {
+        w = w->fFocusedWindow;
     }
     return w;
 }
@@ -1667,14 +1671,13 @@ void YWindow::requestSelection(bool selection) {
 
 bool YWindow::hasPopup() {
     YPopupWindow *p = xapp->popup();
-    while (p && p->prevPopup())
-        p = p->prevPopup();
     if (p) {
-        YWindow *w = p->popupOwner();
-        while (w) {
+        while (p->prevPopup()) {
+            p = p->prevPopup();
+        }
+        for (YWindow *w = p->popupOwner(); w; w = w->parent()) {
             if (w == this)
                 return true;
-            w = w->parent();
         }
     }
     return false;

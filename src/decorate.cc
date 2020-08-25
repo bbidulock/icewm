@@ -21,8 +21,11 @@ void YFrameWindow::updateMenu() {
     windowMenu->setActionListener(this);
     windowMenu->enableCommand(actionNull);
 
-    if (!canMaximize())
+    if (!canMaximize()) {
         windowMenu->disableCommand(actionMaximize);
+        windowMenu->disableCommand(actionMaximizeVert);
+        windowMenu->disableCommand(actionMaximizeHoriz);
+    }
     if (!canMinimize())
         windowMenu->disableCommand(actionMinimize);
     if (!canRestore())
@@ -61,6 +64,7 @@ void YFrameWindow::updateSubmenus() {
     if (item)
         item->setEnabled(!isAllWorkspaces());
 
+    moveMenu->updatePopup();
     moveMenu->setActionListener(this);
     for (int i(0); i < moveMenu->itemCount(); i++) {
         item = moveMenu->getItem(i);
@@ -71,6 +75,7 @@ void YFrameWindow::updateSubmenus() {
         }
     }
 
+    layerMenu->updatePopup();
     layerMenu->setActionListener(this);
     int layer = WinLayerCount - 1;
     for (int j(0); j < layerMenu->itemCount(); j++) {
@@ -107,8 +112,8 @@ void YFrameWindow::updateSubmenus() {
 #endif
 }
 
-#ifdef CONFIG_SHAPE
 void YFrameWindow::setShape() {
+#ifdef CONFIG_SHAPE
     if (!shapes.supported)
         return ;
 
@@ -169,27 +174,31 @@ void YFrameWindow::setShape() {
                                ShapeBounding, nrect ? ShapeUnion : ShapeSet);
         }
     }
-}
 #endif
+}
 
 void YFrameWindow::layoutShape() {
-
+#ifdef CONFIG_SHAPE
     if (fShapeWidth != width() ||
         fShapeHeight != height() ||
         fShapeTitleY != titleY() ||
         fShapeBorderX != borderX() ||
-        fShapeBorderY != borderY())
+        fShapeBorderY != borderY() ||
+        fShapeDecors != frameDecors() ||
+        fShapeTitle != getTitle())
     {
         fShapeWidth = width();
         fShapeHeight = height();
         fShapeTitleY = titleY();
         fShapeBorderX = borderX();
         fShapeBorderY = borderY();
+        fShapeDecors = frameDecors();
+        fShapeTitle = getTitle();
 
-#ifdef CONFIG_SHAPE
         if (shapes.supported &&
             (frameDecors() & fdBorder) &&
-            !(isIconic() || isFullscreen()))
+            !isIconic() &&
+            !isFullscreen())
         {
             int const a(focused());
             int const t((frameDecors() & fdResize) ? 0 : 1);
@@ -266,8 +275,8 @@ void YFrameWindow::layoutShape() {
                           frameR[t][a]->width(), frameR[t][a]->height(),
                           width() - frameR[t][a]->width(), yTR, yBR - yTR);
 
-            if (titlebar() && titleY())
-                titlebar()->renderShape(shape);
+            if (titleY() && titlebar())
+                titlebar()->renderShape(g);
             XShapeCombineMask(xapp->display(), handle(),
                               ShapeBounding, 0, 0, shape, ShapeSet);
             XFreePixmap(xapp->display(), shape);
@@ -275,11 +284,9 @@ void YFrameWindow::layoutShape() {
             XShapeCombineMask(xapp->display(), handle(),
                               ShapeBounding, 0, 0, None, ShapeSet);
         }
-#endif
-#ifdef CONFIG_SHAPE
         setShape();
-#endif
     }
+#endif
 }
 
 void YFrameWindow::configure(const YRect2& r) {
@@ -301,32 +308,31 @@ void YFrameWindow::performLayout()
     layoutResizeIndicators();
     layoutClient();
     layoutShape();
+    if (fTitleBar)
+        fTitleBar->activate();
 }
 
 void YFrameWindow::layoutTitleBar() {
-    if (titlebar() == nullptr)
-        return;
-
-    if (titleY() == 0) {
-        titlebar()->hide();
-    } else {
-        titlebar()->show();
-
-        int title_width = width() - 2 * borderX();
-        titlebar()->setGeometry(
-            YRect(borderX(),
-                  borderY(),
-                  max(1, title_width),
-                  titleY()));
-
-        titlebar()->layoutButtons();
+    int height = titleY();
+    if (height == 0) {
+        if (fTitleBar) {
+            delete fTitleBar;
+            fTitleBar = nullptr;
+        }
+    }
+    else if (isIconic() == false && titlebar()) {
+        int x = borderX(), y = borderY();
+        int w = max(1, int(width()) - 2 * x);
+        fTitleBar->setGeometry(YRect(x, y, w, height));
+        fTitleBar->layoutButtons();
+        fTitleBar->show();
     }
 }
 
 void YFrameWindow::layoutResizeIndicators() {
-    if (((frameDecors() & (fdResize | fdBorder)) == (fdResize | fdBorder)) &&
-        !isRollup() && !isMinimized() && (frameFunctions() & ffResize) &&
-        !isFullscreen())
+    if (hasbits(frameDecors(), fdResize | fdBorder) &&
+        hasbit(frameFunctions(), ffResize) &&
+        !hasState(WinStateRollup | WinStateMinimized | WinStateFullscreen))
     {
         if (!indicatorsCreated)
             createPointerWindows();
@@ -361,32 +367,36 @@ void YFrameWindow::layoutResizeIndicators() {
     if (!indicatorsVisible)
         return;
 
+    int vo = int(min(height(), topSideVerticalOffset));
     int ww(max(3, (int) width()));
-    int hh(max(3, (int) height()));
+    int hh(max(3, (int) height() - vo));
     int bx(max(1, (int) borderX()));
-    int by(max(1, (int) borderY()));
+    int bt(max(2, (int) borderY() - vo));
+    int bb(max(1, (int) borderY()));
     int cx(max(1, (int) wsCornerX));
     int cy(max(1, (int) wsCornerY));
-    int xx(max(1, min(cx, ww / 2)));
-    int yy(max(1, min(cy, hh / 2)));
+    int xx(min(cx, ww / 2));
+    int yy(min(cy, hh / 2));
 
     XMoveResizeWindow(xapp->display(), topSide,
-                      xx, 0, max(1, ww - 2 * xx), by);
+                      xx, vo, max(1, ww - 2 * xx), bt);
     XMoveResizeWindow(xapp->display(), leftSide,
-                      0, yy, bx, max(1, hh - 2 * yy));
+                      0, yy + vo, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), rightSide,
-                      ww - bx, yy, bx, max(1, hh - 2 * yy));
+                      ww - bx, yy + vo, bx, max(1, hh - 2 * yy));
     XMoveResizeWindow(xapp->display(), bottomSide,
-                      xx, hh - by, max(1, ww - 2 * xx), by);
+                      xx, hh - bb + vo, max(1, ww - 2 * xx), bb);
 
     XMoveResizeWindow(xapp->display(), topLeft,
-                      0, 0, xx, yy);
+                      0, vo, xx, yy);
     XMoveResizeWindow(xapp->display(), topRight,
-                      ww - xx, 0, xx, yy);
+                      ww - xx, vo, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomLeft,
-                      0, hh - yy, xx, yy);
+                      0, hh - yy + vo, xx, yy);
     XMoveResizeWindow(xapp->display(), bottomRight,
-                      ww - xx, hh - yy, xx, yy);
+                      ww - xx, hh - yy + vo, xx, yy);
+
+    XRaiseWindow(xapp->display(), topSide);
 }
 
 void YFrameWindow::layoutClient() {
@@ -438,22 +448,23 @@ bool YFrameWindow::canHide() const {
 }
 
 bool YFrameWindow::canLower() const {
-    if (this != manager->bottom(getActiveLayer()))
-        return true;
-    else
-        return false;
+    for (YFrameWindow* w = next(); w; w = w->next()) {
+        for (YFrameWindow* o = owner(); o != w; o = o->owner()) {
+            if (o == nullptr) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool YFrameWindow::canRaise() {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow()) {
-            YFrameWindow *o = w;
-            while (o) {
-                o = o->owner();
-                if (o == this)
-                    break;
-                else if (o == nullptr)
+            for (YFrameWindow* o = w; o != this; o = o->owner()) {
+                if (o == nullptr) {
                     return true;
+                }
             }
         }
     }
@@ -463,7 +474,7 @@ bool YFrameWindow::canRaise() {
 unsigned YFrameWindow::overlap(YFrameWindow* f) {
     if (false == f->isHidden() &&
         false == f->isMinimized() &&
-        f->visibleOn(manager->activeWorkspace()))
+        f->visibleNow())
     {
         return geometry().intersect(f->geometry()).pixels();
     }

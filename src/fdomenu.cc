@@ -21,6 +21,7 @@
 #include "intl.h"
 #include "appnames.h"
 #include <ctype.h>
+#include "debug.h"
 
 char const *ApplicationName(nullptr);
 
@@ -178,7 +179,8 @@ public:
     void add(t_menu_node* node) {
         if (!store)
             store = g_tree_new(cmpUtf8);
-        g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
+        if(node->meta->title || node->meta->key)
+            g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
     }
 
     /**
@@ -668,11 +670,25 @@ void load_folder_descriptions(const tCharVec& where) {
     }
 }
 
+#ifdef DEBUG_xxx
+void dbgPrint(const gchar *msg)
+{
+    tlog("%s", msg);
+}
+#endif
+
 int main(int argc, LPCSTR *argv) {
     ApplicationName = my_basename(argv[0]);
 
 #if !GLIB_CHECK_VERSION(2,36,0)
     g_type_init();
+#endif
+
+#ifdef DEBUG_xxx
+    // XXX: if enabled, one probably also need to enable debug facilities in its code, like
+    // what --debug option does
+    g_set_printerr_handler(dbgPrint);
+    g_set_print_handler(dbgPrint);
 #endif
 
     LPCSTR usershare = getenv("XDG_DATA_HOME");

@@ -198,4 +198,27 @@ ref<YPixmap> YPixmap::load(upath filename) {
     return pixmap;
 }
 
+unsigned YPixmap::verticalOffset() const {
+    unsigned offset = 0;
+    if (fMask) {
+        XImage* image = XGetImage(xapp->display(), fMask, 0, 0,
+                                  fWidth, fHeight, 1UL, XYPixmap);
+        if (image) {
+            for (; offset < fHeight; ++offset) {
+                unsigned k = 0;
+                for (; k < fWidth; ++k) {
+                    if (XGetPixel(image, k, offset)) {
+                        break;
+                    }
+                }
+                if (k < fWidth) {
+                    break;
+                }
+            }
+            XDestroyImage(image);
+        }
+    }
+    return offset;
+}
+
 // vim: set sw=4 ts=4 et:

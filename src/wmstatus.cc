@@ -98,7 +98,7 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
 void YWindowManagerStatus::begin() {
     setPosition(x(),
                  taskBarAtTop ? 4 :
-                 (manager->height() - height()) - 4);
+                 (desktop->height() - height()) - 4);
     raise();
     show();
 }

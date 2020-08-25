@@ -287,7 +287,7 @@ bool YConfig::findLoadConfigFile(IApp *app, cfoption *options, upath name) {
 bool YConfig::findLoadThemeFile(IApp *app, cfoption *options, upath name) {
     upath conf = app->findConfigFile(name);
     if (conf.isEmpty() || false == conf.fileExists()) {
-        if (name.getExtension().isEmpty())
+        if (name.getExtension() != ".theme")
             conf = app->findConfigFile(name + "default.theme");
     }
     return conf.nonempty() && YConfig::loadConfigFile(options, conf);

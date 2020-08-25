@@ -1,5 +1,5 @@
 /* XPM */
-static char * bordo alto_xpm[] = {
+static char * frameAT_xpm[] = {
 "8 2 5 1",
 " 	c None",
 ".	c #000000",

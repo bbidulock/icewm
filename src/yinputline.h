@@ -27,6 +27,7 @@ public:
     void setText(const mstring &text, bool asMarked);
     mstring getText();
     ref<YFont> getFont() const { return inputFont; }
+    void setListener(YInputListener* listener) { fListener = listener; }
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual bool handleKey(const XKeyEvent &key);

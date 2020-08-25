@@ -29,6 +29,8 @@ XIV(unsigned, wsTitleBar,                       20)
 XIV(int, titleBarJustify,                       0)
 XIV(int, titleBarHorzOffset,                    0)
 XIV(int, titleBarVertOffset,                    0)
+XIV(int, MenuButtonIconVertOffset,              0)
+XIV(unsigned, topSideVerticalOffset,            0)
 XIV(unsigned, scrollBarWidth,                   16)
 XIV(unsigned, scrollBarHeight,                  16)
 
@@ -156,7 +158,7 @@ XSV(const char *, gradients,                    0)
 
 cfoption icewm_themable_preferences[] = {
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
-    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/APM uses nice pixmap LCD display (but then it doesn't display correctly in many languages anymore, e.g., for Japanese and Korean it works only when a real font is used and not the LCD pixmaps"),
+    OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/battery monitor uses nice pixmap LCD display (but then it doesn't display correctly in many languages anymore, e.g., for Japanese and Korean it works only when a real font is used and not the LCD pixmaps"),
 
     OUV("TaskbuttonIconOffset",                 &taskbuttonIconOffset, 0, 16,   "Width of taskbutton side icons"),
     OUV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
@@ -178,6 +180,7 @@ cfoption icewm_themable_preferences[] = {
     OIV("TitleBarJustify",                      &titleBarJustify, 0, 100,       "Justification of the window title"),
     OIV("TitleBarHorzOffset",                   &titleBarHorzOffset, -128, 128, "Horizontal offset for the window title text"),
     OIV("TitleBarVertOffset",                   &titleBarVertOffset, -128, 128, "Vertical offset for the window title text"),
+    OIV("MenuButtonIconVertOffset",             &MenuButtonIconVertOffset, -128, 128, "Vertical offset for the menu button icon"),
     OUV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
     OUV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
 
@@ -297,11 +300,11 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorClock",                           &clrClock,                      "Background of non-LCD clock, leave empty to force transparency"),
     OSV("ColorClockText",                       &clrClockText,                  "Background of non-LCD monitor"),
 
-    OSV("ColorApm",                             &clrApm,                        "Background of APM monitor, leave empty to force transparency"),
-    OSV("ColorApmText",                         &clrApmText,                    "Text color of APM monitor"),
+    OSV("ColorApm",                             &clrApm,                        "Background of battery monitor, leave empty to force transparency"),
+    OSV("ColorApmText",                         &clrApmText,                    "Text color of battery monitor"),
     OSV("ColorApmBattary",                      &clrApmBat,                     "Legacy option; don't use, see ColorApmBattery"),
-    OSV("ColorApmBattery",                      &clrApmBat,                     "Color of APM monitor in battery mode"),
-    OSV("ColorApmLine",                         &clrApmLine,                    "Color of APM monitor in line mode"),
+    OSV("ColorApmBattery",                      &clrApmBat,                     "Color of battery monitor when discharging"),
+    OSV("ColorApmLine",                         &clrApmLine,                    "Color of battery monitor when charging"),
     OSV("ColorApmGraphBg",                      &clrApmGraphBg,                 "Background color for graph mode"),
 
     OSV("ColorCPUStatusUser",                   &clrCpuUser,                    "User load on the CPU monitor"),

@@ -10,6 +10,9 @@
 #else
 #define APMDEV "/dev/apm"
 #endif
+#if __FreeBSD__ || __FreeBSD_kernel__
+#define ACPIDEV "/dev/acpi"
+#endif
 
 // assume at most 3 batteries
 #define MAX_ACPI_BATTERY_NUM 3

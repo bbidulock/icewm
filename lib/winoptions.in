@@ -3,7 +3,7 @@
 # Place your variants in @CFGDIR@ or in $HOME/.icewm since
 # modifications to this file will be overwritten when you reinstall icewm.
 
-xterm.icon: xterm
+xterm.XTerm.icon: xterm
 rxvt.icon: xterm
 nxterm.icon: xterm
 fte.icon: fte

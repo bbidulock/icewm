@@ -2,8 +2,8 @@ ThemeAuthor=                            "BlueScorpio_7"
 ThemeDescription=                       "CrystalBlue"
 License=                                "GPL"
 
-Look=                                   "pixmap"
-Gradients=                              "menubg.xpm menusel.xpm dialogbg.xpm"
+Look=                                   "flat"
+Gradients=                              "menubg.xpm dialogbg.xpm workspacebuttonbg.xpm workspacebuttonactive.xpm buttonA.xpm buttonI.xpm"
 
 #Buttons
 RolloverButtonsSupported=               1
@@ -12,17 +12,18 @@ TitleButtonsLeft=                       "r"
 TitleButtonsRight=                      "xmi"
 
 TaskBarClockLeds=                       1
-TrayDrawBevel=                          1
+TrayDrawBevel=                          0
 
 #Borders
-BorderSizeX=                            3
-BorderSizeY=                            3
-DlgBorderSizeX=                         3
-DlgBorderSizeY=                         3
+BorderSizeX=                            5
+BorderSizeY=                            5
+DlgBorderSizeX=                         5
+DlgBorderSizeY=                         5
 CornerSizeX=                            24
 CornerSizeY=                            24
-TitleBarHeight=                         30
+TitleBarHeight=                         25
 TitleBarJustify=                        50
+TitleBarVertOffset=                     -2
 ScrollBarX=                             16
 ScrollBarY=                             16
 
@@ -38,6 +39,7 @@ ColorDialog=                            "rgb:45/55/A4"
 ColorDialogSelectionText=               "rgb:C0/C0/C0"
 
 #Taskbar
+TaskbuttonIconOffset=                   10
 ColorDefaultTaskBar=                    "rgb:2A/39/83"
 ColorToolButton=                        "rgb:2A/39/83"
 ColorToolButtonText=                    "rgb:C0/C0/C0"
@@ -45,12 +47,14 @@ ColorActiveButton=                      "rgb:2A/39/83"
 ColorNormalButton=                      "rgb:2A/39/83"
 ColorNormalWorkspaceButton=             "rgb:2A/39/83"
 ColorNormalWorkspaceButtonText=         "rgb:C0/C0/C0"
+
 ColorActiveWorkspaceButton=             "rgb:2A/39/83"
 ColorActiveWorkspaceButtonText=         "rgb:14/20/5E"
 ColorNormalButtonText=                  "rgb:C0/C0/C0"
 ColorActiveButtonText=                  "rgb:C0/C0/C0"
 ColorActiveTaskBarApp=                  "rgb:2A/39/83"
 ColorActiveTaskBarAppText=              "rgb:14/20/5E"
+
 ColorMinimizedTaskBarApp=               "rgb:2A/39/83"
 ColorMinimizedTaskBarAppText=           "rgb:C0/C0/C0"
 ColorNormalTaskBarApp=                  "rgb:2A/39/83"
@@ -59,7 +63,7 @@ ColorInvisibleTaskBarAppText=           "rgb:C0/C0/C0"
 
 #Menu
 ColorActiveMenu=                        "rgb:45/55/A4"
-ColorActiveMenuItem=                    "rgb:C0/C0/C0"
+ColorActiveMenuItem=                    "rgb:45/55/A4"
 ColorNormalMenu=                        "rgb:45/55/A4"
 ColorNormalMenuItem=                    "rgb:C0/C0/C0"
 ColorNormalMenuItemText=                "rgb:C0/C0/C0"
@@ -70,9 +74,9 @@ ColorDisabledMenuItemShadow=            "rgb:00/00/00"
 #TitleBox
 ColorNormalBorder=                      "rgb:2A/39/83"
 ColorActiveBorder=                      "rgb:2A/39/83"
-ColorNormalTitleBarText=                "rgb:14/20/5E"
+ColorNormalTitleBarText=                "rgb:F0/F0/F0"
 ColorActiveTitleBarText=                "rgb:14/20/5E"
-ColorNormalTitleBarShadow=              "rgb:FF/FF/FF"
+ColorNormalTitleBarShadow=              "rgb:14/20/5E"
 ColorActiveTitleBarShadow=              "rgb:FF/FF/FF"
 
 #Move
@@ -151,8 +155,5 @@ QuickSwitchFontNameXft=                 "sans-serif:size=10:bold"
 ClockFontNameXft=                       "sans-serif:size=8:bold"
 
 #Desktop
-#DesktopBackgroundImage=                 "/usr/share/wallpapers/wallpaper-00.jpg"
-DesktopBackgroundScaled=                1
 DesktopBackgroundColor=                 "rgb:25/33/79"
 DesktopTransparencyColor=               "rgb:25/33/79"
-DesktopTransparencyImage=               ""
