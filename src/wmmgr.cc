@@ -3262,8 +3262,8 @@ void YWindowManager::setKeyboard(int configIndex) {
 void YWindowManager::setKeyboard(mstring keyboard) {
     if (keyboard != null && keyboard != fCurrentKeyboard) {
         fCurrentKeyboard = keyboard;
-        const char program[] = "setxkbmap";
-        char* path = path_lookup(program);
+        auto program = "setxkbmap";
+        csmart path(path_lookup(program));
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
