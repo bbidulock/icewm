@@ -1117,15 +1117,15 @@ manpage).
 
 * `TaskBarCPUSamples = 20`
 +
-Width of CPU Monitor.
+Width of CPU Monitor (one pixel per sample.)
 
 * `TaskBarMEMSamples = 20`
 +
-Width of Memory Monitor.
+Width of Memory Monitor (one pixel per sample.)
 
 * `TaskBarNetSamples = 20`
 +
-Width of Net Monitor.
+Width of Net Monitor (one pixel per sample.)
 
 * `TaskbarButtonWidthDivisor = 3`
 +
