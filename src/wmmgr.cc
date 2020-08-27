@@ -195,6 +195,8 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysCascade);
     GRAB_WMKEY(gKeySysArrange);
     GRAB_WMKEY(gKeySysUndoArrange);
+
+    if (minimizeToDesktop)
     GRAB_WMKEY(gKeySysArrangeIcons);
     GRAB_WMKEY(gKeySysMinimizeAll);
     GRAB_WMKEY(gKeySysHideAll);
