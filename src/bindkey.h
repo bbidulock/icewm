@@ -88,7 +88,7 @@
 #define defgKeySysTileHorizontal        XK_F3, kfAlt+kfShift, "Alt+Shift+F3"
 #define defgKeySysCascade               XK_F4, kfAlt+kfShift, "Alt+Shift+F4"
 #define defgKeySysArrange               XK_F5, kfAlt+kfShift, "Alt+Shift+F5"
-#define defgKeySysArrangeIcons          XK_F6, kfAlt+kfShift, "Alt+Shift+F8"
+#define defgKeySysArrangeIcons          XK_F8, kfAlt+kfShift, "Alt+Shift+F8"
 #define defgKeySysMinimizeAll           XK_F9, kfAlt+kfShift, "Alt+Shift+F9"
 #define defgKeySysHideAll               XK_F11, kfAlt+kfShift, "Alt+Shift+F11"
 #define defgKeySysUndoArrange           XK_F7, kfAlt+kfShift, "Alt+Shift+F7"
