@@ -46,7 +46,6 @@ YFrameWindow::YFrameWindow(
     fShapeBorderY = -1;
     fShapeDecors = 0;
 
-    setDoubleBuffer(false);
     fClient = nullptr;
     fFocused = false;
 

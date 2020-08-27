@@ -23,7 +23,6 @@ YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
     fHaveActionGrab = false;
 
     setStyle(wsManager | wsNoExpose);
-    setDoubleBuffer(false);
     setPointer(YXApplication::leftPointer);
     setTitle("Container");
     show();

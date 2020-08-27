@@ -58,7 +58,6 @@ public:
 
     virtual void repaint();
     virtual void repaintFocus();
-    virtual void repaintSync();
 
     void readAttributes();
     void reparent(YWindow *parent, int x, int y);
@@ -145,8 +144,6 @@ public:
     YWindow *parent() const { return fParentWindow; }
     YWindow *window() { return this; }
 
-    ref<YPixmap> beginPaint(YRect &r);
-    void endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r);
     void paintExpose(int ex, int ey, int ew, int eh);
 
     Graphics& getGraphics();
@@ -248,7 +245,6 @@ public:
     void requestSelection(bool selection);
 
     bool hasPopup();
-    void setDoubleBuffer(bool doubleBuffer);
 
     KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
     static unsigned long getLastEnterNotifySerial();

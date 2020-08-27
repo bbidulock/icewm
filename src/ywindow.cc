@@ -273,17 +273,6 @@ void YWindow::repaint() {
     XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 }
 
-void YWindow::repaintSync() { // useful when server grabbed
-    if (created() && visible()) {
-        Graphics &g = getGraphics();
-        YRect r1(0, 0, width(), height());
-        ref<YPixmap> pixmap = beginPaint(r1);
-        Graphics g1(pixmap, 0, 0);
-        paint(g1, r1);
-        endPaint(g, pixmap, r1);
-    }
-}
-
 void YWindow::repaintFocus() {
     repaint();
 }
@@ -775,24 +764,6 @@ void YWindow::handleEvent(const XEvent &event) {
     }
 }
 
-ref<YPixmap> YWindow::beginPaint(YRect &r) {
-    //    return new YPixmap(width(), height());
-    ref<YPixmap> pix = YPixmap::create(r.width(), r.height(), depth());
-    return pix;
-}
-
-void YWindow::endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r) {
-    if (pixmap != null) {
-        g.copyPixmap(pixmap,
-                     0, 0, /*r.x(), r.y(),*/ r.width(), r.height(),
-                     r.x(), r.y());
-    }
-}
-
-void YWindow::setDoubleBuffer(bool flag) {
-    fDoubleBuffer = flag;
-}
-
 /// TODO #warning "implement expose compression"
 void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     if (ex < 0) {
@@ -806,7 +777,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     ew = min(ew, int(width()) - ex);
     eh = min(eh, int(height()) - ey);
     if (ew > 0 && eh > 0) {
-        Graphics& g = getGraphics();
+        Graphics& g(getGraphics());
         XRectangle r = {
             short(ex),
             short(ey),
@@ -814,16 +785,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
             static_cast<unsigned short>(eh),
         };
         g.setClipRectangles(&r, 1);
-        YRect r1(ex, ey, unsigned(ew), unsigned(eh));
-        if (fDoubleBuffer) {
-            ref<YPixmap> pixmap = beginPaint(r1);
-            Graphics g1(pixmap, ex, ey);
-            //MSG(("paint %d %d %d %d", ex, ey, ew, eh));
-            paint(g1, r1);
-            endPaint(g, pixmap, r1);
-        } else {
-            paint(g, r1);
-        }
+        paint(g, r);
         g.resetClip();
     }
 }
@@ -1687,7 +1649,6 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
-    setDoubleBuffer(false);
     unsigned w = 0, h = 0;
     updateXineramaInfo(w, h);
 }
