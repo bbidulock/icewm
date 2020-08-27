@@ -968,11 +968,14 @@ char* path_lookup(const char* name) {
     if (strchr(name, '/'))
         return (access(name, X_OK) || !isFile(name)) ? nullptr : newstr(name);
 
-    char *env = newstr(getenv("PATH")), *directory, *save = nullptr, *filebuf = nullptr;
+    char *env = newstr(getenv("PATH"));
     if (env == nullptr)
         return nullptr;
 
-    while ((directory = strtok_r(save ? nullptr : env, ":", &save)) != nullptr) {
+    char *directory, *save = nullptr, *filebuf = nullptr;
+    for (directory = strtok_r(env, ":", &save); directory;
+         directory = strtok_r(nullptr, ":", &save))
+    {
         size_t length = strlen(directory) + strlen(name) + 3;
         filebuf = new char[length];
         if (filebuf == nullptr)
