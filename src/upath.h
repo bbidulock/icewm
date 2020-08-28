@@ -2,9 +2,11 @@
 #define UPATH_H
 
 #include "mstring.h"
-#ifndef BUFSIZ
+
+#include "yfileio.h"
+
+// some primitives needed for fileptr below
 #include <stdio.h>
-#endif
 
 class YStringArray;
 
@@ -48,7 +50,7 @@ public:
     int remove();
     int renameAs(mstring dest);
     off_t fileSize();
-    char* loadText();
+    fcsmart loadText();
     bool copyFrom(upath from, int mode = 0666);
     bool testWritable(int mode = 0666);
     int fnMatch(const char* pattern, int flags = 0);

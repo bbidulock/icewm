@@ -226,7 +226,7 @@ void MEMStatus::getStatus() {
 
 #ifdef USE_PROC_MEMINFO
     char buf[4096];
-    int len = read_file("/proc/meminfo", buf, sizeof buf);
+    auto len = filereader("/proc/meminfo").read_all(BUFNSIZE(buf));
     if (len > 0) {
         cur[MEM_BUFFERS] = parseField(buf, len, "Buffers:");
         cur[MEM_CACHED] = parseField(buf, len, "Cached:");

@@ -13,6 +13,8 @@
 #ifndef YPOINTER_H
 #define YPOINTER_H
 
+#include <utility>
+
 /**************************************************************************
  * Smart pointers behave like pointers but delete the object they own when
  * they go out of scope. The following smart pointers are distinguished:
@@ -33,10 +35,12 @@
 // common smart base type
 template<class DataType, class Derived>
 class ysmart {
+protected:
     DataType* fData;
-    ysmart(const ysmart<DataType, Derived>&);
+    ysmart(const ysmart<DataType, Derived>&) = delete;
 public:
     explicit ysmart(DataType* data = nullptr) : fData(data) { }
+    ysmart(ysmart&& src) : fData(src.fData) { src.fData = nullptr; }
 
     ~ysmart() { unref(); }
 
@@ -56,6 +60,7 @@ public:
     DataType* data() const { return fData; }
 
     void operator=(DataType* data) {
+        if(data == fData) return;
         unref();
         fData = data;
     }
@@ -92,6 +97,7 @@ public:
     static inline void dispose(DataType* p) { delete[] p; }
 
     explicit asmart(DataType* data = nullptr) : super(data) { }
+    explicit asmart(asmart&& src) : super(src) { }
 
     asmart<DataType>& operator=(DataType* data) {
         super::operator=(data);
@@ -108,14 +114,25 @@ typedef asmart<char> csmart;
 template <class DataType>
 class fsmart : public ysmart<DataType, fsmart<DataType> > {
     typedef ysmart<DataType, fsmart<DataType> > super;
-    fsmart(const fsmart<DataType>&);
 public:
     static inline void dispose(DataType* p) { ::free(p); }
 
     explicit fsmart(DataType* data = nullptr) : super(data) { }
+    fsmart(fsmart<DataType>&& src) : super(std::move(src)) {};
 
     using super::operator=;
+    fsmart& operator=(fsmart<DataType>&& other) {
+        auto p = other.release();
+        *this = p;
+        return *this;
+    }
+    static inline fsmart create(size_t amount) {
+        return fsmart((DataType*) malloc(amount));
+    }
 };
+
+// for new[] character strings
+typedef fsmart<char> fcsmart;
 
 extern "C" {
     extern int XFree(void*);

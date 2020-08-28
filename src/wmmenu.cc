@@ -13,6 +13,8 @@
 #include "argument.h"
 #include "intl.h"
 
+#define TIMEOUT_MS 700
+
 static char* getWord(char* word, size_t wordsize, char* start) {
     char *p = start;
     while (ASCII::isAlnum(*p))
@@ -449,11 +451,8 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
 
     MSG(("menufile: %s", menufile.string()));
     YTraceConfig trace(menufile.string());
-    char *buf = menufile.loadText();
-    if (buf) {
-        parseMenus(buf, container);
-        delete[] buf;
-    }
+    auto buf = menufile.loadText();
+    if (buf) parseMenus(buf, container);
 }
 
 void MenuLoader::progMenus(
@@ -461,48 +460,48 @@ void MenuLoader::progMenus(
     char *const argv[],
     ObjectContainer *container)
 {
-    fileptr fpt(tmpfile());
-    if (fpt == nullptr) {
-        fail("tmpfile");
+    int readWriteFds[2];
+    if (!filereader::make_pipe(readWriteFds)) {
+        fail("pipe");
         return;
     }
-
-    int tfd = fileno(fpt);
-    int status = 0;
-    pid_t child_pid = fork();
-
+    auto child_pid = fork();
     if (child_pid == -1) {
         fail("Forking '%s' failed", command);
+        return;
     }
-    else if (child_pid == 0) {
+    if (child_pid == 0) {
         int devnull = open("/dev/null", O_RDONLY);
         if (devnull > 0) {
             dup2(devnull, 0);
             close(devnull);
         }
-        if (dup2(tfd, 1) == 1) {
-            if (tfd > 2) close(tfd);
+        if (dup2(readWriteFds[1], 1) == 1) {
             execvp(command, argv);
         }
         fail("Exec '%s' failed", command);
         _exit(99);
     }
-    else if (waitpid(child_pid, &status, 0) == 0 && status != 0) {
-        warn("'%s' exited with code %d.", command, status);
-    }
-    else if (lseek(tfd, (off_t) 0L, SEEK_SET) == (off_t) -1) {
-        fail("lseek failed");
-    }
     else {
-        char *buf = load_fd(tfd);
-        fpt.close();
-        if (buf && *buf) {
-            parseMenus(buf, container);
+        bool timedOut = false;
+        file_raii cleaner(readWriteFds[1]);
+        filereader rdr(readWriteFds[0]);
+        auto buf = rdr.read_all(false, TIMEOUT_MS, &timedOut);
+        if (timedOut) {
+            warn("'%s' timed out!", command);
+            kill(child_pid, SIGKILL);
+        }
+        int status = 0;
+        if ((waitpid(child_pid, &status, 0) == 0) && (status != 0)) {
+            warn("'%s' exited with code %d.", command, status);
         }
         else {
-            warn(_("'%s' produces no output"), command);
+            if (buf && buf[0]) {
+                parseMenus(buf, container);
+            } else {
+                warn(_("'%s' produces no output"), command);
+            }
         }
-        delete[] buf;
     }
 }
 

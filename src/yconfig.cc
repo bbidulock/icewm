@@ -259,12 +259,10 @@ void YConfig::parseConfiguration(cfoption *options, char *data) {
 
 bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
     YTraceConfig trace(fileName.string());
-    char* buf = fileName.loadText();
-    if (buf) {
+    auto buf = fileName.loadText();
+    if (buf)
         parseConfiguration(options, buf);
-        delete[] buf;
-    }
-    return buf != nullptr;
+    return buf;
 }
 
 void YConfig::freeConfig(cfoption *options) {

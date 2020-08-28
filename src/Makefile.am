@@ -118,6 +118,7 @@ libice_la_SOURCES = \
 	ypopup.cc \
 	ypopup.h \
 	misc.cc \
+	yfileio.cc \
 	ycursor.cc \
 	ycursor.h \
 	ysocket.cc \

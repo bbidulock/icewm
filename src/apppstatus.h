@@ -146,7 +146,7 @@ private:
 
 #ifdef __linux__
     // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
-    csmart devicesText;
+    fcsmart devicesText;
     YArray<netpair> devStats;
     typedef YArray<netpair>::IterType IterStats;
 
