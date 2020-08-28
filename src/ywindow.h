@@ -184,8 +184,6 @@ public:
 
     virtual bool isFocusTraversable();
     bool isFocused();
-    bool isEnabled() const { return fEnabled; }
-    void setEnabled(bool enable);
     void nextFocus();
     void prevFocus();
     bool changeFocus(bool next);
@@ -195,8 +193,9 @@ public:
     virtual void gotFocus();
     virtual void lostFocus();
 
-    bool isToplevel() const { return fToplevel; }
-    void setToplevel(bool toplevel) { fToplevel = toplevel; }
+    bool isDragDrop() const { return hasbit(flags, wfDragDrop); }
+    bool isToplevel() const { return hasbit(flags, wfToplevel); }
+    void setToplevel(bool toplevel);
 
     YWindow *toplevel();
 
@@ -257,8 +256,10 @@ private:
         wfCreated   = 1 << 1,
         wfAdopted   = 1 << 2,
         wfDestroyed = 1 << 3,
+        wfToplevel  = 1 << 4,
         wfNullSize  = 1 << 5,
-        wfFocused   = 1 << 6
+        wfFocused   = 1 << 6,
+        wfDragDrop  = 1 << 7,
     };
 
     Window create();
@@ -288,10 +289,6 @@ private:
     long fEventMask;
     int fWinGravity, fBitGravity;
 
-    bool fEnabled;
-    bool fToplevel;
-    bool fDoubleBuffer;
-
     struct YAccelerator {
         unsigned key;
         unsigned mod;
@@ -312,7 +309,6 @@ private:
     static unsigned long lastEnterNotifySerial;
     static void updateEnterNotifySerial(const XEvent& event);
 
-    bool fDND;
     Window XdndDragSource;
     Window XdndDropTarget;
 
