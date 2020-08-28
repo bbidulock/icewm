@@ -1298,7 +1298,10 @@ YWMApp::~YWMApp() {
     }
 
     // shared menus last
-    logoutMenu = null;
+    if (logoutMenu) {
+        logoutMenu->setShared(false);
+        logoutMenu = null;
+    }
     windowListMenu = null;
     layerMenu = null;
     moveMenu = null;
