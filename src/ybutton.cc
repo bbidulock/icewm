@@ -29,6 +29,7 @@ YColorName YButton::activeButtonFg(&clrActiveButtonText);
 
 ref<YFont> YButton::normalButtonFont;
 ref<YFont> YButton::activeButtonFont;
+int YButton::buttonObjectCount;
 
 YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
     YWindow(parent),
@@ -46,10 +47,7 @@ YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
     wasPopupActive(false),
     fPopupActive(false)
 {
-    if (normalButtonFont == null)
-        normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
-    if (activeButtonFont == null)
-        activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
+    ++buttonObjectCount;
 }
 
 YButton::~YButton() {
@@ -61,6 +59,10 @@ YButton::~YButton() {
     popdown();
     if (fPopup && fPopup->isShared() == false) {
         delete fPopup;
+    }
+    if (--buttonObjectCount == 0) {
+        normalButtonFont = null;
+        activeButtonFont = null;
     }
 }
 
@@ -325,7 +327,15 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 ref<YFont> YButton::getActiveFont() {
+    if (activeButtonFont == null)
+        activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
     return activeButtonFont;
+}
+
+ref<YFont> YButton::getNormalFont() {
+    if (normalButtonFont == null)
+        normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
+    return normalButtonFont;
 }
 
 YDimension YButton::getTextSize() {
@@ -463,7 +473,7 @@ void YButton::actionPerformed(YAction action, unsigned modifiers) {
 }
 
 ref<YFont> YButton::getFont() {
-    return (fPressed ? activeButtonFont : normalButtonFont);
+    return fPressed ? getActiveFont() : getNormalFont();
 }
 
 YColor YButton::getColor() {

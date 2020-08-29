@@ -54,6 +54,7 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual ref<YFont> getFont();
     virtual ref<YFont> getActiveFont();
+    virtual ref<YFont> getNormalFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
     virtual YDimension getTextSize();
@@ -97,6 +98,7 @@ protected:
 private:
     static ref<YFont> normalButtonFont;
     static ref<YFont> activeButtonFont;
+    static int buttonObjectCount;
 };
 
 #endif

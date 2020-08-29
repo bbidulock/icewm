@@ -90,6 +90,7 @@ private:
     int fTimerSubmenuItem;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
     static int fAutoScrollMouseX, fAutoScrollMouseY;
+    static int fMenuObjectCount;
 
     void getOffsets(int &left, int &top, int &right, int &bottom);
     void getArea(int &x, int &y, unsigned &w, unsigned &h);
