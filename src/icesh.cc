@@ -1280,6 +1280,7 @@ private:
     void THROW(int val);
 
     void spy();
+    void spyEvent(const XEvent& event);
     void flush();
     void flags();
     void flag(char* arg);
@@ -3538,143 +3539,162 @@ void IceSh::spy()
         StructureNotifyMask | PropertyChangeMask;
 
     FOREACH_WINDOW(window) {
-        XSelectInput(display, window, selectMask);
+        XSelectInput(display, window, selectMask +
+                SubstructureNotifyMask * (window == root));
     }
     while (windowList) {
         XEvent event;
         XNextEvent(display, &event);
         Window window = event.xany.window;
         if (windowList.have(window)) {
-            timeval now(walltime());
-            struct tm* local = localtime(&now.tv_sec);
-            int secs = local->tm_sec;
-            int mins = local->tm_min;
-            int mils = int(now.tv_usec / 1000L);
-            char head[80];
-            snprintf(head, sizeof head,
-                    "%02d:%02d.%03d: 0x%07x: %s",
-                    mins, secs, mils, int(window),
-                    (event.xany.send_event && event.type != ConfigureNotify)
-                        ? "Send " : "");
-            switch (event.type) {
-                case FocusIn:
-                case FocusOut:
-                    printf("%s%s%s%s\n",
-                        head,
-                        event.type == FocusIn
-                            ? "Focus" : "Defocus",
-                        event.xfocus.mode == NotifyNormal
-                            ? " Normal" :
-                        event.xfocus.mode == NotifyWhileGrabbed
-                            ? " WhileGrabbed" :
-                        event.xfocus.mode == NotifyGrab
-                            ? " Grab" :
-                        event.xfocus.mode == NotifyUngrab
-                            ? " Ungrab" : " ???",
-                        event.xfocus.detail == NotifyAncestor
-                            ? " Ancestor" :
-                        event.xfocus.detail == NotifyVirtual
-                            ? " Virtual" :
-                        event.xfocus.detail == NotifyInferior
-                            ? " Inferior" :
-                        event.xfocus.detail == NotifyNonlinear
-                            ? " Nonlinear" :
-                        event.xfocus.detail == NotifyNonlinearVirtual
-                            ? " NonlinearVirtual" :
-                        event.xfocus.detail == NotifyPointer
-                            ? " Pointer" :
-                        event.xfocus.detail == NotifyPointerRoot
-                            ? " PointerRoot" :
-                        event.xfocus.detail == NotifyDetailNone
-                            ? "" : " ???");
-                    break;
-                case EnterNotify:
-                case LeaveNotify:
-                    printf("%s%s%s%s%s\n", head,
-                        event.type == EnterNotify ? "Enter" : "Leave",
-                        event.xcrossing.mode == NotifyNormal
-                            ? " Normal" :
-                        event.xcrossing.mode == NotifyGrab
-                            ? " Grab" :
-                        event.xcrossing.mode == NotifyUngrab
-                            ? " Ungrab" :
-                        event.xcrossing.mode == NotifyWhileGrabbed
-                            ? " Grabbed" : " Unknown",
-                        event.xcrossing.detail == NotifyAncestor
-                            ? " Ancestor" :
-                        event.xcrossing.detail == NotifyVirtual
-                            ? " Virtual" :
-                        event.xcrossing.detail == NotifyInferior
-                            ? " Inferior" :
-                        event.xcrossing.detail == NotifyNonlinear
-                            ? " Nonlinear" :
-                        event.xcrossing.detail == NotifyNonlinearVirtual
-                            ? " NonlinearVirtual" :
-                        event.xcrossing.detail == NotifyPointer
-                            ? " Pointer" :
-                        event.xcrossing.detail == NotifyPointerRoot
-                            ? " PointerRoot" :
-                        event.xcrossing.detail == NotifyDetailNone
-                            ? "" : " ???",
-                        event.xcrossing.focus
-                            ? " Focus" : " Nofocus");
-                    break;
-                case UnmapNotify:
-                    printf("%sUnmap%s%s\n", head,
-                            event.xunmap.from_configure ? " Configure" : "",
-                            event.xunmap.send_event ? " Send" : "");
-                    break;
-                case MapNotify:
-                    printf("%sMapped%s\n", head,
-                            event.xmap.override_redirect ? " Override" : "");
-                    break;
-                case VisibilityNotify:
-                    printf("%sVisibility %s\n", head,
-                        event.xvisibility.state == VisibilityPartiallyObscured
-                            ? "PartiallyObscured " :
-                        event.xvisibility.state == VisibilityFullyObscured
-                            ? "FullyObscured " :
-                        event.xvisibility.state == VisibilityUnobscured
-                            ? "Unobscured " : "Bogus "
-                        );
-                    break;
-                case DestroyNotify:
-                    printf("%sDestroyed\n", head);
-                    windowList.remove(window);
-                    break;
-                case PropertyNotify:
-                    if (event.xproperty.state == PropertyNewValue) {
-                        showProperty(window, event.xproperty.atom, head);
-                    } else {
-                        const char* name(atomName(event.xproperty.atom));
-                        printf("%sDelete %s\n", head, (char *) name);
-                    }
-                    break;
-                case ConfigureNotify:
-                    printf("%sConfigure %dx%d+%d+%d%s%s%s\n", head,
-                            event.xconfigure.width, event.xconfigure.height,
-                            event.xconfigure.x, event.xconfigure.y,
-                            event.xconfigure.send_event ? " Send" : "",
-                            event.xconfigure.override_redirect ? " Override" : "",
-                            event.xconfigure.above ? " Above" : ""
-                            );
-                    break;
-                case CirculateNotify:
-                    printf("%sCirculate %s\n", head,
-                            event.xcirculate.place == PlaceOnTop
-                                ? "PlaceOnTop" :
-                            event.xcirculate.place == PlaceOnBottom
-                                ? "PlaceOnBottom" : "Bogus");
-                    break;
-                case ReparentNotify:
-                case GravityNotify:
-                case ClientMessage:
-                    break;
-                default:
-                    printf("%sUnknown event type %d\n", head, event.type);
-                    break;
-            }
+            spyEvent(event);
         }
+    }
+}
+
+void IceSh::spyEvent(const XEvent& event)
+{
+    Window window = event.xany.window;
+    timeval now(walltime());
+    struct tm* local = localtime(&now.tv_sec);
+    int secs = local->tm_sec;
+    int mins = local->tm_min;
+    int mils = int(now.tv_usec / 1000L);
+    char head[80];
+    snprintf(head, sizeof head,
+            "%02d:%02d.%03d: 0x%07x: %s",
+            mins, secs, mils, int(window),
+            (event.xany.send_event && event.type != ConfigureNotify)
+                ? "Send " : "");
+    switch (event.type) {
+    case EnterNotify:
+    case LeaveNotify:
+        printf("%s%s%s%s%s\n", head,
+            event.type == EnterNotify ? "Enter" : "Leave",
+            event.xcrossing.mode == NotifyNormal
+                ? " Normal" :
+            event.xcrossing.mode == NotifyGrab
+                ? " Grab" :
+            event.xcrossing.mode == NotifyUngrab
+                ? " Ungrab" :
+            event.xcrossing.mode == NotifyWhileGrabbed
+                ? " Grabbed" : " Unknown",
+            event.xcrossing.detail == NotifyAncestor
+                ? " Ancestor" :
+            event.xcrossing.detail == NotifyVirtual
+                ? " Virtual" :
+            event.xcrossing.detail == NotifyInferior
+                ? " Inferior" :
+            event.xcrossing.detail == NotifyNonlinear
+                ? " Nonlinear" :
+            event.xcrossing.detail == NotifyNonlinearVirtual
+                ? " NonlinearVirtual" :
+            event.xcrossing.detail == NotifyPointer
+                ? " Pointer" :
+            event.xcrossing.detail == NotifyPointerRoot
+                ? " PointerRoot" :
+            event.xcrossing.detail == NotifyDetailNone
+                ? "" : " ???",
+            event.xcrossing.focus
+                ? " Focus" : " Nofocus");
+        break;
+    case FocusIn:
+    case FocusOut:
+        printf("%s%s%s%s\n",
+            head,
+            event.type == FocusIn
+                ? "Focus" : "Defocus",
+            event.xfocus.mode == NotifyNormal
+                ? " Normal" :
+            event.xfocus.mode == NotifyWhileGrabbed
+                ? " WhileGrabbed" :
+            event.xfocus.mode == NotifyGrab
+                ? " Grab" :
+            event.xfocus.mode == NotifyUngrab
+                ? " Ungrab" : " ???",
+            event.xfocus.detail == NotifyAncestor
+                ? " Ancestor" :
+            event.xfocus.detail == NotifyVirtual
+                ? " Virtual" :
+            event.xfocus.detail == NotifyInferior
+                ? " Inferior" :
+            event.xfocus.detail == NotifyNonlinear
+                ? " Nonlinear" :
+            event.xfocus.detail == NotifyNonlinearVirtual
+                ? " NonlinearVirtual" :
+            event.xfocus.detail == NotifyPointer
+                ? " Pointer" :
+            event.xfocus.detail == NotifyPointerRoot
+                ? " PointerRoot" :
+            event.xfocus.detail == NotifyDetailNone
+                ? "" : " ???");
+        break;
+    case UnmapNotify:
+        printf("%sUnmap%s%s\n", head,
+                event.xunmap.from_configure ? " Configure" : "",
+                event.xunmap.send_event ? " Send" : "");
+        break;
+    case VisibilityNotify:
+        printf("%sVisibility %s\n", head,
+            event.xvisibility.state == VisibilityPartiallyObscured
+                ? "PartiallyObscured " :
+            event.xvisibility.state == VisibilityFullyObscured
+                ? "FullyObscured " :
+            event.xvisibility.state == VisibilityUnobscured
+                ? "Unobscured " : "Bogus "
+            );
+        break;
+    case CreateNotify:
+        break;
+    case DestroyNotify:
+        printf("%sDestroyed\n", head);
+        windowList.remove(event.xdestroywindow.window);
+        break;
+    case MapNotify:
+        printf("%sMapped%s\n", head,
+                event.xmap.override_redirect ? " Override" : "");
+        break;
+    case ReparentNotify:
+        break;
+    case ConfigureNotify:
+        printf("%sConfigure %dx%d+%d+%d%s%s%s\n", head,
+                event.xconfigure.width, event.xconfigure.height,
+                event.xconfigure.x, event.xconfigure.y,
+                event.xconfigure.send_event ? " Send" : "",
+                event.xconfigure.override_redirect ? " Override" : "",
+                event.xconfigure.above ? " Above" : ""
+                );
+        break;
+    case GravityNotify:
+        break;
+    case CirculateNotify:
+        printf("%sCirculate %s\n", head,
+                event.xcirculate.place == PlaceOnTop
+                    ? "PlaceOnTop" :
+                event.xcirculate.place == PlaceOnBottom
+                    ? "PlaceOnBottom" : "Bogus");
+        break;
+    case PropertyNotify:
+        if (event.xproperty.state == PropertyNewValue) {
+            showProperty(window, event.xproperty.atom, head);
+        } else {
+            const char* name(atomName(event.xproperty.atom));
+            printf("%sDelete %s\n", head, (char *) name);
+        }
+        break;
+    case ClientMessage:
+        printf("%s ClientMessage %s %d data=%ld,0x%lx,0x%lx",
+                head,
+                atomName(event.xclient.message_type),
+                event.xclient.format,
+                event.xclient.data.l[0],
+                event.xclient.data.l[1],
+                event.xclient.data.l[2]
+              );
+        break;
+    default:
+        printf("%sUnknown event type %d\n", head, event.type);
+        break;
     }
 }
 
