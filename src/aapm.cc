@@ -72,12 +72,9 @@ void YApm::ApmStr(char *s, bool Tool) {
 #else
     char buf[APM_LINE_LEN];
 #endif
-    int len, i, fd = open(APMDEV, O_RDONLY);
-    char driver[16];
+    int fd = open(APMDEV, O_RDONLY);
     char apmver[16];
-    int apmflags;
     int ACstatus=0;
-    int BATstatus=0;
     int BATflag=0;
     int BATlife=1;
     int BATtime;
@@ -125,7 +122,7 @@ void YApm::ApmStr(char *s, bool Tool) {
     BATtime = (ai.minutes_left == 0) ? -1 : ai.minutes_left;
     strlcpy(units, "min", sizeof units);
 #else
-    len = read(fd, buf, sizeof(buf) - 1);
+    int len = read(fd, buf, sizeof(buf) - 1);
     close(fd);
 
     buf[len] = 0;
@@ -133,10 +130,14 @@ void YApm::ApmStr(char *s, bool Tool) {
     acIsOnLine     = (ACstatus == AC_ONLINE);
     energyFull = energyNow = 0;
 
-    if ((i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
-                    driver, apmver, &apmflags,
-                    &ACstatus, &BATstatus, &BATflag, &BATlife,
-                    &BATtime, units)) != 9)
+    char driver[16];
+    int apmflags;
+    int BATstatus;
+    int i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
+                   driver, apmver, &apmflags,
+                   &ACstatus, &BATstatus, &BATflag, &BATlife,
+                   &BATtime, units);
+    if (i != 9)
     {
         static int error = 1;
         if (error) {

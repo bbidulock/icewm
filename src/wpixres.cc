@@ -593,7 +593,7 @@ static void initPixmapOffsets() {
             }
         }
     }
-    if (offset) {
+    if (offset && offset < UINT_MAX) {
         extern unsigned topSideVerticalOffset;
         topSideVerticalOffset = offset;
     }

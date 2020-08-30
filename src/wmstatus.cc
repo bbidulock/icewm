@@ -43,6 +43,8 @@ YWindowManagerStatus::YWindowManagerStatus()
 }
 
 YWindowManagerStatus::~YWindowManagerStatus() {
+    if (statusMoveSize == nullptr || statusWorkspace == nullptr)
+        statusFont = null;
 }
 
 void YWindowManagerStatus::configure(const YRect2& r) {

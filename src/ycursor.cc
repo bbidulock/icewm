@@ -19,7 +19,7 @@
 #include <stdlib.h>
 
 #ifdef CONFIG_XPM
-#include "X11/xpm.h"
+#include <X11/xpm.h>
 #elif defined CONFIG_IMLIB
 #include <Imlib.h>
 extern ImlibData *hImlib;

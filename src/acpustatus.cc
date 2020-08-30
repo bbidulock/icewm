@@ -398,22 +398,21 @@ void CPUStatus::updateStatus() {
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     int retbuflen = 0;
+#if __linux__
     char namebuf[300];
     char buf[64];
 
     memset(tempbuf, 0, buflen);
 
-#if __linux__
     cdir dir;
     if (dir.open("/sys/class/thermal")) {
         while (dir.next()) {
             if (strncmp(dir.entry(), "thermal", 7))
                 continue;
-            int len;
 
             snprintf(namebuf, sizeof namebuf,
                     "/sys/class/thermal/%s/temp", dir.entry());
-            len = read_file(namebuf, buf, sizeof(buf));
+            auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
             if (len > 4) {
                 int seglen = len - 4;
                 if (retbuflen + seglen + 4 >= buflen) {
@@ -438,10 +437,10 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     }
     else if (dir.open("/proc/acpi/thermal_zone")) {
         while (dir.next()) {
-            int len, seglen = 7;
+            const int seglen = 7;
             snprintf(namebuf, sizeof namebuf,
                     "/proc/acpi/thermal_zone/%s/temperature", dir.entry());
-            len = read_file(namebuf, buf, sizeof(buf));
+            auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
             if (len > seglen) {
                 if (retbuflen + seglen >= buflen) {
                     break;
@@ -464,10 +463,10 @@ float CPUStatus::getCpuFreq(unsigned int cpu) {
     for (unsigned i = 0; i < ACOUNT(categories); ++i)
     {
         float cpufreq = 0;
-        snprintf(namebuf, sizeof namebuf,
+        snprintf(BUFNSIZE(namebuf),
                 "/sys/devices/system/cpu/cpu%d/cpufreq/%s_cur_freq",
                 cpu, categories[i]);
-        if (read_file(namebuf, buf, sizeof(buf)) > 0) {
+        if (filereader(namebuf).read_all(BUFNSIZE(buf)) > 0) {
             sscanf(buf, "%f", &cpufreq);
             return cpufreq;
         }

@@ -375,7 +375,7 @@ static char *parseWinOptions(char *data, const char* filename) {
 void loadWinOptions(upath optFile) {
     if (optFile.nonempty()) {
         YTraceConfig trace(optFile.string());
-        csmart buf(optFile.loadText());
+        auto buf(optFile.loadText());
         if (buf) {
             defOptions = null;
             parseWinOptions(buf, optFile.string());

@@ -659,15 +659,15 @@ Useful when more slots are built-in, but only one battery is used.
 
 =item B<TaskBarCPUSamples>=20  [2-1000]
 
-Width of CPU Monitor.
+The width of the CPU Monitor applet in pixels.
 
 =item B<TaskBarMEMSamples>=20  [2-1000]
 
-Width of Memory Monitor.
+The width of the Memory Monitor applet in pixels.
 
 =item B<TaskBarNetSamples>=20  [2-1000]
 
-Width of Net Monitor.
+The width of the Net Monitor applet in pixels.
 
 =item B<TaskbarButtonWidthDivisor>=3  [1-25]
 

@@ -493,6 +493,7 @@ TaskPane::TaskPane(IAppletContainer *taskBar, YWindow *parent): YWindow(parent) 
 TaskPane::~TaskPane() {
     if (fDragging != nullptr)
         endDrag();
+    TaskBarApp::freeFonts();
 }
 
 void TaskPane::insert(TaskBarApp *tapp) {

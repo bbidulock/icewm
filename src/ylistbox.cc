@@ -30,6 +30,12 @@ inline int getIconSize() {
     return int(YIcon::smallSize());
 }
 
+inline ref<YFont> getListBoxFont() {
+    if (listBoxFont == null)
+        listBoxFont = YFont::getFont(XFA(listBoxFontName));
+    return listBoxFont;
+}
+
 int YListBox::fAutoScrollDelta = 0;
 
 int YListItem::getWidth() {
@@ -37,8 +43,8 @@ int YListItem::getWidth() {
     if (getIcon() != null) {
         width += getIconSize();
     }
-    if (getText() != null && listBoxFont != null) {
-        width += listBoxFont->textWidth(getText()) + 3;
+    if (getText() != null) {
+        width += getListBoxFont()->textWidth(getText()) + 3;
     }
     return width;
 }
@@ -80,6 +86,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
 
 YListBox::~YListBox() {
     fGradient = null;
+    listBoxFont = null;
 }
 
 bool YListBox::isFocusTraversable() {
@@ -493,7 +500,7 @@ void YListBox::paintItem(Graphics &g, int n) {
     YListItem *a = getItem(n);
     int x = 3;
     int lh = getLineHeight();
-    int fh = listBoxFont->height();
+    int fh = getListBoxFont()->height();
     int xpos = 0;
     int y = n * lh;
     int yPos = y + lh - (lh - fh) / 2 - listBoxFont->descent();

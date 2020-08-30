@@ -24,6 +24,7 @@ ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
 }
 
 ObjectBar::~ObjectBar() {
+    ObjectButton::freeFont();
 }
 
 void ObjectBar::addButton(const mstring &name, ref<YIcon> icon, ObjectButton *button) {

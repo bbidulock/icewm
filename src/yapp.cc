@@ -16,7 +16,7 @@
 #ifdef USE_SIGNALFD
 #include <sys/signalfd.h>
 #endif
-#include <wordexp.h>
+#include "ywordexp.h"
 #include <pwd.h>
 
 IMainLoop *mainLoop;

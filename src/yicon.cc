@@ -13,7 +13,7 @@
 #include "yprefs.h"
 #include "ypaths.h"
 #include "ypointer.h"
-#include <wordexp.h>
+#include "ywordexp.h"
 
 #include "intl.h"
 
@@ -273,7 +273,7 @@ public:
 
                     wordexp_t exp;
                     if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
-                        for (unsigned i = 0; i < exp.we_wordc; ++i) {
+                        for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
                             auto match = exp.we_wordv[i];
                             // get theme name from folder base name
                             auto bname = strrchr(match, (unsigned) '/');

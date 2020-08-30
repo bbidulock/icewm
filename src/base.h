@@ -111,6 +111,7 @@ void show_backtrace(const int limit = 0);
 /*** Misc Stuff (clean up!!!) *************************************************/
 
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
+#define BUFNSIZE(x) x, sizeof(x)
 
 //!!! clean these up
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
@@ -230,22 +231,6 @@ void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
 void check_argv(int argc, char **argv, const char *help, const char *version);
-
-/*** file handling ************************************************************/
-
-/* read from file descriptor and zero terminate buffer. */
-int read_fd(int fd, char *buf, size_t buflen);
-
-/* read from filename and zero terminate the buffer. */
-int read_file(const char *filename, char *buf, size_t buflen);
-
-/* read all of filedescriptor and return a zero-terminated new[] string. */
-char* load_fd(int fd);
-
-/* read a file as a zero-terminated new[] string. */
-char* load_text_file(const char *filename);
-
-/******************************************************************************/
 
 #include "debug.h"
 

@@ -11,7 +11,7 @@
 #include "wmmgr.h"
 #include "default.h"
 #include <X11/keysym.h>
-#include <wordexp.h>
+#include "ywordexp.h"
 
 AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent),
@@ -54,7 +54,7 @@ bool AddressBar::appendCommand(const char* cmd, class YStringArray& args) {
     if (nonempty(cmd)) {
         wordexp_t exp = {};
         if (wordexp(cmd, &exp, WRDE_NOCMD) == 0) {
-            for (size_t i = 0; i < exp.we_wordc; ++i) {
+            for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
                 if (exp.we_wordv[i]) {
                     args += exp.we_wordv[i];
                 }

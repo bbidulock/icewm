@@ -132,10 +132,8 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
-    fEnabled(true), fToplevel(false),
-    fDoubleBuffer(doubleBuffer),
     accel(nullptr),
-    fDND(false), XdndDragSource(None), XdndDropTarget(None)
+    XdndDragSource(None), XdndDropTarget(None)
 {
     if (fHandle != None) {
         MSG(("adopting window %lX", fHandle));
@@ -273,17 +271,6 @@ void YWindow::repaint() {
     XClearArea(xapp->display(), handle(), 0, 0, 0, 0, True);
 }
 
-void YWindow::repaintSync() { // useful when server grabbed
-    if (created() && visible()) {
-        Graphics &g = getGraphics();
-        YRect r1(0, 0, width(), height());
-        ref<YPixmap> pixmap = beginPaint(r1);
-        Graphics g1(pixmap, 0, 0);
-        paint(g1, r1);
-        endPaint(g, pixmap, r1);
-    }
-}
-
 void YWindow::repaintFocus() {
     repaint();
 }
@@ -351,7 +338,6 @@ Window YWindow::create() {
         fEventMask &= ~(ExposureMask);
         if (fStyle & wsInputOnly)
             fEventMask &= ~(FocusChangeMask);
-        fDoubleBuffer = false;
     }
 
     if (fStyle & wsSaveUnder) {
@@ -775,24 +761,6 @@ void YWindow::handleEvent(const XEvent &event) {
     }
 }
 
-ref<YPixmap> YWindow::beginPaint(YRect &r) {
-    //    return new YPixmap(width(), height());
-    ref<YPixmap> pix = YPixmap::create(r.width(), r.height(), depth());
-    return pix;
-}
-
-void YWindow::endPaint(Graphics &g, ref<YPixmap> pixmap, YRect &r) {
-    if (pixmap != null) {
-        g.copyPixmap(pixmap,
-                     0, 0, /*r.x(), r.y(),*/ r.width(), r.height(),
-                     r.x(), r.y());
-    }
-}
-
-void YWindow::setDoubleBuffer(bool flag) {
-    fDoubleBuffer = flag;
-}
-
 /// TODO #warning "implement expose compression"
 void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     if (ex < 0) {
@@ -806,7 +774,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     ew = min(ew, int(width()) - ex);
     eh = min(eh, int(height()) - ey);
     if (ew > 0 && eh > 0) {
-        Graphics& g = getGraphics();
+        Graphics& g(getGraphics());
         XRectangle r = {
             short(ex),
             short(ey),
@@ -814,16 +782,7 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
             static_cast<unsigned short>(eh),
         };
         g.setClipRectangles(&r, 1);
-        YRect r1(ex, ey, unsigned(ew), unsigned(eh));
-        if (fDoubleBuffer) {
-            ref<YPixmap> pixmap = beginPaint(r1);
-            Graphics g1(pixmap, ex, ey);
-            //MSG(("paint %d %d %d %d", ex, ey, ew, eh));
-            paint(g1, r1);
-            endPaint(g, pixmap, r1);
-        } else {
-            paint(g, r1);
-        }
+        paint(g, r);
         g.resetClip();
     }
 }
@@ -881,7 +840,8 @@ bool YWindow::handleKey(const XKeyEvent &key) {
             if (m == 0) {
                 nextFocus();
                 return true;
-            } else if (m == ShiftMask) {
+            }
+            else if (m == ShiftMask) {
                 prevFocus();
                 return true;
             }
@@ -920,7 +880,8 @@ void YWindow::handleButton(const XButtonEvent &button) {
         fClickEvent = button;
         fClickButton = fClickButtonDown = button.button;
         fClickTime = button.time;
-    } else if (button.type == ButtonRelease) {
+    }
+    else if (button.type == ButtonRelease) {
         if ((fClickWindow == this) &&
             !fClickDrag &&
             fClickCount > 0 &&
@@ -994,7 +955,8 @@ void YWindow::handleCrossing(const XCrossingEvent &crossing) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
             updateToolTip();
             fToolTip->enter(this);
-        } else if (crossing.type == LeaveNotify) {
+        }
+        else if (crossing.type == LeaveNotify) {
             fToolTip->leave();
         }
     }
@@ -1006,7 +968,8 @@ void YWindow::handleClientMessage(const XClientMessageEvent &message) {
         && message.data.l[0] == long(_XA_WM_DELETE_WINDOW))
     {
         handleClose();
-    } else if (message.message_type == _XA_WM_PROTOCOLS
+    }
+    else if (message.message_type == _XA_WM_PROTOCOLS
         && message.format == 32
         && message.data.l[0] == long(_XA_WM_TAKE_FOCUS))
     {
@@ -1244,13 +1207,6 @@ void YWindow::donePopup(YPopupWindow * /*command*/) {
 void YWindow::handleClose() {
 }
 
-void YWindow::setEnabled(bool enable) {
-    if (enable != fEnabled) {
-        fEnabled = enable;
-        repaint();
-    }
-}
-
 void YWindow::handleFocus(const XFocusChangeEvent &xfocus) {
     if (isToplevel()) {
         if (xfocus.type == FocusIn) {
@@ -1423,7 +1379,7 @@ void YWindow::lostFocus() {
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (fToplevel || fParentWindow == nullptr) {
+    if (isToplevel() || fParentWindow == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1453,7 +1409,7 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (fToplevel || fParentWindow == nullptr) {
+    if (isToplevel() || fParentWindow == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1493,11 +1449,16 @@ void YWindow::setNetPid() {
     setProperty(_XA_NET_WM_PID, XA_CARDINAL, getpid());
 }
 
-void YWindow::setDND(bool enabled) {
-    if (fDND != enabled) {
-        fDND = enabled;
+void YWindow::setToplevel(bool enabled) {
+    if (isToplevel() != enabled) {
+        flags = enabled ? (flags | wfToplevel) : (flags &~ wfToplevel);
+    }
+}
 
-        if (fDND) {
+void YWindow::setDND(bool enabled) {
+    if (isDragDrop() != enabled) {
+        flags = enabled ? (flags | wfDragDrop) : (flags &~ wfDragDrop);
+        if (isDragDrop()) {
             setProperty(XA_XdndAware, XA_ATOM, XdndCurrentVersion);
         } else {
             XDeleteProperty(xapp->display(), handle(), XA_XdndAware);
@@ -1530,7 +1491,8 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
     if (message.message_type == XA_XdndEnter) {
         MSG(("XdndEnter source=%lX", message.data.l[0]));
         XdndDragSource = static_cast<unsigned long>(message.data.l[0]);
-    } else if (message.message_type == XA_XdndLeave) {
+    }
+    else if (message.message_type == XA_XdndLeave) {
         MSG(("XdndLeave source=%lX", message.data.l[0]));
         if (XdndDropTarget) {
             YWindow *win;
@@ -1540,8 +1502,9 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             XdndDropTarget = None;
         }
         XdndDragSource = None;
-    } else if (message.message_type == XA_XdndPosition &&
-               XdndDragSource != 0)
+    }
+    else if (message.message_type == XA_XdndPosition &&
+             XdndDragSource != 0)
     {
         Window target, child;
         int x, y, nx, ny;
@@ -1609,11 +1572,14 @@ void YWindow::handleXdnd(const XClientMessageEvent &message) {
             msg.data.l[4] = None;
             XSendEvent(app->display(), XdndDragSource, True, 0L, (XEvent *)&msg);
         }*/
-    } else if (message.message_type == XA_XdndStatus) {
+    }
+    else if (message.message_type == XA_XdndStatus) {
         MSG(("XdndStatus"));
-    } else if (message.message_type == XA_XdndDrop) {
+    }
+    else if (message.message_type == XA_XdndDrop) {
         MSG(("XdndDrop"));
-    } else if (message.message_type == XA_XdndFinished) {
+    }
+    else if (message.message_type == XA_XdndFinished) {
         MSG(("XdndFinished"));
     }
 }
@@ -1687,7 +1653,6 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
     YWindow(aParent, win)
 {
     desktop = this;
-    setDoubleBuffer(false);
     unsigned w = 0, h = 0;
     updateXineramaInfo(w, h);
 }
