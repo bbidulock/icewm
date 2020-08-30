@@ -536,7 +536,7 @@ YMenu* YWMApp::getWindowMenu() {
     if (strchr(winMenuItems, 'c'))
         windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
     if (strchr(winMenuItems, 'k'))
-        windowMenu->addItem(_("_Kill Client"), -2, KEY_NAME(gKeyWinKill), actionKill);
+        windowMenu->addItem(_("_Kill Client"), -2, null, actionKill);
     if (strchr(winMenuItems, 'w')) {
         windowMenu->addSeparator();
         windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
