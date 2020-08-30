@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-08-31 00:09+0200\n"
 "PO-Revision-Date: 2018-04-14 08:08+0000\n"
 "Last-Translator: Andriy Bandura <andriykopanytsia@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -15,27 +15,27 @@ msgstr ""
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.18\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Живлення"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "П"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Заряд"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "З"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Повний"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "потужність:\t%s"
@@ -675,7 +675,7 @@ msgstr "Невідома дія: \"%s\""
 msgid "Socket error: %d"
 msgstr "Помилка гнізда: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:64
 #, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -702,28 +702,28 @@ msgstr ""
 "  -n, --notray        Не запускати icewmtray.\n"
 "  -s, --sound         Також запустити icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:162
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Невідомий параметр '%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:416 src/icesm.cc:576
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Перезапустити"
 
-#: src/icesm.cc:410
+#: src/icesm.cc:422
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s завершилася з кодом %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:428 src/icesm.cc:582
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s був знищений через сигнал %d."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:467
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -733,7 +733,7 @@ msgid ""
 "\t3: Run a terminal?\n"
 msgstr ""
 
-#: src/icesm.cc:461
+#: src/icesm.cc:473
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"

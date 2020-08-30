@@ -1,6 +1,6 @@
 [icewm -- release notes.  2020-01-07]: #
 
-Release 1.8.0
+Release 1.8.1
 =============
 
 Included in the release is an autoconf tarball for building the package

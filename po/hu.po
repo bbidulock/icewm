@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-08-31 00:09+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -22,29 +22,29 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 # ../src/aapm.cc:93
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Hálózati feszültség"
 
 # ../src/aapm.cc:95
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "H"
 
 # ../src/aapm.cc:98
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Töltés alatt"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "T"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Feltöltve"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "Töltés:\t%s"
@@ -727,7 +727,7 @@ msgstr "Ismeretlen ablakbeállítás: \"%s\""
 msgid "Socket error: %d"
 msgstr "Socket hiba: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:64
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -767,29 +767,29 @@ msgstr ""
 "  -s, --sound         Indítsa el az icesound programot is.\n"
 
 # ../src/wmoption.cc:209
-#: src/icesm.cc:151
+#: src/icesm.cc:162
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Ismeretlen beállítás: '%s 1'"
 
 # ../src/icesame.cc:57
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:416 src/icesm.cc:576
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Újraindítás"
 
-#: src/icesm.cc:410
+#: src/icesm.cc:422
 #, c-format
 msgid "%s exited with status %d."
 msgstr "A(z) %s kilépett a következő állapottal: %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:428 src/icesm.cc:582
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "A(z) %s programot leállította a(z) %d jel."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:467
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -811,7 +811,7 @@ msgstr ""
 "\t1: Újraindítja az IceWM programot?\n"
 "\t2: Megszakítja ezt a munkamenetet?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:473
 msgid "IceWM crash response"
 msgstr "IceWM összeomlási válasza"
 

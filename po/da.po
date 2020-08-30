@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-08-31 00:09+0200\n"
 "PO-Revision-Date: 2020-03-13 16:55+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -19,27 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6.1\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Strøm"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "S"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Oplader"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "O"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Fuld"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "strøm:\t%s"
@@ -656,7 +656,7 @@ msgstr "Ukendt handling: \"%s\""
 msgid "Socket error: %d"
 msgstr "Sokkelfejl: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:64
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -697,27 +697,27 @@ msgstr ""
 "  -n, --notray        Start ikke icewmtray.\n"
 "  -s, --sound         Start også icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:162
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Ukendt tilvalg \"%s\""
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:416 src/icesm.cc:576
 #, c-format
 msgid "restart %s."
 msgstr "genstart %s."
 
-#: src/icesm.cc:410
+#: src/icesm.cc:422
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s afsluttede med status %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:428 src/icesm.cc:582
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s blev dræbt med signal %d."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:467
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -739,7 +739,7 @@ msgstr ""
 "\t1: Genstarte IceWM?\n"
 "\t2: Afbryde sessionen?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:473
 msgid "IceWM crash response"
 msgstr "Svar til IceWM-nedbrud"
 

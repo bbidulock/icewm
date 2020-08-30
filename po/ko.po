@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-08-31 00:09+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,27 +20,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 3.3\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - 전력"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - 충전 중"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - 전체"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "전원:\t%s"
@@ -667,7 +667,7 @@ msgstr "알 수 없는 동작: `%s'"
 msgid "Socket error: %d"
 msgstr "소켓 오류: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:64
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -704,28 +704,28 @@ msgstr ""
 "  -n, --notray        icewmtray를 시작하지 않습니다.\n"
 "  -s, --sound         icesound도 시작합니다.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:162
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "알 수 없는 옵션 '%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:416 src/icesm.cc:576
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "다시 시작"
 
-#: src/icesm.cc:410
+#: src/icesm.cc:422
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s이(가) 상태 %d(으)로 종료되었습니다."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:428 src/icesm.cc:582
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s이(가) 신호 %d에 의해 종료되었습니다."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:467
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -747,7 +747,7 @@ msgstr ""
 "\t1: IceWM을 다시 시작하시겠습니까?\n"
 "\t2: 이 세션을 중단하시겠습니까?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:473
 msgid "IceWM crash response"
 msgstr "IceWM 충돌 응답"
 

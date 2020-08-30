@@ -1,11 +1,57 @@
-icewm -- history of user-visible changes.  2020-08-25
+icewm -- history of user-visible changes.  2020-08-31
+
+Release icewm-1.8.1 released 2020-08-31
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.8.0...1.8.1
+
+Bert Gijsbers <gijsbers@science.uva.nl> (28):
+      Fix typo for the KeySysArrangeIcons key binding.
+      Fix path_lookup strtok_r for non-Glibc BSD systems for ice-wm/icewm#23.
+      Only define KeySysArrangeIcons if preference MinimizeToDesktop=1.
+      Remove double buffering from YWindow.
+      Prevent premature workarea changes when collapsing taskbar to avoid
+        repositioning MiniIcons.
+      Remove 4 bools from YWindow.
+      Free logoutMenu on exit.
+      Fix topSideVerticalOffset for fully opaque frame borders for #482.
+      Also spy on ClientMessages.
+      Free fonts when done.
+      More spy output details.
+      Remove undocumented KeyWinSnapMove. Add KeyWinSmartPlace to preferences.
+      Prevent cyclic transients. Optimize setCurrentPositionOuter.
+      Update man pages.
+      Workaround for absent wordexp on OpenBSD.
+      Remove comments from include statements.
+      Update dependencies in Makefile.am.
+      make update-po.
+      Cast we_wordc for OpenBSD.
+      Changes for OpenBSD.
+      Fix for --disable-shape.
+      Fix for --disable-gdk-pixbuf.
+      Restrict ICE_COMMON_SRCS to essentials.
+      Fix the FreeBSD case where icewm-session is started in the root directory
+        by the display manager.
+      Fixes for reading from a pipe.
+      Don't show error if timed out.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Eduard Bloch <blade@debian.org> (2):
+      Fix memory leak from path_lookup call
+      Fixup DEBUG build
+
+Code7R <Code7R@users.noreply.github.com> (1):
+      Feature/smart pointer in file reader (#463)
+
 
 Release icewm-1.8.0 released 2020-08-25
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.7.0...1.8.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (122):
+Bert Gijsbers <gijsbers@science.uva.nl> (123):
       update to 1.7.0
       Add definition of ACPIDEV for FreeBSD.
       Add sys/resource.h for FreeBSD for issue #445.
@@ -168,6 +214,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (122):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.8.0 release
 
 Eduard Bloch <blade@debian.org> (19):
       Added basic indexing of source types and purpose
@@ -827,75 +874,4 @@ Alessio Adamo <alessio.adamo@gmail.com> (1):
 
 Artem Polishchuk <tim77@users.noreply.github.com> (1):
       Convert tab to spaces (#390)
-
-
-Release icewm-1.6.2 released 2019-09-17
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.6.1...1.6.2
-
-Bert Gijsbers <gijsbers@science.uva.nl> (43):
-      Update to 1.6.1. Prefer lzip over xz due to popular demand.
-      Silence icehelp.
-      Restore use of ColorQuickSwitchActive for vertical switching for issue
-        #375.
-      Fix getWorkspace for sticky. Fix getOpacity. Find TaskBar with -T. Make
-        sync a manager action and check if IceWM is running.
-      IceWM splash image.
-      Update README.md from README.md.in.
-      install IceWM.jpg.
-      Add --with-xterm= to configure and -DXTERMCMD= to CMake build for issue
-        #379.
-      Always use XTERMCMD in place of xterm to remove hard dependency on xterm
-        for issue #379.
-      +addWorkspace, prop, -Prop, -Role.
-      Enable tilde and $HOME expansion for icon paths.
-      For 32-bit applications always create a 32-bit frame for issue #381.
-      add WinStateMaximizedBoth
-      add setAtomName.
-      Concentrate all properties in yxapp. When creating a frame record event
-        time. Synchronize YFrameOptions values with WinState from WinMgr.h. Sort
-        atom names by number and create a fast local atom name lookup.
-      Log atoms as strings.
-      Document icewm-session behavior.
-      add SEE ALSO.
-      catch font.
-      Fix font corruption for 32-bit alpha for #381.
-      prevent division by zero.
-      types
-      dialog owner.
-      Let icon draw itself.
-      Changes for Pidgin for #382.
-      use names for AC status.
-      fix type
-      fix types
-      implicitly convert bool to int.
-      Prevent user confusion about image modules and postpone yximage as default
-        until improvements have been made for issue #385.
-      Require libXPM for cursors for issue #384.
-      Only compile if not gdk-pixbuf for cursors for #384.
-      Restore support for themable cursors for #384.
-      REDIR_ROOT is no longer useful.
-      Cursors require XPM or Imlib for #384.
-      expand LIBDIR and PACKAGE
-      Substitute CFGDIR in pod output.
-      Set PACKAGE_URL. Drop icewmtray and KDEDIR. Substitute LIBDIR, CFGDIR and
-        XTERMCMD.
-      Substitute CFGDIR and LIBDIR. Substitute xterm for XTERMCMD for #379.
-      Substitute installation directories.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.2 release
-
-Eduard Bloch <blade@debian.org> (5):
-      [cmake] Make check of mandatory X libs strict
-      Fix config.h inclusion where missing
-      Fix direct inclusion of stdlib.h for strtok
-      Fix -Wstringop-truncation warning with gcc 9.2
-      Add explicit copy operator
-
-micrococo <micrococo@users.noreply.github.com> (2):
-      Fix some typos in documentation (#378)
-      Update Spanish translation of desktop files (#380)
 
