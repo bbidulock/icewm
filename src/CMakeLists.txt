@@ -405,7 +405,7 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 SET(ICE_COMMON_SRCS mstring.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
     ywindow.cc ypaint.cc ypopup.cc misc.cc ycursor.cc ysocket.cc ypaths.cc
-    ylocale.cc yarray.cc ycollections.cc ypipereader.cc yxembed.cc yconfig.cc
+    ylocale.cc yarray.cc ypipereader.cc yxembed.cc yconfig.cc
     yprefs.cc yfont.cc ypixmap.cc ytime.cc
     yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc yfileio.cc ytime.cc)
 
@@ -453,7 +453,7 @@ target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(strtest ${icewm_libs} ${icewm_img_libs})
 
 IF(CONFIG_FDO_MENUS)
-    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ${MISC_SRCS})
+    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} ycollections.cc fdomenu.cc ${MISC_SRCS})
     target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${gio_CFLAGS})
     TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
