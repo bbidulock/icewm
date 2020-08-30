@@ -477,6 +477,9 @@ void MenuLoader::progMenus(
             close(devnull);
         }
         if (dup2(readWriteFds[1], 1) == 1) {
+            if (readWriteFds[1] > 1) {
+                close(readWriteFds[1]);
+            }
             execvp(command, argv);
         }
         fail("Exec '%s' failed", command);
@@ -484,7 +487,7 @@ void MenuLoader::progMenus(
     }
     else {
         bool timedOut = false;
-        file_raii cleaner(readWriteFds[1]);
+        close(readWriteFds[1]);
         filereader rdr(readWriteFds[0]);
         auto buf = rdr.read_all(false, TIMEOUT_MS, &timedOut);
         if (timedOut) {
@@ -492,15 +495,14 @@ void MenuLoader::progMenus(
             kill(child_pid, SIGKILL);
         }
         int status = 0;
-        if ((waitpid(child_pid, &status, 0) == 0) && (status != 0)) {
+        if (waitpid(child_pid, &status, 0) == 0 && status) {
             warn("'%s' exited with code %d.", command, status);
         }
-        else {
-            if (buf && buf[0]) {
-                parseMenus(buf, container);
-            } else {
-                warn(_("'%s' produces no output"), command);
-            }
+        else if (nonempty(buf)) {
+            parseMenus(buf, container);
+        }
+        else if (timedOut) {
+            warn(_("'%s' produces no output"), command);
         }
     }
 }
