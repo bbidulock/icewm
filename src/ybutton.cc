@@ -11,7 +11,7 @@
 #include "yrect.h"
 #include "yicon.h"
 #include "wpixmaps.h"
-#include "yxapp.h" // !!! remove (AltMask)
+#include "yxapp.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "ascii.h"

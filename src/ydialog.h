@@ -1,7 +1,7 @@
 #ifndef YDIALOG_H
 #define YDIALOG_H
 
-#include "wmclient.h" // !!! broken, should be ywindow
+#include "wmclient.h"
 
 class YDialog: public YFrameClient {
 public:
