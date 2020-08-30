@@ -398,12 +398,12 @@ void CPUStatus::updateStatus() {
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
     int retbuflen = 0;
+#if __linux__
     char namebuf[300];
     char buf[64];
 
     memset(tempbuf, 0, buflen);
 
-#if __linux__
     cdir dir;
     if (dir.open("/sys/class/thermal")) {
         while (dir.next()) {
