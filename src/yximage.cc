@@ -175,7 +175,7 @@ mstring YXImage::detectImageType(upath filename) {
      const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
      char buf[len+1];
      memset(buf, 0, sizeof buf);
-     if (read_file(filename.string(), buf, sizeof buf) >= len) {
+     if (filereader(filename.string()).read_all(buf, sizeof buf) >= len) {
          if (0 == memcmp(buf, "/* XPM */", xpm)) {
              return ".xpm";
          }
