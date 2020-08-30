@@ -52,6 +52,7 @@ void MiniIcon::paint(Graphics &g, const YRect &r) {
 }
 
 void MiniIcon::updateIcon() {
+#ifdef CONFIG_SHAPE
     ref<YIcon> icon(fFrame->clientIcon());
     if (icon != null && icon->huge() != null) {
         ref<YImage> image = icon->huge();
@@ -61,6 +62,7 @@ void MiniIcon::updateIcon() {
                               0, 0, pixmap->mask(), ShapeSet);
         }
     }
+#endif
 }
 
 void MiniIcon::updatePosition() {
