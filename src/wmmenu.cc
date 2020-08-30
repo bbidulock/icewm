@@ -501,7 +501,7 @@ void MenuLoader::progMenus(
         else if (nonempty(buf)) {
             parseMenus(buf, container);
         }
-        else if (timedOut) {
+        else if (timedOut == false) {
             warn(_("'%s' produces no output"), command);
         }
     }
