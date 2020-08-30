@@ -2443,13 +2443,25 @@ YMenu *YFrameWindow::windowMenu() {
     return wmapp->getWindowMenu();
 }
 
-void YFrameWindow::addAsTransient() {
+bool YFrameWindow::addAsTransient() {
     Window groupLeader(client()->ownerWindow());
 
     if (groupLeader) {
         fOwner = manager->findFrame(groupLeader);
 
         if (fOwner) {
+            YArray<YFrameWindow*> owners;
+            for (YFrameWindow* o = fOwner;
+                 o && find(owners, o) < 0;
+                 o = o->owner())
+            {
+                owners += o;
+            }
+            if (0 <= find(owners, this)) {
+                fOwner = nullptr;
+                return false;
+            }
+
             MSG(("transient for 0x%lX: 0x%p", groupLeader, fOwner));
             PRECONDITION(fOwner->transient() != this);
 
@@ -2459,13 +2471,19 @@ void YFrameWindow::addAsTransient() {
             if (getActiveLayer() < fOwner->getActiveLayer()) {
                 setRequestedLayer(fOwner->getActiveLayer());
             }
-            if (fNextTransient != nullptr)
+            if (fNextTransient &&
+                fNextTransient->getActiveLayer() == getActiveLayer())
+            {
                 setAbove(fNextTransient);
-            else
+            }
+            else if (fOwner->getActiveLayer() == getActiveLayer()) {
                 setAbove(owner());
+            }
             setWorkspace(owner()->getWorkspace());
+            return true;
         }
     }
+    return false;
 }
 
 void YFrameWindow::removeAsTransient() {
@@ -2475,8 +2493,10 @@ void YFrameWindow::removeAsTransient() {
         for (YFrameWindow *curr = fOwner->transient(), *prev = nullptr;
              curr; prev = curr, curr = curr->nextTransient()) {
             if (curr == this) {
-                if (prev) prev->setNextTransient(nextTransient());
-                else fOwner->setTransient(nextTransient());
+                if (prev)
+                    prev->setNextTransient(nextTransient());
+                else
+                    fOwner->setTransient(nextTransient());
                 break;
             }
         }
@@ -2487,10 +2507,24 @@ void YFrameWindow::removeAsTransient() {
 }
 
 void YFrameWindow::addTransients() {
-    for (YFrameWindow * w(manager->bottomLayer()); w; w = w->prevLayer()) {
+    YArray<YFrameWindow*> owners;
+    for (YFrameWindow* w(manager->bottomLayer()); w; w = w->prevLayer()) {
         if (w->owner() == nullptr) {
             Window cow = w->client()->ownerWindow();
             if (cow && cow == client()->handle()) {
+                if (owner()) {
+                    if (owners.isEmpty()) {
+                        for (YFrameWindow* o = owner();
+                             o && find(owners, o) < 0;
+                             o = o->owner())
+                        {
+                            owners += o;
+                        }
+                    }
+                    if (0 <= find(owners, w)) {
+                        continue;
+                    }
+                }
                 w->addAsTransient();
             }
         }
@@ -3010,7 +3044,15 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
 }
 
 void YFrameWindow::setCurrentPositionOuter(int x, int y) {
-    setCurrentGeometryOuter(YRect(x, y, width(), height()));
+    YWindow::setPosition(x, y);
+    if ( ! isFullscreen()) {
+        posX = x;
+        posY = y;
+        if ( !isIconic() && !isMaximizedHoriz())
+            normalX = posX + borderXN();
+        if ( !isIconic() && !isMaximizedVert())
+            normalY = posY + borderYN();
+    }
 }
 
 void YFrameWindow::updateIconPosition() {

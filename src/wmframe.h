@@ -290,7 +290,7 @@ public:
     WindowListItem *winListItem() const { return fWinListItem; }
     void setWinListItem(WindowListItem *i) { fWinListItem = i; }
 
-    void addAsTransient();
+    bool addAsTransient();
     void removeAsTransient();
     void addTransients();
     void removeTransients();
