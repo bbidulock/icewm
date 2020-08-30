@@ -40,6 +40,7 @@ public:
     float getCpuFreq(unsigned int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
+    static void freeFont() { tempFont = null; }
 
 private:
     int fCpuID;
@@ -67,7 +68,7 @@ public:
     typedef ArrayType::IterType IterType;
 
     CPUStatusControl(YSMListener *smActionListener, IAppletContainer *iapp, YWindow *aParent);
-    virtual ~CPUStatusControl() { }
+    virtual ~CPUStatusControl() { CPUStatus::freeFont(); }
 
     IterType getIterator() { return fCPUStatus.iterator(); }
 

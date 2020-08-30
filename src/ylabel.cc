@@ -13,6 +13,7 @@
 YColorName YLabel::labelFg(&clrLabelText);
 YColorName YLabel::labelBg(&clrLabel);
 ref<YFont> YLabel::labelFont;
+int YLabel::labelObjectCount;
 
 YLabel::YLabel(const mstring &label, YWindow *parent):
     YWindow(parent),
@@ -24,11 +25,14 @@ YLabel::YLabel(const mstring &label, YWindow *parent):
 
     if (labelFont == null)
         labelFont = YFont::getFont(XFA(labelFontName));
+    ++labelObjectCount;
 
     autoSize();
 }
 
 YLabel::~YLabel() {
+    if (--labelObjectCount == 0)
+        labelFont = null;
 }
 
 void YLabel::handleExpose(const XExposeEvent& expose) {

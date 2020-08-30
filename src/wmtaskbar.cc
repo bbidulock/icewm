@@ -943,9 +943,15 @@ void TaskBar::handleCollapseButton() {
         fCollapseButton->repaint();
     }
 
+    manager->lockWorkArea();
+    if (fIsCollapsed)
+        updateWinLayer();
     relayout();
     updateLocation();
-    updateWinLayer();
+    if (fIsCollapsed == false)
+        updateWinLayer();
+    xapp->sync();
+    manager->unlockWorkArea();
 }
 
 void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {

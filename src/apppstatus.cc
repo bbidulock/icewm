@@ -348,7 +348,7 @@ void NetStatus::draw(Graphics &g) {
  */
 #ifdef __linux__
 bool NetIsdnDevice::isUp() {
-    csmart str(load_text_file("/dev/isdninfo"));
+    auto str(filereader("/dev/isdninfo").read_all());
     char val[5][32];
     int busage = 0;
     int bflags = 0;
@@ -591,7 +591,7 @@ NetStatusControl::~NetStatusControl() {
 #ifdef __linux__
 void NetStatusControl::fetchSystemData() {
     devStats.clear();
-    devicesText = load_text_file("/proc/net/dev");
+    devicesText = filereader("/proc/net/dev").read_all();
     if (devicesText == nullptr)
         return;
 

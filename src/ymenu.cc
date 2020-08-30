@@ -4,30 +4,20 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-
-#include "yfull.h"
-#include "ykey.h"
 #include "ymenu.h"
-#include "yaction.h"
 #include "ymenuitem.h"
-#include "yrect.h"
-
 #include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"
-
 #include "ascii.h"
-
-#include "yicon.h"
-
 #include <string.h>
 
-YColorName menuBg(&clrNormalMenu);
-YColorName menuItemFg(&clrNormalMenuItemText);
-YColorName activeMenuItemBg(&clrActiveMenuItem);
-YColorName activeMenuItemFg(&clrActiveMenuItemText);
-YColorName disabledMenuItemFg(&clrDisabledMenuItemText);
-YColorName disabledMenuItemSt(&clrDisabledMenuItemShadow);
+static YColorName menuBg(&clrNormalMenu);
+static YColorName menuItemFg(&clrNormalMenuItemText);
+static YColorName activeMenuItemBg(&clrActiveMenuItem);
+static YColorName activeMenuItemFg(&clrActiveMenuItemText);
+static YColorName disabledMenuItemFg(&clrDisabledMenuItemText);
+static YColorName disabledMenuItemSt(&clrDisabledMenuItemShadow);
 
 ref<YFont> menuFont;
 
@@ -43,6 +33,7 @@ int YMenu::fAutoScrollDeltaX = 0;
 int YMenu::fAutoScrollDeltaY = 0;
 int YMenu::fAutoScrollMouseX = -1;
 int YMenu::fAutoScrollMouseY = -1;
+int YMenu::fMenuObjectCount;
 YMenu *YMenu::fPointedMenu = nullptr;
 
 void YMenu::setActionListener(YActionListener *actionListener) {
@@ -68,9 +59,6 @@ YMenu::YMenu(YWindow *parent):
     fGradient(null),
     fMenusel(null)
 {
-    if (menuFont == null)
-        menuFont = YFont::getFont(XFA(menuFontName));
-
     paintedItem = selectedItem = -1;
     submenuItem = -1;
     fPopup = nullptr;
@@ -84,6 +72,10 @@ YMenu::YMenu(YWindow *parent):
     fTimerY = 0;
     fTimerSubmenuItem = -1;
     addStyle(wsNoExpose);
+
+    if (menuFont == null)
+        menuFont = YFont::getFont(XFA(menuFontName));
+    ++fMenuObjectCount;
 }
 
 void YMenu::raise() {
@@ -105,6 +97,8 @@ YMenu::~YMenu() {
     fGradient = null;
     fMenusel = null;
     removeAll();
+    if (--fMenuObjectCount == 0)
+        menuFont = null;
 }
 
 void YMenu::activatePopup(int flags) {
@@ -676,8 +670,7 @@ void YMenu::removeAll() {
     for (int i = 0; i < n; ++i) {
         YMenu* sub = fItems[i]->getSubmenu();
         if (sub && sub->isShared()) {
-            YMenuItem* nil(nullptr);
-            swap(nil, fItems[i]);
+            fItems[i]->setSubmenu(nullptr);
         }
     }
     fItems.clear();

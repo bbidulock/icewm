@@ -14,6 +14,7 @@ public:
         PRECONDITION(ww < INT_MAX);
         PRECONDITION(hh < INT_MAX);
     }
+    YRect(const XRectangle& r) : xx(r.x), yy(r.y), ww(r.width), hh(r.height) { }
 
     int x() const { return xx; }
     int y() const { return yy; }

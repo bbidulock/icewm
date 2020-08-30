@@ -40,6 +40,7 @@ public:
     void switchToNext();
 
     static unsigned maxHeight();
+    static void freeFonts() { normalTaskBarFont = null; activeTaskBarFont = null; }
 
 private:
     ClientData *fFrame;

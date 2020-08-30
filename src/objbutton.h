@@ -38,6 +38,7 @@ public:
     virtual ref<YFont> getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
+    static void freeFont() { font = null; }
 
 private:
     void obinit() { addStyle(wsNoExpose); setParentRelative(); }

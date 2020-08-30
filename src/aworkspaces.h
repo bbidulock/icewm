@@ -29,6 +29,7 @@ public:
     void setPosition(int x, int y);
     int extent() const { return x() + int(width()); }
     virtual void repaint();
+    static void freeFonts() { normalButtonFont = null; activeButtonFont = null; }
 
 private:
     virtual void handleButton(const XButtonEvent &button);
@@ -107,6 +108,7 @@ class WorkspacesPane:
 
 public:
     WorkspacesPane(YWindow *parent);
+    ~WorkspacesPane() { WorkspaceButton::freeFonts(); }
 
     virtual void repaint();
     virtual void relabelButtons();

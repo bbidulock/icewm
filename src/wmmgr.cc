@@ -26,7 +26,7 @@
 #include "workspaces.h"
 #include "ystring.h"
 #include "intl.h"
-#include <wordexp.h>
+#include "ywordexp.h"
 
 YContext<YFrameClient> clientContext("clientContext", false);
 YContext<YFrameWindow> frameContext("framesContext", false);
@@ -195,6 +195,8 @@ void YWindowManager::grabKeys() {
     GRAB_WMKEY(gKeySysCascade);
     GRAB_WMKEY(gKeySysArrange);
     GRAB_WMKEY(gKeySysUndoArrange);
+
+    if (minimizeToDesktop)
     GRAB_WMKEY(gKeySysArrangeIcons);
     GRAB_WMKEY(gKeySysMinimizeAll);
     GRAB_WMKEY(gKeySysHideAll);
@@ -3262,12 +3264,12 @@ void YWindowManager::setKeyboard(int configIndex) {
 void YWindowManager::setKeyboard(mstring keyboard) {
     if (keyboard != null && keyboard != fCurrentKeyboard) {
         fCurrentKeyboard = keyboard;
-        const char program[] = "setxkbmap";
-        char* path = path_lookup(program);
+        auto program = "setxkbmap";
+        csmart path(path_lookup(program));
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD) == 0) {
+            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
                 exp.we_wordv[0] = strdup(program);
                 wmapp->runProgram(program, exp.we_wordv);
                 wordfree(&exp);

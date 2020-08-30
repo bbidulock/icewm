@@ -24,6 +24,7 @@ private:
     static YColorName labelFg;
     static YColorName labelBg;
     static ref<YFont> labelFont;
+    static int labelObjectCount;
 };
 
 #endif

@@ -22,7 +22,7 @@ private:
 class ObjectMenu: public YMenu, public ObjectContainer {
 public:
     ObjectMenu(YActionListener *wmActionListener, YWindow *parent = nullptr);
-    virtual ~ObjectMenu();
+    virtual ~ObjectMenu() =default;
 
     virtual void addObject(DObject *object);
     virtual void addObject(DObject *object, const char *icons);
