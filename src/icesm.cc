@@ -36,7 +36,7 @@ private:
         if (wordexp(trim(buf), &w, 0) != 0 || w.we_wordc == 0)
             return false;
         size_t len = strlcpy(buf, trim(w.we_wordv[0]), bufsiz);
-        for (size_t k = 1; k < w.we_wordc && len < bufsiz; ++k) {
+        for (size_t k = 1; k < size_t(w.we_wordc) && len < bufsiz; ++k) {
             strlcat(buf, " ", bufsiz);
             len = strlcat(buf, trim(w.we_wordv[k]), bufsiz);
         }
