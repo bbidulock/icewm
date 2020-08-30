@@ -26,7 +26,7 @@
 #include "workspaces.h"
 #include "ystring.h"
 #include "intl.h"
-#include <wordexp.h>
+#include "ywordexp.h"
 
 YContext<YFrameClient> clientContext("clientContext", false);
 YContext<YFrameWindow> frameContext("framesContext", false);
@@ -3269,7 +3269,7 @@ void YWindowManager::setKeyboard(mstring keyboard) {
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD) == 0) {
+            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
                 exp.we_wordv[0] = strdup(program);
                 wmapp->runProgram(program, exp.we_wordv);
                 wordfree(&exp);

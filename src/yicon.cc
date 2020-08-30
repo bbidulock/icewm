@@ -13,7 +13,7 @@
 #include "yprefs.h"
 #include "ypaths.h"
 #include "ypointer.h"
-#include <wordexp.h>
+#include "ywordexp.h"
 
 #include "intl.h"
 

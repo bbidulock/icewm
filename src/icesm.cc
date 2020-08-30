@@ -8,7 +8,7 @@
 #include "ypointer.h"
 #include "ascii.h"
 using namespace ASCII;
-#include <wordexp.h>
+#include "ywordexp.h"
 #include <X11/Xlib.h>
 
 #ifdef CONFIG_EXTERNAL_TRAY

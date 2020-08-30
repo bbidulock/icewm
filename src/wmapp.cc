@@ -35,7 +35,7 @@
 #endif
 #undef override
 #include <X11/Xproto.h>
-#include <wordexp.h>
+#include "ywordexp.h"
 #include "intl.h"
 
 char const *ApplicationName("IceWM");

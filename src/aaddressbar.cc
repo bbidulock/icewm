@@ -11,7 +11,7 @@
 #include "wmmgr.h"
 #include "default.h"
 #include <X11/keysym.h>
-#include <wordexp.h>
+#include "ywordexp.h"
 
 AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent),
