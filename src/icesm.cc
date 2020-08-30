@@ -48,6 +48,17 @@ private:
         return buf[0] != 0;
     }
 
+    void setup() {
+        char buf[PATH_MAX];
+        char* pwd = getcwd(buf, sizeof buf);
+        if (pwd && !strcmp(pwd, "/") && access(pwd, W_OK)) {
+            char* home = getenv("HOME");
+            if (home && !access(home, W_OK)) {
+                chdir(home);
+            }
+        }
+    }
+
     const char *get_help_text() {
         return _(
         "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -172,6 +183,7 @@ private:
 
 public:
     SessionManager(int *argc, char ***argv): YApplication(argc, argv) {
+        setup();
         options(argc, argv);
         startup_phase = 0;
         bg_pid = -1;
