@@ -3630,7 +3630,8 @@ void IceSh::spyEvent(const XEvent& event)
                 ? "" : " ???");
         break;
     case UnmapNotify:
-        printf("%sUnmap%s%s\n", head,
+        printf("%sUnmap 0x%lx%s%s\n", head,
+                event.xunmap.window,
                 event.xunmap.from_configure ? " Configure" : "",
                 event.xunmap.send_event ? " Send" : "");
         break;
@@ -3645,19 +3646,25 @@ void IceSh::spyEvent(const XEvent& event)
             );
         break;
     case CreateNotify:
+        printf("%sCreate 0x%lx %dx%d%+d%+d%s\n", head,
+                event.xcreatewindow.window,
+                event.xcreatewindow.width, event.xcreatewindow.height,
+                event.xcreatewindow.x, event.xcreatewindow.y,
+                event.xcreatewindow.override_redirect ? " Override" : "");
         break;
     case DestroyNotify:
-        printf("%sDestroyed\n", head);
+        printf("%sDestroyed 0x%lx\n", head, event.xdestroywindow.window);
         windowList.remove(event.xdestroywindow.window);
         break;
     case MapNotify:
-        printf("%sMapped%s\n", head,
+        printf("%sMapped 0x%lx%s\n", head, event.xmap.window,
                 event.xmap.override_redirect ? " Override" : "");
         break;
     case ReparentNotify:
         break;
     case ConfigureNotify:
-        printf("%sConfigure %dx%d+%d+%d%s%s%s\n", head,
+        printf("%sConfigure 0x%lx %dx%d+%d+%d%s%s%s\n", head,
+                event.xconfigure.window,
                 event.xconfigure.width, event.xconfigure.height,
                 event.xconfigure.x, event.xconfigure.y,
                 event.xconfigure.send_event ? " Send" : "",
@@ -3668,7 +3675,8 @@ void IceSh::spyEvent(const XEvent& event)
     case GravityNotify:
         break;
     case CirculateNotify:
-        printf("%sCirculate %s\n", head,
+        printf("%sCirculate 0x%lx %s\n", head,
+                event.xcirculate.window,
                 event.xcirculate.place == PlaceOnTop
                     ? "PlaceOnTop" :
                 event.xcirculate.place == PlaceOnBottom
