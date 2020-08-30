@@ -723,6 +723,10 @@ Moves the active window to the middle left of the screen.
 
 Moves the active window to the center of the screen.
 
+=item B<KeyWinSmartPlace>=C<Ctrl+Alt+Shift+KP_5>
+
+Smart place the active window.
+
 =item B<KeySysWinMenu>=C<Shift+Esc>
 
 Posts the system window menu.
