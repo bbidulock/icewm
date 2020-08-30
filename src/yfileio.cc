@@ -1,6 +1,7 @@
 #include "yfileio.h"
 #include "ytime.h"
 #include "sysdep.h"
+#include "base.h"
 #include "debug.h"
 
 void set_nb(int fd) {
