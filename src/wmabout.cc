@@ -21,7 +21,7 @@ AboutDlg::AboutDlg(): YDialog() {
     mstring copyright =
         mstring("Copyright ")
         .append(_("(C)"))
-        .append(" 1997-2008 Marko Macek, ")
+        .append(" 1997-2012 Marko Macek, ")
         .append(_("(C)"))
         .append(" 2001 Mathias Hasselmann");
 

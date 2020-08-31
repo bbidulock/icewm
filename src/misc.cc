@@ -891,7 +891,7 @@ void print_help_exit(const char *help)
 void print_version_exit(const char *version)
 {
     printf("%s %s, %s.\n", ApplicationName, version,
-        "Copyright 1997-2003 Marko Macek, 2001 Mathias Hasselmann");
+        "Copyright 1997-2012 Marko Macek, 2001 Mathias Hasselmann");
     exit(0);
 }
 
