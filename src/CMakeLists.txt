@@ -452,6 +452,8 @@ ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc ref.cc mstring.cc upath.cc ud
 target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(strtest ${icewm_libs} ${icewm_img_libs})
 
+add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
+
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} ycollections.cc fdomenu.cc ${MISC_SRCS})
     target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${gio_CFLAGS})
