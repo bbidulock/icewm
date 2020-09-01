@@ -1,4 +1,4 @@
-name: CMake
+name: CMake And Autoconf Test Builds
 
 on: [push]
 
@@ -25,27 +25,48 @@ jobs:
     - name: Get Build Dependencies
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: sudo apt install libxrender-dev gettext libxft-dev libsndfile1-dev libao-dev libsm-dev libx11-dev libxext-dev x11proto-core-dev asciidoctor libxpm-dev libgdk-pixbuf2.0-dev libglib2.0-dev libfribidi-dev librsvg2-dev xorg-dev
+      run: sudo apt install libxrender-dev gettext autopoint libxft-dev libsndfile1-dev libao-dev libsm-dev libx11-dev libxext-dev x11proto-core-dev asciidoctor libxpm-dev libgdk-pixbuf2.0-dev libglib2.0-dev libfribidi-dev librsvg2-dev xorg-dev
 
-    - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
+#    - name: Configure CMake
+#      # Use a bash shell so we can use the same syntax for environment variable
+#      # access regardless of the host operating system
+#      shell: bash
+#      working-directory: ${{runner.workspace}}/build
+#      # Note the current convention is to use the -S and -B options here to specify source 
+#      # and build directories, but this is only available with CMake 3.13 and higher.  
+#      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+#      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+#
+#    - name: Build
+#      working-directory: ${{runner.workspace}}/build
+#      shell: bash
+#      # Execute the build.  You can specify a specific target with "--target <NAME>"
+#      run: cmake --build . --config $BUILD_TYPE -j$(nproc)
+#
+#    - name: Test
+#      working-directory: ${{runner.workspace}}/build
+#      shell: bash
+#      # Execute tests defined by the CMake configuration.  
+#      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+#      run: ctest -C $BUILD_TYPE
+
+    - name: Prepare autoconf
       shell: bash
-      working-directory: ${{runner.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source 
-      # and build directories, but this is only available with CMake 3.13 and higher.  
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      working-directory: ${{runner.workspace}}
+      run: cd "$GITHUB_WORKSPACE" && pwd && bash -x autogen.sh && ls -la "$GITHUB_WORKSPACE"
 
-    - name: Build
-      working-directory: ${{runner.workspace}}/build
+    - name: Create AC build environment
+      shell: bash
+      working-directory: ${{runner.workspace}}
+      run: mkdir -p build-ac && ls -la
+
+    - name: Run configure script
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-ac
+      run: "$GITHUB_WORKSPACE/configure"
+
+    - name: Build AC version
+      working-directory: ${{runner.workspace}}/build-ac
       shell: bash
       # Execute the build.  You can specify a specific target with "--target <NAME>"
-      run: cmake --build . --config $BUILD_TYPE
-
-    - name: Test
-      working-directory: ${{runner.workspace}}/build
-      shell: bash
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C $BUILD_TYPE
+      run: make -j$(nproc)
