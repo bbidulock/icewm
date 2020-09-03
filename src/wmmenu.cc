@@ -460,25 +460,26 @@ void MenuLoader::progMenus(
     char *const argv[],
     ObjectContainer *container)
 {
-    int readWriteFds[2];
-    if (!filereader::make_pipe(readWriteFds)) {
+    int fds[2];
+    if (pipe(fds) == -1) {
         fail("pipe");
         return;
     }
-    auto child_pid = fork();
-    if (child_pid == -1) {
+
+    int pid = fork();
+    if (pid == -1) {
         fail("Forking '%s' failed", command);
-        return;
     }
-    if (child_pid == 0) {
+    else if (pid == 0) {
+        close(fds[0]);
         int devnull = open("/dev/null", O_RDONLY);
         if (devnull > 0) {
             dup2(devnull, 0);
             close(devnull);
         }
-        if (dup2(readWriteFds[1], 1) == 1) {
-            if (readWriteFds[1] > 1) {
-                close(readWriteFds[1]);
+        if (dup2(fds[1], 1) == 1) {
+            if (fds[1] > 1) {
+                close(fds[1]);
             }
             execvp(command, argv);
         }
@@ -486,22 +487,22 @@ void MenuLoader::progMenus(
         _exit(99);
     }
     else {
-        bool timedOut = false;
-        close(readWriteFds[1]);
-        filereader rdr(readWriteFds[0]);
-        auto buf = rdr.read_all(false, TIMEOUT_MS, &timedOut);
-        if (timedOut) {
+        close(fds[1]);
+        bool expired = false;
+        filereader rdr(fds[0]);
+        auto buf = rdr.read_pipe(TIMEOUT_MS, &expired);
+        if (expired) {
             warn("'%s' timed out!", command);
-            kill(child_pid, SIGKILL);
+            kill(pid, SIGKILL);
         }
         int status = 0;
-        if (waitpid(child_pid, &status, 0) == 0 && status) {
+        if (waitpid(pid, &status, 0) == 0 && status) {
             warn("'%s' exited with code %d.", command, status);
         }
         else if (nonempty(buf)) {
             parseMenus(buf, container);
         }
-        else if (timedOut == false) {
+        else if (expired == false) {
             warn(_("'%s' produces no output"), command);
         }
     }
