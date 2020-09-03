@@ -270,6 +270,15 @@ public:
         return (const ref<DataType>*) YBaseArray::end();
     }
 
+    int find(DataType* data) {
+        for (SizeType i = 0; i < getCount(); ++i) {
+            if (data == getItemPtr(i)->_ptr()) {
+                return i;
+            }
+        }
+        return npos;
+    }
+
 private:
     ref<DataType>* getItemPtr(const SizeType index) const {
         return static_cast<ref<DataType> *>(
