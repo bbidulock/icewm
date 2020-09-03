@@ -118,16 +118,24 @@ public:
     static inline void dispose(DataType* p) { ::free(p); }
 
     explicit fsmart(DataType* data = nullptr) : super(data) { }
-    fsmart(fsmart<DataType>&& src) : super(std::move(src)) {};
+
+    fsmart(fsmart<DataType>&& src) : super(std::move(src)) { }
 
     using super::operator=;
+
     fsmart& operator=(fsmart<DataType>&& other) {
         auto p = other.release();
         *this = p;
         return *this;
     }
+
     static inline fsmart create(size_t amount) {
         return fsmart((DataType*) malloc(amount));
+    }
+
+    fsmart& resize(size_t amount) {
+        *super::operator&() = (DataType*) realloc(super::data(), amount);
+        return *this;
     }
 };
 
