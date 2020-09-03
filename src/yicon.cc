@@ -29,7 +29,8 @@
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
-        loadedH(false), fCached(false), fPath(filename.expand()) {
+        loadedH(false), fCached(false), fPath(filename.expand())
+{
     // don't attempt to load if icon is disabled
     if (fPath == "none" || fPath == "-")
         loadedS = loadedL = loadedH = true;
@@ -42,25 +43,25 @@ YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
 }
 
 YIcon::~YIcon() {
-    fHuge = null;
-    fLarge = null;
-    fSmall = null;
 }
 
-static const char iconExts[][5] = { ".png",
+static const char iconExts[][5] = {
+    ".png",
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
-        ".svg",
+    ".svg",
 #endif
-        ".xpm" };
+    ".xpm",
+};
 
-static const mstring subcats[] = { "/apps", "/categories",
-    "/places", "/devices", "/status" };
+static const mstring subcats[] = {
+    "/apps", "/categories", "/places", "/devices", "/status",
+};
 
-inline bool HasImageExtension(const upath &base) {
-    const auto baseExt(base.getExtension());
+static bool hasImageExtension(const upath& base) {
+    auto baseExt(base.getExtension());
     if (baseExt.length() != 4)
         return false;
-    for (const auto &pe : iconExts) {
+    for (auto& pe : iconExts) {
         if (baseExt.equals(pe, 4))
             return true;
     }
@@ -68,53 +69,44 @@ inline bool HasImageExtension(const upath &base) {
 }
 
 // calls callback on all unique values until callback returns false
-inline void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) {
-    // starting with bigger size so we get those for scaling first,
-    // in case that becomes needed
+static void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) {
+    // prefer bigger size, in case scaling is necessary
+    unsigned consideredIconSizes[] = {
+#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+        unsigned(SCALABLE),
+#endif
+        hugeIconSize, largeIconSize, smallIconSize,
+        menuIconSize,
 
-    static unsigned consideredIconSizes[] = {
-            #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
-                    unsigned(SCALABLE),
-            #endif
-                    hugeIconSize, largeIconSize, smallIconSize,
-                    menuIconSize,
-// those sizes are only considered as last resort, to scale down to our version
-                    128,
-                    64
-            };
-    static unsigned seen[ACOUNT(consideredIconSizes)];
-    static unsigned last=0;
-    // unique list built before?
-    if (last) {
-        for(unsigned i=0; i<last; ++i)
-            f(seen[i]);
-        return;
+        // last resort
+        128,
+        64,
+        32,
+    };
+    static unsigned seen[10];
+    static unsigned last;
+    if (last == 0) {
+        for (auto size : consideredIconSizes) {
+            unsigned find = 0;
+            while (find < last && size != seen[find]) {
+                ++find;
+            }
+            if (find == last) {
+                seen[last++] = size;
+            }
+        }
     }
 
-    for(auto is : consideredIconSizes) {
-
-        if (is == toSkip) continue;
-        for(unsigned t=0;t<last;++t)
-        {
-            if (seen[t] == is)
-                goto seen_that;
+    for (unsigned i = 0; i < last; ++i) {
+        if (seen[i] != toSkip) {
+            f(seen[i]);
         }
-        seen[last++] = is;
-        if (!f(is))
-            return;
-        seen_that: continue;
     }
 }
 
-class ZIconPathIndex {
-
+class IconPathIndex {
 public:
-
     struct IconCategory {
-
-    private:
-        mutable std::vector<mstring> suffixCache;
-
     public:
         struct entry {
             mstring path;
@@ -123,7 +115,6 @@ public:
 #endif
         };
         std::vector<entry> folders;
-    public:
         unsigned size;
         IconCategory(unsigned is) : size(is) {}
     };
@@ -132,13 +123,12 @@ public:
         IconCategory anyCategory;
         Pool() : anyCategory(0) {
             iterUniqueSizeRev([&](unsigned is) {
-                categories.emplace_back(is); return true;},
-                -1);
-
+                    categories.emplace_back(is); return true;
+                }, -1);
         }
         IconCategory& getCat(unsigned is)
         {
-            for(auto& it: categories)
+            for (auto& it: categories)
                 if (it.size == is)
                     return it;
             categories.emplace_back(is);
@@ -146,13 +136,7 @@ public:
         }
     } pools[2]; // zero are resource folders, one is based on IconPath
 
-
-    void init() {
-
-        static bool once = false;
-        if (once)
-            return;
-        once = true;
+    IconPathIndex() {
         std::set<mstring> dedupTestPath;
         auto add = [&dedupTestPath](IconCategory& cat,
                 IconCategory::entry&& el) {
@@ -164,14 +148,14 @@ public:
         };
 
         auto probeAndRegisterXdgFolders = [this, &add](
-                const mstring &iconPathToken, bool fromResources) -> unsigned {
+                const mstring& iconPathToken, bool fromResources) -> unsigned {
 
             // stop early because this is obviously matching a file!
-            if (HasImageExtension(upath(iconPathToken)))
+            if (hasImageExtension(upath(iconPathToken)))
                 return 0;
             unsigned ret = 0;
 
-            auto gotcha = [&](const mstring &testDir, IconCategory& cat) {
+            auto gotcha = [&](const mstring& testDir, IconCategory& cat) {
                 if (!upath(testDir).dirExists())
                     return false;
 
@@ -195,7 +179,7 @@ public:
                 }
                 add(cat, IconCategory::entry { testDir + "/",
                         flags });
-                #else
+#else
                 add(cat, IconCategory::entry { testDir + "/" });
 #endif
                 return true;
@@ -203,29 +187,31 @@ public:
             // try the scalable version if can handle SVG
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
             auto& scaleCat = pools[fromResources].getCat(SCALABLE);
-            for (const auto &contentDir : subcats) {
+            for (auto& contentDir : subcats) {
                 ret += gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
                         scaleCat);
             }
 #endif
 
-            for (auto &kv : pools[fromResources].categories) {
+            for (auto& kv : pools[fromResources].categories) {
                 // special handling above
                 if (kv.size == SCALABLE)
                     continue;
 
                 mstring szSize(long(kv.size));
 
-                for (const auto &contentDir : subcats) {
-                    for (const auto &testDir : {
-                            // XXX: optimize concatenation with MStringBuilder
-                            mstring(iconPathToken) + "/" + szSize + "x" + szSize
-                            + contentDir, mstring(iconPathToken) + "/base/"
-                            + szSize + "x" + szSize + contentDir,
-// some old themes contain just one dimension and different naming convention
-                            mstring(iconPathToken) + contentDir + "/" + szSize
+                for (auto& contentDir : subcats) {
+                    for (auto& testDir : {
+                        // XXX: optimize concatenation with MStringBuilder
+                        mstring(iconPathToken) + "/" + szSize + "x" + szSize
+                        + contentDir,
+                        mstring(iconPathToken) + "/base/"
+                        + szSize + "x" + szSize + contentDir,
+                        // some old themes contain just one dimension
+                        // and a different naming convention
+                        mstring(iconPathToken) + contentDir + "/" + szSize
                     }) {
-                        ret+=gotcha(testDir, kv);
+                        ret += gotcha(testDir, kv);
                     }
                 }
             }
@@ -257,7 +243,7 @@ public:
 #endif
             });
 
-            for (const auto &themeExprTok : matchlist) {
+            for (auto& themeExprTok : matchlist) {
                 // probe the folder like it was specified by user directly up to
                 // the theme location and then also look for themes (by name)
                 // underneath that folder
@@ -281,7 +267,7 @@ public:
                                 continue;
                             bname++;
                             int keep = 1; // non-zero to consider it
-                            for (const auto &blistPattern : skiplist) {
+                            for (auto& blistPattern : skiplist) {
                                 keep = fnmatch(blistPattern, bname, 0);
                                 if (!keep)
                                     break;
@@ -298,7 +284,8 @@ public:
                             }
                         }
                         wordfree(&exp);
-                    } else { // wordexp failed?
+                    }
+                    else { // wordexp failed?
                         nFoundForFolder += probeAndRegisterXdgFolders(themeExpr,
                                 fromResources);
                     }
@@ -325,19 +312,15 @@ public:
     }
 
     upath locateIcon(int size, mstring baseName, bool fromResources) {
-        bool hasSuffix = HasImageExtension(baseName);
-        auto &pool = pools[fromResources];
-        upath res = null;
+        bool hasSuffix = hasImageExtension(baseName);
+        auto& pool = pools[fromResources];
+        upath res;
 
         // for compaction reasons, the lambdas return true on success,
         // but the success is only found in _this_ lambda only,
         // and this is the only one which touches `result`!
-        auto checkFile = [&](const mstring &path) {
-            upath testPath(path);
-            if (!testPath.fileExists())
-                return false;
-            res = testPath;
-            return true;
+        auto checkFile = [&](upath path) {
+            return path.fileExists() ? (res = path, true) : false;
         };
         auto checkFilesAtBasePath = [&](mstring basePath, unsigned size,
                 bool addSizeSfx) {
@@ -346,17 +329,17 @@ public:
                 basePath += "_";
                 basePath += mstring(long(size)) + "x" + mstring(long(size));
             }
-            for (const auto &imgExt : iconExts) {
+            for (auto& imgExt : iconExts) {
                 if (checkFile(basePath + imgExt))
                     return true;
             }
             return false;
         };
-        auto checkFilesInFolder = [&](const mstring &dirPath, unsigned size,
+        auto checkFilesInFolder = [&](const mstring& dirPath, unsigned size,
                 bool addSizeSfx) {
             return checkFilesAtBasePath(dirPath + baseName, size, addSizeSfx);
         };
-        auto smartScanFolder = [&](const mstring &folder, bool addSizeSfx,
+        auto smartScanFolder = [&](const mstring& folder, bool addSizeSfx,
                 unsigned probeAllButThis = 0) {
 
             // full file name with suffix -> no further size/type extensions
@@ -371,10 +354,10 @@ public:
             }
             return checkFilesInFolder(folder, size, addSizeSfx);
         };
-        auto scanList = [&](IconCategory &cat, bool addSizeSfx,
+        auto scanList = [&](IconCategory& cat, bool addSizeSfx,
                 unsigned probeAllButThis = 0) {
 
-            for (const auto &folder : cat.folders) {
+            for (auto& folder : cat.folders) {
                 if (smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
                     return true;
             }
@@ -386,7 +369,7 @@ public:
             // subset of the resolution scheme to the one below
             // and applied to just one folder; shifting the parts to emulate
             // the same concatenation results
-            auto what=baseName;
+            auto what = baseName;
             baseName = mstring();
             return (smartScanFolder(what, false, false)
                     || hasSuffix
@@ -416,17 +399,18 @@ public:
             scanList(pool.anyCategory, true, size);
         return res;
     }
-} iconIndex;
-
+};
+static lazy<IconPathIndex> iconIndex;
 
 upath YIcon::findIcon(unsigned size) {
-
-    iconIndex.init();
     // XXX: also differentiate between purpose (menu folder or program)
 
     // search in our resource paths, fallback to IconPath
-    auto ret = iconIndex.locateIcon(size, fPath, true);
-    return ret != null ? ret : iconIndex.locateIcon(size, fPath, false);
+    auto ret = iconIndex->locateIcon(size, fPath, true);
+    if (ret == null) {
+        ret = iconIndex->locateIcon(size, fPath, false);
+    }
+    return ret;
 }
 
 ref<YImage> YIcon::loadIcon(unsigned size) {
@@ -463,10 +447,10 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
 
 
 ref<YImage> YIcon::bestLoad(int size, ref<YImage>& img, bool& flag) {
-    if (img != null || flag)
-        return img;
-    img = loadIcon(size);
-    flag = true;
+    if (flag == false) {
+        img = loadIcon(size);
+        flag = true;
+    }
     return img;
 }
 
@@ -508,9 +492,8 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
 static YRefArray<YIcon> iconCache;
 
 void YIcon::removeFromCache() {
-    int n = cacheFind(iconName());
+    int n = iconCache.find(this);
     if (n >= 0) {
-        fPath = null;
         iconCache.remove(n);
     }
 }
@@ -548,15 +531,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-    for (int k = iconCache.getCount(); --k >= 0;) {
-        ref<YIcon> icon = iconCache.getItem(k);
-        icon->fPath = null;
-        icon->fSmall = null;
-        icon->fLarge = null;
-        icon->fHuge = null;
-        icon = null;
-        iconCache.remove(k);
-    }
+    iconCache.clear();
 }
 
 unsigned YIcon::menuSize() {
@@ -575,7 +550,7 @@ unsigned YIcon::hugeSize() {
     return hugeIconSize;
 }
 
-bool YIcon::draw(Graphics &g, int x, int y, int size) {
+bool YIcon::draw(Graphics& g, int x, int y, int size) {
     ref<YImage> image = getScaledIcon(size);
     if (image != null) {
         if (!doubleBuffer) {
