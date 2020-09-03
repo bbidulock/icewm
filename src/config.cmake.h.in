@@ -111,11 +111,12 @@
 #cmakedefine CONFIG_XFREETYPE @CONFIG_XFREETYPE_VALUE@
 #cmakedefine CONFIG_COREFONTS 1
 #cmakedefine CONFIG_EXTERNAL_TRAY 1
+#cmakedefine CONFIG_FRIBIDI 1
 #cmakedefine ENABLE_ALSA 1
 #cmakedefine ENABLE_AO 1
 #cmakedefine ENABLE_OSS 1
+#cmakedefine LOGEVENTS 1
 #cmakedefine XINERAMA 1
-#cmakedefine CONFIG_FRIBIDI 1
 #cmakedefine DEBUG 1
 #cmakedefine XTERMCMD @XTERMCMD@
 

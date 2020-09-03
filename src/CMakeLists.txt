@@ -71,6 +71,7 @@ option(CONFIG_SESSION "Define to enable X session management" on)
 option(CONFIG_EXTERNAL_TRAY "Define for external systray (deprecated)" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
+option(LOGEVENTS "Enable logging of X11 events" off)
 
 SET(CONFIG_DEFAULT_THEME "default/default.theme" CACHE STRING "Name of default theme")
 SET(CONFIG_UNICODE_SET "" CACHE STRING "Your iconv unicode set in machine endian encoding (e.g. WCHAR_T, UCS-4-INTERNAL, UCS-4LE, UCS-4BE)")
@@ -531,6 +532,7 @@ foreach (_variableName
         ENABLE_AO
         ENABLE_OSS
         ENABLE_NLS
+        LOGEVENTS
         )
     if("${${_variableName}}" STREQUAL "")
         message(STATUS "${_variableName} => OFF")
