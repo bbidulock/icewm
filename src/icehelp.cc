@@ -2121,7 +2121,8 @@ public:
     }
     static bool is_compressed(int fd) {
         char b[3];
-        return filereader(fd, false).read_all(BUFNSIZE(b)) >= 2 && b[0] == '\x1F' && b[1] == '\x8B';
+        return filereader(fd, false).read_all(BUFNSIZE(b)) >= 2
+            && b[0] == '\x1F' && b[1] == '\x8B';
     }
     static bool command(mstring mcmd) {
         const char *cmd = mcmd;
@@ -2265,6 +2266,8 @@ int main(int argc, char **argv) {
                 print_help();
             else if (is_version_switch(*arg))
                 print_version_exit(VERSION);
+            else if (is_copying_switch(*arg))
+                print_copying_exit();
             else if (is_long_switch(*arg, "nodelete"))
                 nodelete = true;
             else if (is_long_switch(*arg, "verbose"))
