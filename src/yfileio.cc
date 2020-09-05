@@ -1,14 +1,19 @@
+#include "config.h"
 #include "yfileio.h"
 #include "ytime.h"
-#include "sysdep.h"
 #include "base.h"
-#include "debug.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <limits.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 /* read from filename and zero terminate the buffer. */
 filereader::filereader(const char* filename) :
         bCloses(true)
 {
-    nFd = open(filename, O_RDONLY | O_TEXT);
+    nFd = open(filename, O_RDONLY);
 }
 
 filereader::~filereader() {
@@ -54,20 +59,33 @@ fcsmart filereader::read_all() {
 }
 
 fcsmart filereader::read_pipe(long timeout, bool* expired) {
+    if (expired) {
+        *expired = false;
+    }
     fcsmart nothing;
     if (fcntl(nFd, F_SETFL, 0 <= timeout ? O_NONBLOCK : 0) == -1) {
         return nothing;
     }
-    if (expired) {
-        *expired = false;
-    }
-    timeval start(monotime());
+    long pipe_size = clamp<long>(fpathconf(nFd, _PC_PIPE_BUF),
+                                 _POSIX_PIPE_BUF, BUFSIZ);
     size_t offset = 0;
-    size_t bufsiz = 2047;
+    size_t bufsiz = size_t(pipe_size);
     fcsmart ret(fcsmart::create(bufsiz + 1));
+    timeval start(monotime());
     while (ret) {
         ssize_t len = read(nFd, &ret[offset], bufsiz - offset);
-        if (len == -1) {
+        if (len == 0) {
+            break;
+        }
+        else if (0 < len) {
+            offset += len;
+            ret[offset] = '\0';
+            if (bufsiz < offset + 512) {
+                bufsiz += pipe_size;
+                ret.resize(bufsiz + 1);
+            }
+        }
+        else if (len == -1) {
             if ((errno == EAGAIN || errno == EINTR) && timeout >= 0) {
                 timeval elapsed(monotime() - start);
                 timeval remains(millitime(timeout) - elapsed);
@@ -75,12 +93,7 @@ fcsmart filereader::read_pipe(long timeout, bool* expired) {
                     if (expired) {
                         *expired = true;
                     }
-                    if (offset > 0) {
-                        ret[offset] = '\0';
-                        return ret;
-                    } else {
-                        return nothing;
-                    }
+                    break;
                 }
                 fd_set rfds;
                 FD_ZERO(&rfds);
@@ -91,12 +104,7 @@ fcsmart filereader::read_pipe(long timeout, bool* expired) {
                     if (expired) {
                         *expired = true;
                     }
-                    if (offset > 0) {
-                        ret[offset] = '\0';
-                        return ret;
-                    } else {
-                        return nothing;
-                    }
+                    break;
                 }
                 else if (nRes == 1) {
                     continue;
@@ -115,27 +123,12 @@ fcsmart filereader::read_pipe(long timeout, bool* expired) {
                 return nothing;
             }
         }
-        else if (len == 0) {
-            if (offset > 0) {
-                ret[offset] = '\0';
-                return ret;
-            }
-            else {
-                return nothing;
-            }
-        }
-        else if (0 < len) {
-            offset += len;
-            ret[offset] = '\0';
-            if (bufsiz - offset < 512) {
-                bufsiz += (bufsiz + 1) / 2;
-                ret.resize(bufsiz + 1);
-                if (ret == nullptr) {
-                    return nothing;
-                }
-            }
-        }
     }
-    return ret;
+    if (ret && offset) {
+        ret[offset] = '\0';
+        return ret;
+    } else {
+        return nothing;
+    }
 }
 
