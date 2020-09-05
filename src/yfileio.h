@@ -31,8 +31,6 @@ private:
     bool bCloses;
 
     filereader(const filereader&) = delete;
-
-    void set_nb();
 };
 
 #endif /* SRC_YFILEIO_H_ */
