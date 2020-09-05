@@ -550,6 +550,7 @@ static bool alphaBlending;
 static bool synchronizeX11;
 static const char* splashFile(ICESPLASH);
 static const char* tracingModules;
+extern bool loggingEvents;
 
 cfoption wmapp_preferences[] = {
     OBV("Alpha",        &alphaBlending,  "Use a 32-bit visual for alpha blending"),

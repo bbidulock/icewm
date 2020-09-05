@@ -477,13 +477,16 @@ void MenuLoader::progMenus(
             dup2(devnull, 0);
             close(devnull);
         }
-        if (dup2(fds[1], 1) == 1) {
-            if (fds[1] > 1) {
-                close(fds[1]);
-            }
-            execvp(command, argv);
+        if (fds[1] > 1 && (dup2(fds[1], 1) != 1 || close(fds[1]))) {
+            fail("dup2!=1");
         }
-        fail("Exec '%s' failed", command);
+        else {
+            char* path = path_lookup(command);
+            if (path) {
+                execv(path, argv);
+            }
+            fail("Exec '%s' failed", path ? path : command);
+        }
         _exit(99);
     }
     else {

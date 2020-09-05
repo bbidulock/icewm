@@ -87,6 +87,8 @@ libice_la_SOURCES = \
 	default.h \
 	guievent.h \
 	intl.h \
+	logevent.cc \
+	logevent.h \
 	misc.cc \
 	mstring.cc \
 	mstring.h \
@@ -176,6 +178,7 @@ libitk_la_SOURCES = \
 	globit.cc \
 	globit.h \
 	intl.h \
+	logevent.h \
 	mstring.h \
 	prefs.h \
 	ref.h \

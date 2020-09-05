@@ -529,11 +529,88 @@ static void test_sdir()
 
 }
 
+static void test_expand()
+{
+    strtest tester("expand");
+
+    char* home = getenv("HOME");
+    if (home) {
+        char* tilde = tilde_expansion("~/");
+        assert("~/", tilde != nullptr);
+        if (tilde) {
+            assert("~/", strncmp(tilde, home, strlen(home)) == 0);
+            assert("~/", strlen(tilde) == strlen(home) + 1);
+            delete[] tilde;
+        }
+    }
+
+    char* user = getenv("USER");
+    if (user) {
+        char buf[1024];
+        snprintf(buf, sizeof buf, "~%s/", user);
+        char* uhome = tilde_expansion(buf);
+        assert(buf, uhome != nullptr);
+        if (uhome) {
+            assert(buf, strncmp(uhome, home, strlen(home)) == 0);
+            assert(buf, strlen(uhome) == strlen(home) + 1);
+            delete[] uhome;
+        }
+    }
+
+    char rhome[] = "/root";
+    if (access(rhome, 0) == 0) {
+        char* tilde = tilde_expansion("~root/");
+        assert("~root/", tilde != nullptr);
+        if (tilde) {
+            assert("~root/", strcmp(tilde, "/root/") == 0);
+            delete[] tilde;
+        }
+    }
+
+    if (access("/usr/bin/printf", X_OK) == 0 &&
+        access("/bin/printf", X_OK) != 0)
+    {
+        char* print = path_lookup("printf");
+        assert("printf", print != nullptr);
+        if (print) {
+            assert("printf", strcmp(print, "/usr/bin/printf") == 0);
+            delete[] print;
+        }
+    }
+
+    home = getenv("HOME");
+    if (home) {
+        char dhome[] = "$HOME/";
+        char buf[4096];
+        snprintf(buf, sizeof buf, "%s/", home);
+        char* expand = dollar_expansion(dhome);
+        assert(dhome, expand != nullptr);
+        if (expand) {
+            assert(dhome, strcmp(expand, buf) == 0);
+            delete[] expand;
+        }
+    }
+
+    user = getenv("USER");
+    if (user) {
+        char duser[] = "${USER}/";
+        char buf[4096];
+        snprintf(buf, sizeof buf, "%s/", user);
+        char* expand = dollar_expansion(duser);
+        assert(duser, expand != nullptr);
+        if (expand) {
+            assert(duser, strcmp(expand, buf) == 0);
+            delete[] expand;
+        }
+    }
+}
+
 int main(int argc, char **argv)
 {
     prog = basename(argv[0]);
 
     test_mstring();
+    test_expand();
     test_upath();
     test_strlc();
     test_cdir();

@@ -1148,6 +1148,7 @@ bool YXApplication::handleXEvents() {
 
         saveEventTime(xev);
 
+#if LOGEVENTS
         if (loggingEvents) {
             if (xev.type < LASTEvent)
                 logEvent(xev);
@@ -1162,6 +1163,7 @@ bool YXApplication::handleXEvents() {
                 logRandrNotify(xev);
 #endif
         }
+#endif
 
         if (filterEvent(xev)) {
         } else {
