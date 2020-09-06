@@ -46,6 +46,26 @@ fcsmart filereader::read_all() {
                     return buf;
                 }
             }
+            else {
+                int got = 0;
+                fcsmart buf;
+                size_t size = BUFSIZ + 1;
+                size_t len = 0;
+                buf.resize(size);
+                while (buf && (got = read_all(buf + len, size - len)) > 0) {
+                    len += got;
+                    if (len + 1 < size) {
+                        break;
+                    } else {
+                        size += size / 2;
+                        buf.resize(size);
+                    }
+                }
+                if (len > 0 && buf) {
+                    buf.resize(len);
+                    return buf;
+                }
+            }
         }
         else if (S_ISFIFO(st.st_mode) || S_ISSOCK(st.st_mode)) {
             int timeout = -1;
