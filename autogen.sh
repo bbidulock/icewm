@@ -15,7 +15,7 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION_RAW=$(git describe --tags || echo ${VERSION_VERSION:-1.2.3.4})
 	VERSION=$(echo $VERSION_RAW | sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
-	MDOCDATE=$(date --date="$DATE" +'%B %-d, %Y')
+	MDOCDATE=$(date --date="$DATE" +'%B %-d, %Y' 2>/dev/null || date +'%B %-d, %Y')
 	BRANCH=$(git tag --sort=-creatordate|head -1)
 	GNITS="gnits "
 	if [ "$VERSION" != "$BRANCH" ]; then
