@@ -477,9 +477,10 @@ char* identifier(const char* text) {
 // free a string when out-of-scope
 class strp {
 public:
-    strp(char* string) : ptr(string) { }
+    strp(char* string = nullptr) : ptr(string) { }
     ~strp() { delete[] ptr; }
     operator char*() { return ptr; }
+    void operator=(char* p) { ptr = p; }
 private:
     char* ptr;
 };
@@ -535,6 +536,11 @@ char* tilde_expansion(const char* name) {
     }
     else if (name[1] == '/' || name[1] == '\0') {
         char* home = getenv("HOME");
+        strp user;
+        if (isEmpty(home)) {
+            user = userhome(nullptr);
+            home = user;
+        }
         if (nonempty(home)) {
             size_t size = strlen(home) + strlen(name);
             char* path = new char[size];
@@ -543,9 +549,6 @@ char* tilde_expansion(const char* name) {
                 strlcat(path, name + 1, size);
                 return path;
             }
-        }
-        else {
-            return userhome(nullptr);
         }
     }
     else {
