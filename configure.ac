@@ -135,13 +135,9 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([execinfo.h fcntl.h])
-AC_CHECK_HEADERS([libgen.h])
-AC_CHECK_HEADERS([machine/apm_bios.h machine/apmvar.h])
-AC_CHECK_HEADERS([sched.h sndfile.h])
-AC_CHECK_HEADERS([sys/file.h sys/ioctl.h sys/param.h])
-AC_CHECK_HEADERS([sys/sched.h sys/soundcard.h sys/sysctl.h])
-AC_CHECK_HEADERS([uvm/uvm_param.h wchar.h])
+AC_CHECK_HEADERS([execinfo.h fcntl.h libgen.h sched.h])
+AC_CHECK_HEADERS([sys/ioctl.h sys/param.h sys/sched.h])
+AC_CHECK_HEADERS([sys/soundcard.h sys/sysctl.h uvm/uvm_param.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AS_BOX([Typedefs, Structures, Compiler])
@@ -161,13 +157,7 @@ AC_CHECK_SIZEOF(long, 4)
 if test x$cross_compling != xyes ; then :; AC_FUNC_FORK fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_MALLOC fi
 if test x$cross_compling != xyes ; then :; AC_FUNC_REALLOC fi
-AC_CHECK_FUNCS([abort backtrace_symbols_fd])
-AC_CHECK_FUNCS([freeaddrinfo gai_strerror getnameinfo])
-AC_CHECK_FUNCS([if_freenameindex if_nametoindex if_nameindex])
-AC_CHECK_FUNCS([mblen memmem memmove memrchr nl_langinfo])
-AC_CHECK_FUNCS([select setlocale shutdown socket socketpair])
-AC_CHECK_FUNCS([sysctl sysctlbyname sysinfo wordexp])
-AC_CHECK_FUNC([getloadavg],[AC_DEFINE([HAVE_GETLOADAVG2], 1, [getloadavg() is available])])
+AC_CHECK_FUNCS([backtrace_symbols_fd memrchr sysctl sysctlbyname])
 AC_FUNC_SELECT_ARGTYPES
 
 AC_MSG_CHECKING([for strlcpy])
