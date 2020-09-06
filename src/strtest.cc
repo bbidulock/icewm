@@ -39,6 +39,7 @@ static int testsrun, passed, failed;
 static const char *prog;
 static int total_failed = 0;
 
+bool isFakerootActive() { return !getenv("FAKED_MODE"); }
 
 class strtest {
     const char *name;
@@ -350,16 +351,16 @@ static void test_upath()
     expect(a.getExtension(), ".q");
     a = "/stu/.vw";
     expect(a.getExtension(), null);
-
-    upath hm("~");
-    expect(hm.expand(), getenv("HOME"));
-    hm = "~/";
-    assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
-    hm = "$HOME";
+    if (isFakerootActive()) {
+        upath hm("~");
+        expect(hm.expand(), getenv("HOME"));
+        hm = "~/";
+        assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
+    }
+    upath hm = "$HOME";
     expect(hm.expand(), getenv("HOME"));
     hm = "$HOME/";
     assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
-
     upath nothing("/else/matters");
     EXPECT_EQ(0, nothing.fnMatch("/else/ma*"));
     EXPECT_EQ(0, nothing.fnMatch("/el*/ma*"));
