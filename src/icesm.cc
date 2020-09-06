@@ -53,8 +53,13 @@ private:
         char* pwd = getcwd(buf, sizeof buf);
         if (pwd && !strcmp(pwd, "/") && access(pwd, W_OK)) {
             char* home = getenv("HOME");
-            if (home && !access(home, W_OK)) {
+            if (nonempty(home) && !access(home, W_OK)) {
                 chdir(home);
+            } else {
+                csmart user(userhome(nullptr));
+                if (user && chdir(user) == 0) {
+                    setenv("HOME", user, true);
+                }
             }
         }
     }
