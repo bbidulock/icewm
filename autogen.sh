@@ -1,11 +1,5 @@
 #!/bin/sh
 
-if [ -n "${BASH_VERSION}" ] && $(type -p) ; then
-	set -o pipefail
-fi
-
-set -e
-
 if [ "$(uname)" = SunOS ]; then
     alias gettext=ggettext
 fi
@@ -17,11 +11,11 @@ PACKAGE=$(grep AC_INIT configure.ac|head -1|sed -r 's,AC_INIT[(][[],,;s,[]].*,,'
 GTVERSION=$(gettext --version|head -1|awk '{print$NF}'|sed -r 's,(^[^\.]*\.[^\.]*)\.[^\.]*$,\1,;s,(^[^\.]*\.[^\.]*\.[^\.]*)\.[^\.]*$,\1,')
 
 if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
-	VERSION_RAW=$(git describe --tags || echo unknown-dummy-version)
+  VERSION_RAW=$(git describe --tags || echo unknown-dummy-version)
 	VERSION=$(echo $VERSION_RAW | sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
 	MDOCDATE=$(date --date="$DATE" +'%B %-d, %Y')
-	BRANCH=$(git tag --sort=-creatordate | grep "^[0-9]" | head -1)
+	BRANCH=$(git tag --sort=-creatordate|head -1)
 	GNITS="gnits "
 	if [ "$VERSION" != "$BRANCH" ]; then
 		BRANCH="icewm-1-4-BRANCH"
@@ -49,7 +43,7 @@ else
 		-e "s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):"
 fi
 
-mkdir -p m4 2>/dev/null
+mkdir m4 2>/dev/null
 
 autoreconf -fiv
 
