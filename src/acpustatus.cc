@@ -42,7 +42,7 @@
 #ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
-#ifdef HAVE_SYS_SYSCTL_H
+#if HAVE_SYS_SYSCTL_H || HAVE_SYSCTLBYNAME || __FreeBSD__
 #include <sys/sysctl.h>
 #endif
 #ifdef HAVE_UVM_UVM_PARAM_H
