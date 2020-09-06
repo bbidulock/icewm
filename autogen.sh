@@ -11,7 +11,8 @@ PACKAGE=$(grep AC_INIT configure.ac|head -1|sed -r 's,AC_INIT[(][[],,;s,[]].*,,'
 GTVERSION=$(gettext --version|head -1|awk '{print$NF}'|sed -r 's,(^[^\.]*\.[^\.]*)\.[^\.]*$,\1,;s,(^[^\.]*\.[^\.]*\.[^\.]*)\.[^\.]*$,\1,')
 
 if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
-  VERSION_RAW=$(git describe --tags || echo unknown-dummy-version)
+	VERSION_VERSION=$(grep -s ^VERSION= VERSION | sed 's|VERSION=||')
+	VERSION_RAW=$(git describe --tags || echo ${VERSION_VERSION:-1.2.3.4})
 	VERSION=$(echo $VERSION_RAW | sed 's,[-_],.,g;s,\.g.*$,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
 	MDOCDATE=$(date --date="$DATE" +'%B %-d, %Y')
