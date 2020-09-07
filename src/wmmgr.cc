@@ -795,7 +795,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
 
 void YWindowManager::handleFocus(const XFocusChangeEvent &focus) {
     if (focus.mode == NotifyNormal) {
-        DBG logFocus((const XEvent&) focus);
         if (focus.type == FocusIn) {
             if (focus.detail == NotifyDetailNone) {
                 if (clickFocus || !strongPointerFocus)

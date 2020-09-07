@@ -648,6 +648,9 @@ void IceSound::parseArgs(int argc, char** argv)
             else if (is_version_switch(*arg)) {
                 print_version_exit(VERSION);
             }
+            else if (is_copying_switch(*arg)) {
+                print_copying_exit();
+            }
             else if (is_switch(*arg, "l", "list-files")) {
                 for (int i = 0; i < NUM_GUI_EVENTS; ++i) {
                     if (i != geCloseAll) {

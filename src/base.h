@@ -1,6 +1,7 @@
 #ifndef BASE_H
 #define BASE_H
 
+#include "debug.h"
 #include <stddef.h>
 
 #ifndef __GNUC__
@@ -99,7 +100,14 @@ void fail(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void msg(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void tlog(char const *msg, ...) __attribute__((format(printf, 1, 2) ));
 void precondition(const char *expr, const char *file, int line);
+
+/*** User Environment ********************************************************/
+
+char* userhome(const char* username);
+char* dollar_expansion(const char* name);
+char* tilde_expansion(const char* name);
 char* path_lookup(const char* name);
+
 char* progpath();
 void show_backtrace(const int limit = 0);
 
@@ -231,43 +239,6 @@ void print_help_exit(const char *help);
 void print_version_exit(const char *version);
 void check_help_version(const char *arg, const char *help, const char *version);
 void check_argv(int argc, char **argv, const char *help, const char *version);
-
-#include "debug.h"
-
-extern bool loggingEvents;
-extern bool initLogEvents();
-
-void logAny(const union _XEvent& xev);
-void logButton(const union _XEvent& xev);
-void logClientMessage(const union _XEvent& xev);
-void logColormap(const union _XEvent& xev);
-void logConfigureNotify(const union _XEvent& xev);
-void logConfigureRequest(const union _XEvent& xev);
-void logCreate(const union _XEvent& xev);
-void logCrossing(const union _XEvent& xev);
-void logDestroy(const union _XEvent& xev);
-void logExpose(const union _XEvent& xev);
-void logFocus(const union _XEvent& xev);
-void logGravity(const union _XEvent& xev);
-void logKey(const union _XEvent& xev);
-void logMapRequest(const union _XEvent& xev);
-void logMapNotify(const union _XEvent& xev);
-void logUnmap(const union _XEvent& xev);
-void logMotion(const union _XEvent& xev);
-void logProperty(const union _XEvent& xev);
-void logReparent(const union _XEvent& xev);
-void logRandrScreen(const union _XEvent& xev);
-void logRandrNotify(const union _XEvent& xev);
-void logShape(const union _XEvent& xev);
-void logVisibility(const union _XEvent& xev);
-void logEvent(const union _XEvent& xev);
-
-typedef const char* (*AtomNameFunc)(unsigned long atom);
-void setAtomName(AtomNameFunc atomNameFunc);
-const char* getAtomName(unsigned long atom);
-void setLogEvent(int evtype, bool enable);
-bool toggleLogEvents();
-const char* eventName(int eventType);
 
 inline int intersection(int s1, int e1, int s2, int e2) {
     return max(0, min(e1, e2) - max(s1, s2));

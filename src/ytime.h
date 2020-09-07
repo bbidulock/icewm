@@ -16,6 +16,18 @@ inline bool operator<(const timeval& a, const timeval& b) {
            a.tv_usec < b.tv_usec;
 }
 
+inline bool operator>=(const timeval& a, const timeval& b) {
+    return !(a < b);
+}
+
+inline bool operator>(const timeval& a, const timeval& b) {
+    return b < a;
+}
+
+inline bool operator<=(const timeval& a, const timeval& b) {
+    return !(b < a);
+}
+
 inline bool operator==(const timeval& a, const timeval& b) {
     return a.tv_sec == b.tv_sec && a.tv_usec == b.tv_usec;
 }
