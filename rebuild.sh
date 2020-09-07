@@ -20,6 +20,12 @@ unset ACONF DBGCM DEPEN RELCM TESTC jobs prefix xterm
 prefix=/usr
 xterm=urxvt
 
+if ! command -v gmake >/dev/null ; then
+    function gmake () {
+        make "$@"
+    }
+fi
+
 # parse argv
 for x
 do
