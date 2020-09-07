@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-31 00:09+0200\n"
+"POT-Creation-Date: 2020-09-08 00:24+0200\n"
 "PO-Revision-Date: 2020-03-12 10:39+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -171,7 +171,7 @@ msgstr "Kon geen verbinding maken met %s: %s"
 msgid "Failed to find %s command"
 msgstr "Zoeken naar commando %s is mislukt"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Uitvoeren van %s is mislukt"
@@ -394,25 +394,25 @@ msgstr "Bestand openen is mislukt."
 msgid "Failed to create a temporary file"
 msgstr "Aanmaken van een tijdelijk bestand is mislukt"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Systeem (%s) (%d) uitvoeren is mislukt"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Decomprimeren van %s is mislukt"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "Kon curl of wget niet vinden in PATH"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Onveilige tekens in URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -488,7 +488,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Optie ‘%s’ wordt genegeerd"
@@ -533,90 +533,90 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Hetzelfde spel"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Voor hulp bekijk de manpagina icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1552
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Genoemde symbolen van het domein »%s« (Bereik: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1693
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Werkruimte buiten bereik: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1714
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ongeldig werkruimtenummer: »%s«"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:1991
 msgid "GNOME window state"
 msgstr "GNOME-Venster status"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:1992
 msgid "GNOME window hint"
 msgstr "GNOME-Venster omschrijving"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:1993
 msgid "GNOME window layer"
 msgstr "GNOME venster laag"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:1994
 msgid "IceWM tray option"
 msgstr "IceWM tray optie"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:1995
 msgid "Gravity symbols"
 msgstr "Gravitatiesymbolen"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:1996
 msgid "Motif functions"
 msgstr "Motif-functies"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:1997
 msgid "Motif decorations"
 msgstr "Motif-decoraties"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:1998
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME-Venster status"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2080 src/icesh.cc:2109
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Werkruimte #%d: »%s«\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ongeldige status: `%s'."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3114
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan geometrie van venster 0x%lx niet ophalen"
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3139
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ongeldig Xinerama: `%s'."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3189
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3199
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -624,35 +624,35 @@ msgstr ""
 "Kan het display %s niet gebruiken. De X-Server moet werken en \n"
 "de omgevingsvariabele $DISPLAY moet hiernaar verwijzen."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3223
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ongeldig argument: '%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3258
 msgid "No windows found."
 msgstr "Geen vensters gevonden."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3273
 msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3370
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ongeldige venster identificatie: »%s«"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3387
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ongeldige PID: `%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3423
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ongeldige laag: `%s'."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4227
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
@@ -662,7 +662,7 @@ msgstr "Onbekende actie: »%s«"
 msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
 
-#: src/icesm.cc:64
+#: src/icesm.cc:69
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -703,27 +703,27 @@ msgstr ""
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
 
-#: src/icesm.cc:162
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Onbekende optie: '%s'"
 
-#: src/icesm.cc:416 src/icesm.cc:576
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "herstart %s."
 
-#: src/icesm.cc:422
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s afgesloten met status %d."
 
-#: src/icesm.cc:428 src/icesm.cc:582
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s afgesloten door signaal %d."
 
-#: src/icesm.cc:467
+#: src/icesm.cc:472
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -745,7 +745,7 @@ msgstr ""
 "\t1: IceWM opnieuw starten?\n"
 "\t2: Deze sessie afbreken?\n"
 
-#: src/icesm.cc:473
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Reactie van IceWM op crash"
 
@@ -806,17 +806,17 @@ msgstr "ao_open_live mislukt met %d"
 msgid "ao_play failed"
 msgstr "ao_play mislukt"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Onbekende optie: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Onbekend argument: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -923,51 +923,51 @@ msgstr ""
 "  3     Fout in een subsysteem (dwz. geen verbinding met de server).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Geen audio voor %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Kon eigenschap van gebeurtenis van GUI niet ophalen"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ongeldige GUI-gebeurtenis %d ontvangen"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI-gebeurtenis %s ontvangen"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Te snel; %s genegeerd."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "De ondersteuning voor de %s-interface werd niet meegecompileerd."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Niet ondersteunde audiointerface: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "%s audio gebruiken."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Het verbinden met audio-interfaces %s is mislukt."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Signaal %s ontvangen: beëindigen..."
@@ -1134,11 +1134,11 @@ msgstr "Gebruik: icewmhint klasse.instantie optie argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Onvoldoende geheugen (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Waarschuwing: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1584,11 +1584,11 @@ msgstr ""
 "als u dit programma stopt!\n"
 "Wilt u doorgaan?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1782,7 +1782,7 @@ msgstr "Window lijst"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Werkruimte %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: selecteren mislukt"

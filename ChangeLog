@@ -1,5 +1,499 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit e277ad96bcdf70b8473e9daee1e337876660bc71
+Merge: cd96c1d5 d8b6c997
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Sep 8 00:22:21 2020 +0200
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit d8b6c99794a78d3c26466fbdf5ae76dd9a9bdabb
+Merge: b0bf123a 3749a355
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Sep 8 00:19:45 2020 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 3749a3557cf86457fc7c38df551fc709c1b45597
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Sep 7 22:07:53 2020 +0200
+
+    Emulate gmake for Arch.
+
+ rebuild.sh | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 2eb7a740aa0c2eef4c02e8f7c6f1d84d7a8d1dd5
+Author: Eduard Bloch <blade@debian.org>
+Date:   Mon Sep 7 10:23:56 2020 +0200
+
+    Fixed and extended fakeroot detection and exceptions
+
+ src/strtest.cc | 47 +++++++++++++++++++++++++----------------------
+ 1 file changed, 25 insertions(+), 22 deletions(-)
+
+commit 7153174d0d1993991eab19797fda405306c8956d
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Sep 7 03:40:29 2020 +0200
+
+    Also for strtest.
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 23d646cc0aaf07e303dee269d58396c79b3850e6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Sep 7 03:32:09 2020 +0200
+
+    Make cmake work for BSD+Solaris.
+
+ rebuild.sh         | 18 +++++++++---------
+ src/CMakeLists.txt | 51 ++++++++++++++++++++++++++++----------------------
+ 2 files changed, 38 insertions(+), 31 deletions(-)
+
+commit 5f11406820cab8b428ec89236c791215612b9ee5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 23:23:19 2020 +0200
+
+    Add x11_ldflags to cmake genpref build.
+
+ src/CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 2e32afd7bc92e791b3798f63d4c29ae220ad29d3
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 19:48:00 2020 +0200
+
+    Enable inclusion of sys/sysctl.h for sysctlbyname for FreeBSD.
+
+ src/acpustatus.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6883aa54cfe32348b4a1aaa4d49609b812f1e80c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 18:55:52 2020 +0200
+
+    Ignore a zero file size for /proc filesystem for issue #488.
+
+ src/yfileio.cc | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+commit 3430958506d766cd35564249be1cc167a45f13af
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 18:54:51 2020 +0200
+
+    Reduce CHECK_FUNCTION and CHECK_INCLUDE to essentials.
+
+ src/CMakeLists.txt    | 19 ++--------------
+ src/config.cmake.h.in | 58 ++++++-----------------------------------------
+ 2 files changed, 9 insertions(+), 68 deletions(-)
+
+commit 29d5de77716fc83693b931f8c28ee2c286461f37
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 18:53:40 2020 +0200
+
+    Reduce AC_CHECK_FUNCS and AC_CHECK_HEADERS to essentials.
+
+ configure.ac | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
+
+commit b151eb6a988fa94c56c09485986f88a7d69cb24c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 18:51:41 2020 +0200
+
+    Update version to 1.8.1.
+
+ VERSION      | 2 +-
+ configure.ac | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 6c005554c1a262a872d964659a17355ddf363389
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 17:04:41 2020 +0200
+
+    Permit non-gnu date.
+
+ autogen.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 3123b1dcccae86100bdac564b90b9a453effb853
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 16:09:52 2020 +0200
+
+    Improve VERSION_RAW.
+
+ autogen.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit d5117b0fda367eb2a8ee27e13e12c829c63d330c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 15:07:25 2020 +0200
+
+    Benefit from userhome when locating home directory.
+
+ src/icesm.cc | 7 ++++++-
+ src/yapp.cc  | 9 ++++-----
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+commit 0199788891a480b98b92cd8fc12885e93135ea38
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 14:56:02 2020 +0200
+
+    Revert "Extra control flow checking", because the strict exit code
+    checking makes it too brittle. The CI build now also fails.
+
+    This reverts commit f79e237ee0036e36b97e829fcecab7b6cc6bf5b7.
+
+ autogen.sh | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
+
+commit 8c0f2365dc94e36f66b84d6e58f2a38218afee07
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 14:39:25 2020 +0200
+
+    Improve use of userhome in tilde_expansion.
+
+ src/misc.cc | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+commit efa64e8d67e6c766c44050994abccbbc2ac1d029
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Sep 6 14:38:36 2020 +0200
+
+    Solaris needs memset from string.h for FD_SET.
+
+ src/yfileio.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit f79e237ee0036e36b97e829fcecab7b6cc6bf5b7
+Author: Eduard Bloch <blade@debian.org>
+Date:   Sun Sep 6 12:48:24 2020 +0200
+
+    Extra control flow checking
+
+ autogen.sh | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+commit 11ef3124fbba82bc0aa6110938c07f6c928679d0
+Author: Eduard Bloch <blade@debian.org>
+Date:   Sun Sep 6 11:53:46 2020 +0200
+
+    ~ expansion is modified by fakeroot, don't consider it
+
+    It deviates from $HOME. Tests on plain variables can be kept.
+
+ src/strtest.cc | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+commit 72794a99753f5392bebe6459be420bdb12c253d1
+Author: Eduard Bloch <blade@debian.org>
+Date:   Sun Sep 6 12:04:35 2020 +0200
+
+    Update apt index before installing dependencies
+
+    Or it will cause build failures when build agents were not refreshed
+    quick enough.
+
+ .github/workflows/cmake.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 1f2780de0998f0c0127245dc51c4d31884cd23aa
+Author: Eduard Bloch <blade@debian.org>
+Date:   Thu Sep 3 18:19:08 2020 +0200
+
+    Rename LOGEVENTS option to follow existing pattern
+
+    Make it friendly to cmake-gui grouped view.
+
+ src/CMakeLists.txt | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+commit d46a7fde612314d348ce4fd91385f87b89157b85
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Sep 5 13:15:48 2020 +0200
+
+    Add userhome, dollar_expansion and tilde_expansion functions.
+    Let path_lookup also perform dollar_expansion and tilde_expansion.
+    In menuprog and menuprogreload do dollar_expansion and tilde_expansion.
+    Move event logging from misc.cc to its own file logevent.cc.
+
+ src/CMakeLists.txt |  22 +-
+ src/Makefile.am    |   3 +
+ src/base.h         |  45 +---
+ src/debug.h        |   8 +-
+ src/default.h      |   1 +
+ src/icesh.cc       |   1 +
+ src/icesm.cc       |   1 -
+ src/logevent.cc    | 514 ++++++++++++++++++++++++++++++++++++
+ src/logevent.h     |  52 ++++
+ src/misc.cc        | 699 ++++++++++++-------------------------------------
+ src/strtest.cc     |  77 ++++++
+ src/upath.cc       |   2 +-
+ src/wmmenu.cc      |  13 +-
+ src/wmmgr.cc       |   1 -
+ src/ywindow.h      |   1 +
+ src/yxapp.cc       |   2 +
+ src/yxtray.cc      |   2 +-
+ 17 files changed, 849 insertions(+), 595 deletions(-)
+
+commit de65cbb8c8c70c4dbf149fdd77ef327cbf094b35
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Sep 5 13:14:35 2020 +0200
+
+    Keep value of fTransientFor for later.
+
+ src/wmclient.cc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit 2cb1e847576c1f5f3880e925e669b36cadba6a82
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Sep 5 13:14:03 2020 +0200
+
+    Reduce LOC in read_pipe.
+
+ src/yfileio.cc | 77 +++++++++++++++++++++++++-----------------------------
+ 1 file changed, 35 insertions(+), 42 deletions(-)
+
+commit ba135aca19c3677a5384cbd5865ece30b47c7382
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sat Sep 5 13:12:43 2020 +0200
+
+    Remove unused set_nb.
+
+ src/yfileio.h | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 774fa29df31aa4a8acc4c04e91cf9cbd78d80c76
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:44:03 2020 +0200
+
+    Several fixes for reading from pipes with timeouts for issue #487.
+
+ src/wmmenu.cc  |  35 ++++-----
+ src/yfileio.cc | 217 +++++++++++++++++++++++++++--------------------------
+ src/yfileio.h  |  69 +++++------------
+ 3 files changed, 149 insertions(+), 172 deletions(-)
+
+commit 2b5b0d1c6d5d4293afdae9ba1e8d1d83db410ddf
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:43:13 2020 +0200
+
+    More comparison operators.
+
+ src/ytime.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+commit d7297dae98347472b4a7a97e5ff66b585384edcf
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:41:45 2020 +0200
+
+    Add -C option for copyright.
+
+ src/fdomenu.cc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit ca5c3b118df068ba527abacfb316afa79adb9889
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:40:04 2020 +0200
+
+    Add -C option for copyright.
+
+ src/icesound.cc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+commit b422e3ad5fa9c9be30fd84687771a6179b5879a6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:39:02 2020 +0200
+
+    Add -C option for copyright.
+
+ src/icehelp.cc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+commit cc97952eea45cd8419048f4bc20ff50af2cf8e44
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 22:36:44 2020 +0200
+
+    Add fsmart resize.
+
+ src/ypointer.h | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+commit 82d76bdb9f3b4d87793a61e42df51f9786119e01
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 04:18:38 2020 +0200
+
+    Fix the inappropriate use of globals in the context of a dynamically
+    loaded configuration for #483.
+
+ src/yicon.cc | 211 ++++++++++++++++++++++++-------------------------------
+ 1 file changed, 93 insertions(+), 118 deletions(-)
+
+commit d56e16619928d7bccb8a9e14df0f204c6513a505
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 04:18:25 2020 +0200
+
+    Add find for YRefArray.
+
+ src/yarray.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+commit 4520307a4e6b77acd6778e6b09e8936547881c63
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 3 02:01:24 2020 +0200
+
+    CMake support for LOGEVENTS.
+
+ src/CMakeLists.txt    | 2 ++
+ src/config.cmake.h.in | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit ef359cbffd58294bf776f3d01fbb9abff20cc0c5
+Author: Hugo Carvalho <hugokarvalho@hotmail.com>
+Date:   Wed Sep 2 23:43:09 2020 +0100
+
+    Update Portuguese (pt) translations (#486)
+
+    * Update LINGUAS: Add pt.
+    * Add files via upload: Create and update portuguese translation (pt)
+    * Update icewm-session.desktop: Add Portuguese Name (pt).
+    * Update icewm.desktop: Add Portuguese (pt) Comment and fix typo in
+    English Comment "manager".
+
+ lib/icewm-session.desktop |    1 +
+ lib/icewm.desktop         |    3 +-
+ po/LINGUAS                |    1 +
+ po/pt.po                  | 2622 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 2626 insertions(+), 1 deletion(-)
+
+commit cbbb32bcf31490d08cc77d4176a6fbae5d18220c
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Sep 1 21:19:16 2020 +0200
+
+    Added strtest exection in ctest
+
+ CMakeLists.txt     | 2 ++
+ src/CMakeLists.txt | 2 ++
+ 2 files changed, 4 insertions(+)
+
+commit 11edd35e3e841c8f7a01d6fb38630c1e4390f4f9
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Sep 1 20:59:49 2020 +0200
+
+    More CI build configs with more and less features
+
+ .github/workflows/cmake.yml | 69 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 47 insertions(+), 22 deletions(-)
+
+commit 200a35a24187d3cbde3af1090fbe82aec4071326
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Sep 1 20:50:51 2020 +0200
+
+    Basic autoconf CI setup
+
+ .github/workflows/cmake.yml | 59 ++++++++++++++++++++++++++++-------------
+ 1 file changed, 40 insertions(+), 19 deletions(-)
+
+commit 037725535ec5a9533737f5a4845f7f96cc6844cd
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Sep 1 20:48:51 2020 +0200
+
+    Cope with shallow clones
+
+ autogen.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 4747be79780f14dff2e269ca2a0fb1d1443c7ea6
+Author: Eduard Bloch <blade@debian.org>
+Date:   Tue Sep 1 19:28:07 2020 +0200
+
+    Install dev packages on Ubuntu
+
+ .github/workflows/cmake.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit 623fc2fa6710c0263db59e51d15edc53487d209a
+Merge: 22b45f19 1fb2f320
+Author: Code7R <Code7R@users.noreply.github.com>
+Date:   Tue Sep 1 19:12:12 2020 +0200
+
+    Merge pull request #485 from bbidulock/icewm-1-4-BRANCH_CI
+
+    Create cmake.yml
+
+commit 1fb2f320f873eebe3c51c96a3e2a0fb1958f210e
+Author: Code7R <Code7R@users.noreply.github.com>
+Date:   Tue Sep 1 19:11:39 2020 +0200
+
+    Create cmake.yml
+
+ .github/workflows/cmake.yml | 46 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
+
+commit 22b45f198a020b9f7310035fe468a9913132222f
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 31 18:59:15 2020 +0200
+
+    Update Marko's copy dates for #285.
+
+ src/misc.cc    | 2 +-
+ src/wmabout.cc | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit cd96c1d58f1ce67b11279126f639fbe93da5268b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Mon Aug 31 00:17:56 2020 +0200
+
+    Prepare 1.8.1 release
+
+ AUTHORS      |   6 +-
+ ChangeLog    | 798 ++++++++++++++++++++++++++++++-------------------------
+ NEWS         | 122 ++++-----
+ README.md    |  36 +--
+ RELEASE.md   |   2 +-
+ VERSION      |   2 +-
+ configure.ac |  10 +-
+ po/ar.po     |  28 +-
+ po/be.po     |  28 +-
+ po/bg.po     |  28 +-
+ po/ca.po     |  28 +-
+ po/cs.po     |  28 +-
+ po/da.po     |  28 +-
+ po/de.po     |  28 +-
+ po/el.po     |  28 +-
+ po/en.po     |  28 +-
+ po/es.po     |  28 +-
+ po/fi.po     |  28 +-
+ po/fr.po     |  28 +-
+ po/he.po     |  28 +-
+ po/hr.po     |  28 +-
+ po/hu.po     |  28 +-
+ po/icewm.pot |  30 +--
+ po/id.po     |  28 +-
+ po/it.po     |  28 +-
+ po/ja.po     |  28 +-
+ po/ko.po     |  28 +-
+ po/lt.po     |  28 +-
+ po/lv.po     |  28 +-
+ po/mk.po     |  28 +-
+ po/nb.po     |  28 +-
+ po/nl.po     |  28 +-
+ po/no.po     |  28 +-
+ po/pl.po     |  28 +-
+ po/pt_BR.po  |  28 +-
+ po/ro.po     |  28 +-
+ po/ru.po     |  28 +-
+ po/sk.po     |  28 +-
+ po/sl.po     |  28 +-
+ po/sv.po     |  28 +-
+ po/tr.po     |  28 +-
+ po/uk.po     |  28 +-
+ po/vi.po     |  28 +-
+ po/zh_CN.po  |  28 +-
+ po/zh_TW.po  |  28 +-
+ 45 files changed, 1041 insertions(+), 1001 deletions(-)
+
 commit d647b3e3977506d9488a7cce22567939df396aa4
 Merge: b8790433 b0bf123a
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -5563,526 +6057,3 @@ Date:   Sun Jan 26 14:58:20 2020 +0100
 
  src/wmmgr.cc | 72 ++++++++++++++++++--------------------------------------
  1 file changed, 23 insertions(+), 49 deletions(-)
-
-commit 69d76454a6b30409d24ed0b30fe2a357df4cfcd1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 26 14:57:38 2020 +0100
-
-    setWinStateHint is not needed for window list window.
-
- src/wmwinlist.cc | 3 ---
- 1 file changed, 3 deletions(-)
-
-commit 2c670861d5331fa02e5f0d376302dd5dbe6ef421
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 26 14:57:08 2020 +0100
-
-    Use YProperty to reduce noise.
-
- src/yinput.cc | 25 ++++---------------------
- 1 file changed, 4 insertions(+), 21 deletions(-)
-
-commit 7cd8d6a01b7ce3352f1c3fe14449aab600950e71
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 26 14:56:45 2020 +0100
-
-    Use YProperty for less noise.
-
- src/yxtray.cc | 41 ++++++-----------------------------------
- 1 file changed, 6 insertions(+), 35 deletions(-)
-
-commit ee726d3c7aab073fae54272062d2d7b75d9add6a
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 26 14:55:51 2020 +0100
-
-    YTextProperty accepts nullptr.
-
- src/yxapp.cc | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-commit f0a60a8092ab68cbabd299c982d091626e8b08fe
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 26 14:55:25 2020 +0100
-
-    YProperty constructor for Window handle.
-
- src/yxapp.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-commit 419bf4a82dca7c4df727f31d2816facecac68afe
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 23 20:54:55 2020 +0100
-
-    Remove obsolete WinHintsDockHorizontal comments.
-
- src/WinMgr.h     | 27 ---------------------------
- src/wmtaskbar.cc |  1 -
- 2 files changed, 28 deletions(-)
-
-commit d7ff23b6ddfd2340410e80039eba14206a3292f1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 23 20:45:53 2020 +0100
-
-    Simplify YProperty array access.
-
- src/wmclient.cc | 4 ++--
- src/yxapp.h     | 4 ++--
- src/yxembed.cc  | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
-commit 9dfdaf8bbec198e956de70036b5e1e6b825a6210
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 23 19:59:22 2020 +0100
-
-    Simplify conversion between _NET_WM_STATE and WIN_STATE.
-
- src/wmclient.cc | 159 ++++++++++++++--------------------------------------
- 1 file changed, 42 insertions(+), 117 deletions(-)
-
-commit 46b2f3a67637991af404e5381ae2eaf7e580d557
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 23 19:55:40 2020 +0100
-
-    Fix 3 WIN_STATE comments in header
-
- src/WinMgr.h | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-commit 3825118e1a4c3991f4a2c5455bb8036d33899228
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Jan 22 21:21:39 2020 +0100
-
-    Add more non-default build targets to .gitignore.
-
- .gitignore | 22 ++++++++++++++++------
- 1 file changed, 16 insertions(+), 6 deletions(-)
-
-commit 06067484296f1aeee127716c03cfe85d969f1aac
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 12 23:05:58 2020 +0100
-
-    "icesh last" should only read the client list if there was no previous
-    selection.
-
- src/icesh.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit f6ccbb6f5d8aebe2d5fc84e18b94ac07f0d14dbc
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Jan 12 23:04:03 2020 +0100
-
-    Use YArray in WindowList.
-
- src/wmframe.cc   |   9 +-
- src/wmwinlist.cc | 217 ++++++++++++++++++------------------------
- src/wmwinlist.h  |  31 +++---
- src/ylistbox.cc  | 263 ++++++++++++++-------------------------------------
- src/ylistbox.h   |  45 ++++-----
- 5 files changed, 206 insertions(+), 359 deletions(-)
-
-commit bc6ff1297c0fb2a8977c00cf55318566222b488e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 9 21:33:31 2020 +0100
-
-    Split off ytime.h and ytime.cc for icesh which doesn't need YTimer nor
-    YApplication.
-
- src/CMakeLists.txt |  8 ++---
- src/Makefile.am    |  4 +++
- src/icesh.cc       |  2 +-
- src/icesm.cc       |  2 +-
- src/icesound.cc    |  2 +-
- src/ytime.cc       | 87 ++++++++++++++++++++++++++++++++++++++++++++++++++
- src/ytime.h        | 46 ++++++++++++++++++++++++++
- src/ytimer.cc      | 79 ---------------------------------------------
- src/ytimer.h       | 44 ++-----------------------
- 9 files changed, 147 insertions(+), 127 deletions(-)
-
-commit 470432e2f971461e3f3c1564b63705b3a31cc86e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu Jan 9 20:51:52 2020 +0100
-
-    Update version number to 1.6.4 and fix cmake build for icesh by adding
-    ytimer.cc.
-
- README.md          | 2 +-
- VERSION            | 2 +-
- configure.ac       | 6 +++---
- src/CMakeLists.txt | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
-
-commit 397480dc2390d341739be6e7c13f1ce9c3d5b794
-Merge: 690df651 6b1721fe
-Author: gijsbers <gijsbers@users.noreply.github.com>
-Date:   Wed Jan 8 12:13:19 2020 +0100
-
-    Merge pull request #7 from ndowens/patch-1
-
-    Missing ytimer link
-
-commit 6b1721fec3e5608327e553c43f3fd8f761cb66a7
-Author: Nathan <ndowens04@gmail.com>
-Date:   Wed Jan 8 06:07:40 2020 +0000
-
-    Missing ytimer link
-
-    Closes: #6
-
- src/CMakeLists.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 690df6513903f2f020dbf24ab4e7c9155e32c37d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jan 7 21:36:40 2020 +0100
-
-    Prepare 1.6.4 release
-
- AUTHORS      |   55 +-
- ChangeLog    | 8074 +++++++++++++++++++++++++++---------------------------
- NEWS         | 3665 ++++---------------------
- README.md    |   40 +-
- VERSION      |    2 +-
- configure.ac |    8 +-
- po/ar.po     |  214 +-
- po/be.po     |  214 +-
- po/bg.po     |  214 +-
- po/ca.po     |  218 +-
- po/cs.po     |  218 +-
- po/da.po     |  222 +-
- po/de.po     |  218 +-
- po/el.po     |  214 +-
- po/en.po     |  214 +-
- po/es.po     |  214 +-
- po/fi.po     |  214 +-
- po/fr.po     |  214 +-
- po/he.po     |  214 +-
- po/hr.po     |  214 +-
- po/hu.po     |  214 +-
- po/icewm.pot |  216 +-
- po/id.po     |  214 +-
- po/it.po     |  214 +-
- po/ja.po     |  218 +-
- po/ko.po     |  214 +-
- po/lt.po     |  214 +-
- po/lv.po     |  214 +-
- po/mk.po     |  214 +-
- po/nb.po     |  214 +-
- po/nl.po     |  218 +-
- po/no.po     |  214 +-
- po/pl.po     |  214 +-
- po/pt_BR.po  |  214 +-
- po/ro.po     |  214 +-
- po/ru.po     |  214 +-
- po/sk.po     |  218 +-
- po/sl.po     |  214 +-
- po/sv.po     |  214 +-
- po/tr.po     |  214 +-
- po/uk.po     |  214 +-
- po/vi.po     |  214 +-
- po/zh_CN.po  |  214 +-
- po/zh_TW.po  |  214 +-
- 44 files changed, 8819 insertions(+), 11191 deletions(-)
-
-commit a8512db07f3ca9abc4b1cdc260843ef6ee6e0864
-Merge: de74029e cf87cd3d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jan 7 21:09:18 2020 +0100
-
-    Merge branch 'icewm-1-4-BRANCH'
-
-commit cf87cd3d1c129ef2385c1e66bcc94b3bcd3d2e24
-Merge: f0f55711 6eb54d67
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jan 7 20:49:41 2020 +0100
-
-    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-    icewm-1-4-BRANCH
-
-commit 6eb54d6723aa3673c1a6ae70baa764aaedcfc62a
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Jan 7 18:28:06 2020 +0100
-
-    Textcolor -> text color.
-
- src/themable.h | 54 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 27 insertions(+), 27 deletions(-)
-
-commit 3347034a2d3b65e1d0291ab9a133423f740f17a0
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jan 6 22:00:16 2020 +0100
-
-    fix gcc warnings.
-
- src/icesh.cc | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-commit 6855a46d87dc242dc36477340935630afd37d4f0
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jan 6 21:52:40 2020 +0100
-
-    remove .bak
-
- man/Makefile.am | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-commit 3f7fa01cf503a7e3c22aea99953101249a323c6f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jan 6 21:42:08 2020 +0100
-
-    document
-
- man/icewm-preferences.pod | 67 +++++++++++++++++++++++--------------------
- man/icewm.pod             |  6 ++--
- 2 files changed, 39 insertions(+), 34 deletions(-)
-
-commit fbf3ec7f3abcb7380b39946c911c4bd1ca184aca
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Jan 6 20:52:47 2020 +0100
-
-    Don't show YMsgBox in top left corner.
-
- src/ymsgbox.cc | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-commit a5513c045b46b62a8f2bcf005b823c6dcee0400b
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Jan 1 11:48:19 2020 +0100
-
-    Use the _NET_MOVERESIZE_WINDOW of #401 for moving and sizing.
-
- src/icesh.cc | 35 +++++++++++++++++++++--------------
- 1 file changed, 21 insertions(+), 14 deletions(-)
-
-commit 218986ec5f6749bea3f29bcd9697625ad372edd9
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Wed Jan 1 11:46:46 2020 +0100
-
-    Replace implementation of _NET_MOVERESIZE_WINDOW for #401.
-
- src/wmclient.cc | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
-
-commit 28b601c51dfec22f2c2a47191f6a3e1d5802e2d3
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 15:37:19 2019 +0100
-
-    must call g_type_init on old systems.
-
- src/fdomenu.cc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-commit c519dc0c3b5830a967230c2fac4248403ca809fe
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 15:22:21 2019 +0100
-
-    Remember existing desktop geometry before calling XRRUpdateConfiguration
-    for #296.
-
- src/wmmgr.cc | 14 ++++++++------
- src/wmmgr.h  |  2 +-
- 2 files changed, 9 insertions(+), 7 deletions(-)
-
-commit 4293f0e5f7cf9773b114795c5c0779e370a3f6e0
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 14:19:35 2019 +0100
-
-    Use GLIB_CHECK_VERSION to test call to g_type_init.
-
- src/yimage_gdk.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 4bde394e337c364c328dbb0af794a6ac650c6625
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 03:15:30 2019 +0100
-
-    port to for older systems
-
- src/ypointer.h | 1 -
- 1 file changed, 1 deletion(-)
-
-commit 8093c4a4dd7cee1f04af75cb9643341ee2c56110
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 03:01:33 2019 +0100
-
-    portability to older systems.
-
- src/ycursor.cc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-commit 8d5b15bcb554570b3fa9d119ed5c60efc0a1899f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Tue Dec 31 02:54:53 2019 +0100
-
-    portability for older systems.
-
- src/misc.cc    |  6 ++++++
- src/ypointer.h | 16 ++++++++--------
- 2 files changed, 14 insertions(+), 8 deletions(-)
-
-commit 82139ffaa3c15fb873a645c7e887a927d3ee180e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Dec 30 20:16:29 2019 +0100
-
-    Rewrite ypointer to make it smaller and simpler.
-
- src/ypointer.h | 207 +++++++++++++++++------------------------------------
- 1 file changed, 65 insertions(+), 142 deletions(-)
-
-commit 7d4f1f3b2239af1b16fb4fda8265474211d08bd0
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Dec 30 20:15:21 2019 +0100
-
-    Add to spy Enter, Leave, Circulate and fix +window options.
-
- src/icesh.cc | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-commit 2eb6c8f5772d2d37498266ae8132560dc867a566
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:41:16 2019 +0100
-
-    xdg_menu.
-
- man/icewm-programs.pod | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit c2c9ac565c05a0fa796888e6ad92369600757db8
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:40:50 2019 +0100
-
-    Document spy and sizeby.
-
- man/icesh.pod | 30 +++++++++++++++++++++++++-----
- 1 file changed, 25 insertions(+), 5 deletions(-)
-
-commit 15c52bdfb3637674b208e5e1101c10cc5695b4f2
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:25:13 2019 +0100
-
-    Fix for pagerShowPreview for very wide multi-head desktops.
-    Fix for context menu popup in icehelp.
-    Fix for positioning of splash window on multi-head displays.
-    Fix for positioning of status window on multi-head displays.
-    Fix for positioning of window list window on multi-head displays.
-    Fix for positioning of tooltip windows on multi-head displays.
-    Fix for missed events when monitor changes resolution.
-    Remove superfluous taskbar handleEndPopup.
-
- src/applet.cc       |   2 +-
- src/atasks.cc       |   5 +-
- src/aworkspaces.cc  |  17 +++--
- src/aworkspaces.h   |   4 +-
- src/objbutton.h     |   2 +-
- src/wmapp.cc        |   9 +--
- src/wmbutton.cc     |   2 +-
- src/wmmgr.cc        |  40 +++--------
- src/wmmgr.h         |   2 +-
- src/wmstatus.cc     |   6 +-
- src/wmswitch.cc     |   4 +-
- src/wmtaskbar.cc    |  15 +---
- src/wmtaskbar.h     |   1 -
- src/wmtitle.cc      |   2 +-
- src/wmwinlist.cc    |  18 ++---
- src/yactionbutton.h |   2 +-
- src/yarray.h        |   5 +-
- src/ydialog.cc      |   2 +-
- src/yicon.cc        |   2 +-
- src/yinput.cc       |   2 +-
- src/ylistbox.cc     |   2 +-
- src/ymenu.cc        |   2 +-
- src/ypopup.cc       |   4 --
- src/ypopup.h        |   2 +-
- src/yscrollview.cc  |   2 +-
- src/ytooltip.cc     |  16 ++---
- src/ywindow.cc      | 186 ++++++++++++++++++++----------------------------
- src/ywindow.h       |  22 ++++--
- src/yxapp.cc        |  19 +++++
- src/yxapp.h         |   1 +
- src/yxtray.cc       |   8 +--
- 31 files changed, 190 insertions(+), 216 deletions(-)
-
-commit 2da281231791f6c29aa7208eb51c1c6eb7ae3d49
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:21:58 2019 +0100
-
-    prefer isEmpty.
-
- src/amailbox.cc  | 6 +++---
- src/iceview.cc   | 2 +-
- src/testarray.cc | 4 ++--
- src/ycolor.cc    | 2 +-
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
-commit 8503173fe0be148dd8e6a5aa22dc51e97bac4cfa
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:20:04 2019 +0100
-
-    add spy and sizeby.
-
- src/icesh.cc | 426 +++++++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 395 insertions(+), 31 deletions(-)
-
-commit 33d2988e93dbd5bb85e90fe0299bccc30c4c4b8d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:19:32 2019 +0100
-
-    make icelist compile and run.
-
- src/icelist.cc | 210 ++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 135 insertions(+), 75 deletions(-)
-
-commit 9bfe0003aa54bb07e8a847b49cd7043879e6185d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 29 19:18:54 2019 +0100
-
-    isPrint
-
- src/ascii.h | 5 +++++
- 1 file changed, 5 insertions(+)
-
-commit 3a03b61e914b8b79364986d484a1ea96866abe0f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon Dec 16 00:21:11 2019 +0100
-
-    more hints and views.
-
- src/iceicon.cc |  40 ++++++++++-------
- src/icerun.cc  |  25 ++++++++++-
- src/iceview.cc | 125 ++++++++++++++++++++++++++++++++++++++---------------
- 3 files changed, 137 insertions(+), 53 deletions(-)
-
-commit 53bd8ec82a4fc7bbdfe6815c5adc9f343bd7df5e
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 15 12:34:27 2019 +0100
-
-    Make iceicon, icerun, iceview run.
-
- src/iceicon.cc | 390 +++++++++++++++++++++++++++++++----------------------
- src/icerun.cc  |  74 +++++++++-
- src/iceview.cc | 151 +++++++++++++++------
- 3 files changed, 402 insertions(+), 213 deletions(-)
-
-commit ff0c33e9b27485a81e698a14fb4f46b8c7073823
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 15 12:33:47 2019 +0100
-
-    getFont.
-
- src/yinputline.h | 1 +
- 1 file changed, 1 insertion(+)
-
-commit 2b7d9a1685d767e7bb980c11f2453bd33d9f4a8d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun Dec 15 12:19:47 2019 +0100
-
-    Add tracing of executed programs.  Remove execAfterFork.
-
- src/default.h |  1 -
- src/wmapp.cc  | 50 ++++++++++++++++++++++++++++++++++----------------
- src/wmapp.h   |  4 ++++
- src/wmmgr.cc  | 21 ++-------------------
- src/wmmgr.h   |  1 -
- src/yapp.cc   | 25 ++++++++++++++-----------
- src/yapp.h    |  5 +++--
- src/ytrace.h  | 11 +++++++++++
- 8 files changed, 68 insertions(+), 50 deletions(-)

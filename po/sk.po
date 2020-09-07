@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-31 00:09+0200\n"
+"POT-Creation-Date: 2020-09-08 00:24+0200\n"
 "PO-Revision-Date: 2020-07-02 07:26+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -171,7 +171,7 @@ msgstr "Nebolo možné pripojiť sa na %s: %s"
 msgid "Failed to find %s command"
 msgstr "Zlyhalo hľadanie príkazu %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Zlyhalo vykonanie %s"
@@ -394,25 +394,25 @@ msgstr "Zlyhalo otvorenie súboru na čítanie."
 msgid "Failed to create a temporary file"
 msgstr "Zlyhalo vytvorenie dočasného súboru"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Zlyhalo vykonanie system(%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Zlyhalo rozbalenie %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nebolo možné nájsť curl alebo wget v PATH"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Nebezpečné znaky v URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -484,7 +484,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorovanie voľby '%s'"
@@ -529,88 +529,88 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Rovnaká hra"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pomoc nájdete na manuálovej stránke cesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1552
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pomenované znaky domény `%s' (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1693
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovná plocha je mimo rozsah: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1714
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatný názov plochy: `%s'"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:1991
 msgid "GNOME window state"
 msgstr "GNOME stav okna"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:1992
 msgid "GNOME window hint"
 msgstr "GNOME tip okna"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:1993
 msgid "GNOME window layer"
 msgstr "GNOME vrstva okna"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:1994
 msgid "IceWM tray option"
 msgstr "IceWM nastavenia lišty"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:1995
 msgid "Gravity symbols"
 msgstr "Gravitačné symboly"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:1996
 msgid "Motif functions"
 msgstr "Funkcie Motif"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:1997
 msgid "Motif decorations"
 msgstr "Dekorácie Motif"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:1998
 msgid "EWMH window state"
 msgstr "EWMH stav okna"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2080 src/icesh.cc:2109
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovná plocha #%d: `%s'\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Neplatný stav: `%s'."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3114
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Nie je možné získať geometriu okna 0x%lx"
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3139
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Neplatná Xinerama: `%s'."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3189
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akcia `%s' vyžaduje najmenej %d argumentov."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3199
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -618,35 +618,35 @@ msgstr ""
 "Neide otvoriť displej: %s. Server X musí byť spustený a premenná $DISPLAY "
 "nastavená."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3223
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Neplatná hodnota: `%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3258
 msgid "No windows found."
 msgstr "Neboli nájdené žiadne okná."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3273
 msgid "No actions specified."
 msgstr "Nebola zadaná žiadna akcia."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3370
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označenie okna: `%s'"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3387
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Neplatné PID: `%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3423
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Neplatná vrstva: `%s'."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4227
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznáma akcia: `%s'"
@@ -656,7 +656,7 @@ msgstr "Neznáma akcia: `%s'"
 msgid "Socket error: %d"
 msgstr "Chyba soketu: %d"
 
-#: src/icesm.cc:64
+#: src/icesm.cc:69
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -686,27 +686,27 @@ msgstr ""
 "  -n, --notray        Nespustí icewmtray.\n"
 "  -s, --sound         Tiež spustí icesound.\n"
 
-#: src/icesm.cc:162
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Neznáma voľba '%s'"
 
-#: src/icesm.cc:416 src/icesm.cc:576
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "reštartovať %s."
 
-#: src/icesm.cc:422
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s skončilo so stavom %d."
 
-#: src/icesm.cc:428 src/icesm.cc:582
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s bolo zabité signálom %d."
 
-#: src/icesm.cc:467
+#: src/icesm.cc:472
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -728,7 +728,7 @@ msgstr ""
 "\t1: Reštartovať IceWM?\n"
 "\t2: Prerušiť toto sedenie?\n"
 
-#: src/icesm.cc:473
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Odpoveď spadnutia IceWM"
 
@@ -789,17 +789,17 @@ msgstr "ao_open_live zlyhalo s %d"
 msgid "ao_play failed"
 msgstr "ao_play zlyhalo"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nerozpoznaná voľba: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nerozpoznaný parameter: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -905,51 +905,51 @@ msgstr ""
 "3     Chyba podsystému (t,j. nie je možné sa pripojiť na server).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Žiadne audio pre %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Nebolo možné správne získať GUI udalosť"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Prijatá neplatná GUI udalosť %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Prijatá GUI udalosť %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Príliš rýchlo; ignorovanie %s."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Podpora rozhrania %s nebola skompilovaná."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nepodporované rozhranie: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "Použitie %s audio."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Zlyhalo pripojenie k audio rozhraniam %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Prijatý signál %s: Ukončenie..."
@@ -1110,11 +1110,11 @@ msgstr "Použitie: icewmhint trieda.inštancia voľba argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Nedostatok pamäti (veľkosť=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Upozornenie: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1557,11 +1557,11 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr "Chýba program setxkbmap"
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
@@ -1755,7 +1755,7 @@ msgstr "Zoznam okien"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Pracovná plocha %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: výber zlyhal"

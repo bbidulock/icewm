@@ -1,11 +1,75 @@
-icewm -- history of user-visible changes.  2020-08-31
+icewm -- history of user-visible changes.  2020-09-08
+
+Release icewm-1.8.2 released 2020-09-08
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.8.1...1.8.2
+
+Bert Gijsbers <gijsbers@science.uva.nl> (31):
+      Update Marko's copy dates for #285.
+      CMake support for LOGEVENTS.
+      Add find for YRefArray.
+      Fix the inappropriate use of globals in the context of a dynamically
+        loaded configuration for #483.
+      Add fsmart resize.
+      Add -C option for copyright.
+      Add -C option for copyright.
+      Add -C option for copyright.
+      More comparison operators.
+      Several fixes for reading from pipes with timeouts for issue #487.
+      Remove unused set_nb.
+      Reduce LOC in read_pipe.
+      Keep value of fTransientFor for later.
+      Add userhome, dollar_expansion and tilde_expansion functions. Let
+        path_lookup also perform dollar_expansion and tilde_expansion. In
+        menuprog and menuprogreload do dollar_expansion and tilde_expansion.
+        Move event logging from misc.cc to its own file logevent.cc.
+      Solaris needs memset from string.h for FD_SET.
+      Improve use of userhome in tilde_expansion.
+      Revert "Extra control flow checking", because the strict exit code
+        checking makes it too brittle. The CI build now also fails.
+      Benefit from userhome when locating home directory.
+      Improve VERSION_RAW.
+      Permit non-gnu date.
+      Update version to 1.8.1.
+      Reduce AC_CHECK_FUNCS and AC_CHECK_HEADERS to essentials.
+      Reduce CHECK_FUNCTION and CHECK_INCLUDE to essentials.
+      Ignore a zero file size for /proc filesystem for issue #488.
+      Enable inclusion of sys/sysctl.h for sysctlbyname for FreeBSD.
+      Add x11_ldflags to cmake genpref build.
+      Make cmake work for BSD+Solaris.
+      Also for strtest.
+      Emulate gmake for Arch.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Eduard Bloch <blade@debian.org> (10):
+      Install dev packages on Ubuntu
+      Cope with shallow clones
+      Basic autoconf CI setup
+      More CI build configs with more and less features
+      Added strtest exection in ctest
+      Rename LOGEVENTS option to follow existing pattern
+      Update apt index before installing dependencies
+      ~ expansion is modified by fakeroot, don't consider it
+      Extra control flow checking
+      Fixed and extended fakeroot detection and exceptions
+
+Code7R <Code7R@users.noreply.github.com> (2):
+      Create cmake.yml
+      Merge pull request #485 from bbidulock/icewm-1-4-BRANCH_CI
+
+Hugo Carvalho <hugokarvalho@hotmail.com> (1):
+      Update Portuguese (pt) translations (#486)
+
 
 Release icewm-1.8.1 released 2020-08-31
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.0...1.8.1
 
-Bert Gijsbers <gijsbers@science.uva.nl> (28):
+Bert Gijsbers <gijsbers@science.uva.nl> (29):
       Fix typo for the KeySysArrangeIcons key binding.
       Fix path_lookup strtok_r for non-Glibc BSD systems for ice-wm/icewm#23.
       Only define KeySysArrangeIcons if preference MinimizeToDesktop=1.
@@ -37,6 +101,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (28):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.8.1 release
 
 Eduard Bloch <blade@debian.org> (2):
       Fix memory leak from path_lookup call
@@ -815,63 +880,4 @@ Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
 
 scootergrisen <scootergrisen@gmail.com> (1):
       Translated using Weblate (Danish)
-
-
-Release icewm-1.6.3 released 2019-11-24
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.6.2...1.6.3
-
-Bert Gijsbers <gijsbers@science.uva.nl> (33):
-      [cmake] Give XTERMCMD a default, otherwise it remains empty in
-        lib/toolbar.
-      XPM must be ON for themable cursors.
-      [cmake] add PACKAGE_STRING
-      [cmake] Discern substitute from copy in lib/ for issue #387.
-      Use install-data instead of install-desktop for ice-wm/icewm#5.
-      update version for #389
-      Highlight current workspace on startup for #393.
-      Reduce debugging output if not DEBUG.
-      Set alpha threshold to 128 for issue #392.
-      Support PNG format for theme image files for issue #377. Improve support
-        for depcrecated linux.xpm for old themes.
-      Update taskbar geometry on screen resize for #394.
-      make doActivate declared even if not CONFIG_SESSION for #397.
-      Remove duplicate text and simplify restart.
-      Give sed -i option a backup extension for #397.
-      If either alsa, ao or oss then always include sndfile.h for #397.
-      Remove eval and indirect variable evaluation for FreeBSD for #397.
-      Trace icon loading and config parsing by --trace="icon,conf".
-      Document --trace.
-      Replace perl by date to reduce dependencies for #397.
-      Remove ESD server (obsolete EsounD).
-      Premultiply colors by alpha channel when XRender for #392.
-      Revert "Set alpha threshold to 128 for issue #392."
-      Only premultiply alpha if image depth == 32 for #392.
-      update po files
-      Improve icon handling in WindowList for #392.
-      Clarify icon.
-      Improve drawing of dashes for window list.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Clean .bak files.
-      add ytrace.h.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.3 release
-
-Brian Bidulock <bidulock@openss7.org> (2):
-      address issue #399
-      address issue #398
-
-Kimmo Kujansuu <mrkujansuu@gmail.com> (2):
-      Translated using Weblate (Finnish)
-      Translated using Weblate (Finnish)
-
-Alessio Adamo <alessio.adamo@gmail.com> (1):
-      Translated using Weblate (Italian)
-
-Artem Polishchuk <tim77@users.noreply.github.com> (1):
-      Convert tab to spaces (#390)
 
