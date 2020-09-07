@@ -39,7 +39,9 @@ static int testsrun, passed, failed;
 static const char *prog;
 static int total_failed = 0;
 
-bool isFakerootActive() { return !getenv("FAKED_MODE"); }
+// basic detection of build daemon environment, where $HOME, $USER and
+// ~ and ~<user> are not necessarily related.
+bool isFakerootActive() { auto e=getenv("FAKED_MODE"); return e && *e; }
 
 class strtest {
     const char *name;
@@ -351,7 +353,7 @@ static void test_upath()
     expect(a.getExtension(), ".q");
     a = "/stu/.vw";
     expect(a.getExtension(), null);
-    if (isFakerootActive()) {
+    if (!isFakerootActive()) {
         upath hm("~");
         expect(hm.expand(), getenv("HOME"));
         hm = "~/";
@@ -545,29 +547,30 @@ static void test_expand()
         }
     }
 
-    char* user = getenv("USER");
-    if (user) {
-        char buf[1024];
-        snprintf(buf, sizeof buf, "~%s/", user);
-        char* uhome = tilde_expansion(buf);
-        assert(buf, uhome != nullptr);
-        if (uhome) {
-            assert(buf, strncmp(uhome, home, strlen(home)) == 0);
-            assert(buf, strlen(uhome) == strlen(home) + 1);
-            delete[] uhome;
+    if (!isFakerootActive()) {
+        char* user = getenv("USER");
+        if (user) {
+            char buf[1024];
+            snprintf(buf, sizeof buf, "~%s/", user);
+            char* uhome = tilde_expansion(buf);
+            assert(buf, uhome != nullptr);
+            if (uhome) {
+                assert(buf, strncmp(uhome, home, strlen(home)) == 0);
+                assert(buf, strlen(uhome) == strlen(home) + 1);
+                delete[] uhome;
+            }
+        }
+
+        char rhome[] = "/root";
+        if (access(rhome, 0) == 0) {
+            char* tilde = tilde_expansion("~root/");
+            assert("~root/", tilde != nullptr);
+            if (tilde) {
+                assert("~root/", strcmp(tilde, "/root/") == 0);
+                delete[] tilde;
+            }
         }
     }
-
-    char rhome[] = "/root";
-    if (access(rhome, 0) == 0) {
-        char* tilde = tilde_expansion("~root/");
-        assert("~root/", tilde != nullptr);
-        if (tilde) {
-            assert("~root/", strcmp(tilde, "/root/") == 0);
-            delete[] tilde;
-        }
-    }
-
     if (access("/usr/bin/printf", X_OK) == 0 &&
         access("/bin/printf", X_OK) != 0)
     {
@@ -592,7 +595,7 @@ static void test_expand()
         }
     }
 
-    user = getenv("USER");
+    auto user = getenv("USER");
     if (user) {
         char duser[] = "${USER}/";
         char buf[4096];
