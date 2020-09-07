@@ -708,6 +708,8 @@ int main(int argc, LPCSTR *argv) {
     for (LPCSTR *pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg))
             print_version_exit(VERSION);
+        if (is_copying_switch(*pArg))
+            print_copying_exit();
         if (is_help_switch(*pArg))
             help(usershare, sysshare, stdout, EXIT_SUCCESS);
         if (is_long_switch(*pArg, "seps")) {

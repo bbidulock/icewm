@@ -6,6 +6,7 @@
 #include "yarray.h"
 #include "ylist.h"
 #include "yrect.h"
+#include "logevent.h"
 
 class YPopupWindow;
 class YToolTip;

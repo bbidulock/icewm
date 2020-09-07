@@ -53,6 +53,7 @@
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
+#include "logevent.h"
 
 #ifndef __GLIBC__
 typedef void (*sighandler_t)(int);

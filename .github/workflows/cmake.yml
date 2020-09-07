@@ -1,0 +1,97 @@
+name: CMake And Autoconf Test Builds
+
+on: [push]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/actions/configuring-and-managing-workflows/configuring-a-workflow#configuring-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      # Some projects don't allow in-source building, so create a separate build directory
+      # We'll use this as our working directory for all subsequent commands
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Get Build Dependencies
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: sudo apt update && sudo apt install libxrender-dev gettext autopoint libxft-dev libsndfile1-dev libao-dev libsm-dev libx11-dev libxext-dev x11proto-core-dev asciidoctor libxpm-dev libgdk-pixbuf2.0-dev libglib2.0-dev libfribidi-dev librsvg2-dev xorg-dev
+
+    - name: Configure CMake
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: cmake --build . --config $BUILD_TYPE -j$(nproc)
+
+    - name: Configure CMake FULL
+      # Use a bash shell so we can use the same syntax for environment variable
+      # access regardless of the host operating system
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      # Note the current convention is to use the -S and -B options here to specify source 
+      # and build directories, but this is only available with CMake 3.13 and higher.  
+      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+      run: cmake $GITHUB_WORKSPACE -DICEHELPIDX=/usr/share/doc/icewm-common/html/icewm.html -DCFGDIR=/etc/X11/icewm -DCMAKE_INSTALL_PREFIX=/usr -DVERSION=testFULL -DCMAKE_VERBOSE_MAKEFILE=ON -DICESOUND=AO -DCONFIG_GDK_PIXBUF_XLIB=on -DCONFIG_XPM=on -DCONFIG_LIBPNG=off -DCONFIG_LIBRSVG=on -DXTERMCMD=x-terminal-emulator -DDEBUG=on
+
+    - name: Build Cmake FULL
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE -j$(nproc) -t all -t strtest
+
+    - name: Configure CMake NOPIXBUF
+      shell: bash
+      working-directory: ${{runner.workspace}}/build
+      run: cmake $GITHUB_WORKSPACE -DCONFIG_GDK_PIXBUF_XLIB=off -DCONFIG_XPM=on -DCONFIG_LIBJPEG=on -DCONFIG_LIBPNG=on
+
+    - name: Build Cmake NOPIXBUF
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE -j$(nproc)
+
+    - name: Test
+      working-directory: ${{runner.workspace}}/build
+      shell: bash
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C $BUILD_TYPE
+
+    - name: Prepare autoconf
+      shell: bash
+      working-directory: ${{runner.workspace}}
+      run: cd "$GITHUB_WORKSPACE" && pwd && bash -x autogen.sh && ls -la "$GITHUB_WORKSPACE"
+
+    - name: Create AC build environment
+      shell: bash
+      working-directory: ${{runner.workspace}}
+      run: mkdir -p build-ac && ls -la
+
+    - name: Run configure script
+      shell: bash
+      working-directory: ${{runner.workspace}}/build-ac
+      run: "$GITHUB_WORKSPACE/configure"
+
+    - name: Build AC version
+      working-directory: ${{runner.workspace}}/build-ac
+      shell: bash
+      # Execute the build.  You can specify a specific target with "--target <NAME>"
+      run: make -j$(nproc)

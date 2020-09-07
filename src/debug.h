@@ -1,5 +1,5 @@
-#ifndef __DEBUG_H
-#define __DEBUG_H
+#ifndef DEBUG_H
+#define DEBUG_H
 
 #ifdef DEBUG
 extern bool debug;
@@ -26,10 +26,6 @@ extern bool debug_z;
 #define TLOG(x)
 #endif
 #define CARP(x) tlog("%s:%d:%s: %s", __FILE__, __LINE__, __func__, #x )
-
-#if defined(DEBUG) && !defined(LOGEVENTS)
-#define LOGEVENTS 1
-#endif
 
 #endif
 

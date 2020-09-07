@@ -560,7 +560,7 @@ void YXTrayEmbedder::handleConfigureRequest(const XConfigureRequestEvent &config
 void YXTrayEmbedder::handleClientMessage(const XClientMessageEvent& message)
 {
     if (trace())
-        logClientMessage((const union _XEvent&) message);
+        logClientMessage(message);
 }
 
 void YXTrayEmbedder::handleMapRequest(const XMapRequestEvent &mapRequest) {

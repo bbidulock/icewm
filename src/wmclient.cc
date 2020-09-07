@@ -215,8 +215,7 @@ void YFrameClient::getTransient() {
         fTransientFor = newTransientFor;
         if (fTransientFor)
             if (getFrame())
-                if (getFrame()->addAsTransient() == false)
-                    fTransientFor = None;
+                getFrame()->addAsTransient();
     }
 }
 

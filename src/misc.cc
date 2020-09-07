@@ -4,21 +4,20 @@
  * Copyright (C) 1997-2002 Marko Macek
  */
 #include "config.h"
-#include "sysdep.h"
-#include "ylib.h"
-#include "debug.h"
 #include "base.h"
-#include "intl.h"
-#include "ref.h"
-#include "yarray.h"
+#include <errno.h>
+#include <limits.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <pwd.h>
 
-#ifdef CONFIG_SHAPE
-#include <X11/extensions/shape.h>
-#endif
-#ifdef CONFIG_XRANDR
-#include <X11/extensions/Xrandr.h>
-#endif
 #ifdef HAVE_LIBGEN_H
 #include <libgen.h>
 #endif
@@ -32,514 +31,15 @@
 #include <execinfo.h>
 #endif
 
+#include "intl.h"
+#include "ascii.h"
+
+using namespace ASCII;
+
 #ifdef DEBUG
 bool debug = false;
 bool debug_z = false;
 #endif
-
-bool loggingEvents;
-bool loggedEventsInited;
-#ifdef LOGEVENTS
-bool loggedEvents[LASTEvent];
-#endif
-
-static const char eventNames[][17] = {
-    "KeyPress",             //  2
-    "KeyRelease",           //  3
-    "ButtonPress",          //  4
-    "ButtonRelease",        //  5
-    "MotionNotify",         //  6
-    "EnterNotify",          //  7
-    "LeaveNotify",          //  8
-    "FocusIn",              //  9
-    "FocusOut",             // 10
-    "KeymapNotify",         // 11
-    "Expose",               // 12
-    "GraphicsExpose",       // 13
-    "NoExpose",             // 14
-    "VisibilityNotify",     // 15
-    "CreateNotify",         // 16
-    "DestroyNotify",        // 17
-    "UnmapNotify",          // 18
-    "MapNotify",            // 19
-    "MapRequest",           // 20
-    "ReparentNotify",       // 21
-    "ConfigureNotify",      // 22
-    "ConfigureRequest",     // 23
-    "GravityNotify",        // 24
-    "ResizeRequest",        // 25
-    "CirculateNotify",      // 26
-    "CirculateRequest",     // 27
-    "PropertyNotify",       // 28
-    "SelectionClear",       // 29
-    "SelectionRequest",     // 30
-    "SelectionNotify",      // 31
-    "ColormapNotify",       // 32
-    "ClientMessage",        // 33
-    "MappingNotify",        // 34
-    "GenericEvent",         // 35
-};
-const char* eventName(int eventType) {
-    if (inrange(eventType, KeyPress, GenericEvent))
-        return eventNames[eventType - KeyPress];
-    return "UnknownEvent!";
-}
-
-bool initLogEvents() {
-#ifdef LOGEVENTS
-    if (loggedEventsInited == false) {
-        memset(loggedEvents, false, sizeof loggedEvents);
-
-        // setLogEvent(KeyPress, true);
-        // setLogEvent(KeyRelease, true);
-        setLogEvent(ButtonPress, true);
-        setLogEvent(ButtonRelease, true);
-        // setLogEvent(MotionNotify, true);
-        setLogEvent(EnterNotify, true);
-        setLogEvent(LeaveNotify, true);
-        // setLogEvent(FocusIn, true);
-        // setLogEvent(FocusOut, true);
-        // setLogEvent(KeymapNotify, true);
-        // setLogEvent(Expose, true);
-        // setLogEvent(GraphicsExpose, true);
-        // setLogEvent(NoExpose, true);
-        // setLogEvent(VisibilityNotify, true);
-        setLogEvent(CreateNotify, true);
-        setLogEvent(DestroyNotify, true);
-        setLogEvent(UnmapNotify, true);
-        setLogEvent(MapNotify, true);
-        setLogEvent(MapRequest, true);
-        setLogEvent(ReparentNotify, true);
-        setLogEvent(ConfigureNotify, true);
-        setLogEvent(ConfigureRequest, true);
-        // setLogEvent(GravityNotify, true);
-        // setLogEvent(ResizeRequest, true);
-        // setLogEvent(CirculateNotify, true);
-        // setLogEvent(CirculateRequest, true);
-        // setLogEvent(PropertyNotify, true);
-        // setLogEvent(SelectionClear, true);
-        // setLogEvent(SelectionRequest, true);
-        // setLogEvent(SelectionNotify, true);
-        // setLogEvent(ColormapNotify, true);
-        setLogEvent(ClientMessage, true);
-        // setLogEvent(MappingNotify, true);
-        // setLogEvent(GenericEvent, true);
-
-        loggedEventsInited = true;
-    }
-#endif
-    return loggedEventsInited;
-}
-
-bool toggleLogEvents() {
-    return loggingEvents = !loggingEvents && initLogEvents();
-}
-
-void setLogEvent(int evtype, bool enable) {
-#ifdef LOGEVENTS
-    if (size_t(evtype) < sizeof loggedEvents)
-        loggedEvents[evtype] = enable;
-    else if (evtype == -1)
-        memset(loggedEvents, enable, sizeof loggedEvents);
-#else
-    (void) evtype;
-    (void) enable;
-#endif
-}
-
-static const char* emptyAtom(Atom atom) { return ""; }
-static AtomNameFunc atomName = emptyAtom;
-void setAtomName(AtomNameFunc func) { atomName = func; }
-const char* getAtomName(unsigned long atom) {
-    return atomName ? atomName(atom) : "";
-}
-
-#undef msg
-#define msg tlog
-
-inline const char* boolStr(Bool aBool) {
-    return aBool ? "True" : "False";
-}
-
-void logAny(const union _XEvent& xev) {
-    msg("window=0x%lX: %s type=%d, send=%s, #%lu",
-        xev.xany.window, eventName(xev.type), xev.type,
-        boolStr(xev.xany.send_event), (unsigned long) xev.xany.serial);
-}
-
-void logButton(const union _XEvent& xev) {
-    msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) state=0x%X button=%d same_screen=%s",
-        xev.xbutton.window,
-        eventName(xev.type),
-        xev.xbutton.root,
-        xev.xbutton.subwindow,
-        xev.xbutton.time,
-        xev.xbutton.x, xev.xbutton.y,
-        xev.xbutton.x_root, xev.xbutton.y_root,
-        xev.xbutton.state,
-        xev.xbutton.button,
-        boolStr(xev.xbutton.same_screen));
-}
-
-void logClientMessage(const union _XEvent& xev) {
-    msg("window=0x%lX: clientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
-        xev.xclient.window,
-        atomName(xev.xclient.message_type),
-        xev.xclient.format,
-        xev.xclient.data.l[0],
-        xev.xclient.data.l[1],
-        xev.xclient.data.l[2]
-        );
-}
-
-void logColormap(const union _XEvent& xev) {
-    msg("window=0x%lX: colormapNotify colormap=%ld new=%s state=%d",
-        xev.xcolormap.window,
-        xev.xcolormap.colormap,
-        xev.xcolormap.c_new ? "True" : "False",
-        xev.xcolormap.state);
-}
-
-void logConfigureNotify(const union _XEvent& xev) {
-    msg("window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
-        xev.xconfigure.window,
-        (unsigned long) xev.xany.serial,
-        xev.xconfigure.event,
-        xev.xconfigure.x, xev.xconfigure.y,
-        xev.xconfigure.width, xev.xconfigure.height,
-        xev.xconfigure.border_width,
-        xev.xconfigure.above,
-        xev.xconfigure.override_redirect ? "True" : "False");
-}
-
-void logConfigureRequest(const union _XEvent& xev) {
-    msg("window=0x%lX: %s configureRequest serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, sibling=0x%lX, detail=%s, value_mask=0x%lX %s%s%s%s%s%s",
-        xev.xconfigurerequest.window,
-        xev.xconfigurerequest.send_event ? "synth" : "real",
-        (unsigned long) xev.xany.serial,
-        xev.xconfigurerequest.parent,
-        xev.xconfigurerequest.x,
-        xev.xconfigurerequest.y,
-        xev.xconfigurerequest.width,
-        xev.xconfigurerequest.height,
-        xev.xconfigurerequest.border_width,
-        xev.xconfigurerequest.above,
-        xev.xconfigurerequest.detail == Above ? "Above" :
-        xev.xconfigurerequest.detail == Below ? "Below" :
-        xev.xconfigurerequest.detail == TopIf ? "TopIf" :
-        xev.xconfigurerequest.detail == BottomIf ? "BottomIf" :
-        xev.xconfigurerequest.detail == Opposite ? "Opposite" : "Invalid",
-        xev.xconfigurerequest.value_mask,
-        xev.xconfigurerequest.value_mask & CWX ? "X" : "",
-        xev.xconfigurerequest.value_mask & CWY ? "Y" : "",
-        xev.xconfigurerequest.value_mask & CWWidth ? "W" : "",
-        xev.xconfigurerequest.value_mask & CWHeight ? "H" : "",
-        xev.xconfigurerequest.value_mask & CWSibling ? "S" : "",
-        xev.xconfigurerequest.value_mask & CWStackMode ? "M" : "");
-}
-
-void logCreate(const union _XEvent& xev) {
-    msg("window=0x%lX: create serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, override_redirect=%s",
-        xev.xcreatewindow.window,
-        (unsigned long) xev.xany.serial,
-        xev.xcreatewindow.parent,
-        xev.xcreatewindow.x, xev.xcreatewindow.y,
-        xev.xcreatewindow.width, xev.xcreatewindow.height,
-        xev.xcreatewindow.border_width,
-        xev.xcreatewindow.override_redirect ? "True" : "False");
-}
-
-void logCrossing(const union _XEvent& xev) {
-    msg("window=0x%06lX: %s serial=%lu root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) mode=%s detail=%s same_screen=%s, focus=%s state=0x%X",
-        xev.xcrossing.window,
-        eventName(xev.type),
-        (unsigned long) xev.xany.serial,
-        xev.xcrossing.root,
-        xev.xcrossing.subwindow,
-        xev.xcrossing.time,
-        xev.xcrossing.x, xev.xcrossing.y,
-        xev.xcrossing.x_root, xev.xcrossing.y_root,
-        xev.xcrossing.mode == NotifyNormal ? "Normal" :
-        xev.xcrossing.mode == NotifyGrab ? "Grab" :
-        xev.xcrossing.mode == NotifyUngrab ? "Ungrab" :
-        xev.xcrossing.mode == NotifyWhileGrabbed ? "Grabbed" : "Unknown",
-        xev.xcrossing.detail == NotifyAncestor ? "Ancestor" :
-        xev.xcrossing.detail == NotifyVirtual ? "Virtual" :
-        xev.xcrossing.detail == NotifyInferior ? "Inferior" :
-        xev.xcrossing.detail == NotifyNonlinear ? "Nonlinear" :
-        xev.xcrossing.detail == NotifyNonlinearVirtual ? "NonlinearVirtual" :
-        xev.xcrossing.detail == NotifyPointer ? "Pointer" :
-        xev.xcrossing.detail == NotifyPointerRoot ? "PointerRoot" :
-        xev.xcrossing.detail == NotifyDetailNone ? "DetailNone" : "Unknown",
-        xev.xcrossing.same_screen ? "True" : "False",
-        xev.xcrossing.focus ? "True" : "False",
-        xev.xcrossing.state);
-}
-
-void logDestroy(const union _XEvent& xev) {
-    msg("window=0x%lX: destroy serial=%lu event=0x%lX",
-        xev.xdestroywindow.window,
-        (unsigned long) xev.xany.serial,
-        xev.xdestroywindow.event);
-}
-
-void logExpose(const union _XEvent& xev) {
-    msg("window=0x%lX: expose (%+d%+d %dx%d) count=%d",
-        xev.xexpose.window,
-        xev.xexpose.x, xev.xexpose.y, xev.xexpose.width, xev.xexpose.height,
-        xev.xexpose.count);
-}
-
-void logFocus(const union _XEvent& xev) {
-    msg("window=0x%lX: %s mode=%s, detail=%s",
-        xev.xfocus.window,
-        eventName(xev.type),
-        xev.xfocus.mode == NotifyNormal ? "NotifyNormal" :
-        xev.xfocus.mode == NotifyWhileGrabbed ? "NotifyWhileGrabbed" :
-        xev.xfocus.mode == NotifyGrab ? "NotifyGrab" :
-        xev.xfocus.mode == NotifyUngrab ? "NotifyUngrab" : "???",
-        xev.xfocus.detail == NotifyAncestor ? "NotifyAncestor" :
-        xev.xfocus.detail == NotifyVirtual ? "NotifyVirtual" :
-        xev.xfocus.detail == NotifyInferior ? "NotifyInferior" :
-        xev.xfocus.detail == NotifyNonlinear ? "NotifyNonlinear" :
-        xev.xfocus.detail == NotifyNonlinearVirtual ? "NotifyNonlinearVirtual" :
-        xev.xfocus.detail == NotifyPointer ? "NotifyPointer" :
-        xev.xfocus.detail == NotifyPointerRoot ? "NotifyPointerRoot" :
-        xev.xfocus.detail == NotifyDetailNone ? "NotifyDetailNone" : "???");
-}
-
-void logGravity(const union _XEvent& xev) {
-    msg("window=0x%lX: gravityNotify serial=%lu, x=%+d, y=%+d",
-        xev.xgravity.window,
-        (unsigned long) xev.xany.serial,
-        xev.xgravity.x, xev.xgravity.y);
-}
-
-void logKey(const union _XEvent& xev) {
-    msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, (%d:%d %d:%d) state=0x%X keycode=0x%x same_screen=%s",
-        xev.xkey.window,
-        eventName(xev.type),
-        xev.xkey.root,
-        xev.xkey.subwindow,
-        xev.xkey.time,
-        xev.xkey.x, xev.xkey.y,
-        xev.xkey.x_root, xev.xkey.y_root,
-        xev.xkey.state,
-        xev.xkey.keycode,
-        xev.xkey.same_screen ? "True" : "False");
-}
-
-void logMapRequest(const union _XEvent& xev) {
-    msg("window=0x%lX: mapRequest serial=%lu parent=0x%lX",
-        xev.xmaprequest.window,
-        (unsigned long) xev.xany.serial,
-        xev.xmaprequest.parent);
-}
-
-void logMapNotify(const union _XEvent& xev) {
-    msg("window=0x%lX: mapNotify serial=%lu event=0x%lX, override_redirect=%s",
-        xev.xmap.window,
-        (unsigned long) xev.xany.serial,
-        xev.xmap.event,
-        xev.xmap.override_redirect ? "True" : "False");
-}
-
-void logUnmap(const union _XEvent& xev) {
-    msg("window=0x%lX: unmapNotify serial=%lu event=0x%lX, from_configure=%s send_event=%s",
-        xev.xunmap.window,
-        (unsigned long) xev.xany.serial,
-        xev.xunmap.event,
-        xev.xunmap.from_configure ? "True" : "False",
-        xev.xunmap.send_event ? "True" : "False");
-}
-
-void logMotion(const union _XEvent& xev) {
-    msg("window=0x%lX: %s root=0x%lX, subwindow=0x%lX, time=%ld, "
-        "(%d:%d %d:%d) state=0x%X is_hint=%s same_screen=%s",
-        xev.xmotion.window,
-        eventName(xev.type),
-        xev.xmotion.root,
-        xev.xmotion.subwindow,
-        xev.xmotion.time,
-        xev.xmotion.x, xev.xmotion.y,
-        xev.xmotion.x_root, xev.xmotion.y_root,
-        xev.xmotion.state,
-        xev.xmotion.is_hint == NotifyHint ? "NotifyHint" : "",
-        xev.xmotion.same_screen ? "True" : "False");
-}
-
-void logProperty(const union _XEvent& xev) {
-    msg("window=0x%lX: propertyNotify %s time=%ld state=%s",
-        xev.xproperty.window,
-        atomName(xev.xproperty.atom),
-        xev.xproperty.time,
-        xev.xproperty.state == PropertyNewValue ? "NewValue" :
-        xev.xproperty.state == PropertyDelete ? "Delete" : "?");
-}
-
-void logReparent(const union _XEvent& xev) {
-    msg("window=0x%lX: reparentNotify serial=%lu event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
-        xev.xreparent.window,
-        (unsigned long) xev.xany.serial,
-        xev.xreparent.event,
-        xev.xreparent.parent,
-        xev.xreparent.x, xev.xreparent.y,
-        xev.xreparent.override_redirect ? "True" : "False");
-}
-
-void logShape(const union _XEvent& xev) {
-#ifdef CONFIG_SHAPE
-    const XShapeEvent &shp = (const XShapeEvent &)xev;
-    msg("window=0x%lX: %s kind=%s %d:%d=%dx%d shaped=%s time=%ld",
-        shp.window, "ShapeEvent",
-        shp.kind == ShapeBounding ? "ShapeBounding" :
-        shp.kind == ShapeClip ? "ShapeClip" : "unknown_shape_kind",
-        shp.x, shp.y, shp.width, shp.height, boolstr(shp.shaped), shp.time);
-#endif
-}
-
-void logRandrScreen(const union _XEvent& xev) {
-#ifdef CONFIG_XRANDR
-    const XRRScreenChangeNotifyEvent& evt =
-        (const XRRScreenChangeNotifyEvent &)xev;
-    msg("window=0x%lX: %s index=%u order=%u "
-        "rotation=%u width=%dpx(%dmm) height=%dpx(%dmm)",
-        evt.window, "XRRScreenChangeNotifyEvent",
-        evt.size_index, evt.subpixel_order, (evt.rotation & 15) * 45,
-        evt.width, evt.mwidth, evt.height, evt.mheight
-       );
-#endif
-}
-
-void logRandrNotify(const union _XEvent& xev) {
-#ifdef CONFIG_XRANDR
-    const XRRNotifyEvent& nev = (const XRRNotifyEvent &)xev;
-    if (nev.subtype == RRNotify_CrtcChange) {
-        const XRRCrtcChangeNotifyEvent& e =
-            (const XRRCrtcChangeNotifyEvent &) xev;
-        msg("window=0x%lX: %s crtc=%lu mode=%lu rotation=%u %ux%u+%d+%d",
-            e.window, "XRRCrtcChangeNotifyEvent",
-            e.crtc, e.mode, (e.rotation & 15) * 45, e.width, e.height, e.x, e.y
-           );
-    }
-    else if (nev.subtype == RRNotify_OutputChange) {
-        const XRROutputChangeNotifyEvent& e =
-            (const XRROutputChangeNotifyEvent &) xev;
-        msg("window=0x%lX: %s output=%lu crtc=%lu mode=%lu "
-            "rotation=%u connection=%s subpixel=%u",
-            e.window, "XRROutputChangeNotifyEvent",
-            e.output, e.crtc, e.mode, (e.rotation & 15) * 45,
-            e.connection == RR_Connected ? "RR_Connected" :
-            e.connection == RR_Disconnected ? "RR_Disconnected" :
-            e.connection == RR_UnknownConnection ? "RR_UnknownConnection" :
-            "unknown", e.subpixel_order
-           );
-    }
-    else if (nev.subtype == RRNotify_OutputProperty) {
-        const XRROutputPropertyNotifyEvent& e =
-            (const XRROutputPropertyNotifyEvent &) xev;
-        msg("window=0x%lX: %s output=%lu property=%lu state=%s",
-            e.window, "XRROutputPropertyNotifyEvent",
-            e.output, e.property,
-            e.state == PropertyNewValue ? "NewValue" :
-            e.state == PropertyDelete ? "Deleted" :
-            "unknown"
-           );
-    }
-#ifdef RRNotify_ProviderChange
-    else if (nev.subtype == RRNotify_ProviderChange) {
-        const XRRProviderChangeNotifyEvent& e =
-            (const XRRProviderChangeNotifyEvent &) xev;
-        msg("window=0x%lX: %s provider=%lu current_role=%u",
-            e.window, "XRRProviderChangeNotifyEvent",
-            e.provider, e.current_role
-           );
-    }
-#endif
-#ifdef RRNotify_ProviderProperty
-    else if (nev.subtype == RRNotify_ProviderProperty) {
-        const XRRProviderPropertyNotifyEvent& e =
-            (const XRRProviderPropertyNotifyEvent &) xev;
-        msg("window=0x%lX: %s provider=%lu property=%lu state=%s",
-            e.window, "XRRProviderPropertyNotifyEvent",
-            e.provider, e.property,
-            e.state == PropertyNewValue ? "NewValue" :
-            e.state == PropertyDelete ? "Deleted" :
-            "unknown"
-           );
-    }
-#endif
-#ifdef RRNotify_ResourceChange
-    else if (nev.subtype == RRNotify_ResourceChange) {
-        const XRRResourceChangeNotifyEvent& e =
-            (const XRRResourceChangeNotifyEvent &) xev;
-        msg("window=0x%lX: %s",
-            e.window, "XRRResourceChangeNotifyEvent"
-           );
-    }
-#endif
-#endif
-}
-
-void logVisibility(const union _XEvent& xev) {
-    msg("window=0x%lX: visibilityNotify state=%s",
-        xev.xvisibility.window,
-        xev.xvisibility.state == VisibilityPartiallyObscured ? "partial" :
-        xev.xvisibility.state == VisibilityFullyObscured ? "obscured" :
-        xev.xvisibility.state == VisibilityUnobscured ? "unobscured" : "bogus"
-        );
-}
-
-void logEvent(const union _XEvent& xev) {
-#ifdef LOGEVENTS
-    static void (*const loggers[])(const XEvent&) = {
-        logAny,               //  0 reserved
-        logAny,               //  1 reserved
-        logKey,               //  2 KeyPress
-        logKey,               //  3 KeyRelease
-        logButton,            //  4 ButtonPress
-        logButton,            //  5 ButtonRelease
-        logMotion,            //  6 MotionNotify
-        logCrossing,          //  7 EnterNotify
-        logCrossing,          //  8 LeaveNotify
-        logFocus,             //  9 FocusIn
-        logFocus,             // 10 FocusOut
-        logAny,               // 11 KeymapNotify
-        logExpose,            // 12 Expose
-        logAny,               // 13 GraphicsExpose
-        logAny,               // 14 NoExpose
-        logVisibility,        // 15 VisibilityNotify
-        logCreate,            // 16 CreateNotify
-        logDestroy,           // 17 DestroyNotify
-        logUnmap,             // 18 UnmapNotify
-        logMapNotify,         // 19 MapNotify
-        logMapRequest,        // 20 MapRequest
-        logReparent,          // 21 ReparentNotify
-        logConfigureNotify,   // 22 ConfigureNotify
-        logConfigureRequest,  // 23 ConfigureRequest
-        logGravity,           // 24 GravityNotify
-        logAny,               // 25 ResizeRequest
-        logAny,               // 26 CirculateNotify
-        logAny,               // 27 CirculateRequest
-        logProperty,          // 28 PropertyNotify
-        logAny,               // 29 SelectionClear
-        logAny,               // 30 SelectionRequest
-        logAny,               // 31 SelectionNotify
-        logColormap,          // 32 ColormapNotify
-        logClientMessage,     // 33 ClientMessage
-        logAny,               // 34 MappingNotify
-        logAny,               // 35 GenericEvent
-    };
-    if (loggingEvents && size_t(xev.type) < sizeof loggedEvents &&
-        (loggedEventsInited || initLogEvents()) && loggedEvents[xev.type])
-    {
-        loggers[xev.type](xev);
-    }
-#endif
-#undef msg
-}
 
 static void endMsg(const char *msg) {
     if (*msg == 0 || msg[strlen(msg)-1] != '\n') {
@@ -891,7 +391,7 @@ void print_help_exit(const char *help)
 void print_version_exit(const char *version)
 {
     printf("%s %s, %s.\n", ApplicationName, version,
-        "Copyright 1997-2003 Marko Macek, 2001 Mathias Hasselmann");
+        "Copyright 1997-2012 Marko Macek, 2001 Mathias Hasselmann");
     exit(0);
 }
 
@@ -961,33 +461,173 @@ bool isFile(const char* path) {
     return stat(path, &s) == 0 && S_ISREG(s.st_mode);
 }
 
+bool isExeFile(const char* path) {
+    return access(path, X_OK) == 0 && isFile(path);
+}
+
+// parse a C-style identifier
+char* identifier(const char* text) {
+    const char* scan = text;
+    if (*scan == '_' || isAlpha(*scan)) {
+        while (*++scan == '_' || isAlnum(*scan)) { }
+    }
+    return text < scan ? newstr(text, int(scan - text)) : nullptr;
+}
+
+// free a string when out-of-scope
+class strp {
+public:
+    strp(char* string = nullptr) : ptr(string) { }
+    ~strp() { delete[] ptr; }
+    operator char*() { return ptr; }
+    void operator=(char* p) { ptr = p; }
+private:
+    char* ptr;
+};
+
+// obtain the home directory for a named user
+char* userhome(const char* username) {
+    const size_t buflen = 1234;
+    char buf[buflen];
+    passwd pwd, *result = nullptr;
+    int get;
+    if (nonempty(username)) {
+        get = getpwnam_r(username, &pwd, buf, buflen, &result);
+    } else {
+        get = getpwuid_r(getuid(), &pwd, buf, buflen, &result);
+    }
+    if (get == 0 && result) {
+        return newstr(result->pw_dir);
+    } else {
+        return nullptr;
+    }
+}
+
+// expand a leading environment variable
+char* dollar_expansion(const char* name) {
+    if (name[0] == '$') {
+        bool leftb = (name[1] == '{');
+        strp ident = identifier(name + 1 + leftb);
+        if (ident) {
+            size_t idlen = strlen(ident);
+            bool right = (name[1 + leftb + idlen] == '}');
+            if (leftb == right) {
+                char* expand = getenv(ident);
+                if (expand) {
+                    size_t xlen = strlen(expand);
+                    size_t size = xlen + strlen(name + idlen);
+                    char* path = new char[size];
+                    if (path) {
+                        strlcpy(path, expand, size);
+                        strlcat(path, name + 1 + leftb + idlen + right, size);
+                        return path;
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
+// expand a leading tilde+slash or tilde+username
+char* tilde_expansion(const char* name) {
+    if (name[0] != '~') {
+        return nullptr;
+    }
+    else if (name[1] == '/' || name[1] == '\0') {
+        char* home = getenv("HOME");
+        strp user;
+        if (isEmpty(home)) {
+            user = userhome(nullptr);
+            home = user;
+        }
+        if (nonempty(home)) {
+            size_t size = strlen(home) + strlen(name);
+            char* path = new char[size];
+            if (path) {
+                strlcpy(path, home, size);
+                strlcat(path, name + 1, size);
+                return path;
+            }
+        }
+    }
+    else {
+        strp ident = identifier(name + 1);
+        if (ident) {
+            size_t idlen = strlen(ident);
+            if (name[1 + idlen] == '/' || name[1 + idlen] == '\0') {
+                strp home = userhome(ident);
+                if (home) {
+                    size_t hlen = strlen(home);
+                    size_t size = hlen + strlen(name + idlen);
+                    char* path = new char[size];
+                    if (path) {
+                        strlcpy(path, home, size);
+                        strlcat(path, name + 1 + idlen, size);
+                        return path;
+                    }
+                }
+            }
+        }
+    }
+    return nullptr;
+}
+
 // lookup "name" in PATH and return a new string or 0.
 char* path_lookup(const char* name) {
     if (isEmpty(name))
         return nullptr;
-    if (strchr(name, '/'))
-        return (access(name, X_OK) || !isFile(name)) ? nullptr : newstr(name);
 
-    char *env = newstr(getenv("PATH"));
+    if (name[0] == '~') {
+        char* expand = tilde_expansion(name);
+        if (expand) {
+            if (isExeFile(expand)) {
+                return expand;
+            } else {
+                delete[] expand;
+            }
+        }
+        return nullptr;
+    }
+
+    if (name[0] == '$') {
+        char* expand = dollar_expansion(name);
+        if (expand) {
+            if (isExeFile(expand)) {
+                return expand;
+            } else {
+                delete[] expand;
+            }
+        }
+        return nullptr;
+    }
+
+    if (strchr(name, '/')) {
+        return isExeFile(name) ? newstr(name) : nullptr;
+    }
+
+    strp env = newstr(getenv("PATH"));
     if (env == nullptr)
         return nullptr;
 
-    char *directory, *save = nullptr, *filebuf = nullptr;
+    const size_t namlen = strlen(name);
+    char filebuf[PATH_MAX];
+
+    char *directory, *save = nullptr;
     for (directory = strtok_r(env, ":", &save); directory;
          directory = strtok_r(nullptr, ":", &save))
     {
-        size_t length = strlen(directory) + strlen(name) + 3;
-        filebuf = new char[length];
-        if (filebuf == nullptr)
-            break;
-        snprintf(filebuf, length, "%s/%s", directory, name);
-        if (access(filebuf, X_OK) == 0 && isFile(filebuf))
-            break;
-        delete[] filebuf;
-        filebuf = nullptr;
+        size_t dirlen = strlen(directory);
+        size_t length = dirlen + namlen + 3;
+        if (length < sizeof filebuf) {
+            snprintf(filebuf, sizeof filebuf, "%s/%s",
+                     dirlen ? directory : ".", name);
+            if (isExeFile(filebuf)) {
+                return newstr(filebuf);
+            }
+        }
     }
-    delete[] env;
-    return filebuf;
+    return nullptr;
 }
 
 #ifdef __gnu_hurd__
