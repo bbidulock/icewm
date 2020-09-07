@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 usage () {
 cat <<EOI
@@ -9,7 +9,7 @@ Options:
     -d : dependencies check
     -r : CMake release build
     -t : test configure options
-    -j# : number of make procs
+    -j# : number of gmake procs
     --prefix=... : install prefix
     --with-xterm=... : set terminal
 EOI
@@ -64,10 +64,10 @@ if [[ -v ACONF ]]; then
     rm -f cscope.*
     ./autogen.sh
     ./configure.sh
-    make clean
-    make cscope
+    gmake clean
+    gmake cscope
     cscope -b
-    make "$jobs" clean all README
+    gmake "$jobs" clean all README
 
 fi
 
@@ -91,7 +91,7 @@ if [[ -v DBGCM ]]; then
         -DDOCDIR=$prefix/share/doc/icewm-common \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
         -DXTERMCMD=$xterm &&
-    make "$jobs"
+    gmake "$jobs"
 fi
 
 if [[ -v RELCM ]]; then
@@ -110,7 +110,7 @@ if [[ -v RELCM ]]; then
         -DCONFIG_XRANDR=ON \
         -DENABLE_LTO=ON \
         -DXTERMCMD=$xterm &&
-    make "$jobs"
+    gmake "$jobs"
 fi
 
 # check the dependencies
@@ -134,7 +134,7 @@ if [[ -v TESTC ]]; then
     rm -f -- rebuild.log rebuild.err
     for i in {001..050} :; do
         rm -f -- rebuild.tmp
-        make "$jobs" clean &>>rebuild.log
+        gmake "$jobs" clean &>>rebuild.log
         # pick five configure options randomly:
         able=$(./configure --help=short |
               sed -e 's|\[.*||' |
@@ -145,7 +145,7 @@ if [[ -v TESTC ]]; then
               shuf -n 5)
         echo "# $i: $(date +%T): ./configure $able" | tee rebuild.tmp
         ./configure $able &>>rebuild.tmp &&
-        make "$jobs" &>>rebuild.tmp ||
+        gmake "$jobs" &>>rebuild.tmp ||
         { echo "FAILED for $able !" |
             tee -a rebuild.err;
             mv -fv rebuild.tmp rebuild-$i.err
