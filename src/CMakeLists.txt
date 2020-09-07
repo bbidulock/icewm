@@ -443,7 +443,7 @@ TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc upath.cc udir.cc ${MISC_SRCS})
 target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
-TARGET_LINK_LIBRARIES(strtest)
+TARGET_LINK_LIBRARIES(strtest ${nls_LIBS})
 
 add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
 
