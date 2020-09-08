@@ -153,7 +153,7 @@ public:
     bool canHide() const;
     bool canLower() const;
     bool canRaise();
-    bool canFullscreen() { return true; }
+    bool canFullscreen() const;
     bool overlaps(bool below);
     unsigned overlap(YFrameWindow *other);
 
