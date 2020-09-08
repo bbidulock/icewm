@@ -645,8 +645,6 @@ void TaskBar::updateLocation() {
     if (fIsHidden) {
         if (fIsMapped && getFrame())
             getFrame()->wmHide();
-        else
-            hide();
         xapp->sync();
     }
 
@@ -692,7 +690,7 @@ void TaskBar::updateLocation() {
     if ( !fIsHidden) {
         if (fIsMapped && getFrame()) {
             getFrame()->configureClient(x, y, w, h);
-            getFrame()->show();
+            getFrame()->wmShow();
         } else
             setGeometry(YRect(x, y, w, h));
     }
