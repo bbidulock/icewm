@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-07-14 12:36+0000\n"
+"PO-Revision-Date: 2020-08-24 00:40+0000\n"
 "Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/de/>\n"
@@ -715,13 +715,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s wurde durch Signal %d getötet."
 
 #: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -735,6 +728,7 @@ msgstr ""
 "\n"
 "1: IceWM neu starten?\n"
 "2: Diese Sitzung abbrechen?\n"
+"3: Ein Terminal laufen lassen?\n"
 
 #: src/icesm.cc:461
 msgid "IceWM crash response"
@@ -2656,6 +2650,7 @@ msgstr "Webentwicklung"
 msgid "WordProcessor"
 msgstr "Textverarbeitung"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2663,6 +2658,7 @@ msgstr "Textverarbeitung"
 #~ "stat:\tBenutzer = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
 #~ "%llu, intr = %llu, softirq = %llu, entwendet = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2670,6 +2666,7 @@ msgstr "Textverarbeitung"
 #~ "Balken:\tBenutzer = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
 #~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 

@@ -456,8 +456,13 @@ msgstr ""
 "Pode mostrar um documento HTML a partir de um ficheiro, ou navegar num "
 "website.\n"
 "Lembra-se das páginas visitadas num histórico, que é navegável\n"
+<<<<<<< HEAD
 "por uma combinação de teclas e um menu de contexto (clique direito do "
 "rato).\n"
+=======
+"por uma combinação de teclas e um menu de contexto (clique direito do rato)."
+"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 "Não suporta a renderização de imagens nem JavaScript.\n"
 "Se nenhum ficheiro ou URL for fornecido o mesmo irá mostrar o Manual do "
 "IceWM\n"
@@ -675,8 +680,13 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+<<<<<<< HEAD
 "  -c, --config=FICHEIRO  Deixe o IceWM carregar as preferências do "
 "FICHEIRO.\n"
+=======
+"  -c, --config=FICHEIRO  Deixe o IceWM carregar as preferências do FICHEIRO."
+"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 "  -t, --theme=FICHEIRO    Deixe o IceWM carregar o tema do FICHEIRO.\n"
 "\n"
 "  -d, --display=NOME      Usar NOME para se LIGAR ao servidor X.\n"
@@ -872,8 +882,13 @@ msgstr ""
 "\n"
 "-O, --oss=DISPOSITIVO        Especifica o dispositivo OSS (padrão: \"%s\").\n"
 "\n"
+<<<<<<< HEAD
 "-A, --alsa=DISPOSITIVO       Especifica o dispositivo ALSA (padrão: \"%s"
 "\").\n"
+=======
+"-A, --alsa=DISPOSITIVO       Especifica o dispositivo ALSA (padrão: \"%s\")."
+"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 "\n"
 " -z, --snooze=milissegundos  Especifica o intervalo de espera entre os "
 "eventos de som em\n"
@@ -883,8 +898,13 @@ msgstr ""
 "\n"
 " -l, --list-files        Lista os caminhos de ficheiros de som disponíveis e "
 "sai.\n"
+<<<<<<< HEAD
 "     --list-sounds       Lista os nome de ficheiros de som suportados e "
 "sai.\n"
+=======
+"     --list-sounds       Lista os nome de ficheiros de som suportados e sai."
+"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 "     --list-interfaces   Lista as interfaces de áudio suportados e sai.\n"
 "\n"
 "-v, --verbose                 Detalhado (imprime cada evento de áudio).\n"
@@ -1076,8 +1096,13 @@ msgstr ""
 "  -h, --help          Mostra este ecrã de uso e sai.\n"
 "  -V, --version       Mostra informações da versão e sai.\n"
 "\n"
+<<<<<<< HEAD
 "Carrega o fundo do ambiente de trabalho conforme o ficheiro de "
 "preferências:\n"
+=======
+"Carrega o fundo do ambiente de trabalho conforme o ficheiro de preferências:"
+"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 " DesktopBackgroundCenter  - Mostra o fundo centralizado\n"
 " DesktopBackgroundScaled  - Mostra o fundo ajustado\n"
 " DesktopBackgroundColor   - Cor de fundo\n"
@@ -1430,8 +1455,13 @@ msgstr ""
 "\n"
 "Variáveis do ambiente:\n"
 "  ICEWM_PRIVCFG=CAMINHO  Diretório para os ficheiros de configuração do\n"
+<<<<<<< HEAD
 "                      utilizador, \"$XDG_CONFIG_HOME/icewm\" se existir ou "
 "\"$HOME/.icewm/\"\n"
+=======
+"                      utilizador, \"$XDG_CONFIG_HOME/icewm\" se existir ou \""
+"$HOME/.icewm/\"\n"
+>>>>>>> weblate/icewm-1-4-BRANCH
 "                      por padrão.  \n"
 "  DISPLAY=NOME        Nome do servidor X a usar.\n"
 "  MAIL=URL            Localização da sua caixa de e-mail.\n"

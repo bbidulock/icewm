@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-07-02 07:26+0000\n"
+"PO-Revision-Date: 2020-07-29 20:49+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/sk/>\n"
@@ -707,13 +707,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s bolo zabité signálom %d."
 
 #: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -727,6 +720,7 @@ msgstr ""
 "\n"
 "\t1: Reštartovať IceWM?\n"
 "\t2: Prerušiť toto sedenie?\n"
+"\t3: Spustiť terminál?\n"
 
 #: src/icesm.cc:461
 msgid "IceWM crash response"
@@ -2626,6 +2620,7 @@ msgstr "Vývoj webu"
 msgid "WordProcessor"
 msgstr "Textový procesor"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2633,6 +2628,7 @@ msgstr "Textový procesor"
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2640,6 +2636,7 @@ msgstr "Textový procesor"
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 

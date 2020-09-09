@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-07-26 08:51+0000\n"
+"PO-Revision-Date: 2020-08-24 00:40+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -706,13 +706,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s dibunuh oleh sinyal %d."
 
 #: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -721,11 +714,12 @@ msgid ""
 "\t2: Abort this session?\n"
 "\t3: Run a terminal?\n"
 msgstr ""
-" IceWM kres untuk kedua kalinya dalam 10 detik. \n"
+" IceWM macet untuk kedua kalinya dalam 10 detik. \n"
 " Apakah Anda ingin:\n"
 "\n"
 "\t1: Memulai ulang IceWM?\n"
 "\t2: Gugurkan sesi ini?\n"
+"\t3: Jalankan terminal?\n"
 
 #: src/icesm.cc:461
 msgid "IceWM crash response"
@@ -2625,6 +2619,7 @@ msgstr "Pengembangan Web"
 msgid "WordProcessor"
 msgstr "Pengolah Kata"
 
+#, c-format
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
@@ -2632,6 +2627,7 @@ msgstr "Pengolah Kata"
 #~ "stat:\tpengguna = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
 #~ "%llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
+#, c-format
 #~ msgid ""
 #~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 #~ "softirq = %llu, steal = %llu (h = %i)\n"
@@ -2639,6 +2635,7 @@ msgstr "Pengolah Kata"
 #~ "bilah:\tpengguna = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
 #~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
+#, c-format
 #~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 #~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 
