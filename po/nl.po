@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-03-12 10:39+0000\n"
+"PO-Revision-Date: 2020-09-10 16:47+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -581,10 +581,8 @@ msgid "Motif decorations"
 msgstr "Motif-decoraties"
 
 #: src/icesh.cc:1997
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME-Venster status"
+msgstr "EWMH-vensterstatus"
 
 #: src/icesh.cc:2079 src/icesh.cc:2108
 #, c-format
@@ -663,19 +661,6 @@ msgid "Socket error: %d"
 msgstr "Sokjes fout ;-): %d"
 
 #: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -699,6 +684,7 @@ msgstr ""
 "  --sync              Synchroniseer communicatie met de X11-server.\n"
 "\n"
 "  -i, --icewm=FILE    Gebruik FILE als de IceWM windowmanager.\n"
+"  -o, --output=FILE   Alle uitvoer naar FILE sturen.\n"
 "  -b, --nobg          icewmbg niet starten.\n"
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
@@ -724,13 +710,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s afgesloten door signaal %d."
 
 #: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -744,6 +723,7 @@ msgstr ""
 "\n"
 "\t1: IceWM opnieuw starten?\n"
 "\t2: Deze sessie afbreken?\n"
+"\t3: Een terminal starten?\n"
 
 #: src/icesm.cc:461
 msgid "IceWM crash response"
@@ -1586,11 +1566,11 @@ msgstr ""
 
 #: src/wmmgr.cc:3283
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Programma setxkbmap ontbreekt"
 
 #: src/wmmgr.cc:3284
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Om van toetsenbord te wisselen, installeer setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
