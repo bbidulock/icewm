@@ -6,104 +6,160 @@
 #endif
 
 #include "ref.h"
-#include <stdlib.h>
+#include <cstdlib>
+#include <cinttypes>
+#include <utility>
 
-/*
- * A reference counted string buffer of arbitrary but fixed size.
- */
-class MStringData {
+class mstring;
+class precompiled_regex;
+
+class mstring_view {
+    const char *m_data;
+    std::size_t m_size;
 public:
-    MStringData() : fRefCount(0) {}
-
-    int fRefCount;
-    char fStr[];
+    mstring_view(const char *s);
+    mstring_view(const char *s, std::size_t len) :
+            m_data(s), m_size(len) {
+    }
+    mstring_view(null_ref &) : m_data(nullptr), m_size(0) {}
+    mstring_view() : mstring_view(null) {}
+    mstring_view(const mstring& s);
+    std::size_t length() const { return m_size; }
+    const char* data() const { return m_data; }
+    bool operator==(mstring_view rv) const;
+    bool isEmpty() const { return length() == 0; }
 };
-
-class MStringRef {
-public:
-    MStringRef(): fStr(nullptr) {}
-    explicit MStringRef(MStringData* data): fStr(data) {}
-    explicit MStringRef(size_t len) { alloc(len); }
-    MStringRef(const char* str, size_t len) { create(str, len); }
-
-    void alloc(size_t len);
-    void create(const char* str, size_t len);
-    operator bool() const { return fStr; }
-    MStringData* operator->() const { return fStr; }
-    bool operator!=(const MStringRef& r) const { return fStr != r.fStr; }
-    char& operator[](size_t index) const { return fStr->fStr[index]; }
-    void operator=(MStringData* data) { fStr = data; }
-    void acquire() const { fStr->fRefCount++; }
-    void release() const { if (fStr->fRefCount-- == 1) free(fStr); }
-
-private:
-
-    MStringData* fStr;
-};
-
 /*
- * Mutable strings with a reference counted string buffer.
+ * Mutable strings with a small string optimization.
  */
 class mstring {
+public:
+    using size_type = std::size_t;
 private:
-    friend class MStringArray;
     friend mstring operator+(const char* s, const mstring& m);
+    friend void swap(mstring& a, mstring& b);
+    friend class mstring_view;
 
-    MStringRef fRef;
-    size_t fOffset;
-    size_t fCount;
+#if defined(__GNUC__) && ! defined(NOUTYPUN)
+    struct TRefData {
+        char *p;
+        // for now: inflate a bit, later: to implement set preservation
+        uint64_t nReserved;
+    };
 
-    void acquire() {
-        if (fRef) { fRef.acquire(); }
-    }
-    void release() {
-        if (fRef) { fRef.release(); }
-    }
-    mstring(const MStringRef& str, size_t offset, size_t count);
-    mstring(const char* str1, size_t len1, const char* str2, size_t len2);
-    const char* data() const { return &fRef[fOffset]; }
+// local area minus SSO counter minus terminator minus local flag
+#define MSTRING_INPLACE_MAXLEN (sizeof(mstring::spod) - 3)
+#define MSTRING_INPLACE_FLAG   spod.extraBytes[sizeof(spod.extraBytes)-1]
+
+    // can compress more where union-based type punning are legal!
+    struct {
+#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+        union {
+            size_type count;
+            uint8_t cBytes[sizeof(size_type)];
+        };
+#endif
+        union {
+            TRefData ext;
+            // for easier debugging & compensate smaller pointer size on 32bit
+            char extraBytes[sizeof(ext)];
+        };
+#if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
+        union {
+            size_type count;
+            uint8_t cBytes[sizeof(size_type)];
+        };
+#endif
+    } spod;
+#else
+    // for other compilers: no punning on count var and extra careful access
+#define SSO_NOUTYPUN
+
+    // local area minus SSO counter minus terminator
+#define MSTRING_INPLACE_BUFSIZE (3*sizeof(size_type))
+#define MSTRING_INPLACE_FLAG spod.cBytes[MSTRING_INPLACE_BUFSIZE - 1]
+#define MSTRING_INPLACE_MAXLEN (MSTRING_INPLACE_BUFSIZE - 2)
+
+    struct {
+        size_type count;
+        char cBytes[MSTRING_INPLACE_BUFSIZE];
+    } spod;
+#endif
+
+    const char* data() const;
+    char* data();
+    bool isLocal() const { return MSTRING_INPLACE_FLAG; }
+    void markLocal(bool val) { MSTRING_INPLACE_FLAG = val; }
+    void term(size_type len);
+    void extendBy(size_type amount);
+    void extendTo(size_type new_len);
+    // detect parameter data coming from this string, to take the slower path
+    bool input_from_here(mstring_view sv);
+    // adjust internal length and inplace mark; no allocaiton, no termination
+    void set_len(size_type len, bool forceExternal = false);
+    void set_ptr(char* p);
+    char* get_ptr();
+    const char* get_ptr() const;
 
 public:
-    mstring(const char *str);
-    mstring(const char *str1, const char *str2);
-    mstring(const char *str1, const char *str2, const char *str3);
-    mstring(const char *str, size_t len);
-    explicit mstring(long);
+    mstring(const char *s, size_type len);
+    mstring(mstring_view sv) : mstring(sv.data(), sv.length()) {}
+    mstring(const mstring& s) : mstring(s.data(), s.length()) {}
+    mstring(const char *s) : mstring(mstring_view(s)) {}
+    mstring(mstring&& other);
 
-    mstring(null_ref &): fRef(nullptr), fOffset(0), fCount(0) { }
-    mstring():           fRef(nullptr), fOffset(0), fCount(0) { }
+    // fast in-place concatenation for often uses
+    mstring(mstring_view a, mstring_view b);
+    mstring(mstring_view a, mstring_view b, mstring_view c);
+    mstring(mstring_view a, mstring_view b, mstring_view c,
+            mstring_view d, mstring_view e = mstring_view());
 
-    mstring(const mstring &r):
-        fRef(r.fRef),
-        fOffset(r.fOffset),
-        fCount(r.fCount)
-    {
-        acquire();
+    mstring(null_ref &) { set_len(0); data()[0] = 0x0; }
+    mstring() : mstring(null) {}
+
+    ~mstring() { clear(); };
+
+    size_type length() const {
+#ifdef SSO_NOUTYPUN
+        return spod.count;
+#else
+        return isLocal() ? (spod.count & 0xff) : spod.count;
+#endif
     }
-    ~mstring() {
-        release();
+    bool isEmpty() const {
+        return 0 == length();
     }
+    bool nonempty() const { return !isEmpty(); }
 
-    size_t length() const { return fCount; }
-    size_t offset() const { return fOffset; }
-    bool isEmpty() const { return 0 == fCount; }
-    bool nonempty() const { return 0 < fCount; }
+    mstring& operator=(mstring_view rv);
+    mstring& operator=(const mstring& rv) { return *this = mstring_view(rv); }
+    mstring& operator+=(const mstring_view& rv);
+    mstring& operator+=(const mstring& rv) {return *this += mstring_view(rv); }
+    mstring operator+(const mstring_view& rv) const;
+    mstring operator+(const char* s) const { return mstring(*this, s); }
+    mstring operator+(const mstring& s) const { return mstring(*this, s); }
+    // moves might just steal the other buffer
+    mstring& operator=(mstring&& rv);
+    mstring& operator+=(mstring&& rv);
+    mstring operator+(mstring&& rv) const;
+    // plain types
+    mstring& operator=(const char* sz) { return *this = mstring_view(sz); }
+    mstring& operator+=(const char* s) { return *this += mstring_view(s); }
 
-    mstring& operator=(const mstring& rv);
-    void operator+=(const mstring& rv);
-    mstring operator+(const mstring& rv) const;
-
-    bool operator==(const char *rv) const { return equals(rv); }
+    bool operator==(const char * rv) const { return equals(rv); }
+    bool operator==(mstring_view rv) const { return equals(rv); }
     bool operator!=(const char *rv) const { return !equals(rv); }
+    bool operator!=(mstring_view rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
     bool operator==(null_ref &) const { return isEmpty(); }
     bool operator!=(null_ref &) const { return nonempty(); }
 
-    mstring operator=(null_ref &) { return *this = mstring(); }
-    mstring substring(size_t pos) const;
-    mstring substring(size_t pos, size_t len) const;
+    mstring operator=(null_ref &) { clear(); return mstring(); }
+    mstring substring(size_type pos) const;
+    mstring substring(size_type pos, size_type len) const;
     mstring match(const char* regex, const char* flags = nullptr) const;
+    mstring match(const precompiled_regex&) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
@@ -111,39 +167,68 @@ public:
     int lastIndexOf(char ch) const;
     int count(char ch) const;
 
-    bool equals(const char *s) const;
-    bool equals(const char *s, size_t len) const;
-    bool equals(const mstring &s) const;
-    int collate(mstring s, bool ignoreCase = false);
+    bool equals(const char *&sz) const;
+    bool equals(mstring_view sv) const { return sv == *this; }
+    bool equals(const mstring &s) const { return mstring_view(s) == *this; };
+    bool equals(const char *sz, size_type len) const {
+        return equals(mstring_view(sz, len));
+    }
+
+    int collate(const mstring& s, bool ignoreCase = false) const;
     int compareTo(const mstring &s) const;
     bool operator<(const mstring& other) const { return compareTo(other) < 0; }
-    bool copyTo(char *dst, size_t len) const;
+    bool copyTo(char *dst, size_type len) const;
 
-    bool startsWith(const mstring &s) const;
-    bool endsWith(const mstring &s) const;
-    int find(const mstring &s) const;
+    bool startsWith(mstring_view sv) const;
+    bool endsWith(mstring_view sv) const;
+    int find(mstring_view) const;
 
     bool split(unsigned char token, mstring *left, mstring *remain) const;
     bool splitall(unsigned char token, mstring *left, mstring *remain) const;
     mstring trim() const;
-    mstring replace(int position, int len, const mstring &insert) const;
-    mstring remove(int position, int len) const;
-    mstring insert(int position, const mstring &s) const;
-    mstring append(const mstring &str) const { return *this + str; }
+    mstring replace(size_type position, size_type len, const mstring &insert) const;
+    mstring remove(size_type position, size_type len) const;
+    mstring insert(size_type position, const mstring &s) const;
     mstring searchAndReplaceAll(const mstring& s, const mstring& r) const;
     mstring lower() const;
     mstring upper() const;
+    /**
+     * Calculates the required amount of memory (first run), then formats
+     * the data via vsnprintf.
+     */
+    mstring& appendFormat(const char *fmtString, ...);
+    /**
+     * Like appendFormat before but first takes an optimistic approach and
+     * allocates the specified amount of memory beforehand.
+     *
+    mstring& appendFormat(size_type sizeHint, const char *fmtString, ...);
+     */
 
-    operator const char *() { return c_str(); }
-    const char* c_str();
+    explicit mstring(long val) : mstring() { appendFormat("%ld", val); }
+
+    operator const char *() const { return c_str(); }
+    const char* c_str() const { return data();}
+
+    void clear();
+
+    // transfer the ownership of the buffer to a newly created mstring
+    // Caller guarantees that buf is 1 char longer which is the terminator!
+    static mstring take(char *buf, size_type buf_len);
 };
 
-inline bool operator==(const char* s, const mstring& c) { return c == s; }
-inline bool operator!=(const char* s, const mstring& c) { return c != s; }
-
-inline mstring operator+(const char* s, const mstring& m) {
-    return mstring(s) + m;
+inline bool operator==(const char* s, const mstring& c) {
+    return c == s;
 }
+inline bool operator!=(const char* s, const mstring& c) {
+    return !(c == s);
+}
+inline mstring operator+(const char* s, const mstring& m) {
+    return (s && *s) ? (mstring(s) + m) : m;
+}
+inline mstring_view::mstring_view(const mstring &s) :
+        mstring_view(s.data(), s.length()) {
+}
+void swap(mstring &a, mstring &b);
 
 #endif
 

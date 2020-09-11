@@ -19,6 +19,10 @@
 #include <string.h>
 #include "base.h"
 #include "ref.h"
+#include <deque>
+#ifdef DEBUG
+#include <stdexcept>
+#endif
 
 template <class DataType>
 class YArray;
@@ -26,7 +30,8 @@ template <class DataType, class ArrayType = YArray<DataType> >
 class YArrayIterator;
 
 /*******************************************************************************
- * A dynamic array for anonymous data
+ * A dynamic array for anonymous data.
+ * Data is expected to be trivially copyable!
  ******************************************************************************/
 
 class YBaseArray {
@@ -105,6 +110,7 @@ private:
 
 /*******************************************************************************
  * A dynamic array for typed data
+ * Data is expected to be trivially copyable!
  ******************************************************************************/
 
 template <class DataType>
@@ -377,83 +383,38 @@ public:
 
 /*******************************************************************************
  * An array of mstrings
+ * Using std type because YBaseArray trivially-copying behavior
+ * does not work well for data with pointers.
+ * This adapter contains a few wrappers to disguise this as original
+ * MStringArray class.
  ******************************************************************************/
 
 #ifdef MSTRING_H
-class MStringArray: public YArray<mstring> {
+class MStringArray: public std::deque<mstring> {
 public:
-    typedef YArray<mstring> BaseType;
-    typedef BaseType::IterType IterType;
 
-    MStringArray() { }
-    MStringArray(MStringArray& other) :
-        YArray<mstring>(static_cast<BaseType&>(other))
-    { }
-
-    MStringArray(const MStringArray& other) :
-        YArray<mstring>(static_cast<const BaseType&>(other))
-    {
-        for (SizeType i = 0; i < getCount(); ++i)
-            getItemPtr(i)->acquire();
+    void append(mstring item) { *this += std::move(item); }
+    void insert(int index, const mstring& item) {
+        std::deque<mstring>::insert(begin() + index, item);
     }
-
-    MStringArray(const YStringArray& other): YArray<mstring>(other.getCount())
-    {
-        for (SizeType i = 0; i < getCount(); ++i) {
-            mstring copy(other[i]);
-            append(copy);
-        }
+    void insert(int index, mstring&& item) {
+        std::deque<mstring>::insert(begin() + index, std::move(item));
     }
-
-    virtual ~MStringArray() {
-        clear();
-    }
-
-    void append(mstring item) {
-        item.acquire();
-        YBaseArray::append(&item);
-    }
-    void insert(const SizeType index, mstring item) {
-        item.acquire();
-        YBaseArray::insert(index, &item);
-    }
-
-    mstring& getItem(const SizeType index) const {
-        return *getItemPtr(index);
-    }
-    mstring& operator[](const SizeType index) const {
-        return getItem(index);
-    }
+    mstring& getItem(const size_t index) { return at(index); }
+    mstring& operator[](const size_t index) { return at(index); }
+    const mstring& operator[](const size_t index) const { return at(index); }
     MStringArray& operator+=(const mstring& item) {
-        append(item); return *this;
+        push_back(item); return *this;
+    }
+    MStringArray& operator+=(mstring&& item) {
+        emplace_back(item); return *this;
     }
 
-    virtual void remove(const SizeType index) {
-        if (index < getCount()) {
-            getItemPtr(index)->release();
-            YBaseArray::remove(index);
-        }
-    }
-
-    virtual void clear() {
-        for (SizeType i = 0; i < getCount(); ++i)
-            getItemPtr(i)->release();
-        YBaseArray::clear();
-    }
-
-    virtual void shrink(int reducedCount) {
-        for (SizeType n = getCount(); n > reducedCount; )
-            getItemPtr(--n)->release();
-        YBaseArray::shrink(reducedCount);
-    }
-
+    void remove(const size_t index) { erase(begin() + index); }
     void sort();
-
-private:
-    mstring* getItemPtr(const SizeType index) const {
-        return static_cast<mstring *>(
-                const_cast<void *>(YBaseArray::getItem(index)));
-    }
+    int getCount() const { return size(); }
+    bool nonempty() const { return !empty(); }
+    bool isEmpty() const { return empty(); }
 };
 #endif /* MSTRING_H */
 
@@ -582,6 +543,201 @@ public:
     }
 };
 
+/**
+ * Simple associative array for string keys, element-provided key storage,
+ * open addressing collision handling with linear probing.
+ *
+ * The user of this structure must make some promises:
+ * - default-constructed elements are considered invalid
+ * - after getting an element (by reference), the reference will be initialised
+ *   with a non-default value (i.e. comparing to TElement() must become false)
+ * - the element returned from TKeyGetter functor (i.e. its operator() ) must
+ *   be convertible to const char *.
+ * - iteration via begin()/end() shall ignore default-initialised values since
+ *   it obviously will contain some
+ * - the element returned by TKeyGetter must be value-comparable (so probably
+ *   NOT plain const char* or something which implicitly converts to it but
+ *   preferably mstring or std::string reference)
+ *
+ * There are two ways of inserting elements:
+ * a) via operator[] - using this, the caller MUST assign a non-default
+ *   value immediately afterwards
+ * b) using find() returned iterator helper - if a value is assigned via iter,
+ *   it will be commited in lazy fashion, when the iterator goes out of scope.
+ *   NO other iterator object or [] access must interfere in the meantime!
+ */
+template<typename TElement, typename TKeyGetter, int Power = 7>
+class YSparseHashTable {
+    unsigned m_poolSize, m_mask, rekeyHighMark, m_count;
+    TElement *pool;
+#ifdef DEBUG
+public:
+    unsigned m_compCount = 0, m_lookupCount = 0;
+private:
+#endif
+    const TElement inval;
+    /**
+     * Locate cached item, return either the item itself or a reference to position
+     * where such element can be stored for later lookup.
+     */
+    TElement& hashFind(const char *name, decltype(pool) &cache,
+            unsigned mask) {
+#ifdef DEBUG
+        m_lookupCount++;
+#endif
+        auto hval = strhash(name);
+        // hash function is good enough to avoid clustering
+        auto hpos = hval & mask;
+
+        for (auto i = hpos; i < m_poolSize; ++i) {
+            if (inval == cache[i])
+                return cache[i];
+#ifdef DEBUG
+            m_compCount++;
+#endif
+            if (TKeyGetter()(cache[i]) == name)
+                return cache[i];
+        }
+
+        for (auto i = int(hpos) - 1; i >= 0; --i) {
+            if (inval == cache[i])
+                return cache[i];
+#ifdef DEBUG
+            m_compCount++;
+#endif
+            if (TKeyGetter()(cache[i]) == name)
+                return cache[i];
+        }
+        throw std::exception();
+    }
+
+    void inflate()
+    {
+        auto new_mask = 1 | (m_mask << 1);
+        decltype(pool) new_revision = new TElement[new_mask + 1];
+        for (auto p = pool, pe = pool + m_poolSize; p < pe; ++p) {
+            if (inval == *p)
+                continue;
+            auto &tgt = hashFind(TKeyGetter()(*p), new_revision, new_mask);
+            tgt = std::move(*p);
+        }
+        m_mask = new_mask;
+        m_poolSize = new_mask + 1;
+        rekeyHighMark = (m_poolSize / 4) * 3;
+        delete[] pool;
+        pool = new_revision;
+    }
+
+public:
+    YSparseHashTable(unsigned power = Power) :
+            m_poolSize(1 << power), m_mask((1 << power) - 1),
+            rekeyHighMark(3 * (1 << (power - 2))), m_count(0),
+            pool(new TElement[m_poolSize]), inval(TElement()) {
+    }
+#ifdef DEBUG
+    ~YSparseHashTable() throw() {
+        unsigned scheck = 0;
+        for(auto p = pool, pe =pool+m_poolSize; p < pe; ++p )
+            scheck += (inval != *p);
+        if (scheck != m_count) {
+            throw std::runtime_error("Hash contents mismatch, some content"
+                    " illegally invalidated or added");
+        }
+        delete [] pool;
+    }
+#else
+    ~YSparseHashTable() { delete [] pool; }
+#endif
+
+    unsigned long getCount() { return m_count; }
+
+    /**
+     * WARNING:
+     * after getting an element (by reference), the reference will be
+     * initialised, with a non-default value (i.e. comparing to TElement()
+     * must become false)
+     */
+    TElement& operator[](const char *key) {
+        if (m_count >= rekeyHighMark)
+            inflate();
+        auto &res = hashFind(key, pool, m_mask);
+        if (inval == res) // so the access call will resize
+            m_count++;
+        return res;
+    }
+    /**
+     * STL-friendly iterators, although just good enough for range-for loops.
+     * Validity rules (lifecycle) are similar to std::unordere_map::iterator.
+     */
+    class TIterator
+    {
+        TElement* p;
+        YSparseHashTable& parent;
+        bool fromFind = false, hadValue = false;
+        friend class YSparseHashTable;
+    public:
+        TIterator(TElement *ap, YSparseHashTable &par) :
+                p(ap), parent(par) {
+        }
+        ~TIterator() {
+            if (!fromFind)
+                return;
+            bool gotValue = p && TElement() != *p;
+            if (gotValue && !hadValue) {
+                // okay, newly added. Pending resize?
+                if (parent.m_count >= parent.rekeyHighMark)
+                    parent.inflate();
+                parent.m_count++;
+            }
+        }
+        friend class YSparseHashTable;
+    public:
+        TElement& operator*() { return *p; }
+        bool operator==(const TIterator &b) const {
+            return p == b.p;
+        }
+        bool operator!=(const TIterator &b) const {
+            return p != b.p;
+        }
+        TIterator& operator++() {
+            for (++p; p < parent.pool + parent.m_poolSize; ++p) {
+                if (TElement() != *p)
+                    break;
+            }
+            return *this;
+        }
+    };
+    TIterator begin() {
+        TIterator it(pool, *this), eit(end());
+        while (it != eit)
+            ++it;
+        return it;
+    }
+    TIterator end() {
+        return TIterator(pool + m_poolSize, *this);
+    }
+    TIterator find(const char *key) {
+        auto& it = hashFind(key, pool, m_mask);
+        TIterator ret(it, *this);
+        ret.fromFind = true;
+        ret.hadValue = it != inval;
+        return ret;
+    }
+    bool has(const char* key) {
+        return inval != * find(key);
+    }
+
+#ifdef DEBUG
+    void print_stats(const char *pfx) {
+        MSG(("%s, lookups: %u, compcount: %u, used/reserved: %u/%u AKA LF: %F",
+                        pfx,
+                        m_lookupCount, m_compCount,
+                        m_count, unsigned(m_poolSize),
+                        double(m_count)/m_poolSize));
+    }
+#endif
+
+};
 /*******************************************************************************
  * A fixed multi-dimension array
  ******************************************************************************/

@@ -399,10 +399,11 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 
 SET(MISC_SRCS logevent.cc misc.cc yfileio.cc ytime.cc yarray.cc mstring.cc ref.cc)
 
-SET(ICE_COMMON_SRCS udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc yprefs.cc
+SET(ICE_COMMON_SRCS yprefs.cc udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc
     ywindow.cc ypaint.cc ypopup.cc ycursor.cc ysocket.cc ypaths.cc
     ylocale.cc ypipereader.cc yxembed.cc yconfig.cc yfont.cc ypixmap.cc
-    yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc ${MISC_SRCS})
+    yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc
+    ${MISC_SRCS})
 
 if(CONFIG_XFREETYPE)
     list(APPEND ICE_COMMON_SRCS yfontxft.cc)
@@ -429,7 +430,6 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     applet.cc apppstatus.cc aaddressbar.cc objbar.cc
     akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
-
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
 set(icewm_pc_flags ${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS} ${nls_CFLAGS})
 target_compile_options(icewm${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
@@ -463,7 +463,7 @@ ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc ${MISC_SRCS})
 target_compile_options(icewmhint${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc ${MISC_SRCS})
+ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc misc.cc mstring.cc ref.cc yarray.cc ytime.cc logevent.cc)
 target_compile_options(icesh${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${xext_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
@@ -472,7 +472,7 @@ target_compile_options(icewmbg${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_fla
 TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
-    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc ytimer.cc yapp.cc yprefs.cc ${MISC_SRCS})
+    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc upath.cc misc.cc yfileio.cc ytime.cc mstring.cc ytime.cc ytimer.cc yapp.cc yprefs.cc yarray.cc ref.cc logevent.cc)
     target_compile_options(icesound${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags} ${audio_flags})
     TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
     INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})

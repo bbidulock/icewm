@@ -1,5 +1,6 @@
 #include "config.h"
 #include "mstring.h"
+#include "mstringex.h"
 #include "upath.h"
 #include "base.h"
 #include "udir.h"
@@ -9,6 +10,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fnmatch.h>
+#include <unordered_set>
 
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
@@ -100,6 +102,17 @@ static void test_mstring()
     assert(e, e.count(' ') == 0);
     assert(e, e.substring(0) == null);
     assert(e, e.substring(0, 0) == null);
+
+    mstring sacrificed("xyz");
+    mstring taker(std::move(sacrificed));
+    // short data is still there, just marked invalid
+    assert(taker, taker.c_str());
+    ASSERT_EQ(0, sacrificed.length());
+
+    char *pLongData = (char*) calloc(42, 1);
+    auto owner = mstring::take(pLongData, 41);
+    ASSERT_EQ(41, owner.length());
+    ASSERT_EQ(pLongData, owner.c_str());
 
     mstring m("abc", (size_t) 0);
     expect(m, "");
@@ -198,7 +211,7 @@ static void test_mstring()
     expect(t, "_.");
     mstring k = t.insert(1, "xyz");
     expect(k, "_xyz.");
-    mstring q = t.append("!?");
+    mstring q = t + "!?";
     expect(q, "_.!?");
 
     mstring ht = "http://www.icewm.org/";
@@ -256,6 +269,29 @@ static void test_mstring()
     expect(u, "#fffff");
     u = mstring("f#ffffff").match("#f{5}");
     expect(u, "#fffff");
+
+    u = "";
+    expect(u, "");
+
+    std::unordered_set<mstring> container;
+    auto added1 = container.emplace("foo");
+    auto added2 = container.emplace("bar");
+    auto added3 = container.emplace("foo");
+    EXPECT_EQ(added1.second, true);
+    EXPECT_EQ(added2.second, true);
+    EXPECT_EQ(added3.second, false);
+
+    u = mstring("...").appendFormat("%d", 123);
+    expect(u, "...123");
+
+    u = mstring().appendFormat("%i---", 1234567);
+    expect(u, "1234567---");
+
+    u.appendFormat("more");
+    expect(u, "1234567---more");
+
+    u.appendFormat("%s", "even much more until it reallocates");
+    expect(u, "1234567---moreeven much more until it reallocates");
 }
 
 static void test_upath()
@@ -520,14 +556,15 @@ static void test_sdir()
     {
         sdir s("/etc");
         assert(s.path(), s.isOpen());
-        char buf[300] = "";
+        char prevBuf[300] = "";
         while (s.next()) {
             mstring c(s.entry());
             const char *e = c.c_str();
-            assert(e, strcoll(buf, e) < 0);
-            strlcpy(buf, e, sizeof buf);
+            auto r = strcoll(prevBuf, e);
+            assert(e, r < 0);
+            strlcpy(prevBuf, e, sizeof prevBuf);
         }
-        assert(buf, strcoll(buf, "~~~~~~~~~") < 0);
+        assert(prevBuf, strcoll(prevBuf, "~~~~~~~~~") < 0);
     }
 
 }

@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <algorithm>
 
 YBaseArray::YBaseArray(YBaseArray &other):
     fElementSize(other.fElementSize),
@@ -233,16 +234,15 @@ char **YStringArray::release() {
     return strings;
 }
 
-static int mstring_compare(const void *p1, const void *p2)
+
+bool less_than_mstring(const mstring& a, const mstring& b)
 {
-    const mstring* s1 = static_cast<const mstring*>(p1);
-    const mstring* s2 = static_cast<const mstring*>(p2);
-    return const_cast<mstring*>(s1)->collate(*const_cast<mstring*>(s2));
+    return a.collate(b) < 0;
 }
 
 void MStringArray::sort() {
-    if (1 < getCount())
-        qsort(getItemPtr(0), getCount(), sizeof(mstring), mstring_compare);
+    if(empty()) return;
+    std::sort(begin(), end(), less_than_mstring);
 }
 
 bool testOnce(const char* file, const int line) {
