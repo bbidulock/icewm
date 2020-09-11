@@ -1282,6 +1282,7 @@ private:
 
     void spy();
     void spyEvent(const XEvent& event);
+    void spyClient(const XClientMessageEvent& event, const char* head);
     void flush();
     void flags();
     void flag(char* arg);
@@ -1315,7 +1316,7 @@ private:
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
-    void changeState();
+    void changeState(const char* arg);
     bool colormaps();
     bool current();
     bool runonce();
@@ -1579,6 +1580,13 @@ static void toggleState(Window window, long newState) {
 
     long newMask = (state & mask & newState) ^ newState;
     MSG(("new mask/state: %ld/%ld", newState, newMask));
+
+    if (newState & WinStateFullscreen) {
+        long nets = YNetState(window).state();
+        if (nets & NetFullscreen) {
+            newMask &= ~WinStateFullscreen;
+        }
+    }
 
     setState(window, newState, newMask);
 }
@@ -2332,9 +2340,8 @@ bool IceSh::colormaps()
     return true;
 }
 
-void IceSh::changeState()
+void IceSh::changeState(const char* arg)
 {
-    const char* arg = getArg();
     int state = -1;
     if (!strncmp(arg, "NormalState", strlen(arg)))
         state = NormalState;
@@ -3692,18 +3699,37 @@ void IceSh::spyEvent(const XEvent& event)
         }
         break;
     case ClientMessage:
-        printf("%s ClientMessage %s %d data=%ld,0x%lx,0x%lx",
-                head,
-                atomName(event.xclient.message_type),
-                event.xclient.format,
-                event.xclient.data.l[0],
-                event.xclient.data.l[1],
-                event.xclient.data.l[2]
-              );
+        spyClient(event.xclient, head);
         break;
     default:
         printf("%sUnknown event type %d\n", head, event.type);
         break;
+    }
+}
+
+void IceSh::spyClient(const XClientMessageEvent& event, const char* head) {
+    const char* name = atomName(event.message_type);
+    const long* data = event.data.l;
+    if (event.message_type == ATOM_NET_WM_STATE) {
+        const char* op =
+            data[0] == 0 ? "REMOVE" :
+            data[0] == 1 ? "ADD" :
+            data[0] == 2 ? "TOGGLE" : "?";
+        const char* p1 = data[1] ? atomName(data[1]) : "";
+        const char* p2 = data[2] ? atomName(data[2]) : "";
+        printf("%sClientMessage %s %d data=%s,%s,%s\n",
+                head, name, event.format, op, p1, p2);
+    }
+    else if (event.message_type == ATOM_WM_CHANGE_STATE) {
+        const char* op =
+            data[0] == 0 ? "WithdrawnState" :
+            data[0] == 1 ? "NormalState" :
+            data[0] == 3 ? "IconicState" : "?";
+        printf("%sClientMessage %s %s\n", head, name, op);
+    }
+    else {
+        printf("%sClientMessage %s %d data=%ld,0x%lx,0x%lx\n",
+                head, name, event.format, data[0], data[1], data[2]);
     }
 }
 
@@ -4166,8 +4192,6 @@ void IceSh::parseAction()
                 mask |= WinStateMinimized;
                 mask |= WinStateHidden;
                 mask |= WinStateRollup;
-                mask |= WinStateAbove;
-                mask |= WinStateBelow;
                 setState(window, mask, 0L);
             }
         }
@@ -4221,7 +4245,13 @@ void IceSh::parseAction()
             click();
         }
         else if (isAction("changeState", 1)) {
-            changeState();
+            changeState(getArg());
+        }
+        else if (isAction("iconic", 0)) {
+            changeState("IconicState");
+        }
+        else if (isAction("normal", 0)) {
+            changeState("NormalState");
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
