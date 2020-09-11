@@ -22,7 +22,7 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent& up, int count);
 
-    void updateKeyboard(mstring keyboard);
+    void updateKeyboard(const mstring& keyboard);
     void getStatus();
     virtual void updateToolTip();
 

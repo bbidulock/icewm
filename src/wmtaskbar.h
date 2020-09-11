@@ -90,7 +90,7 @@ public:
     void workspacesRepaint();
     void workspacesUpdateButtons();
     void workspacesRelabelButtons();
-    void keyboardUpdate(mstring keyboard);
+    void keyboardUpdate(const mstring& keyboard);
 
     void updateFrame(YFrameWindow* frame);
     void delistFrame(YFrameWindow* frame, TaskBarApp* task, TrayApp* tray);

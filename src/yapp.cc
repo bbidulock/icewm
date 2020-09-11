@@ -11,6 +11,8 @@
 #include "sysdep.h"
 #include "intl.h"
 
+#include <algorithm>
+
 //#define USE_SIGNALFD
 
 #ifdef USE_SIGNALFD
@@ -85,26 +87,26 @@ YApplication::~YApplication() {
 }
 
 void YApplication::registerTimer(YTimer *t) {
-    if (find(timers, t) < 0)
-        timers.append(t);
+    auto it = std::find(timers.begin(), timers.end(), t);
+    if(it == timers.end())
+        timers.emplace_back(t);
 }
 
 void YApplication::unregisterTimer(YTimer *t) {
-    int k = find(timers, t);
-    if (k >= 0)
-        timers.remove(k);
+    auto it = std::find(timers.begin(), timers.end(), t);
+    if(it != timers.end())
+        timers.erase(it);
 }
 
 bool YApplication::nextTimeout(timeval *timeout) {
-    bool fFirst = true;
-    YArrayIterator<YTimer*> t = timers.iterator();
-    while (++t) {
-        if (t->isRunning() && (fFirst || t->timeout < *timeout)) {
+    bool bNotFirst = false;
+    for(auto& t : timers) {
+        if (t->isRunning() && (!bNotFirst || t->timeout < *timeout)) {
             *timeout = t->timeout;
-            fFirst = false;
+            bNotFirst = true;
         }
     }
-    return fFirst == false;
+    return bNotFirst;
 }
 
 bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
@@ -115,28 +117,28 @@ bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
     timeval timeout_fuzzy = {0, 0L};
     timeval timeout_max = {0, 0L};
 
-    for (YArrayIterator<YTimer*> iter = timers.iterator(); ++iter; ) {
-        if (iter->isRunning()) {
-            if (iter->isFixed()) {
-                // Update if no fixed timer yet or current
-                // is earlier than previously registered one.
-                if (false == fixedExists || iter->timeout < timeout_fixed) {
-                    timeout_fixed = iter->timeout;
-                    fixedExists = true;
-                }
+    for (const auto& iter : timers) {
+        if (!iter->isRunning())
+            continue;
+
+        if (iter->isFixed()) {
+            // Update if no fixed timer yet or current
+            // is earlier than previously registered one.
+            if (false == fixedExists || iter->timeout < timeout_fixed) {
+                timeout_fixed = iter->timeout;
+                fixedExists = true;
             }
-            else if (false == fuzzyExists) {
-                // encountered first fuzzy timer, register everything
-                timeout_fuzzy = iter->timeout;
+        } else if (false == fuzzyExists) {
+            // encountered first fuzzy timer, register everything
+            timeout_fuzzy = iter->timeout;
+            timeout_max = iter->timeout_max;
+            fuzzyExists = true;
+        } else if (iter->timeout < timeout_fuzzy) {
+            // this fuzzy timer is earlier than previous one
+            timeout_fuzzy = iter->timeout;
+            if (iter->timeout_max < timeout_max)
                 timeout_max = iter->timeout_max;
-                fuzzyExists = true;
-            }
-            else if (iter->timeout < timeout_fuzzy) {
-                // this fuzzy timer is earlier than previous one
-                timeout_fuzzy = iter->timeout;
-                if (iter->timeout_max < timeout_max)
-                    timeout_max = iter->timeout_max;
-            }
+
         }
     }
 
@@ -150,32 +152,31 @@ bool YApplication::nextTimeoutWithFuzziness(timeval *timeout) {
 }
 
 bool YApplication::getTimeout(timeval *timeout) {
+    if (timers.empty())
+        return false;
+    timeval tval = { 0, 0L };
     bool found = false;
-    if (0 < timers.getCount()) {
-        timeval tval = {0, 0L};
-        if (inrange(DelayFuzziness, 1, 100))
-            found = nextTimeoutWithFuzziness(&tval);
-        else
-            found = nextTimeout(&tval);
-        if (found)
-            *timeout = max(tval - monotime(), (timeval) { 0L, 1L });
-    }
+    if (inrange(DelayFuzziness, 1, 100))
+        found = nextTimeoutWithFuzziness(&tval);
+    else
+        found = nextTimeout(&tval);
+    if (found)
+        *timeout = max(tval - monotime(), (timeval ) { 0L, 1L });
     return found;
 }
 
 void YApplication::handleTimeouts() {
     timeval now = monotime();
     YTimer *timeout = nullptr;
-    YArrayIterator<YTimer*> iter = timers.reverseIterator();
+
     // we must be careful since the callback may modify the array.
-    while (iter.hasNext()) {
-        if (++iter &&
-            *iter != timeout &&
-            iter->isRunning() &&
-            iter->timeout_min < now)
+    for (auto iter = timers.rbegin(); iter != timers.rend(); ++iter) {
+        if (*iter != timeout &&
+            (**iter).isRunning() &&
+            (**iter).timeout_min < now)
         {
             timeout = *iter;
-            YTimerListener *listener = timeout->getTimerListener();
+            auto* listener = timeout->getTimerListener();
             timeout->stopTimer();
             if (listener && listener->handleTimer(timeout))
                 timeout->startTimer();
@@ -184,9 +185,8 @@ void YApplication::handleTimeouts() {
 }
 
 void YApplication::decreaseTimeouts(timeval diff) {
-    YArrayIterator<YTimer*> iter = timers.reverseIterator();
-    while (++iter)
-        iter->timeout += diff;
+    for (auto iter = timers.rbegin(); iter != timers.rend(); ++iter)
+        (**iter).timeout += diff;
 }
 
 void YApplication::registerPoll(YPollBase *t) {
@@ -264,8 +264,7 @@ int YApplication::mainLoop() {
         sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
 #endif
 
-        int rc;
-        rc = select(sizeof(fd_set) * 8,
+        int rc = select(sizeof(fd_set) * 8,
                     SELECT_TYPE_ARG234 &read_fds,
                     SELECT_TYPE_ARG234 &write_fds,
                     nullptr,
@@ -321,12 +320,12 @@ void YApplication::exit(int exitCode) {
 }
 
 void YApplication::handleSignal(int sig) {
-    if (sig == SIGCHLD) {
-        int s, rc;
-        do {
-            rc = waitpid(-1, &s, WNOHANG);
-        } while (rc > 0);
-    }
+    if (sig != SIGCHLD)
+        return;
+    int s, rc;
+    do {
+        rc = waitpid(-1, &s, WNOHANG);
+    } while (rc > 0);
 }
 
 bool YApplication::handleIdle() {
@@ -391,33 +390,37 @@ void YApplication::closeFiles() {
 int YApplication::runProgram(const char *path, const char *const *args) {
     flushXEvents();
 
-    int cpid = -1;
-    if (path && (cpid = fork()) == 0) {
-        resetSignals();
-        sigemptyset(&signalMask);
-        sigaddset(&signalMask, SIGHUP);
-        sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
+    if (!path)
+        return -1;
 
-        /* perhaps the right thing to to:
-         create ptys .. and show console window when an application
-         attempts to use it (how do we detect input with no output?) */
-        setsid();
+    int cpid = fork();
+    if (cpid != 0)
+        return cpid;
+
+    resetSignals();
+    sigemptyset(&signalMask);
+    sigaddset(&signalMask, SIGHUP);
+    sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
+
+    /* perhaps the right thing to to:
+     create ptys .. and show console window when an application
+     attempts to use it (how do we detect input with no output?) */
+    setsid();
 #if 0
         close(0);
         if (open("/dev/null", O_RDONLY) != 0)
             _exit(1);
 #endif
-        closeFiles();
+    closeFiles();
 
-        if (args)
-            execvp(path, const_cast<char **>(args));
-        else
-            execlp(path, path, nullptr);
+    if (args)
+        execvp(path, const_cast<char**>(args));
+    else
+        execlp(path, path, nullptr);
 
-        fail(_("Failed to execute %s"), path);
-        _exit(99);
-    }
-    return cpid;
+    fail(_("Failed to execute %s"), path);
+    _exit(99);
+    return 0;
 }
 
 int YApplication::waitProgram(int p) {
@@ -432,7 +435,7 @@ int YApplication::waitProgram(int p) {
 }
 
 void YApplication::runCommand(const char *cmdline) {
-    const char shell[] = "&();<>`{}|";
+    auto shell = "&();<>`{}|";
     wordexp_t exp = {};
     if (strpbrk(cmdline, shell) == nullptr &&
         wordexp(cmdline, &exp, WRDE_NOCMD) == 0)
@@ -480,43 +483,40 @@ const upath& YApplication::getConfigDir() {
 
 const upath& YApplication::getPrivConfDir() {
     static upath dir;
-    if (dir.isEmpty()) {
-        const char *env = getenv("ICEWM_PRIVCFG");
-        if (env) {
+    if (!dir.isEmpty())
+        return dir;
+
+    auto env = getenv("ICEWM_PRIVCFG");
+    if (env) {
+        dir = env;
+        if (!dir.dirExists())
+            dir.mkdir();
+    } else {
+        env = getenv("XDG_CONFIG_HOME");
+        auto hd = getHomeDir();
+        if (env)
             dir = env;
-            if ( ! dir.dirExists())
+        else {
+            dir = hd + "/.config";
+        }
+        dir += "/icewm";
+        if (!dir.dirExists()) {
+            dir = hd + "/.icewm";
+            if (!dir.dirExists())
                 dir.mkdir();
         }
-        else {
-            env = getenv("XDG_CONFIG_HOME");
-            if (env)
-                dir = env;
-            else {
-                dir = getHomeDir() + "/.config";
-            }
-            dir += "/icewm";
-            if (!dir.dirExists()) {
-                dir = getHomeDir() + "/.icewm";
-                if ( ! dir.dirExists())
-                    dir.mkdir();
-            }
-        }
-        MSG(("using %s for private configuration files", dir.string()));
     }
+    MSG(("using %s for private configuration files", dir.string()));
     return dir;
 }
 
 upath YApplication::getHomeDir() {
-    char *env = getenv("HOME");
+    auto* env = getenv("HOME");
     if (nonempty(env)) {
         return upath(env);
-    } else {
-        csmart home(userhome(nullptr));
-        if (home) {
-            return upath(home);
-        }
-    }
-    return upath(null);
+    }	
+    csmart home(userhome(nullptr));
+    return home ? upath(home) : null;
 }
 
 upath YApplication::findConfigFile(upath name) {
@@ -524,12 +524,11 @@ upath YApplication::findConfigFile(upath name) {
 }
 
 upath YApplication::locateConfigFile(upath name) {
-    upath p;
 
     if (name.isAbsolute())
         return name.expand();
 
-    p = getPrivConfDir() + name;
+    upath p = getPrivConfDir() + name;
     if (p.fileExists())
         return p;
 

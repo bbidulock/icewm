@@ -53,7 +53,7 @@ public:
         IMAP
     } protocol;
 
-    MailCheck(mstring url, MailBoxStatus *mbx);
+    MailCheck(const mstring& url, MailBoxStatus *mbx);
     virtual ~MailCheck();
 
     void startCheck();
@@ -76,8 +76,7 @@ public:
     bool ssl() const;
     bool net() const;
     int inst() const { return fInst; }
-    void reason(mstring str) { fReason = str; }
-    mstring reason() const { return fReason; }
+    const mstring& reason() const { return fReason; }
     const YURL& url() const { return fURL; }
 
 private:
@@ -106,6 +105,7 @@ private:
     void countMessages();
     const char* s(ProtocolState t);
     void escape(const char* buf, int len, char* tmp, int siz);
+    void reason(mstring&& str) { fReason = std::move(str); }
 };
 
 class MailBoxStatus:
@@ -122,7 +122,7 @@ public:
     };
 
     MailBoxStatus(MailHandler *handler,
-                  mstring mailBox, YWindow *aParent);
+                  const mstring& mailBox, YWindow *aParent);
     virtual ~MailBoxStatus();
 
     virtual void handleClick(const XButtonEvent &up, int count);
@@ -162,7 +162,7 @@ public:
 
 private:
     void populate();
-    void createStatus(mstring mailBox);
+    void createStatus(const mstring& mailBox);
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, MailBoxStatus *client);

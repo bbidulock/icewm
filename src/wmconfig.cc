@@ -190,7 +190,7 @@ void WMConfig::setDefaultFocus(long focusMode) {
 }
 
 void WMConfig::setDefaultTheme(mstring themeName) {
-    setDefault("theme", "Theme=\"" + themeName + "\"");
+    setDefault("theme", mstring("Theme=\"", themeName, "\""));
 }
 
 void WMConfig::print_options(cfoption* options) {

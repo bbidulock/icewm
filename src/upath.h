@@ -14,9 +14,11 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const mstring& path): fPath(path) {}
+    upath(mstring&& path): fPath(std::move(path)) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}
     upath(const upath& path): fPath(path.fPath) {}
+    upath(upath&& path): fPath(std::move(path.fPath)) {}
     upath(): fPath(null) {}
 
     int length() const { return int(fPath.length()); }
@@ -25,7 +27,8 @@ public:
 
     upath parent() const;
     mstring name() const;
-    upath relative(const upath &path) const;
+    upath relative(upath &&path) const;
+    upath relative(const upath &path) const {return relative(upath(path));};
     upath child(const char *path) const;
     upath addExtension(const char *ext) const;
     mstring getExtension() const;
@@ -60,6 +63,11 @@ public:
         return *this;
     }
 
+    upath& operator=(upath&& p) {
+        fPath = std::move(p.fPath);
+        return *this;
+    }
+
     upath& operator=(const class null_ref &) {
         fPath = null;
         return *this;
@@ -67,6 +75,7 @@ public:
 
     upath& operator+=(const upath& rv) { return *this = *this + rv; }
     upath operator+(const upath& rv) const { return relative(rv); }
+    upath operator+(upath&& rv) const { return relative(std::move(rv)); }
     bool operator==(const upath& rv) const { return equals(rv); }
     bool operator!=(const upath& rv) const { return !equals(rv); }
     bool operator==(const class null_ref &) const { return fPath == null; }
@@ -81,8 +90,8 @@ public:
     static const mstring& sep() { return slash; }
     static const upath& root() { return rootPath; }
 
-    static bool hasglob(mstring pattern);
-    static bool glob(mstring pat, YStringArray& list, const char* opt = nullptr);
+    static bool hasglob(const mstring& pattern);
+    static bool glob(const mstring& pat, YStringArray& list, const char* opt = nullptr);
 
     bool hasglob() const { return hasglob(path()); }
     bool glob(YStringArray& list, const char* opt = nullptr) const {

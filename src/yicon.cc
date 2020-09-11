@@ -490,6 +490,7 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
 struct cacheKeyGetter {
     const mstring& operator()(const ref<YIcon> &el) { return el->iconName(); }
 };
+
 // initial size targeting a range of 100-350 icons
 lazily<YSparseHashTable<ref<YIcon>, cacheKeyGetter, 9>> iconCache;
 
@@ -503,7 +504,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-    iconCache.clear();
+    iconCache = null;
 }
 
 unsigned YIcon::menuSize() {

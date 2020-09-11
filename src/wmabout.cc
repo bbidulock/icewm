@@ -18,12 +18,8 @@
 
 AboutDlg::AboutDlg(): YDialog() {
     char const *version("IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")");
-    mstring copyright =
-        mstring("Copyright ")
-        .append(_("(C)"))
-        .append(" 1997-2012 Marko Macek, ")
-        .append(_("(C)"))
-        .append(" 2001 Mathias Hasselmann");
+    mstring copyright("Copyright ", _("(C)"), " 1997-2012 Marko Macek, ",
+            _("(C)"), " 2001 Mathias Hasselmann");
 
     fProgTitle = new YLabel(version, this);
     fCopyright = new YLabel(copyright, this);

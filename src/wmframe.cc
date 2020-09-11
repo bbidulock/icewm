@@ -2133,8 +2133,7 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
     }
     if (name != null) {
         if (role != null) {
-            mstring name_role = name.append(".").append(role);
-            list->mergeWindowOption(opt, name_role, remove);
+            list->mergeWindowOption(opt, mstring(name, ".", role), remove);
         }
         list->mergeWindowOption(opt, name, remove);
     }

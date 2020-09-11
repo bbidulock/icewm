@@ -247,7 +247,7 @@ void YXTrayProxy::updateToolTip() {
     mstring newTip(text, int(len));
     if (toolTip != newTip) {
         toolTip = newTip;
-        setToolTip(newTip);
+        setToolTip(std::move(newTip));
         if ( ! fUpdateTimer)
             fUpdateTimer->setTimer(500L, this, false);
     }

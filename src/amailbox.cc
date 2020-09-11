@@ -29,7 +29,7 @@ extern YColorName taskBarBg;
 
 int MailCheck::fInstanceCounter;
 
-MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
+MailCheck::MailCheck(const mstring& url, MailBoxStatus *mbx):
     state(IDLE),
     protocol(NOPROTOCOL),
     got(0),
@@ -111,6 +111,7 @@ void MailCheck::resolve() {
     setState(IDLE);
 
     fPort = portNumber();
+    mstring err;
     if (inrange(fPort, 1, USHRT_MAX)) {
         if (ssl()) return; // fAddr is unnecessary for SSL
 
@@ -129,13 +130,10 @@ void MailCheck::resolve() {
         }
         int rc = getaddrinfo(fURL.host, mstring(fPort), &hints, &fAddr);
         if (rc) {
-            snprintf(bf, sizeof bf,
-                     _("DNS name lookup failed for %s"),
-                     fURL.host.c_str());
-            warn("%s: %s", bf, gai_strerror(rc));
-            snprintf(bf + strlen(bf), sizeof bf - strlen(bf),
-                     "\n%s", gai_strerror(rc));
-            reason(bf);
+            err.appendFormat(_("DNS name lookup failed for %s"), fURL.host.c_str());
+            auto gerror = gai_strerror(rc);
+            warn("%s: %s", err.c_str(), gerror);
+            reason(std::move(err.appendFormat("\n%s", gerror)));
             setState(ERROR);
         }
         for (addrinfo* rp = fAddr; rp && fTrace; rp = rp->ai_next) {
@@ -145,10 +143,9 @@ void MailCheck::resolve() {
                  rp->ai_family, rp->ai_socktype, rp->ai_protocol, bf, bf + 64);
         }
     } else {
-        snprintf(bf, sizeof bf,
-                 _("Invalid mailbox port: \"%s\""), fURL.port.c_str());
-        warn("%s", bf);
-        reason(bf);
+        err.appendFormat(_("Invalid mailbox port: \"%s\""), fURL.port.c_str());
+        warn("%s", err.c_str());
+        reason(std::move(err));
         setState(ERROR);
     }
 }
@@ -302,14 +299,13 @@ void MailCheck::startCheck() {
             setState(CONNECTING);
             got = 0;
         } else {
-            int e = errno;
-            snprintf(bf, sizeof bf,
-                     _("Could not connect to %s: %s"),
+            auto err = mstring().appendFormat(
+                    _("Could not connect to %s: %s"),
                      fURL.host.c_str(),
                      fAddr ? strerror(e) : gai_strerror(EAI_NONAME));
             if (fTrace || testOnce(fURL.host, fPort))
-                warn("%s", bf);
-            error(bf);
+                warn("%s", err.c_str());
+            error(std::move(err));
         }
     }
     else if (state != ERROR) {
@@ -344,7 +340,7 @@ void MailCheck::startSSL() {
                 close(other);
             dup2(open("/dev/null", O_WRONLY), 2);
 
-            mstring hostnamePort(mstring(fURL.host, ":", mstring(fPort)));
+            mstring hostnamePort(fURL.host, ":", mstring(fPort));
             const char* args[] = {
                 file, "s_client", "-quiet", "-no_ign_eof",
                 "-connect", hostnamePort, nullptr
@@ -386,15 +382,15 @@ void MailCheck::socketError(int err) {
         setState(IDLE);
     }
     else if (err) {
-        error(mstring("Socket read error: ") + strerror(err));
+        error(mstring("Socket read error: ", strerror(err)));
     }
     else {
-        error(mstring("Connection terminated in ") + s(state));
+        error(mstring("Connection terminated in ", s(state)));
     }
 }
 
 void MailCheck::error(mstring str) {
-    reason(str);
+    reason(std::move(str));
     release();
     setState(ERROR);
     fMbx->mailChecked(MailBoxStatus::mbxError, -1, -1);
@@ -668,12 +664,13 @@ const char* MailCheck::s(ProtocolState p) {
 }
 
 MailBoxStatus::MailBoxStatus(MailHandler* handler,
-                             mstring mailbox, YWindow *aParent):
+                             const mstring& mailbox, YWindow *aParent):
     IApplet(this, aParent),
     fOldState(MailBoxState(-1)),
     fState(mbxNoMail),
     check(mailbox, this),
     fHandler(handler),
+    fCount(0),
     fUnread(0),
     fSuspended(false)
 {
@@ -940,9 +937,9 @@ void MailBoxControl::populate()
     if (fMailBoxes.isEmpty() &&
         ((env = getenv("LOGNAME")) != nullptr || (env = getlogin()) != nullptr))
     {
-        const char* varmail[] = { "/var/spool/mail/", "/var/mail/", };
-        for (int i = 0; i < int ACOUNT(varmail); ++i) {
-            upath s(mstring(varmail[i], env));
+        const static mstring_view varmail[] = { "/var/spool/mail/", "/var/mail/", };
+        for (const auto& it: varmail) {
+            upath s(mstring(it, env));
             if (s.isReadable()) {
                 createStatus(s);
                 break;
@@ -951,9 +948,9 @@ void MailBoxControl::populate()
     }
 }
 
-void MailBoxControl::createStatus(mstring mailBox)
+void MailBoxControl::createStatus(const mstring& mailBox)
 {
-    MailBoxStatus* box = new MailBoxStatus(this, mailBox, aParent);
+    auto box = new MailBoxStatus(this, mailBox, aParent);
     fMailBoxes += box;
     fDelay = max(fDelay, box->checkDelay());
 }

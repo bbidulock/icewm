@@ -201,7 +201,7 @@ mstring WorkspaceStatus::getStatus() {
 }
 
 mstring WorkspaceStatus::getStatus(const char* name) {
-    return mstring(_("Workspace: ")).append(name);
+    return mstring(_("Workspace: "), name);
 }
 
 void WorkspaceStatus::begin(long workspace) {

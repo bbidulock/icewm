@@ -996,7 +996,7 @@ void YXApplication::alert() {
 }
 
 void YXApplication::setClipboardText(mstring data) {
-    fClip->setData(data);
+    fClip->setData(std::move(data));
 }
 
 void YXApplication::dropClipboard() {

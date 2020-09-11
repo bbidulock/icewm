@@ -175,7 +175,7 @@ void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
 }
 
 void NetStatus::updateToolTip() {
-    char status[400];
+    mstring status;
 
     if (isUp()) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", nullptr };
@@ -191,15 +191,6 @@ void NetStatus::updateToolTip() {
         long ci(ppp_in[taskBarNetSamples - 1]);
         long co(ppp_out[taskBarNetSamples - 1]);
 
-        /* ai and oi were keeping nonsenses (if were not reset by
-         * double-click) because of bad control of start_obytes and
-         * start_ibytes (these were zeros that means buggy)
-         *
-         * Note: as start_obytes and start_ibytes now keep right values,
-         * 'Transferred' now displays amount related to 'Online time' (and not
-         * related to uptime of machine as was displayed before) -stibor- */
-/*      long ai(t ? vi / t : 0);
-        long ao(t ? vo / t : 0); */
         long long cai = 0;
         long long cao = 0;
 
@@ -214,21 +205,11 @@ void NetStatus::updateToolTip() {
         const char * const voUnit(niceUnit(vo, sizeUnits));
         const char * const ciUnit(niceUnit(ci, rateUnits));
         const char * const coUnit(niceUnit(co, rateUnits));
-/*      const char * const aiUnit(niceUnit(ai, rateUnits));
-        const char * const aoUnit(niceUnit(ao, rateUnits)); */
         const char * const caoUnit(niceUnit(cao, rateUnits));
         const char * const caiUnit(niceUnit(cai, rateUnits));
 
-        const char* phoneNumber = fDevice->getPhoneNumber();
-        snprintf(status, sizeof status,
-           /*   _("Interface %s:\n"
-                  "  Current rate (in/out):\t%li %s/%li %s\n"
-                  "  Current average (in/out):\t%lli %s/%lli %s\n"
-                  "  Total average (in/out):\t%li %s/%li %s\n"
-                  "  Transferred (in/out):\t%lli %s/%lli %s\n"
-                  "  Online time:\t%ld:%02ld:%02ld"
-                  "%s%s"), */
-                _("Interface %s:\n"
+        auto phoneNumber = fDevice->getPhoneNumber();
+        status.appendFormat(_("Interface %s:\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
                   "  Current average (in/out):\t%lli %s/%lli %s\n"
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
@@ -237,15 +218,14 @@ void NetStatus::updateToolTip() {
                 fDevName.c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
-/*              ai, aiUnit, ao, aoUnit, */
                 vi, viUnit, vo, voUnit,
                 period / 3600, period / 60 % 60, period % 60,
                 *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
     } else {
-        snprintf(status, sizeof status, "%.50s: down", fDevName.c_str());
+        status.appendFormat("%.50s: down", fDevName.c_str());
     }
 
-    setToolTip(status);
+    setToolTip(std::move(status));
 }
 
 void NetStatus::handleClick(const XButtonEvent &up, int count) {

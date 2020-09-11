@@ -7,6 +7,7 @@
 #include "ycolor.h"
 #include "yxapp.h"
 #include "ascii.h"
+#include "mstringex.h"
 
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
@@ -21,6 +22,11 @@
 
 YColorName YColor::black("rgb:00/00/00");
 YColorName YColor::white("rgb:FF/FF/FF");
+
+static precompiled_regex reSixHex("^[0-9a-f]{6}$", "i");
+static precompiled_regex reHashFiveHex("^#[0-9a-f]{5}$", "i");
+static precompiled_regex reRgb("rgb:[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i");
+static precompiled_regex reRgbNoSfx("[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i");
 
 static inline Display* display()  { return xapp->display(); }
 static inline Colormap colormap() { return xapp->colormap(); }
@@ -238,16 +244,15 @@ void YColor::alloc(const char* name) {
         if (strncmp(name, "rgb:rgb:", 8) == 0)
             return alloc(name + 4);
 
+        if (reSixHex.matchIn(name))
+            return alloc(mstring("#", name));
+        if (reHashFiveHex.matchIn(name))
+            return alloc(mstring(name, &name[5]));
         mstring str(name);
-        if (str.match("^[0-9a-f]{6}$", "i") != null)
-            return alloc("#" + str);
-        if (str.match("^#[0-9a-f]{5}$", "i") != null)
-            return alloc(str + &name[5]);
-
-        mstring rgb(str.match("rgb:[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i"));
+        mstring rgb = (str.match(reRgb));
         if (rgb != null)
             return alloc(rgb);
-        rgb = str.match("[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{2}", "i");
+        rgb = str.match(reRgbNoSfx);
         if (rgb != null)
             return alloc("rgb:" + rgb);
     }

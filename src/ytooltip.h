@@ -13,7 +13,7 @@ public:
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void repaint();
 
-    void setText(const mstring& tip);
+    void setText(mstring tip);
     void locate(YWindow* w);
 
 private:
@@ -30,7 +30,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    void setText(const mstring& tip);
+    void setText(mstring tip);
     void enter(YWindow* w);
     void leave();
     bool visible();

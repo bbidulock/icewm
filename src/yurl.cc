@@ -158,15 +158,13 @@ mstring YURL::unescape(mstring str) {
 
             if (c == '%') {
                 if (i + 3 > str.length()) {
-                    warn(_("Incomplete hex escape in URL at position %d."),
-                            int(i + str.offset()));
+                    warn(_("Incomplete hex escape in URL around position %d."), int(i));
                     return null;
                 }
                 int a = BinAscii::unhex(str.charAt(i + 1));
                 int b = BinAscii::unhex(str.charAt(i + 2));
                 if (a == -1 || b == -1) {
-                    warn(_("Invalid hex escape in URL at position %d."),
-                            int(i + str.offset()));
+                    warn(_("Invalid hex escape in URL around position %d."), int(i));
                     return null;
                 }
                 i += 2;

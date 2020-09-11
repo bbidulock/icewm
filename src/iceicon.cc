@@ -428,28 +428,19 @@ private:
     bool fFolder;
 };
 
+precompiled_regex reImgSfx(".*(\\.xpm|\\.png|\\.svg|\\.jpg|\\.jpeg)$", "i");
+
 ref<YIcon> ObjectIconItem::getIcon() {
-    if (isFolder()) {
+    if (isFolder())
         return folder;
-    }
-    else {
-        mstring ext(fPath.getExtension().lower());
-        if (ext == ".xpm" || ext == ".png" || ext == ".svg") {
-            ref<YIcon> icon = YIcon::getIcon(fPath.string());
-            if (icon != null) {
-                if (hugeIcons ? icon->huge() != null : icon->large() != null)
-                    return icon;
-            }
+    if (reImgSfx.inside(fPath.string())) {
+        auto icon = YIcon::getIcon(fPath.string());
+        if (icon != null) {
+            if (hugeIcons ? icon->huge() != null : icon->large() != null)
+                return icon;
         }
-        else if (ext == ".jpg" || ext == ".jpeg") {
-            ref<YIcon> icon = YIcon::getIcon(fPath.string());
-            if (icon != null) {
-                if (hugeIcons ? icon->huge() != null : icon->large() != null)
-                    return icon;
-            }
-        }
-        return file;
     }
+    return file;
 }
 
 class ObjectIconView: public YIconView {

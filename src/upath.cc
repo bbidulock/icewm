@@ -14,6 +14,8 @@
 #include <fnmatch.h>
 #include "base.h"
 #include "yapp.h"
+#include "ypointer.h"
+#include "mstringex.h"
 
 const mstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -41,22 +43,18 @@ mstring upath::name() const {
     return fPath.substring(size_t(start), size_t(length() - start));
 }
 
-upath upath::relative(const upath &npath) const {
+upath upath::relative(upath &&npath) const {
     if (npath.isEmpty())
         return *this;
-    else if (isEmpty()) {
+    if (isEmpty())
         return npath;
+    if (isSeparator(path()[length() - 1])) {
+        return mstring(path(), isSeparator(npath.path()[0]) ?
+                                npath.path().substring(1) : npath.path());
     }
-    else if (isSeparator(path()[length() - 1])) {
-        if (isSeparator(npath.path()[0]))
-            return upath(path() + npath.path().substring(1));
-        else
-            return upath(path() + npath.path());
-    }
-    else if (isSeparator(npath.path()[0]))
-        return upath(path() + npath.path());
-    else
-        return upath(path() + slash + npath.path());
+    if (isSeparator(npath.path()[0]))
+        return mstring(path(), npath.path());
+    return mstring(path(), slash, npath.path());
 }
 
 upath upath::child(const char *npath) const {
@@ -64,7 +62,7 @@ upath upath::child(const char *npath) const {
 }
 
 upath upath::addExtension(const char *ext) const {
-    return upath(path().append(ext));
+    return upath(mstring(path(), ext));
 }
 
 mstring upath::getExtension() const {
@@ -83,6 +81,8 @@ upath upath::replaceExtension(const char* ext) const {
     return removeExtension().addExtension(ext);
 }
 
+static precompiled_regex rex("^\\$[_A-Za-z][_A-Za-z0-9]*");
+
 mstring upath::expand() const {
     int c = fPath[0];
     if (c == '~') {
@@ -92,9 +92,9 @@ mstring upath::expand() const {
                     fPath.substring(size_t(min(2, length())))).fPath;
     }
     else if (c == '$') {
-        mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
+        auto m = fPath.match(rex);
         if (m.nonempty()) {
-            const char* e = getenv(m.substring(1));
+            auto* e = getenv(m.substring(1));
             if (e && *e && *e != '~' && *e != '$') {
                 return e + fPath.substring(m.length());
             }
@@ -220,14 +220,14 @@ bool upath::equals(const upath &s) const {
 #include <glob.h>
 #include "yarray.h"
 
-bool upath::hasglob(mstring pattern) {
-    const char* s = pattern;
+bool upath::hasglob(const mstring& pattern) {
+    auto s = pattern.c_str();
     while (*s && *s != '*' && *s != '?' && *s != '[')
         s += 1 + (*s == '\\' && s[1]);
     return *s != 0;
 }
 
-bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
+bool upath::glob(const mstring& pattern, YStringArray& list, const char* flags) {
     bool okay = false;
     int flagbits = 0;
     int (*const errfunc) (const char *epath, int eerrno) = nullptr;
@@ -245,7 +245,7 @@ bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
         }
     }
 
-    if (0 == ::glob(pattern, flagbits, errfunc, &gl)) {
+    if (0 == ::glob(pattern.c_str(), flagbits, errfunc, &gl)) {
         double limit = 1e6;
         if (gl.gl_pathc < limit) {
             int count = int(gl.gl_pathc);

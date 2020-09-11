@@ -3256,7 +3256,7 @@ void YWindowManager::setKeyboard(int configIndex) {
     }
 }
 
-void YWindowManager::setKeyboard(mstring keyboard) {
+void YWindowManager::setKeyboard(const mstring& keyboard) {
     if (keyboard != null && keyboard != fCurrentKeyboard) {
         fCurrentKeyboard = keyboard;
         auto program = "setxkbmap";
@@ -3264,7 +3264,7 @@ void YWindowManager::setKeyboard(mstring keyboard) {
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
+            if (wordexp(keyboard.c_str(), &exp, WRDE_NOCMD) == 0) {
                 exp.we_wordv[0] = strdup(program);
                 wmapp->runProgram(program, exp.we_wordv);
                 wordfree(&exp);

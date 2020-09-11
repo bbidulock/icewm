@@ -256,7 +256,7 @@ public:
 
     bool haveClients();
     void setupRootProxy();
-    void setKeyboard(mstring keyboard);
+    void setKeyboard(const mstring& keyboard);
     void setKeyboard(int configIndex);
     mstring getKeyboard();
     void updateKeyboard(int configIndex);

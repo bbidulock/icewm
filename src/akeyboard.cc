@@ -33,7 +33,7 @@ KeyboardStatus::KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent):
 KeyboardStatus::~KeyboardStatus() {
 }
 
-void KeyboardStatus::updateKeyboard(mstring keyboard) {
+void KeyboardStatus::updateKeyboard(const mstring& keyboard) {
     if (fKeyboard != keyboard) {
         fKeyboard = keyboard;
         if (fKeyboard != null) {

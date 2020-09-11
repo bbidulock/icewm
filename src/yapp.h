@@ -5,7 +5,7 @@
 #include "yarray.h"
 #include "ypoll.h"
 #include "ytrace.h"
-
+#include <list>
 class YTimer;
 
 class YSignalPoll: public YPoll<class YApplication> {
@@ -62,7 +62,7 @@ public:
     static upath getHomeDir();
 
 private:
-    YArray<YTimer*> timers;
+    std::list<YTimer*> timers;
     YArray<YPollBase*> polls;
     typedef YArray<YPollBase*>::IterType YPollIterType;
 
