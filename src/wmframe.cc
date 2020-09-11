@@ -675,20 +675,21 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
 }
 
 void YFrameWindow::configureClient(const XConfigureRequestEvent &configureRequest) {
-    if (hasbit(configureRequest.value_mask, CWBorderWidth))
+    unsigned long mask = configureRequest.value_mask;
+    if (hasbit(mask, CWBorderWidth))
         client()->setBorder(configureRequest.border_width);
 
-    if (hasbit(configureRequest.value_mask, CWX | CWY | CWWidth | CWHeight)) {
+    if (hasbit(mask, CWX | CWY | CWWidth | CWHeight)) {
         int cx, cy, cw, ch;
         getNewPos(configureRequest, cx, cy, cw, ch);
 
         configureClient(cx, cy, cw, ch);
     }
 
-    if (hasbit(configureRequest.value_mask, CWStackMode) &&
+    if (hasbit(mask, CWStackMode) &&
         inrange(configureRequest.detail, 0, 4))
     {
-        YFrameWindow* sibling = hasbit(configureRequest.value_mask, CWSibling)
+        YFrameWindow* sibling = hasbit(mask, CWSibling)
                     ? manager->findFrame(configureRequest.above) : nullptr;
         switch (configureRequest.detail + (sibling ? 5 : 0)) {
         case 5 + Above:
@@ -845,7 +846,9 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         }
         manager->updateClientList();
     }
-    sendConfigure();
+    if (notbit(mask, CWX | CWY | CWWidth | CWHeight)) {
+        sendConfigure();
+    }
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
@@ -1082,10 +1085,10 @@ void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
 }
 
 void YFrameWindow::sendConfigure() {
-    XEvent xev;
-    memset(&xev, 0, sizeof(xev));
-    xev.xconfigure.type = ConfigureNotify;
-    xev.xconfigure.display = xapp->display();
+    XEvent xev = { ConfigureNotify, };
+    xev.xconfigure.serial = 0;
+    xev.xconfigure.send_event = True;
+    xev.xconfigure.display = nullptr;
     xev.xconfigure.event = client()->handle();
     xev.xconfigure.window = client()->handle();
     xev.xconfigure.x = x() + borderX();
@@ -2759,60 +2762,32 @@ void YFrameWindow::updateState() {
 
     client()->setWinStateHint(WIN_STATE_ALL, fWinState);
 
-    FrameState newState = NormalState;
-    bool show_frame = true;
-    bool show_client = true;
-
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
     // (some hide windows on iconize, this is bad when switching workspaces
     // or rolling up the window).
 
-    if (isHidden()) {
-        show_frame = false;
-        show_client = false;
-        newState = IconicState;
-    } else if (!visibleNow()) {
-        show_frame = false;
-        show_client = false;
-        newState = isMinimized() ? IconicState : NormalState;
-    } else if (isMinimized()) {
-        show_frame = false;
-        show_client = false;
-        newState = IconicState;
-    } else if (isRollup()) {
-        show_frame = true;
-        show_client = false;
-        newState = NormalState; // ?
-    } else {
-        show_frame = true;
-        show_client = true;
-    }
+    bool iconic = isHidden() || isMinimized();
+    bool hidden = iconic || isRollup() || !visibleNow();
 
-    MSG(("updateState: winState=%lX, frame=%d, client=%d",
-         fWinState, show_frame, show_client));
+    MSG(("updateState: winState=%lX, client=%d", fWinState, !hidden));
 
-    client()->setFrameState(newState);
+    client()->setFrameState(iconic ? IconicState : NormalState);
 
-    if (show_client) {
-        client()->show();
-        fClientContainer->show();
-    }
-
-    if (show_frame)
-        show();
-    else
-        hide();
-
-    if (!show_client) {
+    if (hidden) {
+        setVisible(isRollup() && visibleNow());
         fClientContainer->hide();
         client()->hide();
-    }
-    if (!show_frame || !show_client) {
+
         if (fDelayFocusTimer)
             fDelayFocusTimer->disableTimerListener(this);
         if (fAutoRaiseTimer)
             fAutoRaiseTimer->disableTimerListener(this);
+    }
+    else {
+        client()->show();
+        fClientContainer->show();
+        show();
     }
 }
 
@@ -3157,65 +3132,24 @@ void YFrameWindow::setState(long mask, long state) {
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
     //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
-    if ((fOldState ^ fNewState) & WinStateMaximizedBoth)
-    {
-        MSG(("WinStateMaximized: %d", isMaximized()));
-
-        YFrameButton* maxi = titlebar() ? titlebar()->maximizeButton() : nullptr;
-        if (maxi) {
-            maxi->setKind(YFrameTitleBar::Maxi);
-            maxi->repaint();
-        }
-    }
     if ((fOldState ^ fNewState) & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMinimized()));
         if (fNewState & WinStateMinimized)
             minimizeTransients();
         else if (owner() && owner()->isMinimized())
             owner()->setState(WinStateMinimized, 0);
-
-        if (minimizeToDesktop) {
-            if (isMinimized()) {
-                if (getMiniIcon()) {
-                    fMiniIcon->show();
-                }
-            }
-            else if (fMiniIcon) {
-                fMiniIcon->hide();
-            }
-        }
-        updateTaskBar();
-        layoutResizeIndicators();
-    }
-    if ((fOldState ^ fNewState) & WinStateRollup) {
-        MSG(("WinStateRollup: %d", isRollup()));
-        YFrameButton* rollup = titlebar() ? titlebar()->rollupButton() : nullptr;
-        if (rollup) {
-            rollup->setKind(YFrameTitleBar::Roll);
-            rollup->repaint();
-        }
-        layoutResizeIndicators();
     }
     if ((fOldState ^ fNewState) & WinStateHidden) {
         MSG(("WinStateHidden: %d", isHidden()));
-
         if (fNewState & WinStateHidden)
             hideTransients();
         else if (owner() && owner()->isHidden())
             owner()->setState(WinStateHidden, 0);
+    }
 
-        updateTaskBar();
-    }
-    if ((fOldState ^ fNewState) & WinStateSkipTaskBar) {
-        MSG(("WinStateSkipTaskBar: %d", isSkipTaskBar()));
-        updateTaskBar();
-    }
-    if ((fOldState ^ fNewState) & WinStateUrgent) {
-        if (fNewState & WinStateUrgent)
-            setWmUrgency(true);
-        else
-            setWmUrgency(false);
-    }
+    manager->lockWorkArea();
+    updateDerivedSize(fOldState ^ fNewState);
+    updateLayout();
     updateState();
     updateLayer();
     if (hasbit(fOldState | fNewState, WinStateFullscreen) ||
@@ -3223,8 +3157,7 @@ void YFrameWindow::setState(long mask, long state) {
     {
         manager->updateFullscreenLayer();
     }
-    updateDerivedSize(fOldState ^ fNewState);
-    updateLayout();
+    manager->unlockWorkArea();
 
     if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized)) {
         setShape();
@@ -3251,6 +3184,42 @@ void YFrameWindow::setState(long mask, long state) {
         if ((fNewState & WinStateFocused) &&
              this != manager->getFocus())
             manager->setFocus(this);
+    }
+
+    if ((fOldState ^ fNewState) & WinStateUrgent) {
+        setWmUrgency(hasbit(fNewState, WinStateUrgent));
+    }
+    if (hasbit(fOldState ^ fNewState, WinStateMinimized) && minimizeToDesktop) {
+        if (isMinimized()) {
+            if (getMiniIcon()) {
+                fMiniIcon->show();
+            }
+        }
+        else if (fMiniIcon) {
+            fMiniIcon->hide();
+        }
+    }
+    if (hasbit(fOldState ^ fNewState, WinStateMaximizedBoth) && titlebar()) {
+        YFrameButton* maxi = titlebar()->maximizeButton();
+        if (maxi) {
+            maxi->setKind(YFrameTitleBar::Maxi);
+            maxi->repaint();
+        }
+    }
+    if (hasbit(fOldState ^ fNewState, WinStateRollup) && titlebar()) {
+        YFrameButton* rollup = titlebar()->rollupButton();
+        if (rollup) {
+            rollup->setKind(YFrameTitleBar::Roll);
+            rollup->repaint();
+        }
+    }
+    if (hasbit(fOldState ^ fNewState,
+               WinStateMinimized | WinStateHidden | WinStateSkipTaskBar))
+    {
+        updateTaskBar();
+    }
+    if (hasbit(fOldState ^ fNewState, WinStateMinimized | WinStateRollup)) {
+        layoutResizeIndicators();
     }
 }
 
