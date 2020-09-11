@@ -188,7 +188,7 @@ public:
 #if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
             auto& scaleCat = pools[fromResources].getCat(SCALABLE);
             for (auto& contentDir : subcats) {
-                ret += gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
+                ret += gotcha(mstring(iconPathToken, "/scalable", contentDir),
                         scaleCat);
             }
 #endif
@@ -198,20 +198,19 @@ public:
                 if (kv.size == SCALABLE)
                     continue;
 
-                mstring szSize(long(kv.size));
+                mstring sepX = mstring().appendFormat("/%u", kv.size);
+                mstring sepXY = sepX + mstring().appendFormat("x%u", kv.size);
 
-                for (auto& contentDir : subcats) {
-                    for (auto& testDir : {
-                        // XXX: optimize concatenation with MStringBuilder
-                        mstring(iconPathToken) + "/" + szSize + "x" + szSize
-                        + contentDir,
-                        mstring(iconPathToken) + "/base/"
-                        + szSize + "x" + szSize + contentDir,
-                        // some old themes contain just one dimension
-                        // and a different naming convention
-                        mstring(iconPathToken) + contentDir + "/" + szSize
+                for (const auto &contentDir : subcats) {
+                    for (const auto &testDir : {
+                            // XXX: optimize concatenation with MStringBuilder
+                            mstring(iconPathToken, sepXY, contentDir),
+                            mstring(iconPathToken, "/base", sepXY, contentDir),
+                        	// some old themes contain just one dimension
+                        	// and a different naming convention
+                            mstring(iconPathToken, contentDir, "/", sepX)
                     }) {
-                        ret += gotcha(testDir, kv);
+                        ret+=gotcha(testDir, kv);
                     }
                 }
             }
@@ -237,7 +236,7 @@ public:
             // try base path in any case (later), for any icon type, loading
             // with the filename expansion scheme
             add(pool.anyCategory, IconCategory::entry {
-                iPath + "/"
+                mstring(iPath, "/")
 #ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
                 , YIcon::FOR_ANY_PURPOSE //| privFlag
 #endif
@@ -250,7 +249,8 @@ public:
 
                 unsigned nFoundForFolder = 0;
 
-                for (auto themeExpr : { iPath, iPath + "/" + themeExprTok }) {
+                for (auto themeExpr : { iPath, mstring(iPath, "/",
+                        themeExprTok)}) {
 
                     // were already XDG-like found by fishing in the simple
                     // attempt?
@@ -325,10 +325,8 @@ public:
         auto checkFilesAtBasePath = [&](mstring basePath, unsigned size,
                 bool addSizeSfx) {
             // XXX: optimize string concatenation? Or go back to plain printf?
-            if (addSizeSfx) {
-                basePath += "_";
-                basePath += mstring(long(size)) + "x" + mstring(long(size));
-            }
+            if (addSizeSfx)
+                basePath.appendFormat("_%ldx%ld", long(size), long(size));
             for (auto& imgExt : iconExts) {
                 if (checkFile(basePath + imgExt))
                     return true;
@@ -489,45 +487,19 @@ ref<YImage> YIcon::getScaledIcon(unsigned size) {
     return null;
 }
 
-static YRefArray<YIcon> iconCache;
-
-void YIcon::removeFromCache() {
-    int n = iconCache.find(this);
-    if (n >= 0) {
-        iconCache.remove(n);
-    }
-}
-
-int YIcon::cacheFind(upath name) {
-    int l, r, m;
-
-    l = 0;
-    r = iconCache.getCount();
-    while (l < r) {
-        m = (l + r) / 2;
-        ref<YIcon> found = iconCache.getItem(m);
-        int cmp = name.path().compareTo(found->iconName().path());
-        if (cmp == 0) {
-            return m;
-        } else if (cmp < 0)
-            r = m;
-        else
-            l = m + 1;
-    }
-    return -(l + 1);
-}
+struct cacheKeyGetter {
+    const mstring& operator()(const ref<YIcon> &el) { return el->iconName(); }
+};
+// initial size targeting a range of 100-350 icons
+lazily<YSparseHashTable<ref<YIcon>, cacheKeyGetter, 9>> iconCache;
 
 ref<YIcon> YIcon::getIcon(const char *name) {
-    int n = cacheFind(name);
-    if (n >= 0)
-        return iconCache.getItem(n);
-
-    ref<YIcon> newicon(new YIcon(name));
-    if (newicon != null) {
-        newicon->setCached(true);
-        iconCache.insert(-n - 1, newicon);
-    }
-    return newicon;
+    auto& ret = (*iconCache)[name];
+    if (ret != null)
+        return ret;
+    ret = ref<YIcon>(new YIcon(name));
+    ret->setCached(true);
+    return ret;
 }
 
 void YIcon::freeIcons() {
