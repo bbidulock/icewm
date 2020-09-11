@@ -907,22 +907,14 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_NET_WM_STATE) {
         long mask = (getMask(message.data.l[1]) | getMask(message.data.l[2]))
                   & ~(WinStateFocused | WinStateHidden);
-        //printf("new state, mask = %ld\n", mask);
-        if (message.data.l[0] == _NET_WM_STATE_ADD) {
-            //puts("add");
-            if (getFrame())
-                getFrame()->setState(mask, mask);
-        } else if (message.data.l[0] == _NET_WM_STATE_REMOVE) {
-            //puts("remove");
-            if (getFrame())
-                getFrame()->setState(mask, 0);
-        } else if (message.data.l[0] == _NET_WM_STATE_TOGGLE) {
-            //puts("toggle");
-            if (getFrame())
-                getFrame()->setState(mask,
-                                     getFrame()->getState() ^ mask);
-        } else {
-            warn("_NET_WM_STATE unknown command: %ld", message.data.l[0]);
+        if (mask && getFrame() && inrange(message.data.l[0], 0L, 2L)) {
+            long have = (getFrame()->getState() & mask);
+            long want = (message.data.l[0] == _NET_WM_STATE_ADD) ? mask :
+                        (message.data.l[0] == _NET_WM_STATE_REMOVE) ? 0 :
+                        (have ^ mask);
+            if (have != want) {
+                getFrame()->setState(mask, want);
+            }
         }
     } else if (message.message_type == _XA_WM_PROTOCOLS &&
                message.data.l[0] == long(_XA_NET_WM_PING)) {
