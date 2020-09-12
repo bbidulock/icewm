@@ -491,19 +491,20 @@ struct cacheKeyGetter {
     const mstring& operator()(const ref<YIcon> &el) { return el->iconName(); }
 };
 
-// initial size targeting a range of 100-350 icons
+// initial size assuming a range of 100-350 icons
 lazily<YSparseHashTable<ref<YIcon>, cacheKeyGetter, 9>> iconCache;
 
 ref<YIcon> YIcon::getIcon(const char *name) {
-    auto& ret = (*iconCache)[name];
-    if (ret != null)
-        return ret;
-    ret = ref<YIcon>(new YIcon(name));
-    ret->setCached(true);
-    return ret;
+    auto it = iconCache->find(name);
+    if (*it == null) {
+        *it = ref<YIcon>(new YIcon(name));
+        (**it).setCached(true);
+    }
+    return *it;
 }
 
 void YIcon::freeIcons() {
+//    for(auto el: *iconCache) MSG(("el: %s", cacheKeyGetter()(el).c_str()));
     iconCache = null;
 }
 

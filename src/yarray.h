@@ -549,12 +549,10 @@ public:
  *
  * The user of this structure must make some promises:
  * - default-constructed elements are considered invalid
- * - after getting an element (by reference), the reference will be initialised
+ * - after getting an element (by reference), the reference will be initialized
  *   with a non-default value (i.e. comparing to TElement() must become false)
  * - the element returned from TKeyGetter functor (i.e. its operator() ) must
- *   be convertible to const char *.
- * - iteration via begin()/end() shall ignore default-initialised values since
- *   it obviously will contain some
+ *   be convertible to const char * and remain valid.
  * - the element returned by TKeyGetter must be value-comparable (so probably
  *   NOT plain const char* or something which implicitly converts to it but
  *   preferably mstring or std::string reference)
@@ -568,106 +566,124 @@ public:
  */
 template<typename TElement, typename TKeyGetter, int Power = 7>
 class YSparseHashTable {
-    unsigned m_poolSize, m_mask, rekeyHighMark, m_count;
-    TElement *pool;
+    unsigned count;
+    // this is almost POD apart from ctor, for basic swapping purpose
+    struct HTpool {
 #ifdef DEBUG
-public:
-    unsigned m_compCount = 0, m_lookupCount = 0;
-private:
+        unsigned compCount = 0;
+        unsigned lookupCount = 0;
 #endif
-    const TElement inval;
-    /**
-     * Locate cached item, return either the item itself or a reference to position
-     * where such element can be stored for later lookup.
-     */
-    TElement& hashFind(const char *name, decltype(pool) &cache,
-            unsigned mask) {
+        unsigned dSize, mask, highMark;
+        TElement *data;
+        TElement inval;
+        /**
+         * Locate cached item, return either the item itself or a reference to position
+         * where such element can be stored for later lookup.
+         */
+        TElement& hashFind(const char *name) {
 #ifdef DEBUG
-        m_lookupCount++;
+                lookupCount++;
 #endif
-        auto hval = strhash(name);
-        // hash function is good enough to avoid clustering
-        auto hpos = hval & mask;
+            auto hval = strhash(name);
+            // hash function is good enough to avoid clustering
+            auto hpos = hval & mask;
 
-        for (auto i = hpos; i < m_poolSize; ++i) {
-            if (inval == cache[i])
-                return cache[i];
+            for (auto i = hpos; i < dSize; ++i) {
+                if (inval == data[i])
+                    return data[i];
 #ifdef DEBUG
-            m_compCount++;
+                    compCount++;
 #endif
-            if (TKeyGetter()(cache[i]) == name)
-                return cache[i];
+                if (TKeyGetter()(data[i]) == name)
+                    return data[i];
+            }
+
+            for (auto i = int(hpos) - 1; i >= 0; --i) {
+                if (inval == data[i])
+                    return data[i];
+#ifdef DEBUG
+                    compCount++;
+#endif
+                if (TKeyGetter()(data[i]) == name)
+                    return data[i];
+            }
+            // not accessible - always enough spare slots
+            throw std::exception();
+        }
+        HTpool(unsigned size) :
+                dSize(size), mask(size - 1), highMark(size * 3 / 4),
+                data(new TElement[size]), inval(TElement()) {
+        }
+        ~HTpool() {
+            delete[] data;
         }
 
-        for (auto i = int(hpos) - 1; i >= 0; --i) {
-            if (inval == cache[i])
-                return cache[i];
-#ifdef DEBUG
-            m_compCount++;
-#endif
-            if (TKeyGetter()(cache[i]) == name)
-                return cache[i];
-        }
-        throw std::exception();
-    }
+    } pool;
 
     void inflate()
     {
-        auto new_mask = 1 | (m_mask << 1);
-        decltype(pool) new_revision = new TElement[new_mask + 1];
-        for (auto p = pool, pe = pool + m_poolSize; p < pe; ++p) {
-            if (inval == *p)
-                continue;
-            auto &tgt = hashFind(TKeyGetter()(*p), new_revision, new_mask);
-            tgt = std::move(*p);
+        decltype(pool) next(pool.dSize * 2);
+        count = 0;
+        // like using iterator but cheaper
+        for (auto p = pool.data, pe = pool.data + pool.dSize; p < pe; ++p) {
+            if (pool.inval != *p) {
+                next.hashFind(TKeyGetter()(*p)) = std::move(*p);
+                count++;
+            }
         }
-        m_mask = new_mask;
-        m_poolSize = new_mask + 1;
-        rekeyHighMark = (m_poolSize / 4) * 3;
-        delete[] pool;
-        pool = new_revision;
+        // not icewm swap; plain memory exchange we want
+        std::swap(pool, next);
     }
+
+    // not permitted because of explicit POD actions
+    YSparseHashTable(const YSparseHashTable&) = delete;
+    YSparseHashTable& operator=(const YSparseHashTable&) = delete;
 
 public:
-    YSparseHashTable(unsigned power = Power) :
-            m_poolSize(1 << power), m_mask((1 << power) - 1),
-            rekeyHighMark(3 * (1 << (power - 2))), m_count(0),
-            pool(new TElement[m_poolSize]), inval(TElement()) {
-    }
+    YSparseHashTable(unsigned power = Power) : count(0), pool(1 << power) {}
+    ~YSparseHashTable() {
 #ifdef DEBUG
-    ~YSparseHashTable() throw() {
-        unsigned scheck = 0;
-        for(auto p = pool, pe =pool+m_poolSize; p < pe; ++p )
-            scheck += (inval != *p);
-        if (scheck != m_count) {
-            throw std::runtime_error("Hash contents mismatch, some content"
-                    " illegally invalidated or added");
-        }
-        delete [] pool;
-    }
-#else
-    ~YSparseHashTable() { delete [] pool; }
-#endif
+        auto it = begin();
+        auto someName = it != end() ? TKeyGetter()(*it).c_str() : "??";
+        ++it;
+        auto other = it != end() ? TKeyGetter()(*it).c_str() : "??";
+        MSG(("HT(%s, %s, ...): lookups: %u, compcount: %u, "
+                "used/reserved: %u/%u AKA LF: %F",
+                        someName, other,
+                        pool.lookupCount, pool.compCount,
+                        count, unsigned(pool.dSize),
+                        double(count)/pool.dSize));
 
-    unsigned long getCount() { return m_count; }
+        unsigned scheck = 0;
+        for(auto p = pool.data, pe = pool.data + pool.dSize; p < pe; ++p )
+            scheck += (pool.inval != *p);
+        if (scheck != count) {
+            MSG(("Hash contents mismatch, some content"
+                    " illegally invalidated or added"));
+        }
+
+#endif
+    }
+
+    unsigned long getCount() { return count; }
 
     /**
      * WARNING:
      * after getting an element (by reference), the reference will be
-     * initialised, with a non-default value (i.e. comparing to TElement()
+     * initialized, with a non-default value (i.e. comparing to TElement()
      * must become false)
      */
     TElement& operator[](const char *key) {
-        if (m_count >= rekeyHighMark)
+        if (count >= pool.highMark)
             inflate();
-        auto &res = hashFind(key, pool, m_mask);
-        if (inval == res) // so the access call will resize
-            m_count++;
+        auto &res = pool.hashFind(key);
+        if (pool.inval == res) // was not set, will be, so resize later
+            count++;
         return res;
     }
     /**
-     * STL-friendly iterators, although just good enough for range-for loops.
-     * Validity rules (lifecycle) are similar to std::unordere_map::iterator.
+     * STL-friendly iterators, although just good enough for basic actions.
+     * Validity rules (life cycle) are similar to std::unordere_map::iterator.
      */
     class TIterator
     {
@@ -682,12 +698,12 @@ public:
         ~TIterator() {
             if (!fromFind)
                 return;
-            bool gotValue = p && TElement() != *p;
+            auto gotValue = p && (TElement() != *p);
             if (gotValue && !hadValue) {
                 // okay, newly added. Pending resize?
-                if (parent.m_count >= parent.rekeyHighMark)
+                if (parent.count >= parent.pool.highMark)
                     parent.inflate();
-                parent.m_count++;
+                parent.count++;
             }
         }
         friend class YSparseHashTable;
@@ -700,7 +716,7 @@ public:
             return p != b.p;
         }
         TIterator& operator++() {
-            for (++p; p < parent.pool + parent.m_poolSize; ++p) {
+            for (++p; p < parent.pool.data + parent.pool.dSize; ++p) {
                 if (TElement() != *p)
                     break;
             }
@@ -708,35 +724,26 @@ public:
         }
     };
     TIterator begin() {
-        TIterator it(pool, *this), eit(end());
-        while (it != eit)
+        TIterator it(pool.data, *this), eit(end());
+        // jump to first valid slot or end?
+        if (*it == pool.inval) {
             ++it;
+        }
         return it;
     }
     TIterator end() {
-        return TIterator(pool + m_poolSize, *this);
+        return TIterator(pool.data + pool.dSize, *this);
     }
     TIterator find(const char *key) {
-        auto& it = hashFind(key, pool, m_mask);
-        TIterator ret(it, *this);
+        auto& it = pool.hashFind(key);
+        TIterator ret(&it, *this);
         ret.fromFind = true;
-        ret.hadValue = it != inval;
+        ret.hadValue = it != pool.inval;
         return ret;
     }
     bool has(const char* key) {
-        return inval != * find(key);
+        return pool.inval != * find(key);
     }
-
-#ifdef DEBUG
-    void print_stats(const char *pfx) {
-        MSG(("%s, lookups: %u, compcount: %u, used/reserved: %u/%u AKA LF: %F",
-                        pfx,
-                        m_lookupCount, m_compCount,
-                        m_count, unsigned(m_poolSize),
-                        double(m_count)/m_poolSize));
-    }
-#endif
-
 };
 /*******************************************************************************
  * A fixed multi-dimension array
