@@ -953,6 +953,7 @@ public:
             Window w = fChildren.back();
             fChildren.pop_back();
             fFiltered = fChildren;
+            fChildren.clear();
             fChildren.push_back(w);
         }
     }
@@ -1240,6 +1241,14 @@ public:
         it = find(fChildren.begin(), fChildren.end(), window);
         if (it != fChildren.end())
             fChildren.erase(it);
+    }
+
+    void operator+=(const YWindowTree& other) {
+        for (Window w : other.fChildren) {
+            if (have(w) == false) {
+                fChildren.push_back(w);
+            }
+        }
     }
 
 private:
@@ -3074,6 +3083,13 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
                 }
                 newline();
             }
+            else if (prop.type() == XA_CARDINAL) {
+                const char* name(atomName(atom));
+                printf("%s%s = ", prefix, (char *) name);
+                for (int i = 0; i < prop.count(); ++i)
+                    printf("%s%u", i ? ", " : "", unsigned(prop[i]));
+                newline();
+            }
             else {
                 const char* name(atomName(atom));
                 const char* type(atomName(prop.type()));
@@ -3252,7 +3268,7 @@ void IceSh::flags()
                 arg++;
             flag(arg);
         }
-        else if (argp[0][0] == '+' && strchr("frw", argp[0][1])) {
+        else if (argp[0][0] == '+' && strchr("frwT", argp[0][1])) {
             flag(getArg());
         }
         else {
@@ -3347,6 +3363,14 @@ void IceSh::flag(char* arg)
         windowList.query(root);
         windowList.findTaskbar();
         MSG(("taskbar selected"));
+        selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "+T", "")) {
+        YWindowTree taskbar(root);
+        taskbar.findTaskbar();
+        windowList += taskbar;
+        MSG(("taskbar appended"));
         selecting = true;
         return;
     }
@@ -3568,7 +3592,7 @@ void IceSh::spyEvent(const XEvent& event)
     int secs = local->tm_sec;
     int mins = local->tm_min;
     int mils = int(now.tv_usec / 1000L);
-    char head[80];
+    char head[80], xarg[80];
     snprintf(head, sizeof head,
             "%02d:%02d.%03d: 0x%07x: %s",
             mins, secs, mils, int(window),
@@ -3671,14 +3695,17 @@ void IceSh::spyEvent(const XEvent& event)
     case ReparentNotify:
         break;
     case ConfigureNotify:
+        if (event.xconfigure.above)
+            snprintf(xarg, sizeof xarg, " Above=0x%lx", event.xconfigure.above);
+        else
+            xarg[0] = '\0';
         printf("%sConfigure 0x%lx %dx%d+%d+%d%s%s%s\n", head,
                 event.xconfigure.window,
                 event.xconfigure.width, event.xconfigure.height,
                 event.xconfigure.x, event.xconfigure.y,
                 event.xconfigure.send_event ? " Send" : "",
                 event.xconfigure.override_redirect ? " Override" : "",
-                event.xconfigure.above ? " Above" : ""
-                );
+                xarg);
         break;
     case GravityNotify:
         break;
