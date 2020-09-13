@@ -3104,12 +3104,13 @@ void YFrameWindow::updateExtents() {
 void YFrameWindow::setState(long mask, long state) {
     long fOldState = fWinState;
     long fNewState = (fWinState & ~mask) | (state & mask);
+    long deltaState = fOldState ^ fNewState;
 
     // !!! this should work
     //if (fNewState == fOldState)
     //    return ;
 
-    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+    if (deltaState & WinStateFullscreen) {
         if ((fNewState & WinStateFullscreen)) {
             // going fullscreen
             client()->saveSizeHints();
@@ -3127,14 +3128,14 @@ void YFrameWindow::setState(long mask, long state) {
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
          fOldState, fNewState, mask, state));
     //msg("normal1: (%d:%d %dx%d)", normalX, normalY, normalWidth, normalHeight);
-    if ((fOldState ^ fNewState) & WinStateMinimized) {
+    if (deltaState & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMinimized()));
         if (fNewState & WinStateMinimized)
             minimizeTransients();
         else if (owner() && owner()->isMinimized())
             owner()->setState(WinStateMinimized, 0);
     }
-    if ((fOldState ^ fNewState) & WinStateHidden) {
+    if (deltaState & WinStateHidden) {
         MSG(("WinStateHidden: %d", isHidden()));
         if (fNewState & WinStateHidden)
             hideTransients();
@@ -3143,7 +3144,7 @@ void YFrameWindow::setState(long mask, long state) {
     }
 
     manager->lockWorkArea();
-    updateDerivedSize(fOldState ^ fNewState);
+    updateDerivedSize(deltaState);
     updateLayout();
     updateState();
     updateLayer();
@@ -3154,37 +3155,37 @@ void YFrameWindow::setState(long mask, long state) {
     }
     manager->unlockWorkArea();
 
-    if ((fOldState ^ fNewState) & (WinStateRollup | WinStateMinimized)) {
+    if (hasbit(deltaState, WinStateRollup | WinStateMinimized)) {
         setShape();
     }
-    if ((fOldState ^ fNewState) & WinStateMinimized) {
-        if (!(fNewState & WinStateMinimized))
+    if (deltaState & WinStateMinimized) {
+        if (fOldState & WinStateMinimized)
             restoreMinimizedTransients();
     }
-    if ((fOldState ^ fNewState) & WinStateHidden) {
-        if (!(fNewState & WinStateHidden))
+    if (deltaState & WinStateHidden) {
+        if (fOldState & WinStateHidden)
             restoreHiddenTransients();
     }
-    if (((fOldState ^ fNewState) & WinStateRollup) &&
+    if ((deltaState & WinStateRollup) &&
         (clickFocus || !strongPointerFocus) &&
         this == manager->getFocus()) {
         manager->setFocus(this);
     }
-    if ((fOldState ^ fNewState) & WinStateFullscreen) {
+    if (deltaState & WinStateFullscreen) {
         if ((fNewState & WinStateFullscreen)) {
             activate();
         }
     }
-    if ((fOldState ^ fNewState) & WinStateFocused) {
+    if (deltaState & WinStateFocused) {
         if ((fNewState & WinStateFocused) &&
              this != manager->getFocus())
             manager->setFocus(this);
     }
 
-    if ((fOldState ^ fNewState) & WinStateUrgent) {
+    if (deltaState & WinStateUrgent) {
         setWmUrgency(hasbit(fNewState, WinStateUrgent));
     }
-    if (hasbit(fOldState ^ fNewState, WinStateMinimized) && minimizeToDesktop) {
+    if (hasbit(deltaState, WinStateMinimized) && minimizeToDesktop) {
         if (isMinimized()) {
             if (getMiniIcon()) {
                 fMiniIcon->show();
@@ -3194,26 +3195,26 @@ void YFrameWindow::setState(long mask, long state) {
             fMiniIcon->hide();
         }
     }
-    if (hasbit(fOldState ^ fNewState, WinStateMaximizedBoth) && titlebar()) {
+    if (hasbit(deltaState, WinStateMaximizedBoth) && titlebar()) {
         YFrameButton* maxi = titlebar()->maximizeButton();
         if (maxi) {
             maxi->setKind(YFrameTitleBar::Maxi);
             maxi->repaint();
         }
     }
-    if (hasbit(fOldState ^ fNewState, WinStateRollup) && titlebar()) {
+    if (hasbit(deltaState, WinStateRollup) && titlebar()) {
         YFrameButton* rollup = titlebar()->rollupButton();
         if (rollup) {
             rollup->setKind(YFrameTitleBar::Roll);
             rollup->repaint();
         }
     }
-    if (hasbit(fOldState ^ fNewState,
+    if (hasbit(deltaState,
                WinStateMinimized | WinStateHidden | WinStateSkipTaskBar))
     {
         updateTaskBar();
     }
-    if (hasbit(fOldState ^ fNewState, WinStateMinimized | WinStateRollup)) {
+    if (hasbit(deltaState, WinStateMinimized | WinStateRollup)) {
         layoutResizeIndicators();
     }
 }
