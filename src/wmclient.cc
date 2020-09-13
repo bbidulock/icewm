@@ -45,7 +45,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     YWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
-    fWMWindowRole(),
     fWindowRole()
 {
     fFrame = frame;
@@ -81,7 +80,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
         getTransient();
         getClientLeader();
         getWMHints();
-        getWMWindowRole();
         getWindowRole();
         getWinHintsHint(&fWinHints);
         getMwmHints();
@@ -1314,29 +1312,11 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
-    if (!prop.window_role)
+    if (!prop.wm_window_role && !prop.window_role)
         return;
 
-    YProperty prop(this, _XA_WINDOW_ROLE, F8, 256, XA_STRING);
-    if (prop) {
-        fWindowRole = prop.data<char>();
-        MSG(("window_role=%s", fWindowRole.c_str()));
-    } else {
-        fWindowRole = null;
-    }
-}
-
-void YFrameClient::getWMWindowRole() {
-    if (!prop.wm_window_role)
-        return;
-
-    YProperty prop(this, _XA_WM_WINDOW_ROLE, F8, 256, XA_STRING);
-    if (prop) {
-        fWMWindowRole = prop.data<char>();
-        MSG(("wm_window_role=%s", fWMWindowRole.c_str()));
-    } else {
-        fWMWindowRole = null;
-    }
+    Atom atom = prop.wm_window_role ? _XA_WM_WINDOW_ROLE : _XA_WINDOW_ROLE;
+    fWindowRole = YProperty(this, atom, F8, 256, XA_STRING).data<char>();
 }
 
 mstring YFrameClient::getClientId(Window leader) { /// !!! fix

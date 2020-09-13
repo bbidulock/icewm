@@ -240,10 +240,9 @@ public:
 
     void getClientLeader();
     void getWindowRole();
-    void getWMWindowRole();
 
     Window clientLeader() const { return fClientLeader; }
-    mstring windowRole() const { return fWMWindowRole != null ? fWMWindowRole : fWindowRole; }
+    mstring windowRole() const { return fWindowRole; }
 
     mstring getClientId(Window leader);
     void getPropertiesList();
