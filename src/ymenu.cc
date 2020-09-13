@@ -683,10 +683,13 @@ YMenuItem * YMenu::add(YMenuItem *item) {
 }
 
 YMenuItem * YMenu::add(YMenuItem *item, const char *icons) {
-    //YIcon *icon = 0;
-    ref<YIcon> icon = YIcon::getIcon(icons);
-    if (icon->isCached() && item) item->setIcon(icon);
-    if (item) fItems.append(item);
+    if (item) {
+        ref<YIcon> icon(YIcon::getIcon(icons));
+        if (icon != null && icon->isCached()) {
+            item->setIcon(icon);
+        }
+        fItems.append(item);
+    }
     return item;
 }
 
