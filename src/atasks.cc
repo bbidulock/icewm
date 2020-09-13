@@ -268,12 +268,13 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
         }
     }
 
-    ref<YIcon> icon(getFrame()->getIcon());
+    ref<YIcon> icon;
     bool iconDrawn = false;
-
-    if (taskBarShowWindowIcons && icon != null) {
+    if (taskBarShowWindowIcons) {
+        icon = getFrame()->getIcon();
+    }
+    if (icon != null) {
         int iconSize = YIcon::smallSize();
-
         int const y((height() - 3 - iconSize -
                      (wmLook == lookMetal)) / 2);
         iconDrawn = icon->draw(g, p + max(1, left), p + 1 + y, iconSize);
@@ -286,9 +287,8 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
     }
 
     mstring str = getFrame()->getIconTitle();
-    if (str == null || str.length() == 0)
+    if (str.isEmpty())
         str = getFrame()->getTitle();
-
     if (str != null) {
         ref<YFont> font = getFont();
         if (font != null) {
@@ -297,7 +297,7 @@ void TaskBarApp::paint(Graphics &g, const YRect& r) {
 
             int iconSize = 0;
             int pad = max(1, left);
-            if (taskBarShowWindowIcons && iconDrawn) {
+            if (iconDrawn) {
                 iconSize = YIcon::smallSize();
                 pad += 2;
             }
