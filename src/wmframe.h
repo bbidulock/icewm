@@ -330,6 +330,7 @@ public:
     void updateMwmHints();
     void updateProperties();
     void updateTaskBar();
+    void updateAppStatus();
 
     enum WindowType {
         wtCombo,

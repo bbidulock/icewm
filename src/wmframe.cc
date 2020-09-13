@@ -141,14 +141,9 @@ YFrameWindow::~YFrameWindow() {
         endMoveSize();
     if (fPopupActive)
         fPopupActive->cancelPopup();
-    if (fTaskBarApp) {
-        if (taskBar)
-            taskBar->removeTasksApp(this);
+    if (taskBar) {
+        taskBar->delistFrame(this, fTaskBarApp, fTrayApp);
         fTaskBarApp = nullptr;
-    }
-    if (fTrayApp) {
-        if (taskBar)
-            taskBar->removeTrayApp(this);
         fTrayApp = nullptr;
     }
     removeFromWindowList();
@@ -3276,6 +3271,12 @@ void YFrameWindow::updateProperties() {
 }
 
 void YFrameWindow::updateTaskBar() {
+    if (taskBar && fManaged) {
+        taskBar->updateFrame(this);
+    }
+}
+
+void YFrameWindow::updateAppStatus() {
     if (taskBar && fManaged) {
         bool needTrayApp(false);
 

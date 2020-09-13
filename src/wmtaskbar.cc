@@ -617,6 +617,12 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
 void TaskBar::relayoutNow() {
     manager->lockWorkArea();
+    if (fUpdates.nonempty()) {
+        for (YFrameWindow* frame : fUpdates) {
+            frame->updateAppStatus();
+        }
+        fUpdates.clear();
+    }
     if (windowTrayPane())
         windowTrayPane()->relayoutNow();
     if (fNeedRelayout) {
@@ -973,16 +979,21 @@ void TaskBar::detachDesktopTray() {
     }
 }
 
-void TaskBar::removeTasksApp(YFrameWindow *w) {
-    if (taskPane())
-        taskPane()->removeApp(w);
+void TaskBar::updateFrame(YFrameWindow* frame) {
+    if (find(fUpdates, frame) < 0)
+        fUpdates += frame;
 }
 
-TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
-    if (taskPane())
-        return taskPane()->addApp(w);
-    else
-        return nullptr;
+void TaskBar::delistFrame(YFrameWindow* frame, TaskBarApp* task, TrayApp* tray) {
+    findRemove(fUpdates, frame);
+    if (taskPane() && task)
+        taskPane()->removeApp(frame);
+    if (windowTrayPane() && tray)
+        windowTrayPane()->removeApp(frame);
+}
+
+TaskBarApp *TaskBar::addTasksApp(YFrameWindow* frame) {
+    return taskPane() ? taskPane()->addApp(frame) : nullptr;
 }
 
 void TaskBar::relayoutTasks() {
@@ -990,16 +1001,8 @@ void TaskBar::relayoutTasks() {
         taskPane()->relayout();
 }
 
-void TaskBar::removeTrayApp(YFrameWindow *w) {
-    if (windowTrayPane())
-        windowTrayPane()->removeApp(w);
-}
-
-TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
-    if (windowTrayPane())
-        return windowTrayPane()->addApp(w);
-    else
-        return nullptr;
+TrayApp *TaskBar::addTrayApp(YFrameWindow* frame) {
+    return windowTrayPane() ? windowTrayPane()->addApp(frame) : nullptr;
 }
 
 void TaskBar::relayoutTray() {
