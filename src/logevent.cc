@@ -517,7 +517,7 @@ void logClientMessage(const XClientMessageEvent& event) {
             data[0] == 2 ? "TOGGLE" : "?";
         const char* p1 = data[1] ? atomName(data[1]) : "";
         const char* p2 = data[2] ? atomName(data[2]) : "";
-        printf("%sClientMessage %s %d data=%s,%s,%s\n",
+        tlog("%sClientMessage %s %d data=%s,%s,%s\n",
                 head, name, event.format, op, p1, p2);
     }
     else if (strcmp(name, "_WM_CHANGE_STATE") == 0) {
@@ -525,7 +525,7 @@ void logClientMessage(const XClientMessageEvent& event) {
             data[0] == 0 ? "WithdrawnState" :
             data[0] == 1 ? "NormalState" :
             data[0] == 3 ? "IconicState" : "?";
-        printf("%sClientMessage %s %s\n", head, name, op);
+        tlog("%sClientMessage %s %s\n", head, name, op);
     }
     else {
         tlog("%sClientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
