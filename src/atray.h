@@ -65,7 +65,7 @@ public:
     TrayApp *getActive();
     TrayApp *predecessor(TrayApp *tapp);
     TrayApp *successor(TrayApp *tapp);
-    void removeApp(YFrameWindow *frame);
+    void remove(TrayApp* tapp);
     int getRequiredWidth();
 
     void relayout() { fNeedRelayout = true; }

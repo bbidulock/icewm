@@ -987,9 +987,9 @@ void TaskBar::updateFrame(YFrameWindow* frame) {
 void TaskBar::delistFrame(YFrameWindow* frame, TaskBarApp* task, TrayApp* tray) {
     findRemove(fUpdates, frame);
     if (taskPane() && task)
-        taskPane()->removeApp(frame);
+        taskPane()->remove(task);
     if (windowTrayPane() && tray)
-        windowTrayPane()->removeApp(frame);
+        windowTrayPane()->remove(tray);
 }
 
 TaskBarApp *TaskBar::addTasksApp(YFrameWindow* frame) {

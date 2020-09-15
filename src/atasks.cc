@@ -502,10 +502,6 @@ void TaskPane::insert(TaskBarApp *tapp) {
     (--it).insert(tapp);
 }
 
-void TaskPane::remove(TaskBarApp *tapp) {
-    findRemove(fApps, tapp);
-}
-
 TaskBarApp* TaskPane::predecessor(TaskBarApp *tapp) {
     const int count = fApps.getCount();
     const int found = find(fApps, tapp);
@@ -552,13 +548,9 @@ TaskBarApp *TaskPane::addApp(YFrameWindow *frame) {
     return tapp;
 }
 
-void TaskPane::removeApp(YFrameWindow *frame) {
-    TaskBarApp* task = findApp(frame);
-    if (task) {
-        task->hide();
-        remove(task);
-        relayout();
-    }
+void TaskPane::remove(TaskBarApp* task) {
+    task->setShown(false);
+    findRemove(fApps, task);
 }
 
 void TaskPane::relayout(bool force) {
