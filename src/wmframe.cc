@@ -117,6 +117,7 @@ YFrameWindow::YFrameWindow(
     fWinTrayOption = WinTrayIgnore;
     fWinState = 0;
     fWinOptionMask = ~0;
+    fOldState = 0;
     fTrayOrder = 0;
     fClientContainer = nullptr;
     setTitle("Frame");
@@ -515,28 +516,12 @@ void YFrameWindow::manage() {
     if (client()->getBorder()) {
         client()->setBorderWidth(0U);
     }
-
-#if 0
-    {
-        XSetWindowAttributes xswa;
-        xswa.backing_store = Always;
-        xswa.win_gravity = NorthWestGravity;
-
-        XChangeWindowAttributes(xapp->display(), client()->handle(),
-                                CWBackingStore | CWWinGravity, &xswa);
-    }
-#endif
-
     if (client()->adopted())
         XAddToSaveSet(xapp->display(), client()->handle());
 
     client()->reparent(fClientContainer, 0, 0);
 
     client()->setFrame(this);
-
-#if 0
-    sendConfigure();
-#endif
 }
 
 void YFrameWindow::unmanage(bool reparent) {
@@ -748,27 +733,24 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             }
             break;
         case Above:
-            if (!focusOnAppRaise) {
-                if (requestFocusOnAppRaise) {
-                    if (canRaise()) {
-                        setWmUrgency(true);
-                    }
-                }
-            } else {
-                if (canRaise()) {
-                    wmRaise();
-                }
-                if ( !frameOption(foNoFocusOnAppRaise) &&
-                    (clickFocus || !strongPointerFocus))
-                {
-                    if (focusChangesWorkspace ||
-                        focusCurrentWorkspace ||
-                        visibleNow())
+            if (canRaise()) {
+                wmRaise();
+                if (focusOnAppRaise) {
+                    if ( !frameOption(foNoFocusOnAppRaise) &&
+                        (clickFocus || !strongPointerFocus))
                     {
-                        activate();
-                    } else {
-                        setWmUrgency(true);
+                        if (focusChangesWorkspace ||
+                            focusCurrentWorkspace ||
+                            visibleNow())
+                        {
+                            activate();
+                        } else {
+                            setWmUrgency(true);
+                        }
                     }
+                }
+                else if (requestFocusOnAppRaise) {
+                    setWmUrgency(true);
                 }
             }
             break;
@@ -841,9 +823,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         }
         manager->updateClientList();
     }
-    if (notbit(mask, CWX | CWY | CWWidth | CWHeight)) {
-        sendConfigure();
-    }
+    sendConfigure();
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
@@ -1094,29 +1074,11 @@ void YFrameWindow::sendConfigure() {
     xev.xconfigure.above = None;
     xev.xconfigure.override_redirect = False;
 
-    MSG(("sendConfigure %d %d %d %d",
-         xev.xconfigure.x,
-         xev.xconfigure.y,
-         xev.xconfigure.width,
-         xev.xconfigure.height));
-
-#ifdef DEBUG_C
-    Status rc =
-#endif
-        XSendEvent(xapp->display(),
+    XSendEvent(xapp->display(),
                client()->handle(),
                False,
                StructureNotifyMask,
                &xev);
-
-#ifdef DEBUG_C
-    MSG(("sent %d: x=%d, y=%d, width=%d, height=%d",
-         rc,
-         x(),
-         y(),
-         client()->width(),
-         client()->height()));
-#endif
 }
 
 void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
@@ -1199,7 +1161,11 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
 }
 
 void YFrameWindow::wmSetLayer(long layer) {
+    long previous = fWinState;
     setRequestedLayer(layer);
+    if (hasbit(previous ^ fWinState, WinStateAbove | WinStateBelow)) {
+        client()->setWinStateHint(WIN_STATE_ALL, fWinState);
+    }
 }
 
 void YFrameWindow::wmSetTrayOption(long option) {
@@ -2656,6 +2622,18 @@ YFrameWindow *YFrameWindow::mainOwner() {
 void YFrameWindow::setRequestedLayer(long layer) {
     if (fWinRequestedLayer != layer && inrange(layer, 0L, WinLayerAboveAll)) {
         fWinRequestedLayer = layer;
+
+        long state = (fWinState & ~(WinStateAbove | WinStateBelow));
+        if (layer == WinLayerOnTop) {
+            state |= WinStateAbove;
+        }
+        if (layer == WinLayerBelow) {
+            state |= WinStateAbove;
+        }
+        if (fWinState != state) {
+            fWinState = state;
+        }
+
         updateLayer();
     }
 }
@@ -3013,15 +2991,18 @@ void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
          posX, posY, posW, posH));
 }
 
-void YFrameWindow::setCurrentPositionOuter(int x, int y) {
-    YWindow::setPosition(x, y);
-    if ( ! isFullscreen()) {
-        posX = x;
-        posY = y;
-        if ( !isIconic() && !isMaximizedHoriz())
-            normalX = posX + borderXN();
-        if ( !isIconic() && !isMaximizedVert())
-            normalY = posY + borderYN();
+void YFrameWindow::setCurrentPositionOuter(int px, int py) {
+    if (px != x() || py != y()) {
+        YWindow::setPosition(px, py);
+        if ( ! isFullscreen()) {
+            posX = px;
+            posY = py;
+            if ( !isIconic() && !isMaximizedHoriz())
+                normalX = posX + borderXN();
+            if ( !isIconic() && !isMaximizedVert())
+                normalY = posY + borderYN();
+        }
+        sendConfigure();
     }
 }
 
@@ -3102,7 +3083,7 @@ void YFrameWindow::updateExtents() {
 }
 
 void YFrameWindow::setState(long mask, long state) {
-    long fOldState = fWinState;
+    fOldState = fWinState;
     long fNewState = (fWinState & ~mask) | (state & mask);
     long deltaState = fOldState ^ fNewState;
 
@@ -3217,6 +3198,7 @@ void YFrameWindow::setState(long mask, long state) {
     if (hasbit(deltaState, WinStateMinimized | WinStateRollup)) {
         layoutResizeIndicators();
     }
+    fOldState = fWinState;
 }
 
 void YFrameWindow::setAllWorkspaces() {

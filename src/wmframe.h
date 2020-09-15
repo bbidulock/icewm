@@ -269,6 +269,7 @@ public:
     void setState(long mask, long state);
     bool hasState(long bit) const { return hasbit(fWinState, bit); }
     bool notState(long bit) const { return !hasbit(fWinState, bit); }
+    long oldState() const { return fOldState; }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
 
@@ -501,6 +502,7 @@ private:
     long fWinState;
     long fWinOptionMask;
     long fOldLayer;
+    long fOldState;
     int fTrayOrder;
 
     int fFullscreenMonitorsTop;
@@ -554,9 +556,9 @@ private:
     //static int fMouseFocusX, fMouseFocusY;
 
     void repaint();
-    void setGeometry(const YRect &);
-    void setPosition(int, int);
-    void setSize(int, int);
+    void setGeometry(const YRect &) = delete;
+    void setPosition(int, int) = delete;
+    void setSize(int, int) = delete;
     void setWindowGeometry(const YRect &r) {
         YWindow::setGeometry(r);
     }
