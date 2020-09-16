@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2020-05-07 08:52+0000\n"
 "Last-Translator: ingemar karlsson <ingemar_bengt@hotmail.com>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -18,28 +18,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6.1\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Ström"
 
 # Hm. "P" och "M" står tydligen för "Power" och "Mobile".
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "S"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Laddar"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Full"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "ström:\t%s"
@@ -172,7 +172,7 @@ msgstr "Kan inte ansluta till %s 1: %s 2"
 msgid "Failed to find %s command"
 msgstr "Det gick inte att hitta kommandot %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Det gick inte att köra %s"
@@ -395,25 +395,25 @@ msgstr "Kunde inte öppna fil för läsning."
 msgid "Failed to create a temporary file"
 msgstr "Kunde inte skapa temporär fil"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Kunde inte starta system (%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Kunde inte packa upp %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "Kunde inte hitta curl eller wget i PATH"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Osäkra tecken i URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -485,7 +485,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorerar alternativ ’%s’"
@@ -530,124 +530,124 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "IceSAME"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "För hjälp konsultera manualsidan icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Namngiven symbol i domänen \"%s\" (intervall: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbetsyta utanför området: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ogiltigt namn på arbetsyta: \"%s\""
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "GNOME-fönsterläge"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "GNOME-fönsterinställning"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "GNOME-fönsterlager"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Inställningar för IceWM-programpanelen"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr "Gravitation symboler"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2013
 msgid "Motif functions"
 msgstr "Motif-funktioner"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2014
 msgid "Motif decorations"
 msgstr "Motif-dekorationer"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME-fönsterläge"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "arbetsyta #%d: `%s'\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Felaktigt tillstånd: `%s'."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan inte hämta geometrin för fönster 0x%lx"
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3162
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Felaktig Xinerama: `%s'."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Åtgärden `%s'  kräver minst %d argument."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Felaktigt uttryck: `%s'"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan inte öppna bildskärm: %s. X måste vara igång och $DISPLAY satt."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ogiltigt argument: `%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr "Inga fönster funna."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Ingen åtgärd angiven."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Felaktig fönsteridentifierare: `%s'"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3418
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Felaktig PID: `%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3454
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Felaktigt lager: `%s'."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Okänd åtgärd: `%s'"
@@ -657,7 +657,7 @@ msgstr "Okänd åtgärd: `%s'"
 msgid "Socket error: %d"
 msgstr "Socket-fel: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:69
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -698,27 +698,27 @@ msgstr ""
 "  -n, --notray        Starta inte icewmtray.\n"
 "  -s, --sound          Starta även icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Okänt alternativ '%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "starta om %s."
 
-#: src/icesm.cc:410
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s avslutade med status %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s dödades med signal %d."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:472
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -739,7 +739,7 @@ msgstr ""
 "\t1: Starta om IceWM?\n"
 "\t2. Avbryta den här sessionen?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Kraschrespons för IceWM"
 
@@ -800,17 +800,17 @@ msgstr "ao_open_live misslyckades med %d"
 msgid "ao_play failed"
 msgstr "ao_play misslyckades"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Okänt alternativ: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Okänt argument: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -910,51 +910,51 @@ msgstr ""
 "3     Fel på undersystem (dvs kan inte ansluta till server).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Inget ljud till %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Kunde inte få egenskap för GUI-händelse"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Mottog ogiltig GUI-händelse %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Mottog GUI-händelse %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "För snabbt; ignorerar %s."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Stöd för %s-gränssnittet är ej inbyggt."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Stöder inte gränssnitt: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "Använder %s ljud."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Kunde inte ansluta till ljudgränssnitt %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Mottog signal %s: Avslutar ..."
@@ -1115,11 +1115,11 @@ msgstr "Användning: icewmhint class.instance alternativ argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Slut på minne (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Varning: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1138,7 +1138,7 @@ msgstr ""
 "  -h, --help          Skriver ut denna användningsskärm och avslutar.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Okänd riktning i flytt/förändring: %d"
@@ -1547,11 +1547,11 @@ msgstr "_Starta om icewm"
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Döda klient: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1560,11 +1560,11 @@ msgstr ""
 "att gå förlorade när den här klienten dödas.\n"
 "Vill du fortsätta?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1705,7 +1705,7 @@ msgstr "Ordna _Ikoner"
 msgid "_Refresh"
 msgstr "_Uppdatera"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Dölj aktivitetsfält"
 
@@ -1721,7 +1721,7 @@ msgstr "Fönsterlistmeny"
 msgid "Show Desktop"
 msgstr "Visa skrivbord"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Visa aktivitetsfält"
 
@@ -1758,7 +1758,7 @@ msgstr "Fönsterlista"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Arbetsyta %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: val misslyckades"

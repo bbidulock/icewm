@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-07-02 07:26+0000\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"PO-Revision-Date: 2020-07-29 20:49+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/ca/>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6.1\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Energia"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Carregant"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Plena"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "energia:\t%s"
@@ -171,7 +171,7 @@ msgstr "No s'ha pogut connectar a %s: %s"
 msgid "Failed to find %s command"
 msgstr "Ha fallat trobar l'ordre %s."
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Ha fallat executar %s."
@@ -394,25 +394,25 @@ msgstr "Ha fallat obrir el fitxer per llegir-lo."
 msgid "Failed to create a temporary file"
 msgstr "Ha fallat crear un fitxer temporal"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Ha fallat executar el sistema (%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Ha fallat descomprimir %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "No s'ha pogut ubicar curl o wget al CAMÍ"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Caràcters no segurs a l'URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -486,7 +486,7 @@ msgstr ""
 "%s.\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "S'ignora l'opció \"%s\""
@@ -531,88 +531,88 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "El mateix joc"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Per a l'ajuda, consulteu la pàgina del manual icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Símbols anomenats del domini \"%s\" (gamma numèrica: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Escriptori fora de l'abast: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nom d'escriptori no vàlid: %s"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "Estat de la finestra del GNOME"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "Suggeriment de finestra del GNOME"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "Capa de finestra del GNOME"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Opció de la safata de l'IceWM"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr "Símbols de gravetat"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2013
 msgid "Motif functions"
 msgstr "Funcions del Motif"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2014
 msgid "Motif decorations"
 msgstr "Decoracions del Motif"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2015
 msgid "EWMH window state"
 msgstr "Estat de la finestra de l'EWMH"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Escriptori #%d: \"%s\"\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Estat no vàlid: %s."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "No es pot obtenir una geometria de finestra de 0x%lx."
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3162
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama no vàlid: %s."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expressió no vàlida: %s"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -620,35 +620,35 @@ msgstr ""
 "No es pot obrir la pantalla: %s. X ha d'estar funcionant i $DISPLAY "
 "configurat."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argument no vàlid: %s"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr "No s'ha trobat cap finestra."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "No s'ha especificat cap acció."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificador de finestra no vàlid: %s"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3418
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID no vàlid: %s"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3454
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Capa no vàlida: %s."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acció desconeguda: \"%s\""
@@ -658,7 +658,7 @@ msgstr "Acció desconeguda: \"%s\""
 msgid "Socket error: %d"
 msgstr "Error de sòcol: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:69
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -688,34 +688,27 @@ msgstr ""
 "  -n, --notray        No iniciïs l'icewmtray.\n"
 "  -s, --sound         Inicia també l'icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opció desconeguda: \"%s\""
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "Reinicia %s."
 
-#: src/icesm.cc:410
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s ha sortit amb l'estat %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s ha estat matat pel senyal %d."
 
-#: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
+#: src/icesm.cc:472
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -725,12 +718,13 @@ msgid ""
 "\t3: Run a terminal?\n"
 msgstr ""
 " L'IceWM ha fallat un segon cop durant 10 segons. \n"
-" Què voleu que faci?\n"
+" Què voleu fer?\n"
 "\n"
 "\t1: Reiniciar l'IceWM?\n"
 "\t2: Avortar aquesta sessió?\n"
+"        3: Executar un terminal?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Resposta de fallada de l'IceWM"
 
@@ -791,17 +785,17 @@ msgstr "ao_open_live ha fallat amb %d"
 msgid "ao_play failed"
 msgstr "ao_play ha fallat"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opció no reconeguda: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argument no reconegut: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -908,51 +902,51 @@ msgstr ""
 "3     Error de subsistemes (p. e., no es pot connectar amb el servidor).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "No hi ha àudio per a %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "No s'ha pogut obtenir la propietat d'esdeveniment IGU"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Esdeveniment IGU rebut no vàlid: %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Esdeveniment IGU rebut: %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Massa ràpid. S'ignora %s."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "El suport per a la interfície %s no s'ha compilat."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interfície no admesa: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "S'usa l'àudio %s."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Senyal %s rebut: acabant..."
@@ -1115,11 +1109,11 @@ msgstr "Usage: icewmhint classe.instància opció arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Sense memòria (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Atenció: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1138,7 +1132,7 @@ msgstr ""
 "  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Indicació desconeguda a la petició de mou/redimensiona: %d"
@@ -1550,11 +1544,11 @@ msgstr "_Reinicia l'icewm"
 msgid "_About"
 msgstr "_Quant a"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Mata el client: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1562,11 +1556,11 @@ msgstr ""
 "ATENCIÓ! Tots els canvis no desats es perdran en\n"
 "matar el client. Encara voleu continuar?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr "Manca el programa setxkbmap."
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Per canviar el teclat, si us plau, instal·leu setxkbmap."
 
@@ -1707,7 +1701,7 @@ msgstr "Organitza les _icones"
 msgid "_Refresh"
 msgstr "_Refresca"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Amaga la barra de tasques"
 
@@ -1723,7 +1717,7 @@ msgstr "Menú de llista de finestres"
 msgid "Show Desktop"
 msgstr "Mostra l'escriptori"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Mostra la barra de tasques"
 
@@ -1760,7 +1754,7 @@ msgstr "Llista de finestres"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Espai de treball %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: ha fallat la selecció"

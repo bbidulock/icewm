@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
-"Last-Translator: Davide Aiello <davidea@novilinguists.com>\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"PO-Revision-Date: 2020-09-09 18:33+0000\n"
+"Last-Translator: Paolo Za <zapaolo@email.it>\n"
 "Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/it/>\n"
 "Language: it\n"
@@ -22,27 +22,27 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6.1\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Energia"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - In carica"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Completa"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "energia:\t%s"
@@ -175,7 +175,7 @@ msgstr "Impossibile connettersi al %s: %s"
 msgid "Failed to find %s command"
 msgstr "Impossibile trovare il comando %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Impossibile eseguire %s"
@@ -398,25 +398,25 @@ msgstr "Impossibile aprire il file in lettura."
 msgid "Failed to create a temporary file"
 msgstr "Impossibile creare un file temporaneo"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Impossibile eseguire il sistema (%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Impossibile decomprimere %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "Impossibile individuare curl o wget in PATH"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Caratteri non sicuri nell'URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -494,7 +494,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorata l'opzione '%s'"
@@ -539,90 +539,88 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Stesso gioco"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Per assistenza consultare la manpage icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Simboli con nome del dominio '%s' (intervallo numerico: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Spazio di lavoro fuori intervallo: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nome spazio di lavoro non valido: '%s'"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "Stato della finestra di GNOME"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "Suggerimento della finestra di GNOME"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "Livello della finestra di GNOME"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Opzione vassoio di IceWM"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr "Simboli di gravità"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2013
 msgid "Motif functions"
 msgstr "Funzioni Motif"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2014
 msgid "Motif decorations"
 msgstr "Decorazioni Motif"
 
-#: src/icesh.cc:1997
-#, fuzzy
-#| msgid "GNOME window state"
+#: src/icesh.cc:2015
 msgid "EWMH window state"
-msgstr "Stato della finestra di GNOME"
+msgstr "Stato della finestra di EWMH"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "spazio di lavoro #%d: '%s'\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Stato non valido: '%s'."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Impossibile ottenere geometria della finestra 0x%lx"
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3162
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama non valida: '%s'."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'azione '%s' richiede almeno %d argomenti."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Espressione non valida: '%s'"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -630,35 +628,35 @@ msgstr ""
 "Impossibile aprire il display: %s. X deve essere in esecuzione e la "
 "variabile $DISPLAY deve essere impostata."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argomento non valido: '%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr "Nessuna finestra trovata."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Nessuna azione specificata."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificatore della finestra non valido: '%s'"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3418
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID non valido: '%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3454
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Strato non valido: '%s'."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Azione sconosciuta: '%s'"
@@ -668,20 +666,7 @@ msgstr "Azione sconosciuta: '%s'"
 msgid "Socket error: %d"
 msgstr "Errore socket: %d"
 
-#: src/icesm.cc:53
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
+#: src/icesm.cc:69
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -705,38 +690,33 @@ msgstr ""
 "  --sync              Sincronizza la comunicazione con il server X11.\n"
 "\n"
 " -i, --icewm=FILE    Usa FILE come window manager IceWM.\n"
+"  -o, --output=FILE   Reindirizza tutto l'output su FILE.\n"
+"\n"
 "  -b, --nobg          Non avviare  icewmbg.\n"
 "  -n, --notray        Non avviare icewmtray.\n"
 "  -s, --sound         Avvia anche icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opzione sconosciuta '%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "riavvia %s."
 
-#: src/icesm.cc:410
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s è terminato con stato %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s è stato terminato dal segnale %d."
 
-#: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
+#: src/icesm.cc:472
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -750,8 +730,9 @@ msgstr ""
 "\n"
 "\t1: riavviare IceWM?\n"
 "\t2: interrompere questa sessione?\n"
+"\t3: eseguire un terminale?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Riscontro sul crash di IceWM"
 
@@ -812,17 +793,17 @@ msgstr "ao_open_live è andato in errore con %d"
 msgid "ao_play failed"
 msgstr "ao_play è andato in errore"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opzione non riconosciuta: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argomento non riconosciuto: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -931,51 +912,51 @@ msgstr ""
 "  3    Errore dei sottosistemi (es. impossibile connettersi al server).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Nessun audio per %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Impossibile recuperare la proprietà dell'evento GUI"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ricevuto un evento GUI non valido: %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Ricevuto l'evento GUI %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Troppo veloce; %s sarà ignorato."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Il supporto per l'interfaccia %s non è stato compilato."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interfaccia non supportata: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "Viene utilizzato l'audio %s."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Impossibile connettersi alle interfacce audio %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Ricevuto il segnale %s: viene terminata l'esecuzione..."
@@ -1141,11 +1122,11 @@ msgstr "Uso: argomento opzione icewmhint class.instance\n"
 msgid "Out of memory (len=%d)."
 msgstr "Memoria esaurita (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Avviso: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1164,7 +1145,7 @@ msgstr ""
 "  -h, --help          Stampa questa schermata d'uso ed esce.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
@@ -1577,11 +1558,11 @@ msgstr "_Riavvia icewm"
 msgid "_About"
 msgstr "_Informazioni"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Termina client: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1589,11 +1570,11 @@ msgstr ""
 "Attenzione: la terminazione del client comporta\n"
 "la perdita delle modifiche non salvate. Procedere?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Programma mancante setxkbmap"
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1734,7 +1715,7 @@ msgstr "Disponi le _icone"
 msgid "_Refresh"
 msgstr "Aggio_rna"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Nascondi barra delle applicazioni"
 
@@ -1750,7 +1731,7 @@ msgstr "Menu elenco finestre"
 msgid "Show Desktop"
 msgstr "Mostra desktop"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Mostra barra delle applicazioni"
 
@@ -1787,7 +1768,7 @@ msgstr "Elenco finestre"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Spazio di lavoro %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: selezione non riuscita"

@@ -290,7 +290,7 @@ void YFrameWindow::layoutShape() {
 }
 
 void YFrameWindow::configure(const YRect2& r) {
-    MSG(("configure %d %d %d %d", r.x(), r.y(), r.width(), r.height()));
+    MSG(("%s %d %d %d %d", __func__, r.x(), r.y(), r.width(), r.height()));
 
     if (r.resized()) {
         performLayout();
@@ -298,8 +298,6 @@ void YFrameWindow::configure(const YRect2& r) {
     if (affectsWorkArea()) {
         manager->updateWorkArea();
     }
-
-    sendConfigure();
 }
 
 void YFrameWindow::performLayout()
@@ -409,6 +407,12 @@ void YFrameWindow::layoutClient() {
 
         fClientContainer->setGeometry(YRect(x, y + title, w, h));
         fClient->setGeometry(YRect(0, 0, w, h));
+
+        long state = fWinState ^ fOldState;
+        long mask = WinStateFullscreen | WinStateMaximizedBoth;
+        if (hasbit(state, mask)) {
+            sendConfigure();
+        }
     }
 }
 

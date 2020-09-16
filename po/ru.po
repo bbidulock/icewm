@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2019-06-15 19:49+0000\n"
 "Last-Translator: Olga Smirnova <mistresssilvara@hotmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -29,27 +29,27 @@ msgstr ""
 "X-Language: ru_RU\n"
 "X-Source-Language: C\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Питание"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "П"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Заряд"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "З"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Полный"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "power:\t%s"
@@ -182,7 +182,7 @@ msgstr "Не удалось подключиться к серверу %s: %s"
 msgid "Failed to find %s command"
 msgstr "Не удалось найти команду %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Не удалось выполнить команду %s"
@@ -405,25 +405,25 @@ msgstr "Не удалось открыть файл для чтения."
 msgid "Failed to create a temporary file"
 msgstr "Ошибка создания временного файла: %s"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Не удалось запустить систему(%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Ошибка распаковки %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "'curl' или 'wget' в PATH не найдены"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Опасные знаки в ссылке"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -495,7 +495,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Неизвестная опция: '%s'"
@@ -540,96 +540,96 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Игра IceSame"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "За справкой обратитесь к странице руководства icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Поименованные символы в домене `%s' (числовой диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Рабочее место за пределами: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неверное имя рабочего места: `%s'"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "Состояние окна GNOME"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "Подсказка окна GNOME"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "Уровень окна GNOME"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Опция системного лотка IceWM"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2013
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "Сохранить Изменения"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2014
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "Сохранить Изменения"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Состояние окна GNOME"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "рабочее место #%d: `%s'\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid state: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3162
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Действие `%s' требует как минимум %d аргумента(ов)."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Неправильное выражение: `%s'"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -637,37 +637,37 @@ msgstr ""
 "Не могу открыть Display %s. X-сервер должен быть загружен и \n"
 "переменная $DISPLAY установлена."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Не указано никаких действий."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неверный идентификатор окна: `%s'"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3418
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid PID: `%s'"
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3454
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid layer: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестное действие: `%s'"
@@ -677,7 +677,7 @@ msgstr "Неизвестное действие: `%s'"
 msgid "Socket error: %d"
 msgstr "Ошибка socket-а: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:69
 #, fuzzy
 #| msgid ""
 #| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
@@ -714,28 +714,28 @@ msgstr ""
 "  -n, --notray        Не запускать icewmtray.\n"
 "  -s, --sound         Также запустить icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Неизвестная опция: '%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:421 src/icesm.cc:581
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Перезапуск"
 
-#: src/icesm.cc:410
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s завершился с кодом %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s был уничтожен через сигнал %d."
 
-#: src/icesm.cc:455
+#: src/icesm.cc:472
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -757,7 +757,7 @@ msgstr ""
 "\t1: Перезапустить IceWM?\n"
 "\t2: Прервать этот сеанс?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Ответ на сбой IceWM"
 
@@ -818,17 +818,17 @@ msgstr "Сбой ao_open_live: %d"
 msgid "ao_play failed"
 msgstr "Сбой ao_play"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Неизвестная опция: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Неизвестный аргумент: %s\n"
 
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -933,51 +933,51 @@ msgstr ""
 "  3    Ошибка подсистемы.\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Отсутствует звук для %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Не удалось получить свойство события GUI"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Получено недействительное событие GUI %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Получено событие GUI %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Слишком быстро; %s будет проигнорировано."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Поддержка интерфейса %s не включена."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Интерфейс %s не поддерживается."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "Используется звук %s."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Ошибка соединения с устройством вывода звука %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Получен сигнал %s: Прерывание работы..."
@@ -1141,11 +1141,11 @@ msgstr "Использование: icewmhint class.instance option arg\n"
 msgid "Out of memory (len=%d)."
 msgstr "Не хватает памяти (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Внимание: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1164,7 +1164,7 @@ msgstr ""
 "  -h, --help          Вывод этой информации о параметрах и выход.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Неизвестное направление в запросе на изменение положения/размера: %d"
@@ -1584,11 +1584,11 @@ msgid "_About"
 msgstr "_О программе"
 
 #
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Убить Окно: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1596,11 +1596,11 @@ msgstr ""
 "ВНИМАНИЕ! Все несохраненные данные будут потеряны\n"
 "при закрытии этого окна. Вы согласны его закрыть?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1741,7 +1741,7 @@ msgstr "Упорядочить _Иконки"
 msgid "_Refresh"
 msgstr "_Обновить"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Скрыть Панель задач"
 
@@ -1757,7 +1757,7 @@ msgstr "Список Окон в Меню"
 msgid "Show Desktop"
 msgstr "Показать Десктоп"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Показать Панель задач"
 
@@ -1794,7 +1794,7 @@ msgstr "Список окон"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Рабочее место %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: не удалось выбрать"

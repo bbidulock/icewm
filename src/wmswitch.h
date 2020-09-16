@@ -93,6 +93,7 @@ private:
     ref<YFont> switchFont;
 
     int modsDown;
+    int iconsDrawn;
 
     bool isUp;
 

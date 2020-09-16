@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-08-30 18:01+0200\n"
-"PO-Revision-Date: 2020-07-26 08:51+0000\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"PO-Revision-Date: 2020-08-24 00:41+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -21,27 +21,27 @@ msgstr ""
 "X-Generator: Weblate 3.6.1\n"
 "X-Language: pt_BR\n"
 
-#: src/aapm.cc:185 src/aapm.cc:464 src/aapm.cc:685 src/aapm.cc:809
+#: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
 msgstr " - Energia"
 
-#: src/aapm.cc:187 src/aapm.cc:467 src/aapm.cc:688
+#: src/aapm.cc:188 src/aapm.cc:468 src/aapm.cc:689
 msgid "P"
 msgstr "E"
 
-#: src/aapm.cc:191 src/aapm.cc:441 src/aapm.cc:668 src/aapm.cc:777
+#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
 msgstr " - Recarregando"
 
-#: src/aapm.cc:193 src/aapm.cc:443 src/aapm.cc:670
+#: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
 msgstr "R"
 
-#: src/aapm.cc:445
+#: src/aapm.cc:446
 msgid " - Full"
 msgstr " - Cheia"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:992
 #, c-format
 msgid "power:\t%s"
 msgstr "energia:\t%s"
@@ -174,7 +174,7 @@ msgstr "Não foi possível conectar ao %s: %s"
 msgid "Failed to find %s command"
 msgstr "Falha ao encontrar o comando %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:418
+#: src/amailbox.cc:352 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Falha ao executar %s"
@@ -397,25 +397,25 @@ msgstr "Falha ao abrir o arquivo para leitura."
 msgid "Failed to create a temporary file"
 msgstr "Falha ao criar um arquivo temporário"
 
-#: src/icehelp.cc:2130
+#: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Falha ao executar o sistema(%s) (%d)"
 
-#: src/icehelp.cc:2153
+#: src/icehelp.cc:2154
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Falha ao descomprimir %s"
 
-#: src/icehelp.cc:2161
+#: src/icehelp.cc:2162
 msgid "Could not locate curl or wget in PATH"
 msgstr "Não foi possível localizar curl ou wget no PATH"
 
-#: src/icehelp.cc:2165
+#: src/icehelp.cc:2166
 msgid "Unsafe characters in URL"
 msgstr "Caracteres não seguros na URL"
 
-#: src/icehelp.cc:2202
+#: src/icehelp.cc:2203
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -488,7 +488,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2279
+#: src/icehelp.cc:2282
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorando opção '%s'"
@@ -533,88 +533,88 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Mesmo Jogo"
 
-#: src/icesh.cc:73
+#: src/icesh.cc:74
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Para obter ajuda, por favor consulte a página de manual icesh(1).\n"
 
-#: src/icesh.cc:1551
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Símbolos nominados do domínio `%s' (âmbito numérico: %ld-%ld):\n"
 
-#: src/icesh.cc:1692
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Área de trabalho fora de âmbito: %ld"
 
-#: src/icesh.cc:1713
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nome da área de trabalho inválido: `%s'"
 
-#: src/icesh.cc:1990
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "Estado da janela GNOME"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "Dica da janela GNOME"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "Camada da janela GNOME"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Opções da área de notificação do IceWM"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr "Símbolos de gravidade"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2013
 msgid "Motif functions"
 msgstr "Funções do Motif"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2014
 msgid "Motif decorations"
 msgstr "Decorações do Motif"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2015
 msgid "EWMH window state"
 msgstr "Estado da janela EWMH"
 
-#: src/icesh.cc:2079 src/icesh.cc:2108
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "área de trabalho #%d: `%s'\n"
 
-#: src/icesh.cc:2345 src/icesh.cc:3452 src/icesh.cc:3466 src/icesh.cc:3915
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Estado inválido: `%s'."
 
-#: src/icesh.cc:3113
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Não foi possível obter a geometria da janela 0x%lx"
 
-#: src/icesh.cc:3138
+#: src/icesh.cc:3162
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama inválido: `%s'."
 
-#: src/icesh.cc:3188
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "A ação `%s' requer ao menos %d argumentos."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expressão inválida: `%s'"
 
-#: src/icesh.cc:3209 src/icesound.cc:796 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -622,35 +622,35 @@ msgstr ""
 "Não foi possível abrir a tela: %s. O servidor X precisa estar rodando e o "
 "$DISPLAY definido."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argumento inválido: `%s'"
 
-#: src/icesh.cc:3257
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr "Nenhuma janela encontrada."
 
-#: src/icesh.cc:3272
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Nenhuma ação especificada."
 
-#: src/icesh.cc:3369
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificador da janela inválido: `%s'"
 
-#: src/icesh.cc:3386
+#: src/icesh.cc:3418
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID inválido: `%s'"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3454
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Camada inválida: `%s'."
 
-#: src/icesh.cc:4226
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ação desconhecida: `%s'"
@@ -660,7 +660,7 @@ msgstr "Ação desconhecida: `%s'"
 msgid "Socket error: %d"
 msgstr "Erro de soquete: %d"
 
-#: src/icesm.cc:53
+#: src/icesm.cc:69
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -691,34 +691,27 @@ msgstr ""
 "  -n, --notray        Não iniciar o icewmtray.\n"
 "  -s, --sound         Iniciar também o icesound.\n"
 
-#: src/icesm.cc:151
+#: src/icesm.cc:167
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Opção desconhecida: `%s'"
 
-#: src/icesm.cc:404 src/icesm.cc:564
+#: src/icesm.cc:421 src/icesm.cc:581
 #, c-format
 msgid "restart %s."
 msgstr "reiniciar %s."
 
-#: src/icesm.cc:410
+#: src/icesm.cc:427
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s saiu com o status %d."
 
-#: src/icesm.cc:416 src/icesm.cc:570
+#: src/icesm.cc:433 src/icesm.cc:587
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s foi morto pelo sinal %d."
 
-#: src/icesm.cc:455
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
+#: src/icesm.cc:472
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -732,8 +725,9 @@ msgstr ""
 "\n"
 "\t1: Reiniciar o IceWM?\n"
 "\t2: Cancelar esta sessão?\n"
+"        3: Executar um terminal?\n"
 
-#: src/icesm.cc:461
+#: src/icesm.cc:478
 msgid "IceWM crash response"
 msgstr "Resposta da falha do IceWM"
 
@@ -794,18 +788,18 @@ msgstr "ao_open_live falhou com %d"
 msgid "ao_play failed"
 msgstr "ao_play falhou"
 
-#: src/icesound.cc:678
+#: src/icesound.cc:681
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Opção não reconhecida: %s\n"
 
-#: src/icesound.cc:681 src/icesound.cc:974
+#: src/icesound.cc:684 src/icesound.cc:977
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Argumento não reconhecido: %s\n"
 
 # It's used "ie" (that is). You didn't mean to use "e.g." (for example)?
-#: src/icesound.cc:690
+#: src/icesound.cc:693
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -908,51 +902,51 @@ msgstr ""
 "3     Erro de subsistemas (por ex.: não foi possível conectar ao servidor).\n"
 "\n"
 
-#: src/icesound.cc:781
+#: src/icesound.cc:784
 #, c-format
 msgid "No audio for %s"
 msgstr "Sem áudio para %s"
 
-#: src/icesound.cc:858
+#: src/icesound.cc:861
 msgid "Could not get GUI event property"
 msgstr "Não foi possível obter a propriedade do evento da interface"
 
-#: src/icesound.cc:862
+#: src/icesound.cc:865
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Recebido evento da interface inválido %d"
 
-#: src/icesound.cc:866
+#: src/icesound.cc:869
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Recebido evento de interface %s"
 
-#: src/icesound.cc:880
+#: src/icesound.cc:883
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Muito rápido; ignorando %s."
 
-#: src/icesound.cc:884
+#: src/icesound.cc:887
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Suporte para a interface %s não compilado."
 
-#: src/icesound.cc:917
+#: src/icesound.cc:920
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Interface não suportada: %s."
 
-#: src/icesound.cc:926
+#: src/icesound.cc:929
 #, c-format
 msgid "Using %s audio."
 msgstr "Usando áudio %s."
 
-#: src/icesound.cc:930
+#: src/icesound.cc:933
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Falha ao conectar às interfaces de áudio %s."
 
-#: src/icesound.cc:942
+#: src/icesound.cc:945
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Sinal recebido %s: Terminando..."
@@ -1115,11 +1109,11 @@ msgstr "Uso: icewmhint classe.instância opção argumento\n"
 msgid "Out of memory (len=%d)."
 msgstr "Memória insuficiente (len=%d)."
 
-#: src/misc.cc:573 src/misc.cc:585
+#: src/misc.cc:73 src/misc.cc:85
 msgid "Warning: "
 msgstr "Atenção: "
 
-#: src/misc.cc:879
+#: src/misc.cc:379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1138,7 +1132,7 @@ msgstr ""
 "  -h, --help          Exibe esta tela de uso e sai.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ordem desconhecida no requerimento para mover/redimensionar: %d"
@@ -1551,11 +1545,11 @@ msgstr "_Reiniciar icewm"
 msgid "_About"
 msgstr "So_bre"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Interromper cliente: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1563,11 +1557,11 @@ msgstr ""
 "ATENÇÃO! Qualquer mudança não salva será perdida\n"
 "ao interromper este cliente. Deseja continuar?"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3282
 msgid "Missing program setxkbmap"
 msgstr "Programa setxkbmap faltante"
 
-#: src/wmmgr.cc:3284
+#: src/wmmgr.cc:3283
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Para alternar o teclado, instale o setxkbmap."
 
@@ -1708,7 +1702,7 @@ msgstr "Organizar íco_nes"
 msgid "_Refresh"
 msgstr "_Atualizar"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Esconder barra de tarefas"
 
@@ -1724,7 +1718,7 @@ msgstr "Menu de lista de janelas"
 msgid "Show Desktop"
 msgstr "Mostrar área de trabalho"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Exibir barra de tarefas"
 
@@ -1761,7 +1755,7 @@ msgstr "Lista de janelas"
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Área de trabalho %-.32s"
 
-#: src/yapp.cc:296
+#: src/yapp.cc:295
 #, c-format
 msgid "%s: select failed"
 msgstr "%s: falha na seleção"

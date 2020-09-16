@@ -280,6 +280,7 @@
 #define WinStateHidTransient   (1 << 7)   /* owner of transient is hidden */
 #define WinStateFixedPosition  (1 << 8)   /* fixed position on virtual desktop*/
 #define WinStateArrangeIgnore  (1 << 9)   /* ignore for auto arranging */
+#define WinStateFullscreen     (1 << 10)  /* fullscreen (no layout limits) */
 #define WinStateFocused        (1 << 21)  /* has the focus */
 #define WinStateUrgent         (1 << 22)  /* demands attention */
 #define WinStateSkipPager      (1 << 23)  /* skip pager */
@@ -287,7 +288,6 @@
 #define WinStateModal          (1 << 25)  /* modal */
 #define WinStateBelow          (1 << 26)  /* below layer */
 #define WinStateAbove          (1 << 27)  /* above layer */
-#define WinStateFullscreen     (1 << 28)  /* fullscreen (no layout limits) */
 #define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
@@ -296,7 +296,7 @@
                        WinStateMaximizedVert | WinStateMaximizedHoriz |\
                        WinStateHidden | WinStateRollup | WinStateHidWorkspace |\
                        WinStateHidTransient | WinStateFixedPosition |\
-                       WinStateArrangeIgnore)
+                       WinStateArrangeIgnore | WinStateFullscreen)
 
 
 /* hints */

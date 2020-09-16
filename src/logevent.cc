@@ -1,6 +1,7 @@
 #include "config.h"
 #include "base.h"
 #include <string.h>
+#include <stdio.h>
 #include <X11/Xlib.h>
 #ifdef CONFIG_SHAPE
 #include <X11/extensions/shape.h>
@@ -119,29 +120,32 @@ void logConfigureNotify(const XConfigureEvent& xev) {
 }
 
 void logConfigureRequest(const XConfigureRequestEvent& xev) {
-    tlog("window=0x%lX: %s configureRequest serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, sibling=0x%lX, detail=%s, value_mask=0x%lX %s%s%s%s%s%s",
-        xev.window,
-        xev.send_event ? "synth" : "real",
-        (unsigned long) xev.serial,
-        xev.parent,
-        xev.x,
-        xev.y,
-        xev.width,
-        xev.height,
-        xev.border_width,
-        xev.above,
-        xev.detail == Above ? "Above" :
-        xev.detail == Below ? "Below" :
-        xev.detail == TopIf ? "TopIf" :
-        xev.detail == BottomIf ? "BottomIf" :
-        xev.detail == Opposite ? "Opposite" : "Invalid",
-        xev.value_mask,
-        xev.value_mask & CWX ? "X" : "",
-        xev.value_mask & CWY ? "Y" : "",
-        xev.value_mask & CWWidth ? "W" : "",
-        xev.value_mask & CWHeight ? "H" : "",
-        xev.value_mask & CWSibling ? "S" : "",
-        xev.value_mask & CWStackMode ? "M" : "");
+    const int size = 256;
+    char buf[size];
+    int len = snprintf(buf, size, "window=0x%lX: %s configureRequest",
+                       xev.window, xev.send_event ? "synth" : "real");
+    len += snprintf(buf + len, size - len, " serial=%lu parent=0x%lX",
+                    (unsigned long) xev.serial, xev.parent);
+    if ((xev.value_mask & CWX) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " X=%d", xev.x);
+    if ((xev.value_mask & CWY) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " Y=%d", xev.y);
+    if ((xev.value_mask & CWWidth) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " Width=%d", xev.width);
+    if ((xev.value_mask & CWHeight) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " Height=%d", xev.height);
+    if ((xev.value_mask & CWBorderWidth) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " Border=%d", xev.border_width);
+    if ((xev.value_mask & CWSibling) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " Sibling=0x%lX", xev.above);
+    if ((xev.value_mask & CWStackMode) && 0 < len && len < size)
+        len += snprintf(buf + len, size - len, " StackMode=%s",
+                        xev.detail == Above ? "Above" :
+                        xev.detail == Below ? "Below" :
+                        xev.detail == TopIf ? "TopIf" :
+                        xev.detail == BottomIf ? "BottomIf" :
+                        xev.detail == Opposite ? "Opposite" : "Invalid");
+    tlog("%s", (0 < len && len < size) ? buf : "lcrbug");
 }
 
 void logCreate(const XCreateWindowEvent& xev) {
@@ -399,6 +403,14 @@ void logRandrNotify(const XEvent& xev) {
 
 #endif
 
+#if LOGEVENTS
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
+
 void logEvent(const XEvent& xev) {
 #if LOGEVENTS
     typedef void (*fun)(const XEvent&);
@@ -447,6 +459,10 @@ void logEvent(const XEvent& xev) {
     }
 #endif
 }
+
+#if LOGEVENTS
+#pragma GCC diagnostic pop
+#endif
 
 bool initLogEvents() {
 #if LOGEVENTS
@@ -501,14 +517,31 @@ bool toggleLogEvents() {
     return loggingEvents;
 }
 
-void logClientMessage(const XClientMessageEvent& xev) {
-    tlog("window=0x%lX: clientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
-        xev.window,
-        atomName(xev.message_type),
-        xev.format,
-        xev.data.l[0],
-        xev.data.l[1],
-        xev.data.l[2]
-        );
+void logClientMessage(const XClientMessageEvent& event) {
+    const char* name = atomName(event.message_type);
+    const long* data = event.data.l;
+    char head[64];
+    snprintf(head, sizeof head, "window=0x%lx: ", event.window);
+    if (strcmp(name, "_NET_WM_STATE") == 0) {
+        const char* op =
+            data[0] == 0 ? "REMOVE" :
+            data[0] == 1 ? "ADD" :
+            data[0] == 2 ? "TOGGLE" : "?";
+        const char* p1 = data[1] ? atomName(data[1]) : "";
+        const char* p2 = data[2] ? atomName(data[2]) : "";
+        tlog("%sClientMessage %s %d data=%s,%s,%s\n",
+                head, name, event.format, op, p1, p2);
+    }
+    else if (strcmp(name, "_WM_CHANGE_STATE") == 0) {
+        const char* op =
+            data[0] == 0 ? "WithdrawnState" :
+            data[0] == 1 ? "NormalState" :
+            data[0] == 3 ? "IconicState" : "?";
+        tlog("%sClientMessage %s %s\n", head, name, op);
+    }
+    else {
+        tlog("%sClientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
+            head, name, event.format, data[0], data[1], data[2]);
+    }
 }
 
