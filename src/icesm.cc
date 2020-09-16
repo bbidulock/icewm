@@ -54,7 +54,7 @@ private:
         if (pwd && !strcmp(pwd, "/") && access(pwd, W_OK)) {
             char* home = getenv("HOME");
             if (nonempty(home) && !access(home, W_OK)) {
-                chdir(home);
+                (void) chdir(home);
             } else {
                 csmart user(userhome(nullptr));
                 if (user && chdir(user) == 0) {

@@ -829,6 +829,10 @@ void YFrameWindow::constrainMouseToWorkspace(int &x, int &y) {
     y = clamp(y, my, My - 1);
 }
 
+bool YFrameWindow::canFullscreen() const {
+    return client() != taskBar;
+}
+
 bool YFrameWindow::canSize(bool horiz, bool vert) {
     if (isRollup())
         return false;

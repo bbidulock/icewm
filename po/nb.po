@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-08 00:24+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -493,92 +493,92 @@ msgstr "Same Game"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Symbolnavn i domenet `%s' (tall mellom %ld-%ld):\n"
 
-#: src/icesh.cc:1693
+#: src/icesh.cc:1710
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Skrivebordsområdet %d finnes ikke"
 
-#: src/icesh.cc:1714
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ugyldig navn på skrivebordsområde: `%s'"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "GNOME vindustilstand"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "GNOME vindushint"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "GNOME vinduslag"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "IceWM tray-innstilling"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2013
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2014
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Ofte brukte applikasjoner"
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME vindustilstand"
 
-#: src/icesh.cc:2080 src/icesh.cc:2109
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "skrivebordsområde #%d: `%s'\n"
 
-#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:3114
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3139
+#: src/icesh.cc:3162
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:3189
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Kommandoen `%s' krever minst %d argumenter."
 
-#: src/icesh.cc:3199
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ugyldig uttrykk: `%s'"
 
-#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -586,38 +586,38 @@ msgstr ""
 "Kan ikke koble til display: %s. X må være startet og variabelen $DISPLAY må "
 "være satt."
 
-#: src/icesh.cc:3223
+#: src/icesh.cc:3246
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:3258
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3273
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Ingen kommandoer spesifisert."
 
-#: src/icesh.cc:3370
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ugyldig vindus-identifikator: `%s'"
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3418
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:3423
+#: src/icesh.cc:3454
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:4227
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukjent kommando: `%s'"
@@ -1012,7 +1012,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ukjent retning i flytt-/størrelsesendringforespørsel: %d"
@@ -1415,11 +1415,11 @@ msgstr "_Start Icewm på nytt"
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Drep klient: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1574,7 +1574,7 @@ msgstr "Still opp _ikoner"
 msgid "_Refresh"
 msgstr "G_jenoppfrisk"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1597,7 +1597,7 @@ msgstr "Vindusmeny"
 msgid "Show Desktop"
 msgstr "_Skrivebord"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

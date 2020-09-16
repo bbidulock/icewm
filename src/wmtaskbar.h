@@ -27,6 +27,8 @@ class WorkspacesPane;
 class YXTray;
 class YSMListener;
 class TaskBar;
+class TaskBarApp;
+class TrayApp;
 
 class EdgeTrigger: public YWindow, public YTimerListener {
 public:
@@ -67,7 +69,7 @@ private:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
-
+    virtual void handleFocus(const XFocusChangeEvent& focus);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleExpose(const XExposeEvent &expose) {}
 
@@ -90,9 +92,14 @@ public:
     void workspacesRelabelButtons();
     void keyboardUpdate(mstring keyboard);
 
-    void removeTasksApp(YFrameWindow *w);
-    class TaskBarApp *addTasksApp(YFrameWindow *w);
+    void updateFrame(YFrameWindow* frame);
+    void delistFrame(YFrameWindow* frame, TaskBarApp* task, TrayApp* tray);
+    void removeTasksApp(YFrameWindow* frame);
+    TaskBarApp* addTasksApp(YFrameWindow* frame);
     void relayoutTasks();
+    void relayoutTray();
+    TrayApp* addTrayApp(YFrameWindow* frame);
+    void removeTrayApp(YFrameWindow* frame);
 
     void popupStartMenu();
     void popupWindowListMenu();
@@ -105,10 +112,6 @@ public:
     void relayoutNow();
 
     void detachDesktopTray();
-
-    void relayoutTray();
-    class TrayApp *addTrayApp(YFrameWindow *w);
-    void removeTrayApp(YFrameWindow *w);
 
     bool hidden() const { return fIsCollapsed | fIsHidden | !fIsMapped; }
     bool autoTimer(bool show);
@@ -163,6 +166,7 @@ private:
 
     lazy<TaskBarMenu> taskBarMenu;
     ref<YImage> fGradient;
+    YArray<YFrameWindow*> fUpdates;
 
     bool fIsHidden;
     bool fFullscreen;

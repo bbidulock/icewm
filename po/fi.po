@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-08 00:24+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2020-06-29 19:44+0000\n"
 "Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
 "Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -501,86 +501,86 @@ msgstr "Sama Peli"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Katso ohjeet man-sivulta icesh(1).\n"
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Domainin `%s' nimetyt symbolit (numeerinen alue: %ld-%ld):\n"
 
-#: src/icesh.cc:1693
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Työpöytä arvoalueen ulkopuolella: %ld"
 
-#: src/icesh.cc:1714
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Virheellinen työpöydän nimi: `%s'"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "GNOME ikkunan tila"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "GNOME ikkunan vihje"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "GNOME ikkunataso"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "IceWM tarjotinoptio"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr "Gravity symbolit"
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2013
 msgid "Motif functions"
 msgstr "Motif-funktiot"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2014
 msgid "Motif decorations"
 msgstr "Motif kehykset"
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME ikkunan tila"
 
-#: src/icesh.cc:2080 src/icesh.cc:2109
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Työpöytä #%d: `%s'\n"
 
-#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Virheellinen tila: `%s'."
 
-#: src/icesh.cc:3114
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Ikkunan muotoa ei saada 0x%lx"
 
-#: src/icesh.cc:3139
+#: src/icesh.cc:3162
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Virheellinen Xinerama: `%s'."
 
-#: src/icesh.cc:3189
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Toiminto `%s' vaatii ainakin %d argumenttia."
 
-#: src/icesh.cc:3199
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Virheellinen lauseke: `%s'"
 
-#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -588,35 +588,35 @@ msgstr ""
 "Ei voida avata näyttöä: %s. X-palvelimen pitää olla käynnissä ja $DISPLAY:n "
 "asetettu."
 
-#: src/icesh.cc:3223
+#: src/icesh.cc:3246
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Virheellinen argumentti: `%s'"
 
-#: src/icesh.cc:3258
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr "Ikkunoita ei löytynyt."
 
-#: src/icesh.cc:3273
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Toimenpiteitä ei ole määritetty."
 
-#: src/icesh.cc:3370
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Virheellinen ikkunatunniste: `%s'"
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3418
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Virheellinen PID: `%s'"
 
-#: src/icesh.cc:3423
+#: src/icesh.cc:3454
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Virheellinen kerros: `%s'."
 
-#: src/icesh.cc:4227
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Tuntematon toiminto: `%s'"
@@ -1023,7 +1023,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Tuntematon suunta siirto-/koonmuutospyynnössä: %d"
@@ -1420,11 +1420,11 @@ msgstr "Uudelleenkäynnistä _IceWM"
 msgid "_About"
 msgstr "_Tietoja"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Tapa asiakasohjelma: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1577,7 +1577,7 @@ msgstr "Järjestä _kuvakkeet"
 msgid "_Refresh"
 msgstr "_Päivitä"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Piilota tehtäväpalkki"
 
@@ -1593,7 +1593,7 @@ msgstr "Ikkunaluettelon valikko"
 msgid "Show Desktop"
 msgstr "Näytä työpöytä"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Näytä tehtäväpalkki"
 

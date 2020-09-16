@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-08 00:24+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -579,101 +579,101 @@ msgstr "Same Game"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 "Névvel rendelkező szimbólumok a \"%s\" tartományból (numerikus tartomány: "
 "%ld-%ld):\n"
 
-#: src/icesh.cc:1693
+#: src/icesh.cc:1710
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Tartományon kívüli munkaterület: %ld"
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:1714
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Érvénytelen munkaterület név: \"%s\""
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "GNOME ablakállapot"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "GNOME ablaksegéd"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "GNOME ablakréteg"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "IceWM panel tulajdonságok"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2013
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "Módosítások mentése"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2014
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "Módosítások mentése"
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME ablakállapot"
 
 # ../src/wmstatus.cc:170
-#: src/icesh.cc:2080 src/icesh.cc:2109
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Munkaterület száma: %d: \"%s\"\n"
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Érvénytelen argumentum: \"%s\"."
 
-#: src/icesh.cc:3114
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:3139
+#: src/icesh.cc:3162
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Érvénytelen argumentum: \"%s\"."
 
-#: src/icesh.cc:3189
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "A(z) `%s' művelet legalább %d argumentumot vár."
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:3199
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Érvénytelen kifejezés: \"%s\""
 
 # ../src/icetail.cc:124 ../src/icewmbg.cc:199 ../src/icewmhint.cc:74
 # ../src/yapp.cc:582
-#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -682,41 +682,41 @@ msgstr ""
 "és a $DISPLAY-t be kell állítani."
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:3223
+#: src/icesh.cc:3246
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Érvénytelen argumentum: \"%s\"."
 
-#: src/icesh.cc:3258
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3273
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Nincs megadott művelet."
 
-#: src/icesh.cc:3370
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Érvénytelen ablak azonosító: \"%s\""
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:3387
+#: src/icesh.cc:3418
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Érvénytelen argumentum: \"%s\"."
 
 # ../src/icehelp.cc:1247
-#: src/icesh.cc:3423
+#: src/icesh.cc:3454
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Érvénytelen argumentum: \"%s\"."
 
 # ../src/wmoption.cc:209
-#: src/icesh.cc:4227
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ismeretlen ablakbeállítás: \"%s\""
@@ -1293,7 +1293,7 @@ msgstr ""
 "  -h, --help          Megjeleníti ezt a használati képernyőt, és kilép.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ismeretlen irány az áthelyezés/átméretezés kérésnél: %d"
@@ -1775,11 +1775,11 @@ msgstr "N_évjegy"
 
 #
 # ../src/wmframe.cc:1183
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Kliens leölése: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1951,7 +1951,7 @@ msgid "_Refresh"
 msgstr "_Frissítés"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 msgid "Hide Taskbar"
 msgstr "Tálca elrejtése"
 
@@ -1970,7 +1970,7 @@ msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 msgid "Show Taskbar"
 msgstr "Tálca megjelenítése"
 

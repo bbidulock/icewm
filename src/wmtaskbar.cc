@@ -73,7 +73,7 @@ void EdgeTrigger::stopHide() {
 }
 
 bool EdgeTrigger::enabled() const {
-    return (taskBarAutoHide | taskBarFullscreenAutoShow) & !taskBarKeepBelow;
+    return (taskBarAutoHide | (taskBarFullscreenAutoShow & !taskBarKeepBelow));
 }
 
 void EdgeTrigger::show() {
@@ -616,7 +616,12 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 }
 
 void TaskBar::relayoutNow() {
-    manager->lockWorkArea();
+    if (fUpdates.nonempty()) {
+        for (YFrameWindow* frame : fUpdates) {
+            frame->updateAppStatus();
+        }
+        fUpdates.clear();
+    }
     if (windowTrayPane())
         windowTrayPane()->relayoutNow();
     if (fNeedRelayout) {
@@ -628,7 +633,6 @@ void TaskBar::relayoutNow() {
         fButtonUpdate = false;
         buttonUpdate();
     }
-    manager->unlockWorkArea();
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
@@ -643,10 +647,8 @@ void TaskBar::updateLocation() {
     fNeedRelayout = false;
 
     if (fIsHidden) {
-        if (fIsMapped && getFrame())
+        if (fIsMapped && getFrame() && visible())
             getFrame()->wmHide();
-        else
-            hide();
         xapp->sync();
     }
 
@@ -691,8 +693,16 @@ void TaskBar::updateLocation() {
 
     if ( !fIsHidden) {
         if (fIsMapped && getFrame()) {
-            getFrame()->configureClient(x, y, w, h);
-            getFrame()->show();
+            XConfigureRequestEvent conf;
+            conf.type = ConfigureRequest;
+            conf.window = handle();
+            conf.x = x;
+            conf.y = y;
+            conf.width = int(w);
+            conf.height = int(h);
+            conf.value_mask = CWX | CWY | CWWidth | CWHeight;
+            getFrame()->configureClient(conf);
+            getFrame()->wmShow();
         } else
             setGeometry(YRect(x, y, w, h));
     }
@@ -708,11 +718,13 @@ void TaskBar::updateLocation() {
 void TaskBar::updateWMHints() {
     YStrut strut;
     if (!taskBarAutoHide && !fIsCollapsed) {
-        Atom h = Atom(height());
-        if (taskBarAtTop)
-            strut.top = h;
-        else
-            strut.bottom = h;
+        YRect geo = desktop->getScreenGeometry();
+        if (y() + height() == geo.y() + geo.height()) {
+            strut.bottom = Atom(height());
+        }
+        else if (y() == geo.y()) {
+            strut.top = Atom(height());
+        }
     }
     if (fStrut != strut) {
         fStrut = strut;
@@ -726,9 +738,19 @@ void TaskBar::updateWinLayer() {
                : fIsCollapsed ? WinLayerAboveDock
                : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
     if (getFrame()) {
-        getFrame()->setRequestedLayer(layer);
+        getFrame()->wmSetLayer(layer);
     } else {
         setWinLayerHint(layer);
+    }
+}
+
+void TaskBar::handleFocus(const XFocusChangeEvent& focus) {
+    if (focus.type == FocusOut) {
+        if (focus.mode == NotifyUngrab) {
+            if (focus.detail == NotifyPointer) {
+                updateWMHints();
+            }
+        }
     }
 }
 
@@ -915,7 +937,6 @@ void TaskBar::popOut() {
 
 void TaskBar::showBar() {
     if (getFrame() == nullptr) {
-        manager->lockWorkArea();
         manager->mapClient(handle());
         updateWinLayer();
         if (getFrame() != nullptr) {
@@ -926,7 +947,6 @@ void TaskBar::showBar() {
             parent()->setTitle("TaskBarFrame");
             getFrame()->updateLayer();
         }
-        manager->unlockWorkArea();
     }
 }
 
@@ -943,7 +963,6 @@ void TaskBar::handleCollapseButton() {
         fCollapseButton->repaint();
     }
 
-    manager->lockWorkArea();
     if (fIsCollapsed)
         updateWinLayer();
     relayout();
@@ -951,7 +970,6 @@ void TaskBar::handleCollapseButton() {
     if (fIsCollapsed == false)
         updateWinLayer();
     xapp->sync();
-    manager->unlockWorkArea();
 }
 
 void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
@@ -961,6 +979,7 @@ void TaskBar::configure(const YRect2& r) {
     if (r.resized() && 1 < r.width()) {
         repaint();
     }
+    updateWMHints();
 }
 
 void TaskBar::repaint() {
@@ -975,16 +994,21 @@ void TaskBar::detachDesktopTray() {
     }
 }
 
-void TaskBar::removeTasksApp(YFrameWindow *w) {
-    if (taskPane())
-        taskPane()->removeApp(w);
+void TaskBar::updateFrame(YFrameWindow* frame) {
+    if (find(fUpdates, frame) < 0)
+        fUpdates += frame;
 }
 
-TaskBarApp *TaskBar::addTasksApp(YFrameWindow *w) {
-    if (taskPane())
-        return taskPane()->addApp(w);
-    else
-        return nullptr;
+void TaskBar::delistFrame(YFrameWindow* frame, TaskBarApp* task, TrayApp* tray) {
+    findRemove(fUpdates, frame);
+    if (taskPane() && task)
+        taskPane()->remove(task);
+    if (windowTrayPane() && tray)
+        windowTrayPane()->remove(tray);
+}
+
+TaskBarApp *TaskBar::addTasksApp(YFrameWindow* frame) {
+    return taskPane() ? taskPane()->addApp(frame) : nullptr;
 }
 
 void TaskBar::relayoutTasks() {
@@ -992,16 +1016,8 @@ void TaskBar::relayoutTasks() {
         taskPane()->relayout();
 }
 
-void TaskBar::removeTrayApp(YFrameWindow *w) {
-    if (windowTrayPane())
-        windowTrayPane()->removeApp(w);
-}
-
-TrayApp *TaskBar::addTrayApp(YFrameWindow *w) {
-    if (windowTrayPane())
-        return windowTrayPane()->addApp(w);
-    else
-        return nullptr;
+TrayApp *TaskBar::addTrayApp(YFrameWindow* frame) {
+    return windowTrayPane() ? windowTrayPane()->addApp(frame) : nullptr;
 }
 
 void TaskBar::relayoutTray() {

@@ -45,7 +45,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     YWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
-    fWMWindowRole(),
     fWindowRole()
 {
     fFrame = frame;
@@ -81,7 +80,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
         getTransient();
         getClientLeader();
         getWMHints();
-        getWMWindowRole();
         getWindowRole();
         getWinHintsHint(&fWinHints);
         getMwmHints();
@@ -907,22 +905,14 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_NET_WM_STATE) {
         long mask = (getMask(message.data.l[1]) | getMask(message.data.l[2]))
                   & ~(WinStateFocused | WinStateHidden);
-        //printf("new state, mask = %ld\n", mask);
-        if (message.data.l[0] == _NET_WM_STATE_ADD) {
-            //puts("add");
-            if (getFrame())
-                getFrame()->setState(mask, mask);
-        } else if (message.data.l[0] == _NET_WM_STATE_REMOVE) {
-            //puts("remove");
-            if (getFrame())
-                getFrame()->setState(mask, 0);
-        } else if (message.data.l[0] == _NET_WM_STATE_TOGGLE) {
-            //puts("toggle");
-            if (getFrame())
-                getFrame()->setState(mask,
-                                     getFrame()->getState() ^ mask);
-        } else {
-            warn("_NET_WM_STATE unknown command: %ld", message.data.l[0]);
+        if (mask && getFrame() && inrange(message.data.l[0], 0L, 2L)) {
+            long have = (getFrame()->getState() & mask);
+            long want = (message.data.l[0] == _NET_WM_STATE_ADD) ? mask :
+                        (message.data.l[0] == _NET_WM_STATE_REMOVE) ? 0 :
+                        (have ^ mask);
+            if (have != want) {
+                getFrame()->setState(mask, want);
+            }
         }
     } else if (message.message_type == _XA_WM_PROTOCOLS &&
                message.data.l[0] == long(_XA_NET_WM_PING)) {
@@ -1322,29 +1312,11 @@ void YFrameClient::getClientLeader() {
 }
 
 void YFrameClient::getWindowRole() {
-    if (!prop.window_role)
+    if (!prop.wm_window_role && !prop.window_role)
         return;
 
-    YProperty prop(this, _XA_WINDOW_ROLE, F8, 256, XA_STRING);
-    if (prop) {
-        fWindowRole = prop.data<char>();
-        MSG(("window_role=%s", fWindowRole.c_str()));
-    } else {
-        fWindowRole = null;
-    }
-}
-
-void YFrameClient::getWMWindowRole() {
-    if (!prop.wm_window_role)
-        return;
-
-    YProperty prop(this, _XA_WM_WINDOW_ROLE, F8, 256, XA_STRING);
-    if (prop) {
-        fWMWindowRole = prop.data<char>();
-        MSG(("wm_window_role=%s", fWMWindowRole.c_str()));
-    } else {
-        fWMWindowRole = null;
-    }
+    Atom atom = prop.wm_window_role ? _XA_WM_WINDOW_ROLE : _XA_WINDOW_ROLE;
+    fWindowRole = YProperty(this, atom, F8, 256, XA_STRING).data<char>();
 }
 
 mstring YFrameClient::getClientId(Window leader) { /// !!! fix

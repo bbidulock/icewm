@@ -43,7 +43,7 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     fFrame = frame;
     fTrayPane = trayPane;
     selected = 0;
-    fShown = true;
+    fShown = (trayShowAllWindows || frame->visibleNow());
     fRepainted = false;
     setParentRelative();
     setToolTip(frame->getTitle());
@@ -67,8 +67,10 @@ int TrayApp::getOrder() const {
 }
 
 void TrayApp::setShown(bool ashow) {
-    if (ashow != fShown) {
+    if (fShown != ashow) {
         fShown = ashow;
+        setVisible(ashow);
+        fTrayPane->relayout();
     }
 }
 
@@ -312,26 +314,17 @@ TrayApp *TrayPane::addApp(YFrameWindow *frame) {
         while (++it && it->getOrder() > tapp->getOrder());
         (--it).insert(tapp);
 
-        tapp->show();
-
-        if (!(frame->visibleNow() || trayShowAllWindows))
-            tapp->setShown(false);
-
-        relayout();
+        if (tapp->getShown()) {
+            tapp->show();
+            relayout();
+        }
     }
     return tapp;
 }
 
-void TrayPane::removeApp(YFrameWindow *frame) {
-    for (IterType icon = fApps.iterator(); ++icon; ) {
-        if (icon->getFrame() == frame) {
-            icon->hide();
-            icon.remove();
-
-            relayout();
-            return;
-        }
-    }
+void TrayPane::remove(TrayApp* tapp) {
+    tapp->setShown(false);
+    findRemove(fApps, tapp);
 }
 
 int TrayPane::getRequiredWidth() {

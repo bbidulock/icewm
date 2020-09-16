@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-08 00:24+0200\n"
+"POT-Creation-Date: 2020-09-13 23:24+0200\n"
 "PO-Revision-Date: 2006-01-26 23:29+0100\n"
 "Last-Translator: Bozidar Proevski <bobibobi@freemail.com.mk>\n"
 "Language-Team:  <mk@li.org>\n"
@@ -493,92 +493,92 @@ msgstr "Истата игра"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1562
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Именувани симболи од доменот „%s“ (нумерички опсег: %ld-%ld):\n"
 
-#: src/icesh.cc:1693
+#: src/icesh.cc:1710
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Работниот простор е надвор од опсегот: %d"
 
-#: src/icesh.cc:1714
+#: src/icesh.cc:1731
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Невалидно име на работен простор: „%s“"
 
-#: src/icesh.cc:1991
+#: src/icesh.cc:2008
 msgid "GNOME window state"
 msgstr "Состојба на GNOME-прозорец"
 
-#: src/icesh.cc:1992
+#: src/icesh.cc:2009
 msgid "GNOME window hint"
 msgstr "Совет за GNOME-прозорец"
 
-#: src/icesh.cc:1993
+#: src/icesh.cc:2010
 msgid "GNOME window layer"
 msgstr "Слој на GNOME-прозорец"
 
-#: src/icesh.cc:1994
+#: src/icesh.cc:2011
 msgid "IceWM tray option"
 msgstr "Опција за сис. лента на IceWM"
 
-#: src/icesh.cc:1995
+#: src/icesh.cc:2012
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1996
+#: src/icesh.cc:2013
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Омилени апликации"
 
-#: src/icesh.cc:1997
+#: src/icesh.cc:2014
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Омилени апликации"
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2015
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Состојба на GNOME-прозорец"
 
-#: src/icesh.cc:2080 src/icesh.cc:2109
+#: src/icesh.cc:2097 src/icesh.cc:2126
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "работен простор бр. %d: „%s“\n"
 
-#: src/icesh.cc:2346 src/icesh.cc:3453 src/icesh.cc:3467 src/icesh.cc:3916
+#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Невалиден аргумент: „%s“."
 
-#: src/icesh.cc:3114
+#: src/icesh.cc:3137
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3139
+#: src/icesh.cc:3162
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Невалиден аргумент: „%s“."
 
-#: src/icesh.cc:3189
+#: src/icesh.cc:3212
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Дејството „%s“ бара најмалку %d аргументи."
 
-#: src/icesh.cc:3199
+#: src/icesh.cc:3222
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Невалиден израз: „%s“"
 
-#: src/icesh.cc:3210 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -586,38 +586,38 @@ msgstr ""
 "Не можам да го отворам екранот: %s. X мора да работи и $DISPLAY мора да е "
 "поставено."
 
-#: src/icesh.cc:3223
+#: src/icesh.cc:3246
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Невалиден аргумент: „%s“."
 
-#: src/icesh.cc:3258
+#: src/icesh.cc:3281
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3273
+#: src/icesh.cc:3296
 msgid "No actions specified."
 msgstr "Нема зададени дејства."
 
-#: src/icesh.cc:3370
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Невалиден ид. на прозорец: „%s“"
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3418
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Невалиден аргумент: „%s“."
 
-#: src/icesh.cc:3423
+#: src/icesh.cc:3454
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Невалиден аргумент: „%s“."
 
-#: src/icesh.cc:4227
+#: src/icesh.cc:4284
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Непознато дејство: „%s“"
@@ -1025,7 +1025,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:875
+#: src/movesize.cc:879
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Непозната насока во барањето за преместување/менување големина: %d"
@@ -1428,11 +1428,11 @@ msgstr "_Рестартирај го icewm"
 msgid "_About"
 msgstr "З_а"
 
-#: src/wmframe.cc:1470
+#: src/wmframe.cc:1468
 msgid "Kill Client: "
 msgstr "Прекини клиент: "
 
-#: src/wmframe.cc:1477
+#: src/wmframe.cc:1475
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1587,7 +1587,7 @@ msgstr "Распореди _икони"
 msgid "_Refresh"
 msgstr "_Освежи"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1609,7 +1609,7 @@ msgstr "Мени со листа на прозорци"
 msgid "Show Desktop"
 msgstr "Прикажи раб. површина"
 
-#: src/wmtaskbar.cc:942
+#: src/wmtaskbar.cc:946
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
