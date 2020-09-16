@@ -1737,14 +1737,12 @@ int main(int argc, char **argv) {
 
 void YWMApp::createTaskBar() {
     if (showTaskBar && taskBar == nullptr) {
-        manager->lockWorkArea();
         taskBar = new TaskBar(this, desktop, this, this);
         for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
-            frame->updateTaskBar();
+            frame->updateAppStatus();
         }
         taskBar->showBar();
         taskBar->relayoutNow();
-        manager->unlockWorkArea();
     }
 }
 

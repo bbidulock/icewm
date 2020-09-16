@@ -69,7 +69,7 @@ private:
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleEndDrag(const XButtonEvent &down, const XButtonEvent &up);
-
+    virtual void handleFocus(const XFocusChangeEvent& focus);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleExpose(const XExposeEvent &expose) {}
 

@@ -1060,25 +1060,27 @@ void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
 }
 
 void YFrameWindow::sendConfigure() {
-    XEvent xev = { ConfigureNotify, };
-    xev.xconfigure.serial = 0;
-    xev.xconfigure.send_event = True;
-    xev.xconfigure.display = nullptr;
-    xev.xconfigure.event = client()->handle();
-    xev.xconfigure.window = client()->handle();
-    xev.xconfigure.x = x() + borderX();
-    xev.xconfigure.y = y() + borderY() + titleY();
-    xev.xconfigure.width = client()->width();
-    xev.xconfigure.height = client()->height();
-    xev.xconfigure.border_width = client()->getBorder();
-    xev.xconfigure.above = None;
-    xev.xconfigure.override_redirect = False;
+    XConfigureEvent notify = {
+        .type              = ConfigureNotify,
+        .serial            = CurrentTime,
+        .send_event        = True,
+        .display           = nullptr,
+        .event             = client()->handle(),
+        .window            = client()->handle(),
+        .x                 = x() + borderX(),
+        .y                 = y() + borderY() + titleY(),
+        .width             = int(client()->width()),
+        .height            = int(client()->height()),
+        .border_width      = client()->getBorder(),
+        .above             = None,
+        .override_redirect = False,
+    };
 
     XSendEvent(xapp->display(),
                client()->handle(),
                False,
                StructureNotifyMask,
-               &xev);
+               (XEvent *) &notify);
 }
 
 void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
@@ -1590,12 +1592,12 @@ bool YFrameWindow::canShow() const {
 
 void YFrameWindow::limitOuterPosition() {
     int ax, ay, ar, ab;
-    if (affectsWorkArea()) {
+    if (affectsWorkArea() || client() == taskBar) {
         ax = 0; ay = 0; ar = desktop->width(); ab = desktop->height();
     } else {
         manager->getWorkArea(this, &ax, &ay, &ar, &ab);
     }
-    ay -= int(topSideVerticalOffset);
+    ay -= min(borderY(), int(topSideVerticalOffset));
     if ( !inrange(x(), ax - borderX(), ar - int(width()) + borderX()) ||
          !inrange(y(), ay - borderY() - titleY(),
                        ab - int(height()) + borderY() + titleY()))
@@ -2628,7 +2630,7 @@ void YFrameWindow::setRequestedLayer(long layer) {
             state |= WinStateAbove;
         }
         if (layer == WinLayerBelow) {
-            state |= WinStateAbove;
+            state |= WinStateBelow;
         }
         if (fWinState != state) {
             fWinState = state;
@@ -2707,7 +2709,8 @@ void YFrameWindow::updateLayer(bool restack) {
             client()->setWinLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
-           (newLayer == WinLayerDock || oldLayer == WinLayerDock))
+           (newLayer == WinLayerDock || oldLayer == WinLayerDock) &&
+            client() != taskBar)
             manager->requestWorkAreaUpdate();
 
         for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
@@ -2765,11 +2768,10 @@ void YFrameWindow::updateState() {
 }
 
 bool YFrameWindow::affectsWorkArea() const {
-    if (doNotCover())
-        return true;
-    if (getActiveLayer() == WinLayerDock)
-        return true;
-    return fHaveStruts;
+    bool affects = ((fHaveStruts || doNotCover() ||
+                     getActiveLayer() == WinLayerDock) &&
+                    client() != taskBar);
+    return affects;
 }
 
 bool YFrameWindow::inWorkArea() const {

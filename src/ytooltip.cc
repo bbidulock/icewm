@@ -100,7 +100,7 @@ void YToolTip::leave() {
 void YToolTipWindow::locate(YWindow *wfor) {
     int x = wfor->x(), y = wfor->y();
     for (YWindow* parent = wfor->parent(); parent; parent = parent->parent()) {
-        if (parent == desktop || parent->getStyle() == wsManager) {
+        if (parent == desktop || hasbit(parent->getStyle(), wsManager)) {
             break;
         } else {
             x += parent->x();
