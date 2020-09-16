@@ -403,6 +403,14 @@ void logRandrNotify(const XEvent& xev) {
 
 #endif
 
+#if LOGEVENTS
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
+
 void logEvent(const XEvent& xev) {
 #if LOGEVENTS
     typedef void (*fun)(const XEvent&);
@@ -451,6 +459,10 @@ void logEvent(const XEvent& xev) {
     }
 #endif
 }
+
+#if LOGEVENTS
+#pragma GCC diagnostic pop
+#endif
 
 bool initLogEvents() {
 #if LOGEVENTS
