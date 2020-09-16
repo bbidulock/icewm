@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -1232,11 +1232,11 @@ msgstr "Nepoznata opcija prozora: %s"
 msgid "Unrecognized option '%s'."
 msgstr "Nepoznata opcija prozora: %s"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Potvrdite odjavljivanje"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1321,11 +1321,11 @@ msgstr "_Ponovno pokreni icewm"
 msgid "_About"
 msgstr "_O programu"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Ubij klijent: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1476,7 +1476,7 @@ msgstr "Posloži _Ikone"
 msgid "_Refresh"
 msgstr "_Osvježi"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1496,7 +1496,7 @@ msgstr "Popis prozora"
 msgid "Show Desktop"
 msgstr "_Radno Okružje"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

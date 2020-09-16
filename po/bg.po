@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -1342,11 +1342,11 @@ msgstr "Неразпозната опция: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1430,11 +1430,11 @@ msgstr "_Рестартира IceWM"
 msgid "_About"
 msgstr "_За"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Убий Клиент: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1589,7 +1589,7 @@ msgstr "Подрежда _Икони"
 msgid "_Refresh"
 msgstr "_Опресняване"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1611,7 +1611,7 @@ msgstr "Меню Списък на прозорци"
 msgid "Show Desktop"
 msgstr "Покажи Десктоп"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

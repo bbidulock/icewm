@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -1331,11 +1331,11 @@ msgstr "Nezināma opcija: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Apstiprināt izlogošanos"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1420,11 +1420,11 @@ msgstr "Pā_rstartēt icewm"
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Nogalināt klientu:"
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1579,7 +1579,7 @@ msgstr "Sakārtot _ikonas"
 msgid "_Refresh"
 msgstr "A_tsvaidzināt"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1601,7 +1601,7 @@ msgstr "Logu saraksta izvēlne"
 msgid "Show Desktop"
 msgstr "Parādīt darbavirsmu"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

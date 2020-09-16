@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1670,12 +1670,12 @@ msgid "Unrecognized option '%s'."
 msgstr "Nem azonosítható beállítás: '%s'."
 
 # ../src/wmapp.cc:676
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Kilépés megerősítése"
 
 # ../src/wmapp.cc:677
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1775,11 +1775,11 @@ msgstr "N_évjegy"
 
 #
 # ../src/wmframe.cc:1183
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Kliens leölése: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1951,7 +1951,7 @@ msgid "_Refresh"
 msgstr "_Frissítés"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Tálca elrejtése"
 
@@ -1970,7 +1970,7 @@ msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Tálca megjelenítése"
 

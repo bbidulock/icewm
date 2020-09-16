@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2020-05-02 19:51+0000\n"
 "Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1514,11 +1514,11 @@ msgstr "%s options configurées : %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Option non reconnue '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Confirmer la déconnexion"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1604,11 +1604,11 @@ msgid "_About"
 msgstr "À _propos"
 
 #
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Tuer le client : "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1761,7 +1761,7 @@ msgstr "Arranger les _icônes"
 msgid "_Refresh"
 msgstr "_Rafraîchir"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Masquer la barre de tâche"
 
@@ -1777,7 +1777,7 @@ msgstr "Menu Liste des fenêtres"
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Afficher la barre de tâche"
 

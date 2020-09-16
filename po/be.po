@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -1325,11 +1325,11 @@ msgstr "Нераспазнаная опцыя: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1415,11 +1415,11 @@ msgstr "_Перазапусьціць icewm"
 msgid "_About"
 msgstr "Пр_а"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1574,7 +1574,7 @@ msgstr "Упарадкаваць _значкі"
 msgid "_Refresh"
 msgstr "А_бнавіць"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1597,7 +1597,7 @@ msgstr "Мэню сьпісу вакон"
 msgid "Show Desktop"
 msgstr "На ўзроўні _стальца"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

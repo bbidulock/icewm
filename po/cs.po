@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2020-07-29 14:46+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
 "Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1450,11 +1450,11 @@ msgstr "%s zkonfigurované voľby: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná volba '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Potvrdit odhlášení"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1538,11 +1538,11 @@ msgstr "Restartovat _icewm"
 msgid "_About"
 msgstr "O _Aplikaci"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Zabít Klienta: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1695,7 +1695,7 @@ msgstr "Uspořádat _ikony"
 msgid "_Refresh"
 msgstr "_Obnovit"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Skryj panel úloh"
 
@@ -1711,7 +1711,7 @@ msgstr "Menu Seznam oken"
 msgid "Show Desktop"
 msgstr "Zobrazit Plochu"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Zobraz panel úloh"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2018-05-09 06:03+0000\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
@@ -1314,11 +1314,11 @@ msgstr "Neatpažinta parinktis: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Neatpažinta parinktis: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Patvirtink atsijungimą"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1402,11 +1402,11 @@ msgstr "_Iš naujo paleisti IceWM"
 msgid "_About"
 msgstr "Api_e"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Nužudyti klientą: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1564,7 +1564,7 @@ msgstr "Sutvarkyt_i ženkliukus"
 msgid "_Refresh"
 msgstr "At_naujinti"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1586,7 +1586,7 @@ msgstr "Langų sąrašo meniu"
 msgid "Show Desktop"
 msgstr "Rodyti darbalaukį"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

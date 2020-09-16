@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2000-10-21 12:13+2000\n"
 "Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 "Language-Team: English\n"
@@ -1218,11 +1218,11 @@ msgstr ""
 msgid "Unrecognized option '%s'."
 msgstr ""
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr ""
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1304,11 +1304,11 @@ msgstr ""
 msgid "_About"
 msgstr ""
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr ""
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1459,7 +1459,7 @@ msgstr ""
 msgid "_Refresh"
 msgstr ""
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr ""
 
@@ -1475,7 +1475,7 @@ msgstr ""
 msgid "Show Desktop"
 msgstr ""
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr ""
 

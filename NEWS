@@ -1,11 +1,91 @@
-icewm -- history of user-visible changes.  2020-09-08
+icewm -- history of user-visible changes.  2020-09-16
+
+Release icewm-1.8.3 released 2020-09-16
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.8.2...1.8.3
+
+Bert Gijsbers <gijsbers@science.uva.nl> (27):
+      TaskBar cannot fullscreen.
+      Use wmHide or wmShow to hide or show the taskbar for #489.
+      Restore the translation which was overwritten by Weblate.
+      Support "toggleState Fullscreen". Show state detail for spy ClientMessage.
+         Support "iconic" and "normal" commands for WM_CHANGE_STATE.
+      Show more detail in logConfigureRequest and logClientMessage.
+      More succinct _NET_WM_STATE implementation.
+      Send just one ConfigureNotify message per resize. In setState first
+        compute size and relayout before updating _NET_WM_STATE and _WIN_LAYER
+        for issue #491 and postpone low-priority updates for different timing
+        for GTK-menubar terminals.
+      Only load icon if needed.
+      Fix -list. Add +T. Print CARDINALs as unsigned. Show Above window handle
+        for ConfigureNotify.
+      Merge WM_WINDOW_ROLE and WINDOW_ROLE.
+      Postpone taskbar app status updates until idle.
+      Make switch icons opaque for 32-bit visuals.
+      Check if icon is null.
+      Simplify setState with deltaState.
+      Add WinStateFullscreen to the visible _WIN_STATE bits.
+      make update-po
+      Simplify removing a frame app from the taskbar.
+      Check if a map request is for a mapped window.
+      Send synthetic ConfigureNotify events for resizing only when required by
+        the ICCCM specification. Send synthetic ConfigureNotify events for
+        positioning whenever this is required by the ICCCM specification. Fix
+        for EWMH restack raise requests. Reflect layer changes in the ABOVE and
+        BELOW flags in the EWMH _NET_WM_STATE property. Only update the frame
+        position when it really has changed.
+      Prefer tlog over printf when logging.
+      Fix tooltip positioning.
+      Reduce number of workarea updates for taskbar. Only let taskbar have
+        struts if at top or bottom of screen. Keep global positioning of
+        internal clients local to clients. Fix for autohide taskbar not wanting
+        to hide. Support TaskBarAutoHide for TaskBarKeepBelow.
+      Make it compile on G++ 7.5.0.
+      Use pragmas to prevent compiler complaints if LOGEVENTS.
+      Prevent compiler warning on chdir.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
+Hugo Carvalho <hugokarvalho@hotmail.com> (4):
+      Added translation using Weblate (Portuguese)
+      Translated using Weblate (Portuguese)
+      Translated using Weblate (Portuguese)
+      Translated using Weblate (Portuguese)
+
+Arif Budiman <arifpedia@gmail.com> (1):
+      Translated using Weblate (Indonesian)
+
+David Medina <medipas@gmail.com> (1):
+      Translated using Weblate (Catalan)
+
+Ferdinand Galko <galko.ferdinand@gmail.com> (1):
+      Translated using Weblate (Slovak)
+
+Freek de Kruijf <freek@opensuse.org> (1):
+      Translated using Weblate (Dutch)
+
+Paolo Za <zapaolo@email.it> (1):
+      Translated using Weblate (Italian)
+
+Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (1):
+      Translated using Weblate (Portuguese (Brazil))
+
+Sarah Kriesch <ada.lovelace@gmx.de> (1):
+      Translated using Weblate (German)
+
+Stanislav Brabec <sbrabec@suse.cz> (1):
+      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+
 
 Release icewm-1.8.2 released 2020-09-08
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.1...1.8.2
 
-Bert Gijsbers <gijsbers@science.uva.nl> (31):
+Bert Gijsbers <gijsbers@science.uva.nl> (32):
       Update Marko's copy dates for #285.
       CMake support for LOGEVENTS.
       Add find for YRefArray.
@@ -43,6 +123,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (31):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.8.2 release
 
 Eduard Bloch <blade@debian.org> (10):
       Install dev packages on Ubuntu
@@ -764,120 +845,4 @@ gijsbers <gijsbers@users.noreply.github.com> (1):
 
 openSUSE Weblate <weblate-noreply@opensuse.org> (1):
       Merge branch 'origin/icewm-1-4-BRANCH' into Weblate.
-
-
-Release icewm-1.6.4 released 2020-01-07
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.6.3...1.6.4
-
-Bert Gijsbers <gijsbers@science.uva.nl> (53):
-      Update from released.
-      Use "icesh keys" to let icewm reload the keybindings from the "keys" file.
-      Update winoptions (+ keys).
-      Allow mouse pointer buttons to trigger actions from "keys" for #333.
-      If theme could not be found then try the default theme.
-      add getAtomName.
-      Always keep track of WM_CLIENT_LEADER property.
-      Focus urgent window if same leader as focused for #358.
-      Add --trace to --help.
-      -p, -s.
-      Update po files
-      Revert "Restrict the backtrace printing code to Linux and FreeBSD" as this
-        breaks *BSD. This reverts commit
-        e066f4b4b1f7cdae0ad306e285cb7ee970edf7fe.
-      port getprogname to hurd.
-      assume abort
-      mstring to the point
-      deduce fHotCharPos from hotKey
-      experiment with ATH 10 for #392
-      163
-      reduce checks to essentials to speedup compilation a bit
-      If not other source of icon was found, then use WM_CLASS name to locate
-        one (possibly in /usr/share/pixmaps/).
-      make iceclock, iceicon, iceview compile and run.
-      Give focus_mode a readable header and also allow focus_mode names.
-      Generic list iterator.
-      +setNetPid
-      Add tracing of executed programs.  Remove execAfterFork.
-      getFont.
-      Make iceicon, icerun, iceview run.
-      more hints and views.
-      isPrint
-      make icelist compile and run.
-      add spy and sizeby.
-      prefer isEmpty.
-      Fix for pagerShowPreview for very wide multi-head desktops. Fix for
-        context menu popup in icehelp. Fix for positioning of splash window on
-        multi-head displays. Fix for positioning of status window on multi-head
-        displays. Fix for positioning of window list window on multi-head
-        displays. Fix for positioning of tooltip windows on multi-head displays.
-        Fix for missed events when monitor changes resolution. Remove
-        superfluous taskbar handleEndPopup.
-      Document spy and sizeby.
-      xdg_menu.
-      Add to spy Enter, Leave, Circulate and fix +window options.
-      Rewrite ypointer to make it smaller and simpler.
-      portability for older systems.
-      portability to older systems.
-      port to for older systems
-      Use GLIB_CHECK_VERSION to test call to g_type_init.
-      Remember existing desktop geometry before calling XRRUpdateConfiguration
-        for #296.
-      must call g_type_init on old systems.
-      Replace implementation of _NET_MOVERESIZE_WINDOW for #401.
-      Use the _NET_MOVERESIZE_WINDOW of #401 for moving and sizing.
-      Don't show YMsgBox in top left corner.
-      document
-      remove .bak
-      fix gcc warnings.
-      Textcolor -> text color.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.4 release
-
-Eduard Bloch <blade@debian.org> (4):
-      Added explicit hint to check preferences manpage for key inbinding.
-      Replaced xterm with XTERMCMD in calculator command
-      Hints for translators to care about hotkeys
-      Restrict the backtrace printing code to Linux and FreeBSD
-
-Kevin Suo <suokunlong@126.com> (2):
-      Translated using Weblate (Chinese (China))
-      Translated using Weblate (Chinese (China))
-
-Aleš Kastner <alkas@volny.cz> (1):
-      Translated using Weblate (Czech)
-
-Brian Bidulock <bidulock@openss7.org> (1):
-      full placement is applicable
-
-David Medina <medipas@gmail.com> (1):
-      Translated using Weblate (Catalan)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (1):
-      Translated using Weblate (Slovak)
-
-Freek de Kruijf <freek@opensuse.org> (1):
-      Translated using Weblate (Dutch)
-
-Kimmo Kujansuu <mrkujansuu@gmail.com> (1):
-      Translated using Weblate (Finnish)
-
-Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
-      Translated using Weblate (Portuguese (Brazil))
-
-Sarah Kriesch <ada.lovelace@gmx.de> (1):
-      Translated using Weblate (German)
-
-Stanislav Brabec <sbrabec@suse.cz> (1):
-      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-
-Yasuhiko Kamata <belphegor@belbel.or.jp> (1):
-      Translated using Weblate (Japanese)
-
-scootergrisen <scootergrisen@gmail.com> (1):
-      Translated using Weblate (Danish)
 

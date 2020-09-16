@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.21pre1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-16 23:28+0200\n"
 "PO-Revision-Date: 2016-08-25 08:19+0000\n"
 "Last-Translator: Hoàng Phạm <pnhoang96@gmail.com>\n"
 "Language-Team: Vietnamese <https://l10n.opensuse.org/projects/icewm/"
@@ -1353,11 +1353,11 @@ msgstr "Tuỳ chọn không xác định: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Tuỳ chọn không xác định: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Xác nhận việc thoát"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1441,11 +1441,11 @@ msgstr "_Chạy lại icewm"
 msgid "_About"
 msgstr "_Giới thiệu về icewm"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1436
 msgid "Kill Client: "
 msgstr "Diệt chương trình con: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1443
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1602,7 +1602,7 @@ msgstr "Sắp xếp _biểu tượng"
 msgid "_Refresh"
 msgstr "Làm mới _màn hình"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1624,7 +1624,7 @@ msgstr "Trình đơn danh sách cửa sổ"
 msgid "Show Desktop"
 msgstr "Thu nhỏ tất cả"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
