@@ -693,15 +693,14 @@ void TaskBar::updateLocation() {
 
     if ( !fIsHidden) {
         if (fIsMapped && getFrame()) {
-            XConfigureRequestEvent conf = {
-                .type = ConfigureRequest,
-                .window = handle(),
-                .x = x,
-                .y = y,
-                .width = int(w),
-                .height = int(h),
-                .value_mask = CWX | CWY | CWWidth | CWHeight,
-            };
+            XConfigureRequestEvent conf;
+            conf.type = ConfigureRequest;
+            conf.window = handle();
+            conf.x = x;
+            conf.y = y;
+            conf.width = int(w);
+            conf.height = int(h);
+            conf.value_mask = CWX | CWY | CWWidth | CWHeight;
             getFrame()->configureClient(conf);
             getFrame()->wmShow();
         } else
