@@ -12,7 +12,7 @@
 
 /* read from filename and zero terminate the buffer. */
 filereader::filereader(const char* filename) :
-        bCloses(true)
+    bCloses(true)
 {
     nFd = open(filename, O_RDONLY);
 }
@@ -25,7 +25,7 @@ filereader::~filereader() {
 int filereader::read_all(char* buf, size_t buflen) {
     char* ptr = buf;
     ssize_t got = 0, len = ssize_t(buflen) - 1;
-    while (len > 0) {
+    while (nFd >= 0 && len > 0) {
         if ((got = read(nFd, ptr, size_t(len))) > 0) {
             ptr += got;
             len -= got;
@@ -33,12 +33,14 @@ int filereader::read_all(char* buf, size_t buflen) {
             break;
     }
     *ptr = 0;
-    return (ptr > buf) ? int(ptr - buf) : int(got);
+    return (ptr > buf) ? int(ptr - buf) : (nFd < 0) ? -1 : int(got);
 }
 
 fcsmart filereader::read_all() {
     struct stat st;
-    if (fstat(nFd, &st) == 0) {
+    if (nFd == -1) {
+    }
+    else if (fstat(nFd, &st) == 0) {
         if (S_ISREG(st.st_mode)) {
             if (st.st_size > 0) {
                 fcsmart buf(fcsmart::create(st.st_size + 1));
@@ -51,18 +53,18 @@ fcsmart filereader::read_all() {
                 fcsmart buf;
                 size_t size = BUFSIZ + 1;
                 size_t len = 0;
-                buf.resize(size);
+                buf.resize(size + 1);
                 while (buf && (got = read_all(buf + len, size - len)) > 0) {
                     len += got;
                     if (len + 1 < size) {
                         break;
                     } else {
                         size += size / 2;
-                        buf.resize(size);
+                        buf.resize(size + 1);
                     }
                 }
                 if (len > 0 && buf) {
-                    buf.resize(len);
+                    buf.resize(len + 1);
                     return buf;
                 }
             }
@@ -84,7 +86,7 @@ fcsmart filereader::read_pipe(long timeout, bool* expired) {
         *expired = false;
     }
     fcsmart nothing;
-    if (fcntl(nFd, F_SETFL, 0 <= timeout ? O_NONBLOCK : 0) == -1) {
+    if (nFd < 0 || fcntl(nFd, F_SETFL, 0 <= timeout ? O_NONBLOCK : 0) == -1) {
         return nothing;
     }
     long pipe_size = clamp<long>(fpathconf(nFd, _PC_PIPE_BUF),
