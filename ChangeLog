@@ -1,5 +1,83 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 6bc8d04acb290f764994ad56709aa59becccc7b9
+Merge: 57a0569a 31304553
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 17 02:03:11 2020 +0200
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit 31304553f5870c6d50b6941347efc23acb1876e1
+Merge: 0bb305af 5cceaaaa
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 17 01:59:18 2020 +0200
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 5cceaaaafb5d3cf09cfae996f0eb43088a0aef9b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Sep 17 01:40:49 2020 +0200
+
+    Check if filedescriptor is valid and fix off-by-one allocation error.
+
+ src/yfileio.cc | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+commit 57a0569ae62df90f6ff2569c735f54a6601966a2
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Wed Sep 16 23:36:14 2020 +0200
+
+    Prepare 1.8.3 release
+
+ AUTHORS      |  19 +-
+ ChangeLog    | 919 +++++++++++++++++++++++++++++--------------------------
+ NEWS         | 201 +++++-------
+ README.md    |  36 +--
+ RELEASE.md   |   2 +-
+ VERSION      |   2 +-
+ configure.ac |  10 +-
+ po/ar.po     |  14 +-
+ po/be.po     |  14 +-
+ po/bg.po     |  14 +-
+ po/ca.po     |  14 +-
+ po/cs.po     |  14 +-
+ po/da.po     |  14 +-
+ po/de.po     |  14 +-
+ po/el.po     |  14 +-
+ po/en.po     |  14 +-
+ po/es.po     |  14 +-
+ po/fi.po     |  14 +-
+ po/fr.po     |  14 +-
+ po/he.po     |  14 +-
+ po/hr.po     |  14 +-
+ po/hu.po     |  14 +-
+ po/icewm.pot |  16 +-
+ po/id.po     |  14 +-
+ po/it.po     |  14 +-
+ po/ja.po     |  14 +-
+ po/ko.po     |  14 +-
+ po/lt.po     |  14 +-
+ po/lv.po     |  14 +-
+ po/mk.po     |  14 +-
+ po/nb.po     |  14 +-
+ po/nl.po     |  14 +-
+ po/no.po     |  14 +-
+ po/pl.po     |  14 +-
+ po/pt.po     |  14 +-
+ po/pt_BR.po  |  14 +-
+ po/ro.po     |  14 +-
+ po/ru.po     |  14 +-
+ po/sk.po     |  14 +-
+ po/sl.po     |  14 +-
+ po/sv.po     |  14 +-
+ po/tr.po     |  14 +-
+ po/uk.po     |  14 +-
+ po/vi.po     |  14 +-
+ po/zh_CN.po  |  14 +-
+ po/zh_TW.po  |  14 +-
+ 46 files changed, 884 insertions(+), 853 deletions(-)
+
 commit 1d8e030b12a35676308e1e57e2ae1acf3dd41231
 Merge: 4f3c2fc9 0bb305af
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -6078,47 +6156,3 @@ Date:   Tue Feb 25 18:09:47 2020 +0100
 
  src/icesh.cc | 34 ++++++++++++++++++++++++++--------
  1 file changed, 26 insertions(+), 8 deletions(-)
-
-commit 7fad791b8bf93052ed38ebb4a861f494cfd7312a
-Author: Christine Gabriel <christine@stoquart.com>
-Date:   Thu Feb 20 13:57:51 2020 +0000
-
-    Translated using Weblate (French)
-
-    Currently translated at 100.0% (466 of 466 strings)
-
- po/fr.po | 138 +++++++++++++----------------------------------------------
- 1 file changed, 30 insertions(+), 108 deletions(-)
-
-commit 79a1ce9a2f5dd5eaae92c86fe9e936d9edbec306
-Author: Juan Sarria <juansarriam@gmail.com>
-Date:   Wed Feb 19 21:51:36 2020 +0000
-
-    Translated using Weblate (Spanish)
-
-    Currently translated at 100.0% (466 of 466 strings)
-
- po/es.po | 27 +++++++++------------------
- 1 file changed, 9 insertions(+), 18 deletions(-)
-
-commit ed6222d15bb882751a6f66fcd3fad0eb6366b10b
-Author: Davide Aiello <davidea@novilinguists.com>
-Date:   Wed Feb 19 13:51:56 2020 +0000
-
-    Translated using Weblate (Italian)
-
-    Currently translated at 100.0% (466 of 466 strings)
-
- po/it.po | 39 ++++++++++++++-------------------------
- 1 file changed, 14 insertions(+), 25 deletions(-)
-
-commit 0916886663a3201168f8abc772d86aa3d3142576
-Author: Grace Yu <grace.yu@excel-gits.com>
-Date:   Mon Feb 17 10:12:27 2020 +0000
-
-    Translated using Weblate (Chinese (Taiwan))
-
-    Currently translated at 100.0% (466 of 466 strings)
-
- po/zh_TW.po | 47 +++++++++++++++--------------------------------
- 1 file changed, 15 insertions(+), 32 deletions(-)

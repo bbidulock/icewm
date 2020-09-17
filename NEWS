@@ -1,11 +1,11 @@
-icewm -- history of user-visible changes.  2020-09-16
+icewm -- history of user-visible changes.  2020-09-17
 
-Release icewm-1.8.3 released 2020-09-16
+Release icewm-1.8.3 released 2020-09-17
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.2...1.8.3
 
-Bert Gijsbers <gijsbers@science.uva.nl> (27):
+Bert Gijsbers <gijsbers@science.uva.nl> (31):
       TaskBar cannot fullscreen.
       Use wmHide or wmShow to hide or show the taskbar for #489.
       Restore the translation which was overwritten by Weblate.
@@ -44,6 +44,11 @@ Bert Gijsbers <gijsbers@science.uva.nl> (27):
       Make it compile on G++ 7.5.0.
       Use pragmas to prevent compiler complaints if LOGEVENTS.
       Prevent compiler warning on chdir.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.8.3 release
+      Check if filedescriptor is valid and fix off-by-one allocation error.
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
