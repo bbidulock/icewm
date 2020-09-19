@@ -37,9 +37,7 @@ static NetDevice* getNetDevice(mstring netdev)
 {
     return
 #if defined(__linux__)
-        netdev.startsWith("ippp")
-            ? (NetDevice *) new NetIsdnDevice(netdev)
-            : (NetDevice *) new NetLinuxDevice(netdev)
+        new NetLinuxDevice(netdev)
 #elif defined(__FreeBSD__)
         new NetFreeDevice(netdev)
 #elif defined(__OpenBSD__) || defined(__NetBSD__)
@@ -72,7 +70,6 @@ NetStatus::NetStatus(
     statusUpdateCount(0),
     unchanged(0),
     wasUp(false),
-    useIsdn(netdev.startsWith("ippp")),
     fDevName(netdev),
     fDevice(getNetDevice(netdev))
 {
@@ -340,49 +337,6 @@ void NetStatus::draw(Graphics &g) {
         }
     }
 }
-
-/**
- * Check isdnstatus, by parsing /dev/isdninfo.
- *
- * Need read-access on /dev/isdninfo.
- */
-#ifdef __linux__
-bool NetIsdnDevice::isUp() {
-    auto str(filereader("/dev/isdninfo").read_all());
-    char val[5][32];
-    int busage = 0;
-    int bflags = 0;
-
-    for (char* p = str; p && *p && p[1]; p = strchr(p, '\n')) {
-        p += strspn(p, " \n");
-        if (strncmp(p, "flags:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strcmp(val[i+1], "0") != 0)
-                    bflags |= (1 << i);
-            }
-        }
-        else if (strncmp(p, "usage:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strcmp(val[i+1], "0") != 0)
-                    busage |= (1 << i);
-            }
-        }
-        else if (strncmp(p, "phone:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strncmp(val[i+1], "?", 1) != 0)
-                    strlcpy(phoneNumber, val[i + 1], sizeof phoneNumber);
-            }
-        }
-    }
-
-    //msg("dbs: flags %d usage %d", bflags, busage);
-
-    return bflags && busage;
-}
-#endif // ifdef __linux__
 
 #if defined (__NetBSD__) || defined (__OpenBSD__)
 bool NetOpenDevice::isUp() {

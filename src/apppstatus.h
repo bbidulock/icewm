@@ -44,15 +44,6 @@ public:
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
 };
 
-class NetIsdnDevice : public NetLinuxDevice {
-public:
-    NetIsdnDevice(mstring netdev) : NetLinuxDevice(netdev) { *phoneNumber = 0; }
-    virtual bool isUp();
-    virtual const char* getPhoneNumber() { return phoneNumber; }
-private:
-    char phoneNumber[32];
-};
-
 class NetFreeDevice : public NetDevice {
 public:
     NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
@@ -102,7 +93,6 @@ private:
     int unchanged;
 
     bool wasUp;               // previous link status
-    bool useIsdn;             // netdevice is an IsdnDevice
     mstring fDevName;         // name of the device
     osmart<NetDevice> fDevice;
 
