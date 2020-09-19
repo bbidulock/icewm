@@ -588,28 +588,6 @@ NetStatusControl::~NetStatusControl() {
     }
 }
 
-#ifdef __linux__
-void NetStatusControl::fetchSystemData() {
-    devStats.clear();
-    devicesText = filereader("/proc/net/dev").read_all();
-    if (devicesText == nullptr)
-        return;
-
-    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
-        *p = 0;
-        while (*++p == ' ');
-        char* name = p;
-        p += strcspn(p, " :|\n");
-        if (*p == ':') {
-            *p = 0;
-            while (*++p && *p == ' ');
-            if (*p && *p != '\n')
-                devStats.append(netpair(name, p));
-        }
-    }
-}
-#endif
-
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         IAppletContainer* taskBar, YWindow* aParent) :
     smActionListener(smActionListener),
@@ -754,50 +732,60 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
 
 #ifdef __linux__
 void NetStatusControl::linuxUpdate() {
-    fetchSystemData();
 
+    devicesText = filereader("/proc/net/dev").read_all();
+    if (devicesText == nullptr)
+        return;
     int const count(fNetStatus.getCount());
     bool covered[count];
-    for (int i = 0; i < count; ++i)
-        covered[i] = fNetStatus[i] == 0;
-
+    for (int i = 0; i < count; ++i) {
+        covered[i] = (0 == fNetStatus[i]);
+    }
+    using netpair = pair<const char *, const char *>;
     YArray<netpair> pending;
-
-    for (IterStats stat = devStats.iterator(); ++stat; ) {
+    auto checkIfInput = [&](const char* name, const char* data) {
         int index;
-        if (fNetStatus.find((*stat).name(), &index)) {
+        if (fNetStatus.find(name, &index)) {
             if (index < count && fNetStatus[index]) {
                 if (covered[index] == false) {
-                    fNetStatus[index]->timedUpdate((*stat).data());
+                    fNetStatus[index]->timedUpdate(data);
                     covered[index] = true;
                 }
             }
         }
         else {
             // oh, we got a new device? allowed?
-            pending.append(stat);
+            pending.append(netpair(name, data));
+        }
+    };
+
+    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
+        *p = 0;
+        while (*++p == ' ');
+        char* name = p;
+        p += strcspn(p, " :|\n");
+        if (*p == ':') {
+            *p = 0;
+            while (*++p && *p == ' ');
+            if (*p && *p != '\n')
+                checkIfInput(name, p);
         }
     }
-
     // mark disappeared devices as down without additional ioctls
-    for (int i = 0; i < count; ++i)
+    for (int i = 0; i < count; ++i) {
         if (covered[i] == false && fNetStatus[i])
             fNetStatus[i]->timedUpdate(nullptr, true);
-
-    for (int i = 0; i < pending.getCount(); ++i) {
-        const netpair stat = pending[i];
-        YStringArray::IterType pat = patterns.iterator();
-        while (++pat && upath(stat.name()).fnMatch(pat));
+    }
+    for (const auto& nameAndData : pending) {
+        auto pat = patterns.iterator();
+        while (++pat && upath(nameAndData.left).fnMatch(pat));
         if (pat) {
-            createNetStatus(stat.name())->timedUpdate(stat.data());
+            createNetStatus(nameAndData.left)->timedUpdate(nameAndData.right);
         } else {
             // ignore this device
-            fNetStatus[stat.name()] = 0;
+            fNetStatus[nameAndData.left] = 0;
         }
     }
-
-    devStats.clear();
-    devicesText = nullptr;
 }
 #endif
 

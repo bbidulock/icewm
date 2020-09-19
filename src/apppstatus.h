@@ -120,15 +120,6 @@ private:
     void draw(Graphics& g);
 };
 
-#ifdef __linux__
-class netpair : public pair<const char *, const char *> {
-public:
-    netpair(const char* name, const char* data) : pair(name, data) { }
-    const char* name() const { return left; }
-    const char* data() const { return right; }
-};
-#endif
-
 class NetStatusControl :
     private YTimerListener,
     private YActionListener,
@@ -147,10 +138,6 @@ private:
 #ifdef __linux__
     // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
     fcsmart devicesText;
-    YArray<netpair> devStats;
-    typedef YArray<netpair>::IterType IterStats;
-
-    void fetchSystemData();
     void linuxUpdate();
 #endif
     YStringArray patterns;
