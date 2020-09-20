@@ -29,8 +29,9 @@ public:
     bool operator==(mstring_view rv) const;
     bool isEmpty() const { return length() == 0; }
 };
+
 /*
- * Mutable strings with a small string optimization.
+ * Mutable strings with external OR internal storage (small string optimization)
  */
 class mstring {
 public:

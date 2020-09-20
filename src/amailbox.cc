@@ -299,6 +299,7 @@ void MailCheck::startCheck() {
             setState(CONNECTING);
             got = 0;
         } else {
+            int e = errno;
             auto err = mstring().appendFormat(
                     _("Could not connect to %s: %s"),
                      fURL.host.c_str(),

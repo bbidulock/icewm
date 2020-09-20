@@ -203,7 +203,6 @@ public:
 
                 for (const auto &contentDir : subcats) {
                     for (const auto &testDir : {
-                            // XXX: optimize concatenation with MStringBuilder
                             mstring(iconPathToken, sepXY, contentDir),
                             mstring(iconPathToken, "/base", sepXY, contentDir),
                         	// some old themes contain just one dimension
@@ -324,7 +323,6 @@ public:
         };
         auto checkFilesAtBasePath = [&](mstring basePath, unsigned size,
                 bool addSizeSfx) {
-            // XXX: optimize string concatenation? Or go back to plain printf?
             if (addSizeSfx)
                 basePath.appendFormat("_%ldx%ld", long(size), long(size));
             for (auto& imgExt : iconExts) {
@@ -504,7 +502,6 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 }
 
 void YIcon::freeIcons() {
-//    for(auto el: *iconCache) MSG(("el: %s", cacheKeyGetter()(el).c_str()));
     iconCache = null;
 }
 
