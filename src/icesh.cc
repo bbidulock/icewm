@@ -191,6 +191,7 @@ static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
 static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
+static NAtom ATOM_NET_WM_WINDOW_TYPE("_NET_WM_WINDOW_TYPE");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
@@ -419,6 +420,12 @@ struct SymbolTable {
     Symbol const * fSymbols;
     long const fMin, fMax, fErrCode;
 };
+
+static void setAtom(Window window, Atom property, Atom newValue)
+{
+    XChangeProperty(display, window, property, XA_ATOM, 32, PropModeReplace,
+                    reinterpret_cast<unsigned char *>(&newValue), 1);
+}
 
 class YProperty {
 public:
@@ -1321,6 +1328,8 @@ private:
     bool listScreens();
     bool listSymbols();
     bool listSystray();
+    void listWindowType();
+    void setWindowType(const char* arg);
     bool addWorkspace();
     bool listWorkspaces();
     bool setWorkspaceName();
@@ -2115,6 +2124,50 @@ bool IceSh::runonce()
     return true;
 }
 
+void IceSh::listWindowType()
+{
+    static const char prefix[] = "_NET_WM_WINDOW_TYPE_";
+    FOREACH_WINDOW(window) {
+        YProperty prop(window, ATOM_NET_WM_WINDOW_TYPE, XA_ATOM);
+        if (prop) {
+            const char* name = NAtom::lookup(*prop);
+            if (name) {
+                if (strncasecmp(name, prefix, strlen(prefix)) == 0) {
+                    name += strlen(prefix);
+                }
+                printf("0x%-7lx %s\n", *window, name);
+            }
+        }
+    }
+}
+
+void IceSh::setWindowType(const char* arg)
+{
+    static const char* const types[] = {
+        "COMBO", "DESKTOP", "DIALOG", "DND", "DOCK", "DROPDOWN_MENU",
+        "MENU", "NORMAL", "NOTIFICATION", "POPUP_MENU", "SPLASH",
+        "TOOLBAR", "TOOLTIP", "UTILITY", nullptr
+    };
+    static const char prefix[] = "_NET_WM_WINDOW_TYPE_";
+    if (strncasecmp(arg, prefix, strlen(prefix)) == 0) {
+        arg += strlen(prefix);
+    }
+    size_t len = strlen(arg);
+    for (int i = 0; types[i]; ++i) {
+        if (strncasecmp(arg, types[i], len) == 0 && len) {
+            if (types[i][len] == '\0' || types[i][len] == '_') {
+                char buf[99] = "_NET_WM_WINDOW_TYPE_";
+                strlcat(buf, types[i], sizeof buf);
+                NAtom atom(buf);
+                FOREACH_WINDOW(window) {
+                    setAtom(window, ATOM_NET_WM_WINDOW_TYPE, atom);
+                }
+                break;
+            }
+        }
+    }
+}
+
 bool IceSh::listWorkspaces()
 {
     if ( !isAction("listWorkspaces", 0))
@@ -2530,7 +2583,7 @@ unsigned IceSh::count() const
 
 /******************************************************************************/
 
-void setLayer(Window window, long layer) {
+static void setLayer(Window window, long layer) {
     send(ATOM_WIN_LAYER, window, layer, CurrentTime);
 }
 
@@ -2546,7 +2599,7 @@ static void getLayer(Window window) {
     }
 }
 
-void setTrayHint(Window window, long trayopt) {
+static void setTrayHint(Window window, long trayopt) {
     send(ATOM_WIN_TRAY, window, trayopt, CurrentTime);
 }
 
@@ -4072,6 +4125,12 @@ void IceSh::parseAction()
         else if (isAction("getTrayOption", 0)) {
             FOREACH_WINDOW(window)
                 getTrayOption(window);
+        }
+        else if (isAction("setType", 1)) {
+            setWindowType(getArg());
+        }
+        else if (isAction("getType", 0)) {
+            listWindowType();
         }
         else if (isAction("setWindowGravity", 1)) {
             long grav(gravities.parseExpression(getArg()));
