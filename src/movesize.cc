@@ -988,7 +988,8 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         handleDrag(down, motion);
     }
     else if (down.button == Button1 && canSize()) {
-        Window sw = down.subwindow;
+        Window sw = (down.subwindow && indicatorsCreated)
+                   ? down.subwindow : Window(-1);
 
         grabX = 0;
         grabY = 0;
