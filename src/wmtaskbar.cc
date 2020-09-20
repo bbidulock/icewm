@@ -691,7 +691,7 @@ void TaskBar::updateLocation() {
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
-    if ( !fIsHidden) {
+    if ( !fIsHidden && YRect(x, y, w, h) != geometry()) {
         if (fIsMapped && getFrame()) {
             XConfigureRequestEvent conf;
             conf.type = ConfigureRequest;
