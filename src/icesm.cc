@@ -91,6 +91,8 @@ private:
     bool nobgArg;
     bool notrayArg;
     bool soundArg;
+    bool grindArg;
+    bool catchArg;
     char* argv0;
 
     void options(int *argc, char ***argv) {
@@ -105,6 +107,8 @@ private:
         nobgArg = false;
         notrayArg = NOTRAY;
         soundArg = false;
+        grindArg = false;
+        catchArg = false;
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
@@ -139,6 +143,12 @@ private:
                 }
                 else if (is_switch(*arg, "s", "sound")) {
                     soundArg = true;
+                }
+                else if (is_switch(*arg, "v", "valgrind")) {
+                    grindArg = true;
+                }
+                else if (is_switch(*arg, "g", "catchsegv")) {
+                    catchArg = true;
                 }
                 else if (is_help_switch(*arg)) {
                     print_help_exit(get_help_text());
@@ -345,11 +355,21 @@ public:
             wm_pid = -1;
         }
         else {
+            static const char valgrind[] = "/usr/bin/valgrind";
+            static const char catchsegv[] = "/usr/bin/catchsegv";
             const int size = 24;
-            const char* args[size] = {
-                icewmExe, "--notify", nullptr
-            };
-            appendOptions(args, 2, size);
+            const char* args[size];
+            int count = 0;
+            if (grindArg && access(valgrind, X_OK) == 0) {
+                args[count++] = valgrind;
+            }
+            else if (catchArg && access(catchsegv, X_OK) == 0) {
+                args[count++] = catchsegv;
+            }
+            args[count++] = icewmExe;
+            args[count++] = "--notify";
+            args[count] = nullptr;
+            appendOptions(args, count, size);
             char* copy = nullptr;
             if (wmoptions.length()) {
                 copy = strdup(wmoptions);
