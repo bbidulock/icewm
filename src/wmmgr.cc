@@ -1679,9 +1679,8 @@ YFrameWindow *YWindowManager::mapClient(Window win) {
     if (frame == nullptr)
         return manageClient(win, true);
     else {
-        long mask = WinStateMinimized | WinStateHidden | WinStateRollup;
-        if (frame->hasState(mask))
-            frame->setState(mask, 0);
+        if (frame->isUnmapped())
+            frame->makeMapped();
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
@@ -2122,10 +2121,7 @@ bool YWindowManager::updateWorkAreaInner() {
     debugWorkArea("before");
 
     for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
-        if (w->client() == nullptr) {
-            continue;
-        }
-        if (w->hasState(WinStateHidden | WinStateMinimized | WinStateRollup)) {
+        if (w->client() == nullptr || w->isUnmapped()) {
             continue;
         }
 

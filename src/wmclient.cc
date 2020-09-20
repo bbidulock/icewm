@@ -62,7 +62,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fSizeHints = XAllocSizeHints();
     fTransientFor = None;
     fClientLeader = None;
-    fMwmHints = nullptr;
     fPid = 0;
     prop = {};
 
@@ -110,7 +109,6 @@ YFrameClient::~YFrameClient() {
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
-    if (fMwmHints) { XFree(fMwmHints); fMwmHints = nullptr; }
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -838,8 +836,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         {
             frame->actionPerformed(actionMinimize, None);
         }
-        else if (state == NormalState && frame &&
-            frame->hasState(WinStateMinimized | WinStateRollup | WinStateHidden))
+        else if (state == NormalState && frame && frame->isUnmapped())
         {
             frame->actionPerformed(actionRestore, None);
         }
@@ -1003,23 +1000,23 @@ void YFrameClient::getMwmHints() {
     if (!prop.mwm_hints)
         return;
 
-    if (fMwmHints) {
-        XFree(fMwmHints);
-        fMwmHints = nullptr;
-    }
     YProperty prop(this, _XATOM_MWM_HINTS, F32,
                    PROP_MWM_HINTS_ELEMENTS, _XATOM_MWM_HINTS);
-    if (prop && prop.size() == PROP_MWM_HINTS_ELEMENTS)
-        fMwmHints = prop.retrieve<MwmHints>();
+    if (prop) {
+        unsigned long* dest = &fMwmHints->flags;
+        for (unsigned i = 0; i < PROP_MWM_HINTS_ELEMENTS; ++i) {
+            dest[i] = (i < prop.size()) ? prop.data<unsigned long>()[i] : 0;
+        }
+    }
+    else {
+        fMwmHints = null;
+    }
 }
 
 void YFrameClient::setMwmHints(const MwmHints &mwm) {
     setProperty(_XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                 (const Atom *)&mwm, PROP_MWM_HINTS_ELEMENTS);
-    if (fMwmHints == nullptr)
-        fMwmHints = (MwmHints *)malloc(sizeof(MwmHints));
-    if (fMwmHints)
-        *fMwmHints = mwm;
+    *fMwmHints = mwm;
 }
 
 void YFrameClient::saveSizeHints()

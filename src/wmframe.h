@@ -272,7 +272,10 @@ public:
     long oldState() const { return fOldState; }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
-
+    bool isResizable() const { return hasbit(frameFunctions(), ffResize); }
+    bool isUnmapped() const;
+    void makeMapped();
+    bool hasBorders() const;
     int borderXN() const;
     int borderYN() const;
     int titleYN() const;
@@ -325,7 +328,6 @@ public:
     void updateLayer(bool restack = true);
     void updateIconPosition();
     void updateLayout();
-    void updateExtents();
     void performLayout();
 
     void updateMwmHints();
@@ -462,7 +464,6 @@ private:
 
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
-    int extentLeft, extentRight, extentTop, extentBottom;
 
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
@@ -477,8 +478,6 @@ private:
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeft, topRight, bottomLeft, bottomRight;
-    bool indicatorsCreated;
-    bool indicatorsVisible;
 
     TaskBarApp *fTaskBarApp;
     TrayApp *fTrayApp;
@@ -534,6 +533,7 @@ private:
     bool fHaveStruts;
     bool fWmUrgency;
     bool fClientUrgency;
+    bool indicatorsCreated;
 
     enum WindowType fWindowType;
 

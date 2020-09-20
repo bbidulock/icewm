@@ -57,12 +57,11 @@ YFrameWindow::YFrameWindow(
     topRight = None;
     bottomLeft = None;
     bottomRight = None;
-    indicatorsCreated = false;
-    indicatorsVisible = false;
 
     fPopupActive = nullptr;
     fWmUrgency = false;
     fClientUrgency = false;
+    indicatorsCreated = false;
     fWindowType = wtNormal;
 
     normalX = 0;
@@ -73,10 +72,6 @@ YFrameWindow::YFrameWindow(
     posY = 0;
     posW = 1;
     posH = 1;
-    extentLeft = -1;
-    extentRight = -1;
-    extentTop = -1;
-    extentBottom = -1;
     movingWindow = false;
     sizingWindow = false;
     fFrameFunctions = 0;
@@ -209,7 +204,6 @@ void YFrameWindow::removeFromWindowList() {
 YFrameTitleBar* YFrameWindow::titlebar() {
     if (fTitleBar == nullptr && titleY() > 0) {
         fTitleBar = new YFrameTitleBar(this, this);
-        fTitleBar->show();
     }
     return fTitleBar;
 }
@@ -441,9 +435,11 @@ Window YFrameWindow::createPointerWindow(Cursor cursor, int gravity) {
     attributes.win_gravity = gravity;
     attributes.event_mask = 0;
     attributes.cursor = cursor;
-    return XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1, 0,
-                         0, InputOnly, CopyFromParent,
-                         valuemask, &attributes);
+    Window window = XCreateWindow(xapp->display(), handle(), 0, 0, 1, 1,
+                                  0, 0, InputOnly, CopyFromParent,
+                                  valuemask, &attributes);
+    XMapWindow(xapp->display(), window);
+    return window;
 }
 
 // create 8 resize pointer indicator windows
@@ -561,7 +557,6 @@ void YFrameWindow::unmanage(bool reparent) {
 
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             client()->setFrameState(WithdrawnState);
-            extentLeft = extentRight = extentTop = extentBottom = -1;
         }
 
         if (!client()->destroyed() && client()->adopted())
@@ -1222,8 +1217,7 @@ void YFrameWindow::wmSize() {
 }
 
 bool YFrameWindow::canRestore() const {
-    return hasState(WinStateMaximizedBoth | WinStateMinimized |
-                    WinStateHidden | WinStateRollup);
+    return isUnmapped() || hasState(WinStateMaximizedBoth);
 }
 
 void YFrameWindow::wmRestore() {
@@ -1620,8 +1614,8 @@ void YFrameWindow::limitOuterPosition() {
 
 void YFrameWindow::wmShow() {
     limitOuterPosition();
-    if (hasState(WinStateHidden | WinStateMinimized | WinStateRollup)) {
-        setState(WinStateHidden | WinStateMinimized | WinStateRollup, 0);
+    if (isUnmapped()) {
+        makeMapped();
     }
 }
 
@@ -1653,8 +1647,9 @@ void YFrameWindow::focus(bool canWarp) {
 
 void YFrameWindow::activate(bool canWarp, bool curWork) {
     manager->lockFocus();
-    if (hasState(WinStateHidden | WinStateMinimized | WinStateRollup))
-        setState(WinStateHidden | WinStateMinimized | WinStateRollup, 0);
+    if (isUnmapped()) {
+        makeMapped();
+    }
     if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
@@ -2512,6 +2507,14 @@ void YFrameWindow::removeTransients() {
     }
 }
 
+bool YFrameWindow::isUnmapped() const {
+    return hasState(WinStateRollup | WinStateMinimized | WinStateHidden);
+}
+
+void YFrameWindow::makeMapped() {
+    setState(WinStateRollup | WinStateMinimized | WinStateHidden, None);
+}
+
 bool YFrameWindow::isModal() {
     if (!client())
         return false;
@@ -3064,24 +3067,6 @@ void YFrameWindow::updateLayout() {
     }
     if (affectsWorkArea())
         manager->updateWorkArea();
-    updateExtents();
-}
-
-void YFrameWindow::updateExtents() {
-    int bX = borderX(), bY = borderY(), tY = titleY();
-    int left = bX, right = bX, top = bY + tY, bottom = bY;
-
-    if (extentLeft != left ||
-        extentRight != right ||
-        extentTop != top ||
-        extentBottom != bottom)
-    {
-        extentLeft = left;
-        extentRight = right;
-        extentTop = top;
-        extentBottom = bottom;
-        client()->setNetFrameExtents(left, right, top, bottom);
-    }
 }
 
 void YFrameWindow::setState(long mask, long state) {
@@ -3230,9 +3215,6 @@ void YFrameWindow::updateMwmHints() {
     int by = borderY();
 
     getFrameHints();
-    if (isManaged()) {
-        performLayout();
-    }
 
     if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
         configureClient(x() + bx + bx - borderX(),

@@ -278,7 +278,9 @@ void YFrameTitleBar::handleVisibility(const XVisibilityEvent& visib) {
 
 void YFrameTitleBar::configure(const YRect2& r) {
     if (r.resized()) {
+        layoutButtons();
         repaint();
+        show();
     }
 }
 

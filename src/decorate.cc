@@ -303,11 +303,11 @@ void YFrameWindow::configure(const YRect2& r) {
 void YFrameWindow::performLayout()
 {
     layoutTitleBar();
-    layoutResizeIndicators();
     layoutClient();
     layoutShape();
     if (fTitleBar)
         fTitleBar->activate();
+    layoutResizeIndicators();
 }
 
 void YFrameWindow::layoutTitleBar() {
@@ -322,48 +322,26 @@ void YFrameWindow::layoutTitleBar() {
         int x = borderX(), y = borderY();
         int w = max(1, int(width()) - 2 * x);
         fTitleBar->setGeometry(YRect(x, y, w, height));
-        fTitleBar->layoutButtons();
-        fTitleBar->show();
     }
 }
 
 void YFrameWindow::layoutResizeIndicators() {
-    if (hasbits(frameDecors(), fdResize | fdBorder) &&
-        hasbit(frameFunctions(), ffResize) &&
-        !hasState(WinStateRollup | WinStateMinimized | WinStateFullscreen))
-    {
-        if (!indicatorsCreated)
-            createPointerWindows();
-        if (!indicatorsVisible) {
-            indicatorsVisible = true;
-
-            XMapWindow(xapp->display(), topSide);
-            XMapWindow(xapp->display(), leftSide);
-            XMapWindow(xapp->display(), rightSide);
-            XMapWindow(xapp->display(), bottomSide);
-
-            XMapWindow(xapp->display(), topLeft);
-            XMapWindow(xapp->display(), topRight);
-            XMapWindow(xapp->display(), bottomLeft);
-            XMapWindow(xapp->display(), bottomRight);
+    if (isUnmapped() || !hasBorders() || !isResizable()) {
+        if (indicatorsCreated) {
+            Window* indicators[] = {
+                &topSide, &leftSide, &rightSide, &bottomSide,
+                &topLeft, &topRight, &bottomLeft, &bottomRight
+            };
+            for (Window* window : indicators) {
+                XDestroyWindow(xapp->display(), *window);
+                *window = None;
+            }
+            indicatorsCreated = false;
         }
-    } else {
-        if (indicatorsVisible) {
-            indicatorsVisible = false;
-
-            XUnmapWindow(xapp->display(), topSide);
-            XUnmapWindow(xapp->display(), leftSide);
-            XUnmapWindow(xapp->display(), rightSide);
-            XUnmapWindow(xapp->display(), bottomSide);
-
-            XUnmapWindow(xapp->display(), topLeft);
-            XUnmapWindow(xapp->display(), topRight);
-            XUnmapWindow(xapp->display(), bottomLeft);
-            XUnmapWindow(xapp->display(), bottomRight);
-        }
-    }
-    if (!indicatorsVisible)
         return;
+    }
+    if (indicatorsCreated == false)
+        createPointerWindows();
 
     int vo = int(min(height(), topSideVerticalOffset));
     int ww(max(3, (int) width()));
@@ -398,20 +376,21 @@ void YFrameWindow::layoutResizeIndicators() {
 }
 
 void YFrameWindow::layoutClient() {
-    if (!isRollup() && !isIconic()) {
+    if (!isRollup()) {
         int x = borderX();
         int y = borderY();
         int title = titleY();
         int w = max(1, int(width()) - 2 * x);
         int h = max(1, int(height()) - 2 * y - title);
+        bool moved = (x != fClientContainer->x() || !fManaged ||
+                      y != fClientContainer->y() - title);
 
         fClientContainer->setGeometry(YRect(x, y + title, w, h));
         fClient->setGeometry(YRect(0, 0, w, h));
 
-        long state = fWinState ^ fOldState;
-        long mask = WinStateFullscreen | WinStateMaximizedBoth;
-        if (hasbit(state, mask)) {
+        if (moved) {
             sendConfigure();
+            client()->setNetFrameExtents(x, x, y + title, y);
         }
     }
 }
@@ -491,6 +470,14 @@ bool YFrameWindow::overlaps(bool isAbove) {
         if (overlap(f))
             return true;
     return false;
+}
+
+bool YFrameWindow::hasBorders() const {
+    return hasbit(frameDecors(), fdBorder) && !isFullscreen() &&
+         !(hideBordersMaximized && isMaximizedFully()) &&
+         (hasbit(frameDecors(), fdResize) ?
+          (wsBorderX | wsBorderY) != 0 :
+          (wsDlgBorderX | wsDlgBorderY) != 0);
 }
 
 /// TODO #warning "should precalculate these"

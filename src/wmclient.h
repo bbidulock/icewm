@@ -229,7 +229,7 @@ public:
     bool pingTime() const { return fPingTime; }
     virtual bool handleTimer(YTimer *t);
 
-    MwmHints *mwmHints() const { return fMwmHints; }
+    MwmHints *mwmHints() const { return fMwmHints._ptr(); }
     void getMwmHints();
     void setMwmHints(const MwmHints &mwm);
     long mwmFunctions();
@@ -279,7 +279,7 @@ private:
     mstring fWMWindowRole;
     mstring fWindowRole;
 
-    MwmHints *fMwmHints;
+    lazy<MwmHints> fMwmHints;
 
     Window fTransientFor;
 
