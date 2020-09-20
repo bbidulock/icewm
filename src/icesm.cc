@@ -65,7 +65,7 @@ private:
     }
 
     const char *get_help_text() {
-        return _(
+        helptext = _(
         "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
         "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
         "\n"
@@ -80,6 +80,17 @@ private:
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
         );
+
+        helptext += _(
+        "\n"
+        "Debugging options:\n"
+        "  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+        "                      Thoroughly examines the execution of icewm.\n"
+        "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+        "                      Gives a backtrace if icewm segfaults.\n"
+        );
+
+        return helptext.c_str();
     }
 
     const char *displayArg;
@@ -637,6 +648,7 @@ private:
     int rescue_pid;
     timeval crashtime;
     mstring wmoptions;
+    mstring helptext;
 };
 
 void SessionManager::rescueFocus() {
