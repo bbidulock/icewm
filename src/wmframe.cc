@@ -1489,8 +1489,8 @@ void YFrameWindow::loseWinFocus() {
         else {
             setBackground(inactiveBorderBg);
             repaint();
-            if (titlebar())
-                titlebar()->deactivate();
+            if (fTitleBar)
+                fTitleBar->deactivate();
         }
         updateTaskBar();
     }
@@ -1504,8 +1504,8 @@ void YFrameWindow::setWinFocus() {
         if (isIconic())
             fMiniIcon->repaint();
         else {
-            if (titlebar())
-                titlebar()->activate();
+            if (fTitleBar)
+                fTitleBar->activate();
             setBackground(activeBorderBg);
             repaint();
         }
@@ -1676,8 +1676,8 @@ MiniIcon *YFrameWindow::getMiniIcon() {
 
 void YFrameWindow::refresh() {
     repaint();
-    if (titlebar()) {
-        titlebar()->refresh();
+    if (fTitleBar) {
+        fTitleBar->refresh();
     }
 }
 
@@ -1826,12 +1826,12 @@ void YFrameWindow::handlePopDown(YPopupWindow *popup) {
 
 void YFrameWindow::popupSystemMenu(YWindow *owner) {
     if (fPopupActive == nullptr) {
-        if (titlebar() &&
-            titlebar()->visible() &&
-            titlebar()->menuButton() &&
-            titlebar()->menuButton()->visible())
+        if (fTitleBar &&
+            fTitleBar->visible() &&
+            fTitleBar->menuButton() &&
+            fTitleBar->menuButton()->visible())
         {
-            titlebar()->menuButton()->popupMenu();
+            fTitleBar->menuButton()->popupMenu();
         }
         else {
             int ax = x() + container()->x();
@@ -1862,8 +1862,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 
 void YFrameWindow::updateTitle() {
     layoutShape();
-    if (titlebar())
-        titlebar()->repaint();
+    if (fTitleBar)
+        fTitleBar->repaint();
     updateIconTitle();
     if (fWinListItem && windowList && windowList->visible())
         windowList->repaintItem(fWinListItem);
@@ -3163,15 +3163,15 @@ void YFrameWindow::setState(long mask, long state) {
             fMiniIcon->hide();
         }
     }
-    if (hasbit(deltaState, WinStateMaximizedBoth) && titlebar()) {
-        YFrameButton* maxi = titlebar()->maximizeButton();
+    if (hasbit(deltaState, WinStateMaximizedBoth) && fTitleBar) {
+        YFrameButton* maxi = fTitleBar->maximizeButton();
         if (maxi) {
             maxi->setKind(YFrameTitleBar::Maxi);
             maxi->repaint();
         }
     }
-    if (hasbit(deltaState, WinStateRollup) && titlebar()) {
-        YFrameButton* rollup = titlebar()->rollupButton();
+    if (hasbit(deltaState, WinStateRollup) && fTitleBar) {
+        YFrameButton* rollup = fTitleBar->rollupButton();
         if (rollup) {
             rollup->setKind(YFrameTitleBar::Roll);
             rollup->repaint();
@@ -3215,8 +3215,11 @@ void YFrameWindow::updateMwmHints() {
     int by = borderY();
 
     getFrameHints();
+    if (isManaged()) {
+        performLayout();
+    }
 
-    if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
+    if (!isRollup())
         configureClient(x() + bx + bx - borderX(),
                         y() + by + by - borderY() + titleY(),
                         client()->width(), client()->height());

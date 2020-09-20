@@ -311,17 +311,16 @@ void YFrameWindow::performLayout()
 }
 
 void YFrameWindow::layoutTitleBar() {
-    int height = titleY();
-    if (height == 0) {
+    if (titleY()) {
         if (fTitleBar) {
-            delete fTitleBar;
-            fTitleBar = nullptr;
+            fTitleBar->relayout();
+        } else {
+            fTitleBar = new YFrameTitleBar(this, this);
         }
     }
-    else if (isIconic() == false && titlebar()) {
-        int x = borderX(), y = borderY();
-        int w = max(1, int(width()) - 2 * x);
-        fTitleBar->setGeometry(YRect(x, y, w, height));
+    else if (fTitleBar) {
+        delete fTitleBar;
+        fTitleBar = nullptr;
     }
 }
 
