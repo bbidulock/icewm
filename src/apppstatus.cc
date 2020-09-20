@@ -33,6 +33,44 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
+class NetDevice : public INetDevice {
+public:
+    NetDevice(mstring netdev) : fDevName(netdev) {}
+    const char* getPhoneNumber() override { return ""; }
+    mstring name() const { return fDevName; }
+protected:
+    mstring fDevName;
+};
+
+class NetLinuxDevice : public NetDevice {
+public:
+    NetLinuxDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetFreeDevice : public NetDevice {
+public:
+    NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetOpenDevice : public NetDevice {
+public:
+    NetOpenDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetDummyDevice : public NetDevice {
+public:
+    NetDummyDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp() { return false; }
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
+    { }
+};
+
 static NetDevice* getNetDevice(mstring netdev)
 {
     return
@@ -686,8 +724,7 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
 
 #ifdef __linux__
 void NetStatusControl::linuxUpdate() {
-
-    devicesText = filereader("/proc/net/dev").read_all();
+    auto devicesText = filereader("/proc/net/dev").read_all();
     if (devicesText == nullptr)
         return;
     int const count(fNetStatus.getCount());

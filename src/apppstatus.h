@@ -23,47 +23,12 @@ public:
     virtual void handleClick(const XButtonEvent &up, mstring netdev) = 0;
 };
 
-class NetDevice {
+class INetDevice {
 public:
-    NetDevice(mstring netdev) : fDevName(netdev) {}
     virtual bool isUp() = 0;
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData) = 0;
     virtual const char* getPhoneNumber() { return ""; }
-    virtual ~NetDevice() {}
-
-    mstring name() const { return fDevName; }
-
-protected:
-    mstring fDevName;
-};
-
-class NetLinuxDevice : public NetDevice {
-public:
-    NetLinuxDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
-};
-
-class NetFreeDevice : public NetDevice {
-public:
-    NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
-};
-
-class NetOpenDevice : public NetDevice {
-public:
-    NetOpenDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
-};
-
-class NetDummyDevice : public NetDevice {
-public:
-    NetDummyDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp() { return false; }
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
-    { }
+    virtual ~INetDevice() {}
 };
 
 class NetStatus: public IApplet, private Picturer {
@@ -94,7 +59,7 @@ private:
 
     bool wasUp;               // previous link status
     mstring fDevName;         // name of the device
-    osmart<NetDevice> fDevice;
+    osmart<INetDevice> fDevice;
 
     void updateVisible(bool aVisible);
     // methods local to this class
@@ -126,8 +91,6 @@ private:
     osmart<YMenu> fMenu;
 
 #ifdef __linux__
-    // preprocessed data from procfs with offset table (name, values, name, vaues, ...)
-    fcsmart devicesText;
     void linuxUpdate();
 #endif
     YStringArray patterns;
