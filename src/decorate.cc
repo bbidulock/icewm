@@ -394,41 +394,6 @@ void YFrameWindow::layoutClient() {
     }
 }
 
-bool YFrameWindow::canClose() const {
-    if (frameFunctions() & ffClose)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canMaximize() const {
-    if (frameFunctions() & ffMaximize)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canMinimize() const {
-    if (frameFunctions() & ffMinimize)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canRollup() const {
-    if ((frameFunctions() & ffRollup) && titleY() > 0)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canHide() const {
-    if (frameFunctions() & ffHide)
-        return true;
-    else
-        return false;
-}
-
 bool YFrameWindow::canLower() const {
     for (YFrameWindow* w = next(); w; w = w->next()) {
         for (YFrameWindow* o = owner(); o != w; o = o->owner()) {
@@ -440,7 +405,7 @@ bool YFrameWindow::canLower() const {
     return false;
 }
 
-bool YFrameWindow::canRaise() {
+bool YFrameWindow::canRaise() const {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow()) {
             for (YFrameWindow* o = w; o != this; o = o->owner()) {

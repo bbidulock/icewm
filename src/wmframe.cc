@@ -265,81 +265,21 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
-    getFrameHints();
-
-    {
-        long layer = 0;
-        Atom net_wm_window_type;
-        if (fClient->getNetWMWindowType(&net_wm_window_type)) {
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_COMBO)
-            {
-                setWindowType(wtCombo);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DESKTOP)
-            {
-/// TODO #warning "this needs some cleanup"
-                setWindowType(wtDesktop);
-                setAllWorkspaces();
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DIALOG)
-            {
-                setWindowType(wtDialog);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DND)
-            {
-                setWindowType(wtDND);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DOCK)
-            {
-                setWindowType(wtDock);
-                setAllWorkspaces();
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU)
-            {
-                setWindowType(wtDropdownMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_MENU)
-            {
-                setWindowType(wtMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NORMAL)
-            {
-                setWindowType(wtNormal);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NOTIFICATION)
-            {
-                setWindowType(wtNotification);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_POPUP_MENU)
-            {
-                setWindowType(wtPopupMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_SPLASH)
-            {
-                setWindowType(wtSplash);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLBAR)
-            {
-                setWindowType(wtToolbar);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLTIP)
-            {
-                setWindowType(wtTooltip);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_UTILITY)
-            {
-                setWindowType(wtUtility);
-            } else
-            {
-                setWindowType(wtNormal);
-            }
-            updateMwmHints();
-            updateLayer(true);
-        }
-        else if (fClient->getWinLayerHint(&layer)) {
-            setRequestedLayer(layer);
+    if (fClient->getNetWMWindowType(&fWindowType)) {
+        if (fWindowType == wtDesktop || fWindowType == wtDock) {
+            setAllWorkspaces();
         }
     }
+    long layer = fWinRequestedLayer;
+    if (fClient->getWinLayerHint(&layer) &&
+        layer != fWinRequestedLayer &&
+        inrange(layer, 0L, WinLayerAboveAll))
+    {
+        setRequestedLayer(layer);
+    } else {
+        updateLayer(true);
+    }
+    getFrameHints();
 
     getDefaultOptions(requestFocus);
     updateNetWMStrut(); /// ? here
@@ -936,7 +876,7 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (isMinimized() || isHidden() || isRollup() || client()->destroyed())
+    if (isUnmapped() || client()->destroyed())
         return false;
     if (t == fAutoRaiseTimer) {
         if (canRaise())
@@ -1567,7 +1507,7 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
 }
 
 bool YFrameWindow::canShow() const {
-    if (isHidden() || isMinimized() || isRollup()) {
+    if (isUnmapped()) {
         return true;
     }
 
@@ -1936,10 +1876,10 @@ void YFrameWindow::updateAllowed() {
         atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_HORZ;
         atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_VERT;
     }
-//  if ((fFrameFunctions & ffHide) || (fFrameDecors & fdHide))
-//      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
     if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
         atoms[i++] = _XA_NET_WM_ACTION_SHADE;
+    if (canFullscreen())
+        atoms[i++] = _XA_NET_WM_ACTION_FULLSCREEN;
     if (true || (fFrameDecors & fdDepth)) {
         atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
         atoms[i++] = _XA_NET_WM_ACTION_BELOW;
@@ -1954,10 +1894,7 @@ void YFrameWindow::getFrameHints() {
     long functions = client()->mwmFunctions();
     long win_hints = client()->winHints();
     MwmHints *mwm_hints = client()->mwmHints();
-    int functions_only = (mwm_hints &&
-                      (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
-                                           MWM_HINTS_DECORATIONS))
-                      == MWM_HINTS_FUNCTIONS);
+    int functions_only = (mwm_hints && mwm_hints->onlyFuncs());
 
     unsigned long old_functions = fFrameFunctions;
     unsigned long old_decors = fFrameDecors;
@@ -3211,18 +3148,22 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 #endif
 
 void YFrameWindow::updateMwmHints() {
+#if 0
     int bx = borderX();
     int by = borderY();
+#endif
 
     getFrameHints();
     if (isManaged()) {
         performLayout();
     }
 
+#if 0
     if (!isRollup())
         configureClient(x() + bx + bx - borderX(),
                         y() + by + by - borderY() + titleY(),
                         client()->width(), client()->height());
+#endif
 }
 
 ref<YIcon> YFrameWindow::clientIcon() const {

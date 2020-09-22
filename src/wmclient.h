@@ -16,6 +16,23 @@ class YIcon;
 
 typedef int FrameState;
 
+enum WindowType {
+    wtCombo,
+    wtDesktop,
+    wtDialog,
+    wtDND,
+    wtDock,
+    wtDropdownMenu,
+    wtMenu,
+    wtNormal,
+    wtNotification,
+    wtPopupMenu,
+    wtSplash,
+    wtToolbar,
+    wtTooltip,
+    wtUtility,
+};
+
 class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = nullptr; }
@@ -86,7 +103,7 @@ public:
     virtual bool canLower() const = 0;
     virtual bool canMinimize() const = 0;
     virtual bool canMaximize() const = 0;
-    virtual bool canRaise() = 0;
+    virtual bool canRaise() const = 0;
     virtual bool canRestore() const = 0;
     virtual bool canRollup() const = 0;
     virtual void wmRaise() = 0;
@@ -220,7 +237,7 @@ public:
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
     bool getNetWMWindowOpacity(long &opacity);
-    bool getNetWMWindowType(Atom *window_type);
+    bool getNetWMWindowType(WindowType *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);

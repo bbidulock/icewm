@@ -838,7 +838,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
         return false;
     if (isFullscreen())
         return false;
-    if (!(frameFunctions() & ffResize))
+    if (!isResizable())
         return false;
     if (!sizeMaximized) {
         if ((!vert || isMaximizedVert()) &&
@@ -846,10 +846,6 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
             return false;
     }
     return true;
-}
-
-bool YFrameWindow::canMove() const {
-    return hasbit(frameFunctions(), ffMove);
 }
 
 void YFrameWindow::startMoveSize(int x, int y,
