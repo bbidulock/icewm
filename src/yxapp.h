@@ -64,6 +64,9 @@ public:
     long operator*() const { return *data<long>(); }
     template<class T> T* operator->() const { return data<T>(); }
 
+    Atom* begin() const { return data<Atom>(); }
+    Atom* end() const { return begin() + fSize; }
+
 private:
     Window fWind;
     unsigned char* fData;
