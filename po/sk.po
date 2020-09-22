@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-23 01:18+0200\n"
 "PO-Revision-Date: 2020-07-29 20:49+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -55,7 +55,7 @@ msgstr "Dátum"
 msgid "Default"
 msgstr "Predvolené"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Zakázať"
@@ -166,63 +166,63 @@ msgstr "Neplatný port mailboxu: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "Nebolo možné pripojiť sa na %s: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Zlyhalo hľadanie príkazu %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Zlyhalo vykonanie %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "Zápis na soket zlyhal: %s"
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Používam MailBox: \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr "Pozastavené"
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Chyba overenia stavu mailboxu."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld poštová správa, %ld neprečítaná."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld poštových správ, %ld neprečítaných."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld poštová správa."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld poštových správ."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr "MAIL"
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr "_Skontrolovať"
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr "_Pozastaviť"
 
@@ -266,7 +266,7 @@ msgstr "Používateľ: "
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -281,7 +281,7 @@ msgstr ""
 "  Prenesené (dnu/von):\t%lli %s/%lli %s\n"
 "  Celková doba pripojenia:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -289,7 +289,7 @@ msgstr ""
 "\n"
 "  Id volajúceho:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr "NET"
 
@@ -329,7 +329,7 @@ msgstr "Obsah"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Zavrieť"
 
@@ -533,84 +533,84 @@ msgstr "Rovnaká hra"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pomoc nájdete na manuálovej stránke cesh(1).\n"
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1571
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pomenované znaky domény `%s' (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1719
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovná plocha je mimo rozsah: %ld"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1740
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatný názov plochy: `%s'"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2017
 msgid "GNOME window state"
 msgstr "GNOME stav okna"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2018
 msgid "GNOME window hint"
 msgstr "GNOME tip okna"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2019
 msgid "GNOME window layer"
 msgstr "GNOME vrstva okna"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2020
 msgid "IceWM tray option"
 msgstr "IceWM nastavenia lišty"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2021
 msgid "Gravity symbols"
 msgstr "Gravitačné symboly"
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2022
 msgid "Motif functions"
 msgstr "Funkcie Motif"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2023
 msgid "Motif decorations"
 msgstr "Dekorácie Motif"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2024
 msgid "EWMH window state"
 msgstr "EWMH stav okna"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2106 src/icesh.cc:2179
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovná plocha #%d: `%s'\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2415 src/icesh.cc:3587 src/icesh.cc:3601 src/icesh.cc:4072
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Neplatný stav: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3240
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Nie je možné získať geometriu okna 0x%lx"
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3265
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Neplatná Xinerama: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3315
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akcia `%s' vyžaduje najmenej %d argumentov."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3325
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3336 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -618,35 +618,35 @@ msgstr ""
 "Neide otvoriť displej: %s. Server X musí byť spustený a premenná $DISPLAY "
 "nastavená."
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3349
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Neplatná hodnota: `%s'"
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3384
 msgid "No windows found."
 msgstr "Neboli nájdené žiadne okná."
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3399
 msgid "No actions specified."
 msgstr "Nebola zadaná žiadna akcia."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3504
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označenie okna: `%s'"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3521
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Neplatné PID: `%s'"
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3557
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Neplatná vrstva: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4393
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznáma akcia: `%s'"
@@ -686,27 +686,37 @@ msgstr ""
 "  -n, --notray        Nespustí icewmtray.\n"
 "  -s, --sound         Tiež spustí icesound.\n"
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Neznáma voľba '%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
 msgid "restart %s."
 msgstr "reštartovať %s."
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s skončilo so stavom %d."
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s bolo zabité signálom %d."
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -722,7 +732,7 @@ msgstr ""
 "\t2: Prerušiť toto sedenie?\n"
 "\t3: Spustiť terminál?\n"
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 msgid "IceWM crash response"
 msgstr "Odpoveď spadnutia IceWM"
 
@@ -1127,7 +1137,7 @@ msgstr ""
 "  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
 "\n"
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Neznámy smer pri požiadavke posun/zmena veľkosti: %d"
@@ -1451,11 +1461,11 @@ msgstr "%s nakonfigurované voľby: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná voľba: '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Potvrdiť odhlásenie"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1463,31 +1473,31 @@ msgstr ""
 "Odhlásenie zavrie všetky spustené aplikácie\n"
 "Pokračovať?"
 
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Zdvihnúť/Znížiť"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Z_rolovať"
 
@@ -1539,11 +1549,11 @@ msgstr "_Reštartovať icewm"
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1370
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1377
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1551,20 +1561,20 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3278
 msgid "Missing program setxkbmap"
 msgstr "Chýba program setxkbmap"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3279
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Neznáma voľba okna: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaktická chyba vo voľbách okna na riadku %d z %s"
@@ -1696,7 +1706,7 @@ msgstr "Usporiadať _Ikony"
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Skryť Panel úloh"
 
@@ -1712,7 +1722,7 @@ msgstr "Menu zoznamu okien"
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Ukázať Panel úloh"
 

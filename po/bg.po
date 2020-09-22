@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-23 01:18+0200\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -58,7 +58,7 @@ msgstr ""
 msgid "Default"
 msgstr "По подразбиране"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr ""
@@ -168,63 +168,63 @@ msgstr "Неправилен път до пощенска кутия: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "Не мога да се свържа с YIFF сървър: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, fuzzy, c-format
 msgid "Failed to find %s command"
 msgstr "Не мога да изпълня %s: %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "Не мога да отворя %s: %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr ""
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Използва пощенска кутия \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr ""
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Грешка при проверка на пощенска кутия."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld съобщение"
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld съобщения"
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld съобщение"
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld съобщения"
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr ""
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr ""
 
@@ -268,7 +268,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, fuzzy, c-format
 msgid ""
 "Interface %s:\n"
@@ -283,7 +283,7 @@ msgstr ""
 "  Прехвърлени (вход/изход):\t%lli %s/%lli %s\n"
 "  Време:\t%d:%02d:%02d%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -291,7 +291,7 @@ msgstr ""
 "\n"
 "  Телефонен номер:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr ""
 
@@ -331,7 +331,7 @@ msgstr "Съдържание"
 msgid "Index"
 msgstr "Индекс"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Затвори"
 
@@ -504,130 +504,130 @@ msgstr "Игра"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1571
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Именувани символи в областта `%s' (числов диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1719
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Работно поле извън обхват: %d"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1740
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неправилно име на работно поле: `%s'"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2017
 msgid "GNOME window state"
 msgstr "GNOME състояние на прозорец"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2018
 msgid "GNOME window hint"
 msgstr "GNOME подсказка на прозорец"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2019
 msgid "GNOME window layer"
 msgstr "GNOME слой на прозорец"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2020
 msgid "IceWM tray option"
 msgstr "Опция на IceWM панела за задачи"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2021
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2022
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Любими приложения"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2023
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Любими приложения"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2024
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME състояние на прозорец"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2106 src/icesh.cc:2179
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "работно поле #%d: `%s'\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2415 src/icesh.cc:3587 src/icesh.cc:3601 src/icesh.cc:4072
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3240
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3265
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3315
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Действие `%s' изисква минимум %d аргумента"
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3325
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Неправилен израз: `%s'"
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3336 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Не мога да отворя display: %s. X трябва да е стартиран и $DISPLAY установена"
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3349
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3384
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3399
 msgid "No actions specified."
 msgstr "Няма указани действия."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3504
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неправилен идентификатор на прозорец: `%s'"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3521
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3557
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4393
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестно действие: `%s'"
@@ -654,28 +654,38 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Неизвестно действие: `%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Рестартиране"
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -685,7 +695,7 @@ msgid ""
 "\t3: Run a terminal?\n"
 msgstr ""
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
@@ -1029,7 +1039,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Неизвестна посока при move/resize заявка: %d"
@@ -1342,11 +1352,11 @@ msgstr "Неразпозната опция: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Неразпозната опция: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Потвърди Изход"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1354,31 +1364,31 @@ msgstr ""
 "Всички активни приложения ще бъдат затворени при Изход.\n"
 "Продължаване?"
 
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Повдига/Снижава"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Скрива"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Възстановява"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Максимизира"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Минимизира"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Развива"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Свива"
 
@@ -1430,11 +1440,11 @@ msgstr "_Рестартира IceWM"
 msgid "_About"
 msgstr "_За"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1370
 msgid "Kill Client: "
 msgstr "Убий Клиент: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1377
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1442,20 +1452,20 @@ msgstr ""
 "ВНИМАНИЕ! Всички незапазени промени ще бъдат изгубени, когато този клиент "
 "бъде убит. Искате ли да продължите?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3278
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3279
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Непозната опция на прозореца: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Синтактична грешка в опциите на прозореца"
@@ -1589,7 +1599,7 @@ msgstr "Подрежда _Икони"
 msgid "_Refresh"
 msgstr "_Опресняване"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1611,7 +1621,7 @@ msgstr "Меню Списък на прозорци"
 msgid "Show Desktop"
 msgstr "Покажи Десктоп"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

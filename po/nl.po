@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-23 01:18+0200\n"
 "PO-Revision-Date: 2020-09-10 16:47+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -55,7 +55,7 @@ msgstr "Datum"
 msgid "Default"
 msgstr "Standaard"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Uitschakelen"
@@ -166,63 +166,63 @@ msgstr "Ongeldige e-mailpoort: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "Kon geen verbinding maken met %s: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Zoeken naar commando %s is mislukt"
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Uitvoeren van %s is mislukt"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "Naar socket schrijven is mislukt: %s"
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Gebruikt postvak: »%s«\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr "Onderbroken"
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Probleem bij het controleren van het postvak."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld e-mailbericht, %ld onelezen."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld e-mailberichten, %ld ongelezen."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld bericht."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld berichten."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr "E-MAIL"
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr "_Controleren"
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr "_Onderbreken"
 
@@ -266,7 +266,7 @@ msgstr "Gebruiker: "
 msgid "MEM"
 msgstr "GEH"
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -281,7 +281,7 @@ msgstr ""
 "  Totaal    (in/uit):\t%lli %s/%lli %s\n"
 "  Online-tijd:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -289,7 +289,7 @@ msgstr ""
 "\n"
 "  Beller-ID:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr "NET"
 
@@ -329,7 +329,7 @@ msgstr "Inhoudsopgave"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Sluiten"
 
@@ -537,84 +537,84 @@ msgstr "Hetzelfde spel"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Voor hulp bekijk de manpagina icesh(1).\n"
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1571
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Genoemde symbolen van het domein »%s« (Bereik: %ld-%ld):\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1719
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Werkruimte buiten bereik: %ld"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1740
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ongeldig werkruimtenummer: »%s«"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2017
 msgid "GNOME window state"
 msgstr "GNOME-Venster status"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2018
 msgid "GNOME window hint"
 msgstr "GNOME-Venster omschrijving"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2019
 msgid "GNOME window layer"
 msgstr "GNOME venster laag"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2020
 msgid "IceWM tray option"
 msgstr "IceWM tray optie"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2021
 msgid "Gravity symbols"
 msgstr "Gravitatiesymbolen"
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2022
 msgid "Motif functions"
 msgstr "Motif-functies"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2023
 msgid "Motif decorations"
 msgstr "Motif-decoraties"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2024
 msgid "EWMH window state"
 msgstr "EWMH-vensterstatus"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2106 src/icesh.cc:2179
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Werkruimte #%d: »%s«\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2415 src/icesh.cc:3587 src/icesh.cc:3601 src/icesh.cc:4072
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ongeldige status: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3240
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan geometrie van venster 0x%lx niet ophalen"
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3265
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ongeldig Xinerama: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3315
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3325
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3336 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -622,35 +622,35 @@ msgstr ""
 "Kan het display %s niet gebruiken. De X-Server moet werken en \n"
 "de omgevingsvariabele $DISPLAY moet hiernaar verwijzen."
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3349
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ongeldig argument: '%s'"
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3384
 msgid "No windows found."
 msgstr "Geen vensters gevonden."
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3399
 msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3504
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ongeldige venster identificatie: »%s«"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3521
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ongeldige PID: `%s'"
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3557
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ongeldige laag: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4393
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
@@ -689,27 +689,37 @@ msgstr ""
 "  -n, --notray        Start icewmtray niet op.\n"
 "  -s, --sound         Start ook icesound.\n"
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Onbekende optie: '%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
 msgid "restart %s."
 msgstr "herstart %s."
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s afgesloten met status %d."
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s afgesloten door signaal %d."
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -725,7 +735,7 @@ msgstr ""
 "\t2: Deze sessie afbreken?\n"
 "\t3: Een terminal starten?\n"
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 msgid "IceWM crash response"
 msgstr "Reactie van IceWM op crash"
 
@@ -1137,7 +1147,7 @@ msgstr ""
 "  -h, --help          Print dit gebruiksscherm en sluit af.\n"
 "\n"
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Onbekende richting in verplaats/schaal verzoek: %d"
@@ -1461,11 +1471,11 @@ msgstr "%s geconfigureerde opties:%s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1474,31 +1484,31 @@ msgstr ""
 "Afmelden?"
 
 #
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Stijgen/Dalen"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Verbergen"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Herstellen"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Maximaliseren"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Minimaliseren"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Afrollen"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Oprollen"
 
@@ -1551,11 +1561,11 @@ msgid "_About"
 msgstr "_Over"
 
 #
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1370
 msgid "Kill Client: "
 msgstr "Stoppen van: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1377
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1564,20 +1574,20 @@ msgstr ""
 "als u dit programma stopt!\n"
 "Wilt u doorgaan?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3278
 msgid "Missing program setxkbmap"
 msgstr "Programma setxkbmap ontbreekt"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3279
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Om van toetsenbord te wisselen, installeer setxkbmap."
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Onbekende window optie: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfout in windowoptie op lijn  %d van %s"
@@ -1709,7 +1719,7 @@ msgstr "_Pictogrammen opruimen"
 msgid "_Refresh"
 msgstr "_Verversen"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Taakbalk verbergen"
 
@@ -1725,7 +1735,7 @@ msgstr "Llijstmenu van venster"
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Taakbalk tonen"
 
