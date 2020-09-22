@@ -1567,7 +1567,7 @@ long SymbolTable::parseExpression(char const * expression) const {
 }
 
 void SymbolTable::listSymbols(char const * label) const {
-    const long limit = fMax == 8191 ? fMax : 1023L;
+    const long limit = fMax == 8191 ? fMax : 2047L;
     printf(_("Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"),
            label, fMin, min(fMax, limit));
 
@@ -3062,6 +3062,56 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             if (h.flags & PBaseSize) {
                 printf(" Base(%d,%d)", h.base_width, h.base_height);
             }
+            newline();
+        }
+        return;
+    }
+
+    if (atom == ATOM_WM_STATE) {
+        YWmState s(window);
+        if (s) {
+            const char* name(atomName(atom));
+            printf("%s%s = ", prefix, (char *) name);
+            if (s[0] == IconicState)
+                printf("Iconic");
+            else if (s[0] == NormalState)
+                printf("Normal");
+            else if (s[0] == WithdrawnState)
+                printf("Withdrawn");
+            else
+                printf("%ld", s[0]);
+            if (2 == s.count())
+                printf(", 0x%lx", s[1]);
+            newline();
+        }
+        return;
+    }
+
+    if (atom == ATOM_WIN_STATE) {
+        YWinState ws(window);
+        if (ws) {
+            const char* name(atomName(atom));
+            printf("%s%s =", prefix, (char *) name);
+            const char c[] = "+ ";
+            int i = 0;
+            Atom st = ws.state();
+            if (st & WinStateSticky) printf("%cSticky", c[!i++]);
+            if (st & WinStateMinimized) printf("%cMinimized", c[!i++]);
+            if (hasbits(st, WinStateMaximizedBoth))
+                printf("%cMaximized", c[!i++]);
+            else if (hasbit(st, WinStateMaximizedVert))
+                printf("%cMaximizedVert", c[!i++]);
+            else if (hasbit(st, WinStateMaximizedHoriz))
+                printf("%cMaximizedHoriz", c[!i++]);
+            if (st & WinStateHidden) printf("%cHidden", c[!i++]);
+            if (st & WinStateRollup) printf("%cRollup", c[!i++]);
+            if (st & WinStateFullscreen) printf("%cFullscreen", c[!i++]);
+            if (st & WinStateFocused) printf("%cFocused", c[!i++]);
+            if (st & WinStateUrgent) printf("%cUrgent", c[!i++]);
+            if (st & WinStateAbove) printf("%cAbove", c[!i++]);
+            if (st & WinStateBelow) printf("%cBelow", c[!i++]);
+            if (st & WinStateModal) printf("%cModal", c[!i++]);
+            if (i == 0) printf(" %lu", st);
             newline();
         }
         return;
