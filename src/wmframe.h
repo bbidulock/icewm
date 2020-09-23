@@ -207,8 +207,8 @@ public:
         ffClose         = (1 << 2),
         ffMinimize      = (1 << 3),
         ffMaximize      = (1 << 4),
-        ffHide          = (1 << 5),
-        ffRollup        = (1 << 6)
+        ffRollup        = (1 << 5),
+        ffHide          = (1 << 6),
     };
 
     enum YFrameDecors {
@@ -217,8 +217,8 @@ public:
         fdClose         = (1 << 2),
         fdMinimize      = (1 << 3),
         fdMaximize      = (1 << 4),
-        fdHide          = (1 << 5),
-        fdRollup        = (1 << 6),
+        fdRollup        = (1 << 5),
+        fdHide          = (1 << 6),
         fdDepth         = (1 << 7),
         fdBorder        = (1 << 8),
         fdSysMenu       = (1 << 9),

@@ -1898,7 +1898,6 @@ void YFrameWindow::getFrameHints() {
 
     unsigned long old_functions = fFrameFunctions;
     unsigned long old_decors = fFrameDecors;
-    unsigned long old_options = fFrameOptions;
 
     fFrameFunctions = 0;
     fFrameDecors = 0;
@@ -2031,9 +2030,7 @@ void YFrameWindow::getFrameHints() {
     fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
     fFrameOptions |= (wo.options & fWinOptionMask);
 
-    if (fFrameFunctions != old_functions ||
-        fFrameDecors != old_decors ||
-        fFrameOptions != old_options)
+    if (hasbit((fFrameFunctions | fFrameDecors) ^ (old_functions | old_decors), 63))
     {
         updateAllowed();
     }
@@ -3148,22 +3145,13 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 #endif
 
 void YFrameWindow::updateMwmHints() {
-#if 0
-    int bx = borderX();
-    int by = borderY();
-#endif
-
+    YDimension old(dimension());
     getFrameHints();
-    if (isManaged()) {
+    updateDerivedSize(None);
+    updateLayout();
+    if (old == dimension()) {
         performLayout();
     }
-
-#if 0
-    if (!isRollup())
-        configureClient(x() + bx + bx - borderX(),
-                        y() + by + by - borderY() + titleY(),
-                        client()->width(), client()->height());
-#endif
 }
 
 ref<YIcon> YFrameWindow::clientIcon() const {
