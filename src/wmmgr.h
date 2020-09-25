@@ -25,8 +25,8 @@ class UserTime {
 private:
     unsigned long xtime;
     bool valid;
-    long since;
-    enum {
+    unsigned long since;
+    enum : unsigned long {
         XTimeMask = 0xFFFFFFFFUL,       // milliseconds
         XTimeRange = 0x7FFFFFFFUL,      // milliseconds
         SInterval = 0x3FFFFFFFUL / 1000,     // seconds

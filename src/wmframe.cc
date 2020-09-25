@@ -2196,11 +2196,11 @@ void YFrameWindow::updateIcon() {
 
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
-        const unsigned sizes[3] = {
-            YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()
+        const long sizes[3] = {
+            long(YIcon::smallSize()), long(YIcon::largeSize()), long(YIcon::hugeSize())
         };
         long* largestOffset = nullptr;
-        unsigned largestSize = 0;
+        long largestSize = 0;
 
         // Find icons that match Small-/Large-/HugeIconSize and search
         // for the largest icon from NET_WM_ICON set.
