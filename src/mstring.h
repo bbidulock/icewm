@@ -10,6 +10,13 @@
 #include <cinttypes>
 #include <utility>
 
+/*
+ * NOTE: possible options to tune here:
+ * - DEBUG_NOUTYPUN: force pure standard conform pointer conversion
+ * - DEBUG_SSOLIMIT: optional, can be used to push even short strings onto
+ *                   heap, although zero-length is still not allocating
+ */
+
 class mstring;
 class precompiled_regex;
 
@@ -41,36 +48,33 @@ private:
     friend void swap(mstring& a, mstring& b);
     friend class mstring_view;
 
-#if defined(__GNUC__) && ! defined(NOUTYPUN)
+#if defined(__GNUC__) && ! defined(DEBUG_NOUTYPUN)
     struct TRefData {
         char *p;
         // for now: inflate a bit, later: to implement set preservation
         uint64_t nReserved;
     };
 
-// local area minus SSO counter minus terminator minus local flag
-#define MSTRING_INPLACE_MAXLEN (sizeof(mstring::spod) - 3)
+#ifdef DEBUG_SSOLIMIT
+    // local area minus SSO counter minus terminator minus local flag
+    #define MSTRING_INPLACE_MAXLEN DEBUG_SSOLIMIT
+#else
+    #define MSTRING_INPLACE_MAXLEN (sizeof(mstring::spod) - 3)
+#endif
+
 #define MSTRING_INPLACE_FLAG   spod.extraBytes[sizeof(spod.extraBytes)-1]
 
     // can compress more where union-based type punning are legal!
     struct {
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
         union {
             size_type count;
             uint8_t cBytes[sizeof(size_type)];
         };
-#endif
         union {
             TRefData ext;
             // for easier debugging & compensate smaller pointer size on 32bit
             char extraBytes[sizeof(ext)];
         };
-#if __BYTE_ORDER__ != __ORDER_LITTLE_ENDIAN__
-        union {
-            size_type count;
-            uint8_t cBytes[sizeof(size_type)];
-        };
-#endif
     } spod;
 #else
     // for other compilers: no punning on count var and extra careful access
@@ -79,7 +83,11 @@ private:
     // local area minus SSO counter minus terminator
 #define MSTRING_INPLACE_BUFSIZE (3*sizeof(size_type))
 #define MSTRING_INPLACE_FLAG spod.cBytes[MSTRING_INPLACE_BUFSIZE - 1]
+#ifdef DEBUG_SSOLIMIT
+#define MSTRING_INPLACE_MAXLEN DEBUG_SSOLIMIT
+#else
 #define MSTRING_INPLACE_MAXLEN (MSTRING_INPLACE_BUFSIZE - 2)
+#endif
 
     struct {
         size_type count;
@@ -124,7 +132,7 @@ public:
 #ifdef SSO_NOUTYPUN
         return spod.count;
 #else
-        return isLocal() ? (spod.count & 0xff) : spod.count;
+        return isLocal() ? spod.cBytes[0] : spod.count;
 #endif
     }
     bool isEmpty() const {

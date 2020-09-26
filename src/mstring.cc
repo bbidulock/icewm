@@ -12,6 +12,7 @@
 #include <new>
 #include <cstdint>
 #include <cstdarg>
+#include <type_traits>
 
 #include "base.h"
 #include "ascii.h"
@@ -19,15 +20,15 @@
 #include <fnmatch.h>
 #include <regex.h>
 
-#if __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
-#define dsoffset (offsetof(decltype(mstring::spod), cBytes) + 1)
-#define posSmallCounter 0
-#else
-#define dsoffset 0
-#define posSmallCounter 0 (sizeof(size_type)-1)
-#endif
+// inplace mode: counter in first byte, data following
+#define offsetPodCounter (offsetof(decltype(mstring::spod), cBytes))
+#define offsetPodData (offsetPodCounter + 1)
 
 mstring::mstring(const char *str, size_type len) {
+
+    static_assert(std::is_trivial<decltype(spod)>::value);
+    static_assert(std::is_standard_layout<decltype(spod)>::value);
+
     set_len(0);
     set_ptr(0);
     markLocal(true);
@@ -121,7 +122,7 @@ void mstring::set_len(size_type len, bool forceExternal) {
         spod.count = len;
         markLocal(false);
     } else {
-        spod.cBytes[posSmallCounter] = uint8_t(len);
+        spod.cBytes[offsetPodCounter] = uint8_t(len);
         markLocal(true);
     }
 #endif
@@ -202,7 +203,7 @@ const char* mstring::data() const {
 #else
     if (!inplace)
         return get_ptr();
-    return ((const char*) spod.cBytes) + dsoffset;
+    return ((const char*) spod.cBytes) + offsetPodData;
 #endif
 }
 char* mstring::data() {
@@ -214,10 +215,10 @@ char* mstring::data() {
 #else
     if (!inplace)
         return get_ptr();
-    return ((char*) spod.cBytes) + dsoffset;
+    return ((char*) spod.cBytes) + offsetPodData;
 #endif
 }
-// static_assert(offsetof(mstring::TRefData, pData) < sizeof(mstring::TRefData) - dsoffset);
+// static_assert(offsetof(mstring::TRefData, pData) < sizeof(mstring::TRefData) - offsetPodData);
 
 mstring mstring::substring(size_type pos) const {
     auto l = length();

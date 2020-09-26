@@ -19,7 +19,7 @@ INCLUDE(FindPkgConfig)
 INCLUDE(CheckCXXSourceCompiles)
 INCLUDE(CheckCXXCompilerFlag)
 
-SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DHAVE_CONFIG_H -include "${CMAKE_BINARY_DIR}/config.h")
+SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DHAVE_CONFIG_H -include "${CMAKE_BINARY_DIR}/config.h" ${ICEWM_CXX_USER_FLAGS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(icewm_libs "")
@@ -72,6 +72,8 @@ option(CONFIG_EXTERNAL_TRAY "Define for external systray (deprecated)" off)
 option(ENABLE_NLS "Enable Native Language Support" on)
 option(ENABLE_LTO "Enable Link Time Optimization" off)
 option(ENABLE_LOGEVENTS "Enable logging of X11 events" off)
+
+option(DEBUG_NOUTYPUN "Disable union-based type punning (for debugging purposes only!)" off)
 
 set(LOGEVENTS ${ENABLE_LOGEVENTS})
 SET(CONFIG_DEFAULT_THEME "default/default.theme" CACHE STRING "Name of default theme")

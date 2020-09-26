@@ -669,9 +669,10 @@ public:
 
     /**
      * WARNING:
-     * after getting an element (by reference), the reference will be
-     * initialized, with a non-default value (i.e. comparing to TElement()
-     * must become false)
+     * after getting an element reference, the internal counter will be
+     * adjusted by assumption that user will add an element after that if the
+     * value was not set before. For plain checks of existence, use of has() or
+     * find() is advisable.
      */
     TElement& operator[](const char *key) {
         if (count >= pool.highMark)
