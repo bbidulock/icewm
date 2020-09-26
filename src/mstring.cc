@@ -275,19 +275,15 @@ bool mstring::endsWith(mstring_view s) const {
 }
 
 int mstring::find(mstring_view str) const {
-    const char *found =
-            (str.isEmpty() || isEmpty()) ?
-                    nullptr :
-                    static_cast<const char*>(memmem(data(), length(),
-                            str.data(), str.length()));
+    const char* found = (str.isEmpty() || isEmpty()) ? nullptr :
+        static_cast<const char*>(memmem(
+                data(), length(), str.data(), str.length()));
     return found ? int(found - data()) : (str.isEmpty() - 1);
 }
 
 int mstring::indexOf(char ch) const {
-    const char *str =
-            isEmpty() ?
-                    nullptr :
-                    static_cast<const char*>(memchr(data(), ch, length()));
+    const char *str = isEmpty() ? nullptr :
+        static_cast<const char*>(memchr(data(), ch, length()));
     return str ? int(str - data()) : -1;
 }
 

@@ -320,12 +320,12 @@ void YApplication::exit(int exitCode) {
 }
 
 void YApplication::handleSignal(int sig) {
-    if (sig != SIGCHLD)
-        return;
-    int s, rc;
-    do {
-        rc = waitpid(-1, &s, WNOHANG);
-    } while (rc > 0);
+    if (sig == SIGCHLD) {
+        int s, rc;
+        do {
+            rc = waitpid(-1, &s, WNOHANG);
+        } while (rc > 0);
+    }
 }
 
 bool YApplication::handleIdle() {
@@ -493,16 +493,15 @@ const upath& YApplication::getPrivConfDir() {
             dir.mkdir();
     } else {
         env = getenv("XDG_CONFIG_HOME");
-        auto hd = getHomeDir();
         if (env)
             dir = env;
         else {
-            dir = hd + "/.config";
+            dir = getHomeDir() + "/.config";
         }
         dir += "/icewm";
         if (!dir.dirExists()) {
-            dir = hd + "/.icewm";
-            if (!dir.dirExists())
+            dir = getHomeDir() + "/.icewm";
+            if ( ! dir.dirExists())
                 dir.mkdir();
         }
     }
