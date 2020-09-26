@@ -612,7 +612,7 @@ void NetStatusControl::getInterfaces(YStringArray& names)
     unsigned const stop(99);
 
     struct if_nameindex* ifs = if_nameindex(), *i = ifs;
-    for (; i && i->if_index && i->if_name && i - ifs < stop; ++i)
+    for (; i && i->if_index && i->if_name && unsigned(i - ifs) < stop; ++i)
         names.append(i->if_name);
     if (ifs)
         if_freenameindex(ifs);

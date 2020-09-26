@@ -1023,19 +1023,16 @@ void YFrameClient::saveSizeHints()
 {
     memcpy(&savedSizeHints, fSizeHints, sizeof(XSizeHints));
 }
+
 void YFrameClient::restoreSizeHints() {
     memcpy(fSizeHints, &savedSizeHints, sizeof(XSizeHints));
 }
 
-
 long YFrameClient::mwmFunctions() {
     long functions = ~0U;
 
-    if (fMwmHints && (fMwmHints->flags & MWM_HINTS_FUNCTIONS)) {
-        if (fMwmHints->functions & MWM_FUNC_ALL)
-            functions = ~fMwmHints->functions;
-        else
-            functions = fMwmHints->functions;
+    if (fMwmHints && fMwmHints->hasFuncs()) {
+        functions = fMwmHints->funcs();
     } else {
         XSizeHints *sh = sizeHints();
 
@@ -1062,11 +1059,8 @@ long YFrameClient::mwmDecors() {
     long decors = ~0U;
     long func = mwmFunctions();
 
-    if (fMwmHints && (fMwmHints->flags & MWM_HINTS_DECORATIONS)) {
-        if (fMwmHints->decorations & MWM_DECOR_ALL)
-            decors = ~fMwmHints->decorations;
-        else
-            decors = fMwmHints->decorations;
+    if (fMwmHints && fMwmHints->hasDecor()) {
+        decors = fMwmHints->decor();
     } else {
         XSizeHints *sh = sizeHints();
 
@@ -1265,8 +1259,8 @@ void YFrameClient::setWinStateHint(long mask, long state) {
 bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     long flags = None;
     YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
-    for (int i = 0; i < int(prop.size()); ++i) {
-        flags |= getMask(prop[i]);
+    for (Atom atom : prop) {
+        flags |= getMask(atom);
     }
     if (hasbit(flags, WinStateHidden)) {
         flags = (flags & ~WinStateHidden) | WinStateMinimized;
@@ -1430,40 +1424,38 @@ bool YFrameClient::getNetWMWindowOpacity(long &opacity) {
     return false;
 }
 
-bool YFrameClient::getNetWMWindowType(Atom *window_type) { // !!! for now, map to layers
-    *window_type = None;
-
+bool YFrameClient::getNetWMWindowType(WindowType *window_type) {
     if (!prop.net_wm_window_type)
         return false;
 
     YProperty prop(this, _XA_NET_WM_WINDOW_TYPE, F32, 16);
     if (prop) {
-        Atom types[] = {
-            _XA_NET_WM_WINDOW_TYPE_COMBO,
-            _XA_NET_WM_WINDOW_TYPE_DESKTOP,
-            _XA_NET_WM_WINDOW_TYPE_DIALOG,
-            _XA_NET_WM_WINDOW_TYPE_DND,
-            _XA_NET_WM_WINDOW_TYPE_DOCK,
-            _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU,
-            _XA_NET_WM_WINDOW_TYPE_MENU,
-            _XA_NET_WM_WINDOW_TYPE_NORMAL,
-            _XA_NET_WM_WINDOW_TYPE_NOTIFICATION,
-            _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,
-            _XA_NET_WM_WINDOW_TYPE_SPLASH,
-            _XA_NET_WM_WINDOW_TYPE_TOOLBAR,
-            _XA_NET_WM_WINDOW_TYPE_TOOLTIP,
-            _XA_NET_WM_WINDOW_TYPE_UTILITY,
+        struct { Atom atom; WindowType wt; } types[] = {
+            { _XA_NET_WM_WINDOW_TYPE_COMBO,         wtCombo },
+            { _XA_NET_WM_WINDOW_TYPE_DESKTOP,       wtDesktop },
+            { _XA_NET_WM_WINDOW_TYPE_DIALOG,        wtDialog },
+            { _XA_NET_WM_WINDOW_TYPE_DND,           wtDND },
+            { _XA_NET_WM_WINDOW_TYPE_DOCK,          wtDock },
+            { _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU, wtDropdownMenu },
+            { _XA_NET_WM_WINDOW_TYPE_MENU,          wtMenu },
+            { _XA_NET_WM_WINDOW_TYPE_NORMAL,        wtNormal },
+            { _XA_NET_WM_WINDOW_TYPE_NOTIFICATION,  wtNotification },
+            { _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,    wtPopupMenu },
+            { _XA_NET_WM_WINDOW_TYPE_SPLASH,        wtSplash },
+            { _XA_NET_WM_WINDOW_TYPE_TOOLBAR,       wtToolbar },
+            { _XA_NET_WM_WINDOW_TYPE_TOOLTIP,       wtTooltip, },
+            { _XA_NET_WM_WINDOW_TYPE_UTILITY,       wtUtility },
         };
-        for (int p = 0; p < int(prop.size()); ++p) {
-            for (int t = 0; t < int ACOUNT(types); ++t) {
-                if (Atom(prop[p]) == types[t]) {
-                    *window_type = types[t];
-                    break;
+        for (Atom atom : prop) {
+            for (auto type : types) {
+                if (atom == type.atom) {
+                    *window_type = type.wt;
+                    return true;
                 }
             }
         }
     }
-    return *window_type;
+    return false;
 }
 
 bool YFrameClient::getNetWMDesktopHint(long *workspace) {

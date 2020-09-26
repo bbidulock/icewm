@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-23 01:18+0200\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Default"
 msgstr "Şterge"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr ""
@@ -154,63 +154,63 @@ msgstr "Cale invalidă pentru căsuţa poştală: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "Nu mă pot conecta la serverul YIFF: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr ""
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "Nu pot găsi harta de pixeli %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr ""
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Folosire căsuţa poştală \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr ""
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Eroare la verificarea căsuţei postale."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld mesaj mail."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld mesaje mail."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld mesaj mail."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld mesaje mail."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr ""
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -270,7 +270,7 @@ msgstr ""
 "  Transferat (intrare/ieşire):\t%lli %s/%lli %s\n"
 "  Perioada de conectare:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -278,7 +278,7 @@ msgstr ""
 "\n"
 "  Identificare chemător:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr ""
 
@@ -318,7 +318,7 @@ msgstr "Cuprins"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Închide"
 
@@ -490,129 +490,129 @@ msgstr "Acelaşi joc"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1571
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Denumiri simbolice ale domeniului `%s' (interval numeric: %ld-%ld):\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1719
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Spaţiu de lucru în afara domeniului: %d"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1740
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Spaţiu de lucru invalid: `%s'"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2017
 msgid "GNOME window state"
 msgstr "Fereastra de stare GNOME"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2018
 msgid "GNOME window hint"
 msgstr "Fereastra sugestie Gnome"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2019
 msgid "GNOME window layer"
 msgstr "Fereastra strat GNOME"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2020
 msgid "IceWM tray option"
 msgstr "Opţiune Icewm tray"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2021
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2022
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2023
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2024
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Fereastra de stare GNOME"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2106 src/icesh.cc:2179
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "spaţiu de lucru #%d: `%s'\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2415 src/icesh.cc:3587 src/icesh.cc:3601 src/icesh.cc:4072
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3240
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3265
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3315
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3325
 #, fuzzy, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3336 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3349
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3384
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3399
 msgid "No actions specified."
 msgstr "Nici o acţiune specificată"
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3504
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificator de ferestră invalid: `%s'"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3521
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3557
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4393
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acţiune necunoscută: `%s'"
@@ -639,28 +639,38 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "Acţiune necunoscută: `%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Repornire"
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -670,7 +680,7 @@ msgid ""
 "\t3: Run a terminal?\n"
 msgstr ""
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
@@ -1005,7 +1015,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
@@ -1292,11 +1302,11 @@ msgstr "Opţiune nerecunoscută: %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Opţiune nerecunoscută: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Confirmă ieşirea"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1304,31 +1314,31 @@ msgstr ""
 "Ieşirea va închide toate aplicaţiile active.\n"
 "Continuaţi?"
 
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Ridică/Coboară"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Ascunde"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Restaurează"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Minimizează"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Rulează în jos"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Rulează în sus"
 
@@ -1381,11 +1391,11 @@ msgstr "_Reporneşte icewm"
 msgid "_About"
 msgstr "Despre"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1370
 msgid "Kill Client: "
 msgstr "Închide client: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1377
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1393,20 +1403,20 @@ msgstr ""
 "AVERTISMENT! Toate schimbările nesalvate vor fi pierdute\n"
 "când acest client este închis. Doriţi sa continuaţi?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3278
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3279
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opţiune necunoscută a ferestrei: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Eroare de sintaxă la opţiunea ferestrei"
@@ -1540,7 +1550,7 @@ msgstr "Aranjează _iconuri"
 msgid "_Refresh"
 msgstr "Actualizea_ză"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1563,7 +1573,7 @@ msgstr "Meniu lista ferestre"
 msgid "Show Desktop"
 msgstr "D_esktop"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"

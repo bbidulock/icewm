@@ -142,17 +142,17 @@ public:
 
     void getDefaultOptions(bool &doActivate);
 
-    bool canSize(bool boriz = true, bool vert = true);
-    bool canMove() const;
-    bool canClose() const;
-    bool canMaximize() const;
-    bool canMinimize() const;
+    bool canSize(bool horiz = true, bool vert = true);
+    bool canMove() const { return hasbit(frameFunctions(), ffMove); }
+    bool canClose() const { return hasbit(frameFunctions(), ffClose); }
+    bool canMaximize() const { return hasbit(frameFunctions(), ffMaximize); }
+    bool canMinimize() const { return hasbit(frameFunctions(), ffMinimize); }
     bool canRestore() const;
-    bool canRollup() const;
+    bool canRollup() const { return (frameFunctions() & ffRollup) && titleY(); }
     bool canShow() const;
-    bool canHide() const;
+    bool canHide() const { return hasbit(frameFunctions(), ffHide); }
     bool canLower() const;
-    bool canRaise();
+    bool canRaise() const;
     bool canFullscreen() const;
     bool overlaps(bool below);
     unsigned overlap(YFrameWindow *other);
@@ -207,21 +207,21 @@ public:
         ffClose         = (1 << 2),
         ffMinimize      = (1 << 3),
         ffMaximize      = (1 << 4),
-        ffHide          = (1 << 5),
-        ffRollup        = (1 << 6)
+        ffRollup        = (1 << 5),
+        ffHide          = (1 << 6),
     };
 
     enum YFrameDecors {
         fdTitleBar      = (1 << 0),
-        fdSysMenu       = (1 << 1),
-        fdBorder        = (1 << 2),
-        fdResize        = (1 << 3),
-        fdClose         = (1 << 4),
-        fdMinimize      = (1 << 5),
-        fdMaximize      = (1 << 6),
-        fdHide          = (1 << 7),
-        fdRollup        = (1 << 8),
-        fdDepth         = (1 << 9)
+        fdResize        = (1 << 1),
+        fdClose         = (1 << 2),
+        fdMinimize      = (1 << 3),
+        fdMaximize      = (1 << 4),
+        fdRollup        = (1 << 5),
+        fdHide          = (1 << 6),
+        fdDepth         = (1 << 7),
+        fdBorder        = (1 << 8),
+        fdSysMenu       = (1 << 9),
     };
 
     enum YFrameOptions {
@@ -335,24 +335,7 @@ public:
     void updateTaskBar();
     void updateAppStatus();
 
-    enum WindowType {
-        wtCombo,
-        wtDesktop,
-        wtDialog,
-        wtDND,
-        wtDock,
-        wtDropdownMenu,
-        wtMenu,
-        wtNormal,
-        wtNotification,
-        wtPopupMenu,
-        wtSplash,
-        wtToolbar,
-        wtTooltip,
-        wtUtility
-    };
-
-    void setWindowType(enum WindowType winType) { fWindowType = winType; }
+    void setWindowType(WindowType winType) { fWindowType = winType; }
     bool isTypeDock() { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }

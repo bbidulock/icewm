@@ -867,8 +867,8 @@ void YXTray::regainTrayWindows() {
     YProperty prop(desktop, _XA_KDE_NET_SYSTEM_TRAY_WINDOWS,
                    F32, 123L, XA_WINDOW, True);
     fRegained.clear();
-    for (int i = 0; i < int(prop.size()); ++i) {
-        fRegained.append(prop[i]);
+    for (Atom window : prop) {
+        fRegained += window;
     }
 }
 

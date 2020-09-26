@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-09-23 01:18+0200\n"
 "PO-Revision-Date: 2020-05-02 19:51+0000\n"
 "Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -56,7 +56,7 @@ msgstr "Date"
 msgid "Default"
 msgstr "Thème par défaut"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Désactiver"
@@ -167,63 +167,63 @@ msgstr "Port de boîte aux lettres incorrect : %s"
 msgid "Could not connect to %s: %s"
 msgstr "Échec de la connexion à %s : %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Commande %s introuvable"
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Échec de l'exécution de %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "Échec de l'écriture dans le socket : %s"
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Utilisation de la boîte à lettre \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr "Mis en veille"
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Échec de vérification de la boîte à lettre."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld message(s) électronique(s), %ld non lu(s)."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld messages électroniques, %ld non lu(s)."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld message."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld messages."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr "COURRIEL"
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr "_Vérifier"
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr "Mettre en _veille"
 
@@ -267,7 +267,7 @@ msgstr "Utilisateur : "
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -282,7 +282,7 @@ msgstr ""
 "  Transférés (E/S) :\t%lli %s/%lli %s\n"
 "  Temps passé en ligne:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -290,7 +290,7 @@ msgstr ""
 "\n"
 "  Numéro de l'appelant :\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr "NET"
 
@@ -330,7 +330,7 @@ msgstr "Sommaire"
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Fermer"
 
@@ -540,86 +540,86 @@ msgstr "Même jeu"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pour obtenir de l'aide, consultez la page de manuel icesh(1).\n"
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1571
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Symboles nommés du domaine \"%s\" (intervalle numérique: %ld-%ld) :\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1719
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Bureau hors limites : %ld"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1740
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nom de bureau incorrect : \"%s\""
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2017
 msgid "GNOME window state"
 msgstr "État de fenêtre GNOME"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2018
 msgid "GNOME window hint"
 msgstr "Recommandation de fenêtre GNOME"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2019
 msgid "GNOME window layer"
 msgstr "Couche de fenêtre GNOME"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2020
 msgid "IceWM tray option"
 msgstr "Option du \"tray\" IceWM"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2021
 msgid "Gravity symbols"
 msgstr "symboles de gravité"
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2022
 msgid "Motif functions"
 msgstr "Fonctions Motif"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2023
 msgid "Motif decorations"
 msgstr "Décorations Motif"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2024
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "État de fenêtre GNOME"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2106 src/icesh.cc:2179
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Bureau n°%d : \"%s\"\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2415 src/icesh.cc:3587 src/icesh.cc:3601 src/icesh.cc:4072
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "État non valide : '%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3240
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Impossible d'obtenir la géométrie de la fenêtre 0x%lx"
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3265
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama non valide : `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3315
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "L'action \"%s\" nécessite au moins %d paramètre(s)."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3325
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Expression incorrecte : \"%s\""
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
+#: src/icesh.cc:3336 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
 #: src/yxapp.cc:1047
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -627,35 +627,35 @@ msgstr ""
 "Impossible d'ouvrir le display %s. X doit être lancé et \n"
 "$DISPLAY doit être positionnée."
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3349
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argument non valide : `%s'"
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3384
 msgid "No windows found."
 msgstr "Aucune fenêtre trouvée."
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3399
 msgid "No actions specified."
 msgstr "Aucune action spécifiée."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3504
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identifiant de fenêtre incorrect : \"%s\""
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3521
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID non valide : '%s'"
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3557
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Couche non valide : '%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4393
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Action inconnue : \"%s\""
@@ -707,27 +707,37 @@ msgstr ""
 "  -n, --notray        Ne démarre pas icewmtray.\n"
 "  -s, --sound         Lance également icesound.\n"
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Option inconnue : '%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
 msgid "restart %s."
 msgstr "redémarrer %s."
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s s'est terminé avec le statut %d."
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s a été terminé par le signal %d."
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -749,7 +759,7 @@ msgstr ""
 "\t1 : Redémarrer IceWM ?\n"
 "\t2 : Abandonner cette session ?\n"
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 msgid "IceWM crash response"
 msgstr "Réponse en cas d'arrêt brutal d'IceWM"
 
@@ -1181,7 +1191,7 @@ msgstr ""
 "  -h, --help          Imprime cet écran de syntaxe et ferme la fenêtre.\n"
 "\n"
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Direction inconnue dans la requête de déplacement/dimensionnement: %d"
@@ -1514,11 +1524,11 @@ msgstr "%s options configurées : %s\n"
 msgid "Unrecognized option '%s'."
 msgstr "Option non reconnue '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1757
 msgid "Confirm Logout"
 msgstr "Confirmer la déconnexion"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1758
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1527,31 +1537,31 @@ msgstr ""
 "Êtes-vous sûr de vouloir vous déconnecter ?"
 
 #
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Premier/Dernier plan"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Cacher"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Restaurer"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Maximiser"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Icônifier"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Dérouler"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Enrouler"
 
@@ -1604,11 +1614,11 @@ msgid "_About"
 msgstr "À _propos"
 
 #
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1370
 msgid "Kill Client: "
 msgstr "Tuer le client : "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1377
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1616,20 +1626,20 @@ msgstr ""
 "ATTENTION ! Tous les changements non sauvegardés seront\n"
 "perdus quand ce client sera tué. Souhaitez-vous continuer ?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3278
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3279
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Option de fenêtre inconnue : %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Erreur de syntaxe dans les options de fenêtre à la ligne %d de %s"
@@ -1761,7 +1771,7 @@ msgstr "Arranger les _icônes"
 msgid "_Refresh"
 msgstr "_Rafraîchir"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:962
 msgid "Hide Taskbar"
 msgstr "Masquer la barre de tâche"
 
@@ -1777,7 +1787,7 @@ msgstr "Menu Liste des fenêtres"
 msgid "Show Desktop"
 msgstr "Montrer le bureau"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:962
 msgid "Show Taskbar"
 msgstr "Afficher la barre de tâche"
 

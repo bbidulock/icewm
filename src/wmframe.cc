@@ -265,81 +265,21 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
-    getFrameHints();
-
-    {
-        long layer = 0;
-        Atom net_wm_window_type;
-        if (fClient->getNetWMWindowType(&net_wm_window_type)) {
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_COMBO)
-            {
-                setWindowType(wtCombo);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DESKTOP)
-            {
-/// TODO #warning "this needs some cleanup"
-                setWindowType(wtDesktop);
-                setAllWorkspaces();
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DIALOG)
-            {
-                setWindowType(wtDialog);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DND)
-            {
-                setWindowType(wtDND);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DOCK)
-            {
-                setWindowType(wtDock);
-                setAllWorkspaces();
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU)
-            {
-                setWindowType(wtDropdownMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_MENU)
-            {
-                setWindowType(wtMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NORMAL)
-            {
-                setWindowType(wtNormal);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_NOTIFICATION)
-            {
-                setWindowType(wtNotification);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_POPUP_MENU)
-            {
-                setWindowType(wtPopupMenu);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_SPLASH)
-            {
-                setWindowType(wtSplash);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLBAR)
-            {
-                setWindowType(wtToolbar);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_TOOLTIP)
-            {
-                setWindowType(wtTooltip);
-            } else
-            if (net_wm_window_type == _XA_NET_WM_WINDOW_TYPE_UTILITY)
-            {
-                setWindowType(wtUtility);
-            } else
-            {
-                setWindowType(wtNormal);
-            }
-            updateMwmHints();
-            updateLayer(true);
-        }
-        else if (fClient->getWinLayerHint(&layer)) {
-            setRequestedLayer(layer);
+    if (fClient->getNetWMWindowType(&fWindowType)) {
+        if (fWindowType == wtDesktop || fWindowType == wtDock) {
+            setAllWorkspaces();
         }
     }
+    long layer = fWinRequestedLayer;
+    if (fClient->getWinLayerHint(&layer) &&
+        layer != fWinRequestedLayer &&
+        inrange(layer, 0L, WinLayerAboveAll))
+    {
+        setRequestedLayer(layer);
+    } else {
+        updateLayer(true);
+    }
+    getFrameHints();
 
     getDefaultOptions(requestFocus);
     updateNetWMStrut(); /// ? here
@@ -936,7 +876,7 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (isMinimized() || isHidden() || isRollup() || client()->destroyed())
+    if (isUnmapped() || client()->destroyed())
         return false;
     if (t == fAutoRaiseTimer) {
         if (canRaise())
@@ -1489,8 +1429,8 @@ void YFrameWindow::loseWinFocus() {
         else {
             setBackground(inactiveBorderBg);
             repaint();
-            if (titlebar())
-                titlebar()->deactivate();
+            if (fTitleBar)
+                fTitleBar->deactivate();
         }
         updateTaskBar();
     }
@@ -1504,8 +1444,8 @@ void YFrameWindow::setWinFocus() {
         if (isIconic())
             fMiniIcon->repaint();
         else {
-            if (titlebar())
-                titlebar()->activate();
+            if (fTitleBar)
+                fTitleBar->activate();
             setBackground(activeBorderBg);
             repaint();
         }
@@ -1567,7 +1507,7 @@ void YFrameWindow::updateFocusOnMap(bool& doActivate) {
 }
 
 bool YFrameWindow::canShow() const {
-    if (isHidden() || isMinimized() || isRollup()) {
+    if (isUnmapped()) {
         return true;
     }
 
@@ -1676,8 +1616,8 @@ MiniIcon *YFrameWindow::getMiniIcon() {
 
 void YFrameWindow::refresh() {
     repaint();
-    if (titlebar()) {
-        titlebar()->refresh();
+    if (fTitleBar) {
+        fTitleBar->refresh();
     }
 }
 
@@ -1826,12 +1766,12 @@ void YFrameWindow::handlePopDown(YPopupWindow *popup) {
 
 void YFrameWindow::popupSystemMenu(YWindow *owner) {
     if (fPopupActive == nullptr) {
-        if (titlebar() &&
-            titlebar()->visible() &&
-            titlebar()->menuButton() &&
-            titlebar()->menuButton()->visible())
+        if (fTitleBar &&
+            fTitleBar->visible() &&
+            fTitleBar->menuButton() &&
+            fTitleBar->menuButton()->visible())
         {
-            titlebar()->menuButton()->popupMenu();
+            fTitleBar->menuButton()->popupMenu();
         }
         else {
             int ax = x() + container()->x();
@@ -1862,8 +1802,8 @@ void YFrameWindow::popupSystemMenu(YWindow *owner, int x, int y,
 
 void YFrameWindow::updateTitle() {
     layoutShape();
-    if (titlebar())
-        titlebar()->repaint();
+    if (fTitleBar)
+        fTitleBar->repaint();
     updateIconTitle();
     if (fWinListItem && windowList && windowList->visible())
         windowList->repaintItem(fWinListItem);
@@ -1936,10 +1876,10 @@ void YFrameWindow::updateAllowed() {
         atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_HORZ;
         atoms[i++] = _XA_NET_WM_ACTION_MAXIMIZE_VERT;
     }
-//  if ((fFrameFunctions & ffHide) || (fFrameDecors & fdHide))
-//      atoms[i++] = _XA_NET_WM_ACTION_HIDE;
     if ((fFrameFunctions & ffRollup) || (fFrameDecors & fdRollup))
         atoms[i++] = _XA_NET_WM_ACTION_SHADE;
+    if (canFullscreen())
+        atoms[i++] = _XA_NET_WM_ACTION_FULLSCREEN;
     if (true || (fFrameDecors & fdDepth)) {
         atoms[i++] = _XA_NET_WM_ACTION_ABOVE;
         atoms[i++] = _XA_NET_WM_ACTION_BELOW;
@@ -1954,14 +1894,10 @@ void YFrameWindow::getFrameHints() {
     long functions = client()->mwmFunctions();
     long win_hints = client()->winHints();
     MwmHints *mwm_hints = client()->mwmHints();
-    int functions_only = (mwm_hints &&
-                      (mwm_hints->flags & (MWM_HINTS_FUNCTIONS |
-                                           MWM_HINTS_DECORATIONS))
-                      == MWM_HINTS_FUNCTIONS);
+    int functions_only = (mwm_hints && mwm_hints->onlyFuncs());
 
     unsigned long old_functions = fFrameFunctions;
     unsigned long old_decors = fFrameDecors;
-    unsigned long old_options = fFrameOptions;
 
     fFrameFunctions = 0;
     fFrameDecors = 0;
@@ -2094,9 +2030,7 @@ void YFrameWindow::getFrameHints() {
     fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
     fFrameOptions |= (wo.options & fWinOptionMask);
 
-    if (fFrameFunctions != old_functions ||
-        fFrameDecors != old_decors ||
-        fFrameOptions != old_options)
+    if (hasbit((fFrameFunctions | fFrameDecors) ^ (old_functions | old_decors), 63))
     {
         updateAllowed();
     }
@@ -2261,11 +2195,11 @@ void YFrameWindow::updateIcon() {
 
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
-        const unsigned sizes[3] = {
-            YIcon::smallSize(), YIcon::largeSize(), YIcon::hugeSize()
+        const long sizes[3] = {
+            long(YIcon::smallSize()), long(YIcon::largeSize()), long(YIcon::hugeSize())
         };
         long* largestOffset = nullptr;
-        unsigned largestSize = 0;
+        long largestSize = 0;
 
         // Find icons that match Small-/Large-/HugeIconSize and search
         // for the largest icon from NET_WM_ICON set.
@@ -3162,15 +3096,15 @@ void YFrameWindow::setState(long mask, long state) {
             fMiniIcon->hide();
         }
     }
-    if (hasbit(deltaState, WinStateMaximizedBoth) && titlebar()) {
-        YFrameButton* maxi = titlebar()->maximizeButton();
+    if (hasbit(deltaState, WinStateMaximizedBoth) && fTitleBar) {
+        YFrameButton* maxi = fTitleBar->maximizeButton();
         if (maxi) {
             maxi->setKind(YFrameTitleBar::Maxi);
             maxi->repaint();
         }
     }
-    if (hasbit(deltaState, WinStateRollup) && titlebar()) {
-        YFrameButton* rollup = titlebar()->rollupButton();
+    if (hasbit(deltaState, WinStateRollup) && fTitleBar) {
+        YFrameButton* rollup = fTitleBar->rollupButton();
         if (rollup) {
             rollup->setKind(YFrameTitleBar::Roll);
             rollup->repaint();
@@ -3210,15 +3144,13 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 #endif
 
 void YFrameWindow::updateMwmHints() {
-    int bx = borderX();
-    int by = borderY();
-
+    YDimension old(dimension());
     getFrameHints();
-
-    if (!isRollup() && !isIconic()) /// !!! check (emacs hates this)
-        configureClient(x() + bx + bx - borderX(),
-                        y() + by + by - borderY() + titleY(),
-                        client()->width(), client()->height());
+    updateDerivedSize(None);
+    updateLayout();
+    if (old == dimension()) {
+        performLayout();
+    }
 }
 
 ref<YIcon> YFrameWindow::clientIcon() const {
