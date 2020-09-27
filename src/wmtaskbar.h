@@ -175,7 +175,7 @@ private:
     bool fMenuShown;
     bool fNeedRelayout;
     bool fButtonUpdate;
-
+    bool fWorkspacesUpdate;
 
     friend class WindowList;
     friend class WindowListBox;

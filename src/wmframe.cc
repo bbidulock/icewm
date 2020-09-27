@@ -178,9 +178,7 @@ YFrameWindow::~YFrameWindow() {
     manager->unlockWorkArea();
     manager->updateClientList();
 
-    // update pager when unfocused windows are killed, because this
-    // does not call YWindowManager::updateFullscreenLayer()
-    if (!focused() && taskBar) {
+    if (taskBar) {
         taskBar->workspacesRepaint();
     }
 }
@@ -320,7 +318,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
             fFrameOptions |= foMinimized;
             if (manager->wmState() != YWindowManager::wmSTARTUP)
                 if (notState(WinStateMinimized))
-                    setState(WinStateMinimized, WinStateMinimized);
+                    setState(WinStateUnmapped, WinStateMinimized);
             break;
 
         case NormalState:
@@ -514,8 +512,6 @@ void YFrameWindow::unmanage(bool reparent) {
 void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
                              int &cx, int &cy, int &cw, int &ch)
 {
-
-
     cw = (cr.value_mask & CWWidth) ? cr.width : client()->width();
     ch = (cr.value_mask & CWHeight) ? cr.height : client()->height();
 
@@ -1117,9 +1113,14 @@ void YFrameWindow::wmToggleDoNotCover() {
 
 void YFrameWindow::wmToggleFullscreen() {
     if (isFullscreen()) {
-        setState(WinStateFullscreen, 0);
-    } else {
-        setState(WinStateFullscreen, WinStateFullscreen);
+        setState(WinStateFullscreen | WinStateMaximizedBoth, 0);
+    }
+    else if (canFullscreen()) {
+        if (isUnmapped()) {
+            makeMapped();
+            xapp->sync();
+        }
+        setState(WinStateFullscreen | WinStateMaximizedBoth, WinStateFullscreen);
     }
 }
 
@@ -1157,14 +1158,13 @@ void YFrameWindow::wmSize() {
 }
 
 bool YFrameWindow::canRestore() const {
-    return isUnmapped() || hasState(WinStateMaximizedBoth);
+    return hasState(WinStateUnmapped | WinStateMaximizedBoth);
 }
 
 void YFrameWindow::wmRestore() {
     if (canRestore()) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMaximizedBoth | WinStateMinimized |
-                 WinStateHidden | WinStateRollup, 0);
+        setState(WinStateUnmapped | WinStateMaximizedBoth, 0);
     }
 }
 
@@ -1176,10 +1176,10 @@ void YFrameWindow::wmMinimize() {
     manager->lockFocus();
     if (isMinimized()) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMinimized, 0);
+        makeMapped();
     } else {
         wmapp->signalGuiEvent(geWindowMin);
-        setState(WinStateMinimized, WinStateMinimized);
+        setState(WinStateUnmapped, WinStateMinimized);
         wmLower();
     }
     manager->unlockFocus();
@@ -1190,12 +1190,12 @@ void YFrameWindow::minimizeTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // Since a) YFrameWindow::setState is too heavy but b) we want to save memory
         MSG(("> isMinimized: %d\n", w->isMinimized()));
-        if (w->isMinimized())
-            w->fWinState|= WinStateWasMinimized;
-        else
-            w->fWinState&= ~WinStateWasMinimized;
-        MSG(("> wasMinimized: %d\n", w->wasMinimized()));
-        if (!w->isMinimized()) w->wmMinimize();
+        if (w->isMinimized()) {
+            w->fWinState |= WinStateWasMinimized;
+        } else {
+            w->fWinState &= ~WinStateWasMinimized;
+            w->wmMinimize();
+        }
     }
 }
 
@@ -1209,12 +1209,12 @@ void YFrameWindow::hideTransients() {
     for (YFrameWindow *w = transient(); w; w = w->nextTransient()) {
 // See YFrameWindow::minimizeTransients() for reason
         MSG(("> isHidden: %d\n", w->isHidden()));
-        if (w->isHidden())
-            w->fWinState|= WinStateWasHidden;
-        else
+        if (w->isHidden()) {
+            w->fWinState |= WinStateWasHidden;
+        } else {
             w->fWinState&= ~WinStateWasHidden;
-        MSG(("> was visible: %d\n", w->wasHidden());
-        if (!w->isHidden()) w->wmHide());
+            w->wmHide();
+        }
     }
 }
 
@@ -1224,68 +1224,60 @@ void YFrameWindow::restoreHiddenTransients() {
             w->setState(WinStateHidden, 0);
 }
 
-void YFrameWindow::DoMaximize(long flags) {
-    if (isRollup())
-        setState(WinStateRollup, 0);
-
-    if (isMaximized()) {
+void YFrameWindow::doMaximize(long flags) {
+    if (isFullscreen()) {
+        setState(WinStateFullscreen, None);
+    }
+    if (isUnmapped()) {
+        makeMapped();
+        xapp->sync();
+    }
+    if (flags == (getState() & WinStateMaximizedBoth)) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMaximizedBoth | WinStateMinimized, 0);
+        setState(flags, None);
     } else {
         wmapp->signalGuiEvent(geWindowMax);
-        setState(WinStateMaximizedBoth | WinStateMinimized, flags);
+        setState(WinStateMaximizedBoth, flags);
     }
 }
 
 void YFrameWindow::wmMaximize() {
-    DoMaximize(WinStateMaximizedBoth);
+    doMaximize(WinStateMaximizedBoth);
 }
 
 void YFrameWindow::wmMaximizeVert() {
-    if (isMaximizedVert()) {
-        wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMaximizedVert, 0);
-    } else {
-        wmapp->signalGuiEvent(geWindowMax);
-        setState(WinStateMaximizedVert, WinStateMaximizedVert);
-    }
+    doMaximize(WinStateMaximizedVert);
 }
 
 void YFrameWindow::wmMaximizeHorz() {
-    if (isMaximizedHoriz()) {
-        wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateMaximizedHoriz, 0);
-    } else {
-        wmapp->signalGuiEvent(geWindowMax);
-        setState(WinStateMaximizedHoriz, WinStateMaximizedHoriz);
-    }
+    doMaximize(WinStateMaximizedHoriz);
 }
 
 void YFrameWindow::wmRollup() {
     if (isRollup()) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateRollup, 0);
+        makeMapped();
     } else {
         //if (!canRollup())
         //    return ;
         wmapp->signalGuiEvent(geWindowRollup);
-        setState(WinStateRollup, WinStateRollup);
+        setState(WinStateUnmapped, WinStateRollup);
     }
 }
 
 void YFrameWindow::wmHide() {
     if (isHidden()) {
         wmapp->signalGuiEvent(geWindowRestore);
-        setState(WinStateHidden, 0);
+        makeMapped();
     } else {
         wmapp->signalGuiEvent(geWindowHide);
-        setState(WinStateHidden, WinStateHidden);
+        setState(WinStateUnmapped, WinStateHidden);
     }
 }
 
 void YFrameWindow::wmLower() {
     if (canLower()) {
-        if (getState() ^ WinStateMinimized)
+        if (isMapped())
             wmapp->signalGuiEvent(geWindowLower);
         for (YFrameWindow *w = this; w; w = w->owner()) {
             w->doLower();
@@ -1314,9 +1306,8 @@ void YFrameWindow::doRaise() {
     if (prev()) {
         setAbove(manager->top(getActiveLayer()));
 
-        {
-            for (YFrameWindow * w (transient()); w; w = w->nextTransient())
-                w->doRaise();
+        for (YFrameWindow* w = transient(); w; w = w->nextTransient()) {
+            w->doRaise();
         }
 
         if (client() && client()->clientLeader() != 0) {
@@ -1587,16 +1578,15 @@ void YFrameWindow::focus(bool canWarp) {
 
 void YFrameWindow::activate(bool canWarp, bool curWork) {
     manager->lockFocus();
-    if (isUnmapped()) {
-        makeMapped();
-    }
     if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
         else
             manager->activateWorkspace(getWorkspace());
     }
-
+    if (isUnmapped()) {
+        makeMapped();
+    }
     manager->unlockFocus();
     focus(canWarp);
 }
@@ -2197,7 +2187,9 @@ void YFrameWindow::updateIcon() {
     if (client()->getNetWMIcon(&count, &elem)) {
         ref<YImage> icons[3], largestIcon;
         const long sizes[3] = {
-            long(YIcon::smallSize()), long(YIcon::largeSize()), long(YIcon::hugeSize())
+            long(YIcon::smallSize()),
+            long(YIcon::largeSize()),
+            long(YIcon::hugeSize())
         };
         long* largestOffset = nullptr;
         long largestSize = 0;
@@ -2441,14 +2433,6 @@ void YFrameWindow::removeTransients() {
     }
 }
 
-bool YFrameWindow::isUnmapped() const {
-    return hasState(WinStateRollup | WinStateMinimized | WinStateHidden);
-}
-
-void YFrameWindow::makeMapped() {
-    setState(WinStateRollup | WinStateMinimized | WinStateHidden, None);
-}
-
 bool YFrameWindow::isModal() {
     if (!client())
         return false;
@@ -2546,6 +2530,8 @@ void YFrameWindow::setWorkspace(int workspace) {
         for (YFrameWindow *t = transient(); t; t = t->nextTransient()) {
             t->setWorkspace(getWorkspace());
         }
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
 }
 
@@ -2577,8 +2563,7 @@ void YFrameWindow::setRequestedLayer(long layer) {
     }
 }
 
-void YFrameWindow::updateLayer(bool restack) {
-    long oldLayer = fWinActiveLayer;
+long YFrameWindow::windowTypeLayer() const {
     long newLayer = fWinRequestedLayer;
 
     switch (fWindowType) {
@@ -2620,6 +2605,13 @@ void YFrameWindow::updateLayer(bool restack) {
     case wtUtility:
         break;
     }
+    return newLayer;
+}
+
+void YFrameWindow::updateLayer(bool restack) {
+    long oldLayer = fWinActiveLayer;
+    long newLayer = windowTypeLayer();
+
     if (getState() & WinStateBelow)
         newLayer = WinLayerBelow;
     if (getState() & WinStateAbove)
@@ -2656,6 +2648,8 @@ void YFrameWindow::updateLayer(bool restack) {
 
         if (restack)
             manager->restackWindows();
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
 }
 
@@ -2816,7 +2810,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     nw += 2 * borderXN();
     nh += 2 * borderYN();
 
-    if (isFullscreen() || isIconic() || (flagmask & (WinStateFullscreen | WinStateMinimized)))
+    if (isFullscreen() || (flagmask & (WinStateFullscreen | WinStateMinimized)))
         horiz = vert = false;
 
     if (horiz) {
@@ -2854,7 +2848,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     bool cw = true;
     bool ch = true;
 
-    if (isFullscreen() || isIconic()) {
+    if (isFullscreen()) {
         cy = ch = false;
         cx = cw = false;
     }
@@ -2883,7 +2877,7 @@ void YFrameWindow::updateNormalSize() {
     bool cw = true;
     bool ch = true;
 
-    if (isFullscreen() || isIconic())
+    if (isFullscreen())
         cy = ch = cx = cw = false;
     if (isMaximizedHoriz())
         cx = cw = false;
@@ -2963,6 +2957,9 @@ void YFrameWindow::updateLayout() {
     if (isIconic()) {
         fMiniIcon->show();
     }
+    else if (isRollup()) {
+        setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
+    }
     else if (isFullscreen()) {
         // for _NET_WM_FULLSCREEN_MONITORS
         if (fFullscreenMonitorsTop >= 0 && fFullscreenMonitorsBottom >= 0 &&
@@ -2991,9 +2988,6 @@ void YFrameWindow::updateLayout() {
             desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
             setWindowGeometry(YRect(dx, dy, dw, dh));
         }
-    }
-    else if (isRollup()) {
-        setWindowGeometry(YRect(posX, posY, posW, 2 * borderY() + titleY()));
     }
     else {
         MSG(("updateLayout %d %d %d %d", posX, posY, posW, posH));
@@ -3060,27 +3054,24 @@ void YFrameWindow::setState(long mask, long state) {
     if (hasbit(deltaState, WinStateRollup | WinStateMinimized)) {
         setShape();
     }
-    if (deltaState & WinStateMinimized) {
-        if (fOldState & WinStateMinimized)
-            restoreMinimizedTransients();
+    if (deltaState & fOldState & WinStateMinimized) {
+        restoreMinimizedTransients();
     }
-    if (deltaState & WinStateHidden) {
-        if (fOldState & WinStateHidden)
-            restoreHiddenTransients();
+    if (deltaState & fOldState & WinStateHidden) {
+        restoreHiddenTransients();
     }
     if ((deltaState & WinStateRollup) &&
         (clickFocus || !strongPointerFocus) &&
         this == manager->getFocus()) {
         manager->setFocus(this);
     }
-    if (deltaState & WinStateFullscreen) {
-        if ((fNewState & WinStateFullscreen)) {
+    if (deltaState & fNewState & WinStateFullscreen) {
+        if (notbit(deltaState & fNewState, WinStateUnmapped)) {
             activate();
         }
     }
-    if (deltaState & WinStateFocused) {
-        if ((fNewState & WinStateFocused) &&
-             this != manager->getFocus())
+    if (deltaState & fNewState & WinStateFocused) {
+        if (this != manager->getFocus())
             manager->setFocus(this);
     }
 
@@ -3116,8 +3107,10 @@ void YFrameWindow::setState(long mask, long state) {
     {
         updateTaskBar();
     }
-    if (hasbit(deltaState, WinStateMinimized | WinStateRollup)) {
+    if (hasbit(deltaState, WinStateUnmapped)) {
         layoutResizeIndicators();
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
     fOldState = fWinState;
 }

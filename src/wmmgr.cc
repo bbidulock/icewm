@@ -883,8 +883,6 @@ YFrameClient *YWindowManager::findClient(Window win) {
 }
 
 void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
-//    updateFullscreenLayerEnable(false);
-
     YFrameClient *c = f ? f->client() : nullptr;
     Window w = None;
 
@@ -1339,10 +1337,10 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction action) {
         YFrameWindow *f = w[i];
         if (action == actionHideAll) {
             if (!f->isHidden())
-                f->setState(WinStateHidden, WinStateHidden);
+                f->setState(WinStateUnmapped, WinStateHidden);
         } else if (action == actionMinimizeAll) {
             if (!f->isMinimized())
-                f->setState(WinStateMinimized, WinStateMinimized);
+                f->setState(WinStateUnmapped, WinStateMinimized);
         }
     }
     unlockFocus();
@@ -1618,12 +1616,13 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
         if (frame->frameOption(YFrameWindow::foAllWorkspaces))
             frame->setAllWorkspaces();
         if (frame->frameOption(YFrameWindow::foFullscreen))
-            frame->setState(WinStateFullscreen, WinStateFullscreen);
-        if (frame->frameOption(YFrameWindow::foMaximizedBoth))
-            frame->setState(WinStateMaximizedBoth,
-                  (frame->frameOptions() & WinStateMaximizedBoth));
+            frame->setState(WinStateFullscreen | WinStateMaximizedBoth,
+                            WinStateFullscreen);
+        else if (frame->frameOption(YFrameWindow::foMaximizedBoth))
+            frame->setState(WinStateMaximizedBoth | WinStateFullscreen,
+                           (WinStateMaximizedBoth & frame->frameOptions()));
         if (frame->startMinimized()) {
-            frame->setState(WinStateMinimized, WinStateMinimized);
+            frame->setState(WinStateUnmapped, WinStateMinimized);
             doActivate = false;
             requestFocus = false;
         }
@@ -1948,10 +1947,6 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
     }
     if (taskBar)
         taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());
-
-    if (taskBar) {
-        taskBar->workspacesRepaint();
-    }
 }
 
 void YWindowManager::restackWindows() {
@@ -1983,6 +1978,9 @@ void YWindowManager::restackWindows() {
 
     if (w.getCount() > 1) {
         XRestackWindows(xapp->display(), &*w, w.getCount());
+
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
 }
 
@@ -1996,7 +1994,7 @@ void YWindowManager::getWorkArea(const YFrameWindow* frame,
         if (xiscreen == -1)
             xiscreen = frame->getScreen();
 
-        if (frame->inWorkArea()) {
+        if (frame->inWorkArea() || frame->isIconic()) {
             if (frame->isAllWorkspaces())
                 ws = activeWorkspace();
             else
@@ -3083,11 +3081,7 @@ void YWindowManager::switchToLastWorkspace(bool takeCurrent) {
 }
 
 void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) {
-    long mask = WinStateMinimized |
-                WinStateRollup |
-                WinStateMaximizedVert |
-                WinStateMaximizedHoriz |
-                WinStateHidden;
+    long mask = WinStateUnmapped | WinStateMaximizedBoth;
     if (w->hasState(mask)) {
         w->setState(mask, 0);
     }
