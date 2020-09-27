@@ -66,6 +66,7 @@ using std::find;
 
 using namespace ASCII;
 const long SourceIndication = 1L;
+const long Sticky = long(0xFFFFFFFF);
 char const* ApplicationName = "icesh";
 static Display *display;
 static Window root;
@@ -985,7 +986,7 @@ public:
         vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             long ws = getWorkspace(client);
-            if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
+            if ((ws == workspace || hasbits(ws, Sticky)) != inverse) {
                 keep.push_back(client);
             }
         }
@@ -1304,6 +1305,7 @@ private:
     void flag(char* arg);
     void xinit();
     void motif(Window window, char** args, int count);
+    void setBorderTitle(int border, int title);
     void sizeto();
     void sizeby();
     void detail();
@@ -1707,7 +1709,7 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
     }
 
     if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
-        return *workspace = 0xFFFFFFFF, true;
+        return *workspace = Sticky, true;
 
     if (0 == strcmp(name, "this"))
         return *workspace = currentWorkspace(), true;
@@ -3031,6 +3033,56 @@ void IceSh::motif(Window window, char** args, int count) {
     }
 }
 
+void IceSh::setBorderTitle(int border, int title) {
+    FOREACH_WINDOW(window) {
+        YMotifHints hints(window);
+        MwmHints mwm;
+        if (hints) {
+            mwm = *hints;
+        }
+        if (mwm.hasDecor() == false) {
+            mwm.decorations = (MWM_DECOR_MASK & ~MWM_DECOR_ALL);
+            if (border == false)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == true)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == false)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == true)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        }
+        else if (mwm.decorAll()) {
+            if (border == true)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == false)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == true)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == false)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        } else {
+            if (border == false)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == true)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == false)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == true)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        }
+        if (mwm.decorations == (MWM_DECOR_MASK & ~MWM_DECOR_ALL))
+            mwm.notDecor();
+        else if (mwm.decorations == MWM_DECOR_ALL)
+            mwm.notDecor();
+        else
+            mwm.setDecor();
+        if (mwm.hasFlags())
+            hints.replace(mwm);
+        else if (hints)
+            hints.remove();
+    }
+}
+
 void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
     if (atom == XA_WM_NORMAL_HINTS || atom == XA_WM_SIZE_HINTS) {
         XSizeHints h;
@@ -4151,6 +4203,25 @@ void IceSh::parseAction()
                 const char* name = info ? info[ws] : "";
                 printf("0x%-7lx %d \"%s\"\n", Window(window), ws, name);
             }
+        }
+        else if (isAction("sticky", 0)) {
+            FOREACH_WINDOW(window)
+                setWorkspace(window, Sticky);
+        }
+        else if (isAction("unsticky", 0)) {
+            long current = currentWorkspace();
+            FOREACH_WINDOW(window) {
+                long ws = getWorkspace(window);
+                if (hasbits(ws, Sticky)) {
+                    setWorkspace(window, current);
+                }
+            }
+        }
+        else if (isAction("borderless", 0)) {
+            setBorderTitle(false, false);
+        }
+        else if (isAction("bordered", 0)) {
+            setBorderTitle(true, true);
         }
         else if (isAction("setLayer", 1)) {
             unsigned layer(layers.parseExpression(getArg()));
