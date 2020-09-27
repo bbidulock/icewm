@@ -10,6 +10,14 @@
 #include <cinttypes>
 #include <utility>
 
+// if type punning is disabled, the strategy is:
+// (dis)assemble pointer by memcpy
+// count variable remains a dedicated field (no sharing there)
+#if defined(DEBUG_NOUTYPUN) || !defined(__GNUC__)
+#define SSO_NOUTYPUN
+#endif
+
+
 /*
  * NOTE: possible options to tune here:
  * - DEBUG_NOUTYPUN: force pure standard conform pointer conversion
@@ -48,22 +56,19 @@ private:
     friend void swap(mstring& a, mstring& b);
     friend class mstring_view;
 
-#if defined(__GNUC__) && ! defined(DEBUG_NOUTYPUN)
+#ifndef SSO_NOUTYPUN
     struct TRefData {
         char *p;
         // for now: inflate a bit, later: to implement set preservation
         uint64_t nReserved;
     };
-
 #ifdef DEBUG_SSOLIMIT
     // local area minus SSO counter minus terminator minus local flag
     #define MSTRING_INPLACE_MAXLEN DEBUG_SSOLIMIT
 #else
     #define MSTRING_INPLACE_MAXLEN (sizeof(mstring::spod) - 3)
 #endif
-
-#define MSTRING_INPLACE_FLAG   spod.extraBytes[sizeof(spod.extraBytes)-1]
-
+#define MSTRING_EXTERNAL_FLAG   spod.extraBytes[sizeof(spod.extraBytes)-1]
     // can compress more where union-based type punning are legal!
     struct {
         union {
@@ -77,38 +82,33 @@ private:
         };
     } spod;
 #else
-    // for other compilers: no punning on count var and extra careful access
-#define SSO_NOUTYPUN
-
     // local area minus SSO counter minus terminator
 #define MSTRING_INPLACE_BUFSIZE (3*sizeof(size_type))
-#define MSTRING_INPLACE_FLAG spod.cBytes[MSTRING_INPLACE_BUFSIZE - 1]
+#define MSTRING_EXTERNAL_FLAG spod.cBytes[MSTRING_INPLACE_BUFSIZE - 1]
 #ifdef DEBUG_SSOLIMIT
 #define MSTRING_INPLACE_MAXLEN DEBUG_SSOLIMIT
 #else
 #define MSTRING_INPLACE_MAXLEN (MSTRING_INPLACE_BUFSIZE - 2)
 #endif
-
     struct {
         size_type count;
         char cBytes[MSTRING_INPLACE_BUFSIZE];
     } spod;
 #endif
-
     const char* data() const;
     char* data();
-    bool isLocal() const { return MSTRING_INPLACE_FLAG; }
-    void markLocal(bool val) { MSTRING_INPLACE_FLAG = val; }
+    bool isLocal() const { return ! MSTRING_EXTERNAL_FLAG; }
+    void markExternal(bool val) { MSTRING_EXTERNAL_FLAG = val; }
     void term(size_type len);
     void extendBy(size_type amount);
     void extendTo(size_type new_len);
     // detect parameter data coming from this string, to take the slower path
     bool input_from_here(mstring_view sv);
-    // adjust internal length and inplace mark; no allocaiton, no termination
+    // adjusts internal length and allocation mark (no data ops)
     void set_len(size_type len, bool forceExternal = false);
     void set_ptr(char* p);
     char* get_ptr();
-    const char* get_ptr() const;
+    const char* get_ptr() const { return const_cast<mstring*>(this)->get_ptr();}
 
 public:
     mstring(const char *s, size_type len);
@@ -122,22 +122,15 @@ public:
     mstring(mstring_view a, mstring_view b, mstring_view c);
     mstring(mstring_view a, mstring_view b, mstring_view c,
             mstring_view d, mstring_view e = mstring_view());
-
-    mstring(null_ref &) { set_len(0); data()[0] = 0x0; }
+    mstring(null_ref &) { spod.count = 0; markExternal(false); }
     mstring() : mstring(null) {}
-
-    ~mstring() { clear(); };
-
-    size_type length() const {
+    ~mstring();
 #ifdef SSO_NOUTYPUN
-        return spod.count;
+    size_type length() const { return spod.count; }
 #else
-        return isLocal() ? spod.cBytes[0] : spod.count;
+    size_type length() const { return isLocal() ? spod.cBytes[0] : spod.count; }
 #endif
-    }
-    bool isEmpty() const {
-        return 0 == length();
-    }
+    bool isEmpty() const { return 0 == length(); }
     bool nonempty() const { return !isEmpty(); }
 
     mstring& operator=(mstring_view rv);
@@ -206,12 +199,6 @@ public:
      * the data via vsnprintf.
      */
     mstring& appendFormat(const char *fmtString, ...);
-    /**
-     * Like appendFormat before but first takes an optimistic approach and
-     * allocates the specified amount of memory beforehand.
-     *
-    mstring& appendFormat(size_type sizeHint, const char *fmtString, ...);
-     */
 
     explicit mstring(long val) : mstring() { appendFormat("%ld", val); }
 

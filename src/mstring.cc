@@ -1,7 +1,10 @@
 /*
  * IceWM
  *
- * Copyright (C) 2004,2005 Marko Macek
+ * Copyright (C) 2004-2009 Marko Macek
+ * Copyright (C) 2017-2020 Bert Gijsbers
+ * Copyright (C) 2017-2018 Brian Bidulock
+ * Copyright (C) 2009,2015,2017-2020 Eduard Bloch
  */
 #include "config.h"
 
@@ -25,13 +28,11 @@
 #define offsetPodData (offsetPodCounter + 1)
 
 mstring::mstring(const char *str, size_type len) {
-
-    static_assert(std::is_trivial<decltype(spod)>::value);
-    static_assert(std::is_standard_layout<decltype(spod)>::value);
-
-    set_len(0);
-    set_ptr(0);
-    markLocal(true);
+    static_assert(std::is_trivial<decltype(spod)>::value
+            && std::is_standard_layout<decltype(spod)>::value,
+            "Error: union based small string optimization N/A on this arch! "
+            "Consider adding -DDEBUG_NOUTYPUN as workaround.");
+    memset(&spod, 0, sizeof(spod));
     if (len) {
         extendTo(len);
         memcpy(data(), str, len);
@@ -46,7 +47,7 @@ mstring mstring::operator+(const mstring_view &rv) const {
 mstring::mstring(mstring &&other) {
     if (this == &other)
         return;
-    set_len(0);
+    memset(&spod, 0, sizeof(spod));
     *this = std::move(other);
 }
 
@@ -114,18 +115,13 @@ inline void mstring::term(size_type len) {
 }
 
 void mstring::set_len(size_type len, bool forceExternal) {
-#ifdef SSO_NOUTYPUN
-    spod.count = len;
-    markLocal(!forceExternal && len <= MSTRING_INPLACE_MAXLEN);
-#else
     if (len > MSTRING_INPLACE_MAXLEN || forceExternal) {
         spod.count = len;
-        markLocal(false);
+        markExternal(true);
     } else {
         spod.cBytes[offsetPodCounter] = uint8_t(len);
-        markLocal(true);
+        markExternal(false);
     }
-#endif
 }
 
 void mstring::clear() {
@@ -263,7 +259,7 @@ bool mstring::startsWith(mstring_view s) const {
         return true;
     if (s.length() > length())
         return false;
-    return (0 == memcmp(data(), s.data(), s.length()));
+    return 0 == memcmp(data(), s.data(), s.length());
 }
 
 bool mstring::endsWith(mstring_view s) const {
@@ -288,16 +284,14 @@ int mstring::indexOf(char ch) const {
 }
 
 int mstring::lastIndexOf(char ch) const {
-    const char *str =
-            isEmpty() ?
-                    nullptr :
-                    static_cast<const char*>(memrchr(data(), ch, length()));
+    const char *str = isEmpty() ? nullptr :
+            static_cast<const char*>(memrchr(data(), ch, length()));
     return str ? int(str - data()) : -1;
 }
 
 int mstring::count(char ch) const {
     int num = 0;
-    for (const char *str = data(), *end = str + length(); str < end; ++str) {
+    for (const char* str = data(), *end = str + length(); str < end; ++str) {
         str = static_cast<const char*>(memchr(str, ch, end - str));
         if (str == nullptr)
             break;
@@ -410,8 +404,7 @@ inline bool mstring::input_from_here(mstring_view sv) {
 
 // this is extra copy-pasty in order to let the compiler optimize it better
 mstring::mstring(mstring_view a, mstring_view b, mstring_view c, mstring_view d,
-        mstring_view e) {
-    set_len(0);
+        mstring_view e) : mstring(null) {
     auto len = a.length() + b.length() + c.length() + d.length() + e.length();
     extendBy(len);
     term(len);
@@ -443,6 +436,11 @@ mstring::mstring(mstring_view a, mstring_view b) :
 
 mstring::mstring(mstring_view a, mstring_view b, mstring_view c) :
         mstring(a, b, c, mstring_view(), mstring_view()) {
+}
+
+mstring::~mstring() {
+    if (!isLocal())
+        free(data());
 }
 
 bool mstring::equals(const char *&sz) const {
@@ -508,17 +506,6 @@ char* mstring::get_ptr()
 #endif
 }
 
-const char* mstring::get_ptr() const
-{
-#ifdef SSO_NOUTYPUN
-    const char *ret;
-    memcpy(&ret, spod.cBytes, sizeof(ret));
-    return ret;
-#else
-    return spod.ext.p;
-#endif
-}
-
 enum STATE_FLAGS {
     STATE_NONE = 0,
     STATE_COMPILED = 1,
@@ -542,7 +529,6 @@ mstring mstring::match(const char *regex, const char *flags) const {
 
 precompiled_regex::precompiled_regex(const char *regex, const char *flags) :
         execFlags(0), stateFlags(0) {
-
     auto compFlags = REG_EXTENDED;
     for (int i = 0; flags && flags[i]; ++i) {
         switch (flags[i]) {
@@ -560,7 +546,6 @@ precompiled_regex::precompiled_regex(const char *regex, const char *flags) :
             break;
         }
     }
-
     int comp = regcomp(&preg, regex, compFlags);
     if (0 == comp) {
         stateFlags = STATE_COMPILED;
