@@ -199,7 +199,6 @@ static void test_str() {
 }
 
 static void test_mstr() {
-    typedef MStringArray::IterType iter_t;
 
     watch mark;
 
@@ -214,20 +213,6 @@ static void test_mstr() {
     for (int i = 0; i < N; ++i) {
         ma.append(ms[i]);
     }
-
-    int c = 0;
-    for (iter_t iter = ma.iterator(); ++iter; ) {
-        assert(iter.where() == c);
-        assert(*iter == ms[c]);
-        ++c;
-    }
-    assert(c == N);
-    for (iter_t iter = ma.reverseIterator(); ++iter; ) {
-        --c;
-        assert(iter.where() == c);
-        assert(*iter == ms[c]);
-    }
-    assert(c == 0);
 
     for (int i = 0; i < N; ++i) {
         int k = i;

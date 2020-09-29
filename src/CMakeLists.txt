@@ -443,6 +443,10 @@ set(genpref_pc_flags ${x11_CFLAGS}  ${nls_CFLAGS})
 target_compile_options(genpref${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${genpref_pc_flags})
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
+ADD_EXECUTABLE(testarray EXCLUDE_FROM_ALL testarray.cc ${MISC_SRCS})
+target_compile_options(testarray PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
+TARGET_LINK_LIBRARIES(testarray ${nls_LIBS})
+
 ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc upath.cc udir.cc ${MISC_SRCS})
 target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(strtest ${nls_LIBS})
