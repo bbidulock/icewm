@@ -118,7 +118,11 @@ void mstring::set_len(size_type len, bool forceExternal) {
         spod.count = len;
         markExternal(true);
     } else {
+#ifdef SSO_NOUTYPUN
+        spod.count = len;
+#else
         spod.cBytes[offsetPodCounter] = uint8_t(len);
+#endif
         markExternal(false);
     }
 }
