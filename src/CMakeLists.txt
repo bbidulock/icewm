@@ -116,12 +116,7 @@ CHECK_FUNCTION_EXISTS(sysctlbyname HAVE_SYSCTLBYNAME)
 # perl -e 'do { s/\.|\//_/g; $_=uc $_;  print "#cmakedefine HAVE_$_\n"} for @ARGV' `cat headersDa`
 # perl -e 'do {my $orig=$_; s/\.|\//_/g; $_=uc $_; print "CHECK_INCLUDE_FILE_CXX($orig HAVE_$_)\n"} for @ARGV' `cat headersDa`
 CHECK_INCLUDE_FILE_CXX(execinfo.h HAVE_EXECINFO_H)
-CHECK_INCLUDE_FILE_CXX(fcntl.h HAVE_FCNTL_H)
-CHECK_INCLUDE_FILE_CXX(libgen.h HAVE_LIBGEN_H)
 CHECK_INCLUDE_FILE_CXX(sched.h HAVE_SCHED_H)
-CHECK_INCLUDE_FILE_CXX(strings.h HAVE_STRINGS_H)
-CHECK_INCLUDE_FILE_CXX(sys/ioctl.h HAVE_SYS_IOCTL_H)
-CHECK_INCLUDE_FILE_CXX(sys/param.h HAVE_SYS_PARAM_H)
 CHECK_INCLUDE_FILE_CXX(sys/sched.h HAVE_SYS_SCHED_H "-include /usr/include/sched.h")
 CHECK_INCLUDE_FILE_CXX(sys/sysctl.h HAVE_SYS_SYSCTL_H "-include /usr/include/sys/types.h")
 CHECK_INCLUDE_FILE_CXX(uvm/uvm_param.h HAVE_UVM_UVM_PARAM_H)

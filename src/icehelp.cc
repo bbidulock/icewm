@@ -11,9 +11,7 @@
 #include "ascii.h"
 #include "intl.h"
 #include "ykey.h"
-#ifdef HAVE_STRINGS_H
 #include <strings.h>
-#endif
 #include <X11/Xutil.h>
 
 #define ICEWM_SITE      "https://ice-wm.org/"

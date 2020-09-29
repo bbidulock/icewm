@@ -39,9 +39,7 @@
 #include <sys/loadavg.h>
 #endif
 
-#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
-#endif
 #if HAVE_SYS_SYSCTL_H || HAVE_SYSCTLBYNAME || __FreeBSD__
 #include <sys/sysctl.h>
 #endif

@@ -18,9 +18,6 @@
 #include <sys/types.h>
 #include <pwd.h>
 
-#ifdef HAVE_LIBGEN_H
-#include <libgen.h>
-#endif
 #if defined(__GXX_RTTI) && (__GXX_ABI_VERSION >= 1002)
 #define HAVE_GCC_ABI_DEMANGLE
 #endif
@@ -445,16 +442,10 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
     }
 }
 
-#if 1
 const char *my_basename(const char *path) {
     const char *base = ::strrchr(path, '/');
     return (base ? base + 1 : path);
 }
-#else
-const char *my_basename(const char *path) {
-    return basename(path);
-}
-#endif
 
 bool isFile(const char* path) {
     struct stat s;

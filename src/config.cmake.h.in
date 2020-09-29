@@ -33,12 +33,7 @@
 #cmakedefine HAVE_SYSCTLBYNAME 1
 
 #cmakedefine HAVE_EXECINFO_H 1
-#cmakedefine HAVE_FCNTL_H 1
-#cmakedefine HAVE_LIBGEN_H 1
 #cmakedefine HAVE_SCHED_H 1
-#cmakedefine HAVE_STRINGS_H 1
-#cmakedefine HAVE_SYS_IOCTL_H 1
-#cmakedefine HAVE_SYS_PARAM_H 1
 #cmakedefine HAVE_SYS_SCHED_H 1
 #cmakedefine HAVE_SYS_SOUNDCARD_H 1
 #cmakedefine HAVE_SYS_SYSCTL_H 1
