@@ -14,7 +14,7 @@
 #include "ypaths.h"
 #include "ypointer.h"
 #include "ywordexp.h"
-
+#include "ycollections.h"
 #include "intl.h"
 
 #include <fnmatch.h>
@@ -22,7 +22,6 @@
 #include <vector>
 #include <initializer_list>
 #include <functional>
-#include <set>
 
 // place holder for scalable category, a size beyond normal limits
 #define SCALABLE 9000
@@ -106,6 +105,7 @@ static void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
 
 class IconPathIndex {
 public:
+
     struct IconCategory {
     public:
         struct entry {
@@ -136,12 +136,17 @@ public:
         }
     } pools[2]; // zero are resource folders, one is based on IconPath
 
+    struct mstringKeyGetter {
+        const mstring& operator()(const mstring &el) { return el; }
+    };
+
     IconPathIndex() {
-        std::set<mstring> dedupTestPath;
+
+        YSparseHashTable<mstring, mstringKeyGetter, 6> dedupTestPath;
         auto add = [&dedupTestPath](IconCategory& cat,
                 IconCategory::entry&& el) {
 
-            if (dedupTestPath.insert(el.path).second) {
+            if (dedupTestPath.add(el.path)) {
                 MSG(("adding specific icon directory: %s", el.path.c_str()));
                 cat.folders.emplace_back(std::move(el));
             }
