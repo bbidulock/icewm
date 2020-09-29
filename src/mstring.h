@@ -14,9 +14,8 @@
 // (dis)assemble pointer by memcpy
 // count variable remains a dedicated field (no sharing there)
 #if defined(DEBUG_NOUTYPUN) || !defined(__GNUC__)
-#define SSO_NOUTYPUN
+#define SSO_NOUTYPUN 1
 #endif
-
 
 /*
  * NOTE: possible options to tune here:
@@ -43,6 +42,7 @@ public:
     const char* data() const { return m_data; }
     bool operator==(mstring_view rv) const;
     bool isEmpty() const { return length() == 0; }
+    bool nonEmpty() const { return ! isEmpty(); }
 };
 
 /*

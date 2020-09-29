@@ -52,11 +52,10 @@ mstring::mstring(mstring &&other) {
 }
 
 mstring& mstring::operator=(mstring_view rv) {
-    // cannot optimize?
-    if (input_from_here(rv))
+    if (input_from_here(rv)) // we are the source -> copy in any case
         return *this = mstring(rv);
     auto l = rv.length();
-    // if needing to move back to inplace, just reset
+    // release buffer if going back to local storage
     if (l <= MSTRING_INPLACE_MAXLEN)
         clear();
     extendTo(l);
@@ -146,22 +145,19 @@ inline void mstring::extendTo(size_type new_len) {
         if (new_len <= MSTRING_INPLACE_MAXLEN) {
             set_len(new_len);
         } else {
-            // local before, to become external now
+            // local storage before, to become external now
             auto p = (char*) malloc(new_len + 1);
-            if(!p)
-                abort();
-
+            if(!p) abort();
             memcpy(p, data(), length() + 1);
-            memcpy(spod.cBytes, &p, sizeof(p));
+            memcpy((void*) spod.cBytes, &p, sizeof(p));
             set_len(new_len);
         }
     } else {
         auto p = data();
         p = (char*) realloc((void*) p, new_len + 1);
         // XXX: do something more useful if failed?
-        if (!p)
-            abort();
-        memcpy(spod.cBytes, &p, sizeof(p));
+        if (!p) abort();
+        memcpy((void*) spod.cBytes, &p, sizeof(p));
         set_len(new_len);
     }
 #else
@@ -301,7 +297,7 @@ int mstring::count(char ch) const {
 }
 
 bool mstring_view::operator==(mstring_view sv) const {
-    auto lenA=sv.length();
+    auto lenA = sv.length();
     auto lenB = length();
     return lenA == lenB && 0 == memcmp(sv.data(), data(), lenA);
 }
@@ -410,19 +406,19 @@ mstring::mstring(mstring_view a, mstring_view b, mstring_view c, mstring_view d,
     term(len);
     memcpy(data(), a.data(), a.length());
     auto pos = a.length();
-    if (!b.isEmpty()) {
+    if (b.nonEmpty()) {
         memcpy(data() + pos, b.data(), b.length());
         pos += b.length();
     }
-    if (!c.isEmpty()) {
+    if (c.nonEmpty()) {
         memcpy(data() + pos, c.data(), c.length());
         pos += c.length();
     }
-    if (!d.isEmpty()) {
+    if (d.nonEmpty()) {
         memcpy(data() + pos, d.data(), d.length());
         pos += d.length();
     }
-    if (!e.isEmpty()) {
+    if (e.nonEmpty()) {
         memcpy(data() + pos, e.data(), e.length());
         pos += e.length();
     }

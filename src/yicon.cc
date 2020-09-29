@@ -205,11 +205,11 @@ public:
                     for (const auto &testDir : {
                             mstring(iconPathToken, sepXY, contentDir),
                             mstring(iconPathToken, "/base", sepXY, contentDir),
-                        	// some old themes contain just one dimension
-                        	// and a different naming convention
+                            // some old themes contain just one dimension
+                            // and a different naming convention
                             mstring(iconPathToken, contentDir, "/", sepX)
                     }) {
-                        ret+=gotcha(testDir, kv);
+                        ret += gotcha(testDir, kv);
                     }
                 }
             }

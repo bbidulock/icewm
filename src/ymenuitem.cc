@@ -77,17 +77,16 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
     if (getName() != null || getSubmenu()) {
         int fontHeight = max(16, int(menuFont->height()) + 1);
         int ih = max(fontHeight, int(YIcon::menuSize()));
-
-        if (wmLook & (lookWarp4 | lookWin95)) {
+        if (LOOK(lookWarp4 | lookWin95)) {
             top = bottom = 0;
             pad = 1;
-        } else if (wmLook & (lookMetal | lookFlat)) {
+        } else if (LOOK(lookMetal | lookFlat)) {
             top = bottom = 1;
             pad = 1;
-        } else if (wmLook & lookMotif) {
+        } else if (LOOK(lookMotif)) {
             top = bottom = 2;
             pad = 0; //1
-        } else if (wmLook & lookGtk) {
+        } else if (LOOK(lookGtk)) {
             top = bottom = 2;
             pad = 0; //1
         } else {
@@ -102,7 +101,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
         bottom = 0;
         pad = 1;
 
-        return ((wmLook & (lookMetal | lookFlat)) ? 3 : 4);
+        return ((LOOK(lookMetal | lookFlat)) ? 3 : 4);
     }
 }
 
