@@ -1054,7 +1054,8 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
         if (canHide())
             wmHide();
     } else if (action == actionShow) {
-        wmShow();
+        if (canShow())
+            wmShow();
     } else if (action == actionMove) {
         if (canMove())
             wmMove();
@@ -1068,7 +1069,8 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
         wmToggleDoNotCover();
 #endif
     } else if (action == actionFullscreen) {
-        wmToggleFullscreen();
+        if (canFullscreen())
+            wmToggleFullscreen();
     } else if (action == actionToggleTray) {
         wmToggleTray();
     } else {
@@ -1816,25 +1818,15 @@ void YFrameWindow::updateIconTitle() {
 
 void YFrameWindow::wmOccupyAllOrCurrent() {
     if (isAllWorkspaces()) {
-        mainOwner()->setWorkspace(manager->activeWorkspace());
+        wmOccupyWorkspace(manager->activeWorkspace());
     } else {
         setAllWorkspaces();
     }
-    if (taskBar)
-        taskBar->relayoutTasks();
-    if (taskBar)
-        taskBar->relayoutTray();
 }
 
 void YFrameWindow::wmOccupyAll() {
     if (!isAllWorkspaces())
         setAllWorkspaces();
-    if (affectsWorkArea())
-        manager->updateWorkArea();
-    if (taskBar)
-        taskBar->relayoutTasks();
-    if (taskBar)
-        taskBar->relayoutTray();
 }
 
 void YFrameWindow::wmOccupyWorkspace(int workspace) {
@@ -2520,6 +2512,10 @@ void YFrameWindow::setWorkspace(int workspace) {
             }
         }
         fWinWorkspace = workspace;
+        if (isAllWorkspaces())
+            fWinState |= WinStateSticky;
+        else
+            fWinState &= ~WinStateSticky;
         client()->setWinWorkspaceHint(fWinWorkspace);
         updateState();
         if (refocus)
@@ -3116,12 +3112,16 @@ void YFrameWindow::setState(long mask, long state) {
 }
 
 void YFrameWindow::setAllWorkspaces() {
-    setWorkspace(AllWorkspaces);
+    if ( ! isAllWorkspaces()) {
+        setWorkspace(AllWorkspaces);
 
-    if (windowList && fWinListItem)
-        windowList->updateWindowListApp(fWinListItem);
-    if (affectsWorkArea())
-        manager->updateWorkArea();
+        if (affectsWorkArea())
+            manager->updateWorkArea();
+        if (taskBar)
+            taskBar->relayoutTasks();
+        if (taskBar)
+            taskBar->relayoutTray();
+    }
 }
 
 #if DO_NOT_COVER_OLD

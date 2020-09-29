@@ -864,9 +864,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             f->wmRaise();
         }
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
-        //printf("close window w=0x%lX\n", message.window);
-        if (getFrame())
-            getFrame()->wmClose();
+        actionPerformed(actionClose);
     } else if (message.message_type == _XA_NET_WM_MOVERESIZE &&
                message.format == 32)
     {
@@ -921,7 +919,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
         if (getFrame())
-            getFrame()->setRequestedLayer(message.data.l[0]);
+            getFrame()->wmSetLayer(message.data.l[0]);
         else
             setWinLayerHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_TRAY) {
@@ -930,18 +928,17 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         else
             setWinTrayHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_STATE) {
-        long mask = message.data.l[0];
-        long state = (message.data.l[1] & mask);
-        if (hasbit(state, WinStateFullscreen)) {
-            state &= ~WinStateMaximizedBoth;
+        long mask = (message.data.l[0] &~ WinStateFocused);
+        long want = (message.data.l[1] & mask);
+        if (getFrame()) {
+            long have = getFrame()->getState();
+            long gain = (want & ~have);
+            long lose = ((mask & ~want) & have);
+            netStateRequest(_NET_WM_STATE_TOGGLE, gain | lose);
         }
-        if (hasbit(state, WinStateMinimized)) {
-            state &= ~WinStateRollup;
+        else {
+            setWinStateHint(mask, want);
         }
-        if (getFrame())
-            getFrame()->setState(mask, state);
-        else
-            setWinStateHint(mask, state);
     } else
         YWindow::handleClientMessage(message);
 }
@@ -953,25 +950,23 @@ void YFrameClient::netStateRequest(long action, long mask) {
     long lose = (act == Rem || act == Tog) ? (mask & state) : None;
     if (gain & WinStateUnmapped) {
         if (gain & WinStateMinimized)
-            getFrame()->wmMinimize();
+            actionPerformed(actionMinimize);
         else if (gain & WinStateRollup)
-            getFrame()->wmRollup();
+            actionPerformed(actionRollup);
         else if (gain & WinStateHidden)
-            getFrame()->wmHide();
-        state |= (gain & WinStateUnmapped);
+            actionPerformed(actionHide);
         gain &= ~(WinStateFullscreen | WinStateMaximizedBoth);
         gain &= ~(WinStateUnmapped);
         lose &= ~(WinStateUnmapped);
+        state = getFrame()->getState();
     }
     if (lose & (WinStateUnmapped | WinStateMaximizedBoth)) {
         long drop = (lose & (WinStateUnmapped | WinStateMaximizedBoth));
         if (drop == (state & (WinStateUnmapped | WinStateMaximizedBoth))) {
-            if (notbit(state, WinStateFullscreen)) {
-                getFrame()->wmRestore();
-                lose &= ~drop;
-                state &= ~drop;
-            }
+            actionPerformed(actionRestore);
+            lose &= ~drop;
         }
+        state = getFrame()->getState();
     }
     if (lose & (WinStateFullscreen | WinStateMaximizedBoth)) {
         long drop = (WinStateFullscreen | WinStateMaximizedBoth);
@@ -979,36 +974,96 @@ void YFrameClient::netStateRequest(long action, long mask) {
             getFrame()->setState(lose & drop, None);
         }
         else {
-            if (lose & WinStateFullscreen)
-                getFrame()->wmToggleFullscreen();
-            if (lose & WinStateMaximizedBoth)
-                getFrame()->doMaximize(lose & WinStateMaximizedBoth);
+            if ((lose & WinStateFullscreen) && getFrame()->isFullscreen())
+                actionPerformed(actionFullscreen);
+            if ((lose & WinStateMaximizedBoth) && getFrame()->isMaximized())
+                actionPerformed(actionRestore);
         }
         lose &= ~drop;
-        state &= ~drop;
     }
     if (lose & WinStateUnmapped) {
         if (getFrame()->isMaximized() == false)
-            getFrame()->wmRestore();
+            actionPerformed(actionRestore);
         else if ((state & WinStateUnmapped) == WinStateRollup)
-            getFrame()->wmRollup();
+            actionPerformed(actionRollup);
         else if ((state & WinStateUnmapped) == WinStateMinimized)
-            getFrame()->wmMinimize();
+            actionPerformed(actionMinimize);
         else if ((state & WinStateUnmapped) == WinStateHidden)
-            getFrame()->wmHide();
+            actionPerformed(actionHide);
         else
-            getFrame()->makeMapped();
+            actionPerformed(actionShow);
         lose &= ~(WinStateUnmapped);
     }
     if (gain & (WinStateFullscreen | WinStateMaximizedBoth)) {
-        if (gain & WinStateFullscreen)
-            getFrame()->wmToggleFullscreen();
-        else if (gain & WinStateMaximizedBoth)
-            getFrame()->doMaximize(gain & WinStateMaximizedBoth);
+        if (gain & WinStateFullscreen) {
+            if ( !getFrame()->isFullscreen())
+                actionPerformed(actionFullscreen);
+        } else {
+            long maxi = (gain & WinStateMaximizedBoth);
+            long have = (getFrame()->getState() & WinStateMaximizedBoth);
+            long want = (maxi | have);
+            if (want != have) {
+                if (want == WinStateMaximizedBoth)
+                    actionPerformed(actionMaximize);
+                else if (want == WinStateMaximizedVert)
+                    actionPerformed(actionMaximizeVert);
+                else if (want == WinStateMaximizedHoriz)
+                    actionPerformed(actionMaximizeHoriz);
+            }
+        }
         gain &= ~(WinStateFullscreen | WinStateMaximizedBoth);
+    }
+    if (gain & WinStateSticky) {
+        if (getFrame()->isAllWorkspaces() == false) {
+            actionPerformed(actionOccupyAllOrCurrent);
+        }
+        gain &= ~WinStateSticky;
+    }
+    if (lose & WinStateSticky) {
+        if (getFrame()->isAllWorkspaces()) {
+            actionPerformed(actionOccupyAllOrCurrent);
+        }
+        lose &= ~WinStateSticky;
+    }
+    if (gain & (WinStateAbove | WinStateBelow)) {
+        if ((gain & (WinStateAbove | WinStateBelow)) == WinStateAbove) {
+            getFrame()->wmSetLayer(WinLayerOnTop);
+        }
+        if ((gain & (WinStateAbove | WinStateBelow)) == WinStateBelow) {
+            getFrame()->wmSetLayer(WinLayerBelow);
+        }
+        gain &= ~(WinStateAbove | WinStateBelow);
+        lose &= ~(WinStateAbove | WinStateBelow);
+    }
+    if (lose & (WinStateAbove | WinStateBelow)) {
+        if (lose & WinStateAbove) {
+            if (getFrame()->getRequestedLayer() == WinLayerOnTop) {
+                getFrame()->wmSetLayer(WinLayerNormal);
+            }
+        }
+        if (lose & WinStateBelow) {
+            if (getFrame()->getRequestedLayer() == WinLayerBelow) {
+                getFrame()->wmSetLayer(WinLayerNormal);
+            }
+        }
+        lose &= ~(WinStateAbove | WinStateBelow);
+    }
+    if (gain & WinStateUrgent) {
+        getFrame()->setWmUrgency(true);
+        gain &= ~WinStateUrgent;
+    }
+    if (lose & WinStateUrgent) {
+        getFrame()->setWmUrgency(false);
+        lose &= ~WinStateUrgent;
     }
     if (gain || lose) {
         getFrame()->setState(gain | lose, gain);
+    }
+}
+
+void YFrameClient::actionPerformed(YAction action) {
+    if (getFrame()) {
+        getFrame()->actionPerformed(action, 0U);
     }
 }
 
