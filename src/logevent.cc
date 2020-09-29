@@ -532,7 +532,7 @@ void logClientMessage(const XClientMessageEvent& event) {
         tlog("%sClientMessage %s %d data=%s,%s,%s\n",
                 head, name, event.format, op, p1, p2);
     }
-    else if (strcmp(name, "_WM_CHANGE_STATE") == 0) {
+    else if (strcmp(name, "WM_CHANGE_STATE") == 0) {
         const char* op =
             data[0] == 0 ? "WithdrawnState" :
             data[0] == 1 ? "NormalState" :
