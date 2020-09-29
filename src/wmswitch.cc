@@ -74,7 +74,7 @@ class WindowItemsCtrlr : public ISwitchItems
                 }
 
                 if (!w->isUrgent()) {
-                    if (workspaceOnly && w->isSticky() &&
+                    if (workspaceOnly && w->isAllWorkspaces() &&
                         workspace != fRoot->activeWorkspace()) {
                         continue;
                     }
