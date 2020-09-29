@@ -198,6 +198,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
+    void netRestackWindow(long window, long detail);
 
     void setShape();
 

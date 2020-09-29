@@ -847,14 +847,11 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         }
     } else if (message.message_type == _XA_NET_RESTACK_WINDOW) {
         if (getFrame()) {
-            XConfigureRequestEvent cre;
-            cre.type = ConfigureRequest;
-            cre.value_mask = CWStackMode;
-            cre.above = message.data.l[1];
-            if (cre.above != None)
-                cre.value_mask |= CWSibling;
-            cre.detail = message.data.l[2];
-            getFrame()->configureClient(cre);
+            long window = message.data.l[1];
+            long detail = message.data.l[2];
+            if (inrange<long>(detail, Above, Opposite)) {
+                getFrame()->netRestackWindow(window, detail);
+            }
         }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         //printf("active window w=0x%lX\n", message.window);
@@ -965,8 +962,8 @@ void YFrameClient::netStateRequest(long action, long mask) {
         if (drop == (state & (WinStateUnmapped | WinStateMaximizedBoth))) {
             actionPerformed(actionRestore);
             lose &= ~drop;
+            state = getFrame()->getState();
         }
-        state = getFrame()->getState();
     }
     if (lose & (WinStateFullscreen | WinStateMaximizedBoth)) {
         long drop = (WinStateFullscreen | WinStateMaximizedBoth);
@@ -974,10 +971,20 @@ void YFrameClient::netStateRequest(long action, long mask) {
             getFrame()->setState(lose & drop, None);
         }
         else {
-            if ((lose & WinStateFullscreen) && getFrame()->isFullscreen())
+            if ((lose & WinStateFullscreen) && getFrame()->isFullscreen()) {
                 actionPerformed(actionFullscreen);
-            if ((lose & WinStateMaximizedBoth) && getFrame()->isMaximized())
-                actionPerformed(actionRestore);
+                state = getFrame()->getState();
+            }
+            if ((lose & WinStateMaximizedBoth) && getFrame()->isMaximized()) {
+                long keep = (state & WinStateMaximizedBoth &~ lose);
+                if (keep == WinStateMaximizedVert)
+                    actionPerformed(actionMaximizeVert);
+                else if (keep == WinStateMaximizedHoriz)
+                    actionPerformed(actionMaximizeHoriz);
+                else
+                    actionPerformed(actionRestore);
+                state = getFrame()->getState();
+            }
         }
         lose &= ~drop;
     }

@@ -597,23 +597,31 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
         configureClient(cx, cy, cw, ch);
     }
 
-    if (hasbit(mask, CWStackMode) &&
-        inrange(configureRequest.detail, 0, 4))
-    {
-        YFrameWindow* sibling = hasbit(mask, CWSibling)
-                    ? manager->findFrame(configureRequest.above) : nullptr;
-        switch (configureRequest.detail + (sibling ? 5 : 0)) {
-        case 5 + Above:
+    if (hasbit(mask, CWStackMode)) {
+        long window = hasbit(mask, CWSibling) ? configureRequest.above : None;
+        long detail = configureRequest.detail;
+        if (inrange<long>(detail, Above, Opposite)) {
+            netRestackWindow(window, detail);
+        }
+    }
+    sendConfigure();
+}
+
+void YFrameWindow::netRestackWindow(long window, long detail) {
+    YFrameWindow* sibling = window ? manager->findFrame(window) : nullptr;
+    if (sibling) {
+        switch (detail) {
+        case Above:
             if (setAbove(sibling)) {
                 raiseTo(sibling);
             }
             break;
-        case 5 + Below:
+        case Below:
             if (setBelow(sibling)) {
                 beneath(sibling);
             }
             break;
-        case 5 + TopIf:
+        case TopIf:
             if (getActiveLayer() == sibling->getActiveLayer()) {
                 for (YFrameWindow* f = prev(); f; f = f->prev()) {
                     if (f == sibling) {
@@ -625,7 +633,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                 }
             }
             break;
-        case 5 + BottomIf:
+        case BottomIf:
             if (getActiveLayer() == sibling->getActiveLayer()) {
                 YFrameWindow* f;
                 for (f = next(); f && f != owner(); f = f->next()) {
@@ -638,7 +646,7 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                 }
             }
             break;
-        case 5 + Opposite:
+        case Opposite:
             if (getActiveLayer() == sibling->getActiveLayer()) {
                 bool search = true;
                 for (YFrameWindow* f = prev(); f; f = f->prev()) {
@@ -663,6 +671,10 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
                 }
             }
             break;
+        }
+    }
+    else {
+        switch (detail) {
         case Above:
             if (canRaise()) {
                 wmRaise();
@@ -752,9 +764,8 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
             }
             break;
         }
-        manager->updateClientList();
     }
-    sendConfigure();
+    manager->updateClientList();
 }
 
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
