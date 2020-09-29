@@ -599,6 +599,7 @@ public:
             for (int k = 0; k < netStateAtomCount; ++k) {
                 if (atom == netStateAtoms[k].atom) {
                     fState |= netStateAtoms[k].flag;
+                    break;
                 }
             }
         }
@@ -1336,6 +1337,7 @@ private:
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
+    void setState(long mask, long state);
     void changeState(const char* arg);
     bool colormaps();
     bool current();
@@ -2402,6 +2404,12 @@ bool IceSh::colormaps()
 
     signal(SIGINT, previous);
     return true;
+}
+
+void IceSh::setState(long mask, long state) {
+    FOREACH_WINDOW(window) {
+        send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
+    }
 }
 
 void IceSh::changeState(const char* arg)
@@ -4157,8 +4165,7 @@ void IceSh::parseAction()
             check(states, state, argp[-1]);
 
             MSG(("setState: 0x%03x 0x%03x", mask, state));
-            FOREACH_WINDOW(window)
-                setState(window, mask, state);
+            setState(mask, state);
         }
         else if (isAction("getState", 0)) {
             FOREACH_WINDOW(window)
@@ -4322,85 +4329,49 @@ void IceSh::parseAction()
                 lowerWindow(window);
         }
         else if (isAction("fullscreen", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateFullscreen);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateFullscreen);
         }
         else if (isAction("maximize", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximized);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximized);
         }
         else if (isAction("minimize", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMinimized);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMinimized);
         }
         else if (isAction("vertical", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximizedVert);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximizedVert);
         }
         else if (isAction("horizontal", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximizedHoriz);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximizedHoriz);
         }
         else if (isAction("rollup", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateRollup);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateRollup);
         }
         else if (isAction("above", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateAbove|WinStateBelow,
-                         WinStateAbove);
+            setState(WinStateAbove|WinStateBelow, WinStateAbove);
         }
         else if (isAction("below", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateAbove|WinStateBelow,
-                         WinStateBelow);
+            setState(WinStateAbove|WinStateBelow, WinStateBelow);
         }
         else if (isAction("hide", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateHidden, WinStateHidden);
+            setState(WinStateUnmapped, WinStateHidden);
         }
         else if (isAction("unhide", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateHidden, 0L);
+            setState(WinStateHidden, 0L);
         }
         else if (isAction("skip", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateSkip, WinStateSkip);
+            setState(WinStateSkip, WinStateSkip);
         }
         else if (isAction("unskip", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateSkip, 0L);
+            setState(WinStateSkip, 0L);
         }
         else if (isAction("restore", 0)) {
-            FOREACH_WINDOW(window) {
-                long mask = 0L;
-                mask |= WinStateFullscreen;
-                mask |= WinStateMaximized;
-                mask |= WinStateMinimized;
-                mask |= WinStateHidden;
-                mask |= WinStateRollup;
-                setState(window, mask, 0L);
-            }
+            setState(WinStateFullscreen|WinStateMaximized|WinStateUnmapped, 0);
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;
