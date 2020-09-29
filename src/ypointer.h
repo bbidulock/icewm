@@ -60,7 +60,7 @@ public:
     DataType* data() const { return fData; }
 
     void operator=(DataType* data) {
-        if(data == fData) return;
+        if (data == fData) return;
         unref();
         fData = data;
     }

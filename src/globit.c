@@ -115,7 +115,7 @@ globit_best(const char *pattern_, char **result,
 {
 	char c, *cp, **results = nullptr;
 	size_t z, nresults = 0;
-	int i, j=0;
+	int i, j = 0;
 	int glob_flags = GLOB_MARK |
 #ifdef GLOB_NO_DOTDIRS
 	    GLOB_NO_DOTDIRS |
@@ -292,7 +292,7 @@ globit_best(const char *pattern_, char **result,
 	case 0:
 		goto ok_out;
 	default:
-        if(callback) callback(cback_user_parm, results, i);
+        if (callback) callback(cback_user_parm, results, i);
 		z = globit_pfxlen(results, i);
 		if (z == 0) {
 			i = 0;
