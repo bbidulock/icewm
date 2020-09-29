@@ -252,7 +252,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             trayicon &= (frame->getTrayOption() != WinTrayIgnore);
 
             restores |= (frame->canRestore());
-            minifies |= (frame->canMinimize());
+            minifies |= (frame->canMinimize() && !frame->isMinimized());
             maxifies |= (frame->canMaximize());
             showable |= (frame->canShow());
             hidable |= (frame->canHide() && !frame->isHidden());
@@ -282,6 +282,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
     popup->checkCommand(actionHide, selected && ishidden);
     popup->checkCommand(actionRollup, selected && rolledup);
     popup->checkCommand(actionToggleTray, selected && trayicon);
+    popup->checkCommand(actionOccupyAllOrCurrent,
+                        selected && (workspace == AllWorkspaces));
     if (!restores)
         popup->disableCommand(actionRestore);
     if (!minifies)
