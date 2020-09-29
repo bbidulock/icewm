@@ -1591,7 +1591,7 @@ bool SymbolTable::lookup(long code, char const ** name) const {
 
 /******************************************************************************/
 
-static void setState(Window window, long mask, long state) {
+static void setWindowState(Window window, long mask, long state) {
     send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
 }
 
@@ -1610,7 +1610,7 @@ static void toggleState(Window window, long newState) {
         }
     }
 
-    setState(window, newState, newMask);
+    setWindowState(window, newState, newMask);
 }
 
 static void getState(Window window) {
@@ -2783,15 +2783,7 @@ static void activateWindow(Window window) {
 }
 
 static void raiseWindow(Window window) {
-    // icewm doesn't raise, but temporarily setting a higher layer works.
-    YCardinal layer(window, ATOM_WIN_LAYER);
-    if (layer && inrange(*layer, WinLayerDesktop, WinLayerMenu)) {
-        setLayer(window, *layer + 1L);
-        setLayer(window, *layer);
-    }
-    else {
-        send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Above);
-    }
+    send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Above);
 }
 
 static void lowerWindow(Window window) {
