@@ -136,13 +136,9 @@ public:
         }
     } pools[2]; // zero are resource folders, one is based on IconPath
 
-    struct mstringKeyGetter {
-        const mstring& operator()(const mstring &el) { return el; }
-    };
-
     IconPathIndex() {
 
-        YSparseHashTable<mstring, mstringKeyGetter, 6> dedupTestPath;
+        YSparseHashTable<mstring> dedupTestPath;
         auto add = [&dedupTestPath](IconCategory& cat,
                 IconCategory::entry&& el) {
 

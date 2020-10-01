@@ -236,6 +236,15 @@ public:
 };
 
 
+class mstring;
+/**
+ * @brief Shortcut for data type which converts directly to mstring (as key).
+ *
+ */
+template<typename TElement>
+struct YSparseHTKey {
+    const mstring& operator()(const TElement &el) { return el; }
+};
 /**
  * Simple associative array for string keys, element-provided key storage,
  * open addressing collision handling with linear probing.
@@ -257,7 +266,9 @@ public:
  *   it will be commited in lazy fashion, when the iterator goes out of scope.
  *   NO other iterator object or [] access must interfere in the meantime!
  */
-template<typename TElement, typename TKeyGetter, int Power = 7>
+template<typename TElement,
+typename TKeyGetter = YSparseHTKey<TElement>,
+int Power = 7>
 class YSparseHashTable {
     unsigned count;
     // this is almost POD apart from ctor, for basic swapping purpose
