@@ -646,10 +646,15 @@ static void test_expand()
     }
 }
 
+int run_benchmark(int, FILE*);
+
 int main(int argc, char **argv)
 {
     prog = basename(argv[0]);
-
+    if(argc > 1) {
+        return run_benchmark(atoi(argv[1]),
+                argc > 2 ? fopen(argv[2], "r") : stdin);
+    }
     test_mstring();
     test_expand();
     test_upath();
@@ -661,5 +666,89 @@ int main(int argc, char **argv)
 
     return total_failed != 0;
 }
+
+#ifdef STRBENCHMARK
+#include "ytime.h"
+#include "ycollections.h"
+
+#ifdef MSTRING_INPLACE_MAXLEN
+    YSparseHashTable<mstring> ht;
+
+// let's be honest and create associative key-value storage too
+    struct kv {
+        mstring key;
+        int value;
+        operator const mstring& () const { return key; }
+        operator int () const { return value; }
+    };
+    YSparseHashTable<kv> htKV;
+#endif
+
+
+int run_benchmark(int mode, FILE* input)
+{
+    char buf[300];
+    YStringArray yarr;
+    YAssocArray<int> yaamap;
+    int ret = 0;
+
+    auto startTime = monotime();
+    int line = 0;
+    while (!feof(input) && !ferror(input)) {
+        ++line;
+
+        fgets(buf, sizeof(buf) - 1, input);
+        switch (mode) {
+        case 0:
+        case 1:
+            break; // just reading
+        case 2: {
+            yarr.append(buf);
+            ret += yarr.getCount();
+            break;
+        }
+#ifdef MSTRING_INPLACE_MAXLEN
+        case 3: {
+            ht.add(buf);
+            ret += ht.getCount();
+            break;
+        }
+#endif
+        case 4: {
+            yaamap[buf] = line;
+            ret += yaamap.getCount();
+            break;
+        }
+#ifdef MSTRING_INPLACE_MAXLEN
+        case 5: {
+            htKV[buf] = kv { buf, line };
+            ret += htKV.getCount();
+            break;
+        }
+#endif
+        case 6: {
+            mstring s(buf);
+            if (0 == (s.length() % 4))
+                yarr.append(mstring(s, buf));
+            else if(0 == (s.length() % 8) && s.length() > 8)
+                yarr.append(s.substring(4));
+            ret += yarr.getCount();
+        }
+        }
+    }
+
+    auto delta = monotime() - startTime;
+    printf("elapsed: %ld.%06ld\n", delta.tv_sec, delta.tv_usec);
+    auto dump = mstring(filereader("/proc/self/status").read_all());
+    for (mstring r, s = dump; s.splitall('\n', &s, &r); s = r) {
+        if (s.startsWith("VmSize") || s.startsWith("VmRSS"))
+            printf("%s\n", s.c_str());
+
+    }
+    return ret;
+}
+#else
+int run_benchmark(int, FILE*) { return -1; }
+#endif
 
 // vim: set sw=4 ts=4 et:
