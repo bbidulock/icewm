@@ -47,7 +47,7 @@ upath upath::relative(upath &&npath) const {
     if (npath.isEmpty())
         return *this;
     if (isEmpty())
-        return npath;
+        return std::move(npath);
     if (isSeparator(path()[length() - 1])) {
         return mstring(path(), isSeparator(npath.path()[0]) ?
                                 npath.path().substring(1) : npath.path());
