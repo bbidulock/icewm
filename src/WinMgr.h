@@ -290,7 +290,7 @@
 #define WinStateAbove          (1 << 27)  /* above layer */
 #define WinStateWasHidden      (1 << 29)  /* was hidden when parent was minimized/hidden */
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
-#define WinStateWithdrawn      (1 << 31)  /* managed, but not available to user */
+#define WinStateUnmapped       (WinStateMinimized|WinStateHidden|WinStateRollup)
 
 #define WIN_STATE_ALL (WinStateSticky | WinStateMinimized |\
                        WinStateMaximizedVert | WinStateMaximizedHoriz |\

@@ -142,7 +142,8 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsMapped(false),
     fMenuShown(false),
     fNeedRelayout(false),
-    fButtonUpdate(false)
+    fButtonUpdate(false),
+    fWorkspacesUpdate(false)
 {
     taskBar = this;
 
@@ -633,6 +634,10 @@ void TaskBar::relayoutNow() {
         fButtonUpdate = false;
         buttonUpdate();
     }
+    if (fWorkspacesUpdate) {
+        fWorkspacesUpdate = false;
+        fWorkspaces->repaint();
+    }
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
@@ -1043,7 +1048,7 @@ void TaskBar::setWorkspaceActive(long workspace, bool active) {
 
 void TaskBar::workspacesRepaint() {
     if (taskBarShowWorkspaces && fWorkspaces) {
-        fWorkspaces->repaint();
+        fWorkspacesUpdate = true;
     }
 }
 

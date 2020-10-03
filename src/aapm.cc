@@ -74,9 +74,9 @@ void YApm::ApmStr(char *s, bool Tool) {
 #endif
     int fd = open(APMDEV, O_RDONLY);
     char apmver[16];
-    int ACstatus=0;
-    int BATflag=0;
-    int BATlife=1;
+    int ACstatus = 0;
+    int BATflag = 0;
+    int BATlife = 1;
     int BATtime;
     char units[16];
 
@@ -716,7 +716,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
    int batCount = 0;
 
    char* s_end = s;
-   for (int i=0; i < batteryNum; ++i) {
+   for (int i = 0; i < batteryNum; ++i) {
       char file_name[SYS_STR_SIZE];
       snprintf(file_name, SYS_STR_SIZE, "/proc/pmu/battery_%d", i);
       fd = fopen(file_name, "r");
@@ -726,7 +726,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
          continue;
       }
 
-      int flags=0, rem_time=-1, charge=0, max_charge=0, voltage=0;
+      int flags = 0, rem_time=-1, charge = 0, max_charge = 0, voltage = 0;
       while ( fgets(line, ACOUNT(line), fd) != nullptr )
         if (strncmp("flags", line, strlen("flags")) == 0)
           sscanf(strchr(line, ':')+2, "%x", &flags);

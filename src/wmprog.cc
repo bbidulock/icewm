@@ -213,12 +213,12 @@ public:
         moveTarget(zdown);
     }
     virtual void reset() override {
-        zTarget=0;
+        zTarget = 0;
     }
     virtual void cancel() override {
     }
     virtual void accept(IClosablePopup *parent) override {
-        YMenuItem* item=menu->getItem(zTarget);
+        YMenuItem* item = menu->getItem(zTarget);
         if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
         item->actionPerformed(nullptr, actionRun, 0);

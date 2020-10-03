@@ -241,6 +241,8 @@ public:
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);
+    void netStateRequest(long action, long mask);
+    void actionPerformed(YAction action);
 
     bool isPinging() const { return fPinging; }
     bool pingTime() const { return fPingTime; }

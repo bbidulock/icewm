@@ -135,8 +135,7 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([execinfo.h fcntl.h libgen.h sched.h])
-AC_CHECK_HEADERS([sys/ioctl.h sys/param.h sys/sched.h])
+AC_CHECK_HEADERS([execinfo.h sched.h sys/sched.h])
 AC_CHECK_HEADERS([sys/soundcard.h sys/sysctl.h uvm/uvm_param.h])
 
 # Checks for typedefs, structures, and compiler characteristics.

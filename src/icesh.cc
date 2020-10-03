@@ -66,6 +66,7 @@ using std::find;
 
 using namespace ASCII;
 const long SourceIndication = 1L;
+const long Sticky = long(0xFFFFFFFF);
 char const* ApplicationName = "icesh";
 static Display *display;
 static Window root;
@@ -598,6 +599,7 @@ public:
             for (int k = 0; k < netStateAtomCount; ++k) {
                 if (atom == netStateAtoms[k].atom) {
                     fState |= netStateAtoms[k].flag;
+                    break;
                 }
             }
         }
@@ -985,7 +987,7 @@ public:
         vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
             long ws = getWorkspace(client);
-            if ((ws == workspace || hasbits(ws, 0xFFFFFFFF)) != inverse) {
+            if ((ws == workspace || hasbits(ws, Sticky)) != inverse) {
                 keep.push_back(client);
             }
         }
@@ -1304,6 +1306,7 @@ private:
     void flag(char* arg);
     void xinit();
     void motif(Window window, char** args, int count);
+    void setBorderTitle(int border, int title);
     void sizeto();
     void sizeby();
     void detail();
@@ -1334,6 +1337,7 @@ private:
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
+    void setState(long mask, long state);
     void changeState(const char* arg);
     bool colormaps();
     bool current();
@@ -1587,7 +1591,7 @@ bool SymbolTable::lookup(long code, char const ** name) const {
 
 /******************************************************************************/
 
-static void setState(Window window, long mask, long state) {
+static void setWindowState(Window window, long mask, long state) {
     send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
 }
 
@@ -1606,7 +1610,7 @@ static void toggleState(Window window, long newState) {
         }
     }
 
-    setState(window, newState, newMask);
+    setWindowState(window, newState, newMask);
 }
 
 static void getState(Window window) {
@@ -1707,7 +1711,7 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
     }
 
     if (0 == strcmp(name, "All") || 0 == strcmp(name, "0xFFFFFFFF"))
-        return *workspace = 0xFFFFFFFF, true;
+        return *workspace = Sticky, true;
 
     if (0 == strcmp(name, "this"))
         return *workspace = currentWorkspace(), true;
@@ -2402,6 +2406,12 @@ bool IceSh::colormaps()
     return true;
 }
 
+void IceSh::setState(long mask, long state) {
+    FOREACH_WINDOW(window) {
+        send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
+    }
+}
+
 void IceSh::changeState(const char* arg)
 {
     int state = -1;
@@ -2773,15 +2783,7 @@ static void activateWindow(Window window) {
 }
 
 static void raiseWindow(Window window) {
-    // icewm doesn't raise, but temporarily setting a higher layer works.
-    YCardinal layer(window, ATOM_WIN_LAYER);
-    if (layer && inrange(*layer, WinLayerDesktop, WinLayerMenu)) {
-        setLayer(window, *layer + 1L);
-        setLayer(window, *layer);
-    }
-    else {
-        send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Above);
-    }
+    send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Above);
 }
 
 static void lowerWindow(Window window) {
@@ -3028,6 +3030,56 @@ void IceSh::motif(Window window, char** args, int count) {
     }
     else if (removing && hints) {
         hints.remove();
+    }
+}
+
+void IceSh::setBorderTitle(int border, int title) {
+    FOREACH_WINDOW(window) {
+        YMotifHints hints(window);
+        MwmHints mwm;
+        if (hints) {
+            mwm = *hints;
+        }
+        if (mwm.hasDecor() == false) {
+            mwm.decorations = (MWM_DECOR_MASK & ~MWM_DECOR_ALL);
+            if (border == false)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == true)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == false)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == true)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        }
+        else if (mwm.decorAll()) {
+            if (border == true)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == false)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == true)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == false)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        } else {
+            if (border == false)
+                mwm.decorations &= ~MWM_DECOR_BORDER;
+            if (border == true)
+                mwm.decorations |= MWM_DECOR_BORDER;
+            if (title == false)
+                mwm.decorations &= ~MWM_DECOR_TITLE;
+            if (title == true)
+                mwm.decorations |= MWM_DECOR_TITLE;
+        }
+        if (mwm.decorations == (MWM_DECOR_MASK & ~MWM_DECOR_ALL))
+            mwm.notDecor();
+        else if (mwm.decorations == MWM_DECOR_ALL)
+            mwm.notDecor();
+        else
+            mwm.setDecor();
+        if (mwm.hasFlags())
+            hints.replace(mwm);
+        else if (hints)
+            hints.remove();
     }
 }
 
@@ -4105,8 +4157,7 @@ void IceSh::parseAction()
             check(states, state, argp[-1]);
 
             MSG(("setState: 0x%03x 0x%03x", mask, state));
-            FOREACH_WINDOW(window)
-                setState(window, mask, state);
+            setState(mask, state);
         }
         else if (isAction("getState", 0)) {
             FOREACH_WINDOW(window)
@@ -4151,6 +4202,25 @@ void IceSh::parseAction()
                 const char* name = info ? info[ws] : "";
                 printf("0x%-7lx %d \"%s\"\n", Window(window), ws, name);
             }
+        }
+        else if (isAction("sticky", 0)) {
+            FOREACH_WINDOW(window)
+                setWorkspace(window, Sticky);
+        }
+        else if (isAction("unsticky", 0)) {
+            long current = currentWorkspace();
+            FOREACH_WINDOW(window) {
+                long ws = getWorkspace(window);
+                if (hasbits(ws, Sticky)) {
+                    setWorkspace(window, current);
+                }
+            }
+        }
+        else if (isAction("borderless", 0)) {
+            setBorderTitle(false, false);
+        }
+        else if (isAction("bordered", 0)) {
+            setBorderTitle(true, true);
         }
         else if (isAction("setLayer", 1)) {
             unsigned layer(layers.parseExpression(getArg()));
@@ -4251,85 +4321,49 @@ void IceSh::parseAction()
                 lowerWindow(window);
         }
         else if (isAction("fullscreen", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateFullscreen);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateFullscreen);
         }
         else if (isAction("maximize", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximized);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximized);
         }
         else if (isAction("minimize", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMinimized);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMinimized);
         }
         else if (isAction("vertical", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximizedVert);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximizedVert);
         }
         else if (isAction("horizontal", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateMaximizedHoriz);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateMaximizedHoriz);
         }
         else if (isAction("rollup", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateFullscreen|WinStateMaximized|
-                         WinStateMinimized|WinStateRollup,
-                         WinStateRollup);
+            setState(WinStateFullscreen|WinStateMaximized|
+                     WinStateUnmapped, WinStateRollup);
         }
         else if (isAction("above", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateAbove|WinStateBelow,
-                         WinStateAbove);
+            setState(WinStateAbove|WinStateBelow, WinStateAbove);
         }
         else if (isAction("below", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window,
-                         WinStateAbove|WinStateBelow,
-                         WinStateBelow);
+            setState(WinStateAbove|WinStateBelow, WinStateBelow);
         }
         else if (isAction("hide", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateHidden, WinStateHidden);
+            setState(WinStateUnmapped, WinStateHidden);
         }
         else if (isAction("unhide", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateHidden, 0L);
+            setState(WinStateHidden, 0L);
         }
         else if (isAction("skip", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateSkip, WinStateSkip);
+            setState(WinStateSkip, WinStateSkip);
         }
         else if (isAction("unskip", 0)) {
-            FOREACH_WINDOW(window)
-                setState(window, WinStateSkip, 0L);
+            setState(WinStateSkip, 0L);
         }
         else if (isAction("restore", 0)) {
-            FOREACH_WINDOW(window) {
-                long mask = 0L;
-                mask |= WinStateFullscreen;
-                mask |= WinStateMaximized;
-                mask |= WinStateMinimized;
-                mask |= WinStateHidden;
-                mask |= WinStateRollup;
-                setState(window, mask, 0L);
-            }
+            setState(WinStateFullscreen|WinStateMaximized|WinStateUnmapped, 0);
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;

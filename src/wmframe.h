@@ -101,7 +101,7 @@ public:
     void hideTransients();
     void restoreHiddenTransients();
 
-    void DoMaximize(long flags);
+    void doMaximize(long flags);
 
     void loseWinFocus();
     void setWinFocus();
@@ -198,6 +198,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
+    void netRestackWindow(long window, long detail);
 
     void setShape();
 
@@ -273,8 +274,9 @@ public:
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
     bool isResizable() const { return hasbit(frameFunctions(), ffResize); }
-    bool isUnmapped() const;
-    void makeMapped();
+    bool isUnmapped() const { return hasState(WinStateUnmapped); }
+    bool isMapped() const { return notState(WinStateUnmapped); }
+    void makeMapped() { return setState(WinStateUnmapped, None); }
     bool hasBorders() const;
     int borderXN() const;
     int borderYN() const;
@@ -419,6 +421,7 @@ public:
 
     long getOldLayer() { return fOldLayer; }
     void saveOldLayer() { fOldLayer = fWinActiveLayer; }
+    long windowTypeLayer() const;
 
     bool hasIndicators() const { return indicatorsCreated; }
     Window topSideIndicator() const { return topSide; }

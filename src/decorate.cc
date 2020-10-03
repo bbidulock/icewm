@@ -9,6 +9,7 @@
 #include "wmtitle.h"
 #include "wmapp.h"
 #include "wmcontainer.h"
+#include "wmtaskbar.h"
 #include "workspaces.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
@@ -45,11 +46,14 @@ void YFrameWindow::updateMenu() {
     if (!canClose())
         windowMenu->disableCommand(actionClose);
 
+    bool full = isFullscreen();
+    bool vert = !full && isMaximizedVert();
+    bool hori = !full && isMaximizedHoriz();
     windowMenu->checkCommand(actionMinimize, isMinimized());
-    windowMenu->checkCommand(actionMaximize, isMaximizedFully());
-    windowMenu->checkCommand(actionMaximizeVert, isMaximizedVert());
-    windowMenu->checkCommand(actionMaximizeHoriz, isMaximizedHoriz());
-    windowMenu->checkCommand(actionFullscreen, isFullscreen());
+    windowMenu->checkCommand(actionMaximize, vert && hori);
+    windowMenu->checkCommand(actionMaximizeVert, vert && !hori);
+    windowMenu->checkCommand(actionMaximizeHoriz, hori && !vert);
+    windowMenu->checkCommand(actionFullscreen, full);
     windowMenu->checkCommand(actionHide, isHidden());
     windowMenu->checkCommand(actionRollup, isRollup());
     windowMenu->checkCommand(actionOccupyAllOrCurrent, isAllWorkspaces());
@@ -294,6 +298,8 @@ void YFrameWindow::configure(const YRect2& r) {
 
     if (r.resized()) {
         performLayout();
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
     if (affectsWorkArea()) {
         manager->updateWorkArea();
