@@ -397,16 +397,15 @@ public:
      * STL-friendly iterators, although just good enough for basic actions.
      * Validity rules (life cycle) are similar to std::unordere_map::iterator.
      */
-    class TIterator
-    {
+    class TIterator {
         TElement* p;
         YSparseHashTable& parent;
         bool fromFind = false, hadValue = false;
         friend class YSparseHashTable;
-    public:
         TIterator(TElement *ap, YSparseHashTable &par) :
                 p(ap), parent(par) {
         }
+    public:
         ~TIterator() {
             if (!fromFind)
                 return;
@@ -434,7 +433,13 @@ public:
             }
             return *this;
         }
+        operator bool() { return p < parent.pool.data + parent.pool.dSize; }
     };
+    // get a stand-alone iterator, validity must be checked immediately
+    // after first increment
+    TIterator getIterator() {
+        return TIterator(pool.data - 1, *this), eit(end());
+    }
     TIterator begin() {
         TIterator it(pool.data, *this), eit(end());
         // jump to first valid slot or end?
