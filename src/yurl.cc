@@ -14,6 +14,7 @@
 #include "intl.h"
 #include "binascii.h"
 #include "ypointer.h"
+#include "ref.h"
 #include <sys/types.h>
 #include <regex.h>
 

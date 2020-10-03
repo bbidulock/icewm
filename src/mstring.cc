@@ -7,7 +7,7 @@
  * Copyright (C) 2009,2015,2017-2020 Eduard Bloch
  */
 #include "config.h"
-
+#include "ref.h"
 #include "mstringex.h"
 #include <string.h>
 #include <stdlib.h>
@@ -40,17 +40,6 @@ mstring::mstring(const char *str, size_type len) {
     term(len);
 }
 
-mstring mstring::operator+(const mstring_view &rv) const {
-    return mstring(*this, rv);
-}
-
-mstring::mstring(mstring &&other) {
-    if (this == &other)
-        return;
-    memset(&spod, 0, sizeof(spod));
-    *this = std::move(other);
-}
-
 mstring& mstring::operator=(mstring_view rv) {
     if (input_from_here(rv)) // we are the source -> copy in any case
         return *this = mstring(rv);
@@ -69,7 +58,7 @@ mstring& mstring::operator=(mstring &&rv) {
         return *this;
     // cannot optimize?
     if (input_from_here(rv))
-        return *this = mstring(rv);
+        return *this = mstring(mstring_view(rv));
     if (!isLocal())
         free(get_ptr());
     spod = rv.spod;
@@ -77,21 +66,10 @@ mstring& mstring::operator=(mstring &&rv) {
     return *this;
 }
 
-mstring& mstring::operator +=(mstring &&rv) {
-    if (isEmpty())
-        *this = std::move(rv);
-    else if (input_from_here(rv))
-        *this = mstring(mstring_view(*this)) + rv;
-    else
-        *this += mstring_view(rv);
-
-    return *this;
-}
-
-mstring& mstring::operator +=(const mstring_view &rv) {
-
+mstring& mstring::operator +=(mstring_view rv) {
+    // if realloc() might damage the input, create it from scratch!
     if (input_from_here(rv))
-        return (*this = mstring(mstring_view(*this)) + rv);
+        return *this = mstring(*this, rv);
 
     auto len = rv.length();
     auto curLen = length();
@@ -101,12 +79,6 @@ mstring& mstring::operator +=(const mstring_view &rv) {
     }
     term(curLen + len);
     return *this;
-}
-
-mstring mstring::operator +(mstring &&rv) const {
-    mstring ret(*this);
-    ret += std::move(rv);
-    return ret;
 }
 
 inline void mstring::term(size_type len) {
@@ -389,10 +361,6 @@ mstring mstring::trim() const {
         --n;
     }
     return substring(k, n - k);
-}
-
-mstring_view::mstring_view(const char *s) :
-        m_data(s), m_size(s ? strlen(s) : 0) {
 }
 
 inline bool mstring::input_from_here(mstring_view sv) {

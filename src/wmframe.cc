@@ -1371,7 +1371,7 @@ void YFrameWindow::wmClose() {
 
 void YFrameWindow::wmConfirmKill() {
     if (fKillMsgBox == nullptr)
-        fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
+       fKillMsgBox = wmConfirmKill(mstring(_("Kill Client: ")) + getTitle(), this);
 }
 
 YMsgBox* YFrameWindow::wmConfirmKill(const mstring& title,

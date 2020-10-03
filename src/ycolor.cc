@@ -258,7 +258,7 @@ void YColor::alloc(const char* name) {
             return alloc(rgb);
         rgb = str.match(reRgbNoSfx);
         if (rgb != null)
-            return alloc("rgb:" + rgb);
+            return alloc(mstring("rgb:", rgb));
     }
     fPixel = cache.black();
 }

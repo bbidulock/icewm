@@ -186,7 +186,7 @@ void WMConfig::setDefaultFocus(long focusMode) {
             "#\n"
             "FocusMode="
             );
-    setDefault("focus_mode", header + mstring(focusMode));
+    setDefault("focus_mode", header.appendFormat("%ld", focusMode));
 }
 
 void WMConfig::setDefaultTheme(mstring themeName) {

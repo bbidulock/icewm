@@ -125,7 +125,7 @@ NetStatus::NetStatus(
     if (isUp()) {
         updateVisible(true);
     }
-    setTitle("NET-" + netdev);
+    setTitle(mstring("NET-", netdev));
     updateToolTip();
 }
 

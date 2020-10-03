@@ -1,13 +1,8 @@
 #ifndef MSTRING_H
 #define MSTRING_H
 
-#ifdef YARRAY_H
-#error include yarray.h after mstring.h
-#endif
-
-#include "ref.h"
-#include <cstdlib>
 #include <cinttypes>
+#include <cstring>
 #include <utility>
 
 // if type punning is disabled, the strategy is:
@@ -26,17 +21,19 @@
 
 class mstring;
 class precompiled_regex;
+class null_ref;
 
 class mstring_view {
     const char *m_data;
     std::size_t m_size;
 public:
-    mstring_view(const char *s);
     mstring_view(const char *s, std::size_t len) :
             m_data(s), m_size(len) {
     }
-    mstring_view(null_ref &) : m_data(nullptr), m_size(0) {}
-    mstring_view() : mstring_view(null) {}
+    mstring_view(const char *s) : m_data(s),
+            m_size(s ? strlen(s) : 0) {}
+    mstring_view(null_ref &) : mstring_view() {}
+    mstring_view() : m_data(nullptr), m_size(0) {}
     mstring_view(const mstring& s);
     std::size_t length() const { return m_size; }
     const char* data() const { return m_data; }
@@ -51,8 +48,7 @@ public:
 class mstring {
 public:
     using size_type = std::size_t;
-private:
-    friend mstring operator+(const char* s, const mstring& m);
+protected:
     friend void swap(mstring& a, mstring& b);
     friend class mstring_view;
 
@@ -115,15 +111,14 @@ public:
     mstring(mstring_view sv) : mstring(sv.data(), sv.length()) {}
     mstring(const mstring& s) : mstring(s.data(), s.length()) {}
     mstring(const char *s) : mstring(mstring_view(s)) {}
-    mstring(mstring&& other);
 
     // fast in-place concatenation for often uses
     mstring(mstring_view a, mstring_view b);
     mstring(mstring_view a, mstring_view b, mstring_view c);
     mstring(mstring_view a, mstring_view b, mstring_view c,
             mstring_view d, mstring_view e = mstring_view());
-    mstring(null_ref &) { spod.count = 0; markExternal(false); }
-    mstring() : mstring(null) {}
+    mstring(null_ref &) : mstring() {}
+    mstring() { spod.count = 0; markExternal(false); }
     ~mstring();
 #ifdef SSO_NOUTYPUN
     size_type length() const { return spod.count; }
@@ -135,18 +130,15 @@ public:
 
     mstring& operator=(mstring_view rv);
     mstring& operator=(const mstring& rv) { return *this = mstring_view(rv); }
-    mstring& operator+=(const mstring_view& rv);
-    mstring& operator+=(const mstring& rv) {return *this += mstring_view(rv); }
-    mstring operator+(const mstring_view& rv) const;
-    mstring operator+(const char* s) const { return mstring(*this, s); }
-    mstring operator+(const mstring& s) const { return mstring(*this, s); }
+    mstring& operator+=(mstring_view rv);
+    // XXX: since this is used for string building, implement over-allocation!
+    mstring& operator<<(mstring_view rv) { return *this += rv;}
+    mstring operator+(mstring_view rv) const { return mstring(*this, rv); }
+
     // moves might just steal the other buffer
     mstring& operator=(mstring&& rv);
-    mstring& operator+=(mstring&& rv);
-    mstring operator+(mstring&& rv) const;
     // plain types
     mstring& operator=(const char* sz) { return *this = mstring_view(sz); }
-    mstring& operator+=(const char* s) { return *this += mstring_view(s); }
 
     bool operator==(const char * rv) const { return equals(rv); }
     bool operator==(mstring_view rv) const { return equals(rv); }
@@ -171,7 +163,6 @@ public:
 
     bool equals(const char *&sz) const;
     bool equals(mstring_view sv) const { return sv == *this; }
-    bool equals(const mstring &s) const { return mstring_view(s) == *this; };
     bool equals(const char *sz, size_type len) const {
         return equals(mstring_view(sz, len));
     }
@@ -212,19 +203,9 @@ public:
     static mstring take(char *buf, size_type buf_len);
 };
 
-inline bool operator==(const char* s, const mstring& c) {
-    return c == s;
-}
-inline bool operator!=(const char* s, const mstring& c) {
-    return !(c == s);
-}
-inline mstring operator+(const char* s, const mstring& m) {
-    return (s && *s) ? (mstring(s) + m) : m;
-}
 inline mstring_view::mstring_view(const mstring &s) :
         mstring_view(s.data(), s.length()) {
 }
-void swap(mstring &a, mstring &b);
 
 #endif
 

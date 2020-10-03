@@ -96,7 +96,7 @@ mstring upath::expand() const {
         if (m.nonempty()) {
             auto* e = getenv(m.substring(1));
             if (e && *e && *e != '~' && *e != '$') {
-                return e + fPath.substring(m.length());
+                return mstring(e, fPath.substring(m.length()));
             }
         }
     }

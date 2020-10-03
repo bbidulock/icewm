@@ -2,8 +2,8 @@
 #define UPATH_H
 
 #include "mstring.h"
-
 #include "yfileio.h"
+#include "ref.h"
 
 // some primitives needed for fileptr below
 #include <stdio.h>

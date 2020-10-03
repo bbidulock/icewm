@@ -590,7 +590,7 @@ mstring WorkspaceButton::baseName() {
 }
 
 void WorkspaceButton::updateName() {
-    setToolTip(_("Workspace: ") + baseName());
+    setToolTip(mstring(_("Workspace: "), baseName()));
 }
 
 void WorkspacesPane::repaint() {

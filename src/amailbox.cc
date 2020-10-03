@@ -420,26 +420,20 @@ void MailCheck::escape(const char* buf, int len, char* tmp, int siz) {
     }
 }
 
-int MailCheck::write(const char *buf, int len) {
-    if (len == 0)
-        len = int(strlen(buf));
+int MailCheck::write(mstring_view s) {
     if (fTrace) {
         char tmp[99] = "";
-        escape(buf, len, tmp, 99);
+        escape(s.data(), s.length(), tmp, 99);
         tlog("(%d) write '%s'.", fInst, tmp);
     }
-    int n = sk.write(buf, len);
-    if (n != len) {
+    int n = sk.write(s.data(), s.length());
+    if (n != (int) s.length()) {
         snprintf(bf, sizeof bf,
                  _("Write to socket failed: %s"), strerror(errno));
         warn("%s", bf);
         error(bf);
     }
     return n;
-}
-
-int MailCheck::write(mstring str) {
-    return write(str, str.length());
 }
 
 void MailCheck::socketDataRead(char *buf, int len) {
@@ -507,12 +501,12 @@ void MailCheck::parsePop3() {
     }
     else if (state == WAIT_READY) {
         if (fTrace) tlog("(%d) pop3: ready", fInst);
-        write("USER " + fURL.user + "\r\n");
+        write(mstring("USER ", fURL.user, "\r\n"));
         setState(WAIT_USER);
     }
     else if (state == WAIT_USER) {
         if (fTrace) tlog("(%d) pop3: login", fInst);
-        write("PASS " + fURL.pass + "\r\n");
+        write(mstring("PASS ", fURL.pass, "\r\n"));
         setState(WAIT_PASS);
     }
     else if (state == WAIT_PASS) {
@@ -566,7 +560,7 @@ void MailCheck::parseImap() {
     if (state == WAIT_READY) {
         if (0 == strncmp(bf, "* OK", 4)) {
             if (fTrace) tlog("(%d) imap: login", fInst);
-            write("0001 LOGIN " + fURL.user + " " + fURL.pass + "\r\n");
+            write(mstring("0001 LOGIN ", fURL.user, " ", fURL.pass, "\r\n"));
             setState(WAIT_USER);
         }
         else if (bf[0] == '*') {
@@ -578,7 +572,7 @@ void MailCheck::parseImap() {
     else if (state == WAIT_USER) {
         if (seqnr == 1 && okay) {
             if (fTrace) tlog("(%d) imap: status", fInst);
-            write("0002 STATUS " + inbox() + " (MESSAGES)\r\n");
+            write(mstring("0002 STATUS ", inbox(), " (MESSAGES)\r\n"));
             setState(WAIT_STAT);
         }
         else if (seqnr) return error("Invalid LOGIN response");
@@ -594,7 +588,7 @@ void MailCheck::parseImap() {
         }
         else if (seqnr == 2 && okay) {
             if (fTrace) tlog("(%d) imap: unseen", fInst);
-            write("0003 STATUS " + inbox() + " (UNSEEN)\r\n");
+            write(mstring("0003 STATUS ", inbox(), " (UNSEEN)\r\n"));
             setState(WAIT_UNSEEN);
         }
         else if (seqnr) return error("Invalid MESSAGES response");
@@ -609,8 +603,7 @@ void MailCheck::parseImap() {
         }
         else if (seqnr == 3 && okay) {
             if (fTrace) tlog("(%d) imap: logout", fInst);
-            const char logout[] = "0004 LOGOUT\r\n";
-            write(logout, sizeof(logout) - 1);
+            write("0004 LOGOUT\r\n");
             setState(WAIT_QUIT);
         }
         else if (seqnr) return error("Invalid UNSEEN response");
@@ -807,35 +800,29 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
 }
 
 void MailBoxStatus::updateToolTip() {
-    mstring header(check.url().host.length()
-                   ? check.url().user + "@" + check.url().host + "\n"
-                   : check.url().path + "\n");
+    auto header = check.url().host.length()
+                   ? mstring(check.url().user, "@", check.url().host, "\n")
+                   : mstring(check.url().path, "\n");
     if (suspended())
-        header = header + _("Suspended") + "\n";
+        header << _("Suspended") << "\n";
 
     if (fState == mbxError)
-        header = header
-                   + _("Error checking mailbox.")
-                   + ("\n" + check.reason());
+        header << _("Error checking mailbox.") << "\n" << check.reason();
     else if (fCount >= 0) {
-        char s[128] = "";
         if (fCount >= 1 && fUnread >= 0) {
-            snprintf(s, sizeof s,
-                     fCount == 1 ?
+            header.appendFormat(fCount == 1 ?
                      _("%ld mail message, %ld unread.") :
                      _("%ld mail messages, %ld unread."),
                      fCount, fUnread);
         }
         else {
-            snprintf(s, sizeof s,
-                     fCount == 1 ?
+            header.appendFormat(fCount == 1 ?
                      _("%ld mail message.") :
                      _("%ld mail messages."),
                      fCount);
         }
-        header = header + s;
     }
-    setToolTip(header);
+    setToolTip(std::move(header));
 }
 
 void MailBoxStatus::newMailArrived(long count, long unread) {

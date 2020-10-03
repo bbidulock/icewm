@@ -2,6 +2,7 @@
 #define __OBJ_H
 
 #include "mstring.h"
+#include "ref.h"
 
 class IApp;
 class YIcon;

@@ -199,8 +199,8 @@ public:
                 if (kv.size == SCALABLE)
                     continue;
 
-                mstring sepX = mstring().appendFormat("/%u", kv.size);
-                mstring sepXY = sepX + mstring().appendFormat("x%u", kv.size);
+                auto sepX = mstring().appendFormat("/%u", kv.size);
+                auto sepXY = sepX + mstring().appendFormat("x%u", kv.size);
 
                 for (const auto &contentDir : subcats) {
                     for (const auto &testDir : {
