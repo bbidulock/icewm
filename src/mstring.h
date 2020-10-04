@@ -111,6 +111,7 @@ public:
     mstring(mstring_view sv) : mstring(sv.data(), sv.length()) {}
     mstring(const mstring& s) : mstring(s.data(), s.length()) {}
     mstring(const char *s) : mstring(mstring_view(s)) {}
+    mstring(mstring&& other);
 
     // fast in-place concatenation for often uses
     mstring(mstring_view a, mstring_view b);
@@ -149,7 +150,7 @@ public:
     bool operator==(null_ref &) const { return isEmpty(); }
     bool operator!=(null_ref &) const { return nonempty(); }
 
-    mstring operator=(null_ref &) { clear(); return mstring(); }
+    mstring& operator=(null_ref &) { clear(); return *this; }
     mstring substring(size_type pos) const;
     mstring substring(size_type pos, size_type len) const;
     mstring match(const char* regex, const char* flags = nullptr) const;

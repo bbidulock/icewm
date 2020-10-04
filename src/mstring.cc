@@ -12,6 +12,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
+
 #include <new>
 #include <cstdint>
 #include <cstdarg>
@@ -38,6 +40,15 @@ mstring::mstring(const char *str, size_type len) {
         memcpy(data(), str, len);
     }
     term(len);
+}
+
+mstring::mstring(mstring &&other) {
+    if (this == &other)
+        return;
+    // minimum required state for move operator to work correctly
+    spod.count = 0;
+    markExternal(false);
+    *this = std::move(other);
 }
 
 mstring& mstring::operator=(mstring_view rv) {
@@ -161,32 +172,27 @@ inline void mstring::extendTo(size_type new_len) {
 }
 
 const char* mstring::data() const {
-    auto inplace = isLocal();
 #ifdef SSO_NOUTYPUN
-    if(inplace)
+    if(isLocal())
         return spod.cBytes;
     char *ret;
     memcpy(&ret, spod.cBytes, sizeof(ret));
     return ret;
 #else
-    if (!inplace)
-        return get_ptr();
-    return ((const char*) spod.cBytes) + offsetPodData;
+    return isLocal() ? (const char*) (spod.cBytes + offsetPodData) : get_ptr();
 #endif
 }
 char* mstring::data() {
-    auto inplace = isLocal();
 #ifdef SSO_NOUTYPUN
-    if(inplace)
+    if(isLocal())
         return spod.cBytes;
-    return get_ptr();
+    char *ret;
+    memcpy(&ret, spod.cBytes, sizeof(ret));
+    return ret;
 #else
-    if (!inplace)
-        return get_ptr();
-    return ((char*) spod.cBytes) + offsetPodData;
+    return isLocal() ? (char*) (spod.cBytes + offsetPodData) : get_ptr();
 #endif
 }
-// static_assert(offsetof(mstring::TRefData, pData) < sizeof(mstring::TRefData) - offsetPodData);
 
 mstring mstring::substring(size_type pos) const {
     auto l = length();
@@ -204,10 +210,8 @@ bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
     if (splitAt < 0)
         return false;
     size_type i = size_t(splitAt);
-    mstring l(substring(0, i));
-    mstring r(substring(i + 1, length() - i - 1));
-    *left = l;
-    *remain = r;
+    *left = substring(0, i);
+    *remain = substring(i + 1, length() - i - 1);
     return true;
 }
 
@@ -244,8 +248,8 @@ bool mstring::endsWith(mstring_view s) const {
 
 int mstring::find(mstring_view str) const {
     const char* found = (str.isEmpty() || isEmpty()) ? nullptr :
-        static_cast<const char*>(memmem(
-                data(), length(), str.data(), str.length()));
+        static_cast<const char*>(memmem(data(), length(),
+                str.data(), str.length()));
     return found ? int(found - data()) : (str.isEmpty() - 1);
 }
 
@@ -305,16 +309,14 @@ mstring mstring::replace(size_type pos, size_type len,
     return substring(0, size_t(pos)) + insert + substring(size_t(pos + len));
 }
 
-mstring mstring::remove(size_type pos, size_type len) const {
-    mstring_view l(data(), size_t(pos));
-    mstring_view r(data() + size_t(pos) + size_t(len), length() - pos - len);
-    return mstring(l, r);
+mstring mstring::remove(size_type p, size_type l) const {
+    return mstring(mstring_view(data(), size_t(p)),
+            mstring_view(data() + size_t(p) + size_t(l), length() - p - l));
 }
 
 mstring mstring::insert(size_type pos, const mstring &str) const {
-    mstring_view l(data(), pos);
-    mstring_view r(data() + pos, length() - pos);
-    return mstring(l, str, r);
+    mstring_view right(data() + pos, length() - pos);
+    return mstring(mstring_view(data(), pos), str, right);
 }
 
 mstring mstring::searchAndReplaceAll(const mstring &s, const mstring &r) const {
@@ -376,26 +378,19 @@ mstring::mstring(mstring_view a, mstring_view b, mstring_view c, mstring_view d,
     auto len = a.length() + b.length() + c.length() + d.length() + e.length();
     extendBy(len);
     term(len);
-    memcpy(data(), a.data(), a.length());
-    auto pos = a.length();
-    if (b.nonEmpty()) {
-        memcpy(data() + pos, b.data(), b.length());
-        pos += b.length();
-    }
-    if (c.nonEmpty()) {
-        memcpy(data() + pos, c.data(), c.length());
-        pos += c.length();
-    }
-    if (d.nonEmpty()) {
-        memcpy(data() + pos, d.data(), d.length());
-        pos += d.length();
-    }
-    if (e.nonEmpty()) {
-        memcpy(data() + pos, e.data(), e.length());
-        pos += e.length();
-    }
+    size_type pos(0);
+    auto app = [&](mstring_view& z) {
+        if(z.isEmpty()) return;
+        memcpy(data() + pos, z.data(), z.length());
+        pos += z.length();
+    };
+    app(a);
+    app(b);
+    app(c);
+    app(d);
+    app(e);
     term(pos);
-    //assert(pos == len);
+    assert(pos == len);
 }
 
 mstring::mstring(mstring_view a, mstring_view b) :
