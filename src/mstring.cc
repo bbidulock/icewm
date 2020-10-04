@@ -104,7 +104,10 @@ void mstring::set_len(size_type len, bool forceExternal) {
 #ifdef SSO_NOUTYPUN
         spod.count = len;
 #else
-        spod.cBytes[offsetPodCounter] = uint8_t(len);
+        if (len)
+            spod.cBytes[offsetPodCounter] = uint8_t(len);
+        else
+            spod.count = 0;
 #endif
         markExternal(false);
     }
@@ -200,8 +203,9 @@ mstring mstring::substring(size_type pos) const {
 }
 
 mstring mstring::substring(size_type pos, size_type len) const {
-    return pos <= length() ?
-            mstring(data() + pos, min(len, length() - pos)) : null;
+    if (pos > length())
+        return null;
+    return mstring(data() + pos, min(len, length() - pos));
 }
 
 bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
@@ -210,8 +214,10 @@ bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
     if (splitAt < 0)
         return false;
     size_type i = size_t(splitAt);
-    *left = substring(0, i);
-    *remain = substring(i + 1, length() - i - 1);
+    mstring l(substring(0, i));
+    mstring r(substring(i + 1, length() - i - 1));
+    *left = l;
+    *remain = r;
     return true;
 }
 
@@ -230,6 +236,7 @@ int mstring::charAt(int pos) const {
     return size_t(pos) < length() ? data()[pos] : -1;
 }
 
+// XXX: can actually also move this to mstring_view like lastIndexOf
 bool mstring::startsWith(mstring_view s) const {
     if (s.isEmpty())
         return true;
@@ -237,7 +244,7 @@ bool mstring::startsWith(mstring_view s) const {
         return false;
     return 0 == memcmp(data(), s.data(), s.length());
 }
-
+// XXX: can actually also move this to mstring_view like lastIndexOf
 bool mstring::endsWith(mstring_view s) const {
     if (s.isEmpty())
         return true;

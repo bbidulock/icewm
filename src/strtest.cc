@@ -197,6 +197,19 @@ static void test_mstring()
     expect(l, "f");
     expect(r, "");
 
+    l = "s.n.a.k.e.";
+    assert(l, l.splitall('.', &l, &r));
+    expect(l, "s");
+    assert(l, l.splitall('.', &l, &r));
+    expect(l, "n");
+    assert(l, l.splitall('.', &l, &r));
+    expect(l, "a");
+    assert(l, l.splitall('.', &l, &r));
+    expect(l, "k");
+    assert(l, l.splitall('.', &l, &r));
+    expect(l, "e");
+    EXPECT_EQ(false, l.splitall('.', &l, &r));
+
     mstring w = mstring(" \t\r\nabc\n\r\t ");
     mstring t = w.trim();
     expect(t, "abc");
@@ -704,6 +717,7 @@ int run_benchmark(int mode, FILE* input)
 {
     char buf[300];
     YStringArray yarr;
+    MStringArray marr;
     YAssocArray<int> yaamap;
     int ret = 0;
 
@@ -720,6 +734,11 @@ int run_benchmark(int mode, FILE* input)
         case 2: {
             yarr.append(buf);
             ret += yarr.getCount();
+            break;
+        }
+        case 20: {
+            marr.append(buf);
+            ret += marr.getCount();
             break;
         }
 #ifdef MSTRING_INPLACE_MAXLEN
@@ -755,6 +774,7 @@ int run_benchmark(int mode, FILE* input)
     auto delta = monotime() - startTime;
     printf("elapsed: %ld.%06ld\n", delta.tv_sec, delta.tv_usec);
     auto dump = mstring(filereader("/proc/self/status").read_all());
+    printf("wtf, %s\n", dump.c_str());
     for (mstring r, s = dump; s.splitall('\n', &s, &r); s = r) {
         if (s.startsWith("VmSize") || s.startsWith("VmRSS"))
             printf("%s\n", s.c_str());
