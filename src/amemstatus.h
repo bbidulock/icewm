@@ -22,7 +22,6 @@ class MEMStatus:
 {
 public:
     MEMStatus(IAppletContainer* taskBar, YWindow *aParent);
-    virtual ~MEMStatus();
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent &up, int count);

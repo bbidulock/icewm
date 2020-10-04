@@ -61,9 +61,6 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     show();
 }
 
-YClock::~YClock() {
-}
-
 void YClock::autoSize() {
     char s[TimeSize];
     time_t newTime = time(nullptr);

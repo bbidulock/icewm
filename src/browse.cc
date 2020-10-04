@@ -28,9 +28,6 @@ BrowseMenu::BrowseMenu(
     fModTime = 0;
 }
 
-BrowseMenu::~BrowseMenu() {
-}
-
 void BrowseMenu::updatePopup() {
     struct stat sb;
 

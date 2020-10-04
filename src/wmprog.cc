@@ -29,10 +29,6 @@ DObjectMenuItem::DObjectMenuItem(DObject *object):
         setIcon(object->getIcon());
 }
 
-DObjectMenuItem::~DObjectMenuItem() {
-    delete fObject;
-}
-
 void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int /*modifiers*/) {
     wmapp->signalGuiEvent(geLaunchApp);
     fObject->open();

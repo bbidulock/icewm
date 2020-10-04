@@ -21,11 +21,6 @@ YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
     setTitle("ScrollView");
 }
 
-YScrollView::~YScrollView() {
-    delete scrollVert; scrollVert = nullptr;
-    delete scrollHoriz; scrollHoriz = nullptr;
-}
-
 void YScrollView::setView(YScrollable *s) {
     scrollable = s;
 }

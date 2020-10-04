@@ -24,8 +24,6 @@ public:
     ObjectButton(YWindow *parent, YAction action):
         YButton(parent, action) { obinit(); }
 
-    virtual ~ObjectButton() {}
-
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void configure(const YRect2 &r);
     virtual void handleExpose(const XExposeEvent &expose) {}

@@ -18,7 +18,6 @@ class ClientData;
 class TrayApp: public YWindow, public YTimerListener {
 public:
     TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent);
-    virtual ~TrayApp();
 
     virtual bool isFocusTraversable();
 

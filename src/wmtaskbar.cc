@@ -59,9 +59,6 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner):
     fAutoHideTimer->setTimer(autoShowDelay, this, false);
 }
 
-EdgeTrigger::~EdgeTrigger() {
-}
-
 void EdgeTrigger::startHide() {
     fDoShow = false;
     fAutoHideTimer->startTimer(autoHideDelay);

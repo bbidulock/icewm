@@ -11,7 +11,6 @@ public:
         YActionListener *wmActionListener,
         upath path,
         YWindow *parent = nullptr);
-    virtual ~BrowseMenu();
     virtual void updatePopup();
 private:
     upath fPath;

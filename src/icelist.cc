@@ -65,8 +65,6 @@ public:
         folderMenu->addItem(_("Open"), 0, actionOpenList, openMenu);
     }
 
-    virtual ~ObjectListBox();
-
     virtual bool handleKey(const XKeyEvent &key) {
         return YListBox::handleKey(key);
     }
@@ -91,7 +89,7 @@ public:
     }
 private:
     ObjectList *fObjList;
-    YMenu *folderMenu;
+    csmart<YMenu> folderMenu;
     YAction actionClose;
     YAction actionOpen;
     YAction actionOpenList;
@@ -187,10 +185,6 @@ void ObjectList::updateList() {
     while (++o) {
         list->addItem(o);
     }
-}
-
-ObjectListBox::~ObjectListBox() {
-    delete folderMenu;
 }
 
 void ObjectListBox::activateItem(YListItem *item) {

@@ -102,9 +102,6 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     setTitle(buf);
 }
 
-CPUStatus::~CPUStatus() {
-}
-
 bool CPUStatus::picture() {
     bool change = (hasPixmap() == false);
 

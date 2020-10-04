@@ -18,7 +18,7 @@ class YMenu;
 
 class MailHandler {
 public:
-    virtual ~MailHandler() { }
+    virtual ~MailHandler() =default;
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
     virtual void runCommand(const char *cmdline) = 0;
     virtual void handleClick(const XButtonEvent &up, MailBoxStatus *client) = 0;
@@ -122,7 +122,6 @@ public:
 
     MailBoxStatus(MailHandler *handler,
                   const mstring& mailBox, YWindow *aParent);
-    virtual ~MailBoxStatus();
 
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void handleCrossing(const XCrossingEvent &crossing);

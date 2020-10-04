@@ -129,11 +129,6 @@ NetStatus::NetStatus(
     updateToolTip();
 }
 
-NetStatus::~NetStatus() {
-    delete[] ppp_in;
-    delete[] ppp_out;
-}
-
 void NetStatus::updateVisible(bool aVisible) {
     if (visible() != aVisible) {
         setVisible(aVisible);

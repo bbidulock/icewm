@@ -20,7 +20,7 @@ typedef unsigned long long cpubytes;
 
 class CPUStatusHandler {
 public:
-    virtual ~CPUStatusHandler() { }
+    virtual ~CPUStatusHandler() =default;
     virtual void handleClick(const XButtonEvent &up, int cpuid) = 0;
     virtual void runCommandOnce(const char *resource, const char *cmdline) = 0;
 };
@@ -28,7 +28,6 @@ public:
 class CPUStatus: public IApplet, private Picturer, private YTimerListener {
 public:
     CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
-    virtual ~CPUStatus();
 
     virtual bool handleTimer(YTimer *t);
     virtual void handleClick(const XButtonEvent &up, int count);

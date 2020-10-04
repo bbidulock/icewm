@@ -12,13 +12,12 @@ public:
 
     virtual YWindow *getWindow() = 0; // !!! hack ?
 protected:
-    virtual ~YScrollable() {}
+    virtual ~YScrollable() =default;
 };
 
 class YScrollView: public YWindow {
 public:
     YScrollView(YWindow *aParent);
-    virtual ~YScrollView();
 
     void setView(YScrollable *l);
 
@@ -36,9 +35,9 @@ protected:
     void getGap(int &dx, int &dy);
 
 private:
-    YScrollable *scrollable;
-    YScrollBar *scrollVert;
-    YScrollBar *scrollHoriz;
+    YScrollable* scrollable;
+    osmart<YScrollBar> scrollVert;
+    osmart<YScrollBar> scrollHoriz;
 };
 
 #endif

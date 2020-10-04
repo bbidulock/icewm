@@ -51,9 +51,6 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     //setDND(true);
 }
 
-TrayApp::~TrayApp() {
-}
-
 void TrayApp::activate() const {
     getFrame()->activateWindow(true, false);
 }

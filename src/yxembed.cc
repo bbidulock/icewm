@@ -1,8 +1,6 @@
 #include "config.h"
 #include "yxembed.h"
 
-YXEmbed::~YXEmbed() {
-}
 
 YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
     YWindow(aParent, win),
@@ -16,9 +14,6 @@ YXEmbedClient::YXEmbedClient(YXEmbed *embedder, YWindow *aParent, Window win):
 
     if (xapp->alpha() == false)
         setParentRelative();
-}
-
-YXEmbedClient::~YXEmbedClient() {
 }
 
 void YXEmbedClient::handleDamageNotify(const XDamageNotifyEvent& damage) {
@@ -69,31 +64,32 @@ void YXEmbedClient::handleConfigure(const XConfigureEvent& event) {
 }
 
 void YXEmbedClient::handleProperty(const XPropertyEvent &property) {
-    if (property.atom == _XA_XEMBED_INFO) {
-        YProperty prop(this, _XA_XEMBED_INFO, F32, 2L);
-        if (prop && prop.size() == 2L) {
-            Atom vers = prop[0];
-            Atom flag = prop[1];
-            if (vers == fInfo[0] && flag == fInfo[1]) {
+    if (property.atom != _XA_XEMBED_INFO) return;
+
+    YProperty prop(this, _XA_XEMBED_INFO, F32, 2L);
+    if (prop && prop.size() == 2L) {
+        Atom vers = prop[0];
+        Atom flag = prop[1];
+        if (vers == fInfo[0] && flag == fInfo[1]) {
+        }
+        else if (flag & XEMBED_MAPPED) {
+            if (vers > XEMBED_PROTOCOL_VERSION) {
+                if (trace())
+                    tlog("xembed invalid version 0x%08lx version=%ld flag=%ld",
+                            property.window, vers, flag);
+                infoMapped(true);
+                sendNotify();
+                sendActivate();
             }
-            else if (flag & XEMBED_MAPPED) {
-                if (vers > XEMBED_PROTOCOL_VERSION) {
-                    if (trace())
-                        tlog("xembed invalid version 0x%08lx version=%ld flag=%ld",
-                                property.window, vers, flag);
-                    infoMapped(true);
-                    sendNotify();
-                    sendActivate();
-                }
-                if (notbit(fInfo[1], XEMBED_MAPPED)) {
-                    fEmbedder->handleClientMap(handle());
-                }
-            }
-            else if (hasbit(fInfo[1], XEMBED_MAPPED)) {
-                fEmbedder->handleClientUnmap(handle());
+            if (notbit(fInfo[1], XEMBED_MAPPED)) {
+                fEmbedder->handleClientMap(handle());
             }
         }
+        else if (hasbit(fInfo[1], XEMBED_MAPPED)) {
+            fEmbedder->handleClientUnmap(handle());
+        }
     }
+
     // else logProperty((const XEvent&) property);
 }
 

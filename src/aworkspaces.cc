@@ -212,7 +212,8 @@ WorkspacesPane::WorkspacesPane(YWindow *parent):
     fTime(zerotime()),
     fMillis(16L),
     fRepositioning(false),
-    fReconfiguring(false)
+    fReconfiguring(false),
+    fRepaintSpaces(false)
 {
     addStyle(wsNoExpose);
     setParentRelative();

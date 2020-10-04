@@ -19,7 +19,6 @@ class YClock:
 {
 public:
     YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent);
-    virtual ~YClock();
 
 private:
     void autoSize();

@@ -48,9 +48,6 @@ MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
     show();
 }
 
-MEMStatus::~MEMStatus() {
-}
-
 bool MEMStatus::picture() {
     bool create = (hasPixmap() == false);
 

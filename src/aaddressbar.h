@@ -8,7 +8,6 @@ class IApp;
 class AddressBar: public YInputLine {
 public:
     AddressBar(IApp *app, YWindow *parent = nullptr);
-    virtual ~AddressBar();
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleFocus(const XFocusChangeEvent &focus);

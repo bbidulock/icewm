@@ -17,7 +17,6 @@ class KeyboardStatus:
 {
 public:
     KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent);
-    virtual ~KeyboardStatus();
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent& up, int count);

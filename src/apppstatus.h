@@ -34,7 +34,6 @@ public:
 class NetStatus: public IApplet, private Picturer {
 public:
     NetStatus(mstring netdev, NetStatusHandler* handler, YWindow *aParent = nullptr);
-    ~NetStatus();
 
     mstring name() const { return fDevName; }
     void timedUpdate(const void* sharedData, bool forceDown = false);
@@ -44,8 +43,8 @@ private:
     NetStatusHandler* fHandler;
     YColorName color[3];
 
-    long *ppp_in; /* long could be really enough for rate in B/s */
-    long *ppp_out;
+    asmart<long> ppp_in; /* long could be really enough for rate in B/s */
+    asmart<long> ppp_out;
 
     netbytes prev_ibytes, start_ibytes, cur_ibytes, offset_ibytes;
     netbytes prev_obytes, start_obytes, cur_obytes, offset_obytes;

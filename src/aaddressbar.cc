@@ -20,9 +20,6 @@ AddressBar::AddressBar(IApp *app, YWindow *parent):
 {
 }
 
-AddressBar::~AddressBar() {
-}
-
 bool AddressBar::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);

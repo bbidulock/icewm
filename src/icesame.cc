@@ -85,8 +85,6 @@ public:
 
         newGame();
     }
-    virtual ~IceSame() {
-    }
 
     void setScore(int s) {
         if (s != score) {

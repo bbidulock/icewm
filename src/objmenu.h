@@ -12,11 +12,10 @@ class DObject;
 class DObjectMenuItem: public YMenuItem {
 public:
     DObjectMenuItem(DObject *object);
-    virtual ~DObjectMenuItem();
 
     virtual void actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers);
 private:
-    DObject *fObject;
+    osmart<DObject> fObject;
 };
 
 class ObjectMenu: public YMenu, public ObjectContainer {

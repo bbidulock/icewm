@@ -30,9 +30,6 @@ DTheme::DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, c
     this->smActionListener = smActionListener;
 }
 
-DTheme::~DTheme() {
-}
-
 void DTheme::open() {
     if (fTheme == null)
         return;

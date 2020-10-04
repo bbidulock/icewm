@@ -7,24 +7,23 @@
 class AboutDlg: public YDialog {
 public:
     AboutDlg();
-    ~AboutDlg();
 
     void autoSize();
     void showFocused();
     virtual void handleClose();
 private:
-    YLabel *fProgTitle;
-    YLabel *fCopyright;
-    YLabel *fThemeName;
-    YLabel *fThemeDescription;
-    YLabel *fThemeAuthor;
-    YLabel *fThemeNameS;
-    YLabel *fThemeDescriptionS;
-    YLabel *fThemeAuthorS;
-    YLabel *fCodeSetS;
-    YLabel *fCodeSet;
-    YLabel *fLanguageS;
-    YLabel *fLanguage;
+    osmart<YLabel> fProgTitle;
+    osmart<YLabel> fCopyright;
+    osmart<YLabel> fThemeName;
+    osmart<YLabel> fThemeDescription;
+    osmart<YLabel> fThemeAuthor;
+    osmart<YLabel> fThemeNameS;
+    osmart<YLabel> fThemeDescriptionS;
+    osmart<YLabel> fThemeAuthorS;
+    osmart<YLabel> fCodeSetS;
+    osmart<YLabel> fCodeSet;
+    osmart<YLabel> fLanguageS;
+    osmart<YLabel> fLanguage;
 };
 
 #endif

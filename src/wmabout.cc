@@ -72,21 +72,6 @@ AboutDlg::AboutDlg(): YDialog() {
        0));
 }
 
-AboutDlg::~AboutDlg() {
-    delete fProgTitle;
-    delete fCopyright;
-    delete fThemeName;
-    delete fThemeDescription;
-    delete fThemeAuthor;
-    delete fThemeNameS;
-    delete fThemeDescriptionS;
-    delete fThemeAuthorS;
-    delete fCodeSetS;
-    delete fCodeSet;
-    delete fLanguageS;
-    delete fLanguage;
-}
-
 static unsigned right(YLabel *w) {
     return w->x() + w->width();
 }

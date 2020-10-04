@@ -33,7 +33,6 @@ class TrayApp;
 class EdgeTrigger: public YWindow, public YTimerListener {
 public:
     EdgeTrigger(TaskBar *owner);
-    virtual ~EdgeTrigger();
 
     bool enabled() const;
     void show();

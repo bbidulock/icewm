@@ -11,7 +11,6 @@ class YActionListener;
 class DTheme: public DObject {
 public:
     DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme);
-    virtual ~DTheme();
 
     virtual void open();
 private:

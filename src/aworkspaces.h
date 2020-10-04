@@ -91,7 +91,6 @@ public:
         addStyle(wsNoExpose);
         setParentRelative();
     }
-    virtual ~AWorkspaces() {}
 
     virtual void repaint() {}
     virtual void relabelButtons() {}

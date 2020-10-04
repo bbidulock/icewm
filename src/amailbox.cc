@@ -675,9 +675,6 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     }
 }
 
-MailBoxStatus::~MailBoxStatus() {
-}
-
 int MailBoxStatus::checkDelay() const {
     int delay = 0;
     if (mailCheckDelay > 0) {
