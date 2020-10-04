@@ -900,14 +900,14 @@ void MailBoxControl::populate()
 {
     const char* env;
     if (mailBoxPath) {
-        for (mstring s(mailBoxPath), r; s.splitall(' ', &s, &r); s = r) {
-            if (0 <= s.indexOf('/')) {
-                createStatus(s);
+        for (mstring_view s(mailBoxPath), tok; s.splitall(' ', tok, s);) {
+            if (0 <= tok.indexOf('/')) {
+                createStatus(tok);
             }
         }
     }
     if (fMailBoxes.isEmpty() && (env = getenv("MAILPATH")) != nullptr) {
-        for (mstring s(env), r; s.splitall(':', &s, &r); s = r) {
+        for (mstring_view s(env), tok; s.splitall(':', tok, s);) {
             if (0 <= s.indexOf('/')) {
                 createStatus(s);
             }

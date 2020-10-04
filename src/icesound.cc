@@ -883,11 +883,11 @@ void IceSound::nosupport(const char* name) {
 
 int IceSound::chooseInterface() {
     int rc(ICESOUND_IF_ERROR);
-    mstring name, list(interfaceNames);
-    while (audio == nullptr && list.splitall(',', &name, &list)) {
-        if (name.isEmpty())
+    mstring_view tok, list(interfaceNames);
+    while (audio == nullptr && list.splitall(',', tok, list)) {
+        if (tok.isEmpty())
             continue;
-        name = name.upper();
+        auto name = mstring(tok).upper();
         const char* val = name;
         if (name == "OSS") {
 #ifdef ENABLE_OSS

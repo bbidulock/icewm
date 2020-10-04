@@ -132,7 +132,7 @@ public:
     Background(int *argc, char ***argv, bool verbose = false);
     ~Background();
 
-    void add(const char* name, const char* value, bool append);
+    void add(const char* name, const mstring& value, bool append);
     bool become(bool replace = false);
     void update(bool force = false);
     void sendQuit()    { sendClientMessage(_XA_ICEWMBG_QUIT);    }
@@ -400,8 +400,8 @@ void Background::addImage(Strings& images, const char* name, bool append) {
     }
 }
 
-void Background::add(const char* name, const char* value, bool append) {
-    if (value == nullptr || *value == 0) {
+void Background::add(const char* name, const mstring& value, bool append) {
+    if (value == nullptr || value == null) {
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         addImage(backgroundImages, value, append);
@@ -970,10 +970,10 @@ static void bgLoadConfig(const char *configFile, const char *overrideTheme)
 }
 
 static void bgParse(const char* name, const char* value) {
-    mstring opt, str(value);
-    for (int i = 0; str.splitall(',', &opt, &str); ++i) {
+    mstring_view opt, str(value);
+    for (int i = 0; str.splitall(',', opt, str); ++i) {
         if (i + 1 < ICEBG_MAX_ARGS) {
-            if ((opt = opt.trim()).nonempty()) {
+            if ((opt = opt.trim()).nonEmpty()) {
                 globalBg->add(name, opt, 0 < i);
             }
         }

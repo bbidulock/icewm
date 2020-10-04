@@ -44,6 +44,13 @@ public:
 
     mstring_view trim() const;
     int lastIndexOf(char ch) const;
+    int indexOf(char ch) const;
+    bool split(unsigned char token, mstring_view& left,
+            mstring_view& remain) const;
+    bool splitall(unsigned char token, mstring_view& left,
+            mstring_view& remain) const;
+    mstring_view substring(size_t pos, size_t len) const;
+    bool startsWith(mstring_view sv) const;
 };
 
 /*
@@ -156,13 +163,15 @@ public:
 
     mstring& operator=(null_ref &) { clear(); return *this; }
     mstring substring(size_type pos) const;
-    mstring substring(size_type pos, size_type len) const;
+    mstring substring(size_type pos, size_type len) const {
+        return mstring_view(*this).substring(pos, len);
+    }
     mstring match(const char* regex, const char* flags = nullptr) const;
     mstring match(const precompiled_regex&) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
-    int indexOf(char ch) const;
+    int indexOf(char ch) const { return mstring_view(*this).indexOf(ch); }
     int lastIndexOf(char c) const { return mstring_view(*this).lastIndexOf(c);}
     int count(char ch) const;
 
@@ -177,12 +186,12 @@ public:
     bool operator<(const mstring& other) const { return compareTo(other) < 0; }
     bool copyTo(char *dst, size_type len) const;
 
-    bool startsWith(mstring_view sv) const;
+    bool startsWith(mstring_view sv) const {
+        return mstring_view(*this).startsWith(sv);
+    }
     bool endsWith(mstring_view sv) const;
     int find(mstring_view) const;
 
-    bool split(unsigned char token, mstring *left, mstring *remain) const;
-    bool splitall(unsigned char token, mstring *left, mstring *remain) const;
     mstring_view trim() const { return mstring_view(*this).trim(); }
     mstring replace(size_type position, size_type len, const mstring &insert) const;
     mstring remove(size_type position, size_type len) const;

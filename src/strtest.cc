@@ -186,29 +186,28 @@ static void test_mstring()
     assert(z, !z.endsWith("foofoof"));
     assert(z, z.endsWith(""));
 
-    mstring l(null), r(null);
-    e = null;
-    assert(e, e.split(0, &l, &r) == false);
-    assert(z, z.split('o', &l, &r));
+    mstring_view l(null), r(null);
+    mstring_view E;
+    assert(e, E.split(0, l, r) == false);
+    assert(z, mstring_view(z).split('o', l, r));
     expect(z, "foofoo");
     expect(l, "f");
     expect(r, "ofoo");
-    assert(l, l.splitall('o', &l, &r));
+    assert(l, l.splitall('o', l, r));
     expect(l, "f");
     expect(r, "");
-
+    // try varying call conventions
     l = "s.n.a.k.e.";
-    assert(l, l.splitall('.', &l, &r));
+    assert(l, l.splitall('.', l, r));
     expect(l, "s");
-    assert(l, l.splitall('.', &l, &r));
-    expect(l, "n");
-    assert(l, l.splitall('.', &l, &r));
-    expect(l, "a");
-    assert(l, l.splitall('.', &l, &r));
-    expect(l, "k");
-    assert(l, l.splitall('.', &l, &r));
-    expect(l, "e");
-    EXPECT_EQ(false, l.splitall('.', &l, &r));
+    l = r;
+    assert(l, l.splitall('.', r, l));
+    expect(r, "n");
+    assert(l, l.splitall('.', r, l));
+    assert(l, l.splitall('.', r, l));
+    assert(l, l.splitall('.', r, l));
+    expect(r, "e");
+    EXPECT_EQ(false, l.splitall('.', l, r));
 
     mstring w = mstring(" \t\r\nabc\n\r\t ");
     mstring t = w.trim();
@@ -775,9 +774,9 @@ int run_benchmark(int mode, FILE* input)
     printf("elapsed: %ld.%06ld\n", delta.tv_sec, delta.tv_usec);
     auto dump = mstring(filereader("/proc/self/status").read_all());
     printf("wtf, %s\n", dump.c_str());
-    for (mstring r, s = dump; s.splitall('\n', &s, &r); s = r) {
+    for (mstring_view r, s(dump); s.splitall('\n', s, r); s = r) {
         if (s.startsWith("VmSize") || s.startsWith("VmRSS"))
-            printf("%s\n", s.c_str());
+            printf("%s\n", mstring(s).c_str());
 
     }
     return ret;

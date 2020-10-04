@@ -562,8 +562,8 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     aParent(aParent),
     fPid(0)
 {
-    mstring devName, devList(netDevice);
-    while (devList.splitall(' ', &devName, &devList)) {
+    mstring_view devName, devList(netDevice);
+    while (devList.splitall(' ', devName, devList)) {
         if (devName.isEmpty())
             continue;
         mstring devStr(devName);

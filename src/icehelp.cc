@@ -1911,12 +1911,12 @@ void FileView::activateURL(mstring url, bool relative) {
      * - if local: absolute or relative to previous path.
      */
 
-    mstring path, frag;
-    if (url.splitall('#', &path, &frag) == false ||
-        path.length() + frag.length() == 0) {
+    mstring_view pathv, fragv, urlv(url);
+    if (urlv.splitall('#', pathv, fragv) == false ||
+        pathv.length() + fragv.length() == 0) {
         return; // empty
     }
-
+    mstring path(pathv);
     if (relative && path.nonempty() && false == upath(path).hasProtocol()) {
         if (upath(path).isRelative()) {
             int k = fPath.path().lastIndexOf('/');
@@ -1959,6 +1959,7 @@ void FileView::activateURL(mstring url, bool relative) {
             return;
         }
     }
+    mstring frag(fragv);
     if (frag.length() > 0 && view->contentHeight() > view->height()) {
         // search
         view->find_fragment(frag);
@@ -2069,10 +2070,10 @@ private:
             || gzip.isEmpty() || cat.isEmpty();
     }
     void init() {
-        const char defp[] = "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin";
-        const char *penv = getenv("PATH");
-        mstring mpth(penv ? penv : defp), mdir;
-        while (empty() && mpth.splitall(':', &mdir, &mpth)) {
+        const char* penv = getenv("PATH");
+        mstring_view mdir, view(penv ? penv
+                : "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin");
+        while(empty() && view.splitall(':', mdir, view)) {
             if (mdir.isEmpty())
                 continue;
             test(&curl, mdir, "curl");

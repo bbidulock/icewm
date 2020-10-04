@@ -120,24 +120,22 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
     fFontCount(0), fAscent(0), fDescent(0)
 {
     fFontCount = 0;
-    mstring s(null), r(null);
-
-    for (s = name; s.splitall(',', &s, &r); s = r) {
-        if (s.nonempty())
+    mstring_view s(name), elem;
+    while(s.splitall(',', elem, s))
+        if (elem.nonEmpty())
             fFontCount++;
-    }
 
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);
 
 
-    for (s = name; s.splitall(',', &s, &r); s = r) {
-        if (s.isEmpty())
+    for (s = name; s.splitall(',', elem, s);) {
+        if (elem.isEmpty())
             continue;
 
 //    for (char const *s(name); '\0' != *s; s = strnxt(s, ",")) {
         XftFont *& font(*fptr);
 
-        mstring fname = s.trim();
+        mstring fname = elem.trim();
         //char * fname(newstr(s + strspn(s, " \t\r\n"), ","));
         //char * endptr(fname + strlen(fname) - 1);
         //while (endptr > fname && strchr(" \t\r\n", *endptr)) --endptr;

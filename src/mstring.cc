@@ -202,33 +202,33 @@ mstring mstring::substring(size_type pos) const {
     return pos <= l ? mstring(data() + pos, l - pos) : null;
 }
 
-mstring mstring::substring(size_type pos, size_type len) const {
+mstring_view mstring_view::substring(size_t pos, size_t len) const {
     if (pos > length())
         return null;
-    return mstring(data() + pos, min(len, length() - pos));
+    return mstring_view(data() + pos, min(len, length() - pos));
 }
 
-bool mstring::split(unsigned char token, mstring *left, mstring *remain) const {
+bool mstring_view::split(unsigned char token, mstring_view& left,
+        mstring_view& remain) const {
     PRECONDITION(token < 128);
     int splitAt = indexOf(char(token));
     if (splitAt < 0)
         return false;
-    size_type i = size_t(splitAt);
-    mstring l(substring(0, i));
-    mstring r(substring(i + 1, length() - i - 1));
-    *left = l;
-    *remain = r;
+    auto l(substring(0, size_t(splitAt)));
+    auto r(substring(size_t(splitAt) + 1, length() - size_t(splitAt) - 1));
+    left = l;
+    remain = r;
     return true;
 }
 
-bool mstring::splitall(unsigned char token, mstring *left,
-        mstring *remain) const {
+bool mstring_view::splitall(unsigned char token, mstring_view& left,
+        mstring_view& remain) const {
     if (split(token, left, remain))
         return true;
     if (isEmpty())
         return false;
-    *left = *this;
-    *remain = null;
+    left = *this;
+    remain = null;
     return true;
 }
 
@@ -237,7 +237,7 @@ int mstring::charAt(int pos) const {
 }
 
 // XXX: can actually also move this to mstring_view like lastIndexOf
-bool mstring::startsWith(mstring_view s) const {
+bool mstring_view::startsWith(mstring_view s) const {
     if (s.isEmpty())
         return true;
     if (s.length() > length())
@@ -260,7 +260,7 @@ int mstring::find(mstring_view str) const {
     return found ? int(found - data()) : (str.isEmpty() - 1);
 }
 
-int mstring::indexOf(char ch) const {
+int mstring_view::indexOf(char ch) const {
     const char *str = isEmpty() ? nullptr :
         static_cast<const char*>(memchr(data(), ch, length()));
     return str ? int(str - data()) : -1;
