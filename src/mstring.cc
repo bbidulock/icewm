@@ -259,15 +259,15 @@ int mstring::indexOf(char ch) const {
     return str ? int(str - data()) : -1;
 }
 
-int mstring::lastIndexOf(char ch) const {
+int mstring_view::lastIndexOf(char ch) const {
     const char *str = isEmpty() ? nullptr :
-            static_cast<const char*>(memrchr(data(), ch, length()));
-    return str ? int(str - data()) : -1;
+            static_cast<const char*>(memrchr(m_data, ch, m_size));
+    return str ? int(str - m_data) : -1;
 }
 
 int mstring::count(char ch) const {
     int num = 0;
-    for (const char* str = data(), *end = str + length(); str < end; ++str) {
+    for (auto* str = data(), *end = str + length(); str < end; ++str) {
         str = static_cast<const char*>(memchr(str, ch, end - str));
         if (str == nullptr)
             break;
@@ -277,15 +277,13 @@ int mstring::count(char ch) const {
 }
 
 bool mstring_view::operator==(mstring_view sv) const {
-    auto lenA = sv.length();
-    auto lenB = length();
-    return lenA == lenB && 0 == memcmp(sv.data(), data(), lenA);
+    const auto lenA = sv.length();
+    return lenA == length() && 0 == memcmp(sv.data(), data(), lenA);
 }
 
 int mstring::collate(const mstring &s, bool ignoreCase) const {
-    if (ignoreCase)
-        return strcoll(this->lower(), s.lower());
-    return strcoll(c_str(), s.c_str());
+    return ignoreCase ? strcoll(this->lower(), s.lower()) :
+            strcoll(c_str(), s.c_str());
 }
 
 int mstring::compareTo(const mstring &s) const {
@@ -332,37 +330,34 @@ mstring mstring::searchAndReplaceAll(const mstring &s, const mstring &r) const {
     return modified;
 }
 
-mstring mstring::lower() const {
+mstring mstring::modified(char (*mod)(char)) const {
     mstring ret;
     auto l = length();
     ret.extendTo(l);
     for (size_type i = 0; i < l; ++i) {
-        ret.data()[i] = ASCII::toLower(data()[i]);
+        ret.data()[i] = mod(data()[i]);
     }
     ret.term(l);
     return ret;
+}
+
+mstring mstring::lower() const {
+    return modified(ASCII::toLower);
 }
 
 mstring mstring::upper() const {
-    mstring ret;
-    auto l = length();
-    ret.extendBy(l);
-    for (size_type i = 0; i < l; ++i) {
-        ret.data()[i] = ASCII::toUpper(data()[i]);
-    }
-    ret.term(l);
-    return ret;
+    return modified(ASCII::toUpper);
 }
 
-mstring mstring::trim() const {
-    size_type k = 0, n = length();
-    while (k < n && ASCII::isWhiteSpace(data()[k])) {
+mstring_view mstring_view::trim() const {
+    size_t n = length(), k = 0;
+    while (k < n && ASCII::isWhiteSpace(m_data[k])) {
         ++k;
     }
-    while (k < n && ASCII::isWhiteSpace(data()[n - 1])) {
+    while (k < n && ASCII::isWhiteSpace(m_data[n - 1])) {
         --n;
     }
-    return substring(k, n - k);
+    return mstring_view(m_data + k, n - k);
 }
 
 inline bool mstring::input_from_here(mstring_view sv) {
@@ -481,8 +476,8 @@ mstring mstring::match(const precompiled_regex &rex) const {
         return null;
     }
     regmatch_t pos;
-    int exec = regexec(&rex.preg, data(), 1, &pos, rex.execFlags);
-    return exec ?
+    int eres = regexec(&rex.preg, data(), 1, &pos, rex.execFlags);
+    return eres ?
             null : mstring(data() + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
 }
 

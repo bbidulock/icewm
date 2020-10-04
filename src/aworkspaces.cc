@@ -411,7 +411,8 @@ WorkspaceIcons::WorkspaceIcons() {
 }
 
 ref<YImage> WorkspaceIcons::load(const char* name) {
-    int len = int(strlen(name));
+    mstring_view sname(name);
+    auto len = sname.length();
     if (len < 1)
         return null;
     for (YStringArray::IterType iter = files.iterator(); ++iter; ) {
@@ -424,8 +425,8 @@ ref<YImage> WorkspaceIcons::load(const char* name) {
             }
         }
     }
-    mstring trim(mstring(name).trim());
-    return (trim.length() && trim != name) ? load(trim) : null;
+    auto trim = sname.trim();
+    return trim != sname ? load(mstring(trim)) : null;
 }
 
 void WorkspacesPane::label(WorkspaceButton* wk) {
@@ -581,11 +582,10 @@ const char* WorkspaceButton::name() const {
 }
 
 mstring WorkspaceButton::baseName() {
-    mstring name(my_basename(this->name()));
-    name = name.trim();
+    auto name = mstring_view(my_basename(this->name())).trim();
     int dot = name.lastIndexOf('.');
     if (inrange(dot, 1, (int) name.length() - 2))
-        name = name.substring(0, dot);
+        return mstring(name.data(), dot);
     return name;
 }
 

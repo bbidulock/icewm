@@ -38,8 +38,12 @@ public:
     std::size_t length() const { return m_size; }
     const char* data() const { return m_data; }
     bool operator==(mstring_view rv) const;
+    bool operator!=(mstring_view rv) const { return ! (rv == *this); }
     bool isEmpty() const { return length() == 0; }
     bool nonEmpty() const { return ! isEmpty(); }
+
+    mstring_view trim() const;
+    int lastIndexOf(char ch) const;
 };
 
 /*
@@ -159,7 +163,7 @@ public:
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
     int indexOf(char ch) const;
-    int lastIndexOf(char ch) const;
+    int lastIndexOf(char c) const { return mstring_view(*this).lastIndexOf(c);}
     int count(char ch) const;
 
     bool equals(const char *&sz) const;
@@ -179,13 +183,14 @@ public:
 
     bool split(unsigned char token, mstring *left, mstring *remain) const;
     bool splitall(unsigned char token, mstring *left, mstring *remain) const;
-    mstring trim() const;
+    mstring_view trim() const { return mstring_view(*this).trim(); }
     mstring replace(size_type position, size_type len, const mstring &insert) const;
     mstring remove(size_type position, size_type len) const;
     mstring insert(size_type position, const mstring &s) const;
     mstring searchAndReplaceAll(const mstring& s, const mstring& r) const;
     mstring lower() const;
     mstring upper() const;
+    mstring modified(char (*mod)(char)) const;
     /**
      * Calculates the required amount of memory (first run), then formats
      * the data via vsnprintf.

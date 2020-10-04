@@ -248,7 +248,7 @@ public:
         const char opts[] = "ICEWM_OPTIONS";
         const char* value = getenv(opts);
         if (value) {
-            wmoptions = mstring(value).trim();
+            wmoptions = mstring_view(value).trim();
             unsetenv(opts);
         }
     }
