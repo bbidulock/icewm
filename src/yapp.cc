@@ -236,6 +236,7 @@ int YApplication::mainLoop() {
     fLoopLevel++;
 
     timeval prevtime = monotime();
+    bool once = true;
 
     for (fExitLoop = fExitApp; (fExitApp | fExitLoop) == false; ) {
         bool didIdle = handleIdle();
@@ -263,6 +264,11 @@ int YApplication::mainLoop() {
 #ifndef USE_SIGNALFD
         sigprocmask(SIG_UNBLOCK, &signalMask, nullptr);
 #endif
+
+        if (once) {
+            once = false;
+            //releaseStartupResources();
+        }
 
         int rc = select(sizeof(fd_set) * 8,
                     SELECT_TYPE_ARG234 &read_fds,

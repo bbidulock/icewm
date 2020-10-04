@@ -32,6 +32,7 @@ class precompiled_regex {
 public:
     precompiled_regex(const char* regex, const char* flags = nullptr);
     ~precompiled_regex();
+    void reset();
     precompiled_regex(const precompiled_regex&) =delete;
     precompiled_regex& operator=(const precompiled_regex&) =delete;
     // a basic check the existence of the matched pattern

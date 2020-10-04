@@ -37,6 +37,13 @@ static inline unsigned vdepth()   { return xapp->depth(); }
 
 typedef unsigned short Word;
 
+void freeColorCaches() {
+    reSixHex.reset();
+    reHashFiveHex.reset();
+    reRgb.reset();
+    reRgbNoSfx.reset();
+}
+
 class YPixel {
 public:
     YPixel(unsigned long pix, unsigned long col) :

@@ -51,22 +51,22 @@ public:
     void signalGuiEvent(GUIEvent ge);
     int mainLoop();
 
-    virtual void afterWindowEvent(XEvent &xev);
-    virtual void handleSignal(int sig);
-    virtual bool handleIdle();
-    virtual bool filterEvent(const XEvent &xev);
-    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    void afterWindowEvent(XEvent &xev) override;
+    void handleSignal(int sig) override;
+    bool handleIdle() override;
+    bool filterEvent(const XEvent &xev) override;
+    void actionPerformed(YAction action, unsigned int modifiers) override;
 
-    virtual void handleMsgBox(YMsgBox *msgbox, int operation);
-    virtual void handleSMAction(WMAction message);
+    void handleMsgBox(YMsgBox *msgbox, int operation) override;
+    void handleSMAction(WMAction message) override;
 
     void doLogout(RebootShutdown reboot);
     void logout();
     void cancelLogout();
 
 #ifdef CONFIG_SESSION
-    virtual void smSaveYourselfPhase2();
-    virtual void smDie();
+    void smSaveYourselfPhase2() override;
+    void smDie() override;
 #endif
 
     void setFocusMode(FocusModels mode);
@@ -74,12 +74,12 @@ public:
     void initFocusCustom();
     void loadFocusMode();
 
-    virtual void restartClient(const char *path, char *const *args);
-    virtual int runProgram(const char *path, const char *const *args);
-    virtual void runOnce(const char *resource, long *pid,
-                         const char *path, char *const *args);
-    virtual void runCommand(const char *prog);
-    virtual void runCommandOnce(const char *resource, const char *cmdline, long *pid);
+    void restartClient(const char *path, char *const *args) override;
+    int runProgram(const char *path, const char *const *args) override;
+    void runOnce(const char *resource, long *pid,
+                         const char *path, char *const *args) override;
+    void runCommand(const char *prog) override;
+    void runCommandOnce(const char *resource, const char *cmdline, long *pid) override;
     bool mapClientByPid(const char* resource, long pid);
     bool mapClientByResource(const char* resource, long *pid);
 
@@ -131,8 +131,8 @@ private:
 
     void createTaskBar();
     YWindow* splash(const char* splashFile);
-    virtual bool handleTimer(YTimer *timer);
-    virtual int handleError(XErrorEvent *xev);
+    bool handleTimer(YTimer *timer) override;
+    int handleError(XErrorEvent *xev) override;
     void runRestart(const char *path, char *const *args);
 
     FocusModels focusMode;
@@ -142,6 +142,8 @@ private:
     void initPointers();
     void initIcons();
     void initIconSize();
+protected:
+    void releaseStartupResources() override;
 };
 
 extern YWMApp * wmapp;

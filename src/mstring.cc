@@ -517,17 +517,18 @@ precompiled_regex::precompiled_regex(const char *regex, const char *flags) :
     }
 }
 
-precompiled_regex::~precompiled_regex() {
+void precompiled_regex::reset() {
     switch(stateFlags)
     {
-    case STATE_NONE: return;
-    case STATE_COMPILED:
-        regfree(&preg);
-        return;
-    case STATE_ERROR:
-        delete [] mCompError;
-        return;
+    case STATE_NONE: break;
+    case STATE_COMPILED: regfree(&preg); break;
+    case STATE_ERROR: delete [] mCompError; break;
     }
+    mCompError = nullptr;
+    stateFlags = STATE_NONE;
+}
+precompiled_regex::~precompiled_regex() {
+    reset();
 }
 
 bool precompiled_regex::matchIn(const char *s) const {

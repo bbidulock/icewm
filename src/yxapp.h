@@ -126,7 +126,7 @@ public:
                     bool grabTree = false);
     bool releaseEvents();
     void handleGrabEvent(YWindow *win, XEvent &xev);
-    virtual bool handleIdle();
+    bool handleIdle() override;
     void handleWindowEvent(Window xwindow, XEvent &xev);
 
     void replayEvent();
@@ -214,8 +214,8 @@ private:
     bool fGrabMouse;
     bool fReplayEvent;
 
-    virtual bool handleXEvents();
-    virtual void flushXEvents();
+    bool handleXEvents() override;
+    void flushXEvents() override;
 
     void initModifiers();
     static void initAtoms();

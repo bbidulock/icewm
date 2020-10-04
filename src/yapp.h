@@ -97,6 +97,7 @@ protected:
     virtual bool handleXEvents() { return false; }
 
     void closeFiles();
+    virtual void releaseStartupResources() {}
 };
 
 extern IMainLoop *mainLoop;

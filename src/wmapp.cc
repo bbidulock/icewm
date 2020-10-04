@@ -1912,4 +1912,8 @@ YWindow* YWMApp::splash(const char* splashFile) {
     return window;
 }
 
+void YWMApp::releaseStartupResources() {
+    void freeColorCaches();
+    freeColorCaches();
+}
 // vim: set sw=4 ts=4 et:
