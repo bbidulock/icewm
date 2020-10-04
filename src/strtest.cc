@@ -85,6 +85,7 @@ static void test_mstring()
     mstring x("foo");
     expect(x, "foo");
     assert(x, x.length() == 3);
+    EXPECT_EQ(x, "foo");
 
     mstring b("bar", 2);
     expect(b, "ba");
@@ -290,8 +291,22 @@ static void test_mstring()
     u.appendFormat("more");
     expect(u, "1234567---more");
 
+    auto longString = "1234567---moreeven much more until it reallocates";
     u.appendFormat("%s", "even much more until it reallocates");
-    expect(u, "1234567---moreeven much more until it reallocates");
+    expect(u, longString);
+
+    MStringArray arr;
+    arr.append("zz");
+    arr.append("1a");
+    arr.append(longString);
+    arr.append("1a");
+    EXPECT_EQ(4, arr.getCount());
+    arr.sort();
+    EXPECT_EQ(4, arr.getCount());
+    EXPECT_EQ(arr[0], longString);
+    EXPECT_EQ(arr[1], "1a");
+    EXPECT_EQ(mstring(arr[2]), mstring_view("1a"));
+    EXPECT_EQ(arr[3], "zz");
 }
 
 static void test_upath()
