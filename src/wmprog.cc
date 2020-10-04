@@ -508,6 +508,7 @@ public:
         for (int k = 0; ; ++k)
             if (icewm_preferences[k].type == cfoption::CF_NONE)
                 return k;
+        return 0;
     }
 
     static int sortPrefs(const void* p1, const void* p2) {

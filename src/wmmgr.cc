@@ -2943,18 +2943,19 @@ void YWindowManager::updateUserTime(const UserTime& userTime) {
 }
 
 void YWindowManager::checkLogout() {
-    if (fShuttingDown && !haveClients()) {
-        fShuttingDown = false; /* Only run the command once */
+    if (!fShuttingDown || haveClients()) return;
 
-        if (rebootOrShutdown == Reboot && nonempty(rebootCommand)) {
-            msg("reboot... (%s)", rebootCommand);
-            smActionListener->runCommand(rebootCommand);
-        } else if (rebootOrShutdown == Shutdown && nonempty(shutdownCommand)) {
-            msg("shutdown ... (%s)", shutdownCommand);
-            smActionListener->runCommand(shutdownCommand);
-        } else if (rebootOrShutdown == Logout)
-            app->exit(0);
-    }
+    fShuttingDown = false; /* Only run the command once */
+
+    if (rebootOrShutdown == Reboot && nonempty(rebootCommand)) {
+        msg("reboot... (%s)", rebootCommand);
+        smActionListener->runCommand(rebootCommand);
+    } else if (rebootOrShutdown == Shutdown && nonempty(shutdownCommand)) {
+        msg("shutdown ... (%s)", shutdownCommand);
+        smActionListener->runCommand(shutdownCommand);
+    } else if (rebootOrShutdown == Logout)
+        app->exit(0);
+
 }
 
 void YWindowManager::removeClientFrame(YFrameWindow *frame) {
@@ -3008,13 +3009,14 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
-    if (frame == fFocusWin) {
-        if (fFocusWin) {
-            ///msg("losing %lX", fFocusWin);
-            fFocusWin->loseWinFocus();
-        }
-        fFocusWin = nullptr;
+    if (frame != fFocusWin) return;
+
+    if (fFocusWin) {
+        ///msg("losing %lX", fFocusWin);
+        fFocusWin->loseWinFocus();
     }
+    fFocusWin = nullptr;
+
 }
 
 void YWindowManager::popupWindowListMenu(YWindow *owner, int x, int y) {
@@ -3042,25 +3044,25 @@ void YWindowManager::popupWindowListMenu(YWindow *owner) {
 }
 
 void YWindowManager::switchToWorkspace(long nw, bool takeCurrent) {
-    if (nw >= 0 && nw < workspaceCount()) {
-        lockWorkArea();
-        YFrameWindow *frame = getFocus();
-        if (takeCurrent && frame && !frame->isAllWorkspaces()) {
-            lockFocus();
-            frame->wmOccupyAll();
-            frame->wmRaise();
-            activateWorkspace(nw);
-            frame->wmOccupyOnlyWorkspace(nw);
-            unlockFocus();
-            frame->wmRaise();
-            setFocus(frame);
-        } else {
-            activateWorkspace(nw);
-        }
-        unlockWorkArea();
-        if (taskBar) {
-            taskBar->workspacesRepaint();
-        }
+    if (nw < 0 || nw >= workspaceCount()) return;
+
+    lockWorkArea();
+    YFrameWindow *frame = getFocus();
+    if (takeCurrent && frame && !frame->isAllWorkspaces()) {
+        lockFocus();
+        frame->wmOccupyAll();
+        frame->wmRaise();
+        activateWorkspace(nw);
+        frame->wmOccupyOnlyWorkspace(nw);
+        unlockFocus();
+        frame->wmRaise();
+        setFocus(frame);
+    } else {
+        activateWorkspace(nw);
+    }
+    unlockWorkArea();
+    if (taskBar) {
+        taskBar->workspacesRepaint();
     }
 }
 
@@ -3251,31 +3253,33 @@ void YWindowManager::setKeyboard(int configIndex) {
 }
 
 void YWindowManager::setKeyboard(const mstring& keyboard) {
-    if (keyboard != null && keyboard != fCurrentKeyboard) {
-        fCurrentKeyboard = keyboard;
-        auto program = "setxkbmap";
-        csmart path(path_lookup(program));
-        if (path) {
-            wordexp_t exp = {};
-            exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
-                exp.we_wordv[0] = strdup(program);
-                wmapp->runProgram(program, exp.we_wordv);
-                wordfree(&exp);
-            }
-            if (taskBar) {
-                taskBar->keyboardUpdate(keyboard);
-            }
+
+    if (keyboard == null || keyboard == fCurrentKeyboard) return;
+
+    fCurrentKeyboard = keyboard;
+    auto program = "setxkbmap";
+    csmart path(path_lookup(program));
+    if (path) {
+        wordexp_t exp = {};
+        exp.we_offs = 1;
+        if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
+            exp.we_wordv[0] = strdup(program);
+            wmapp->runProgram(program, exp.we_wordv);
+            wordfree(&exp);
         }
-        else if (ONCE) {
-            YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK);
-            msgbox->setTitle(_("Missing program setxkbmap"));
-            msgbox->setText(_("For keyboard switching, please install setxkbmap."));
-            msgbox->autoSize();
-            msgbox->setMsgBoxListener(this);
-            msgbox->showFocused();
+        if (taskBar) {
+            taskBar->keyboardUpdate(keyboard);
         }
     }
+    else if (ONCE) {
+        YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK);
+        msgbox->setTitle(_("Missing program setxkbmap"));
+        msgbox->setText(_("For keyboard switching, please install setxkbmap."));
+        msgbox->autoSize();
+        msgbox->setMsgBoxListener(this);
+        msgbox->showFocused();
+    }
+
 }
 
 mstring YWindowManager::getKeyboard() {

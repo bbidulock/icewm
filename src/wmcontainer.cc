@@ -192,20 +192,22 @@ void YClientContainer::regrabMouse() {
 }
 
 void YClientContainer::grabActions() {
-    if (clientMouseActions && fHaveActionGrab == false) {
-        fHaveActionGrab = true;
-        const KeySym minButton = XK_Pointer_Button1;
-        const KeySym maxButton = XK_Pointer_Button3;
-        const KeySym xkButton0 = XK_Pointer_Button1 - 1;
-        if (inrange(gMouseWinMove.key, minButton, maxButton))
-            grabVButton(gMouseWinMove.key - xkButton0, gMouseWinMove.mod);
-        if (inrange(gMouseWinSize.key, minButton, maxButton))
-            grabVButton(gMouseWinSize.key - xkButton0, gMouseWinSize.mod);
-        if (inrange(gMouseWinRaise.key, minButton, maxButton))
-            grabVButton(gMouseWinRaise.key - xkButton0, gMouseWinRaise.mod);
-        if (inrange(gMouseWinLower.key, minButton, maxButton))
-            grabVButton(gMouseWinLower.key - xkButton0, gMouseWinLower.mod);
-    }
+    if (! clientMouseActions || fHaveActionGrab)
+        return;
+
+    fHaveActionGrab = true;
+    const KeySym minButton = XK_Pointer_Button1;
+    const KeySym maxButton = XK_Pointer_Button3;
+    const KeySym xkButton0 = XK_Pointer_Button1 - 1;
+    if (inrange(gMouseWinMove.key, minButton, maxButton))
+        grabVButton(gMouseWinMove.key - xkButton0, gMouseWinMove.mod);
+    if (inrange(gMouseWinSize.key, minButton, maxButton))
+        grabVButton(gMouseWinSize.key - xkButton0, gMouseWinSize.mod);
+    if (inrange(gMouseWinRaise.key, minButton, maxButton))
+        grabVButton(gMouseWinRaise.key - xkButton0, gMouseWinRaise.mod);
+    if (inrange(gMouseWinLower.key, minButton, maxButton))
+        grabVButton(gMouseWinLower.key - xkButton0, gMouseWinLower.mod);
+
 }
 
 void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &configureRequest) {
@@ -219,31 +221,32 @@ void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &conf
 }
 
 void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
-    if (mapRequest.window == getFrame()->client()->handle()) {
-        if (getFrame()->isUnmapped()) {
-            manager->lockFocus();
-            getFrame()->makeMapped();
-            manager->unlockFocus();
-        }
-        bool doActivate = true;
-        getFrame()->updateFocusOnMap(doActivate);
-        if (doActivate) {
-            getFrame()->activateWindow(true);
-        }
+    if (mapRequest.window != getFrame()->client()->handle()) return;
+    if (getFrame()->isUnmapped()) {
+        manager->lockFocus();
+        getFrame()->makeMapped();
+        manager->unlockFocus();
     }
+    bool doActivate = true;
+    getFrame()->updateFocusOnMap(doActivate);
+    if (doActivate) {
+        getFrame()->activateWindow(true);
+    }
+
 }
 
 void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
-    if (getFrame() && pointerColormap) {
-        if (crossing.type == EnterNotify)
-            manager->setColormapWindow(getFrame());
-        else if (crossing.type == LeaveNotify &&
-                 crossing.detail != NotifyInferior &&
-                 crossing.mode == NotifyNormal &&
-                 manager->colormapWindow() == getFrame())
-        {
-            manager->setColormapWindow(nullptr);
-        }
+    if (! getFrame() || ! pointerColormap)
+        return;
+
+    if (crossing.type == EnterNotify)
+        manager->setColormapWindow(getFrame());
+    else if (crossing.type == LeaveNotify &&
+             crossing.detail != NotifyInferior &&
+             crossing.mode == NotifyNormal &&
+             manager->colormapWindow() == getFrame())
+    {
+        manager->setColormapWindow(nullptr);
     }
 }
 

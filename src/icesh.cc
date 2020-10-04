@@ -1615,36 +1615,36 @@ static void toggleState(Window window, long newState) {
 
 static void getState(Window window) {
     YWinState prop(window);
-    if (prop) {
-        long mask = prop.mask();
-        long state = prop.state();
-        printf("0x%-7lx", window);
-        for (int k = 0; k < 2; ++k) {
-            if (((k ? state : mask) & WIN_STATE_ALL) == WIN_STATE_ALL ||
-                (k == 0 && mask == 0)) {
-                printf(" All");
-            }
-            else if (k ? state : mask) {
-                int more = 0;
-                long old = 0;
-                for (int i = 0; stateIdentifiers[i + 1].code; ++i) {
-                    long c = stateIdentifiers[i].code;
-                    if (((k ? state : mask) & c) == c) {
-                        if (i == 0 || (old & c) != c) {
-                            printf("%c%s",
-                                   more++ ? '|' : ' ',
-                                   stateIdentifiers[i].name);
-                            old = c;
-                        }
+    if (!prop) return;
+
+    long mask = prop.mask();
+    long state = prop.state();
+    printf("0x%-7lx", window);
+    for (int k = 0; k < 2; ++k) {
+        if (((k ? state : mask) & WIN_STATE_ALL) == WIN_STATE_ALL ||
+            (k == 0 && mask == 0)) {
+            printf(" All");
+        }
+        else if (k ? state : mask) {
+            int more = 0;
+            long old = 0;
+            for (int i = 0; stateIdentifiers[i + 1].code; ++i) {
+                long c = stateIdentifiers[i].code;
+                if (((k ? state : mask) & c) == c) {
+                    if (i == 0 || (old & c) != c) {
+                        printf("%c%s",
+                               more++ ? '|' : ' ',
+                               stateIdentifiers[i].name);
+                        old = c;
                     }
                 }
             }
-            else {
-                printf(" 0");
-            }
         }
-        newline();
+        else {
+            printf(" 0");
+        }
     }
+    newline();
 }
 
 /******************************************************************************/
@@ -1655,28 +1655,28 @@ static void setHints(Window window, long hints) {
 
 static void getHints(Window window) {
     YCardinal prop(window, ATOM_WIN_HINTS);
-    if (prop) {
-        long hint = *prop;
-        printf("0x%-7lx", window);
-        if ((hint & WIN_HINTS_ALL) == WIN_HINTS_ALL) {
-            printf(" All");
-        }
-        else if (hint == 0) {
-            printf(" 0");
-        }
-        else {
-            int more = 0;
-            for (int i = 0; hintIdentifiers[i + 1].code; ++i) {
-                long c = hintIdentifiers[i].code;
-                if ((hint & c) == c) {
-                    printf("%c%s",
-                           more++ ? '|' : ' ',
-                           hintIdentifiers[i].name);
-                }
+    if (!prop) return;
+
+    long hint = *prop;
+    printf("0x%-7lx", window);
+    if ((hint & WIN_HINTS_ALL) == WIN_HINTS_ALL) {
+        printf(" All");
+    }
+    else if (hint == 0) {
+        printf(" 0");
+    }
+    else {
+        int more = 0;
+        for (int i = 0; hintIdentifiers[i + 1].code; ++i) {
+            long c = hintIdentifiers[i].code;
+            if ((hint & c) == c) {
+                printf("%c%s",
+                       more++ ? '|' : ' ',
+                       hintIdentifiers[i].name);
             }
         }
-        newline();
     }
+    newline();
 }
 
 /******************************************************************************/

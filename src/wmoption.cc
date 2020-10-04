@@ -374,14 +374,14 @@ static char *parseWinOptions(char *data, const char* filename) {
 }
 
 void loadWinOptions(upath optFile) {
-    if (optFile.nonempty()) {
-        YTraceConfig trace(optFile.string());
-        auto buf(optFile.loadText());
-        if (buf) {
-            defOptions = null;
-            parseWinOptions(buf, optFile.string());
-        }
-    }
+    if (!optFile.nonempty()) return;
+
+    YTraceConfig trace(optFile.string());
+    auto buf(optFile.loadText());
+    if (!buf) return;
+
+    defOptions = null;
+    parseWinOptions(buf, optFile.string());
 }
 
 // vim: set sw=4 ts=4 et:

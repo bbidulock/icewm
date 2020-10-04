@@ -134,39 +134,41 @@ void MiniIcon::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u) {
 }
 
 void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {
-    if (down.button) {
-        int mx, my, Mx, My;
-        manager->getWorkArea(fFrame, &mx, &my, &Mx, &My);
-        int x = clamp(motion.x_root - down.x, mx, Mx - int(width()));
-        int y = clamp(motion.y_root - down.y, my, My - int(height()));
-        setPosition(x, y);
-    }
+    if (!down.button) return;
+
+    int mx, my, Mx, My;
+    manager->getWorkArea(fFrame, &mx, &my, &Mx, &My);
+    int x = clamp(motion.x_root - down.x, mx, Mx - int(width()));
+    int y = clamp(motion.y_root - down.y, my, My - int(height()));
+    setPosition(x, y);
+
 }
 
 bool MiniIcon::handleKey(const XKeyEvent& key) {
-    if (key.type == KeyPress) {
-        KeySym k = keyCodeToKeySym(key.keycode);
-        unsigned int m = KEY_MODMASK(key.state);
-        unsigned int vm = VMod(m);
-        if (IS_WMKEY(k, vm, gKeyWinClose)) {
-            if (fFrame->canClose())
-                fFrame->wmClose();
-        }
-        else if (IS_WMKEY(k, vm, gKeyWinLower)) {
-            if (fFrame->canLower())
-                fFrame->wmLower();
-        }
-        else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
-            if (fFrame->canRestore())
-                fFrame->wmRestore();
-        }
-        else if (k == XK_Return || k == XK_KP_Enter) {
-            fFrame->activate();
-        }
-        else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
-            fFrame->popupSystemMenu(fFrame);
-        }
+    if (key.type != KeyPress) return true;
+
+    KeySym k = keyCodeToKeySym(key.keycode);
+    unsigned int m = KEY_MODMASK(key.state);
+    unsigned int vm = VMod(m);
+    if (IS_WMKEY(k, vm, gKeyWinClose)) {
+        if (fFrame->canClose())
+            fFrame->wmClose();
     }
+    else if (IS_WMKEY(k, vm, gKeyWinLower)) {
+        if (fFrame->canLower())
+            fFrame->wmLower();
+    }
+    else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
+        if (fFrame->canRestore())
+            fFrame->wmRestore();
+    }
+    else if (k == XK_Return || k == XK_KP_Enter) {
+        fFrame->activate();
+    }
+    else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
+        fFrame->popupSystemMenu(fFrame);
+    }
+
     return true;
 }
 
