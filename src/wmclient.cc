@@ -1034,10 +1034,10 @@ void YFrameClient::netStateRequest(long action, long mask) {
     }
     if (gain & (WinStateAbove | WinStateBelow)) {
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateAbove) {
-            getFrame()->wmSetLayer(WinLayerOnTop);
+            actionPerformed(layerActionSet[WinLayerOnTop]);
         }
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateBelow) {
-            getFrame()->wmSetLayer(WinLayerBelow);
+            actionPerformed(layerActionSet[WinLayerBelow]);
         }
         gain &= ~(WinStateAbove | WinStateBelow);
         lose &= ~(WinStateAbove | WinStateBelow);
@@ -1045,12 +1045,12 @@ void YFrameClient::netStateRequest(long action, long mask) {
     if (lose & (WinStateAbove | WinStateBelow)) {
         if (lose & WinStateAbove) {
             if (getFrame()->getRequestedLayer() == WinLayerOnTop) {
-                getFrame()->wmSetLayer(WinLayerNormal);
+                actionPerformed(layerActionSet[WinLayerNormal]);
             }
         }
         if (lose & WinStateBelow) {
             if (getFrame()->getRequestedLayer() == WinLayerBelow) {
-                getFrame()->wmSetLayer(WinLayerNormal);
+                actionPerformed(layerActionSet[WinLayerNormal]);
             }
         }
         lose &= ~(WinStateAbove | WinStateBelow);
