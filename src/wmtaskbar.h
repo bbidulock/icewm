@@ -35,8 +35,8 @@ public:
     EdgeTrigger(TaskBar *owner);
     virtual ~EdgeTrigger();
 
-    bool enabled() const;
-    void show();
+    static bool enabled();
+    void show(bool enable);
     void startHide();
     void stopHide();
 
@@ -113,7 +113,7 @@ public:
 
     void detachDesktopTray();
 
-    bool hidden() const { return fIsCollapsed | fIsHidden | !fIsMapped; }
+    bool hidden() const { return fIsCollapsed | fIsHidden | !getFrame(); }
     bool autoTimer(bool show);
     void updateFullscreen(bool fullscreen);
     Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
@@ -171,7 +171,6 @@ private:
     bool fIsHidden;
     bool fFullscreen;
     bool fIsCollapsed;
-    bool fIsMapped;
     bool fMenuShown;
     bool fNeedRelayout;
     bool fButtonUpdate;

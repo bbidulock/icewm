@@ -56,7 +56,7 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner):
     setPointer(YXApplication::leftPointer);
     setDND(true);
     setTitle("IceEdge");
-    fAutoHideTimer->setTimer(autoShowDelay, this, false);
+    fAutoHideTimer->setTimerListener(this);
 }
 
 EdgeTrigger::~EdgeTrigger() {
@@ -72,13 +72,19 @@ void EdgeTrigger::stopHide() {
     fAutoHideTimer->stopTimer();
 }
 
-bool EdgeTrigger::enabled() const {
+bool EdgeTrigger::enabled() {
     return (taskBarAutoHide | (taskBarFullscreenAutoShow & !taskBarKeepBelow));
 }
 
-void EdgeTrigger::show() {
-    if (enabled()) {
+void EdgeTrigger::show(bool enable) {
+    bool enabled(this->enabled());
+    if (enable && enabled) {
         YWindow::show();
+    } else {
+        YWindow::hide();
+        if (enabled) {
+            startHide();
+        }
     }
 }
 
@@ -139,7 +145,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsHidden(taskBarAutoHide),
     fFullscreen(false),
     fIsCollapsed(false),
-    fIsMapped(false),
     fMenuShown(false),
     fNeedRelayout(false),
     fButtonUpdate(false),
@@ -182,7 +187,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getPropertiesList();
     getWMHints();
     getClassHint();
-    fIsMapped = true;
 
     MSG(("taskbar"));
 }
@@ -641,18 +645,17 @@ void TaskBar::relayoutNow() {
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
-    fFullscreen = fullscreen;
-    if (fFullscreen || fIsHidden)
-        fEdgeTrigger->show();
-    else
-        fEdgeTrigger->hide();
+    if (fFullscreen != fullscreen && getFrame()) {
+        fFullscreen = fullscreen;
+        fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
+    }
 }
 
 void TaskBar::updateLocation() {
     fNeedRelayout = false;
 
-    if (fIsHidden) {
-        if (fIsMapped && getFrame() && visible())
+    if (fIsHidden && !fIsCollapsed) {
+        if (getFrame() && visible())
             getFrame()->wmHide();
         xapp->sync();
     }
@@ -696,25 +699,24 @@ void TaskBar::updateLocation() {
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
-    if ( !fIsHidden && YRect(x, y, w, h) != geometry()) {
-        if (fIsMapped && getFrame()) {
-            XConfigureRequestEvent conf;
-            conf.type = ConfigureRequest;
-            conf.window = handle();
-            conf.x = x;
-            conf.y = y;
-            conf.width = int(w);
-            conf.height = int(h);
-            conf.value_mask = CWX | CWY | CWWidth | CWHeight;
-            getFrame()->configureClient(conf);
+    if ( !fIsHidden || fIsCollapsed) {
+        if (getFrame()) {
+            if (geometry() != YRect(x, y, w, h)) {
+                XConfigureRequestEvent conf;
+                conf.type = ConfigureRequest;
+                conf.window = handle();
+                conf.x = x;
+                conf.y = y;
+                conf.width = int(w);
+                conf.height = int(h);
+                conf.value_mask = CWX | CWY | CWWidth | CWHeight;
+                getFrame()->configureClient(conf);
+            }
             getFrame()->wmShow();
         } else
             setGeometry(YRect(x, y, w, h));
     }
-    if (fIsHidden || fFullscreen)
-        fEdgeTrigger->show();
-    else
-        fEdgeTrigger->hide();
+    fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
 
     ///!!! fix
     updateWMHints();
