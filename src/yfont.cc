@@ -8,31 +8,32 @@
 
 #include <string.h>
 
-extern ref<YFont> getXftFont(mstring name, bool antialias);
-extern ref<YFont> getXftFontXlfd(mstring name, bool antialias);
-extern ref<YFont> getCoreFont(const char*);
+ref<YFont> getXftFont(mstring_view name, bool antialias, bool xlfd);
+ref<YFont> getCoreFont(const char*);
 
-ref<YFont> YFont::getFont(mstring name, mstring xftFont, bool antialias) {
+ref<YFont> YFont::getFont(mstring_view name,
+        mstring_view xftFont, bool antialias) {
+
     ref<YFont> ret;
 
 #if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
     if (fontPreferFreetype) {
         if (xftFont.nonempty())
-            ret = getXftFont(xftFont, antialias);
+            ret = getXftFont(xftFont, antialias, false);
         if (ret == null)
-            ret = getXftFontXlfd(name, antialias);
+            ret = getXftFont(name, antialias, true);
     }
     if (ret == null)
-        ret = getCoreFont(name);
+        ret = getCoreFont(mstring(name));
 
 #elif defined(CONFIG_XFREETYPE)
     if (xftFont.nonempty())
-        ret = getXftFont(xftFont, antialias);
+        ret = getXftFont(xftFont, antialias, false);
     if (ret == null)
-        ret = getXftFontXlfd(name, antialias);
+        ret = getXftFont(name, antialias, true);
 
 #elif defined(CONFIG_COREFONTS)
-    ret = getCoreFont(name);
+    ret = getCoreFont(mstring(name));
 
 #else
     (void) antialias;
