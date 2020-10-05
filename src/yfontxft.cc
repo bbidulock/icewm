@@ -122,7 +122,7 @@ YXftFont::YXftFont(mstring name, bool use_xlfd, bool /*antialias*/):
     fFontCount = 0;
     mstring_view s(name), elem;
     while(s.splitall(',', elem, s))
-        if (elem.nonEmpty())
+        if (elem.nonempty())
             fFontCount++;
 
     XftFont ** fptr(fFonts = new XftFont* [fFontCount]);

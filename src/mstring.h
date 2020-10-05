@@ -1,9 +1,8 @@
 #ifndef MSTRING_H
 #define MSTRING_H
 
-#include <cinttypes>
+// this is just for strlen since forward declaration might be not portable
 #include <cstring>
-#include <utility>
 
 // if type punning is disabled, the strategy is:
 // (dis)assemble pointer by memcpy
@@ -40,7 +39,7 @@ public:
     bool operator==(mstring_view rv) const;
     bool operator!=(mstring_view rv) const { return ! (rv == *this); }
     bool isEmpty() const { return length() == 0; }
-    bool nonEmpty() const { return ! isEmpty(); }
+    bool nonempty() const { return ! isEmpty(); }
 
     mstring_view trim() const;
     int lastIndexOf(char ch) const;
@@ -58,7 +57,7 @@ public:
  */
 class mstring {
 public:
-    using size_type = std::size_t;
+    using size_type = unsigned long;
 protected:
     friend void swap(mstring& a, mstring& b);
     friend class mstring_view;
@@ -67,7 +66,7 @@ protected:
     struct TRefData {
         char *p;
         // for now: inflate a bit, later: to implement set preservation
-        uint64_t nReserved;
+        char nReserved[8];
     };
 #ifdef DEBUG_SSOLIMIT
     // local area minus SSO counter minus terminator minus local flag
@@ -80,7 +79,7 @@ protected:
     struct {
         union {
             size_type count;
-            uint8_t cBytes[sizeof(size_type)];
+            unsigned char cBytes[sizeof(size_type)];
         };
         union {
             TRefData ext;
@@ -118,19 +117,21 @@ protected:
     const char* get_ptr() const { return const_cast<mstring*>(this)->get_ptr();}
 
 public:
+    mstring() { spod.count = 0; markExternal(false); }
     mstring(const char *s, size_type len);
     mstring(mstring_view sv) : mstring(sv.data(), sv.length()) {}
     mstring(const mstring& s) : mstring(s.data(), s.length()) {}
     mstring(const char *s) : mstring(mstring_view(s)) {}
     mstring(mstring&& other);
+    explicit mstring(long val) : mstring() { appendFormat("%ld", val); }
+    mstring(null_ref &) : mstring() {}
 
-    // fast in-place concatenation for often uses
+    // shortcuts for faster in-place concatenation for often uses
     mstring(mstring_view a, mstring_view b);
     mstring(mstring_view a, mstring_view b, mstring_view c);
     mstring(mstring_view a, mstring_view b, mstring_view c,
             mstring_view d, mstring_view e = mstring_view());
-    mstring(null_ref &) : mstring() {}
-    mstring() { spod.count = 0; markExternal(false); }
+
     ~mstring();
 #ifdef SSO_NOUTYPUN
     size_type length() const { return spod.count; }
@@ -205,8 +206,6 @@ public:
      * the data via vsnprintf.
      */
     mstring& appendFormat(const char *fmtString, ...);
-
-    explicit mstring(long val) : mstring() { appendFormat("%ld", val); }
 
     operator const char *() const { return c_str(); }
     const char* c_str() const { return data();}

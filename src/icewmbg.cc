@@ -973,7 +973,7 @@ static void bgParse(const char* name, const char* value) {
     mstring_view opt, str(value);
     for (int i = 0; str.splitall(',', opt, str); ++i) {
         if (i + 1 < ICEBG_MAX_ARGS) {
-            if ((opt = opt.trim()).nonEmpty()) {
+            if ((opt = opt.trim()).nonempty()) {
                 globalBg->add(name, opt, 0 < i);
             }
         }
