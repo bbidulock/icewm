@@ -447,6 +447,7 @@ target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 TARGET_LINK_LIBRARIES(strtest ${nls_LIBS})
 
 add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
+add_test(testarray ${CMAKE_BINARY_DIR}/testarray)
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} ycollections.cc fdomenu.cc ${MISC_SRCS})
