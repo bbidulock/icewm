@@ -157,8 +157,7 @@ inline void mstring::extendTo(size_type new_len) {
         } else {
             // local before, to become external now
             auto p = (char*) malloc(new_len + 1);
-            if(!p)
-                abort();
+            if(!p) abort();
             memcpy(p, data(), length() + 1);
             set_ptr(p);
             set_len(new_len);
@@ -166,8 +165,7 @@ inline void mstring::extendTo(size_type new_len) {
     } else {
         auto pNew = realloc(get_ptr(), new_len + 1);
         // XXX: do something more useful if failed?
-        if (!pNew)
-            abort();
+        if (!pNew) abort();
         set_ptr((char*) pNew);
         set_len(new_len);
     }
@@ -253,11 +251,19 @@ bool mstring::endsWith(mstring_view s) const {
     return (0 == memcmp(data() + length() - s.length(), s.data(), s.length()));
 }
 
-int mstring::find(mstring_view str) const {
-    const char* found = (str.isEmpty() || isEmpty()) ? nullptr :
-        static_cast<const char*>(memmem(data(), length(),
-                str.data(), str.length()));
-    return found ? int(found - data()) : (str.isEmpty() - 1);
+int mstring::find(mstring_view str, size_type startPos) const {
+    if (startPos > length())
+        return -1;
+    mstring_view srange(data() + startPos, length() - startPos);
+    if (srange.isEmpty())
+        return str.isEmpty() ? 0 : -1;
+    if (str.isEmpty())
+        return 0;
+    if (str.length() > srange.length()) // catch right here before memmem
+        return -1;
+    auto hit = static_cast<const char*>(memmem(srange.data(), srange.length(),
+            str.data(), str.length()));
+    return hit ? (hit - data()) : -1;
 }
 
 int mstring_view::indexOf(char ch) const {

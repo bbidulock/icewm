@@ -217,6 +217,10 @@ static void test_mstring()
     assert(w, w.find("def") == -1);
     assert(w, w.find(" ") == 0);
     assert(w, w.find("") == 0);
+    assert(w, w.find("abc", 2) == 4);
+    assert(w, w.find("abc", 10) == -1);
+    assert(w, w.find("abc", 5) == -1);
+    assert(w, w.find("abc", 20) == -1);
     w = w.replace(0, 4, "_");
     w = w.replace(4, 4, ".");
     expect(w, "_abc.");

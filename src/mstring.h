@@ -191,7 +191,7 @@ public:
         return mstring_view(*this).startsWith(sv);
     }
     bool endsWith(mstring_view sv) const;
-    int find(mstring_view) const;
+    int find(mstring_view, size_type startPos = 0) const;
 
     mstring_view trim() const { return mstring_view(*this).trim(); }
     mstring replace(size_type position, size_type len, const mstring &insert) const;
