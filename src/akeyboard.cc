@@ -26,7 +26,7 @@ KeyboardStatus::KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent):
     setTitle("Keyboard");
     updateToolTip();
     if (fKeyboard != null) {
-        fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
+        fIcon = YIcon::getIcon(fKeyboard.substring(0, 2).toMstring());
     }
 }
 
@@ -34,7 +34,7 @@ void KeyboardStatus::updateKeyboard(const mstring& keyboard) {
     if (fKeyboard != keyboard) {
         fKeyboard = keyboard;
         if (fKeyboard != null) {
-            fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
+            fIcon = YIcon::getIcon(fKeyboard.substring(0, 2).toMstring());
         } else {
             fIcon = null;
         }

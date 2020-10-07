@@ -237,6 +237,7 @@ static void test_mstring()
     assert(ht, ht.find(":///") == -1);
     assert(hs, ht.substring(ht.find("www")) == hs.substring(hs.find("www")));
 
+    /* XXX: moved to icehelp which is the only place it was used
     mstring sl = "/././././././././././";
     q = sl.searchAndReplaceAll("/./", "/");
     expect(q, "/");
@@ -244,7 +245,7 @@ static void test_mstring()
     expect(q, "@.@.@.@.@./");
     q = sl.searchAndReplaceAll("/./", "/./");
     expect(q, sl);
-
+*/
     mstring ul = "aBcD.";
     q = ul.lower();
     expect(q, "abcd.");
@@ -768,7 +769,7 @@ int run_benchmark(int mode, FILE* input)
             if (0 == (s.length() % 4))
                 yarr.append(mstring(s, buf));
             else if(0 == (s.length() % 8) && s.length() > 8)
-                yarr.append(s.substring(4));
+                yarr.append(s.substring(4).toMstring());
             ret += yarr.getCount();
         }
         }

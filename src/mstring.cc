@@ -195,9 +195,9 @@ char* mstring::data() {
 #endif
 }
 
-mstring mstring::substring(size_type pos) const {
+mstring_view mstring::substring(size_type pos) const {
     auto l = length();
-    return pos <= l ? mstring(data() + pos, l - pos) : null;
+    return pos <= l ? mstring_view(data() + pos, l - pos) : null;
 }
 
 mstring_view mstring_view::substring(size_t pos, size_t len) const {
@@ -316,8 +316,8 @@ bool mstring::copyTo(char *dst, size_type len) const {
 }
 
 mstring mstring::replace(size_type pos, size_type len,
-        const mstring &insert) const {
-    return substring(0, size_t(pos)) + insert + substring(size_t(pos + len));
+        mstring_view insert) const {
+    return mstring(substring(0, size_t(pos)), insert, substring(size_t(pos + len)));
 }
 
 mstring mstring::remove(size_type p, size_type l) const {
@@ -325,22 +325,9 @@ mstring mstring::remove(size_type p, size_type l) const {
             mstring_view(data() + size_t(p) + size_t(l), length() - p - l));
 }
 
-mstring mstring::insert(size_type pos, const mstring &str) const {
+mstring mstring::insert(size_type pos, mstring_view str) const {
     mstring_view right(data() + pos, length() - pos);
     return mstring(mstring_view(data(), pos), str, right);
-}
-
-mstring mstring::searchAndReplaceAll(const mstring &s, const mstring &r) const {
-    mstring modified(*this);
-    const int step = int(1 + r.length() - s.length());
-    for (int offset = 0; size_t(offset) + s.length() <= modified.length();) {
-        int found = offset + modified.substring(size_t(offset)).find(s);
-        if (found < offset)
-            break;
-        modified = modified.replace(found, int(s.length()), r);
-        offset = max(0, offset + step);
-    }
-    return modified;
 }
 
 mstring mstring::modified(char (*mod)(char)) const {

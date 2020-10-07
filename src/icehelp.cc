@@ -1898,6 +1898,18 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
                      &size, &wmhints, &klas);
 }
 
+void searchAndReplaceAll(mstring& modifed, mstring_view s, mstring_view r) {
+    const int step = int(1 + r.length() - s.length());
+    for (int offset = 0; size_t(offset) + s.length() <= modifed.length();) {
+        int found = offset + modifed.substring(size_t(offset))
+                .toMstring().find(s);
+        if (found < offset)
+            break;
+        modifed = modifed.replace(found, int(s.length()), r);
+        offset = max(0, offset + step);
+    }
+}
+
 void FileView::activateURL(mstring url, bool relative) {
     if (verbose) {
         tlog("activateURL('%s', %s)", url.c_str(),
@@ -1921,7 +1933,7 @@ void FileView::activateURL(mstring url, bool relative) {
         if (upath(path).isRelative()) {
             int k = fPath.path().lastIndexOf('/');
             if (k >= 0) {
-                path = fPath.path().substring(0, k + 1) + path;
+                path = mstring(fPath.path().substring(0, k + 1), path);
             }
         }
         else if (fPath.hasProtocol()) {
@@ -1929,12 +1941,12 @@ void FileView::activateURL(mstring url, bool relative) {
             if (k > 0) {
                 int i = fPath.path().substring(k + 3).indexOf('/');
                 if (i > 0) {
-                    path = fPath.path().substring(0, k + 3 + i) + path;
+                    path = mstring(fPath.path().substring(0, k + 3 + i), path);
                 }
             }
         }
     }
-    path = path.searchAndReplaceAll("/./", "/");
+    searchAndReplaceAll(path, "/./", "/");
 
     if (path.length() > 0) {
         if (upath(path).hasProtocol()) {

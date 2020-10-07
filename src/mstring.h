@@ -50,6 +50,7 @@ public:
             mstring_view& remain) const;
     mstring_view substring(size_t pos, size_t len) const;
     bool startsWith(mstring_view sv) const;
+    mstring toMstring() const; // costly conversion to mstring
 };
 
 /*
@@ -163,8 +164,8 @@ public:
     bool operator!=(null_ref &) const { return nonempty(); }
 
     mstring& operator=(null_ref &) { clear(); return *this; }
-    mstring substring(size_type pos) const;
-    mstring substring(size_type pos, size_type len) const {
+    mstring_view substring(size_type pos) const;
+    mstring_view substring(size_type pos, size_type len) const {
         return mstring_view(*this).substring(pos, len);
     }
     mstring match(const char* regex, const char* flags = nullptr) const;
@@ -194,10 +195,9 @@ public:
     int find(mstring_view, size_type startPos = 0) const;
 
     mstring_view trim() const { return mstring_view(*this).trim(); }
-    mstring replace(size_type position, size_type len, const mstring &insert) const;
+    mstring replace(size_type position, size_type len, mstring_view insert) const;
     mstring remove(size_type position, size_type len) const;
-    mstring insert(size_type position, const mstring &s) const;
-    mstring searchAndReplaceAll(const mstring& s, const mstring& r) const;
+    mstring insert(size_type position, mstring_view s) const;
     mstring lower() const;
     mstring upper() const;
     mstring modified(char (*mod)(char)) const;
@@ -219,6 +219,10 @@ public:
 
 inline mstring_view::mstring_view(const mstring &s) :
         mstring_view(s.data(), s.length()) {
+}
+
+inline mstring mstring_view::toMstring() const {
+    return mstring(*this);
 }
 
 #endif

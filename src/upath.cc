@@ -50,7 +50,7 @@ upath upath::relative(upath &&npath) const {
         return std::move(npath);
     if (isSeparator(path()[length() - 1])) {
         return mstring(path(), isSeparator(npath.path()[0]) ?
-                                npath.path().substring(1) : npath.path());
+                npath.path().substring(1) : (mstring_view) npath.path());
     }
     if (isSeparator(npath.path()[0]))
         return mstring(path(), npath.path());
@@ -94,7 +94,7 @@ mstring upath::expand() const {
     else if (c == '$') {
         auto m = fPath.match(rex);
         if (m.nonempty()) {
-            auto* e = getenv(m.substring(1));
+            auto* e = getenv(m.c_str() + 1);
             if (e && *e && *e != '~' && *e != '$') {
                 return mstring(e, fPath.substring(m.length()));
             }
