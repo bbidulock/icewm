@@ -1,0 +1,10 @@
+---
+Checks:          '-*,clang-diagnostic-*,clang-analyzer-*,readability-*,-readability-implicit-bool-conversion,-readability-isolate-declaration,-readability-braces-around-statements'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle:     none
+CheckOptions:
+  - key:             cppcoreguidelines-avoid-magic-numbers.IgnorePowersOf2IntegerValues
+    value:           'true'
+
