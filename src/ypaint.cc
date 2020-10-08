@@ -19,6 +19,9 @@
 #include <wctype.h>
 #endif
 
+#define utf8ellipsis "\xe2\x80\xa6"
+const unsigned utf32ellipsis = 0x2026;
+
 static inline Display* display()  { return xapp->display(); }
 
 /******************************************************************************/
@@ -222,19 +225,6 @@ void Graphics::drawLine(int x1, int y1, int x2, int y2) {
               x2 - xOrigin, y2 - yOrigin);
 }
 
-void Graphics::drawLines(XPoint *points, int n, int mode) {
-    int n1 = (mode == CoordModeOrigin) ? n : 1;
-    for (int i = 0; i < n1; i++) {
-        points[i].x -= xOrigin;
-        points[i].y -= yOrigin;
-    }
-    XDrawLines(display(), drawable(), gc, points, n, mode);
-    for (int i = 0; i < n1; i++) {
-        points[i].x += xOrigin;
-        points[i].y += yOrigin;
-    }
-}
-
 void Graphics::drawSegments(XSegment *segments, int n) {
     for (int i = 0; i < n; i++) {
         segments[i].x1 -= xOrigin;
@@ -302,8 +292,11 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         return;
     }
 
+    auto ellipsis = showEllipsis && fFont->supports(utf32ellipsis) ?
+            utf8ellipsis : "...";
+
     if (showEllipsis)
-        maxWidth -= fFont->textWidth("...", 3);
+        maxWidth -= fFont->textWidth(ellipsis, 3);
 
     int rawPos(0), drawPos(0), trimLen(0), trimWid(0);
 
@@ -355,7 +348,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
         drawChars(str, 0, rawPos, x, y);
 
     if (showEllipsis && rawPos < len) {
-        drawChars("...", 0, 3, x + drawPos, y);
+        drawChars(ellipsis, 0, 3, x + drawPos, y);
     }
 }
 
@@ -777,6 +770,19 @@ void Graphics::drawBorderG(int x, int y, unsigned wid, unsigned hei, bool raised
         drawLine(x + 1, y + 1, x + 1, y + h - 1);
     }
     setColor(back);
+}
+
+void Graphics::drawLines(XPoint *points, int n, int mode) {
+    int n1 = (mode == CoordModeOrigin) ? n : 1;
+    for (int i = 0; i < n1; i++) {
+        points[i].x -= xOrigin;
+        points[i].y -= yOrigin;
+    }
+    XDrawLines(display(), drawable(), gc, points, n, mode);
+    for (int i = 0; i < n1; i++) {
+        points[i].x += xOrigin;
+        points[i].y += yOrigin;
+    }
 }
 
 void Graphics::drawCenteredPixmap(int x, int y, unsigned w, unsigned h, ref<YPixmap> pixmap) {

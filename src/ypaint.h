@@ -67,6 +67,7 @@ public:
 
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             char const * str, int len) = 0;
+    virtual bool supports(unsigned ucs4char) { return ucs4char <= 255; }
 
     int textWidth(char const * str) const;
     int multilineTabPos(char const * str) const;
