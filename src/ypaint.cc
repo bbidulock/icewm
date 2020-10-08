@@ -15,6 +15,10 @@
 #include <X11/Xft/Xft.h>
 #endif
 
+#ifdef CONFIG_I18N
+#include <wctype.h>
+#endif
+
 static inline Display* display()  { return xapp->display(); }
 
 /******************************************************************************/
@@ -286,72 +290,75 @@ void Graphics::drawString(int x, int y, char const * str) {
     drawChars(str, 0, int(strlen(str)), x, y);
 }
 
+/**
+ * Draw a string but limit its width. If overlong, truncate and show optional
+ * ... character.
+ */
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
-    int const len(strlen(str));
-    int const w = (fFont != null) ? fFont->textWidth(str, len) : 0;
+    const int len(strlen(str));
 
-    if (fFont == null || w <= maxWidth) {
+    if (fFont == null || fFont->textWidth(str, len) <= maxWidth) {
         drawChars(str, 0, len, x, y);
-    } else {
-        int maxW = 0;
-        if (!showEllipsis)
-            maxW = (maxWidth);
-        else
-            maxW = (maxWidth - fFont->textWidth("...", 3));
+        return;
+    }
 
-        int l(0), w(0);
-        int sl(0), sw(0);
+    if (showEllipsis)
+        maxWidth -= fFont->textWidth("...", 3);
 
+    int rawPos(0), drawPos(0), trimLen(0), trimWid(0);
+
+    if (maxWidth > 0) {
+        while (rawPos < len) {
+            int glyphLen, glyphWidth;
 #ifdef CONFIG_I18N
-        if (multiByte) mblen(nullptr, 0);
-#endif
-
-        if (maxW > 0) {
-            while (l < len) {
-                int nc, wc;
-#ifdef CONFIG_I18N
-                if (multiByte) {
-                    nc = mblen(str + l, size_t(len - l));
-                    if (nc < 1) { // bad things
-                        l++;
-                        continue;
-                    }
-                    wc = fFont->textWidth(str + l, nc);
-                } else
-#endif
-                {
-                    nc = 1;
-                    wc = fFont->textWidth(str + l, 1);
+            wchar_t wc;
+            if (multiByte) {
+                glyphLen = mbtowc(&wc, str + rawPos, size_t(len - rawPos));
+                if (glyphLen < 1) { // bad things
+                    rawPos++;
+                    continue;
                 }
-
-                if (w + wc < maxW) {
-                    if (1 == nc && ASCII::isWhiteSpace(str[l]))
-                    {
-                        sl+= nc;
-                        sw+= wc;
-                    } else {
-                        sl =
-                            sw = 0;
-                    }
-
-                    l+= nc;
-                    w+= wc;
-                } else
-                    break;
+                glyphWidth = fFont->textWidth(str + rawPos, glyphLen);
+            } else
+#endif
+            {
+                glyphLen = 1;
+                glyphWidth = fFont->textWidth(str + rawPos, 1);
             }
-        }
 
-        l -= sl;
-        w -= sw;
+            if (drawPos + glyphWidth >= maxWidth)
+                break;
+            bool isSpace =
+#ifdef CONFIG_I18N
+                multiByte ?
+                    !iswprint(wc) :
+#endif
+                    (1 == glyphLen && ASCII::isWhiteSpace(str[rawPos]));
 
-        if (l > 0)
-            drawChars(str, 0, l, x, y);
-        if (showEllipsis) {
-            if (l < len)
-                drawChars("...", 0, 3, x + w, y);
+            if (isSpace)
+            {
+                trimLen += glyphLen;
+                trimWid += glyphWidth;
+            } else {
+                trimLen = trimWid = 0;
+            }
+
+            rawPos += glyphLen;
+            drawPos += glyphWidth;
         }
+        // chop off trailing whitespace
+        rawPos -= trimLen;
+        drawPos -= trimWid;
+    }
+
+    if (rawPos > 0)
+        drawChars(str, 0, rawPos, x, y);
+
+    if (showEllipsis && rawPos < len) {
+        drawChars("...", 0, 3, x + drawPos, y);
     }
 }
+
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 /// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
