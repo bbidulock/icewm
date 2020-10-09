@@ -73,7 +73,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
         g.setColor(labelFg);
         g.setFont(labelFont);
 
-        for (mstring_view it, s(fLabel); s.splitall('\n', it, s);) {
+        for (mslice it, s(fLabel); s.splitall('\n', it, s);) {
             g.drawChars(it, x, y);
             y += h;
         }
@@ -90,7 +90,7 @@ void YLabel::autoSize() {
     int w = 0;
     if (fLabel != null) {
         int n = 0;
-        for (mstring_view it, s(fLabel); s.splitall('\n', it, s);) {
+        for (mslice it, s(fLabel); s.splitall('\n', it, s);) {
             auto w1 = labelFont->textWidth(it);
             if (w1 > w)
                 w = w1;

@@ -420,7 +420,7 @@ void MailCheck::escape(const char* buf, int len, char* tmp, int siz) {
     }
 }
 
-int MailCheck::write(mstring_view s) {
+int MailCheck::write(mslice s) {
     if (fTrace) {
         char tmp[99] = "";
         escape(s.data(), s.length(), tmp, 99);
@@ -900,14 +900,14 @@ void MailBoxControl::populate()
 {
     const char* env;
     if (mailBoxPath) {
-        for (mstring_view s(mailBoxPath), tok; s.splitall(' ', tok, s);) {
+        for (mslice s(mailBoxPath), tok; s.splitall(' ', tok, s);) {
             if (0 <= tok.indexOf('/')) {
                 createStatus(tok);
             }
         }
     }
     if (fMailBoxes.isEmpty() && (env = getenv("MAILPATH")) != nullptr) {
-        for (mstring_view s(env), tok; s.splitall(':', tok, s);) {
+        for (mslice s(env), tok; s.splitall(':', tok, s);) {
             if (0 <= s.indexOf('/')) {
                 createStatus(s);
             }
@@ -922,7 +922,7 @@ void MailBoxControl::populate()
     if (fMailBoxes.isEmpty() &&
         ((env = getenv("LOGNAME")) != nullptr || (env = getlogin()) != nullptr))
     {
-        const static mstring_view varmail[] = { "/var/spool/mail/", "/var/mail/", };
+        const static mslice varmail[] = { "/var/spool/mail/", "/var/mail/", };
         for (const auto& it: varmail) {
             upath s(mstring(it, env));
             if (s.isReadable()) {

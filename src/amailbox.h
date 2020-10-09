@@ -69,7 +69,7 @@ public:
     void parsePop3();
     void parseImap();
 
-    int write(mstring_view str);
+    int write(mslice str);
     void error(mstring str);
     void release();
     bool ssl() const;

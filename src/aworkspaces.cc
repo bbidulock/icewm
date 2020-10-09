@@ -412,7 +412,7 @@ WorkspaceIcons::WorkspaceIcons() {
 }
 
 ref<YImage> WorkspaceIcons::load(const char* name) {
-    mstring_view sname(name);
+    mslice sname(name);
     auto len = sname.length();
     if (len < 1)
         return null;
@@ -583,7 +583,7 @@ const char* WorkspaceButton::name() const {
 }
 
 mstring WorkspaceButton::baseName() {
-    auto name = mstring_view(my_basename(this->name())).trim();
+    auto name = mslice(my_basename(this->name())).trim();
     int dot = name.lastIndexOf('.');
     if (inrange(dot, 1, (int) name.length() - 2))
         return mstring(name.data(), dot);

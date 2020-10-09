@@ -883,7 +883,7 @@ void IceSound::nosupport(const char* name) {
 
 int IceSound::chooseInterface() {
     int rc(ICESOUND_IF_ERROR);
-    mstring_view tok, list(interfaceNames);
+    mslice tok, list(interfaceNames);
     while (audio == nullptr && list.splitall(',', tok, list)) {
         if (tok.isEmpty())
             continue;

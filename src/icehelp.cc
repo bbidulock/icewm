@@ -1898,7 +1898,7 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
                      &size, &wmhints, &klas);
 }
 
-void searchAndReplaceAll(mstring& modifed, mstring_view s, mstring_view r) {
+void searchAndReplaceAll(mstring& modifed, mslice s, mslice r) {
     const int step = int(1 + r.length() - s.length());
     for (int offset = 0; size_t(offset) + s.length() <= modifed.length();) {
         int found = offset + modifed.substring(size_t(offset))
@@ -1923,7 +1923,7 @@ void FileView::activateURL(mstring url, bool relative) {
      * - if local: absolute or relative to previous path.
      */
 
-    mstring_view pathv, fragv, urlv(url);
+    mslice pathv, fragv, urlv(url);
     if (urlv.splitall('#', pathv, fragv) == false ||
         pathv.length() + fragv.length() == 0) {
         return; // empty
@@ -2083,7 +2083,7 @@ private:
     }
     void init() {
         const char* penv = getenv("PATH");
-        mstring_view mdir, view(penv ? penv
+        mslice mdir, view(penv ? penv
                 : "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin");
         while(empty() && view.splitall(':', mdir, view)) {
             if (mdir.isEmpty())

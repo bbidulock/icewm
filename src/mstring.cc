@@ -51,7 +51,7 @@ mstring::mstring(mstring &&other) {
     *this = std::move(other);
 }
 
-mstring& mstring::operator=(mstring_view rv) {
+mstring& mstring::operator=(mslice rv) {
     if (input_from_here(rv)) // we are the source -> copy in any case
         return *this = mstring(rv);
     auto l = rv.length();
@@ -69,7 +69,7 @@ mstring& mstring::operator=(mstring &&rv) {
         return *this;
     // cannot optimize?
     if (input_from_here(rv))
-        return *this = mstring(mstring_view(rv));
+        return *this = mstring(mslice(rv));
     if (!isLocal())
         free(get_ptr());
     spod = rv.spod;
@@ -77,7 +77,7 @@ mstring& mstring::operator=(mstring &&rv) {
     return *this;
 }
 
-mstring& mstring::operator +=(mstring_view rv) {
+mstring& mstring::operator +=(mslice rv) {
     // if realloc() might damage the input, create it from scratch!
     if (input_from_here(rv))
         return *this = mstring(*this, rv);
@@ -195,19 +195,19 @@ char* mstring::data() {
 #endif
 }
 
-mstring_view mstring::substring(size_type pos) const {
+mslice mstring::substring(size_type pos) const {
     auto l = length();
-    return pos <= l ? mstring_view(data() + pos, l - pos) : null;
+    return pos <= l ? mslice(data() + pos, l - pos) : null;
 }
 
-mstring_view mstring_view::substring(size_t pos, size_t len) const {
+mslice mslice::substring(size_t pos, size_t len) const {
     if (pos > length())
         return null;
-    return mstring_view(data() + pos, min(len, length() - pos));
+    return mslice(data() + pos, min(len, length() - pos));
 }
 
-bool mstring_view::split(unsigned char token, mstring_view& left,
-        mstring_view& remain) const {
+bool mslice::split(unsigned char token, mslice& left,
+        mslice& remain) const {
     PRECONDITION(token < 128);
     int splitAt = indexOf(char(token));
     if (splitAt < 0)
@@ -219,8 +219,7 @@ bool mstring_view::split(unsigned char token, mstring_view& left,
     return true;
 }
 
-bool mstring_view::splitall(unsigned char token, mstring_view& left,
-        mstring_view& remain) const {
+bool mslice::splitall(unsigned char token, mslice& left, mslice& remain) const {
     if (split(token, left, remain))
         return true;
     if (isEmpty())
@@ -234,16 +233,16 @@ int mstring::charAt(int pos) const {
     return size_t(pos) < length() ? data()[pos] : -1;
 }
 
-// XXX: can actually also move this to mstring_view like lastIndexOf
-bool mstring_view::startsWith(mstring_view s) const {
+// XXX: can actually also move this to mslice like lastIndexOf
+bool mslice::startsWith(mslice s) const {
     if (s.isEmpty())
         return true;
     if (s.length() > length())
         return false;
     return 0 == memcmp(data(), s.data(), s.length());
 }
-// XXX: can actually also move this to mstring_view like lastIndexOf
-bool mstring::endsWith(mstring_view s) const {
+// XXX: can actually also move this to mslice like lastIndexOf
+bool mstring::endsWith(mslice s) const {
     if (s.isEmpty())
         return true;
     if (s.length() > length())
@@ -251,10 +250,10 @@ bool mstring::endsWith(mstring_view s) const {
     return (0 == memcmp(data() + length() - s.length(), s.data(), s.length()));
 }
 
-int mstring::find(mstring_view str, size_type startPos) const {
+int mstring::find(mslice str, size_type startPos) const {
     if (startPos > length())
         return -1;
-    mstring_view srange(data() + startPos, length() - startPos);
+    mslice srange(data() + startPos, length() - startPos);
     if (srange.isEmpty())
         return str.isEmpty() ? 0 : -1;
     if (str.isEmpty())
@@ -266,13 +265,13 @@ int mstring::find(mstring_view str, size_type startPos) const {
     return hit ? (hit - data()) : -1;
 }
 
-int mstring_view::indexOf(char ch) const {
+int mslice::indexOf(char ch) const {
     const char *str = isEmpty() ? nullptr :
         static_cast<const char*>(memchr(data(), ch, length()));
     return str ? int(str - data()) : -1;
 }
 
-int mstring_view::lastIndexOf(char ch) const {
+int mslice::lastIndexOf(char ch) const {
     const char *str = isEmpty() ? nullptr :
             static_cast<const char*>(memrchr(m_data, ch, m_size));
     return str ? int(str - m_data) : -1;
@@ -289,7 +288,7 @@ int mstring::count(char ch) const {
     return num;
 }
 
-bool mstring_view::operator==(mstring_view sv) const {
+bool mslice::operator==(mslice sv) const {
     const auto lenA = sv.length();
     return lenA == length() && 0 == memcmp(sv.data(), data(), lenA);
 }
@@ -315,19 +314,18 @@ bool mstring::copyTo(char *dst, size_type len) const {
     return length() < len;
 }
 
-mstring mstring::replace(size_type pos, size_type len,
-        mstring_view insert) const {
+mstring mstring::replace(size_type pos, size_type len, mslice insert) const {
     return mstring(substring(0, size_t(pos)), insert, substring(size_t(pos + len)));
 }
 
 mstring mstring::remove(size_type p, size_type l) const {
-    return mstring(mstring_view(data(), size_t(p)),
-            mstring_view(data() + size_t(p) + size_t(l), length() - p - l));
+    return mstring(mslice(data(), size_t(p)),
+            mslice(data() + size_t(p) + size_t(l), length() - p - l));
 }
 
-mstring mstring::insert(size_type pos, mstring_view str) const {
-    mstring_view right(data() + pos, length() - pos);
-    return mstring(mstring_view(data(), pos), str, right);
+mstring mstring::insert(size_type pos, mslice str) const {
+    mslice right(data() + pos, length() - pos);
+    return mstring(mslice(data(), pos), str, right);
 }
 
 mstring mstring::modified(char (*mod)(char)) const {
@@ -349,7 +347,7 @@ mstring mstring::upper() const {
     return modified(ASCII::toUpper);
 }
 
-mstring_view mstring_view::trim() const {
+mslice mslice::trim() const {
     size_t n = length(), k = 0;
     while (k < n && ASCII::isWhiteSpace(m_data[k])) {
         ++k;
@@ -357,10 +355,10 @@ mstring_view mstring_view::trim() const {
     while (k < n && ASCII::isWhiteSpace(m_data[n - 1])) {
         --n;
     }
-    return mstring_view(m_data + k, n - k);
+    return mslice(m_data + k, n - k);
 }
 
-inline bool mstring::input_from_here(mstring_view sv) {
+inline bool mstring::input_from_here(mslice sv) {
     const char *svdata = sv.data(), *svend = svdata + sv.length(), *begin =
             data(), *end = begin + length();
     // inrange() suits here because of extra terminator char
@@ -368,13 +366,14 @@ inline bool mstring::input_from_here(mstring_view sv) {
 }
 
 // this is extra copy-pasty in order to let the compiler optimize it better
-mstring::mstring(mstring_view a, mstring_view b, mstring_view c, mstring_view d,
-        mstring_view e) : mstring(null) {
+mstring::mstring(mslice a, mslice b, mslice c, mslice d, mslice e) :
+        mstring(null) {
+
     auto len = a.length() + b.length() + c.length() + d.length() + e.length();
     extendBy(len);
     term(len);
     size_type pos(0);
-    auto app = [&](mstring_view& z) {
+    auto app = [&](mslice& z) {
         if(z.isEmpty()) return;
         memcpy(data() + pos, z.data(), z.length());
         pos += z.length();
@@ -388,12 +387,12 @@ mstring::mstring(mstring_view a, mstring_view b, mstring_view c, mstring_view d,
     assert(pos == len);
 }
 
-mstring::mstring(mstring_view a, mstring_view b) :
-        mstring(a, b, mstring_view(), mstring_view(), mstring_view()) {
+mstring::mstring(mslice a, mslice b) :
+        mstring(a, b, mslice(), mslice(), mslice()) {
 }
 
-mstring::mstring(mstring_view a, mstring_view b, mstring_view c) :
-        mstring(a, b, c, mstring_view(), mstring_view()) {
+mstring::mstring(mslice a, mslice b, mslice c) :
+        mstring(a, b, c, mslice(), mslice()) {
 }
 
 mstring::~mstring() {

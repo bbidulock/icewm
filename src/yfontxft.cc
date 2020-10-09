@@ -34,7 +34,7 @@ public:
     typedef XftChar8 char_t;
 #endif
 
-    YXftFont(mstring_view name, bool xlfd, bool antialias);
+    YXftFont(mslice name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
     virtual bool valid() const { return ! fFonts.isEmpty(); }
@@ -116,10 +116,10 @@ public:
 
 /******************************************************************************/
 
-YXftFont::YXftFont(mstring_view name, bool use_xlfd, bool /*antialias*/):
+YXftFont::YXftFont(mslice name, bool use_xlfd, bool /*antialias*/):
     fAscent(0), fDescent(0)
 {
-    mstring_view s(name), elem;
+    mslice s(name), elem;
 
     while(s.splitall(',', elem, s))
     {
@@ -293,7 +293,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-ref<YFont> getXftFont(mstring_view name, bool antialias, bool from_xlfd) {
+ref<YFont> getXftFont(mslice name, bool antialias, bool from_xlfd) {
     ref<YFont>font(new YXftFont(name, from_xlfd, antialias));
     if (font == null || !font->valid()) {
         msg("failed to load font '%s', trying fallback", mstring(name).c_str());

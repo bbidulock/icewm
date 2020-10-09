@@ -2,7 +2,7 @@
 #define MSTRING_H
 
 // this is just for strlen since forward declaration might be not portable
-#include <cstring>
+#include <string.h>
 
 // if type punning is disabled, the strategy is:
 // (dis)assemble pointer by memcpy
@@ -22,34 +22,35 @@ class mstring;
 class precompiled_regex;
 class null_ref;
 
-class mstring_view {
+/**
+ * String memory slice, defined by pointer and size.
+ * Inspired by std::string_view and Rust string slices.
+ * No zero termination is guaranteed unless specified otherwise.
+ * Caller or user of this is responsible for the lifetime of referred memory.
+ */
+class mslice {
     const char *m_data;
-    std::size_t m_size;
+    size_t m_size;
 public:
-    mstring_view(const char *s, std::size_t len) :
-            m_data(s), m_size(len) {
-    }
-    mstring_view(const char *s) : m_data(s),
-            m_size(s ? strlen(s) : 0) {}
-    mstring_view(null_ref &) : mstring_view() {}
-    mstring_view() : m_data(nullptr), m_size(0) {}
-    mstring_view(const mstring& s);
-    std::size_t length() const { return m_size; }
+    mslice(const char *s, size_t len) : m_data(s), m_size(len) {}
+    mslice(const char *s) : mslice(s, s ? strlen(s) : 0) {}
+    mslice(null_ref &) : mslice() {}
+    mslice() : mslice(nullptr, 0) {}
+    mslice(const mstring& s);
+    size_t length() const { return m_size; }
     const char* data() const { return m_data; }
-    bool operator==(mstring_view rv) const;
-    bool operator!=(mstring_view rv) const { return ! (rv == *this); }
+    bool operator==(mslice rv) const;
+    bool operator!=(mslice rv) const { return ! (rv == *this); }
     bool isEmpty() const { return length() == 0; }
     bool nonempty() const { return ! isEmpty(); }
 
-    mstring_view trim() const;
+    mslice trim() const;
     int lastIndexOf(char ch) const;
     int indexOf(char ch) const;
-    bool split(unsigned char token, mstring_view& left,
-            mstring_view& remain) const;
-    bool splitall(unsigned char token, mstring_view& left,
-            mstring_view& remain) const;
-    mstring_view substring(size_t pos, size_t len) const;
-    bool startsWith(mstring_view sv) const;
+    bool split(unsigned char token, mslice& left, mslice& remain) const;
+    bool splitall(unsigned char token, mslice& left, mslice& remain) const;
+    mslice substring(size_t pos, size_t len) const;
+    bool startsWith(mslice sv) const;
     mstring toMstring() const; // costly conversion to mstring
 };
 
@@ -61,7 +62,7 @@ public:
     using size_type = unsigned long;
 protected:
     friend void swap(mstring& a, mstring& b);
-    friend class mstring_view;
+    friend class mslice;
 
 #ifndef SSO_NOUTYPUN
     struct TRefData {
@@ -104,13 +105,14 @@ protected:
 #endif
     const char* data() const;
     char* data();
+private:
     bool isLocal() const { return ! MSTRING_EXTERNAL_FLAG; }
     void markExternal(bool val) { MSTRING_EXTERNAL_FLAG = val; }
     void term(size_type len);
     void extendBy(size_type amount);
     void extendTo(size_type new_len);
     // detect parameter data coming from this string, to take the slower path
-    bool input_from_here(mstring_view sv);
+    bool input_from_here(mslice sv);
     // adjusts internal length and allocation mark (no data ops)
     void set_len(size_type len, bool forceExternal = false);
     void set_ptr(char* p);
@@ -120,18 +122,17 @@ protected:
 public:
     mstring() { spod.count = 0; markExternal(false); }
     mstring(const char *s, size_type len);
-    mstring(mstring_view sv) : mstring(sv.data(), sv.length()) {}
+    mstring(mslice sv) : mstring(sv.data(), sv.length()) {}
     mstring(const mstring& s) : mstring(s.data(), s.length()) {}
-    mstring(const char *s) : mstring(mstring_view(s)) {}
+    mstring(const char *s) : mstring(mslice(s)) {}
     mstring(mstring&& other);
     explicit mstring(long val) : mstring() { appendFormat("%ld", val); }
     mstring(null_ref &) : mstring() {}
 
     // shortcuts for faster in-place concatenation for often uses
-    mstring(mstring_view a, mstring_view b);
-    mstring(mstring_view a, mstring_view b, mstring_view c);
-    mstring(mstring_view a, mstring_view b, mstring_view c,
-            mstring_view d, mstring_view e = mstring_view());
+    mstring(mslice a, mslice b);
+    mstring(mslice a, mslice b, mslice c);
+    mstring(mslice a, mslice b, mslice c, mslice d, mslice e = mslice());
 
     ~mstring();
 #ifdef SSO_NOUTYPUN
@@ -142,45 +143,45 @@ public:
     bool isEmpty() const { return 0 == length(); }
     bool nonempty() const { return !isEmpty(); }
 
-    mstring& operator=(mstring_view rv);
-    mstring& operator=(const mstring& rv) { return *this = mstring_view(rv); }
-    mstring& operator+=(mstring_view rv);
+    mstring& operator=(mslice rv);
+    mstring& operator=(const mstring& rv) { return *this = mslice(rv); }
+    mstring& operator+=(mslice rv);
     // XXX: since this is used for string building, implement over-allocation!
-    mstring& operator<<(mstring_view rv) { return *this += rv;}
-    mstring operator+(mstring_view rv) const { return mstring(*this, rv); }
+    mstring& operator<<(mslice rv) { return *this += rv;}
+    mstring operator+(mslice rv) const { return mstring(*this, rv); }
 
     // moves might just steal the other buffer
     mstring& operator=(mstring&& rv);
     // plain types
-    mstring& operator=(const char* sz) { return *this = mstring_view(sz); }
+    mstring& operator=(const char* sz) { return *this = mslice(sz); }
 
     bool operator==(const char * rv) const { return equals(rv); }
-    bool operator==(mstring_view rv) const { return equals(rv); }
+    bool operator==(mslice rv) const { return equals(rv); }
     bool operator!=(const char *rv) const { return !equals(rv); }
-    bool operator!=(mstring_view rv) const { return !equals(rv); }
+    bool operator!=(mslice rv) const { return !equals(rv); }
     bool operator==(const mstring &rv) const { return equals(rv); }
     bool operator!=(const mstring &rv) const { return !equals(rv); }
     bool operator==(null_ref &) const { return isEmpty(); }
     bool operator!=(null_ref &) const { return nonempty(); }
 
     mstring& operator=(null_ref &) { clear(); return *this; }
-    mstring_view substring(size_type pos) const;
-    mstring_view substring(size_type pos, size_type len) const {
-        return mstring_view(*this).substring(pos, len);
+    mslice substring(size_type pos) const;
+    mslice substring(size_type pos, size_type len) const {
+        return mslice(*this).substring(pos, len);
     }
     mstring match(const char* regex, const char* flags = nullptr) const;
     mstring match(const precompiled_regex&) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;
-    int indexOf(char ch) const { return mstring_view(*this).indexOf(ch); }
-    int lastIndexOf(char c) const { return mstring_view(*this).lastIndexOf(c);}
+    int indexOf(char ch) const { return mslice(*this).indexOf(ch); }
+    int lastIndexOf(char c) const { return mslice(*this).lastIndexOf(c);}
     int count(char ch) const;
 
     bool equals(const char *&sz) const;
-    bool equals(mstring_view sv) const { return sv == *this; }
+    bool equals(mslice sv) const { return sv == *this; }
     bool equals(const char *sz, size_type len) const {
-        return equals(mstring_view(sz, len));
+        return equals(mslice(sz, len));
     }
 
     int collate(const mstring& s, bool ignoreCase = false) const;
@@ -188,16 +189,16 @@ public:
     bool operator<(const mstring& other) const { return compareTo(other) < 0; }
     bool copyTo(char *dst, size_type len) const;
 
-    bool startsWith(mstring_view sv) const {
-        return mstring_view(*this).startsWith(sv);
+    bool startsWith(mslice sv) const {
+        return mslice(*this).startsWith(sv);
     }
-    bool endsWith(mstring_view sv) const;
-    int find(mstring_view, size_type startPos = 0) const;
+    bool endsWith(mslice sv) const;
+    int find(mslice, size_type startPos = 0) const;
 
-    mstring_view trim() const { return mstring_view(*this).trim(); }
-    mstring replace(size_type position, size_type len, mstring_view insert) const;
+    mslice trim() const { return mslice(*this).trim(); }
+    mstring replace(size_type position, size_type len, mslice insert) const;
     mstring remove(size_type position, size_type len) const;
-    mstring insert(size_type position, mstring_view s) const;
+    mstring insert(size_type position, mslice s) const;
     mstring lower() const;
     mstring upper() const;
     mstring modified(char (*mod)(char)) const;
@@ -217,13 +218,8 @@ public:
     static mstring take(char *buf, size_type buf_len);
 };
 
-inline mstring_view::mstring_view(const mstring &s) :
-        mstring_view(s.data(), s.length()) {
-}
-
-inline mstring mstring_view::toMstring() const {
-    return mstring(*this);
-}
+inline mslice::mslice(const mstring &s) : mslice(s.data(), s.length()) {}
+inline mstring mslice::toMstring() const { return mstring(*this); }
 
 #endif
 

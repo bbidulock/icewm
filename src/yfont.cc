@@ -8,11 +8,11 @@
 
 #include <string.h>
 
-ref<YFont> getXftFont(mstring_view name, bool antialias, bool xlfd);
+ref<YFont> getXftFont(mslice name, bool antialias, bool xlfd);
 ref<YFont> getCoreFont(const char*);
 
-ref<YFont> YFont::getFont(mstring_view name,
-        mstring_view xftFont, bool antialias) {
+ref<YFont> YFont::getFont(mslice name,
+        mslice xftFont, bool antialias) {
 
     ref<YFont> ret;
 

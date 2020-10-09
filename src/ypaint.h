@@ -54,7 +54,7 @@ struct YDimension {
 
 class YFont: public virtual refcounted {
 public:
-    static ref<YFont> getFont(mstring_view name, mstring_view xftFont,
+    static ref<YFont> getFont(mslice name, mslice xftFont,
             bool antialias = true);
 
     virtual ~YFont() {}

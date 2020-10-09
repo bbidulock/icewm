@@ -186,10 +186,10 @@ static void test_mstring()
     assert(z, !z.endsWith("foofoof"));
     assert(z, z.endsWith(""));
 
-    mstring_view l(null), r(null);
-    mstring_view E;
+    mslice l(null), r(null);
+    mslice E;
     assert(e, E.split(0, l, r) == false);
-    assert(z, mstring_view(z).split('o', l, r));
+    assert(z, mslice(z).split('o', l, r));
     expect(z, "foofoo");
     expect(l, "f");
     expect(r, "ofoo");
@@ -322,7 +322,7 @@ static void test_mstring()
     EXPECT_EQ(4, arr.getCount());
     EXPECT_EQ(arr[0], longString);
     EXPECT_EQ(arr[1], "1a");
-    EXPECT_EQ(mstring(arr[2]), mstring_view("1a"));
+    EXPECT_EQ(mstring(arr[2]), mslice("1a"));
     EXPECT_EQ(arr[3], "zz");
 }
 
@@ -779,7 +779,7 @@ int run_benchmark(int mode, FILE* input)
     printf("elapsed: %ld.%06ld\n", delta.tv_sec, delta.tv_usec);
     auto dump = mstring(filereader("/proc/self/status").read_all());
     printf("wtf, %s\n", dump.c_str());
-    for (mstring_view r, s(dump); s.splitall('\n', s, r); s = r) {
+    for (mslice r, s(dump); s.splitall('\n', s, r); s = r) {
         if (s.startsWith("VmSize") || s.startsWith("VmRSS"))
             printf("%s\n", mstring(s).c_str());
 

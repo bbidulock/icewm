@@ -970,7 +970,7 @@ static void bgLoadConfig(const char *configFile, const char *overrideTheme)
 }
 
 static void bgParse(const char* name, const char* value) {
-    mstring_view opt, str(value);
+    mslice opt, str(value);
     for (int i = 0; str.splitall(',', opt, str); ++i) {
         if (i + 1 < ICEBG_MAX_ARGS) {
             if ((opt = opt.trim()).nonempty()) {

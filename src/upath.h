@@ -14,7 +14,7 @@ class upath {
 public:
     upath(const class null_ref &): fPath(null) {}
     upath(const mstring& path): fPath(path) {}
-    upath(mstring_view path): fPath(path) {}
+    upath(mslice path): fPath(path) {}
     upath(mstring&& path): fPath(std::move(path)) {}
     upath(const char *path): fPath(path) {}
     upath(const char *path, size_t len): fPath(path, len) {}

@@ -50,7 +50,7 @@ upath upath::relative(upath &&npath) const {
         return std::move(npath);
     if (isSeparator(path()[length() - 1])) {
         return mstring(path(), isSeparator(npath.path()[0]) ?
-                npath.path().substring(1) : (mstring_view) npath.path());
+                npath.path().substring(1) : (mslice) npath.path());
     }
     if (isSeparator(npath.path()[0]))
         return mstring(path(), npath.path());
