@@ -279,13 +279,13 @@ static void test_mstring()
     u = mstring(nullptr, nullptr, nullptr);
     expect(u, "");
 
-    u = mstring("#ffff").match("#fffff");
-    expect(u, null);
-    u = mstring("#fffff").match("#fffff");
+    u = precompiled_regex("#fffff").match("#ffff");
+    expect(u, "");
+    u = precompiled_regex("#fffff").match("#fffff");
     expect(u, "#fffff");
-    u = mstring("f#ffffff").match("#fffff");
+    u = precompiled_regex("#fffff").match("f#ffffff");
     expect(u, "#fffff");
-    u = mstring("f#ffffff").match("#f{5}");
+    u = precompiled_regex("#f{5}").match("f#ffffff");
     expect(u, "#fffff");
 
     u = "";

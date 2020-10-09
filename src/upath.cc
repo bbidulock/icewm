@@ -92,7 +92,7 @@ mstring upath::expand() const {
                     fPath.substring(size_t(min(2, length())))).fPath;
     }
     else if (c == '$') {
-        auto m = fPath.match(rex);
+        auto m = rex.match(fPath).toMstring();
         if (m.nonempty()) {
             auto* e = getenv(m.c_str() + 1);
             if (e && *e && *e != '~' && *e != '$') {

@@ -367,7 +367,7 @@ inline bool mstring::input_from_here(mslice sv) {
 
 // this is extra copy-pasty in order to let the compiler optimize it better
 mstring::mstring(mslice a, mslice b, mslice c, mslice d, mslice e) :
-        mstring(null) {
+        mstring() {
 
     auto len = a.length() + b.length() + c.length() + d.length() + e.length();
     extendBy(len);
@@ -469,19 +469,14 @@ enum STATE_FLAGS {
     STATE_ERROR = 2
 };
 
-mstring mstring::match(const precompiled_regex &rex) const {
-    if (rex.stateFlags == STATE_ERROR) {
-        warn("match regcomp: %s", rex.mCompError);
+mslice precompiled_regex::match(const char *s) const {
+    if (stateFlags == STATE_ERROR) {
+        warn("match regcomp: %s", mCompError);
         return null;
     }
     regmatch_t pos;
-    int eres = regexec(&rex.preg, data(), 1, &pos, rex.execFlags);
-    return eres ?
-            null : mstring(data() + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
-}
-
-mstring mstring::match(const char *regex, const char *flags) const {
-    return match(precompiled_regex(regex, flags));
+    return regexec(&preg, s, 1, &pos, execFlags) != 0 ?
+            mslice() : mslice(s + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
 }
 
 precompiled_regex::precompiled_regex(const char *regex, const char *flags) :
@@ -538,6 +533,5 @@ bool precompiled_regex::matchIn(const char *s) const {
     regmatch_t pos;
     return 0 == regexec(&preg, s, 1, &pos, execFlags);
 }
-
 
 // vim: set sw=4 ts=4 et:

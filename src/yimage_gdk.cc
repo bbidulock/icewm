@@ -74,8 +74,8 @@ ref<YImage> YImage::load(upath filename) {
         if (fgets(buf, lim, fp) == nullptr)
             break;
 
-        mstring match(mstring(buf).match(rex));
-        if (match == null)
+        auto match = rex.match(buf);
+        if (match.isEmpty())
             break;
 
         filename = filename.parent().relative(match);

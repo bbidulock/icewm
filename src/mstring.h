@@ -19,7 +19,6 @@
  */
 
 class mstring;
-class precompiled_regex;
 class null_ref;
 
 /**
@@ -169,8 +168,6 @@ public:
     mslice substring(size_type pos, size_type len) const {
         return mslice(*this).substring(pos, len);
     }
-    mstring match(const char* regex, const char* flags = nullptr) const;
-    mstring match(const precompiled_regex&) const;
 
     int operator[](int pos) const { return charAt(pos); }
     int charAt(int pos) const;

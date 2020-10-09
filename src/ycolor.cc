@@ -259,11 +259,10 @@ void YColor::alloc(const char* name) {
             return alloc(mstring("#", name));
         if (reHashFiveHex.matchIn(name))
             return alloc(mstring(name, &name[5]));
-        mstring str(name);
-        mstring rgb = (str.match(reRgb));
+        auto rgb = reRgb.match(name);
         if (rgb != null)
-            return alloc(rgb);
-        rgb = str.match(reRgbNoSfx);
+            return alloc(rgb.toMstring());
+        rgb = reRgbNoSfx.match(name);
         if (rgb != null)
             return alloc(mstring("rgb:", rgb));
     }
