@@ -13,6 +13,7 @@
 #include "yimage.h"
 #include "yxapp.h"
 #include "ypointer.h"
+#include "mregex.h"
 #include "intl.h"
 
 #include <X11/xpm.h>
@@ -240,8 +241,9 @@ ref<YImage> YXImage::loadxpm(upath filename)
         if (fgets(buf, lim, fp) == 0)
             break;
 
-        mstring match(mstring(buf).match("^[a-z][-_a-z0-9]*\\.xpm$", "i"));
-        if (match == null)
+        static mregex reFN("^[a-z][-_a-z0-9]*\\.xpm$", "i");
+        auto match = reFN.match(buf);
+        if (match.isEmpty())
             break;
 
         filename = filename.parent().relative(match);
