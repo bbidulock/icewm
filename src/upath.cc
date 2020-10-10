@@ -15,7 +15,7 @@
 #include "base.h"
 #include "yapp.h"
 #include "ypointer.h"
-#include "mstringex.h"
+#include "mregex.h"
 
 const mstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -81,7 +81,7 @@ upath upath::replaceExtension(const char* ext) const {
     return removeExtension().addExtension(ext);
 }
 
-static precompiled_regex rex("^\\$[_A-Za-z][_A-Za-z0-9]*");
+static mregex rex("^\\$[_A-Za-z][_A-Za-z0-9]*");
 
 mstring upath::expand() const {
     int c = fPath[0];

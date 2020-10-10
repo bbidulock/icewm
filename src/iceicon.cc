@@ -428,7 +428,7 @@ private:
     bool fFolder;
 };
 
-precompiled_regex reImgSfx(".*(\\.xpm|\\.png|\\.svg|\\.jpg|\\.jpeg)$", "i");
+mregex reImgSfx(".*(\\.xpm|\\.png|\\.svg|\\.jpg|\\.jpeg)$", "i");
 
 ref<YIcon> ObjectIconItem::getIcon() {
     if (isFolder())

@@ -4,7 +4,7 @@
 
 #include "yimage.h"
 #include "yxapp.h"
-#include "mstringex.h"
+#include "mregex.h"
 #include <stdlib.h>
 #include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 
@@ -49,7 +49,7 @@ unsigned YImageGDK::depth() const {
     return 8 * gdk_pixbuf_get_n_channels(fPixbuf);
 }
 
-static precompiled_regex rex("^[a-z][-_a-z0-9]*\\.xpm$", "i");
+static mregex rex("^[a-z][-_a-z0-9]*\\.xpm$", "i");
 
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;

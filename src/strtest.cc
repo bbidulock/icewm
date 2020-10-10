@@ -1,6 +1,6 @@
 #include "config.h"
 #include "mstring.h"
-#include "mstringex.h"
+#include "mregex.h"
 #include "upath.h"
 #include "base.h"
 #include "udir.h"
@@ -10,7 +10,17 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fnmatch.h>
+
+// little helper for hash quality testing even in STL structures
 #include <unordered_set>
+namespace std {
+    template<>
+    struct hash<mstring> {
+        std::size_t operator()(const mstring &c) const {
+            return strhash(c);
+        }
+    };
+}
 
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
@@ -279,13 +289,13 @@ static void test_mstring()
     u = mstring(nullptr, nullptr, nullptr);
     expect(u, "");
 
-    u = precompiled_regex("#fffff").match("#ffff");
+    u = mregex("#fffff").match("#ffff");
     expect(u, "");
-    u = precompiled_regex("#fffff").match("#fffff");
+    u = mregex("#fffff").match("#fffff");
     expect(u, "#fffff");
-    u = precompiled_regex("#fffff").match("f#ffffff");
+    u = mregex("#fffff").match("f#ffffff");
     expect(u, "#fffff");
-    u = precompiled_regex("#f{5}").match("f#ffffff");
+    u = mregex("#f{5}").match("f#ffffff");
     expect(u, "#fffff");
 
     u = "";
