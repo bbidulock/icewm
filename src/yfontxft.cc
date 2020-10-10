@@ -239,7 +239,7 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
 inline bool YXftFont::supports(unsigned utf32char) {
     // be conservative, only report when all font candidates can do it
-    for(unsigned i = 0; i < fFontCount; ++i) {
+    for(int i = 0; i < fFonts.getCount(); ++i) {
         if (!XftCharExists(xapp->display(), fFonts[0], utf32char))
             return false;
     }
