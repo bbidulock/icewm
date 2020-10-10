@@ -227,9 +227,12 @@ bool YClock::picture() {
     if (create)
         fill(G);
 
-    return clockTicked
-         ? clockTicked = false, draw(G), true
-         : create;
+    if (!clockTicked)
+        return create;
+
+    clockTicked = false;
+    draw(G);
+    return true;
 }
 
 bool YClock::draw(Graphics& g) {
@@ -253,6 +256,10 @@ bool YClock::draw(Graphics& g) {
     else
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
+
+    if (!toolTipVisible() && 0 == strcmp(s, lastDrawnTime))
+        return true;
+    memcpy(lastDrawnTime, s, TimeSize);
 
     return prettyClock
          ? paintPretty(g, s, len)

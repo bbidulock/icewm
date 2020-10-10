@@ -314,7 +314,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarShowWorkspaces",                &taskBarShowWorkspaces,         "Show workspace switching buttons on task bar"),
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
     OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
-    OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items"),
+    OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items as indicator of further collapsed content."),
     OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show application icons in the tray panel"),
     OBV("TaskBarEnableSystemTray",              &taskBarEnableSystemTray,       "Enable the system tray in the taskbar"),
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),

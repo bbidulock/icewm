@@ -21,6 +21,10 @@
 #include <regex.h>
 #include "intl.h"
 
+#define utf8ellipsis "\xe2\x80\xa6"
+const unsigned utf32ellipsis = 0x2026;
+extern ref<YFont> menuFont;
+
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, YAction(), nullptr)
 {
@@ -418,13 +422,20 @@ public:
     {
         YMenu *fo, *qs, *tb, *sh, *al, *mz, *ke, *ks, *kw, *sc, *st;
         YMenuItem *item;
+        bool useElps = menuFont != null && menuFont->supports(utf32ellipsis);
 
         addSubmenu("_Focus", -2, fo = new YMenu, "focus");
         addSubmenu("_QuickSwitch", -2, qs = new YMenu, "pref");
         addSubmenu("_TaskBar", -2, tb = new YMenu, "pref");
         addSubmenu("_Show", -2, sh = new YMenu, "pref");
-        addSubmenu("_A... - L...", -2, al = new YMenu, "pref");
-        addSubmenu("_M... - Z...", -2, mz = new YMenu, "pref");
+        addSubmenu(
+                useElps ?
+                        "_A" utf8ellipsis " - L" utf8ellipsis :
+                        "_A... - L...", -2, al = new YMenu, "pref");
+        addSubmenu(
+                useElps ?
+                        "_M" utf8ellipsis " - Z" utf8ellipsis :
+                        "_M... - Z...", -2, mz = new YMenu, "pref");
         addSubmenu("_KeyWin", -2, ke = new YMenu, "key");
         addSubmenu("K_eySys", -2, ks = new YMenu, "key");
         addSubmenu("KeySys_Workspace", -2, kw = new YMenu, "key");
