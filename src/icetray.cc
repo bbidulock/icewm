@@ -122,20 +122,9 @@ void SysTrayApp::loadConfig() {
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
-
-        YConfig::findLoadConfigFile(this, theme_prefs, configFile);
-        YConfig::findLoadConfigFile(this, theme_prefs, "theme");
+        YConfig(theme_prefs).load(configFile).load("theme");
     }
-    YConfig::findLoadConfigFile(this, tray_prefs, configFile);
-    if (themeName != 0) {
-        MSG(("themeName=%s", themeName));
-
-        YConfig::findLoadThemeFile(
-            this,
-            tray_prefs,
-            upath("themes").child(themeName));
-    }
-    YConfig::findLoadConfigFile(this, tray_prefs, "prefoverride");
+    YConfig(tray_prefs).load(configFile).loadTheme().loadOverride();
     taskbackPixmap = YResourcePaths::loadPixmapFile("taskbarbg.xpm");
 }
 

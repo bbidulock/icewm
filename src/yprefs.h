@@ -1,7 +1,6 @@
-#ifndef __YPREFS_H
-#define __YPREFS_H
+#ifndef YPREFS_H
+#define YPREFS_H
 
-#include "ylib.h"
 #include "yconfig.h"
 
 XIV(bool, dontRotateMenuPointer,                true)
