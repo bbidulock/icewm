@@ -37,15 +37,15 @@ public:
     YXftFont(mstring name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
-    virtual bool valid() const { return (fFontCount > 0); }
-    virtual int descent() const { return fDescent; }
-    virtual int ascent() const { return fAscent; }
-    virtual int textWidth(mstring s) const;
-    virtual int textWidth(char const * str, int len) const;
+    bool valid() const override { return (fFontCount > 0); }
+    int descent() const override { return fDescent; }
+    int ascent() const override { return fAscent; }
+    int textWidth(mstring s) const override;
+    int textWidth(char const * str, int len) const override;
 
-    virtual int textWidth(string_t const & str) const;
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
-                            char const * str, int len);
+    int textWidth(string_t const & str) const;
+    void drawGlyphs(class Graphics & graphics, int x, int y,
+                            char const * str, int len) override;
 
     bool supports(unsigned utf32char) override;
 
