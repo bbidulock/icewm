@@ -1,8 +1,7 @@
-#ifndef __WMAPP_H
-#define __WMAPP_H
+#ifndef WMAPP_H
+#define WMAPP_H
 
 #include "ysmapp.h"
-#include "ymenu.h"
 #include "ymsgbox.h"
 #include "guievent.h"
 
@@ -11,7 +10,7 @@ class AboutDlg;
 class CtrlAltDelete;
 class SwitchWindow;
 
-enum FocusModels {
+enum FocusModel {
     FocusCustom,
     FocusClick,
     FocusSloppy,
@@ -55,7 +54,7 @@ public:
     void handleSignal(int sig) override;
     bool handleIdle() override;
     bool filterEvent(const XEvent &xev) override;
-    void actionPerformed(YAction action, unsigned int modifiers) override;
+    void actionPerformed(YAction action, unsigned int modifiers = 0) override;
 
     void handleMsgBox(YMsgBox *msgbox, int operation) override;
     void handleSMAction(WMAction message) override;
@@ -69,10 +68,10 @@ public:
     void smDie() override;
 #endif
 
-    void setFocusMode(FocusModels mode);
+    void setFocusMode(FocusModel mode);
     void initFocusMode();
     void initFocusCustom();
-    void loadFocusMode();
+    FocusModel loadFocusMode();
 
     void restartClient(const char *path, char *const *args) override;
     int runProgram(const char *path, const char *const *args) override;
@@ -103,7 +102,7 @@ public:
     bool hasSwitchWindow() const { return switchWindow != nullptr; }
     SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
-    FocusModels getFocusMode() const { return focusMode; }
+    FocusModel getFocusMode() const { return focusMode; }
     YMenu* getWindowMenu();
 
     void unregisterProtocols();
@@ -135,7 +134,7 @@ private:
     int handleError(XErrorEvent *xev) override;
     void runRestart(const char *path, char *const *args);
 
-    FocusModels focusMode;
+    FocusModel focusMode;
     Window managerWindow;
     ref<YIcon> defaultAppIcon;
 

@@ -954,19 +954,9 @@ static void bgLoadConfig(const char *configFile, const char *overrideTheme)
             OSV("Theme", &themeName, "Theme name"),
             OK0()
         };
-
-        YConfig::findLoadConfigFile(globalBg, theme_prefs, configFile);
-        YConfig::findLoadConfigFile(globalBg, theme_prefs, "theme");
+        YConfig(theme_prefs).load(configFile).load("theme");
     }
-    YConfig::findLoadConfigFile(globalBg, icewmbg_prefs, configFile);
-    if (themeName != nullptr) {
-        MSG(("themeName=%s", themeName));
-
-        YConfig::findLoadThemeFile(globalBg, icewmbg_prefs,
-                *themeName == '/' ? themeName :
-                upath("themes").child(themeName));
-    }
-    YConfig::findLoadConfigFile(globalBg, icewmbg_prefs, "prefoverride");
+    YConfig(icewmbg_prefs).load(configFile).loadTheme().loadOverride();
 }
 
 static void bgParse(const char* name, const char* value) {

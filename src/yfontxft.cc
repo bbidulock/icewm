@@ -37,15 +37,15 @@ public:
     YXftFont(mslice name, bool xlfd, bool antialias);
     virtual ~YXftFont();
 
-    virtual bool valid() const { return ! fFonts.isEmpty(); }
-    virtual int descent() const { return fDescent; }
-    virtual int ascent() const { return fAscent; }
-    virtual int textWidth(mstring s) const;
-    virtual int textWidth(char const * str, int len) const;
+    virtual bool valid() const override { return fFonts.getCount() > 0; }
+    int descent() const override { return fDescent; }
+    int ascent() const override { return fAscent; }
+    int textWidth(mstring s) const override;
+    int textWidth(char const * str, int len) const override;
 
-    virtual int textWidth(string_t const & str) const;
-    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
-                            char const * str, int len);
+    int textWidth(string_t const & str) const;
+    void drawGlyphs(class Graphics & graphics, int x, int y,
+                            char const * str, int len) override;
 
     bool supports(unsigned utf32char) override;
 
@@ -237,10 +237,10 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 ///    delete pixmap;
 }
 
-inline bool YXftFont::supports(unsigned utf32char) {
+bool YXftFont::supports(unsigned utf32char) {
     // be conservative, only report when all font candidates can do it
     for(int i = 0; i < fFonts.getCount(); ++i) {
-        if (!XftCharExists(xapp->display(), fFonts[0], utf32char))
+        if (!XftCharExists(xapp->display(), fFonts[i], utf32char))
             return false;
     }
     return true;

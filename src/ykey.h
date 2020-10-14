@@ -1,7 +1,5 @@
-#ifndef __YKEY_H
-#define __YKEY_H
-
-#include "ylib.h"
+#ifndef YKEY_H
+#define YKEY_H
 
 #include <X11/XKBlib.h>
 #include <X11/keysym.h>

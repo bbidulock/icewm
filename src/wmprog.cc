@@ -388,7 +388,7 @@ void StartMenu::updatePopup() {
 
 FocusMenu::FocusMenu() {
     struct FocusModelNameAction {
-        FocusModels mode;
+        FocusModel mode;
         const char *name;
         YAction action;
     } foci[] = {

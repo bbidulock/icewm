@@ -13,6 +13,7 @@
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
 #endif
+#include <X11/extensions/Xcomposite.h>
 
 YXApplication *xapp = nullptr;
 

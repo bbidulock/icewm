@@ -227,7 +227,7 @@ public:
     }
 
     void loadEnv(const char *scriptName) {
-        upath scriptFile = YApplication::findConfigFile(scriptName);
+        upath scriptFile = locateConfigFile(scriptName);
         if (scriptFile.nonempty()) {
             FILE *ef = scriptFile.fopen("r");
             if (!ef)
@@ -267,7 +267,7 @@ public:
     }
 
     void runScript(const char *scriptName) {
-        upath scriptFile = YApplication::findConfigFile(scriptName);
+        upath scriptFile = locateConfigFile(scriptName);
         if (scriptFile.nonempty() && scriptFile.isExecutable()) {
             const char *cs = scriptFile.string();
             MSG(("Running session script: %s", cs));

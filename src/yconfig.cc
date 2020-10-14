@@ -110,68 +110,54 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     return true;
 }
 
+void YConfig::setOption(char* arg, bool append, cfoption* opt) {
+    MSG(("SET %s := %s ;", opt->name, arg));
 
-static char *setOption(cfoption *options, char *name, const char *arg, bool append, char *rest) {
-    unsigned int a;
-
-    MSG(("SET %s := %s ;", name, arg));
-
-    for (a = 0; options[a].type != cfoption::CF_NONE; a++) {
-        if (strcmp(name, options[a].name) != 0)
-            continue;
-
-        switch (options[a].type) {
+    switch (opt->type) {
         case cfoption::CF_BOOL:
-            if (options[a].v.b.bool_value) {
+            if (opt->v.b.bool_value) {
                 if ((arg[0] == '1' || arg[0] == '0') && arg[1] == 0) {
-                    *(options[a].v.b.bool_value) = (arg[0] == '1');
+                    *(opt->v.b.bool_value) = (arg[0] == '1');
                 } else {
-                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name, 0, 1);
-                    return rest;
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, opt->name, 0, 1);
                 }
-                return rest;
             }
             break;
         case cfoption::CF_INT:
-            if (options[a].v.i.int_value) {
+            if (opt->v.i.int_value) {
                 int const v(atoi(arg));
 
-                if (v >= options[a].v.i.min && v <= options[a].v.i.max)
-                    *(options[a].v.i.int_value) = v;
+                if (v >= opt->v.i.min && v <= opt->v.i.max)
+                    *(opt->v.i.int_value) = v;
                 else {
-                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name,
-                            options[a].v.i.min, options[a].v.i.max);
-                    return rest;
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, opt->name,
+                            opt->v.i.min, opt->v.i.max);
                 }
-                return rest;
             }
             break;
         case cfoption::CF_UINT:
-            if (options[a].v.u.uint_value) {
+            if (opt->v.u.uint_value) {
                 unsigned const v(strtoul(arg, nullptr, 0));
 
-                if (v >= options[a].v.u.min && v <= options[a].v.u.max)
-                    *(options[a].v.u.uint_value) = v;
+                if (v >= opt->v.u.min && v <= opt->v.u.max)
+                    *(opt->v.u.uint_value) = v;
                 else {
-                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, name,
-                            int(options[a].v.u.min), int(options[a].v.u.max));
-                    return rest;
+                    msg(_("Bad argument: %s for %s [%d,%d]"), arg, opt->name,
+                            int(opt->v.u.min), int(opt->v.u.max));
                 }
-                return rest;
             }
             break;
         case cfoption::CF_STR:
-            if (options[a].v.s.string_value) {
-                if (!options[a].v.s.initial)
-                    delete[] const_cast<char *>(*options[a].v.s.string_value);
-                *options[a].v.s.string_value = newstr(arg);
-                options[a].v.s.initial = false;
-                return rest;
+            if (opt->v.s.string_value) {
+                if (!opt->v.s.initial)
+                    delete[] const_cast<char *>(*opt->v.s.string_value);
+                *opt->v.s.string_value = newstr(arg);
+                opt->v.s.initial = false;
             }
             break;
         case cfoption::CF_KEY:
-            if (options[a].v.k.key_value) {
-                WMKey *wk = options[a].v.k.key_value;
+            if (opt->v.k.key_value) {
+                WMKey *wk = opt->v.k.key_value;
 
                 if (YConfig::parseKey(arg, &wk->key, &wk->mod)) {
                     if (!wk->initial)
@@ -179,47 +165,58 @@ static char *setOption(cfoption *options, char *name, const char *arg, bool appe
                     wk->name = newstr(arg);
                     wk->initial = false;
                 }
-                return rest;
             }
             break;
         case cfoption::CF_FUNC:
-            options[a].fun()(name, arg, append);
-            return rest;
+            opt->fun()(opt->name, arg, append);
         case cfoption::CF_NONE:
             break;
+    }
+}
+
+cfoption* YConfig::findOption(char* name, size_t length) {
+    if (length && *name) {
+        for (cfoption* opt = options; opt->type; ++opt) {
+            if (opt->size == 1+length &&
+                *opt->name == *name &&
+                memcmp(name, opt->name, length) == 0)
+            {
+                return opt;
+            }
         }
     }
-#if 0
-    msg(_("Bad option: %s"), name);
-#endif
-    ///!!! check
-    return rest;
+    return nullptr;
+}
+
+char* YConfig::skipLine(char* p) {
+    if (p) {
+        // ignore this line.
+        p = strchr(p, '\n');
+        while (p && (p[-1] == '\r' ? p[-2] == '\\' : p[-1] == '\\')) {
+            p = strchr(p + 1, '\n');
+        }
+    }
+    return p;
 }
 
 // Parse one option name at 'str' and its argument(s).
 // The name is a string without spaces up to '='.
 // Option is a quoted string or characters up to next space.
-static char *parseOption(cfoption *options, char *str) {
-    char name[64];
-    char *p = str;
-    size_t len = 0;
-
-    while (*p && *p != '=' && ASCII::isWhiteSpace(*p) == false)
-        p++;
-    len = (size_t)(p - str);
-
-    while (*p != '\n' && ASCII::isWhiteSpace(*p))
-        p++;
-    if (*p != '=' || len >= sizeof name) {
-        // ignore this line.
-        for (; *p && *p != '\n'; ++p)
-            if (*p == '\\' && p[1])
-                p++;
-        return p;
+char* YConfig::parseOption(char* str) {
+    size_t len = strcspn(str, "= \t\n\r\f\v\\");
+    if (len == 0 || len >= 40) {
+        return skipLine(str + len);
     }
 
-    memcpy(name, str, len);
-    name[len] = 0;
+    char* p = str + len + strspn(str + len, " \t");
+    if (*p != '=') {
+        return skipLine(p);
+    }
+
+    cfoption* found = findOption(str, len);
+    if (found == nullptr) {
+        return skipLine(p);
+    }
 
     Argument argument;
     for (bool append = false; append == (*p == ',') && *++p; append = true) {
@@ -232,9 +229,7 @@ static char *parseOption(cfoption *options, char *str) {
         if (p == nullptr)
             break;
 
-        p = setOption(options, name, argument, append, p);
-        if (p == nullptr)
-            return nullptr;
+        setOption(argument, append, found);
 
         while (ASCII::isSpaceOrTab(*p))
             p++;
@@ -243,25 +238,36 @@ static char *parseOption(cfoption *options, char *str) {
     return p;
 }
 
-void YConfig::parseConfiguration(cfoption *options, char *data) {
+void YConfig::parseConfiguration(char *data) {
     for (char *p = data; p && *p; ) {
-        while (ASCII::isWhiteSpace(*p) || ASCII::isEscapedLineEnding(p))
-            p++;
-
-        if (*p == '#') {
-            while (*++p && *p != '\n')
-                if (*p == '\\' && p[1])
-                    p++;
-        } else if (*p)
-            p = parseOption(options, p);
+        if (ASCII::isWhiteSpace(*p)) {
+            ++p;
+        }
+        else if (*p == '\\') {
+            ++p;
+            if (*p == '\r' && p[1] == '\n')
+                ++p;
+            if (*p == '\n')
+                ++p;
+        }
+        else if (*p == '#') {
+            p = skipLine(p);
+        }
+        else {
+            p = parseOption(p);
+        }
     }
 }
 
-bool YConfig::loadConfigFile(cfoption *options, upath fileName) {
+bool YConfig::loadConfigFile(cfoption* opts, upath fileName, cfoption* more) {
     YTraceConfig trace(fileName.string());
-    auto buf = fileName.loadText();
-    if (buf)
-        parseConfiguration(options, buf);
+    auto buf(fileName.loadText());
+    if (buf) {
+        YConfig(opts).parseConfiguration(buf);
+        if (more) {
+            YConfig(more).parseConfiguration(buf);
+        }
+    }
     return buf;
 }
 
@@ -277,22 +283,38 @@ void YConfig::freeConfig(cfoption *options) {
     }
 }
 
-bool YConfig::findLoadConfigFile(IApp *app, cfoption *options, upath name) {
-    upath conf = app->findConfigFile(name);
+bool YConfig::findLoadConfigFile(cfoption* options, const char* name) {
+    upath conf = YApplication::locateConfigFile(name);
     return conf.nonempty() && YConfig::loadConfigFile(options, conf);
 }
 
-bool YConfig::findLoadThemeFile(IApp *app, cfoption *options, upath name) {
-    upath conf = app->findConfigFile(name);
+bool YConfig::findLoadThemeFile(cfoption* options) {
+    upath init(themeName);
+    upath name(init.isAbsolute() ? init : upath("themes") + init);
+    upath conf = YApplication::locateConfigFile(name);
     if (conf.isEmpty() || false == conf.fileExists()) {
         if (name.getExtension() != ".theme")
-            conf = app->findConfigFile(name + "default.theme");
+            conf = YApplication::locateConfigFile(name + "default.theme");
     }
     return conf.nonempty() && YConfig::loadConfigFile(options, conf);
 }
 
 size_t YConfig::cfoptionSize() {
     return sizeof(cfoption);
+}
+
+YConfig& YConfig::load(const char* file) {
+    success = findLoadConfigFile(options, file);
+    return *this;
+}
+
+YConfig& YConfig::loadTheme() {
+    success = findLoadThemeFile(options);
+    return *this;
+}
+
+YConfig& YConfig::loadOverride() {
+    return load("prefoverride");
 }
 
 // vim: set sw=4 ts=4 et:

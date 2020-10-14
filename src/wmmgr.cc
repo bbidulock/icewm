@@ -1960,8 +1960,8 @@ void YWindowManager::restackWindows() {
     if (taskBar)
         w.append(taskBar->edgeTriggerWindow());
 
-    for (int i = 0; i < edges.getCount(); ++i)
-        w.append(edges[i]->handle());
+    for (auto edge : edges)
+        w.append(edge->handle());
 
     if (wmapp->hasCtrlAltDelete()) {
         if (wmapp->getCtrlAltDelete()->visible()) {
@@ -1971,6 +1971,8 @@ void YWindowManager::restackWindows() {
 
     if (statusMoveSize && statusMoveSize->visible())
         w.append(statusMoveSize->handle());
+    else if (statusWorkspace && statusWorkspace->visible())
+        w.append(statusWorkspace->handle());
 
     for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
         w.append(f->handle());
