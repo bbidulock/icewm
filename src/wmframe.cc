@@ -3351,11 +3351,6 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
     }
 }
 
-/* Work around for X11R5 and earlier */
-#ifndef XUrgencyHint
-#define XUrgencyHint (1 << 8)
-#endif
-
 void YFrameWindow::updateUrgency() {
     fClientUrgency = false;
     XWMHints *h = client()->hints();

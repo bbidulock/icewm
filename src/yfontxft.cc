@@ -264,10 +264,10 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 ///    delete pixmap;
 }
 
-inline bool YXftFont::supports(unsigned utf32char) {
+bool YXftFont::supports(unsigned utf32char) {
     // be conservative, only report when all font candidates can do it
-    for(unsigned i = 0; i < fFontCount; ++i) {
-        if (!XftCharExists(xapp->display(), fFonts[0], utf32char))
+    for (unsigned i = 0; i < fFontCount; ++i) {
+        if (!XftCharExists(xapp->display(), fFonts[i], utf32char))
             return false;
     }
     return true;

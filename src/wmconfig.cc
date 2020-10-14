@@ -12,32 +12,39 @@
 #include "bindkey.h"
 #include "appnames.h"
 #include "default.h"
-
-#include "wmoption.h"
-#include "ymenu.h"
-#include "wmmgr.h"
-#include "yaction.h"
+#include "base.h"
 #include "yapp.h"
-#include "sysdep.h"
-
 #include "intl.h"
 
 YStringArray configWorkspaces;
 MStringArray configKeyboards;
 
-void WMConfig::loadConfiguration(IApp *app, const char *fileName) {
-    YConfig::findLoadConfigFile(app, icewm_preferences, fileName);
-    YConfig::findLoadConfigFile(app, icewm_themable_preferences, fileName);
+void WMConfig::loadConfiguration(const char* fileName) {
+    upath path = YApplication::locateConfigFile(fileName);
+    if (path.nonempty()) {
+        YConfig::loadConfigFile(icewm_preferences, path,
+                                icewm_themable_preferences);
+    }
 }
 
-bool WMConfig::loadThemeConfiguration(IApp *app, const char *themeName) {
-    bool ok = YConfig::findLoadThemeFile(app,
-                icewm_themable_preferences,
-                *themeName == '/' ? themeName :
-                upath("themes").child(themeName));
-    if (ok == false)
+bool WMConfig::loadThemeConfiguration() {
+    YConfig conf(icewm_themable_preferences);
+    if (conf.loadTheme() == false) {
         fail(_("Failed to load theme %s"), themeName);
-    return ok;
+    }
+    if (!conf && strcmp(themeName, CONFIG_DEFAULT_THEME)) {
+        themeName = CONFIG_DEFAULT_THEME;
+        if (conf.loadTheme() == false) {
+            fail(_("Failed to load theme %s"), themeName);
+        }
+    }
+    if (!conf && strpcmp(themeName, "default", "/")) {
+        themeName = "default/default.theme";
+        if (conf.loadTheme() == false) {
+            fail(_("Failed to load theme %s"), themeName);
+        }
+    }
+    return conf;
 }
 
 void WMConfig::freeConfiguration() {
@@ -200,10 +207,10 @@ void WMConfig::print_options(cfoption* options) {
             printf("%s=%d\n", options[i].name, options[i].boolval());
             break;
         case cfoption::CF_INT:
-            printf("%s=%d\n", options[i].name, *options[i].v.i.int_value);
+            printf("%s=%d\n", options[i].name, options[i].intval());
             break;
         case cfoption::CF_UINT:
-            printf("%s=%u\n", options[i].name, *options[i].v.u.uint_value);
+            printf("%s=%u\n", options[i].name, options[i].uintval());
             break;
         case cfoption::CF_STR:
             printf("%s=\"%s\"\n", options[i].name, Elvis(options[i].str(), ""));
