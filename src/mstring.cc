@@ -70,7 +70,8 @@ mstring& mstring::operator=(mstring &&rv) {
     if (!isLocal())
         free(get_ptr());
     spod = rv.spod;
-    rv.set_len(0);
+    if (isLocal()) // invalidates foreign pointer
+        rv.set_len(0);
     return *this;
 }
 
@@ -161,8 +162,9 @@ inline void mstring::extendTo(size_type new_len) {
         }
     } else {
         auto pNew = realloc(get_ptr(), new_len + 1);
-        // XXX: do something more useful if failed?
-        if (!pNew) abort();
+        // XXX: do something more useful than terminating?
+        if (!pNew)
+            abort();
         set_ptr((char*) pNew);
         set_len(new_len);
     }
