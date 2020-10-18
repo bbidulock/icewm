@@ -52,13 +52,6 @@ mstring& mstring::operator=(mslice rv) {
     if (input_from_here(rv)) // we are the source -> copy in any case
         return *this = mstring(rv);
     auto l = rv.length();
-    // release buffer if going back to local storage
-    if (l <= MSTRING_INPLACE_MAXLEN && !isLocal()) {
-        free(data());
-        markExternal(false);
-        set_len(0);
-        term(0);
-    }
     extendTo(l);
     memcpy(data(), rv.data(), l);
     term(l);
@@ -165,14 +158,15 @@ inline void mstring::extendTo(size_type new_len) {
             set_len(new_len);
         } else {
             // local before, to become external now
-            auto p = (char*) malloc(new_len + 1);
-            if(!p) abort();
+            auto* p = (char*) malloc(new_len + 1);
+            if(!p)
+                abort();
             memcpy(p, data(), length() + 1);
             set_ptr(p);
             set_len(new_len);
         }
     } else {
-        auto pNew = realloc(get_ptr(), new_len + 1);
+        auto* pNew = realloc(get_ptr(), new_len + 1);
         // XXX: do something more useful than terminating?
         if (!pNew)
             abort();
