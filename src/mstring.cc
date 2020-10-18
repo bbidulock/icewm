@@ -53,8 +53,12 @@ mstring& mstring::operator=(mslice rv) {
         return *this = mstring(rv);
     auto l = rv.length();
     // release buffer if going back to local storage
-    if (l <= MSTRING_INPLACE_MAXLEN)
-        clear();
+    if (l <= MSTRING_INPLACE_MAXLEN && !isLocal()) {
+        free(data());
+        markExternal(false);
+        set_len(0);
+        term(0);
+    }
     extendTo(l);
     memcpy(data(), rv.data(), l);
     term(l);
@@ -70,8 +74,17 @@ mstring& mstring::operator=(mstring &&rv) {
     if (!isLocal())
         free(get_ptr());
     spod = rv.spod;
-    if (isLocal()) // invalidates foreign pointer
+    // disarm the donor's destructor
+    if (!rv.isLocal()) {
+#ifdef SSO_NOUTYPUN
+        rv.markExternal(false);
+        // although optional but better bring it into consistent state
         rv.set_len(0);
+        rv.term(0);
+#else
+        memset(&rv.spod, 0, sizeof(spod));
+#endif
+    }
     return *this;
 }
 
@@ -112,8 +125,6 @@ void mstring::set_len(size_type len, bool forceExternal) {
 }
 
 void mstring::clear() {
-    if (!isLocal())
-        free(data());
     set_len(0);
     term(0);
 }

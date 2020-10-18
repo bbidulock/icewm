@@ -24,6 +24,7 @@ namespace std {
 
 char const *ApplicationName = "strtest";
 static const char source[] = __FILE__;
+auto longString = "1234567---moreeven much more until it reallocates";
 
 #define equal(p, s)     (mstring(p) == mstring(s))
 
@@ -44,7 +45,11 @@ static const char source[] = __FILE__;
 
 #define ASSERT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
 		else { test_failed(#l, #r, __LINE__); return; }
+#define ASSERT_NE(l,r) if(++testsrun, (l) != (r)) ++passed; \
+		else { test_failed(#l, #r, __LINE__); return; }
 #define EXPECT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
+        else test_failed(#l, #r, __LINE__);
+#define EXPECT_NE(l,r) if(++testsrun, (l) != (r)) ++passed; \
         else test_failed(#l, #r, __LINE__);
 
 static int testsrun, passed, failed;
@@ -114,11 +119,18 @@ static void test_mstring()
     assert(e, e.substring(0) == null);
     assert(e, e.substring(0, 0) == null);
 
-    mstring sacrificed("xyz");
+    mstring sacrificed(longString);
+    auto* szBefore = sacrificed.c_str();
     mstring taker(std::move(sacrificed));
-    // short data is still there, just marked invalid
-    assert(taker, taker.c_str());
-    ASSERT_EQ(0, sacrificed.length());
+    auto* szAfter = sacrificed.c_str();
+    EXPECT_NE(szBefore, szAfter);
+    EXPECT_EQ(0, sacrificed.length());
+
+    {
+        // death test, must not crash after going out of scope
+        mstring todispose=longString;
+        taker = std::move(todispose);
+    }
 
     char *pLongData = (char*) calloc(42, 1);
     auto owner = mstring::take(pLongData, 41);
@@ -318,7 +330,6 @@ static void test_mstring()
     u.appendFormat("more");
     expect(u, "1234567---more");
 
-    auto longString = "1234567---moreeven much more until it reallocates";
     u.appendFormat("%s", "even much more until it reallocates");
     expect(u, longString);
 
