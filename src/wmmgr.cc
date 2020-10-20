@@ -664,7 +664,11 @@ void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
     if (unmap.send_event) {
         YFrameWindow* frame = findFrame(unmap.window);
         if (frame) {
-            frame->client()->handleUnmapNotify(unmap);
+            if (frame->client()->visible()) {
+                frame->actionPerformed(actionHide);
+            } else {
+                frame->client()->handleUnmapNotify(unmap);
+            }
         }
     }
 }
@@ -1671,20 +1675,17 @@ end:
     return frame;
 }
 
-YFrameWindow *YWindowManager::mapClient(Window win) {
-    YFrameWindow *frame = findFrame(win);
-
+void YWindowManager::mapClient(Window win) {
     MSG(("mapping window 0x%lX", win));
-    if (frame == nullptr)
-        return manageClient(win, true);
-    else {
+    YFrameWindow* frame = findFrame(win);
+    if (frame) {
         if (frame->isUnmapped())
             frame->makeMapped();
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
-
-    return frame;
+    else
+        manageClient(win, true);
 }
 
 void YWindowManager::unmanageClient(YFrameClient* client) {

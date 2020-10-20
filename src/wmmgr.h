@@ -125,7 +125,7 @@ public:
     YFrameWindow *manageClient(Window win, bool mapClient = false);
     void unmanageClient(YFrameClient *client);
     void destroyedClient(Window win);
-    YFrameWindow *mapClient(Window win);
+    void mapClient(Window win);
 
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
