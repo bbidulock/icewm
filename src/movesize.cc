@@ -493,8 +493,8 @@ void YFrameWindow::outlineResize() {
     int incX(1), incY(1);
 
     if (client()->sizeHints()) {
-        incX = client()->sizeHints()->width_inc;
-        incY = client()->sizeHints()->height_inc;
+        incX = max(1, client()->sizeHints()->width_inc);
+        incY = max(1, client()->sizeHints()->height_inc);
     }
 
     XGrabServer(xapp->display());
@@ -685,8 +685,8 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             int incY = 1;
 
             if (client()->sizeHints()) {
-                incX = client()->sizeHints()->width_inc;
-                incY = client()->sizeHints()->height_inc;
+                incX = max(1, client()->sizeHints()->width_inc);
+                incY = max(1, client()->sizeHints()->height_inc);
             }
 
             switch (handleResizeKeys(key, newX, newY, newWidth, newHeight, incX, incY)) {
