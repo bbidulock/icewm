@@ -8,20 +8,20 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1301\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2018-05-07 13:03+0000\n"
-"Last-Translator: Anshul Panwar <caspian7pena@gmail.com>\n"
-"Language-Team: Hindi "
-"<https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/hi/>\n"
+"PO-Revision-Date: 2020-10-22 12:49+0000\n"
+"Last-Translator: Panwar <caspian7pena@gmail.com>\n"
+"Language-Team: Hindi <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.18\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
-msgstr " -पॉवर"
+msgstr " - ऊर्जा"
 
 #: src/aapm.cc:179 src/aapm.cc:462 src/aapm.cc:684
 msgid "P"
@@ -29,7 +29,7 @@ msgstr "P"
 
 #: src/aapm.cc:183 src/aapm.cc:436 src/aapm.cc:664 src/aapm.cc:774
 msgid " - Charging"
-msgstr " -चार्ज हो रहा है"
+msgstr " - चार्ज हो रहा है"
 
 #: src/aapm.cc:185 src/aapm.cc:438 src/aapm.cc:666
 msgid "C"
@@ -37,12 +37,12 @@ msgstr "C"
 
 #: src/aapm.cc:440
 msgid " - Full"
-msgstr " -पूर्ण"
+msgstr " - पूर्ण"
 
 #: src/aapm.cc:985
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "ऊर्जा :\t%s"
 
 #: src/acpustatus.cc:181
 #, c-format
@@ -50,6 +50,8 @@ msgid ""
 "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 "intr = %llu, softirq = %llu, steal = %llu\n"
 msgstr ""
+"आँकड़ें :\tउपयोक्ता = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %"
+"llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #: src/acpustatus.cc:186
 #, c-format
@@ -57,11 +59,13 @@ msgid ""
 "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
 "softirq = %llu, steal = %llu (h = %i)\n"
 msgstr ""
+"कॉलम :\tउपयोक्ता = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %"
+"llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #: src/acpustatus.cc:246
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "सीपीयू %s प्रयुक्त : %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:251
 #, c-format
@@ -69,6 +73,8 @@ msgid ""
 "\n"
 "Ram (free): %5.2f (%.2f) M"
 msgstr ""
+"\n"
+"रैम (अप्रयुक्त): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:256
 #, c-format
@@ -76,6 +82,8 @@ msgid ""
 "\n"
 "Swap (free): %.2f (%.2f) M"
 msgstr ""
+"\n"
+"स्वैप (अप्रयुक्त): %.2f (%.2f) M"
 
 #: src/acpustatus.cc:262
 #, c-format
@@ -83,6 +91,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"एसपीआई तापमान : "
 
 #: src/acpustatus.cc:281
 #, c-format
@@ -90,130 +100,132 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"सीपीयू आवृत्ति : %.3fGHz"
 
 #: src/acpustatus.cc:302
 msgid "CPU"
-msgstr ""
+msgstr "सीपीयू"
 
 #: src/acpustatus.cc:302
 msgid "Load: "
-msgstr ""
+msgstr "प्रयुक्त : "
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:369
 msgid "°C"
-msgstr ""
+msgstr "डिग्री"
 
 #: src/acpustatus.cc:651
 #, c-format
 msgid "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
-msgstr ""
+msgstr "%s: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #: src/amailbox.cc:60
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr ""
+msgstr "अमान्य ईमेल प्रोटोकॉल : \"%s\""
 
 #: src/amailbox.cc:62
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr ""
+msgstr "अमान्य ईमेल पथ : \"%s\""
 
 #: src/amailbox.cc:131
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "%s हेतु डीएनएस नाम खोज विफल"
 
 #: src/amailbox.cc:147
 #, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr ""
+msgstr "अमान्य ईमेल पोर्ट : \"%s\""
 
 #: src/amailbox.cc:305
 #, c-format
 msgid "Could not connect to %s: %s"
-msgstr ""
+msgstr "%s हेतु कनेक्शन विफल : %s"
 
 #: src/amailbox.cc:322
 #, c-format
 msgid "Failed to find %s command"
-msgstr ""
+msgstr "%s कमांड खोज विफल"
 
 #: src/amailbox.cc:349
 #, c-format
 msgid "Failed to execute %s"
-msgstr ""
+msgstr "%s निष्पादन विफल"
 
 #: src/amailbox.cc:433
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "सॉकेट हेतु राइट विफल : %s"
 
 #: src/amailbox.cc:677
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr ""
+msgstr "प्रयुक्त ईमेल \"%s\"\n"
 
 #: src/amailbox.cc:778
 msgid "Error checking mailbox."
-msgstr ""
+msgstr "ईमेल प्राप्ति विफल।"
 
 #: src/amailbox.cc:785
 #, c-format
 msgid "%ld mail message, %ld unread."
-msgstr ""
+msgstr "%ld ईमेल संदेश, %ld अपठित।"
 
 #: src/amailbox.cc:786
 #, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr ""
+msgstr "%ld ईमेल संदेश, %ld अपठित।"
 
 #: src/amailbox.cc:792
 #, c-format
 msgid "%ld mail message."
-msgstr ""
+msgstr "%ld ईमेल संदेश।"
 
 #: src/amailbox.cc:793
 #, c-format
 msgid "%ld mail messages."
-msgstr ""
+msgstr "%ld ईमेल संदेश।"
 
 #: src/amemstatus.cc:117
 msgid "GB"
-msgstr ""
+msgstr "जीबी"
 
 #: src/amemstatus.cc:121
 msgid "MB"
-msgstr ""
+msgstr "जीबी"
 
 #: src/amemstatus.cc:125
 msgid "kB"
-msgstr ""
+msgstr "केबी"
 
 #: src/amemstatus.cc:129
 msgid "bytes"
-msgstr ""
+msgstr "बाइट"
 
 #: src/amemstatus.cc:153
 msgid "Memory Total: "
-msgstr ""
+msgstr "कुल मेमोरी : "
 
 #: src/amemstatus.cc:154
 msgid "Free: "
-msgstr ""
+msgstr "अप्रयुक्त : "
 
 #: src/amemstatus.cc:155
 msgid "Cached: "
-msgstr ""
+msgstr "कैश : "
 
 #: src/amemstatus.cc:156
 msgid "Buffers: "
-msgstr ""
+msgstr "बफर : "
 
 #: src/amemstatus.cc:157
 msgid "User: "
-msgstr ""
+msgstr "उपयोक्ता : "
 
 #: src/apppstatus.cc:194
 #, c-format
@@ -224,187 +236,194 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
+"अंतरफलक %s:\n"
+"  वर्तमान दर (इन/आउट) :\t%li %s/%li %s\n"
+"  वर्तमान औसत (इन/आउट) :\t%lli %s/%lli %s\n"
+"  अंतरण (इन/आउट) :\t%lli %s/%lli %s\n"
+"  समय से ऑनलाइन :\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:206
 msgid ""
 "\n"
 "  Caller id:\t"
 msgstr ""
+"\n"
+"  कॉलर आईडी :\t"
 
 #: src/aworkspaces.cc:294 src/wmstatus.cc:162
 msgid "Workspace: "
-msgstr ""
+msgstr "कार्यस्थान : "
 
 #: src/fdomenu.cc:79
 msgid "Accessibility"
-msgstr ""
+msgstr "अभिगम"
 
 #: src/fdomenu.cc:80
 msgid "Settings"
-msgstr ""
+msgstr "सेटिंग्स"
 
 #: src/fdomenu.cc:81
 msgid "Screensavers"
-msgstr ""
+msgstr "स्क्रीनसेवर"
 
 #: src/fdomenu.cc:82
 msgid "Accessories"
-msgstr ""
+msgstr "सहायक साधन"
 
 #: src/fdomenu.cc:83
 msgid "Development"
-msgstr ""
+msgstr "सॉफ्टवेयर विकास"
 
 #: src/fdomenu.cc:84
 msgid "Education"
-msgstr ""
+msgstr "शिक्षा"
 
 #: src/fdomenu.cc:85
 msgid "Games"
-msgstr ""
+msgstr "खेल"
 
 #: src/fdomenu.cc:86
 msgid "Graphics"
-msgstr ""
+msgstr "ग्राफ़िक्स"
 
 #: src/fdomenu.cc:87
 msgid "Multimedia"
-msgstr ""
+msgstr "मल्टीमीडिया"
 
 #: src/fdomenu.cc:88
 msgid "Network"
-msgstr ""
+msgstr "नेटवर्क"
 
 #: src/fdomenu.cc:89
 msgid "Office"
-msgstr ""
+msgstr "ऑफिस"
 
 #: src/fdomenu.cc:90
 msgid "System"
-msgstr ""
+msgstr "सिस्टम"
 
 #: src/fdomenu.cc:91
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #: src/fdomenu.cc:92
 msgid "Editors"
-msgstr ""
+msgstr "संपादक"
 
 #: src/fdomenu.cc:93
 msgid "Other"
-msgstr ""
+msgstr "अन्य"
 
 #: src/icehelp.cc:1199
 msgid "Back"
-msgstr ""
+msgstr "वापस"
 
 #: src/icehelp.cc:1199
 msgid "Alt+Left"
-msgstr ""
+msgstr "Alt+Left"
 
 #: src/icehelp.cc:1201
 msgid "Forward"
-msgstr ""
+msgstr "आगे"
 
 #: src/icehelp.cc:1201
 msgid "Alt+Right"
-msgstr ""
+msgstr "Alt+Right"
 
 #: src/icehelp.cc:1204
 msgid "Previous"
-msgstr ""
+msgstr "पिछला"
 
 #: src/icehelp.cc:1205
 msgid "Next"
-msgstr ""
+msgstr "अगला"
 
 #: src/icehelp.cc:1207
 msgid "Contents"
-msgstr ""
+msgstr "सामग्री"
 
 #: src/icehelp.cc:1208
 msgid "Index"
-msgstr ""
+msgstr "सूची"
 
 #: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74 src/wmtitle.cc:99
 msgid "Close"
-msgstr ""
+msgstr "बंद करें"
 
 #: src/icehelp.cc:1211 src/icesame.cc:62 src/iceview.cc:74
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1216
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1218
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1220
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1222
 msgid "FAQ"
-msgstr ""
+msgstr "सामान्य प्रश्न"
 
 #: src/icehelp.cc:1224
 msgid "Manual"
-msgstr ""
+msgstr "गाइड"
 
 #: src/icehelp.cc:1226
 msgid "Support"
-msgstr ""
+msgstr "समर्थन"
 
 #: src/icehelp.cc:1228
 msgid "Theme Howto"
-msgstr ""
+msgstr "थीम हेतु निर्देश"
 
 #: src/icehelp.cc:1230
 msgid "Website"
-msgstr ""
+msgstr "वेबसाइट"
 
 #: src/icehelp.cc:1232
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1934
 msgid "Unsupported protocol."
-msgstr ""
+msgstr "असमर्थित प्रोटोकॉल।"
 
 #: src/icehelp.cc:1959
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr ""
+msgstr "अमान्य पथ : %s\n"
 
 #: src/icehelp.cc:1982
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "पथ फाइल हेतु निर्दिष्ट नहीं है।"
 
 #: src/icehelp.cc:1987
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "रीड हेतु फाइल खोलना विफल।"
 
 #: src/icehelp.cc:2016
 msgid "Failed to create a temporary file"
-msgstr ""
+msgstr "अस्थायी फाइल बनाना विफल"
 
 #: src/icehelp.cc:2108
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "सिस्टम (%s) निष्पादन विफल (%d)"
 
 #: src/icehelp.cc:2131
 #, c-format
 msgid "Failed to decompress %s"
-msgstr ""
+msgstr "%s अनपैक करना विफल"
 
 #: src/icehelp.cc:2139
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "फोल्डर पथ में curl या wget नहीं मिला"
 
 #: src/icehelp.cc:2143
 msgid "Unsafe characters in URL"
