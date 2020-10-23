@@ -481,14 +481,15 @@ public:
                 sc->addItem(o->name, -2, mstring(val), actionNull);
             }
             else if (o->type == cfoption::CF_STR) {
-                const char* str = o->str();
+                auto* str = o->str();
                 if (str) {
                     char val[40];
                     size_t len = strlcpy(val, str, sizeof val);
+                    auto elp = useElps ? utf8ellipsis : "...";
                     if (len >= sizeof val)
-                        strlcpy(val + sizeof val - 4, "...", 4);
-                    if ((str = strstr(val, "://")) != nullptr && strlen(str) > 6)
-                        strlcpy(val + (str - val) + 3, "...", 4);
+                        strlcpy(val + sizeof val - 4, elp, 4);
+                    if (!!(str = strstr(val, "://")) && strlen(str) > 6)
+                        strlcpy(val + (str - val) + 3, elp, 4);
                     st->addItem(o->name, -2, val, actionNull);
                 }
             }
@@ -519,6 +520,7 @@ public:
         for (int k = 0; ; ++k)
             if (icewm_preferences[k].type == cfoption::CF_NONE)
                 return k;
+        return 0;
     }
 
     static int sortPrefs(const void* p1, const void* p2) {
