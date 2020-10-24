@@ -631,7 +631,7 @@ const char* getprogname() {
 char* progpath() {
 #ifdef __linux__
     char* path = program_invocation_name;
-    bool fail = isEmpty(path) || access(path, R_OK | X_OK) != 0;
+    bool fail = isEmpty(path) || access(path, R_OK | X_OK) || !isFile(path);
     if (fail) {
         const size_t linksize = 123;
         char link[linksize];

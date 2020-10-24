@@ -59,7 +59,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned modifiers = 0);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual YFrameWindow* frame() { return this; }
 

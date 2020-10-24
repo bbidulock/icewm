@@ -60,6 +60,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fSavedWinState[0] = None;
     fSavedWinState[1] = None;
     fSizeHints = XAllocSizeHints();
+    fSaveHints = XAllocSizeHints();
     fTransientFor = None;
     fClientLeader = None;
     fPid = 0;
@@ -108,6 +109,7 @@ YFrameClient::~YFrameClient() {
     }
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
+    if (fSaveHints) { XFree(fSaveHints); fSaveHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
 }
 
@@ -144,11 +146,8 @@ void YFrameClient::getSizeHints() {
             fSizeHints->flags = 0;
 
         if (fSizeHints->flags & PResizeInc) {
-            if (fSizeHints->width_inc == 0) fSizeHints->width_inc = 1;
-            if (fSizeHints->height_inc == 0) fSizeHints->height_inc = 1;
         } else
             fSizeHints->width_inc = fSizeHints->height_inc = 1;
-
 
         if (!(fSizeHints->flags & PBaseSize)) {
             if (fSizeHints->flags & PMinSize) {
@@ -224,8 +223,8 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
         int const hMax(fSizeHints->max_height);
         int const wBase(fSizeHints->base_width);
         int const hBase(fSizeHints->base_height);
-        int const wInc(fSizeHints->width_inc);
-        int const hInc(fSizeHints->height_inc);
+        int const wInc(max(1, fSizeHints->width_inc));
+        int const hInc(max(1, fSizeHints->height_inc));
 
         if (fSizeHints->flags & PAspect) { // aspect ratios
             int const xMin(fSizeHints->min_aspect.x);
@@ -1150,13 +1149,16 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     *fMwmHints = mwm;
 }
 
-void YFrameClient::saveSizeHints()
-{
-    memcpy(&savedSizeHints, fSizeHints, sizeof(XSizeHints));
+void YFrameClient::saveSizeHints() {
+    if (fSaveHints && fSizeHints) {
+        *fSaveHints = *fSizeHints;
+    }
 }
 
 void YFrameClient::restoreSizeHints() {
-    memcpy(fSizeHints, &savedSizeHints, sizeof(XSizeHints));
+    if (fSizeHints && fSaveHints) {
+        *fSizeHints = *fSaveHints;
+    }
 }
 
 long YFrameClient::mwmFunctions() {

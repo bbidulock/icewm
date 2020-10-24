@@ -184,9 +184,7 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
-
-    // for going fullscreen and back
-    XSizeHints savedSizeHints;
+    XSizeHints *saveHints() const { return fSaveHints; }
     void saveSizeHints();
     void restoreSizeHints();
 
@@ -281,6 +279,7 @@ private:
     FrameState fSavedFrameState;
     long fSavedWinState[2];
     XSizeHints *fSizeHints;
+    XSizeHints *fSaveHints;
     ClassHint fClassHint;
     XWMHints *fHints;
     Colormap fColormap;

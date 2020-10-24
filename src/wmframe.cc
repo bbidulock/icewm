@@ -233,8 +233,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         XSizeHints *sh = client()->sizeHints();
         normalX = x;
         normalY = y;
-        normalW = sh ? (w - sh->base_width) / non_zero(sh->width_inc) : w;
-        normalH = sh ? (h - sh->base_height) / non_zero(sh->height_inc) : h;
+        normalW = sh ? (w - sh->base_width) / max(1, sh->width_inc) : w;
+        normalH = sh ? (h - sh->base_height) / max(1, sh->height_inc) : h;
 
 
         if (sh && (sh->flags & PWinGravity) &&
@@ -771,9 +771,19 @@ void YFrameWindow::netRestackWindow(long window, long detail) {
 void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
-/// TODO #warning "alternative configure mechanism would be nice"
-    if (isFullscreen())
-        return;
+    if (isFullscreen()) {
+        XSizeHints *sh = client()->saveHints();
+        if (sh) {
+            normalX = cx;
+            normalY = cy;
+            normalW = sh
+                    ? (cwidth - sh->base_width) / max(1, sh->width_inc)
+                    : cwidth;
+            normalH = sh
+                    ? (cheight - sh->base_height) / max(1, sh->height_inc)
+                    : cheight;
+        }
+    }
     else {
         int posX, posY, posW, posH;
         getNormalGeometryInner(&posX, &posY, &posW, &posH);
@@ -786,9 +796,9 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
             cx = posX;
             cwidth = posW;
         }
-    }
 
-    setNormalGeometryInner(cx, cy, cwidth, cheight);
+        setNormalGeometryInner(cx, cy, cwidth, cheight);
+    }
 }
 
 void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
@@ -2725,8 +2735,8 @@ void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) const 
     XSizeHints *sh = client()->sizeHints();
     *x = normalX;
     *y = normalY;
-    *w = sh ? normalW * sh->width_inc + sh->base_width : normalW;
-    *h = sh ? normalH * sh->height_inc + sh->base_height : normalH;
+    *w = sh ? normalW * max(1, sh->width_inc) + sh->base_width : normalW;
+    *h = sh ? normalH * max(1, sh->height_inc) + sh->base_height : normalH;
 }
 
 void YFrameWindow::setNormalGeometryOuter(int ox, int oy, int ow, int oh) {
@@ -2741,8 +2751,8 @@ void YFrameWindow::setNormalPositionOuter(int x, int y) {
     XSizeHints *sh = client()->sizeHints();
     x += borderXN();
     y += borderYN();
-    int w = sh ? normalW * sh->width_inc + sh->base_width : normalW;
-    int h = sh ? normalH * sh->height_inc + sh->base_height : normalH;
+    int w = sh ? normalW * max(1, sh->width_inc) + sh->base_width : normalW;
+    int h = sh ? normalH * max(1, sh->height_inc) + sh->base_height : normalH;
     setNormalGeometryInner(x, y, w, h);
 }
 
@@ -2750,8 +2760,8 @@ void YFrameWindow::setNormalGeometryInner(int x, int y, int w, int h) {
     XSizeHints *sh = client()->sizeHints();
     normalX = x;
     normalY = y;
-    normalW = sh ? (w - sh->base_width) / non_zero(sh->width_inc) : w;
-    normalH = sh ? (h - sh->base_height) / non_zero(sh->height_inc) : h ;
+    normalW = sh ? (w - sh->base_width) / max(1, sh->width_inc) : w;
+    normalH = sh ? (h - sh->base_height) / max(1, sh->height_inc) : h ;
 
     updateDerivedSize(getState() & WinStateMaximizedBoth);
     updateLayout();
@@ -2762,8 +2772,8 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
 
     int nx = normalX;
     int ny = normalY;
-    int nw = sh ? normalW * sh->width_inc + sh->base_width : normalW;
-    int nh = sh ? normalH * sh->height_inc + sh->base_height : normalH;
+    int nw = sh ? normalW * max(1, sh->width_inc) + sh->base_width : normalW;
+    int nh = sh ? normalH * max(1, sh->height_inc) + sh->base_height : normalH;
 
     int xiscreen = desktop->getScreenForRect(nx, ny, nw, nh);
     int mx, my, Mx, My;
@@ -2899,13 +2909,13 @@ void YFrameWindow::updateNormalSize() {
     if (cw) {
         normalW = posW - 2 * borderXN();
         if (sh) {
-            normalW = (normalW - sh->base_width) / non_zero(sh->width_inc);
+            normalW = (normalW - sh->base_width) / max(1, sh->width_inc);
         }
     }
     if (ch) {
         normalH = posH - (2 * borderYN() + titleYN());
         if (sh) {
-            normalH = (normalH - sh->base_height) / non_zero(sh->height_inc);
+            normalH = (normalH - sh->base_height) / max(1, sh->height_inc);
         }
     }
     MSG(("updateNormalSize> %d %d %d %d", normalX, normalY, normalW, normalH));
