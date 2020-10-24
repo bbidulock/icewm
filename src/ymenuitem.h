@@ -14,8 +14,8 @@ public:
     YMenuItem();
     virtual ~YMenuItem();
 
-    mstring getName() const { return fName; }
-    mstring getParam() const { return fParam; }
+    const mstring& getName() const { return fName; }
+    const mstring& getParam() const { return fParam; }
     YAction getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
 
