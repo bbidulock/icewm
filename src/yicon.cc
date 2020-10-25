@@ -221,6 +221,7 @@ public:
         std::vector<const char*> skiplist, matchlist;
 
         char *save = nullptr;
+        // NOTE: more appropriate than splitAll because of fnmatch
         csmart themesCopy(newstr(iconThemes));
         for (auto *tok = strtok_r(themesCopy, ":", &save); tok;
                 tok = strtok_r(0, ":", &save)) {
@@ -302,12 +303,11 @@ public:
                         true);
             }
         }
-        // now test the system icons folders specified by user or defaults
-        csmart copy(newstr(iconPath));
-        for (auto *itok = strtok_r(copy, ":", &save); itok;
-                itok = strtok_r(0, ":", &save)) {
 
-            probeIconFolder(itok, false);
+        // now test the system icons folders specified by user or defaults
+        for (mslice s(iconPath), tok; s.splitall(':', tok, s);) {
+            if (tok.nonempty())
+                probeIconFolder(tok, false);
         }
     }
 
