@@ -230,6 +230,8 @@ public:
             else
                 matchlist.emplace_back(tok);
         }
+        for (auto *extra: { "*.xpm", "*.png", "*.svg"})
+            skiplist.emplace_back(extra);
 
         auto probeIconFolder = [&](mstring iPath, bool fromResources) {
 
@@ -271,29 +273,31 @@ public:
 
                     for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
                         auto match = exp.we_wordv[i];
+
                         // get theme name from folder base name
                         auto bname = strrchr(match, (unsigned) '/');
+                        if (bname && 0 == strcmp(bname, "/icons")) {
+                            *bname = '\0';
+                            bname = strrchr(match, (unsigned) '/');
+                        }
                         if (!bname)
                             continue;
                         bname++;
-                        int keep = 1; // non-zero to consider it
                         for (auto &blistPattern : skiplist) {
-                            keep = fnmatch(blistPattern, bname, 0);
-                            if (!keep)
-                                break;
+                                if (0 == fnmatch(blistPattern, bname, 0))
+                                    goto NEXT_FROM_WORDEXP;
                         }
 
                         // found a potential theme folder to consider?
                         // does even the entry folder exist or is this a
                         // dead reference?
-                        if (keep && upath(match).dirExists()) {
-                            nFoundForFolder +=
-                                    probeAndRegisterXdgFolders(match,
-                                            fromResources);
-                        }
+                            if (!upath(match).dirExists())
+                                continue;
+                            nFoundForFolder += probeAndRegisterXdgFolders(match,
+                                                fromResources);
+                            NEXT_FROM_WORDEXP: ;
                     }
                     wordfree(&exp);
-
                 }
             }
         };
@@ -303,8 +307,16 @@ public:
         if (iceIconPaths != null) {
             // this returned icewm directories containing "icons" folder
             for (int i = 0; i < iceIconPaths->getCount(); ++i) {
-                probeIconFolder(iceIconPaths->getPath(i) + "/icons",
-                        true);
+                const auto& tpath(iceIconPaths->getPath(i).path());
+                auto bname = strrchr(tpath.c_str(), '/');
+                if (bname && *(++bname)) {
+                    for (auto &blistPattern : skiplist) {
+                        if (0 == fnmatch(blistPattern, bname, 0))
+                            goto NEXT_FROM_ICON_RES_DIR;
+                    }
+                }
+                probeIconFolder(std::move(tpath) + "/icons", true);
+                NEXT_FROM_ICON_RES_DIR: ;
             }
         }
 
