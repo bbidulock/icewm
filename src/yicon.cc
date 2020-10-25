@@ -250,8 +250,10 @@ public:
 
                 unsigned nFoundForFolder = 0;
 
-                for (auto themeExpr : { iPath, mstring(iPath, "/",
-                        themeExprTok)}) {
+                for (auto themeExpr : {
+                    iPath,
+                    mstring(iPath, "/", themeExprTok)
+                }) {
 
                     // were already XDG-like found by fishing in the simple
                     // attempt?
@@ -259,37 +261,39 @@ public:
                         continue;
 
                     wordexp_t exp;
-                    if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
-                        for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
-                            auto match = exp.we_wordv[i];
-                            // get theme name from folder base name
-                            auto bname = strrchr(match, (unsigned) '/');
-                            if (!bname)
-                                continue;
-                            bname++;
-                            int keep = 1; // non-zero to consider it
-                            for (auto& blistPattern : skiplist) {
-                                keep = fnmatch(blistPattern, bname, 0);
-                                if (!keep)
-                                    break;
-                            }
+                    if (wordexp(themeExpr, &exp, WRDE_NOCMD) != 0)
+                    {
+                        // wordexp failed?
+                        nFoundForFolder += probeAndRegisterXdgFolders(
+                                themeExpr, fromResources);
+                        continue;
+                    }
 
-                            // found a potential theme folder to consider?
-                            // does even the entry folder exist or is this a
-                            // dead reference?
-                            if (keep && upath(match).dirExists()) {
-
-                                nFoundForFolder +=
-                                        probeAndRegisterXdgFolders(match,
-                                                fromResources);
-                            }
+                    for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
+                        auto match = exp.we_wordv[i];
+                        // get theme name from folder base name
+                        auto bname = strrchr(match, (unsigned) '/');
+                        if (!bname)
+                            continue;
+                        bname++;
+                        int keep = 1; // non-zero to consider it
+                        for (auto &blistPattern : skiplist) {
+                            keep = fnmatch(blistPattern, bname, 0);
+                            if (!keep)
+                                break;
                         }
-                        wordfree(&exp);
+
+                        // found a potential theme folder to consider?
+                        // does even the entry folder exist or is this a
+                        // dead reference?
+                        if (keep && upath(match).dirExists()) {
+                            nFoundForFolder +=
+                                    probeAndRegisterXdgFolders(match,
+                                            fromResources);
+                        }
                     }
-                    else { // wordexp failed?
-                        nFoundForFolder += probeAndRegisterXdgFolders(themeExpr,
-                                fromResources);
-                    }
+                    wordfree(&exp);
+
                 }
             }
         };
