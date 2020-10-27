@@ -122,7 +122,7 @@ public:
 
     YFrameWindow *findFrame(Window win);
     YFrameClient *findClient(Window win);
-    YFrameWindow *manageClient(Window win, bool mapClient = false);
+    void manageClient(Window win, bool mapClient = false);
     void unmanageClient(YFrameClient *client);
     void destroyedClient(Window win);
     void mapClient(Window win);

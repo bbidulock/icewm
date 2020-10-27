@@ -1470,9 +1470,9 @@ setGeo:
 
 }
 
-YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
-    YFrameWindow *frame(nullptr);
-    YFrameClient *client(nullptr);
+void YWindowManager::manageClient(Window win, bool mapClient) {
+    YFrameWindow* frame = nullptr;
+    YFrameClient* client = nullptr;
     int cx = 0;
     int cy = 0;
     int cw = 1;
@@ -1486,14 +1486,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     grabServer();
     lockWorkArea();
-#if 0
-    XSync(xapp->display(), False);
-    {
-        XEvent xev;
-        if (XCheckTypedWindowEvent(xapp->display(), win, DestroyNotify, &xev))
-            goto end;
-    }
-#endif
 
     client = findClient(win);
     if (client == nullptr) {
@@ -1672,7 +1664,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 end:
     ungrabServer();
     unlockWorkArea();
-    return frame;
 }
 
 void YWindowManager::mapClient(Window win) {
@@ -1800,10 +1791,8 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         for (; pass < 3; pass++) {
             YFrameIter w = focusedReverseIterator();
             while (++w) {
-#if 1
-                if ((w->client() && !w->client()->adopted()))
+                if (!w->client()->adopted())
                     continue;
-#endif
                 if (w->isMinimized())
                     continue;
                 if (w->isHidden())
@@ -2122,7 +2111,7 @@ bool YWindowManager::updateWorkAreaInner() {
     debugWorkArea("before");
 
     for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
-        if (w->client() == nullptr || w->isUnmapped()) {
+        if (w->isUnmapped()) {
             continue;
         }
 
@@ -2426,7 +2415,10 @@ void YWindowManager::activateWorkspace(long workspace) {
         setFocus(toFocus);
         resetColormap(true);
 
-        if (taskBar) taskBar->relayoutNow();
+        if (taskBar) {
+            taskBar->relayout();
+            taskBar->relayoutNow();
+        }
 
         if (workspaceSwitchStatus
             && (!showTaskBar || !taskBarShowWorkspaces || taskBarAutoHide
@@ -2911,7 +2903,7 @@ void YWindowManager::updateClientList() {
             if (fLayers[i]) {
                 YFrameIter frame = fLayers[i].reverseIterator();
                 while (++frame) {
-                    if (frame->client() && frame->client()->adopted()) {
+                    if (frame->client()->adopted()) {
                         ids.append(frame->client()->handle());
                     }
                 }
@@ -2929,7 +2921,7 @@ void YWindowManager::updateClientList() {
 
         ids.shrink(0);
         for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
-            if (frame->client() && frame->client()->adopted())
+            if (frame->client()->adopted())
                 ids.append(frame->client()->handle());
         }
 
@@ -3231,7 +3223,7 @@ void YWindowManager::undoArrange() {
 
 bool YWindowManager::haveClients() {
     for (YFrameWindow * f(topLayer()); f ; f = f->nextLayer())
-        if (f->canClose() && f->client() && f->client()->adopted())
+        if (f->canClose() && f->client()->adopted())
             return true;
 
     return false;
