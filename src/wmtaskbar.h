@@ -37,8 +37,9 @@ public:
 
     static bool enabled();
     void show(bool enable);
-    void startHide();
-    void stopHide();
+    enum HideOrShow { Hide, Show };
+    void startTimer(HideOrShow = Hide);
+    void stopTimer();
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
@@ -48,7 +49,7 @@ public:
 private:
     TaskBar *fTaskBar;
     lazy<YTimer> fAutoHideTimer;
-    bool fDoShow;
+    HideOrShow fHideOrShow;
 };
 
 class TaskBar:
@@ -138,6 +139,9 @@ private:
     void trayChanged();
     YXTray *netwmTray() { return fDesktopTray; }
 
+    void initApplets();
+    void updateLayout(unsigned& size_w, unsigned& size_h);
+
 private:
     YSurface fSurface;
     TaskPane *fTasks;
@@ -175,12 +179,6 @@ private:
     bool fNeedRelayout;
     bool fButtonUpdate;
     bool fWorkspacesUpdate;
-
-    friend class WindowList;
-    friend class WindowListBox;
-
-    void initApplets();
-    void updateLayout(unsigned &size_w, unsigned &size_h);
 
     class YStrut {
     public:
