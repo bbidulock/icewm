@@ -157,9 +157,9 @@ YFrameWindow::~YFrameWindow() {
     removeAsTransient();
     manager->lockWorkArea();
     manager->removeFocusFrame(this);
-    manager->removeClientFrame(this);
     manager->removeCreatedFrame(this);
     removeFrame();
+    manager->removeClientFrame(this);
     if (wmapp->hasSwitchWindow())
         wmapp->getSwitchWindow()->destroyedFrame(this);
     if (client()) {
