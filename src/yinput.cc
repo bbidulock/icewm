@@ -685,7 +685,7 @@ void YInputLine::complete() {
     char* res = nullptr;
     int res_count = globit_best(fText, &res, nullptr, nullptr);
     // directory is not a final match
-    if(res_count == 1 && upath(res).dirExists())
+    if (res_count == 1 && upath(res).dirExists())
         res_count++;
     if (1 <= res_count)
         setText(res, res_count == 1);

@@ -493,8 +493,8 @@ void YFrameWindow::outlineResize() {
     int incX(1), incY(1);
 
     if (client()->sizeHints()) {
-        incX = client()->sizeHints()->width_inc;
-        incY = client()->sizeHints()->height_inc;
+        incX = max(1, client()->sizeHints()->width_inc);
+        incY = max(1, client()->sizeHints()->height_inc);
     }
 
     XGrabServer(xapp->display());
@@ -685,8 +685,8 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
             int incY = 1;
 
             if (client()->sizeHints()) {
-                incX = client()->sizeHints()->width_inc;
-                incY = client()->sizeHints()->height_inc;
+                incX = max(1, client()->sizeHints()->width_inc);
+                incY = max(1, client()->sizeHints()->height_inc);
             }
 
             switch (handleResizeKeys(key, newX, newY, newWidth, newHeight, incX, incY)) {
@@ -734,37 +734,37 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 return true;
 
             if (IS_WMKEY(k, vm, gKeyWinClose)) {
-                if (canClose()) wmClose();
+                actionPerformed(actionClose);
             } else if (IS_WMKEY(k, vm, gKeyWinPrev)) {
                 wmPrevWindow();
             } else if (IS_WMKEY(k, vm, gKeyWinMaximizeVert)) {
-                if (canMaximize()) wmMaximizeVert();
+                actionPerformed(actionMaximizeVert);
             } else if (IS_WMKEY(k, vm, gKeyWinMaximizeHoriz)) {
-                if (canMaximize()) wmMaximizeHorz();
+                actionPerformed(actionMaximizeHoriz);
             } else if (IS_WMKEY(k, vm, gKeyWinRaise)) {
-                if (canRaise()) wmRaise();
+                actionPerformed(actionRaise);
             } else if (IS_WMKEY(k, vm, gKeyWinOccupyAll)) {
-                wmOccupyAllOrCurrent();
+                actionPerformed(actionOccupyAllOrCurrent);
             } else if (IS_WMKEY(k, vm, gKeyWinLower)) {
-                if (canLower()) wmLower();
+                actionPerformed(actionLower);
             } else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
-                wmRestore();
+                actionPerformed(actionRestore);
             } else if (IS_WMKEY(k, vm, gKeyWinNext)) {
                 wmNextWindow();
             } else if (IS_WMKEY(k, vm, gKeyWinMove)) {
-                if (canMove()) wmMove();
+                actionPerformed(actionMove);
             } else if (IS_WMKEY(k, vm, gKeyWinSize)) {
-                if (canSize()) wmSize();
+                actionPerformed(actionSize);
             } else if (IS_WMKEY(k, vm, gKeyWinMinimize)) {
-                if (canMinimize()) wmMinimize();
+                actionPerformed(actionMinimize);
             } else if (IS_WMKEY(k, vm, gKeyWinMaximize)) {
-                if (canMaximize()) wmMaximize();
+                actionPerformed(actionMaximize);
             } else if (IS_WMKEY(k, vm, gKeyWinHide)) {
-                if (canHide()) wmHide();
+                actionPerformed(actionHide);
             } else if (IS_WMKEY(k, vm, gKeyWinRollup)) {
-                if (canRollup()) wmRollup();
+                actionPerformed(actionRollup);
             } else if (IS_WMKEY(k, vm, gKeyWinFullscreen)) {
-                if (canFullscreen()) wmToggleFullscreen();
+                actionPerformed(actionFullscreen);
             } else if (IS_WMKEY(k, vm, gKeyWinMenu)) {
                 popupSystemMenu(this);
             } else if (IS_WMKEY(k, vm, gKeyWinArrangeN)) {
@@ -838,7 +838,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
         return false;
     if (isFullscreen())
         return false;
-    if (!(frameFunctions() & ffResize))
+    if (!isResizable())
         return false;
     if (!sizeMaximized) {
         if ((!vert || isMaximizedVert()) &&
@@ -846,10 +846,6 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
             return false;
     }
     return true;
-}
-
-bool YFrameWindow::canMove() const {
-    return hasbit(frameFunctions(), ffMove);
 }
 
 void YFrameWindow::startMoveSize(int x, int y,
@@ -988,7 +984,8 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
         handleDrag(down, motion);
     }
     else if (down.button == Button1 && canSize()) {
-        Window sw = down.subwindow;
+        Window sw = (down.subwindow && indicatorsCreated)
+                   ? down.subwindow : Window(-1);
 
         grabX = 0;
         grabY = 0;

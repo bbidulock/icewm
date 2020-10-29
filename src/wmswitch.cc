@@ -74,7 +74,7 @@ class WindowItemsCtrlr : public ISwitchItems
                 }
 
                 if (!w->isUrgent()) {
-                    if (workspaceOnly && w->isSticky() &&
+                    if (workspaceOnly && w->isAllWorkspaces() &&
                         workspace != fRoot->activeWorkspace()) {
                         continue;
                     }
@@ -141,7 +141,7 @@ public:
     }
     inline virtual int setTarget(int zPosition) override
     {
-        zTarget=zPosition;
+        zTarget = zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
             fActiveWindow = zList[zTarget];
         else
@@ -320,7 +320,7 @@ void SwitchWindow::resize(int xiscreen) {
         (int) dw * 1/3
         : (quickSwitchVertical ? (int) dw * 2/5 : (int) dw * 3/5);
 
-    int tWidth=0;
+    int tWidth = 0;
     if (quickSwitchMaxWidth) {
         int space = (int) switchFont->textWidth(" ");   /* make entries one space character wider */
         int zCount = zItems->getCount();
@@ -557,7 +557,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 
 int SwitchWindow::calcHintedItem(int x, int y)
 {
-    if(quickSwitchVertical)
+    if (quickSwitchVertical)
         return (y - m_hintAreaStart) / m_hintAreaStep;
     else if(quickSwitchAllIcons && !quickSwitchHugeIcon)
         return (x - m_hintAreaStart) / m_hintAreaStep;
@@ -568,7 +568,7 @@ int SwitchWindow::calcHintedItem(int x, int y)
 void SwitchWindow::handleMotion(const XMotionEvent& motion) {
     int hintId = calcHintedItem(motion.x, motion.y);
     //printf("hint id: %d\n", hintId);
-    if(hintId == m_hlItemFromMotion || hintId == -2)
+    if (hintId == m_hlItemFromMotion || hintId == -2)
         return;
     m_hlItemFromMotion = hintId;
     repaint();
@@ -596,8 +596,8 @@ void SwitchWindow::paintVertical(Graphics &g) {
 
         g.setFont(switchFont);
         g.setColor(switchFg);
-        for (int i = 0, zCount=zItems->getCount(); i < zCount; i++) {
-            if(contentY + frameHght > (int) height())
+        for (int i = 0, zCount = zItems->getCount(); i < zCount; i++) {
+            if (contentY + frameHght > (int) height())
                 break;
             if (i == zItems->getActiveItem()) {
                 g.setColor(switchMbg);
@@ -622,7 +622,7 @@ void SwitchWindow::paintVertical(Graphics &g) {
                 ++iconsDrawn;
             }
 
-            if(i == m_hlItemFromMotion && i != zItems->getActiveItem())
+            if (i == m_hlItemFromMotion && i != zItems->getActiveItem())
             {
                 g.setColor(switchMbg);
                 g.drawRect(frameX, contentY-quickSwitchIBorder, frameWid, frameHght);

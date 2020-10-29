@@ -28,6 +28,7 @@ public:
     YFrameButton* maximizeButton() const { return fButtons[4]; }
 
     void layoutButtons();
+    void relayout();
     void refresh();
 
     static YColor background(bool active);

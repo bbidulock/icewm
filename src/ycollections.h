@@ -35,7 +35,7 @@ protected:
     {
         DataType *old = data;
         data = new DataType[newSize];
-        for (SizeType i=0;i<size;++i) data[i] = old[i];
+        for (SizeType i = 0;i<size;++i) data[i] = old[i];
         delete[] old;
         capa = newSize;
     }
@@ -80,9 +80,9 @@ public:
         if (size > destPos) {
             DataType *old = data;
             data = new DataType[size + 1];
-            for (SizeType i=0; i < destPos; ++i)
+            for (SizeType i = 0; i < destPos; ++i)
                 data[i] = old[i];
-            for (SizeType i=destPos; i < size; ++i)
+            for (SizeType i = destPos; i < size; ++i)
                 data[i+1] = old[i];
             delete[] old;
             capa = size + 1;
@@ -196,17 +196,17 @@ public:
         YKeyValuePair<kvp*,kvp*> ret(NULL, NULL);
         if (!binsearch(key, pos))
             return ret;
-        for(int i=pos;;++i)
+        for (int i = pos;;++i)
         {
-            if(i==store.size || !values_equal(i, pos))
+            if (i == store.size || !values_equal(i, pos))
             {
                 ret.value = &store[i];
                 break;
             }
         }
-        for(int i=pos;;--i)
+        for (int i = pos;;--i)
         {
-            if(i==0 || !values_equal(i-1, pos))
+            if (i == 0 || !values_equal(i-1, pos))
             {
                 ret.key = &store[i];
                 break;
@@ -225,7 +225,7 @@ public:
             return;
         }
         store.preserve(store.size+1);
-        int destPos=0;
+        int destPos = 0;
 
         binsearch(key, destPos);
         // cursor ended on the left side?

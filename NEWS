@@ -5,7 +5,8 @@ Release icewm-1.8.3 released 2020-09-17
 
 git shortlog -e -n -w80,6,8 1.8.2...1.8.3
 
-Bert Gijsbers <gijsbers@science.uva.nl> (31):
+Bert Gijsbers <gijsbers@science.uva.nl> (27):
+      Emulate gmake for Arch.
       TaskBar cannot fullscreen.
       Use wmHide or wmShow to hide or show the taskbar for #489.
       Restore the translation which was overwritten by Weblate.
@@ -44,14 +45,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (31):
       Make it compile on G++ 7.5.0.
       Use pragmas to prevent compiler complaints if LOGEVENTS.
       Prevent compiler warning on chdir.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.8.3 release
       Check if filedescriptor is valid and fix off-by-one allocation error.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
 
 Hugo Carvalho <hugokarvalho@hotmail.com> (4):
       Added translation using Weblate (Portuguese)
@@ -64,6 +58,9 @@ Arif Budiman <arifpedia@gmail.com> (1):
 
 David Medina <medipas@gmail.com> (1):
       Translated using Weblate (Catalan)
+
+Eduard Bloch <blade@debian.org> (1):
+      Fixed and extended fakeroot detection and exceptions
 
 Ferdinand Galko <galko.ferdinand@gmail.com> (1):
       Translated using Weblate (Slovak)
@@ -85,12 +82,12 @@ Stanislav Brabec <sbrabec@suse.cz> (1):
         icewm-1-4-BRANCH
 
 
-Release icewm-1.8.2 released 2020-09-08
+Release icewm-1.8.2 released 2020-09-07
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.1...1.8.2
 
-Bert Gijsbers <gijsbers@science.uva.nl> (32):
+Bert Gijsbers <gijsbers@science.uva.nl> (28):
       Update Marko's copy dates for #285.
       CMake support for LOGEVENTS.
       Add find for YRefArray.
@@ -124,13 +121,8 @@ Bert Gijsbers <gijsbers@science.uva.nl> (32):
       Add x11_ldflags to cmake genpref build.
       Make cmake work for BSD+Solaris.
       Also for strtest.
-      Emulate gmake for Arch.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.8.2 release
 
-Eduard Bloch <blade@debian.org> (10):
+Eduard Bloch <blade@debian.org> (9):
       Install dev packages on Ubuntu
       Cope with shallow clones
       Basic autoconf CI setup
@@ -140,7 +132,6 @@ Eduard Bloch <blade@debian.org> (10):
       Update apt index before installing dependencies
       ~ expansion is modified by fakeroot, don't consider it
       Extra control flow checking
-      Fixed and extended fakeroot detection and exceptions
 
 Code7R <Code7R@users.noreply.github.com> (2):
       Create cmake.yml
@@ -150,12 +141,12 @@ Hugo Carvalho <hugokarvalho@hotmail.com> (1):
       Update Portuguese (pt) translations (#486)
 
 
-Release icewm-1.8.1 released 2020-08-31
+Release icewm-1.8.1 released 2020-08-30
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.0...1.8.1
 
-Bert Gijsbers <gijsbers@science.uva.nl> (29):
+Bert Gijsbers <gijsbers@science.uva.nl> (26):
       Fix typo for the KeySysArrangeIcons key binding.
       Fix path_lookup strtok_r for non-Glibc BSD systems for ice-wm/icewm#23.
       Only define KeySysArrangeIcons if preference MinimizeToDesktop=1.
@@ -184,26 +175,20 @@ Bert Gijsbers <gijsbers@science.uva.nl> (29):
         by the display manager.
       Fixes for reading from a pipe.
       Don't show error if timed out.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.8.1 release
-
-Eduard Bloch <blade@debian.org> (2):
-      Fix memory leak from path_lookup call
-      Fixup DEBUG build
 
 Code7R <Code7R@users.noreply.github.com> (1):
       Feature/smart pointer in file reader (#463)
 
+Eduard Bloch <blade@debian.org> (1):
+      Fixup DEBUG build
 
-Release icewm-1.8.0 released 2020-08-25
+
+Release icewm-1.8.0 released 2020-08-26
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.7.0...1.8.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (123):
-      update to 1.7.0
+Bert Gijsbers <gijsbers@science.uva.nl> (119):
       Add definition of ACPIDEV for FreeBSD.
       Add sys/resource.h for FreeBSD for issue #445.
       Add begin() + end() to YArrays for C++11 for loops.
@@ -362,12 +347,8 @@ Bert Gijsbers <gijsbers@science.uva.nl> (123):
       Disable copying of Graphics.
       Add support for backing store when mapped.
       Much improved drawing quality of MiniIcons.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.8.0 release
 
-Eduard Bloch <blade@debian.org> (19):
+Eduard Bloch <blade@debian.org> (20):
       Added basic indexing of source types and purpose
       Putting resource/system icons into different groups
       Locating more special icons
@@ -388,6 +369,7 @@ Eduard Bloch <blade@debian.org> (19):
       Add 128 and 64 folders as last-ressort versions
       Never try to load icon for names "none" or '-'
       Space-after-if cosmetics
+      Fix memory leak from path_lookup call
 
 Aleš Kastner <alkas@volny.cz> (2):
       Translated using Weblate (Czech)
@@ -438,13 +420,12 @@ openSUSE Weblate <weblate-noreply@opensuse.org> (1):
       Merge branch 'origin/icewm-1-4-BRANCH' into Weblate.
 
 
-Release icewm-1.7.0 released 2020-07-12
+Release icewm-1.7.0 released 2020-07-15
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.6...1.7.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (86):
-      update to 1.6.6
+Bert Gijsbers <gijsbers@science.uva.nl> (83):
       Drop obsolete icewm-menu-gnome2 and icewmtray.
       Add a cmake release and --prefix.
       Add a motif example.
@@ -533,10 +514,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (86):
       Fix explanation.
       Add --help usage.
       make update-po
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.7.0 release
+      update to 1.7.0
 
 CJ Kucera <pez@apocalyptech.com> (1):
       Add a couple of undocumented keybinds (#437)
@@ -561,12 +539,12 @@ Stanislav Brabec <sbrabec@suse.cz> (1):
         icewm-1-4-BRANCH
 
 
-Release icewm-1.6.6 released 2020-05-29
+Release icewm-1.6.6 released 2020-06-03
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.6.5...1.6.6
 
-Bert Gijsbers <gijsbers@science.uva.nl> (56):
+Bert Gijsbers <gijsbers@science.uva.nl> (53):
       Add support for urxvt -borderless.
       Use ascii.h consistently.
       fix leak.
@@ -620,10 +598,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (56):
       Prevent reallocations.
       Permit deleting entire input line.
       make update-po
-      merge
-      fix merge
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.6 release
+      update to 1.6.6
 
 Eduard Bloch <blade@debian.org> (7):
       Auto-expand icon paths for all installed icon themes
@@ -682,9 +657,7 @@ Release icewm-1.6.5 released 2020-03-16
 
 git shortlog -e -n -w80,6,8 1.6.4...1.6.5
 
-Bert Gijsbers <gijsbers@science.uva.nl> (72):
-      Update version number to 1.6.4 and fix cmake build for icesh by adding
-        ytimer.cc.
+Bert Gijsbers <gijsbers@science.uva.nl> (68):
       Split off ytime.h and ytime.cc for icesh which doesn't need YTimer nor
         YApplication.
       Use YArray in WindowList.
@@ -763,10 +736,6 @@ Bert Gijsbers <gijsbers@science.uva.nl> (72):
       Prevent auto hide if address bar is visible for #412.
       Fix parsing of opacity in rgba colors.
       Decimate number of frame paintings.
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.5 release
 
 Brian Bidulock <bidulock@openss7.org> (11):
       bit better release file generation
@@ -832,9 +801,6 @@ Juan Sarria <juansarriam@gmail.com> (1):
 Luiz Fernando Ranghetti <elchevive68@gmail.com> (1):
       Translated using Weblate (Portuguese (Brazil))
 
-Nathan <ndowens04@gmail.com> (1):
-      Missing ytimer link
-
 Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com> (1):
       Translated using Weblate (Portuguese (Brazil))
 
@@ -844,9 +810,6 @@ Sarah Kriesch <ada.lovelace@gmx.de> (1):
 Stanislav Brabec <sbrabec@suse.cz> (1):
       Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
-
-gijsbers <gijsbers@users.noreply.github.com> (1):
-      Merge pull request #7 from ndowens/patch-1
 
 openSUSE Weblate <weblate-noreply@opensuse.org> (1):
       Merge branch 'origin/icewm-1-4-BRANCH' into Weblate.

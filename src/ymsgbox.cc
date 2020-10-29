@@ -41,6 +41,7 @@ YMsgBox::YMsgBox(int buttons):
     setWinHintsHint(WinHintsSkipWindowMenu);
     Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
+    getProtocols(true);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        MWM_FUNC_MOVE | MWM_FUNC_CLOSE,

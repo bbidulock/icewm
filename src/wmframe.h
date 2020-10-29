@@ -59,7 +59,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned modifiers = 0);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual YFrameWindow* frame() { return this; }
 
@@ -101,7 +101,7 @@ public:
     void hideTransients();
     void restoreHiddenTransients();
 
-    void DoMaximize(long flags);
+    void doMaximize(long flags);
 
     void loseWinFocus();
     void setWinFocus();
@@ -142,17 +142,17 @@ public:
 
     void getDefaultOptions(bool &doActivate);
 
-    bool canSize(bool boriz = true, bool vert = true);
-    bool canMove() const;
-    bool canClose() const;
-    bool canMaximize() const;
-    bool canMinimize() const;
+    bool canSize(bool horiz = true, bool vert = true);
+    bool canMove() const { return hasbit(frameFunctions(), ffMove); }
+    bool canClose() const { return hasbit(frameFunctions(), ffClose); }
+    bool canMaximize() const { return hasbit(frameFunctions(), ffMaximize); }
+    bool canMinimize() const { return hasbit(frameFunctions(), ffMinimize); }
     bool canRestore() const;
-    bool canRollup() const;
+    bool canRollup() const { return (frameFunctions() & ffRollup) && titleY(); }
     bool canShow() const;
-    bool canHide() const;
+    bool canHide() const { return hasbit(frameFunctions(), ffHide); }
     bool canLower() const;
-    bool canRaise();
+    bool canRaise() const;
     bool canFullscreen() const;
     bool overlaps(bool below);
     unsigned overlap(YFrameWindow *other);
@@ -198,6 +198,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
+    void netRestackWindow(long window, long detail);
 
     void setShape();
 
@@ -207,21 +208,21 @@ public:
         ffClose         = (1 << 2),
         ffMinimize      = (1 << 3),
         ffMaximize      = (1 << 4),
-        ffHide          = (1 << 5),
-        ffRollup        = (1 << 6)
+        ffRollup        = (1 << 5),
+        ffHide          = (1 << 6),
     };
 
     enum YFrameDecors {
         fdTitleBar      = (1 << 0),
-        fdSysMenu       = (1 << 1),
-        fdBorder        = (1 << 2),
-        fdResize        = (1 << 3),
-        fdClose         = (1 << 4),
-        fdMinimize      = (1 << 5),
-        fdMaximize      = (1 << 6),
-        fdHide          = (1 << 7),
-        fdRollup        = (1 << 8),
-        fdDepth         = (1 << 9)
+        fdResize        = (1 << 1),
+        fdClose         = (1 << 2),
+        fdMinimize      = (1 << 3),
+        fdMaximize      = (1 << 4),
+        fdRollup        = (1 << 5),
+        fdHide          = (1 << 6),
+        fdDepth         = (1 << 7),
+        fdBorder        = (1 << 8),
+        fdSysMenu       = (1 << 9),
     };
 
     enum YFrameOptions {
@@ -272,7 +273,11 @@ public:
     long oldState() const { return fOldState; }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
-
+    bool isResizable() const { return hasbit(frameFunctions(), ffResize); }
+    bool isUnmapped() const { return hasState(WinStateUnmapped); }
+    bool isMapped() const { return notState(WinStateUnmapped); }
+    void makeMapped() { return setState(WinStateUnmapped, None); }
+    bool hasBorders() const;
     int borderXN() const;
     int borderYN() const;
     int titleYN() const;
@@ -325,7 +330,6 @@ public:
     void updateLayer(bool restack = true);
     void updateIconPosition();
     void updateLayout();
-    void updateExtents();
     void performLayout();
 
     void updateMwmHints();
@@ -333,24 +337,7 @@ public:
     void updateTaskBar();
     void updateAppStatus();
 
-    enum WindowType {
-        wtCombo,
-        wtDesktop,
-        wtDialog,
-        wtDND,
-        wtDock,
-        wtDropdownMenu,
-        wtMenu,
-        wtNormal,
-        wtNotification,
-        wtPopupMenu,
-        wtSplash,
-        wtToolbar,
-        wtTooltip,
-        wtUtility
-    };
-
-    void setWindowType(enum WindowType winType) { fWindowType = winType; }
+    void setWindowType(WindowType winType) { fWindowType = winType; }
     bool isTypeDock() { return (fWindowType == wtDock); }
 
     int getWorkspace() const { return fWinWorkspace; }
@@ -434,6 +421,7 @@ public:
 
     long getOldLayer() { return fOldLayer; }
     void saveOldLayer() { fOldLayer = fWinActiveLayer; }
+    long windowTypeLayer() const;
 
     bool hasIndicators() const { return indicatorsCreated; }
     Window topSideIndicator() const { return topSide; }
@@ -462,7 +450,6 @@ private:
 
     int normalX, normalY, normalW, normalH;
     int posX, posY, posW, posH;
-    int extentLeft, extentRight, extentTop, extentBottom;
 
     YFrameClient *fClient;
     YClientContainer *fClientContainer;
@@ -477,8 +464,6 @@ private:
 
     Window topSide, leftSide, rightSide, bottomSide;
     Window topLeft, topRight, bottomLeft, bottomRight;
-    bool indicatorsCreated;
-    bool indicatorsVisible;
 
     TaskBarApp *fTaskBarApp;
     TrayApp *fTrayApp;
@@ -534,6 +519,7 @@ private:
     bool fHaveStruts;
     bool fWmUrgency;
     bool fClientUrgency;
+    bool indicatorsCreated;
 
     enum WindowType fWindowType;
 

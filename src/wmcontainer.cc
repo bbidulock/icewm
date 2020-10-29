@@ -220,10 +220,9 @@ void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &conf
 
 void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
     if (mapRequest.window == getFrame()->client()->handle()) {
-        long unmapped = WinStateMinimized | WinStateHidden | WinStateRollup;
-        if (getFrame()->hasState(unmapped)) {
+        if (getFrame()->isUnmapped()) {
             manager->lockFocus();
-            getFrame()->setState(unmapped, 0);
+            getFrame()->makeMapped();
             manager->unlockFocus();
         }
         bool doActivate = true;

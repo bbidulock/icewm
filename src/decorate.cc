@@ -9,6 +9,7 @@
 #include "wmtitle.h"
 #include "wmapp.h"
 #include "wmcontainer.h"
+#include "wmtaskbar.h"
 #include "workspaces.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
@@ -45,11 +46,14 @@ void YFrameWindow::updateMenu() {
     if (!canClose())
         windowMenu->disableCommand(actionClose);
 
+    bool full = isFullscreen();
+    bool vert = !full && isMaximizedVert();
+    bool hori = !full && isMaximizedHoriz();
     windowMenu->checkCommand(actionMinimize, isMinimized());
-    windowMenu->checkCommand(actionMaximize, isMaximizedFully());
-    windowMenu->checkCommand(actionMaximizeVert, isMaximizedVert());
-    windowMenu->checkCommand(actionMaximizeHoriz, isMaximizedHoriz());
-    windowMenu->checkCommand(actionFullscreen, isFullscreen());
+    windowMenu->checkCommand(actionMaximize, vert && hori);
+    windowMenu->checkCommand(actionMaximizeVert, vert && !hori);
+    windowMenu->checkCommand(actionMaximizeHoriz, hori && !vert);
+    windowMenu->checkCommand(actionFullscreen, full);
     windowMenu->checkCommand(actionHide, isHidden());
     windowMenu->checkCommand(actionRollup, isRollup());
     windowMenu->checkCommand(actionOccupyAllOrCurrent, isAllWorkspaces());
@@ -294,6 +298,8 @@ void YFrameWindow::configure(const YRect2& r) {
 
     if (r.resized()) {
         performLayout();
+        if (taskBar)
+            taskBar->workspacesRepaint();
     }
     if (affectsWorkArea()) {
         manager->updateWorkArea();
@@ -303,67 +309,44 @@ void YFrameWindow::configure(const YRect2& r) {
 void YFrameWindow::performLayout()
 {
     layoutTitleBar();
-    layoutResizeIndicators();
     layoutClient();
     layoutShape();
     if (fTitleBar)
         fTitleBar->activate();
+    layoutResizeIndicators();
 }
 
 void YFrameWindow::layoutTitleBar() {
-    int height = titleY();
-    if (height == 0) {
+    if (titleY()) {
         if (fTitleBar) {
-            delete fTitleBar;
-            fTitleBar = nullptr;
+            fTitleBar->relayout();
+        } else {
+            fTitleBar = new YFrameTitleBar(this, this);
         }
     }
-    else if (isIconic() == false && titlebar()) {
-        int x = borderX(), y = borderY();
-        int w = max(1, int(width()) - 2 * x);
-        fTitleBar->setGeometry(YRect(x, y, w, height));
-        fTitleBar->layoutButtons();
-        fTitleBar->show();
+    else if (fTitleBar) {
+        delete fTitleBar;
+        fTitleBar = nullptr;
     }
 }
 
 void YFrameWindow::layoutResizeIndicators() {
-    if (hasbits(frameDecors(), fdResize | fdBorder) &&
-        hasbit(frameFunctions(), ffResize) &&
-        !hasState(WinStateRollup | WinStateMinimized | WinStateFullscreen))
-    {
-        if (!indicatorsCreated)
-            createPointerWindows();
-        if (!indicatorsVisible) {
-            indicatorsVisible = true;
-
-            XMapWindow(xapp->display(), topSide);
-            XMapWindow(xapp->display(), leftSide);
-            XMapWindow(xapp->display(), rightSide);
-            XMapWindow(xapp->display(), bottomSide);
-
-            XMapWindow(xapp->display(), topLeft);
-            XMapWindow(xapp->display(), topRight);
-            XMapWindow(xapp->display(), bottomLeft);
-            XMapWindow(xapp->display(), bottomRight);
+    if (isUnmapped() || !hasBorders() || !isResizable()) {
+        if (indicatorsCreated) {
+            Window* indicators[] = {
+                &topSide, &leftSide, &rightSide, &bottomSide,
+                &topLeft, &topRight, &bottomLeft, &bottomRight
+            };
+            for (Window* window : indicators) {
+                XDestroyWindow(xapp->display(), *window);
+                *window = None;
+            }
+            indicatorsCreated = false;
         }
-    } else {
-        if (indicatorsVisible) {
-            indicatorsVisible = false;
-
-            XUnmapWindow(xapp->display(), topSide);
-            XUnmapWindow(xapp->display(), leftSide);
-            XUnmapWindow(xapp->display(), rightSide);
-            XUnmapWindow(xapp->display(), bottomSide);
-
-            XUnmapWindow(xapp->display(), topLeft);
-            XUnmapWindow(xapp->display(), topRight);
-            XUnmapWindow(xapp->display(), bottomLeft);
-            XUnmapWindow(xapp->display(), bottomRight);
-        }
-    }
-    if (!indicatorsVisible)
         return;
+    }
+    if (indicatorsCreated == false)
+        createPointerWindows();
 
     int vo = int(min(height(), topSideVerticalOffset));
     int ww(max(3, (int) width()));
@@ -398,57 +381,23 @@ void YFrameWindow::layoutResizeIndicators() {
 }
 
 void YFrameWindow::layoutClient() {
-    if (!isRollup() && !isIconic()) {
+    if (!isRollup()) {
         int x = borderX();
         int y = borderY();
         int title = titleY();
         int w = max(1, int(width()) - 2 * x);
         int h = max(1, int(height()) - 2 * y - title);
+        bool moved = (x != container()->x() || !fManaged ||
+                      y != container()->y() - title);
 
-        fClientContainer->setGeometry(YRect(x, y + title, w, h));
-        fClient->setGeometry(YRect(0, 0, w, h));
+        container()->setGeometry(YRect(x, y + title, w, h));
+        client()->setGeometry(YRect(0, 0, w, h));
 
-        long state = fWinState ^ fOldState;
-        long mask = WinStateFullscreen | WinStateMaximizedBoth;
-        if (hasbit(state, mask)) {
+        if (moved) {
             sendConfigure();
+            client()->setNetFrameExtents(x, x, y + title, y);
         }
     }
-}
-
-bool YFrameWindow::canClose() const {
-    if (frameFunctions() & ffClose)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canMaximize() const {
-    if (frameFunctions() & ffMaximize)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canMinimize() const {
-    if (frameFunctions() & ffMinimize)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canRollup() const {
-    if ((frameFunctions() & ffRollup) && titleY() > 0)
-        return true;
-    else
-        return false;
-}
-
-bool YFrameWindow::canHide() const {
-    if (frameFunctions() & ffHide)
-        return true;
-    else
-        return false;
 }
 
 bool YFrameWindow::canLower() const {
@@ -462,7 +411,7 @@ bool YFrameWindow::canLower() const {
     return false;
 }
 
-bool YFrameWindow::canRaise() {
+bool YFrameWindow::canRaise() const {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow()) {
             for (YFrameWindow* o = w; o != this; o = o->owner()) {
@@ -491,6 +440,14 @@ bool YFrameWindow::overlaps(bool isAbove) {
         if (overlap(f))
             return true;
     return false;
+}
+
+bool YFrameWindow::hasBorders() const {
+    return hasbit(frameDecors(), fdBorder) && !isFullscreen() &&
+         !(hideBordersMaximized && isMaximizedFully()) &&
+         (hasbit(frameDecors(), fdResize) ?
+          (wsBorderX | wsBorderY) != 0 :
+          (wsDlgBorderX | wsDlgBorderY) != 0);
 }
 
 /// TODO #warning "should precalculate these"

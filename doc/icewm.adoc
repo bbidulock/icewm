@@ -975,9 +975,9 @@ Show windows on the taskbar.
 +
 Show 'show desktop' button on taskbar.
 
-* `ShowEllipsis = 0`
+* `ShowEllipsis = 1`
 +
-Show Ellipsis in taskbar items.
+Show Ellipsis in taskbar items and some other locations. This is a visual indicator (like "..." or its nicer Unicode version) showing that a string didn't fit into the visible area or there is additional content behind this entry.
 
 * `TaskBarShowTray = 1`
 +

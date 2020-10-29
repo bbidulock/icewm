@@ -39,9 +39,7 @@
 #include <sys/loadavg.h>
 #endif
 
-#ifdef HAVE_SYS_PARAM_H
 #include <sys/param.h>
-#endif
 #if HAVE_SYS_SYSCTL_H || HAVE_SYSCTLBYNAME || __FreeBSD__
 #include <sys/sysctl.h>
 #endif
@@ -288,10 +286,10 @@ void CPUStatus::updateToolTip() {
 #define ___checkspace if (more<0 || rest-more<=0) return; pos+=more; rest-=more;
     struct sysinfo sys;
 
-    if (0==sysinfo(&sys))
+    if (0 == sysinfo(&sys))
     {
-        char *pos=fmt;
-        int rest=sizeof(fmt);
+        char *pos = fmt;
+        int rest = sizeof(fmt);
         float l1 = float(sys.loads[0]) / 65536.0,
               l5 = float(sys.loads[1]) / 65536.0,
               l15 = float(sys.loads[2]) / 65536.0;
@@ -311,16 +309,16 @@ void CPUStatus::updateToolTip() {
             ___checkspace;
         }
         if (cpustatusShowAcpiTemp) {
-            char *posEx=pos;
+            char *posEx = pos;
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
-            more=getAcpiTemp(pos, rest);
+            more = getAcpiTemp(pos, rest);
             if (more)
             {
               ___checkspace;
             }
             else
-               pos=posEx;
+               pos = posEx;
         }
         if (cpustatusShowCpuFreq) {
             float maxf = getCpuFreq(0), minf = maxf;

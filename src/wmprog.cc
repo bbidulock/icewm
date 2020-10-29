@@ -21,6 +21,10 @@
 #include <regex.h>
 #include "intl.h"
 
+#define utf8ellipsis "\xe2\x80\xa6"
+const unsigned utf32ellipsis = 0x2026;
+extern ref<YFont> menuFont;
+
 DObjectMenuItem::DObjectMenuItem(DObject *object):
     YMenuItem(object->getName(), -3, null, YAction(), nullptr)
 {
@@ -213,12 +217,12 @@ public:
         moveTarget(zdown);
     }
     virtual void reset() override {
-        zTarget=0;
+        zTarget = 0;
     }
     virtual void cancel() override {
     }
     virtual void accept(IClosablePopup *parent) override {
-        YMenuItem* item=menu->getItem(zTarget);
+        YMenuItem* item = menu->getItem(zTarget);
         if (!item) return;
         // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
         item->actionPerformed(nullptr, actionRun, 0);
@@ -388,7 +392,7 @@ void StartMenu::updatePopup() {
 
 FocusMenu::FocusMenu() {
     struct FocusModelNameAction {
-        FocusModels mode;
+        FocusModel mode;
         const char *name;
         YAction action;
     } foci[] = {
@@ -422,13 +426,20 @@ public:
     {
         YMenu *fo, *qs, *tb, *sh, *al, *mz, *ke, *ks, *kw, *sc, *st;
         YMenuItem *item;
+        bool useElps = menuFont != null && menuFont->supports(utf32ellipsis);
 
         addSubmenu("_Focus", -2, fo = new YMenu, "focus");
         addSubmenu("_QuickSwitch", -2, qs = new YMenu, "pref");
         addSubmenu("_TaskBar", -2, tb = new YMenu, "pref");
         addSubmenu("_Show", -2, sh = new YMenu, "pref");
-        addSubmenu("_A... - L...", -2, al = new YMenu, "pref");
-        addSubmenu("_M... - Z...", -2, mz = new YMenu, "pref");
+        addSubmenu(
+                useElps ?
+                        "_A" utf8ellipsis " - L" utf8ellipsis :
+                        "_A... - L...", -2, al = new YMenu, "pref");
+        addSubmenu(
+                useElps ?
+                        "_M" utf8ellipsis " - Z" utf8ellipsis :
+                        "_M... - Z...", -2, mz = new YMenu, "pref");
         addSubmenu("_KeyWin", -2, ke = new YMenu, "key");
         addSubmenu("K_eySys", -2, ks = new YMenu, "key");
         addSubmenu("KeySys_Workspace", -2, kw = new YMenu, "key");
@@ -470,14 +481,15 @@ public:
                 sc->addItem(o->name, -2, mstring(val), actionNull);
             }
             else if (o->type == cfoption::CF_STR) {
-                const char* str = o->str();
+                auto* str = o->str();
                 if (str) {
                     char val[40];
                     size_t len = strlcpy(val, str, sizeof val);
+                    auto elp = useElps ? utf8ellipsis : "...";
                     if (len >= sizeof val)
-                        strlcpy(val + sizeof val - 4, "...", 4);
-                    if ((str = strstr(val, "://")) != nullptr && strlen(str) > 6)
-                        strlcpy(val + (str - val) + 3, "...", 4);
+                        strlcpy(val + sizeof val - 4, elp, 4);
+                    if (!!(str = strstr(val, "://")) && strlen(str) > 6)
+                        strlcpy(val + (str - val) + 3, elp, 4);
                     st->addItem(o->name, -2, val, actionNull);
                 }
             }
@@ -508,6 +520,7 @@ public:
         for (int k = 0; ; ++k)
             if (icewm_preferences[k].type == cfoption::CF_NONE)
                 return k;
+        return 0;
     }
 
     static int sortPrefs(const void* p1, const void* p2) {

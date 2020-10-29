@@ -1,8 +1,7 @@
-#ifndef __WMAPP_H
-#define __WMAPP_H
+#ifndef WMAPP_H
+#define WMAPP_H
 
 #include "ysmapp.h"
-#include "ymenu.h"
 #include "ymsgbox.h"
 #include "guievent.h"
 
@@ -11,7 +10,7 @@ class AboutDlg;
 class CtrlAltDelete;
 class SwitchWindow;
 
-enum FocusModels {
+enum FocusModel {
     FocusCustom,
     FocusClick,
     FocusSloppy,
@@ -55,7 +54,7 @@ public:
     virtual void handleSignal(int sig);
     virtual bool handleIdle();
     virtual bool filterEvent(const XEvent &xev);
-    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned int modifiers = 0);
 
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual void handleSMAction(WMAction message);
@@ -69,10 +68,10 @@ public:
     virtual void smDie();
 #endif
 
-    void setFocusMode(FocusModels mode);
+    void setFocusMode(FocusModel mode);
     void initFocusMode();
     void initFocusCustom();
-    void loadFocusMode();
+    FocusModel loadFocusMode();
 
     virtual void restartClient(const char *path, char *const *args);
     virtual int runProgram(const char *path, const char *const *args);
@@ -103,7 +102,7 @@ public:
     bool hasSwitchWindow() const { return switchWindow != nullptr; }
     SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
-    FocusModels getFocusMode() const { return focusMode; }
+    FocusModel getFocusMode() const { return focusMode; }
     YMenu* getWindowMenu();
 
     void unregisterProtocols();
@@ -135,7 +134,7 @@ private:
     virtual int handleError(XErrorEvent *xev);
     void runRestart(const char *path, char *const *args);
 
-    FocusModels focusMode;
+    FocusModel focusMode;
     Window managerWindow;
     ref<YIcon> defaultAppIcon;
 

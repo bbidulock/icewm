@@ -14,7 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 92 commands to interact with the L<icewm(1)> window manager.
+B<icesh> provides 95 commands to interact with the L<icewm(1)> window manager.
 There are two types of commands:
 
 =over
@@ -323,19 +323,27 @@ Restore the window to normal.
 
 =item B<hide>
 
-Make window hidden.
+Hide the window.
 
 =item B<unhide>
 
-Undo window hidden.
+Reveal the window.
 
 =item B<skip>
 
-Don't show window on taskbar.
+Don't show the window on the taskbar.
 
 =item B<unskip>
 
-Do show window on taskbar.
+Do show the window on the taskbar.
+
+=item B<sticky>
+
+Show the window on all workspaces.
+
+=item B<unsticky>
+
+Show the window on only one workspace.
 
 =item B<resize> I<WIDTH> I<HEIGHT>
 
@@ -368,23 +376,23 @@ Displace window by I<X> I<Y> pixels.
 
 =item B<center>
 
-Position window in the center of the desktop work area.
+Position the window in the center of the desktop work area.
 
 =item B<left>
 
-Position window against the left side of the desktop work area.
+Position the window against the left side of the desktop work area.
 
 =item B<right>
 
-Position window against the right side of the desktop work area.
+Position the window against the right side of the desktop work area.
 
 =item B<top>
 
-Position window against the top side of the desktop work area.
+Position the window against the top side of the desktop work area.
 
 =item B<bottom>
 
-Position window against the bottom side of the desktop work area.
+Position the window against the bottom side of the desktop work area.
 
 =item B<setIconTitle> I<TITLE>
 
@@ -515,6 +523,14 @@ I<DECORATIONS> starts with a minus or plus sign then the existing value
 is modified, otherwise it is set to the new value. Note that if C<All>
 is set, then other set fields will be disabled and cleared fields will
 be enabled.
+
+=item B<borderless>
+
+Hide the frame borders and title.
+
+=item B<bordered>
+
+Show the frame borders and title.
 
 =item B<prop> I<PROPERTY>
 

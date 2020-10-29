@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2020-09-08]: #
+[icewm -- read me first file.  2020-09-17]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -159,29 +159,29 @@ translations.  If you have difficulties using the tools, just send me the update
 
 [1]: https://github.com/bbidulock/icewm
 [2]: https://github.com/bbidulock/icewm/issues
-[3]: https://github.com/ice-wm/icewm/blob/1.8.3/NEWS
-[4]: https://github.com/ice-wm/icewm/blob/1.8.3/ChangeLog
-[5]: https://github.com/ice-wm/icewm/blob/1.8.3/TODO
-[6]: https://github.com/ice-wm/icewm/blob/1.8.3/COMPLIANCE
-[7]: https://github.com/ice-wm/icewm/blob/1.8.3/INSTALL
-[8]: https://github.com/ice-wm/icewm/blob/1.8.3/BUGS
-[9]: https://github.com/ice-wm/icewm/blob/1.8.3/COPYING
+[3]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/NEWS
+[4]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/ChangeLog
+[5]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/TODO
+[6]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COMPLIANCE
+[7]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL
+[8]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/BUGS
+[9]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COPYING
 [10]: https://github.com/
 [11]: https://l10n.opensuse.org/
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
-[15]: https://github.com/ice-wm/icewm/blob/1.8.3/doc/icewm.adoc
+[15]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/doc/icewm.adoc
 [16]: https://github.com/bbidulock/bbkeys/
-[17]: https://github.com/ice-wm/icewm/blob/1.8.3/lib/icewm.desktop
-[18]: https://github.com/ice-wm/icewm/blob/1.8.3/lib/icewm-session.desktop
-[19]: https://github.com/ice-wm/icewm/blob/1.8.3/INSTALL-cmakebuild.md
+[17]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm.desktop
+[18]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/lib/icewm-session.desktop
+[19]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/INSTALL-cmakebuild.md
 [20]: https://github.com/bbidulock/xde-menu/
-[21]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icesound.pod
-[22]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icewmbg.pod
-[23]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icewmhint.pod
-[24]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icewm-menu-fdo.pod
-[26]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icewm.pod
-[27]: https://github.com/ice-wm/icewm/blob/1.8.3/man/icewm-session.pod
+[21]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icesound.pod
+[22]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmbg.pod
+[23]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmhint.pod
+[24]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-menu-fdo.pod
+[26]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm.pod
+[27]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-session.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #

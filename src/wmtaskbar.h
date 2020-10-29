@@ -35,10 +35,11 @@ public:
     EdgeTrigger(TaskBar *owner);
     virtual ~EdgeTrigger();
 
-    bool enabled() const;
-    void show();
-    void startHide();
-    void stopHide();
+    static bool enabled();
+    void show(bool enable);
+    enum HideOrShow { Hide, Show };
+    void startTimer(HideOrShow = Hide);
+    void stopTimer();
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
@@ -48,7 +49,7 @@ public:
 private:
     TaskBar *fTaskBar;
     lazy<YTimer> fAutoHideTimer;
-    bool fDoShow;
+    HideOrShow fHideOrShow;
 };
 
 class TaskBar:
@@ -113,7 +114,7 @@ public:
 
     void detachDesktopTray();
 
-    bool hidden() const { return fIsCollapsed | fIsHidden | !fIsMapped; }
+    bool hidden() const { return fIsCollapsed | fIsHidden | !getFrame(); }
     bool autoTimer(bool show);
     void updateFullscreen(bool fullscreen);
     Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
@@ -137,6 +138,9 @@ private:
     void buttonUpdate();
     void trayChanged();
     YXTray *netwmTray() { return fDesktopTray; }
+
+    void initApplets();
+    void updateLayout(unsigned& size_w, unsigned& size_h);
 
 private:
     YSurface fSurface;
@@ -171,17 +175,10 @@ private:
     bool fIsHidden;
     bool fFullscreen;
     bool fIsCollapsed;
-    bool fIsMapped;
     bool fMenuShown;
     bool fNeedRelayout;
     bool fButtonUpdate;
-
-
-    friend class WindowList;
-    friend class WindowListBox;
-
-    void initApplets();
-    void updateLayout(unsigned &size_w, unsigned &size_h);
+    bool fWorkspacesUpdate;
 
     class YStrut {
     public:

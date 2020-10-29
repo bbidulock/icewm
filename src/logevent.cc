@@ -103,12 +103,12 @@ void logColormap(const XColormapEvent& xev) {
     tlog("window=0x%lX: colormapNotify colormap=%ld new=%s state=%d",
         xev.window,
         xev.colormap,
-        xev.c_new ? "True" : "False",
+        boolStr(xev.c_new),
         xev.state);
 }
 
 void logConfigureNotify(const XConfigureEvent& xev) {
-    tlog("window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border_width=%d, above=0x%lX, override_redirect=%s",
+    tlog("window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border=%d, above=0x%lX, override=%s",
         xev.window,
         (unsigned long) xev.serial,
         xev.event,
@@ -116,7 +116,7 @@ void logConfigureNotify(const XConfigureEvent& xev) {
         xev.width, xev.height,
         xev.border_width,
         xev.above,
-        xev.override_redirect ? "True" : "False");
+        boolStr(xev.override_redirect));
 }
 
 void logConfigureRequest(const XConfigureRequestEvent& xev) {
@@ -149,14 +149,14 @@ void logConfigureRequest(const XConfigureRequestEvent& xev) {
 }
 
 void logCreate(const XCreateWindowEvent& xev) {
-    tlog("window=0x%lX: create serial=%lu parent=0x%lX, (%+d%+d %dx%d) border_width=%d, override_redirect=%s",
+    tlog("window=0x%lX: create serial=%lu parent=0x%lX, (%+d%+d %dx%d) border=%d, override=%s",
         xev.window,
         (unsigned long) xev.serial,
         xev.parent,
         xev.x, xev.y,
         xev.width, xev.height,
         xev.border_width,
-        xev.override_redirect ? "True" : "False");
+        boolStr(xev.override_redirect));
 }
 
 void logCrossing(const XCrossingEvent& xev) {
@@ -182,8 +182,8 @@ void logCrossing(const XCrossingEvent& xev) {
         xev.detail == NotifyPointer ? "Pointer" :
         xev.detail == NotifyPointerRoot ? "PointerRoot" :
         xev.detail == NotifyDetailNone ? "DetailNone" : "Unknown",
-        xev.same_screen ? "True" : "False",
-        xev.focus ? "True" : "False",
+        boolStr(xev.same_screen),
+        boolStr(xev.focus),
         xev.state);
 }
 
@@ -237,7 +237,7 @@ void logKey(const XKeyEvent& xev) {
         xev.x_root, xev.y_root,
         xev.state,
         xev.keycode,
-        xev.same_screen ? "True" : "False");
+        boolStr(xev.same_screen));
 }
 
 void logMapRequest(const XMapRequestEvent& xev) {
@@ -248,20 +248,21 @@ void logMapRequest(const XMapRequestEvent& xev) {
 }
 
 void logMapNotify(const XMapEvent& xev) {
-    tlog("window=0x%lX: mapNotify serial=%lu event=0x%lX, override_redirect=%s",
+    tlog("window=0x%lX: mapNotify serial=%lu event=0x%lX, override=%s send=%s",
         xev.window,
         (unsigned long) xev.serial,
         xev.event,
-        xev.override_redirect ? "True" : "False");
+        boolStr(xev.override_redirect),
+        boolStr(xev.send_event));
 }
 
 void logUnmap(const XUnmapEvent& xev) {
-    tlog("window=0x%lX: unmapNotify serial=%lu event=0x%lX, from_configure=%s send_event=%s",
+    tlog("window=0x%lX: unmapNotify serial=%lu event=0x%lX, from_configure=%s send=%s",
         xev.window,
         (unsigned long) xev.serial,
         xev.event,
-        xev.from_configure ? "True" : "False",
-        xev.send_event ? "True" : "False");
+        boolStr(xev.from_configure),
+        boolStr(xev.send_event));
 }
 
 void logMotion(const XMotionEvent& xev) {
@@ -276,7 +277,7 @@ void logMotion(const XMotionEvent& xev) {
         xev.x_root, xev.y_root,
         xev.state,
         xev.is_hint == NotifyHint ? "NotifyHint" : "",
-        xev.same_screen ? "True" : "False");
+        boolStr(xev.same_screen));
 }
 
 void logProperty(const XPropertyEvent& xev) {
@@ -289,13 +290,13 @@ void logProperty(const XPropertyEvent& xev) {
 }
 
 void logReparent(const XReparentEvent& xev) {
-    tlog("window=0x%lX: reparentNotify serial=%lu event=0x%lX, parent=0x%lX, (%d:%d), override_redirect=%s",
+    tlog("window=0x%lX: reparentNotify serial=%lu event=0x%lX, parent=0x%lX, (%d:%d), override=%s",
         xev.window,
         (unsigned long) xev.serial,
         xev.event,
         xev.parent,
         xev.x, xev.y,
-        xev.override_redirect ? "True" : "False");
+        boolStr(xev.override_redirect));
 }
 
 void logVisibility(const XVisibilityEvent& xev) {
@@ -474,8 +475,8 @@ bool initLogEvents() {
         setLogEvent(ButtonPress, true);
         setLogEvent(ButtonRelease, true);
         // setLogEvent(MotionNotify, true);
-        setLogEvent(EnterNotify, true);
-        setLogEvent(LeaveNotify, true);
+        // setLogEvent(EnterNotify, true);
+        // setLogEvent(LeaveNotify, true);
         // setLogEvent(FocusIn, true);
         // setLogEvent(FocusOut, true);
         // setLogEvent(KeymapNotify, true);
@@ -521,7 +522,7 @@ void logClientMessage(const XClientMessageEvent& event) {
     const char* name = atomName(event.message_type);
     const long* data = event.data.l;
     char head[64];
-    snprintf(head, sizeof head, "window=0x%lx: ", event.window);
+    snprintf(head, sizeof head, "window=0x%lX: ", event.window);
     if (strcmp(name, "_NET_WM_STATE") == 0) {
         const char* op =
             data[0] == 0 ? "REMOVE" :
@@ -532,7 +533,7 @@ void logClientMessage(const XClientMessageEvent& event) {
         tlog("%sClientMessage %s %d data=%s,%s,%s\n",
                 head, name, event.format, op, p1, p2);
     }
-    else if (strcmp(name, "_WM_CHANGE_STATE") == 0) {
+    else if (strcmp(name, "WM_CHANGE_STATE") == 0) {
         const char* op =
             data[0] == 0 ? "WithdrawnState" :
             data[0] == 1 ? "NormalState" :
@@ -540,7 +541,7 @@ void logClientMessage(const XClientMessageEvent& event) {
         tlog("%sClientMessage %s %s\n", head, name, op);
     }
     else {
-        tlog("%sClientMessage %s fmt=%d data=%ld,0x%lx,0x%lx",
+        tlog("%sClientMessage %s fmt=%d data=%ld,0x%lX,0x%lX",
             head, name, event.format, data[0], data[1], data[2]);
     }
 }

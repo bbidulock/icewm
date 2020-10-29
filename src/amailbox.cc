@@ -297,7 +297,7 @@ void MailCheck::startCheck() {
             if (fTrace) tlog("(%d) starting SSL", fInst);
             startSSL();
         }
-        else if (sk.connect(fAddr->ai_addr, fAddr->ai_addrlen) == 0) {
+        else if (fAddr && sk.connect(fAddr->ai_addr, fAddr->ai_addrlen) == 0) {
             if (fTrace) tlog("(%d) connected non-SSL", fInst);
             setState(CONNECTING);
             got = 0;
@@ -305,7 +305,8 @@ void MailCheck::startCheck() {
             int e = errno;
             snprintf(bf, sizeof bf,
                      _("Could not connect to %s: %s"),
-                     fURL.host.c_str(), strerror(e));
+                     fURL.host.c_str(),
+                     fAddr ? strerror(e) : gai_strerror(EAI_NONAME));
             if (fTrace || testOnce(fURL.host, fPort))
                 warn("%s", bf);
             error(bf);

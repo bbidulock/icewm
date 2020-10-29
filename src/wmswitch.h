@@ -56,7 +56,7 @@ public:
 class SwitchWindow: public YPopupWindow, IClosablePopup {
 public:
     SwitchWindow(YWindow *parent = nullptr,
-                 ISwitchItems *items = nullptr, bool verticalStyle=true);
+                 ISwitchItems *items = nullptr, bool verticalStyle = true);
     virtual ~SwitchWindow();
 
     virtual void paint(Graphics &g, const YRect &r) override;

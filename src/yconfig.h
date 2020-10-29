@@ -27,8 +27,10 @@
 #define XIV(t,a,b) extern t a;
 #endif
 
-#ifndef __YCONFIG_H__
-#define __YCONFIG_H__
+#ifndef YCONFIG_H
+#define YCONFIG_H
+
+#include <X11/X.h>
 
 #ifdef CONFIG_XFREETYPE
 #define FONT(pt) "-*-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -74,21 +76,22 @@ struct WMKey {
 #define DESC(d) ((const char *) 0)
 #endif
 
-#define OBV(n,v,d)     cfoption(n, v, DESC(d))
-#define OIV(n,v,m,M,d) cfoption(n, v, m, M, DESC(d))
-#define OUV(n,v,m,M,d) cfoption(n, v, m, M, DESC(d))
-#define OSV(n,v,d)     cfoption(n, v, DESC(d))
-#define OFV(n,v,d)     cfoption(n, v, DESC(d)), \
-                       cfoption(n "Xft", v##Xft, DESC(d))
-#define OKV(n,v,d)     cfoption(n, &v, DESC(d))
-#define OKF(n,f,d)     cfoption(n, f, DESC(d))
+#define OBV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d))
+#define OIV(n,v,m,M,d) cfoption(n, sizeof(n), v, m, M, DESC(d))
+#define OUV(n,v,m,M,d) cfoption(n, sizeof(n), v, m, M, DESC(d))
+#define OSV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d))
+#define OFV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d)), \
+                       cfoption(n "Xft", sizeof(n "Xft"), v##Xft, DESC(d))
+#define OKV(n,v,d)     cfoption(n, sizeof(n), &v, DESC(d))
+#define OKF(n,f,d)     cfoption(n, sizeof(n), f, DESC(d))
 #define OK0()          cfoption()
 
 struct cfoption {
     typedef void (*notifyfun)(const char* name, const char* value, bool append);
-    enum {
+    enum OptionType {
         CF_NONE, CF_BOOL, CF_INT, CF_UINT, CF_STR, CF_KEY, CF_FUNC,
     } type;
+    unsigned size;
     const char *name;
     const char *description;
     union {
@@ -100,36 +103,36 @@ struct cfoption {
         struct { notifyfun notify; } f;
     } v;
 
-    cfoption(const char* n, bool* b, const char* d)
-        : type(CF_BOOL), name(n), description(d) {
+    cfoption(const char* n, size_t z, bool* b, const char* d)
+        : type(CF_BOOL), size(z), name(n), description(d) {
         v.b.bool_value = b;
     }
-    cfoption(const char* n, int* i, int m, int M, const char* d)
-        : type(CF_INT), name(n), description(d) {
+    cfoption(const char* n, size_t z, int* i, int m, int M, const char* d)
+        : type(CF_INT), size(z), name(n), description(d) {
         v.i.int_value = i;
         v.i.min = m;
         v.i.max = M;
     }
-    cfoption(const char* n, unsigned* u, unsigned m, unsigned M, const char* d)
-        : type(CF_UINT), name(n), description(d) {
+    cfoption(const char* n, size_t z, unsigned* u, unsigned m, unsigned M, const char* d)
+        : type(CF_UINT), size(z), name(n), description(d) {
         v.u.uint_value = u;
         v.u.min = m;
         v.u.max = M;
     }
-    cfoption(const char* n, const char** s, const char* d)
-        : type(CF_STR), name(n), description(d) {
+    cfoption(const char* n, size_t z, const char** s, const char* d)
+        : type(CF_STR), size(z), name(n), description(d) {
         v.s.string_value = s;
         v.s.initial = true;
     }
-    cfoption(const char* n, WMKey* k, const char* d)
-        : type(CF_KEY), name(n), description(d) {
+    cfoption(const char* n, size_t z, WMKey* k, const char* d)
+        : type(CF_KEY), size(z), name(n), description(d) {
         v.k.key_value = k;
     }
-    cfoption(const char* n, notifyfun f, const char* d)
-        : type(CF_FUNC), name(n), description(d) {
+    cfoption(const char* n, size_t z, notifyfun f, const char* d)
+        : type(CF_FUNC), size(z), name(n), description(d) {
         v.f.notify = f;
     }
-    cfoption() : type(CF_NONE), name(nullptr), description(nullptr) { }
+    cfoption() : type(CF_NONE), size(0), name(nullptr), description(nullptr) { }
     bool boolval() { return *v.b.bool_value; }
     int intval() { return *v.i.int_value; }
     unsigned uintval() { return *v.u.uint_value; }
@@ -139,19 +142,33 @@ struct cfoption {
 };
 
 class Argument;
-class IApp;
 class upath;
 
 class YConfig {
+    cfoption* options;
+    bool success;
 public:
-    static bool loadConfigFile(cfoption *options, upath fileName);
-    static void freeConfig(cfoption *options);
-    static char *getArgument(Argument *dest, char *p, bool comma = false);
-    static bool findLoadConfigFile(IApp *app, cfoption *options, upath name);
-    static bool findLoadThemeFile(IApp *app, cfoption *options, upath name);
-    static void parseConfiguration(cfoption *options, char *data);
-    static bool parseKey(const char *arg, KeySym *key, unsigned int *mod);
+    YConfig(cfoption* options) : options(options), success(false) { }
+    YConfig& load(const char* file);
+    YConfig& loadTheme();
+    YConfig& loadOverride();
+    operator bool() const { return success; }
+
+    static void freeConfig(cfoption* options);
+    static char* getArgument(Argument* dest, char* p, bool comma = false);
+    static bool loadConfigFile(cfoption* options, upath fileName,
+                               cfoption* more = nullptr);
+    static bool findLoadConfigFile(cfoption* options, const char* name);
+    static bool findLoadThemeFile(cfoption* options);
+    static bool parseKey(const char* arg, KeySym* key, unsigned int* mod);
     static size_t cfoptionSize();
+
+private:
+    cfoption* findOption(char* name, size_t length);
+    static void setOption(char* arg, bool append, cfoption* opt);
+    char* parseOption(char* str);
+    void parseConfiguration(char* data);
+    static char* skipLine(char* p);
 };
 
 #endif
