@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
-"PO-Revision-Date: 2020-07-29 20:49+0000\n"
+"POT-Creation-Date: 2020-10-29 18:49+0100\n"
+"PO-Revision-Date: 2020-09-23 19:48+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/sk/>\n"
@@ -51,11 +51,11 @@ msgstr "HODINY"
 msgid "Date"
 msgstr "Dátum"
 
-#: src/aclock.cc:179 src/themes.cc:78
+#: src/aclock.cc:179 src/themes.cc:81
 msgid "Default"
 msgstr "Predvolené"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Zakázať"
@@ -64,12 +64,12 @@ msgstr "_Zakázať"
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:298
+#: src/acpustatus.cc:296
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s Záťaž: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:302
 #, c-format
 msgid ""
 "\n"
@@ -78,7 +78,7 @@ msgstr ""
 "\n"
 "Ram (voľné): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:309
+#: src/acpustatus.cc:307
 #, c-format
 msgid ""
 "\n"
@@ -87,7 +87,7 @@ msgstr ""
 "\n"
 "Swap (voľné): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:315
+#: src/acpustatus.cc:313
 #, c-format
 msgid ""
 "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\n"
 "ACPI Teplot: "
 
-#: src/acpustatus.cc:334 src/acpustatus.cc:374
+#: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
 msgid ""
 "\n"
@@ -105,15 +105,15 @@ msgstr ""
 "\n"
 "CPU Frek: %.3fGHz"
 
-#: src/acpustatus.cc:351 src/acpustatus.cc:658
+#: src/acpustatus.cc:349 src/acpustatus.cc:656
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:351
+#: src/acpustatus.cc:349
 msgid "Load: "
 msgstr "Zaťaženie: "
 
-#: src/acpustatus.cc:366
+#: src/acpustatus.cc:364
 #, c-format
 msgid ""
 "\n"
@@ -124,20 +124,20 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:432
+#: src/acpustatus.cc:430
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:659
+#: src/acpustatus.cc:657
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:663
 msgid "_Combine"
 msgstr "_Kombinovať"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:665
 msgid "_Separate"
 msgstr "_Oddeliť"
 
@@ -166,63 +166,63 @@ msgstr "Neplatný port mailboxu: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "Nebolo možné pripojiť sa na %s: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr "Zlyhalo hľadanie príkazu %s"
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Zlyhalo vykonanie %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr "Zápis na soket zlyhal: %s"
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "Používam MailBox: \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr "Pozastavené"
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "Chyba overenia stavu mailboxu."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld poštová správa, %ld neprečítaná."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld poštových správ, %ld neprečítaných."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld poštová správa."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld poštových správ."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr "MAIL"
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr "_Skontrolovať"
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr "_Pozastaviť"
 
@@ -266,7 +266,7 @@ msgstr "Používateľ: "
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -281,7 +281,7 @@ msgstr ""
 "  Prenesené (dnu/von):\t%lli %s/%lli %s\n"
 "  Celková doba pripojenia:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -289,7 +289,7 @@ msgstr ""
 "\n"
 "  Id volajúceho:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr "NET"
 
@@ -297,122 +297,122 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "Pracovná plocha: "
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1218
 msgid "Back"
 msgstr "Späť"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1218
 msgid "Alt+Left"
 msgstr "Alt+Vľavo"
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1220
 msgid "Forward"
 msgstr "Dopredu"
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1220
 msgid "Alt+Right"
 msgstr "Alt+Vpravo"
 
-#: src/icehelp.cc:1225
+#: src/icehelp.cc:1223
 msgid "Previous"
 msgstr "Predchádzajúce"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1224
 msgid "Next"
 msgstr "Nasledujúce"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1226
 msgid "Contents"
 msgstr "Obsah"
 
-#: src/icehelp.cc:1229
+#: src/icehelp.cc:1227
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Zavrieť"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1237
+#: src/icehelp.cc:1235
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1239
+#: src/icehelp.cc:1237
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1241
+#: src/icehelp.cc:1239
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1241
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1243
 msgid "Manual"
 msgstr "Ručne"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1245
 msgid "Support"
 msgstr "Podpora"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1247
 msgid "Theme Howto"
 msgstr "Howto témy"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1249
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1251
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1956
+#: src/icehelp.cc:1954
 msgid "Unsupported protocol."
 msgstr "Nepodporovaný protokol."
 
-#: src/icehelp.cc:1981
+#: src/icehelp.cc:1979
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Neplatná cesta: %s\n"
 
-#: src/icehelp.cc:2004
+#: src/icehelp.cc:2002
 msgid "Path does not refer to a file."
 msgstr "Cesta neodkazuje na súbor."
 
-#: src/icehelp.cc:2009
+#: src/icehelp.cc:2007
 msgid "Failed to open file for reading."
 msgstr "Zlyhalo otvorenie súboru na čítanie."
 
-#: src/icehelp.cc:2038
+#: src/icehelp.cc:2036
 msgid "Failed to create a temporary file"
 msgstr "Zlyhalo vytvorenie dočasného súboru"
 
-#: src/icehelp.cc:2131
+#: src/icehelp.cc:2129
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Zlyhalo vykonanie system(%s) (%d)"
 
-#: src/icehelp.cc:2154
+#: src/icehelp.cc:2152
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Zlyhalo rozbalenie %s"
 
-#: src/icehelp.cc:2162
+#: src/icehelp.cc:2160
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nebolo možné nájsť curl alebo wget v PATH"
 
-#: src/icehelp.cc:2166
+#: src/icehelp.cc:2164
 msgid "Unsafe characters in URL"
 msgstr "Nebezpečné znaky v URL"
 
-#: src/icehelp.cc:2203
+#: src/icehelp.cc:2201
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -484,7 +484,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2282
+#: src/icehelp.cc:2280
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorovanie voľby '%s'"
@@ -529,124 +529,124 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Rovnaká hra"
 
-#: src/icesh.cc:74
+#: src/icesh.cc:75
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pomoc nájdete na manuálovej stránke cesh(1).\n"
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1575
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pomenované znaky domény `%s' (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1723
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovná plocha je mimo rozsah: %ld"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1744
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatný názov plochy: `%s'"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2021
 msgid "GNOME window state"
 msgstr "GNOME stav okna"
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2022
 msgid "GNOME window hint"
 msgstr "GNOME tip okna"
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2023
 msgid "GNOME window layer"
 msgstr "GNOME vrstva okna"
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2024
 msgid "IceWM tray option"
 msgstr "IceWM nastavenia lišty"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2025
 msgid "Gravity symbols"
 msgstr "Gravitačné symboly"
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2026
 msgid "Motif functions"
 msgstr "Funkcie Motif"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2027
 msgid "Motif decorations"
 msgstr "Dekorácie Motif"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2028
 msgid "EWMH window state"
 msgstr "EWMH stav okna"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2110 src/icesh.cc:2183
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovná plocha #%d: `%s'\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2425 src/icesh.cc:3639 src/icesh.cc:3653 src/icesh.cc:4124
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Neplatný stav: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3292
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Nie je možné získať geometriu okna 0x%lx"
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3317
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Neplatná Xinerama: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3367
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akcia `%s' vyžaduje najmenej %d argumentov."
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3377
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
-#: src/yxapp.cc:1047
+#: src/icesh.cc:3388 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1110
+#: src/yxapp.cc:1048
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Neide otvoriť displej: %s. Server X musí byť spustený a premenná $DISPLAY "
 "nastavená."
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3401
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Neplatná hodnota: `%s'"
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3436
 msgid "No windows found."
 msgstr "Neboli nájdené žiadne okná."
 
-#: src/icesh.cc:3296
+#: src/icesh.cc:3451
 msgid "No actions specified."
 msgstr "Nebola zadaná žiadna akcia."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3556
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označenie okna: `%s'"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3573
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Neplatné PID: `%s'"
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3609
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Neplatná vrstva: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4427
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznáma akcia: `%s'"
@@ -686,27 +686,44 @@ msgstr ""
 "  -n, --notray        Nespustí icewmtray.\n"
 "  -s, --sound         Tiež spustí icesound.\n"
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+"\n"
+"Ladiace voľby:\n"
+"  -v, --valgrind      Umožní \"/usr/bin/valgrind\" spustiť icewm.\n"
+"                      Dôkladne skúma vykonávanie icewm.\n"
+"  -g, --catchsegv     Umožní \"/usr/bin/catchsegv\" spustiť icewm.\n"
+"                      Poskytuje zoznam volaní, ak icewm spôsobuje chyba "
+"pamäťovej ochrany.\n"
+
+#: src/icesm.cc:188
 #, c-format
 msgid "Unknown option '%s'"
 msgstr "Neznáma voľba '%s'"
 
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
 msgid "restart %s."
 msgstr "reštartovať %s."
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s skončilo so stavom %d."
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s bolo zabité signálom %d."
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -722,78 +739,78 @@ msgstr ""
 "\t2: Prerušiť toto sedenie?\n"
 "\t3: Spustiť terminál?\n"
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 msgid "IceWM crash response"
 msgstr "Odpoveď spadnutia IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:210 src/icesound.cc:318 src/icesound.cc:478
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Hrám vzorku #%d (%s)"
 
-#: src/icesound.cc:334
+#: src/icesound.cc:328
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Neplatný počet kanálov"
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:334 src/icesound.cc:339
 msgid "Could not set OSS channels"
 msgstr "Nebolo možné nastaviť OSS kanály"
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:344 src/icesound.cc:372
 msgid "Could not sync OSS"
 msgstr "Nebolo možné synchronizovať OSS"
 
-#: src/icesound.cc:362
+#: src/icesound.cc:356
 msgid "OSS write failed"
 msgstr "Zápis OSS zlyhal"
 
-#: src/icesound.cc:366
+#: src/icesound.cc:360
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "Neúplný zápis OSS (%d/%d)"
 
-#: src/icesound.cc:373
+#: src/icesound.cc:367
 msgid "Could not post OSS"
 msgstr "Nebolo možné odoslať OSS"
 
-#: src/icesound.cc:402
+#: src/icesound.cc:396
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Nebolo možné otvoriť zariadenie OSS %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:401
 msgid "Could not set OSS stereo"
 msgstr "Nebolo možné nastaviť OSS stereo"
 
-#: src/icesound.cc:412
+#: src/icesound.cc:406
 msgid "Could not reset OSS DSP"
 msgstr "Nebolo možné resetovať OSS DSP"
 
-#: src/icesound.cc:417
+#: src/icesound.cc:411
 msgid "Could not set OSS format"
 msgstr "Nebolo možné nastaviť formát OSS"
 
-#: src/icesound.cc:504
+#: src/icesound.cc:498
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live zlyhalo s %d"
 
-#: src/icesound.cc:515
+#: src/icesound.cc:509
 msgid "ao_play failed"
 msgstr "ao_play zlyhalo"
 
-#: src/icesound.cc:681
+#: src/icesound.cc:675
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Nerozpoznaná voľba: %s\n"
 
-#: src/icesound.cc:684 src/icesound.cc:977
+#: src/icesound.cc:678 src/icesound.cc:971
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Nerozpoznaný parameter: %s\n"
 
-#: src/icesound.cc:693
+#: src/icesound.cc:687
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -899,56 +916,56 @@ msgstr ""
 "3     Chyba podsystému (t,j. nie je možné sa pripojiť na server).\n"
 "\n"
 
-#: src/icesound.cc:784
+#: src/icesound.cc:778
 #, c-format
 msgid "No audio for %s"
 msgstr "Žiadne audio pre %s"
 
-#: src/icesound.cc:861
+#: src/icesound.cc:855
 msgid "Could not get GUI event property"
 msgstr "Nebolo možné správne získať GUI udalosť"
 
-#: src/icesound.cc:865
+#: src/icesound.cc:859
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Prijatá neplatná GUI udalosť %d"
 
-#: src/icesound.cc:869
+#: src/icesound.cc:863
 #, c-format
 msgid "Received GUI event %s"
 msgstr "Prijatá GUI udalosť %s"
 
-#: src/icesound.cc:883
+#: src/icesound.cc:877
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Príliš rýchlo; ignorovanie %s."
 
-#: src/icesound.cc:887
+#: src/icesound.cc:881
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "Podpora rozhrania %s nebola skompilovaná."
 
-#: src/icesound.cc:920
+#: src/icesound.cc:914
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Nepodporované rozhranie: %s."
 
-#: src/icesound.cc:929
+#: src/icesound.cc:923
 #, c-format
 msgid "Using %s audio."
 msgstr "Použitie %s audio."
 
-#: src/icesound.cc:933
+#: src/icesound.cc:927
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Zlyhalo pripojenie k audio rozhraniam %s."
 
-#: src/icesound.cc:945
+#: src/icesound.cc:939
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Prijatý signál %s: Ukončenie..."
 
-#: src/icetray.cc:231
+#: src/icetray.cc:220
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -1091,7 +1108,7 @@ msgstr ""
 " center:0 scaled:1 = vyplní oba rozmery a zachová pomer strán\n"
 "\n"
 
-#: src/icewmbg.cc:1096
+#: src/icewmbg.cc:1086
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Nebolo možné spustiť, pretože iný icewmbg stále beží."
 
@@ -1104,11 +1121,11 @@ msgstr "Použitie: icewmhint trieda.inštancia voľba argument\n"
 msgid "Out of memory (len=%d)."
 msgstr "Nedostatok pamäti (veľkosť=%d)."
 
-#: src/misc.cc:73 src/misc.cc:85
+#: src/misc.cc:70 src/misc.cc:82
 msgid "Warning: "
 msgstr "Upozornenie: "
 
-#: src/misc.cc:379
+#: src/misc.cc:376
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1127,7 +1144,7 @@ msgstr ""
 "  -h, --help          Vypíše túto obrazovku o použití a skončí.\n"
 "\n"
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Neznámy smer pri požiadavke posun/zmena veľkosti: %d"
@@ -1160,170 +1177,170 @@ msgstr "Jazyk:"
 msgid "icewm - About"
 msgstr "icewm - O Aplikácii"
 
-#: src/wmapp.cc:79
+#: src/wmapp.cc:78
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "Už je spustený správca okien, ak ho chcete nahradiť, použite --replace"
 
-#: src/wmapp.cc:97
+#: src/wmapp.cc:96
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "Nepodarilo sa stať sa vlastníkom výberu %s"
 
-#: src/wmapp.cc:101
+#: src/wmapp.cc:100
 msgid "Waiting to replace the old window manager"
 msgstr "Čakanie sa nahradenie starého správcu okien"
 
-#: src/wmapp.cc:106
+#: src/wmapp.cc:105
 msgid "done."
 msgstr "hotovo."
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:417
 msgid "_Logout"
 msgstr "Odh_lásenie"
 
-#: src/wmapp.cc:419
+#: src/wmapp.cc:418
 msgid "_Cancel logout"
 msgstr "_Zrušiť odhlásenie"
 
-#: src/wmapp.cc:424
+#: src/wmapp.cc:423
 msgid "Lock _Workstation"
 msgstr "Uzamknúť pracovnú _stanicu"
 
-#: src/wmapp.cc:426 src/wmdialog.cc:72
+#: src/wmapp.cc:425 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Reštar_tovať"
 
 #
-#: src/wmapp.cc:428 src/wmdialog.cc:73
+#: src/wmapp.cc:427 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "_Vypnúť počítač"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:430 src/wmdialog.cc:69
+#: src/wmapp.cc:429 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "_Režim spánku"
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:434
 msgid "Restart _Icewm"
 msgstr "Reštartovať _Icewm"
 
-#: src/wmapp.cc:437
+#: src/wmapp.cc:436
 msgid "Restart _Xterm"
 msgstr "Reštartovať _Xterm"
 
-#: src/wmapp.cc:447
+#: src/wmapp.cc:446
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:448
+#: src/wmapp.cc:447
 msgid "_Above Dock"
 msgstr "_Nad dok"
 
-#: src/wmapp.cc:449
+#: src/wmapp.cc:448
 msgid "_Dock"
 msgstr "_Dok"
 
-#: src/wmapp.cc:450
+#: src/wmapp.cc:449
 msgid "_OnTop"
 msgstr "H_ore"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:450
 msgid "_Normal"
 msgstr "_Normálne"
 
-#: src/wmapp.cc:452
+#: src/wmapp.cc:451
 msgid "_Below"
 msgstr "_Dole"
 
-#: src/wmapp.cc:453
+#: src/wmapp.cc:452
 msgid "D_esktop"
 msgstr "_Plocha"
 
-#: src/wmapp.cc:488 src/wmwinlist.cc:359
+#: src/wmapp.cc:487 src/wmwinlist.cc:361
 msgid "_Restore"
 msgstr "O_bnoviť"
 
-#: src/wmapp.cc:490
+#: src/wmapp.cc:489
 msgid "_Move"
 msgstr "_Presunúť"
 
-#: src/wmapp.cc:492
+#: src/wmapp.cc:491
 msgid "_Size"
 msgstr "_Veľkosť"
 
-#: src/wmapp.cc:494 src/wmwinlist.cc:360
+#: src/wmapp.cc:493 src/wmwinlist.cc:362
 msgid "Mi_nimize"
 msgstr "_Minimalizovať"
 
-#: src/wmapp.cc:496 src/wmwinlist.cc:361
+#: src/wmapp.cc:495 src/wmwinlist.cc:363
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovať"
 
-#: src/wmapp.cc:497 src/wmwinlist.cc:362
+#: src/wmapp.cc:496 src/wmwinlist.cc:364
 msgid "Maximize_Vert"
 msgstr "Maximalizovať_Vert"
 
-#: src/wmapp.cc:498 src/wmwinlist.cc:363
+#: src/wmapp.cc:497 src/wmwinlist.cc:365
 msgid "MaximizeHori_z"
 msgstr "MaximalizovaťHori_z"
 
-#: src/wmapp.cc:501 src/wmwinlist.cc:364
+#: src/wmapp.cc:500 src/wmwinlist.cc:366
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: src/wmapp.cc:504 src/wmwinlist.cc:366
+#: src/wmapp.cc:503 src/wmwinlist.cc:368
 msgid "_Hide"
 msgstr "_Schovať"
 
-#: src/wmapp.cc:506 src/wmwinlist.cc:367
+#: src/wmapp.cc:505 src/wmwinlist.cc:369
 msgid "Roll_up"
 msgstr "Zrol_ovať"
 
-#: src/wmapp.cc:513
+#: src/wmapp.cc:512
 msgid "R_aise"
 msgstr "Zvýš_iť"
 
-#: src/wmapp.cc:515 src/wmwinlist.cc:369
+#: src/wmapp.cc:514 src/wmwinlist.cc:371
 msgid "_Lower"
 msgstr "_Znížiť"
 
-#: src/wmapp.cc:517 src/wmwinlist.cc:370
+#: src/wmapp.cc:516 src/wmwinlist.cc:372
 msgid "La_yer"
 msgstr "Vrs_tva"
 
-#: src/wmapp.cc:521 src/wmwinlist.cc:372
+#: src/wmapp.cc:520 src/wmwinlist.cc:374
 msgid "Move _To"
 msgstr "_Presunúť na"
 
-#: src/wmapp.cc:522 src/wmwinlist.cc:373
+#: src/wmapp.cc:521 src/wmwinlist.cc:375
 msgid "Occupy _All"
 msgstr "N_a všetky plochy"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:527
 msgid "Limit _Workarea"
 msgstr "Obmedziť pracovnú ob_lasť"
 
-#: src/wmapp.cc:532 src/wmwinlist.cc:374
+#: src/wmapp.cc:531 src/wmwinlist.cc:376
 msgid "Tray _icon"
 msgstr "Dokuj _ikonu"
 
-#: src/wmapp.cc:537 src/wmwinlist.cc:389 src/wmwinlist.cc:397
+#: src/wmapp.cc:536 src/wmwinlist.cc:391 src/wmwinlist.cc:399
 msgid "_Close"
 msgstr "_Zavrieť"
 
-#: src/wmapp.cc:539 src/wmwinlist.cc:391
+#: src/wmapp.cc:538 src/wmwinlist.cc:393
 msgid "_Kill Client"
 msgstr "Zabiť _klienta"
 
-#: src/wmapp.cc:542 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:541 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "Zoznam _okien"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:574
 msgid "Another window manager already running, exiting..."
 msgstr "Iný window manažér beží, končím..."
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:646
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1332,22 +1349,22 @@ msgstr ""
 "Nemôžem reštartovať: %s\n"
 "Vedie $PATH k %s?"
 
-#: src/wmapp.cc:816
+#: src/wmapp.cc:815
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabiť IceWM, nahradiť s Xterm"
 
-#: src/wmapp.cc:1119 src/yxapp.cc:1048
+#: src/wmapp.cc:1111 src/yxapp.cc:1049
 msgid "<none>"
 msgstr "<žiadny>"
 
-#: src/wmapp.cc:1458
+#: src/wmapp.cc:1436
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      ID klienta, ktoré bude použité pri kontaktovaní "
 "správcu sedenia.\n"
 
-#: src/wmapp.cc:1464
+#: src/wmapp.cc:1442
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1357,7 +1374,7 @@ msgstr ""
 "  --debug             Vypíše všeobecné ladiace správy.\n"
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
-#: src/wmapp.cc:1472
+#: src/wmapp.cc:1450
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1375,7 +1392,7 @@ msgstr ""
 "  -p,--postpreferences  Vypíše predvoľby po spracovaní všetkého.\n"
 "  --trace=conf,icon   Stopové cesty použité na načítanie konfigurácie.\n"
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1459
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1436,26 +1453,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1543
+#: src/wmapp.cc:1521
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfiguračné adresáre:\n"
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1600
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s nakonfigurované voľby: %s\n"
 
-#: src/wmapp.cc:1706
+#: src/wmapp.cc:1678
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná voľba: '%s'."
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1729
 msgid "Confirm Logout"
 msgstr "Potvrdiť odhlásenie"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1730
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1463,55 +1480,55 @@ msgstr ""
 "Odhlásenie zavrie všetky spustené aplikácie\n"
 "Pokračovať?"
 
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "Zdvihnúť/Znížiť"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "Skryť"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "Obnoviť"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "Rozbaliť"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "Z_rolovať"
 
-#: src/wmconfig.cc:39
+#: src/wmconfig.cc:33 src/wmconfig.cc:38 src/wmconfig.cc:44
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "Zlyhalo načítanie témy %s"
 
-#: src/wmconfig.cc:104
+#: src/wmconfig.cc:111
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Neznáma hodnota '%s' pre voľbu '%s'."
 
-#: src/wmconfig.cc:112
+#: src/wmconfig.cc:119
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Nepodarilo sa vytvoriť adresár %s"
 
-#: src/wmconfig.cc:139 src/wmprog.cc:567 src/wmprog.cc:689 src/wmprog.cc:693
+#: src/wmconfig.cc:146 src/wmprog.cc:580 src/wmprog.cc:702 src/wmprog.cc:706
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Nie je možné zapísať do %s"
 
-#: src/wmconfig.cc:175 src/wmprog.cc:697
+#: src/wmconfig.cc:182 src/wmprog.cc:710
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nepodarilo sa premenovať %s na %s"
@@ -1525,8 +1542,8 @@ msgid "_Cancel"
 msgstr "_Zrušiť"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:847 src/wmprog.cc:849 src/wmtaskbar.cc:257
-#: src/wmtaskbar.cc:259
+#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:251
+#: src/wmtaskbar.cc:253
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1535,15 +1552,15 @@ msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:808 src/wmtaskbar.cc:252
+#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:246
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1372
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1379
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1551,98 +1568,98 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3263
 msgid "Missing program setxkbmap"
 msgstr "Chýba program setxkbmap"
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3264
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Neznáma voľba okna: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaktická chyba vo voľbách okna na riadku %d z %s"
 
-#: src/wmprog.cc:395
+#: src/wmprog.cc:399
 msgid "_Click to focus"
 msgstr "Aktivovať _kliknutím"
 
-#: src/wmprog.cc:396
+#: src/wmprog.cc:400
 msgid "_Explicit focus"
 msgstr "_Vybrať kliknutím"
 
-#: src/wmprog.cc:397
+#: src/wmprog.cc:401
 msgid "_Sloppy mouse focus"
 msgstr "Aktivovať _presunom myši"
 
-#: src/wmprog.cc:398
+#: src/wmprog.cc:402
 msgid "S_trict mouse focus"
 msgstr "S_triktné aktivovanie myšou"
 
-#: src/wmprog.cc:399
+#: src/wmprog.cc:403
 msgid "_Quiet sloppy focus"
 msgstr "Aktivovať pokojným _presunom"
 
-#: src/wmprog.cc:400
+#: src/wmprog.cc:404
 msgid "Custo_m"
 msgstr "Vlast_né"
 
-#: src/wmprog.cc:487
+#: src/wmprog.cc:499
 msgid "Save Modifications"
 msgstr "Uložiť zmeny"
 
-#: src/wmprog.cc:720
+#: src/wmprog.cc:733
 msgid "_Manual"
 msgstr "_Ručne"
 
-#: src/wmprog.cc:721
+#: src/wmprog.cc:734
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:722
+#: src/wmprog.cc:735
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:723
+#: src/wmprog.cc:736
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:785
+#: src/wmprog.cc:798
 msgid "Programs"
 msgstr "Programy"
 
-#: src/wmprog.cc:790
+#: src/wmprog.cc:803
 msgid "_Run..."
 msgstr "_Spustiť..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:795 src/wmtaskbar.cc:247
+#: src/wmprog.cc:808 src/wmtaskbar.cc:241
 msgid "_Windows"
 msgstr "_Okná"
 
-#: src/wmprog.cc:814
+#: src/wmprog.cc:827
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:838
 msgid "_Focus"
 msgstr "_Aktivovať"
 
-#: src/wmprog.cc:830
+#: src/wmprog.cc:843
 msgid "_Preferences"
 msgstr "_Preferencie"
 
-#: src/wmprog.cc:836
+#: src/wmprog.cc:849
 msgid "_Themes"
 msgstr "_Témy"
 
-#: src/wmprog.cc:841
+#: src/wmprog.cc:854
 msgid "Se_ttings"
 msgstr "Nas_tavenia"
 
@@ -1652,67 +1669,67 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Manažér sedení: Neznámy riadok %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:229 src/wmwinlist.cc:376 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:378 src/wmwinlist.cc:411
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:231 src/wmwinlist.cc:377 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:378 src/wmwinlist.cc:411
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:380 src/wmwinlist.cc:413
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:229 src/wmwinlist.cc:381 src/wmwinlist.cc:414
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:381 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:231 src/wmwinlist.cc:383 src/wmwinlist.cc:415
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:382 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:384 src/wmwinlist.cc:416
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:383 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:385 src/wmwinlist.cc:417
 msgid "_Undo"
 msgstr "_Vrátiť"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:238
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:250
+#: src/wmtaskbar.cc:244
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:317 src/wmtaskbar.cc:958
 msgid "Hide Taskbar"
 msgstr "Skryť Panel úloh"
 
-#: src/wmtaskbar.cc:346
+#: src/wmtaskbar.cc:340
 msgid "Favorite Applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:367
+#: src/wmtaskbar.cc:361
 msgid "Window List Menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:376
+#: src/wmtaskbar.cc:370
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:958
 msgid "Show Taskbar"
 msgstr "Ukázať Panel úloh"
 
@@ -1720,27 +1737,27 @@ msgstr "Ukázať Panel úloh"
 msgid "All Workspaces"
 msgstr "Všetky pracovné plochy"
 
-#: src/wmwinlist.cc:365
+#: src/wmwinlist.cc:367
 msgid "_Show"
 msgstr "Ukáz_ať"
 
-#: src/wmwinlist.cc:368
+#: src/wmwinlist.cc:370
 msgid "_Raise"
 msgstr "_Zvýšiť"
 
-#: src/wmwinlist.cc:389
+#: src/wmwinlist.cc:391
 msgid "Del"
 msgstr "Zmazať"
 
-#: src/wmwinlist.cc:393
+#: src/wmwinlist.cc:395
 msgid "_Terminate Process"
 msgstr "_Ukončiť proces"
 
-#: src/wmwinlist.cc:394
+#: src/wmwinlist.cc:396
 msgid "Kill _Process"
 msgstr "_Zabiť proces"
 
-#: src/wmwinlist.cc:429 src/wmwinlist.cc:430
+#: src/wmwinlist.cc:431 src/wmwinlist.cc:432
 msgid "Window list"
 msgstr "Zoznam okien"
 
@@ -1759,15 +1776,10 @@ msgstr "%s: výber zlyhal"
 msgid "Unknown key name %s in %s"
 msgstr "Neznáme meno kľúča %s v %s"
 
-#: src/yconfig.cc:129 src/yconfig.cc:142 src/yconfig.cc:156
+#: src/yconfig.cc:122 src/yconfig.cc:133 src/yconfig.cc:145
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Zlá hodnota: %s pre %s [%d,%d]"
-
-#: src/yconfig.cc:193
-#, c-format
-msgid "Bad option: %s"
-msgstr "Zla voľba: %s"
 
 #: src/ycursor.cc:114
 #, c-format
@@ -1807,12 +1819,12 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "CHYBA? Neočakávaný znak, ale Imlib bola schopná analyzovať \"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:157
+#: src/yfontcore.cc:72 src/yfontxft.cc:159
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nemôžem nahrať písmo \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:180
+#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:182
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Nahranie núdzového písma \"%s\" zlyhalo."
@@ -1922,7 +1934,7 @@ msgstr "Neúplná hexadecimálna časť URL na pozícii %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Neplatná hexadecimálna časť URL na pozícii %d."
 
-#: src/yxapp.cc:1008
+#: src/yxapp.cc:1009
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2619,6 +2631,9 @@ msgstr "Vývoj webu"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Textový procesor"
+
+#~ msgid "Bad option: %s"
+#~ msgstr "Zla voľba: %s"
 
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "

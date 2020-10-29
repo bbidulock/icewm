@@ -242,11 +242,11 @@ void WindowListBox::enableCommands(YMenu *popup) {
             }
             selected = true;
 
-            minified &= frame->isMinimized();
-            maxified &= frame->isMaximizedFully();
-            vertified &= frame->isMaximizedVert();
-            horified &= frame->isMaximizedHoriz();
             fullscreen &= frame->isFullscreen();
+            minified &= frame->isMinimized();
+            maxified &= frame->isMaximizedFully() && !fullscreen;
+            vertified &= frame->isMaximizedVert() && !fullscreen && !maxified;
+            horified &= frame->isMaximizedHoriz() && !fullscreen && !maxified;
             ishidden &= frame->isHidden();
             rolledup &= frame->isRollup();
             trayicon &= (frame->getTrayOption() != WinTrayIgnore);
@@ -282,6 +282,8 @@ void WindowListBox::enableCommands(YMenu *popup) {
     popup->checkCommand(actionHide, selected && ishidden);
     popup->checkCommand(actionRollup, selected && rolledup);
     popup->checkCommand(actionToggleTray, selected && trayicon);
+    popup->checkCommand(actionOccupyAllOrCurrent,
+                        selected && (workspace == AllWorkspaces));
     if (!restores)
         popup->disableCommand(actionRestore);
     if (!minifies)

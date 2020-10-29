@@ -25,8 +25,8 @@ class UserTime {
 private:
     unsigned long xtime;
     bool valid;
-    long since;
-    enum {
+    unsigned long since;
+    enum : unsigned long {
         XTimeMask = 0xFFFFFFFFUL,       // milliseconds
         XTimeRange = 0x7FFFFFFFUL,      // milliseconds
         SInterval = 0x3FFFFFFFUL / 1000,     // seconds
@@ -122,10 +122,10 @@ public:
 
     YFrameWindow *findFrame(Window win);
     YFrameClient *findClient(Window win);
-    YFrameWindow *manageClient(Window win, bool mapClient = false);
+    void manageClient(Window win, bool mapClient = false);
     void unmanageClient(YFrameClient *client);
     void destroyedClient(Window win);
-    YFrameWindow *mapClient(Window win);
+    void mapClient(Window win);
 
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }

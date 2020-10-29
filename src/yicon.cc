@@ -230,6 +230,8 @@ public:
             else
                 matchlist.emplace_back(tok);
         }
+        for (auto *extra: { "*.xpm", "*.png", "*.svg"})
+            skiplist.emplace_back(extra);
 
         auto probeIconFolder = [&](mstring iPath, bool fromResources) {
 
@@ -261,27 +263,30 @@ public:
                     if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
                         for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
                             auto match = exp.we_wordv[i];
+
                             // get theme name from folder base name
                             auto bname = strrchr(match, (unsigned) '/');
+                            if (bname && 0 == strcmp(bname, "/icons")) {
+                                *bname = '\0';
+                                bname = strrchr(match, (unsigned) '/');
+                            }
                             if (!bname)
                                 continue;
                             bname++;
-                            int keep = 1; // non-zero to consider it
                             for (auto& blistPattern : skiplist) {
-                                keep = fnmatch(blistPattern, bname, 0);
-                                if (!keep)
-                                    break;
+                                if (0 == fnmatch(blistPattern, bname, 0))
+                                    goto NEXT_FROM_WORDEXP;
                             }
 
                             // found a potential theme folder to consider?
                             // does even the entry folder exist or is this a
                             // dead reference?
-                            if (keep && upath(match).dirExists()) {
+                            if (!upath(match).dirExists())
+                                continue;
 
-                                nFoundForFolder +=
-                                        probeAndRegisterXdgFolders(match,
-                                                fromResources);
-                            }
+                            nFoundForFolder += probeAndRegisterXdgFolders(match,
+                                    fromResources);
+                            NEXT_FROM_WORDEXP: ;
                         }
                         wordfree(&exp);
                     }
@@ -298,8 +303,14 @@ public:
         if (iceIconPaths != null) {
             // this returned icewm directories containing "icons" folder
             for (int i = 0; i < iceIconPaths->getCount(); ++i) {
-                probeIconFolder(iceIconPaths->getPath(i) + "/icons",
-                        true);
+                auto fn(iceIconPaths->getPath(i).name());
+                if (fn.nonempty()) {
+                    for (auto &blistPattern : skiplist)
+                        if (0 == fnmatch(blistPattern, fn.c_str(), 0))
+                            goto NEXT_FROM_ICON_RES_DIR;
+                }
+                probeIconFolder(iceIconPaths->getPath(i) + "/icons", true);
+                NEXT_FROM_ICON_RES_DIR: ;
             }
         }
         // now test the system icons folders specified by user or defaults

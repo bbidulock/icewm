@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.8.1],
+AC_INIT([icewm],[1.8.3],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.8.1])
+AC_REVISION([1.8.3])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,13 +22,13 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2020-07-12'
+DATE='2020-09-17'
 AC_SUBST([DATE])
 
-MDOCDATE='July 12, 2020'
+MDOCDATE='September 17, 2020'
 AC_SUBST([MDOCDATE])
 
-BRANCH='1.8.1'
+BRANCH='1.8.3'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icehelp'
@@ -135,8 +135,7 @@ AC_HEADER_DIRENT
 AC_HEADER_SYS_WAIT
 AC_PATH_X
 AC_PATH_XTRA
-AC_CHECK_HEADERS([execinfo.h fcntl.h libgen.h sched.h])
-AC_CHECK_HEADERS([sys/ioctl.h sys/param.h sys/sched.h])
+AC_CHECK_HEADERS([execinfo.h sched.h sys/sched.h])
 AC_CHECK_HEADERS([sys/soundcard.h sys/sysctl.h uvm/uvm_param.h])
 
 # Checks for typedefs, structures, and compiler characteristics.

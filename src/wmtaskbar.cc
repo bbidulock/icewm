@@ -7,23 +7,14 @@
  */
 
 #include "config.h"
-
-#include "yfull.h"
-#include "ypaint.h"
 #include "wmtaskbar.h"
-#include "yprefs.h"
-
-#include "wmmgr.h"
 #include "wmframe.h"
-#include "wmclient.h"
 #include "wmconfig.h"
-#include "wmaction.h"
 #include "wmprog.h"
-#include "workspaces.h"
 #include "wmwinmenu.h"
 #include "wmapp.h"
-#include "sysdep.h"
 #include "wmwinlist.h"
+#include <unistd.h>
 
 #include "aaddressbar.h"
 #include "aclock.h"
@@ -50,35 +41,44 @@ YColorName taskBarBg(&clrDefaultTaskBar);
 
 EdgeTrigger::EdgeTrigger(TaskBar *owner):
     fTaskBar(owner),
-    fDoShow(false)
+    fHideOrShow(Hide)
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
     setDND(true);
     setTitle("IceEdge");
-    fAutoHideTimer->setTimer(autoShowDelay, this, false);
 }
 
 EdgeTrigger::~EdgeTrigger() {
 }
 
-void EdgeTrigger::startHide() {
-    fDoShow = false;
-    fAutoHideTimer->startTimer(autoHideDelay);
+void EdgeTrigger::startTimer(HideOrShow show) {
+    fHideOrShow = show;
+    if (fHideOrShow) {
+        fAutoHideTimer->setTimer(autoShowDelay, this, true);
+    } else {
+        fAutoHideTimer->setTimer(autoHideDelay, this, true);
+    }
 }
 
-void EdgeTrigger::stopHide() {
-    fDoShow = false;
-    fAutoHideTimer->stopTimer();
+void EdgeTrigger::stopTimer() {
+    fHideOrShow = Hide;
+    fAutoHideTimer = null;
 }
 
-bool EdgeTrigger::enabled() const {
+bool EdgeTrigger::enabled() {
     return (taskBarAutoHide | (taskBarFullscreenAutoShow & !taskBarKeepBelow));
 }
 
-void EdgeTrigger::show() {
-    if (enabled()) {
+void EdgeTrigger::show(bool enable) {
+    bool enabled(this->enabled());
+    if (enable && enabled) {
         YWindow::show();
+    } else {
+        YWindow::hide();
+        if (enabled) {
+            startTimer();
+        }
     }
 }
 
@@ -87,30 +87,25 @@ void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
         unsigned long last = YWindow::getLastEnterNotifySerial();
         if (crossing.serial != last && crossing.serial != last + 1) {
             MSG(("enter notify %d %d", crossing.mode, crossing.detail));
-            fDoShow = true;
-            fAutoHideTimer->startTimer(autoShowDelay);
+            startTimer(Show);
         }
     } else if (crossing.type == LeaveNotify /* && crossing.mode != NotifyNormal */) {
-        fDoShow = false;
         MSG(("leave notify"));
-        fAutoHideTimer->stopTimer();
+        stopTimer();
     }
 }
 
 void EdgeTrigger::handleDNDEnter() {
-    fDoShow = true;
-    fAutoHideTimer->startTimer(autoShowDelay);
+    startTimer(Show);
 }
 
 void EdgeTrigger::handleDNDLeave() {
-    fDoShow = false;
-    fAutoHideTimer->startTimer(autoHideDelay);
+    stopTimer();
 }
-
 
 bool EdgeTrigger::handleTimer(YTimer *t) {
     MSG(("taskbar handle timer"));
-    return fTaskBar->autoTimer(fDoShow);
+    return fTaskBar->autoTimer(fHideOrShow);
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
@@ -139,10 +134,10 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fIsHidden(taskBarAutoHide),
     fFullscreen(false),
     fIsCollapsed(false),
-    fIsMapped(false),
     fMenuShown(false),
     fNeedRelayout(false),
-    fButtonUpdate(false)
+    fButtonUpdate(false),
+    fWorkspacesUpdate(false)
 {
     taskBar = this;
 
@@ -181,7 +176,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     getPropertiesList();
     getWMHints();
     getClassHint();
-    fIsMapped = true;
 
     MSG(("taskbar"));
 }
@@ -468,7 +462,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     nw = LayoutInfo( fClock, Over, Top, Same, Keep, 2, 2 );
     wlist.append(nw);
     if (taskBarShowMailboxStatus) {
-        for (MailBoxControl::IterType m = fMailBoxControl->iterator(); ++m; ) {
+        for (auto m = fMailBoxControl->iterator(); ++m; ) {
             nw = LayoutInfo( *m, Over, Top, Show, Keep, 1, 1 );
             wlist.append(nw);
         }
@@ -480,7 +474,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
 #ifdef IWM_STATES
     if (taskBarShowCPUStatus) {
-        CPUStatusControl::IterType it = fCPUStatus->getIterator();
+        auto it = fCPUStatus->getIterator();
         while (++it)
         {
             nw = LayoutInfo(*it, Over, Top, Show, Keep, 2, 2 );
@@ -495,7 +489,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 #endif
 
     if (taskBarShowNetStatus) {
-        NetStatusControl::IterType it = fNetStatus->getIterator();
+        auto it = fNetStatus->getIterator();
         while (++it)
         {
             if (*it != 0) {
@@ -633,21 +627,24 @@ void TaskBar::relayoutNow() {
         fButtonUpdate = false;
         buttonUpdate();
     }
+    if (fWorkspacesUpdate) {
+        fWorkspacesUpdate = false;
+        fWorkspaces->repaint();
+    }
 }
 
 void TaskBar::updateFullscreen(bool fullscreen) {
-    fFullscreen = fullscreen;
-    if (fFullscreen || fIsHidden)
-        fEdgeTrigger->show();
-    else
-        fEdgeTrigger->hide();
+    if (fFullscreen != fullscreen && getFrame()) {
+        fFullscreen = fullscreen;
+        fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
+    }
 }
 
 void TaskBar::updateLocation() {
     fNeedRelayout = false;
 
-    if (fIsHidden) {
-        if (fIsMapped && getFrame() && visible())
+    if (fIsHidden && !fIsCollapsed) {
+        if (getFrame() && visible())
             getFrame()->wmHide();
         xapp->sync();
     }
@@ -691,25 +688,24 @@ void TaskBar::updateLocation() {
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
-    if ( !fIsHidden) {
-        if (fIsMapped && getFrame()) {
-            XConfigureRequestEvent conf;
-            conf.type = ConfigureRequest;
-            conf.window = handle();
-            conf.x = x;
-            conf.y = y;
-            conf.width = int(w);
-            conf.height = int(h);
-            conf.value_mask = CWX | CWY | CWWidth | CWHeight;
-            getFrame()->configureClient(conf);
+    if ( !fIsHidden || fIsCollapsed) {
+        if (getFrame()) {
+            if (geometry() != YRect(x, y, w, h)) {
+                XConfigureRequestEvent conf;
+                conf.type = ConfigureRequest;
+                conf.window = handle();
+                conf.x = x;
+                conf.y = y;
+                conf.width = int(w);
+                conf.height = int(h);
+                conf.value_mask = CWX | CWY | CWWidth | CWHeight;
+                getFrame()->configureClient(conf);
+            }
             getFrame()->wmShow();
         } else
             setGeometry(YRect(x, y, w, h));
     }
-    if (fIsHidden || fFullscreen)
-        fEdgeTrigger->show();
-    else
-        fEdgeTrigger->hide();
+    fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
 
     ///!!! fix
     updateWMHints();
@@ -760,7 +756,7 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
         (crossing.serial != last + 1 || crossing.detail != NotifyVirtual));
 
     if (crossing.type == EnterNotify) {
-        fEdgeTrigger->stopHide();
+        fEdgeTrigger->stopTimer();
     }
     else if (crossing.type == LeaveNotify) {
         if (crossing.detail == NotifyInferior ||
@@ -768,11 +764,11 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
            (crossing.detail == NotifyAncestor && crossing.mode != NotifyNormal))
         {
             if (ahwm_hack) {
-                fEdgeTrigger->stopHide();
+                fEdgeTrigger->stopTimer();
             }
         } else {
             if (ahwm_hack) {
-                fEdgeTrigger->startHide();
+                fEdgeTrigger->startTimer();
             }
         }
     }
@@ -929,7 +925,7 @@ void TaskBar::popOut() {
         fIsHidden = taskBarAutoHide;
         if (fEdgeTrigger) {
             MSG(("start hide 4"));
-            fEdgeTrigger->startHide();
+            fEdgeTrigger->startTimer();
         }
     }
     relayoutNow();
@@ -937,9 +933,9 @@ void TaskBar::popOut() {
 
 void TaskBar::showBar() {
     if (getFrame() == nullptr) {
-        manager->mapClient(handle());
+        manager->manageClient(handle());
         updateWinLayer();
-        if (getFrame() != nullptr) {
+        if (getFrame()) {
             getFrame()->setAllWorkspaces();
             if (enableAddressBar && ::showAddressBar && taskBarDoubleHeight)
                 getFrame()->activate(true);
@@ -1043,7 +1039,7 @@ void TaskBar::setWorkspaceActive(long workspace, bool active) {
 
 void TaskBar::workspacesRepaint() {
     if (taskBarShowWorkspaces && fWorkspaces) {
-        fWorkspaces->repaint();
+        fWorkspacesUpdate = true;
     }
 }
 

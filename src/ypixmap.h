@@ -1,8 +1,10 @@
-#ifndef __YPIXMAP_H
-#define __YPIXMAP_H
+#ifndef YPIXMAP_H
+#define YPIXMAP_H
 
+#include <X11/X.h>
+#include <X11/extensions/render.h>
+#include <X11/extensions/Xdamage.h>
 #include "ref.h"
-#include "ylib.h"
 #include "upath.h"
 
 class YImage;

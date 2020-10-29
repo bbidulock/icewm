@@ -38,9 +38,13 @@ YFrameButton::YFrameButton(YFrameTitleBar* parent, char kind) :
 YFrameButton::~YFrameButton() {
 }
 
+YFrameTitleBar *YFrameButton::titlebar() const {
+    return reinterpret_cast<YFrameTitleBar*>(parent());
+}
+
 YFrameWindow *YFrameButton::getFrame() const {
-    return reinterpret_cast<YFrameTitleBar*>(parent())->getFrame();
-};
+    return titlebar()->getFrame();
+}
 
 bool YFrameButton::focused() const {
     return getFrame()->focused();
@@ -163,7 +167,7 @@ void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
     bool dragButton = inrange(int(down.button), Button2, Button3);
     if (dragButton && getFrame()->canMove()) {
         if (!isPopupActive()) {
-            YFrameTitleBar* tbar = getFrame()->titlebar();
+            YFrameTitleBar* tbar = titlebar();
             getFrame()->startMoveSize(true, true,
                                       0, 0,
                                       down.x + x() + (tbar ? tbar->x() : 0),

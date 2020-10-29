@@ -54,6 +54,7 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
     setTitle("TitleBar");
 
     memset(fButtons, 0, sizeof fButtons);
+    relayout();
 }
 
 YFrameTitleBar::~YFrameTitleBar() {
@@ -205,9 +206,6 @@ void YFrameTitleBar::activate() {
 }
 
 void YFrameTitleBar::layoutButtons() {
-    if (getFrame()->titleY() == 0)
-        return ;
-
     bool const pi(focused());
     int left(titleJ[pi] != null ? int(titleJ[pi]->width()) : 0);
     int right(int(getFrame()->width()) - 2 * getFrame()->borderX() -
@@ -277,8 +275,20 @@ void YFrameTitleBar::handleVisibility(const XVisibilityEvent& visib) {
 }
 
 void YFrameTitleBar::configure(const YRect2& r) {
-    if (r.resized()) {
+}
+
+void YFrameTitleBar::relayout() {
+    int h = getFrame()->titleY();
+    if (h == 0) {
+        hide();
+    } else {
+        int x = getFrame()->borderX();
+        int y = getFrame()->borderY();
+        int w = max(1, int(getFrame()->width()) - 2 * x);
+        setGeometry(YRect(x, y, w, h));
+        layoutButtons();
         repaint();
+        show();
     }
 }
 

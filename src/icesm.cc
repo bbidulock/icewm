@@ -53,8 +53,8 @@ private:
         char* pwd = getcwd(buf, sizeof buf);
         if (pwd && !strcmp(pwd, "/") && access(pwd, W_OK)) {
             char* home = getenv("HOME");
-            if (nonempty(home) && !access(home, W_OK)) {
-                (void) chdir(home);
+            if (nonempty(home) && !access(home, W_OK|X_OK) && !chdir(home)) {
+                ; // success
             } else {
                 csmart user(userhome(nullptr));
                 if (user && chdir(user) == 0) {
@@ -65,7 +65,7 @@ private:
     }
 
     const char *get_help_text() {
-        return _(
+        helptext = _(
         "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
         "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
         "\n"
@@ -80,6 +80,17 @@ private:
         "  -n, --notray        Do not start icewmtray.\n"
         "  -s, --sound         Also start icesound.\n"
         );
+
+        helptext += _(
+        "\n"
+        "Debugging options:\n"
+        "  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+        "                      Thoroughly examines the execution of icewm.\n"
+        "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+        "                      Gives a backtrace if icewm segfaults.\n"
+        );
+
+        return helptext.c_str();
     }
 
     const char *displayArg;
@@ -91,6 +102,8 @@ private:
     bool nobgArg;
     bool notrayArg;
     bool soundArg;
+    bool grindArg;
+    bool catchArg;
     char* argv0;
 
     void options(int *argc, char ***argv) {
@@ -105,6 +118,8 @@ private:
         nobgArg = false;
         notrayArg = NOTRAY;
         soundArg = false;
+        grindArg = false;
+        catchArg = false;
 
         for (char **arg = 1 + *argv; arg < *argv + *argc; ++arg) {
             if (**arg == '-') {
@@ -139,6 +154,12 @@ private:
                 }
                 else if (is_switch(*arg, "s", "sound")) {
                     soundArg = true;
+                }
+                else if (is_switch(*arg, "v", "valgrind")) {
+                    grindArg = true;
+                }
+                else if (is_switch(*arg, "g", "catchsegv")) {
+                    catchArg = true;
                 }
                 else if (is_help_switch(*arg)) {
                     print_help_exit(get_help_text());
@@ -206,7 +227,7 @@ public:
     }
 
     void loadEnv(const char *scriptName) {
-        upath scriptFile = YApplication::findConfigFile(scriptName);
+        upath scriptFile = locateConfigFile(scriptName);
         if (scriptFile.nonempty()) {
             FILE *ef = scriptFile.fopen("r");
             if (!ef)
@@ -246,7 +267,7 @@ public:
     }
 
     void runScript(const char *scriptName) {
-        upath scriptFile = YApplication::findConfigFile(scriptName);
+        upath scriptFile = locateConfigFile(scriptName);
         if (scriptFile.nonempty() && scriptFile.isExecutable()) {
             const char *cs = scriptFile.string();
             MSG(("Running session script: %s", cs));
@@ -345,11 +366,21 @@ public:
             wm_pid = -1;
         }
         else {
+            static const char valgrind[] = "/usr/bin/valgrind";
+            static const char catchsegv[] = "/usr/bin/catchsegv";
             const int size = 24;
-            const char* args[size] = {
-                icewmExe, "--notify", nullptr
-            };
-            appendOptions(args, 2, size);
+            const char* args[size];
+            int count = 0;
+            if (grindArg && access(valgrind, X_OK) == 0) {
+                args[count++] = valgrind;
+            }
+            else if (catchArg && access(catchsegv, X_OK) == 0) {
+                args[count++] = catchsegv;
+            }
+            args[count++] = icewmExe;
+            args[count++] = "--notify";
+            args[count] = nullptr;
+            appendOptions(args, count, size);
             char* copy = nullptr;
             if (wmoptions.length()) {
                 copy = strdup(wmoptions);
@@ -617,6 +648,7 @@ private:
     int rescue_pid;
     timeval crashtime;
     mstring wmoptions;
+    mstring helptext;
 };
 
 void SessionManager::rescueFocus() {

@@ -10,26 +10,24 @@ B<icewm> [I<OPTIONS>]
 
 =head1 DESCRIPTION
 
-B<icewm> is a lightweight window manager for the X11 window system.  It
-aims to be small, fast and familiar to new users.  B<icewm> is called a
-re-parenting window manager, because it draws small frames around
-application windows.  Windows are manipulated via the mouse by dragging
-or resizing this frame.  It is also called a stacking window manager,
-because windows can overlap.  Many windows may exist, some hidden behind
-others, while interaction takes place with the currently visible ones.
-B<icewm> supports a configurable number of virtual desktops.  It
-provides a task bar for monitoring applications and a pager to switch
-between desktops.  B<icewm> is largely compliant with the ICCCM 2.0,
-WinWM/WMH and NetWM/EWMH window manager specifications.
+B<icewm> is a window manager for the X11 window system.
+It aims to be small, fast and familiar to new users.
 
-B<icewm> was originally designed to emulate the look of Motif, OS/2 Warp
-4, OS/2 Warp 3 and Windows 95.  Since it has a theme engine other styles
-are possible.  The installation comes with several configured themes.  A
-menu allows to choose between themes.
+B<icewm> is called a re-parenting window manager,
+because it draws small frames around application windows.
+By dragging this frame with the mouse, windows are resized or moved.
 
-Generally, it tries to make all functions available by both keyboard and
-mouse.  Configuration is very good through various preferences files.
-However, configuring is not required: it works fine out of the box.
+Because windows may overlap, B<icewm> is also a stacking window manager.
+Many windows may exist, some hidden behind others.
+
+B<icewm> supports a configurable number of virtual desktops.  These are
+called workspaces. Related windows are grouped on a dedicated workspace.
+By switching between workspaces, the user can attend to different tasks,
+while keeping oversight.  This is supported by a task bar and a pager.
+
+The installation comes with several themes. Choose a theme via a menu.
+
+B<icewm> is compliant with the ICCCM and EWMH window manager specifications.
 
 =head2 PROGRAMS
 
@@ -1016,6 +1014,10 @@ B<icewm> will cease to manage application windows and terminate.
 
 B<icewm> will initiate the logout procedure.  If a C<LogoutCommand>
 preferences option was configured it will be executed.
+
+=item B<SIGUSR2>
+
+Toggle the logging of X11 events, if C<logevents> was configured.
 
 =back
 

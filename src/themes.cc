@@ -23,6 +23,9 @@
 
 #include "intl.h"
 
+const unsigned utf32ellipsis = 0x2026;
+extern ref<YFont> menuFont;
+
 DTheme::DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme):
     DObject(app, label, null), fTheme(theme)
 {
@@ -111,7 +114,9 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
     mstring defTheme("/default.theme");
 
     bool bNesting = inrange(nestedThemeMenuMinNumber, 1, themeCount - 1);
-    char subName[5] = { 'X', '.','.','.', 0};
+    char subName[5];
+    auto canUcodeEl = menuFont != null && menuFont->supports(utf32ellipsis);
+    memcpy(&subName, canUcodeEl ? "X\xe2\x80\xa6" : "X...", 5);
 
     for (udir dir(path); dir.next(); ) {
         YMenuItem *im(nullptr);

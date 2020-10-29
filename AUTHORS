@@ -1,11 +1,27 @@
-icewm -- authors file.  2020-07-12
+icewm -- authors file.  2020-09-17
 
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Author: Freek de Kruijf <freek@opensuse.org>
+Author: Hugo Carvalho <hugokarvalho@hotmail.com>
 Author: Stanislav Brabec <sbrabec@suse.cz>
-Author: Ferdinand Galko <galko.ferdinand@gmail.com>
-Author: Kimmo Kujansuu <mrkujansuu@gmail.com>
-Author: Jens Maucher <jens.maucher@gmx.de>
+Author: Paolo Za <zapaolo@email.it>
 Author: Eduard Bloch <blade@debian.org>
+Author: Code7R <Code7R@users.noreply.github.com>
+Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
+Author: Arif Budiman <arifpedia@gmail.com>
+Author: Sarah Kriesch <ada.lovelace@gmx.de>
+Author: WhiredPlanck <47623588+whriedplanck@users.noreply.github.com>
+Author: DieSpinne <62444221+DieSpinne@users.noreply.github.com>
+Author: Ferdinand Galko <galko.ferdinand@gmail.com>
+Author: David Medina <medipas@gmail.com>
+Author: openSUSE Weblate <weblate-noreply@opensuse.org>
+Author: Aleš Kastner <alkas@volny.cz>
+Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
+Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
+Author: Jens <jens@karatek.net>
+Author: Adolfo Jayme Barrientos <fitoschido@gmail.com>
+Author: Jens Maucher <jens.maucher@gmx.de>
+Author: Kimmo Kujansuu <mrkujansuu@gmail.com>
 Author: CJ Kucera <pez@apocalyptech.com>
 Author: Efstathios Iosifidis <eiosifidis@gmail.com>
 Author: Markéta Calábková <meggy.calabkova@gmail.com>
@@ -21,17 +37,7 @@ Author: Grace Yu <grace.yu@excel-gits.com>
 Author: mohammad alhargan <malham1@gmail.com>
 Author: Kukuh Syafaat <kukuh@syafaat.id>
 Author: scootergrisen <scootergrisen@gmail.com>
-Author: Luiz Fernando Ranghetti <elchevive68@gmail.com>
-Author: Freek de Kruijf <freek@opensuse.org>
-Author: Aleš Kastner <alkas@volny.cz>
-Author: David Medina <medipas@gmail.com>
-Author: Yasuhiko Kamata <belphegor@belbel.or.jp>
-Author: openSUSE Weblate <weblate-noreply@opensuse.org>
-Author: Sarah Kriesch <ada.lovelace@gmx.de>
-Author: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>
 Author: Brian Bidulock <bidulock@openss7.org>
-Author: gijsbers <gijsbers@users.noreply.github.com>
-Author: Nathan <ndowens04@gmail.com>
 Author: Kevin Suo <suokunlong@126.com>
 Author: Artem Polishchuk <tim77@users.noreply.github.com>
 Author: Alessio Adamo <alessio.adamo@gmail.com>
@@ -52,7 +58,6 @@ Author: Patricia Pazos <pms.malaga@hermestrans.com>
 Author: nikoss <nikoss@users.noreply.github.com>
 Author: Dmitriy Khanzhin <dmitriy.khanzhin@gmail.com>
 Author: Dingzhong Chen <wsxy162@gmail.com>
-Author: Code7R <Code7R@users.noreply.github.com>
 Author: Benny Siegert <bsiegert@gmail.com>
 Author: YunSeok Choi <xein@naver.com>
 Author: varmanishant <nishant.varma@gmail.com>
@@ -82,13 +87,13 @@ Author: Jeff Woods <klaatu@fnordco.com>
 Author: Wnereiz Z <wnereiz@eienteiland.org>
 Author: Nathan Follens <nthn@unseen.is>
 Author: Batuhan Osman Taşkaya <batuhanosmantaskaya@gmail.com>
+Author: gijsbers <gijsbers@users.noreply.github.com>
 Author: Krandelbord <Krandelbord@github.com>
 Author: Pro-pra <pro2_2000@mail.ru>
 Author: Michal Suchanek <msuchanek@suse.com>
 Author: Antoine Belvire <antoine.belvire@laposte.net>
 Author: Kate Shcher <wwwkkk30@yandex.ru>
 Author: Vojtech Zeisek <Vojtech.Zeisek@opensuse.org>
-Author: Arif Budiman <arifpedia@gmail.com>
 Author: Stanislav Brabec <sbrabec@suse.com>
 Author: Dmitry Semyonov <linulin@gmail.com>
 Author: Attila Kinali <attila@kinali.ch>

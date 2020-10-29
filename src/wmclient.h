@@ -16,6 +16,23 @@ class YIcon;
 
 typedef int FrameState;
 
+enum WindowType {
+    wtCombo,
+    wtDesktop,
+    wtDialog,
+    wtDND,
+    wtDock,
+    wtDropdownMenu,
+    wtMenu,
+    wtNormal,
+    wtNotification,
+    wtPopupMenu,
+    wtSplash,
+    wtToolbar,
+    wtTooltip,
+    wtUtility,
+};
+
 class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = nullptr; }
@@ -86,7 +103,7 @@ public:
     virtual bool canLower() const = 0;
     virtual bool canMinimize() const = 0;
     virtual bool canMaximize() const = 0;
-    virtual bool canRaise() = 0;
+    virtual bool canRaise() const = 0;
     virtual bool canRestore() const = 0;
     virtual bool canRollup() const = 0;
     virtual void wmRaise() = 0;
@@ -167,9 +184,7 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
-
-    // for going fullscreen and back
-    XSizeHints savedSizeHints;
+    XSizeHints *saveHints() const { return fSaveHints; }
     void saveSizeHints();
     void restoreSizeHints();
 
@@ -220,16 +235,18 @@ public:
     bool getNetWMUserTime(Window window, unsigned long &time);
     bool getNetWMUserTimeWindow(Window &window);
     bool getNetWMWindowOpacity(long &opacity);
-    bool getNetWMWindowType(Atom *window_type);
+    bool getNetWMWindowType(WindowType *window_type);
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);
+    void netStateRequest(long action, long mask);
+    void actionPerformed(YAction action);
 
     bool isPinging() const { return fPinging; }
     bool pingTime() const { return fPingTime; }
     virtual bool handleTimer(YTimer *t);
 
-    MwmHints *mwmHints() const { return fMwmHints; }
+    MwmHints *mwmHints() const { return fMwmHints._ptr(); }
     void getMwmHints();
     void setMwmHints(const MwmHints &mwm);
     long mwmFunctions();
@@ -262,6 +279,7 @@ private:
     FrameState fSavedFrameState;
     long fSavedWinState[2];
     XSizeHints *fSizeHints;
+    XSizeHints *fSaveHints;
     ClassHint fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
@@ -279,7 +297,7 @@ private:
     mstring fWMWindowRole;
     mstring fWindowRole;
 
-    MwmHints *fMwmHints;
+    lazy<MwmHints> fMwmHints;
 
     Window fTransientFor;
 

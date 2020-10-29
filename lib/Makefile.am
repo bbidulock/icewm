@@ -81,10 +81,18 @@ nobase_dist_pkgdata_DATA = \
 	icons/run_32x32.xpm \
 	icons/save_16x16.png \
 	icons/save_32x32.png \
+	icons/setscreen12_32x32.png \
+	icons/setscreen12x_32x32.png \
+	icons/setscreen1_32x32.png \
+	icons/setscreen21_32x32.png \
+	icons/setscreen21x_32x32.png \
+	icons/setscreen2_32x32.png \
 	icons/settings_16x16.xpm \
 	icons/settings_32x32.xpm \
 	icons/shutdown_16x16.xpm \
 	icons/shutdown_32x32.xpm \
+	icons/suspend_16x16.xpm \
+	icons/suspend_32x32.xpm \
 	icons/themes_16x16.xpm \
 	icons/themes_32x32.xpm \
 	icons/vim_16x16.xpm \

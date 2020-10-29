@@ -33,13 +33,49 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
+class NetDevice : public INetDevice {
+public:
+    NetDevice(mstring netdev) : fDevName(netdev) {}
+    const char* getPhoneNumber() override { return ""; }
+    mstring name() const { return fDevName; }
+protected:
+    mstring fDevName;
+};
+
+class NetLinuxDevice : public NetDevice {
+public:
+    NetLinuxDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetFreeDevice : public NetDevice {
+public:
+    NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetOpenDevice : public NetDevice {
+public:
+    NetOpenDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp();
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+};
+
+class NetDummyDevice : public NetDevice {
+public:
+    NetDummyDevice(mstring netdev) : NetDevice(netdev) {}
+    virtual bool isUp() { return false; }
+    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
+    { }
+};
+
 static NetDevice* getNetDevice(mstring netdev)
 {
     return
 #if defined(__linux__)
-        netdev.startsWith("ippp")
-            ? (NetDevice *) new NetIsdnDevice(netdev)
-            : (NetDevice *) new NetLinuxDevice(netdev)
+        new NetLinuxDevice(netdev)
 #elif defined(__FreeBSD__)
         new NetFreeDevice(netdev)
 #elif defined(__OpenBSD__) || defined(__NetBSD__)
@@ -72,7 +108,6 @@ NetStatus::NetStatus(
     statusUpdateCount(0),
     unchanged(0),
     wasUp(false),
-    useIsdn(netdev.startsWith("ippp")),
     fDevName(netdev),
     fDevice(getNetDevice(netdev))
 {
@@ -341,49 +376,6 @@ void NetStatus::draw(Graphics &g) {
     }
 }
 
-/**
- * Check isdnstatus, by parsing /dev/isdninfo.
- *
- * Need read-access on /dev/isdninfo.
- */
-#ifdef __linux__
-bool NetIsdnDevice::isUp() {
-    auto str(filereader("/dev/isdninfo").read_all());
-    char val[5][32];
-    int busage = 0;
-    int bflags = 0;
-
-    for (char* p = str; p && *p && p[1]; p = strchr(p, '\n')) {
-        p += strspn(p, " \n");
-        if (strncmp(p, "flags:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strcmp(val[i+1], "0") != 0)
-                    bflags |= (1 << i);
-            }
-        }
-        else if (strncmp(p, "usage:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strcmp(val[i+1], "0") != 0)
-                    busage |= (1 << i);
-            }
-        }
-        else if (strncmp(p, "phone:", 6) == 0) {
-            sscanf(p, "%s %s %s %s %s", val[0], val[1], val[2], val[3], val[4]);
-            for (int i = 0; i < 4; i++) {
-                if (strncmp(val[i+1], "?", 1) != 0)
-                    strlcpy(phoneNumber, val[i + 1], sizeof phoneNumber);
-            }
-        }
-    }
-
-    //msg("dbs: flags %d usage %d", bflags, busage);
-
-    return bflags && busage;
-}
-#endif // ifdef __linux__
-
 #if defined (__NetBSD__) || defined (__OpenBSD__)
 bool NetOpenDevice::isUp() {
     bool up = false;
@@ -588,28 +580,6 @@ NetStatusControl::~NetStatusControl() {
     }
 }
 
-#ifdef __linux__
-void NetStatusControl::fetchSystemData() {
-    devStats.clear();
-    devicesText = filereader("/proc/net/dev").read_all();
-    if (devicesText == nullptr)
-        return;
-
-    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
-        *p = 0;
-        while (*++p == ' ');
-        char* name = p;
-        p += strcspn(p, " :|\n");
-        if (*p == ':') {
-            *p = 0;
-            while (*++p && *p == ' ');
-            if (*p && *p != '\n')
-                devStats.append(netpair(name, p));
-        }
-    }
-}
-#endif
-
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
         IAppletContainer* taskBar, YWindow* aParent) :
     smActionListener(smActionListener),
@@ -662,7 +632,7 @@ void NetStatusControl::getInterfaces(YStringArray& names)
     unsigned const stop(99);
 
     struct if_nameindex* ifs = if_nameindex(), *i = ifs;
-    for (; i && i->if_index && i->if_name && i - ifs < stop; ++i)
+    for (; i && i->if_index && i->if_name && unsigned(i - ifs) < stop; ++i)
         names.append(i->if_name);
     if (ifs)
         if_freenameindex(ifs);
@@ -754,50 +724,59 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
 
 #ifdef __linux__
 void NetStatusControl::linuxUpdate() {
-    fetchSystemData();
-
+    auto devicesText = filereader("/proc/net/dev").read_all();
+    if (devicesText == nullptr)
+        return;
     int const count(fNetStatus.getCount());
     bool covered[count];
-    for (int i = 0; i < count; ++i)
-        covered[i] = fNetStatus[i] == 0;
-
+    for (int i = 0; i < count; ++i) {
+        covered[i] = (0 == fNetStatus[i]);
+    }
+    using netpair = pair<const char *, const char *>;
     YArray<netpair> pending;
-
-    for (IterStats stat = devStats.iterator(); ++stat; ) {
+    auto checkIfInput = [&](const char* name, const char* data) {
         int index;
-        if (fNetStatus.find((*stat).name(), &index)) {
+        if (fNetStatus.find(name, &index)) {
             if (index < count && fNetStatus[index]) {
                 if (covered[index] == false) {
-                    fNetStatus[index]->timedUpdate((*stat).data());
+                    fNetStatus[index]->timedUpdate(data);
                     covered[index] = true;
                 }
             }
         }
         else {
             // oh, we got a new device? allowed?
-            pending.append(stat);
+            pending.append(netpair(name, data));
+        }
+    };
+
+    for (char* p = devicesText; (p = strchr(p, '\n')) != nullptr; ) {
+        *p = 0;
+        while (*++p == ' ');
+        char* name = p;
+        p += strcspn(p, " :|\n");
+        if (*p == ':') {
+            *p = 0;
+            while (*++p && *p == ' ');
+            if (*p && *p != '\n')
+                checkIfInput(name, p);
         }
     }
-
     // mark disappeared devices as down without additional ioctls
-    for (int i = 0; i < count; ++i)
+    for (int i = 0; i < count; ++i) {
         if (covered[i] == false && fNetStatus[i])
             fNetStatus[i]->timedUpdate(nullptr, true);
-
-    for (int i = 0; i < pending.getCount(); ++i) {
-        const netpair stat = pending[i];
-        YStringArray::IterType pat = patterns.iterator();
-        while (++pat && upath(stat.name()).fnMatch(pat));
+    }
+    for (const auto& nameAndData : pending) {
+        auto pat = patterns.iterator();
+        while (++pat && upath(nameAndData.left).fnMatch(pat));
         if (pat) {
-            createNetStatus(stat.name())->timedUpdate(stat.data());
+            createNetStatus(nameAndData.left)->timedUpdate(nameAndData.right);
         } else {
             // ignore this device
-            fNetStatus[stat.name()] = 0;
+            fNetStatus[nameAndData.left] = 0;
         }
     }
-
-    devStats.clear();
-    devicesText = nullptr;
 }
 #endif
 

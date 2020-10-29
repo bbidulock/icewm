@@ -19,6 +19,8 @@
 #include "intl.h"
 #include <stdlib.h> // for strtol
 
+#include <cstdint>
+
 YColorName YColor::black("rgb:00/00/00");
 YColorName YColor::white("rgb:FF/FF/FF");
 
@@ -45,36 +47,38 @@ public:
     static unsigned long
     color(Word r, Word g, Word b, Word a)
     {
-        if (sizeof(unsigned long) < 8)
+        if (sizeof(unsigned long) < 8) {
             return (r & 0xFF00) << 16 | (g & 0xFF00) << 8 | ((b >> 8) & 0xFF)
                  | ((a & 0xFF) << 24);
-        else
-            return (unsigned long) r << 32 | (unsigned long) g << 16 | b
-                 | (unsigned long) (a & 0xFF) << 48;
+	}
+        else {
+            return (uint64_t) r << 32 | (uint64_t) g << 16 | b
+                 | (uint64_t) (a & 0xFF) << 48;
+	}
     }
     unsigned short red() const {
         if (sizeof(unsigned long) < 8)
             return (fColor >> 16 & 0xFF00);
         else
-            return (fColor >> 32 & 0xFFFF);
+            return (uint64_t(fColor) >> 32 & 0xFFFF);
     }
     unsigned short green() const {
         if (sizeof(unsigned long) < 8)
             return (fColor >>  8 & 0xFF00);
         else
-            return (fColor >> 16 & 0xFFFF);
+            return (uint64_t(fColor) >> 16 & 0xFFFF);
     }
     unsigned short blue() const {
         if (sizeof(unsigned long) < 8)
             return (fColor <<  8 & 0xFF00);
         else
-            return (fColor & 0xFFFF);
+            return (uint64_t(fColor) & 0xFFFF);
     }
     unsigned short alpha() const {
         if (sizeof(unsigned long) < 8)
             return (fColor >> 24 & 0xFF);
         else
-            return (fColor >> 48 & 0xFF);
+            return (uint64_t(fColor) >> 48 & 0xFF);
     }
 
 private:

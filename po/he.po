@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm VERSION\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-09-13 23:24+0200\n"
+"POT-Creation-Date: 2020-10-29 18:49+0100\n"
 "PO-Revision-Date: 2016-06-06 12:13+0000\n"
 "Last-Translator: Stanislav Brabec <sbrabec@suse.com>\n"
 "Language-Team: Hebrew <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -52,11 +52,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:179 src/themes.cc:78
+#: src/aclock.cc:179 src/themes.cc:81
 msgid "Default"
 msgstr "שגרתי"
 
-#: src/aclock.cc:180 src/acpustatus.cc:663 src/amailbox.cc:978
+#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr ""
@@ -65,12 +65,12 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:298
+#: src/acpustatus.cc:296
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "עומס CPU‏: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:304
+#: src/acpustatus.cc:302
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -82,7 +82,7 @@ msgstr ""
 "\n"
 "זיכרון: ‏%5.2f/%.2fM"
 
-#: src/acpustatus.cc:309
+#: src/acpustatus.cc:307
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "\n"
 "החלף: ‏%.2f/%.2fמ"
 
-#: src/acpustatus.cc:315
+#: src/acpustatus.cc:313
 #, c-format
 msgid ""
 "\n"
@@ -103,7 +103,7 @@ msgstr ""
 "\n"
 "טמפרטורת ACPI: "
 
-#: src/acpustatus.cc:334 src/acpustatus.cc:374
+#: src/acpustatus.cc:332 src/acpustatus.cc:372
 #, c-format
 msgid ""
 "\n"
@@ -112,16 +112,16 @@ msgstr ""
 "\n"
 "תדירות CPU: ‏%.3fGHz"
 
-#: src/acpustatus.cc:351 src/acpustatus.cc:658
+#: src/acpustatus.cc:349 src/acpustatus.cc:656
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:351
+#: src/acpustatus.cc:349
 #, fuzzy
 msgid "Load: "
 msgstr "עומס CPU‏: "
 
-#: src/acpustatus.cc:366
+#: src/acpustatus.cc:364
 #, fuzzy, c-format
 #| msgid ""
 #| "\n"
@@ -135,20 +135,20 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:432
+#: src/acpustatus.cc:430
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:659
+#: src/acpustatus.cc:657
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:663
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:665
 msgid "_Separate"
 msgstr ""
 
@@ -177,63 +177,63 @@ msgstr "נתיב תיבת דואר שגוי: \"%s\""
 msgid "Could not connect to %s: %s"
 msgstr "לא ניתן להתחבר לשרת YIFF‏: %s"
 
-#: src/amailbox.cc:324
+#: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
 msgstr ""
 
-#: src/amailbox.cc:352 src/yapp.cc:417
+#: src/amailbox.cc:353 src/yapp.cc:417
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "לא היה ניתן למצוא תמונה %s"
 
-#: src/amailbox.cc:436
+#: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
 msgstr ""
 
-#: src/amailbox.cc:682
+#: src/amailbox.cc:683
 #, c-format
 msgid "Using MailBox \"%s\"\n"
 msgstr "משתמש בתיבת דואר \"%s\"\n"
 
-#: src/amailbox.cc:815
+#: src/amailbox.cc:816
 msgid "Suspended"
 msgstr ""
 
-#: src/amailbox.cc:819
+#: src/amailbox.cc:820
 msgid "Error checking mailbox."
 msgstr "שגיאה בבדיקת תיבת דואר."
 
-#: src/amailbox.cc:826
+#: src/amailbox.cc:827
 #, fuzzy, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "הודעת דואר %ld."
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:828
 #, fuzzy, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld הודעות דואר."
 
-#: src/amailbox.cc:833
+#: src/amailbox.cc:834
 #, c-format
 msgid "%ld mail message."
 msgstr "הודעת דואר %ld."
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:835
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld הודעות דואר."
 
-#: src/amailbox.cc:975
+#: src/amailbox.cc:976
 msgid "MAIL"
 msgstr ""
 
-#: src/amailbox.cc:977
+#: src/amailbox.cc:978
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:979
+#: src/amailbox.cc:980
 msgid "_Suspend"
 msgstr ""
 
@@ -277,7 +277,7 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:196
+#: src/apppstatus.cc:231
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -292,7 +292,7 @@ msgstr ""
 "  הועברו (פנים/ חוץ):\t%lli %s/%lli %s\n"
 "  זמן מקוון:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:208
+#: src/apppstatus.cc:243
 msgid ""
 "\n"
 "  Caller id:\t"
@@ -300,7 +300,7 @@ msgstr ""
 "\n"
 "  מזהה מתקשר:\t"
 
-#: src/apppstatus.cc:709
+#: src/apppstatus.cc:679
 msgid "NET"
 msgstr ""
 
@@ -308,125 +308,125 @@ msgstr ""
 msgid "Workspace: "
 msgstr "חלל עבודה: "
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1218
 msgid "Back"
 msgstr "אחורה"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1218
 msgid "Alt+Left"
 msgstr ""
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1220
 msgid "Forward"
 msgstr "קדימה"
 
-#: src/icehelp.cc:1222
+#: src/icehelp.cc:1220
 msgid "Alt+Right"
 msgstr ""
 
-#: src/icehelp.cc:1225
+#: src/icehelp.cc:1223
 msgid "Previous"
 msgstr "אחורה"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1224
 msgid "Next"
 msgstr "קדימה"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1226
 msgid "Contents"
 msgstr "תכנים"
 
 # מפתח
-#: src/icehelp.cc:1229
+#: src/icehelp.cc:1227
 msgid "Index"
 msgstr "אינדקס"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:123
+#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "סגור"
 
-#: src/icehelp.cc:1232 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68
 msgid "Ctrl+Q"
 msgstr ""
 
-#: src/icehelp.cc:1237
+#: src/icehelp.cc:1235
 msgid "Icewm(1)"
 msgstr ""
 
-#: src/icehelp.cc:1239
+#: src/icehelp.cc:1237
 msgid "Icewmbg(1)"
 msgstr ""
 
-#: src/icehelp.cc:1241
+#: src/icehelp.cc:1239
 msgid "Icesound(1)"
 msgstr ""
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1241
 msgid "FAQ"
 msgstr ""
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1243
 msgid "Manual"
 msgstr ""
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1245
 msgid "Support"
 msgstr ""
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1247
 #, fuzzy
 msgid "Theme Howto"
 msgstr "מחבר ערכת נושא:"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1249
 msgid "Website"
 msgstr ""
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1251
 msgid "Github"
 msgstr ""
 
-#: src/icehelp.cc:1956
+#: src/icehelp.cc:1954
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "ממשק לא נתמך: %s."
 
-#: src/icehelp.cc:1981
+#: src/icehelp.cc:1979
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "נתיב שגוי: %s\n"
 
-#: src/icehelp.cc:2004
+#: src/icehelp.cc:2002
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:2009
+#: src/icehelp.cc:2007
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:2038
+#: src/icehelp.cc:2036
 msgid "Failed to create a temporary file"
 msgstr ""
 
-#: src/icehelp.cc:2131
+#: src/icehelp.cc:2129
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2154
+#: src/icehelp.cc:2152
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "לא היה ניתן למצוא תמונה %s"
 
-#: src/icehelp.cc:2162
+#: src/icehelp.cc:2160
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2166
+#: src/icehelp.cc:2164
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2203
+#: src/icehelp.cc:2201
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -464,7 +464,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2282
+#: src/icehelp.cc:2280
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "פעולה לא מוכרת: `%s'"
@@ -510,134 +510,134 @@ msgstr ""
 msgid "Same Game"
 msgstr "אותו משחק"
 
-#: src/icesh.cc:74
+#: src/icesh.cc:75
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1562
+#: src/icesh.cc:1575
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 
-#: src/icesh.cc:1710
+#: src/icesh.cc:1723
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "מרחב עבודה מחוץ לתווך: %d"
 
-#: src/icesh.cc:1731
+#: src/icesh.cc:1744
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "שם מרחב עבודה שגוי: `%s'"
 
-#: src/icesh.cc:2008
+#: src/icesh.cc:2021
 msgid "GNOME window state"
 msgstr ""
 
-#: src/icesh.cc:2009
+#: src/icesh.cc:2022
 msgid "GNOME window hint"
 msgstr ""
 
-#: src/icesh.cc:2010
+#: src/icesh.cc:2023
 msgid "GNOME window layer"
 msgstr ""
 
-#: src/icesh.cc:2011
+#: src/icesh.cc:2024
 msgid "IceWM tray option"
 msgstr "אפשרויות מגש IceWM"
 
-#: src/icesh.cc:2012
+#: src/icesh.cc:2025
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2013
+#: src/icesh.cc:2026
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "יישומים מועדפים"
 
-#: src/icesh.cc:2014
+#: src/icesh.cc:2027
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "יישומים מועדפים"
 
-#: src/icesh.cc:2015
+#: src/icesh.cc:2028
 #, fuzzy
 #| msgid "Window list"
 msgid "EWMH window state"
 msgstr "רשימת חלון"
 
-#: src/icesh.cc:2097 src/icesh.cc:2126
+#: src/icesh.cc:2110 src/icesh.cc:2183
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "מרחב עבודה מספר %d: ‏`%s'\n"
 
-#: src/icesh.cc:2362 src/icesh.cc:3484 src/icesh.cc:3498 src/icesh.cc:3969
+#: src/icesh.cc:2425 src/icesh.cc:3639 src/icesh.cc:3653 src/icesh.cc:4124
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "ארגומנט שגוי: `%s'."
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3292
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3162
+#: src/icesh.cc:3317
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "ארגומנט שגוי: `%s'."
 
-#: src/icesh.cc:3212
+#: src/icesh.cc:3367
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:3222
+#: src/icesh.cc:3377
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "ביטוי שגוי: `%s'"
 
-#: src/icesh.cc:3233 src/icesound.cc:799 src/icewmhint.cc:36 src/wmapp.cc:1118
-#: src/yxapp.cc:1047
+#: src/icesh.cc:3388 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1110
+#: src/yxapp.cc:1048
 #, fuzzy, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "CLI"
 
-#: src/icesh.cc:3246
+#: src/icesh.cc:3401
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "ארגומנט שגוי: `%s'."
 
-#: src/icesh.cc:3281
+#: src/icesh.cc:3436
 msgid "No windows found."
 msgstr ""
 
 # מצוינת
-#: src/icesh.cc:3296
+#: src/icesh.cc:3451
 msgid "No actions specified."
 msgstr "לא צוינו פעולות."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3556
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "מזהה חלון לא תקין: `%s'"
 
-#: src/icesh.cc:3418
+#: src/icesh.cc:3573
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "ארגומנט שגוי: `%s'."
 
-#: src/icesh.cc:3454
+#: src/icesh.cc:3609
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "ארגומנט שגוי: `%s'."
 
-#: src/icesh.cc:4284
+#: src/icesh.cc:4427
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "פעולה לא מוכרת: `%s'"
@@ -664,29 +664,39 @@ msgid ""
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
 
-#: src/icesm.cc:167
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+
+#: src/icesm.cc:188
 #, fuzzy, c-format
 msgid "Unknown option '%s'"
 msgstr "פעולה לא מוכרת: `%s'"
 
 # אתחל
-#: src/icesm.cc:421 src/icesm.cc:581
+#: src/icesm.cc:452 src/icesm.cc:612
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "ריסט"
 
-#: src/icesm.cc:427
+#: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
 msgstr ""
 
-#: src/icesm.cc:433 src/icesm.cc:587
+#: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/icesm.cc:472
+#: src/icesm.cc:503
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -696,81 +706,81 @@ msgid ""
 "\t3: Run a terminal?\n"
 msgstr ""
 
-#: src/icesm.cc:478
+#: src/icesm.cc:509
 #, fuzzy
 #| msgid "IceWM tray option"
 msgid "IceWM crash response"
 msgstr "אפשרויות מגש IceWM"
 
-#: src/icesound.cc:216 src/icesound.cc:324 src/icesound.cc:484
+#: src/icesound.cc:210 src/icesound.cc:318 src/icesound.cc:478
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr ""
 
-#: src/icesound.cc:334
+#: src/icesound.cc:328
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr ""
 
-#: src/icesound.cc:340 src/icesound.cc:345
+#: src/icesound.cc:334 src/icesound.cc:339
 msgid "Could not set OSS channels"
 msgstr ""
 
-#: src/icesound.cc:350 src/icesound.cc:378
+#: src/icesound.cc:344 src/icesound.cc:372
 msgid "Could not sync OSS"
 msgstr ""
 
-#: src/icesound.cc:362
+#: src/icesound.cc:356
 msgid "OSS write failed"
 msgstr ""
 
-#: src/icesound.cc:366
+#: src/icesound.cc:360
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr ""
 
-#: src/icesound.cc:373
+#: src/icesound.cc:367
 #, fuzzy
 msgid "Could not post OSS"
 msgstr "לא היה ניתן להטעין fontset \"%s\"."
 
-#: src/icesound.cc:402
+#: src/icesound.cc:396
 #, fuzzy, c-format
 msgid "Could not open OSS device %s"
 msgstr "לא היה ניתן למצוא תמונה %s"
 
-#: src/icesound.cc:407
+#: src/icesound.cc:401
 msgid "Could not set OSS stereo"
 msgstr ""
 
-#: src/icesound.cc:412
+#: src/icesound.cc:406
 msgid "Could not reset OSS DSP"
 msgstr ""
 
-#: src/icesound.cc:417
+#: src/icesound.cc:411
 msgid "Could not set OSS format"
 msgstr ""
 
-#: src/icesound.cc:504
+#: src/icesound.cc:498
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr ""
 
-#: src/icesound.cc:515
+#: src/icesound.cc:509
 msgid "ao_play failed"
 msgstr ""
 
-#: src/icesound.cc:681
+#: src/icesound.cc:675
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "אפשרות לא מוכרת: %s\n"
 
-#: src/icesound.cc:684 src/icesound.cc:977
+#: src/icesound.cc:678 src/icesound.cc:971
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "ארגומנט לא מוכר: %s\n"
 
-#: src/icesound.cc:693
+#: src/icesound.cc:687
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -822,56 +832,56 @@ msgid ""
 "\n"
 msgstr "CLI"
 
-#: src/icesound.cc:784
+#: src/icesound.cc:778
 #, c-format
 msgid "No audio for %s"
 msgstr ""
 
-#: src/icesound.cc:861
+#: src/icesound.cc:855
 msgid "Could not get GUI event property"
 msgstr ""
 
-#: src/icesound.cc:865
+#: src/icesound.cc:859
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr ""
 
-#: src/icesound.cc:869
+#: src/icesound.cc:863
 #, c-format
 msgid "Received GUI event %s"
 msgstr ""
 
-#: src/icesound.cc:883
+#: src/icesound.cc:877
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr ""
 
-#: src/icesound.cc:887
+#: src/icesound.cc:881
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr ""
 
-#: src/icesound.cc:920
+#: src/icesound.cc:914
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "ממשק לא נתמך: %s."
 
-#: src/icesound.cc:929
+#: src/icesound.cc:923
 #, c-format
 msgid "Using %s audio."
 msgstr ""
 
-#: src/icesound.cc:933
+#: src/icesound.cc:927
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr ""
 
-#: src/icesound.cc:945
+#: src/icesound.cc:939
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr ""
 
-#: src/icetray.cc:231
+#: src/icetray.cc:220
 msgid ""
 "  -n, --notify        Notify parent process by sending signal USR1.\n"
 "  --display=NAME      Use NAME to connect to the X server.\n"
@@ -962,7 +972,7 @@ msgid ""
 "\n"
 msgstr "CLI"
 
-#: src/icewmbg.cc:1096
+#: src/icewmbg.cc:1086
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -976,11 +986,11 @@ msgstr "CLI"
 msgid "Out of memory (len=%d)."
 msgstr "אזל הזיכרון (len=%d)."
 
-#: src/misc.cc:73 src/misc.cc:85
+#: src/misc.cc:70 src/misc.cc:82
 msgid "Warning: "
 msgstr "אזהרה: "
 
-#: src/misc.cc:379
+#: src/misc.cc:376
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -992,7 +1002,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:879
+#: src/movesize.cc:875
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
@@ -1025,176 +1035,176 @@ msgstr "שפה:"
 msgid "icewm - About"
 msgstr "icewm - אודות"
 
-#: src/wmapp.cc:79
+#: src/wmapp.cc:78
 #, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "CLI"
 
-#: src/wmapp.cc:97
+#: src/wmapp.cc:96
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr ""
 
-#: src/wmapp.cc:101
+#: src/wmapp.cc:100
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:106
+#: src/wmapp.cc:105
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:417
 msgid "_Logout"
 msgstr "_התנתק"
 
-#: src/wmapp.cc:419
+#: src/wmapp.cc:418
 msgid "_Cancel logout"
 msgstr "_בטל התנתקות"
 
-#: src/wmapp.cc:424
+#: src/wmapp.cc:423
 msgid "Lock _Workstation"
 msgstr "נעל _תחנת עבודה"
 
-#: src/wmapp.cc:426 src/wmdialog.cc:72
+#: src/wmapp.cc:425 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "_אתחל"
 
-#: src/wmapp.cc:428 src/wmdialog.cc:73
+#: src/wmapp.cc:427 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "_כבה"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:430 src/wmdialog.cc:69
+#: src/wmapp.cc:429 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:435
+#: src/wmapp.cc:434
 msgid "Restart _Icewm"
 msgstr "אתחל את _Icewm"
 
-#: src/wmapp.cc:437
+#: src/wmapp.cc:436
 msgid "Restart _Xterm"
 msgstr "אתחל את _Xterm"
 
-#: src/wmapp.cc:447
+#: src/wmapp.cc:446
 msgid "_Menu"
 msgstr "_תפריט"
 
-#: src/wmapp.cc:448
+#: src/wmapp.cc:447
 msgid "_Above Dock"
 msgstr "מ_על רציף"
 
-#: src/wmapp.cc:449
+#: src/wmapp.cc:448
 msgid "_Dock"
 msgstr "_רציף"
 
-#: src/wmapp.cc:450
+#: src/wmapp.cc:449
 msgid "_OnTop"
 msgstr "_בראש"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:450
 msgid "_Normal"
 msgstr "_רגיל"
 
-#: src/wmapp.cc:452
+#: src/wmapp.cc:451
 msgid "_Below"
 msgstr "_למטה"
 
-#: src/wmapp.cc:453
+#: src/wmapp.cc:452
 msgid "D_esktop"
 msgstr "_שולחן עבודה"
 
-#: src/wmapp.cc:488 src/wmwinlist.cc:359
+#: src/wmapp.cc:487 src/wmwinlist.cc:361
 msgid "_Restore"
 msgstr "_שחזר"
 
-#: src/wmapp.cc:490
+#: src/wmapp.cc:489
 msgid "_Move"
 msgstr "_הזז"
 
 # _מידה
-#: src/wmapp.cc:492
+#: src/wmapp.cc:491
 msgid "_Size"
 msgstr "ש_נה גודל"
 
-#: src/wmapp.cc:494 src/wmwinlist.cc:360
+#: src/wmapp.cc:493 src/wmwinlist.cc:362
 msgid "Mi_nimize"
 msgstr "מ_זער"
 
-#: src/wmapp.cc:496 src/wmwinlist.cc:361
+#: src/wmapp.cc:495 src/wmwinlist.cc:363
 msgid "Ma_ximize"
 msgstr "הג_דל"
 
-#: src/wmapp.cc:497 src/wmwinlist.cc:362
+#: src/wmapp.cc:496 src/wmwinlist.cc:364
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "הגדל"
 
-#: src/wmapp.cc:498 src/wmwinlist.cc:363
+#: src/wmapp.cc:497 src/wmwinlist.cc:365
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "הגדל"
 
-#: src/wmapp.cc:501 src/wmwinlist.cc:364
+#: src/wmapp.cc:500 src/wmwinlist.cc:366
 msgid "_Fullscreen"
 msgstr "_מסך מלא"
 
-#: src/wmapp.cc:504 src/wmwinlist.cc:366
+#: src/wmapp.cc:503 src/wmwinlist.cc:368
 msgid "_Hide"
 msgstr "_הסתר"
 
-#: src/wmapp.cc:506 src/wmwinlist.cc:367
+#: src/wmapp.cc:505 src/wmwinlist.cc:369
 msgid "Roll_up"
 msgstr "גלול _מעלה"
 
-#: src/wmapp.cc:513
+#: src/wmapp.cc:512
 msgid "R_aise"
 msgstr "ה_רם"
 
-#: src/wmapp.cc:515 src/wmwinlist.cc:369
+#: src/wmapp.cc:514 src/wmwinlist.cc:371
 msgid "_Lower"
 msgstr "ה_נמך"
 
-#: src/wmapp.cc:517 src/wmwinlist.cc:370
+#: src/wmapp.cc:516 src/wmwinlist.cc:372
 msgid "La_yer"
 msgstr "_רובד"
 
-#: src/wmapp.cc:521 src/wmwinlist.cc:372
+#: src/wmapp.cc:520 src/wmwinlist.cc:374
 msgid "Move _To"
 msgstr "העבר _אל"
 
-#: src/wmapp.cc:522 src/wmwinlist.cc:373
+#: src/wmapp.cc:521 src/wmwinlist.cc:375
 msgid "Occupy _All"
 msgstr "כבוש _הכל"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:527
 msgid "Limit _Workarea"
 msgstr "הגבל _אזור עבודה"
 
-#: src/wmapp.cc:532 src/wmwinlist.cc:374
+#: src/wmapp.cc:531 src/wmwinlist.cc:376
 msgid "Tray _icon"
 msgstr "סמל _מגש"
 
-#: src/wmapp.cc:537 src/wmwinlist.cc:389 src/wmwinlist.cc:397
+#: src/wmapp.cc:536 src/wmwinlist.cc:391 src/wmwinlist.cc:399
 msgid "_Close"
 msgstr "_סגור"
 
-#: src/wmapp.cc:539 src/wmwinlist.cc:391
+#: src/wmapp.cc:538 src/wmwinlist.cc:393
 msgid "_Kill Client"
 msgstr "_הרוג לקוח"
 
-#: src/wmapp.cc:542 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:541 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "רשימת _חלון"
 
-#: src/wmapp.cc:575
+#: src/wmapp.cc:574
 #, fuzzy
 msgid "Another window manager already running, exiting..."
 msgstr "CLI"
 
-#: src/wmapp.cc:647
+#: src/wmapp.cc:646
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1203,27 +1213,27 @@ msgstr ""
 "לא היה ניתן לאתחל: %s\n"
 "האם PATH$ מוביל אל %s?"
 
-#: src/wmapp.cc:816
+#: src/wmapp.cc:815
 msgid "Kill IceWM, replace with Xterm"
 msgstr ""
 
-#: src/wmapp.cc:1119 src/yxapp.cc:1048
+#: src/wmapp.cc:1111 src/yxapp.cc:1049
 msgid "<none>"
 msgstr ""
 
-#: src/wmapp.cc:1458
+#: src/wmapp.cc:1436
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1464
+#: src/wmapp.cc:1442
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1472
+#: src/wmapp.cc:1450
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1234,7 +1244,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1481
+#: src/wmapp.cc:1459
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1266,26 +1276,26 @@ msgid ""
 "\n"
 msgstr "CLI"
 
-#: src/wmapp.cc:1543
+#: src/wmapp.cc:1521
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1600
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "אפשרות לא מוכרת: %s\n"
 
-#: src/wmapp.cc:1706
+#: src/wmapp.cc:1678
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "אפשרות לא מוכרת: %s\n"
 
-#: src/wmapp.cc:1759
+#: src/wmapp.cc:1729
 msgid "Confirm Logout"
 msgstr "אימות התנתקות"
 
-#: src/wmapp.cc:1760
+#: src/wmapp.cc:1730
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1293,56 +1303,56 @@ msgstr ""
 "התנתקות תסגור את כל היישומים הפעילים.\n"
 "להמשיך?"
 
-#: src/wmbutton.cc:81
+#: src/wmbutton.cc:85
 msgid "Raise/Lower"
 msgstr "הרם/הנמך"
 
-#: src/wmbutton.cc:86
+#: src/wmbutton.cc:90
 msgid "Hide"
 msgstr "הסתר"
 
-#: src/wmbutton.cc:92
+#: src/wmbutton.cc:96
 msgid "Restore"
 msgstr "שחזר"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:100
 msgid "Maximize"
 msgstr "הגדל"
 
-#: src/wmbutton.cc:102
+#: src/wmbutton.cc:106
 msgid "Minimize"
 msgstr "מזער"
 
-#: src/wmbutton.cc:108
+#: src/wmbutton.cc:112
 msgid "Rolldown"
 msgstr "גלול מטה"
 
-#: src/wmbutton.cc:111
+#: src/wmbutton.cc:115
 msgid "Rollup"
 msgstr "גלול מעלה"
 
-#: src/wmconfig.cc:39
+#: src/wmconfig.cc:33 src/wmconfig.cc:38 src/wmconfig.cc:44
 #, c-format
 msgid "Failed to load theme %s"
 msgstr ""
 
-#: src/wmconfig.cc:104
+#: src/wmconfig.cc:111
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "פעולה לא מוכרת: `%s'"
 
-#: src/wmconfig.cc:112
+#: src/wmconfig.cc:119
 #, c-format
 msgid "Unable to create directory %s"
 msgstr ""
 
-#: src/wmconfig.cc:139 src/wmprog.cc:567 src/wmprog.cc:689 src/wmprog.cc:693
+#: src/wmconfig.cc:146 src/wmprog.cc:580 src/wmprog.cc:702 src/wmprog.cc:706
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
 # מקש
-#: src/wmconfig.cc:175 src/wmprog.cc:697
+#: src/wmconfig.cc:182 src/wmprog.cc:710
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "שם מקש לא מוכר %s בתוך %s"
@@ -1356,8 +1366,8 @@ msgid "_Cancel"
 msgstr "_ביטול"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:847 src/wmprog.cc:849 src/wmtaskbar.cc:257
-#: src/wmtaskbar.cc:259
+#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:251
+#: src/wmtaskbar.cc:253
 msgid "_Logout..."
 msgstr "_התנתק..."
 
@@ -1366,16 +1376,16 @@ msgid "_Restart icewm"
 msgstr "_אתחל את icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:808 src/wmtaskbar.cc:252
+#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:246
 msgid "_About"
 msgstr "_אודות"
 
-#: src/wmframe.cc:1468
+#: src/wmframe.cc:1372
 msgid "Kill Client: "
 msgstr "הרוג לקוח: "
 
 # הינו הרוג
-#: src/wmframe.cc:1475
+#: src/wmframe.cc:1379
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1383,106 +1393,106 @@ msgstr ""
 "אזהרה! כל השינויים שלא נשמרו יאבדו כאשר\n"
 "לקוח זה הרוג. האם ברצונך להמשיך?"
 
-#: src/wmmgr.cc:3282
+#: src/wmmgr.cc:3263
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3283
+#: src/wmmgr.cc:3264
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:260
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "אפשרות חלון לא מוכרת: %s"
 
-#: src/wmoption.cc:330
+#: src/wmoption.cc:331
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "שגיאת תחביר בחלון אפשרויות"
 
-#: src/wmprog.cc:395
+#: src/wmprog.cc:399
 msgid "_Click to focus"
 msgstr "_הקלק כדי למקד"
 
-#: src/wmprog.cc:396
+#: src/wmprog.cc:400
 #, fuzzy
 msgid "_Explicit focus"
 msgstr "_הקלק כדי למקד"
 
 # slippery
-#: src/wmprog.cc:397
+#: src/wmprog.cc:401
 msgid "_Sloppy mouse focus"
 msgstr "_מיקוד עכבר מרושל"
 
 # slippery
-#: src/wmprog.cc:398
+#: src/wmprog.cc:402
 #, fuzzy
 msgid "S_trict mouse focus"
 msgstr "_מיקוד עכבר מרושל"
 
 # slippery
-#: src/wmprog.cc:399
+#: src/wmprog.cc:403
 #, fuzzy
 msgid "_Quiet sloppy focus"
 msgstr "_מיקוד עכבר מרושל"
 
-#: src/wmprog.cc:400
+#: src/wmprog.cc:404
 msgid "Custo_m"
 msgstr "_מותאם"
 
-#: src/wmprog.cc:487
+#: src/wmprog.cc:499
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Save Modifications"
 msgstr "יישומים מועדפים"
 
-#: src/wmprog.cc:720
+#: src/wmprog.cc:733
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:721
+#: src/wmprog.cc:734
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:722
+#: src/wmprog.cc:735
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:723
+#: src/wmprog.cc:736
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:785
+#: src/wmprog.cc:798
 msgid "Programs"
 msgstr "תוכניות"
 
-#: src/wmprog.cc:790
+#: src/wmprog.cc:803
 msgid "_Run..."
 msgstr "_הרץ..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:795 src/wmtaskbar.cc:247
+#: src/wmprog.cc:808 src/wmtaskbar.cc:241
 msgid "_Windows"
 msgstr "_חלונות"
 
-#: src/wmprog.cc:814
+#: src/wmprog.cc:827
 msgid "_Help"
 msgstr "_עזרה"
 
-#: src/wmprog.cc:825
+#: src/wmprog.cc:838
 msgid "_Focus"
 msgstr "_מיקוד"
 
-#: src/wmprog.cc:830
+#: src/wmprog.cc:843
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:836
+#: src/wmprog.cc:849
 msgid "_Themes"
 msgstr "_ערכות נושא"
 
-#: src/wmprog.cc:841
+#: src/wmprog.cc:854
 msgid "Se_ttings"
 msgstr "_הגדרות"
 
@@ -1494,77 +1504,77 @@ msgstr "מנהל סשן: שורה לא מוכרת %s"
 # רצף אנכית (במאונך)
 # מו _ערמים
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:229 src/wmwinlist.cc:376 src/wmwinlist.cc:409
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:378 src/wmwinlist.cc:411
 msgid "Tile _Vertically"
 msgstr "חלונות מו_ערמים"
 
 # רצף אנכית (במאוזן)
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:231 src/wmwinlist.cc:377 src/wmwinlist.cc:410
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "T_ile Horizontally"
 msgstr "חלונות  מרו_צפים"
 
 # מ_דורגים
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:378 src/wmwinlist.cc:411
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:380 src/wmwinlist.cc:413
 msgid "Ca_scade"
 msgstr "חלונות מ_דורגים"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:229 src/wmwinlist.cc:381 src/wmwinlist.cc:414
 msgid "_Arrange"
 msgstr "סד_ר חלונות"
 
 # מזער הכל
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:237 src/wmwinlist.cc:381 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:231 src/wmwinlist.cc:383 src/wmwinlist.cc:415
 msgid "_Minimize All"
 msgstr "_מזער הכל"
 
 # הסתר הכל
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:239 src/wmwinlist.cc:382 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:233 src/wmwinlist.cc:384 src/wmwinlist.cc:416
 msgid "_Hide All"
 msgstr "_הסתר הכל"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241 src/wmwinlist.cc:383 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:235 src/wmwinlist.cc:385 src/wmwinlist.cc:417
 msgid "_Undo"
 msgstr "בט_ל"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:238
 msgid "Arrange _Icons"
 msgstr "סדר _סמלים"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:250
+#: src/wmtaskbar.cc:244
 msgid "_Refresh"
 msgstr "_רענן"
 
-#: src/wmtaskbar.cc:323 src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:317 src/wmtaskbar.cc:958
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "סרגל משימות"
 
-#: src/wmtaskbar.cc:346
+#: src/wmtaskbar.cc:340
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "יישומים מועדפים"
 
-#: src/wmtaskbar.cc:367
+#: src/wmtaskbar.cc:361
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "תפריט רשימת חלון"
 
-#: src/wmtaskbar.cc:376
+#: src/wmtaskbar.cc:370
 msgid "Show Desktop"
 msgstr "הצג שולחן עבודה"
 
-#: src/wmtaskbar.cc:946
+#: src/wmtaskbar.cc:958
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1574,29 +1584,29 @@ msgstr "סרגל משימות"
 msgid "All Workspaces"
 msgstr "כל מרחבי העבודה"
 
-#: src/wmwinlist.cc:365
+#: src/wmwinlist.cc:367
 msgid "_Show"
 msgstr "_הצג"
 
-#: src/wmwinlist.cc:368
+#: src/wmwinlist.cc:370
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "ה_רם"
 
-#: src/wmwinlist.cc:389
+#: src/wmwinlist.cc:391
 msgid "Del"
 msgstr ""
 
-#: src/wmwinlist.cc:393
+#: src/wmwinlist.cc:395
 msgid "_Terminate Process"
 msgstr "_סיים תהליך"
 
-#: src/wmwinlist.cc:394
+#: src/wmwinlist.cc:396
 msgid "Kill _Process"
 msgstr "הרוג _תהליך"
 
-#: src/wmwinlist.cc:429 src/wmwinlist.cc:430
+#: src/wmwinlist.cc:431 src/wmwinlist.cc:432
 msgid "Window list"
 msgstr "רשימת חלון"
 
@@ -1616,16 +1626,11 @@ msgstr ""
 msgid "Unknown key name %s in %s"
 msgstr "שם מקש לא מוכר %s בתוך %s"
 
-#: src/yconfig.cc:129 src/yconfig.cc:142 src/yconfig.cc:156
+#: src/yconfig.cc:122 src/yconfig.cc:133 src/yconfig.cc:145
 #, fuzzy, c-format
 #| msgid "Bad argument: %s for %s"
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "ארגומנט רע: %s עבוד %s"
-
-#: src/yconfig.cc:193
-#, c-format
-msgid "Bad option: %s"
-msgstr "אפשרות רעה: %s"
 
 #: src/ycursor.cc:114
 #, c-format
@@ -1662,12 +1667,12 @@ msgstr "תקלה? סוף לא צפוי של קובץ XPM אולם Imlib היה �
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "תקלה? תו לא צפוי אולם Imlib היה מסוגל לנתח את \"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:157
+#: src/yfontcore.cc:72 src/yfontxft.cc:159
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "לא היה ניתן להטעין גופן \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:180
+#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:182
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "טעינה של גופן מפלט \"%s\" נכשלה."
@@ -1774,7 +1779,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:1008
+#: src/yxapp.cc:1009
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2505,6 +2510,9 @@ msgstr "פיתוח"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr ""
+
+#~ msgid "Bad option: %s"
+#~ msgstr "אפשרות רעה: %s"
 
 #~ msgid "Unable to get current font path."
 #~ msgstr "לא ניתן להשיג נתיב גופן נוכחי."

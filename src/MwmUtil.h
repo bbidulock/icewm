@@ -91,6 +91,12 @@ struct MwmHints {
     void notDecor() { flags &= ~MWM_HINTS_DECORATIONS; }
     void notInput() { flags &= ~MWM_HINTS_INPUT_MODE; }
     void notStatus() { flags &= ~MWM_HINTS_STATUS; }
+
+    bool funcsAll() const { return functions & MWM_FUNC_ALL; }
+    long funcs() const { return funcsAll() ? ~functions : functions; }
+
+    bool decorAll() const { return decorations & MWM_DECOR_ALL; }
+    long decor() const { return decorAll() ? ~decorations : decorations; }
 };
 
 /*
@@ -102,10 +108,6 @@ struct MwmHints {
 #define _XA_MOTIF_WM_OFFSET             "_MOTIF_WM_OFFSET"
 #define _XA_MOTIF_WM_MENU               "_MOTIF_WM_MENU"
 #define _XA_MOTIF_WM_INFO               "_MOTIF_WM_INFO"
-#define _XA_MWM_HINTS                   _XA_MOTIF_WM_HINTS
-#define _XA_MWM_MESSAGES                _XA_MOTIF_WM_MESSAGES
-#define _XA_MWM_MENU                    _XA_MOTIF_WM_MENU
-#define _XA_MWM_INFO                    _XA_MOTIF_WM_INFO
 
 #endif
 
