@@ -1086,13 +1086,12 @@ void YWindowManager::unmanageClients() {
     setFocus(nullptr);
     grabServer();
 
-    const bool reparent = true;
     for (unsigned int l = 0; l < WinLayerCount; l++) {
         while (bottom(l)) {
             YFrameWindow* frame = bottom(l);
             YFrameClient* client = frame->client();
 
-            frame->unmanage(reparent);
+            frame->unmanage();
             delete frame;
 
             if (client->adopted()) {
@@ -1680,13 +1679,10 @@ void YWindowManager::mapClient(Window win) {
 }
 
 void YWindowManager::unmanageClient(YFrameClient* client) {
-    YFrameWindow *frame = client->getFrame();
-    const bool reparent = true;
-
     MSG(("unmanaging window 0x%lX", client->handle()));
-
+    YFrameWindow* frame = client->getFrame();
     if (frame) {
-        frame->unmanage(reparent);
+        frame->unmanage();
         delete frame;
     }
     delete client;
