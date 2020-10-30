@@ -3149,8 +3149,7 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 void YFrameWindow::updateMwmHints() {
     YDimension old(dimension());
     getFrameHints();
-    updateDerivedSize(None);
-    updateLayout();
+    setNormalGeometryInner(posX, posY, posW, posH);
     if (old == dimension()) {
         performLayout();
     }
