@@ -914,10 +914,13 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         else
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
-        if (getFrame())
-            getFrame()->wmSetLayer(message.data.l[0]);
-        else
-            setWinLayerHint(message.data.l[0]);
+        long layer = message.data.l[0];
+        if (inrange(layer, WinLayerDesktop, WinLayerAboveAll)) {
+            if (getFrame())
+                getFrame()->actionPerformed(layerActionSet[layer]);
+            else
+                setWinLayerHint(layer);
+        }
     } else if (message.message_type == _XA_WIN_TRAY) {
         if (getFrame())
             getFrame()->setTrayOption(message.data.l[0]);
