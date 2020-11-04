@@ -2550,21 +2550,26 @@ YFrameWindow *YFrameWindow::mainOwner() {
 
 
 void YFrameWindow::setRequestedLayer(long layer) {
-    if (fWinRequestedLayer != layer && inrange(layer, 0L, WinLayerAboveAll)) {
-        fWinRequestedLayer = layer;
+    if (inrange(layer, 0L, WinLayerAboveAll)) {
+        if (fWinRequestedLayer != layer ||
+            (hasState(WinStateAbove) && layer != WinLayerOnTop) ||
+            (hasState(WinStateBelow) && layer != WinLayerBelow))
+        {
+            fWinRequestedLayer = layer;
 
-        long state = (fWinState & ~(WinStateAbove | WinStateBelow));
-        if (layer == WinLayerOnTop) {
-            state |= WinStateAbove;
-        }
-        if (layer == WinLayerBelow) {
-            state |= WinStateBelow;
-        }
-        if (fWinState != state) {
-            fWinState = state;
-        }
+            long state = (fWinState & ~(WinStateAbove | WinStateBelow));
+            if (layer == WinLayerOnTop) {
+                state |= WinStateAbove;
+            }
+            if (layer == WinLayerBelow) {
+                state |= WinStateBelow;
+            }
+            if (fWinState != state) {
+                fWinState = state;
+            }
 
-        updateLayer();
+            updateLayer();
+        }
     }
 }
 
