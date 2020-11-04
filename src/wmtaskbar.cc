@@ -54,11 +54,8 @@ EdgeTrigger::~EdgeTrigger() {
 
 void EdgeTrigger::startTimer(HideOrShow show) {
     fHideOrShow = show;
-    if (fHideOrShow) {
-        fAutoHideTimer->setTimer(autoShowDelay, this, true);
-    } else {
-        fAutoHideTimer->setTimer(autoHideDelay, this, true);
-    }
+    long delay = max(10, show ? autoShowDelay : autoHideDelay);
+    fAutoHideTimer->setTimer(delay, this, true);
 }
 
 void EdgeTrigger::stopTimer() {
@@ -100,7 +97,7 @@ void EdgeTrigger::handleDNDEnter() {
 }
 
 void EdgeTrigger::handleDNDLeave() {
-    stopTimer();
+    startTimer();
 }
 
 bool EdgeTrigger::handleTimer(YTimer *t) {

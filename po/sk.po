@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-10-29 20:23+0100\n"
+"POT-Creation-Date: 2020-11-04 23:10+0100\n"
 "PO-Revision-Date: 2020-09-23 19:48+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -297,122 +297,122 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "Pracovná plocha: "
 
-#: src/icehelp.cc:1218
+#: src/icehelp.cc:1221
 msgid "Back"
 msgstr "Späť"
 
-#: src/icehelp.cc:1218
+#: src/icehelp.cc:1221
 msgid "Alt+Left"
 msgstr "Alt+Vľavo"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1223
 msgid "Forward"
 msgstr "Dopredu"
 
-#: src/icehelp.cc:1220
+#: src/icehelp.cc:1223
 msgid "Alt+Right"
 msgstr "Alt+Vpravo"
 
-#: src/icehelp.cc:1223
+#: src/icehelp.cc:1226
 msgid "Previous"
 msgstr "Predchádzajúce"
 
-#: src/icehelp.cc:1224
+#: src/icehelp.cc:1227
 msgid "Next"
 msgstr "Nasledujúce"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1229
 msgid "Contents"
 msgstr "Obsah"
 
-#: src/icehelp.cc:1227
+#: src/icehelp.cc:1230
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Zavrieť"
 
-#: src/icehelp.cc:1230 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1238
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1237
+#: src/icehelp.cc:1240
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1239
+#: src/icehelp.cc:1242
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1241
+#: src/icehelp.cc:1244
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1246
 msgid "Manual"
 msgstr "Ručne"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1248
 msgid "Support"
 msgstr "Podpora"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1250
 msgid "Theme Howto"
 msgstr "Howto témy"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1252
 msgid "Website"
 msgstr "Webové stránky"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1254
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1954
+#: src/icehelp.cc:1957
 msgid "Unsupported protocol."
 msgstr "Nepodporovaný protokol."
 
-#: src/icehelp.cc:1979
+#: src/icehelp.cc:1982
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Neplatná cesta: %s\n"
 
-#: src/icehelp.cc:2002
+#: src/icehelp.cc:2005
 msgid "Path does not refer to a file."
 msgstr "Cesta neodkazuje na súbor."
 
-#: src/icehelp.cc:2007
+#: src/icehelp.cc:2010
 msgid "Failed to open file for reading."
 msgstr "Zlyhalo otvorenie súboru na čítanie."
 
-#: src/icehelp.cc:2036
+#: src/icehelp.cc:2039
 msgid "Failed to create a temporary file"
 msgstr "Zlyhalo vytvorenie dočasného súboru"
 
-#: src/icehelp.cc:2129
+#: src/icehelp.cc:2132
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Zlyhalo vykonanie system(%s) (%d)"
 
-#: src/icehelp.cc:2152
+#: src/icehelp.cc:2155
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Zlyhalo rozbalenie %s"
 
-#: src/icehelp.cc:2160
+#: src/icehelp.cc:2163
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nebolo možné nájsť curl alebo wget v PATH"
 
-#: src/icehelp.cc:2164
+#: src/icehelp.cc:2167
 msgid "Unsafe characters in URL"
 msgstr "Nebezpečné znaky v URL"
 
-#: src/icehelp.cc:2201
+#: src/icehelp.cc:2204
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -484,7 +484,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2280
+#: src/icehelp.cc:2283
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorovanie voľby '%s'"
@@ -611,7 +611,7 @@ msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
 #: src/icesh.cc:3388 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1110
-#: src/yxapp.cc:1048
+#: src/yxapp.cc:1054
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -1353,7 +1353,7 @@ msgstr ""
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Zabiť IceWM, nahradiť s Xterm"
 
-#: src/wmapp.cc:1111 src/yxapp.cc:1049
+#: src/wmapp.cc:1111 src/yxapp.cc:1055
 msgid "<none>"
 msgstr "<žiadny>"
 
@@ -1542,8 +1542,8 @@ msgid "_Cancel"
 msgstr "_Zrušiť"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:251
-#: src/wmtaskbar.cc:253
+#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:248
+#: src/wmtaskbar.cc:250
 msgid "_Logout..."
 msgstr "Odh_lásenie..."
 
@@ -1552,15 +1552,15 @@ msgid "_Restart icewm"
 msgstr "_Reštartovať icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:246
+#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:243
 msgid "_About"
 msgstr "O _aplikacii"
 
-#: src/wmframe.cc:1372
+#: src/wmframe.cc:1407
 msgid "Kill Client: "
 msgstr "Zabiť klienta: "
 
-#: src/wmframe.cc:1379
+#: src/wmframe.cc:1414
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1568,11 +1568,11 @@ msgstr ""
 "VAROVANIE! Ak bude tento klient zabitý, budú\n"
 "všetky neuložené dáta stratené. Chcete pokračovať?"
 
-#: src/wmmgr.cc:3263
+#: src/wmmgr.cc:3280
 msgid "Missing program setxkbmap"
 msgstr "Chýba program setxkbmap"
 
-#: src/wmmgr.cc:3264
+#: src/wmmgr.cc:3281
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Pre prepínanie klávesníc nainštalujte setxkbmap."
 
@@ -1639,7 +1639,7 @@ msgid "_Run..."
 msgstr "_Spustiť..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:808 src/wmtaskbar.cc:241
+#: src/wmprog.cc:808 src/wmtaskbar.cc:238
 msgid "_Windows"
 msgstr "_Okná"
 
@@ -1669,67 +1669,67 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Manažér sedení: Neznámy riadok %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:378 src/wmwinlist.cc:411
+#: src/wmtaskbar.cc:220 src/wmwinlist.cc:378 src/wmwinlist.cc:411
 msgid "Tile _Vertically"
 msgstr "Zarovnať _vertikálne"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:222 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "T_ile Horizontally"
 msgstr "Zarovnať _horizontálne"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:224 src/wmwinlist.cc:380 src/wmwinlist.cc:413
 msgid "Ca_scade"
 msgstr "Zarovnať do _kaskády"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:229 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:226 src/wmwinlist.cc:381 src/wmwinlist.cc:414
 msgid "_Arrange"
 msgstr "_Usporiadať"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:231 src/wmwinlist.cc:383 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:228 src/wmwinlist.cc:383 src/wmwinlist.cc:415
 msgid "_Minimize All"
 msgstr "_Minimalizovať všetko"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:233 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:230 src/wmwinlist.cc:384 src/wmwinlist.cc:416
 msgid "_Hide All"
 msgstr "_Skryť všetko"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:232 src/wmwinlist.cc:385 src/wmwinlist.cc:417
 msgid "_Undo"
 msgstr "_Vrátiť"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:238
+#: src/wmtaskbar.cc:235
 msgid "Arrange _Icons"
 msgstr "Usporiadať _Ikony"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:241
 msgid "_Refresh"
 msgstr "_Obnoviť"
 
-#: src/wmtaskbar.cc:317 src/wmtaskbar.cc:958
+#: src/wmtaskbar.cc:314 src/wmtaskbar.cc:955
 msgid "Hide Taskbar"
 msgstr "Skryť Panel úloh"
 
-#: src/wmtaskbar.cc:340
+#: src/wmtaskbar.cc:337
 msgid "Favorite Applications"
 msgstr "Obľúbené aplikácie"
 
-#: src/wmtaskbar.cc:361
+#: src/wmtaskbar.cc:358
 msgid "Window List Menu"
 msgstr "Menu zoznamu okien"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:367
 msgid "Show Desktop"
 msgstr "Ukáž plochu"
 
-#: src/wmtaskbar.cc:958
+#: src/wmtaskbar.cc:955
 msgid "Show Taskbar"
 msgstr "Ukázať Panel úloh"
 
@@ -1934,7 +1934,7 @@ msgstr "Neúplná hexadecimálna časť URL na pozícii %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Neplatná hexadecimálna časť URL na pozícii %d."
 
-#: src/yxapp.cc:1009
+#: src/yxapp.cc:1015
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"

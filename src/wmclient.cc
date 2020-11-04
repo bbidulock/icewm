@@ -326,7 +326,7 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     xev.format = 32;
     xev.data.l[0] = msg;
     xev.data.l[1] = timeStamp;
-    XSendEvent(xapp->display(), handle(), False, 0L, (XEvent *) &xev);
+    xapp->send(xev, handle());
 }
 
 ///extern Time lastEventTime;
@@ -360,7 +360,7 @@ bool YFrameClient::sendPing() {
         xev.data.l[2] = (long) handle();
         xev.data.l[3] = (long) this;
         xev.data.l[4] = (long) fFrame;
-        xapp->send(xev, handle(), NoEventMask);
+        xapp->send(xev, handle());
         fPinging = true;
         fPingTime = xev.data.l[1];
         fPingTimer->setTimer(3000L, this, true);
@@ -914,10 +914,13 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         else
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
-        if (getFrame())
-            getFrame()->wmSetLayer(message.data.l[0]);
-        else
-            setWinLayerHint(message.data.l[0]);
+        long layer = message.data.l[0];
+        if (inrange(layer, WinLayerDesktop, WinLayerAboveAll)) {
+            if (getFrame())
+                getFrame()->actionPerformed(layerActionSet[layer]);
+            else
+                setWinLayerHint(layer);
+        }
     } else if (message.message_type == _XA_WIN_TRAY) {
         if (getFrame())
             getFrame()->setTrayOption(message.data.l[0]);
@@ -1033,10 +1036,10 @@ void YFrameClient::netStateRequest(long action, long mask) {
     }
     if (gain & (WinStateAbove | WinStateBelow)) {
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateAbove) {
-            actionPerformed(layerActionSet[WinLayerOnTop]);
+            actionPerformed(actionLayerOnTop);
         }
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateBelow) {
-            actionPerformed(layerActionSet[WinLayerBelow]);
+            actionPerformed(actionLayerBelow);
         }
         gain &= ~(WinStateAbove | WinStateBelow);
         lose &= ~(WinStateAbove | WinStateBelow);
@@ -1044,12 +1047,12 @@ void YFrameClient::netStateRequest(long action, long mask) {
     if (lose & (WinStateAbove | WinStateBelow)) {
         if (lose & WinStateAbove) {
             if (getFrame()->getRequestedLayer() == WinLayerOnTop) {
-                actionPerformed(layerActionSet[WinLayerNormal]);
+                actionPerformed(actionLayerNormal);
             }
         }
         if (lose & WinStateBelow) {
             if (getFrame()->getRequestedLayer() == WinLayerBelow) {
-                actionPerformed(layerActionSet[WinLayerNormal]);
+                actionPerformed(actionLayerNormal);
             }
         }
         lose &= ~(WinStateAbove | WinStateBelow);

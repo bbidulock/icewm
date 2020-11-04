@@ -257,7 +257,6 @@ public:
     unsigned frameOptions() const { return fFrameOptions; }
     bool frameOption(YFrameOptions o) const { return hasbit(fFrameOptions, o); }
     void updateAllowed();
-    void updateNetWMState();
     void getFrameHints();
     bool haveHintOption() const { return fHintOption; }
     WindowOption& getHintOption() { return *fHintOption; }
@@ -343,7 +342,6 @@ public:
     int getWorkspace() const { return fWinWorkspace; }
     int getTrayOrder() const { return fTrayOrder; }
     void setWorkspace(int workspace);
-    void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
     long getRequestedLayer() const { return fWinRequestedLayer; }
@@ -361,9 +359,6 @@ public:
     bool isRollup() const { return hasState(WinStateRollup); }
     bool isSticky() const { return hasState(WinStateSticky); }
     bool isAllWorkspaces() const { return (getWorkspace() == AllWorkspaces); }
-    //bool isHidWorkspace() { return hasState(WinStateHidWorkspace); }
-    //bool isHidTransient() { return hasState(WinStateHidTransient); }
-
     bool wasMinimized() const { return hasState(WinStateWasMinimized); }
     bool wasHidden() const { return hasState(WinStateWasHidden); }
 
@@ -419,8 +414,6 @@ public:
     int getScreen() const;
     void refresh();
 
-    long getOldLayer() { return fOldLayer; }
-    void saveOldLayer() { fOldLayer = fWinActiveLayer; }
     long windowTypeLayer() const;
 
     bool hasIndicators() const { return indicatorsCreated; }

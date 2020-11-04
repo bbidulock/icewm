@@ -1,5 +1,5 @@
-#ifndef __WMACTION_H
-#define __WMACTION_H
+#ifndef WMACTION_H
+#define WMACTION_H
 
 class YAction;
 
@@ -86,6 +86,23 @@ enum EAction {
     actionPaste              = 205,
     actionSelectAll          = 207,
     actionPasteSelection     = 209,
+
+    actionLayerDesktop       = 211,
+    actionLayerOne           = 213,
+    actionLayerBelow         = 215,
+    actionLayerThree         = 217,
+    actionLayerNormal        = 219,
+    actionLayerFive          = 221,
+    actionLayerOnTop         = 223,
+    actionLayerSeven         = 225,
+    actionLayerDock          = 227,
+    actionLayerNine          = 229,
+    actionLayerAboveDock     = 231,
+    actionLayerEleven        = 233,
+    actionLayerMenu          = 235,
+    actionLayerThirteen      = 237,
+    actionLayerFullscreen    = 239,
+    actionLayerAboveAll      = 241,
 };
 
 bool canShutdown(RebootShutdown reboot);

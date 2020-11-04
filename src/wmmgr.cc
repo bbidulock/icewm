@@ -31,7 +31,24 @@
 YContext<YFrameClient> clientContext("clientContext", false);
 YContext<YFrameWindow> frameContext("framesContext", false);
 
-YAction layerActionSet[WinLayerCount];
+YAction layerActionSet[WinLayerCount] = {
+    actionLayerDesktop,
+    actionLayerOne,
+    actionLayerBelow,
+    actionLayerThree,
+    actionLayerNormal,
+    actionLayerFive,
+    actionLayerOnTop,
+    actionLayerSeven,
+    actionLayerDock,
+    actionLayerNine,
+    actionLayerAboveDock,
+    actionLayerEleven,
+    actionLayerMenu,
+    actionLayerThirteen,
+    actionLayerFullscreen,
+    actionLayerAboveAll,
+};
 
 Workspaces workspaces;
 WorkspacesCount workspaceCount;

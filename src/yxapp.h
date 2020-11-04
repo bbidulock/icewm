@@ -104,7 +104,7 @@ public:
     int displayHeight() { return DisplayHeight(display(), screen()); }
     Atom atom(const char* name) { return XInternAtom(display(), name, False); }
     void sync() { XSync(display(), False); }
-    void send(XClientMessageEvent& ev, Window win, long mask) {
+    void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) {
         XSendEvent(display(), win, False, mask,
                    reinterpret_cast<XEvent*>(&ev));
     }
