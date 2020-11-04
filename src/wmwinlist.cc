@@ -460,7 +460,7 @@ void WindowList::updateWorkspaces() {
 
 void WindowList::handleFocus(const XFocusChangeEvent &focus) {
     if (focus.type == FocusIn && focus.mode != NotifyUngrab) {
-        if (width() > 1 && height() > 1) {
+        if (width() > 1 && height() > 1 && !getFrame()->isUnmapped()) {
             list->setWindowFocus();
         }
     } else if (focus.type == FocusOut) {

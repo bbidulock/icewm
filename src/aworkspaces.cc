@@ -631,6 +631,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                 yfw && yfw->getActiveLayer() <= WinLayerDock;
                 yfw = yfw->prevLayer()) {
             if (yfw->isHidden() ||
+                yfw->isSkipPager() ||
                 hasbit(yfw->frameOptions(),
                        YFrameWindow::foIgnoreWinList |
                        YFrameWindow::foIgnorePagerPreview)) {
