@@ -1,11 +1,38 @@
-icewm -- history of user-visible changes.  2020-10-29
+icewm -- history of user-visible changes.  2020-11-05
+
+Release icewm-1.9.1 released 2020-11-05
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.9.0...1.9.1
+
+Bert Gijsbers <gijsbers@science.uva.nl> (18):
+      Update to 1.9.0.
+      Define colors at top and lighten up the grey a bit.
+      Catch changes in width_inc and height_inc for #510.
+      Only direct focus if frame is mapped.
+      Handle _WIN_LAYER messages via actionPerformed.
+      Fix for changing layers when ABOVE or BELOW bit is set.
+      Use a minimum delay of 10 ms for taskbar delays to avoid #508.
+      Explain where delays are in milliseconds.
+      Apply SKIP_PAGER for PagerShowPreview.
+      Remove unused frame members.
+      Add actionLayers. Switch on action in actionPerformed.
+      Remove unused.
+      Update XDND version from 3 to 5.
+      make update-po
+      Update XDND protocol implementation.
+      Fix compilation on OpenBSD.
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
 
 Release icewm-1.9.0 released 2020-10-29
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.8.3...1.9.0
 
-Bert Gijsbers <gijsbers@science.uva.nl> (51):
+Bert Gijsbers <gijsbers@science.uva.nl> (52):
       Update to 1.8.3
       Properly handle name lookup failure for mailboxes for issue #493.
       Don't reconfigure the taskbar if unnecessary.
@@ -78,6 +105,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (51):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.9.0 release
 
 Eduard Bloch <blade@debian.org> (15):
       Add recent icons to AM
@@ -685,120 +713,4 @@ Kimmo Kujansuu <mrkujansuu@gmail.com> (1):
 Stanislav Brabec <sbrabec@suse.cz> (1):
       Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
-
-
-Release icewm-1.6.6 released 2020-05-29
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.6.5...1.6.6
-
-Bert Gijsbers <gijsbers@science.uva.nl> (56):
-      Add support for urxvt -borderless.
-      Use ascii.h consistently.
-      fix leak.
-      Create RGBA colors.
-      Limit resize band to 3 pixels wide.
-      Slightly larger tray app icons.
-      Drop outdated dkstat support for old solaris versions.
-      Assume net status is always available for Linux+BSDs.
-      update string test.
-      Refactor mstring reference counting.
-      Port to solaris.
-      Fix TaskBarAutoHide for TaskBarDoubleHeight for #415.
-      Repaint frame border immediately for #417.
-      simplify
-      fileptr for #418.
-      showProperty guievent
-      typo
-      autoupdate
-      Add icewm-session --output=FILE option.
-      Remove unused wmActionListener.
-      Enforce C++11.
-      Use override instead of OVERRIDE.
-      Assume C++11.
-      check_argv shortcut.
-      Fix -window. Use vector.
-      Add -xembed for #423.
-      Prevent warnings.
-      Pass mouse presses on object buttons on to the taskbar for #424.
-      Make title buttons behave the same as title bar for Button2.
-      Caution for ' ' when using strchr.
-      The cmake build is no longer experimental.
-      When CPUStatusShowAcpiTempInGraph=1 redraw entire CPU graph pixmap for
-        #431.
-      update print_configured.
-      Add systray y-position when filling with taskbarbg for #430.
-      remove duplicate definition of ACPIDEV
-      simplify ifdefs for APM
-      simplify multiplication of width
-      try harder to get a scaled icon for #429
-      Make window list icon size consistent for #433.
-      center temperature
-      fix battery divisions
-      New option PagerShowLabels for ice-wm/icewm#19
-      add ICEWM_OPTIONS env var to icewm-session
-      try harder for C++11
-      Request selection as UTF-8 string in addressbar.
-      Reduce spaces when logging events.
-      More ConfigureNotify details.
-      Accept requests for clipboard selection as UTF-8.
-      Onle consider if addressbar is visible if TaskBarShowWindows=1 for #434.
-      Prevent reallocations.
-      Permit deleting entire input line.
-      make update-po
-      merge
-      fix merge
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.6.6 release
-
-Eduard Bloch <blade@debian.org> (7):
-      Auto-expand icon paths for all installed icon themes
-      Fuzzy matching of desktop categories
-      Little optimization and cleanup
-      Require C++11 standard
-      Revert "Auto-expand icon paths for all installed icon themes"
-      Added optional build target for strtest
-      Xrandr menu option to move primary flag to left screen
-
-Grace Yu <grace.yu@excel-gits.com> (2):
-      Translated using Weblate (Chinese (China))
-      Translated using Weblate (Chinese (Taiwan))
-
-Kukuh Syafaat <kukuh@syafaat.id> (2):
-      Update Indonesian translation of desktop files (#420)
-      Update Indonesian translations (#421)
-
-Andika Triwidada <andika@gmail.com> (1):
-      Translated using Weblate (Indonesian)
-
-Christine Gabriel <christine@stoquart.com> (1):
-      Translated using Weblate (French)
-
-Davide Aiello <davidea@novilinguists.com> (1):
-      Translated using Weblate (Italian)
-
-Franziska Weinberger <f.weinberger@gemino.de> (1):
-      Translated using Weblate (German)
-
-Juan Sarria <juansarriam@gmail.com> (1):
-      Translated using Weblate (Spanish)
-
-Kimmo Kujansuu <mrkujansuu@gmail.com> (1):
-      Translated using Weblate (Finnish)
-
-Kukuh Syafaat <syafaatkukuh@gmail.com> (1):
-      Translated using Weblate (Indonesian)
-
-Luna Jernberg <droidbittin@gmail.com> (1):
-      Translated using Weblate (Swedish)
-
-Markéta Calábková <meggy.calabkova@gmail.com> (1):
-      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-
-ingemar karlsson <ingemar_bengt@hotmail.com> (1):
-      Translated using Weblate (Swedish)
-
-mohammad alhargan <malham1@gmail.com> (1):
-      Translated using Weblate (Arabic)
 
