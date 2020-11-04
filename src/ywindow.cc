@@ -1426,8 +1426,6 @@ void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win
     } else parent()->removeAccelerator(key, mod, win);
 }
 
-const Atom XdndCurrentVersion = 3;
-
 void YWindow::setProperty(Atom prop, Atom type, const Atom* values, int count) {
     XChangeProperty(xapp->display(), handle(), prop, type, 32, PropModeReplace,
                     reinterpret_cast<const unsigned char *>(values), count);
@@ -1459,6 +1457,7 @@ void YWindow::setDND(bool enabled) {
     if (isDragDrop() != enabled) {
         flags = enabled ? (flags | wfDragDrop) : (flags &~ wfDragDrop);
         if (isDragDrop()) {
+            enum { XdndCurrentVersion = 5, };
             setProperty(XA_XdndAware, XA_ATOM, XdndCurrentVersion);
         } else {
             XDeleteProperty(xapp->display(), handle(), XA_XdndAware);
@@ -1467,24 +1466,18 @@ void YWindow::setDND(bool enabled) {
 }
 
 void YWindow::XdndStatus(bool acceptDrop, Atom dropAction) {
-    XClientMessageEvent msg;
     int x_root = 0, y_root = 0;
-
     mapToGlobal(x_root, y_root);
-
-    memset(&msg, 0, sizeof(msg));
-    msg.type = ClientMessage;
-    msg.display = xapp->display();
+    XClientMessageEvent msg = { ClientMessage, None, False, nullptr, };
     msg.window = XdndDragSource;
     msg.message_type = XA_XdndStatus;
     msg.format = 32;
     msg.data.l[0] = long(handle());
-    msg.data.l[1] = (acceptDrop ? 0x00000001 : 0x00000000) | 2;
-    msg.data.l[2] = (x_root << 16) + y_root;
-    msg.data.l[3] = (width() << 16) + height();
+    msg.data.l[1] = (2 | acceptDrop);
+    msg.data.l[2] = (x_root << 16) | (y_root & 0xFFFF);
+    msg.data.l[3] = (width() << 16) | (height() & 0xFFFF);
     msg.data.l[4] = long(dropAction);
-    XSendEvent(xapp->display(), XdndDragSource, False, 0L,
-               reinterpret_cast<XEvent *>(&msg));
+    xapp->send(msg, XdndDragSource);
 }
 
 void YWindow::handleXdnd(const XClientMessageEvent &message) {

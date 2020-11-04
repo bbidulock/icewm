@@ -129,7 +129,7 @@ static Window registerProtocols1(char **argv, int argc) {
     ev.data.l[1] = wmSx;
     ev.data.l[2] = xid;
 
-    XSendEvent (xapp->display(), xroot, False, StructureNotifyMask, (XEvent*)&ev);
+    xapp->send(ev, xroot, StructureNotifyMask);
     return xid;
 }
 

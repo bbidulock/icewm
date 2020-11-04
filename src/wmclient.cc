@@ -326,7 +326,7 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     xev.format = 32;
     xev.data.l[0] = msg;
     xev.data.l[1] = timeStamp;
-    XSendEvent(xapp->display(), handle(), False, 0L, (XEvent *) &xev);
+    xapp->send(xev, handle());
 }
 
 ///extern Time lastEventTime;
@@ -360,7 +360,7 @@ bool YFrameClient::sendPing() {
         xev.data.l[2] = (long) handle();
         xev.data.l[3] = (long) this;
         xev.data.l[4] = (long) fFrame;
-        xapp->send(xev, handle(), NoEventMask);
+        xapp->send(xev, handle());
         fPinging = true;
         fPingTime = xev.data.l[1];
         fPingTimer->setTimer(3000L, this, true);
