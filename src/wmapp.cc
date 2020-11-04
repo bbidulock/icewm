@@ -443,13 +443,13 @@ void LayerMenu::updatePopup() {
     if (itemCount())
         return;
 
-    addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
-    addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
-    addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
-    addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
-    addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
-    addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
-    addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
+    addItem(_("_Menu"),       -2, null, actionLayerMenu);
+    addItem(_("_Above Dock"), -2, null, actionLayerAboveDock);
+    addItem(_("_Dock"),       -2, null, actionLayerDock);
+    addItem(_("_OnTop"),      -2, null, actionLayerOnTop);
+    addItem(_("_Normal"),     -2, null, actionLayerNormal);
+    addItem(_("_Below"),      -2, null, actionLayerBelow);
+    addItem(_("D_esktop"),    -2, null, actionLayerDesktop);
 }
 
 void MoveMenu::updatePopup() {

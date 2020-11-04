@@ -1035,76 +1035,111 @@ void YFrameWindow::sendConfigure() {
 }
 
 void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
-    if (action == actionRestore) {
+    switch (action.ident()) {
+    case actionRestore:
         if (canRestore())
             wmRestore();
-    } else if (action == actionMinimize) {
+        break;
+    case actionMinimize:
         if (canMinimize())
             wmMinimize();
-    } else if (action == actionMaximize) {
+        break;
+    case actionMaximize:
         if (canMaximize())
             wmMaximize();
-    } else if (action == actionMaximizeVert) {
+        break;
+    case actionMaximizeVert:
         if (canMaximize())
             wmMaximizeVert();
-    } else if (action == actionMaximizeHoriz) {
+        break;
+    case actionMaximizeHoriz:
         if (canMaximize())
             wmMaximizeHorz();
-    } else if (action == actionLower) {
+        break;
+    case actionLower:
         if (canLower())
             wmLower();
-    } else if (action == actionRaise) {
+        break;
+    case actionRaise:
         if (canRaise())
             wmRaise();
-    } else if (action == actionDepth) {
+        break;
+    case actionDepth:
         if (overlaps(bool(Below)) && canRaise()){
             wmRaise();
             manager->setFocus(this, true);
         } else if (overlaps(bool(Above)) && canLower())
             wmLower();
-    } else if (action == actionRollup) {
+        break;
+    case actionRollup:
         if (canRollup())
             wmRollup();
-    } else if (action == actionClose) {
+        break;
+    case actionClose:
         if (canClose())
             wmClose();
-    } else if (action == actionKill) {
+        break;
+    case actionKill:
         wmConfirmKill();
-    } else if (action == actionHide) {
+        break;
+    case actionHide:
         if (canHide())
             wmHide();
-    } else if (action == actionShow) {
+        break;
+    case actionShow:
         if (canShow())
             wmShow();
-    } else if (action == actionMove) {
+        break;
+    case actionMove:
         if (canMove())
             wmMove();
-    } else if (action == actionSize) {
+        break;
+    case actionSize:
         if (canSize())
             wmSize();
-    } else if (action == actionOccupyAllOrCurrent) {
+        break;
+    case actionOccupyAllOrCurrent:
         wmOccupyAllOrCurrent();
+        break;
 #if DO_NOT_COVER_OLD
-    } else if (action == actionDoNotCover) {
+    case actionDoNotCover:
         wmToggleDoNotCover();
+        break;
 #endif
-    } else if (action == actionFullscreen) {
+    case actionFullscreen:
         if (canFullscreen())
             wmToggleFullscreen();
-    } else if (action == actionToggleTray) {
+        break;
+    case actionToggleTray:
         wmToggleTray();
-    } else {
-        for (int l(0); l < WinLayerCount; l++) {
-            if (action == layerActionSet[l]) {
-                bool isFull = isFullscreen() && manager->fullscreenEnabled();
-                if (isFull)
-                    manager->setFullscreenEnabled(false);
-                wmSetLayer(l);
-                if (isFull)
-                    manager->setFullscreenEnabled(true);
-                return ;
-            }
+        break;
+    case actionLayerDesktop:
+    case actionLayerOne:
+    case actionLayerBelow:
+    case actionLayerThree:
+    case actionLayerNormal:
+    case actionLayerFive:
+    case actionLayerOnTop:
+    case actionLayerSeven:
+    case actionLayerDock:
+    case actionLayerNine:
+    case actionLayerAboveDock:
+    case actionLayerEleven:
+    case actionLayerMenu:
+    case actionLayerThirteen:
+    case actionLayerFullscreen:
+    case actionLayerAboveAll:
+        {
+            int layer = (action.ident() - actionLayerDesktop) / 2;
+            bool isFull = isFullscreen() && manager->fullscreenEnabled();
+            if (isFull)
+                manager->setFullscreenEnabled(false);
+            wmSetLayer(layer);
+            if (isFull)
+                manager->setFullscreenEnabled(true);
         }
+        break;
+    default:
         for (int w(0); w < workspaceCount; w++) {
             if (action == workspaceActionMoveTo[w]) {
                 wmMoveToWorkspace(w);
