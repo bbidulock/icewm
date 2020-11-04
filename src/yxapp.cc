@@ -483,7 +483,7 @@ void YXApplication::initAtoms() {
         *(atom_info[i].atom) = xatoms[i];
 #else
     for (int i = 0; i < num_atoms; i++)
-        *(atom_info[i].atom) = atom(atom_info[i].name);
+        *(atom_info[i].atom) = xapp->atom(atom_info[i].name);
 #endif
 
     qsort(atom_info, size_t(num_atoms), sizeof(atom_info[0]), sortAtoms);
