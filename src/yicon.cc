@@ -307,15 +307,13 @@ public:
         if (iceIconPaths != null) {
             // this returned icewm directories containing "icons" folder
             for (int i = 0; i < iceIconPaths->getCount(); ++i) {
-                const auto& tpath(iceIconPaths->getPath(i).path());
-                auto bname = strrchr(tpath.c_str(), '/');
-                if (bname && *(++bname)) {
-                    for (auto &blistPattern : skiplist) {
-                        if (0 == fnmatch(blistPattern, bname, 0))
+                auto fn(iceIconPaths->getPath(i).name());
+                if (fn.nonempty()) {
+                    for (auto &blistPattern : skiplist)
+                        if (0 == fnmatch(blistPattern, fn.c_str(), 0))
                             goto NEXT_FROM_ICON_RES_DIR;
-                    }
                 }
-                probeIconFolder(std::move(tpath) + "/icons", true);
+                probeIconFolder(iceIconPaths->getPath(i) + "/icons", true);
                 NEXT_FROM_ICON_RES_DIR: ;
             }
         }

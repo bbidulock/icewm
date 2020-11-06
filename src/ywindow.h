@@ -218,8 +218,13 @@ public:
     void setNetPid();
     void setDND(bool enabled);
 
-    void XdndStatus(bool acceptDrop, Atom dropAction);
-    virtual void handleXdnd(const XClientMessageEvent &message);
+    void sendXdndStatus(bool acceptDrop, Atom dropAction);
+    virtual void handleXdndEnter(const XClientMessageEvent& message);
+    virtual void handleXdndLeave(const XClientMessageEvent& message);
+    virtual void handleXdndPosition(const XClientMessageEvent& message);
+    virtual void handleXdndStatus(const XClientMessageEvent& message);
+    virtual void handleXdndDrop(const XClientMessageEvent& message);
+    virtual void handleXdndFinished(const XClientMessageEvent& message);
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
@@ -312,6 +317,8 @@ private:
 
     Window XdndDragSource;
     Window XdndDropTarget;
+    long XdndDataTypes[3];
+    long XdndUserAction;
 
     static YAutoScroll *fAutoScroll;
 
@@ -404,6 +411,11 @@ extern Atom XA_XdndProxy;
 extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
+extern Atom XA_XdndActionCopy;
+extern Atom XA_XdndActionMove;
+extern Atom XA_XdndActionLink;
+extern Atom XA_XdndActionAsk;
+extern Atom XA_XdndActionPrivate;
 
 extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
 extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;

@@ -387,11 +387,11 @@ void YFrameWindow::layoutClient() {
         int title = titleY();
         int w = max(1, int(width()) - 2 * x);
         int h = max(1, int(height()) - 2 * y - title);
-        bool moved = (x != fClientContainer->x() || !fManaged ||
-                      y != fClientContainer->y() - title);
+        bool moved = (x != container()->x() || !fManaged ||
+                      y != container()->y() - title);
 
-        fClientContainer->setGeometry(YRect(x, y + title, w, h));
-        fClient->setGeometry(YRect(0, 0, w, h));
+        container()->setGeometry(YRect(x, y + title, w, h));
+        client()->setGeometry(YRect(0, 0, w, h));
 
         if (moved) {
             sendConfigure();

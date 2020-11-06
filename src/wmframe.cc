@@ -157,13 +157,13 @@ YFrameWindow::~YFrameWindow() {
     removeAsTransient();
     manager->lockWorkArea();
     manager->removeFocusFrame(this);
-    manager->removeClientFrame(this);
     manager->removeCreatedFrame(this);
     removeFrame();
+    manager->removeClientFrame(this);
     if (wmapp->hasSwitchWindow())
         wmapp->getSwitchWindow()->destroyedFrame(this);
-    if (fClient != nullptr) {
-        if (!fClient->destroyed() && fClient->adopted())
+    if (client()) {
+        if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
         frameContext.remove(client()->handle());
     }
@@ -263,13 +263,13 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
-    if (fClient->getNetWMWindowType(&fWindowType)) {
+    if (client()->getNetWMWindowType(&fWindowType)) {
         if (fWindowType == wtDesktop || fWindowType == wtDock) {
             setAllWorkspaces();
         }
     }
     long layer = fWinRequestedLayer;
-    if (fClient->getWinLayerHint(&layer) &&
+    if (client()->getWinLayerHint(&layer) &&
         layer != fWinRequestedLayer &&
         inrange(layer, 0L, WinLayerAboveAll))
     {
@@ -358,7 +358,7 @@ void YFrameWindow::afterManage() {
     setShape();
     if ( !frameOption(foFullKeys))
         grabKeys();
-    fClientContainer->grabButtons();
+    container()->grabButtons();
     addToWindowList();
     if (fWindowType == wtDialog)
         wmapp->signalGuiEvent(geDialogOpened);
@@ -453,15 +453,14 @@ void YFrameWindow::manage() {
     if (client()->adopted())
         XAddToSaveSet(xapp->display(), client()->handle());
 
-    client()->reparent(fClientContainer, 0, 0);
-
+    client()->reparent(container(), 0, 0);
     client()->setFrame(this);
 }
 
 void YFrameWindow::unmanage(bool reparent) {
-    PRECONDITION(fClient != 0);
+    PRECONDITION(client());
 
-    if (!fClient->destroyed()) {
+    if (!client()->destroyed()) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
 
@@ -501,7 +500,7 @@ void YFrameWindow::unmanage(bool reparent) {
             XRemoveFromSaveSet(xapp->display(), client()->handle());
     }
     else
-        fClient->unmanageWindow();
+        client()->unmanageWindow();
 
     client()->setFrame(nullptr);
     fClient = nullptr;
@@ -1036,76 +1035,111 @@ void YFrameWindow::sendConfigure() {
 }
 
 void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
-    if (action == actionRestore) {
+    switch (action.ident()) {
+    case actionRestore:
         if (canRestore())
             wmRestore();
-    } else if (action == actionMinimize) {
+        break;
+    case actionMinimize:
         if (canMinimize())
             wmMinimize();
-    } else if (action == actionMaximize) {
+        break;
+    case actionMaximize:
         if (canMaximize())
             wmMaximize();
-    } else if (action == actionMaximizeVert) {
+        break;
+    case actionMaximizeVert:
         if (canMaximize())
             wmMaximizeVert();
-    } else if (action == actionMaximizeHoriz) {
+        break;
+    case actionMaximizeHoriz:
         if (canMaximize())
             wmMaximizeHorz();
-    } else if (action == actionLower) {
+        break;
+    case actionLower:
         if (canLower())
             wmLower();
-    } else if (action == actionRaise) {
+        break;
+    case actionRaise:
         if (canRaise())
             wmRaise();
-    } else if (action == actionDepth) {
+        break;
+    case actionDepth:
         if (overlaps(bool(Below)) && canRaise()){
             wmRaise();
             manager->setFocus(this, true);
         } else if (overlaps(bool(Above)) && canLower())
             wmLower();
-    } else if (action == actionRollup) {
+        break;
+    case actionRollup:
         if (canRollup())
             wmRollup();
-    } else if (action == actionClose) {
+        break;
+    case actionClose:
         if (canClose())
             wmClose();
-    } else if (action == actionKill) {
+        break;
+    case actionKill:
         wmConfirmKill();
-    } else if (action == actionHide) {
+        break;
+    case actionHide:
         if (canHide())
             wmHide();
-    } else if (action == actionShow) {
+        break;
+    case actionShow:
         if (canShow())
             wmShow();
-    } else if (action == actionMove) {
+        break;
+    case actionMove:
         if (canMove())
             wmMove();
-    } else if (action == actionSize) {
+        break;
+    case actionSize:
         if (canSize())
             wmSize();
-    } else if (action == actionOccupyAllOrCurrent) {
+        break;
+    case actionOccupyAllOrCurrent:
         wmOccupyAllOrCurrent();
+        break;
 #if DO_NOT_COVER_OLD
-    } else if (action == actionDoNotCover) {
+    case actionDoNotCover:
         wmToggleDoNotCover();
+        break;
 #endif
-    } else if (action == actionFullscreen) {
+    case actionFullscreen:
         if (canFullscreen())
             wmToggleFullscreen();
-    } else if (action == actionToggleTray) {
+        break;
+    case actionToggleTray:
         wmToggleTray();
-    } else {
-        for (int l(0); l < WinLayerCount; l++) {
-            if (action == layerActionSet[l]) {
-                bool isFull = isFullscreen() && manager->fullscreenEnabled();
-                if (isFull)
-                    manager->setFullscreenEnabled(false);
-                wmSetLayer(l);
-                if (isFull)
-                    manager->setFullscreenEnabled(true);
-                return ;
-            }
+        break;
+    case actionLayerDesktop:
+    case actionLayerOne:
+    case actionLayerBelow:
+    case actionLayerThree:
+    case actionLayerNormal:
+    case actionLayerFive:
+    case actionLayerOnTop:
+    case actionLayerSeven:
+    case actionLayerDock:
+    case actionLayerNine:
+    case actionLayerAboveDock:
+    case actionLayerEleven:
+    case actionLayerMenu:
+    case actionLayerThirteen:
+    case actionLayerFullscreen:
+    case actionLayerAboveAll:
+        {
+            int layer = (action.ident() - actionLayerDesktop) / 2;
+            bool isFull = isFullscreen() && manager->fullscreenEnabled();
+            if (isFull)
+                manager->setFullscreenEnabled(false);
+            wmSetLayer(layer);
+            if (isFull)
+                manager->setFullscreenEnabled(true);
         }
+        break;
+    default:
         for (int w(0); w < workspaceCount; w++) {
             if (action == workspaceActionMoveTo[w]) {
                 wmMoveToWorkspace(w);
@@ -1327,32 +1361,21 @@ void YFrameWindow::doRaise() {
     if (debug_z) dumpZorder("wmRaise: ", this);
 #endif
     if (prev()) {
-        setAbove(manager->top(getActiveLayer()));
-
-        for (YFrameWindow* w = transient(); w; w = w->nextTransient()) {
-            w->doRaise();
-        }
-
-        if (client() && client()->clientLeader() != 0) {
-            YFrameWindow *o = manager->findFrame(client()->clientLeader());
-
-            if (o != nullptr) {
-                for (YFrameWindow * w (o->transient()); w; w = w->nextTransient())
-                    w->doRaise();
+        YArray<YFrameWindow*> frames;
+        frames += this;
+        for (int i = 0; i < frames.getCount(); ++i) {
+            YFrameWindow* frame = frames[i];
+            YFrameWindow* topf = manager->top(frame->getActiveLayer());
+            if (frame != topf) {
+                frame->setAbove(topf);
             }
-
-            if (client()->ownerWindow() != desktop->handle()) {
-                for (YFrameWindow * w = manager->bottomLayer(); w; w = w->prevLayer())
-                {
-                    if (w->client() &&
-                        w->client()->clientLeader() == client()->clientLeader() &&
-                        w->client()->ownerWindow() == desktop->handle()) {
-                        w->doRaise();
-                    }
-                }
+            int k = i;
+            for (YFrameWindow* trans = frame->transient();
+                 trans; trans = trans->nextTransient()) {
+                if (find(frames, trans) < 0)
+                    frames.insert(++k, trans);
             }
         }
-
 #ifdef DEBUG
         if (debug_z) dumpZorder("wmRaise after raise: ", this);
 #endif
@@ -1436,8 +1459,8 @@ void YFrameWindow::loseWinFocus() {
         }
         if (true || !clientMouseActions)
             if (focusOnClickClient || raiseOnClickClient)
-                if (fClientContainer)
-                    fClientContainer->grabButtons();
+                if (container())
+                    container()->grabButtons();
         if (isIconic())
             fMiniIcon->repaint();
         else {
@@ -1468,7 +1491,7 @@ void YFrameWindow::setWinFocus() {
         if (true || !clientMouseActions)
             if (focusOnClickClient &&
                 !(raiseOnClickClient && (this != manager->top(getActiveLayer()))))
-                fClientContainer->releaseButtons();
+                container()->releaseButtons();
     }
 }
 
@@ -2504,7 +2527,7 @@ bool YFrameWindow::avoidFocus() {
 }
 
 bool YFrameWindow::getInputFocusHint() {
-    XWMHints *hints = fClient->hints();
+    XWMHints* hints = client()->hints();
     bool input = true;
 
     if ( !frameOption(foIgnoreNoFocusHint) &&
@@ -2561,21 +2584,26 @@ YFrameWindow *YFrameWindow::mainOwner() {
 
 
 void YFrameWindow::setRequestedLayer(long layer) {
-    if (fWinRequestedLayer != layer && inrange(layer, 0L, WinLayerAboveAll)) {
-        fWinRequestedLayer = layer;
+    if (inrange(layer, 0L, WinLayerAboveAll)) {
+        if (fWinRequestedLayer != layer ||
+            (hasState(WinStateAbove) && layer != WinLayerOnTop) ||
+            (hasState(WinStateBelow) && layer != WinLayerBelow))
+        {
+            fWinRequestedLayer = layer;
 
-        long state = (fWinState & ~(WinStateAbove | WinStateBelow));
-        if (layer == WinLayerOnTop) {
-            state |= WinStateAbove;
-        }
-        if (layer == WinLayerBelow) {
-            state |= WinStateBelow;
-        }
-        if (fWinState != state) {
-            fWinState = state;
-        }
+            long state = (fWinState & ~(WinStateAbove | WinStateBelow));
+            if (layer == WinLayerOnTop) {
+                state |= WinStateAbove;
+            }
+            if (layer == WinLayerBelow) {
+                state |= WinStateBelow;
+            }
+            if (fWinState != state) {
+                fWinState = state;
+            }
 
-        updateLayer();
+            updateLayer();
+        }
     }
 }
 
@@ -2699,7 +2727,7 @@ void YFrameWindow::updateState() {
 
     if (hidden) {
         setVisible(isRollup() && visibleNow());
-        fClientContainer->hide();
+        container()->hide();
         client()->hide();
 
         if (fDelayFocusTimer)
@@ -2709,7 +2737,7 @@ void YFrameWindow::updateState() {
     }
     else {
         client()->show();
-        fClientContainer->show();
+        container()->show();
         show();
     }
 }
@@ -3160,8 +3188,7 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 void YFrameWindow::updateMwmHints() {
     YDimension old(dimension());
     getFrameHints();
-    updateDerivedSize(None);
-    updateLayout();
+    setNormalGeometryInner(posX, posY, posW, posH);
     if (old == dimension()) {
         performLayout();
     }

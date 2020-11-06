@@ -21,6 +21,10 @@
 #define ICEWM_1         DOCDIR "/icewm.1.html"
 #define ICEWMBG_1       DOCDIR "/icewmbg.1.html"
 #define ICESOUND_1      DOCDIR "/icesound.1.html"
+#define BACKGROUND      "rgb:DD/DD/DD"
+#define FOREGROUND      "rgb:00/00/00"
+#define LINK_COLOR      "rgb:00/00/CC"
+#define RULE_COLOR      "rgb:80/80/80"
 
 #ifdef DEBUG
 #define DUMP
@@ -1152,7 +1156,7 @@ private:
 
     FontRef font;
     int fontFlag, fontSize;
-    YColorName bg, normalFg, linkFg, hrFg, testBg;
+    YColorName bg, normalFg, linkFg, hrFg;
 
     YScrollView *fScrollView;
     YScrollBar *fVerticalScroll;
@@ -1197,11 +1201,10 @@ private:
 
 HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     YWindow(parent), fRoot(nullptr),
-    bg("rgb:CC/CC/CC"),
-    normalFg("rgb:00/00/00"),
-    linkFg("rgb:00/00/CC"),
-    hrFg("rgb:80/80/80"),
-    testBg("rgb:40/40/40"),
+    bg(BACKGROUND),
+    normalFg(FOREGROUND),
+    linkFg(LINK_COLOR),
+    hrFg(RULE_COLOR),
     fScrollView(v), listener(fL) {
 
     fVerticalScroll = fScrollView->getVerticalScrollBar();

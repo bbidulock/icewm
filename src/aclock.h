@@ -63,7 +63,7 @@ private:
 
     int negativePosition;
     int positions[TimeSize];
-    char previous[TimeSize], lastDrawnTime[TimeSize];
+    char previous[TimeSize];
     YColorName clockBg;
     YColorName clockFg;
     ref<YFont> clockFont;
