@@ -73,7 +73,7 @@ void ObjectMenu::addSeparator() {
     YMenu::addSeparator();
 }
 
-void ObjectMenu::addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container) {
+void ObjectMenu::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
         YMenuItem *item =
             addSubmenu(name, -3, container);
@@ -520,7 +520,6 @@ public:
         for (int k = 0; ; ++k)
             if (icewm_preferences[k].type == cfoption::CF_NONE)
                 return k;
-        return 0;
     }
 
     static int sortPrefs(const void* p1, const void* p2) {

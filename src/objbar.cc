@@ -27,7 +27,7 @@ ObjectBar::~ObjectBar() {
     ObjectButton::freeFont();
 }
 
-void ObjectBar::addButton(const mstring &name, ref<YIcon> icon, ObjectButton *button) {
+void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
     button->setToolTip(name);
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
@@ -57,6 +57,7 @@ void ObjectBar::paint(Graphics &g, const YRect& r) {
 
 void ObjectBar::addObject(DObject *object) {
     ObjectButton *button = new ObjectButton(this, object);
+    button->setTitle(object->getName().c_str());
     addButton(object->getName(), object->getIcon(), button);
 }
 
@@ -65,9 +66,10 @@ void ObjectBar::addSeparator() {
     objects.append(0);
 }
 
-void ObjectBar::addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container) {
+void ObjectBar::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
         ObjectButton *button = new ObjectButton(this, container);
+        button->setTitle(name.c_str());
         addButton(name, icon, button);
     }
 }
