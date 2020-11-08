@@ -60,7 +60,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fSavedWinState[0] = None;
     fSavedWinState[1] = None;
     fSizeHints = XAllocSizeHints();
-    fSaveHints = XAllocSizeHints();
     fTransientFor = None;
     fClientLeader = None;
     fPid = 0;
@@ -109,7 +108,6 @@ YFrameClient::~YFrameClient() {
     }
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
-    if (fSaveHints) { XFree(fSaveHints); fSaveHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
 }
 
@@ -1150,18 +1148,6 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     setProperty(_XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                 (const Atom *)&mwm, PROP_MWM_HINTS_ELEMENTS);
     *fMwmHints = mwm;
-}
-
-void YFrameClient::saveSizeHints() {
-    if (fSaveHints && fSizeHints) {
-        *fSaveHints = *fSizeHints;
-    }
-}
-
-void YFrameClient::restoreSizeHints() {
-    if (fSizeHints && fSaveHints) {
-        *fSizeHints = *fSaveHints;
-    }
 }
 
 long YFrameClient::mwmFunctions() {

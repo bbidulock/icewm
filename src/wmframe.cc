@@ -769,7 +769,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
     if (isFullscreen()) {
-        XSizeHints *sh = client()->saveHints();
+        XSizeHints *sh = client()->sizeHints();
         if (sh) {
             normalX = cx;
             normalY = cy;
@@ -3044,24 +3044,6 @@ void YFrameWindow::setState(long mask, long state) {
     fOldState = fWinState;
     long fNewState = (fWinState & ~mask) | (state & mask);
     long deltaState = fOldState ^ fNewState;
-
-    // !!! this should work
-    //if (fNewState == fOldState)
-    //    return ;
-
-    if (deltaState & WinStateFullscreen) {
-        if ((fNewState & WinStateFullscreen)) {
-            // going fullscreen
-            client()->saveSizeHints();
-        }
-        else {
-            // going back
-            client()->restoreSizeHints();
-        }
-    }
-
-    // !!! move here
-
     fWinState = fNewState;
 
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
