@@ -306,9 +306,9 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
             wmapp->getSwitchWindow()->begin(false, key.state);
             return true;
         } else if (gKeySysSwitchClass.eq(k, vm)) {
+            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             char *prop = frame && frame->client()->adopted()
                        ? frame->client()->classHint()->resource() : nullptr;
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             wmapp->getSwitchWindow()->begin(true, key.state, prop);
             return true;
         }
