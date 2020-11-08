@@ -98,11 +98,11 @@ private:
     YAction actionOpenIcon;
 };
 
-class ObjectList: public YWindow {
+class ObjectList: public YDndWindow {
 public:
     static int winCount;
 
-    ObjectList(const char *path, YWindow *aParent): YWindow(aParent) {
+    ObjectList(const char *path, YWindow *aParent): YDndWindow(aParent) {
         setDND(true);
         fPath = newstr(path);
         scroll = new YScrollView(this);
@@ -137,9 +137,9 @@ public:
     ~ObjectList() {
         winCount--;
 
-        while (list->getFirst()) {
+        while (list->getItem(0)) {
             ObjectListItem* item =
-                static_cast<ObjectListItem *>(list->getFirst());
+                static_cast<ObjectListItem *>(list->getItem(0));
             list->removeItem(item);
             delete item;
         }

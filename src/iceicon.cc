@@ -174,7 +174,6 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent):
     fOffsetX = fOffsetY = 0;
     fItems = 0;
     setBitGravity(NorthWestGravity);
-    setDoubleBuffer(true);
 }
 
 YIconView::~YIconView() {
@@ -473,7 +472,7 @@ ObjectIconView::~ObjectIconView() {
     }
 }
 
-class ObjectList: public YWindow {
+class ObjectList: public YDndWindow {
 public:
     static int winCount;
 
