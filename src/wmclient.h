@@ -128,9 +128,10 @@ protected:
     virtual ~ClientData() {}
 };
 
-class YFrameClient: public YWindow
+class YFrameClient: public YDndWindow
                   , public YTimerListener
 {
+    typedef YDndWindow super;
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
                  int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
