@@ -1,11 +1,31 @@
-icewm -- history of user-visible changes.  2020-11-05
+icewm -- history of user-visible changes.  2020-11-10
+
+Release icewm-1.9.2 released 2020-11-10
+---------------------------------------
+
+git shortlog -e -n -w80,6,8 1.9.1...1.9.2
+
+Bert Gijsbers <gijsbers@science.uva.nl> (11):
+      Remove setDND.
+      Move DND to subclass YDndWindow.
+      Show toolbar button titles.
+      Simplify use of XClassHint.
+      Do XAllowEvents first.
+      Prevent inadvertent growing of windows in issue #512.
+      Improve logConfigureNotify details.
+      Use just one set of XSizeHints for issue ice-wm/icewm#28.
+      make update-po
+      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+        icewm-1-4-BRANCH
+      Merge branch 'icewm-1-4-BRANCH'
+
 
 Release icewm-1.9.1 released 2020-11-05
 ---------------------------------------
 
 git shortlog -e -n -w80,6,8 1.9.0...1.9.1
 
-Bert Gijsbers <gijsbers@science.uva.nl> (18):
+Bert Gijsbers <gijsbers@science.uva.nl> (19):
       Update to 1.9.0.
       Define colors at top and lighten up the grey a bit.
       Catch changes in width_inc and height_inc for #510.
@@ -25,6 +45,7 @@ Bert Gijsbers <gijsbers@science.uva.nl> (18):
       Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
         icewm-1-4-BRANCH
       Merge branch 'icewm-1-4-BRANCH'
+      Prepare 1.9.1 release
 
 
 Release icewm-1.9.0 released 2020-10-29
@@ -590,127 +611,4 @@ WhiredPlanck <47623588+whriedplanck@users.noreply.github.com> (1):
 
 openSUSE Weblate <weblate-noreply@opensuse.org> (1):
       Merge branch 'origin/icewm-1-4-BRANCH' into Weblate.
-
-
-Release icewm-1.7.0 released 2020-07-12
----------------------------------------
-
-git shortlog -e -n -w80,6,8 1.6.6...1.7.0
-
-Bert Gijsbers <gijsbers@science.uva.nl> (86):
-      update to 1.6.6
-      Drop obsolete icewm-menu-gnome2 and icewmtray.
-      Add a cmake release and --prefix.
-      Add a motif example.
-      Give a dockapp example.
-      Hide locale details in a single file.
-      Revert commit b72d99baa3ab03b10cdc423c7ded3d147b97d2ce "NanoBlue icons are
-        PNG."
-      Update NanoBlue from Nano_Blu-1.3 for Glamor.
-      add NanoBlue/icons/app_32x32.xpm
-      simplify parse geometry winoption
-      Set _NET_ACTIVE_WINDOW to None when no window has focus.
-      Fix lazy indirection
-      Active may be None.
-      Avoid icehelp parsing output to fix .xsession-errors #438
-      Fix icewm hint processing and make icewmhint geometry work.
-      ClassHint check for nullptr
-      Add 'icesh current'. Improve the introduction of icesh.1.
-      Fix combining of hints with winoptions.
-      Ensure size increment is non-zero.
-      Only read properties if window is adopted.
-      Restore magical order for getSizeHints.
-      Restore --replace.
-      Fix typo.
-      Fix typo.
-      Fix icesh runonce.
-      Fix for negative geometry positions in winoptions.
-      Distinguish adopt from create.
-      Test for tracing with traces.
-      Use AllWorkspacs where applicable.
-      Only refocus in setWorkspace if workspace really changes. Reset workspace
-        focused frame if focused frame changes workspace.
-      Add detailed tracing of systray activity. Slightly better conformance to
-        XEMBED standard. Reorder systray operations for better test results.
-      Document Trace modules and explain ConsiderSizeHintsMaximized.
-      add separator to menu
-      Clear workspace button before drawing gradient.
-      Test if null.
-      Add bool const to lazy.
-      Make findIcon public.
-      Accept mstring as const.
-      Check for BadWindow in fetchTitle.
-      Add support for switching of keyboards layouts for issue ice-wm/icewm#22.
-      merge
-      make update-po
-      Check for empty keyboard definition.
-      Refresh frames and buttons after screen resize to prevent artefacts.
-      Undo b8881bab079c6b085032b84c0153398390d3a5aa.
-      Add Maximize Horizontal to window list window.
-      Fix ice-wm/icewm#21 "Problem with dosbox and re-maximize the screen"
-      Use wordexp to split a terminalCommand or addressBarCommand.
-      Add fsleep.
-      Catch X errors. Handle _NET_WM_USER_TIME.
-      Permit an optional equal sign for short option arguments.
-      Use wordexp to avoid a /bin/sh.
-      Use wordexp to avoid a /bin/sh.
-      Assume wordexp.
-      Simplify casts.
-      Fix merging of hints for systray.
-      Prefer yad over zenity. Facilitate focus if icewm crashed. Support
-        terminal.
-      Add winoption "ignoreActivationMessages".
-      Assume wordexp.
-      Fix for taskBarWidthPercentage in case screen is not at (0, 0).
-      Document "ignoreActivationMessages".
-      Document mailbox monitoring.
-      Add check for dependencies.
-      Simplify cstring.
-      Replace pstring and ustring by mstring. Remove pstring and ustring.
-      make update-po
-      Revert commit 63a1adb745507fc921422f20d62699699f308489 for #442.
-      Make cstring obsolete and remove it.
-      Fix for --enable-debug.
-      Remove initFontPath. Make defaultAppIcon local.
-      Remove findPath.
-      Fix clang warnings.
-      Modernize use of nullptr.
-      Support ICCCM WM_CHANGE_STATE messages. Simplify UnmapNotify message
-        handling.
-      Add missing acquire in c_str.
-      Simplify menu creation.
-      Don't take away focus from an application when icewm exits.  On startup
-        check _NET_ACTIVE_WINDOW and use it to preserve focus over restarts.
-      Desktop mouse wheel focus.
-      Different option formatting.
-      Fix move menu and layer menu for selections in window list window.
-      Fix explanation.
-      Add --help usage.
-      make update-po
-      Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
-      Merge branch 'icewm-1-4-BRANCH'
-      Prepare 1.7.0 release
-
-CJ Kucera <pez@apocalyptech.com> (1):
-      Add a couple of undocumented keybinds (#437)
-
-Eduard Bloch <blade@debian.org> (1):
-      Factor out fnmatch calls
-
-Efstathios Iosifidis <eiosifidis@gmail.com> (1):
-      Translated using Weblate (Greek)
-
-Ferdinand Galko <galko.ferdinand@gmail.com> (1):
-      Translated using Weblate (Slovak)
-
-Jens Maucher <jens.maucher@gmx.de> (1):
-      Translated using Weblate (English)
-
-Kimmo Kujansuu <mrkujansuu@gmail.com> (1):
-      Translated using Weblate (Finnish)
-
-Stanislav Brabec <sbrabec@suse.cz> (1):
-      Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
-        icewm-1-4-BRANCH
 

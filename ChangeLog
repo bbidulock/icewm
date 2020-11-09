@@ -1,5 +1,209 @@
 # created with git log --stat=76 -M -C -500|fmt -sct -w80
 
+commit 8af9740bffca94ffa08ff57c1b1f2677243f2c22
+Merge: a7e868d6 8c6ed08b
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Nov 10 00:46:54 2020 +0100
+
+    Merge branch 'icewm-1-4-BRANCH'
+
+commit 8c6ed08b2fdf9a68bc8b5d6ae7b51a18a2a3b906
+Merge: 61b47eb7 15f49b18
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Nov 10 00:45:07 2020 +0100
+
+    Merge remote-tracking branch 'upstream/icewm-1-4-BRANCH' into
+    icewm-1-4-BRANCH
+
+commit 15f49b18d8ef1ec635b68525fbef912bc3713015
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Tue Nov 10 00:44:09 2020 +0100
+
+    make update-po
+
+ po/ar.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/be.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/bg.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/ca.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/cs.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/da.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/de.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/el.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/en.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/es.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/fi.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/fr.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/he.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/hr.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/hu.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/icewm.pot | 52 ++++++++++++++++++++++++++--------------------------
+ po/id.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/it.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/ja.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/ko.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/lt.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/lv.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/mk.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/nb.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/nl.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/no.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/pl.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/pt.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/pt_BR.po  | 50 +++++++++++++++++++++++++-------------------------
+ po/ro.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/ru.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/sk.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/sl.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/sv.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/tr.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/uk.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/vi.po     | 50 +++++++++++++++++++++++++-------------------------
+ po/zh_CN.po  | 50 +++++++++++++++++++++++++-------------------------
+ po/zh_TW.po  | 50 +++++++++++++++++++++++++-------------------------
+ 39 files changed, 976 insertions(+), 976 deletions(-)
+
+commit 0a286691d1e1c82a3c56c3db052f78608c74e3f4
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 20:09:41 2020 +0100
+
+    Use just one set of XSizeHints for issue ice-wm/icewm#28.
+
+ src/wmclient.cc | 14 --------------
+ src/wmclient.h  |  4 ----
+ src/wmframe.cc  | 20 +-------------------
+ 3 files changed, 1 insertion(+), 37 deletions(-)
+
+commit 5d788433895ea9023cacc198f0eb22010f86780c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 20:08:33 2020 +0100
+
+    Improve logConfigureNotify details.
+
+ src/logevent.cc | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+commit e3dc92cd81aaaf6755e3053f5f6db975b8fe862c
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:54:52 2020 +0100
+
+    Prevent inadvertent growing of windows in issue #512.
+
+ src/wmclient.cc |  8 ++++----
+ src/wmclient.h  |  3 ++-
+ src/wmframe.cc  | 36 +++++++++++++++++++-----------------
+ src/wmframe.h   |  8 ++++----
+ 4 files changed, 29 insertions(+), 26 deletions(-)
+
+commit 2d4fbc96ad59265f8903ca637b5abe176410f0a6
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:53:57 2020 +0100
+
+    Do XAllowEvents first.
+
+ src/wmmgr.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 75f83455c283647ac8882b2a18eb8377cef058c8
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:53:33 2020 +0100
+
+    Simplify use of XClassHint.
+
+ src/wmsession.cc | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
+
+commit a91665cc04607c8a0fdcb183837517d4fd0dcb13
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:53:17 2020 +0100
+
+    Show toolbar button titles.
+
+ src/obj.h     | 2 +-
+ src/objbar.cc | 6 ++++--
+ src/objbar.h  | 4 ++--
+ src/objmenu.h | 2 +-
+ src/wmprog.cc | 3 +--
+ 5 files changed, 9 insertions(+), 8 deletions(-)
+
+commit 8b9cbcda42ef8cb707fece9bcf3108820a338fcc
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:51:26 2020 +0100
+
+    Move DND to subclass YDndWindow.
+
+ src/icehelp.cc   |  2 +-
+ src/iceicon.cc   |  3 +-
+ src/icelist.cc   |  8 ++---
+ src/iceview.cc   |  3 +-
+ src/wmtaskbar.cc |  2 +-
+ src/wmtaskbar.h  |  2 +-
+ src/ywindow.cc   | 97 ++++++++++++++++++++++++++++++----------------------
+ src/ywindow.h    | 40 +++++++++++++---------
+ 8 files changed, 89 insertions(+), 68 deletions(-)
+
+commit 94ddebf95dcdde84c752175fc433bae6adef62c5
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Sun Nov 8 16:51:26 2020 +0100
+
+    Remove setDND.
+
+ src/aclock.cc | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit a7e868d646639aaaf4bd57a56de2fc2fd364b2bb
+Author: Bert Gijsbers <gijsbers@science.uva.nl>
+Date:   Thu Nov 5 00:51:27 2020 +0100
+
+    Prepare 1.9.1 release
+
+ AUTHORS      |   2 +-
+ ChangeLog    | 470 +++++++++++++++++++++++++++++++------------------------
+ NEWS         | 148 ++++--------------
+ README.md    |  38 ++---
+ RELEASE.md   |   2 +-
+ VERSION      |   2 +-
+ configure.ac |  10 +-
+ po/ar.po     |   2 +-
+ po/be.po     |   2 +-
+ po/bg.po     |   2 +-
+ po/ca.po     |   2 +-
+ po/cs.po     |   2 +-
+ po/da.po     |   2 +-
+ po/de.po     |   2 +-
+ po/el.po     |   2 +-
+ po/en.po     |   2 +-
+ po/es.po     |   2 +-
+ po/fi.po     |   2 +-
+ po/fr.po     |   2 +-
+ po/he.po     |   2 +-
+ po/hr.po     |   2 +-
+ po/hu.po     |   2 +-
+ po/icewm.pot |   4 +-
+ po/id.po     |   2 +-
+ po/it.po     |   2 +-
+ po/ja.po     |   2 +-
+ po/ko.po     |   2 +-
+ po/lt.po     |   2 +-
+ po/lv.po     |   2 +-
+ po/mk.po     |   2 +-
+ po/nb.po     |   2 +-
+ po/nl.po     |   2 +-
+ po/no.po     |   2 +-
+ po/pl.po     |   2 +-
+ po/pt.po     |   2 +-
+ po/pt_BR.po  |   2 +-
+ po/ro.po     |   2 +-
+ po/ru.po     |   2 +-
+ po/sk.po     |   2 +-
+ po/sl.po     |   2 +-
+ po/sv.po     |   2 +-
+ po/tr.po     |   2 +-
+ po/uk.po     |   2 +-
+ po/vi.po     |   2 +-
+ po/zh_CN.po  |   2 +-
+ po/zh_TW.po  |   2 +-
+ 46 files changed, 361 insertions(+), 391 deletions(-)
+
 commit 5bf1b4817586bce00f696f21e711e6132ae9f9a9
 Merge: 29abd06a 61b47eb7
 Author: Bert Gijsbers <gijsbers@science.uva.nl>
@@ -6158,119 +6362,3 @@ Date:   Mon May 18 05:42:40 2020 +0200
 
  src/aapm.h | 33 +++++++++++++++++----------------
  1 file changed, 17 insertions(+), 16 deletions(-)
-
-commit 5324ed55355ebb0b6ff7184c8a7e458a1654d98d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon May 18 05:41:37 2020 +0200
-
-    remove duplicate definition of ACPIDEV
-
- src/aapm.cc | 1 -
- 1 file changed, 1 deletion(-)
-
-commit dc09cf41cff4caeef20bdc79373c4f22d3c346ad
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sat May 16 20:58:14 2020 +0200
-
-    Xrandr menu option to move primary flag to left screen
-
- contrib/icewm-menu-xrandr        |   3 +++
- lib/icons/setscreen21x_32x32.png | Bin 0 -> 621 bytes
- 2 files changed, 3 insertions(+)
-
-commit aa45aa243d58455d91383b8689196d7be86db5d4
-Author: Eduard Bloch <blade@debian.org>
-Date:   Sun Apr 26 17:42:55 2020 +0200
-
-    Added optional build target for strtest
-
- src/CMakeLists.txt | 4 ++++
- 1 file changed, 4 insertions(+)
-
-commit c5942d9a36345c5af215c208dbee32f9719f14f0
-Merge: d72ee2fc 46bf3950
-Author: Markéta Calábková <meggy.calabkova@gmail.com>
-Date:   Tue May 12 17:16:55 2020 +0200
-
-    Merge remote-tracking branch 'weblate/icewm-1-4-BRANCH' into
-    icewm-1-4-BRANCH
-
-commit d72ee2fc53ec63f606973bfedee3aa66a706e633
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon May 11 10:00:34 2020 +0200
-
-    Add systray y-position when filling with taskbarbg for #430.
-
- src/yxtray.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-commit 98a5152bf5980e84b6d73c7244023d66bf8abc99
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Mon May 11 00:43:17 2020 +0200
-
-    update print_configured.
-
- src/config.cmake.h.in | 1 -
- src/wmapp.cc          | 9 +++------
- 2 files changed, 3 insertions(+), 7 deletions(-)
-
-commit 48687aaf951f7bba3e5b06c48f0d1d89d627f4c1
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 10 20:23:15 2020 +0200
-
-    When CPUStatusShowAcpiTempInGraph=1 redraw entire CPU graph pixmap
-    for #431.
-
- src/acpustatus.cc | 53 ++++++++++++++++++++++++++-------------------------
- src/acpustatus.h  |  6 +-----
- 2 files changed, 28 insertions(+), 31 deletions(-)
-
-commit 1eed8783b1a653572c4f5fda086f54a53078e076
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Thu May 7 17:46:50 2020 +0200
-
-    The cmake build is no longer experimental.
-
- INSTALL-cmakebuild.md | 33 ++++++++++++++++-----------------
- INSTALL.cmakebuild    | 33 ++++++++++++++++-----------------
- 2 files changed, 32 insertions(+), 34 deletions(-)
-
-commit 46bf3950dc7258c4a7fede8ffd8f9baf78a99334
-Author: ingemar karlsson <ingemar_bengt@hotmail.com>
-Date:   Tue May 5 15:26:15 2020 +0000
-
-    Translated using Weblate (Swedish)
-
-    Currently translated at 100.0% (471 of 471 strings)
-
- po/sv.po | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
-
-commit a982785fa64e0845cc3cc9a284a0a97b860f2ccc
-Author: Andika Triwidada <andika@gmail.com>
-Date:   Tue May 5 21:44:35 2020 +0000
-
-    Translated using Weblate (Indonesian)
-
-    Currently translated at 100.0% (471 of 471 strings)
-
- po/id.po | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-commit 88256d83612c008567ec67ffd78c7dd7cb33033d
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 3 21:15:14 2020 +0200
-
-    Caution for '\0' when using strchr.
-
- src/misc.cc | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-commit ea440b721d1ce60ea6c77e3133975baa3898815f
-Author: Bert Gijsbers <gijsbers@science.uva.nl>
-Date:   Sun May 3 21:14:06 2020 +0200
-
-    Make title buttons behave the same as title bar for Button2.
-
- src/wmbutton.cc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
