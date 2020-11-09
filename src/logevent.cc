@@ -108,15 +108,22 @@ void logColormap(const XColormapEvent& xev) {
 }
 
 void logConfigureNotify(const XConfigureEvent& xev) {
-    tlog("window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border=%d, above=0x%lX, override=%s",
+    const int size = 256;
+    char buf[size];
+    int len = snprintf(buf, size, "window=0x%lX: configureNotify serial=%lu event=0x%lX, (%+d%+d %dx%d) border=%d",
         xev.window,
         (unsigned long) xev.serial,
         xev.event,
         xev.x, xev.y,
         xev.width, xev.height,
-        xev.border_width,
-        xev.above,
-        boolStr(xev.override_redirect));
+        xev.border_width);
+    if (xev.above)
+        len += snprintf(buf + len, size - len, " above=0x%lX", xev.above);
+    if (xev.override_redirect)
+        len += snprintf(buf + len, size - len, " override=%s", boolStr(xev.override_redirect));
+    if (xev.send_event)
+        len += snprintf(buf + len, size - len, " send=%s", boolStr(xev.send_event));
+    tlog("%s", (0 < len && len < size) ? buf : "lcnbug");
 }
 
 void logConfigureRequest(const XConfigureRequestEvent& xev) {

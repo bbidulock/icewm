@@ -1809,7 +1809,7 @@ void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
     }
 }
 
-class FileView: public YWindow, public HTListener {
+class FileView: public YDndWindow, public HTListener {
 public:
     FileView(YApplication *app, int argc, char **argv);
     ~FileView() {

@@ -30,7 +30,7 @@ class TaskBar;
 class TaskBarApp;
 class TrayApp;
 
-class EdgeTrigger: public YWindow, public YTimerListener {
+class EdgeTrigger: public YDndWindow, public YTimerListener {
 public:
     EdgeTrigger(TaskBar *owner);
     virtual ~EdgeTrigger();

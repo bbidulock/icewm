@@ -110,7 +110,7 @@ public:
 
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar();
-    YClientContainer *container() const { return fClientContainer; }
+    YClientContainer *container() const { return fContainer; }
 
     void startMoveSize(int x, int y, int direction);
 
@@ -198,7 +198,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
-    void netRestackWindow(long window, long detail);
+    void netRestackWindow(Window window, int detail);
 
     void setShape();
 
@@ -331,7 +331,7 @@ public:
     void updateLayout();
     void performLayout();
 
-    void updateMwmHints();
+    void updateMwmHints(XSizeHints* sh);
     void updateProperties();
     void updateTaskBar();
     void updateAppStatus();
@@ -445,7 +445,7 @@ private:
     int posX, posY, posW, posH;
 
     YFrameClient *fClient;
-    YClientContainer *fClientContainer;
+    YClientContainer *fContainer;
     YFrameTitleBar *fTitleBar;
 
     YPopupWindow *fPopupActive;

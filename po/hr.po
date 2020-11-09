@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-11-05 00:43+0100\n"
+"POT-Creation-Date: 2020-11-10 00:43+0100\n"
 "PO-Revision-Date: 2001-03-25 17:00+GMT1\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -40,25 +40,25 @@ msgstr ""
 msgid "power:\t%s"
 msgstr ""
 
-#: src/aclock.cc:173
+#: src/aclock.cc:172
 msgid "CLOCK"
 msgstr ""
 
-#: src/aclock.cc:178
+#: src/aclock.cc:177
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:179 src/themes.cc:81
+#: src/aclock.cc:178 src/themes.cc:81
 #, fuzzy
 msgid "Default"
 msgstr "Obriši"
 
-#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
+#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr ""
 
-#: src/aclock.cc:181
+#: src/aclock.cc:180
 msgid "_UTC"
 msgstr ""
 
@@ -1297,12 +1297,12 @@ msgstr "Nepoznata opcija prozora: %s"
 msgid "Unable to create directory %s"
 msgstr ""
 
-#: src/wmconfig.cc:146 src/wmprog.cc:580 src/wmprog.cc:702 src/wmprog.cc:706
+#: src/wmconfig.cc:146 src/wmprog.cc:579 src/wmprog.cc:701 src/wmprog.cc:705
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:182 src/wmprog.cc:710
+#: src/wmconfig.cc:182 src/wmprog.cc:709
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nepoznato ime ključa %s u %s"
@@ -1317,7 +1317,7 @@ msgid "_Cancel"
 msgstr "_Odustani"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:248
+#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:248
 #: src/wmtaskbar.cc:250
 msgid "_Logout..."
 msgstr "_Odjavi"
@@ -1327,15 +1327,15 @@ msgid "_Restart icewm"
 msgstr "_Ponovno pokreni icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:243
 msgid "_About"
 msgstr "_O programu"
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1405
 msgid "Kill Client: "
 msgstr "Ubij klijent: "
 
-#: src/wmframe.cc:1414
+#: src/wmframe.cc:1412
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1387,56 +1387,56 @@ msgstr ""
 msgid "Save Modifications"
 msgstr ""
 
-#: src/wmprog.cc:733
+#: src/wmprog.cc:732
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:734
+#: src/wmprog.cc:733
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:734
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:736
+#: src/wmprog.cc:735
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:798
+#: src/wmprog.cc:797
 msgid "Programs"
 msgstr "Programi"
 
-#: src/wmprog.cc:803
+#: src/wmprog.cc:802
 msgid "_Run..."
 msgstr "Pok_reni..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:808 src/wmtaskbar.cc:238
+#: src/wmprog.cc:807 src/wmtaskbar.cc:238
 msgid "_Windows"
 msgstr "_Prozori"
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:826
 msgid "_Help"
 msgstr "Po_moć"
 
-#: src/wmprog.cc:838
+#: src/wmprog.cc:837
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:843
+#: src/wmprog.cc:842
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:848
 msgid "_Themes"
 msgstr "_Teme"
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:853
 msgid "Se_ttings"
 msgstr ""
 
-#: src/wmsession.cc:220 src/wmsession.cc:236 src/wmsession.cc:246
+#: src/wmsession.cc:213 src/wmsession.cc:229 src/wmsession.cc:239
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "Upravitelj sesijom: Nepoznata linija %s"

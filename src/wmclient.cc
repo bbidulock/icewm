@@ -42,7 +42,7 @@ bool operator!=(const XSizeHints& a, const XSizeHints& b) {
 
 YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                            int depth, Visual *visual, Colormap colormap):
-    YWindow(parent, win, depth, visual, colormap),
+    YDndWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
     fWindowRole()
@@ -60,7 +60,6 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fSavedWinState[0] = None;
     fSavedWinState[1] = None;
     fSizeHints = XAllocSizeHints();
-    fSaveHints = XAllocSizeHints();
     fTransientFor = None;
     fClientLeader = None;
     fPid = 0;
@@ -109,7 +108,6 @@ YFrameClient::~YFrameClient() {
     }
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
-    if (fSaveHints) { XFree(fSaveHints); fSaveHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
 }
 
@@ -566,7 +564,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             getSizeHints();
             if (old != *fSizeHints) {
                 if (getFrame())
-                    getFrame()->updateMwmHints();
+                    getFrame()->updateMwmHints(&old);
             }
         }
         prop.wm_normal_hints = new_prop;
@@ -666,7 +664,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (new_prop) prop.mwm_hints = true;
             getMwmHints();
             if (getFrame())
-                getFrame()->updateMwmHints();
+                getFrame()->updateMwmHints(fSizeHints);
             prop.mwm_hints = new_prop;
         } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
             if (new_prop) prop.wm_client_leader = true;
@@ -939,7 +937,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWinStateHint(mask, want);
         }
     } else
-        YWindow::handleClientMessage(message);
+        super::handleClientMessage(message);
 }
 
 void YFrameClient::netStateRequest(long action, long mask) {
@@ -1150,18 +1148,6 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     setProperty(_XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                 (const Atom *)&mwm, PROP_MWM_HINTS_ELEMENTS);
     *fMwmHints = mwm;
-}
-
-void YFrameClient::saveSizeHints() {
-    if (fSaveHints && fSizeHints) {
-        *fSaveHints = *fSizeHints;
-    }
-}
-
-void YFrameClient::restoreSizeHints() {
-    if (fSizeHints && fSaveHints) {
-        *fSizeHints = *fSaveHints;
-    }
 }
 
 long YFrameClient::mwmFunctions() {
