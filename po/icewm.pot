@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: icewm 1.9.0.10\n"
+"Project-Id-Version: icewm 1.9.1.8\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-11-04 23:10+0100\n"
+"POT-Creation-Date: 2020-11-10 00:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,24 +42,24 @@ msgstr ""
 msgid "power:\t%s"
 msgstr ""
 
-#: src/aclock.cc:173
+#: src/aclock.cc:172
 msgid "CLOCK"
 msgstr ""
 
-#: src/aclock.cc:178
+#: src/aclock.cc:177
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:179 src/themes.cc:81
+#: src/aclock.cc:178 src/themes.cc:81
 msgid "Default"
 msgstr ""
 
-#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
+#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr ""
 
-#: src/aclock.cc:181
+#: src/aclock.cc:180
 msgid "_UTC"
 msgstr ""
 
@@ -1283,12 +1283,12 @@ msgstr ""
 msgid "Unable to create directory %s"
 msgstr ""
 
-#: src/wmconfig.cc:146 src/wmprog.cc:580 src/wmprog.cc:702 src/wmprog.cc:706
+#: src/wmconfig.cc:146 src/wmprog.cc:579 src/wmprog.cc:701 src/wmprog.cc:705
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:182 src/wmprog.cc:710
+#: src/wmconfig.cc:182 src/wmprog.cc:709
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr ""
@@ -1302,7 +1302,7 @@ msgid "_Cancel"
 msgstr ""
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:860 src/wmprog.cc:862 src/wmtaskbar.cc:248
+#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:248
 #: src/wmtaskbar.cc:250
 msgid "_Logout..."
 msgstr ""
@@ -1312,15 +1312,15 @@ msgid "_Restart icewm"
 msgstr ""
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:821 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:243
 msgid "_About"
 msgstr ""
 
-#: src/wmframe.cc:1407
+#: src/wmframe.cc:1405
 msgid "Kill Client: "
 msgstr ""
 
-#: src/wmframe.cc:1414
+#: src/wmframe.cc:1412
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1372,56 +1372,56 @@ msgstr ""
 msgid "Save Modifications"
 msgstr ""
 
-#: src/wmprog.cc:733
+#: src/wmprog.cc:732
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:734
+#: src/wmprog.cc:733
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:734
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:736
+#: src/wmprog.cc:735
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:798
+#: src/wmprog.cc:797
 msgid "Programs"
 msgstr ""
 
-#: src/wmprog.cc:803
+#: src/wmprog.cc:802
 msgid "_Run..."
 msgstr ""
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:808 src/wmtaskbar.cc:238
+#: src/wmprog.cc:807 src/wmtaskbar.cc:238
 msgid "_Windows"
 msgstr ""
 
-#: src/wmprog.cc:827
+#: src/wmprog.cc:826
 msgid "_Help"
 msgstr ""
 
-#: src/wmprog.cc:838
+#: src/wmprog.cc:837
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:843
+#: src/wmprog.cc:842
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:849
+#: src/wmprog.cc:848
 msgid "_Themes"
 msgstr ""
 
-#: src/wmprog.cc:854
+#: src/wmprog.cc:853
 msgid "Se_ttings"
 msgstr ""
 
-#: src/wmsession.cc:220 src/wmsession.cc:236 src/wmsession.cc:246
+#: src/wmsession.cc:213 src/wmsession.cc:229 src/wmsession.cc:239
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr ""
