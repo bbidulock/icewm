@@ -27,7 +27,7 @@ public:
     virtual void addObject(DObject *object);
     virtual void addObject(DObject *object, const char *icons);
     virtual void addSeparator();
-    virtual void addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container);
+    virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container);
 protected:
     YActionListener *wmActionListener;
 };

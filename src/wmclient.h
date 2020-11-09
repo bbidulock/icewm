@@ -128,9 +128,10 @@ protected:
     virtual ~ClientData() {}
 };
 
-class YFrameClient: public YWindow
+class YFrameClient: public YDndWindow
                   , public YTimerListener
 {
+    typedef YDndWindow super;
 public:
     YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
                  int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
@@ -184,9 +185,6 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
-    XSizeHints *saveHints() const { return fSaveHints; }
-    void saveSizeHints();
-    void restoreSizeHints();
 
     unsigned protocols() const { return fProtocols; }
     void getProtocols(bool force);
@@ -279,7 +277,6 @@ private:
     FrameState fSavedFrameState;
     long fSavedWinState[2];
     XSizeHints *fSizeHints;
-    XSizeHints *fSaveHints;
     ClassHint fClassHint;
     XWMHints *fHints;
     Colormap fColormap;

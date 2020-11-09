@@ -22,11 +22,11 @@ public:
 
     virtual void addObject(DObject *object);
     virtual void addSeparator();
-    virtual void addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container);
+    virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container);
 
     virtual void paint(Graphics &g, const YRect &r);
 
-    void addButton(const mstring &name, ref<YIcon> icon, ObjectButton *button);
+    void addButton(mstring name, ref<YIcon> icon, ObjectButton *button);
     void refresh();
 
 private:

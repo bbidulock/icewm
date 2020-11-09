@@ -45,7 +45,7 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner):
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
-    setDND(true);
+    setDND(enabled());
     setTitle("IceEdge");
 }
 

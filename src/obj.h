@@ -29,7 +29,7 @@ class ObjectContainer {
 public:
     virtual void addObject(DObject *object) = 0;
     virtual void addSeparator() = 0;
-    virtual void addContainer(const mstring &name, ref<YIcon> icon, ObjectMenu *container) = 0;
+    virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) = 0;
 protected:
     virtual ~ObjectContainer() {}
 };

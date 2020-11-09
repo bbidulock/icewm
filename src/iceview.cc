@@ -582,10 +582,9 @@ private:
     YAction actionToggleExpandTabs, actionToggleWrapLines, actionToggleHexView;
 };
 
-class FileView: public YWindow {
+class FileView: public YDndWindow {
 public:
     FileView(char *path) :
-        YWindow(desktop, None),
         fPath(newstr(path)),
         scroll(new YScrollView(this)),
         view(new TextView(scroll, this))
