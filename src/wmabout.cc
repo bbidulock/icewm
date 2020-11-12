@@ -10,6 +10,7 @@
 #include "yprefs.h"
 #include "prefs.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #ifdef CONFIG_I18N
 #include <langinfo.h>
 #endif

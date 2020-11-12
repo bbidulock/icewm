@@ -9,6 +9,7 @@
 #include "ymsgbox.h"
 #include "yxapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "ylabel.h"
 #include "yinputline.h"
 #include "prefs.h"

@@ -11,6 +11,7 @@
 #include "wmwinmenu.h"
 #include "wmapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"

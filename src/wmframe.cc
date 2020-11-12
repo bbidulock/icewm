@@ -6,7 +6,7 @@
 
 #include "config.h"
 #include "wmframe.h"
-
+#include "wmmgr.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "atasks.h"
@@ -890,14 +890,13 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (isUnmapped() || client()->destroyed())
-        return false;
-    if (t == fAutoRaiseTimer) {
-        if (canRaise())
-            wmRaise();
-    }
-    else if (t == fDelayFocusTimer) {
-        focus(false);
+    if (isMapped() && !client()->destroyed()) {
+        if (t == fAutoRaiseTimer) {
+            actionPerformed(actionRaise);
+        }
+        else if (t == fDelayFocusTimer) {
+            focus(false);
+        }
     }
     return false;
 }
@@ -3151,6 +3150,10 @@ void YFrameWindow::setAllWorkspaces() {
         if (taskBar)
             taskBar->relayoutTray();
     }
+}
+
+bool YFrameWindow::visibleNow() const {
+    return visibleOn(manager->activeWorkspace());
 }
 
 #if DO_NOT_COVER_OLD

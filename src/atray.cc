@@ -13,13 +13,13 @@
  */
 
 #include "config.h"
-
 #include "atray.h"
 #include "applet.h"
 #include "yprefs.h"
 #include "yxapp.h"
 #include "prefs.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
 #include "yrect.h"
@@ -48,7 +48,6 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
     setParentRelative();
     setToolTip(frame->getTitle());
     setTitle(frame->getTitle());
-    //setDND(true);
 }
 
 TrayApp::~TrayApp() {

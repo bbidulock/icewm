@@ -3,9 +3,10 @@
 
 #include "ymsgbox.h"
 #include "wmoption.h"
-#include "wmmgr.h"
 #include "yicon.h"
 #include "ylist.h"
+#include "WinMgr.h"
+#include "workspaces.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -365,6 +366,7 @@ public:
     bool isIconic() const { return isMinimized() && fMiniIcon; }
     bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
+    ClassHint* classHint() const { return client()->classHint(); }
 
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
@@ -374,7 +376,7 @@ public:
     bool visibleOn(int workspace) const {
         return (isAllWorkspaces() || getWorkspace() == workspace);
     }
-    bool visibleNow() const { return visibleOn(manager->activeWorkspace()); }
+    bool visibleNow() const;
 
     bool isModal();
     bool hasModal();
