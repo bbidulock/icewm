@@ -273,7 +273,7 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                     activateItem(i);
             }
             break;
-        case ' ':
+        case XK_space:
             if (fFocusedItem != -1) {
                 selectItem(fFocusedItem,
                            isSelected(fFocusedItem) ? false : true);
@@ -330,9 +330,9 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                                clear, extend, false);
             break;
         }
-        case 'a':
-        case '/':
-        case '\\':
+        case XK_a:
+        case XK_slash:
+        case XK_backslash:
             if (m & ControlMask) {
                 for (int i = 0; i < getItemCount(); i++)
                     selectItem(i, (k != '\\'));
@@ -559,14 +559,12 @@ void YListBox::paintItem(Graphics &g, int n) {
         }
     }
 
-    mstring title = a->getText();
-
+    mstring title(a->getText());
     if (title != null) {
         g.setColor(s ? listBoxSelFg : listBoxFg);
         g.setFont(listBoxFont);
-
         g.drawChars(title,
-                    xpos + x + 20 - fOffsetX, yPos - fOffsetY);
+                    xpos + x + 4 + getIconSize() - fOffsetX, yPos - fOffsetY);
     }
 }
 
