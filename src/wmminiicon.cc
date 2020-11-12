@@ -6,6 +6,7 @@
 #include "config.h"
 #include "wmminiicon.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "yxapp.h"
 #include "prefs.h"
 
@@ -149,21 +150,18 @@ bool MiniIcon::handleKey(const XKeyEvent& key) {
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
         if (IS_WMKEY(k, vm, gKeyWinClose)) {
-            if (fFrame->canClose())
-                fFrame->wmClose();
+            fFrame->actionPerformed(actionClose);
         }
         else if (IS_WMKEY(k, vm, gKeyWinLower)) {
-            if (fFrame->canLower())
-                fFrame->wmLower();
+            fFrame->actionPerformed(actionLower);
         }
         else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
-            if (fFrame->canRestore())
-                fFrame->wmRestore();
+            fFrame->actionPerformed(actionRestore);
         }
         else if (k == XK_Return || k == XK_KP_Enter) {
             fFrame->activate();
         }
-        else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
+        else if (k == XK_Menu || (k == XK_F10 && m == ShiftMask)) {
             fFrame->popupSystemMenu(fFrame);
         }
     }
