@@ -995,13 +995,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     updateFullscreenLayer();
 }
 
-/// TODO lose this function
-void YWindowManager::loseFocus(YFrameWindow *window) {
-    (void)window;
-    PRECONDITION(window != 0);
-    focusLastWindow();
-}
-
 YFrameWindow *YWindowManager::top(long layer) const {
     PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
     return fLayers[layer].front();
@@ -2978,7 +2971,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     }
     if (wmState() == wmRUNNING) {
         if (frame == getFocus())
-            loseFocus(frame);
+            focusLastWindow();
         if (frame == getFocus())
             setFocus(nullptr);
         if (colormapWindow() == frame)
