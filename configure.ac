@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.9.0],
+AC_INIT([icewm],[1.9.2],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.9.0])
+AC_REVISION([1.9.2])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,13 +22,13 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2020-10-29'
+DATE='2020-11-10'
 AC_SUBST([DATE])
 
-MDOCDATE='October 29, 2020'
+MDOCDATE='November 10, 2020'
 AC_SUBST([MDOCDATE])
 
-BRANCH='1.9.0'
+BRANCH='icewm-1-4-BRANCH'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icehelp'
@@ -356,7 +356,13 @@ AC_SUBST([GIO_LIBS])
 AC_ARG_ENABLE([gdk-pixbuf],
     AS_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
 	@<:@default=enabled@:>@]))
-if test "x$enable_gdk_pixbuf" != xno ; then
+AC_ARG_ENABLE([imlib2],
+    AS_HELP_STRING([--enable-imlib2],[Enable imlib2 rendering.
+        @<:@default=disabled@:>@]))
+if test "x$enable_gdk_pixbuf" = xyes ||
+   test "x$enable_gdk_pixbuf" = x &&
+   test "x$enable_imlib2" != xyes
+then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"
@@ -373,7 +379,24 @@ if test "x$enable_gdk_pixbuf" != xno ; then
 	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library="$image_library libxpm"])
-else
+fi
+if test "x$enable_gdk_pixbuf" != xyes &&
+   test "x$enable_imlib2" = xyes
+then
+    PKG_CHECK_MODULES([IMLIB2],[imlib2],[
+	IMAGE_CFLAGS="$IMLIB2_CFLAGS"
+	IMAGE_LIBS="$IMLIB2_LIBS"
+	AC_DEFINE([CONFIG_IMLIB2],[1],[Define to enable imlib2 rendering.])
+	image_library=imlib2])
+    PKG_CHECK_MODULES([XPM],[xpm],[
+	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
+	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
+	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
+	image_library="$image_library libxpm"])
+fi
+if test "x$enable_gdk_pixbuf" = xno &&
+   test "x$enable_imlib2" != xyes
+then
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
 	IMAGE_LIBS="$XPM_LIBS"

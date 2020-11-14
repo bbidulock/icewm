@@ -123,6 +123,7 @@ libice_la_SOURCES = \
 	yfontxft.cc \
 	yfull.h \
 	yimage.h \
+	yimage2.cc \
 	yimage_gdk.cc \
 	ykey.h \
 	ylib.h \

@@ -1555,6 +1555,9 @@ static void print_configured(const char *argv0) {
 #ifdef CONFIG_I18N
     " i18n"
 #endif
+#ifdef CONFIG_IMLIB2
+    " imlib2"
+#endif
 #ifdef CONFIG_LIBICONV
     " libiconv"
 #endif
