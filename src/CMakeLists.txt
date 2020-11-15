@@ -208,7 +208,7 @@ endif()
 # cursor configuration error check
 if(CONFIG_XPM)
     #ok
-elseif(CONFIG_IMLIB)
+elseif(CONFIG_IMLIB2)
     #ok
 else()
     MESSAGE(FATAL_ERROR ${HINT_CURSORS})
