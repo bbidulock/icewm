@@ -509,7 +509,7 @@ foreach (_variableName
         CONFIG_XPM
         CONFIG_LIBPNG
         CONFIG_LIBJPEG
-        CONFIG_IMLIB
+        CONFIG_IMLIB2
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI
