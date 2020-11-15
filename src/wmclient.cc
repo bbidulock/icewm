@@ -42,7 +42,7 @@ bool operator!=(const XSizeHints& a, const XSizeHints& b) {
 
 YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                            int depth, Visual *visual, Colormap colormap):
-    YWindow(parent, win, depth, visual, colormap),
+    YDndWindow(parent, win, depth, visual, colormap),
     fWindowTitle(),
     fIconTitle(),
     fWindowRole()
@@ -144,11 +144,8 @@ void YFrameClient::getSizeHints() {
             fSizeHints->flags = 0;
 
         if (fSizeHints->flags & PResizeInc) {
-            if (fSizeHints->width_inc == 0) fSizeHints->width_inc = 1;
-            if (fSizeHints->height_inc == 0) fSizeHints->height_inc = 1;
         } else
             fSizeHints->width_inc = fSizeHints->height_inc = 1;
-
 
         if (!(fSizeHints->flags & PBaseSize)) {
             if (fSizeHints->flags & PMinSize) {
@@ -224,8 +221,8 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
         int const hMax(fSizeHints->max_height);
         int const wBase(fSizeHints->base_width);
         int const hBase(fSizeHints->base_height);
-        int const wInc(fSizeHints->width_inc);
-        int const hInc(fSizeHints->height_inc);
+        int const wInc(max(1, fSizeHints->width_inc));
+        int const hInc(max(1, fSizeHints->height_inc));
 
         if (fSizeHints->flags & PAspect) { // aspect ratios
             int const xMin(fSizeHints->min_aspect.x);
@@ -327,7 +324,7 @@ void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
     xev.format = 32;
     xev.data.l[0] = msg;
     xev.data.l[1] = timeStamp;
-    XSendEvent(xapp->display(), handle(), False, 0L, (XEvent *) &xev);
+    xapp->send(xev, handle());
 }
 
 ///extern Time lastEventTime;
@@ -361,7 +358,7 @@ bool YFrameClient::sendPing() {
         xev.data.l[2] = (long) handle();
         xev.data.l[3] = (long) this;
         xev.data.l[4] = (long) fFrame;
-        xapp->send(xev, handle(), NoEventMask);
+        xapp->send(xev, handle());
         fPinging = true;
         fPingTime = xev.data.l[1];
         fPingTimer->setTimer(3000L, this, true);
@@ -567,7 +564,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             getSizeHints();
             if (old != *fSizeHints) {
                 if (getFrame())
-                    getFrame()->updateMwmHints();
+                    getFrame()->updateMwmHints(&old);
             }
         }
         prop.wm_normal_hints = new_prop;
@@ -667,7 +664,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             if (new_prop) prop.mwm_hints = true;
             getMwmHints();
             if (getFrame())
-                getFrame()->updateMwmHints();
+                getFrame()->updateMwmHints(fSizeHints);
             prop.mwm_hints = new_prop;
         } else if (property.atom == _XA_WM_CLIENT_LEADER) { // !!! check these
             if (new_prop) prop.wm_client_leader = true;
@@ -915,10 +912,13 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         else
             setWinWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
-        if (getFrame())
-            getFrame()->wmSetLayer(message.data.l[0]);
-        else
-            setWinLayerHint(message.data.l[0]);
+        long layer = message.data.l[0];
+        if (inrange(layer, WinLayerDesktop, WinLayerAboveAll)) {
+            if (getFrame())
+                getFrame()->actionPerformed(layerActionSet[layer]);
+            else
+                setWinLayerHint(layer);
+        }
     } else if (message.message_type == _XA_WIN_TRAY) {
         if (getFrame())
             getFrame()->setTrayOption(message.data.l[0]);
@@ -937,7 +937,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWinStateHint(mask, want);
         }
     } else
-        YWindow::handleClientMessage(message);
+        super::handleClientMessage(message);
 }
 
 void YFrameClient::netStateRequest(long action, long mask) {
@@ -1034,10 +1034,10 @@ void YFrameClient::netStateRequest(long action, long mask) {
     }
     if (gain & (WinStateAbove | WinStateBelow)) {
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateAbove) {
-            actionPerformed(layerActionSet[WinLayerOnTop]);
+            actionPerformed(actionLayerOnTop);
         }
         if ((gain & (WinStateAbove | WinStateBelow)) == WinStateBelow) {
-            actionPerformed(layerActionSet[WinLayerBelow]);
+            actionPerformed(actionLayerBelow);
         }
         gain &= ~(WinStateAbove | WinStateBelow);
         lose &= ~(WinStateAbove | WinStateBelow);
@@ -1045,12 +1045,12 @@ void YFrameClient::netStateRequest(long action, long mask) {
     if (lose & (WinStateAbove | WinStateBelow)) {
         if (lose & WinStateAbove) {
             if (getFrame()->getRequestedLayer() == WinLayerOnTop) {
-                actionPerformed(layerActionSet[WinLayerNormal]);
+                actionPerformed(actionLayerNormal);
             }
         }
         if (lose & WinStateBelow) {
             if (getFrame()->getRequestedLayer() == WinLayerBelow) {
-                actionPerformed(layerActionSet[WinLayerNormal]);
+                actionPerformed(actionLayerNormal);
             }
         }
         lose &= ~(WinStateAbove | WinStateBelow);
@@ -1148,15 +1148,6 @@ void YFrameClient::setMwmHints(const MwmHints &mwm) {
     setProperty(_XATOM_MWM_HINTS, _XATOM_MWM_HINTS,
                 (const Atom *)&mwm, PROP_MWM_HINTS_ELEMENTS);
     *fMwmHints = mwm;
-}
-
-void YFrameClient::saveSizeHints()
-{
-    memcpy(&savedSizeHints, fSizeHints, sizeof(XSizeHints));
-}
-
-void YFrameClient::restoreSizeHints() {
-    memcpy(fSizeHints, &savedSizeHints, sizeof(XSizeHints));
 }
 
 long YFrameClient::mwmFunctions() {

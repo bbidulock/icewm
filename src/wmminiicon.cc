@@ -6,6 +6,7 @@
 #include "config.h"
 #include "wmminiicon.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "yxapp.h"
 #include "prefs.h"
 
@@ -145,30 +146,26 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
 }
 
 bool MiniIcon::handleKey(const XKeyEvent& key) {
-    if (key.type != KeyPress) return true;
-
-    KeySym k = keyCodeToKeySym(key.keycode);
-    unsigned int m = KEY_MODMASK(key.state);
-    unsigned int vm = VMod(m);
-    if (IS_WMKEY(k, vm, gKeyWinClose)) {
-        if (fFrame->canClose())
-            fFrame->wmClose();
+    if (key.type == KeyPress) {
+        KeySym k = keyCodeToKeySym(key.keycode);
+        unsigned int m = KEY_MODMASK(key.state);
+        unsigned int vm = VMod(m);
+        if (IS_WMKEY(k, vm, gKeyWinClose)) {
+            fFrame->actionPerformed(actionClose);
+        }
+        else if (IS_WMKEY(k, vm, gKeyWinLower)) {
+            fFrame->actionPerformed(actionLower);
+        }
+        else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
+            fFrame->actionPerformed(actionRestore);
+        }
+        else if (k == XK_Return || k == XK_KP_Enter) {
+            fFrame->activate();
+        }
+        else if (k == XK_Menu || (k == XK_F10 && m == ShiftMask)) {
+            fFrame->popupSystemMenu(fFrame);
+        }
     }
-    else if (IS_WMKEY(k, vm, gKeyWinLower)) {
-        if (fFrame->canLower())
-            fFrame->wmLower();
-    }
-    else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
-        if (fFrame->canRestore())
-            fFrame->wmRestore();
-    }
-    else if (k == XK_Return || k == XK_KP_Enter) {
-        fFrame->activate();
-    }
-    else if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
-        fFrame->popupSystemMenu(fFrame);
-    }
-
     return true;
 }
 

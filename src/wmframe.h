@@ -3,9 +3,10 @@
 
 #include "ymsgbox.h"
 #include "wmoption.h"
-#include "wmmgr.h"
 #include "yicon.h"
 #include "ylist.h"
+#include "WinMgr.h"
+#include "workspaces.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -59,7 +60,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void actionPerformed(YAction action, unsigned modifiers = 0);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual YFrameWindow* frame() { return this; }
 
@@ -110,7 +111,7 @@ public:
 
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar();
-    YClientContainer *container() const { return fClientContainer; }
+    YClientContainer *container() const { return fContainer; }
 
     void startMoveSize(int x, int y, int direction);
 
@@ -198,7 +199,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
-    void netRestackWindow(long window, long detail);
+    void netRestackWindow(Window window, int detail);
 
     void setShape();
 
@@ -257,7 +258,6 @@ public:
     unsigned frameOptions() const { return fFrameOptions; }
     bool frameOption(YFrameOptions o) const { return hasbit(fFrameOptions, o); }
     void updateAllowed();
-    void updateNetWMState();
     void getFrameHints();
     bool haveHintOption() const { return fHintOption; }
     WindowOption& getHintOption() { return *fHintOption; }
@@ -332,7 +332,7 @@ public:
     void updateLayout();
     void performLayout();
 
-    void updateMwmHints();
+    void updateMwmHints(XSizeHints* sh);
     void updateProperties();
     void updateTaskBar();
     void updateAppStatus();
@@ -343,7 +343,6 @@ public:
     int getWorkspace() const { return fWinWorkspace; }
     int getTrayOrder() const { return fTrayOrder; }
     void setWorkspace(int workspace);
-    void setWorkspaceHint(long workspace);
     long getActiveLayer() const { return fWinActiveLayer; }
     void setRequestedLayer(long layer);
     long getRequestedLayer() const { return fWinRequestedLayer; }
@@ -361,15 +360,13 @@ public:
     bool isRollup() const { return hasState(WinStateRollup); }
     bool isSticky() const { return hasState(WinStateSticky); }
     bool isAllWorkspaces() const { return (getWorkspace() == AllWorkspaces); }
-    //bool isHidWorkspace() { return hasState(WinStateHidWorkspace); }
-    //bool isHidTransient() { return hasState(WinStateHidTransient); }
-
     bool wasMinimized() const { return hasState(WinStateWasMinimized); }
     bool wasHidden() const { return hasState(WinStateWasHidden); }
 
     bool isIconic() const { return isMinimized() && fMiniIcon; }
     bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
+    ClassHint* classHint() const { return client()->classHint(); }
 
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
@@ -379,7 +376,7 @@ public:
     bool visibleOn(int workspace) const {
         return (isAllWorkspaces() || getWorkspace() == workspace);
     }
-    bool visibleNow() const { return visibleOn(manager->activeWorkspace()); }
+    bool visibleNow() const;
 
     bool isModal();
     bool hasModal();
@@ -419,8 +416,6 @@ public:
     int getScreen() const;
     void refresh();
 
-    long getOldLayer() { return fOldLayer; }
-    void saveOldLayer() { fOldLayer = fWinActiveLayer; }
     long windowTypeLayer() const;
 
     bool hasIndicators() const { return indicatorsCreated; }
@@ -452,7 +447,7 @@ private:
     int posX, posY, posW, posH;
 
     YFrameClient *fClient;
-    YClientContainer *fClientContainer;
+    YClientContainer *fContainer;
     YFrameTitleBar *fTitleBar;
 
     YPopupWindow *fPopupActive;

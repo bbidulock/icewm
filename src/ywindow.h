@@ -194,7 +194,6 @@ public:
     virtual void gotFocus();
     virtual void lostFocus();
 
-    bool isDragDrop() const { return hasbit(flags, wfDragDrop); }
     bool isToplevel() const { return hasbit(flags, wfToplevel); }
     void setToplevel(bool toplevel);
 
@@ -211,15 +210,12 @@ public:
     void setWinGravity(int gravity);
     void setBitGravity(int gravity);
 
+    void deleteProperty(Atom property);
     void setProperty(Atom prop, Atom type, const Atom* values, int count);
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
     void setNetPid();
-    void setDND(bool enabled);
-
-    void XdndStatus(bool acceptDrop, Atom dropAction);
-    virtual void handleXdnd(const XClientMessageEvent &message);
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
@@ -260,7 +256,6 @@ private:
         wfToplevel  = 1 << 4,
         wfNullSize  = 1 << 5,
         wfFocused   = 1 << 6,
-        wfDragDrop  = 1 << 7,
     };
 
     Window create();
@@ -310,14 +305,34 @@ private:
     static unsigned long lastEnterNotifySerial;
     static void updateEnterNotifySerial(const XEvent& event);
 
-    Window XdndDragSource;
-    Window XdndDropTarget;
-
     static YAutoScroll *fAutoScroll;
 
     void addIgnoreUnmap(Window w);
     bool ignoreUnmap(Window w);
     void removeAllIgnoreUnmap(Window w);
+};
+
+class YDndWindow : public YWindow {
+protected:
+    YDndWindow(YWindow* parent = nullptr, Window win = 0, int depth = 0,
+               Visual* visual = nullptr, Colormap colormap = 0);
+    void setDND(bool enabled = true);
+
+    void handleClientMessage(const XClientMessageEvent& message) override;
+
+private:
+    void sendXdndStatus(bool acceptDrop = false, Atom dropAction = None);
+    void handleXdndEnter(const XClientMessageEvent& message);
+    void handleXdndLeave(const XClientMessageEvent& message);
+    void handleXdndPosition(const XClientMessageEvent& message);
+    void handleXdndStatus(const XClientMessageEvent& message);
+    void handleXdndDrop(const XClientMessageEvent& message);
+    void handleXdndFinished(const XClientMessageEvent& message);
+
+    Window XdndDragSource;
+    Window XdndDropTarget;
+
+    enum { XdndCurrentVersion = 5, };
 };
 
 class YDesktop: public YWindow {
@@ -404,6 +419,11 @@ extern Atom XA_XdndProxy;
 extern Atom XA_XdndStatus;
 extern Atom XA_XdndDrop;
 extern Atom XA_XdndFinished;
+extern Atom XA_XdndActionCopy;
+extern Atom XA_XdndActionMove;
+extern Atom XA_XdndActionLink;
+extern Atom XA_XdndActionAsk;
+extern Atom XA_XdndActionPrivate;
 
 extern Atom _XA_KDE_NET_SYSTEM_TRAY_WINDOWS;
 extern Atom _XA_NET_SYSTEM_TRAY_OPCODE;

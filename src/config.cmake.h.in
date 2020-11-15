@@ -47,7 +47,7 @@
 #define ICEHELPIDX "@ICEHELPIDX@"
 
 #cmakedefine CONFIG_XPM 1
-#cmakedefine CONFIG_IMLIB  1
+#cmakedefine CONFIG_IMLIB2 1
 #cmakedefine CONFIG_LIBPNG  1
 #cmakedefine CONFIG_LIBJPEG  1
 #cmakedefine CONFIG_GDK_PIXBUF_XLIB 1

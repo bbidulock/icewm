@@ -8,26 +8,20 @@
  */
 
 #include "config.h"
-#include "yfull.h"
-#include "default.h"
 #include "yxapp.h"
-#include "wmprog.h"
+#include "ycursor.h"
 #include "ypaths.h"
 #include "ypointer.h"
 
-#include <limits.h>
-#include <stdlib.h>
-
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
-#elif defined CONFIG_IMLIB
-#include <Imlib.h>
-extern ImlibData *hImlib;
+#elif defined CONFIG_IMLIB2
+#include <Imlib2.h>
+typedef Imlib_Image Image;
 #else
-#error "Need either XPM or Imlib for cursors."
+#error "Need either XPM or Imlib2 for cursors."
 #endif
 
-#include "ycursor.h"
 #include "intl.h"
 
 class YCursorPixmap {
@@ -48,11 +42,17 @@ public:
     unsigned int hotspotX() const { return fAttributes.x_hotspot; }
     unsigned int hotspotY() const { return fAttributes.y_hotspot; }
 
-#elif defined CONFIG_IMLIB
+#elif defined CONFIG_IMLIB2
 
     bool isValid() { return fImage; }
-    unsigned int width() const { return fImage ? fImage->rgb_width : 0; }
-    unsigned int height() const { return fImage ? fImage->rgb_height : 0; }
+    void release();
+    void context() const { imlib_context_set_image(fImage); }
+    unsigned int width() const {
+        return fImage ? context(), imlib_image_get_width() : 0;
+    }
+    unsigned int height() const {
+        return fImage ? context(), imlib_image_get_height() : 0;
+    }
     unsigned int hotspotX() const { return fHotspotX; }
     unsigned int hotspotY() const { return fHotspotY; }
 
@@ -66,8 +66,6 @@ public:
 
 #endif
 
-    operator bool();
-
 private:
     Pixmap fPixmap, fMask;
     XColor fForeground, fBackground;
@@ -77,10 +75,10 @@ private:
     bool fValid;
     XpmAttributes fAttributes;
 
-#elif defined CONFIG_IMLIB
+#elif defined CONFIG_IMLIB2
 
     unsigned int fHotspotX, fHotspotY;
-    ImlibImage *fImage;
+    Imlib_Image fImage;
 
 #elif defined CONFIG_GDK_PIXBUF_XLIB
 
@@ -92,7 +90,7 @@ private:
 
 #ifdef CONFIG_XPM
 //
-// ================== use libXpm to load the cursor pixmap ===
+// === use libXpm to load the cursor pixmap ===
 //
 YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.colormap  = xapp->colormap();
@@ -105,9 +103,8 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.width = 0;
     fAttributes.height = 0;
 
-    csmart filename(newstr(path.string()));
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     filename, // !!!
+                                     path.string(),
                                      &fPixmap, &fMask, &fAttributes));
 
     if (rc != XpmSuccess)
@@ -127,91 +124,78 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     }
 }
 
-#elif defined CONFIG_IMLIB
+#elif defined CONFIG_IMLIB2
 //
-// ================= use Imlib to load the cursor pixmap ===
+// === use Imlib to load the cursor pixmap ===
 //
 YCursorPixmap::YCursorPixmap(upath path):
     fHotspotX(0), fHotspotY(0)
 {
     mstring cs(path.path());
-    fImage = Imlib_load_image(hImlib, (char *)cs.c_str());
-
-    if (fImage == NULL) {
+    fImage = imlib_load_image_immediately_without_cache(cs.c_str());
+    if (fImage == nullptr) {
         warn(_("Loading of pixmap \"%s\" failed"), cs.c_str());
         return;
     }
+    context();
+    imlib_render_pixmaps_for_whole_image(&fPixmap, &fMask);
 
-    Imlib_render(hImlib, fImage, fImage->rgb_width, fImage->rgb_height);
-    fPixmap = (Pixmap)Imlib_move_image(hImlib, fImage);
-    fMask = (Pixmap)Imlib_move_mask(hImlib, fImage);
-
-    struct Pixel { // ----------------- find the background/foreground color ---
-        bool operator!= (const Pixel& o) {
-            return (r != o.r || g != o.g || b != o.b); }
-        bool operator!= (const ImlibColor& o) {
-            return (r != o.r || g != o.g || b != o.b); }
-
-        unsigned char r,g,b;
-    };
-
-    Pixel fg = { 0xFF, 0xFF, 0xFF }, bg = { 0, 0, 0 }, *pp((Pixel*) fImage->rgb_data);
-    unsigned ccnt = 0;
-
-    for (unsigned n = fImage->rgb_width * fImage->rgb_height; n > 0; --n, ++pp)
-        if (*pp != fImage->shape_color)
-            switch (ccnt) {
-                case 0:
-                    bg = *pp; ++ccnt;
-                    break;
-
-                case 1:
-                    if (*pp != bg) { fg = *pp; ++ccnt; }
-                    break;
-
-                default:
-                    if (*pp != bg && *pp != fg) {
-                        warn(_("Invalid cursor pixmap: \"%s\" contains too "
-                               "much unique colors"), cs.c_str());
-
-                        Imlib_destroy_image(hImlib, fImage);
-                        fImage = NULL;
-                        return;
-                    }
+    unsigned inback = 0;
+    unsigned infore = 0;
+    DATA32 backgrnd = 0;
+    DATA32 foregrnd = 0;
+    DATA32* data = imlib_image_get_data_for_reading_only();
+    DATA32* stop = data + width() * height();
+    bool alpha = imlib_image_has_alpha();
+    for (DATA32* p = data; p < stop; ++p) {
+        unsigned char a = (unsigned char)((*p >> 24) & 0xFF);
+        unsigned char r = (unsigned char)((*p >> 16) & 0xFF);
+        unsigned char g = (unsigned char)((*p >> 8) & 0xFF);
+        unsigned char b = (unsigned char)(*p & 0xFF);
+        unsigned intens = r + g + b;
+        if (alpha == 0 || 0 < a) {
+            if (inback == 0 || intens < inback) {
+                inback = intens;
+                backgrnd = *p;
             }
+            if (infore == 0 || intens > infore) {
+                infore = intens;
+                foregrnd = *p;
+            }
+        }
+    }
 
-    fForeground.red = (unsigned short)(fg.r << 8); // -- alloc the background/foreground color ---
-    fForeground.green = (unsigned short)(fg.g << 8);
-    fForeground.blue = (unsigned short)(fg.b << 8);
+    fForeground.red = (unsigned short)(((foregrnd >> 16) & 0xFF) << 8);
+    fForeground.green = (unsigned short)(((foregrnd >> 8) & 0xFF) << 8);
+    fForeground.blue = (unsigned short)((foregrnd & 0xFF) << 8);
     XAllocColor(xapp->display(), xapp->colormap(), &fForeground);
 
-    fBackground.red = (unsigned short)(bg.r << 8);
-    fBackground.green = (unsigned short)(bg.g << 8);
-    fBackground.blue = (unsigned short)(bg.b << 8);
+    fBackground.red = (unsigned short)(((backgrnd >> 16) & 0xFF) << 8);
+    fBackground.green = (unsigned short)(((backgrnd >> 8) & 0xFF) << 8);
+    fBackground.blue = (unsigned short)((backgrnd & 0xFF) << 8);
     XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
-    // ----------------- find the hotspot by reading the xpm header manually ---
-    FILE *xpm = path.fopen("rb");
-    if (xpm == NULL)
+    // --- find the hotspot by reading the xpm header manually ---
+    FILE* xpm = path.fopen("rb");
+    if (xpm == nullptr)
         warn(_("BUG? Imlib was able to read \"%s\""), cs.c_str());
-
     else {
-        while (fgetc(xpm) != '{'); // ----- that's safe since imlib accepted ---
+        while (fgetc(xpm) != '{'); // --- that's safe since imlib accepted ---
 
         for (int c;;) switch (c = fgetc(xpm)) {
             case '/':
-                if ((c == fgetc(xpm)) == '/') // ------ eat C++ line comment ---
+                if ((c = fgetc(xpm)) == '/') // --- eat C++ line comment ---
                     while (fgetc(xpm) != '\n');
-                else { // -------------------------------- eat block comment ---
+                else { // --- eat block comment ---
                    int pc; do { pc = c; c = fgetc(xpm); }
                    while (c != '/' && pc != '*');
                 }
                 break;
 
-            case ' ': case '\t': case '\r': case '\n': // ------- whitespace ---
+            case ' ': case '\t': case '\r': case '\n': // --- whitespace ---
                 break;
 
-            case '"': { // ---------------------------------- the XPM header ---
+            case '"': { // --- the XPM header ---
                 unsigned foo; int x, y;
                 int tokens = fscanf(xpm, "%u %u %u %u %u %u",
                     &foo, &foo, &foo, &foo, &x, &y);
@@ -249,19 +233,27 @@ YCursorPixmap::YCursorPixmap(upath /*path*/):
 #endif
 
 YCursorPixmap::~YCursorPixmap() {
-    if (fPixmap != None)
-        XFreePixmap(xapp->display(), fPixmap);
-    if (fMask != None)
-        XFreePixmap(xapp->display(), fMask);
-
 #ifdef CONFIG_XPM
-
+    if (fPixmap)
+        XFreePixmap(xapp->display(), fPixmap);
+    if (fMask)
+        XFreePixmap(xapp->display(), fMask);
     XpmFreeAttributes(&fAttributes);
 
-#elif defined CONFIG_IMLIB
+#elif defined CONFIG_IMLIB2
+    release();
+}
 
-    Imlib_destroy_image(hImlib, fImage);
-
+void YCursorPixmap::release() {
+    if (fImage) {
+        context();
+        if (fPixmap) {
+            imlib_free_pixmap_and_mask(fPixmap);
+            fPixmap = fMask = None;
+        }
+        imlib_free_image();
+        fImage = nullptr;
+    }
 #endif
 }
 
@@ -291,10 +283,11 @@ Cursor MyCursorLoader::load(upath path) {
     Cursor fCursor = None;
     YCursorPixmap pixmap(path);
 
-    if (pixmap.isValid()) { // ============ convert coloured pixmap into a bilevel one ===
+    if (pixmap.isValid()) {
+        // === convert coloured pixmap into a bilevel one ===
         Pixmap bilevel(createMask(pixmap.width(), pixmap.height()));
 
-        // -------------------------- figure out which plane we have to copy ---
+        // --- figure out which plane we have to copy ---
         unsigned long pmask(1UL << (xapp->depth() - 1));
 
         if (pixmap.foreground().pixel &&
@@ -304,7 +297,7 @@ Cursor MyCursorLoader::load(upath path) {
         else if (pixmap.background().pixel)
             while ((pixmap.background().pixel & pmask) == 0) pmask >>= 1;
 
-        GC gc; XGCValues gcv; // ------ copy one plane by using a bilevel GC ---
+        GC gc; XGCValues gcv; // --- copy one plane by using a bilevel GC ---
         gcv.function = (pixmap.foreground().pixel &&
                        (pixmap.foreground().pixel & pmask))
                      ? GXcopyInverted : GXcopy;
@@ -317,7 +310,7 @@ Cursor MyCursorLoader::load(upath path) {
                    0, 0, pixmap.width(), pixmap.height(), 0, 0, pmask);
         XFreeGC(xapp->display(), gc);
 
-        // ==================================== allocate a new pixmap cursor ===
+        // === allocate a new pixmap cursor ===
         XColor foreground(pixmap.foreground()),
                background(pixmap.background());
 

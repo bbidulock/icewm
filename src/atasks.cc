@@ -39,7 +39,9 @@ TaskBarApp::TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent):
     fFlashStart = zerotime();
     setParentRelative();
     setToolTip(frame->getTitle());
-    //setDND(true);
+    const char* name = frame->classHint()->res_name;
+    if (nonempty(name))
+        setTitle(name);
 }
 
 TaskBarApp::~TaskBarApp() {

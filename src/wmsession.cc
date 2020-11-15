@@ -14,6 +14,7 @@
 #include "wmsession.h"
 #include "wmapp.h"
 #include "workspaces.h"
+#include "wmmgr.h"
 
 #include "intl.h"
 
@@ -93,15 +94,8 @@ bool SMWindows::findWindowInfo(YFrameWindow *f) {
             if (window->key.windowClass != null &&
                 window->key.windowInstance != null)
             {
-                mstring klass = null;
-                mstring instance = null;
-                XClassHint *ch = f->client()->classHint();
-
-                if (ch) {
-                    klass = ch->res_class;
-                    instance = ch->res_name;
-                }
-
+                mstring klass(f->client()->classHint()->res_class);
+                mstring instance(f->client()->classHint()->res_name);
                 if (klass.equals(window->key.windowClass) &&
                     instance.equals(window->key.windowInstance))
                 {
@@ -289,15 +283,8 @@ void YWMApp::smSaveYourselfPhase2() {
                     wr_str(fp, cid.c_str());
                     wr_str(fp, role.c_str());
                 } else {
-                    f->client()->getClassHint();
-                    char *klass = nullptr;
-                    char *instance = nullptr;
-                    XClassHint *ch = f->client()->classHint();
-                    if (ch) {
-                        klass = ch->res_class;
-                        instance = ch->res_name;
-                    }
-
+                    char* klass = f->client()->classHint()->res_class;
+                    char* instance = f->client()->classHint()->res_name;
                     if (klass && instance) {
                         //msg("k=%s, i=%s", klass, instance);
                         fprintf(fp, "c ");

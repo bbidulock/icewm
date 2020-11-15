@@ -149,13 +149,14 @@ set(icewm_img_libs ${xrender_LDFLAGS} ${xcomposite_LDFLAGS} ${xdamage_LDFLAGS} $
 
 set(HINT_CURSORS
 [=[
- Cursor support requires either -DCONFIG_XPM=on or -DCONFIG_IMLIB=on.
+ Cursor support requires either -DCONFIG_XPM=on or -DCONFIG_IMLIB2=on.
 ]=])
 
 set(HINT_IMG_LOADERS
 [=[
  There is a choice to be made between two image loaders.
  Either 'yimage_gdk' must be enabled by -DCONFIG_GDK_PIXBUF_XLIB=on,
+ or 'imlib2' must be enabled by -DCONFIG_IMLIB2=on,
  or else 'yximage' must be enabled by -DCONFIG_LIBPNG=on.
  The latter requires -DCONFIG_XPM=on, while -DCONFIG_LIBJPEG=on is recommended.
  The first provides optional support for SVG with -DCONFIG_LIBRSVG=on.
@@ -169,6 +170,9 @@ if(CONFIG_GDK_PIXBUF_XLIB)
     if (NOT CONFIG_LIBRSVG)
         message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
     endif()
+elseif(CONFIG_IMLIB2)
+    #ok
+    set(CONFIG_LIBRSVG off)
 elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     #ok
     if (NOT CONFIG_LIBJPEG)
@@ -177,17 +181,6 @@ elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     set(CONFIG_LIBRSVG off)
 else()
     MESSAGE(FATAL_ERROR ${HINT_IMG_LOADERS})
-endif()
-
-# cursor configuration error check
-if(CONFIG_XPM)
-    #ok
-    set(CONFIG_IMLIB off)
-elseif(CONFIG_IMLIB)
-    #ok
-    set(CONFIG_XPM off)
-else()
-    MESSAGE(FATAL_ERROR ${HINT_CURSORS})
 endif()
 
 if(CONFIG_GDK_PIXBUF_XLIB)
@@ -212,6 +205,15 @@ if (CONFIG_LIBRSVG)
     else()
         LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
     endif()
+endif()
+
+# cursor configuration error check
+if(CONFIG_XPM)
+    #ok
+elseif(CONFIG_IMLIB)
+    #ok
+else()
+    MESSAGE(FATAL_ERROR ${HINT_CURSORS})
 endif()
 
 if(CONFIG_XPM)
@@ -245,13 +247,13 @@ if(CONFIG_LIBJPEG)
     LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
 endif()
 
-if(CONFIG_IMLIB)
-    pkg_check_modules(libimlib imlib)
-    if(NOT libimlib_FOUND)
-        message(FATAL_ERROR "IMLIB selected but libImlib dev files not found."
+if(CONFIG_IMLIB2)
+    pkg_check_modules(libimlib2 imlib2)
+    if(NOT libimlib2_FOUND)
+        message(FATAL_ERROR "IMLIB2 selected but libImlib2 dev files not found."
         ${HINT_CURSORS})
     endif()
-    LIST(APPEND icewm_img_libs ${libimlib_LDFLAGS})
+    LIST(APPEND icewm_img_libs ${libimlib2_LDFLAGS})
 endif()
 
 IF(CONFIG_SESSION)
@@ -399,7 +401,7 @@ SET(MISC_SRCS logevent.cc misc.cc yfileio.cc ytime.cc yarray.cc mstring.cc mrege
 SET(ICE_COMMON_SRCS udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc yprefs.cc
     ywindow.cc ypaint.cc ypopup.cc ycursor.cc ysocket.cc ypaths.cc
     ylocale.cc ypipereader.cc yxembed.cc yconfig.cc yfont.cc ypixmap.cc
-    yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc ${MISC_SRCS})
+    yimage2.cc yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc ${MISC_SRCS})
 
 if(CONFIG_XFREETYPE)
     list(APPEND ICE_COMMON_SRCS yfontxft.cc)

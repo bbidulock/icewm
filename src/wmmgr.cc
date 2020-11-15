@@ -31,7 +31,24 @@
 YContext<YFrameClient> clientContext("clientContext", false);
 YContext<YFrameWindow> frameContext("framesContext", false);
 
-YAction layerActionSet[WinLayerCount];
+YAction layerActionSet[WinLayerCount] = {
+    actionLayerDesktop,
+    actionLayerOne,
+    actionLayerBelow,
+    actionLayerThree,
+    actionLayerNormal,
+    actionLayerFive,
+    actionLayerOnTop,
+    actionLayerSeven,
+    actionLayerDock,
+    actionLayerNine,
+    actionLayerAboveDock,
+    actionLayerEleven,
+    actionLayerMenu,
+    actionLayerThirteen,
+    actionLayerFullscreen,
+    actionLayerAboveAll,
+};
 
 Workspaces workspaces;
 WorkspacesCount workspaceCount;
@@ -289,9 +306,9 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
             wmapp->getSwitchWindow()->begin(false, key.state);
             return true;
         } else if (gKeySysSwitchClass.eq(k, vm)) {
+            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             char *prop = frame && frame->client()->adopted()
                        ? frame->client()->classHint()->resource() : nullptr;
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             wmapp->getSwitchWindow()->begin(true, key.state, prop);
             return true;
         }
@@ -664,7 +681,11 @@ void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
     if (unmap.send_event) {
         YFrameWindow* frame = findFrame(unmap.window);
         if (frame) {
-            frame->client()->handleUnmapNotify(unmap);
+            if (frame->client()->visible()) {
+                frame->actionPerformed(actionHide);
+            } else {
+                frame->client()->handleUnmapNotify(unmap);
+            }
         }
     }
 }
@@ -974,13 +995,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
     updateFullscreenLayer();
 }
 
-/// TODO lose this function
-void YWindowManager::loseFocus(YFrameWindow *window) {
-    (void)window;
-    PRECONDITION(window != 0);
-    focusLastWindow();
-}
-
 YFrameWindow *YWindowManager::top(long layer) const {
     PRECONDITION(inrange(layer, 0L, WinLayerCount - 1L));
     return fLayers[layer].front();
@@ -1082,13 +1096,12 @@ void YWindowManager::unmanageClients() {
     setFocus(nullptr);
     grabServer();
 
-    const bool reparent = true;
     for (unsigned int l = 0; l < WinLayerCount; l++) {
         while (bottom(l)) {
             YFrameWindow* frame = bottom(l);
             YFrameClient* client = frame->client();
 
-            frame->unmanage(reparent);
+            frame->unmanage();
             delete frame;
 
             if (client->adopted()) {
@@ -1466,9 +1479,9 @@ setGeo:
 
 }
 
-YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
-    YFrameWindow *frame(nullptr);
-    YFrameClient *client(nullptr);
+void YWindowManager::manageClient(Window win, bool mapClient) {
+    YFrameWindow* frame = nullptr;
+    YFrameClient* client = nullptr;
     int cx = 0;
     int cy = 0;
     int cw = 1;
@@ -1482,14 +1495,6 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 
     grabServer();
     lockWorkArea();
-#if 0
-    XSync(xapp->display(), False);
-    {
-        XEvent xev;
-        if (XCheckTypedWindowEvent(xapp->display(), win, DestroyNotify, &xev))
-            goto end;
-    }
-#endif
 
     client = findClient(win);
     if (client == nullptr) {
@@ -1668,33 +1673,26 @@ YFrameWindow *YWindowManager::manageClient(Window win, bool mapClient) {
 end:
     ungrabServer();
     unlockWorkArea();
-    return frame;
 }
 
-YFrameWindow *YWindowManager::mapClient(Window win) {
-    YFrameWindow *frame = findFrame(win);
-
+void YWindowManager::mapClient(Window win) {
     MSG(("mapping window 0x%lX", win));
-    if (frame == nullptr)
-        return manageClient(win, true);
-    else {
+    YFrameWindow* frame = findFrame(win);
+    if (frame) {
         if (frame->isUnmapped())
             frame->makeMapped();
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
-
-    return frame;
+    else
+        manageClient(win, true);
 }
 
 void YWindowManager::unmanageClient(YFrameClient* client) {
-    YFrameWindow *frame = client->getFrame();
-    const bool reparent = true;
-
     MSG(("unmanaging window 0x%lX", client->handle()));
-
+    YFrameWindow* frame = client->getFrame();
     if (frame) {
-        frame->unmanage(reparent);
+        frame->unmanage();
         delete frame;
     }
     delete client;
@@ -1799,10 +1797,8 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspac
         for (; pass < 3; pass++) {
             YFrameIter w = focusedReverseIterator();
             while (++w) {
-#if 1
-                if ((w->client() && !w->client()->adopted()))
+                if (!w->client()->adopted())
                     continue;
-#endif
                 if (w->isMinimized())
                     continue;
                 if (w->isHidden())
@@ -2121,7 +2117,7 @@ bool YWindowManager::updateWorkAreaInner() {
     debugWorkArea("before");
 
     for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
-        if (w->client() == nullptr || w->isUnmapped()) {
+        if (w->isUnmapped()) {
             continue;
         }
 
@@ -2425,7 +2421,10 @@ void YWindowManager::activateWorkspace(long workspace) {
         setFocus(toFocus);
         resetColormap(true);
 
-        if (taskBar) taskBar->relayoutNow();
+        if (taskBar) {
+            taskBar->relayout();
+            taskBar->relayoutNow();
+        }
 
         if (workspaceSwitchStatus
             && (!showTaskBar || !taskBarShowWorkspaces || taskBarAutoHide
@@ -2910,7 +2909,7 @@ void YWindowManager::updateClientList() {
             if (fLayers[i]) {
                 YFrameIter frame = fLayers[i].reverseIterator();
                 while (++frame) {
-                    if (frame->client() && frame->client()->adopted()) {
+                    if (frame->client()->adopted()) {
                         ids.append(frame->client()->handle());
                     }
                 }
@@ -2928,7 +2927,7 @@ void YWindowManager::updateClientList() {
 
         ids.shrink(0);
         for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
-            if (frame->client() && frame->client()->adopted())
+            if (frame->client()->adopted())
                 ids.append(frame->client()->handle());
         }
 
@@ -2973,7 +2972,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     }
     if (wmState() == wmRUNNING) {
         if (frame == getFocus())
-            loseFocus(frame);
+            focusLastWindow();
         if (frame == getFocus())
             setFocus(nullptr);
         if (colormapWindow() == frame)
@@ -3232,7 +3231,7 @@ void YWindowManager::undoArrange() {
 
 bool YWindowManager::haveClients() {
     for (YFrameWindow * f(topLayer()); f ; f = f->nextLayer())
-        if (f->canClose() && f->client() && f->client()->adopted())
+        if (f->canClose() && f->client()->adopted())
             return true;
 
     return false;

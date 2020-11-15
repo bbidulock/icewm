@@ -9,6 +9,7 @@
 #include "wmswitch.h"
 #include "wpixmaps.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"

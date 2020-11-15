@@ -11,6 +11,7 @@
 #include "wmwinmenu.h"
 #include "wmapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
@@ -129,7 +130,7 @@ static Window registerProtocols1(char **argv, int argc) {
     ev.data.l[1] = wmSx;
     ev.data.l[2] = xid;
 
-    XSendEvent (xapp->display(), xroot, False, StructureNotifyMask, (XEvent*)&ev);
+    xapp->send(ev, xroot, StructureNotifyMask);
     return xid;
 }
 
@@ -443,13 +444,13 @@ void LayerMenu::updatePopup() {
     if (itemCount())
         return;
 
-    addItem(_("_Menu"),       -2, null, layerActionSet[WinLayerMenu]);
-    addItem(_("_Above Dock"), -2, null, layerActionSet[WinLayerAboveDock]);
-    addItem(_("_Dock"),       -2, null, layerActionSet[WinLayerDock]);
-    addItem(_("_OnTop"),      -2, null, layerActionSet[WinLayerOnTop]);
-    addItem(_("_Normal"),     -2, null, layerActionSet[WinLayerNormal]);
-    addItem(_("_Below"),      -2, null, layerActionSet[WinLayerBelow]);
-    addItem(_("D_esktop"),    -2, null, layerActionSet[WinLayerDesktop]);
+    addItem(_("_Menu"),       -2, null, actionLayerMenu);
+    addItem(_("_Above Dock"), -2, null, actionLayerAboveDock);
+    addItem(_("_Dock"),       -2, null, actionLayerDock);
+    addItem(_("_OnTop"),      -2, null, actionLayerOnTop);
+    addItem(_("_Normal"),     -2, null, actionLayerNormal);
+    addItem(_("_Below"),      -2, null, actionLayerBelow);
+    addItem(_("D_esktop"),    -2, null, actionLayerDesktop);
 }
 
 void MoveMenu::updatePopup() {
@@ -1553,6 +1554,9 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef CONFIG_I18N
     " i18n"
+#endif
+#ifdef CONFIG_IMLIB2
+    " imlib2"
 #endif
 #ifdef CONFIG_LIBICONV
     " libiconv"
