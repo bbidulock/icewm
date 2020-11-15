@@ -37,21 +37,23 @@ private:
     Image fImage;
     fsmart<DATA32> fData;
 
-    void context() {
+    void context() const {
         imlib_context_set_image(fImage);
     }
 };
 
 bool YImage::supportsDepth(unsigned depth) {
-    return depth == xapp->depth();
+    return depth == xapp->depth() || depth == 32;
 }
 
 bool YImage2::hasAlpha() const {
-    return xapp->alpha();
+    context();
+    return imlib_image_has_alpha();
 }
 
 unsigned YImage2::depth() const {
-    return xapp->depth();
+    context();
+    return imlib_image_has_alpha() ? 32 : 24;
 }
 
 ref<YImage> YImage::load(upath filename) {
@@ -62,13 +64,14 @@ ref<YImage> YImage::load(upath filename) {
         int h = imlib_image_get_height();
         DATA32* data = imlib_image_get_data_for_reading_only();
         DATA32* stop = data + w * h;
+        const DATA32 limit = ATH << 24;
         if (imlib_image_has_alpha()) {
             for (DATA32* p = data; p < stop; ++p) {
-                if (*p < (1 << 24)) {
+                if (*p < limit) {
                     *p = 0;
                 }
             }
-        } else if (false) {
+        } else {
             for (DATA32* p = data; p < stop; ++p) {
                 *p |= 0xFF000000;
             }
@@ -159,12 +162,28 @@ ref<YImage> YImage::createFromIconProperty(long* prop_pixels,
     if (data) {
         long* p = prop_pixels;
         DATA32* stop = data + width * height;
+        const DATA32 limit = ATH << 24;
+        unsigned alps = 0;
         for (DATA32* d = data; d < stop; d++, p++) {
             *d = (DATA32) *p;
+            alps += (*d >= limit);
+        }
+        if (alps * alps >= width + height) {
+            for (DATA32* d = data; d < stop; d++) {
+                if (*d < limit) {
+                    *d = 0;
+                }
+            }
+        } else {
+            for (DATA32* d = data; d < stop; d++) {
+                *d |= 0xFF000000;
+            }
         }
         Image image = imlib_create_image_using_data(
                       int(width), int(height), data);
         if (image) {
+            imlib_context_set_image(image);
+            imlib_image_set_has_alpha(1);
             return ref<YImage>(new YImage2(width, height, image, data));
         } else {
             free(data);
@@ -322,8 +341,8 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
 
     context();
     imlib_context_set_drawable(g.drawable());
-    if (imlib_image_has_alpha())
-        imlib_context_set_blend(1);
+    // if (imlib_image_has_alpha())
+    imlib_context_set_blend(1);
     imlib_render_image_part_on_drawable_at_size(src_x, src_y, w, h, dx, dy, w, h);
     imlib_context_set_drawable(None);
     imlib_context_set_blend(0);
@@ -335,9 +354,7 @@ void image_init() {
     imlib_context_set_colormap(xapp->colormap());
     imlib_context_set_color(0, 0, 0, 255);
     imlib_context_set_anti_alias(1);
-    if (xapp->alpha()) {
-        imlib_context_set_mask_alpha_threshold(ATH);
-    }
+    imlib_context_set_mask_alpha_threshold(ATH);
 }
 
 #endif
