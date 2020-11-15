@@ -418,7 +418,7 @@ public:
     }
 
     virtual const char *getText() { return fName; }
-    const char* getLocation() { return fPath.string(); }
+    const char* getLocation() { return fPath.c_str(); }
     bool isFolder() { return fFolder; }
     virtual ref<YIcon> getIcon();
 private:
@@ -432,8 +432,8 @@ mregex reImgSfx(".*(\\.xpm|\\.png|\\.svg|\\.jpg|\\.jpeg)$", "i");
 ref<YIcon> ObjectIconItem::getIcon() {
     if (isFolder())
         return folder;
-    if (reImgSfx.inside(fPath.string())) {
-        auto icon = YIcon::getIcon(fPath.string());
+    if (reImgSfx.inside(fPath.c_str())) {
+        auto icon = YIcon::getIcon(fPath.c_str());
         if (icon != null) {
             if (hugeIcons ? icon->huge() != null : icon->large() != null)
                 return icon;

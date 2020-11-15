@@ -116,7 +116,7 @@ static bool ensureDirectory(upath path) {
     if (path.dirExists())
         return true;
     if (path.mkdir() != 0) {
-        fail(_("Unable to create directory %s"), path.string());
+        fail(_("Unable to create directory %s"), path.c_str());
     }
     return path.dirExists();
 }
@@ -143,7 +143,7 @@ void WMConfig::setDefault(const char *basename, mstring content) {
             fputc('\n', fpNew);
     }
     if (fpNew == nullptr || fflush(fpNew) || ferror(fpNew)) {
-        fail(_("Unable to write to %s"), confNew.string());
+        fail(_("Unable to write to %s"), confNew.c_str());
         if (fpNew)
             fclose(fpNew);
         confNew.remove();
@@ -180,7 +180,7 @@ void WMConfig::setDefault(const char *basename, mstring content) {
     }
     if (confNew.renameAs(confOld)) {
         fail(_("Unable to rename %s to %s"),
-                confNew.string(), confOld.string());
+                confNew.c_str(), confOld.c_str());
         confNew.remove();
     }
 }

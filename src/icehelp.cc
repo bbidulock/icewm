@@ -1992,7 +1992,7 @@ void FileView::activateURL(mstring url, bool relative) {
 }
 
 void FileView::invalidPath(upath path, const char *reason) {
-    const char *cstr = path.string();
+    const char *cstr = path.c_str();
     const char *cfmt = _("Invalid path: %s\n");
     const char *crea = reason;
     tlog(cfmt, cstr);
@@ -2019,7 +2019,7 @@ bool FileView::loadFile(upath path) {
         invalidPath(path, _("Path does not refer to a file."));
         return false;
     }
-    FILE *fp = fopen(path.string(), "r");
+    FILE *fp = fopen(path.c_str(), "r");
     if (fp == nullptr) {
         invalidPath(path, _("Failed to open file for reading."));
         return false;
@@ -2039,7 +2039,7 @@ private:
     FILE *fp;
     cbuffer cbuf;
     bool init(const char *tdir) {
-        cbuf = (upath(tdir) + "iceXXXXXX").string();
+        cbuf = (upath(tdir) + "iceXXXXXX").c_str();
         int fd = mkstemp(cbuf.peek());
         if (fd >= 0) fp = fdopen(fd, "w+b");
         return fp;
@@ -2179,7 +2179,7 @@ bool FileView::loadHttp(upath path) {
         invalidPath(path, _("Could not locate curl or wget in PATH"));
         return false;
     }
-    if (!loader.is_safe(path.string())) {
+    if (!loader.is_safe(path.c_str())) {
         invalidPath(path, _("Unsafe characters in URL"));
         return false;
     }
@@ -2187,7 +2187,7 @@ bool FileView::loadHttp(upath path) {
     if (!temp) {
         return false;
     }
-    if (loader.downloadTo(path.string(), temp)) {
+    if (loader.downloadTo(path.c_str(), temp)) {
         return loadFile(temp.path());
     }
     return false;

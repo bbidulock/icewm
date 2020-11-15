@@ -1505,7 +1505,7 @@ static void print_themes_list() {
             if (thmp.dirExists()) {
                 for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {
                     upath theme(thmdir.path() + thmdir.entry());
-                    puts(theme.string());
+                    puts(theme.c_str());
                 }
             }
         }
@@ -1520,7 +1520,7 @@ static void print_confdir(const char *name, const char *path) {
 static void print_directories(const char *argv0) {
     upath priv(YApplication::getPrivConfDir());
     printf(_("%s configuration directories:\n"), argv0);
-    print_confdir("PrivConfDir", priv.string());
+    print_confdir("PrivConfDir", priv.c_str());
     print_confdir("CFGDIR", CFGDIR);
     print_confdir("LIBDIR", LIBDIR);
     print_confdir("LOCDIR", LOCDIR);

@@ -119,7 +119,7 @@ void KeyboardStatus::draw(Graphics& g) {
         if (fIcon != null) {
             upath path(fIcon->findIcon(YIcon::smallSize()));
             if (path.nonempty()) {
-                YTraceIcon trace(path.string());
+                YTraceIcon trace(path.c_str());
                 icon = YImage::load(path);
             }
         }

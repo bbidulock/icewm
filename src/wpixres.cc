@@ -365,7 +365,7 @@ inline const char* extension(const char* filename) {
 void PixmapsDescription::scan(const upath& path) {
     YStringArray xpm(80), png(80);
     upath subdir(path + this->subdir);
-    for (cdir dir(subdir.string()); dir.next(); ) {
+    for (cdir dir(subdir.c_str()); dir.next(); ) {
         const char* ext = extension(dir.entry());
         if (0 == strcmp(ext, ".xpm")) {
             xpm += dir.entry();

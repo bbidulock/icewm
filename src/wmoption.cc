@@ -376,12 +376,12 @@ static char *parseWinOptions(char *data, const char* filename) {
 void loadWinOptions(upath optFile) {
     if (!optFile.nonempty()) return;
 
-    YTraceConfig trace(optFile.string());
+    YTraceConfig trace(optFile.c_str());
     auto buf(optFile.loadText());
     if (!buf) return;
 
     defOptions = null;
-    parseWinOptions(buf, optFile.string());
+    parseWinOptions(buf, optFile.c_str());
 }
 
 // vim: set sw=4 ts=4 et:

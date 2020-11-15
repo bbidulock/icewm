@@ -16,7 +16,7 @@ private:
 
 public:
     DirPtr(const char * path) : own(false), ptr(nullptr), de(nullptr) { open(path); }
-    DirPtr(upath path) : own(false), ptr(nullptr), de(nullptr) { open(path.string()); }
+    DirPtr(upath path) : own(false), ptr(nullptr), de(nullptr) { open(path.c_str()); }
     DirPtr(void *vp) : own(false), ptr(static_cast<DIR*>(vp)), de(nullptr) { }
 
     ~DirPtr() { if (own) close(); }
@@ -168,7 +168,7 @@ bool udir::open(const upath& path) {
 bool udir::open() {
     close();
     if (fPath.nonempty()) {
-        impl = static_cast<void *>(opendir(fPath.string()));
+        impl = static_cast<void *>(opendir(fPath.c_str()));
     }
     return isOpen();
 }
