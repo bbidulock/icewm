@@ -168,7 +168,7 @@ ref<YImage> YImage::createFromIconProperty(long* prop_pixels,
             *d = (DATA32) *p;
             alps += (*d >= limit);
         }
-        if (alps * alps >= width + height) {
+        if (alps && alps >= (width + height) / alps) {
             for (DATA32* d = data; d < stop; d++) {
                 if (*d < limit) {
                     *d = 0;
