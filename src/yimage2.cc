@@ -2,6 +2,7 @@
 
 #if defined CONFIG_IMLIB2 && !defined CONFIG_GDK_PIXBUF_XLIB
 
+#include "mregex.h"
 #include "yimage.h"
 #include "yxapp.h"
 #include "ypointer.h"
@@ -91,8 +92,9 @@ ref<YImage> YImage::load(upath filename) {
         if (fgets(buf, lim, fp) == nullptr)
             break;
 
-        mstring match(mstring(buf).match("^[a-z][-_a-z0-9]*\\.xpm$", "i"));
-        if (match == null)
+        static mregex re("^[a-z][-_a-z0-9]*\\.xpm$", "i");
+        auto match = re.match(buf);
+        if (match.isEmpty())
             break;
 
         filename = filename.parent().relative(match);
