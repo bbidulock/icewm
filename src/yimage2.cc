@@ -4,7 +4,6 @@
 
 #include "yimage.h"
 #include "yxapp.h"
-#include "ypointer.h"
 #include <stdlib.h>
 #include <Imlib2.h>
 
@@ -14,8 +13,8 @@ typedef Imlib_Image Image;
 
 class YImage2: public YImage {
 public:
-    YImage2(unsigned width, unsigned height, Image image, DATA32* data = nullptr):
-        YImage(width, height), fImage(image), fData(data) { }
+    YImage2(unsigned width, unsigned height, Image image):
+        YImage(width, height), fImage(image) { }
     virtual ~YImage2() {
         context();
         imlib_free_image();
@@ -36,7 +35,6 @@ public:
 
 private:
     Image fImage;
-    fsmart<DATA32> fData;
 
     void context() const {
         imlib_context_set_image(fImage);
@@ -61,14 +59,14 @@ ref<YImage> YImage::load(upath filename) {
     Image image = imlib_load_image_immediately_without_cache(filename.string());
     if (image) {
         imlib_context_set_image(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
         int w = imlib_image_get_width();
         int h = imlib_image_get_height();
-        DATA32* data = imlib_image_get_data_for_reading_only();
+        DATA32* data = imlib_image_get_data();
         DATA32* stop = data + w * h;
-        const DATA32 limit = ATH << 24;
         if (imlib_image_has_alpha()) {
             for (DATA32* p = data; p < stop; ++p) {
-                if (*p < limit) {
+                if ((*p >> 24) < ATH) {
                     *p = 0;
                 }
             }
@@ -78,6 +76,7 @@ ref<YImage> YImage::load(upath filename) {
             }
             imlib_image_set_has_alpha(1);
         }
+        imlib_image_put_back_data(data);
         return ref<YImage>(new YImage2(w, h, image));
     }
 
@@ -114,9 +113,12 @@ ref<YImage> YImage2::scale(unsigned w, unsigned h) {
         return ref<YImage>(this);
 
     context();
+    imlib_context_set_anti_alias(1);
     Image image = imlib_create_cropped_scaled_image(0, 0,
                    int(width()), int(height()), int(w), int(h));
     if (image) {
+        imlib_context_set_image(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
         return ref<YImage>(new YImage2(w, h, image));
     }
     return null;
@@ -129,6 +131,8 @@ ref<YImage> YImage2::subimage(int x, int y, unsigned w, unsigned h) {
     context();
     Image image = imlib_create_cropped_image(x, y, int(w), int(h));
     if (image) {
+        imlib_context_set_image(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
         return ref<YImage>(new YImage2(w, h, image));
     }
     return null;
@@ -151,6 +155,8 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
     imlib_context_set_drawable(None);
     imlib_context_set_mask(None);
     if (image) {
+        imlib_context_set_image(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
         return ref<YImage>(new YImage2(width, height, image));
     }
     return null;
@@ -159,10 +165,14 @@ ref<YImage> YImage::createFromPixmapAndMask(Pixmap pixmap, Pixmap mask,
 ref<YImage> YImage::createFromIconProperty(long* prop_pixels,
                                            unsigned width, unsigned height)
 {
-    DATA32* data = (DATA32*) malloc(width * height * sizeof(DATA32));
-    if (data) {
-        long* p = prop_pixels;
+    Image image = imlib_create_image(int(width), int(height));
+    if (image) {
+        imlib_context_set_image(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
+        imlib_image_set_has_alpha(1);
+        DATA32* data = imlib_image_get_data();
         DATA32* stop = data + width * height;
+        long* p = prop_pixels;
         const DATA32 limit = ATH << 24;
         unsigned alps = 0;
         for (DATA32* d = data; d < stop; d++, p++) {
@@ -180,15 +190,8 @@ ref<YImage> YImage::createFromIconProperty(long* prop_pixels,
                 *d |= 0xFF000000;
             }
         }
-        Image image = imlib_create_image_using_data(
-                      int(width), int(height), data);
-        if (image) {
-            imlib_context_set_image(image);
-            imlib_image_set_has_alpha(1);
-            return ref<YImage>(new YImage2(width, height, image, data));
-        } else {
-            free(data);
-        }
+        imlib_image_put_back_data(data);
+        return ref<YImage>(new YImage2(width, height, image));
     }
     return null;
 }
@@ -342,7 +345,7 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
 
     context();
     imlib_context_set_drawable(g.drawable());
-    // if (imlib_image_has_alpha())
+    imlib_context_set_mask_alpha_threshold(ATH);
     imlib_context_set_blend(1);
     imlib_render_image_part_on_drawable_at_size(src_x, src_y, w, h, dx, dy, w, h);
     imlib_context_set_drawable(None);
@@ -351,16 +354,17 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
 
 void YImage2::copy(Graphics& g) {
     context();
+    imlib_context_set_mask_alpha_threshold(ATH);
     imlib_context_set_drawable(g.drawable());
     imlib_context_set_blend(0);
     imlib_render_image_on_drawable(0, 0);
 }
 
 void image_init() {
+    imlib_set_cache_size(0);
     imlib_context_set_display(xapp->display());
     imlib_context_set_visual(xapp->visual());
     imlib_context_set_colormap(xapp->colormap());
-    imlib_context_set_color(0, 0, 0, 255);
     imlib_context_set_anti_alias(1);
     imlib_context_set_mask_alpha_threshold(ATH);
 }
