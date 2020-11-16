@@ -148,10 +148,8 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
 
 YWindow::~YWindow() {
     if (fAutoScroll &&
-        fAutoScroll->isScrolling() &&
         fAutoScroll->getWindow() == this)
     {
-        fAutoScroll->autoScroll(nullptr, false, nullptr);
         delete fAutoScroll;
         fAutoScroll = nullptr;
     }
