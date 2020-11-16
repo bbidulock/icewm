@@ -33,6 +33,7 @@ public:
     virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h) = 0;
     virtual void save(upath filename) = 0;
+    virtual void copy(Graphics& g) { draw(g, 0, 0); }
 
 protected:
     YImage(unsigned width, unsigned height) { fWidth = width; fHeight = height; }

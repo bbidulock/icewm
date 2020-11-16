@@ -32,6 +32,7 @@ public:
     virtual bool valid() const { return fImage != nullptr; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
     virtual void save(upath filename);
+    virtual void copy(Graphics& g);
 
 private:
     Image fImage;
@@ -346,6 +347,13 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
     imlib_render_image_part_on_drawable_at_size(src_x, src_y, w, h, dx, dy, w, h);
     imlib_context_set_drawable(None);
     imlib_context_set_blend(0);
+}
+
+void YImage2::copy(Graphics& g) {
+    context();
+    imlib_context_set_drawable(g.drawable());
+    imlib_context_set_blend(0);
+    imlib_render_image_on_drawable(0, 0);
 }
 
 void image_init() {
