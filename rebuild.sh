@@ -136,7 +136,7 @@ if [[ -v DEPEN ]]; then
         sndfile alsa ao \
         gio-2.0 gio-unix-2.0 \
         gdk-pixbuf-xlib-2.0 librsvg-2.0 \
-        xpm libpng libjpeg
+        imlib2 xpm libpng libjpeg
     do
         printf "%-20s: " "$p"
         pkg-config --modversion --print-errors --errors-to-stdout $p
