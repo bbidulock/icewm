@@ -176,8 +176,7 @@ void YFrameTitleBar::handleBeginDrag(
         const XMotionEvent &motion)
 {
     // check for a drag on the reparented resize handles
-    if (down.subwindow == None ?
-        down.y == 0 && down.button == Button1 :
+    if (down.subwindow &&
         getFrame()->hasIndicators() &&
         (down.subwindow == getFrame()->topSideIndicator() ||
          down.subwindow == getFrame()->topLeftIndicator() ||
