@@ -48,7 +48,7 @@ void MiniIcon::repaint() {
 void MiniIcon::paint(Graphics &g, const YRect &r) {
     ref<YIcon> icon(fFrame->clientIcon());
     if (icon != null && icon->huge() != null) {
-        icon->huge()->copy(g);
+        icon->draw(g, 0, 0, YIcon::hugeSize());
     }
 }
 

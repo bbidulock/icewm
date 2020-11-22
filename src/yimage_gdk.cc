@@ -36,6 +36,10 @@ private:
     GdkPixbuf *fPixbuf;
 };
 
+const char* YImage::renderName() {
+    return "GdkPixbuf";
+}
+
 bool YImage::supportsDepth(unsigned depth) {
     return depth == unsigned(xlib_rgb_get_depth());
 }

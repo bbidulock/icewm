@@ -1,11 +1,15 @@
 #include "config.h"
 
-#if defined CONFIG_IMLIB2 && !defined CONFIG_GDK_PIXBUF_XLIB
+#ifdef CONFIG_IMLIB2
 
 #include "yimage.h"
 #include "yxapp.h"
-#include <stdlib.h>
 #include <Imlib2.h>
+
+#ifdef CONFIG_LIBRSVG
+#include <librsvg/rsvg.h>
+#include "yfileio.h"
+#endif
 
 #define ATH 10  /* alpha threshold */
 
@@ -31,7 +35,7 @@ public:
     virtual bool valid() const { return fImage != nullptr; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
     virtual void save(upath filename);
-    virtual void copy(Graphics& g);
+    static ref<YImage> loadsvg(upath filename);
 
 private:
     Image fImage;
@@ -40,6 +44,10 @@ private:
         imlib_context_set_image(fImage);
     }
 };
+
+const char* YImage::renderName() {
+    return "Imlib2";
+}
 
 bool YImage::supportsDepth(unsigned depth) {
     return depth == xapp->depth() || depth == 32;
@@ -55,7 +63,70 @@ unsigned YImage2::depth() const {
     return imlib_image_has_alpha() ? 32 : 24;
 }
 
+ref<YImage> YImage2::loadsvg(upath filename) {
+    ref<YImage> icon;
+#ifdef CONFIG_LIBRSVG
+    fcsmart filedata(filereader(filename.string()).read_all());
+    if (filedata) {
+        size_t length = strlen(filedata);
+        GError* error = nullptr;
+        const guint8* gudata = reinterpret_cast<const guint8 *>(filedata.data());
+        RsvgHandle* handle = rsvg_handle_new_from_data(gudata, length, &error);
+        if (handle) {
+            RsvgDimensionData dim = { 0, 0, 0, 0 };
+            rsvg_handle_get_dimensions(handle, &dim);
+            GdkPixbuf* pixbuf = rsvg_handle_get_pixbuf(handle);
+            rsvg_handle_close(handle, &error);
+            bool alpha = gdk_pixbuf_get_has_alpha(pixbuf);
+            int nchans = gdk_pixbuf_get_n_channels(pixbuf);
+            int stride = gdk_pixbuf_get_rowstride(pixbuf);
+            int width = dim.width;
+            int height = dim.height;
+            guchar* pixels = gdk_pixbuf_get_pixels(pixbuf);
+            Image image = imlib_create_image(width, height);
+            if (image) {
+                imlib_context_set_image(image);
+                imlib_image_set_has_alpha(1);
+                imlib_context_set_mask_alpha_threshold(ATH);
+                imlib_context_set_anti_alias(1);
+                DATA32* data = imlib_image_get_data();
+                DATA32* argb = data;
+                for (int row = 0; row < height; row++) {
+                    const guchar* rowpix = pixels + row * stride;
+                    for (int col = 0; col < width; col++, rowpix += nchans) {
+                        const guchar red = rowpix[0];
+                        const guchar grn = rowpix[1];
+                        const guchar blu = rowpix[2];
+                        const guchar alp = rowpix[3];
+                        if (alpha && alp < ATH)
+                            *argb++ = 0;
+                        else if (alpha)
+                            *argb++ = red << 16 | grn << 8 | blu | alp << 24;
+                        else
+                            *argb++ = red << 16 | grn << 8 | blu | 0xFF000000;
+                    }
+                }
+                imlib_image_put_back_data(data);
+                icon.init(new YImage2(width, height, image));
+            }
+            g_object_unref(G_OBJECT(pixbuf));
+        }
+        else {
+            TLOG(("SVG %s error: %s", filename.string(), error->message));
+            g_clear_error(&error);
+        }
+    }
+    else {
+        TLOG(("SVG %s error: %s", filename.string(), errno_string()));
+    }
+#endif
+    return icon;
+}
+
 ref<YImage> YImage::load(upath filename) {
+    if (filename.getExtension() == ".svg") {
+        return YImage2::loadsvg(filename);
+    }
     Image image = imlib_load_image_immediately_without_cache(filename.string());
     if (image) {
         imlib_context_set_image(image);
@@ -350,14 +421,6 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
     imlib_render_image_part_on_drawable_at_size(src_x, src_y, w, h, dx, dy, w, h);
     imlib_context_set_drawable(None);
     imlib_context_set_blend(0);
-}
-
-void YImage2::copy(Graphics& g) {
-    context();
-    imlib_context_set_mask_alpha_threshold(ATH);
-    imlib_context_set_drawable(g.drawable());
-    imlib_context_set_blend(0);
-    imlib_render_image_on_drawable(0, 0);
 }
 
 void image_init() {

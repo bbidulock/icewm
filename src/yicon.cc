@@ -47,13 +47,13 @@ YIcon::~YIcon() {
 
 static const char iconExts[][5] = {
     ".png",
-#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+    ".xpm",
+#ifdef CONFIG_LIBRSVG
     ".svg",
 #endif
-    ".xpm",
 };
 
-static const mstring subcats[] = {
+static const char* subcats[] = {
     "/apps", "/categories", "/places", "/devices", "/status",
 };
 
@@ -72,7 +72,7 @@ static bool hasImageExtension(const upath& base) {
 static void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) {
     // prefer bigger size, in case scaling is necessary
     unsigned consideredIconSizes[] = {
-#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+#ifdef CONFIG_LIBRSVG
         unsigned(SCALABLE),
 #endif
         hugeIconSize, largeIconSize, smallIconSize,
@@ -185,7 +185,7 @@ public:
                 return true;
             };
             // try the scalable version if can handle SVG
-#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
+#ifdef CONFIG_LIBRSVG
             auto& scaleCat = pools[fromResources].getCat(SCALABLE);
             for (auto& contentDir : subcats) {
                 ret += gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
