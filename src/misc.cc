@@ -442,6 +442,10 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
     }
 }
 
+const char* errno_string() {
+    return strerror(errno);
+}
+
 const char *my_basename(const char *path) {
     const char *base = ::strrchr(path, '/');
     return (base ? base + 1 : path);
