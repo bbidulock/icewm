@@ -162,14 +162,12 @@ set(HINT_IMG_LOADERS
  ]=] ${HINT_CURSORS})
 
 # image configuration error check
-if(CONFIG_GDK_PIXBUF_XLIB)
+if(CONFIG_IMLIB2)
     #ok
-    set(CONFIG_LIBPNG off)
-    set(CONFIG_LIBJPEG off)
     if (NOT CONFIG_LIBRSVG)
         message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
     endif()
-elseif(CONFIG_IMLIB2)
+elseif(CONFIG_GDK_PIXBUF_XLIB)
     #ok
     if (NOT CONFIG_LIBRSVG)
         message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
@@ -187,9 +185,10 @@ endif()
 if(CONFIG_IMLIB2)
     pkg_check_modules(libimlib2 imlib2)
     if(NOT libimlib2_FOUND)
-        message(FATAL_ERROR "IMLIB2 selected but libImlib2 dev files not found."
+        message(FATAL_ERROR "IMLIB2 selected but Imlib2 dev files not found."
                 ${HINT_IMG_LOADERS})
     endif()
+    set(CONFIG_GDK_PIXBUF_XLIB off)
     set(CONFIG_LIBPNG off)
     set(CONFIG_LIBJPEG off)
     LIST(APPEND icewm_img_libs ${libimlib2_LDFLAGS})
