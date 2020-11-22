@@ -10,9 +10,9 @@ AC_REVISION([1.9.2])
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
 if test "$prefix" = /usr -o "$prefix" = NONE; then
-	test "$sysconfdir" = '${prefix}/etc' && sysconfdir=/etc
-	test "$sharedstatedir" = '${prefix}/com' && sharedstatedir=/var
-	test "$localstatedir" = '${prefix}/var' && localstatedir=/var
+    test "$sysconfdir" = '${prefix}/etc' && sysconfdir=/etc
+    test "$sharedstatedir" = '${prefix}/com' && sharedstatedir=/var
+    test "$localstatedir" = '${prefix}/var' && localstatedir=/var
 fi
 
 AC_CONFIG_SRCDIR([src/ysmapp.cc])
@@ -285,21 +285,24 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
             AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
-            CONFIG_ALSA=yes],[AC_MSG_WARN([ALSA is not supported])])
+            CONFIG_ALSA=yes; break],
+            [AC_MSG_WARN([ALSA is not supported])])
         ;;
     (AO|ao)
         PKG_CHECK_MODULES([AO],[sndfile ao],[
             AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
             AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
-            CONFIG_AO=yes],[AC_MSG_WARN([AO is not supported])])
+            CONFIG_AO=yes; break],
+            [AC_MSG_WARN([AO is not supported])])
         ;;
     (OSS|oss)
         PKG_CHECK_MODULES([OSS],[sndfile],[
             AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
             AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-            CONFIG_OSS=yes],[AC_MSG_WARN([OSS is not supported])])
+            CONFIG_OSS=yes; break],
+            [AC_MSG_WARN([OSS is not supported])])
         ;;
     (*)
         AC_MSG_WARN([Invalid audio interface: $iface])
@@ -353,15 +356,13 @@ fi
 AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
-AC_ARG_ENABLE([gdk-pixbuf],
-    AS_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
-	@<:@default=enabled@:>@]))
 AC_ARG_ENABLE([imlib2],
-    AS_HELP_STRING([--enable-imlib2],[Enable imlib2 rendering.
-        @<:@default=disabled@:>@]))
-if test "x$enable_gdk_pixbuf" = xyes ||
-   test "x$enable_gdk_pixbuf" = x &&
-   test "x$enable_imlib2" != xyes
+    AS_HELP_STRING([--disable-imlib2],[Disable imlib2 rendering.
+        @<:@default=enabled@:>@]))
+AC_ARG_ENABLE([gdk-pixbuf],
+    AS_HELP_STRING([--enable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
+	@<:@default=disabled@:>@]))
+if test "x$enable_gdk_pixbuf" = xyes
 then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
@@ -382,7 +383,7 @@ then
 	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
 fi
 if test "x$enable_gdk_pixbuf" != xyes &&
-   test "x$enable_imlib2" = xyes
+   test "x$enable_imlib2" != xno
 then
     PKG_CHECK_MODULES([IMLIB2],[imlib2],[
 	IMAGE_CFLAGS="$IMLIB2_CFLAGS"
@@ -395,9 +396,15 @@ then
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library="$image_library libxpm"],
 	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
+    PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
+	IMAGE_CFLAGS="$IMAGE_CFLAGS $LIBRSVG_CFLAGS"
+	IMAGE_LIBS="$IMAGE_LIBS $LIBRSVG_LIBS"
+	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
+	image_library="$image_library librsvg-2.0"],
+	[AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
 fi
-if test "x$enable_gdk_pixbuf" = xno &&
-   test "x$enable_imlib2" != xyes
+if test "x$enable_gdk_pixbuf" != xyes &&
+   test "x$enable_imlib2" = xno
 then
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
