@@ -1404,7 +1404,7 @@ void YFrameWindow::wmConfirmKill() {
         fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
 }
 
-YMsgBox* YFrameWindow::wmConfirmKill(const mstring& title,
+YMsgBox* YFrameWindow::wmConfirmKill(const char* title,
         YMsgBoxListener *recvr) {
     YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK | YMsgBox::mbCancel);
     msgbox->setTitle(title);
