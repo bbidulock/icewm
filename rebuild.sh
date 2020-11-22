@@ -7,6 +7,8 @@ Options:
     -a : autoconf+cscope
     -c : CMake debug build
     -d : dependencies check
+    -g : prefer GdkPixbuf rendering
+    -i : prefer Imlib2 rendering
     -r : CMake release build
     -t : test configure options
     -j# : number of gmake procs
@@ -16,9 +18,11 @@ EOI
 exit 0
 }
 
-unset ACONF DBGCM DEPEN RELCM TESTC jobs prefix xterm
+unset ACONF DBGCM DEPEN RELCM TESTC GDK IM2 jobs prefix xterm
 prefix=/usr
 xterm=urxvt
+GDK=ON
+IM2=OFF
 
 if ! command -v gmake >/dev/null ; then
     function gmake () {
@@ -36,6 +40,8 @@ do
         (-r) RELCM=1 ;;  # enable CMake release build
         (-t) TESTC=1 ;;  # test all combinations of configure options
         (-j*) jobs=$x ;; # number of gmake procs
+        (-i) IM2=ON ; GDK=OFF ;; # enable Imlib2
+        (-g) GDK=ON ; IM2=OFF ;; # enable gdkpixbuf
         (--prefix=*) prefix=${x#*=} ;; # install prefix
         (--with-xterm=*) xterm=${x#*=} ;; # set terminal
         (-h|--help|-?) usage ;;
@@ -83,7 +89,8 @@ if [[ -v DBGCM ]]; then
     mkdir -p builddir-debug || rm -rf builddir-debug/CMake*
     cd builddir-debug &&
     cmake .. \
-        -DCONFIG_GDK_PIXBUF_XLIB=ON \
+        -DCONFIG_GDK_PIXBUF_XLIB=$GDK \
+        -DCONFIG_IMLIB2=$IM2 \
         -DCONFIG_LIBRSVG=ON \
         -DCONFIG_XRANDR=ON \
         -DCONFIG_XPM=ON \
@@ -109,7 +116,8 @@ if [[ -v RELCM ]]; then
     cmake .. \
         -DCMAKE_BUILD_TYPE=MinSizeRel \
         -DCMAKE_INSTALL_PREFIX=$prefix \
-        -DCONFIG_GDK_PIXBUF_XLIB=ON \
+        -DCONFIG_GDK_PIXBUF_XLIB=$GDK \
+        -DCONFIG_IMLIB2=$IM2 \
         -DCONFIG_LIBRSVG=ON \
         -DCONFIG_XPM=ON \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
@@ -128,7 +136,7 @@ if [[ -v DEPEN ]]; then
         sndfile alsa ao \
         gio-2.0 gio-unix-2.0 \
         gdk-pixbuf-xlib-2.0 librsvg-2.0 \
-        xpm libpng libjpeg
+        imlib2 xpm libpng libjpeg
     do
         printf "%-20s: " "$p"
         pkg-config --modversion --print-errors --errors-to-stdout $p

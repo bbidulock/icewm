@@ -10,6 +10,7 @@
 #include "ymenuitem.h"
 #include "prefs.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmapp.h"
 #include "workspaces.h"
 #include <assert.h>

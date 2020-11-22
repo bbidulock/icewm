@@ -11,6 +11,7 @@
 #include "wmwinmenu.h"
 #include "wmapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
@@ -1553,6 +1554,9 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef CONFIG_I18N
     " i18n"
+#endif
+#ifdef CONFIG_IMLIB2
+    " imlib2"
 #endif
 #ifdef CONFIG_LIBICONV
     " libiconv"

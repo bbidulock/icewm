@@ -16,46 +16,6 @@ class YFrameWindow;
 class YSMListener;
 class IApp;
 
-/*
- * X11 time state to support _NET_WM_USER_TIME.
- * Keep track of the time in seconds when we receive a X11 time stamp.
- * Only compare two X11 time stamps if they are in a time interval.
- */
-class UserTime {
-private:
-    unsigned long xtime;
-    bool valid;
-    unsigned long since;
-    enum : unsigned long {
-        XTimeMask = 0xFFFFFFFFUL,       // milliseconds
-        XTimeRange = 0x7FFFFFFFUL,      // milliseconds
-        SInterval = 0x3FFFFFFFUL / 1000,     // seconds
-    };
-public:
-    UserTime() : xtime(0), valid(false), since(0) { }
-    explicit UserTime(unsigned long xtime, bool valid = true) :
-        xtime(xtime & XTimeMask), valid(valid), since(seconds()) { }
-    unsigned long time() const { return xtime; }
-    bool good() const { return valid; }
-    long when() const { return since; }
-    bool update(unsigned long xtime, bool valid = true) {
-        UserTime u(xtime, valid);
-        return *this < u || xtime == 0 ? (*this = u, true) : false;
-    }
-    bool operator<(const UserTime& u) const {
-        if (since == 0 || u.since == 0) return u.since != 0;
-        if (valid == false || u.valid == false) return u.valid;
-        if (since < u.since && u.since - since > SInterval) return true;
-        if (since > u.since && since - u.since > SInterval) return false;
-        if (xtime < u.xtime) return u.xtime - xtime <= XTimeRange;
-        if (xtime > u.xtime) return xtime - u.xtime >  XTimeRange;
-        return false;
-    }
-    bool operator==(const UserTime& u) const {
-        return !(*this < u) && !(u < *this);
-    }
-};
-
 class EdgeSwitch: public YWindow, public YTimerListener {
 public:
     EdgeSwitch(YWindowManager *manager, int delta, bool vertical);
@@ -129,7 +89,6 @@ public:
 
     void setFocus(YFrameWindow *f, bool canWarp = false);
     YFrameWindow *getFocus() { return fFocusWin; }
-    void loseFocus(YFrameWindow *window);
 
     void installColormap(Colormap cmap);
     void setColormapWindow(YFrameWindow *frame);

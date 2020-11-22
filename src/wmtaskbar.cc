@@ -9,6 +9,7 @@
 #include "config.h"
 #include "wmtaskbar.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmconfig.h"
 #include "wmprog.h"
 #include "wmwinmenu.h"
@@ -45,7 +46,7 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner):
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
     setPointer(YXApplication::leftPointer);
-    setDND(true);
+    setDND(enabled());
     setTitle("IceEdge");
 }
 

@@ -4,6 +4,7 @@
 #include "prefs.h"
 #include "yxapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "udir.h"
 #include "ypaths.h"
 #include "wpixmaps.h"
@@ -32,7 +33,6 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
 {
     addStyle(wsNoExpose);
     setParentRelative();
-    //setDND(true);
     setTitle(name());
 }
 

@@ -7,8 +7,8 @@
 #include "ylib.h"
 #include <X11/keysym.h>
 #include "wmcontainer.h"
-
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "yxapp.h"
 #include "prefs.h"
 

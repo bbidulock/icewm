@@ -6,7 +6,7 @@
 
 #include "config.h"
 #include "wmframe.h"
-
+#include "wmmgr.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "atasks.h"
@@ -114,7 +114,7 @@ YFrameWindow::YFrameWindow(
     fWinOptionMask = ~0;
     fOldState = 0;
     fTrayOrder = 0;
-    fClientContainer = nullptr;
+    fContainer = nullptr;
     setTitle("Frame");
     setBackground(inactiveBorderBg);
 }
@@ -172,7 +172,7 @@ YFrameWindow::~YFrameWindow() {
     }
 
     delete fClient; fClient = nullptr;
-    delete fClientContainer; fClientContainer = nullptr;
+    delete fContainer; fContainer = nullptr;
     delete fTitleBar; fTitleBar = nullptr;
 
     manager->unlockWorkArea();
@@ -207,7 +207,7 @@ YFrameTitleBar* YFrameWindow::titlebar() {
 }
 
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
-    PRECONDITION(clientw != 0 && !fClientContainer && !fClient);
+    PRECONDITION(clientw != 0 && !fContainer && !fClient);
 
     if (clientw->handle() == None || clientw->destroyed()) {
         return;
@@ -217,7 +217,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     bool sameDepth = (depth == xapp->depth());
     Visual* visual = (sameDepth ? xapp->visual() : clientw->visual());
     Colormap clmap = (sameDepth ? xapp->colormap() : clientw->colormap());
-    fClientContainer = new YClientContainer(this, this, depth, visual, clmap);
+    fContainer = new YClientContainer(this, this, depth, visual, clmap);
 
     fClient = clientw;
     if (hintOptions && hintOptions->nonempty()) {
@@ -592,21 +592,19 @@ void YFrameWindow::configureClient(const XConfigureRequestEvent &configureReques
     if (hasbit(mask, CWX | CWY | CWWidth | CWHeight)) {
         int cx, cy, cw, ch;
         getNewPos(configureRequest, cx, cy, cw, ch);
-
         configureClient(cx, cy, cw, ch);
     }
 
     if (hasbit(mask, CWStackMode)) {
-        long window = hasbit(mask, CWSibling) ? configureRequest.above : None;
-        long detail = configureRequest.detail;
-        if (inrange<long>(detail, Above, Opposite)) {
-            netRestackWindow(window, detail);
+        Window window = hasbit(mask, CWSibling) ? configureRequest.above : None;
+        if (inrange(configureRequest.detail, Above, Opposite)) {
+            netRestackWindow(window, configureRequest.detail);
         }
     }
     sendConfigure();
 }
 
-void YFrameWindow::netRestackWindow(long window, long detail) {
+void YFrameWindow::netRestackWindow(Window window, int detail) {
     YFrameWindow* sibling = window ? manager->findFrame(window) : nullptr;
     if (sibling) {
         switch (detail) {
@@ -771,7 +769,7 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     MSG(("setting geometry (%d:%d %dx%d)", cx, cy, cwidth, cheight));
     cy -= titleYN();
     if (isFullscreen()) {
-        XSizeHints *sh = client()->saveHints();
+        XSizeHints *sh = client()->sizeHints();
         if (sh) {
             normalX = cx;
             normalY = cy;
@@ -892,14 +890,13 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
 }
 
 bool YFrameWindow::handleTimer(YTimer *t) {
-    if (isUnmapped() || client()->destroyed())
-        return false;
-    if (t == fAutoRaiseTimer) {
-        if (canRaise())
-            wmRaise();
-    }
-    else if (t == fDelayFocusTimer) {
-        focus(false);
+    if (isMapped() && !client()->destroyed()) {
+        if (t == fAutoRaiseTimer) {
+            actionPerformed(actionRaise);
+        }
+        else if (t == fDelayFocusTimer) {
+            focus(false);
+        }
     }
     return false;
 }
@@ -2076,10 +2073,10 @@ WindowOption YFrameWindow::getWindowOption() {
 void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
                                     bool remove)
 {
-    XClassHint const *h(client()->classHint());
-    mstring klass = h ? h->res_class : nullptr;
-    mstring name = h ? h->res_name : nullptr;
-    mstring role = client()->windowRole();
+    const ClassHint* h = client()->classHint();
+    mstring klass(h->res_class);
+    mstring name(h->res_name);
+    mstring role(client()->windowRole());
 
     if (klass != null) {
         if (name != null) {
@@ -2310,7 +2307,7 @@ void YFrameWindow::updateIcon() {
             pix[1] = (h->flags & IconMaskHint) ? h->icon_mask : None;
             fFrameIcon = newClientIcon(1, 2, pix);
         }
-        else if (fFrameIcon == null && client()->classHint()) {
+        else if (fFrameIcon == null) {
             const char* name = client()->classHint()->res_name;
             if (nonempty(name)) {
                 fFrameIcon = YIcon::getIcon(name);
@@ -3045,24 +3042,6 @@ void YFrameWindow::setState(long mask, long state) {
     fOldState = fWinState;
     long fNewState = (fWinState & ~mask) | (state & mask);
     long deltaState = fOldState ^ fNewState;
-
-    // !!! this should work
-    //if (fNewState == fOldState)
-    //    return ;
-
-    if (deltaState & WinStateFullscreen) {
-        if ((fNewState & WinStateFullscreen)) {
-            // going fullscreen
-            client()->saveSizeHints();
-        }
-        else {
-            // going back
-            client()->restoreSizeHints();
-        }
-    }
-
-    // !!! move here
-
     fWinState = fNewState;
 
     MSG(("setState: oldState: %lX, newState: %lX, mask: %lX, state: %lX",
@@ -3172,6 +3151,10 @@ void YFrameWindow::setAllWorkspaces() {
     }
 }
 
+bool YFrameWindow::visibleNow() const {
+    return visibleOn(manager->activeWorkspace());
+}
+
 #if DO_NOT_COVER_OLD
 void YFrameWindow::setDoNotCover(bool doNotCover) {
     fWinOptionMask &= ~foDoNotCover;
@@ -3185,10 +3168,14 @@ void YFrameWindow::setDoNotCover(bool doNotCover) {
 }
 #endif
 
-void YFrameWindow::updateMwmHints() {
+void YFrameWindow::updateMwmHints(XSizeHints* sh) {
     YDimension old(dimension());
     getFrameHints();
-    setNormalGeometryInner(posX, posY, posW, posH);
+    int nwidth = sh ? normalW * max(1, sh->width_inc) + sh->base_width
+                    : client()->width();
+    int height = sh ? normalH * max(1, sh->height_inc) + sh->base_height
+                    : client()->height();
+    setNormalGeometryInner(normalX, normalY, nwidth, height);
     if (old == dimension()) {
         performLayout();
     }

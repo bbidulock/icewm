@@ -3,9 +3,10 @@
 
 #include "ymsgbox.h"
 #include "wmoption.h"
-#include "wmmgr.h"
 #include "yicon.h"
 #include "ylist.h"
+#include "WinMgr.h"
+#include "workspaces.h"
 
 class YClientContainer;
 class MiniIcon;
@@ -110,7 +111,7 @@ public:
 
     YFrameClient *client() const { return fClient; }
     YFrameTitleBar *titlebar();
-    YClientContainer *container() const { return fClientContainer; }
+    YClientContainer *container() const { return fContainer; }
 
     void startMoveSize(int x, int y, int direction);
 
@@ -198,7 +199,7 @@ public:
                    int &cx, int &cy, int &cw, int &ch);
     void configureClient(const XConfigureRequestEvent &configureRequest);
     void configureClient(int cx, int cy, int cwidth, int cheight);
-    void netRestackWindow(long window, long detail);
+    void netRestackWindow(Window window, int detail);
 
     void setShape();
 
@@ -331,7 +332,7 @@ public:
     void updateLayout();
     void performLayout();
 
-    void updateMwmHints();
+    void updateMwmHints(XSizeHints* sh);
     void updateProperties();
     void updateTaskBar();
     void updateAppStatus();
@@ -365,6 +366,7 @@ public:
     bool isIconic() const { return isMinimized() && fMiniIcon; }
     bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
+    ClassHint* classHint() const { return client()->classHint(); }
 
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }
@@ -374,7 +376,7 @@ public:
     bool visibleOn(int workspace) const {
         return (isAllWorkspaces() || getWorkspace() == workspace);
     }
-    bool visibleNow() const { return visibleOn(manager->activeWorkspace()); }
+    bool visibleNow() const;
 
     bool isModal();
     bool hasModal();
@@ -445,7 +447,7 @@ private:
     int posX, posY, posW, posH;
 
     YFrameClient *fClient;
-    YClientContainer *fClientContainer;
+    YClientContainer *fContainer;
     YFrameTitleBar *fTitleBar;
 
     YPopupWindow *fPopupActive;

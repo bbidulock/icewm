@@ -306,9 +306,9 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
             wmapp->getSwitchWindow()->begin(false, key.state);
             return true;
         } else if (gKeySysSwitchClass.eq(k, vm)) {
+            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             char *prop = frame && frame->client()->adopted()
                        ? frame->client()->classHint()->resource() : nullptr;
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             wmapp->getSwitchWindow()->begin(true, key.state, prop);
             return true;
         }
@@ -993,13 +993,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 
     MSG(("SET FOCUS END"));
     updateFullscreenLayer();
-}
-
-/// TODO lose this function
-void YWindowManager::loseFocus(YFrameWindow *window) {
-    (void)window;
-    PRECONDITION(window != 0);
-    focusLastWindow();
 }
 
 YFrameWindow *YWindowManager::top(long layer) const {
@@ -2979,7 +2972,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     }
     if (wmState() == wmRUNNING) {
         if (frame == getFocus())
-            loseFocus(frame);
+            focusLastWindow();
         if (frame == getFocus())
             setFocus(nullptr);
         if (colormapWindow() == frame)

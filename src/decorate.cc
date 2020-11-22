@@ -5,7 +5,7 @@
  */
 #include "config.h"
 #include "wmframe.h"
-
+#include "wmmgr.h"
 #include "wmtitle.h"
 #include "wmapp.h"
 #include "wmcontainer.h"

@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[1.9.0],
+AC_INIT([icewm],[1.9.2],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([1.9.0])
+AC_REVISION([1.9.2])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,13 +22,13 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2020-10-29'
+DATE='2020-11-10'
 AC_SUBST([DATE])
 
-MDOCDATE='October 29, 2020'
+MDOCDATE='November 10, 2020'
 AC_SUBST([MDOCDATE])
 
-BRANCH='1.9.0'
+BRANCH='icewm-1-4-BRANCH'
 AC_SUBST([BRANCH])
 
 APPLICATIONS='icewm icewm-session icesh icewmhint icewmbg icehelp'
@@ -218,7 +218,7 @@ AC_ARG_ENABLE([sm],
 if test x$enable_sm != xno ; then
     PKG_CHECK_MODULES([XSM],[sm ice],[
 	AC_DEFINE([CONFIG_SESSION],[1],[Define to enable X session management])],
-	[AC_MSG_WARN([XSM not supported.])])
+	[AC_MSG_ERROR([Packages SM and ICE are required for session mgmt.])])
 fi
 
 AC_ARG_ENABLE([shape],
@@ -229,7 +229,7 @@ if test x$enable_shape != xno ; then
 	CORE_LIBS="$SHAPE_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_SHAPE],[1],[Define to enable X shape extension])
 	features="$features shape"],
-	[AC_MSG_WARN([SHAPE not supported.])])
+	[AC_MSG_ERROR([Package SHAPE is required for X Shape extension.])])
 else
     AC_MSG_WARN([SHAPE disabled.])
 fi
@@ -242,7 +242,7 @@ if test x$enable_xrandr != xno; then
 	CORE_LIBS="$RANDR_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_XRANDR],[1],[Define to enable RANDR extension.])
 	features="$features xrandr"],
-	[AC_MSG_WARN([RANDR not supported.])])
+	[AC_MSG_ERROR([Package XRANDR is required for X RandR extension.])])
 else
     AC_MSG_WARN([RANDR disabled.])
 fi
@@ -255,7 +255,7 @@ if test x$enable_xfreetype != xno; then
 	CORE_LIBS="$XFT2_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_XFREETYPE],[2],[Define to enable XFT support.])
 	features="$features xfreetype"],
-	[AC_MSG_WARN([XFT 2+ not supported.])
+	[AC_MSG_ERROR([Package XFT 2+ is required for X FreeType rendering.])
         enable_corefonts=yes])
 else
     enable_corefonts=yes
@@ -327,7 +327,7 @@ if test x$enable_xinerama != xno ; then
 	CORE_LIBS="$XINERAMA_LIBS $CORE_LIBS"
 	AC_DEFINE([XINERAMA],[1],[Define to enable Xinerama support.])
 	features="$features xinerama"],
-	[AC_MSG_WARN([XINERAMA is not supported.])])
+	[AC_MSG_ERROR([Package XINERAMA is required for Xinerama extension.])])
 fi
 
 AC_ARG_ENABLE([fribidi],
@@ -338,7 +338,7 @@ if test "$enable_fribidi" != "no" && test "$enable_i18n" != "no"; then
 	CORE_LIBS="$FRIBIDI_LIBS $CORE_LIBS"
 	AC_DEFINE([CONFIG_FRIBIDI],[1],[Define to enable fribidi support.])
 	features="$features fribidi"],
-	[AC_MSG_WARN([FRIBIDI is not supported.])])
+	[AC_MSG_ERROR([Package FRIBIDI is required for FriBidi support.])])
 fi
 
 AC_ARG_ENABLE([menus-fdo],
@@ -356,7 +356,13 @@ AC_SUBST([GIO_LIBS])
 AC_ARG_ENABLE([gdk-pixbuf],
     AS_HELP_STRING([--disable-gdk-pixbuf],[Disable gdk-pixbuf rendering.
 	@<:@default=enabled@:>@]))
-if test "x$enable_gdk_pixbuf" != xno ; then
+AC_ARG_ENABLE([imlib2],
+    AS_HELP_STRING([--enable-imlib2],[Enable imlib2 rendering.
+        @<:@default=disabled@:>@]))
+if test "x$enable_gdk_pixbuf" = xyes ||
+   test "x$enable_gdk_pixbuf" = x &&
+   test "x$enable_imlib2" != xyes
+then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"
@@ -367,23 +373,44 @@ if test "x$enable_gdk_pixbuf" != xno ; then
 	IMAG_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
 	image_library="$image_library librsvg-2.0"],
-	[AC_MSG_WARN([SVG is not supported.])])
+	[AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
 	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
-	image_library="$image_library libxpm"])
-else
+	image_library="$image_library libxpm"],
+	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
+fi
+if test "x$enable_gdk_pixbuf" != xyes &&
+   test "x$enable_imlib2" = xyes
+then
+    PKG_CHECK_MODULES([IMLIB2],[imlib2],[
+	IMAGE_CFLAGS="$IMLIB2_CFLAGS"
+	IMAGE_LIBS="$IMLIB2_LIBS"
+	AC_DEFINE([CONFIG_IMLIB2],[1],[Define to enable imlib2 rendering.])
+	image_library=imlib2])
+    PKG_CHECK_MODULES([XPM],[xpm],[
+	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
+	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
+	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
+	image_library="$image_library libxpm"],
+	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
+fi
+if test "x$enable_gdk_pixbuf" = xno &&
+   test "x$enable_imlib2" != xyes
+then
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$XPM_CFLAGS"
 	IMAGE_LIBS="$XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
-	image_library=libxpm])
+	image_library=libxpm],
+	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
     PKG_CHECK_MODULES([LIBPNG],[libpng >= 1.2],[
 	IMAGE_CFLAGS="$LIBPNG_CFLAGS $IMAGE_CFLAGS"
 	IMAGE_LIBS="$LIBPNG_LIBS $IMAGE_LIBS"
 	AC_DEFINE([CONFIG_LIBPNG],[1],[Define to enable libpng rendering.])
-	image_library="$image_library libpng"])
+	image_library="$image_library libpng"],
+	[AC_MSG_ERROR([Package libpng is required to load icewm themes.])])
     PKG_CHECK_MODULES([LIBJPEG],[libjpeg],[
         IMAGE_CFLAGS="$LIBJPEG_CFLAGS $IMAGE_CFLAGS"
         IMAGE_LIBS="$LIBJPEG_LIBS $IMAGE_LIBS"

@@ -914,7 +914,6 @@ YApm::YApm(YWindow *aParent, bool autodetect):
        setSize(calcInitialWidth(), taskBarGraphHeight);
     setParentRelative();
     updateToolTip();
-    // setDND(true);
 }
 
 YApm::~YApm() {
