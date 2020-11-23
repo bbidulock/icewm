@@ -2166,22 +2166,28 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
             ref<YPixmap> img = YPixmap::create(w, h, xapp->depth());
             Graphics g(img, 0, 0);
 
-            g.setColorPixel(0xffffff);
+            g.setColorPixel(0xffffffff);
             g.fillRect(0, 0, w, h);
-            g.setColorPixel(0);
+            g.setColorPixel(0xff000000);
             g.setClipMask(pixmap);
             g.fillRect(0, 0, w, h);
 
             ref<YImage> img2 =
                 YImage::createFromPixmapAndMaskScaled(img->pixmap(), mask,
-                                                          img->width(), img->height(),
-                                                          w, h);
+                                                      img->width(), img->height(),
+                                                      w, h);
 
-            if (w <= YIcon::smallSize())
+            if (w <= YIcon::smallSize() || h <= YIcon::smallSize())
                 small = img2;
-            else if (w <= YIcon::largeSize())
-                large = img2;
             else
+                small = img2->scale(YIcon::smallSize(), YIcon::smallSize());
+            if (YIcon::smallSize() == YIcon::largeSize())
+                large = small;
+            else if (YIcon::smallSize() < w && w <= YIcon::largeSize())
+                large = img2;
+            else if (YIcon::largeSize() < w)
+                large = img2->scale(YIcon::largeSize(), YIcon::largeSize());
+            if (YIcon::largeSize() < w)
                 huge = img2;
             img = null;
         }
