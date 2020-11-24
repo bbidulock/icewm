@@ -48,7 +48,9 @@ void MiniIcon::repaint() {
 void MiniIcon::paint(Graphics &g, const YRect &r) {
     ref<YIcon> icon(fFrame->clientIcon());
     if (icon != null && icon->huge() != null) {
-        icon->draw(g, 0, 0, YIcon::hugeSize());
+        int x = (YIcon::hugeSize() - icon->huge()->width()) / 2;
+        int y = (YIcon::hugeSize() - icon->huge()->height()) / 2;
+        icon->draw(g, x, y, YIcon::hugeSize());
     }
 }
 
@@ -59,8 +61,10 @@ void MiniIcon::updateIcon() {
         ref<YImage> image = icon->huge();
         ref<YPixmap> pixmap = image->renderToPixmap(depth());
         if (pixmap != null && pixmap->mask()) {
+            int x = (YIcon::hugeSize() - pixmap->width()) / 2;
+            int y = (YIcon::hugeSize() - pixmap->height()) / 2;
             XShapeCombineMask(xapp->display(), handle(), ShapeBounding,
-                              0, 0, pixmap->mask(), ShapeSet);
+                              x, y, pixmap->mask(), ShapeSet);
         }
     }
 #endif
