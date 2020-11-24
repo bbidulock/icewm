@@ -2147,9 +2147,9 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
             root = elem[5];
         } else {
             unsigned w1, h1;
-            if (BadDrawable == XGetGeometry(xapp->display(), pixmap,
-                                            &root, &x, &y, &w1, &h1,
-                                            &border, &depth)) {
+            if (XGetGeometry(xapp->display(), pixmap,
+                             &root, &x, &y, &w1, &h1,
+                             &border, &depth) != True) {
                 warn("BadDrawable for subicon #%d", i);
                 continue;
             }
