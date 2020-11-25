@@ -474,7 +474,7 @@ void YWindow::insertWindow() {
 void YWindow::reparent(YWindow *parent, int x, int y) {
     // ensure window was created before reparenting
     (void) handle();
-    if (flags & wfVisible) {
+    if ((flags & (wfVisible | wfDestroyed)) == wfVisible) {
         addIgnoreUnmap(handle());
     }
 
@@ -482,11 +482,10 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
     fParentWindow = parent;
     insertWindow();
 
-    MSG(("-----------  reparent %lX to %lX", handle(), parent->handle()));
-    XReparentWindow(xapp->display(),
-                    handle(),
-                    parent->handle(),
-                    x, y);
+    if (notbit(flags, wfDestroyed)) {
+        MSG(("--- reparent %lX to %lX", handle(), parent->handle()));
+        XReparentWindow(xapp->display(), handle(), parent->handle(), x, y);
+    }
     fX = x;
     fY = y;
 }
