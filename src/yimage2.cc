@@ -65,7 +65,14 @@ unsigned YImage2::depth() const {
 
 ref<YImage> YImage2::loadsvg(upath filename) {
     ref<YImage> icon;
+
 #ifdef CONFIG_LIBRSVG
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpragmas"
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wunknown-warning-option"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
     fcsmart filedata(filereader(filename.string()).read_all());
     if (filedata) {
         size_t length = strlen(filedata);
@@ -119,7 +126,10 @@ ref<YImage> YImage2::loadsvg(upath filename) {
     else {
         TLOG(("SVG %s error: %s", filename.string(), errno_string()));
     }
+
+#pragma GCC diagnostic pop
 #endif
+
     return icon;
 }
 
