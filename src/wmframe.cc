@@ -460,6 +460,11 @@ void YFrameWindow::manage() {
 void YFrameWindow::unmanage(bool reparent) {
     PRECONDITION(client());
 
+    if (fMiniIcon) {
+        delete fMiniIcon;
+        fMiniIcon = nullptr;
+    }
+
     if (!client()->destroyed()) {
         int gx, gy;
         client()->gravityOffsets(gx, gy);
@@ -2304,35 +2309,27 @@ void YFrameWindow::updateIcon() {
         XFree(elem);
     }
     else if (client()->getKwmIcon(&count, &pixmap) && count == 2) {
-        XWMHints *h = client()->hints();
-        if (h && (h->flags & IconPixmapHint)) {
-            long pix[4];
-            pix[0] = pixmap[0];
-            pix[1] = pixmap[1];
-            pix[2] = h->icon_pixmap;
-            pix[3] = (h->flags & IconMaskHint) ? h->icon_mask : None;
-            fFrameIcon = newClientIcon(2, 2, pix);
-        } else {
-            long pix[2];
-            pix[0] = pixmap[0];
-            pix[1] = pixmap[1];
-            fFrameIcon = newClientIcon(count / 2, 2, pix);
-        }
+        long pix[4] = {
+            long(pixmap[0]),
+            long(pixmap[1]),
+            long(client()->getIconPixmapHint()),
+            long(client()->getIconMaskHint()),
+        };
         XFree(pixmap);
+        fFrameIcon = newClientIcon(1 + (pix[2] != None), 2, pix);
     }
-    else {
-        XWMHints *h = client()->hints();
-        if (h && (h->flags & IconPixmapHint)) {
-            long pix[2];
-            pix[0] = h->icon_pixmap;
-            pix[1] = (h->flags & IconMaskHint) ? h->icon_mask : None;
-            fFrameIcon = newClientIcon(1, 2, pix);
-        }
-        else if (fFrameIcon == null) {
-            const char* name = client()->classHint()->res_name;
-            if (nonempty(name)) {
-                fFrameIcon = YIcon::getIcon(name);
-            }
+    else if (client()->getIconPixmapHint()) {
+        long pix[2] = {
+            long(client()->getIconPixmapHint()),
+            long(client()->getIconMaskHint()),
+        };
+        fFrameIcon = newClientIcon(1, 2, pix);
+    }
+
+    if (fFrameIcon == null) {
+        const char* name = client()->classHint()->res_name;
+        if (nonempty(name)) {
+            fFrameIcon = YIcon::getIcon(name);
         }
     }
 
@@ -3396,12 +3393,8 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
 }
 
 void YFrameWindow::updateUrgency() {
-    fClientUrgency = false;
-    XWMHints *h = client()->hints();
-    if ( !frameOption(foIgnoreUrgent) &&
-            h && (h->flags & XUrgencyHint))
-        fClientUrgency = true;
-
+    fClientUrgency = !frameOption(foIgnoreUrgent)
+                   && client()->getUrgencyHint();
     if (isUrgent()) {
         if (notState(WinStateUrgent)) {
             setState(WinStateUrgent, WinStateUrgent);
