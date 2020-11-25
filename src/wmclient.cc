@@ -460,17 +460,15 @@ void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
         if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
             MSG(("deleting window properties id=%lX", handle()));
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_FRAME_EXTENTS);
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_NAME);
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_VISIBLE_ICON_NAME);
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_DESKTOP);
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_STATE);
-            XDeleteProperty(xapp->display(), handle(), _XA_NET_WM_ALLOWED_ACTIONS);
-            XDeleteProperty(xapp->display(), handle(), _XA_WIN_WORKSPACE);
-            XDeleteProperty(xapp->display(), handle(), _XA_WIN_LAYER);
-            XDeleteProperty(xapp->display(), handle(), _XA_WIN_TRAY);
-            XDeleteProperty(xapp->display(), handle(), _XA_WIN_STATE);
-            XDeleteProperty(xapp->display(), handle(), _XA_WM_STATE);
+            Atom atoms[] = {
+                _XA_NET_FRAME_EXTENTS, _XA_NET_WM_ALLOWED_ACTIONS,
+                _XA_NET_WM_DESKTOP, _XA_NET_WM_STATE,
+                _XA_NET_WM_VISIBLE_ICON_NAME, _XA_NET_WM_VISIBLE_NAME,
+                _XA_WIN_LAYER, _XA_WIN_STATE, _XA_WIN_TRAY,
+                _XA_WIN_WORKSPACE, _XA_WM_STATE,
+            };
+            for (Atom atom : atoms)
+                deleteProperty(atom);
             fSavedFrameState = InvalidFrameState;
             fSavedWinState[0] = fSavedWinState[1] = 0;
         }
@@ -549,10 +547,19 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
 
     case XA_WM_HINTS:
         if (new_prop) prop.wm_hints = true;
-        getWMHints();
-        if (getFrame()) {
-            getFrame()->updateIcon();
-            getFrame()->updateUrgency();
+        {
+            Drawable oldPix = getIconPixmapHint();
+            Drawable oldMask = getIconMaskHint();
+            bool oldUrge = getUrgencyHint();
+            getWMHints();
+            if (oldPix != getIconPixmapHint() || oldMask != getIconMaskHint()) {
+                if (getFrame())
+                    getFrame()->updateIcon();
+            }
+            if (oldUrge != getUrgencyHint()) {
+                if (getFrame())
+                    getFrame()->updateUrgency();
+            }
         }
         prop.wm_hints = new_prop;
         break;
@@ -584,12 +591,12 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             prop.wm_state = new_prop;
         } else if (property.atom == _XA_KWM_WIN_ICON) {
             if (new_prop) prop.kwm_win_icon = true;
-            if (getFrame())
+            if (getFrame() && !prop.net_wm_icon && !prop.win_icons)
                 getFrame()->updateIcon();
             prop.kwm_win_icon = new_prop;
         } else if (property.atom == _XA_WIN_ICONS) {
             if (new_prop) prop.win_icons = true;
-            if (getFrame())
+            if (getFrame() && !prop.net_wm_icon)
                 getFrame()->updateIcon();
             prop.win_icons = new_prop;
         } else if (property.atom == _XA_NET_WM_NAME) {
@@ -1119,12 +1126,42 @@ void YFrameClient::getNetWmIconName() {
 }
 
 void YFrameClient::getWMHints() {
+    if (fHints) {
+        XFree(fHints);
+        fHints = nullptr;
+    }
+
     if (!prop.wm_hints)
         return;
 
-    if (fHints)
-        XFree(fHints);
     fHints = XGetWMHints(xapp->display(), handle());
+    if (!fClientLeader && getWindowGroupHint()) {
+        fClientLeader = fHints->window_group;
+    }
+}
+
+Window YFrameClient::getWindowGroupHint() {
+    return (fHints && (fHints->flags & WindowGroupHint))
+        ? fHints->window_group : None;
+}
+
+Window YFrameClient::getIconWindowHint() {
+    return (fHints && (fHints->flags & IconWindowHint))
+        ? fHints->icon_window : None;
+}
+
+Pixmap YFrameClient::getIconPixmapHint() {
+    return (fHints && (fHints->flags & IconPixmapHint))
+        ? fHints->icon_pixmap : None;
+}
+
+Pixmap YFrameClient::getIconMaskHint() {
+    return (fHints && (fHints->flags & IconMaskHint))
+        ? fHints->icon_mask : None;
+}
+
+bool YFrameClient::getUrgencyHint() {
+    return (fHints && (fHints->flags & XUrgencyHint));
 }
 
 void YFrameClient::getMwmHints() {
@@ -1427,7 +1464,7 @@ void YFrameClient::setWinHintsHint(long hints) {
 }
 
 void YFrameClient::getClientLeader() {
-    Window leader = None;
+    Window leader = getWindowGroupHint();
     if (prop.wm_client_leader) {
         YProperty prop(this, _XA_WM_CLIENT_LEADER, F32, 1, XA_WINDOW);
         if (prop)

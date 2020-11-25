@@ -36,15 +36,13 @@ enum WindowType {
 class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = nullptr; }
-    ClassHint(const char* name, const char* klas) {
-        res_name = strdup(name);
-        res_class = strdup(klas);
-    }
-    ClassHint(const ClassHint& hint) {
-        res_name = hint.res_name ? strdup(hint.res_name) : nullptr;
-        res_class = hint.res_class ? strdup(hint.res_class) : nullptr;
-    }
+    ClassHint(const char* name, const char* klas) { init(name, klas); }
+    ClassHint(const ClassHint& hint) { init(hint.res_name, hint.res_class); }
     ~ClassHint() { reset(); }
+    void init(const char* name, const char* klas) {
+        res_name = name ? strdup(name) : nullptr;
+        res_class = klas ? strdup(klas) : nullptr;
+    }
     void reset() {
         if (res_name) { XFree(res_name); res_name = nullptr; }
         if (res_class) { XFree(res_class); res_class = nullptr; }
@@ -54,12 +52,7 @@ public:
     void operator=(const ClassHint& hint) {
         if (this != &hint) {
             reset();
-            if (hint.res_name) {
-                res_name = strdup(hint.res_name);
-            }
-            if (hint.res_class) {
-                res_class = strdup(hint.res_class);
-            }
+            init(hint.res_name, hint.res_class);
         }
     }
     bool operator==(const ClassHint& hint) {
@@ -223,6 +216,11 @@ public:
 
     void getWMHints();
     XWMHints *hints() const { return fHints; }
+    Window getWindowGroupHint();
+    Window getIconWindowHint();
+    Pixmap getIconPixmapHint();
+    Pixmap getIconMaskHint();
+    bool getUrgencyHint();
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
