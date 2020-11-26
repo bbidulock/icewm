@@ -269,10 +269,12 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 
 bool YXftFont::supports(unsigned utf32char) {
     if (utf32char >= 255) {
-#ifndef CONFIG_I18N
-        if(0 != strcmp("UTF-8", nl_langinfo(CODESET))
-#endif
+#ifdef CONFIG_I18N
+        if(0 != strcmp("UTF-8", nl_langinfo(CODESET)))
             return false;
+#else
+        return false;
+#endif
     }
 
     // be conservative, only report when all font candidates can do it
