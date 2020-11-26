@@ -12,6 +12,8 @@
 #include <X11/Xft/Xft.h>
 #ifdef CONFIG_I18N
 #include <langinfo.h>
+#else
+#define nl_langinfo(X) ""
 #endif
 
 #ifdef CONFIG_FRIBIDI
@@ -268,14 +270,8 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 bool YXftFont::supports(unsigned utf32char) {
-    if (utf32char >= 255) {
-#ifdef CONFIG_I18N
-        if(0 != strcmp("UTF-8", nl_langinfo(CODESET)))
-            return false;
-#else
+    if (utf32char >= 255 && strcmp("UTF-8", nl_langinfo(CODESET)))
         return false;
-#endif
-    }
 
     // be conservative, only report when all font candidates can do it
     for (unsigned i = 0; i < fFontCount; ++i) {
