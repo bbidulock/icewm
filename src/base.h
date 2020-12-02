@@ -132,6 +132,7 @@ void show_backtrace(const int limit = 0);
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 char const * strnxt(const char *str, const char *delim = " \t");
+const char* errno_string();
 const char *my_basename(const char *filename);
 
 inline const char* boolstr(bool bval) {

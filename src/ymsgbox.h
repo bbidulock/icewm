@@ -21,8 +21,8 @@ public:
     YMsgBox(int buttons);
     virtual ~YMsgBox();
 
-    void setTitle(mstring title);
-    void setText(mstring text);
+    void setTitle(const char* title);
+    void setText(const char* text);
     void setPixmap(ref<YPixmap> pixmap);
 
     void setMsgBoxListener(YMsgBoxListener *listener) { fListener = listener; }

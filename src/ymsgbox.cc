@@ -51,6 +51,7 @@ YMsgBox::YMsgBox(int buttons):
 
 YMsgBox::~YMsgBox() {
     delete fLabel; fLabel = nullptr;
+    delete fInput; fInput = nullptr;
     delete fButtonOK; fButtonOK = nullptr;
     delete fButtonCancel; fButtonCancel = nullptr;
 }
@@ -92,11 +93,11 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(mstring title) {
+void YMsgBox::setTitle(const char* title) {
     setWindowTitle(title);
 }
 
-void YMsgBox::setText(mstring text) {
+void YMsgBox::setText(const char* text) {
     if (fLabel) {
         fLabel->hide();
         fLabel->setText(text);

@@ -16,9 +16,20 @@ static YColorName normalMinimizedWindowFg(&clrNormalMinimizedWindowText);
 static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
 static YColorName activeMinimizedWindowFg(&clrActiveMinimizedWindowText);
 
+static bool acceptableDimensions(unsigned w, unsigned h) {
+    unsigned lower = YIcon::hugeSize() / 2;
+    unsigned upper = 3 * YIcon::hugeSize() / 2;
+    return inrange(w, lower, upper) && inrange(h, lower, upper);
+}
+
+inline YFrameClient* MiniIcon::client() const {
+    return fFrame->client();
+}
+
 MiniIcon::MiniIcon(YFrameWindow *frame):
     YWindow(),
-    fFrame(frame)
+    fFrame(frame),
+    fIconWindow(client()->getIconWindowHint())
 {
     setStyle(wsOverrideRedirect | wsBackingMapped);
     setSize(YIcon::hugeSize(), YIcon::hugeSize());
@@ -28,10 +39,54 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     if (minimizedWindowFont == null)
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
 
+    if (fIconWindow) {
+        Window root, parent, *child;
+        unsigned border, depth, count;
+        if (XGetGeometry(xapp->display(), fIconWindow, &root,
+                         &fIconGeometry.xx, &fIconGeometry.yy,
+                         &fIconGeometry.ww, &fIconGeometry.hh,
+                         &border, &depth) == False) {
+            fIconWindow = None;
+        }
+        else if (acceptableDimensions(fIconGeometry.ww, fIconGeometry.hh)) {
+            int x = (int(YIcon::hugeSize()) - int(fIconGeometry.ww)) / 2;
+            int y = (int(YIcon::hugeSize()) - int(fIconGeometry.hh)) / 2;
+            XAddToSaveSet(xapp->display(), fIconWindow);
+            XReparentWindow(xapp->display(), fIconWindow, handle(), x, y);
+            if (XQueryTree(xapp->display(), handle(), &root, &parent, &child,
+                   &count) == True && count == 1 && child[0] == fIconWindow)
+            {
+                XMapWindow(xapp->display(), fIconWindow);
+                XWMHints* hints = XGetWMHints(xapp->display(), fIconWindow);
+                if (hints) {
+                    if ((hints->flags & StateHint) &&
+                        hints->initial_state != WithdrawnState) {
+                        // Fix initial_state for icewm restart to succeed.
+                        hints->initial_state = WithdrawnState;
+                        XSetWMHints(xapp->display(), fIconWindow, hints);
+                    }
+                    XFree(hints);
+                }
+            }
+            else {
+                fIconWindow = None;
+            }
+        }
+        else {
+            fIconWindow = None;
+        }
+    }
+
     updateIcon();
 }
 
 MiniIcon::~MiniIcon() {
+    if (fIconWindow && client() && !client()->destroyed()) {
+        XUnmapWindow(xapp->display(), fIconWindow);
+        XReparentWindow(xapp->display(), fIconWindow, xapp->root(),
+                        fIconGeometry.xx, fIconGeometry.hh);
+        XRemoveFromSaveSet(xapp->display(), fIconWindow);
+    }
 }
 
 void MiniIcon::handleExpose(const XExposeEvent& expose) {
@@ -41,26 +96,36 @@ void MiniIcon::handleExpose(const XExposeEvent& expose) {
 }
 
 void MiniIcon::repaint() {
-    Graphics g(*this);
-    paint(g, geometry());
+    if (fIconWindow == None) {
+        Graphics g(*this);
+        paint(g, geometry());
+    }
 }
 
 void MiniIcon::paint(Graphics &g, const YRect &r) {
-    ref<YIcon> icon(fFrame->clientIcon());
-    if (icon != null && icon->huge() != null) {
-        icon->huge()->copy(g);
+    if (fIconWindow == None) {
+        ref<YIcon> icon(fFrame->clientIcon());
+        if (icon != null && icon->huge() != null) {
+            int x = (YIcon::hugeSize() - icon->huge()->width()) / 2;
+            int y = (YIcon::hugeSize() - icon->huge()->height()) / 2;
+            icon->draw(g, x, y, YIcon::hugeSize());
+        }
     }
 }
 
 void MiniIcon::updateIcon() {
+    if (fIconWindow)
+        return;
 #ifdef CONFIG_SHAPE
     ref<YIcon> icon(fFrame->clientIcon());
     if (icon != null && icon->huge() != null) {
         ref<YImage> image = icon->huge();
         ref<YPixmap> pixmap = image->renderToPixmap(depth());
         if (pixmap != null && pixmap->mask()) {
+            int x = (YIcon::hugeSize() - pixmap->width()) / 2;
+            int y = (YIcon::hugeSize() - pixmap->height()) / 2;
             XShapeCombineMask(xapp->display(), handle(), ShapeBounding,
-                              0, 0, pixmap->mask(), ShapeSet);
+                              x, y, pixmap->mask(), ShapeSet);
         }
     }
 #endif

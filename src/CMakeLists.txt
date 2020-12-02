@@ -60,10 +60,11 @@ endif()
 #    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
 #endif()
 
+option(CONFIG_IMLIB2 "Imlib2 image loader" on)
 option(CONFIG_LIBPNG "PNGLIB image loader" off)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" off)
-option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF based image loader" on)
-option(CONFIG_LIBRSVG "Optional SVG images for GDK-PIXBUF" off)
+option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF image loader" off)
+option(CONFIG_LIBRSVG "Support SVG format icons" off)
 option(CONFIG_XPM "XPM image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
@@ -159,20 +160,20 @@ set(HINT_IMG_LOADERS
  or 'imlib2' must be enabled by -DCONFIG_IMLIB2=on,
  or else 'yximage' must be enabled by -DCONFIG_LIBPNG=on.
  The latter requires -DCONFIG_XPM=on, while -DCONFIG_LIBJPEG=on is recommended.
- The first provides optional support for SVG with -DCONFIG_LIBRSVG=on.
+ Support SVG format for Imlib2 or GdkPixbuf with -DCONFIG_LIBRSVG=on.
  ]=] ${HINT_CURSORS})
 
 # image configuration error check
-if(CONFIG_GDK_PIXBUF_XLIB)
+if(CONFIG_IMLIB2)
     #ok
-    set(CONFIG_LIBPNG off)
-    set(CONFIG_LIBJPEG off)
     if (NOT CONFIG_LIBRSVG)
         message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
     endif()
-elseif(CONFIG_IMLIB2)
+elseif(CONFIG_GDK_PIXBUF_XLIB)
     #ok
-    set(CONFIG_LIBRSVG off)
+    if (NOT CONFIG_LIBRSVG)
+        message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
+    endif()
 elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     #ok
     if (NOT CONFIG_LIBJPEG)
@@ -181,6 +182,18 @@ elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     set(CONFIG_LIBRSVG off)
 else()
     MESSAGE(FATAL_ERROR ${HINT_IMG_LOADERS})
+endif()
+
+if(CONFIG_IMLIB2)
+    pkg_check_modules(libimlib2 imlib2)
+    if(NOT libimlib2_FOUND)
+        message(FATAL_ERROR "IMLIB2 selected but Imlib2 dev files not found."
+                ${HINT_IMG_LOADERS})
+    endif()
+    set(CONFIG_GDK_PIXBUF_XLIB off)
+    set(CONFIG_LIBPNG off)
+    set(CONFIG_LIBJPEG off)
+    LIST(APPEND icewm_img_libs ${libimlib2_LDFLAGS})
 endif()
 
 if(CONFIG_GDK_PIXBUF_XLIB)
@@ -200,7 +213,7 @@ if (CONFIG_LIBRSVG)
     if(NOT librsvg_FOUND)
         message(WARNING
                 "SVG image loader selected but librsvg-2.0 dev files not found."
-                "SVG support will be not available.")
+                "SVG support will not be available.")
         set(CONFIG_LIBRSVG off)
     else()
         LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
@@ -245,15 +258,6 @@ if(CONFIG_LIBJPEG)
                 "Otherwise use -DCONFIG_LIBJPEG=off.")
     endif()
     LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
-endif()
-
-if(CONFIG_IMLIB2)
-    pkg_check_modules(libimlib2 imlib2)
-    if(NOT libimlib2_FOUND)
-        message(FATAL_ERROR "IMLIB2 selected but libImlib2 dev files not found."
-        ${HINT_CURSORS})
-    endif()
-    LIST(APPEND icewm_img_libs ${libimlib2_LDFLAGS})
 endif()
 
 IF(CONFIG_SESSION)
@@ -430,7 +434,7 @@ SET(ICEWM_SRCS ${ICE_COMMON_SRCS} ${ITK_SRCS}
     )
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_pc_flags ${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS} ${nls_CFLAGS})
+set(icewm_pc_flags ${fontconfig_CFLAGS} ${x11_CFLAGS} ${xext_CFLAGS} ${libpng_CFLAGS} ${libxpm_CFLAGS} ${libimlib2_CFLAGS} ${librsvg_CFLAGS} ${pixbuf_CFLAGS} ${xft_CFLAGS} ${xrandr_CFLAGS} ${xrender_CFLAGS} ${xinerama_CFLAGS} ${fribidi_CFLAGS} ${nls_CFLAGS})
 target_compile_options(icewm${EXEEXT} PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
 set(icewm_libs ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs} ${EXTRA_LIBS})
@@ -512,11 +516,11 @@ foreach (_variableName
         VERSION
         DATADIR LIBDIR LOCDIR DOCDIR CFGDIR ICEHELPIDX
         CONFIG_GDK_PIXBUF_XLIB
+        CONFIG_IMLIB2
         CONFIG_LIBRSVG
         CONFIG_XPM
         CONFIG_LIBPNG
         CONFIG_LIBJPEG
-        CONFIG_IMLIB2
         CONFIG_XFREETYPE
         CONFIG_COREFONTS
         CONFIG_FRIBIDI

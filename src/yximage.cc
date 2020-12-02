@@ -129,6 +129,10 @@ private:
     bool fBitmap;
 };
 
+const char* YImage::renderName() {
+    return "XImage";
+}
+
 bool YImage::supportsDepth(unsigned depth) {
     return depth == 32 || depth == xapp->depth();
 }

@@ -4,6 +4,7 @@
 #include "ywindow.h"
 
 class YFrameWindow;
+class YFrameClient;
 class YIcon;
 
 class MiniIcon: public YWindow {
@@ -29,6 +30,10 @@ public:
 
 private:
     YFrameWindow *fFrame;
+    Window fIconWindow;
+    YRect fIconGeometry;
+
+    YFrameClient* client() const;
 };
 
 

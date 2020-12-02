@@ -146,8 +146,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
-      //_NET_WM_PING,
-      //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     XWMHints wmhints = { InputHint, False, };
@@ -167,10 +165,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fEdgeTrigger = new EdgeTrigger(this);
 
     initApplets();
-
-    getPropertiesList();
-    getWMHints();
-    getClassHint();
 
     MSG(("taskbar"));
 }
