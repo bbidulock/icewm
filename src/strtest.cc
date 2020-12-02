@@ -140,13 +140,18 @@ static void test_mstring()
     mstring m("abc", (size_t) 0);
     expect(m, "");
     assert(m, m.length() == 0);
+    EXPECT_EQ(true, m.equals(nullptr));
+    EXPECT_EQ(false, m.equals("notempty"));
 
     mstring n(nullptr, (size_t) 0);
     expect(n, "");
     assert(n, n.length() == 0);
+    EXPECT_EQ(true, m.equals(nullptr));
+    EXPECT_EQ(false, m.equals("notempty"));
 
     mstring y = x;
     expect(y, "foo");
+    EXPECT_EQ(false, y.equals(nullptr));
     assert(y, y.length() == 3);
     assert(y, y.compareTo(mstring("foo")) == 0);
     assert(y, y.compareTo(mstring("aaf")) > 0);

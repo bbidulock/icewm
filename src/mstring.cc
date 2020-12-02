@@ -405,7 +405,7 @@ mstring::~mstring() {
 }
 
 bool mstring::equals(const char *&sz) const {
-    return 0 == strcmp(sz, c_str());
+    return sz ? 0 == strcmp(sz, c_str()) : 0 == length();
 }
 
 mstring& mstring::appendFormat(const char *fmt, ...) {
