@@ -148,7 +148,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
             }
             else if (0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0, 1)))
             {
-                MSG(("adding: %s to main menu", subdir.string()));
+                MSG(("adding: %s to main menu", subdir.c_str()));
             }
             else
             {
@@ -157,7 +157,7 @@ void ThemesMenu::findThemes(const upath& path, YMenu *container) {
                 YMenuItem *relatedItem = container->getItem(relatedItemPos);
                 MSG(("Moving %s to submenu to prepare for %s",
                                 relatedItem->getName().c_str(),
-                                subdir.string()));
+                                subdir.c_str()));
                 YMenu *smenu = new YMenu();
                 smenu->addSorted(relatedItem, false, true);
                 YMenuItem *newItem = new YMenuItem(subName, 0, null, actionNull, smenu);

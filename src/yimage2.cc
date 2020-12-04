@@ -75,7 +75,7 @@ ref<YImage> YImage2::loadsvg(upath filename) {
 #pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-    fcsmart filedata(filereader(filename.string()).read_all());
+    fcsmart filedata(filereader(filename.c_str()).read_all());
     if (filedata) {
         size_t length = strlen(filedata);
         GError* error = nullptr;
@@ -121,12 +121,12 @@ ref<YImage> YImage2::loadsvg(upath filename) {
             g_object_unref(G_OBJECT(pixbuf));
         }
         else {
-            TLOG(("SVG %s error: %s", filename.string(), error->message));
+            TLOG(("SVG %s error: %s", filename.c_str(), error->message));
             g_clear_error(&error);
         }
     }
     else {
-        TLOG(("SVG %s error: %s", filename.string(), errno_string()));
+        TLOG(("SVG %s error: %s", filename.c_str(), errno_string()));
     }
 
 #pragma GCC diagnostic pop

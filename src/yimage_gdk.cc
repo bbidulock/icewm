@@ -58,7 +58,7 @@ static mregex rex("^[a-z][-_a-z0-9]*\\.xpm$", "i");
 ref<YImage> YImage::load(upath filename) {
     ref<YImage> image;
     GError *gerror = nullptr;
-    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename.string(), &gerror);
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file(filename.c_str(), &gerror);
 
     if (pixbuf != nullptr) {
         image.init(new YImageGDK(gdk_pixbuf_get_width(pixbuf),

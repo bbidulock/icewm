@@ -441,7 +441,7 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             icon = YImage::load(cs);
         }
         else {
-            TLOG(("Icon not found: %s", fPath.string()));
+            TLOG(("Icon not found: %s", fPath.c_str()));
         }
 
     }

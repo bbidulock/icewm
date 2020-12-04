@@ -511,7 +511,7 @@ const upath& YApplication::getPrivConfDir() {
                 dir.mkdir();
         }
     }
-    MSG(("using %s for private configuration files", dir.string()));
+    MSG(("using %s for private configuration files", dir.c_str()));
     return dir;
 }
 
