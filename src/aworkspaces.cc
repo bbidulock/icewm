@@ -405,8 +405,8 @@ WorkspaceIcons::WorkspaceIcons() {
     ref<YResourcePaths> dirs(YResourcePaths::subdirs("workspace", false));
     for (int i = 0; i < dirs->getCount(); ++i) {
         upath path(dirs->getPath(i) + "/workspace/");
-        for (adir dir(path.string()); dir.next(); ) {
-            files += (path + dir.entry()).string();
+        for (adir dir(path.c_str()); dir.next(); ) {
+            files += (path + dir.entry()).c_str();
         }
     }
 }

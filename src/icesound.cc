@@ -771,7 +771,7 @@ char* IceSound::findSample(int sound) const {
         for (int k = 0; paths[k] != null; ++k) {
             upath file(paths[k] + base);
             if (file.isReadable()) {
-                return newstr(file.string());
+                return newstr(file.c_str());
             }
         }
         if (verbose())

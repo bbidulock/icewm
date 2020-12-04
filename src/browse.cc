@@ -41,7 +41,7 @@ void BrowseMenu::updatePopup() {
         ref<YIcon> file = YIcon::getIcon("file");
         ref<YIcon> folder = YIcon::getIcon("folder");
 
-        for (adir dir(fPath.string()); dir.next(); ) {
+        for (adir dir(fPath.c_str()); dir.next(); ) {
             mstring entry(dir.entry());
             upath npath(fPath + entry);
 

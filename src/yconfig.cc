@@ -260,7 +260,7 @@ void YConfig::parseConfiguration(char *data) {
 }
 
 bool YConfig::loadConfigFile(cfoption* opts, upath fileName, cfoption* more) {
-    YTraceConfig trace(fileName.string());
+    YTraceConfig trace(fileName.c_str());
     auto buf(fileName.loadText());
     if (buf) {
         YConfig(opts).parseConfiguration(buf);

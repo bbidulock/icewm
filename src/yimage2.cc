@@ -2,6 +2,7 @@
 
 #ifdef CONFIG_IMLIB2
 
+#include "mregex.h"
 #include "yimage.h"
 #include "yxapp.h"
 #include "mregex.h"
@@ -138,7 +139,7 @@ ref<YImage> YImage::load(upath filename) {
     if (filename.getExtension() == ".svg") {
         return YImage2::loadsvg(filename);
     }
-    Image image = imlib_load_image_immediately_without_cache(filename.string());
+    Image image = imlib_load_image_immediately_without_cache(filename.c_str());
     if (image) {
         imlib_context_set_image(image);
         imlib_context_set_mask_alpha_threshold(ATH);
@@ -188,7 +189,7 @@ ref<YImage> YImage::load(upath filename) {
 void YImage2::save(upath filename) {
     context();
     imlib_image_set_format("png");
-    imlib_save_image(filename.replaceExtension(".png").string());
+    imlib_save_image(filename.replaceExtension(".png").c_str());
 }
 
 ref<YImage> YImage2::scale(unsigned w, unsigned h) {

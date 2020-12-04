@@ -449,8 +449,8 @@ void MenuLoader::loadMenus(upath menufile, ObjectContainer *container)
     if (menufile.isEmpty())
         return;
 
-    MSG(("menufile: %s", menufile.string()));
-    YTraceConfig trace(menufile.string());
+    MSG(("menufile: %s", menufile.c_str()));
+    YTraceConfig trace(menufile.c_str());
     auto buf = menufile.loadText();
     if (buf) parseMenus(buf, container);
 }

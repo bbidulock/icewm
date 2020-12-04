@@ -47,7 +47,7 @@ DFile::~DFile() {
 }
 
 void DFile::open() {
-    const char *args[] = { openCommand, fPath.string(), nullptr };
+    const char *args[] = { openCommand, fPath.c_str(), nullptr };
     app->runProgram(openCommand, args);
 }
 
@@ -120,11 +120,11 @@ DProgram::~DProgram() {
 
 void DProgram::open() {
     if (fRestart)
-        smActionListener->restartClient(fCmd.string(), fArgs.getCArray());
+        smActionListener->restartClient(fCmd.c_str(), fArgs.getCArray());
     else if (fRes)
-        smActionListener->runOnce(fRes, &fPid, fCmd.string(), fArgs.getCArray());
+        smActionListener->runOnce(fRes, &fPid, fCmd.c_str(), fArgs.getCArray());
     else
-        app->runProgram(fCmd.string(), fArgs.getCArray());
+        app->runProgram(fCmd.c_str(), fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(
@@ -139,7 +139,7 @@ DProgram *DProgram::newProgram(
 {
     DProgram* program = nullptr;
     if (exe != null) {
-        const char* exestr = exe.string();
+        const char* exestr = exe.c_str();
         MSG(("LOOKING FOR: %s\n", exestr));
         csmart path(path_lookup(exestr));
         if (path) {
@@ -299,7 +299,7 @@ void MenuFileMenu::updatePopup() {
         refresh();
     } else {
         struct stat sb;
-        if (stat(fPath.string(), &sb) != 0) {
+        if (stat(fPath.c_str(), &sb) != 0) {
             fPath = null;
             refresh();
         } else if (sb.st_mtime > fModTime || rel) {
@@ -350,7 +350,7 @@ void MenuProgMenu::refresh()
 {
     removeAll();
     if (fCommand != null)
-        progMenus(fCommand.string(), fArgs.getCArray(), this);
+        progMenus(fCommand.c_str(), fArgs.getCArray(), this);
 }
 
 StartMenu::StartMenu(
@@ -694,17 +694,17 @@ public:
         upath temp(dest.path() + ".tmp");
         int fd = temp.open(O_CREAT | O_WRONLY | O_TRUNC, 0600);
         if (fd == -1) {
-            fail(_("Unable to write to %s"), temp.string());
+            fail(_("Unable to write to %s"), temp.c_str());
         } else {
             ssize_t w = write(fd, text, tlen);
             if (size_t(w) != tlen)
-                fail(_("Unable to write to %s"), temp.string());
+                fail(_("Unable to write to %s"), temp.c_str());
             close(fd);
             if (size_t(w) == tlen) {
                 if (temp.renameAs(dest))
                     fail(_("Unable to rename %s to %s"),
-                         temp.string(),
-                         dest.string());
+                         temp.c_str(),
+                         dest.c_str());
                 else
                     mods.clear();
             }
@@ -737,7 +737,7 @@ HelpMenu::HelpMenu(
             args.append(help[k].name);
         } else {
             upath path = upath(ICEHELPIDX).parent() + help[k].name;
-            args.append(path.string());
+            args.append(path.c_str());
         }
         args.append(nullptr);
 

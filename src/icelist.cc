@@ -42,7 +42,7 @@ public:
     bool isFolder() { return fFolder; }
     virtual ref<YIcon> getIcon() { return isFolder() ? folder : file; }
 
-    const char* getLocation() { return fPath.string(); }
+    const char* getLocation() { return fPath.c_str(); }
 private:
     upath fPath;
     mstring fName;

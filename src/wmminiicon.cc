@@ -211,8 +211,6 @@ void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) 
 }
 
 bool MiniIcon::handleKey(const XKeyEvent& key) {
-    if (key.type != KeyPress) return true;
-
     KeySym k = keyCodeToKeySym(key.keycode);
     unsigned int m = KEY_MODMASK(key.state);
     unsigned int vm = VMod(m);
@@ -231,7 +229,6 @@ bool MiniIcon::handleKey(const XKeyEvent& key) {
         else if (k == XK_Menu || (k == XK_F10 && m == ShiftMask)) {
         fFrame->popupSystemMenu(fFrame);
     }
-
     return true;
 }
 

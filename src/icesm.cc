@@ -196,7 +196,7 @@ private:
             int flags = O_WRONLY|O_CREAT|O_TRUNC|O_NOCTTY|O_APPEND;
             int fd(path.open(flags, 0600));
             if (fd == -1) {
-                perror(path.string());
+                perror(path.c_str());
             } else {
                 dup2(fd, 1);
                 dup2(fd, 2);
@@ -258,7 +258,7 @@ public:
         if (strchr(file, '/') == nullptr && strchr(argv0, '/') != nullptr) {
             path = upath(argv0).parent() + file;
             if (path.isExecutable()) {
-                file = path.string();
+                file = path.c_str();
                 if (args && args[0])
                     *(const char**)args = file;
             }
@@ -269,7 +269,7 @@ public:
     void runScript(const char *scriptName) {
         upath scriptFile = locateConfigFile(scriptName);
         if (scriptFile.nonempty() && scriptFile.isExecutable()) {
-            const char *cs = scriptFile.string();
+            const char *cs = scriptFile.c_str();
             MSG(("Running session script: %s", cs));
             runProgram(cs, nullptr);
         }

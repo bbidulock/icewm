@@ -86,7 +86,7 @@ public:
 
     const mstring& path() const { return fPath; }
     operator const mstring&() const { return path(); }
-    const char* string() { return fPath; }
+    const char* c_str() const { return fPath; }
 
     static const mstring& sep() { return slash; }
     static const upath& root() { return rootPath; }

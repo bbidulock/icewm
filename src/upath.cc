@@ -139,7 +139,7 @@ bool upath::isReadable() {
 }
 
 int upath::access(int mode) {
-    return ::access(string(), mode);
+    return ::access(c_str(), mode);
 }
 
 bool upath::isWritable() {
@@ -151,31 +151,31 @@ bool upath::isExecutable() {
 }
 
 int upath::mkdir(int mode) {
-    return ::mkdir(string(), mode_t(mode));
+    return ::mkdir(c_str(), mode_t(mode));
 }
 
 int upath::open(int flags, int mode) {
-    return ::open(string(), flags, mode);
+    return ::open(c_str(), flags, mode);
 }
 
 FILE* upath::fopen(const char *mode) {
-    return ::fopen(string(), mode);
+    return ::fopen(c_str(), mode);
 }
 
 int upath::stat(struct stat *st) {
-    return ::stat(string(), st);
+    return ::stat(c_str(), st);
 }
 
 int upath::remove() {
-    return ::remove(string());
+    return ::remove(c_str());
 }
 
 int upath::renameAs(mstring dest) {
-    return ::rename(string(), dest);
+    return ::rename(c_str(), dest);
 }
 
 int upath::fnMatch(const char* pattern, int flags) {
-    return fnmatch(pattern, string(), flags);
+    return fnmatch(pattern, c_str(), flags);
 }
 
 fcsmart upath::loadText() {

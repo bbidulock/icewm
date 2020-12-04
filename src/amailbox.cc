@@ -264,11 +264,11 @@ void MailCheck::startCheck() {
         }
         else if (S_ISDIR(st.st_mode)) {
             fLastUnseen = 0;
-            cdir dir(upath(fURL.path).child("new").string());
+            cdir dir(upath(fURL.path).child("new").c_str());
             while (dir.next())
                 fLastUnseen++;
             fLastCount = fLastUnseen;
-            dir.open(upath(fURL.path).child("cur").string());
+            dir.open(upath(fURL.path).child("cur").c_str());
             while (dir.next())
                 fLastCount++;
             if (fLastCount < 1)

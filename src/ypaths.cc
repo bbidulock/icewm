@@ -32,7 +32,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
     upath themeDir(themeExt.isEmpty() ? themeFile : themeFile.parent());
 
     if (themeDir.isAbsolute()) {
-        MSG(("Searching `%s' resources at absolute location", subdir.string()));
+        MSG(("Searching `%s' resources at absolute location", subdir.c_str()));
 
         if (themeOnly) {
             paths->addDir(themeDir);
@@ -43,7 +43,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
             paths->addDir(YApplication::getLibDir());
         }
     } else {
-        MSG(("Searching `%s' resources at relative locations", subdir.string()));
+        MSG(("Searching `%s' resources at relative locations", subdir.c_str()));
 
         upath themes("/themes/");
         upath themesPlusThemeDir(themes + themeDir);
@@ -67,7 +67,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
         MSG(("Initial search path:"));
         for (int i = 0; i < paths->getCount(); i++) {
             upath path = paths->getPath(i) + "/icons/";
-            MSG(("%s", path.string()));
+            MSG(("%s", path.c_str()));
         }
     }
 
@@ -91,7 +91,7 @@ bool YResourcePaths::loadPictFile(upath file, ref<Pict>* pict) {
             return true;
         }
     }
-    warn(_("Image not readable: %s"), file.string());
+    warn(_("Image not readable: %s"), file.c_str());
     return false;
 }
 
@@ -114,7 +114,7 @@ bool YResourcePaths::loadPict(upath baseName, ref<Pict>* pict) const {
     }
 #ifdef DEBUG
     if (debug)
-        warn(_("Could not find image %s"), baseName.string());
+        warn(_("Could not find image %s"), baseName.c_str());
 #endif
     return false;
 }
