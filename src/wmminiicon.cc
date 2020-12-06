@@ -108,7 +108,13 @@ void MiniIcon::paint(Graphics &g, const YRect &r) {
         if (icon != null && icon->huge() != null) {
             int x = (YIcon::hugeSize() - icon->huge()->width()) / 2;
             int y = (YIcon::hugeSize() - icon->huge()->height()) / 2;
-            icon->draw(g, x, y, YIcon::hugeSize());
+            if (xapp->alpha()) {
+               icon->draw(g, x, y, YIcon::hugeSize());
+            }
+            // g.drawImage(icon->huge(), x, y);
+            else {
+                icon->huge()->copy(g, x, y);
+            }
         }
     }
 }

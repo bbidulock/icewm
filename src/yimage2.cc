@@ -35,6 +35,7 @@ public:
     virtual bool valid() const { return fImage != nullptr; }
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
     virtual void save(upath filename);
+    virtual void copy(Graphics& g, int x, int y);
     static ref<YImage> loadsvg(upath filename);
 
 private:
@@ -428,6 +429,14 @@ void YImage2::composite(Graphics& g, int x, int y, unsigned width, unsigned heig
     imlib_render_image_part_on_drawable_at_size(x, y, w, h, dx, dy, w, h);
     imlib_context_set_drawable(None);
     imlib_context_set_blend(0);
+}
+
+void YImage2::copy(Graphics& g, int x, int y) {
+    context();
+    imlib_context_set_mask_alpha_threshold(ATH);
+    imlib_context_set_drawable(g.drawable());
+    imlib_context_set_blend(0);
+    imlib_render_image_on_drawable(x, y);
 }
 
 void image_init() {
