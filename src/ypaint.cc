@@ -159,19 +159,19 @@ void Graphics::clearArea(int x, int y, unsigned w, unsigned h)
     setFunction(GXcopy);
 }
 
-void Graphics::copyArea(const int x, const int y,
-                        const unsigned width, const unsigned height,
-                        const int dx, const int dy)
+void Graphics::copyArea(int x, int y,
+                        unsigned width, unsigned height,
+                        int dx, int dy)
 {
     XCopyArea(display(), drawable(), drawable(), gc,
               x - xOrigin, y - yOrigin, width, height,
               dx - xOrigin, dy - yOrigin);
 }
 
-void Graphics::copyDrawable(Drawable const d,
-                            const int x, const int y,
-                            const unsigned w, const unsigned h,
-                            const int dx, const int dy)
+void Graphics::copyDrawable(Drawable d,
+                            int x, int y,
+                            unsigned w, unsigned h,
+                            int dx, int dy)
 {
     if (d == None)
         return;
@@ -192,9 +192,9 @@ void Graphics::copyPixmap(ref<YPixmap> p, int dx, int dy) {
 }
 
 void Graphics::copyPixmap(ref<YPixmap> p,
-                          const int x, const int y,
-                          const unsigned w, const unsigned h,
-                          const int dx, const int dy)
+                          int x, int y,
+                          unsigned w, unsigned h,
+                          int dx, int dy)
 {
     if (p == null)
         return;
@@ -444,8 +444,8 @@ void Graphics::fillRects(XRectangle *rects, int n) {
     }
 }
 
-void Graphics::fillPolygon(XPoint *points, int const n, int const shape,
-                           int const mode)
+void Graphics::fillPolygon(XPoint *points, int n, int shape,
+                           int mode)
 {
     int n1 = (mode == CoordModeOrigin) ? n : 1;
 
@@ -516,7 +516,7 @@ void Graphics::setFunction(int function) {
 
 /******************************************************************************/
 
-void Graphics::drawImage(ref<YImage> img, int const x, int const y) {
+void Graphics::drawImage(ref<YImage> img, int x, int y) {
     drawImage(img, 0, 0, img->width(), img->height(), x, y);
 }
 
@@ -544,12 +544,12 @@ void Graphics::drawImage(ref<YImage> img, int x, int y, unsigned w, unsigned h, 
     }
 }
 
-void Graphics::drawPixmap(ref<YPixmap> pix, int const x, int const y) {
+void Graphics::drawPixmap(ref<YPixmap> pix, int x, int y) {
     drawPixmap(pix, 0, 0, pix->width(), pix->height(), x, y);
 }
 
-void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
-        const unsigned w, const unsigned h, const int dx, const int dy) {
+void Graphics::drawPixmap(ref<YPixmap> pix, int sx, int sy,
+                          unsigned w, unsigned h, int dx, int dy) {
     Pixmap pixmap(pix->pixmap(rdepth()));
     if (pixmap == None) {
         tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
@@ -565,7 +565,7 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int const sx, int const sy,
                   sx, sy, w, h, dx - xOrigin, dy - yOrigin);
 }
 
-void Graphics::drawMask(ref<YPixmap> pix, int const x, int const y) {
+void Graphics::drawMask(ref<YPixmap> pix, int x, int y) {
     if (pix->mask())
         XCopyArea(display(), pix->mask(), drawable(), gc,
                   0, 0, pix->width(), pix->height(), x - xOrigin, y - yOrigin);
@@ -587,7 +587,7 @@ void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
     XFreeGC(display(), clipPixmapGC);
 }
 
-void Graphics::compositeImage(ref<YImage> img, int const sx, int const sy, unsigned w, unsigned h, int dx, int dy) {
+void Graphics::compositeImage(ref<YImage> img, int sx, int sy, unsigned w, unsigned h, int dx, int dy) {
 
     if (picture()) {
         int rx = dx;
@@ -904,8 +904,8 @@ void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
 }
 
 void Graphics::drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h,
-                           int const sx, int const sy,
-                           const unsigned sw, const unsigned sh
+                           int sx, int sy,
+                           unsigned sw, unsigned sh
 ) {
     if (surface.gradient != null)
         drawGradient(surface.gradient, x, y, w, h, sx, sy, sw, sh);
@@ -919,8 +919,8 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, unsigned w, u
 }
 
 void Graphics::drawGradient(ref<YImage> gradient,
-                            int const x, int const y, const unsigned w, const unsigned h,
-                            int const gx, int const gy, const unsigned gw, const unsigned gh)
+                            int x, int y, unsigned w, unsigned h,
+                            int gx, int gy, unsigned gw, unsigned gh)
 {
     ref<YImage> scaled = gradient->scale(gw, gh);
     if (scaled != null)
