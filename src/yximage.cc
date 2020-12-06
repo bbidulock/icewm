@@ -1236,7 +1236,7 @@ void YXImage::composite(Graphics& g, int x, int y,
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if ((int) h <= g.xorigin() - dx) {
+        if ((int) h <= g.yorigin() - dy) {
             if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;

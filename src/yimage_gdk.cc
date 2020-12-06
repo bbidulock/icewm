@@ -343,7 +343,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if (h <= g.xorigin() - dx)
+        if (h <= g.yorigin() - dy)
             return;
         h -= g.yorigin() - dy;
         y += g.yorigin() - dy;
