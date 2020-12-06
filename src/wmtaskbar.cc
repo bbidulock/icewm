@@ -341,7 +341,11 @@ void TaskBar::initApplets() {
             MenuLoader(app, smActionListener, wmActionListener)
             .loadMenus(t, fObjectBar);
         }
-        fObjectBar->setTitle("IceToolbar");
+        if (fObjectBar->nonempty()) {
+            fObjectBar->setTitle("IceToolbar");
+        } else {
+            delete fObjectBar; fObjectBar = nullptr;
+        }
     }
     if (taskBarShowWindowListMenu) {
         class LazyWindowListMenu : public LazyMenu {
