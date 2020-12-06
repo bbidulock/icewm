@@ -99,7 +99,8 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if ((buttonRaiseMask & (1 << (button.button - Button1))) &&
            !(button.state & (xapp->AltMask | ControlMask | xapp->ButtonMask))) {
-            getFrame()->activate();
+            if ( !getFrame()->isRollup())
+                getFrame()->activate();
             wasCanRaise = getFrame()->canRaise();
             if (raiseOnClickTitleBar)
                 getFrame()->wmRaise();
