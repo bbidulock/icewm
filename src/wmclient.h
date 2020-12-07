@@ -243,17 +243,17 @@ public:
     mstring windowTitle() { return fWindowTitle; }
     mstring iconTitle() { return fIconTitle; }
 
-    void setWinWorkspaceHint(long workspace);
+    void setWorkspaceHint(long workspace);
     bool getWinWorkspaceHint(long *workspace);
 
-    void setWinLayerHint(long layer);
-    bool getWinLayerHint(long *layer);
+    void setLayerHint(long layer);
+    bool getLayerHint(long *layer);
 
     void setWinTrayHint(long tray_opt);
     bool getWinTrayHint(long *tray_opt);
 
-    void setWinStateHint(long mask, long state);
-    bool getWinStateHint(long *mask, long *state);
+    void setStateHint(long mask, long state);
+    bool getStateHint(long *mask, long *state);
 
     void setWinHintsHint(long hints);
     bool getWinHintsHint(long *hints);
@@ -367,9 +367,6 @@ private:
         bool net_wm_window_opacity : 1;
         bool net_wm_pid : 1;
         bool mwm_hints : 1;
-        bool win_hints : 1;
-        bool win_workspace : 1; // no property notify
-        bool win_state : 1; // no property notify
         bool win_layer : 1; // no property notify
         bool win_icons : 1;
         bool xembed_info : 1;

@@ -144,7 +144,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
 
-    setWinWorkspaceHint(AllWorkspaces);
+    setWorkspaceHint(AllWorkspaces);
     updateWinLayer();
     Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
@@ -732,7 +732,7 @@ void TaskBar::updateWinLayer() {
     if (getFrame()) {
         getFrame()->wmSetLayer(layer);
     } else {
-        setWinLayerHint(layer);
+        setLayerHint(layer);
     }
 }
 

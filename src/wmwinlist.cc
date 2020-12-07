@@ -436,8 +436,8 @@ void WindowList::setupClient() {
 
     setWinHintsHint(WinHintsSkipTaskBar |
                     WinHintsSkipWindowMenu);
-    setWinWorkspaceHint(AllWorkspaces);
-    setWinLayerHint(WinLayerAboveDock);
+    setWorkspaceHint(AllWorkspaces);
+    setLayerHint(WinLayerAboveDock);
 }
 
 WindowList::~WindowList() {

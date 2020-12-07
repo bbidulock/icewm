@@ -269,7 +269,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         }
     }
     long layer = fWinRequestedLayer;
-    if (client()->getWinLayerHint(&layer) &&
+    if (client()->getLayerHint(&layer) &&
         layer != fWinRequestedLayer &&
         inrange(layer, 0L, WinLayerAboveAll))
     {
@@ -287,7 +287,6 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     updateNetWMUserTimeWindow();
 
     long workspace = getWorkspace(), mask(0), state(0);
-    long tray(0);
 
     MSG(("Map - Frame: %d", visible()));
     MSG(("Map - Client: %d", client()->visible()));
@@ -296,12 +295,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         if ((getState() & mask) != state) {
             setState(mask, state);
         }
-    } else
-    if (client()->getWinStateHint(&mask, &state)) {
-        if ((getState() & mask) != state) {
-            setState(mask, state);
-        }
     }
+
     {
         FrameState st = client()->getFrameState();
 
@@ -329,12 +324,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
 
     if (client()->getNetWMDesktopHint(&workspace))
         setWorkspace(workspace);
-    else
-    if (client()->getWinWorkspaceHint(&workspace))
-        setWorkspace(workspace);
 
-    if (client()->getWinTrayHint(&tray))
-        setTrayOption(tray);
     addAsTransient();
     if (owner())
         setWorkspace(mainOwner()->getWorkspace());
@@ -1156,7 +1146,7 @@ void YFrameWindow::wmSetLayer(long layer) {
     long previous = fWinState;
     setRequestedLayer(layer);
     if (hasbit(previous ^ fWinState, WinStateAbove | WinStateBelow)) {
-        client()->setWinStateHint(WIN_STATE_ALL, fWinState);
+        client()->setStateHint(WIN_STATE_ALL, fWinState);
     }
 }
 
@@ -2574,7 +2564,7 @@ void YFrameWindow::setWorkspace(int workspace) {
             fWinState |= WinStateSticky;
         else
             fWinState &= ~WinStateSticky;
-        client()->setWinWorkspaceHint(fWinWorkspace);
+        client()->setWorkspaceHint(fWinWorkspace);
         updateState();
         if (refocus)
             manager->focusLastWindow();
@@ -2694,7 +2684,7 @@ void YFrameWindow::updateLayer(bool restack) {
         insertFrame(true);
 
         if (client() && !client()->destroyed())
-            client()->setWinLayerHint(fWinActiveLayer);
+            client()->setLayerHint(fWinActiveLayer);
 
         if (limitByDockLayer &&
            (newLayer == WinLayerDock || oldLayer == WinLayerDock) &&
@@ -2717,7 +2707,6 @@ void YFrameWindow::setTrayOption(long option) {
         return ;
     if (option != fWinTrayOption) {
         fWinTrayOption = option;
-        client()->setWinTrayHint(fWinTrayOption);
         updateTaskBar();
     }
 }
@@ -2726,7 +2715,7 @@ void YFrameWindow::updateState() {
     if (!isManaged() || client()->destroyed())
         return ;
 
-    client()->setWinStateHint(WIN_STATE_ALL, fWinState);
+    client()->setStateHint(WIN_STATE_ALL, fWinState);
 
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
@@ -3208,10 +3197,9 @@ ref<YIcon> YFrameWindow::clientIcon() const {
 }
 
 void YFrameWindow::updateProperties() {
-    client()->setWinWorkspaceHint(fWinWorkspace);
-    client()->setWinLayerHint(fWinActiveLayer);
-    client()->setWinTrayHint(fWinTrayOption);
-    client()->setWinStateHint(WIN_STATE_ALL, fWinState);
+    client()->setWorkspaceHint(fWinWorkspace);
+    client()->setLayerHint(fWinActiveLayer);
+    client()->setStateHint(WIN_STATE_ALL, fWinState);
 }
 
 void YFrameWindow::updateTaskBar() {
