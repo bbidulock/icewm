@@ -452,7 +452,7 @@ On C<Control+Enter> the command is executed in a terminal
 as given by B<TerminalCommand>.
 The address bar maintains a history which is navigable by the I<Up>
 and I<Down> keys.
-It supports file completion using C<Tab> or C<Ctrl+I>.
+It supports command completion using C<Tab> or C<Ctrl+I>.
 A rich set of editing operations is supported,
 including cut-/copy-/paste-operations.
 
@@ -1283,14 +1283,13 @@ L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
 =head2 OPACITY
 
 IceWM supports window opacity and transparency in connection with an
-external compositor like L<compton(1)>. If a client window sets the
-C<_NET_WM_WINDOW_OPACITY> property on its window then B<icewm> will copy
-this to the outer frame window where B<compton> will read it to adjust
-the opacity of the client window. The opacity can also be controlled by
-B<icewm> when this is configured in the L<icewm-winoptions(5)> file.
-Another way is to use L<icewmhint(1)> to preset the opacity level
-immediately before starting the application.  The opacity level of
-running applications can always be queried or modified by L<icesh(1)>.
+external compositor like L<compton(1)> or L<picom(1)>.
+If a client window sets the C<_NET_WM_WINDOW_OPACITY> property on
+its window, then B<icewm> will copy this to the outer frame window,
+where the compositor will read it and adjust the opacity accordingly.
+
+The opacity can also be set in the L<icewm-winoptions(5)> file.
+L<icesh(1)> can control the opacity level of running applications.
 
 The _NET_WM_WINDOW_TYPE properties which B<icewm> sets on its windows
 are I<DIALOG>, I<NOTIFICATION>, I<POPUP_MENU> and I<TOOLTIP>. The output
