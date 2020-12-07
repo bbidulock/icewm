@@ -1313,6 +1313,7 @@ private:
     bool setWorkspaceName();
     bool setWorkspaceNames();
     void changeState(const char* arg);
+    void changeState(int state);
     bool colormaps();
     bool current();
     bool runonce();
@@ -2233,21 +2234,21 @@ bool IceSh::colormaps()
 
 void IceSh::changeState(const char* arg)
 {
-    int state = -1;
     if (!strncmp(arg, "NormalState", strlen(arg)))
-        state = NormalState;
+        changeState(NormalState);
     else if (!strncmp(arg, "IconicState", strlen(arg)))
-        state = IconicState;
+        changeState(IconicState);
     else if (!strncmp(arg, "WithdrawnState", strlen(arg)))
-        state = WithdrawnState;
-    if (state == -1 || isEmpty(arg)) {
+        changeState(WithdrawnState);
+    else {
         msg(_("Invalid state: `%s'."), arg);
         THROW(1);
     }
-    else {
-        FOREACH_WINDOW(window) {
-            send(ATOM_WM_CHANGE_STATE, window, state, None);
-        }
+}
+
+void IceSh::changeState(int state) {
+    FOREACH_WINDOW(window) {
+        send(ATOM_WM_CHANGE_STATE, window, state, None);
     }
 }
 
@@ -4043,7 +4044,8 @@ void IceSh::parseAction()
                 YNetState(window) += NetFullscreen;
         }
         else if (isAction("minimize", 0)) {
-            changeState("IconicState");
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetHidden;
         }
         else if (isAction("vertical", 0)) {
             FOREACH_WINDOW(window)
@@ -4066,10 +4068,10 @@ void IceSh::parseAction()
                 YNetState(window) += NetBelow;
         }
         else if (isAction("hide", 0)) {
-            changeState("WithdrawnState");
+            changeState(WithdrawnState);
         }
         else if (isAction("unhide", 0)) {
-            changeState("NormalState");
+            changeState(NormalState);
         }
         else if (isAction("skip", 0)) {
             FOREACH_WINDOW(window)
@@ -4083,7 +4085,7 @@ void IceSh::parseAction()
             FOREACH_WINDOW(window)
                 YNetState(window) -= NetFullscreen | NetShaded |
                                      NetHorizontal | NetVertical;
-            changeState("NormalState");
+            changeState(NormalState);
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;
@@ -4138,10 +4140,10 @@ void IceSh::parseAction()
             changeState(getArg());
         }
         else if (isAction("iconic", 0)) {
-            changeState("IconicState");
+            changeState(IconicState);
         }
         else if (isAction("normal", 0)) {
-            changeState("NormalState");
+            changeState(NormalState);
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
