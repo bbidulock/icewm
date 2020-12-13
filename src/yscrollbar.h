@@ -1,5 +1,5 @@
-#ifndef __YSCROLLBAR_H
-#define __YSCROLLBAR_H
+#ifndef YSCROLLBAR_H
+#define YSCROLLBAR_H
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -22,11 +22,7 @@ public:
         Vertical, Horizontal
     };
 
-    YScrollBar(YWindow *aParent);
     YScrollBar(Orientation anOrientation, YWindow *aParent);
-    YScrollBar(Orientation anOrientation,
-               int aValue, int aVisibleAmount, int aMin, int aMax,
-               YWindow *aParent);
     virtual ~YScrollBar();
 
     Orientation getOrientation() const { return fOrientation; }

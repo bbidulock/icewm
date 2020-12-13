@@ -797,8 +797,4 @@ unsigned YListBox::contentHeight() {
     return getItemCount() * getLineHeight();
 }
 
-YWindow *YListBox::getWindow() {
-    return this;
-}
-
 // vim: set sw=4 ts=4 et:
