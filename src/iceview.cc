@@ -1,23 +1,14 @@
 #include "config.h"
-#include "ylib.h"
-#include <X11/Xatom.h>
 #include "ylistbox.h"
 #include "yscrollview.h"
 #include "ymenu.h"
 #include "yxapp.h"
-#include "sysdep.h"
 #include "yaction.h"
-#include "yrect.h"
-#include "upath.h"
-#include "yimage.h"
 #include "ylocale.h"
-#include "prefs.h"
 #include "yicon.h"
 #include "intl.h"
 
 char const *ApplicationName = "iceview";
-
-extern Atom _XA_WIN_ICONS;
 
 class TextView: public YWindow,
     public YScrollBarListener, public YScrollable, public YActionListener
@@ -66,6 +57,7 @@ public:
         menu->addItem(_("Wrap Lines"), 0, _("Ctrl+W"), actionToggleWrapLines);
         menu->addSeparator();
         menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
+        setTitle("TextView");
     }
 
     ~TextView() {
@@ -259,7 +251,6 @@ public:
                 }
             }
             lineWPos[nw] = bufLen;
-            assert(nw == lineWCount);
         }
     }
 
@@ -338,8 +329,8 @@ public:
         if (fImage != null) {
             int ix = tx;
             int iy = ty;
-            int iw = min(wx + wwidth, ix + int(fImage->width()));
-            int ih = min(wy + wheight, iy + int(fImage->height()));
+            int iw = max(wx + wwidth, ix + int(fImage->width()));
+            int ih = max(wy + wheight, iy + int(fImage->height()));
             if (wx < iw && wy < ih) {
                 g.drawImage(fImage, ix + wx, iy + wy, iw - wx, ih - wy, wx, wy);
             }
@@ -419,8 +410,6 @@ public:
         fHorizontalScroll->setValues(tx, width(), 0, contentWidth());
         fHorizontalScroll->setBlockIncrement(width());
         fHorizontalScroll->setUnitIncrement(fontWidth);
-        if (view)
-            view->layout();
     }
 
     void setPos(int x, int y) {
@@ -470,7 +459,6 @@ public:
             n = lineCount;
         return n * fontHeight + 2; // for 1 pixel spacing
     }
-    YWindow *getWindow() { return this; }
 
     int getFontWidth() { return fontWidth; }
     int getFontHeight() { return fontHeight; }
@@ -487,15 +475,14 @@ public:
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
-            return ;
         }
     }
 
     virtual bool handleKey(const XKeyEvent& key) {
-        if (fVerticalScroll->handleScrollKeys(key) == true) {
+        if (fVerticalScroll->handleScrollKeys(key)) {
             return true;
         }
-        if (fHorizontalScroll->handleScrollKeys(key) == true) {
+        if (fHorizontalScroll->handleScrollKeys(key)) {
             return true;
         }
         if (key.type == KeyPress) {
@@ -515,13 +502,13 @@ public:
 
     virtual void actionPerformed(YAction action, unsigned int modifiers) {
         if (action == actionToggleHexView) {
-            hexView = hexView ? false : true;
+            hexView ^= true;
             repaint();
         } else if (action == actionToggleExpandTabs) {
-            expandTabs = expandTabs ? false : true;
+            expandTabs ^= true;
             repaint();
         } else if (action == actionToggleWrapLines) {
-            wrapLines = wrapLines ? false : true;
+            wrapLines ^= true;
             findWLines(width() / fontWidth);
             repaint();
         } else if (action == actionClose) {
@@ -584,17 +571,14 @@ private:
 
 class FileView: public YDndWindow {
 public:
-    FileView(char *path) :
-        fPath(newstr(path)),
+    FileView(const char* path) :
+        path(path),
         scroll(new YScrollView(this)),
         view(new TextView(scroll, this))
     {
         scroll->setView(view);
-        view->show();
-        scroll->show();
-
-        int x = max(200, 80 * view->getFontWidth());
-        int y = max(150, 30 * view->getFontHeight());
+        int x = max(32, 5 * view->getFontWidth());
+        int y = max(32, 2 * view->getFontHeight());
 
         loadFile();
 
@@ -606,21 +590,16 @@ public:
         setSize(x, y);
 
         if (window_group == None) {
-            window_group = XCreateSimpleWindow(
-                    xapp->display(),
-                    xapp->root(),
-                    0, 0, 1, 1, 0,
-                    xapp->black(),
-                    xapp->black());
+            window_group = XCreateSimpleWindow(xapp->display(), xapp->root(),
+                                               -1, -1, 1, 1, 0, None, None);
         }
 
         ref<YIcon> file = YIcon::getIcon("icewm");
         if (file != null) {
-            unsigned depth = xapp->depth();
-            large = YPixmap::createFromImage(file->large(), depth);
+            large = YPixmap::createFromImage(file->large(), xapp->depth());
         }
 
-        static char wm_clas[] = "IceWM";
+        static char wm_clas[] = "icewm";
         static char wm_name[] = "iceview";
         XClassHint class_hint = { wm_name, wm_clas };
         XSizeHints size_hints = { PSize, 0, 0, x, y };
@@ -637,12 +616,14 @@ public:
         if (wmhints.icon_mask)
             wmhints.flags |= IconMaskHint;
         Xutf8SetWMProperties(xapp->display(), handle(),
-                             fPath, ApplicationName, nullptr, 0,
+                             path, ApplicationName, nullptr, 0,
                              &size_hints, &wmhints, &class_hint);
 
         setNetPid();
         setDND(true);
 
+        scroll->show();
+        view->show();
         views += this;
     }
 
@@ -652,7 +633,6 @@ public:
     }
 
     void loadFile() {
-        upath path(fPath);
         mstring ext(path.getExtension().lower());
         if (ext == ".xpm" || ext == ".png" || ext == ".svg" ||
             ext == ".jpg" || ext == ".jpeg")
@@ -673,6 +653,8 @@ public:
             char* buf = path.loadText();
             if (buf) {
                 int len = strlen(buf);
+                setSize(max(width(), 80 * unsigned(view->getFontWidth())),
+                        max(height(), 30 * unsigned(view->getFontHeight())));
                 view->setData(buf, len);
             }
         }
@@ -709,8 +691,7 @@ public:
     }
 
 private:
-    char *fPath;
-
+    upath path;
     YScrollView *scroll;
     TextView *view;
 
@@ -730,12 +711,15 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 
     YXApplication app(&argc, &argv);
-    for (int i = 1; i < argc; ++i) {
-        if (argv[i][0] == '-') {
-            continue;
+    for (char ** arg = argv + 1; arg < argv + argc; ++arg) {
+        if (**arg == '-') {
+            char* d;
+            if (GetArgument(d, "d", "display", arg, argv + argc)) {
+                /*ignore*/;
+            }
         }
         else {
-            FileView* view = new FileView(argv[i]);
+            FileView* view = new FileView(*arg);
             view->show();
         }
     }
