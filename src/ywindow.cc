@@ -1852,7 +1852,10 @@ void YWindow::scrollWindow(int dx, int dy) {
     XRectangle r[2];
     int nr = 0;
 
-    GC scrollGC = XCreateGC(xapp->display(), handle(), 0, nullptr);
+    XGCValues gcv;
+    gcv.graphics_exposures = False;
+    unsigned long gcvflags = GCGraphicsExposures;
+    GC scrollGC = XCreateGC(xapp->display(), handle(), gcvflags, &gcv);
 
     XCopyArea(xapp->display(), handle(), handle(), scrollGC,
               dx, dy, width(), height(), 0, 0);
@@ -1905,16 +1908,6 @@ void YWindow::scrollWindow(int dx, int dy) {
     paint(g, YRect(re.x, re.y, re.width, re.height)); // !!! add flag to do minimal redraws
 
     g.resetClip();
-
-    {
-        XEvent e;
-
-        while (XCheckTypedWindowEvent(xapp->display(), handle(), GraphicsExpose, &e)) {
-            handleGraphicsExpose(e.xgraphicsexpose);
-            if (e.xgraphicsexpose.count == 0)
-                break;
-        }
-    }
 }
 
 void YWindow::clearWindow() {
