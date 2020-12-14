@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-11-10 00:48+0100\n"
+"POT-Creation-Date: 2020-12-14 01:46+0100\n"
 "PO-Revision-Date: 2020-03-13 16:55+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -39,29 +39,29 @@ msgstr "O"
 msgid " - Full"
 msgstr " - Fuld"
 
-#: src/aapm.cc:992
+#: src/aapm.cc:991
 #, c-format
 msgid "power:\t%s"
 msgstr "strøm:\t%s"
 
-#: src/aclock.cc:172
+#: src/aclock.cc:173
 msgid "CLOCK"
 msgstr "UR"
 
-#: src/aclock.cc:177
+#: src/aclock.cc:178
 msgid "Date"
 msgstr "Dato"
 
-#: src/aclock.cc:178 src/themes.cc:81
+#: src/aclock.cc:179 src/themes.cc:81
 msgid "Default"
 msgstr "Standard"
 
-#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:979
+#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Deaktivér"
 
-#: src/aclock.cc:180
+#: src/aclock.cc:181
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -330,11 +330,11 @@ msgstr "Indhold"
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Luk"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -533,120 +533,108 @@ msgstr "Start spillet igen"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Se man-siden for icesh(1), for at få hjælp.\n"
 
-#: src/icesh.cc:1575
+#: src/icesh.cc:1494
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Navngivne symboler af domænet \"%s\" (numerisk område: %ld-%ld):\n"
 
-#: src/icesh.cc:1723
+#: src/icesh.cc:1552
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbejdsområde udenfor område: %ld"
 
-#: src/icesh.cc:1744
+#: src/icesh.cc:1573
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ugyldigt arbejdsområdenavn: \"%s\""
 
-#: src/icesh.cc:2021
-msgid "GNOME window state"
-msgstr "GNOME vinduestilstand"
-
-#: src/icesh.cc:2022
-msgid "GNOME window hint"
-msgstr "GNOME vinduesfif"
-
-#: src/icesh.cc:2023
+#: src/icesh.cc:1850
 msgid "GNOME window layer"
 msgstr "GNOME vindueslag"
 
-#: src/icesh.cc:2024
-msgid "IceWM tray option"
-msgstr "IceWM-bakketilvalg"
-
-#: src/icesh.cc:2025
+#: src/icesh.cc:1851
 msgid "Gravity symbols"
 msgstr "Tyngdekraftsymboler"
 
-#: src/icesh.cc:2026
+#: src/icesh.cc:1852
 msgid "Motif functions"
 msgstr "Motif-funktioner"
 
-#: src/icesh.cc:2027
+#: src/icesh.cc:1853
 msgid "Motif decorations"
 msgstr "Motif-dekorationer"
 
-#: src/icesh.cc:2028
+#: src/icesh.cc:1854
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME vinduestilstand"
 
-#: src/icesh.cc:2110 src/icesh.cc:2183
+#: src/icesh.cc:1936 src/icesh.cc:2009
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "arbejdsområde nr. %d: \"%s\"\n"
 
-#: src/icesh.cc:2425 src/icesh.cc:3639 src/icesh.cc:3653 src/icesh.cc:4124
+#: src/icesh.cc:2244 src/icesh.cc:3413 src/icesh.cc:3884
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ugyldig tilstand: \"%s\"."
 
-#: src/icesh.cc:3292
+#: src/icesh.cc:3066
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan ikke hente geometrien af vinduet 0x%lx"
 
-#: src/icesh.cc:3317
+#: src/icesh.cc:3091
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ugyldigt Xinerama: \"%s\"."
 
-#: src/icesh.cc:3367
+#: src/icesh.cc:3141
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Handlingen \"%s\" kræver mindst %d argumenter."
 
-#: src/icesh.cc:3377
+#: src/icesh.cc:3151
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ugyldigt udtryk: \"%s\""
 
-#: src/icesh.cc:3388 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1110
-#: src/yxapp.cc:1054
+#: src/icesh.cc:3162 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1069
+#: src/yxapp.cc:1026
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan ikke åbne skærm: %s. X skal køre og $DISPLAY sat."
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3175
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ugyldigt argument: \"%s\""
 
-#: src/icesh.cc:3436
+#: src/icesh.cc:3210
 msgid "No windows found."
 msgstr "Ingen vinduer fundet."
 
-#: src/icesh.cc:3451
+#: src/icesh.cc:3225
 msgid "No actions specified."
 msgstr "Ingen handlinger anført."
 
-#: src/icesh.cc:3556
+#: src/icesh.cc:3330
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ugyldig vinduesidentifikator: \"%s\""
 
-#: src/icesh.cc:3573
+#: src/icesh.cc:3347
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ugyldig PID: \"%s\""
 
-#: src/icesh.cc:3609
+#: src/icesh.cc:3383
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ugyldigt lag: \"%s\"."
 
-#: src/icesh.cc:4427
+#: src/icesh.cc:4149
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukendt handling: \"%s\""
@@ -986,27 +974,27 @@ msgstr ""
 "  -c, --config=FIL    Indlæs præferencer fra FIL.\n"
 "  -t, --theme=FIL     Indlæs temaet fra FIL.\n"
 
-#: src/iceview.cc:64
+#: src/iceview.cc:55
 msgid "Hex View"
 msgstr "Hex-visning"
 
-#: src/iceview.cc:64
+#: src/iceview.cc:55
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:65
+#: src/iceview.cc:56
 msgid "Expand Tabs"
 msgstr "Udvid faneblade"
 
-#: src/iceview.cc:65
+#: src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:66
+#: src/iceview.cc:57
 msgid "Wrap Lines"
 msgstr "Ombryd linjer"
 
-#: src/iceview.cc:66
+#: src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1152,204 +1140,216 @@ msgstr ""
 "  -h, --help          Udskriver denne anvendelsesskærm og afslutter.\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ukendt retning i flyt-/tilpas størrelse-forespørgsel: %d"
 
-#: src/wmabout.cc:23 src/wmabout.cc:25
+#: src/wmabout.cc:28 src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:31
+#: src/wmabout.cc:39
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/wmabout.cc:32
+#: src/wmabout.cc:40
 msgid "Theme Description:"
 msgstr "Temaets beskrivelse:"
 
-#: src/wmabout.cc:33
+#: src/wmabout.cc:41
 msgid "Theme Author:"
 msgstr "Temaets forfatter:"
 
-#: src/wmabout.cc:37
+#: src/wmabout.cc:50
 msgid "CodeSet:"
 msgstr "Tegnsæt:"
 
-#: src/wmabout.cc:38
+#: src/wmabout.cc:51
 msgid "Language:"
 msgstr "Sprog:"
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:55
+msgid "DoubleBuffer"
+msgstr ""
+
+#: src/wmabout.cc:56
+msgid "AlphaBlending"
+msgstr ""
+
+#: src/wmabout.cc:57
+msgid "Renderer:"
+msgstr ""
+
+#: src/wmabout.cc:65
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:78
+#: src/wmapp.cc:79
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
 "En anden vindueshåndtering kører allerede, brug --replace til at erstatte den"
 
-#: src/wmapp.cc:96
+#: src/wmapp.cc:97
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "Kunne ikke blive ejeren af %s-valget"
 
-#: src/wmapp.cc:100
+#: src/wmapp.cc:101
 msgid "Waiting to replace the old window manager"
 msgstr "Venter på at erstatte den gamle vindueshåndtering"
 
-#: src/wmapp.cc:105
+#: src/wmapp.cc:106
 msgid "done."
 msgstr "færdig."
 
-#: src/wmapp.cc:417
+#: src/wmapp.cc:376
 msgid "_Logout"
 msgstr "Log _ud"
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:377
 msgid "_Cancel logout"
 msgstr "_Annuller udlogning"
 
-#: src/wmapp.cc:423
+#: src/wmapp.cc:382
 msgid "Lock _Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmapp.cc:425 src/wmdialog.cc:72
+#: src/wmapp.cc:384 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "_Genstart"
 
-#: src/wmapp.cc:427 src/wmdialog.cc:73
+#: src/wmapp.cc:386 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "_Luk ned"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:429 src/wmdialog.cc:69
+#: src/wmapp.cc:388 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "_Slumretilstand"
 
-#: src/wmapp.cc:434
+#: src/wmapp.cc:393
 msgid "Restart _Icewm"
 msgstr "Genstart _Icewm"
 
 # scootergrisen: tjek om det er korrekt med "Xterm". Synes ikke Xterm virker som forventet.
-#: src/wmapp.cc:436
+#: src/wmapp.cc:395
 msgid "Restart _Xterm"
 msgstr "Genstart _Xterm"
 
-#: src/wmapp.cc:446
+#: src/wmapp.cc:405
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:447
+#: src/wmapp.cc:406
 msgid "_Above Dock"
 msgstr "_Over dok"
 
-#: src/wmapp.cc:448
+#: src/wmapp.cc:407
 msgid "_Dock"
 msgstr "_Dok"
 
-#: src/wmapp.cc:449
+#: src/wmapp.cc:408
 msgid "_OnTop"
 msgstr "Ø_verst"
 
-#: src/wmapp.cc:450
+#: src/wmapp.cc:409
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:410
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:452
+#: src/wmapp.cc:411
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:487 src/wmwinlist.cc:361
+#: src/wmapp.cc:446 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "_Gendan"
 
-#: src/wmapp.cc:489
+#: src/wmapp.cc:448
 msgid "_Move"
 msgstr "_Flyt"
 
-#: src/wmapp.cc:491
+#: src/wmapp.cc:450
 msgid "_Size"
 msgstr "Stø_rrelse"
 
-#: src/wmapp.cc:493 src/wmwinlist.cc:362
+#: src/wmapp.cc:452 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:495 src/wmwinlist.cc:363
+#: src/wmapp.cc:454 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:496 src/wmwinlist.cc:364
+#: src/wmapp.cc:455 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "Maksimer_Lodret"
 
-#: src/wmapp.cc:497 src/wmwinlist.cc:365
+#: src/wmapp.cc:456 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "Maksimer_Vandret"
 
-#: src/wmapp.cc:500 src/wmwinlist.cc:366
+#: src/wmapp.cc:459 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "F_uldskærm"
 
-#: src/wmapp.cc:503 src/wmwinlist.cc:368
+#: src/wmapp.cc:462 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "Sk_jul"
 
-#: src/wmapp.cc:505 src/wmwinlist.cc:369
+#: src/wmapp.cc:464 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "Rul _op"
 
-#: src/wmapp.cc:512
+#: src/wmapp.cc:471
 msgid "R_aise"
 msgstr "_Hæv"
 
-#: src/wmapp.cc:514 src/wmwinlist.cc:371
+#: src/wmapp.cc:473 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "_Sænk"
 
-#: src/wmapp.cc:516 src/wmwinlist.cc:372
+#: src/wmapp.cc:475 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "L_ag"
 
-#: src/wmapp.cc:520 src/wmwinlist.cc:374
+#: src/wmapp.cc:479 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "Flyt _til"
 
-#: src/wmapp.cc:521 src/wmwinlist.cc:375
+#: src/wmapp.cc:480 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "_På alle"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:486
 msgid "Limit _Workarea"
 msgstr "Afgræns _arbejdsområde"
 
-#: src/wmapp.cc:531 src/wmwinlist.cc:376
+#: src/wmapp.cc:490 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "_Bakkeikon"
 
-#: src/wmapp.cc:536 src/wmwinlist.cc:391 src/wmwinlist.cc:399
+#: src/wmapp.cc:495 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "_Luk"
 
-#: src/wmapp.cc:538 src/wmwinlist.cc:393
+#: src/wmapp.cc:497 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "_Dræb klient"
 
-#: src/wmapp.cc:541 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:500 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "_Vinduesliste"
 
-#: src/wmapp.cc:574
+#: src/wmapp.cc:533
 msgid "Another window manager already running, exiting..."
 msgstr "En anden vindueshåndtering kører allerede, afslutter..."
 
-#: src/wmapp.cc:646
+#: src/wmapp.cc:605
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1358,22 +1358,22 @@ msgstr ""
 "Kunne ikke genstarte: %s\n"
 "Leder $PATH til %s?"
 
-#: src/wmapp.cc:815
+#: src/wmapp.cc:774
 msgid "Kill IceWM, replace with Xterm"
 msgstr "Dræb IceWM, erstat med Xterm"
 
-#: src/wmapp.cc:1111 src/yxapp.cc:1055
+#: src/wmapp.cc:1070 src/yxapp.cc:1027
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/wmapp.cc:1436
+#: src/wmapp.cc:1395
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klient-id som skal bruges når sessionshåndteringen "
 "kontaktes.\n"
 
-#: src/wmapp.cc:1442
+#: src/wmapp.cc:1401
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1384,7 +1384,7 @@ msgstr ""
 "  --debug-z           Udskriv fejlsøgningsmeddelelser vedrørende "
 "vinduesstakning.\n"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1409
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1403,7 +1403,7 @@ msgstr ""
 "  --trace=konf,ikon   Spor stier som blev brugt til at indlæse "
 "konfiguration.\n"
 
-#: src/wmapp.cc:1459
+#: src/wmapp.cc:1418
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1464,26 +1464,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1521
+#: src/wmapp.cc:1480
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigurationsmapper:\n"
 
-#: src/wmapp.cc:1600
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerede tilvalg:%s\n"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1640
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Ugenkendeligt tilvalg \"%s\"."
 
-#: src/wmapp.cc:1729
+#: src/wmapp.cc:1691
 msgid "Confirm Logout"
 msgstr "Bekræft udlogning"
 
-#: src/wmapp.cc:1730
+#: src/wmapp.cc:1692
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1548,13 +1548,13 @@ msgstr "Kan ikke omdøbe %s til %s"
 msgid "Loc_k Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:36
+#: src/wmdialog.cc:70 src/ymsgbox.cc:37
 msgid "_Cancel"
 msgstr "_Annuller"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:248
-#: src/wmtaskbar.cc:250
+#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:243
+#: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "Log _ud..."
 
@@ -1563,15 +1563,15 @@ msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:1405
+#: src/wmframe.cc:1399
 msgid "Kill Client: "
 msgstr "Dræb klient: "
 
-#: src/wmframe.cc:1412
+#: src/wmframe.cc:1406
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1579,11 +1579,11 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt, vil gå tabt, når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmmgr.cc:3280
+#: src/wmmgr.cc:3172
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3281
+#: src/wmmgr.cc:3173
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1650,7 +1650,7 @@ msgid "_Run..."
 msgstr "_Kør..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:807 src/wmtaskbar.cc:238
+#: src/wmprog.cc:807 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "Vin_duer"
 
@@ -1674,101 +1674,101 @@ msgstr "_Temaer"
 msgid "Se_ttings"
 msgstr "_Indstillinger"
 
-#: src/wmsession.cc:213 src/wmsession.cc:229 src/wmsession.cc:239
+#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "Sessionshåndtering: Ukendt linje %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:220 src/wmwinlist.cc:378 src/wmwinlist.cc:411
+#: src/wmtaskbar.cc:215 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "Tile _Vertically"
 msgstr "Fliselæg _lodret"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:222 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:217 src/wmwinlist.cc:380 src/wmwinlist.cc:413
 msgid "T_ile Horizontally"
 msgstr "Fliselæg _vandret"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:224 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:381 src/wmwinlist.cc:414
 msgid "Ca_scade"
 msgstr "_Overlappet"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:226 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:382 src/wmwinlist.cc:415
 msgid "_Arrange"
 msgstr "_Arranger"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:228 src/wmwinlist.cc:383 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:384 src/wmwinlist.cc:416
 msgid "_Minimize All"
 msgstr "Mi_nimer alle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:385 src/wmwinlist.cc:417
 msgid "_Hide All"
 msgstr "_Skjul alle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:232 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:386 src/wmwinlist.cc:418
 msgid "_Undo"
 msgstr "_Fortryd"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235
+#: src/wmtaskbar.cc:230
 msgid "Arrange _Icons"
 msgstr "Arranger _ikoner"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241
+#: src/wmtaskbar.cc:236
 msgid "_Refresh"
 msgstr "_Opdater"
 
-#: src/wmtaskbar.cc:314 src/wmtaskbar.cc:955
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:954
 msgid "Hide Taskbar"
 msgstr "Skjul værktøjslinje"
 
-#: src/wmtaskbar.cc:337
+#: src/wmtaskbar.cc:332
 msgid "Favorite Applications"
 msgstr "Favoritprogrammer"
 
-#: src/wmtaskbar.cc:358
+#: src/wmtaskbar.cc:357
 msgid "Window List Menu"
 msgstr "Vindueslistemenu"
 
-#: src/wmtaskbar.cc:367
+#: src/wmtaskbar.cc:366
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
-#: src/wmtaskbar.cc:955
+#: src/wmtaskbar.cc:954
 msgid "Show Taskbar"
 msgstr "Vis værktøjslinje"
 
-#: src/wmwinlist.cc:45
+#: src/wmwinlist.cc:46
 msgid "All Workspaces"
 msgstr "Alle arbejdsområder"
 
-#: src/wmwinlist.cc:367
+#: src/wmwinlist.cc:368
 msgid "_Show"
 msgstr "_Vis"
 
-#: src/wmwinlist.cc:370
+#: src/wmwinlist.cc:371
 msgid "_Raise"
 msgstr "_Hæv"
 
-#: src/wmwinlist.cc:391
+#: src/wmwinlist.cc:392
 msgid "Del"
 msgstr "Slet"
 
-#: src/wmwinlist.cc:395
+#: src/wmwinlist.cc:396
 msgid "_Terminate Process"
 msgstr "_Afslut proces"
 
-#: src/wmwinlist.cc:396
+#: src/wmwinlist.cc:397
 msgid "Kill _Process"
 msgstr "Dræb _proces"
 
-#: src/wmwinlist.cc:431 src/wmwinlist.cc:432
+#: src/wmwinlist.cc:432 src/wmwinlist.cc:433
 msgid "Window list"
 msgstr "Vinduesliste"
 
@@ -1793,48 +1793,43 @@ msgstr "Ukendt nøglenavn %s i %s"
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Dårligt argument: %s for %s [%d,%d]"
 
-#: src/ycursor.cc:114
+#: src/ycursor.cc:111
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Indlæsning af pixelkort \"%s\" mislykkedes: %s"
 
-#: src/ycursor.cc:141
+#: src/ycursor.cc:137
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "Indlæsning af pixelkort \"%s\" mislykkedes"
 
-#: src/ycursor.cc:174
-#, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr "Ugyldigt markør-pixelkort: \"%s\" indeholder for mange unikke farver"
-
-#: src/ycursor.cc:196
+#: src/ycursor.cc:181
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "FEJL? Imlib kunne godt læse \"%s\""
 
-#: src/ycursor.cc:222
+#: src/ycursor.cc:206
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr "FEJL? Fejlformatteret XPM-hoved men Imlib kunne godt fortolke \"%s\""
 
-#: src/ycursor.cc:230
+#: src/ycursor.cc:214
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 "FEJL? Uventet afslutning på XPM-fil men Imlib kunne godt fortolke \"%s\""
 
-#: src/ycursor.cc:233
+#: src/ycursor.cc:217
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "FEJL? Uventet tegn men Imlib kunne godt fortolke \"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:159
+#: src/yfontcore.cc:72 src/yfontxft.cc:164
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:182
+#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:187
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "Indlæsning af standardskrifttype \"%s\" mislykkedes."
@@ -1912,7 +1907,7 @@ msgstr "iconv leverer ikke (tilstrækkelig) %s til %s konvertere."
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ugyldig multibytestreng \"%s\": %s"
 
-#: src/ymsgbox.cc:33
+#: src/ymsgbox.cc:34
 msgid "_OK"
 msgstr "_OK"
 
@@ -1945,7 +1940,7 @@ msgstr "Ufuldstændig hex-undvigelse i URL på placeringen %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Ugyldig hex-undvigelse i URL på placeringen %d."
 
-#: src/yxapp.cc:1015
+#: src/yxapp.cc:987
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2648,6 +2643,19 @@ msgstr "Webudvikling"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "Tekstbehandler"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME vinduestilstand"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME vinduesfif"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM-bakketilvalg"
+
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+#~ msgstr ""
+#~ "Ugyldigt markør-pixelkort: \"%s\" indeholder for mange unikke farver"
 
 #~ msgid "Bad option: %s"
 #~ msgstr "Dårligt tilvalg: %s"

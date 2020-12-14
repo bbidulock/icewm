@@ -190,14 +190,6 @@ Filters clients by WM_WINDOW_ROLE. Clients which have a WM_WINDOW_ROLE
 property value equal to I<ROLE> are selected.  The filtering is inverted
 if I<ROLE> starts with an exclamation mark.
 
-=item B<-S>, B<-State> I<STATE>
-
-Filters clients by I<GNOME window state>. Clients which have at least
-a state of I<STATE> are selected.  The window state refers to details
-like B<minized> or B<maximized>. See EXPRESSIONS below.  If I<STATE>
-starts with an exclamation mark then the filtering is inverted.
-A question mark C<?> filters clients with any bit set in I<STATE>.
-
 =item B<-W>, B<-Workspace> I<WORKSPACE>
 
 Filter clients by workspace. Workspace I<WORKSPACE> is either a
@@ -428,28 +420,6 @@ state>.  If I<STATE> starts with a C<=> then the I<EWMH window state>
 is set to I<STATE>. See EXPRESSIONS below. A list of I<EWMH flags>
 can be found in the output of C<icesh symbols>.
 
-=item B<setState> I<MASK> I<STATE>
-
-Set the I<GNOME window state> to I<STATE>.  Only bits selected by
-I<MASK> are affected.  See below for I<STATE> and I<MASK> symbols.
-
-=item B<toggleState> I<STATE>
-
-Toggle the I<GNOME window state> bits specified by the I<STATE>
-expression.  See below for I<STATE> symbols.
-
-=item B<getState>
-
-Print the I<GNOME window state> for the specified window.
-
-=item B<setHints> I<HINTS>
-
-Set the I<GNOME window hints> to I<HINTS>. See below for symbols.
-
-=item B<getHints>
-
-Print the I<GNOME window hints> for the specified window.
-
 =item B<setLayer> I<LAYER>
 
 Move the specified window to another I<GNOME window layer>.
@@ -474,15 +444,6 @@ Print the workspace for the specified window.
 
 Print the window opacity if I<OPACITY> is not given,
 otherwise set the window opacity to I<OPACITY>.
-
-=item B<setTrayOption> I<TRAYOPTION>
-
-Set the I<IceWM tray option> for the specified window to I<TRAYOPTION>.
-See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
-
-=item B<getTrayOption>
-
-Print the I<IceWM tray option> for the specified window.
 
 =item B<setNormalGravity> I<GRAVITY>
 
@@ -708,44 +669,9 @@ Each I<SYMBOL> may be from one of the following applicable domains:
 
 =over
 
-=item I<GNOME window state>
+=item I<Window layer>
 
-Named symbols of the domain I<GNOME window state> (numeric range:
-0-1023):
-
-    AllWorkspaces          (1)
-    Sticky                 (1)
-    Minimized              (2)
-    Maximized             (12)
-    MaximizedVert          (4)
-    MaximizedVertical      (4)
-    MaximizedHoriz         (8)
-    MaximizedHorizontal    (8)
-    Hidden                (16)
-    Rollup                (32)
-    All                 (1023)
-
-These symbols are used with the I<MASK> and I<STATE> arguments to the
-C<setState> and C<toggleState> actions. Some additional states include:
-Above, Below, Urgent and Fullscreen.
-
-=item I<GNOME window hint>
-
-Named symbols of the domain I<GNOME window hint> (numeric range: 0-63):
-
-    SkipFocus              (1)
-    SkipWindowMenu         (2)
-    SkipTaskBar            (4)
-    FocusOnClick          (16)
-    DoNotCover            (32)
-    All                   (63)
-
-These symbols are used with the I<HINTS> argument to the C<setHints>
-action.
-
-=item I<GNOME window layer>
-
-Named symbols of the domain I<GNOME window layer> (numeric range: 0-15):
+Named symbols of the domain I<Window layer> (numeric range: 0-15):
 
     Desktop                (0)
     Below                  (2)
@@ -757,17 +683,6 @@ Named symbols of the domain I<GNOME window layer> (numeric range: 0-15):
 
 These symbols are used with the I<LAYER> argument to the C<setLayer>
 action.
-
-=item I<IceWM tray option>
-
-Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
-
-    Ignore                 (0)
-    Minimized              (1)
-    Exclusive              (2)
-
-These symbols are used with the I<TRAYOPTION> argument to the
-C<setTrayOption> action.
 
 =item I<Gravity symbols>
 
@@ -880,10 +795,8 @@ The default display.
 
 =head1 COMPLIANCE
 
-While B<icesh> is largely compliant with the GNOME WinWM/WMH
-specification, it only minimally supports NetWM/EWMH.
-Some commands, like tray options and manager actions, are specific
-to IceWM.
+B<icesh> is largely compliant with the EWMH and ICCCM specifications.
+Some commands, like manager actions, are specific to IceWM.
 
 =head1 SEE ALSO
 

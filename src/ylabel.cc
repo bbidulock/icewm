@@ -81,7 +81,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
     }
 }
 
-void YLabel::setText(const mstring &label) {
+void YLabel::setText(const char* label) {
     fLabel = label;
     autoSize();
 }

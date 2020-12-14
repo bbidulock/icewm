@@ -1,5 +1,5 @@
-#ifndef __YIMAGE_H
-#define __YIMAGE_H
+#ifndef YIMAGE_H
+#define YIMAGE_H
 
 #include "ref.h"
 #include "ypaint.h"
@@ -19,6 +19,7 @@ public:
     static ref<YImage> createFromIconProperty(long *pixels,
                                               unsigned width, unsigned height);
     static bool supportsDepth(unsigned depth);
+    static const char* renderName();
 
     unsigned width() const { return fWidth; }
     unsigned height() const { return fHeight; }
@@ -33,6 +34,7 @@ public:
     virtual void composite(Graphics &g, int x, int y, unsigned w, unsigned h, int dx, int dy) = 0;
     virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h) = 0;
     virtual void save(upath filename) = 0;
+    virtual void copy(Graphics& g, int x, int y) { draw(g, x, y); }
 
 protected:
     YImage(unsigned width, unsigned height) { fWidth = width; fHeight = height; }

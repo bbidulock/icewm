@@ -40,11 +40,11 @@ Section 4: Client to Window Manager Communication
 	not (yet) supported, neither is the WM_COLORMAP_NOTIFY
 	client message.
 
-4.1.9  Icons:				partial
+4.1.9  Icons:				compliant
 
-	The icon_pixmap field of the WM_HINTS property is ignored.
-	The icon_window field of the WM_HINTS property is also
-	ignored, which appears to be in violation of the ICCCM.
+	The icon_pixmap field of the WM_HINTS property is supported.
+	The icon_window field of the WM_HINTS property is supported
+	if the preference MinimizeToDesktop is enabled.
 
 4.1.10 Pop-up Windows:			compliant
 4.1.11 Window Groups:			compliant

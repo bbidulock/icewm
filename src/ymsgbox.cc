@@ -9,6 +9,7 @@
 #include "ymsgbox.h"
 #include "yxapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "ylabel.h"
 #include "yinputline.h"
 #include "prefs.h"
@@ -36,8 +37,8 @@ YMsgBox::YMsgBox(int buttons):
         fButtonCancel = new YActionButton(this, _("_Cancel"), -2, this);
     }
     autoSize();
-    setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(AllWorkspaces);
+    setLayerHint(WinLayerAboveDock);
+    setWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
@@ -50,6 +51,7 @@ YMsgBox::YMsgBox(int buttons):
 
 YMsgBox::~YMsgBox() {
     delete fLabel; fLabel = nullptr;
+    delete fInput; fInput = nullptr;
     delete fButtonOK; fButtonOK = nullptr;
     delete fButtonCancel; fButtonCancel = nullptr;
 }
@@ -91,11 +93,11 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(mstring title) {
+void YMsgBox::setTitle(const char* title) {
     setWindowTitle(title);
 }
 
-void YMsgBox::setText(mstring text) {
+void YMsgBox::setText(const char* text) {
     if (fLabel) {
         fLabel->hide();
         fLabel->setText(text);

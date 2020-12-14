@@ -176,10 +176,7 @@ static NAtom ATOM_NET_CURRENT_DESKTOP("_NET_CURRENT_DESKTOP");
 static NAtom ATOM_NET_SHOWING_DESKTOP("_NET_SHOWING_DESKTOP");
 static NAtom ATOM_NET_NUMBER_OF_DESKTOPS("_NET_NUMBER_OF_DESKTOPS");
 static NAtom ATOM_NET_SUPPORTING_WM_CHECK("_NET_SUPPORTING_WM_CHECK");
-static NAtom ATOM_WIN_STATE(XA_WIN_STATE);
-static NAtom ATOM_WIN_HINTS(XA_WIN_HINTS);
 static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
-static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_WIN_PROTOCOLS(XA_WIN_PROTOCOLS);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
@@ -575,16 +572,6 @@ public:
         YProperty(window, ATOM_WM_STATE, ATOM_WM_STATE, 2)
     {
     }
-};
-
-class YWinState : public YCardinal {
-public:
-    YWinState(Window window) :
-        YCardinal(window, ATOM_WIN_STATE, 2)
-    {
-    }
-    long state() const { return 0 < count() ? (*this)[0] : 0L; }
-    long mask() const { return 2 == count() ? (*this)[1] : WIN_STATE_ALL; }
 };
 
 class YNetState : public YProperty {
@@ -1082,18 +1069,6 @@ public:
         fChildren = keep;
     }
 
-    void filterByState(long state, bool inverse, bool anybit) {
-        vector<Window> keep;
-        for (YTreeIter client(*this); client; ++client) {
-            YWinState prop(client);
-            bool test(anybit ? hasbit(*prop, state) : hasbits(*prop, state));
-            if (prop && (test != inverse)) {
-                keep.push_back(client);
-            }
-        }
-        fChildren = keep;
-    }
-
     void filterByNetState(long state, bool inverse, bool anybit) {
         vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
@@ -1337,8 +1312,8 @@ private:
     bool listWorkspaces();
     bool setWorkspaceName();
     bool setWorkspaceNames();
-    void setState(long mask, long state);
     void changeState(const char* arg);
+    void changeState(int state);
     bool colormaps();
     bool current();
     bool runonce();
@@ -1365,43 +1340,6 @@ private:
 
 /******************************************************************************/
 
-#define WinStateMaximized   (WinStateMaximizedVert | WinStateMaximizedHoriz)
-#define WinStateSkip        (WinStateSkipPager     | WinStateSkipTaskBar)
-#define WIN_STATE_FULL      (WIN_STATE_ALL | WinStateSkip |\
-                             WinStateAbove | WinStateBelow |\
-                             WinStateFullscreen | WinStateUrgent)
-
-static const Symbol stateIdentifiers[] = {
-    { "Sticky",                 WinStateSticky          },
-    { "Minimized",              WinStateMinimized       },
-    { "Maximized",              WinStateMaximized       },
-    { "MaximizedVert",          WinStateMaximizedVert   },
-    { "MaximizedVertical",      WinStateMaximizedVert   },
-    { "MaximizedHoriz",         WinStateMaximizedHoriz  },
-    { "MaximizedHorizontal",    WinStateMaximizedHoriz  },
-    { "Hidden",                 WinStateHidden          },
-    { "Rollup",                 WinStateRollup          },
-    { "Urgent",                 WinStateUrgent          },
-    { "Skip",                   WinStateSkip            },
-    { "SkipPager",              WinStateSkipPager       },
-    { "SkipTaskBar",            WinStateSkipTaskBar     },
-    { "Below",                  WinStateBelow           },
-    { "Above",                  WinStateAbove           },
-    { "Fullscreen",             WinStateFullscreen      },
-    { "All",                    WIN_STATE_ALL           },
-    { nullptr,                  0                       }
-};
-
-static const Symbol hintIdentifiers[] = {
-    { "SkipFocus",      WinHintsSkipFocus       },
-    { "SkipWindowMenu", WinHintsSkipWindowMenu  },
-    { "SkipTaskBar",    WinHintsSkipTaskBar     },
-    { "FocusOnClick",   WinHintsFocusOnClick    },
-    { "DoNotCover",     WinHintsDoNotCover      },
-    { "All",            WIN_HINTS_ALL           },
-    { nullptr,          0                       }
-};
-
 static const Symbol layerIdentifiers[] = {
     { "Desktop",    WinLayerDesktop     },
     { "Below",      WinLayerBelow       },
@@ -1411,13 +1349,6 @@ static const Symbol layerIdentifiers[] = {
     { "AboveDock",  WinLayerAboveDock   },
     { "Menu",       WinLayerMenu        },
     { nullptr,      0                   }
-};
-
-static const Symbol trayOptionIdentifiers[] = {
-    { "Ignore",         WinTrayIgnore           },
-    { "Minimized",      WinTrayMinimized        },
-    { "Exclusive",      WinTrayExclusive        },
-    { nullptr,          0                       }
 };
 
 static const Symbol gravityIdentifiers[] = {
@@ -1480,18 +1411,6 @@ static const SymbolTable netstates = {
 
 static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
-};
-
-static const SymbolTable states = {
-    stateIdentifiers, 0, WIN_STATE_FULL, -1
-};
-
-static const SymbolTable hints = {
-    hintIdentifiers, 0, WIN_HINTS_ALL, -1
-};
-
-static const SymbolTable trayOptions = {
-    trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
 };
 
 static const SymbolTable gravities = {
@@ -1587,96 +1506,6 @@ bool SymbolTable::lookup(long code, char const ** name) const {
         if (sym->code == code)
             return *name = sym->name, true;
     return false;
-}
-
-/******************************************************************************/
-
-static void setWindowState(Window window, long mask, long state) {
-    send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
-}
-
-static void toggleState(Window window, long newState) {
-    YWinState prop(window);
-    long mask = prop.mask(), state = prop.state();
-    MSG(("old mask/state: %ld/%ld", mask, state));
-
-    long newMask = (state & mask & newState) ^ newState;
-    MSG(("new mask/state: %ld/%ld", newState, newMask));
-
-    if (newState & WinStateFullscreen) {
-        long nets = YNetState(window).state();
-        if (nets & NetFullscreen) {
-            newMask &= ~WinStateFullscreen;
-        }
-    }
-
-    setWindowState(window, newState, newMask);
-}
-
-static void getState(Window window) {
-    YWinState prop(window);
-    if (prop) {
-        long mask = prop.mask();
-        long state = prop.state();
-        printf("0x%-7lx", window);
-        for (int k = 0; k < 2; ++k) {
-            if (((k ? state : mask) & WIN_STATE_ALL) == WIN_STATE_ALL ||
-                (k == 0 && mask == 0)) {
-                printf(" All");
-            }
-            else if (k ? state : mask) {
-                int more = 0;
-                long old = 0;
-                for (int i = 0; stateIdentifiers[i + 1].code; ++i) {
-                    long c = stateIdentifiers[i].code;
-                    if (((k ? state : mask) & c) == c) {
-                        if (i == 0 || (old & c) != c) {
-                            printf("%c%s",
-                                   more++ ? '|' : ' ',
-                                   stateIdentifiers[i].name);
-                            old = c;
-                        }
-                    }
-                }
-            }
-            else {
-                printf(" 0");
-            }
-        }
-        newline();
-    }
-}
-
-/******************************************************************************/
-
-static void setHints(Window window, long hints) {
-    YCardinal::set(window, ATOM_WIN_HINTS, hints);
-}
-
-static void getHints(Window window) {
-    YCardinal prop(window, ATOM_WIN_HINTS);
-    if (prop) {
-        long hint = *prop;
-        printf("0x%-7lx", window);
-        if ((hint & WIN_HINTS_ALL) == WIN_HINTS_ALL) {
-            printf(" All");
-        }
-        else if (hint == 0) {
-            printf(" 0");
-        }
-        else {
-            int more = 0;
-            for (int i = 0; hintIdentifiers[i + 1].code; ++i) {
-                long c = hintIdentifiers[i].code;
-                if ((hint & c) == c) {
-                    printf("%c%s",
-                           more++ ? '|' : ' ',
-                           hintIdentifiers[i].name);
-                }
-            }
-        }
-        newline();
-    }
 }
 
 /******************************************************************************/
@@ -2018,10 +1847,7 @@ bool IceSh::listSymbols()
     if ( !isAction("symbols", 0))
         return false;
 
-    states.listSymbols(_("GNOME window state"));
-    hints.listSymbols(_("GNOME window hint"));
     layers.listSymbols(_("GNOME window layer"));
-    trayOptions.listSymbols(_("IceWM tray option"));
     gravities.listSymbols(_("Gravity symbols"));
     motifFunctionsTable.listSymbols(_("Motif functions"));
     motifDecorationsTable.listSymbols(_("Motif decorations"));
@@ -2406,29 +2232,23 @@ bool IceSh::colormaps()
     return true;
 }
 
-void IceSh::setState(long mask, long state) {
-    FOREACH_WINDOW(window) {
-        send(ATOM_WIN_STATE, window, mask, state, CurrentTime);
-    }
-}
-
 void IceSh::changeState(const char* arg)
 {
-    int state = -1;
     if (!strncmp(arg, "NormalState", strlen(arg)))
-        state = NormalState;
+        changeState(NormalState);
     else if (!strncmp(arg, "IconicState", strlen(arg)))
-        state = IconicState;
+        changeState(IconicState);
     else if (!strncmp(arg, "WithdrawnState", strlen(arg)))
-        state = WithdrawnState;
-    if (state == -1 || isEmpty(arg)) {
+        changeState(WithdrawnState);
+    else {
         msg(_("Invalid state: `%s'."), arg);
         THROW(1);
     }
-    else {
-        FOREACH_WINDOW(window) {
-            send(ATOM_WM_CHANGE_STATE, window, state, None);
-        }
+}
+
+void IceSh::changeState(int state) {
+    FOREACH_WINDOW(window) {
+        send(ATOM_WM_CHANGE_STATE, window, state, None);
     }
 }
 
@@ -2606,22 +2426,6 @@ static void getLayer(Window window) {
             printf("0x%-7lx %s\n", window, name);
         else
             printf("0x%-7lx %ld\n", window, layer);
-    }
-}
-
-static void setTrayHint(Window window, long trayopt) {
-    send(ATOM_WIN_TRAY, window, trayopt, CurrentTime);
-}
-
-static void getTrayOption(Window window) {
-    YCardinal prop(window, ATOM_WIN_TRAY);
-    if (prop) {
-        long tropt = *prop;
-        const char* name;
-        if (trayOptions.lookup(tropt, &name))
-            printf("0x%-7lx %s\n", window, name);
-        else
-            printf("0x%-7lx %ld\n", window, tropt);
     }
 }
 
@@ -3139,36 +2943,6 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
         return;
     }
 
-    if (atom == ATOM_WIN_STATE) {
-        YWinState ws(window);
-        if (ws) {
-            const char* name(atomName(atom));
-            printf("%s%s =", prefix, (char *) name);
-            const char c[] = "+ ";
-            int i = 0;
-            Atom st = ws.state();
-            if (st & WinStateSticky) printf("%cSticky", c[!i++]);
-            if (st & WinStateMinimized) printf("%cMinimized", c[!i++]);
-            if (hasbits(st, WinStateMaximizedBoth))
-                printf("%cMaximized", c[!i++]);
-            else if (hasbit(st, WinStateMaximizedVert))
-                printf("%cMaximizedVert", c[!i++]);
-            else if (hasbit(st, WinStateMaximizedHoriz))
-                printf("%cMaximizedHoriz", c[!i++]);
-            if (st & WinStateHidden) printf("%cHidden", c[!i++]);
-            if (st & WinStateRollup) printf("%cRollup", c[!i++]);
-            if (st & WinStateFullscreen) printf("%cFullscreen", c[!i++]);
-            if (st & WinStateFocused) printf("%cFocused", c[!i++]);
-            if (st & WinStateUrgent) printf("%cUrgent", c[!i++]);
-            if (st & WinStateAbove) printf("%cAbove", c[!i++]);
-            if (st & WinStateBelow) printf("%cBelow", c[!i++]);
-            if (st & WinStateModal) printf("%cModal", c[!i++]);
-            if (i == 0) printf(" %lu", st);
-            newline();
-        }
-        return;
-    }
-
     if (atom == XA_WM_HINTS) {
         xsmart<XWMHints> h(XGetWMHints(display, window));
         if (h) {
@@ -3629,20 +3403,6 @@ void IceSh::flag(char* arg)
         if ( ! windowList)
             windowList.getClientList();
         windowList.filterByRole(role, inverse);
-        filtering = true;
-    }
-    else if (isOptArg(arg, "-State", val)) {
-        bool inverse(*val == '!');
-        bool question(val[inverse] == '?');
-        long state(states.parseExpression(val + inverse + question));
-        if (state == -1L) {
-            msg(_("Invalid state: `%s'."), val + inverse + question);
-            THROW(1);
-        }
-        if ( ! windowList)
-            windowList.getClientList();
-        windowList.filterByState(state, inverse, question);
-        MSG(("state windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-Netstate", val)) {
@@ -4150,39 +3910,6 @@ void IceSh::parseAction()
                 }
             }
         }
-        else if (isAction("setState", 2)) {
-            unsigned mask(states.parseExpression(getArg()));
-            unsigned state(states.parseExpression(getArg()));
-            check(states, mask, argp[-2]);
-            check(states, state, argp[-1]);
-
-            MSG(("setState: 0x%03x 0x%03x", mask, state));
-            setState(mask, state);
-        }
-        else if (isAction("getState", 0)) {
-            FOREACH_WINDOW(window)
-                getState(window);
-        }
-        else if (isAction("toggleState", 1)) {
-            unsigned state(states.parseExpression(getArg()));
-            check(states, state, argp[-1]);
-
-            MSG(("toggleState: %d", state));
-            FOREACH_WINDOW(window)
-                toggleState(window, state);
-        }
-        else if (isAction("setHints", 1)) {
-            unsigned hint(hints.parseExpression(getArg()));
-            check(hints, hint, argp[-1]);
-
-            MSG(("setHints: %d", hint));
-            FOREACH_WINDOW(window)
-                setHints(window, hint);
-        }
-        else if (isAction("getHints", 0)) {
-            FOREACH_WINDOW(window)
-                getHints(window);
-        }
         else if (isAction("setWorkspace", 1)) {
             long workspace;
             if ( ! WorkspaceInfo().parseWorkspace(getArg(), &workspace))
@@ -4233,18 +3960,6 @@ void IceSh::parseAction()
         else if (isAction("getLayer", 0)) {
             FOREACH_WINDOW(window)
                 getLayer(window);
-        }
-        else if (isAction("setTrayOption", 1)) {
-            unsigned trayopt(trayOptions.parseExpression(getArg()));
-            check(trayOptions, trayopt, argp[-1]);
-
-            MSG(("setTrayOption: %d", trayopt));
-            FOREACH_WINDOW(window)
-                setTrayHint(window, trayopt);
-        }
-        else if (isAction("getTrayOption", 0)) {
-            FOREACH_WINDOW(window)
-                getTrayOption(window);
         }
         else if (isAction("setType", 1)) {
             setWindowType(getArg());
@@ -4321,49 +4036,56 @@ void IceSh::parseAction()
                 lowerWindow(window);
         }
         else if (isAction("fullscreen", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateFullscreen);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetFullscreen;
         }
         else if (isAction("maximize", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateMaximized);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetFullscreen;
         }
         else if (isAction("minimize", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateMinimized);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetHidden;
         }
         else if (isAction("vertical", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateMaximizedVert);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetVertical;
         }
         else if (isAction("horizontal", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateMaximizedHoriz);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetHorizontal;
         }
         else if (isAction("rollup", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|
-                     WinStateUnmapped, WinStateRollup);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetShaded;
         }
         else if (isAction("above", 0)) {
-            setState(WinStateAbove|WinStateBelow, WinStateAbove);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetAbove;
         }
         else if (isAction("below", 0)) {
-            setState(WinStateAbove|WinStateBelow, WinStateBelow);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetBelow;
         }
         else if (isAction("hide", 0)) {
-            setState(WinStateUnmapped, WinStateHidden);
+            changeState(WithdrawnState);
         }
         else if (isAction("unhide", 0)) {
-            setState(WinStateHidden, 0L);
+            changeState(NormalState);
         }
         else if (isAction("skip", 0)) {
-            setState(WinStateSkip, WinStateSkip);
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetSkipPager | NetSkipTaskbar;
         }
         else if (isAction("unskip", 0)) {
-            setState(WinStateSkip, 0L);
+            FOREACH_WINDOW(window)
+                YNetState(window) -= NetSkipPager | NetSkipTaskbar;
         }
         else if (isAction("restore", 0)) {
-            setState(WinStateFullscreen|WinStateMaximized|WinStateUnmapped, 0);
+            FOREACH_WINDOW(window)
+                YNetState(window) -= NetFullscreen | NetShaded |
+                                     NetHorizontal | NetVertical;
+            changeState(NormalState);
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;
@@ -4418,10 +4140,10 @@ void IceSh::parseAction()
             changeState(getArg());
         }
         else if (isAction("iconic", 0)) {
-            changeState("IconicState");
+            changeState(IconicState);
         }
         else if (isAction("normal", 0)) {
-            changeState("NormalState");
+            changeState(NormalState);
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

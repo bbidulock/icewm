@@ -10,15 +10,17 @@
 
 static YColorName scrollBarBg(&clrScrollBar);
 
-
-YScrollView::YScrollView(YWindow *aParent): YWindow(aParent) {
-    scrollVert = new YScrollBar(YScrollBar::Vertical, this);
+YScrollView::YScrollView(YWindow *aParent):
+    YWindow(aParent),
+    scrollable(nullptr),
+    scrollVert(new YScrollBar(YScrollBar::Vertical, this)),
+    scrollHoriz(new YScrollBar(YScrollBar::Horizontal, this))
+{
     scrollVert->show();
-    scrollHoriz = new YScrollBar(YScrollBar::Horizontal, this);
     scrollHoriz->show();
-    scrollable = nullptr;
     addStyle(wsNoExpose);
     setTitle("ScrollView");
+    setBackground(scrollBarBg);
 }
 
 YScrollView::~YScrollView() {
@@ -28,62 +30,63 @@ YScrollView::~YScrollView() {
 
 void YScrollView::setView(YScrollable *s) {
     scrollable = s;
+    scrollVert->raise();
+    scrollHoriz->raise();
 }
 
-void YScrollView::getGap(int &dx, int &dy) {
-    unsigned const cw(scrollable->contentWidth());
-    unsigned const ch(scrollable->contentHeight());
+void YScrollView::setListener(YScrollBarListener* l) {
+    scrollVert->setScrollBarListener(l);
+    scrollHoriz->setScrollBarListener(l);
+}
 
-    ///msg("content %d %d this %d %d", cw, ch, width(), height());
-    dx = dy = 0;
-
-    if (width() < cw) {
-        dy = scrollBarWidth;
-        if (height() - dy < ch)
-            dx = scrollBarWidth;
-    } else if (height() < ch) {
-        dx = scrollBarWidth;
-        if (width() - dx < cw)
-            dy = scrollBarWidth;
-    }
+void YScrollView::getGap(int& dx, int& dy) {
+    unsigned const cw(scrollable ? scrollable->contentWidth() : 0);
+    unsigned const ch(scrollable ? scrollable->contentHeight() : 0);
+    dx = (height() < ch || (width() < cw && height() < ch + scrollBarHeight))
+        ? scrollBarWidth : 0;
+    dy = (width() < cw || (height() < ch && width() < cw + scrollBarWidth))
+        ? scrollBarHeight : 0;
 }
 
 void YScrollView::layout() {
-    if (!scrollable)   // !!! fix
-        return ;
-
     int const w(width()), h(height());
     int dx, dy;
-
     getGap(dx, dy);
-    ///msg("gap %d %d", dx, dy);
 
-    int sw(max(0, w - dx));
-    int sh(max(0, h - dy));
-
-    scrollVert->setGeometry(YRect(w - dx, 0, dx, sh));
-    scrollHoriz->setGeometry(YRect(0, h - dy, sw, dy));
-
-    if (dx > w) dx = w;
-    if (dy > h) dy = h;
-
-    YWindow *ww = scrollable->getWindow(); //!!!
-    ww->setGeometry(YRect(0, 0, w - dx, h - dy));
+    if (dx > 0 && w > dx) {
+        scrollVert->show();
+        scrollVert->setGeometry(YRect(w - dx, 0, dx, h > dy ? h - dy : 1));
+    } else {
+        scrollVert->hide();
+        dx = 0;
+    }
+    if (dy > 0 && h > dy) {
+        scrollHoriz->show();
+        scrollHoriz->setGeometry(YRect(0, h - dy, w > dx ? w - dx : 1, dx));
+    } else {
+        scrollHoriz->hide();
+        dy = 0;
+    }
+    if (scrollable) {
+        YWindow* ywin = dynamic_cast<YWindow *>(scrollable);
+        if (ywin) {
+            if (w > dx && h > dy) {
+                ywin->setGeometry(YRect(0, 0, w - dx, h - dy));
+                ywin->show();
+            }
+        }
+    }
 }
 
 void YScrollView::configure(const YRect2& r) {
-    layout();
-    repaint();
+    if (r.resized()) {
+        layout();
+        repaint();
+    }
 }
 
 void YScrollView::paint(Graphics &g, const YRect &r) {
-    int dx, dy;
-
-    getGap(dx, dy);
-
     g.setColor(scrollBarBg);
-    if (dx && dy) g.fillRect(width() - dx, height() - dy, dx, dy);
-
     g.fillRect(r.x(), r.y(), r.width(), r.height());
 }
 

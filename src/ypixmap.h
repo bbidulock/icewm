@@ -2,7 +2,7 @@
 #define YPIXMAP_H
 
 #include <X11/X.h>
-#include <X11/extensions/render.h>
+#include <X11/extensions/Xrender.h>
 #include <X11/extensions/Xdamage.h>
 #include "ref.h"
 #include "upath.h"

@@ -14,6 +14,7 @@
 #include "wmsession.h"
 #include "wmapp.h"
 #include "workspaces.h"
+#include "wmmgr.h"
 
 #include "intl.h"
 

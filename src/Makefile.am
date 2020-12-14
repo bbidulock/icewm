@@ -123,8 +123,10 @@ libice_la_SOURCES = \
 	yfontxft.cc \
 	yfull.h \
 	yimage.h \
+	yimage2.cc \
 	yimage_gdk.cc \
 	ykey.h \
+	ylayout.h \
 	ylib.h \
 	ylist.h \
 	ylocale.cc \
@@ -214,6 +216,7 @@ libitk_la_SOURCES = \
 	ykey.h \
 	ylabel.cc \
 	ylabel.h \
+	ylayout.h \
 	ylib.h \
 	ylist.h \
 	ylistbox.cc \

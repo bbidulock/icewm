@@ -11,6 +11,7 @@
 #include "wmwinmenu.h"
 #include "wmapp.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
@@ -135,49 +136,12 @@ static Window registerProtocols1(char **argv, int argc) {
 
 static void registerWinProtocols(Window xid) {
     Atom win_proto[] = {
-//      _XA_WIN_APP_STATE,
-        _XA_WIN_AREA,
-        _XA_WIN_AREA_COUNT,
-        _XA_WIN_CLIENT_LIST,
-        _XA_WIN_DESKTOP_BUTTON_PROXY,
-//      _XA_WIN_EXPANDED_SIZE,
-        _XA_WIN_HINTS,
         _XA_WIN_ICONS,
         _XA_WIN_LAYER,
         _XA_WIN_PROTOCOLS,
-        _XA_WIN_STATE,
-        _XA_WIN_SUPPORTING_WM_CHECK,
-        _XA_WIN_TRAY,
-        _XA_WIN_WORKAREA,
-        _XA_WIN_WORKSPACE,
-        _XA_WIN_WORKSPACE_COUNT,
-        _XA_WIN_WORKSPACE_NAMES
     };
     int win_count = int ACOUNT(win_proto);
-
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_WIN_PROTOCOLS, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)win_proto, win_count);
-}
-
-static void registerWinProperties(Window xid) {
-    XChangeProperty(xapp->display(), xid,
-                    _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_WIN_SUPPORTING_WM_CHECK, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
-
-    unsigned long ac[2] = { 1, 1 };
-    unsigned long ca[2] = { 0, 0 };
-
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_WIN_AREA_COUNT, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&ac, 2);
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_WIN_AREA, XA_CARDINAL, 32,
-                    PropModeReplace, (unsigned char *)&ca, 2);
+    desktop->setProperty(_XA_WIN_PROTOCOLS, XA_ATOM, win_proto, win_count);
 }
 
 static void registerNetProtocols(Window xid) {
@@ -292,9 +256,7 @@ static void registerNetProtocols(Window xid) {
         }
     }
 
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_NET_SUPPORTED, XA_ATOM, 32,
-                    PropModeReplace, (unsigned char *)net_proto, net_count);
+    desktop->setProperty(_XA_NET_SUPPORTED, XA_ATOM, net_proto, net_count);
 }
 
 static void registerNetProperties(Window xid) {
@@ -315,14 +277,11 @@ static void registerNetProperties(Window xid) {
                     PropModeReplace, (unsigned char *)wmname,
                     strnlen(wmname, sizeof(wmname)));
 
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, 32,
-                    PropModeReplace, (unsigned char *)&xid, 1);
+    desktop->setProperty(_XA_NET_SUPPORTING_WM_CHECK, XA_WINDOW, xid);
 }
 
 static void registerProtocols2(Window xid) {
     registerWinProtocols(xid);
-    registerWinProperties(xid);
     registerNetProtocols(xid);
     registerNetProperties(xid);
 }
@@ -1553,6 +1512,9 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef CONFIG_I18N
     " i18n"
+#endif
+#ifdef CONFIG_IMLIB2
+    " imlib2"
 #endif
 #ifdef CONFIG_LIBICONV
     " libiconv"

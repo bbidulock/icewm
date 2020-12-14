@@ -72,7 +72,6 @@ public:
 
     virtual unsigned contentWidth();
     virtual unsigned contentHeight();
-    virtual YWindow *getWindow();
 
     void focusSelectItem(int no) { setFocusedItem(no, true, false, false); }
 

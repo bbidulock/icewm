@@ -1,30 +1,22 @@
-#ifndef __ABOUT_H
-#define __ABOUT_H
+#ifndef WMABOUT_H
+#define WMABOUT_H
 
 #include "ydialog.h"
-#include "ylabel.h"
+
+class YLabel;
+class Sizeable;
 
 class AboutDlg: public YDialog {
 public:
     AboutDlg();
     ~AboutDlg();
 
-    void autoSize();
     void showFocused();
     virtual void handleClose();
+
 private:
-    YLabel *fProgTitle;
-    YLabel *fCopyright;
-    YLabel *fThemeName;
-    YLabel *fThemeDescription;
-    YLabel *fThemeAuthor;
-    YLabel *fThemeNameS;
-    YLabel *fThemeDescriptionS;
-    YLabel *fThemeAuthorS;
-    YLabel *fCodeSetS;
-    YLabel *fCodeSet;
-    YLabel *fLanguageS;
-    YLabel *fLanguage;
+    YLabel* label(const char* text);
+    Sizeable* fSizeable;
 };
 
 #endif

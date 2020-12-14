@@ -9,6 +9,7 @@
 #include "config.h"
 #include "wmtaskbar.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmconfig.h"
 #include "wmprog.h"
 #include "wmwinmenu.h"
@@ -143,13 +144,11 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
 
-    setWinWorkspaceHint(AllWorkspaces);
+    setWorkspaceHint(AllWorkspaces);
     updateWinLayer();
     Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
       _XA_WM_TAKE_FOCUS
-      //_NET_WM_PING,
-      //_NET_WM_SYNC_REQUEST,
     };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     XWMHints wmhints = { InputHint, False, };
@@ -169,10 +168,6 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fEdgeTrigger = new EdgeTrigger(this);
 
     initApplets();
-
-    getPropertiesList();
-    getWMHints();
-    getClassHint();
 
     MSG(("taskbar"));
 }
@@ -346,7 +341,11 @@ void TaskBar::initApplets() {
             MenuLoader(app, smActionListener, wmActionListener)
             .loadMenus(t, fObjectBar);
         }
-        fObjectBar->setTitle("IceToolbar");
+        if (fObjectBar->nonempty()) {
+            fObjectBar->setTitle("IceToolbar");
+        } else {
+            delete fObjectBar; fObjectBar = nullptr;
+        }
     }
     if (taskBarShowWindowListMenu) {
         class LazyWindowListMenu : public LazyMenu {
@@ -733,7 +732,7 @@ void TaskBar::updateWinLayer() {
     if (getFrame()) {
         getFrame()->wmSetLayer(layer);
     } else {
-        setWinLayerHint(layer);
+        setLayerHint(layer);
     }
 }
 

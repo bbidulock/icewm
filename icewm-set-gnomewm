@@ -44,12 +44,20 @@ if test -x /usr/bin/gsettings
 then
     schema=org.mate.session.required-components
 
-    echo "Setting MATE windowmanager to icewm-session"
-    gsettings set $schema windowmanager icewm-session
+    if gsettings writable ${schema} windowmanager 2>/dev/null
+    then
+        echo "Setting MATE windowmanager to icewm-session"
+        gsettings set ${schema} windowmanager icewm-session
+    fi
 
 elif text -x /usr/bin/dconf
 then
-    echo "Setting MATE windowmanager to icewm-session"
-    dconf write /org/mate/desktop/session/required-components/windowmanager "'icewm-session'"
+    key=/org/mate/desktop/session/required-components/windowmanager
+
+    if dconf read ${key} 2>/dev/null
+    then
+        echo "Setting MATE windowmanager to icewm-session"
+        dconf write ${key} "'icewm-session'"
+    fi
 fi
 

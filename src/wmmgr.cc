@@ -265,7 +265,6 @@ void YWindowManager::grabKeys() {
 YProxyWindow::YProxyWindow(YWindow *parent): YWindow(parent) {
     setStyle(wsOverrideRedirect);
     setTitle("IceRootProxy");
-    setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL, handle());
 }
 
 YProxyWindow::~YProxyWindow() {
@@ -277,10 +276,6 @@ void YProxyWindow::handleButton(const XButtonEvent &/*button*/) {
 void YWindowManager::setupRootProxy() {
     if (grabRootWindow) {
         rootProxy = new YProxyWindow(nullptr);
-        if (rootProxy) {
-            setProperty(_XA_WIN_DESKTOP_BUTTON_PROXY, XA_CARDINAL,
-                        rootProxy->handle());
-        }
     }
 }
 
@@ -693,7 +688,7 @@ void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
 void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     if (message.message_type == _XA_NET_CURRENT_DESKTOP) {
         MSG(("ClientMessage: _NET_CURRENT_DESKTOP => %ld", message.data.l[0]));
-        setWinWorkspace(message.data.l[0]);
+        setWorkspace(message.data.l[0]);
         return;
     }
     if (message.message_type == _XA_NET_NUMBER_OF_DESKTOPS) {
@@ -787,11 +782,6 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         if (frame) {
             frame->client()->recvPing(message);
         }
-        return;
-    }
-    if (message.message_type == _XA_WIN_WORKSPACE) {
-        MSG(("ClientMessage: _WIN_WORKSPACE => %ld", message.data.l[0]));
-        setWinWorkspace(message.data.l[0]);
         return;
     }
     if (message.message_type == _XA_ICEWM_ACTION) {
@@ -993,13 +983,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
 
     MSG(("SET FOCUS END"));
     updateFullscreenLayer();
-}
-
-/// TODO lose this function
-void YWindowManager::loseFocus(YFrameWindow *window) {
-    (void)window;
-    PRECONDITION(window != 0);
-    focusLastWindow();
 }
 
 YFrameWindow *YWindowManager::top(long layer) const {
@@ -2330,21 +2313,6 @@ void YWindowManager::announceWorkArea() {
                     32, PropModeReplace,
                     (unsigned char *)area, nw * 4);
     delete [] area;
-
-    if (fActiveWorkspace != AllWorkspaces && fActiveWorkspace < workspaceCount()) {
-        long area[4];
-        int cw = fActiveWorkspace;
-        area[0] = fWorkArea[cw][0].fMinX;
-        area[1] = fWorkArea[cw][0].fMinY;
-        area[2] = fWorkArea[cw][0].fMaxX;
-        area[3] = fWorkArea[cw][0].fMaxY;
-
-        XChangeProperty(xapp->display(), handle(),
-                        _XA_WIN_WORKAREA,
-                        XA_CARDINAL,
-                        32, PropModeReplace,
-                        (unsigned char *)area, 4);
-    }
 }
 
 void YWindowManager::resizeWindows() {
@@ -2403,7 +2371,6 @@ void YWindowManager::activateWorkspace(long workspace) {
             taskBar->setWorkspaceActive(fActiveWorkspace, true);
         }
 
-        setProperty(_XA_WIN_WORKSPACE, XA_CARDINAL, fActiveWorkspace);
         setProperty(_XA_NET_CURRENT_DESKTOP, XA_CARDINAL, fActiveWorkspace);
 
 #if 1 // not needed when we drop support for GNOME hints
@@ -2521,11 +2488,6 @@ bool YWindowManager::readCurrentDesktop(long &workspace) {
         workspace = clamp(*netp, 0L, workspaceCount() - 1L);
         return true;
     }
-    YProperty winp(this, _XA_WIN_WORKSPACE, F32, 1L, XA_CARDINAL);
-    if (winp) {
-        workspace = clamp(*winp, 0L, workspaceCount() - 1L);
-        return true;
-    }
     return false;
 }
 
@@ -2587,40 +2549,20 @@ bool YWindowManager::readDesktopLayout() {
 }
 
 void YWindowManager::readDesktopNames(bool init, bool net) {
-    YStringList netList, winList;
+    YStringList netList;
     bool haveNet = readNetDesktopNames(netList);
-    bool haveWin = readWinDesktopNames(winList);
-    bool differs = true;
 
     if (init) {
         if (haveNet && !strncmp(netList[0], "Workspace", 9))
             haveNet = false;
-        if (haveWin && !strncmp(winList[0], "Workspace", 9))
-            haveWin = false;
-
         for (int i = 0; i < configWorkspaces.getCount(); ++i)
             workspaces.add(configWorkspaces[i]);
         if (workspaces.count() < 1)
             workspaces + " 1 " + " 2 " + " 3 " + " 4 ";
     }
 
-    if (haveNet && haveWin) {
-        differs = (netList != winList);
-        if (net)
-            haveWin = false;
-        else
-            haveNet = false;
-    }
-
     if (haveNet) {
         compareDesktopNames(netList);
-        if (differs)
-            setWinDesktopNames(netList.count);
-    }
-    else if (haveWin) {
-        compareDesktopNames(winList);
-        if (differs)
-            setNetDesktopNames(winList.count);
     }
     else {
         setDesktopNames();
@@ -2678,48 +2620,6 @@ bool YWindowManager::readNetDesktopNames(YStringList& list) {
     return success;
 }
 
-bool YWindowManager::readWinDesktopNames(YStringList& list) {
-    bool success = false;
-
-    MSG(("reading: _WIN_WORKSPACE_NAMES(%d)",(int)_XA_WIN_WORKSPACE_NAMES));
-
-    XTextProperty names;
-    if (XGetTextProperty(xapp->display(), handle(), &names,
-                         _XA_WIN_WORKSPACE_NAMES) && names.nitems > 0) {
-        if (XmbTextPropertyToTextList(xapp->display(), &names,
-                                      &list.strings, &list.count) == Success) {
-            if (list.count > 0 && isEmpty(list.last()))
-                list.count--;
-            success = true;
-        } else {
-            MSG(("warning: could not convert strings for _WIN_WORKSPACE_NAMES"));
-        }
-        XFree(names.value);
-    } else {
-        MSG(("warning: could not read _WIN_WORKSPACE_NAMES"));
-    }
-    return success;
-}
-
-void YWindowManager::setWinDesktopNames(long count) {
-    MSG(("setting: _WIN_WORKSPACE_NAMES"));
-    static char terminator[] = { '\0' };
-    asmart<char *> strings(new char *[count + 1]);
-    for (long i = 0; i < count; i++) {
-        strings[i] = i < workspaces.count()
-                   ? *workspaces[i]
-                   : const_cast<char *>(workspaces.spare(i));
-    }
-    strings[count] = terminator;
-    XTextProperty names;
-    if (XmbTextListToTextProperty(xapp->display(), strings, count + 1,
-                                  XStdICCTextStyle, &names) == Success) {
-        XSetTextProperty(xapp->display(), handle(), &names,
-                         _XA_WIN_WORKSPACE_NAMES);
-        XFree(names.value);
-    }
-}
-
 void YWindowManager::setNetDesktopNames(long count) {
     MSG(("setting: _NET_DESKTOP_NAMES"));
     static char terminator[] = { '\0' };
@@ -2741,7 +2641,6 @@ void YWindowManager::setNetDesktopNames(long count) {
 
 void YWindowManager::setDesktopNames(long count) {
     MSG(("setting: %ld desktop names", count));
-    setWinDesktopNames(count);
     setNetDesktopNames(count);
 }
 
@@ -2750,8 +2649,6 @@ void YWindowManager::setDesktopNames() {
 }
 
 void YWindowManager::setDesktopCount() {
-    MSG(("setting: _WIN_WORKSPACE_COUNT = %lu", Atom(workspaceCount())));
-    setProperty(_XA_WIN_WORKSPACE_COUNT, XA_CARDINAL, Atom(workspaceCount()));
     MSG(("setting: _NET_NUMBER_OF_DESKTOPS = %lu", Atom(workspaceCount())));
     setProperty(_XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL, Atom(workspaceCount()));
 }
@@ -2765,7 +2662,7 @@ void YWindowManager::setDesktopViewport() {
     setProperty(_XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL, data, n);
 }
 
-void YWindowManager::setWinWorkspace(int workspace) {
+void YWindowManager::setWorkspace(int workspace) {
     if (inrange(workspace, 0, workspaceCount() - 1)) {
         activateWorkspace(workspace);
     }
@@ -2897,10 +2794,6 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
     else if (property.atom == _XA_NET_DESKTOP_LAYOUT) {
         readDesktopLayout();
     }
-    else if (property.atom == _XA_WIN_WORKSPACE_NAMES) {
-        MSG(("change: win workspace names"));
-        readDesktopNames(false, false);
-    }
 }
 
 void YWindowManager::updateClientList() {
@@ -2925,7 +2818,6 @@ void YWindowManager::updateClientList() {
 
         const int num = ids.getCount();
         Atom* data = num ? &*ids : nullptr;
-        setProperty(_XA_WIN_CLIENT_LIST, XA_CARDINAL, data, num);
         setProperty(_XA_NET_CLIENT_LIST_STACKING, XA_WINDOW, data, num);
     }
 
@@ -2978,7 +2870,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
     }
     if (wmState() == wmRUNNING) {
         if (frame == getFocus())
-            loseFocus(frame);
+            focusLastWindow();
         if (frame == getFocus())
             setFocus(nullptr);
         if (colormapWindow() == frame)
