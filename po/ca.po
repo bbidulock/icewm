@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-12-14 01:46+0100\n"
-"PO-Revision-Date: 2020-09-23 11:48+0000\n"
+"PO-Revision-Date: 2020-12-14 22:26+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1168,15 +1168,15 @@ msgstr "Llengua:"
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "Memòria intermèdia doble"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "Mescla d'alfa"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderitzador:"
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
