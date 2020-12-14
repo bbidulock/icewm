@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "wmframe.h"
+#include "wmmgr.h"
 #include "wmstatus.h"
 #include "wmapp.h"
 #include "prefs.h"

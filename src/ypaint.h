@@ -98,14 +98,14 @@ public:
 
     void clear();
     void clearArea(int x, int y, unsigned w, unsigned h);
-    void copyArea(const int x, const int y, const unsigned width, const unsigned height,
-                  const int dx, const int dy);
-    void copyDrawable(const Drawable d, const int x, const int y,
-                      const unsigned w, const unsigned h, const int dx, const int dy);
+    void copyArea(int x, int y, unsigned width, unsigned height,
+                  int dx, int dy);
+    void copyDrawable(Drawable d, int x, int y,
+                      unsigned w, unsigned h, int dx, int dy);
     void copyImage(ref<YImage> image, int x, int y);
     void copyPixmap(ref<YPixmap> p, int dx, int dy);
-    void copyPixmap(ref<YPixmap> p, const int x, const int y,
-                     const unsigned w, const unsigned h, const int dx, const int dy);
+    void copyPixmap(ref<YPixmap> p, int x, int y,
+                     unsigned w, unsigned h, int dx, int dy);
 
     void drawPoint(int x, int y);
     void drawLine(int x1, int y1, int x2, int y2);
@@ -124,18 +124,18 @@ public:
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(int x, int y, char const * str);
 
-    void drawPixmap(ref<YPixmap> pix, int const x, int const y);
-    void drawPixmap(ref<YPixmap> pix, int const x, int const y, unsigned w, unsigned h, int dx, int dy);
-    void drawImage(ref<YImage> pix, int const x, int const y);
-    void drawImage(ref<YImage> pix, int const x, int const y, unsigned w, unsigned h, int dx, int dy);
-    void compositeImage(ref<YImage> pix, int const x, int const y, unsigned w, unsigned h, int dx, int dy);
-    void drawMask(ref<YPixmap> pix, int const x, int const y);
+    void drawPixmap(ref<YPixmap> pix, int x, int y);
+    void drawPixmap(ref<YPixmap> pix, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    void drawImage(ref<YImage> pix, int x, int y);
+    void drawImage(ref<YImage> pix, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    void compositeImage(ref<YImage> pix, int x, int y, unsigned w, unsigned h, int dx, int dy);
+    void drawMask(ref<YPixmap> pix, int x, int y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, unsigned w, unsigned h, int toX, int toY);
     void fillRect(int x, int y, unsigned width, unsigned height);
     void fillRects(XRectangle * rects, int n);
-    void fillPolygon(XPoint * points, int const n, int const shape,
-                     int const mode);
+    void fillPolygon(XPoint * points, int n, int shape,
+                     int mode);
     void fillArc(int x, int y, unsigned width, unsigned height, int a1, int a2);
     void setColor(YColor aColor);
     void setColorPixel(unsigned long pixel);
@@ -159,16 +159,16 @@ public:
                     int sx = 0, int sy = 0);
 
     void drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h,
-                     int const sx, int const sy, const unsigned sw, const unsigned sh);
+                     int sx, int sy, unsigned sw, unsigned sh);
     void drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h) {
         drawSurface(surface, x, y, w, h, 0, 0, w, h);
     }
 
     void drawGradient(ref<YImage> gradient,
-                      int const x, int const y, const unsigned w, const unsigned h,
-                      int const gx, int const gy, const unsigned gw, const unsigned gh);
+                      int x, int y, const unsigned w, const unsigned h,
+                      int gx, int gy, unsigned gw, unsigned gh);
     void drawGradient(ref<YImage> gradient,
-                      int const x, int const y, const unsigned w, const unsigned h) {
+                      int x, int y, unsigned w, unsigned h) {
         drawGradient(gradient, x, y, w, h, 0, 0, w, h);
     }
 

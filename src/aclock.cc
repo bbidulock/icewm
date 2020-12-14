@@ -47,6 +47,7 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
 {
     memset(positions, 0, sizeof positions);
     memset(previous, 0, sizeof previous);
+    memset(lastDrawnTime, 0, sizeof lastDrawnTime);
 
     if (prettyClock && ledPixSpace != null && ledPixSpace->width() == 1)
         ledPixSpace = ledPixSpace->scale(5, ledPixSpace->height());
@@ -235,30 +236,33 @@ bool YClock::picture() {
 }
 
 bool YClock::draw(Graphics& g) {
-    char s[TimeSize];
     timeval walltm = walltime();
     long nextChime = 1000L - walltm.tv_usec / 1000L;
     time_t newTime = walltm.tv_sec;
-    struct tm *t;
-    int len;
+    int len = 0;
+    char s[TimeSize];
 
     clockTimer->setTimer(nextChime, this, true);
 
-    if (clockUTC)
-        t = gmtime(&newTime);
-    else
-        t = localtime(&newTime);
+    auto t = clockUTC ? gmtime(&newTime) : localtime(&newTime);
+    bool force = false;
 
 #ifdef DEBUG
     if (countEvents)
-        len = sprintf(s, "%d", xeventcount);
+        force = true, len = sprintf(s, "%d", xeventcount);
     else
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
-    return prettyClock
-         ? paintPretty(g, s, len)
-         : paintPlain(g, s, len);
+    if (force || toolTipVisible() || 0 != strcmp(s, lastDrawnTime)) {
+        if (!force)
+            memcpy(lastDrawnTime, s, TimeSize);
+        return prettyClock
+             ? paintPretty(g, s, len)
+             : paintPlain(g, s, len);
+    }
+
+    return true;
 }
 
 void YClock::fill(Graphics& g)

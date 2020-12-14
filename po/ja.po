@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-11-10 00:43+0100\n"
+"POT-Creation-Date: 2020-12-14 01:46+0100\n"
 "PO-Revision-Date: 2020-09-23 11:48+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -38,29 +38,29 @@ msgstr "C"
 msgid " - Full"
 msgstr " - 充電完了"
 
-#: src/aapm.cc:992
+#: src/aapm.cc:991
 #, c-format
 msgid "power:\t%s"
 msgstr "電源: \t%s"
 
-#: src/aclock.cc:172
+#: src/aclock.cc:173
 msgid "CLOCK"
 msgstr "時計"
 
-#: src/aclock.cc:177
+#: src/aclock.cc:178
 msgid "Date"
 msgstr "日付"
 
-#: src/aclock.cc:178 src/themes.cc:81
+#: src/aclock.cc:179 src/themes.cc:81
 msgid "Default"
 msgstr "既定値"
 
-#: src/aclock.cc:179 src/acpustatus.cc:661 src/amailbox.cc:979
+#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "無効 (_D)"
 
-#: src/aclock.cc:180
+#: src/aclock.cc:181
 msgid "_UTC"
 msgstr "UTC (_U)"
 
@@ -329,11 +329,11 @@ msgstr "内容"
 msgid "Index"
 msgstr "目次"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68 src/wmbutton.cc:127
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "閉じる"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:68
+#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -537,120 +537,108 @@ msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 "ヘルプを読みたい場合は icesh(1) のマニュアルページを参照してください。\n"
 
-#: src/icesh.cc:1575
+#: src/icesh.cc:1494
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "領域 `%s' に対するシンボル名 (数値範囲: %ld-%ld):\n"
 
-#: src/icesh.cc:1723
+#: src/icesh.cc:1552
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "ワークスペースの範囲が正しくありません: %ld"
 
-#: src/icesh.cc:1744
+#: src/icesh.cc:1573
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "ワークスペース名が正しくありません: `%s'"
 
-#: src/icesh.cc:2021
-msgid "GNOME window state"
-msgstr "GNOME ウインドウ状態"
-
-#: src/icesh.cc:2022
-msgid "GNOME window hint"
-msgstr "GNOME ウインドウヒント"
-
-#: src/icesh.cc:2023
+#: src/icesh.cc:1850
 msgid "GNOME window layer"
 msgstr "GNOME ウインドウレイヤ"
 
-#: src/icesh.cc:2024
-msgid "IceWM tray option"
-msgstr "IceWM トレイアイコン"
-
-#: src/icesh.cc:2025
+#: src/icesh.cc:1851
 msgid "Gravity symbols"
 msgstr "グラビティシンボル"
 
-#: src/icesh.cc:2026
+#: src/icesh.cc:1852
 msgid "Motif functions"
 msgstr "Motif 機能"
 
-#: src/icesh.cc:2027
+#: src/icesh.cc:1853
 msgid "Motif decorations"
 msgstr "Motif 装飾"
 
-#: src/icesh.cc:2028
+#: src/icesh.cc:1854
 msgid "EWMH window state"
 msgstr "EWMH ウインドウ状態"
 
-#: src/icesh.cc:2110 src/icesh.cc:2183
+#: src/icesh.cc:1936 src/icesh.cc:2009
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "ワークスペース #%d: `%s'\n"
 
-#: src/icesh.cc:2425 src/icesh.cc:3639 src/icesh.cc:3653 src/icesh.cc:4124
+#: src/icesh.cc:2244 src/icesh.cc:3413 src/icesh.cc:3884
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "状態が正しくありません: `%s'."
 
-#: src/icesh.cc:3292
+#: src/icesh.cc:3066
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "ウインドウ 0x%lx のジオメトリを取得できません"
 
-#: src/icesh.cc:3317
+#: src/icesh.cc:3091
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama が正しくありません: `%s'."
 
-#: src/icesh.cc:3367
+#: src/icesh.cc:3141
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "アクション `%s' には少なくとも %d 個のパラメータが必要です。"
 
-#: src/icesh.cc:3377
+#: src/icesh.cc:3151
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表現が正しくありません: `%s'"
 
-#: src/icesh.cc:3388 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1110
-#: src/yxapp.cc:1054
+#: src/icesh.cc:3162 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1069
+#: src/yxapp.cc:1026
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "ディスプレイ %s を開くことができません。X が起動されていて、かつ $DISPLAY が"
 "セットされていなければなりません。"
 
-#: src/icesh.cc:3401
+#: src/icesh.cc:3175
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "パラメータが正しくありません: `%s'"
 
-#: src/icesh.cc:3436
+#: src/icesh.cc:3210
 msgid "No windows found."
 msgstr "ウインドウが見つかりませんでした。"
 
-#: src/icesh.cc:3451
+#: src/icesh.cc:3225
 msgid "No actions specified."
 msgstr "アクションが指定されていません。"
 
-#: src/icesh.cc:3556
+#: src/icesh.cc:3330
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "ウインドウの識別子が正しくありません: `%s'"
 
-#: src/icesh.cc:3573
+#: src/icesh.cc:3347
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID が正しくありません: `%s'"
 
-#: src/icesh.cc:3609
+#: src/icesh.cc:3383
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "レイヤが正しくありません: `%s'."
 
-#: src/icesh.cc:4427
+#: src/icesh.cc:4149
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "不明なアクションです: `%s'"
@@ -991,27 +979,27 @@ msgstr ""
 "  -c, --config=FILE   FILE で指定したファイルから設定を読み込みます。\n"
 "  -t, --theme=FILE    FILE で指定したファイルからテーマを読み込みます。\n"
 
-#: src/iceview.cc:64
+#: src/iceview.cc:55
 msgid "Hex View"
 msgstr "16 進表示"
 
-#: src/iceview.cc:64
+#: src/iceview.cc:55
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:65
+#: src/iceview.cc:56
 msgid "Expand Tabs"
 msgstr "タブ拡張"
 
-#: src/iceview.cc:65
+#: src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/iceview.cc:66
+#: src/iceview.cc:57
 msgid "Wrap Lines"
 msgstr "行折り返し"
 
-#: src/iceview.cc:66
+#: src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1158,204 +1146,216 @@ msgstr ""
 "  -h, --help          この使用方法を表示して終了します。\n"
 "\n"
 
-#: src/movesize.cc:875
+#: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "移動／サイズ変更の要求において、未知の方向を指定しています: %d"
 
-#: src/wmabout.cc:23 src/wmabout.cc:25
+#: src/wmabout.cc:28 src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:31
+#: src/wmabout.cc:39
 msgid "Theme:"
 msgstr "テーマ:"
 
-#: src/wmabout.cc:32
+#: src/wmabout.cc:40
 msgid "Theme Description:"
 msgstr "テーマの説明:"
 
-#: src/wmabout.cc:33
+#: src/wmabout.cc:41
 msgid "Theme Author:"
 msgstr "テーマの作者:"
 
-#: src/wmabout.cc:37
+#: src/wmabout.cc:50
 msgid "CodeSet:"
 msgstr "コードセット:"
 
-#: src/wmabout.cc:38
+#: src/wmabout.cc:51
 msgid "Language:"
 msgstr "言語:"
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:55
+msgid "DoubleBuffer"
+msgstr ""
+
+#: src/wmabout.cc:56
+msgid "AlphaBlending"
+msgstr ""
+
+#: src/wmabout.cc:57
+msgid "Renderer:"
+msgstr ""
+
+#: src/wmabout.cc:65
 msgid "icewm - About"
 msgstr "icewm について"
 
-#: src/wmapp.cc:78
+#: src/wmapp.cc:79
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
 "ウインドウマネージャは既に起動しています。 --replace オプションを指定すること"
 "で、新しいウインドウマネージャに置き換えることができます"
 
-#: src/wmapp.cc:96
+#: src/wmapp.cc:97
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr "%s の選択に対する所有者になることができませんでした"
 
-#: src/wmapp.cc:100
+#: src/wmapp.cc:101
 msgid "Waiting to replace the old window manager"
 msgstr "以前のウインドウマネージャの置き換えを待っています"
 
-#: src/wmapp.cc:105
+#: src/wmapp.cc:106
 msgid "done."
 msgstr "完了。"
 
-#: src/wmapp.cc:417
+#: src/wmapp.cc:376
 msgid "_Logout"
 msgstr "ログアウト (_L)"
 
-#: src/wmapp.cc:418
+#: src/wmapp.cc:377
 msgid "_Cancel logout"
 msgstr "ログアウトを破棄 (_C)"
 
-#: src/wmapp.cc:423
+#: src/wmapp.cc:382
 msgid "Lock _Workstation"
 msgstr "ワークステーションをロック (_W)"
 
-#: src/wmapp.cc:425 src/wmdialog.cc:72
+#: src/wmapp.cc:384 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "再起動 (_B)"
 
-#: src/wmapp.cc:427 src/wmdialog.cc:73
+#: src/wmapp.cc:386 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "シャットダウン (_D)"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:429 src/wmdialog.cc:69
+#: src/wmapp.cc:388 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "スリープモード (_S)"
 
-#: src/wmapp.cc:434
+#: src/wmapp.cc:393
 msgid "Restart _Icewm"
 msgstr "icewm を再起動 (_I)"
 
-#: src/wmapp.cc:436
+#: src/wmapp.cc:395
 msgid "Restart _Xterm"
 msgstr "xterm を再起動 (_X)"
 
-#: src/wmapp.cc:446
+#: src/wmapp.cc:405
 msgid "_Menu"
 msgstr "メニュー (_M)"
 
-#: src/wmapp.cc:447
+#: src/wmapp.cc:406
 msgid "_Above Dock"
 msgstr "ドックの上 (_A)"
 
-#: src/wmapp.cc:448
+#: src/wmapp.cc:407
 msgid "_Dock"
 msgstr "ドック (_D)"
 
-#: src/wmapp.cc:449
+#: src/wmapp.cc:408
 msgid "_OnTop"
 msgstr "上に (_O)"
 
-#: src/wmapp.cc:450
+#: src/wmapp.cc:409
 msgid "_Normal"
 msgstr "通常 (_N)"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:410
 msgid "_Below"
 msgstr "下に (_B)"
 
-#: src/wmapp.cc:452
+#: src/wmapp.cc:411
 msgid "D_esktop"
 msgstr "デスクトップ (_E)"
 
-#: src/wmapp.cc:487 src/wmwinlist.cc:361
+#: src/wmapp.cc:446 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "元に戻す (_R)"
 
-#: src/wmapp.cc:489
+#: src/wmapp.cc:448
 msgid "_Move"
 msgstr "移動 (_M)"
 
-#: src/wmapp.cc:491
+#: src/wmapp.cc:450
 msgid "_Size"
 msgstr "サイズ (_S)"
 
-#: src/wmapp.cc:493 src/wmwinlist.cc:362
+#: src/wmapp.cc:452 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "最小化 (_N)"
 
-#: src/wmapp.cc:495 src/wmwinlist.cc:363
+#: src/wmapp.cc:454 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "最大化 (_X)"
 
-#: src/wmapp.cc:496 src/wmwinlist.cc:364
+#: src/wmapp.cc:455 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "垂直方向に最大化 (_V)"
 
-#: src/wmapp.cc:497 src/wmwinlist.cc:365
+#: src/wmapp.cc:456 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "水平方向に最大化 (_Z)"
 
-#: src/wmapp.cc:500 src/wmwinlist.cc:366
+#: src/wmapp.cc:459 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "フルスクリーン (_F)"
 
-#: src/wmapp.cc:503 src/wmwinlist.cc:368
+#: src/wmapp.cc:462 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "隠す (_H)"
 
-#: src/wmapp.cc:505 src/wmwinlist.cc:369
+#: src/wmapp.cc:464 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "シェード (_U)"
 
-#: src/wmapp.cc:512
+#: src/wmapp.cc:471
 msgid "R_aise"
 msgstr "上に表示 (_A)"
 
-#: src/wmapp.cc:514 src/wmwinlist.cc:371
+#: src/wmapp.cc:473 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "下に表示 (_L)"
 
-#: src/wmapp.cc:516 src/wmwinlist.cc:372
+#: src/wmapp.cc:475 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "レイヤ (_Y)"
 
-#: src/wmapp.cc:520 src/wmwinlist.cc:374
+#: src/wmapp.cc:479 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "移動 (_T)"
 
-#: src/wmapp.cc:521 src/wmwinlist.cc:375
+#: src/wmapp.cc:480 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "居座る (_A)"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:486
 msgid "Limit _Workarea"
 msgstr "作業領域の制限 (_W)"
 
-#: src/wmapp.cc:531 src/wmwinlist.cc:376
+#: src/wmapp.cc:490 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "トレイアイコン (_I)"
 
-#: src/wmapp.cc:536 src/wmwinlist.cc:391 src/wmwinlist.cc:399
+#: src/wmapp.cc:495 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "閉じる (_C)"
 
-#: src/wmapp.cc:538 src/wmwinlist.cc:393
+#: src/wmapp.cc:497 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "クライアント強制終了 (_K)"
 
-#: src/wmapp.cc:541 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:500 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmapp.cc:574
+#: src/wmapp.cc:533
 msgid "Another window manager already running, exiting..."
 msgstr "他のウインドウマネージャが既に起動しています。終了します..."
 
-#: src/wmapp.cc:646
+#: src/wmapp.cc:605
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1364,22 +1364,22 @@ msgstr ""
 "%s を再起動できません。\n"
 "$PATH 内に %s がありますか？"
 
-#: src/wmapp.cc:815
+#: src/wmapp.cc:774
 msgid "Kill IceWM, replace with Xterm"
 msgstr "IceWM を kill し、 Xterm に置き換えます"
 
-#: src/wmapp.cc:1111 src/yxapp.cc:1055
+#: src/wmapp.cc:1070 src/yxapp.cc:1027
 msgid "<none>"
 msgstr "<なし>"
 
-#: src/wmapp.cc:1436
+#: src/wmapp.cc:1395
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      セッションマネージャに接続する際のクライアント ID を指"
 "定します。\n"
 
-#: src/wmapp.cc:1442
+#: src/wmapp.cc:1401
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1390,7 +1390,7 @@ msgstr ""
 "  --debug-z           ウインドウのスタック処理に関連するデバッグメッセージを"
 "表示します。\n"
 
-#: src/wmapp.cc:1450
+#: src/wmapp.cc:1409
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1408,7 +1408,7 @@ msgstr ""
 "  -p, --postpreferences  全ての処理が終了したあと、設定内容を表示します。\n"
 "  --trace=conf,icon   設定の読み込み時に使用するパスをトレースします。\n"
 
-#: src/wmapp.cc:1459
+#: src/wmapp.cc:1418
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1468,26 +1468,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1521
+#: src/wmapp.cc:1480
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s の設定ディレクトリ:\n"
 
-#: src/wmapp.cc:1600
+#: src/wmapp.cc:1562
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s の設定済みオプション: %s\n"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1640
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "認識できないオプション '%s' です。"
 
-#: src/wmapp.cc:1729
+#: src/wmapp.cc:1691
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1730
+#: src/wmapp.cc:1692
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1552,13 +1552,13 @@ msgstr "%s を %s に名前変更できません"
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック (_K)"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:36
+#: src/wmdialog.cc:70 src/ymsgbox.cc:37
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:248
-#: src/wmtaskbar.cc:250
+#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:243
+#: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
 
@@ -1567,15 +1567,15 @@ msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:1405
+#: src/wmframe.cc:1399
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmframe.cc:1412
+#: src/wmframe.cc:1406
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1583,11 +1583,11 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmmgr.cc:3280
+#: src/wmmgr.cc:3172
 msgid "Missing program setxkbmap"
 msgstr "プログラム setxkbmap がありません"
 
-#: src/wmmgr.cc:3281
+#: src/wmmgr.cc:3173
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 "キーボードの切り替えを行なうため、 setxkbmap をインストールしてください。"
@@ -1655,7 +1655,7 @@ msgid "_Run..."
 msgstr "実行 (_R)..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:807 src/wmtaskbar.cc:238
+#: src/wmprog.cc:807 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "ウインドウ一覧 (_W)"
 
@@ -1679,101 +1679,101 @@ msgstr "テーマ (_T)"
 msgid "Se_ttings"
 msgstr "設定 (_T)"
 
-#: src/wmsession.cc:213 src/wmsession.cc:229 src/wmsession.cc:239
+#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
 #, c-format
 msgid "Session Manager: Unknown line %s"
 msgstr "セッションマネージャ: 未知の行 %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:220 src/wmwinlist.cc:378 src/wmwinlist.cc:411
+#: src/wmtaskbar.cc:215 src/wmwinlist.cc:379 src/wmwinlist.cc:412
 msgid "Tile _Vertically"
 msgstr "垂直に並べる (_V)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:222 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:217 src/wmwinlist.cc:380 src/wmwinlist.cc:413
 msgid "T_ile Horizontally"
 msgstr "水平に並べる (_I)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:224 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:381 src/wmwinlist.cc:414
 msgid "Ca_scade"
 msgstr "カスケード (_S)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:226 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:382 src/wmwinlist.cc:415
 msgid "_Arrange"
 msgstr "整列 (_A)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:228 src/wmwinlist.cc:383 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:384 src/wmwinlist.cc:416
 msgid "_Minimize All"
 msgstr "全て最小化 (_M)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:385 src/wmwinlist.cc:417
 msgid "_Hide All"
 msgstr "全て隠す (_H)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:232 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:386 src/wmwinlist.cc:418
 msgid "_Undo"
 msgstr "元に戻す (_U)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:235
+#: src/wmtaskbar.cc:230
 msgid "Arrange _Icons"
 msgstr "アイコン整列 (_I)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:241
+#: src/wmtaskbar.cc:236
 msgid "_Refresh"
 msgstr "再描画 (_R)"
 
-#: src/wmtaskbar.cc:314 src/wmtaskbar.cc:955
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:954
 msgid "Hide Taskbar"
 msgstr "タスクバーを隠す"
 
-#: src/wmtaskbar.cc:337
+#: src/wmtaskbar.cc:332
 msgid "Favorite Applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:358
+#: src/wmtaskbar.cc:357
 msgid "Window List Menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:367
+#: src/wmtaskbar.cc:366
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
-#: src/wmtaskbar.cc:955
+#: src/wmtaskbar.cc:954
 msgid "Show Taskbar"
 msgstr "タスクバーを表示"
 
-#: src/wmwinlist.cc:45
+#: src/wmwinlist.cc:46
 msgid "All Workspaces"
 msgstr "全てのワークスペース"
 
-#: src/wmwinlist.cc:367
+#: src/wmwinlist.cc:368
 msgid "_Show"
 msgstr "表示 (_S)"
 
-#: src/wmwinlist.cc:370
+#: src/wmwinlist.cc:371
 msgid "_Raise"
 msgstr "上に表示 (_R)"
 
-#: src/wmwinlist.cc:391
+#: src/wmwinlist.cc:392
 msgid "Del"
 msgstr "削除"
 
-#: src/wmwinlist.cc:395
+#: src/wmwinlist.cc:396
 msgid "_Terminate Process"
 msgstr "プロセス終了 (_T)"
 
-#: src/wmwinlist.cc:396
+#: src/wmwinlist.cc:397
 msgid "Kill _Process"
 msgstr "プロセス強制終了 (_P)"
 
-#: src/wmwinlist.cc:431 src/wmwinlist.cc:432
+#: src/wmwinlist.cc:432 src/wmwinlist.cc:433
 msgid "Window list"
 msgstr "ウインドウ一覧"
 
@@ -1797,55 +1797,48 @@ msgstr "%2$s 内に未知のキー名 %1$s があります"
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "無効な引数: %2$s に対して %1$s [%3$d,%4$d]"
 
-#: src/ycursor.cc:114
+#: src/ycursor.cc:111
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "ピクセルマップ \"%s\" の読み込みに失敗しました: %s"
 
-#: src/ycursor.cc:141
+#: src/ycursor.cc:137
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "ピクセルマップ \"%s\" の読み込みに失敗しました"
 
-#: src/ycursor.cc:174
-#, c-format
-msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-msgstr ""
-"カーソルのピクセルマップが正しくありません: \"%s\" にはユニークな色が多すぎま"
-"す"
-
-#: src/ycursor.cc:196
+#: src/ycursor.cc:181
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "バグ？ imlib が \"%s\" を読み込めませんでした"
 
-#: src/ycursor.cc:222
+#: src/ycursor.cc:206
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr ""
 "バグ？ \"%s\" の XPM ヘッダが正しくありませんが、 imlib 側で読み込めてしまい"
 "ました"
 
-#: src/ycursor.cc:230
+#: src/ycursor.cc:214
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 "バグ？ \"%s\" の XPM ファイルの終了部が正しくありませんが、 imlib 側で読み込"
 "めてしまいました"
 
-#: src/ycursor.cc:233
+#: src/ycursor.cc:217
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
 "バグ？ \"%s\" で予期しない文字が現われましたが、 imlib 側で読み込めてしまいま"
 "した"
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:159
+#: src/yfontcore.cc:72 src/yfontxft.cc:164
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "フォント \"%s\" を読み込めませんでした。"
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:182
+#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:187
 #, c-format
 msgid "Loading of fallback font \"%s\" failed."
 msgstr "フォールバックフォント \"%s\" の読み込みに失敗しました。"
@@ -1923,7 +1916,7 @@ msgstr "iconv は %s から %s への変換に対応していません。"
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "マルチバイト文字列が正しくありません \"%s\": %s"
 
-#: src/ymsgbox.cc:33
+#: src/ymsgbox.cc:34
 msgid "_OK"
 msgstr "_OK"
 
@@ -1956,7 +1949,7 @@ msgstr "URL 内の位置 %d に不完全な HEX エスケープが存在して�
 msgid "Invalid hex escape in URL at position %d."
 msgstr "URL 内の位置 %d に不正な HEX エスケープが存在しています。"
 
-#: src/yxapp.cc:1015
+#: src/yxapp.cc:987
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2653,6 +2646,20 @@ msgstr "Web開発"
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
 msgstr "ワードプロセッサ"
+
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME ウインドウ状態"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "GNOME ウインドウヒント"
+
+#~ msgid "IceWM tray option"
+#~ msgstr "IceWM トレイアイコン"
+
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+#~ msgstr ""
+#~ "カーソルのピクセルマップが正しくありません: \"%s\" にはユニークな色が多す"
+#~ "ぎます"
 
 #~ msgid "Bad option: %s"
 #~ msgstr "オプションが正しくありません: %s"

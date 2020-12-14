@@ -1,15 +1,16 @@
 #include "config.h"
 
-// this has to be come before X11 headers or libpng checks will get mad WRT setjmp version
-#ifdef CONFIG_LIBPNG
-#include <png.h>
-#endif
-
-#if defined CONFIG_XPM && !defined(CONFIG_GDK_PIXBUF_XLIB)
+#if defined CONFIG_XPM && !defined CONFIG_GDK_PIXBUF_XLIB && !defined CONFIG_IMLIB2
 
 #include <stdlib.h>
 #include <math.h>
 #include <errno.h>
+
+// include png before X11 or libpng checks will fail on setjmp version
+#ifdef CONFIG_LIBPNG
+#include <png.h>
+#endif
+
 #include "yimage.h"
 #include "yxapp.h"
 #include "ypointer.h"
@@ -22,7 +23,7 @@
 #include <setjmp.h>
 #endif
 
-#define ATH 55  /* highest alpha threshold that can show anti-aliased lines */
+#define ATH 10  /* highest alpha threshold that can show anti-aliased lines */
 
 struct Verbose {
     const bool verbose;
@@ -126,6 +127,10 @@ private:
     XImage *fImage;
     bool fBitmap;
 };
+
+const char* YImage::renderName() {
+    return "XImage";
+}
 
 bool YImage::supportsDepth(unsigned depth) {
     return depth == 32 || depth == xapp->depth();
@@ -1231,7 +1236,7 @@ void YXImage::composite(Graphics& g, int x, int y,
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if ((int) h <= g.xorigin() - dx) {
+        if ((int) h <= g.yorigin() - dy) {
             if (verbose)
             tlog("ERROR: coordinates out of bounds\n");
             return;

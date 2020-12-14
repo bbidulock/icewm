@@ -1,11 +1,11 @@
-#ifndef __YLABEL_H
-#define __YLABEL_H
+#ifndef YLABEL_H
+#define YLABEL_H
 
 #include "ywindow.h"
 
 class YLabel: public YWindow {
 public:
-    YLabel(const mstring &label, YWindow *parent = nullptr);
+    YLabel(const mstring& label, YWindow* parent);
     virtual ~YLabel();
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -13,8 +13,8 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
 
-    void setText(const mstring &label);
-    const mstring getText() const { return fLabel; }
+    void setText(const char* label);
+
 private:
     mstring fLabel;
     bool fPainted;

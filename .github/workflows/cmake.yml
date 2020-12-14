@@ -25,7 +25,7 @@ jobs:
     - name: Get Build Dependencies
       shell: bash
       working-directory: ${{runner.workspace}}/build
-      run: sudo apt update && sudo apt install libxrender-dev gettext autopoint libxft-dev libsndfile1-dev libao-dev libsm-dev libx11-dev libxext-dev x11proto-core-dev asciidoctor libxpm-dev libgdk-pixbuf2.0-dev libglib2.0-dev libfribidi-dev librsvg2-dev xorg-dev
+      run: sudo apt update && sudo apt install libxrender-dev gettext autopoint libxft-dev libsndfile1-dev libao-dev libsm-dev libx11-dev libxext-dev x11proto-core-dev asciidoctor libxpm-dev libimlib2-dev libgdk-pixbuf2.0-dev libglib2.0-dev libfribidi-dev librsvg2-dev xorg-dev
 
     - name: Configure CMake
       # Use a bash shell so we can use the same syntax for environment variable

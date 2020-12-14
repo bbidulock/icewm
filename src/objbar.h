@@ -28,6 +28,7 @@ public:
 
     void addButton(mstring name, ref<YIcon> icon, ObjectButton *button);
     void refresh();
+    bool nonempty() const { return objects.nonempty(); }
 
 private:
     ArrayType objects;

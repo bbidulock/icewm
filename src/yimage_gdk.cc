@@ -36,6 +36,10 @@ private:
     GdkPixbuf *fPixbuf;
 };
 
+const char* YImage::renderName() {
+    return "GdkPixbuf";
+}
+
 bool YImage::supportsDepth(unsigned depth) {
     return depth == unsigned(xlib_rgb_get_depth());
 }
@@ -339,7 +343,7 @@ void YImageGDK::composite(Graphics &g, int x, int y, unsigned width, unsigned he
         dx = g.xorigin();
     }
     if (g.yorigin() > dy) {
-        if (h <= g.xorigin() - dx)
+        if (h <= g.yorigin() - dy)
             return;
         h -= g.yorigin() - dy;
         y += g.yorigin() - dy;

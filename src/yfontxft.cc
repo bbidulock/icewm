@@ -10,6 +10,11 @@
 #include <stdio.h>
 #include <ft2build.h>
 #include <X11/Xft/Xft.h>
+#ifdef CONFIG_I18N
+#include <langinfo.h>
+#else
+#define nl_langinfo(X) ""
+#endif
 
 #ifdef CONFIG_FRIBIDI
         // remove deprecated warnings for now...
@@ -265,6 +270,9 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
 }
 
 bool YXftFont::supports(unsigned utf32char) {
+    if (utf32char >= 255 && strcmp("UTF-8", nl_langinfo(CODESET)))
+        return false;
+
     // be conservative, only report when all font candidates can do it
     for (unsigned i = 0; i < fFontCount; ++i) {
         if (!XftCharExists(xapp->display(), fFonts[i], utf32char))
