@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-12-14 01:46+0100\n"
-"PO-Revision-Date: 2020-10-08 13:48+0000\n"
+"PO-Revision-Date: 2020-12-14 22:26+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -1166,15 +1166,15 @@ msgstr "Idioma:"
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "BufferDuplo"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderizador:"
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
