@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-12-14 01:46+0100\n"
-"PO-Revision-Date: 2020-09-26 06:48+0000\n"
+"PO-Revision-Date: 2020-12-21 14:26+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -1166,15 +1166,15 @@ msgstr "Bahasa:"
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "Buffer Ganda"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "Alfa Blending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "Perender"
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
