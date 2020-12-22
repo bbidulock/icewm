@@ -1024,6 +1024,7 @@ public:
         GraphicsBuffer(this).paint();
     }
     virtual void configure(const YRect2& r) {
+        resetScroll();
         repaint();
     }
 
@@ -1069,7 +1070,6 @@ public:
     unsigned contentHeight() {
         return conHeight;
     }
-    YWindow *getWindow() { return this; }
 
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 

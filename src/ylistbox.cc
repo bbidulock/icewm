@@ -330,6 +330,14 @@ bool YListBox::handleKey(const XKeyEvent &key) {
                                clear, extend, false);
             break;
         }
+        case XK_Left:
+        case XK_KP_Left:
+        case XK_Right:
+        case XK_KP_Right:
+            if (fHorizontalScroll && fHorizontalScroll->handleScrollKeys(key)) {
+                return true;
+            }
+            break;
         case XK_a:
         case XK_slash:
         case XK_backslash:
@@ -795,10 +803,6 @@ unsigned YListBox::contentWidth() {
 
 unsigned YListBox::contentHeight() {
     return getItemCount() * getLineHeight();
-}
-
-YWindow *YListBox::getWindow() {
-    return this;
 }
 
 // vim: set sw=4 ts=4 et:

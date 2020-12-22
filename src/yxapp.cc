@@ -68,23 +68,9 @@ Atom _XA_XEMBED;
 Atom _XA_XEMBED_INFO;
 Atom _XA_UTF8_STRING;
 
-Atom _XA_WIN_APP_STATE;
-Atom _XA_WIN_AREA_COUNT;
-Atom _XA_WIN_AREA;
-Atom _XA_WIN_CLIENT_LIST;
-Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
-Atom _XA_WIN_EXPANDED_SIZE;
-Atom _XA_WIN_HINTS;
 Atom _XA_WIN_ICONS;
 Atom _XA_WIN_LAYER;
 Atom _XA_WIN_PROTOCOLS;
-Atom _XA_WIN_STATE;
-Atom _XA_WIN_SUPPORTING_WM_CHECK;
-Atom _XA_WIN_TRAY;
-Atom _XA_WIN_WORKAREA;
-Atom _XA_WIN_WORKSPACE_COUNT;
-Atom _XA_WIN_WORKSPACE_NAMES;
-Atom _XA_WIN_WORKSPACE;
 
 Atom _XA_NET_ACTIVE_WINDOW;
 Atom _XA_NET_CLIENT_LIST;
@@ -335,23 +321,9 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_KDE_SPLASH_PROGRESS              , "_KDE_SPLASH_PROGRESS" },
     { &_XA_KDE_WM_CHANGE_STATE              , "_KDE_WM_CHANGE_STATE" },
 
-    { &_XA_WIN_APP_STATE                    , XA_WIN_APP_STATE },
-    { &_XA_WIN_AREA_COUNT                   , XA_WIN_AREA_COUNT },
-    { &_XA_WIN_AREA                         , XA_WIN_AREA },
-    { &_XA_WIN_CLIENT_LIST                  , XA_WIN_CLIENT_LIST },
-    { &_XA_WIN_DESKTOP_BUTTON_PROXY         , XA_WIN_DESKTOP_BUTTON_PROXY },
-    { &_XA_WIN_EXPANDED_SIZE                , XA_WIN_EXPANDED_SIZE },
-    { &_XA_WIN_HINTS                        , XA_WIN_HINTS },
     { &_XA_WIN_ICONS                        , XA_WIN_ICONS },
     { &_XA_WIN_LAYER                        , XA_WIN_LAYER },
     { &_XA_WIN_PROTOCOLS                    , XA_WIN_PROTOCOLS },
-    { &_XA_WIN_STATE                        , XA_WIN_STATE },
-    { &_XA_WIN_SUPPORTING_WM_CHECK          , XA_WIN_SUPPORTING_WM_CHECK },
-    { &_XA_WIN_TRAY                         , XA_WIN_TRAY },
-    { &_XA_WIN_WORKAREA                     , XA_WIN_WORKAREA },
-    { &_XA_WIN_WORKSPACE_COUNT              , XA_WIN_WORKSPACE_COUNT },
-    { &_XA_WIN_WORKSPACE_NAMES              , XA_WIN_WORKSPACE_NAMES },
-    { &_XA_WIN_WORKSPACE                    , XA_WIN_WORKSPACE },
 
     { &_XA_NET_ACTIVE_WINDOW                , "_NET_ACTIVE_WINDOW" },
     { &_XA_NET_CLIENT_LIST                  , "_NET_CLIENT_LIST" },

@@ -37,8 +37,8 @@ YMsgBox::YMsgBox(int buttons):
         fButtonCancel = new YActionButton(this, _("_Cancel"), -2, this);
     }
     autoSize();
-    setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(AllWorkspaces);
+    setLayerHint(WinLayerAboveDock);
+    setWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);

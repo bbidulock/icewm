@@ -141,7 +141,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);
 
-    setWinWorkspaceHint(AllWorkspaces);
+    setWorkspaceHint(AllWorkspaces);
     updateWinLayer();
     Atom protocols[2] = {
       _XA_WM_DELETE_WINDOW,
@@ -338,7 +338,11 @@ void TaskBar::initApplets() {
             MenuLoader(app, smActionListener, wmActionListener)
             .loadMenus(t, fObjectBar);
         }
-        fObjectBar->setTitle("IceToolbar");
+        if (fObjectBar->nonempty()) {
+            fObjectBar->setTitle("IceToolbar");
+        } else {
+            delete fObjectBar; fObjectBar = nullptr;
+        }
     }
     if (taskBarShowWindowListMenu) {
         class LazyWindowListMenu : public LazyMenu {
@@ -725,7 +729,7 @@ void TaskBar::updateWinLayer() {
     if (getFrame()) {
         getFrame()->wmSetLayer(layer);
     } else {
-        setWinLayerHint(layer);
+        setLayerHint(layer);
     }
 }
 

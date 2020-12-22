@@ -64,8 +64,8 @@ AboutDlg::AboutDlg():
     setWindowTitle(_("icewm - About"));
     setClassHint("about", "IceWM");
 
-    setWinLayerHint(WinLayerAboveDock);
-    setWinWorkspaceHint(AllWorkspaces);
+    setLayerHint(WinLayerAboveDock);
+    setWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
     setMwmHints(MwmHints(
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,

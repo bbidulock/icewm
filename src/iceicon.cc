@@ -72,9 +72,8 @@ public:
     YIconItem *findItemByPoint(int x, int y);
     int findItem(YIconItem *item);
 
-    virtual unsigned contentWidth();
-    virtual unsigned contentHeight();
-    virtual YWindow *getWindow();
+    virtual unsigned contentWidth() { return conWidth; }
+    virtual unsigned contentHeight() { return conHeight; }
 
     virtual void activateItem(YIconItem *item);
     bool layout();
@@ -390,18 +389,6 @@ void YIconView::resetScrollBars() {
     fHorizontalScroll->setUnitIncrement(32);
     if (fView)
         fView->layout();
-}
-
-unsigned YIconView::contentWidth() {
-    return conWidth;
-}
-
-unsigned YIconView::contentHeight() {
-    return conHeight;
-}
-
-YWindow *YIconView::getWindow() {
-    return this;
 }
 
 class ObjectIconItem: public YIconItem {

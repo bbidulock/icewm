@@ -173,7 +173,7 @@ public:
     void setDesktopViewport();
 
     void announceWorkArea();
-    void setWinWorkspace(int workspace);
+    void setWorkspace(int workspace);
     void updateWorkArea();
     bool updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
@@ -338,23 +338,9 @@ extern YWindowManager *manager;
 
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 
-extern Atom _XA_WIN_APP_STATE;
-extern Atom _XA_WIN_AREA_COUNT;
-extern Atom _XA_WIN_AREA;
-extern Atom _XA_WIN_CLIENT_LIST;
-extern Atom _XA_WIN_DESKTOP_BUTTON_PROXY;
-extern Atom _XA_WIN_EXPANDED_SIZE;
-extern Atom _XA_WIN_HINTS;
 extern Atom _XA_WIN_ICONS;
 extern Atom _XA_WIN_LAYER;
 extern Atom _XA_WIN_PROTOCOLS;
-extern Atom _XA_WIN_STATE;
-extern Atom _XA_WIN_SUPPORTING_WM_CHECK;
-extern Atom _XA_WIN_TRAY;
-extern Atom _XA_WIN_WORKAREA;
-extern Atom _XA_WIN_WORKSPACE_COUNT;
-extern Atom _XA_WIN_WORKSPACE_NAMES;
-extern Atom _XA_WIN_WORKSPACE;
 
 extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_CLIENT_MACHINE;
