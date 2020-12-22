@@ -159,29 +159,29 @@ translations.  If you have difficulties using the tools, just send me the update
 
 [1]: https://github.com/bbidulock/@PACKAGE@
 [2]: https://github.com/bbidulock/@PACKAGE@/issues
-[3]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/NEWS
-[4]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/ChangeLog
-[5]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/TODO
-[6]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COMPLIANCE
-[7]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL
-[8]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/BUGS
-[9]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COPYING
+[3]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/NEWS
+[4]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/ChangeLog
+[5]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/TODO
+[6]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/COMPLIANCE
+[7]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/INSTALL
+[8]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/BUGS
+[9]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/COPYING
 [10]: https://github.com/
 [11]: https://l10n.opensuse.org/
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
-[15]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/doc/icewm.adoc
+[15]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/doc/icewm.adoc
 [16]: https://github.com/bbidulock/bbkeys/
-[17]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm.desktop
-[18]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm-session.desktop
-[19]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL-cmakebuild.md
+[17]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/lib/icewm.desktop
+[18]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/lib/icewm-session.desktop
+[19]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/INSTALL-cmakebuild.md
 [20]: https://github.com/bbidulock/xde-menu/
-[21]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesound.pod
-[22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
-[23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
-[24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
-[26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
-[27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
+[21]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icesound.pod
+[22]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
+[23]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
+[24]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
+[26]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
+[27]: https://github.com/ice-wm/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #

@@ -19,7 +19,7 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	BRANCH=$(git tag --sort=-creatordate|head -1)
 	GNITS="gnits "
 	if [ "$VERSION" != "$BRANCH" ]; then
-		BRANCH="icewm-1-4-BRANCH"
+		BRANCH="master"
 		GNITS=""
 	fi
 	sed -i.bak -r \
