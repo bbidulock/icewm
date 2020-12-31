@@ -27,6 +27,7 @@ public:
     void updateIcon();
     void updatePosition();
     YFrameWindow *getFrame() const { return fFrame; };
+    Window iconWindow();
 
 private:
     YFrameWindow *fFrame;

@@ -15,6 +15,7 @@
 #include "sysdep.h"
 #include "yxcontext.h"
 #include "workspaces.h"
+#include "wmminiicon.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
     long mask = PMinSize | PMaxSize | PResizeInc |
@@ -472,7 +473,9 @@ void YFrameClient::setFrameState(FrameState state) {
         }
     }
     else if (state != fSavedFrameState) {
-        Atom arg[2] = { Atom(state), None };
+        Atom iconic = (state == IconicState && getFrame()->isIconic())
+                    ? getFrame()->getMiniIcon()->iconWindow() : None;
+        Atom arg[2] = { Atom(state), iconic };
         setProperty(_XA_WM_STATE, _XA_WM_STATE, arg, 2);
         fSavedFrameState = state;
     }

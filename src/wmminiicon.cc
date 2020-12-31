@@ -26,6 +26,10 @@ inline YFrameClient* MiniIcon::client() const {
     return fFrame->client();
 }
 
+Window MiniIcon::iconWindow() {
+    return Elvis(fIconWindow, handle());
+}
+
 MiniIcon::MiniIcon(YFrameWindow *frame):
     YWindow(),
     fFrame(frame),
