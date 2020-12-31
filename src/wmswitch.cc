@@ -415,11 +415,7 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
     else
         g.fillRect(1, 1, width() - 3, height() - 3);
 
-    iconsDrawn = 0;
     m_verticalStyle ? paintVertical(g) : paintHorizontal(g);
-    if (iconsDrawn) {
-        g.maxOpacity();
-    }
 }
 
 void SwitchWindow::paintHorizontal(Graphics &g) {
@@ -447,7 +443,6 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                     tOfs = iconWidth + quickSwitchIMargin
                         + quickSwitchSepSize;
                 }
-                ++iconsDrawn;
             }
 
             if (quickSwitchSepSize) {
@@ -541,11 +536,9 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 
                             if (icon != null) {
                                 icon->draw(g, x, y - ds / 2, iconSize);
-                                ++iconsDrawn;
                             }
                         } else {
                             icon->draw(g, x, y, YIcon::largeSize());
-                            ++iconsDrawn;
                         }
                         x += ds;
                     }
@@ -620,7 +613,6 @@ void SwitchWindow::paintVertical(Graphics &g) {
                         ? width() - quickSwitchHMargin - iconSize
                         : contentX;
                 icon->draw(g, iconX, contentY, iconSize);
-                ++iconsDrawn;
             }
 
             if (i == m_hlItemFromMotion && i != zItems->getActiveItem())
