@@ -952,10 +952,11 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
 
     drawMoveSizeFX(x(), y(), width(), height());
 
-    if (doMove && !opaqueMove) {
+    if (movingWindow && !opaqueMove) {
         outlineMove();
         endMoveSize();
-    } else if (!doMove && !opaqueResize) {
+    }
+    else if (sizingWindow && !opaqueResize) {
         outlineResize();
         endMoveSize();
     }
@@ -965,9 +966,7 @@ void YFrameWindow::endMoveSize() {
     xapp->releaseEvents();
     statusMoveSize->end();
 
-    if ((movingWindow && opaqueMove) ||
-        (sizingWindow && opaqueResize))
-        drawMoveSizeFX(x(), y(), width(), height());
+    drawMoveSizeFX(x(), y(), width(), height());
 
     movingWindow = false;
     sizingWindow = false;
