@@ -411,7 +411,7 @@ public:
 
     void updateUrgency();
     void setWmUrgency(bool wmUrgency);
-    bool isUrgent() { return fWmUrgency || fClientUrgency; }
+    virtual bool isUrgent() const { return fWmUrgency || fClientUrgency; }
 
     int getScreen() const;
     void refresh();

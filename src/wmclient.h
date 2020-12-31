@@ -158,6 +158,7 @@ public:
     virtual void updateSubmenus() = 0;
     virtual Time since() const = 0;
     virtual ClassHint* classHint() const = 0;
+    virtual bool isUrgent() const = 0;
 protected:
     virtual ~ClientData() {}
 };
@@ -256,7 +257,6 @@ public:
     bool getStateHint(long *mask, long *state);
 
     void setWinHintsHint(long hints);
-    bool getWinHintsHint(long *hints);
     long winHints() const { return fWinHints; }
 
     bool getWinIcons(Atom* type, long* count, long** elem);
