@@ -621,8 +621,10 @@ public:
         regmatch_t m = {};
         while (0 == regexec(&pat, s, 1, &m, 0)) {
             s += m.rm_eo;
-            s[-1] = '0' + o->boolval();
-            s = replaceComment(s, "# 0/1");
+            if (*s) {
+                *s++ = '0' + o->boolval();
+                s = replaceComment(s, "# 0/1");
+            }
         }
         regfree(&pat);
         return s > text;
