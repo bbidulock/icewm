@@ -1,4 +1,4 @@
--- TODO for IceWM.  2017-10-10
+-- TODO for IceWM.  2020-12-14
 
 * [x] set WM_CLIENT_MACHINE on check window
 
@@ -10,7 +10,7 @@
 
 * [ ] add support for WM_COLORMAP_WINDOWS and WM_COLORMAP_NOTIFY
 
-* [ ] add support for icon_pixmap and icon_window field of WM_HINTS property.
+* [x] add support for icon_pixmap and icon_window field of WM_HINTS property.
 
 * [ ] add support for WindowMaker dock apps (add a dock).
 
