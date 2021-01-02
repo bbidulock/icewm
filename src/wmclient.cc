@@ -473,7 +473,8 @@ void YFrameClient::setFrameState(FrameState state) {
         }
     }
     else if (state != fSavedFrameState) {
-        Atom iconic = (state == IconicState && getFrame()->isIconic())
+        Atom iconic = (state == IconicState && getFrame()->isMinimized()
+                    && minimizeToDesktop && getFrame()->getMiniIcon())
                     ? getFrame()->getMiniIcon()->iconWindow() : None;
         Atom arg[2] = { Atom(state), iconic };
         setProperty(_XA_WM_STATE, _XA_WM_STATE, arg, 2);
