@@ -245,11 +245,9 @@ public:
         YFrameWindow* frame = (YFrameWindow*) item;
         if (frame == fLastWindow)
             fLastWindow = nullptr;
+        auto pos = zTarget;
         updateList();
-        if (frame == fActiveWindow || fActiveWindow == nullptr) {
-            zTarget = -1;
-            moveTarget(true);
-        }
+        setTarget( (pos >= 0 && pos < getCount()) ? pos : 0);
         displayFocusChange(fActiveWindow);
     }
 
