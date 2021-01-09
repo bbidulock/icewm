@@ -46,7 +46,7 @@ XIV(bool, taskBarShowStartMenu,                 true)
 XIV(bool, taskBarShowWindowListMenu,            true)
 XIV(bool, taskBarShowWorkspaces,                true)
 XIV(bool, taskBarShowWindows,                   true)
-XIV(bool, taskBarShowShowDesktopButton,         true)
+XIV(int, taskBarShowShowDesktopButton,          1)
 
 XIV(int, taskBarButtonWidthDivisor,             3)
 XIV(int, taskBarWidthPercentage,                100)
@@ -313,7 +313,7 @@ cfoption icewm_preferences[] = {
     OBV("TaskBarMailboxStatusCountMessages",    &countMailMessages,             "Count messages in mailbox"),
     OBV("TaskBarShowWorkspaces",                &taskBarShowWorkspaces,         "Show workspace switching buttons on task bar"),
     OBV("TaskBarShowWindows",                   &taskBarShowWindows,            "Show windows on the taskbar"),
-    OBV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton,  "Show 'show desktop' button on taskbar"),
+    OIV("TaskBarShowShowDesktopButton",         &taskBarShowShowDesktopButton, 0, 2, "Show 'show desktop' button on taskbar (value of 2 to put after the clock)"),
     OBV("ShowEllipsis",                         &showEllipsis,                  "Show Ellipsis in taskbar items as indicator of further collapsed content."),
     OBV("TaskBarShowTray",                      &taskBarShowTray,               "Show application icons in the tray panel"),
     OBV("TaskBarEnableSystemTray",              &taskBarEnableSystemTray,       "Enable the system tray in the taskbar"),
