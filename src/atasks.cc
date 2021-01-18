@@ -174,7 +174,7 @@ void TaskButton::handleExpose(const XExposeEvent& exp) {
     }
 }
 
-void TaskButton::paint(Graphics &g, const YRect& r) {
+void TaskButton::paint(Graphics& g, const YRect& r) {
     YColor bg, fg;
     ref<YPixmap> bgPix;
     ref<YPixmap> bgLeft;
@@ -292,7 +292,7 @@ void TaskButton::paint(Graphics &g, const YRect& r) {
                 if (taskbuttonIconOffset &&
                     bgLeftG != null &&
                     bgRightG != null &&
-                    3*  taskbuttonIconOffset <= w)
+                    3 * taskbuttonIconOffset <= w)
                 {
                     g.drawGradient(bgLeftG, x, y,
                                    bgLeftG->width(), h);
@@ -311,7 +311,7 @@ void TaskButton::paint(Graphics &g, const YRect& r) {
                 if (taskbuttonIconOffset &&
                     bgLeft != null &&
                     bgRight != null &&
-                    3*  taskbuttonIconOffset <= w)
+                    3 * taskbuttonIconOffset <= w)
                 {
                     g.fillPixmap(bgLeft, x, y,
                                  bgLeft->width(), h);
@@ -412,7 +412,7 @@ ref<YFont> TaskButton::getActiveFont() {
     return activeTaskBarFont;
 }
 
-void TaskButton::handleButton(const XButtonEvent &button) {
+void TaskButton::handleButton(const XButtonEvent& button) {
     YWindow::handleButton(button);
 
     if (fTaskPane->dragging())
@@ -459,7 +459,7 @@ void TaskButton::handleButton(const XButtonEvent &button) {
     }
 }
 
-void TaskButton::handleCrossing(const XCrossingEvent &crossing) {
+void TaskButton::handleCrossing(const XCrossingEvent& crossing) {
     if (selected > 0) {
         if (crossing.type == EnterNotify) {
             selected = 2;
@@ -472,7 +472,7 @@ void TaskButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void TaskButton::handleClick(const XButtonEvent &up, int /*count*/) {
+void TaskButton::handleClick(const XButtonEvent& up, int /*count*/) {
     if (up.button == Button3 && fActive) {
         getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                     YPopupWindow::pfCanFlipVertical |
@@ -523,7 +523,7 @@ bool TaskButton::handleTimer(YTimer* t) {
     return false;
 }
 
-void TaskButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
+void TaskButton::handleBeginDrag(const XButtonEvent& down, const XMotionEvent& motion) {
     if (down.button == Button1) {
         raise();
         fTaskPane->startDrag(this, 0, down.x + x(), down.y + y());
@@ -701,7 +701,7 @@ void TaskPane::relayoutNow(bool force) {
         dragging()->show();
 }
 
-void TaskPane::handleClick(const XButtonEvent &up, int count) {
+void TaskPane::handleClick(const XButtonEvent& up, int count) {
     if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
         fTaskBar->contextMenu(up.x_root, up.y_root);
     }
@@ -716,7 +716,7 @@ void TaskPane::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void TaskPane::paint(Graphics &g, const YRect& r) {
+void TaskPane::paint(Graphics& g, const YRect& r) {
     if (taskbackPixmap == null && getGradient() == null) {
         g.setColor(taskBarBg);
         g.fillRect(r.x(), r.y(), r.width(), r.height());
@@ -727,13 +727,13 @@ unsigned TaskPane::maxHeight() {
     return TaskButton::maxHeight();
 }
 
-void TaskPane::handleMotion(const XMotionEvent &motion) {
+void TaskPane::handleMotion(const XMotionEvent& motion) {
     if (fDragging) {
         processDrag(motion.x, motion.y);
     }
 }
 
-void TaskPane::handleButton(const XButtonEvent &button) {
+void TaskPane::handleButton(const XButtonEvent& button) {
     if (button.type == ButtonRelease)
         endDrag();
     YWindow::handleButton(button);
@@ -786,7 +786,7 @@ void TaskPane::processDrag(int mx, int my) {
         }
     }
     if (drag >= 0 && drop >= 0) {
-        fApps.swap(drag, drop);
+        fTasks.swap(drag, drop);
     }
     fDragX += dx;
     fDragY += dy;
