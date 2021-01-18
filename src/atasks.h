@@ -5,47 +5,70 @@
 #include "ytimer.h"
 
 class TaskPane;
+class TaskButton;
 class TaskBarApp;
 class IAppletContainer;
 class ClientData;
 
-class TaskBarApp: public YWindow, public YTimerListener {
+class TaskBarApp {
 public:
-    TaskBarApp(ClientData *frame, TaskPane *taskPane, YWindow *aParent);
+    TaskBarApp(ClientData* frame, TaskButton* button);
     virtual ~TaskBarApp();
 
+    void activate() const;
+    ClientData* getFrame() const { return fFrame; }
+    TaskButton* button() const { return fButton; }
+
+    void setShown(bool show);
+    bool getShown() const;
+
+    int getOrder() const;
+    void setFlash(bool urgent);
+    void setToolTip(mstring tip);
+    void repaint();
+
+private:
+    ClientData* fFrame;
+    TaskButton* fButton;
+    bool fShown;
+};
+
+class TaskButton: public YWindow, private YTimerListener {
+public:
+    TaskButton(TaskPane* taskPane);
+    virtual ~TaskButton();
+
+    void setShown(TaskBarApp* app, bool show);
+    bool getShown() const;
     virtual bool isFocusTraversable();
 
-    virtual void paint(Graphics &g, const YRect &r);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
+    virtual void paint(Graphics& g, const YRect& r);
+    virtual void handleButton(const XButtonEvent& button);
+    virtual void handleClick(const XButtonEvent& up, int count);
+    virtual void handleCrossing(const XCrossingEvent& crossing);
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
-    virtual bool handleTimer(YTimer *t);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual void handleBeginDrag(const XButtonEvent& down, const XMotionEvent& motion);
     virtual void handleExpose(const XExposeEvent& expose);
     virtual void configure(const YRect2& r);
     virtual void repaint();
 
     void activate() const;
-    ClientData *getFrame() const { return fFrame; }
-
-    void setShown(bool show);
-    bool getShown() const { return fShown || fFlashing; }
-
-    int getOrder() const;
+    void addApp(TaskBarApp* app);
+    void remove(TaskBarApp* tapp);
     void setFlash(bool urgent);
-    void switchToPrev();
-    void switchToNext();
+    bool flashing() const { return fFlashing; }
+    int getOrder() const;
+    int getCount() const;
 
+    TaskBarApp* getActive() const { return fActive; }
+    ClientData* getFrame() const { return fActive->getFrame(); }
+    TaskPane* taskPane() const { return fTaskPane; }
     static unsigned maxHeight();
-    static void freeFonts() { normalTaskBarFont = null; activeTaskBarFont = null; }
 
 private:
-    ClientData *fFrame;
-    TaskPane *fTaskPane;
-    Pixmap fPixmap;
+    TaskPane* fTaskPane;
+    TaskBarApp* fActive;
     bool fRepainted;
     bool fShown;
     bool fFlashing;
@@ -53,65 +76,69 @@ private:
     timeval fFlashStart;
     int selected;
     lazy<YTimer> fFlashTimer;
-    static lazy<YTimer> fRaiseTimer;
+    lazy<YTimer> fRaiseTimer;
 
+    virtual bool handleTimer(YTimer* t);
     ref<YFont> getFont();
     static ref<YFont> getNormalFont();
     static ref<YFont> getActiveFont();
-
-    static ref<YFont> normalTaskBarFont;
-    static ref<YFont> activeTaskBarFont;
 };
 
 class TaskPane: public YWindow, private YTimerListener {
 public:
-    TaskPane(IAppletContainer *taskBar, YWindow *parent);
+    TaskPane(IAppletContainer* taskBar, YWindow* parent);
     ~TaskPane();
 
-    void insert(TaskBarApp *tapp);
-    void remove(TaskBarApp *tapp);
-    TaskBarApp *addApp(YFrameWindow *frame);
-    TaskBarApp *findApp(YFrameWindow *frame);
-    TaskBarApp *getActive();
-    TaskBarApp *predecessor(TaskBarApp *tapp);
-    TaskBarApp *successor(TaskBarApp *tapp);
+    void insert(TaskBarApp* tapp);
+    void remove(TaskBarApp* tapp);
+    void insert(TaskButton* task);
+    void remove(TaskButton* task);
+    TaskBarApp* addApp(ClientData* frame);
+    TaskBarApp* findApp(ClientData* frame);
+    TaskBarApp* getActiveApp();
+    TaskBarApp* predecessor(TaskBarApp* tapp);
+    TaskBarApp* successor(TaskBarApp* tapp);
+    TaskButton* getActiveButton();
 
     static unsigned maxHeight();
     void relayout(bool force = false);
     void relayoutNow(bool force = false);
 
     virtual void configure(const YRect2& r);
-    virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleMotion(const XMotionEvent &motion);
-    virtual void handleButton(const XButtonEvent &button);
-    virtual void handleExpose(const XExposeEvent &expose) {}
-    virtual void paint(Graphics &g, const YRect &r);
+    virtual void handleClick(const XButtonEvent& up, int count);
+    virtual void handleMotion(const XMotionEvent& motion);
+    virtual void handleButton(const XButtonEvent& button);
+    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void paint(Graphics& g, const YRect& r);
 
-    void startDrag(TaskBarApp *drag, int byMouse, int sx, int sy);
+    void startDrag(TaskButton* drag, int byMouse, int sx, int sy);
     void processDrag(int mx, int my);
     void endDrag();
-    TaskBarApp* dragging() const { return fDragging; }
+    TaskButton* dragging() const { return fDragging; }
 
     void switchToPrev();
     void switchToNext();
     void movePrev();
     void moveNext();
 private:
-    IAppletContainer *fTaskBar;
+    IAppletContainer* fTaskBar;
 
     typedef YObjectArray<TaskBarApp> AppsType;
-    typedef AppsType::IterType IterType;
+    typedef AppsType::IterType IterApps;
     AppsType fApps;
+    typedef YObjectArray<TaskButton> TaskType;
+    typedef TaskType::IterType IterTask;
+    TaskType fTasks;
 
-    bool fNeedRelayout;
-    bool fForceImmediate;
+    lazy<YTimer> fRelayoutTimer;
+    virtual bool handleTimer(YTimer* t);
 
-    TaskBarApp *fDragging;
+    TaskButton* fDragging;
     int fDragX;
     int fDragY;
 
-    lazy<YTimer> fRelayoutTimer;
-    virtual bool handleTimer(YTimer *t);
+    bool fNeedRelayout;
+    bool fForceImmediate;
 };
 
 #endif
