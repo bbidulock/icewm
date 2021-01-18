@@ -290,6 +290,9 @@ void YButton::handleButton(const XButtonEvent &button) {
         }
     }
     YWindow::handleButton(button);
+    if (fEnabled && button.type == ButtonRelease && button.button == Button1) {
+        setArmed(false, false);
+    }
 }
 
 void YButton::handleClick(const XButtonEvent &button, int count) {
