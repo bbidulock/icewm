@@ -367,6 +367,7 @@ private:
         bool net_wm_window_opacity : 1;
         bool net_wm_pid : 1;
         bool mwm_hints : 1;
+        bool win_tray : 1; // no property notify
         bool win_layer : 1; // no property notify
         bool win_icons : 1;
         bool xembed_info : 1;

@@ -177,6 +177,7 @@ static NAtom ATOM_NET_SHOWING_DESKTOP("_NET_SHOWING_DESKTOP");
 static NAtom ATOM_NET_NUMBER_OF_DESKTOPS("_NET_NUMBER_OF_DESKTOPS");
 static NAtom ATOM_NET_SUPPORTING_WM_CHECK("_NET_SUPPORTING_WM_CHECK");
 static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
+static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_WIN_PROTOCOLS(XA_WIN_PROTOCOLS);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
@@ -210,6 +211,7 @@ static NAtom ATOM_NET_WM_STATE_SKIP_TASKBAR("_NET_WM_STATE_SKIP_TASKBAR");
 static NAtom ATOM_NET_WM_STATE_STICKY("_NET_WM_STATE_STICKY");
 static NAtom ATOM_NET_WM_USER_TIME("_NET_WM_USER_TIME");
 static NAtom ATOM_NET_WM_USER_TIME_WINDOW("_NET_WM_USER_TIME_WINDOW");
+static NAtom ATOM_NET_WM_FULLSCREEN_MONITORS("_NET_WM_FULLSCREEN_MONITORS");
 
 enum NetStateBits {
     NetAbove       = 1,
@@ -1293,6 +1295,7 @@ private:
     void confine(const char* str);
     void invalidArgument(const char* str);
     char* getArg();
+    long getLong();
     bool haveArg();
     bool isAction(const char* str, int argCount);
     bool icewmAction();
@@ -1319,6 +1322,7 @@ private:
     bool runonce();
     void click();
     bool delay();
+    void monitors();
     bool desktops();
     bool desktop();
     bool wmcheck();
@@ -1349,6 +1353,13 @@ static const Symbol layerIdentifiers[] = {
     { "AboveDock",  WinLayerAboveDock   },
     { "Menu",       WinLayerMenu        },
     { nullptr,      0                   }
+};
+
+static const Symbol trayOptionIdentifiers[] = {
+    { "Ignore",         WinTrayIgnore    },
+    { "Minimized",      WinTrayMinimized },
+    { "Exclusive",      WinTrayExclusive },
+    { nullptr,          0                }
 };
 
 static const Symbol gravityIdentifiers[] = {
@@ -1411,6 +1422,10 @@ static const SymbolTable netstates = {
 
 static const SymbolTable layers = {
     layerIdentifiers, 0, WinLayerCount - 1, WinLayerInvalid
+};
+
+static const SymbolTable trayOptions = {
+    trayOptionIdentifiers, 0, WinTrayOptionCount - 1, WinTrayInvalid
 };
 
 static const SymbolTable gravities = {
@@ -1848,6 +1863,7 @@ bool IceSh::listSymbols()
         return false;
 
     layers.listSymbols(_("GNOME window layer"));
+    trayOptions.listSymbols(_("IceWM tray option"));
     gravities.listSymbols(_("Gravity symbols"));
     motifFunctionsTable.listSymbols(_("Motif functions"));
     motifDecorationsTable.listSymbols(_("Motif decorations"));
@@ -2322,6 +2338,18 @@ bool IceSh::delay()
     return true;
 }
 
+void IceSh::monitors()
+{
+    long ty = getLong();
+    long by = getLong();
+    long lx = getLong();
+    long rx = getLong();
+    FOREACH_WINDOW(window) {
+        send(ATOM_NET_WM_FULLSCREEN_MONITORS, window,
+             ty, by, lx, rx, None);
+    }
+}
+
 bool IceSh::guiEvents()
 {
     if ( !isAction("guievents", 0))
@@ -2426,6 +2454,22 @@ static void getLayer(Window window) {
             printf("0x%-7lx %s\n", window, name);
         else
             printf("0x%-7lx %ld\n", window, layer);
+    }
+}
+
+static void setTrayHint(Window window, long trayopt) {
+    send(ATOM_WIN_TRAY, window, trayopt, CurrentTime);
+}
+
+static void getTrayOption(Window window) {
+    YCardinal prop(window, ATOM_WIN_TRAY);
+    if (prop) {
+        long tropt = *prop;
+        const char* name;
+        if (trayOptions.lookup(tropt, &name))
+            printf("0x%-7lx %s\n", window, name);
+        else
+            printf("0x%-7lx %ld\n", window, tropt);
     }
 }
 
@@ -3130,6 +3174,17 @@ bool IceSh::haveArg()
 char* IceSh::getArg()
 {
     return haveArg() ? *argp++ : nullptr;
+}
+
+long IceSh::getLong()
+{
+    char* str = getArg();
+    long num;
+    if ( !tolong(str, num)) {
+        msg(_("Invalid argument: `%s'"), str);
+        THROW(1);
+    }
+    return num;
 }
 
 bool IceSh::isAction(const char* action, int count)
@@ -3961,6 +4016,18 @@ void IceSh::parseAction()
             FOREACH_WINDOW(window)
                 getLayer(window);
         }
+        else if (isAction("setTrayOption", 1)) {
+            unsigned trayopt(trayOptions.parseExpression(getArg()));
+            check(trayOptions, trayopt, argp[-1]);
+
+            MSG(("setTrayOption: %d", trayopt));
+            FOREACH_WINDOW(window)
+                setTrayHint(window, trayopt);
+        }
+        else if (isAction("getTrayOption", 0)) {
+            FOREACH_WINDOW(window)
+                getTrayOption(window);
+        }
         else if (isAction("setType", 1)) {
             setWindowType(getArg());
         }
@@ -4000,6 +4067,10 @@ void IceSh::parseAction()
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
                 printf("0x%07lx\n", Window(window));
+        }
+        else if (isAction("frame", 0)) {
+            FOREACH_WINDOW(window)
+                printf("0x%07lx\n", getFrameWindow(window));
         }
         else if (isAction("pid", 0)) {
             FOREACH_WINDOW(window) {
@@ -4123,6 +4194,20 @@ void IceSh::parseAction()
             }
             argp = args + count;
         }
+        else if (isAction("properties", 0)) {
+            FOREACH_WINDOW(window) {
+                int count = 0;
+                Atom* atoms = XListProperties(display, window, &count);
+                if (count && atoms) {
+                    char buf[32];
+                    snprintf(buf, sizeof buf, "0x%07x ", unsigned(window));
+                    for (int i = 0; i < count; ++i) {
+                        showProperty(window, atoms[i], buf);
+                    }
+                    XFree(atoms);
+                }
+            }
+        }
         else if (isAction("prop", 1)) {
             NAtom prop(getArg(), true);
             if (prop) {
@@ -4144,6 +4229,9 @@ void IceSh::parseAction()
         }
         else if (isAction("normal", 0)) {
             changeState(NormalState);
+        }
+        else if (isAction("monitors", 4)) {
+            monitors();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

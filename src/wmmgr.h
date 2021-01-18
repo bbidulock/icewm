@@ -341,6 +341,7 @@ void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 extern Atom _XA_WIN_ICONS;
 extern Atom _XA_WIN_LAYER;
 extern Atom _XA_WIN_PROTOCOLS;
+extern Atom _XA_WIN_TRAY;
 
 extern Atom _XA_WM_CLIENT_LEADER;
 extern Atom _XA_WM_CLIENT_MACHINE;

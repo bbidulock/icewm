@@ -59,6 +59,12 @@ public:
         return !(*this == r);
     }
 
+    void operator+=(const YRect& r) {
+        int mx = min(xx, r.xx), mw = int(max(xx + int(ww), r.xx + int(r.ww)));
+        int my = min(yy, r.yy), mh = int(max(yy + int(hh), r.yy + int(r.hh)));
+        setRect(mx, my, unsigned(mw - mx), unsigned(mh - my));
+    }
+
     int xx, yy;
     unsigned ww, hh;
 };

@@ -401,7 +401,7 @@ public:
     void updateNetWMUserTime();
     void updateNetWMUserTimeWindow();
     void updateNetWMWindowOpacity();
-    void updateNetWMFullscreenMonitors(int, int, int, int);
+    void updateNetWMFullscreenMonitors(int top, int bottom, int left, int right);
 
     int strutLeft() { return fStrutLeft; }
     int strutRight() { return fStrutRight; }

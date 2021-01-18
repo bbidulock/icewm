@@ -14,8 +14,8 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides 95 commands to interact with the L<icewm(1)> window manager.
-There are two types of commands:
+B<icesh> provides commands to directly interact with the L<icewm(1)> window
+manager.  There are two types of commands:
 
 =over
 
@@ -40,7 +40,7 @@ This can be used in scripts and in L<icewm-keys(5)>
 to define your own window management hotkeys.  For example, to
 immediately close all xterm windows do C<icesh -c xterm close>.
 
-There are about ten C<SELECT OPTIONS> to select windows.
+There are about seven C<SELECT OPTIONS> to select windows.
 They start with a minus sign '-' or with a plus sign '+'.
 The first starts a new selection. The second adds more
 windows to an existing selection.
@@ -52,13 +52,13 @@ C<icesh -c xterm -W this close> will close only those xterms
 which are shown on the current workspace. The xterms on other
 workspaces are filtered out by the C<-W this> filter option.
 
-There is no limit to the number of selections, filters and
-actions which you can give to a single icesh command.
+=back
+
+There is no limit to the number of commands, selections, filters
+and actions which you can give to a single icesh command.
 They are processed and evaluated one by one from left to right.
 This makes icesh a small declarative programming language.
 Have a look at some examples near the end of this document.
-
-=back
 
 =head1 OPTIONS
 
@@ -445,6 +445,15 @@ Print the workspace for the specified window.
 Print the window opacity if I<OPACITY> is not given,
 otherwise set the window opacity to I<OPACITY>.
 
+=item B<setTrayOption> I<TRAYOPTION>
+
+Set the I<IceWM tray option> for the specified window to I<TRAYOPTION>.
+See I<IceWM tray options>, below, for I<TRAYOPTION> symbols.
+
+=item B<getTrayOption>
+
+Print the I<IceWM tray option> for the specified window.
+
 =item B<setNormalGravity> I<GRAVITY>
 
 Set the window gravity field in the WM_NORMAL_HINTS property for the
@@ -497,12 +506,25 @@ Show the frame borders and title.
 
 Print the value of property I<PROPERTY> if it is present.
 
+=item B<properties>
+
+Print all properties.
+
+=item B<frame>
+
+Print the identifier of the window frame.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,
 I<window-y>). A negative position is relative to the bottom right
 corner. The mouse pointer is warped to the position before sending
 the events. The button number should be between 1 and 5 inclusive.
+
+=item B<monitors> I<top> I<bottom> I<left> I<right>
+
+This sets the monitors to use for fullscreen.
+Top, bottom, left, and right are indices of the I<icesh xinerama> command.
 
 =item B<spy>
 
@@ -683,6 +705,17 @@ Named symbols of the domain I<Window layer> (numeric range: 0-15):
 
 These symbols are used with the I<LAYER> argument to the C<setLayer>
 action.
+
+=item I<IceWM tray option>
+
+Named symbols of the domain I<IceWM tray option> (numeric range: 0-2):
+
+    Ignore                 (0)
+    Minimized              (1)
+    Exclusive              (2)
+
+These symbols are used with the I<TRAYOPTION> argument to the
+C<setTrayOption> action.
 
 =item I<Gravity symbols>
 

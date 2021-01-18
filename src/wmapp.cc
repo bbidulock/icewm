@@ -139,6 +139,7 @@ static void registerWinProtocols(Window xid) {
         _XA_WIN_ICONS,
         _XA_WIN_LAYER,
         _XA_WIN_PROTOCOLS,
+        _XA_WIN_TRAY,
     };
     int win_count = int ACOUNT(win_proto);
     desktop->setProperty(_XA_WIN_PROTOCOLS, XA_ATOM, win_proto, win_count);

@@ -71,6 +71,7 @@ Atom _XA_UTF8_STRING;
 Atom _XA_WIN_ICONS;
 Atom _XA_WIN_LAYER;
 Atom _XA_WIN_PROTOCOLS;
+Atom _XA_WIN_TRAY;
 
 Atom _XA_NET_ACTIVE_WINDOW;
 Atom _XA_NET_CLIENT_LIST;
@@ -324,6 +325,7 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_WIN_ICONS                        , XA_WIN_ICONS },
     { &_XA_WIN_LAYER                        , XA_WIN_LAYER },
     { &_XA_WIN_PROTOCOLS                    , XA_WIN_PROTOCOLS },
+    { &_XA_WIN_TRAY                         , XA_WIN_TRAY },
 
     { &_XA_NET_ACTIVE_WINDOW                , "_NET_ACTIVE_WINDOW" },
     { &_XA_NET_CLIENT_LIST                  , "_NET_CLIENT_LIST" },
