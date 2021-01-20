@@ -1149,7 +1149,7 @@ void YFrameWindow::wmSetLayer(long layer) {
     long previous = fWinState;
     setRequestedLayer(layer);
     if (hasbit(previous ^ fWinState, WinStateAbove | WinStateBelow)) {
-        client()->setStateHint(WIN_STATE_ALL, fWinState);
+        client()->setStateHint();
     }
 }
 
@@ -1165,14 +1165,14 @@ void YFrameWindow::wmToggleDoNotCover() {
 
 void YFrameWindow::wmToggleFullscreen() {
     if (isFullscreen()) {
-        setState(WinStateFullscreen | WinStateMaximizedBoth, 0);
+        setState(WinStateFullscreen, None);
     }
     else if (canFullscreen()) {
         if (isUnmapped()) {
             makeMapped();
             xapp->sync();
         }
-        setState(WinStateFullscreen | WinStateMaximizedBoth, WinStateFullscreen);
+        setState(WinStateFullscreen, WinStateFullscreen);
     }
 }
 
@@ -1277,9 +1277,6 @@ void YFrameWindow::restoreHiddenTransients() {
 }
 
 void YFrameWindow::doMaximize(long flags) {
-    if (isFullscreen()) {
-        setState(WinStateFullscreen, None);
-    }
     if (isUnmapped()) {
         makeMapped();
         xapp->sync();
@@ -2721,7 +2718,7 @@ void YFrameWindow::updateState() {
     if (!isManaged() || client()->destroyed())
         return ;
 
-    client()->setStateHint(WIN_STATE_ALL, fWinState);
+    client()->setStateHint();
 
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
@@ -2764,8 +2761,10 @@ bool YFrameWindow::inWorkArea() const {
         return false;
     if (isFullscreen())
         return false;
-    if (getActiveLayer() >= WinLayerDock)
-        return false;
+    if (getActiveLayer() >= WinLayerDock) {
+        if (getActiveLayer() != WinLayerFullscreen)
+            return false;
+    }
     return !fHaveStruts;
 }
 
@@ -2864,7 +2863,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
     nw += 2 * borderXN();
     nh += 2 * borderYN();
 
-    if (isFullscreen() || (flagmask & (WinStateFullscreen | WinStateMinimized)))
+    if (isFullscreen() || (flagmask & WinStateMinimized))
         horiz = vert = false;
 
     if (horiz) {
@@ -2874,7 +2873,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
             cx = mx + (Mw - nw) / 2;
         else if (!considerHorizBorder)
             cx -= borderXN();
-        if (flagmask & WinStateMaximizedHoriz)
+        if (flagmask & WinStateMaximizedHoriz || isMaximizedHoriz())
             nx = cx;
         else
             nx = x();
@@ -2889,7 +2888,7 @@ void YFrameWindow::updateDerivedSize(long flagmask) {
         else if (!considerVertBorder)
             cy -= borderYN();
 
-        if (flagmask & WinStateMaximizedVert)
+        if (flagmask & WinStateMaximizedVert || isMaximizedVert())
             ny = cy;
         else
             ny = y();
@@ -3205,7 +3204,7 @@ ref<YIcon> YFrameWindow::clientIcon() const {
 void YFrameWindow::updateProperties() {
     client()->setWorkspaceHint(fWinWorkspace);
     client()->setLayerHint(fWinActiveLayer);
-    client()->setStateHint(WIN_STATE_ALL, fWinState);
+    client()->setStateHint();
 }
 
 void YFrameWindow::updateTaskBar() {

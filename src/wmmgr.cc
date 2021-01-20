@@ -1611,8 +1611,7 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
         if (frame->frameOption(YFrameWindow::foAllWorkspaces))
             frame->setAllWorkspaces();
         if (frame->frameOption(YFrameWindow::foFullscreen))
-            frame->setState(WinStateFullscreen | WinStateMaximizedBoth,
-                            WinStateFullscreen);
+            frame->setState(WinStateFullscreen, WinStateFullscreen);
         else if (frame->frameOption(YFrameWindow::foMaximizedBoth))
             frame->setState(WinStateMaximizedBoth | WinStateFullscreen,
                            (WinStateMaximizedBoth & frame->frameOptions()));
@@ -1636,12 +1635,9 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
          !(client->sizeHints()->flags & (USPosition | PPosition))))
         canManualPlace = true;
 
-    if (doActivate) {
-        if (!(frame->getState() & (WinStateHidden | WinStateMinimized | WinStateFullscreen)))
-        {
-            if (canManualPlace && !opaqueMove)
-                frame->manualPlace();
-        }
+    if (doActivate && canManualPlace && !opaqueMove &&
+        frame->notState(WinStateHidden | WinStateMinimized | WinStateFullscreen)) {
+        frame->manualPlace();
     }
     frame->updateState();
     frame->updateProperties();

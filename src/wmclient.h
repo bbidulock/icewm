@@ -253,9 +253,7 @@ public:
     void setWinTrayHint(long tray_opt);
     bool getWinTrayHint(long *tray_opt);
 
-    void setStateHint(long mask, long state);
-    bool getStateHint(long *mask, long *state);
-
+    void setStateHint();
     void setWinHintsHint(long hints);
     long winHints() const { return fWinHints; }
 
@@ -314,7 +312,7 @@ private:
     int haveButtonGrab;
     unsigned int fBorder;
     FrameState fSavedFrameState;
-    long fSavedWinState[2];
+    long fWinStateHint;
     XSizeHints *fSizeHints;
     ClassHint fClassHint;
     XWMHints *fHints;

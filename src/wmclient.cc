@@ -58,8 +58,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fHints = nullptr;
     fWinHints = 0;
     fSavedFrameState = InvalidFrameState;
-    fSavedWinState[0] = None;
-    fSavedWinState[1] = None;
+    fWinStateHint = InvalidFrameState;
     fSizeHints = XAllocSizeHints();
     fTransientFor = None;
     fClientLeader = None;
@@ -469,7 +468,7 @@ void YFrameClient::setFrameState(FrameState state) {
             for (Atom atom : atoms)
                 deleteProperty(atom);
             fSavedFrameState = InvalidFrameState;
-            fSavedWinState[0] = fSavedWinState[1] = 0;
+            fWinStateHint = InvalidFrameState;
         }
     }
     else if (state != fSavedFrameState) {
@@ -1305,15 +1304,15 @@ bool YFrameClient::getWinTrayHint(long* tray_opt) {
     return false;
 }
 
-void YFrameClient::setStateHint(long mask, long state) {
-    MSG(("set state=%8lX mask=%3lX, saved %8lX, %3lX, %p",
-          state, mask, fSavedWinState[0], fSavedWinState[1], this));
+void YFrameClient::setStateHint() {
+    long state = getFrame()->getState();
+    MSG(("set state 0x%8lX, saved 0x%8lX, win 0x%lx",
+          state, fWinStateHint, handle()));
 
-    if (destroyed())
+    if (fWinStateHint == state || destroyed()) {
         return;
-
-    if (state == fSavedWinState[0] && mask == fSavedWinState[1]) {
-        return;
+    } else {
+        fWinStateHint = state;
     }
 
     Atom a[15];
@@ -1349,9 +1348,6 @@ void YFrameClient::setStateHint(long mask, long state) {
         a[i++] = _XA_NET_WM_STATE_DEMANDS_ATTENTION;
 
     setProperty(_XA_NET_WM_STATE, XA_ATOM, a, i);
-
-    fSavedWinState[0] = state;
-    fSavedWinState[1] = mask;
 }
 
 bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
@@ -1359,9 +1355,6 @@ bool YFrameClient::getNetWMStateHint(long *mask, long *state) {
     YProperty prop(this, _XA_NET_WM_STATE, F32, 32, XA_ATOM);
     for (Atom atom : prop) {
         flags |= getMask(atom);
-    }
-    if (hasbit(flags, WinStateFullscreen)) {
-        flags &= ~WinStateMaximizedBoth;
     }
     if (hasbit(flags, WinStateMinimized)) {
         flags &= ~WinStateRollup;

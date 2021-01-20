@@ -292,11 +292,8 @@
 #define WinStateWasMinimized   (1 << 30)  /* was minimized when parent was minimized/hidden */
 #define WinStateUnmapped       (WinStateMinimized|WinStateHidden|WinStateRollup)
 
-#define WIN_STATE_ALL (WinStateSticky | WinStateMinimized |\
-                       WinStateMaximizedVert | WinStateMaximizedHoriz |\
-                       WinStateHidden | WinStateRollup | WinStateHidWorkspace |\
-                       WinStateHidTransient | WinStateFixedPosition |\
-                       WinStateArrangeIgnore | WinStateFullscreen)
+#define WIN_STATE_ALL (WinStateSticky | WinStateUnmapped |\
+                       WinStateMaximizedBoth | WinStateFullscreen)
 
 
 /* hints */
