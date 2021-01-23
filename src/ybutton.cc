@@ -58,7 +58,7 @@ YButton::~YButton() {
     }
     popdown();
     if (fPopup && fPopup->isShared() == false) {
-        delete fPopup;
+        delete fPopup; fPopup = nullptr;
     }
     if (--buttonObjectCount == 0) {
         normalButtonFont = null;
@@ -289,8 +289,13 @@ void YButton::handleButton(const XButtonEvent &button) {
             setSelected(false);
         }
     }
+    bool unarm = fEnabled && fArmed
+              && button.type == ButtonRelease
+              && button.button == Button1
+              && getClickCount() == 1
+              && dragging();
     YWindow::handleButton(button);
-    if (fEnabled && button.type == ButtonRelease && button.button == Button1) {
+    if (unarm && !fPopupActive) {
         setArmed(false, false);
     }
 }
