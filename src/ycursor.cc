@@ -46,7 +46,8 @@ public:
 
     bool isValid() { return fImage; }
     void release();
-    void context() const { imlib_context_set_image(fImage); }
+    void context() const { imlib_context_set_image(fImage);
+                           imlib_context_set_drawable(xapp->root()); }
     unsigned int width() const {
         return fImage ? context(), imlib_image_get_width() : 0;
     }
