@@ -587,6 +587,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
     if (taskBarShowWindows) {
         if (fTasks) {
+            fTasks->hide();
             fTasks->setGeometry(YRect(left[0],
                                       y[0],
                                       max(0, right[0] - left[0]),
