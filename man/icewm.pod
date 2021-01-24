@@ -484,6 +484,10 @@ Press the right Windows key if C<Win95Keys=1>
 
 Press the C<DesktopWinListButton=2> mouse button in the root window.
 
+=item
+
+Press the middle mouse button in a workspace button on the task bar.
+
 =back
 
 A single-click on a window entry selects it. A group of windows can
