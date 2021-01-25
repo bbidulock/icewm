@@ -1,5 +1,5 @@
-#ifndef __YMENU_H
-#define __YMENU_H
+#ifndef YMENU_H
+#define YMENU_H
 
 #include "ypopup.h"
 #include "ytimer.h"
@@ -41,7 +41,7 @@ public:
     YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action);
     YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu);
     YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu);
-    YMenuItem *addSeparator();
+    void addSeparator();
     YMenuItem *addLabel(const mstring &name);
     void removeAll();
     YMenuItem *findAction(YAction action);
@@ -54,6 +54,8 @@ public:
     void checkCommand(YAction action, bool check); // 0 == All
 
     int itemCount() const { return fItems.getCount(); }
+    bool lastIsSeparator() const;
+    YMenuItem *lastItem() const;
     YMenuItem *getItem(int n) const { return fItems[n]; }
     void setItem(int n, YMenuItem *ref) { fItems[n] = ref; return; }
 

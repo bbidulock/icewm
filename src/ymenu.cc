@@ -656,12 +656,25 @@ YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu));
 }
 
-YMenuItem * YMenu::addSeparator() {
-    return add(new YMenuItem());
+void YMenu::addSeparator() {
+    int n = itemCount();
+    if (n > 0 && !fItems[n - 1]->isSeparator()) {
+        void(add(new YMenuItem()));
+    }
 }
 
 YMenuItem *YMenu::addLabel(const mstring &name) {
     return add(new YMenuItem(name));
+}
+
+bool YMenu::lastIsSeparator() const {
+    int n = itemCount();
+    return n > 0 && fItems[n - 1]->isSeparator();
+}
+
+YMenuItem* YMenu::lastItem() const {
+    int n = itemCount();
+    return n > 0 ? fItems[n - 1] : nullptr;
 }
 
 void YMenu::removeAll() {

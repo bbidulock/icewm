@@ -1,7 +1,6 @@
-#ifndef __YMENUITEM_H
-#define __YMENUITEM_H
+#ifndef YMENUITEM_H
+#define YMENUITEM_H
 
-#include "ypaint.h"
 #include "yicon.h"
 #include "yaction.h"
 
