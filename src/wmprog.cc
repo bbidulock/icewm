@@ -765,11 +765,10 @@ HelpMenu::HelpMenu(
 void StartMenu::refresh() {
     MenuFileMenu::refresh();
 
-    if (itemCount())
-        addSeparator();
+    addSeparator();
 
 /// TODO #warning "make this into a menuprog (ala gnome.cc), and use mime"
-    if (openCommand && openCommand[0]) {
+    if (nonempty(openCommand)) {
         upath path[] = { upath::root(), YApplication::getHomeDir() };
         YMenu *sub;
         ref<YIcon> folder = YIcon::getIcon("folder");
@@ -784,75 +783,56 @@ void StartMenu::refresh() {
                 if (folder != null)
                     item->setIcon(folder);
             }
-            else if (sub) {
+            else {
                 delete sub;
             }
         }
         addSeparator();
     }
 
-    int const oldItemCount = itemCount();
-
     if (showPrograms) {
-        ObjectMenu *programs = new MenuFileMenu(app, smActionListener, wmActionListener, "programs", nullptr);
+        ObjectMenu *programs = new MenuFileMenu(app, smActionListener,
+                                    wmActionListener, "programs", nullptr);
         ///    if (programs->itemCount() > 0)
         addSubmenu(_("Programs"), 0, programs, "programs");
     }
 
-    if (showRun) {
-        if (runDlgCommand && runDlgCommand[0])
-            addItem(_("_Run..."), -2, null, actionRun, "run");
+    if (showRun && nonempty(runDlgCommand)) {
+        addItem(_("_Run..."), -2, null, actionRun, "run");
     }
 
-    if (itemCount() != oldItemCount) addSeparator();
-    if (showWindowList)
+    if (showWindowList) {
         addItem(_("_Windows"), -2, actionWindowList, windowListMenu, "windows");
+    }
 
-    if ( (!showTaskBar && showAbout) ||
-        showHelp ||
-        showFocusModeMenu ||
-        showThemesMenu ||
-        showSettingsMenu
-    )
-    if (showWindowList)
-        addSeparator();
+    YMenu* settings = new YMenu();
 
-    if (!showTaskBar) {
-        if (showAbout)
-            addItem(_("_About"), -2, actionAbout, nullptr, "about");
+    if (!showTaskBar && showAbout) {
+        settings->addItem(_("_About"), -2, actionAbout, nullptr, "about");
     }
 
     if (showHelp) {
-        HelpMenu *helpMenu =
-            new HelpMenu(app, smActionListener, wmActionListener);
-            addSubmenu(_("_Help"), -2, helpMenu, "help");
+        HelpMenu* help = new HelpMenu(app, smActionListener, wmActionListener);
+        settings->addSubmenu(_("_Help"), -2, help, "help");
     }
 
-    if (showSettingsMenu || showFocusModeMenu || showThemesMenu) {
-        // When we have only 2 entries (focus + themes) then
-        // it doesn't make sense to create a whole new YMenu.
-        // Therefore we will reuse 'this' as value for settings.
-        YMenu *settings = this; // new YMenu();
+    if (showFocusModeMenu) {
+        FocusMenu *focus = new FocusMenu();
+        settings->addSubmenu(_("_Focus"), -2, focus, "focus");
+    }
 
-        if (showFocusModeMenu) {
-            FocusMenu *focus = new FocusMenu();
-            settings->addSubmenu(_("_Focus"), -2, focus, "focus");
-        }
+    if (showSettingsMenu) {
+        PrefsMenu *prefs = new PrefsMenu();
+        settings->addSubmenu(_("_Preferences"), -2, prefs, "pref");
+    }
 
-        if (showSettingsMenu) {
-            PrefsMenu *prefs = new PrefsMenu();
-            settings->addSubmenu(_("_Preferences"), -2, prefs, "pref");
-        }
+    if (showThemesMenu) {
+        YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
+        settings->addSubmenu(_("_Themes"), -2, themes, "themes");
+    }
 
-        if (showThemesMenu) {
-            YMenu *themes = new ThemesMenu(app, smActionListener, wmActionListener);
-            if (themes)
-                settings->addSubmenu(_("_Themes"), -2, themes, "themes");
-        }
-
-        // Only add a menu if we created one:
-        if (this != settings)
-            addSubmenu(_("Se_ttings"), -2, settings, "settings");
+    if (settings->itemCount()) {
+        addSubmenu(_("Se_ttings"), -2, settings, "settings");
     }
 
     if (showLogoutMenu) {
