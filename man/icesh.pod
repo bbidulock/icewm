@@ -337,6 +337,10 @@ Show the window on all workspaces.
 
 Show the window on only one workspace.
 
+=item B<urgent>
+
+Set the urgent flag.
+
 =item B<resize> I<WIDTH> I<HEIGHT>
 
 Resize window to I<WIDTH> by I<HEIGHT> window units.

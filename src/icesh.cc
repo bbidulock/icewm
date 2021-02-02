@@ -4138,6 +4138,10 @@ void IceSh::parseAction()
             FOREACH_WINDOW(window)
                 YNetState(window) += NetBelow;
         }
+        else if (isAction("urgent", 0)) {
+            FOREACH_WINDOW(window)
+                YNetState(window) += NetDemands;
+        }
         else if (isAction("hide", 0)) {
             changeState(WithdrawnState);
         }
@@ -4154,7 +4158,7 @@ void IceSh::parseAction()
         }
         else if (isAction("restore", 0)) {
             FOREACH_WINDOW(window)
-                YNetState(window) -= NetFullscreen | NetShaded |
+                YNetState(window) -= NetFullscreen | NetShaded | NetDemands |
                                      NetHorizontal | NetVertical;
             changeState(NormalState);
         }
