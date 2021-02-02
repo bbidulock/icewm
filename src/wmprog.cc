@@ -833,6 +833,8 @@ void StartMenu::refresh() {
 
     if (settings->itemCount()) {
         addSubmenu(_("Se_ttings"), -2, settings, "settings");
+    } else {
+        delete settings;
     }
 
     if (showLogoutMenu) {
