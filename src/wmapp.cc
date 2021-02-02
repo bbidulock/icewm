@@ -1032,15 +1032,21 @@ static void showExtensions() {
         { "shapes",    &shapes    },
         { "xrandr",    &xrandr    },
         { "xinerama",  &xinerama  },
+        { "xshm",      &xshm      },
     };
     printf("[name]   [ver] [ev][err]\n");
     for (auto ext : pairs) {
         const char* s = ext.left;
         YExtension* x = ext.right;
         if (x->versionMajor | x->versionMinor) {
-            printf("%-9s %d.%-2d (%2d, %3d)\n", s,
-                    x->versionMajor, x->versionMinor,
-                    x->eventBase, x->errorBase);
+            printf("%-9s %d.%-2d", s, x->versionMajor, x->versionMinor);
+            if (x->eventBase | x->errorBase) {
+                printf(" (%2d, %3d)", x->eventBase, x->errorBase);
+            }
+            else if (x == &xshm && x->parameter) {
+                printf(" pixmaps");
+            }
+            printf("\n");
         }
         if (!x->supported) {
             printf("%-9s unsupported\n", s);

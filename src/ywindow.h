@@ -362,10 +362,16 @@ extern YDesktop *desktop;
 struct YExtension {
     int eventBase, errorBase;
     int versionMajor, versionMinor;
+    Bool parameter;
     bool supported;
 
     typedef int (*QueryFunc)(Display *, int *, int *);
     void init(Display* dis, QueryFunc ext, QueryFunc ver);
+
+    typedef Bool (*ExistFunc)(Display *);
+    typedef Bool (*ParamFunc)(Display *, int *, int *, Bool *);
+    void init(Display* dis, ExistFunc ext, ParamFunc ver);
+
     bool isEvent(int type, int eventNumber) const {
         return supported && type == eventBase + eventNumber;
     }
@@ -378,6 +384,7 @@ extern YExtension render;
 extern YExtension shapes;
 extern YExtension xrandr;
 extern YExtension xinerama;
+extern YExtension xshm;
 
 extern Atom _XA_WM_CHANGE_STATE;
 extern Atom _XA_WM_CLASS;

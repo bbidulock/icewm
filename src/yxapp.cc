@@ -14,6 +14,7 @@
 #include <X11/extensions/Xinerama.h>
 #endif
 #include <X11/extensions/Xcomposite.h>
+#include <X11/extensions/XShm.h>
 
 YXApplication *xapp = nullptr;
 
@@ -196,6 +197,7 @@ YExtension render;
 YExtension shapes;
 YExtension xrandr;
 YExtension xinerama;
+YExtension xshm;
 
 #ifdef DEBUG
 int xeventcount = 0;
@@ -1082,6 +1084,13 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 void YExtension::init(Display* dis, QueryFunc ext, QueryFunc ver) {
     supported = (*ext)(dis, &eventBase, &errorBase)
              && (*ver)(dis, &versionMajor, &versionMinor);
+    parameter = False;
+}
+
+void YExtension::init(Display* dis, ExistFunc ext, ParamFunc ver) {
+    supported = (*ext)(dis)
+             && (*ver)(dis, &versionMajor, &versionMinor, &parameter);
+    eventBase = errorBase = 0;
 }
 
 void YXApplication::initExtensions(Display* dpy) {
@@ -1104,6 +1113,8 @@ void YXApplication::initExtensions(Display* dpy) {
     xinerama.init(dpy, XineramaQueryExtension, XineramaQueryVersion);
     xinerama.supported = (xinerama.supported && XineramaIsActive(dpy));
 #endif
+
+    xshm.init(dpy, XShmQueryExtension, XShmQueryVersion);
 }
 
 YXApplication::~YXApplication() {
