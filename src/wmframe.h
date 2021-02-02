@@ -270,7 +270,6 @@ public:
     void setState(long mask, long state);
     bool hasState(long bit) const { return hasbit(fWinState, bit); }
     bool notState(long bit) const { return !hasbit(fWinState, bit); }
-    long oldState() const { return fOldState; }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
     bool isResizable() const { return hasbit(frameFunctions(), ffResize); }
@@ -409,9 +408,8 @@ public:
     int strutBottom() { return fStrutBottom; }
     bool haveStruts() const { return fHaveStruts; }
 
-    void updateUrgency();
     void setWmUrgency(bool wmUrgency);
-    virtual bool isUrgent() const { return fWmUrgency || fClientUrgency; }
+    bool isUrgent() const;
 
     int getScreen() const;
     void refresh();
@@ -481,8 +479,6 @@ private:
     long fWinTrayOption;
     long fWinState;
     long fWinOptionMask;
-    long fOldLayer;
-    long fOldState;
     int fTrayOrder;
 
     int fFullscreenMonitorsTop;
@@ -512,8 +508,6 @@ private:
     mstring fShapeTitle;
 
     bool fHaveStruts;
-    bool fWmUrgency;
-    bool fClientUrgency;
     bool indicatorsCreated;
 
     enum WindowType fWindowType;

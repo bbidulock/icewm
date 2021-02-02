@@ -549,17 +549,17 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
     case XA_WM_HINTS:
         if (new_prop) prop.wm_hints = true;
         {
-            Drawable oldPix = getIconPixmapHint();
-            Drawable oldMask = getIconMaskHint();
-            bool oldUrge = getUrgencyHint();
+            Drawable oldPix = iconPixmapHint();
+            Drawable oldMask = iconMaskHint();
+            bool oldUrge = urgencyHint();
             getWMHints();
-            if (oldPix != getIconPixmapHint() || oldMask != getIconMaskHint()) {
+            if (oldPix != iconPixmapHint() || oldMask != iconMaskHint()) {
                 if (getFrame())
                     getFrame()->updateIcon();
             }
-            if (oldUrge != getUrgencyHint()) {
+            if (oldUrge != urgencyHint()) {
                 if (getFrame())
-                    getFrame()->updateUrgency();
+                    getFrame()->setWmUrgency(urgencyHint());
             }
         }
         prop.wm_hints = new_prop;
@@ -1099,33 +1099,25 @@ void YFrameClient::getWMHints() {
         return;
 
     fHints = XGetWMHints(xapp->display(), handle());
-    if (!fClientLeader && getWindowGroupHint()) {
+    if (!fClientLeader && windowGroupHint()) {
         fClientLeader = fHints->window_group;
     }
 }
 
-Window YFrameClient::getWindowGroupHint() {
-    return (fHints && (fHints->flags & WindowGroupHint))
-        ? fHints->window_group : None;
+Window YFrameClient::windowGroupHint() const {
+    return wmHint(WindowGroupHint) ? fHints->window_group : None;
 }
 
-Window YFrameClient::getIconWindowHint() {
-    return (fHints && (fHints->flags & IconWindowHint))
-        ? fHints->icon_window : None;
+Window YFrameClient::iconWindowHint() const {
+    return wmHint(IconWindowHint) ? fHints->icon_window : None;
 }
 
-Pixmap YFrameClient::getIconPixmapHint() {
-    return (fHints && (fHints->flags & IconPixmapHint))
-        ? fHints->icon_pixmap : None;
+Pixmap YFrameClient::iconPixmapHint() const {
+    return wmHint(IconPixmapHint) ? fHints->icon_pixmap : None;
 }
 
-Pixmap YFrameClient::getIconMaskHint() {
-    return (fHints && (fHints->flags & IconMaskHint))
-        ? fHints->icon_mask : None;
-}
-
-bool YFrameClient::getUrgencyHint() {
-    return (fHints && (fHints->flags & XUrgencyHint));
+Pixmap YFrameClient::iconMaskHint() const {
+    return wmHint(IconMaskHint) ? fHints->icon_mask : None;
 }
 
 void YFrameClient::getMwmHints() {
@@ -1372,7 +1364,7 @@ void YFrameClient::setWinHintsHint(long hints) {
 }
 
 void YFrameClient::getClientLeader() {
-    Window leader = getWindowGroupHint();
+    Window leader = windowGroupHint();
     if (prop.wm_client_leader) {
         YProperty prop(this, _XA_WM_CLIENT_LEADER, F32, 1, XA_WINDOW);
         if (prop)

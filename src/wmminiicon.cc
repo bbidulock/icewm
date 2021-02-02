@@ -33,7 +33,7 @@ Window MiniIcon::iconWindow() {
 MiniIcon::MiniIcon(YFrameWindow *frame):
     YWindow(),
     fFrame(frame),
-    fIconWindow(client()->getIconWindowHint())
+    fIconWindow(client()->iconWindowHint())
 {
     setStyle(wsOverrideRedirect | wsBackingMapped);
     setSize(YIcon::hugeSize(), YIcon::hugeSize());

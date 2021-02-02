@@ -217,11 +217,12 @@ public:
 
     void getWMHints();
     XWMHints *hints() const { return fHints; }
-    Window getWindowGroupHint();
-    Window getIconWindowHint();
-    Pixmap getIconPixmapHint();
-    Pixmap getIconMaskHint();
-    bool getUrgencyHint();
+    bool wmHint(long flag) const { return fHints && (fHints->flags & flag); }
+    Window windowGroupHint() const;
+    Window iconWindowHint() const;
+    Pixmap iconPixmapHint() const;
+    Pixmap iconMaskHint() const;
+    bool urgencyHint() const { return wmHint(XUrgencyHint); }
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }

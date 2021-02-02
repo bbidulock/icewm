@@ -59,8 +59,6 @@ YFrameWindow::YFrameWindow(
     bottomRight = None;
 
     fPopupActive = nullptr;
-    fWmUrgency = false;
-    fClientUrgency = false;
     indicatorsCreated = false;
     fWindowType = wtNormal;
 
@@ -108,11 +106,9 @@ YFrameWindow::YFrameWindow(
     fWinWorkspace = manager->activeWorkspace();
     fWinActiveLayer = WinLayerNormal;
     fWinRequestedLayer = WinLayerNormal;
-    fOldLayer = fWinActiveLayer;
     fWinTrayOption = WinTrayIgnore;
     fWinState = 0;
     fWinOptionMask = ~0;
-    fOldState = 0;
     fTrayOrder = 0;
     fContainer = nullptr;
     setTitle("Frame");
@@ -1447,7 +1443,7 @@ void YFrameWindow::loseWinFocus() {
         fFocused = false;
 
         if (hasState(WinStateFocused)) {
-            setState(WinStateFocused, 0);
+            setState(WinStateFocused | WinStateUrgent, 0);
         }
         if (true || !clientMouseActions)
             if (focusOnClickClient || raiseOnClickClient)
@@ -1469,7 +1465,7 @@ void YFrameWindow::setWinFocus() {
     if (!fFocused) {
         fFocused = true;
 
-        setState(WinStateFocused, WinStateFocused);
+        setState(WinStateFocused | WinStateUrgent, WinStateFocused);
         if (isIconic())
             fMiniIcon->repaint();
         else {
@@ -2302,16 +2298,16 @@ void YFrameWindow::updateIcon() {
         long pix[4] = {
             long(pixmap[0]),
             long(pixmap[1]),
-            long(client()->getIconPixmapHint()),
-            long(client()->getIconMaskHint()),
+            long(client()->iconPixmapHint()),
+            long(client()->iconMaskHint()),
         };
         XFree(pixmap);
         fFrameIcon = newClientIcon(1 + (pix[2] != None), 2, pix);
     }
-    else if (client()->getIconPixmapHint()) {
+    else if (client()->iconPixmapHint()) {
         long pix[2] = {
-            long(client()->getIconPixmapHint()),
-            long(client()->getIconMaskHint()),
+            long(client()->iconPixmapHint()),
+            long(client()->iconMaskHint()),
         };
         fFrameIcon = newClientIcon(1, 2, pix);
     }
@@ -3051,7 +3047,7 @@ void YFrameWindow::updateLayout() {
 }
 
 void YFrameWindow::setState(long mask, long state) {
-    fOldState = fWinState;
+    long fOldState = fWinState;
     long fNewState = (fWinState & ~mask) | (state & mask);
     long deltaState = fOldState ^ fNewState;
     fWinState = fNewState;
@@ -3111,7 +3107,7 @@ void YFrameWindow::setState(long mask, long state) {
     }
 
     if (deltaState & WinStateUrgent) {
-        setWmUrgency(hasbit(fNewState, WinStateUrgent));
+        updateTaskBar();
     }
     if (hasbit(deltaState, WinStateMinimized) && minimizeToDesktop) {
         if (isMinimized()) {
@@ -3147,7 +3143,6 @@ void YFrameWindow::setState(long mask, long state) {
         if (taskBar)
             taskBar->workspacesRepaint();
     }
-    fOldState = fWinState;
 }
 
 void YFrameWindow::setAllWorkspaces() {
@@ -3385,30 +3380,18 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
     }
 }
 
-void YFrameWindow::updateUrgency() {
-    fClientUrgency = !frameOption(foIgnoreUrgent)
-                   && client()->getUrgencyHint();
-    if (isUrgent()) {
-        if (notState(WinStateUrgent)) {
-            setState(WinStateUrgent, WinStateUrgent);
+void YFrameWindow::setWmUrgency(bool wmUrgency) {
+    if ( !frameOption(foIgnoreUrgent)) {
+        if (wmUrgency != hasState(WinStateUrgent)) {
+            fWinState ^= WinStateUrgent;
+            client()->setStateHint();
+            updateTaskBar();
         }
-    } else if (hasState(WinStateUrgent)) {
-        setState(WinStateUrgent, 0);
     }
-
-    updateTaskBar();
-    /// something else when no taskbar (flash titlebar, flash icon)
 }
 
-void YFrameWindow::setWmUrgency(bool wmUrgency) {
-
-    if ( !frameOption(foIgnoreUrgent))
-    {
-        bool change = (wmUrgency != isUrgent());
-        fWmUrgency = wmUrgency;
-        if (change)
-            updateUrgency();
-    }
+bool YFrameWindow::isUrgent() const {
+    return hasState(WinStateUrgent) || client()->urgencyHint();
 }
 
 int YFrameWindow::getScreen() const {
