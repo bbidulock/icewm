@@ -634,6 +634,7 @@ void TaskPane::insert(TaskButton* task) {
 void TaskPane::remove(TaskButton* button) {
     if (button) {
         findRemove(fTasks, button);
+        relayout();
     }
 }
 
