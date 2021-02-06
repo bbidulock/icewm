@@ -562,8 +562,8 @@ void proc_dir_rec(LPCSTR syspath, unsigned depth,
         gchar *szFullName = g_strjoin("/", path, szFilename, NULL);
         auto_gfree xxfree(szFullName);
         static GStatBuf buf;
-        if (g_stat(szFullName, &buf))
-            return;
+        if (0 != g_stat(szFullName, &buf))
+            continue;
         if (S_ISDIR(buf.st_mode)) {
             static ino_t reclog[6];
             for (unsigned i = 0; i < depth; ++i) {
