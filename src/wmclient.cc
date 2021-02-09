@@ -171,10 +171,14 @@ void YFrameClient::getSizeHints() {
         if (fSizeHints->min_width <= 0)
             fSizeHints->min_width = 1;
 
-        if (!(fSizeHints->flags & PWinGravity)) {
+        if (notbit(fSizeHints->flags, PWinGravity)) {
             fSizeHints->win_gravity = NorthWestGravity;
             fSizeHints->flags |= PWinGravity;
         }
+        else if (fSizeHints->win_gravity < ForgetGravity)
+            fSizeHints->win_gravity = ForgetGravity;
+        else if (fSizeHints->win_gravity > StaticGravity)
+            fSizeHints->win_gravity = StaticGravity;
     }
 }
 
@@ -283,15 +287,7 @@ void YFrameClient::constrainSize(int &w, int &h, int flags)
 }
 
 void YFrameClient::gravityOffsets(int &xp, int &yp) {
-    xp = 0;
-    yp = 0;
-
-    if (fSizeHints == nullptr || notbit(fSizeHints->flags, PWinGravity))
-        return;
-
-    static struct {
-        int x, y;
-    } gravOfsXY[11] = {
+    static const pair<int, int> offsets[11] = {
         {  0,  0 },  /* ForgetGravity */
         { -1, -1 },  /* NorthWestGravity */
         {  0, -1 },  /* NorthGravity */
@@ -304,13 +300,10 @@ void YFrameClient::gravityOffsets(int &xp, int &yp) {
         {  1,  1 },  /* SouthEastGravity */
         {  0,  0 },  /* StaticGravity */
     };
-
-    int g = fSizeHints->win_gravity;
-
-    if (!(g < ForgetGravity || g > StaticGravity)) {
-        xp = (int)gravOfsXY[g].x;
-        yp = (int)gravOfsXY[g].y;
-    }
+    int g = hasbit(sizeHintsFlags(), PWinGravity)
+          ? clamp(fSizeHints->win_gravity, 0, 10) : 0;
+    xp = offsets[g].left;
+    yp = offsets[g].right;
 }
 
 void YFrameClient::sendMessage(Atom msg, Time timeStamp) {

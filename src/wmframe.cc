@@ -232,10 +232,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         normalW = sh ? (w - sh->base_width) / max(1, sh->width_inc) : w;
         normalH = sh ? (h - sh->base_height) / max(1, sh->height_inc) : h;
 
-
-        if (sh && (sh->flags & PWinGravity) &&
-            sh->win_gravity == StaticGravity)
-        {
+        if (client()->winGravity() == StaticGravity) {
             normalX += borderXN();
             normalY += borderYN() + titleYN();
         } else {
@@ -473,10 +470,7 @@ void YFrameWindow::unmanage(bool reparent) {
             posY += borderYN() + titleYN() - 2 * client()->getBorder();
 
         if (gx == 0 && gy == 0) {
-            const XSizeHints* sh = client()->sizeHints();
-            if (sh && (sh->flags & PWinGravity) &&
-                sh->win_gravity == StaticGravity)
-            {
+            if (client()->winGravity() == StaticGravity) {
                 posY += titleYN();
             }
         }
@@ -502,24 +496,20 @@ void YFrameWindow::unmanage(bool reparent) {
     hide();
 }
 
-void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
-                             int &cx, int &cy, int &cw, int &ch)
+void YFrameWindow::getNewPos(const XConfigureRequestEvent& cr,
+                             int& cx, int& cy, int& cw, int& ch)
 {
-    cw = (cr.value_mask & CWWidth) ? cr.width : client()->width();
-    ch = (cr.value_mask & CWHeight) ? cr.height : client()->height();
+    const int mask = int(cr.value_mask);
+    cw = (mask & CWWidth) ? cr.width : client()->width();
+    ch = (mask & CWHeight) ? cr.height : client()->height();
 
-    int grav = NorthWestGravity;
-
-    XSizeHints *sh = client()->sizeHints();
-    if (sh && sh->flags & PWinGravity)
-        grav = sh->win_gravity;
-
+    int grav = client()->winGravity();
     int cur_x = x() + container()->x();
     int cur_y = y() + container()->y();
 
     //msg("%d %d %d %d", cr.x, cr.y, cr.width, cr.height);
 
-    if (cr.value_mask & CWX) {
+    if (mask & CWX) {
         if (grav == StaticGravity)
             cx = cr.x;
         else {
@@ -545,7 +535,7 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
         }
     }
 
-    if (cr.value_mask & CWY) {
+    if (mask & CWY) {
         if (grav == StaticGravity)
             cy = cr.y;
         else {
@@ -568,6 +558,29 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent &cr,
             cy = cur_y + (client()->height() - ch);
         } else {
             cy = cur_y;
+        }
+    }
+
+    if (affectsWorkArea() == false) {
+        int left, top, right, bottom;
+        manager->getWorkArea(this, &left, &top, &right, &bottom);
+        if (cx + cw > right && cx > left && (mask & CWWidth)) {
+            cx -= min(cx + cw - right, cx - left);
+        }
+        if (cx < left && cx + cw < right && (mask & CWWidth)) {
+            cx += min(left - cx, right - cx - cw);
+        }
+        if (cy + ch > bottom && cy > top && (mask & CWHeight)) {
+            cy -= min(cy + ch - bottom, cy - top);
+        }
+        if (cy < top && cy + ch < bottom && (mask & CWHeight)) {
+            cy += min(top - cy, bottom - cy - ch);
+        }
+        if (limitPosition && (mask & CWX) && notbit(mask, CWWidth)) {
+            cx = clamp(cx, left, right - cw);
+        }
+        if (limitPosition && (mask & CWY) && notbit(mask, CWHeight)) {
+            cy = clamp(cy, top, bottom - ch);
         }
     }
 

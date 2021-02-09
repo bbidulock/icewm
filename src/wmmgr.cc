@@ -1445,21 +1445,15 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
         posX = x;
         posY = y;
     } else {
-        if (client->sizeHints() &&
-            (client->sizeHints()->flags & PWinGravity) &&
-            client->sizeHints()->win_gravity == StaticGravity)
-        {
+        int gx, gy;
+        client->gravityOffsets(gx, gy);
+        if (gx > 0)
+            posX -= 2 * frame->borderXN() - client->getBorder() - 1;
+        if (gy > 0)
+            posY -= 2 * frame->borderYN() + frame->titleYN() - client->getBorder() - 1;
+        if (gx == 0 && gy == 0 && client->winGravity() == StaticGravity) {
             posX -= frame->borderXN();
             posY -= frame->borderYN() + frame->titleYN();
-        } else {
-            int gx, gy;
-
-            client->gravityOffsets(gx, gy);
-
-            if (gx > 0)
-                posX -= 2 * frame->borderXN() - client->getBorder() - 1;
-            if (gy > 0)
-                posY -= 2 * frame->borderYN() + frame->titleYN() - client->getBorder() - 1;
         }
     }
 

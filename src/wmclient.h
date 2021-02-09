@@ -37,7 +37,7 @@ class ClassHint : public XClassHint {
 public:
     ClassHint() { res_name = res_class = nullptr; }
     ClassHint(const char* name, const char* klas) { init(name, klas); }
-    ClassHint(const ClassHint& hint) { init(hint.res_name, hint.res_class); }
+    ClassHint(const ClassHint& ch) { init(ch.res_name, ch.res_class); }
     ~ClassHint() { reset(); }
     void init(const char* name, const char* klas) {
         res_name = name ? strdup(name) : nullptr;
@@ -226,6 +226,9 @@ public:
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
+    int sizeHintsFlags() const { return fSizeHints ? int(fSizeHints->flags) : 0; }
+    int winGravity() const { return hasbit(sizeHintsFlags(), PWinGravity)
+                                  ? fSizeHints->win_gravity : NorthWestGravity; }
 
     unsigned protocols() const { return fProtocols; }
     void getProtocols(bool force);
