@@ -172,7 +172,6 @@ public:
         fwfWorkspace  = 1 << 5, // current workspace only
         fwfSame       = 1 << 6, // return same if no match and same matches
         fwfLayers     = 1 << 7, // find windows in other layers
-        fwfSwitchable = 1 << 8, // window can be Alt+Tabbed
         fwfMinimized  = 1 << 9, // minimized/visible windows
         fwfUnminimized = 1 << 10, // normal/rolledup only
         fwfHidden     = 1 << 11, // hidden

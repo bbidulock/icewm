@@ -975,10 +975,6 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
-#if 0
-        if ((flags & fwfSwitchable) && p->frameOption(foIgnoreQSwitch))
-            goto next;
-#endif
         if (!p->client()->adopted() || p->client()->destroyed())
             goto next;
 
