@@ -55,6 +55,7 @@
 #include "ytime.h"
 #include "base.h"
 #include "ypointer.h"
+#include "ylocale.h"
 #include "upath.h"
 #include "intl.h"
 #define GUI_EVENT_NAMES
@@ -973,10 +974,7 @@ void IceSound::playOnce(char* value) {
 }
 
 int main(int argc, char *argv[]) {
-
-    bindtextdomain(PACKAGE, LOCDIR);
-    textdomain(PACKAGE);
-
+    YLocale locale;
     ApplicationName = my_basename(argv[0]);
 
     IceSound icesound;

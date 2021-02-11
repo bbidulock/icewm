@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
+#include "ylocale.h"
 #include "intl.h"
 #include "base.h"
 
@@ -73,9 +74,7 @@ public:
 };
 
 int main(int argc, char **argv) {
-
-    bindtextdomain(PACKAGE, LOCDIR);
-    textdomain(PACKAGE);
+    YLocale locale;
 
     char** arg = &argv[1];
     for (; arg < &argv[argc] && **arg == '-'; ++arg) {
