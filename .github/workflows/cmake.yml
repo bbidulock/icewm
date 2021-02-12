@@ -56,7 +56,7 @@ jobs:
     - name: Build Cmake FULL
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: cmake --build . --config $BUILD_TYPE -j$(nproc) -t all -t strtest
+      run: cmake --build . --config $BUILD_TYPE -j$(nproc) -t all -t strtest -t testpointer
 
     - name: Configure CMake NOPIXBUF
       shell: bash
