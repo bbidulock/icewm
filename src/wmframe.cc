@@ -567,14 +567,8 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent& cr,
         if (cx + cw > right && cx > left && (mask & CWWidth)) {
             cx -= min(cx + cw - right, cx - left);
         }
-        if (cx < left && cx + cw < right && (mask & CWWidth)) {
-            cx += min(left - cx, right - cx - cw);
-        }
         if (cy + ch > bottom && cy > top && (mask & CWHeight)) {
             cy -= min(cy + ch - bottom, cy - top);
-        }
-        if (cy < top && cy + ch < bottom && (mask & CWHeight)) {
-            cy += min(top - cy, bottom - cy - ch);
         }
         if (limitPosition && (mask & CWX) && notbit(mask, CWWidth)) {
             cx = clamp(cx, left, right - cw);
