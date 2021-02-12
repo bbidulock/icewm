@@ -398,11 +398,12 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 # declaring targets and build flags   #
 #######################################
 
-SET(MISC_SRCS logevent.cc misc.cc yfileio.cc ytime.cc yarray.cc mstring.cc ref.cc)
+SET(MISC_SRCS logevent.cc misc.cc yfileio.cc ytime.cc yarray.cc
+    ylocale.cc mstring.cc ref.cc)
 
 SET(ICE_COMMON_SRCS udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc yprefs.cc
     ywindow.cc ypaint.cc ypopup.cc ycursor.cc ysocket.cc ypaths.cc
-    ylocale.cc ypipereader.cc yxembed.cc yconfig.cc yfont.cc ypixmap.cc
+    ypipereader.cc yxembed.cc yconfig.cc yfont.cc ypixmap.cc
     yimage2.cc yimage_gdk.cc yximage.cc ycolor.cc ytooltip.cc ${MISC_SRCS})
 
 if(CONFIG_XFREETYPE)
