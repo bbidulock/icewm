@@ -93,5 +93,5 @@ static void report()
 int main(int argc, char **argv) {
     test_ypointer();
     report();
-    return !fail;
+    return succ < done || fail;
 }

@@ -445,9 +445,15 @@ TARGET_LINK_LIBRARIES(genpref${EXEEXT} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc upath.cc udir.cc ${MISC_SRCS})
 target_compile_options(strtest PUBLIC ${CXXFLAGS_COMMON} ${icewm_pc_flags})
-TARGET_LINK_LIBRARIES(strtest ${nls_LIBS})
+TARGET_LINK_LIBRARIES(strtest ${x11_LDFLAGS} ${nls_LIBS})
 
 add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
+
+ADD_EXECUTABLE(testpointer EXCLUDE_FROM_ALL testpointer.cc)
+target_compile_options(testpointer PUBLIC ${CXXFLAGS_COMMON})
+TARGET_LINK_LIBRARIES(testpointer)
+
+add_test(testpointer ${CMAKE_BINARY_DIR}/testpointer)
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} ycollections.cc fdomenu.cc ${MISC_SRCS})
