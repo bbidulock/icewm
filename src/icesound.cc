@@ -82,7 +82,6 @@
 /******************************************************************************/
 
 char const * ApplicationName = "icesound";
-bool multiByte = true;
 
 #define ALSA_DEFAULT_DEVICE "default"
 #define OSS_DEFAULT_DEVICE "/dev/dsp"

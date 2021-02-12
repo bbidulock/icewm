@@ -15,7 +15,6 @@
 #include "base.h"
 
 char const *ApplicationName = "icewmhint";
-bool multiByte = true;
 
 static const char* get_hint_usage() {
     return _("Usage: icewmhint class.instance option arg\n");

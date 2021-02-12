@@ -59,12 +59,8 @@ YConverter::YConverter(char const* localeName) :
 
     fCodeset = getCodeset();
 
-    extern bool multiByte;
-    multiByte = true;
-
-    MSG(("locale: %s, MB_CUR_MAX: %zd, "
-         "multibyte: %d, codeset: %s, endian: %c",
-         fLocaleName, MB_CUR_MAX, multiByte, fCodeset, little() ? 'l' : 'b'));
+    MSG(("locale: %s, MB_CUR_MAX: %zd, codeset: %s, endian: %c",
+         fLocaleName, MB_CUR_MAX, fCodeset, little() ? 'l' : 'b'));
 
     getConverters();
 }
