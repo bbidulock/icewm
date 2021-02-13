@@ -35,6 +35,7 @@ enum EAction {
     actionHideAll            = 115,
     actionShowDesktop        = 117,
 
+    actionShort              = 243,
     actionHide               = 119,
     actionShow               = 121,
     actionRaise              = 123,

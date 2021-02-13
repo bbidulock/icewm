@@ -172,6 +172,7 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
         fMenu->setActionListener(this);
         fMenu->addItem(_("CLOCK"), -2, null, actionNull)->setEnabled(false);
         fMenu->addSeparator();
+        fMenu->addItem("%H:%M", -2, null, actionShort);
         fMenu->addItem("%H:%M:%S", -2, null, actionHide);
         fMenu->addItem("%d %H:%M", -2, null, actionShow);
         if (!prettyClock)
@@ -207,6 +208,9 @@ void YClock::actionPerformed(YAction action, unsigned int modifiers) {
         clockUTC ^= true;
         clockTicked = true;
         repaint();
+    }
+    else if (action == actionShort) {
+        changeTimeFormat(" %H:%M ");
     }
     else if (action == actionHide) {
         changeTimeFormat(" %H:%M:%S ");
