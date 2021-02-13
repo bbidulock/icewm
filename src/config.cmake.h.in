@@ -20,11 +20,6 @@
 #define SELECT_TYPE_ARG234 (fd_set *)
 #define SELECT_TYPE_ARG5 (struct timeval *)
 
-#define SIZEOF_CHAR @SIZEOF_CHAR@
-#define SIZEOF_INT @SIZEOF_INT@
-#define SIZEOF_LONG @SIZEOF_LONG@
-#define SIZEOF_SHORT @SIZEOF_SHORT@
-
 #cmakedefine HAVE_BACKTRACE_SYMBOLS_FD 1
 #cmakedefine HAVE_MEMRCHR 1
 #cmakedefine HAVE_STRLCAT 1
