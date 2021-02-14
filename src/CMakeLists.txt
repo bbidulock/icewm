@@ -366,6 +366,7 @@ if(CONFIG_FDO_MENUS)
 endif()
 
 option(DEBUG "Define if you want to debug IceWM" off)
+option(PRECON "Define to enable assertions in IceWM" off)
 
 #######################################
 # some extra sugar where available    #
@@ -396,17 +397,15 @@ CONFIGURE_FILE("${CMAKE_SOURCE_DIR}/src/config.cmake.h.in" "${CMAKE_BINARY_DIR}/
 set(icewm_pc_flags ${CXXFLAGS_COMMON} ${fontconfig_CFLAGS} ${xft_CFLAGS}
                    ${librsvg_CFLAGS} ${pixbuf_CFLAGS} ${libimlib2_CFLAGS}
                    ${libpng_CFLAGS} ${libxpm_CFLAGS} ${xrender_CFLAGS}
-                   ${xrandr_CFLAGS} ${xinerama_CFLAGS} ${x11_CFLAGS}
-                   ${xext_CFLAGS} ${fribidi_CFLAGS} ${nls_CFLAGS})
-
-SET(MISC_SRCS logevent.cc misc.cc yfileio.cc ytime.cc yarray.cc
-              ylocale.cc mstring.cc ref.cc)
+                   ${xrandr_CFLAGS} ${xinerama_CFLAGS} ${xext_CFLAGS}
+                   ${x11_CFLAGS} ${fribidi_CFLAGS} ${nls_CFLAGS})
 
 SET(ICE_COMMON_SRCS udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc yprefs.cc
                     ywindow.cc ypaint.cc ypopup.cc ycursor.cc ysocket.cc
                     ypaths.cc ypipereader.cc yxembed.cc yconfig.cc yfont.cc
                     ypixmap.cc yimage2.cc yimage_gdk.cc yximage.cc ycolor.cc
-                    ytooltip.cc ${MISC_SRCS})
+                    ytooltip.cc ylocale.cc yarray.cc yfileio.cc ytime.cc
+                    mstring.cc ref.cc logevent.cc misc.cc)
 
 if(CONFIG_XFREETYPE)
     list(APPEND ICE_COMMON_SRCS yfontxft.cc)
@@ -439,61 +438,73 @@ SET(ICEWM_SRCS
     )
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_libs itk ice ${sm_LIBS} ${nls_LIBS} ${fontconfig_LDFLAGS}
-               ${fribidi_LDFLAGS} ${xext_LDFLAGS} ${x11_LDFLAGS}
-               ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS})
+set(icewm_libs itk ice ${sm_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS}
+                       ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                       ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
 TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc)
 TARGET_LINK_LIBRARIES(genpref${EXEEXT} ice ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
-ADD_EXECUTABLE(strtest EXCLUDE_FROM_ALL strtest.cc)
-TARGET_LINK_LIBRARIES(strtest ice ${nls_LIBS})
+if(BUILD_TESTING)
+    ADD_EXECUTABLE(strtest strtest.cc)
+    TARGET_LINK_LIBRARIES(strtest ice ${nls_LIBS})
+    add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
 
-add_test(strtest ${CMAKE_BINARY_DIR}/strtest)
-
-ADD_EXECUTABLE(testpointer EXCLUDE_FROM_ALL testpointer.cc)
-target_compile_options(testpointer PUBLIC ${CXXFLAGS_COMMON})
-TARGET_LINK_LIBRARIES(testpointer)
-
-add_test(testpointer ${CMAKE_BINARY_DIR}/testpointer)
+    ADD_EXECUTABLE(testpointer testpointer.cc)
+    target_compile_options(testpointer PUBLIC ${CXXFLAGS_COMMON})
+    TARGET_LINK_LIBRARIES(testpointer)
+    add_test(testpointer ${CMAKE_BINARY_DIR}/testpointer)
+endif()
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ycollections.cc)
     target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_CFLAGS})
-    TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ice ${x11_LDFLAGS} ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+    TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ice ${x11_LDFLAGS}
+                          ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc)
-TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ice ${nls_LIBS} ${x11_LDFLAGS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ice ${nls_LIBS} ${x11_LDFLAGS}
+                      ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc)
-TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS}
+                      ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc)
-TARGET_LINK_LIBRARIES(icesh${EXEEXT} ice ${xext_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icesh${EXEEXT} ice ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc)
-TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS}  ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ice ${icewm_img_libs} ${xft_LDFLAGS}
+                      ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
     ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc)
     target_compile_options(icesound${EXEEXT} PUBLIC ${audio_flags})
-    TARGET_LINK_LIBRARIES(icesound${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
+    TARGET_LINK_LIBRARIES(icesound${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS}
+                          ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
     INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
 ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc)
-TARGET_LINK_LIBRARIES(icehelp${EXEEXT} itk ice ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${icewm_img_libs} ${xinerama_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icehelp${EXEEXT} itk ice ${icewm_img_libs} ${xft_LDFLAGS}
+                      ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
 IF(CONFIG_EXTERNAL_TRAY)
-ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc)
-TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} itk ice ${xext_LDFLAGS} ${x11_LDFLAGS} ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS} ${nls_LIBS} ${icewm_img_libs} ${EXTRA_LIBS})
+    ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc)
+    TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} itk ice ${icewm_img_libs}
+                          ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                          ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
 ENDIF()
 
-INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT} icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})
+INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT}
+                icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})
 
 if(NOT CMAKE_CROSSCOMPILING)
     ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
