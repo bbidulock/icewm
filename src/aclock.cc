@@ -156,6 +156,13 @@ static int countEvents = 0;
 extern int xeventcount;
 #endif
 
+const YAction actionClockHM;
+const YAction actionClockHMS;
+const YAction actionClockDHM;
+const YAction actionClockDate;
+const YAction actionClockDefault;
+const YAction actionClockUTC;
+
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
@@ -172,13 +179,14 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
         fMenu->setActionListener(this);
         fMenu->addItem(_("CLOCK"), -2, null, actionNull)->setEnabled(false);
         fMenu->addSeparator();
-        fMenu->addItem("%H:%M:%S", -2, null, actionHide);
-        fMenu->addItem("%d %H:%M", -2, null, actionShow);
+        fMenu->addItem("%H:%M", -2, null, actionClockHM);
+        fMenu->addItem("%H:%M:%S", -2, null, actionClockHMS);
+        fMenu->addItem("%d %H:%M", -2, null, actionClockDHM);
         if (!prettyClock)
-            fMenu->addItem(_("Date"), -2, null, actionRaise);
-        fMenu->addItem(_("Default"), -2, null, actionLower);
+            fMenu->addItem(_("Date"), -2, null, actionClockDate);
+        fMenu->addItem(_("Default"), -2, null, actionClockDefault);
         fMenu->addItem(_("_Disable"), -2, null, actionClose);
-        fMenu->addItem(_("_UTC"), -2, null, actionDepth)->setChecked(clockUTC);
+        fMenu->addItem(_("_UTC"), -2, null, actionClockUTC)->setChecked(clockUTC);
         fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
                      YPopupWindow::pfCanFlipHorizontal |
@@ -203,21 +211,24 @@ void YClock::actionPerformed(YAction action, unsigned int modifiers) {
         hide();
         iapp->relayout();
     }
-    else if (action == actionDepth) {
+    else if (action == actionClockUTC) {
         clockUTC ^= true;
         clockTicked = true;
         repaint();
     }
-    else if (action == actionHide) {
+    else if (action == actionClockHM) {
+        changeTimeFormat(" %H:%M ");
+    }
+    else if (action == actionClockHMS) {
         changeTimeFormat(" %H:%M:%S ");
     }
-    else if (action == actionShow) {
+    else if (action == actionClockDHM) {
         changeTimeFormat(" %d %H:%M ");
     }
-    else if (action == actionRaise) {
+    else if (action == actionClockDate) {
         changeTimeFormat(" %c ");
     }
-    else if (action == actionLower) {
+    else if (action == actionClockDefault) {
         changeTimeFormat(nullptr);
     }
 }
