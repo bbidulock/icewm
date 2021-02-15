@@ -2517,11 +2517,6 @@ for the first time.
 +
 if set to 1, will show the window on the taskbar.
 
-* *nonICCCMconfigureRequest: 0*
-+
-if set to 1, IceWM assumes the application does not support the ICCCM
-standard wrt positioning and compensate for that.
-
 * *startFullscreen: 0*
 +
 if set to 1, window will cover the entire screen.

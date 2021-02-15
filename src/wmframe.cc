@@ -514,10 +514,6 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent& cr,
             cx = cr.x;
         else {
             cx = cr.x + container()->x();
-            if (frameOption(foNonICCCMConfigureRequest)) {
-                warn("nonICCCMpositioning: adjusting x %d by %d", cx, -container()->x());
-                cx -= container()->x();
-            }
         }
     } else {
         if (grav == NorthGravity ||
@@ -540,10 +536,6 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent& cr,
             cy = cr.y;
         else {
             cy = cr.y + container()->y();
-            if (frameOption(foNonICCCMConfigureRequest)) {
-                warn("nonICCCMpositioning: adjusting y %d by %d", cy, -container()->y());
-                cy -= container()->y();
-            }
         }
     } else {
         if (grav == WestGravity ||

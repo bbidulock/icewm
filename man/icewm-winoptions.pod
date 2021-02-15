@@ -207,7 +207,6 @@ the application.  The following options are defined:
   noFocusOnAppRaise:        {1|0}  no focus on raise.
   noFocusOnMap:             {1|0}  do not focus when mapped.
   noIgnoreTaskBar:          {1|0}  on task bar.
-  nonICCCMconfigureRequest: {1|0}  more configure requests.
   startClose:               {1|0}  close the window immediately.
   startFullscreen:          {1|0}  start full screen.
   startMaximized:           {1|0}  start maximized.
@@ -258,8 +257,6 @@ and typically installs to F</usr/share/icewm/winoptions>.
   fte.icon: fte
   emacs.Emacs.icon: emacs
   AWTapp.icon: java
-  # workaround for XV window repositioning problems
-  xv.nonICCCMconfigureRequest: 1
   xeyes.ignoreWinList: 0
   xeyes.ignoreTaskBar: 1
   xeyes.allWorkspaces: 1

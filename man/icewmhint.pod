@@ -211,7 +211,6 @@ advanced features are as follows:
     noFocusOnAppRaise         no focus on raise.
     noFocusOnMap              do not focus when mapped.
     noIgnoreTaskBar           on task bar.
-    nonICCCMconfigureRequest  more configure requests.
     startFullscreen           start full screen.
     startMaximized            start maximized.
     startMaximizedHorz        start maximized horizontal.

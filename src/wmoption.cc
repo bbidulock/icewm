@@ -193,7 +193,6 @@ void WindowOptions::setWinOption(mstring n_class_instance,
     } else {
         const unsigned foMaximized = YFrameWindow::foMaximizedHorz |
                                      YFrameWindow::foMaximizedVert;
-        const unsigned foNonICCCM = YFrameWindow::foNonICCCMConfigureRequest;
         static const struct {
             const char *name;
             unsigned flag;
@@ -233,7 +232,7 @@ void WindowOptions::setWinOption(mstring n_class_instance,
             { "noFocusOnAppRaise",        YFrameWindow::foNoFocusOnAppRaise },
             { "noFocusOnMap",             YFrameWindow::foNoFocusOnMap },
             { "noIgnoreTaskBar",          YFrameWindow::foNoIgnoreTaskBar },
-            { "nonICCCMconfigureRequest", foNonICCCM },
+            { "nonICCCMconfigureRequest", 0 },
             { "startClose",               YFrameWindow::foClose },
             { "startFullscreen",          YFrameWindow::foFullscreen },
             { "startMaximized",           foMaximized },

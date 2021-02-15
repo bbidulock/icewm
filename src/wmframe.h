@@ -248,7 +248,6 @@ public:
         foNoFocusOnAppRaise        = (1 << 18),
         foNoFocusOnMap             = (1 << 19),
         foNoIgnoreTaskBar          = (1 << 20),
-        foNonICCCMConfigureRequest = (1 << 21),
         foClose                    = (1 << 22),
     };
 
