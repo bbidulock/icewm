@@ -47,7 +47,7 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
 {
     memset(positions, 0, sizeof positions);
     memset(previous, 0, sizeof previous);
-    memset(lastDrawnTime, 0, sizeof lastDrawnTime);
+    memset(lastTime, 0, sizeof lastTime);
 
     if (prettyClock && ledPixSpace != null && ledPixSpace->width() == 1)
         ledPixSpace = ledPixSpace->scale(5, ledPixSpace->height());
@@ -200,6 +200,7 @@ void YClock::changeTimeFormat(const char* format) {
     freePixmap();
     memset(positions, 0, sizeof positions);
     memset(previous, 0, sizeof previous);
+    memset(lastTime, 0, sizeof lastTime);
     negativePosition = INT_MAX;
     clockTicked = true;
     repaint();
@@ -250,24 +251,22 @@ bool YClock::draw(Graphics& g) {
     timeval walltm = walltime();
     long nextChime = 1000L - walltm.tv_usec / 1000L;
     time_t newTime = walltm.tv_sec;
-    int len = 0;
+    int len;
     char s[TimeSize];
 
     clockTimer->setTimer(nextChime, this, true);
 
     auto t = clockUTC ? gmtime(&newTime) : localtime(&newTime);
-    bool force = false;
 
 #ifdef DEBUG
     if (countEvents)
-        force = true, len = sprintf(s, "%d", xeventcount);
+        len = snprintf(s, sizeof(s), "%d", xeventcount);
     else
 #endif
         len = strftime(s, sizeof(s), strTimeFmt(*t), t);
 
-    if (force || toolTipVisible() || 0 != strcmp(s, lastDrawnTime)) {
-        if (!force)
-            memcpy(lastDrawnTime, s, TimeSize);
+    if (toolTipVisible() || strcmp(s, lastTime)) {
+        memcpy(lastTime, s, TimeSize);
         return prettyClock
              ? paintPretty(g, s, len)
              : paintPlain(g, s, len);
