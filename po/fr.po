@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-12-14 01:46+0100\n"
-"PO-Revision-Date: 2020-05-02 19:51+0000\n"
-"Last-Translator: Christine Gabriel <christine@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2021-02-25 04:15+0000\n"
+"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -572,10 +572,8 @@ msgid "Motif decorations"
 msgstr "Décorations Motif"
 
 #: src/icesh.cc:1854
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "État de fenêtre GNOME"
+msgstr "État de fenêtre EWMH"
 
 #: src/icesh.cc:1936 src/icesh.cc:2009
 #, c-format
@@ -654,19 +652,6 @@ msgid "Socket error: %d"
 msgstr "Erreur de socket : %d"
 
 #: src/icesm.cc:69
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -691,6 +676,8 @@ msgstr ""
 "  --sync              Synchronise la communication avec le serveur X11.\n"
 "\n"
 "  -i, --icewm=FILE    Utilise FILE comme gestionnaire de fenêtres IceWM.\n"
+"  -o, --output=FILE   Redirige toute la sortie vers FILE.\n"
+"\n"
 "  -b, --nobg          Ne démarre pas icewmbg.\n"
 "  -n, --notray        Ne démarre pas icewmtray.\n"
 "  -s, --sound         Lance également icesound.\n"
@@ -704,6 +691,12 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Options de débogage :\n"
+"  -v, --valgrind      Permet à \"/usr/bin/valgrind\" d'exécuter icewm.\n"
+"                      Examine entièrement l'exécution de icewm.\n"
+"  -g, --catchsegv     Permet à \"/usr/bin/catchsegv\" d'exécuter icewm.\n"
+"                      Fournit un suivi si icewm renvoie segfault.\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -726,13 +719,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s a été terminé par le signal %d."
 
 #: src/icesm.cc:503
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -746,6 +732,7 @@ msgstr ""
 "\n"
 "\t1 : Redémarrer IceWM ?\n"
 "\t2 : Abandonner cette session ?\n"
+"\t3 : Exécuter un terminal ?\n"
 
 #: src/icesm.cc:509
 msgid "IceWM crash response"
@@ -1210,15 +1197,15 @@ msgstr "Langue :"
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "DoubleBuffer"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "Moteur de rendu :"
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
@@ -1628,11 +1615,11 @@ msgstr ""
 
 #: src/wmmgr.cc:3172
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Programme setxkbmap manquant"
 
 #: src/wmmgr.cc:3173
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Pour le changement de clavier, installez setxkbmap."
 
 #: src/wmoption.cc:260
 #, c-format
