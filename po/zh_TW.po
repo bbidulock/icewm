@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2020-12-14 01:46+0100\n"
-"PO-Revision-Date: 2020-05-02 19:50+0000\n"
+"PO-Revision-Date: 2021-03-07 15:26+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
@@ -565,10 +565,8 @@ msgid "Motif decorations"
 msgstr "Motif 修飾"
 
 #: src/icesh.cc:1854
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME 視窗狀態"
+msgstr "EWMH 視窗狀態"
 
 #: src/icesh.cc:1936 src/icesh.cc:2009
 #, c-format
@@ -645,19 +643,6 @@ msgid "Socket error: %d"
 msgstr "Socket 錯誤：%d"
 
 #: src/icesm.cc:69
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -673,17 +658,19 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c、--config=FILE   IceWM 將從 FILE 載入優先設定。\n"
-"  -t、--theme=FILE   IceWM 將從 FILE 載入主題。\n"
+"  -c, --config=FILE   從 FILE 載入 IceWM 優先設定。\n"
+"  -t, --theme=FILE    從 FILE 載入 IceWM 主題。\n"
 "\n"
-"  -d、--display=NAME  使用 NAME 連接 X 伺服器。\n"
-"  -a、--alpha         使用 32 位元半透明視覺物件。\n"
-"  --sync              與 X11 伺服器同步通訊資訊。\n"
+"  -d, --display=NAME  使用 NAME 連接至 X 伺服器。\n"
+"  -a, --alpha         使用 32 位元半透明視覺物件。\n"
+"  --sync              與 X11 伺服器同步通訊。\n"
 "\n"
-"  -i、--icewm=FILE    使用 FILE 做為 IceWM 視窗管理程式。\n"
-"  -b、--nobg          不啟動 icewmbg。\n"
-"  -n、--notray        不啟動 icewmtray。\n"
-"  -s、--sound         同時啟動 icesound。\n"
+"  -i, --icewm=FILE  使用 FILE 做為 IceWM 視窗管理程式。\n"
+"  -o, --output=FILE   將所有輸出重新導向至 FILE。\n"
+"\n"
+"  -b, --nobg          不啟動 icewmbg。\n"
+"  -n, --notray        不啟動 icewmtray。\n"
+"  -s, --sound         同時啟動 icesound。\n"
 
 #: src/icesm.cc:85
 msgid ""
@@ -694,6 +681,12 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"除錯選項：\n"
+"  -v, --valgrind      讓 \"/usr/bin/valgrind\" 執行 icewm。\n"
+"                      徹底檢查 icewm 的執行情況。\n"
+"  -g, --catchsegv     讓 \"/usr/bin/catchsegv\" 執行 icewm。\n"
+"                      如果 icewm 發生記憶體區段錯誤，則進行回溯。\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -716,13 +709,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
 
 #: src/icesm.cc:503
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -731,11 +717,12 @@ msgid ""
 "\t2: Abort this session?\n"
 "\t3: Run a terminal?\n"
 msgstr ""
-" IceWM 在 10 秒內已是第二次當機。 \n"
+" IceWM 在 10 秒內已是第二次當機。\n"
 " 您是否要：\n"
 "\n"
 "\t1: 重新啟動 IceWM？\n"
 "\t2: 中止此工作階段？\n"
+"\t3: 執行終端機?\n"
 
 #: src/icesm.cc:509
 msgid "IceWM crash response"
@@ -1165,15 +1152,15 @@ msgstr "語言："
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "DoubleBuffer"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "轉譯器："
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
@@ -1567,11 +1554,11 @@ msgstr ""
 
 #: src/wmmgr.cc:3172
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "缺少程式 setxkbmap"
 
 #: src/wmmgr.cc:3173
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "若要進行鍵盤切換，請安裝 setxkbmap。"
 
 #: src/wmoption.cc:260
 #, c-format
