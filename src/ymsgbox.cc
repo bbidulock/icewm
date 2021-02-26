@@ -15,17 +15,27 @@
 #include "prefs.h"
 #include "intl.h"
 
-YMsgBox::YMsgBox(int buttons):
+YMsgBox::YMsgBox(int buttons,
+                 const char* title,
+                 const char* text,
+                 YMsgBoxListener* listener):
     YDialog(),
     fLabel(nullptr),
     fInput(nullptr),
     fButtonOK(nullptr),
     fButtonCancel(nullptr),
-    fListener(nullptr)
+    fListener(listener)
 {
     setToplevel(true);
+    if (title) {
+        setWindowTitle(title);
+    }
+    if (text) {
+        fLabel = new YLabel(text, this);
+        fLabel->show();
+    }
     if (buttons & mbInput) {
-        fInput = new YInputLine(this);
+        fInput = new YInputLine(this, this);
         if (fInput) {
             fInput->show();
         }
@@ -47,6 +57,9 @@ YMsgBox::YMsgBox(int buttons):
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        MWM_FUNC_MOVE | MWM_FUNC_CLOSE,
        MWM_DECOR_BORDER | MWM_DECOR_TITLE | MWM_DECOR_MENU));
+    if (fListener) {
+        showFocused();
+    }
 }
 
 YMsgBox::~YMsgBox() {
@@ -68,6 +81,7 @@ void YMsgBox::autoSize() {
     h += 18;
 
     if (fInput) {
+        fInput->setSize(w - 24, fInput->height());
         fInput->setPosition((w - fInput->width()) / 2, h);
         h += 18 + fInput->height();
     }
@@ -131,14 +145,17 @@ void YMsgBox::actionPerformed(YAction action, unsigned int /*modifiers*/) {
 
 void YMsgBox::handleClose() {
     if (fListener)
-        fListener->handleMsgBox(this, 0);
+        fListener->handleMsgBox(this, mbClose);
     else {
         manager->unmanageClient(this);
         manager->focusTopWindow();
     }
 }
 
-void YMsgBox::handleFocus(const XFocusChangeEvent &/*focus*/) {
+void YMsgBox::handleFocus(const XFocusChangeEvent& focus) {
+    if (fInput) {
+        fInput->handleFocus(focus);
+    }
 }
 
 void YMsgBox::showFocused() {
@@ -146,20 +163,41 @@ void YMsgBox::showFocused() {
     setPosition(r.x() + int(r.width() / 2) - int(width() / 2),
                 r.y() + int(r.height() / 2) - int(height() / 2));
 
-    switch (msgBoxDefaultAction) {
-    case 0:
-        if (fButtonCancel) fButtonCancel->requestFocus(false);
-        break;
-    case 1:
-        if (fButtonOK) fButtonOK->requestFocus(false);
-        break;
+    if (fInput) {
+        fInput->requestFocus(false);
     }
+    else if (msgBoxDefaultAction == 0 && fButtonCancel) {
+        fButtonCancel->requestFocus(false);
+    }
+    else if (msgBoxDefaultAction == 1 && fButtonOK) {
+        fButtonOK->requestFocus(false);
+    }
+
     if (getFrame() == nullptr) {
         manager->manageClient(handle(), false);
     }
     if (getFrame()) {
         getFrame()->activateWindow(true);
     }
+}
+
+void YMsgBox::unmanage() {
+    manager->unmanageClient(this);
+}
+
+void YMsgBox::inputReturn(YInputLine* input) {
+    if (fListener) {
+        fListener->handleMsgBox(this, mbOK);
+    }
+}
+
+void YMsgBox::inputEscape(YInputLine* input) {
+    if (fListener) {
+        fListener->handleMsgBox(this, mbCancel);
+    }
+}
+
+void YMsgBox::inputLostFocus(YInputLine* input) {
 }
 
 // vim: set sw=4 ts=4 et:

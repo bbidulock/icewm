@@ -78,7 +78,6 @@ public:
     void doRaise();
     void wmClose();
     void wmConfirmKill();
-    static YMsgBox* wmConfirmKill(const char* title, YMsgBoxListener *recvr);
     void wmKill();
     void wmNextWindow();
     void wmPrevWindow();

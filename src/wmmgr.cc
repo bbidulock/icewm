@@ -3158,12 +3158,10 @@ void YWindowManager::setKeyboard(mstring keyboard) {
             }
         }
         else if (ONCE) {
-            YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK);
-            msgbox->setTitle(_("Missing program setxkbmap"));
-            msgbox->setText(_("For keyboard switching, please install setxkbmap."));
-            msgbox->autoSize();
-            msgbox->setMsgBoxListener(this);
-            msgbox->showFocused();
+            new YMsgBox(YMsgBox::mbOK,
+                        _("Missing program setxkbmap"),
+                        _("For keyboard switching, please install setxkbmap."),
+                        this);
         }
     }
 }
@@ -3173,7 +3171,7 @@ mstring YWindowManager::getKeyboard() {
 }
 
 void YWindowManager::handleMsgBox(YMsgBox *msgbox, int operation) {
-    unmanageClient(msgbox);
+    msgbox->unmanage();
 }
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):

@@ -3,6 +3,7 @@
 
 #include "ydialog.h"
 #include "yactionbutton.h"
+#include "yinputline.h"
 
 class YMsgBox;
 class YLabel;
@@ -16,9 +17,16 @@ protected:
     virtual ~YMsgBoxListener() {}
 };
 
-class YMsgBox: public YDialog, private YActionListener {
+class YMsgBox:
+    public YDialog,
+    private YActionListener,
+    private YInputListener
+{
 public:
-    YMsgBox(int buttons);
+    YMsgBox(int buttons,
+            const char* title = nullptr,
+            const char* text = nullptr,
+            YMsgBoxListener* listener = nullptr);
     virtual ~YMsgBox();
 
     void setTitle(const char* title);
@@ -32,15 +40,22 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClose();
     virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual void inputReturn(YInputLine* input);
+    virtual void inputEscape(YInputLine* input);
+    virtual void inputLostFocus(YInputLine* input);
 
     enum {
-        mbOK = 0x1,
+        mbClose  = 0x0,
+        mbOK     = 0x1,
         mbCancel = 0x2,
-        mbInput = 0x4,
+        mbBoth   = 0x3,
+        mbInput  = 0x4,
+        mbAll    = 0x7,
     };
 
     void showFocused();
     void autoSize();
+    void unmanage();
 
 private:
     YLabel* fLabel;

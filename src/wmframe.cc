@@ -118,7 +118,7 @@ YFrameWindow::YFrameWindow(
 YFrameWindow::~YFrameWindow() {
     fManaged = false;
     if (fKillMsgBox) {
-        manager->unmanageClient(fKillMsgBox);
+        fKillMsgBox->unmanage();
         fKillMsgBox = nullptr;
     }
     if (fWindowType == wtDialog)
@@ -1386,20 +1386,14 @@ void YFrameWindow::wmClose() {
 }
 
 void YFrameWindow::wmConfirmKill() {
-    if (fKillMsgBox == nullptr)
-        fKillMsgBox = wmConfirmKill(_("Kill Client: ") + getTitle(), this);
-}
-
-YMsgBox* YFrameWindow::wmConfirmKill(const char* title,
-        YMsgBoxListener *recvr) {
-    YMsgBox *msgbox = new YMsgBox(YMsgBox::mbOK | YMsgBox::mbCancel);
-    msgbox->setTitle(title);
-    msgbox->setText(_("WARNING! All unsaved changes will be lost when\n"
-            "this client is killed. Do you wish to proceed?"));
-    msgbox->autoSize();
-    msgbox->setMsgBoxListener(recvr);
-    msgbox->showFocused();
-    return msgbox;
+    if (fKillMsgBox) {
+        fKillMsgBox->unmanage();
+    }
+    fKillMsgBox = new YMsgBox(YMsgBox::mbBoth,
+                      _("Kill Client: ") + getTitle(),
+                      _("WARNING! All unsaved changes will be lost when\n"
+                        "this client is killed. Do you wish to proceed?"),
+                      this);
 }
 
 void YFrameWindow::wmKill() {
@@ -3260,12 +3254,9 @@ void YFrameWindow::updateAppStatus() {
 
 void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
     //msg("msgbox operation %d", operation);
-    if (msgbox == fKillMsgBox && fKillMsgBox) {
-        if (fKillMsgBox) {
-            manager->unmanageClient(fKillMsgBox);
-            fKillMsgBox = nullptr;
-            manager->focusTopWindow();
-        }
+    if (msgbox == fKillMsgBox) {
+        msgbox->unmanage();
+        fKillMsgBox = nullptr;
         if (operation == YMsgBox::mbOK)
             wmKill();
     }

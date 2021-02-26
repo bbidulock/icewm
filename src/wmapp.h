@@ -117,6 +117,7 @@ private:
     // XXX: these pointers are PITA because they can become wild when objects
     // are destroyed independently by manager. What we need is something like std::weak_ptr...
     YMsgBox *fLogoutMsgBox;
+    YMsgBox* fRestartMsgBox;
     AboutDlg* aboutDlg;
 
     CtrlAltDelete* ctrlAltDelete;
