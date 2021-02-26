@@ -74,7 +74,7 @@ ref<YImage> YImage2::loadsvg(upath filename) {
 #pragma GCC diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-    fcsmart filedata(filereader(filename.string()).read_all());
+    fcsmart filedata(filename.loadText());
     if (filedata) {
         size_t length = strlen(filedata);
         GError* error = nullptr;

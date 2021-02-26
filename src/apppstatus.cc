@@ -724,7 +724,7 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
 
 #ifdef __linux__
 void NetStatusControl::linuxUpdate() {
-    auto devicesText = filereader("/proc/net/dev").read_all();
+    auto devicesText(upath("/proc/net/dev").loadText());
     if (devicesText == nullptr)
         return;
     int const count(fNetStatus.getCount());
