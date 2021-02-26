@@ -139,7 +139,6 @@ public:
     }
 };
 
-// for new[] character strings
 typedef fsmart<char> fcsmart;
 
 extern "C" {
