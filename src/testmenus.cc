@@ -12,14 +12,14 @@
 #include "default.h"
 
 const char *ApplicationName = "testmenus";
-YMenu *logoutMenu(NULL);
+lazy<LogoutMenu> logoutMenu;
 YWMApp *wmapp(NULL);
 YMenu *windowListMenu(NULL);
 YWindowManager *manager;
 
 void YWMApp::restartClient(const char *path, char *const *args) {
 }
-void YWMApp::runOnce(const char *resource, const char *path, char *const *args) {
+void YWMApp::runOnce(const char *resource, long int*, const char *path, char *const *args) {
 }
 void YWMApp::signalGuiEvent(GUIEvent) {
 }
