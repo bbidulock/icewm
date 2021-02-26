@@ -135,6 +135,8 @@ struct cfoption {
     cfoption() : type(CF_NONE), size(0), name(nullptr), description(nullptr) { }
     bool boolval() { return *v.b.bool_value; }
     int intval() { return *v.i.int_value; }
+    int intmax() { return v.i.max; }
+    int intmin() { return v.i.min; }
     unsigned uintval() { return *v.u.uint_value; }
     const char* str() { return *v.s.string_value; }
     WMKey* key() { return v.k.key_value; }
