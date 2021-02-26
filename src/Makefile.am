@@ -336,6 +336,8 @@ icewm_SOURCES = \
 	wmmenu.cc \
 	wmprog.cc \
 	wmprog.h \
+	wmpref.cc \
+	wmpref.h \
 	atasks.cc \
 	atasks.h \
 	aworkspaces.cc \
