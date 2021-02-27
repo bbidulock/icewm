@@ -29,8 +29,17 @@ static const char workspaceNames[] =
 
 static void show(cfoption *options) {
     for (unsigned int i = 0; options[i].type != cfoption::CF_NONE; i++) {
-        if (nonempty(options[i].description))
-            printf("#  %s\n", options[i].description);
+
+        if (options[i].description == nullptr ||
+            strlen(options[i].description) < 13)
+        {
+            die(13, "Invalid description for option \"%s\":\n"
+                    "Each icewm option must have a meaningful description\n"
+                    " and be documented in the manpage.\n",
+                options[i].name);
+        }
+
+        printf("#  %s\n", options[i].description);
 
         switch (options[i].type) {
         case cfoption::CF_BOOL:

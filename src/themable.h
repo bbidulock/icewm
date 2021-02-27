@@ -327,7 +327,7 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorNetIdle",                         &clrNetIdle,                    "Idle (non) load on the network monitor, leave empty to force transparency"),
 
     OSV("Gradients",                            &gradients,                     "List of gradient pixmaps in the current theme"),
-    OKF("Look", setLook, ""),
+    OKF("Look", setLook, "The theme look."),
     OK0()
 };
 
