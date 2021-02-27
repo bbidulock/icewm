@@ -131,13 +131,63 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
     if (message) {
         message->unmanage();
     }
+
+    csmart retrieved(SavePrefs::retrieveComment(opt));
+    if (nonempty(retrieved)) {
+        char* dest = retrieved;
+        char* term = retrieved;
+        for (char* tok = strtok(retrieved, "# \t\n");
+             tok; tok = strtok(nullptr, "# \t\n"))
+        {
+            if (strlen(tok) + (dest - term) < 60) {
+                if (term < dest) {
+                    *dest++ = ' ';
+                }
+            }
+            else if (term < dest) {
+                *dest++ = '\n';
+                term = dest;
+            }
+            while (*tok) {
+                *dest++ = *tok++;
+            }
+        }
+        *dest = '\0';
+    }
+
     char text[123];
     snprintf(text, sizeof text, _("Enter a new value for %s: "), opt->name);
-    message = new YMsgBox(YMsgBox::mbAll, opt->name, text, this);
-    if (nonempty(old)) {
+
+    size_t size = 123 + (retrieved ? strlen(retrieved) : 0) + strlen(text);
+    csmart heading(new char[size]);
+    if (heading) {
+        if (nonempty(retrieved)) {
+            snprintf(heading, size, "%-60s\n\n%-60s", (char*)retrieved, text);
+        } else {
+            snprintf(heading, size, "%-60s", text);
+        }
+    }
+
+    message = new YMsgBox(YMsgBox::mbAll, opt->name, heading, this);
+    if (nonempty(old) && message && message->input()) {
         message->input()->setText(mstring(old), false);
     }
     modify = opt;
+}
+
+void PrefsMenu::modified(cfoption* opt, bool set) {
+    if (opt >= &icewm_preferences[0] &&
+        opt < &icewm_preferences[count])
+    {
+        int i = int(opt - icewm_preferences);
+        if (set) {
+            if (find(mods, i) < 0) {
+                mods.append(i);
+            }
+        } else {
+            findRemove(mods, i);
+        }
+    }
 }
 
 void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
@@ -148,44 +198,40 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
         }
         message->unmanage();
         message = nullptr;
-        if (modify && (input.nonempty() || modify->type == cfoption::CF_STR)) {
+        if (operation == YMsgBox::mbOK && modify) {
             if (modify->type == cfoption::CF_KEY && modify->key()) {
                 WMKey *wk = modify->key();
-                if (YConfig::parseKey(input, &wk->key, &wk->mod)) {
+                if (input.isEmpty() ||
+                    YConfig::parseKey(input, &wk->key, &wk->mod))
+                {
                     if (!wk->initial)
                         delete[] const_cast<char *>(wk->name);
                     wk->name = newstr(input);
                     wk->initial = false;
-                    const int i = modify - icewm_preferences;
-                    if (inrange(i, 0, count - 1) && find(mods, i) < 0) {
-                        mods.append(i);
-                    }
+                    modified(modify);
                     msg("%s = \"%s\"", modify->name, wk->name);
                     wmapp->actionPerformed(actionReloadKeys);
                 }
+                else modified(modify, false);
             }
-            else if (modify->type == cfoption::CF_INT) {
+            else if (modify->type == cfoption::CF_INT && input.nonempty()) {
                 int value = 0, len = 0;
-                if (sscanf(input, "%d%n", &value, &len) == 1) {
-                    if (size_t(len) == input.length()) {
-                        *modify->v.i.int_value = value;
-                        const int i = modify - icewm_preferences;
-                        if (inrange(i, 0, count - 1) && find(mods, i) < 0) {
-                            mods.append(i);
-                        }
-                        msg("%s = %d", modify->name, value);
-                    }
+                if (sscanf(input, "%d%n", &value, &len) == 1 &&
+                    size_t(len) == input.length() &&
+                    inrange(value, modify->intmin(), modify->intmax()))
+                {
+                    *modify->v.i.int_value = value;
+                    modified(modify);
+                    msg("%s = %d", modify->name, value);
                 }
+                else modified(modify, false);
             }
             else if (modify->type == cfoption::CF_STR) {
                 if (modify->v.s.initial == false)
                     delete[] const_cast<char *>(*modify->v.s.string_value);
                 *modify->v.s.string_value = newstr(input);
                 modify->v.s.initial = false;
-                const int i = modify - icewm_preferences;
-                if (inrange(i, 0, count - 1) && find(mods, i) < 0) {
-                    mods.append(i);
-                }
+                modified(modify);
                 msg("%s = \"%s\"", modify->name, modify->str());
             }
         }

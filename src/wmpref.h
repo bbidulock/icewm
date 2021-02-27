@@ -24,6 +24,7 @@ private:
     cfoption* modify;
 
     void query(cfoption* opt, const char* old);
+    void modified(cfoption* opt, bool set = true);
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
@@ -36,6 +37,8 @@ class SavePrefs {
 public:
     SavePrefs(YArray<int>& modified);
 
+    static char* retrieveComment(cfoption* o);
+
 private:
     YArray<int> mods;
     fcsmart text;
@@ -45,7 +48,6 @@ private:
     upath preferencesPath();
     bool updateOption(cfoption* o, char* buf, size_t blen);
     bool insertOption(cfoption* o, char* buf, size_t blen);
-    char* retrieveComment(cfoption* o);
     void writePrefs(upath dest, const char* text, size_t tlen);
     void replace(char* s1, size_t n1, char* s2, size_t n2, char* s3 = nullptr,
                  size_t n3 = 0, char* s4 = nullptr, size_t n4 = 0);
