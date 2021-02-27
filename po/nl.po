@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2020-12-14 01:46+0100\n"
+"POT-Creation-Date: 2021-02-27 18:40+0100\n"
 "PO-Revision-Date: 2020-12-14 17:26+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,24 +43,24 @@ msgstr " - Volledig"
 msgid "power:\t%s"
 msgstr "voeding:\t%s"
 
-#: src/aclock.cc:173
+#: src/aclock.cc:180
 msgid "CLOCK"
 msgstr "KLOK"
 
-#: src/aclock.cc:178
+#: src/aclock.cc:186
 msgid "Date"
 msgstr "Datum"
 
-#: src/aclock.cc:179 src/themes.cc:81
+#: src/aclock.cc:187 src/themes.cc:81
 msgid "Default"
 msgstr "Standaard"
 
-#: src/aclock.cc:180 src/acpustatus.cc:661 src/amailbox.cc:979
+#: src/aclock.cc:188 src/acpustatus.cc:661 src/amailbox.cc:979
 #: src/amemstatus.cc:265
 msgid "_Disable"
 msgstr "_Uitschakelen"
 
-#: src/aclock.cc:181
+#: src/aclock.cc:189
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -537,108 +537,112 @@ msgstr "Hetzelfde spel"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Voor hulp bekijk de manpagina icesh(1).\n"
 
-#: src/icesh.cc:1494
+#: src/icesh.cc:1509
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Genoemde symbolen van het domein »%s« (Bereik: %ld-%ld):\n"
 
-#: src/icesh.cc:1552
+#: src/icesh.cc:1567
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Werkruimte buiten bereik: %ld"
 
-#: src/icesh.cc:1573
+#: src/icesh.cc:1588
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ongeldig werkruimtenummer: »%s«"
 
-#: src/icesh.cc:1850
+#: src/icesh.cc:1865
 msgid "GNOME window layer"
 msgstr "GNOME venster laag"
 
-#: src/icesh.cc:1851
+#: src/icesh.cc:1866
+msgid "IceWM tray option"
+msgstr "IceWM tray optie"
+
+#: src/icesh.cc:1867
 msgid "Gravity symbols"
 msgstr "Gravitatiesymbolen"
 
-#: src/icesh.cc:1852
+#: src/icesh.cc:1868
 msgid "Motif functions"
 msgstr "Motif-functies"
 
-#: src/icesh.cc:1853
+#: src/icesh.cc:1869
 msgid "Motif decorations"
 msgstr "Motif-decoraties"
 
-#: src/icesh.cc:1854
+#: src/icesh.cc:1870
 msgid "EWMH window state"
 msgstr "EWMH-vensterstatus"
 
-#: src/icesh.cc:1936 src/icesh.cc:2009
+#: src/icesh.cc:1952 src/icesh.cc:2025
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Werkruimte #%d: »%s«\n"
 
-#: src/icesh.cc:2244 src/icesh.cc:3413 src/icesh.cc:3884
+#: src/icesh.cc:2260 src/icesh.cc:3468 src/icesh.cc:3939
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ongeldige status: `%s'."
 
-#: src/icesh.cc:3066
+#: src/icesh.cc:3110
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan geometrie van venster 0x%lx niet ophalen"
 
-#: src/icesh.cc:3091
+#: src/icesh.cc:3135
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ongeldig Xinerama: `%s'."
 
-#: src/icesh.cc:3141
+#: src/icesh.cc:3184 src/icesh.cc:3230
+#, c-format
+msgid "Invalid argument: `%s'"
+msgstr "Ongeldig argument: '%s'"
+
+#: src/icesh.cc:3196
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
-#: src/icesh.cc:3151
+#: src/icesh.cc:3206
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:3162 src/icesound.cc:793 src/icewmhint.cc:36 src/wmapp.cc:1069
-#: src/yxapp.cc:1026
+#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
+#: src/yxapp.cc:1030
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Kan het display %s niet gebruiken. De X-Server moet werken en \n"
 "de omgevingsvariabele $DISPLAY moet hiernaar verwijzen."
 
-#: src/icesh.cc:3175
-#, c-format
-msgid "Invalid argument: `%s'"
-msgstr "Ongeldig argument: '%s'"
-
-#: src/icesh.cc:3210
+#: src/icesh.cc:3265
 msgid "No windows found."
 msgstr "Geen vensters gevonden."
 
-#: src/icesh.cc:3225
+#: src/icesh.cc:3280
 msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
-#: src/icesh.cc:3330
+#: src/icesh.cc:3385
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ongeldige venster identificatie: »%s«"
 
-#: src/icesh.cc:3347
+#: src/icesh.cc:3402
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ongeldige PID: `%s'"
 
-#: src/icesh.cc:3383
+#: src/icesh.cc:3438
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ongeldige laag: `%s'."
 
-#: src/icesh.cc:4149
+#: src/icesh.cc:4241
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
@@ -733,74 +737,74 @@ msgstr ""
 msgid "IceWM crash response"
 msgstr "Reactie van IceWM op crash"
 
-#: src/icesound.cc:210 src/icesound.cc:318 src/icesound.cc:478
+#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
 msgid "Playing sample #%d (%s)"
 msgstr "Speel sample #%d (%s)"
 
-#: src/icesound.cc:328
+#: src/icesound.cc:329
 #, c-format
 msgid "%s: Invalid number of channels"
 msgstr "%s: Ongeldig(e) nummer of kanalen"
 
-#: src/icesound.cc:334 src/icesound.cc:339
+#: src/icesound.cc:335 src/icesound.cc:340
 msgid "Could not set OSS channels"
 msgstr "Kan OSS-kanalen niet instellen"
 
-#: src/icesound.cc:344 src/icesound.cc:372
+#: src/icesound.cc:345 src/icesound.cc:373
 msgid "Could not sync OSS"
 msgstr "Kon OSS niet synchroniseren"
 
-#: src/icesound.cc:356
+#: src/icesound.cc:357
 msgid "OSS write failed"
 msgstr "OSS opslaan mislukt"
 
-#: src/icesound.cc:360
+#: src/icesound.cc:361
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS onvolledig opgeslagen (%d/%d)"
 
-#: src/icesound.cc:367
+#: src/icesound.cc:368
 msgid "Could not post OSS"
 msgstr "Kon OSS niet posten"
 
-#: src/icesound.cc:396
+#: src/icesound.cc:397
 #, c-format
 msgid "Could not open OSS device %s"
 msgstr "Kon OSS-apparaat %s niet openen"
 
-#: src/icesound.cc:401
+#: src/icesound.cc:402
 msgid "Could not set OSS stereo"
 msgstr "Kon OSS-stereo niet instellen"
 
-#: src/icesound.cc:406
+#: src/icesound.cc:407
 msgid "Could not reset OSS DSP"
 msgstr "Kon OSS DSP niet opnieuw instellen"
 
-#: src/icesound.cc:411
+#: src/icesound.cc:412
 msgid "Could not set OSS format"
 msgstr "Kon OSS-indeling niet instellen"
 
-#: src/icesound.cc:498
+#: src/icesound.cc:499
 #, c-format
 msgid "ao_open_live failed with %d"
 msgstr "ao_open_live mislukt met %d"
 
-#: src/icesound.cc:509
+#: src/icesound.cc:510
 msgid "ao_play failed"
 msgstr "ao_play mislukt"
 
-#: src/icesound.cc:675
+#: src/icesound.cc:676
 #, c-format
 msgid "Unrecognized option: %s\n"
 msgstr "Onbekende optie: %s\n"
 
-#: src/icesound.cc:678 src/icesound.cc:971
+#: src/icesound.cc:679 src/icesound.cc:972
 #, c-format
 msgid "Unrecognized argument: %s\n"
 msgstr "Onbekend argument: %s\n"
 
-#: src/icesound.cc:687
+#: src/icesound.cc:688
 #, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
@@ -907,51 +911,51 @@ msgstr ""
 "  3     Fout in een subsysteem (dwz. geen verbinding met de server).\n"
 "\n"
 
-#: src/icesound.cc:778
+#: src/icesound.cc:779
 #, c-format
 msgid "No audio for %s"
 msgstr "Geen audio voor %s"
 
-#: src/icesound.cc:855
+#: src/icesound.cc:856
 msgid "Could not get GUI event property"
 msgstr "Kon eigenschap van gebeurtenis van GUI niet ophalen"
 
-#: src/icesound.cc:859
+#: src/icesound.cc:860
 #, c-format
 msgid "Received invalid GUI event %d"
 msgstr "Ongeldige GUI-gebeurtenis %d ontvangen"
 
-#: src/icesound.cc:863
+#: src/icesound.cc:864
 #, c-format
 msgid "Received GUI event %s"
 msgstr "GUI-gebeurtenis %s ontvangen"
 
-#: src/icesound.cc:877
+#: src/icesound.cc:878
 #, c-format
 msgid "Too quick; ignoring %s."
 msgstr "Te snel; %s genegeerd."
 
-#: src/icesound.cc:881
+#: src/icesound.cc:882
 #, c-format
 msgid "Support for the %s interface not compiled."
 msgstr "De ondersteuning voor de %s-interface werd niet meegecompileerd."
 
-#: src/icesound.cc:914
+#: src/icesound.cc:915
 #, c-format
 msgid "Unsupported interface: %s."
 msgstr "Niet ondersteunde audiointerface: %s."
 
-#: src/icesound.cc:923
+#: src/icesound.cc:924
 #, c-format
 msgid "Using %s audio."
 msgstr "%s audio gebruiken."
 
-#: src/icesound.cc:927
+#: src/icesound.cc:928
 #, c-format
 msgid "Failed to connect to audio interfaces %s."
 msgstr "Het verbinden met audio-interfaces %s is mislukt."
 
-#: src/icesound.cc:939
+#: src/icesound.cc:940
 #, c-format
 msgid "Received signal %s: Terminating..."
 msgstr "Signaal %s ontvangen: beëindigen..."
@@ -1109,11 +1113,11 @@ msgstr ""
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Kan niet worden gestart, omdat een andere icewmbg wordt uitgevoerd."
 
-#: src/icewmhint.cc:19
+#: src/icewmhint.cc:20
 msgid "Usage: icewmhint class.instance option arg\n"
 msgstr "Gebruik: icewmhint klasse.instantie optie argument\n"
 
-#: src/icewmhint.cc:56
+#: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
 msgstr "Onvoldoende geheugen (len=%d)."
@@ -1205,153 +1209,153 @@ msgid "done."
 msgstr "gereed."
 
 # OS/2 is dead, but... ;-)
-#: src/wmapp.cc:376
+#: src/wmapp.cc:377
 msgid "_Logout"
 msgstr "_Afmelden"
 
-#: src/wmapp.cc:377
+#: src/wmapp.cc:378
 msgid "_Cancel logout"
 msgstr "_Afmelden afbreken"
 
-#: src/wmapp.cc:382
+#: src/wmapp.cc:383
 msgid "Lock _Workstation"
 msgstr "Werkstation _blokkeren"
 
-#: src/wmapp.cc:384 src/wmdialog.cc:72
+#: src/wmapp.cc:385 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "_Re_boot"
 
-#: src/wmapp.cc:386 src/wmdialog.cc:73
+#: src/wmapp.cc:387 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Af_sluiten"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:388 src/wmdialog.cc:69
+#: src/wmapp.cc:389 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "_Slaapmodus"
 
-#: src/wmapp.cc:393
+#: src/wmapp.cc:394
 msgid "Restart _Icewm"
 msgstr "_Icewm Opnieuw starten"
 
-#: src/wmapp.cc:395
+#: src/wmapp.cc:396
 msgid "Restart _Xterm"
 msgstr "_Xterm opnieuw starten"
 
-#: src/wmapp.cc:405
+#: src/wmapp.cc:406
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:406
+#: src/wmapp.cc:407
 msgid "_Above Dock"
 msgstr "_Over de Dock"
 
-#: src/wmapp.cc:407
+#: src/wmapp.cc:408
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:408
+#: src/wmapp.cc:409
 msgid "_OnTop"
 msgstr "_BovenIn"
 
-#: src/wmapp.cc:409
+#: src/wmapp.cc:410
 msgid "_Normal"
 msgstr "_Normaal"
 
-#: src/wmapp.cc:410
+#: src/wmapp.cc:411
 msgid "_Below"
 msgstr "_Onder"
 
-#: src/wmapp.cc:411
+#: src/wmapp.cc:412
 msgid "D_esktop"
 msgstr "Bur_eaublad"
 
-#: src/wmapp.cc:446 src/wmwinlist.cc:362
+#: src/wmapp.cc:447 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "_Herstellen"
 
-#: src/wmapp.cc:448
+#: src/wmapp.cc:449
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: src/wmapp.cc:450
+#: src/wmapp.cc:451
 msgid "_Size"
 msgstr "_Grootte veranderen"
 
-#: src/wmapp.cc:452 src/wmwinlist.cc:363
+#: src/wmapp.cc:453 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "Mi_nimaliseren"
 
-#: src/wmapp.cc:454 src/wmwinlist.cc:364
+#: src/wmapp.cc:455 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "Ma_ximaliseren"
 
-#: src/wmapp.cc:455 src/wmwinlist.cc:365
+#: src/wmapp.cc:456 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "_VertMmaximaliseren"
 
-#: src/wmapp.cc:456 src/wmwinlist.cc:366
+#: src/wmapp.cc:457 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "Hori_zMaximaliseren"
 
-#: src/wmapp.cc:459 src/wmwinlist.cc:367
+#: src/wmapp.cc:460 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "_Volledig scherm"
 
-#: src/wmapp.cc:462 src/wmwinlist.cc:369
+#: src/wmapp.cc:463 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "Verb_ergen"
 
-#: src/wmapp.cc:464 src/wmwinlist.cc:370
+#: src/wmapp.cc:465 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "Op_rollen"
 
-#: src/wmapp.cc:471
+#: src/wmapp.cc:472
 msgid "R_aise"
 msgstr "St_ijgen"
 
-#: src/wmapp.cc:473 src/wmwinlist.cc:372
+#: src/wmapp.cc:474 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "Da_len"
 
-#: src/wmapp.cc:475 src/wmwinlist.cc:373
+#: src/wmapp.cc:476 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "_Laag"
 
-#: src/wmapp.cc:479 src/wmwinlist.cc:375
+#: src/wmapp.cc:480 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "Verschuiven naa_r"
 
-#: src/wmapp.cc:480 src/wmwinlist.cc:376
+#: src/wmapp.cc:481 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "In _alle werkruimten"
 
-#: src/wmapp.cc:486
+#: src/wmapp.cc:487
 msgid "Limit _Workarea"
 msgstr "_Beperk werkruimte"
 
-#: src/wmapp.cc:490 src/wmwinlist.cc:377
+#: src/wmapp.cc:491 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "Tray_icon"
 
-#: src/wmapp.cc:495 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:496 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "_Sluiten"
 
-#: src/wmapp.cc:497 src/wmwinlist.cc:394
+#: src/wmapp.cc:498 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "Programma stoppen"
 
-#: src/wmapp.cc:500 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:501 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "_Window lijst"
 
 #
-#: src/wmapp.cc:533
+#: src/wmapp.cc:534
 msgid "Another window manager already running, exiting..."
 msgstr "Een andere window manager is al aktief. Icewm wordt gestopt...."
 
-#: src/wmapp.cc:605
+#: src/wmapp.cc:606
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1360,22 +1364,28 @@ msgstr ""
 "De herstart is mislukt: %s\n"
 "Verwijst de »PATH« variable naar de programma directory »%s«?"
 
-#: src/wmapp.cc:774
-msgid "Kill IceWM, replace with Xterm"
-msgstr "IceWM beëindigen, vervangen met Xterm"
+#: src/wmapp.cc:768
+msgid "Confirm Restart as Terminal"
+msgstr ""
 
-#: src/wmapp.cc:1070 src/yxapp.cc:1027
+#: src/wmapp.cc:769
+msgid ""
+"Unmanage all applications and restart\n"
+"as a terminal. Proceed?"
+msgstr ""
+
+#: src/wmapp.cc:1073 src/yxapp.cc:1031
 msgid "<none>"
 msgstr "<geen>"
 
-#: src/wmapp.cc:1395
+#: src/wmapp.cc:1403
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Te gebruiken client-id bij contact maken met de "
 "sessiemanager.\n"
 
-#: src/wmapp.cc:1401
+#: src/wmapp.cc:1409
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1385,7 +1395,7 @@ msgstr ""
 "  --debug             Algemene debugberichten afdrukken.\n"
 "  --debug-z           Debugberichten over stapelen van vensters afdrukken.\n"
 
-#: src/wmapp.cc:1409
+#: src/wmapp.cc:1417
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1403,7 +1413,7 @@ msgstr ""
 "  -p, --postpreferences   Voorkeuren printen nadat alles is verwerkt.\n"
 "  --trace=conf,icon   Paden volgen gebruiken om configuratie te laden.\n"
 
-#: src/wmapp.cc:1418
+#: src/wmapp.cc:1426
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1462,26 +1472,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1480
+#: src/wmapp.cc:1488
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s configuratiemappen:\n"
 
-#: src/wmapp.cc:1562
+#: src/wmapp.cc:1570
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s geconfigureerde opties:%s\n"
 
-#: src/wmapp.cc:1640
+#: src/wmapp.cc:1648
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Onbekende optie: '%s'."
 
-#: src/wmapp.cc:1691
+#: src/wmapp.cc:1700
 msgid "Confirm Logout"
 msgstr "Afmelden bevestigen"
 
-#: src/wmapp.cc:1692
+#: src/wmapp.cc:1701
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1533,12 +1543,12 @@ msgstr "Onbekende waarde '%s' voor optie: '%s'."
 msgid "Unable to create directory %s"
 msgstr "Aanmaken van map %s lukte niet"
 
-#: src/wmconfig.cc:146 src/wmprog.cc:579 src/wmprog.cc:701 src/wmprog.cc:705
+#: src/wmconfig.cc:146
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Schrijven naar %s lukt niet"
 
-#: src/wmconfig.cc:182 src/wmprog.cc:709
+#: src/wmconfig.cc:182
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Hernoemen van %s naar %s lukt niet"
@@ -1547,12 +1557,12 @@ msgstr "Hernoemen van %s naar %s lukt niet"
 msgid "Loc_k Workstation"
 msgstr "Werkstation blo_kkeren"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:37
+#: src/wmdialog.cc:70 src/ymsgbox.cc:47
 msgid "_Cancel"
 msgstr "Af_breken"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:859 src/wmprog.cc:861 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:528 src/wmprog.cc:530 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "_Afmelden..."
@@ -1562,16 +1572,16 @@ msgid "_Restart icewm"
 msgstr "IceWM _herstarten"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:820 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:496 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "_Over"
 
 #
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1393
 msgid "Kill Client: "
 msgstr "Stoppen van: "
 
-#: src/wmframe.cc:1406
+#: src/wmframe.cc:1394
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1580,98 +1590,94 @@ msgstr ""
 "als u dit programma stopt!\n"
 "Wilt u doorgaan?"
 
-#: src/wmmgr.cc:3172
+#: src/wmmgr.cc:3162
 msgid "Missing program setxkbmap"
 msgstr "Programma setxkbmap ontbreekt"
 
-#: src/wmmgr.cc:3173
+#: src/wmmgr.cc:3163
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Om van toetsenbord te wisselen, installeer setxkbmap."
 
-#: src/wmoption.cc:260
+#: src/wmoption.cc:259
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Onbekende window optie: %s"
 
-#: src/wmoption.cc:331
+#: src/wmoption.cc:330
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfout in windowoptie op lijn  %d van %s"
 
-#: src/wmprog.cc:399
+#: src/wmprog.cc:392
 msgid "_Click to focus"
 msgstr "_Klik voor focus"
 
-#: src/wmprog.cc:400
+#: src/wmprog.cc:393
 msgid "_Explicit focus"
 msgstr "_Expliciete focus"
 
-#: src/wmprog.cc:401
+#: src/wmprog.cc:394
 msgid "_Sloppy mouse focus"
 msgstr "_Slordige muisfocus"
 
-#: src/wmprog.cc:402
+#: src/wmprog.cc:395
 msgid "S_trict mouse focus"
 msgstr "_Strenge muisfocus"
 
-#: src/wmprog.cc:403
+#: src/wmprog.cc:396
 msgid "_Quiet sloppy focus"
 msgstr "_Stille slordige muisfocus"
 
-#: src/wmprog.cc:404
+#: src/wmprog.cc:397
 msgid "Custo_m"
 msgstr "Aa_ngepast"
 
-#: src/wmprog.cc:499
-msgid "Save Modifications"
-msgstr "Wijzigingen opslaan"
-
-#: src/wmprog.cc:732
+#: src/wmprog.cc:419
 msgid "_Manual"
 msgstr "_Handmatig"
 
-#: src/wmprog.cc:733
+#: src/wmprog.cc:420
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:734
+#: src/wmprog.cc:421
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:735
+#: src/wmprog.cc:422
 msgid "Ice_Sound(1)"
 msgstr "Ice_Geluid(1)"
 
-#: src/wmprog.cc:797
+#: src/wmprog.cc:482
 msgid "Programs"
 msgstr "Programma's"
 
-#: src/wmprog.cc:802
+#: src/wmprog.cc:486
 msgid "_Run..."
 msgstr "Uit_voeren..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:807 src/wmtaskbar.cc:233
+#: src/wmprog.cc:490 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "_Windows"
 
-#: src/wmprog.cc:826
+#: src/wmprog.cc:501
 msgid "_Help"
 msgstr "_Help"
 
-#: src/wmprog.cc:837
+#: src/wmprog.cc:506
 msgid "_Focus"
 msgstr "_Focus"
 
-#: src/wmprog.cc:842
+#: src/wmprog.cc:511
 msgid "_Preferences"
 msgstr "_Voorkeuren"
 
-#: src/wmprog.cc:848
+#: src/wmprog.cc:516
 msgid "_Themes"
 msgstr "_Thema's"
 
-#: src/wmprog.cc:853
+#: src/wmprog.cc:520
 msgid "Se_ttings"
 msgstr "Ins_tellingen"
 
@@ -1725,7 +1731,7 @@ msgstr "_Pictogrammen opruimen"
 msgid "_Refresh"
 msgstr "_Verversen"
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:954
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:963
 msgid "Hide Taskbar"
 msgstr "Taakbalk verbergen"
 
@@ -1741,7 +1747,7 @@ msgstr "Llijstmenu van venster"
 msgid "Show Desktop"
 msgstr "Bureaublad tonen"
 
-#: src/wmtaskbar.cc:954
+#: src/wmtaskbar.cc:963
 msgid "Show Taskbar"
 msgstr "Taakbalk tonen"
 
@@ -1793,34 +1799,34 @@ msgstr "Onbekende toets %s in %s"
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Ongeldig argument: %s voor %s [%d,%d]"
 
-#: src/ycursor.cc:111
+#: src/ycursor.cc:112
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
 msgstr "Fout bij het laden van plaatje »%s«: %s"
 
-#: src/ycursor.cc:137
+#: src/ycursor.cc:138
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
 msgstr "Laden van afbeelding »%s« mislukt"
 
-#: src/ycursor.cc:181
+#: src/ycursor.cc:182
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
 msgstr "FOUT? Imlib was in staat »%s« te lezen"
 
-#: src/ycursor.cc:206
+#: src/ycursor.cc:207
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
 msgstr "BUG? Ongeldige XPM-Header (Imlib heeft het bestand »%s« toch gelezen)"
 
-#: src/ycursor.cc:214
+#: src/ycursor.cc:215
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
 msgstr ""
 "BUG? Onverwacht einde van het XPM-bestand (Imlib heeft het bestand »%s« toch "
 "gelezen)"
 
-#: src/ycursor.cc:217
+#: src/ycursor.cc:218
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUG? Onverwacht teken maar Imlib heeft \"%s\" toch kunnen ontleden"
@@ -1891,22 +1897,22 @@ msgstr ""
 "Taalregio wordt niet ondersteund door C-bibliotheek of Xlib. Er wordt "
 "teruggevallen op de algemene taalregio 'C'."
 
-#: src/ylocale.cc:94
+#: src/ylocale.cc:90
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "Kom huidige lokaliteit niet bepalen. Ga uit van ISO-8859-1.\n"
 
-#: src/ylocale.cc:127 src/ylocale.cc:135
+#: src/ylocale.cc:123 src/ylocale.cc:131
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv heeft (onvoldoende) %s naar %s-vertalers."
 
-#: src/ylocale.cc:235
+#: src/ylocale.cc:231
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Ongeldige Multibyte-string »%s«: %s"
 
-#: src/ymsgbox.cc:34
+#: src/ymsgbox.cc:44
 msgid "_OK"
 msgstr "_OK"
 
@@ -1939,7 +1945,7 @@ msgstr "Onvolledige hex-escape in URL op positie %d."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Onvolledige hex-escape in URL op positie %d."
 
-#: src/yxapp.cc:987
+#: src/yxapp.cc:991
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2637,14 +2643,17 @@ msgstr "Webontwikkeling"
 msgid "WordProcessor"
 msgstr "Wordprocessor"
 
+#~ msgid "Kill IceWM, replace with Xterm"
+#~ msgstr "IceWM beëindigen, vervangen met Xterm"
+
+#~ msgid "Save Modifications"
+#~ msgstr "Wijzigingen opslaan"
+
 #~ msgid "GNOME window state"
 #~ msgstr "GNOME-Venster status"
 
 #~ msgid "GNOME window hint"
 #~ msgstr "GNOME-Venster omschrijving"
-
-#~ msgid "IceWM tray option"
-#~ msgstr "IceWM tray optie"
 
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 #~ msgstr "Ongeldige cursorpixmap: »%s« bevat te veel unieke kleuren"
