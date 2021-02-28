@@ -194,14 +194,14 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
     if (message == msgbox) {
         mstring input;
         if (operation == YMsgBox::mbOK && msgbox->input()) {
-            input = msgbox->input()->getText();
+            input = msgbox->input()->getText().trim();
         }
         message->unmanage();
         message = nullptr;
         if (operation == YMsgBox::mbOK && modify) {
             if (modify->type == cfoption::CF_KEY && modify->key()) {
                 WMKey *wk = modify->key();
-                if (input.isEmpty() ||
+                if (input.isEmpty() ? (wk->key = wk->mod = 0, true) :
                     YConfig::parseKey(input, &wk->key, &wk->mod))
                 {
                     if (!wk->initial)
