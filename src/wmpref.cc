@@ -155,8 +155,15 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
         *dest = '\0';
     }
 
+    char name[123];
+    if (opt->type == cfoption::CF_INT) {
+        snprintf(name, sizeof name, "%s [%d-%d]",
+                 opt->name, opt->intmin(), opt->intmax());
+    } else {
+        strlcpy(name, opt->name, sizeof name);
+    }
     char text[123];
-    snprintf(text, sizeof text, _("Enter a new value for %s: "), opt->name);
+    snprintf(text, sizeof text, _("Enter a new value for %s: "), name);
 
     size_t size = 123 + (retrieved ? strlen(retrieved) : 0) + strlen(text);
     csmart heading(new char[size]);
