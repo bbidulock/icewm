@@ -337,6 +337,7 @@ void YInputLine::handleButton(const XButtonEvent &button) {
         if (button.button == 1) {
             if (fHasFocus == false) {
                 setWindowFocus();
+                requestFocus(false);
             } else {
                 fSelecting = true;
                 curPos = markPos = offsetToPos(button.x + leftOfs);
@@ -690,6 +691,27 @@ void YInputLine::complete() {
     if (1 <= res_count)
         setText(res, res_count == 1);
     free(res);
+}
+
+bool YInputLine::isFocusTraversable() {
+    return true;
+}
+
+void YInputLine::gotFocus() {
+    if (fHasFocus == false) {
+        fHasFocus = true;
+        fCursorVisible = true;
+        cursorBlinkTimer->setTimer(fBlinkTime, this, true);
+        repaint();
+    }
+}
+
+void YInputLine::lostFocus() {
+    if (cursorBlinkTimer) {
+        cursorBlinkTimer = null;
+        fHasFocus = false;
+        repaint();
+    }
 }
 
 // vim: set sw=4 ts=4 et:

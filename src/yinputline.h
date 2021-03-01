@@ -40,6 +40,9 @@ public:
     virtual void handleSelection(const XSelectionEvent &selection);
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void configure(const YRect2& r);
+    virtual bool isFocusTraversable();
+    virtual void lostFocus();
+    virtual void gotFocus();
     virtual void repaint();
 
     bool move(unsigned pos, bool extend);
