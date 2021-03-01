@@ -696,7 +696,7 @@ void TaskBar::updateLocation() {
     if ( !fIsHidden || fIsCollapsed) {
         if (getFrame()) {
             if (geometry() != YRect(x, y, w, h)) {
-                XConfigureRequestEvent conf;
+                XConfigureRequestEvent conf = {};
                 conf.type = ConfigureRequest;
                 conf.window = handle();
                 conf.x = x;
