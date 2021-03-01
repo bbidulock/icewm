@@ -14,6 +14,7 @@
 #include "wmclient.h"
 #include "wmmgr.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include "yrect.h"
 #include "workspaces.h"
 #include "intl.h"
@@ -34,6 +35,7 @@ lazy<WorkspaceStatus> statusWorkspace;
 
 YWindowManagerStatus::YWindowManagerStatus()
     : YWindow()
+    , fScreen(-1)
     , fConfigured(false)
 {
     setStyle(wsOverrideRedirect | wsSaveUnder | wsNoExpose);
@@ -62,8 +64,7 @@ void YWindowManagerStatus::configureStatus() {
     int sW = statusFont->textWidth(longestStatus());
     int sH = statusFont->height();
 
-    int scn = desktop->getScreenForRect(x(), y(), width(), height());
-    YRect geo(desktop->getScreenGeometry(scn));
+    YRect geo(desktop->getScreenGeometry(fScreen));
     setGeometry(YRect(geo.x() + (geo.width() - sW) / 2,
                       geo.y() + (geo.height() - sH) - 8, // / 2,
                       sW + 2, sH + 4));
@@ -98,9 +99,9 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
 }
 
 void YWindowManagerStatus::begin() {
+    YRect geo(desktop->getScreenGeometry(fScreen));
     setPosition(x(),
-                 taskBarAtTop ? 4 :
-                 (desktop->height() - height()) - 4);
+                taskBarAtTop ? 4 : int(geo.height() - height()) - 4);
     raise();
     show();
 }
@@ -153,6 +154,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame, const YRect &r) {
         fW = width;
         fH = height;
     }
+    setScreen(desktop->getScreenForRect(r.x(), r.y(), r.width(), r.height()));
     repaintSync();
 }
 
@@ -168,6 +170,7 @@ void MoveSizeStatus::setStatus(YFrameWindow *frame) {
         fW = frame->client()->width();
         fH = frame->client()->height();
     }
+    setScreen(frame->getScreen());
     repaintSync();
 }
 

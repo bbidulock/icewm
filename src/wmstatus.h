@@ -24,12 +24,14 @@ public:
     virtual mstring longestStatus() = 0;
 
 protected:
+    void setScreen(int screen) { fScreen = screen; }
     static YColorName statusFg;
     static YColorName statusBg;
     static ref<YFont> statusFont;
 
 private:
     void configureStatus();
+    int fScreen;
     bool fConfigured;
 };
 
