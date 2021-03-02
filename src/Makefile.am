@@ -21,6 +21,7 @@ EXTRA_PROGRAMS = \
 	testmap \
 	testmenus \
 	testnetwmhints \
+	testpointer \
 	testwinhints \
 	iceview \
 	icesame \
@@ -53,6 +54,7 @@ noinst_PROGRAMS += \
 	testmap \
 	testmenus \
 	testnetwmhints \
+	testpointer \
 	testwinhints \
 	iceview \
 	icesame \
@@ -641,6 +643,10 @@ testarray_SOURCES = \
 	ylib.h \
 	testarray.cc
 testarray_LDADD = libice.la @LIBINTL@
+
+testpointer_SOURCES = \
+	ypointer.h \
+	testpointer.cc
 
 nodist_pkgdata_DATA = \
 	preferences
