@@ -18,13 +18,15 @@
 YMsgBox::YMsgBox(int buttons,
                  const char* title,
                  const char* text,
-                 YMsgBoxListener* listener):
+                 YMsgBoxListener* listener,
+                 ref<YPixmap> pixmap):
     YDialog(),
     fLabel(nullptr),
     fInput(nullptr),
     fButtonOK(nullptr),
     fButtonCancel(nullptr),
-    fListener(listener)
+    fListener(listener),
+    fPixmap(pixmap)
 {
     setToplevel(true);
     if (title) {
@@ -70,15 +72,17 @@ YMsgBox::~YMsgBox() {
 }
 
 void YMsgBox::autoSize() {
+    unsigned pw = (fPixmap != null) ? fPixmap->width() + 12 : 0;
+    unsigned ph = (fPixmap != null) ? fPixmap->height() : 0;
     unsigned lw = fLabel ? fLabel->width() : 0;
-    unsigned w = clamp(lw + 24, 240U, desktop->width());
+    unsigned lh = fLabel ? fLabel->height() : 0;
+    unsigned w = clamp(lw + pw + 24, 240U, desktop->width());
     unsigned h = 12;
 
     if (fLabel) {
-        fLabel->setPosition((w - lw) / 2, h);
-        h += fLabel->height();
+        fLabel->setPosition(pw + (w - pw - lw) / 2, h);
     }
-    h += 18;
+    h += 18 + max(lh, ph);
 
     if (fInput) {
         fInput->setSize(w - 24, fInput->height());
@@ -100,8 +104,8 @@ void YMsgBox::autoSize() {
         fButtonCancel->setPosition((w + hh)/2, h);
     }
 
-    h += fButtonOK ? fButtonOK->height() :
-        fButtonCancel ? fButtonCancel->height() : 0;
+    h += max(fButtonOK ? fButtonOK->height() : 0,
+             fButtonCancel ? fButtonCancel->height() : 0);
     h += 12;
 
     setSize(w, h);
@@ -126,7 +130,11 @@ void YMsgBox::setText(const char* text) {
     }
 }
 
-void YMsgBox::setPixmap(ref<YPixmap>/*pixmap*/) {
+void YMsgBox::setPixmap(ref<YPixmap> pixmap) {
+    if (fPixmap != pixmap) {
+        fPixmap = pixmap;
+        autoSize();
+    }
 }
 
 void YMsgBox::actionPerformed(YAction action, unsigned int /*modifiers*/) {
@@ -198,6 +206,17 @@ void YMsgBox::inputEscape(YInputLine* input) {
 }
 
 void YMsgBox::inputLostFocus(YInputLine* input) {
+}
+
+void YMsgBox::paint(Graphics &g, const YRect& r) {
+    YDialog::paint(g, r);
+    if (fPixmap != null) {
+        int dy = 0;
+        if (fLabel && fLabel->height() > fPixmap->height()) {
+            dy = (fLabel->height() - fPixmap->height()) / 2;
+        }
+        g.drawPixmap(fPixmap, 12, 12 + dy);
+    }
 }
 
 // vim: set sw=4 ts=4 et:

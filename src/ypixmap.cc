@@ -190,10 +190,12 @@ ref<YPixmap> YPixmap::createFromPixmapAndMaskScaled(Pixmap pix, Pixmap mask,
 }
 
 ref<YPixmap> YPixmap::load(upath filename) {
-    ref<YImage> image = YImage::load(filename);
     ref<YPixmap> pixmap;
-    if (image != null) {
-        pixmap = YPixmap::createFromImage(image, xapp->depth());
+    if (filename != null) {
+        ref<YImage> image(YImage::load(filename));
+        if (image != null) {
+            pixmap = YPixmap::createFromImage(image, xapp->depth());
+        }
     }
     return pixmap;
 }

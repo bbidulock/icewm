@@ -26,7 +26,8 @@ public:
     YMsgBox(int buttons,
             const char* title = nullptr,
             const char* text = nullptr,
-            YMsgBoxListener* listener = nullptr);
+            YMsgBoxListener* listener = nullptr,
+            ref<YPixmap> pixmap = null);
     virtual ~YMsgBox();
 
     void setTitle(const char* title);
@@ -38,6 +39,7 @@ public:
     YInputLine* input() const { return fInput; }
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void paint(Graphics &g, const YRect& r);
     virtual void handleClose();
     virtual void handleFocus(const XFocusChangeEvent &focus);
     virtual void inputReturn(YInputLine* input);
@@ -63,6 +65,7 @@ private:
     YActionButton* fButtonOK;
     YActionButton* fButtonCancel;
     YMsgBoxListener* fListener;
+    ref<YPixmap> fPixmap;
 };
 
 #endif
