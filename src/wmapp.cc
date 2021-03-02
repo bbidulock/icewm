@@ -393,7 +393,7 @@ void LogoutMenu::updatePopup() {
 
             addItem(_("Restart _Icewm"), -2, null, actionRestart, "restart");
 
-            addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, TERM);
+            addItem(_("Restart _Xterm"), -2, null, actionRestartXterm, "xterm");
 
         }
     }
@@ -768,7 +768,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
                                      _("Confirm Restart as Terminal"),
                                      _("Unmanage all applications and restart\n"
                                       "as a terminal. Proceed?"),
-                                     this);
+                                     this, "xterm");
     }
     else if (action == actionRun) {
         runCommand(runDlgCommand);
@@ -1699,7 +1699,7 @@ void YWMApp::doLogout(RebootShutdown reboot) {
         fLogoutMsgBox = new YMsgBox(YMsgBox::mbBoth,
                             _("Confirm Logout"),
                             _("Logout will close all active applications.\n"
-                              "Proceed?"), this);
+                              "Proceed?"), this, "logout");
     }
 }
 

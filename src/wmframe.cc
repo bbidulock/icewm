@@ -1402,7 +1402,7 @@ void YFrameWindow::wmConfirmKill() {
                       _("Kill Client: ") + getTitle(),
                       _("WARNING! All unsaved changes will be lost when\n"
                         "this client is killed. Do you wish to proceed?"),
-                      this);
+                      this, "bomb");
 }
 
 void YFrameWindow::wmKill() {

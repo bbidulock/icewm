@@ -27,7 +27,7 @@ public:
             const char* title = nullptr,
             const char* text = nullptr,
             YMsgBoxListener* listener = nullptr,
-            ref<YPixmap> pixmap = null);
+            const char* iconName = nullptr);
     virtual ~YMsgBox();
 
     void setTitle(const char* title);

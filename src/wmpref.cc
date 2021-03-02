@@ -175,23 +175,8 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
         }
     }
 
-    int linecount = 0;
-    for (char* p = heading; p && *p; p = strchr(p + 1, '\n')) {
-        ++linecount;
-    }
-    unsigned iconsize = (linecount <= 1) ? 16 : (linecount == 2) ? 24 : 32;
-    char buf[123];
-    snprintf(buf, sizeof buf, "%ux%u/actions/document-properties.png",
-             iconsize, iconsize);
-
-    YIcon icon(buf);
-    upath path(icon.findIcon(iconsize));
-    ref<YPixmap> pixmap;
-    if (path != null) {
-        pixmap = YPixmap::load(path);
-    }
-
-    message = new YMsgBox(YMsgBox::mbAll, opt->name, heading, this, pixmap);
+    const char* iconName = !strncmp(opt->name, "Key", 3) ? "key" : "pref";
+    message = new YMsgBox(YMsgBox::mbAll, opt->name, heading, this, iconName);
     if (nonempty(old) && message && message->input()) {
         message->input()->setText(mstring(old), false);
     }

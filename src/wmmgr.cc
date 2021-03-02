@@ -3161,7 +3161,7 @@ void YWindowManager::setKeyboard(mstring keyboard) {
             new YMsgBox(YMsgBox::mbOK,
                         _("Missing program setxkbmap"),
                         _("For keyboard switching, please install setxkbmap."),
-                        this);
+                        this, "key");
         }
     }
 }

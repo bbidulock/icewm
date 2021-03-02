@@ -21,14 +21,14 @@ YMsgBox::YMsgBox(int buttons,
                  const char* title,
                  const char* text,
                  YMsgBoxListener* listener,
-                 ref<YPixmap> pixmap):
+                 const char* iconName):
     YDialog(),
     fLabel(nullptr),
     fInput(nullptr),
     fButtonOK(nullptr),
     fButtonCancel(nullptr),
     fListener(listener),
-    fPixmap(pixmap)
+    fPixmap(null)
 {
     setToplevel(true);
     if (title) {
@@ -49,6 +49,16 @@ YMsgBox::YMsgBox(int buttons,
     }
     if (buttons & mbCancel) {
         fButtonCancel = new YActionButton(this, _("_Cancel"), -2, this);
+    }
+    if (nonempty(iconName)) {
+        ref<YIcon> icon(YIcon::getIcon(iconName));
+        if (icon != null) {
+            if (text && !strchr(text, '\n') && icon->small() != null) {
+                fPixmap = icon->small()->renderToPixmap(xapp->depth());
+            } else {
+                fPixmap = icon->large()->renderToPixmap(xapp->depth());
+            }
+        }
     }
     autoSize();
     setLayerHint(WinLayerAboveDock);
