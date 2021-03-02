@@ -15,6 +15,8 @@
 #include "prefs.h"
 #include "intl.h"
 
+const unsigned margin = 18;
+
 YMsgBox::YMsgBox(int buttons,
                  const char* title,
                  const char* text,
@@ -72,12 +74,12 @@ YMsgBox::~YMsgBox() {
 }
 
 void YMsgBox::autoSize() {
-    unsigned pw = (fPixmap != null) ? fPixmap->width() + 12 : 0;
+    unsigned pw = (fPixmap != null) ? fPixmap->width() + margin : 0;
     unsigned ph = (fPixmap != null) ? fPixmap->height() : 0;
     unsigned lw = fLabel ? fLabel->width() : 0;
     unsigned lh = fLabel ? fLabel->height() : 0;
-    unsigned w = clamp(lw + pw + 24, 240U, desktop->width());
-    unsigned h = 12;
+    unsigned w = clamp(lw + pw + 2*margin, 240U, desktop->width());
+    unsigned h = margin;
 
     if (fLabel) {
         fLabel->setPosition(pw + (w - pw - lw) / 2, h);
@@ -85,7 +87,7 @@ void YMsgBox::autoSize() {
     h += 18 + max(lh, ph);
 
     if (fInput) {
-        fInput->setSize(w - 24, fInput->height());
+        fInput->setSize(w - 2*margin, fInput->height());
         fInput->setPosition((w - fInput->width()) / 2, h);
         h += 18 + fInput->height();
     }
@@ -106,7 +108,7 @@ void YMsgBox::autoSize() {
 
     h += max(fButtonOK ? fButtonOK->height() : 0,
              fButtonCancel ? fButtonCancel->height() : 0);
-    h += 12;
+    h += margin;
 
     setSize(w, h);
 }
@@ -215,7 +217,7 @@ void YMsgBox::paint(Graphics &g, const YRect& r) {
         if (fLabel && fLabel->height() > fPixmap->height()) {
             dy = (fLabel->height() - fPixmap->height()) / 2;
         }
-        g.drawPixmap(fPixmap, 12, 12 + dy);
+        g.drawPixmap(fPixmap, margin, margin + dy);
     }
 }
 

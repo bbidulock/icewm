@@ -176,7 +176,7 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
     }
 
     int linecount = 0;
-    for (char* p = heading; p; p = strchr(p + 1, '\n')) {
+    for (char* p = heading; p && *p; p = strchr(p + 1, '\n')) {
         ++linecount;
     }
     unsigned iconsize = (linecount <= 1) ? 16 : (linecount == 2) ? 24 : 32;
