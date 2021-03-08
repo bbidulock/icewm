@@ -40,6 +40,9 @@ public:
     mstring name() const { return fDevName; }
 protected:
     mstring fDevName;
+    int shouldDisplayFlag() const {
+        return netstatusShowOnlyRunning ? IFF_RUNNING : IFF_UP;
+    }
 };
 
 class NetLinuxDevice : public NetDevice {
@@ -384,7 +387,7 @@ bool NetOpenDevice::isUp() {
         struct ifreq ifr;
         strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
         if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
-            up = (ifr.ifr_flags & IFF_UP);
+            up = (ifr.ifr_flags & shouldDisplayFlag());
         }
         close(s);
     }
@@ -417,7 +420,7 @@ bool NetFreeDevice::isUp() {
                 continue;
             }
             if (fDevName == ifmd.ifmd_name) {
-                return (ifmd.ifmd_flags & IFF_UP);
+                return (ifmd.ifmd_flags & shouldDisplayFlag());
             }
         }
     }
@@ -433,7 +436,7 @@ bool NetLinuxDevice::isUp() {
 
     struct ifreq ifr;
     strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
-    bool up = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & IFF_UP));
+    bool up = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & shouldDisplayFlag()));
     close(s);
     return up;
 }

@@ -76,6 +76,7 @@ XIV(bool, cpustatusShowSwapUsage,               true)
 XIV(bool, cpustatusShowAcpiTemp,                true)
 XIV(bool, cpustatusShowAcpiTempInGraph,         false)
 XIV(bool, cpustatusShowCpuFreq,                 true)
+XIV(bool, netstatusShowOnlyRunning,             false)
 XIV(bool, taskBarShowMEMStatus,                 true)
 XIV(bool, taskBarShowNetStatus,                 true)
 XIV(bool, taskBarLaunchOnSingleClick,           true)
@@ -329,6 +330,7 @@ cfoption icewm_preferences[] = {
     OBV("CPUStatusShowAcpiTemp",                &cpustatusShowAcpiTemp,         "Show ACPI temperature in CPU status tool tip"),
     OBV("CPUStatusShowAcpiTempInGraph",         &cpustatusShowAcpiTempInGraph,  "Show ACPI temperature in CPU status bar"),
     OBV("CPUStatusShowCpuFreq",                 &cpustatusShowCpuFreq,          "Show CPU frequency in CPU status tool tip"),
+    OBV("NetStatusShowOnlyRunning",             &netstatusShowOnlyRunning,      "Show network status for running devices only"),
     OBV("TaskBarShowMEMStatus",                 &taskBarShowMEMStatus,          "Show memory usage status on task bar (Linux only)"),
     OBV("TaskBarShowNetStatus",                 &taskBarShowNetStatus,          "Show network status on task bar"),
     OBV("TaskBarShowCollapseButton",            &taskBarShowCollapseButton,     "Show a button to collapse the taskbar"),

@@ -510,6 +510,12 @@ Show ACPI temperature in CPU status bar.
 
 Show CPU frequency in CPU status tool tip.
 
+=item B<NetStatusShowOnlyRunning>=0
+
+Show network status only for connected devices, such as an active ethernet link
+or associated wireless interface. If false, any network interface that has been
+brought up will be displayed.
+
 =item B<TaskBarShowMEMStatus>=1
 
 Show memory usage status on task bar (Linux only).
