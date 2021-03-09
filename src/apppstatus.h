@@ -27,7 +27,6 @@ class INetDevice {
 public:
     virtual bool isUp() = 0;
     virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData) = 0;
-    virtual const char* getPhoneNumber() { return ""; }
     virtual ~INetDevice() {}
 };
 

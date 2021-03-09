@@ -36,7 +36,6 @@ extern ref<YPixmap> taskbackPixmap;
 class NetDevice : public INetDevice {
 public:
     NetDevice(mstring netdev) : fDevName(netdev) {}
-    const char* getPhoneNumber() override { return ""; }
     mstring name() const { return fDevName; }
 protected:
     mstring fDevName;
@@ -129,7 +128,6 @@ NetStatus::NetStatus(
         updateVisible(true);
     }
     setTitle("NET-" + netdev);
-    updateToolTip();
 }
 
 NetStatus::~NetStatus() {
@@ -162,25 +160,25 @@ void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
             start_ibytes = cur_ibytes;
             start_obytes = cur_obytes;
             updateVisible(true);
+            wasUp = true;
         }
         updateStatus(sharedData);
 
-        if (toolTipVisible() || !wasUp)
+        if (toolTipVisible())
             updateToolTip();
     }
     else // link is down
         if (wasUp) {
+            wasUp = false;
             updateVisible(false);
-            updateToolTip();
+            setToolTip(null);
         }
-
-    wasUp = up;
 }
 
 void NetStatus::updateToolTip() {
     char status[400];
 
-    if (isUp()) {
+    if (wasUp) {
         char const * const sizeUnits[] = { "B", "KiB", "MiB", "GiB", "TiB", nullptr };
         char const * const rateUnits[] = { "B/s", "kB/s", "MB/s", nullptr };
 
@@ -222,7 +220,6 @@ void NetStatus::updateToolTip() {
         const char * const caoUnit(niceUnit(cao, rateUnits));
         const char * const caiUnit(niceUnit(cai, rateUnits));
 
-        const char* phoneNumber = fDevice->getPhoneNumber();
         snprintf(status, sizeof status,
            /*   _("Interface %s:\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -243,7 +240,7 @@ void NetStatus::updateToolTip() {
 /*              ai, aiUnit, ao, aoUnit, */
                 vi, viUnit, vo, voUnit,
                 period / 3600, period / 60 % 60, period % 60,
-                *phoneNumber ? _("\n  Caller id:\t") : "", phoneNumber);
+                "", "");
     } else {
         snprintf(status, sizeof status, "%.50s: down", fDevName.c_str());
     }

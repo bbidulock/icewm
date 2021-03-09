@@ -56,7 +56,6 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     clockTimer->setTimer(1000, this, true);
 
     autoSize();
-    updateToolTip();
     setTitle("Clock");
     show();
 }

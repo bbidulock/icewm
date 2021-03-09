@@ -14,7 +14,7 @@ IApplet::IApplet(Picturer *picturer, YWindow *parent) :
     fPicturer(picturer),
     fPixmap(None)
 {
-    addStyle(wsNoExpose);
+    addStyle(wsNoExpose | wsToolTipping);
     addEventMask(VisibilityChangeMask);
 }
 

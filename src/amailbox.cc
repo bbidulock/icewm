@@ -805,7 +805,6 @@ void MailBoxStatus::mailChecked(MailBoxState mst, long count, long unread) {
         if (fState == mbxHasNewMail)
             newMailArrived(count, unread);
     }
-    updateToolTip();
 }
 
 void MailBoxStatus::updateToolTip() {

@@ -127,7 +127,7 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     request_code(0)
 {
     singleton = this;
-    addStyle(wsNoExpose);
+    addStyle(wsNoExpose | wsToolTipping);
     setTitle("YXTrayProxy");
     if (isExternal()) {
         long orientation = SYSTEM_TRAY_ORIENTATION_HORZ;

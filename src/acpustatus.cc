@@ -96,7 +96,6 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     setSize(taskBarCPUSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
-    updateToolTip();
     char buf[99];
     snprintf(buf, 99, "CPU%d", cpuid);
     setTitle(buf);

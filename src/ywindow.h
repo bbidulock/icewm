@@ -181,6 +181,7 @@ public:
         wsDesktopAware     = 1 << 6,
         wsToolTip          = 1 << 7,
         wsBackingMapped    = 1 << 8,
+        wsToolTipping      = 1 << 9,
     };
 
     virtual bool isFocusTraversable();

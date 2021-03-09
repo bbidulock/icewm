@@ -43,7 +43,6 @@ MEMStatus::MEMStatus(IAppletContainer* taskBar, YWindow *aParent):
     setSize(taskBarMEMSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
-    updateToolTip();
     setTitle("MEM");
     show();
 }
