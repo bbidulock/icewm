@@ -295,7 +295,7 @@ multi-monitor without STRUT).
 
 =back
 
-=head3 Quick Switch List
+=head2 QUICK SWITCH
 
 =over
 
@@ -353,7 +353,7 @@ Fill the rectangle highlighting the current icon.
 
 =back
 
-=head3 Edge Workspace Switching
+=head2 EDGE SWITCHING
 
 =over
 
@@ -1072,13 +1072,13 @@ Show application icon over menu button
 
 =head2 THEME SETTINGS
 
-This section shows settings that can be set in theme files.  They can
-also be set in the F<preferences> file, but themes will override the
-values set there.  To override the theme values, the settings should be
-set in F<prefoverrides> file: see L<icewm-prefoverrides(5)>.  Default
+The following sections show settings that can be set in theme files.
+They can also be set in the F<preferences> file, but themes will override
+the values set there.  To override the theme values, the settings should
+be set in F<prefoverrides> file: see L<icewm-prefoverrides(5)>.  Default
 values are shown following the equal sign.
 
-=head3 Description
+=head3 THEME DESCRIPTION
 
 =over
 
@@ -1102,7 +1102,7 @@ List of gradient pixmaps in the current theme.
 
 =back
 
-=head3 Borders, Icons, Margins and Buttons
+=head3 THEME BORDERS, ICONS, MARGINS AND BUTTONS
 
 =over
 
@@ -1220,7 +1220,7 @@ Join title*T and title*B.
 
 =back
 
-=head3 Fonts
+=head3 THEME FONTS
 
 =over
 
@@ -1340,7 +1340,7 @@ Name of the label font.
 
 =back
 
-=head3 Colors
+=head3 THEME COLORS
 
 =over
 
@@ -1699,7 +1699,7 @@ Color(s) to announce for semitransparent windows.
 
 =back
 
-=head3 Desktop Background
+=head3 DESKTOP BACKGROUND
 
 The following preferences are read by L<icewmbg(1)>:
 
