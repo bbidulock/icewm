@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-02-27 18:40+0100\n"
-"PO-Revision-Date: 2020-09-09 18:33+0000\n"
-"Last-Translator: Paolo Za <zapaolo@email.it>\n"
+"PO-Revision-Date: 2021-02-25 06:05+0000\n"
+"Last-Translator: Davide Aiello <davide.aiello@novilingulists.com>\n"
 "Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/it/>\n"
 "Language: it\n"
@@ -697,6 +697,13 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Opzioni di debug:\n"
+"  -v, --valgrind      Consente a \"/usr/bin/valgrind\" di eseguire icewm.\n"
+"                      Esamina in modo approfondito l'esecuzione di icewm.\n"
+"  -g, --catchsegv     Consente a \"/usr/bin/catchsegv\" di eseguire icewm.\n"
+"                      Fornisce un'analisi in caso di errore di segmentazione "
+"di icewm.\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1179,15 +1186,15 @@ msgstr "Lingua:"
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "DoubleBuffer"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderizzatore:"
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
@@ -1596,7 +1603,7 @@ msgstr "Programma mancante setxkbmap"
 
 #: src/wmmgr.cc:3163
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Per cambiare tastiera, installare setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format

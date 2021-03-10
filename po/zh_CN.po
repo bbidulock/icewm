@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-02-27 18:40+0100\n"
-"PO-Revision-Date: 2020-08-04 14:12+0800\n"
-"Last-Translator: WhiredPlanck <fungdaat31@outlook.com>\n"
+"PO-Revision-Date: 2021-02-25 02:00+0000\n"
+"Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
 "Language: zh_CN\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 2.3.1\n"
+"X-Generator: Weblate 3.6.1\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -679,6 +679,12 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"调试选项：\n"
+"  -v, --valgrind      让 \"/usr/bin/valgrind\" 运行 icewm。\n"
+"                      彻底检查 icewm 的执行。\n"
+"  -g, --catchsegv     让 \"/usr/bin/catchsegv\" 运行 icewm。\n"
+"                      如果 icewm 发生段错误，则进行回溯跟踪。\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1148,15 +1154,15 @@ msgstr "语言："
 
 #: src/wmabout.cc:55
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "DoubleBuffer"
 
 #: src/wmabout.cc:56
 msgid "AlphaBlending"
-msgstr ""
+msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr ""
+msgstr "呈现器："
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
