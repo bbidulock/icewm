@@ -30,6 +30,7 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
+    mstring getText() { return fText; }
     void setText(const mstring& tip);
     void enter(YWindow* w);
     void leave();

@@ -104,6 +104,8 @@ void WorkspaceButton::handleCrossing(const XCrossingEvent &e) {
 
     if (false == pagerShowPreview) {
         super::handleCrossing(e);
+    } else {
+        YWindow::handleCrossing(e);
     }
 }
 

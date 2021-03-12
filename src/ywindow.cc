@@ -947,14 +947,17 @@ void YWindow::updateToolTip() {
 }
 
 void YWindow::handleCrossing(const XCrossingEvent& crossing) {
-    if (fStyle & wsToolTipping) {
+    if (fToolTip || fStyle & wsToolTipping) {
         if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
             updateToolTip();
-            fToolTip->enter(this);
+            if (fToolTip) {
+                fToolTip->enter(this);
+            }
         }
         else if (crossing.type == LeaveNotify) {
-            fToolTip->leave();
-            fToolTip = null;
+            if (fToolTip) {
+                fToolTip->leave();
+            }
         }
     }
 }
