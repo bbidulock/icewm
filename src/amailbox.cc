@@ -763,31 +763,6 @@ void MailBoxStatus::handleClick(const XButtonEvent &up, int count) {
         fHandler->handleClick(up, this);
 }
 
-void MailBoxStatus::handleCrossing(const XCrossingEvent &crossing) {
-    if (crossing.type == EnterNotify) {
-#if 0
-        if (countMailMessages) {
-            struct stat st;
-            unsigned long countSize;
-            time_t countTime;
-
-            if (stat(fMailBox, &st) != -1) {
-                countSize = st.st_size;
-                countTime = st.st_mtime;
-            } else {
-                countSize = 0;
-                countTime = 0;
-            }
-            if (fLastCountSize != countSize || fLastCountTime != countTime)
-            fLastCountSize = countSize;
-        } else {
-            setToolTip(0);
-        }
-#endif
-    }
-    YWindow::handleCrossing(crossing);
-}
-
 void MailBoxStatus::checkMail() {
     if (suspended() == false) {
         check.startCheck();

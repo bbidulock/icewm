@@ -126,7 +126,6 @@ public:
     virtual ~MailBoxStatus();
 
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleCrossing(const XCrossingEvent &crossing);
 
     int checkDelay() const;
     void checkMail();
