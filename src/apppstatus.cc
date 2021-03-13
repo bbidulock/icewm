@@ -26,61 +26,95 @@
 #include <sys/socket.h>
 #include <net/if.h>
 
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
+#if __FreeBSD__ || __FreeBSD_kernel__
 #include <sys/sysctl.h>
 #include <net/if_mib.h>
 #endif
 
 extern ref<YPixmap> taskbackPixmap;
 
-class NetDevice : public INetDevice {
+class NetDevice {
 public:
-    NetDevice(mstring netdev) : fDevName(netdev) {}
-    mstring name() const { return fDevName; }
+    NetDevice(mstring devName) : fDevName(devName), fFlags(0) {}
+    virtual ~NetDevice() { discard(); }
+    int flags() const { return fFlags; }
+    bool isUp() {
+        fFlags = 0;
+        getFlags();
+        int flag = netstatusShowOnlyRunning ? IFF_RUNNING : IFF_UP;
+        return (flag & fFlags) != 0;
+    }
+    virtual void getCurrent(netbytes *in, netbytes *out,
+                            const char* sharedData) = 0;
 protected:
     mstring fDevName;
-    int shouldDisplayFlag() const {
-        return netstatusShowOnlyRunning ? IFF_RUNNING : IFF_UP;
+    int fFlags;
+    int descriptor() {
+        if (fSocket < 0) {
+#if __linux__
+            fSocket = socket(AF_INET, SOCK_DGRAM | SOCK_CLOEXEC, 0);
+#else
+            fSocket = socket(AF_INET, SOCK_DGRAM, 0);
+            if (fSocket > 0) {
+                fcntl(fSocket, F_SETFD, FD_CLOEXEC);
+            }
+#endif
+            if (fSocket < 0) {
+                fail("socket");
+            }
+        }
+        return fSocket;
     }
+    void discard() {
+        if (fSocket > 0) {
+            close(fSocket);
+            fSocket = -1;
+        }
+    }
+    virtual void getFlags() = 0;
+private:
+    static int fSocket;
 };
+
+int NetDevice::fSocket = -1;
 
 class NetLinuxDevice : public NetDevice {
 public:
     NetLinuxDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+    virtual void getFlags();
+    virtual void getCurrent(netbytes *in, netbytes *out, const char* sharedData);
 };
 
 class NetFreeDevice : public NetDevice {
 public:
     NetFreeDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+    virtual void getFlags();
+    virtual void getCurrent(netbytes *in, netbytes *out, const char* sharedData);
 };
 
 class NetOpenDevice : public NetDevice {
 public:
     NetOpenDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp();
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData);
+    virtual void getFlags();
+    virtual void getCurrent(netbytes *in, netbytes *out, const char* sharedData);
 };
 
 class NetDummyDevice : public NetDevice {
 public:
     NetDummyDevice(mstring netdev) : NetDevice(netdev) {}
-    virtual bool isUp() { return false; }
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData)
+    virtual void getFlags() { }
+    virtual void getCurrent(netbytes *in, netbytes *out, const char* sharedData)
     { }
 };
 
 static NetDevice* getNetDevice(mstring netdev)
 {
     return
-#if defined(__linux__)
+#if __linux__
         new NetLinuxDevice(netdev)
-#elif defined(__FreeBSD__)
+#elif __FreeBSD__
         new NetFreeDevice(netdev)
-#elif defined(__OpenBSD__) || defined(__NetBSD__)
+#elif __OpenBSD__ || __NetBSD__
         new NetOpenDevice(netdev)
 #else
         new NetDummyDevice(netdev)
@@ -94,6 +128,9 @@ NetStatus::NetStatus(
     YWindow *aParent):
     IApplet(this, aParent),
     fHandler(handler),
+    fColorRecv(&clrNetReceive),
+    fColorSend(&clrNetSend),
+    fColorIdle(&clrNetIdle),
     ppp_in(new long[taskBarNetSamples]),
     ppp_out(new long[taskBarNetSamples]),
     prev_ibytes(0),
@@ -116,10 +153,6 @@ NetStatus::NetStatus(
     for (int i = 0; i < taskBarNetSamples; i++)
         ppp_in[i] = ppp_out[i] = 0;
 
-    color[0] = &clrNetReceive;
-    color[1] = &clrNetSend;
-    color[2] = &clrNetIdle;
-
     setSize(taskBarNetSamples, taskBarGraphHeight);
 
     getCurrent(nullptr, nullptr, nullptr);
@@ -133,6 +166,11 @@ NetStatus::NetStatus(
 NetStatus::~NetStatus() {
     delete[] ppp_in;
     delete[] ppp_out;
+    delete fDevice;
+}
+
+bool NetStatus::isUp() {
+    return fDevice->isUp();
 }
 
 void NetStatus::updateVisible(bool aVisible) {
@@ -143,7 +181,7 @@ void NetStatus::updateVisible(bool aVisible) {
     }
 }
 
-void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
+void NetStatus::timedUpdate(const char* sharedData, bool forceDown) {
 
     bool up = !forceDown && isUp();
 
@@ -167,12 +205,11 @@ void NetStatus::timedUpdate(const void* sharedData, bool forceDown) {
         if (toolTipVisible())
             updateToolTip();
     }
-    else // link is down
-        if (wasUp) {
-            wasUp = false;
-            updateVisible(false);
-            setToolTip(null);
-        }
+    else if (wasUp) {
+        wasUp = false;
+        updateVisible(false);
+        setToolTip(null);
+    }
 }
 
 void NetStatus::updateToolTip() {
@@ -242,27 +279,29 @@ void NetStatus::updateToolTip() {
                 period / 3600, period / 60 % 60, period % 60,
                 "", "");
     } else {
-        snprintf(status, sizeof status, "%.50s: down", fDevName.c_str());
+        snprintf(status, sizeof status, "%.50s: %s", fDevName.c_str(),
+                 (fDevice->flags() & (IFF_UP | IFF_RUNNING)) == IFF_UP ?
+                 _("disconnected") : _("down"));
     }
 
     setToolTip(status);
 }
 
 void NetStatus::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 1) {
+    if (up.button == Button1) {
         if (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)) {
             if (up.state & ControlMask) {
                 start_time = monotime();
                 start_ibytes = cur_ibytes;
                 start_obytes = cur_obytes;
-            } else {
-                if (netCommand && netCommand[0])
-                    fHandler->runCommandOnce(netClassHint, netCommand);
+            }
+            else if (nonempty(netCommand)) {
+                fHandler->runCommandOnce(netClassHint, netCommand);
             }
         }
     }
     else if (up.button == Button3) {
-        fHandler->handleClick(up, name());
+        fHandler->handleClick(up, fDevName);
     }
 }
 
@@ -279,8 +318,8 @@ bool NetStatus::picture() {
 }
 
 void NetStatus::fill(Graphics& g) {
-    if (color[2]) {
-        g.setColor(color[2]);
+    if (fColorIdle) {
+        g.setColor(fColorIdle);
         g.fillRect(0, 0, width(), height());
     } else {
         ref<YImage> gradient(getGradient());
@@ -326,24 +365,24 @@ void NetStatus::draw(Graphics &g) {
             int inbar, outbar;
 
             if ((inbar = (h * (long long) (ppp_in[i] + round)) / maxBytes)) {
-                g.setColor(color[0]);   /* h - 1 means bottom */
+                g.setColor(fColorRecv);   /* h - 1 means bottom */
                 g.drawLine(i, h - 1, i, h - inbar);
             }
 
             if ((outbar = (h * (long long) (ppp_out[i] + round)) / maxBytes)) {
-                g.setColor(color[1]);   /* 0 means top */
+                g.setColor(fColorSend);   /* 0 means top */
                 g.drawLine(i, 0, i, outbar - 1);
             }
 
             if (inbar + outbar < h) {
                 int l = outbar, t = h - inbar - 1;
                 /*
-                 g.setColor(color[2]);
+                 g.setColor(fColorIdle);
                  //g.drawLine(i, 0, i, h - tot - 2);
                  g.drawLine(i, l, i, t - l);
                  */
-                if (color[2]) {
-                    g.setColor(color[2]);
+                if (fColorIdle) {
+                    g.setColor(fColorIdle);
                     g.drawLine(i, l, i, t);
                 } else {
                     ref<YImage> gradient(getGradient());
@@ -358,8 +397,8 @@ void NetStatus::draw(Graphics &g) {
                 }
             }
         } else { /* Not reached: */
-            if (color[2]) {
-                g.setColor(color[2]);
+            if (fColorIdle) {
+                g.setColor(fColorIdle);
                 g.drawLine(i, 0, i, h - 1);
             } else {
                 ref<YImage> gradient(getGradient());
@@ -376,24 +415,34 @@ void NetStatus::draw(Graphics &g) {
     }
 }
 
-#if defined (__NetBSD__) || defined (__OpenBSD__)
-bool NetOpenDevice::isUp() {
-    bool up = false;
-    int s = socket(AF_INET, SOCK_DGRAM, 0);
-    if (s != -1) {
-        struct ifreq ifr;
-        strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
-        if (ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
-            up = (ifr.ifr_flags & shouldDisplayFlag());
-        }
-        close(s);
+#if __linux__
+void NetLinuxDevice::getFlags() {
+    struct ifreq ifr;
+    strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
+    int s = descriptor();
+    if (s != -1 && ioctl(s, SIOCGIFFLAGS, &ifr) != -1) {
+       fFlags = ifr.ifr_flags;
+    } else {
+        discard();
     }
-    return up;
 }
 #endif
 
-#if defined (__FreeBSD__)
-bool NetFreeDevice::isUp() {
+#if __NetBSD__ || __OpenBSD__
+void NetOpenDevice::getFlags() {
+    struct ifreq ifr;
+    strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
+    int s = descriptor();
+    if (s != -1 && ioctl(s, SIOCGIFFLAGS, (caddr_t)&ifr) != -1) {
+        fFlags = ifr.ifr_flags;
+    } else {
+        discard();
+    }
+}
+#endif
+
+#if __FreeBSD__
+void NetFreeDevice::getFlags() {
     struct ifmibdata ifmd;
     size_t ifmd_size = sizeof ifmd;
     int nr_network_devs;
@@ -417,29 +466,15 @@ bool NetFreeDevice::isUp() {
                 continue;
             }
             if (fDevName == ifmd.ifmd_name) {
-                return (ifmd.ifmd_flags & shouldDisplayFlag());
+                fFlags = ifmd.ifmd_flags;
+                return;
             }
         }
     }
-    return false;
 }
 #endif
 
-#ifdef __linux__
-bool NetLinuxDevice::isUp() {
-    int s = socket(PF_INET, SOCK_STREAM, 0);
-    if (s == -1)
-        return false;
-
-    struct ifreq ifr;
-    strlcpy(ifr.ifr_name, fDevName, IFNAMSIZ);
-    bool up = (ioctl(s, SIOCGIFFLAGS, &ifr) >= 0 && (ifr.ifr_flags & shouldDisplayFlag()));
-    close(s);
-    return up;
-}
-#endif
-
-void NetStatus::updateStatus(const void* sharedData) {
+void NetStatus::updateStatus(const char* sharedData) {
     int last = taskBarNetSamples - 1;
 
     for (int i = 0; i < last; i++) {
@@ -464,21 +499,19 @@ void NetStatus::updateStatus(const void* sharedData) {
 }
 
 
-#ifdef __linux__
-void NetLinuxDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
-#if defined(__FreeBSD_kernel__)
+#if __linux__
+void NetLinuxDevice::getCurrent(netbytes *in, netbytes *out, const char* sharedData) {
+#if __FreeBSD_kernel__
     NetFreeDevice(fDevName).getCurrent(in, out, sharedData);
 #else
-    const char *p = (const char*) sharedData;
-    if (p)
-        sscanf(p, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", in, out);
-
+    if (sharedData)
+        sscanf(sharedData, "%llu %*d %*d %*d %*d %*d %*d %*d %llu", in, out);
 #endif
 }
 #endif //__linux__
 
-#if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-void NetFreeDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
+#if __FreeBSD__ || __FreeBSD_kernel__
+void NetFreeDevice::getCurrent(netbytes *in, netbytes *out, const char* sharedData) {
     // FreeBSD code by Ronald Klop <ronald@cs.vu.nl>
     struct ifmibdata ifmd;
     size_t ifmd_size = sizeof ifmd;
@@ -512,33 +545,27 @@ void NetFreeDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedDa
 }
 #endif //FreeBSD
 
-#if defined(__OpenBSD__) || defined(__NetBSD__)
-void NetOpenDevice::getCurrent(netbytes *in, netbytes *out, const void* sharedData) {
-    int s;
-
-    s = socket(AF_INET, SOCK_DGRAM, 0);
-    if (s != -1) {
-#ifdef __OpenBSD__
-        struct ifreq ifdr;
-        struct if_data ifi;
-        strlcpy(ifdr.ifr_name, fDevName, IFNAMSIZ);
-        ifdr.ifr_data = (caddr_t) &ifi;
+#if __OpenBSD__ || __NetBSD__
+void NetOpenDevice::getCurrent(netbytes *in, netbytes *out, const char* sharedData) {
+#if __OpenBSD__
+    struct ifreq ifdr;
+    struct if_data ifi;
+    strlcpy(ifdr.ifr_name, fDevName, IFNAMSIZ);
+    ifdr.ifr_data = (caddr_t) &ifi;
+#elif __NetBSD__
+    struct ifdatareq ifdr;
+    struct if_data& ifi = ifdr.ifdr_data;
+    strlcpy(ifdr.ifdr_name, fDevName, IFNAMSIZ);
 #endif
-#ifdef __NetBSD__
-        struct ifdatareq ifdr;
-        struct if_data& ifi = ifdr.ifdr_data;
-        strlcpy(ifdr.ifdr_name, fDevName, IFNAMSIZ);
-#endif
-        if (ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
-            *in = ifi.ifi_ibytes;
-            *out = ifi.ifi_obytes;
-        }
-        close(s);
+    int s = descriptor();
+    if (s != -1 && ioctl(s, SIOCGIFDATA, &ifdr) != -1) {
+        *in = ifi.ifi_ibytes;
+        *out = ifi.ifi_obytes;
     }
 }
 #endif //__OpenBSD__
 
-void NetStatus::getCurrent(long *in, long *out, const void* sharedData) {
+void NetStatus::getCurrent(long *in, long *out, const char* sharedData) {
     cur_ibytes = 0;
     cur_obytes = 0;
 
@@ -578,6 +605,10 @@ NetStatusControl::~NetStatusControl() {
         if (status)
             delete status;
     }
+    if (fNetDev > 0) {
+        close(fNetDev);
+        fNetDev = -1;
+    }
 }
 
 NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
@@ -585,33 +616,28 @@ NetStatusControl::NetStatusControl(IApp* app, YSMListener* smActionListener,
     smActionListener(smActionListener),
     taskBar(taskBar),
     aParent(aParent),
-    fPid(0)
+    fPid(0),
+    fNetDev(-1)
 {
+    getInterfaces(interfaces);
     mstring devName, devList(netDevice);
     while (devList.splitall(' ', &devName, &devList)) {
         if (devName.isEmpty())
-            continue;
-        mstring devStr(devName);
-
-        if (strpbrk(devStr, "*?[]\\.")) {
-            if (interfaces.isEmpty())
-                getInterfaces(interfaces);
+            ;
+        else if (strpbrk(devName, "*?[]\\.")) {
             YStringArray::IterType iter = interfaces.reverseIterator();
             while (++iter) {
-                if (fNetStatus.has(iter))
-                    continue;
-                if (upath(iter).fnMatch(devStr) == 0) {
+                if (upath(iter).fnMatch(devName) == 0 && !fNetStatus.has(iter)) {
                     createNetStatus(*iter);
                 }
             }
-            patterns.append(devStr);
+            patterns.append(devName);
         }
-        else {
-            unsigned index = if_nametoindex(devStr);
-            if (1 <= index)
-                createNetStatus(devStr);
+        else if (!fNetStatus.has(devName)) {
+            if (interfaces.find(devName) != -1)
+                createNetStatus(devName);
             else
-                patterns.append(devStr);
+                patterns.append(devName);
         }
     }
     interfaces.clear();
@@ -629,17 +655,18 @@ NetStatus* NetStatusControl::createNetStatus(mstring netdev) {
 void NetStatusControl::getInterfaces(YStringArray& names)
 {
     names.clear();
-    unsigned const stop(99);
 
     struct if_nameindex* ifs = if_nameindex(), *i = ifs;
-    for (; i && i->if_index && i->if_name && unsigned(i - ifs) < stop; ++i)
-        names.append(i->if_name);
-    if (ifs)
+    if (ifs) {
+        int const stop(99);
+        for (; i && i->if_index && i->if_name && i < ifs + stop; ++i) {
+            names.append(i->if_name);
+        }
         if_freenameindex(ifs);
+        names.sort();
+    }
     else
         fail("if_nameindex");
-
-    names.sort();
 }
 
 bool NetStatusControl::handleTimer(YTimer *t)
@@ -647,12 +674,12 @@ bool NetStatusControl::handleTimer(YTimer *t)
     if (t != fUpdateTimer)
         return false;
 
-#ifdef __linux__
+#if __linux__
     linuxUpdate();
 #else
     for (IterType iter = getIterator(); ++iter; )
-        if (*iter != 0)
-            iter->timedUpdate(0);
+        if (*iter)
+            iter->timedUpdate();
 #endif
 
     return true;
@@ -671,7 +698,6 @@ void NetStatusControl::relayout()
 void NetStatusControl::handleClick(const XButtonEvent &up, mstring netdev)
 {
     if (up.button == Button3) {
-        interfaces.clear();
         getInterfaces(interfaces);
 
         fMenu = new YMenu();
@@ -682,7 +708,7 @@ void NetStatusControl::handleClick(const XButtonEvent &up, mstring netdev)
         while (++iter) {
             bool enable = true;
             bool visible = false;
-            if (fNetStatus.has(*iter) == false || fNetStatus[*iter] == 0) {
+            if (fNetStatus.has(*iter) == false || fNetStatus[*iter] == nullptr) {
                 enable = osmart<NetDevice>(getNetDevice(*iter))->isUp();
             }
             else if (fNetStatus[*iter]->visible()) {
@@ -722,15 +748,47 @@ void NetStatusControl::actionPerformed(YAction action, unsigned int modifiers) {
     interfaces.clear();
 }
 
-#ifdef __linux__
+#if __linux__
+bool NetStatusControl::readNetDev(char* data, size_t size) {
+    const char path[] = "/proc/net/dev";
+
+    if (fNetDev >= 0 && lseek(fNetDev, 0, SEEK_SET) < 0) {
+        fail("seek %s", path);
+        close(fNetDev);
+        fNetDev = -1;
+    }
+
+    if (fNetDev < 0) {
+        fNetDev = open(path, O_RDONLY | O_CLOEXEC);
+        if (fNetDev < 0) {
+            fail("open %s", path);
+            return false;
+        }
+    }
+
+    ssize_t len = read(fNetDev, data, size - 1);
+    if (len <= 0) {
+        fail("read %s", path);
+        close(fNetDev);
+        fNetDev = -1;
+        return false;
+    }
+
+    data[len] = '\0';
+    return true;
+}
+
 void NetStatusControl::linuxUpdate() {
-    auto devicesText(upath("/proc/net/dev").loadText());
-    if (devicesText == nullptr)
+    size_t const textSize = 8192;
+    char devicesText[textSize];
+    if (readNetDev(devicesText, textSize) == false) {
         return;
+    }
+
     int const count(fNetStatus.getCount());
     bool covered[count];
     for (int i = 0; i < count; ++i) {
-        covered[i] = (0 == fNetStatus[i]);
+        covered[i] = (nullptr == fNetStatus[i]);
     }
     using netpair = pair<const char *, const char *>;
     YArray<netpair> pending;
@@ -774,7 +832,7 @@ void NetStatusControl::linuxUpdate() {
             createNetStatus(nameAndData.left)->timedUpdate(nameAndData.right);
         } else {
             // ignore this device
-            fNetStatus[nameAndData.left] = 0;
+            fNetStatus[nameAndData.left] = nullptr;
         }
     }
 }

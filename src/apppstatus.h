@@ -8,10 +8,9 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
-#include "ypointer.h"
-
 class IAppletContainer;
 class NetStatusControl;
+class NetDevice;
 
 typedef unsigned long long netbytes;
 
@@ -23,25 +22,20 @@ public:
     virtual void handleClick(const XButtonEvent &up, mstring netdev) = 0;
 };
 
-class INetDevice {
-public:
-    virtual bool isUp() = 0;
-    virtual void getCurrent(netbytes *in, netbytes *out, const void* sharedData) = 0;
-    virtual ~INetDevice() {}
-};
-
 class NetStatus: public IApplet, private Picturer {
 public:
     NetStatus(mstring netdev, NetStatusHandler* handler, YWindow *aParent = nullptr);
     ~NetStatus();
 
     mstring name() const { return fDevName; }
-    void timedUpdate(const void* sharedData, bool forceDown = false);
-    bool isUp() const { return fDevice && fDevice->isUp(); }
+    void timedUpdate(const char* sharedData = nullptr, bool forceDown = false);
+    bool isUp();
 
 private:
     NetStatusHandler* fHandler;
-    YColorName color[3];
+    YColorName fColorRecv;
+    YColorName fColorSend;
+    YColorName fColorIdle;
 
     long *ppp_in; /* long could be really enough for rate in B/s */
     long *ppp_out;
@@ -58,12 +52,12 @@ private:
 
     bool wasUp;               // previous link status
     mstring fDevName;         // name of the device
-    osmart<INetDevice> fDevice;
+    NetDevice* fDevice;
 
     void updateVisible(bool aVisible);
     // methods local to this class
-    void getCurrent(long *in, long *out, const void* sharedData);
-    void updateStatus(const void* sharedData);
+    void getCurrent(long *in, long *out, const char* sharedData);
+    void updateStatus(const char* sharedData);
     virtual void updateToolTip() override;
 
     // methods overridden from superclasses
@@ -89,9 +83,12 @@ private:
     long fPid;
     osmart<YMenu> fMenu;
 
-#ifdef __linux__
+#if __linux__
     void linuxUpdate();
+    bool readNetDev(char* data, size_t size);
 #endif
+    int fNetDev;
+
     YStringArray patterns;
     YStringArray interfaces;
 
