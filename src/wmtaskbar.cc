@@ -402,8 +402,10 @@ void TaskBar::initApplets() {
                                   this, trayDrawBevel);
         fDesktopTray->setTitle("SystemTray");
         fDesktopTray->relayout();
-    } else
+    } else {
         fDesktopTray = nullptr;
+        updateLocation();
+    }
 
     if (fCollapseButton) {
         fCollapseButton->raise();
