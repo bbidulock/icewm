@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-02-27 18:40+0100\n"
-"PO-Revision-Date: 2020-12-15 17:26+0000\n"
+"PO-Revision-Date: 2021-03-13 16:56+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1355,13 +1355,15 @@ msgstr ""
 
 #: src/wmapp.cc:768
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Potvrdiť reštart ako terminál"
 
 #: src/wmapp.cc:769
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Zrušiť správu všetkých aplikácií a reštartovať\n"
+"ako terminál. Pokračovať?"
 
 #: src/wmapp.cc:1073 src/yxapp.cc:1031
 msgid "<none>"
