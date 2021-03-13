@@ -35,18 +35,22 @@ public:
     bool isRunning() const { return fRunning; }
     bool isFixed() const;
 
+    timeval fuzziness() const { return (timeval) { 0L, fFuzziness*1000L }; }
+    const timeval& timeout() const { return fTimeout; }
+    timeval timeout_min() const { return fTimeout - fuzziness(); }
+    timeval timeout_max() const { return fTimeout + fuzziness(); }
+    void decreaseTimeout(const timeval& diff) { fTimeout += diff; }
+
 private:
     void enlist(bool enable);
     void fuzzTimer();
 
     YTimerListener *fListener;
+    struct timeval fTimeout;
     long fInterval;
+    long fFuzziness;
     bool fRunning;
     bool fFixed;
-
-    struct timeval timeout_min, timeout, timeout_max;
-
-    friend class YApplication;
 };
 
 #endif

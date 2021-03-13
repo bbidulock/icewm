@@ -9,16 +9,21 @@
 #include "yprefs.h"
 
 YTimer::YTimer(long ms) :
-    fListener(nullptr), fInterval(0), fRunning(false), fFixed(false)
+    fListener(nullptr),
+    fTimeout(zerotime()),
+    fInterval(0L),
+    fFuzziness(0L),
+    fRunning(false),
+    fFixed(false)
 {
-    if (ms > 0L) {
-        setInterval(ms);
-    }
+    setInterval(ms);
 }
 
 YTimer::YTimer(long ms, YTimerListener* listener, bool start, bool fixed) :
     fListener(listener),
+    fTimeout(zerotime()),
     fInterval(max(0L, ms)),
+    fFuzziness(0L),
     fRunning(false),
     fFixed(fixed)
 {
@@ -33,10 +38,11 @@ YTimer::~YTimer() {
 void YTimer::setFixed() {
     // Fixed here means: not fuzzy, but exact.
     fFixed = true;
+    fFuzziness = 0L;
 }
 
 bool YTimer::isFixed() const {
-    return fFixed || timeout_min == timeout_max;
+    return fFixed || !fFuzziness;
 }
 
 void YTimer::setInterval(long ms) {
@@ -49,7 +55,7 @@ void YTimer::startTimer(long ms) {
 }
 
 void YTimer::startTimer() {
-    timeout = monotime() + millitime(fInterval);
+    fTimeout = monotime() + millitime(fInterval);
     fuzzTimer();
     enlist(true);
 }
@@ -58,17 +64,14 @@ void YTimer::fuzzTimer() {
     if (false == fFixed && inrange(DelayFuzziness, 1, 100)) {
         // non-fixed timer: configure fuzzy timeout range
         // to allow for merging of several timers
-        timeval fuzz = millitime((fInterval * DelayFuzziness) / 100L);
-        timeout_min = timeout - fuzz;
-        timeout_max = timeout + fuzz;
+        fFuzziness = (fInterval * DelayFuzziness) / 100L;
     } else {
-        timeout_min = timeout;
-        timeout_max = timeout;
+        fFuzziness = 0L;
     }
 }
 
 void YTimer::runTimer() {
-    timeout = monotime();
+    fTimeout = monotime();
     fuzzTimer();
     enlist(true);
 }
