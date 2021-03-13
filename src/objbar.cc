@@ -28,7 +28,6 @@ ObjectBar::~ObjectBar() {
 }
 
 void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
-    button->setToolTip(name);
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
         button->setSize(button->width() + 4, button->width() + 4);
@@ -160,6 +159,15 @@ void ObjectButton::handleButton(const XButtonEvent& up) {
         YButton::handleButton(up);
     } else {
         parent()->handleButton(up);
+    }
+}
+
+void ObjectButton::updateToolTip() {
+    if (getToolTip() == null) {
+        xsmart<char> name;
+        if (fetchTitle(&name)) {
+            setToolTip(mstring(name));
+        }
     }
 }
 

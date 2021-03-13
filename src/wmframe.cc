@@ -1826,7 +1826,6 @@ void YFrameWindow::updateTitle() {
     layoutShape();
     if (fTitleBar)
         fTitleBar->repaint();
-    updateIconTitle();
     if (fWinListItem && windowList)
         windowList->repaintItem(fWinListItem);
     if (fTaskBarApp)
@@ -1836,12 +1835,8 @@ void YFrameWindow::updateTitle() {
 }
 
 void YFrameWindow::updateIconTitle() {
-    if (fTaskBarApp) {
+    if (fTaskBarApp)
         fTaskBarApp->repaint();
-        fTaskBarApp->setToolTip(getTitle());
-    }
-    if (fTrayApp)
-        fTrayApp->setToolTip(getTitle());
     if (isIconic())
         fMiniIcon->repaint();
 }

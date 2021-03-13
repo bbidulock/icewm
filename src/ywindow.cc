@@ -939,6 +939,10 @@ void YWindow::setToolTip(const mstring& tip) {
     }
 }
 
+mstring YWindow::getToolTip() {
+    return fToolTip ? fToolTip->getText() : null;
+}
+
 bool YWindow::toolTipVisible() {
     return fToolTip && fToolTip->visible();
 }

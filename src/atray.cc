@@ -38,15 +38,15 @@ ref<YImage> TrayApp::taskActiveGradient;
 ref<YImage> TrayApp::taskNormalGradient;
 
 TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
-    YWindow(aParent)
+    YWindow(aParent),
+    fFrame(frame),
+    fTrayPane(trayPane),
+    fRepainted(false),
+    fShown(trayShowAllWindows || frame->visibleNow()),
+    selected(0)
 {
-    fFrame = frame;
-    fTrayPane = trayPane;
-    selected = 0;
-    fShown = (trayShowAllWindows || frame->visibleNow());
-    fRepainted = false;
+    addStyle(wsToolTipping);
     setParentRelative();
-    setToolTip(frame->getTitle());
     setTitle(frame->getTitle());
 }
 
@@ -85,6 +85,16 @@ void TrayApp::repaint() {
         GraphicsBuffer(this).paint();
         fRepainted = true;
     }
+}
+
+void TrayApp::setToolTip(const mstring& tip) {
+    if (toolTipVisible()) {
+        YWindow::setToolTip(tip);
+    }
+}
+
+void TrayApp::updateToolTip() {
+    YWindow::setToolTip(fFrame->getTitle());
 }
 
 void TrayApp::handleExpose(const XExposeEvent& expose) {

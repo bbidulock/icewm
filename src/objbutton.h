@@ -34,6 +34,7 @@ public:
     virtual void repaint();
     virtual void requestFocus(bool requestUserFocus);
     virtual void handleButton(const XButtonEvent& up);
+    virtual void updateToolTip();
 
     virtual ref<YFont> getFont();
     virtual YColor   getColor();
@@ -41,7 +42,7 @@ public:
     static void freeFont() { font = null; }
 
 private:
-    void obinit() { addStyle(wsNoExpose); setParentRelative(); }
+    void obinit() { addStyle(wsNoExpose | wsToolTipping); setParentRelative(); }
 
     osmart<DObject> fObject;
     osmart<LazyMenu> fMenu;

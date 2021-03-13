@@ -32,6 +32,8 @@ public:
     virtual void handleExpose(const XExposeEvent& expose);
     virtual void configure(const YRect2& r);
     virtual void repaint();
+    virtual void setToolTip(const mstring& tip);
+    virtual void updateToolTip();
 
     void activate() const;
     ClientData *getFrame() const { return fFrame; }

@@ -203,6 +203,7 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
+    mstring getToolTip();
     void setToolTip(const mstring &tip);
 
     void mapToGlobal(int &x, int &y);

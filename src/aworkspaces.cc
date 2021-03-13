@@ -31,7 +31,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fGraphics(this, true),
     fPane(d)
 {
-    addStyle(wsNoExpose);
+    addStyle(wsNoExpose | wsToolTipping);
     setParentRelative();
     setTitle(name());
 }
@@ -591,8 +591,14 @@ mstring WorkspaceButton::baseName() {
     return name;
 }
 
-void WorkspaceButton::updateName() {
+void WorkspaceButton::updateToolTip() {
     setToolTip(_("Workspace: ") + baseName());
+}
+
+void WorkspaceButton::updateName() {
+    if (toolTipVisible()) {
+        updateToolTip();
+    }
 }
 
 void WorkspacesPane::repaint() {
