@@ -2780,27 +2780,29 @@ void IceSh::motif(Window window, char** args, int count) {
                 hints->hasStatus() ? " status" : "");
         if (hints->hasFuncs()) {
             unsigned long funcs = hints->functions;
-            if (funcs & MWM_FUNC_ALL)
-                funcs = (~funcs & 0x3E);
+            char sign = '+';
             printf("%sfuncs:", spaces);
-            for (int i = 1, n = 0; motifFunctions[i].name; ++i) {
-                if (funcs & motifFunctions[i].code)
+            for (int i = 0, n = 0; motifFunctions[i].name; ++i) {
+                if (funcs & motifFunctions[i].code) {
                     printf("%c%s",
-                            ++n == 1 ? ' ' : '+',
+                            ++n == 1 ? ' ' : sign,
                             motifFunctions[i].name);
+                    sign = (funcs & MWM_FUNC_ALL) ? '-' : '+';
+                }
             }
             newline();
         }
         if (hints->hasDecor()) {
             unsigned long decor = hints->decorations;
-            if (decor & MWM_DECOR_ALL)
-                decor = (~decor & 0x7E);
+            char sign = '+';
             printf("%sdecor:", spaces);
-            for (int i = 1, n = 0; motifDecorations[i].name; ++i) {
-                if (decor & motifDecorations[i].code)
+            for (int i = 0, n = 0; motifDecorations[i].name; ++i) {
+                if (decor & motifDecorations[i].code) {
                     printf("%c%s",
-                            ++n == 1 ? ' ' : '+',
+                            ++n == 1 ? ' ' : sign,
                             motifDecorations[i].name);
+                    sign = (decor & MWM_DECOR_ALL) ? '-' : '+';
+                }
             }
             newline();
         }
