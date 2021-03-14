@@ -1828,8 +1828,10 @@ void YFrameWindow::updateTitle() {
         fTitleBar->repaint();
     if (fWinListItem && windowList)
         windowList->repaintItem(fWinListItem);
-    if (fTaskBarApp)
+    if (fTaskBarApp) {
         fTaskBarApp->setToolTip(getTitle());
+        fTaskBarApp->repaint();
+    }
     if (fTrayApp)
         fTrayApp->setToolTip(getTitle());
 }
