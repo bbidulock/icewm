@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-14 12:21+0100\n"
-"PO-Revision-Date: 2021-03-13 01:56+0000\n"
+"PO-Revision-Date: 2021-03-14 19:56+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,13 +283,11 @@ msgstr ""
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
-msgstr ""
+msgstr "desconnectat"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Desenrotlla"
+msgstr "avall"
 
 #: src/apppstatus.cc:705
 msgid "NET"
