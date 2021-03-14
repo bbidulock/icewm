@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-02-27 18:40+0100\n"
+"POT-Creation-Date: 2021-03-14 12:21+0100\n"
 "PO-Revision-Date: 2000-10-21 12:13+2000\n"
 "Last-Translator: Mathias Hasselmann <mathias.hasselmann@gmx.de>\n"
 "Language-Team: English\n"
@@ -35,74 +35,74 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:991
+#: src/aapm.cc:990
 #, c-format
 msgid "power:\t%s"
 msgstr ""
 
-#: src/aclock.cc:180
+#: src/aclock.cc:179
 msgid "CLOCK"
 msgstr ""
 
-#: src/aclock.cc:186
+#: src/aclock.cc:185
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:187 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:81
 msgid "Default"
 msgstr ""
 
-#: src/aclock.cc:188 src/acpustatus.cc:661 src/amailbox.cc:979
-#: src/amemstatus.cc:265
+#: src/aclock.cc:187 src/acpustatus.cc:660 src/amailbox.cc:953
+#: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
 
-#: src/aclock.cc:189
+#: src/aclock.cc:188
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:296
+#: src/acpustatus.cc:295
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr ""
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:301
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:307
+#: src/acpustatus.cc:306
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:313
+#: src/acpustatus.cc:312
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:332 src/acpustatus.cc:372
+#: src/acpustatus.cc:331 src/acpustatus.cc:371
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:349 src/acpustatus.cc:656
+#: src/acpustatus.cc:348 src/acpustatus.cc:655
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:349
+#: src/acpustatus.cc:348
 msgid "Load: "
 msgstr ""
 
-#: src/acpustatus.cc:364
+#: src/acpustatus.cc:363
 #, c-format
 msgid ""
 "\n"
@@ -111,20 +111,20 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:430
+#: src/acpustatus.cc:429
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:657
+#: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:663
+#: src/acpustatus.cc:662
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:664
 msgid "_Separate"
 msgstr ""
 
@@ -173,87 +173,87 @@ msgstr ""
 msgid "Using MailBox \"%s\"\n"
 msgstr ""
 
-#: src/amailbox.cc:816
+#: src/amailbox.cc:790
 msgid "Suspended"
 msgstr ""
 
-#: src/amailbox.cc:820
+#: src/amailbox.cc:794
 msgid "Error checking mailbox."
 msgstr ""
 
-#: src/amailbox.cc:827
+#: src/amailbox.cc:801
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr ""
 
-#: src/amailbox.cc:828
+#: src/amailbox.cc:802
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr ""
 
-#: src/amailbox.cc:834
+#: src/amailbox.cc:808
 #, c-format
 msgid "%ld mail message."
 msgstr ""
 
-#: src/amailbox.cc:835
+#: src/amailbox.cc:809
 #, c-format
 msgid "%ld mail messages."
 msgstr ""
 
-#: src/amailbox.cc:976
+#: src/amailbox.cc:950
 msgid "MAIL"
 msgstr ""
 
-#: src/amailbox.cc:978
+#: src/amailbox.cc:952
 msgid "_Check"
 msgstr ""
 
-#: src/amailbox.cc:980
+#: src/amailbox.cc:954
 msgid "_Suspend"
 msgstr ""
 
-#: src/amemstatus.cc:145
+#: src/amemstatus.cc:144
 msgid "GB"
 msgstr ""
 
-#: src/amemstatus.cc:149
+#: src/amemstatus.cc:148
 msgid "MB"
 msgstr ""
 
-#: src/amemstatus.cc:153
+#: src/amemstatus.cc:152
 msgid "kB"
 msgstr ""
 
-#: src/amemstatus.cc:157
+#: src/amemstatus.cc:156
 msgid "bytes"
 msgstr ""
 
-#: src/amemstatus.cc:177
+#: src/amemstatus.cc:176
 msgid "Memory Total: "
 msgstr ""
 
-#: src/amemstatus.cc:178
+#: src/amemstatus.cc:177
 msgid "Free: "
 msgstr ""
 
-#: src/amemstatus.cc:179
+#: src/amemstatus.cc:178
 msgid "Cached: "
 msgstr ""
 
-#: src/amemstatus.cc:180
+#: src/amemstatus.cc:179
 msgid "Buffers: "
 msgstr ""
 
-#: src/amemstatus.cc:181
+#: src/amemstatus.cc:180
 msgid "User: "
 msgstr ""
 
-#: src/amemstatus.cc:263
+#: src/amemstatus.cc:262
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:231
+#: src/apppstatus.cc:268
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -263,17 +263,19 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 
-#: src/apppstatus.cc:243
-msgid ""
-"\n"
-"  Caller id:\t"
+#: src/apppstatus.cc:284
+msgid "disconnected"
 msgstr ""
 
-#: src/apppstatus.cc:679
+#: src/apppstatus.cc:284
+msgid "down"
+msgstr ""
+
+#: src/apppstatus.cc:705
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:593 src/wmstatus.cc:204
+#: src/aworkspaces.cc:595 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr ""
 
@@ -1305,7 +1307,7 @@ msgstr ""
 msgid "Loc_k Workstation"
 msgstr ""
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:47
+#: src/wmdialog.cc:70 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr ""
 
@@ -1324,11 +1326,11 @@ msgstr ""
 msgid "_About"
 msgstr ""
 
-#: src/wmframe.cc:1393
+#: src/wmframe.cc:1402
 msgid "Kill Client: "
 msgstr ""
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1403
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1475,7 +1477,7 @@ msgstr ""
 msgid "_Refresh"
 msgstr ""
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:963
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:965
 msgid "Hide Taskbar"
 msgstr ""
 
@@ -1491,7 +1493,7 @@ msgstr ""
 msgid "Show Desktop"
 msgstr ""
 
-#: src/wmtaskbar.cc:963
+#: src/wmtaskbar.cc:965
 msgid "Show Taskbar"
 msgstr ""
 
@@ -1652,7 +1654,7 @@ msgstr ""
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr ""
 
-#: src/ymsgbox.cc:44
+#: src/ymsgbox.cc:48
 msgid "_OK"
 msgstr ""
 

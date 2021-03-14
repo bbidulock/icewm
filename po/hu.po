@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-02-27 18:40+0100\n"
+"POT-Creation-Date: 2021-03-14 12:21+0100\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -44,40 +44,40 @@ msgstr "T"
 msgid " - Full"
 msgstr " - Feltöltve"
 
-#: src/aapm.cc:991
+#: src/aapm.cc:990
 #, c-format
 msgid "power:\t%s"
 msgstr "Töltés:\t%s"
 
-#: src/aclock.cc:180
+#: src/aclock.cc:179
 msgid "CLOCK"
 msgstr "ÓRA"
 
-#: src/aclock.cc:186
+#: src/aclock.cc:185
 msgid "Date"
 msgstr "Dátum"
 
 # ../src/wmwinlist.cc:236
-#: src/aclock.cc:187 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:81
 msgid "Default"
 msgstr "Alapértelmezett"
 
-#: src/aclock.cc:188 src/acpustatus.cc:661 src/amailbox.cc:979
-#: src/amemstatus.cc:265
+#: src/aclock.cc:187 src/acpustatus.cc:660 src/amailbox.cc:953
+#: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Letiltás"
 
-#: src/aclock.cc:189
+#: src/aclock.cc:188
 msgid "_UTC"
 msgstr "_UTC"
 
 # ../src/acpustatus.cc:133
-#: src/acpustatus.cc:296
+#: src/acpustatus.cc:295
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "%s CPU terhelése: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:302
+#: src/acpustatus.cc:301
 #, c-format
 msgid ""
 "\n"
@@ -86,7 +86,7 @@ msgstr ""
 "\n"
 "RAM (szabad): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:307
+#: src/acpustatus.cc:306
 #, c-format
 msgid ""
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "\n"
 "Lapozófájl (szabad): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:313
+#: src/acpustatus.cc:312
 #, c-format
 msgid ""
 "\n"
@@ -104,7 +104,7 @@ msgstr ""
 "\n"
 "ACPI-hőmérséklet: "
 
-#: src/acpustatus.cc:332 src/acpustatus.cc:372
+#: src/acpustatus.cc:331 src/acpustatus.cc:371
 #, c-format
 msgid ""
 "\n"
@@ -113,15 +113,15 @@ msgstr ""
 "\n"
 "CPU frekvenciája: %.3fGHz"
 
-#: src/acpustatus.cc:349 src/acpustatus.cc:656
+#: src/acpustatus.cc:348 src/acpustatus.cc:655
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:349
+#: src/acpustatus.cc:348
 msgid "Load: "
 msgstr "Terhelés: "
 
-#: src/acpustatus.cc:364
+#: src/acpustatus.cc:363
 #, c-format
 msgid ""
 "\n"
@@ -132,20 +132,20 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:430
+#: src/acpustatus.cc:429
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:657
+#: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:663
+#: src/acpustatus.cc:662
 msgid "_Combine"
 msgstr "_Egyesítés"
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:664
 msgid "_Separate"
 msgstr "_Külön"
 
@@ -198,92 +198,92 @@ msgstr "Nem sikerült írni a szoftvercsatornába: %s"
 msgid "Using MailBox \"%s\"\n"
 msgstr "Használt postafiók: \"%s\"\n"
 
-#: src/amailbox.cc:816
+#: src/amailbox.cc:790
 msgid "Suspended"
 msgstr "Felfüggesztve"
 
 # ../src/amailbox.cc:402
-#: src/amailbox.cc:820
+#: src/amailbox.cc:794
 msgid "Error checking mailbox."
 msgstr "Hiba történt a postafiók ellenőrzésekor."
 
 # ../src/amailbox.cc:408
-#: src/amailbox.cc:827
+#: src/amailbox.cc:801
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld üzenet, %ld olvasatlan."
 
 # ../src/amailbox.cc:409
-#: src/amailbox.cc:828
+#: src/amailbox.cc:802
 #, c-format
 msgid "%ld mail messages, %ld unread."
 msgstr "%ld üzenet, %ld olvasatlan."
 
 # ../src/amailbox.cc:408
-#: src/amailbox.cc:834
+#: src/amailbox.cc:808
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld üzenet."
 
 # ../src/amailbox.cc:409
-#: src/amailbox.cc:835
+#: src/amailbox.cc:809
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld üzenet."
 
-#: src/amailbox.cc:976
+#: src/amailbox.cc:950
 msgid "MAIL"
 msgstr "POSTA"
 
-#: src/amailbox.cc:978
+#: src/amailbox.cc:952
 msgid "_Check"
 msgstr "_Ellenőrzés"
 
-#: src/amailbox.cc:980
+#: src/amailbox.cc:954
 msgid "_Suspend"
 msgstr "_Felfüggesztés"
 
-#: src/amemstatus.cc:145
+#: src/amemstatus.cc:144
 msgid "GB"
 msgstr "GB"
 
-#: src/amemstatus.cc:149
+#: src/amemstatus.cc:148
 msgid "MB"
 msgstr "MB"
 
-#: src/amemstatus.cc:153
+#: src/amemstatus.cc:152
 msgid "kB"
 msgstr "kB"
 
-#: src/amemstatus.cc:157
+#: src/amemstatus.cc:156
 msgid "bytes"
 msgstr "bájt"
 
-#: src/amemstatus.cc:177
+#: src/amemstatus.cc:176
 msgid "Memory Total: "
 msgstr "Összes memória: "
 
-#: src/amemstatus.cc:178
+#: src/amemstatus.cc:177
 msgid "Free: "
 msgstr "Szabad: "
 
-#: src/amemstatus.cc:179
+#: src/amemstatus.cc:178
 msgid "Cached: "
 msgstr "Gyorsítótárazott: "
 
-#: src/amemstatus.cc:180
+#: src/amemstatus.cc:179
 msgid "Buffers: "
 msgstr "Pufferek: "
 
-#: src/amemstatus.cc:181
+#: src/amemstatus.cc:180
 msgid "User: "
 msgstr "Felhasználó: "
 
-#: src/amemstatus.cc:263
+#: src/amemstatus.cc:262
 msgid "MEM"
 msgstr "MEMÓRIA"
 
-#: src/apppstatus.cc:231
+#: src/apppstatus.cc:268
 #, c-format
 msgid ""
 "Interface %s:\n"
@@ -298,20 +298,25 @@ msgstr ""
 "  Összforgalom (be/ki):\t%lli %s/%lli %s\n"
 "  Online idő:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:243
-msgid ""
-"\n"
-"  Caller id:\t"
-msgstr ""
-"\n"
-" Hívóazonosító:\t"
+#: src/apppstatus.cc:284
+#, fuzzy
+#| msgid "icon name expected"
+msgid "disconnected"
+msgstr "hiányzik az ikonnév"
 
-#: src/apppstatus.cc:679
+# ../src/wmframe.cc:2212
+#: src/apppstatus.cc:284
+#, fuzzy
+#| msgid "Rolldown"
+msgid "down"
+msgstr "Legörget"
+
+#: src/apppstatus.cc:705
 msgid "NET"
 msgstr "HÁLÓZAT"
 
 # ../src/wmstatus.cc:170
-#: src/aworkspaces.cc:593 src/wmstatus.cc:204
+#: src/aworkspaces.cc:595 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "Munkaterület: "
 
@@ -1771,7 +1776,7 @@ msgid "Loc_k Workstation"
 msgstr "Munkaállomás le_zárása"
 
 # ../src/wmdialog.cc:73
-#: src/wmdialog.cc:70 src/ymsgbox.cc:47
+#: src/wmdialog.cc:70 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr "_Mégsem"
 
@@ -1795,11 +1800,11 @@ msgstr "N_évjegy"
 
 #
 # ../src/wmframe.cc:1183
-#: src/wmframe.cc:1393
+#: src/wmframe.cc:1402
 msgid "Kill Client: "
 msgstr "Kliens leölése: "
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1403
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1967,7 +1972,7 @@ msgid "_Refresh"
 msgstr "_Frissítés"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:963
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:965
 msgid "Hide Taskbar"
 msgstr "Tálca elrejtése"
 
@@ -1986,7 +1991,7 @@ msgid "Show Desktop"
 msgstr "Asztal megjelenítése"
 
 # ../src/wmtaskbar.cc:145 ../src/wmtaskbar.cc:146
-#: src/wmtaskbar.cc:963
+#: src/wmtaskbar.cc:965
 msgid "Show Taskbar"
 msgstr "Tálca megjelenítése"
 
@@ -2188,7 +2193,7 @@ msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Érvénytelen több byte-os karakterlánc (multibyte string): \"%s\": %s"
 
 # ../src/ymsgbox.cc:34
-#: src/ymsgbox.cc:44
+#: src/ymsgbox.cc:48
 msgid "_OK"
 msgstr "_OK"
 
@@ -2926,6 +2931,13 @@ msgstr "Webfejlesztés"
 msgid "WordProcessor"
 msgstr "Szövegszerkesztő"
 
+#~ msgid ""
+#~ "\n"
+#~ "  Caller id:\t"
+#~ msgstr ""
+#~ "\n"
+#~ " Hívóazonosító:\t"
+
 #~ msgid "Kill IceWM, replace with Xterm"
 #~ msgstr "IceWM leállítása, lecserélés az Xtermre"
 
@@ -3345,9 +3357,6 @@ msgstr "Szövegszerkesztő"
 # ../src/yparser.cc:159
 #~ msgid "program label expected"
 #~ msgstr "hiányzik a programcímke"
-
-#~ msgid "icon name expected"
-#~ msgstr "hiányzik az ikonnév"
 
 #~ msgid "window management class expected"
 #~ msgstr "hiányzik az ablakkezelő-osztály"
