@@ -707,7 +707,10 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
                 fShaped = newShaped;
             if (getFrame())
                 getFrame()->setShape();
-            fShaped = newShaped;
+            if (fShaped && !newShaped) {
+                fShaped = newShaped;
+                getFrame()->updateMwmHints(fSizeHints);
+            }
         }
     }
 }
