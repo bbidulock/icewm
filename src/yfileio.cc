@@ -10,11 +10,10 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-/* read from filename and zero terminate the buffer. */
 filereader::filereader(const char* filename) :
+    nFd(open(filename, O_RDONLY)),
     bCloses(true)
 {
-    nFd = open(filename, O_RDONLY);
 }
 
 filereader::~filereader() {
@@ -23,17 +22,11 @@ filereader::~filereader() {
 }
 
 int filereader::read_all(char* buf, size_t buflen) {
-    char* ptr = buf;
-    ssize_t got = 0, len = ssize_t(buflen) - 1;
-    while (nFd >= 0 && len > 0) {
-        if ((got = read(nFd, ptr, size_t(len))) > 0) {
-            ptr += got;
-            len -= got;
-        } else if (got != -1 || errno != EINTR)
-            break;
+    ssize_t len = -1;
+    if (nFd >= 0 && (len = read(nFd, buf, buflen - 1)) >= 0) {
+        buf[len] = '\0';
     }
-    *ptr = 0;
-    return (ptr > buf) ? int(ptr - buf) : (nFd < 0) ? -1 : int(got);
+    return int(len);
 }
 
 fcsmart filereader::read_all() {
@@ -43,34 +36,13 @@ fcsmart filereader::read_all() {
     else if (fstat(nFd, &st) == 0) {
         if (S_ISREG(st.st_mode)) {
             if (st.st_size > 0) {
-                fcsmart buf(fcsmart::create(st.st_size + 1));
-                if (buf && read_all(buf, st.st_size + 1) == st.st_size) {
-                    return buf;
-                }
-            }
-            else {
-                int got = 0;
-                fcsmart buf;
-                size_t size = BUFSIZ + 1;
-                size_t len = 0;
-                buf.resize(size + 1);
-                while (buf && (got = read_all(buf + len, size - len)) > 0) {
-                    len += got;
-                    if (len + 1 < size) {
-                        break;
-                    } else {
-                        size += size / 2;
-                        buf.resize(size + 1);
-                    }
-                }
-                if (len > 0 && buf) {
-                    buf.resize(len + 1);
-                    return buf;
-                }
+                return read_size(st.st_size);
+            } else {
+                return read_loop();
             }
         }
         else if (S_ISFIFO(st.st_mode) || S_ISSOCK(st.st_mode)) {
-            int timeout = -1;
+            long timeout = -1L;
             bool expired = false;
             return read_pipe(timeout, &expired);
         }
@@ -79,6 +51,38 @@ fcsmart filereader::read_all() {
         fail("fstat");
     }
     return fcsmart();
+}
+
+fcsmart filereader::read_size(size_t size) {
+    fcsmart buf(fcsmart::create(size + 1));
+    if (buf && read_all(buf, size + 1) > 0) {
+        return buf;
+    } else {
+        return fcsmart();
+    }
+}
+
+fcsmart filereader::read_loop() {
+    size_t len = 0, size = BUFSIZ;
+    fcsmart buf(fcsmart::create(size + 1));
+    while (buf) {
+        ssize_t got = read(nFd, buf + len, size - len);
+        if (got >= 0) {
+            len += got;
+            buf[len] = '\0';
+            if (len + 1 < size) {
+                break;
+            } else {
+                size += size / 2;
+                buf.resize(size + 1);
+            }
+        }
+        else if (errno != EINTR) {
+            buf = nullptr;
+            break;
+        }
+    }
+    return buf;
 }
 
 fcsmart filereader::read_pipe(long timeout, bool* expired) {

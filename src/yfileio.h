@@ -25,11 +25,13 @@ public:
     int read_all(char* buf, size_t buflen);
     fcsmart read_all();
     fcsmart read_pipe(long timeout, bool* timedOut);
+    fcsmart read_size(size_t size);
 
 private:
     int nFd;
     bool bCloses;
 
+    fcsmart read_loop();
     filereader(const filereader&) = delete;
 };
 
