@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-14 12:21+0100\n"
-"PO-Revision-Date: 2020-06-29 19:44+0000\n"
-"Last-Translator: Kimmo Kujansuu <mrkujansuu@gmail.com>\n"
-"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fi/>\n"
+"PO-Revision-Date: 2021-03-15 14:36+0000\n"
+"Last-Translator: Tommi Nieminen <software@legisign.org>\n"
+"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +64,7 @@ msgstr "_Pois"
 
 #: src/aclock.cc:188
 msgid "_UTC"
-msgstr ""
+msgstr "UT_C"
 
 #: src/acpustatus.cc:295
 #, c-format
@@ -109,7 +109,7 @@ msgstr ""
 
 #: src/acpustatus.cc:348 src/acpustatus.cc:655
 msgid "CPU"
-msgstr ""
+msgstr "Suoritin"
 
 #: src/acpustatus.cc:348
 msgid "Load: "
@@ -128,12 +128,12 @@ msgstr ""
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:429
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:662
 msgid "_Combine"
@@ -238,7 +238,7 @@ msgstr "Mt"
 
 #: src/amemstatus.cc:152
 msgid "kB"
-msgstr ""
+msgstr "kt"
 
 #: src/amemstatus.cc:156
 msgid "bytes"
@@ -284,10 +284,8 @@ msgstr ""
 "  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "Odotettiin kuvakkeen nimeä"
+msgstr "ei yhteyttä"
 
 #: src/apppstatus.cc:284
 #, fuzzy
@@ -345,7 +343,7 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1238
 msgid "Icewm(1)"
-msgstr ""
+msgstr "IceWM(1)"
 
 #: src/icehelp.cc:1240
 msgid "Icewmbg(1)"
@@ -377,7 +375,7 @@ msgstr "Verkkosivusto"
 
 #: src/icehelp.cc:1254
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1957
 msgid "Unsupported protocol."
@@ -455,6 +453,39 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Käyttö: %s [VALITSIMET] [ TIEDOSTO | VERKKO-OSOITE ]\n"
+"\n"
+"IceHelp on yksinkertainen HTML-selain IceWM-ikkunaohjelmalle.\n"
+"Se voi näyttää HTML-tiedoston tai selata verkkosivustoa.\n"
+"Se muistaa vierailtujen sivujen historian, jossa voi liikkua\n"
+"näppäimistöllä ja kontekstivalikosta (hiiren oikea painike).\n"
+"Se ei tue kuvien esittämistä eikä JavaScriptiä. Ellei\n"
+"tiedostonimeä tai verkko-osoitetta anneta, esitetään\n"
+"IceWM:n käsikirja osoitteesta %s.\n"
+"\n"
+"Valitsimet:\n"
+"  -d, --display=NIMI  Käytettävän X-palvelimen nimi.\n"
+"  --sync              Tahdista X11-komennot.\n"
+"\n"
+"  -B                  Näytä IceWM:n icewmbg-man-sivu.\n"
+"  -b, --bugs          Näytä IceWM:n vikailmoitukset (alkeellisesti).\n"
+"  -f, --faq           Näytä IceWM:n UKK ja Howto.\n"
+"  -g                  Näytä IceWM:n Github-sivu.\n"
+"  -i, --icewm         Näytä IceWM:n icewm-man-sivu.\n"
+"  -m, --manual        Näytä IceWM:n käsikirja (oletus).\n"
+"  -s                  Näytä IceWM:n icesound-man-sivu.\n"
+"  -t, --theme         Näytä IceWM:n teemojen Howto.\n"
+"  -w, --website       Näytä IceWM:n verkkosivusto.\n"
+"\n"
+"  -V, --version       Tulosta versiotiedot ja lopeta.\n"
+"  -h, --help          Tulosta tämä ohje ja lopeta.\n"
+"\n"
+"Ympäristömuuttujat:\n"
+"  DISPLAY=NIMI        Käytettävän X-palvelimen nimi.\n"
+"\n"
+"Vikailmoitukset, tukipyynnöt ja kommentit voi jättää sivulle:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2283
 #, c-format
@@ -541,10 +572,8 @@ msgid "Motif decorations"
 msgstr "Motif kehykset"
 
 #: src/icesh.cc:1870
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME ikkunan tila"
+msgstr "EWMH:n ikkunan tila"
 
 #: src/icesh.cc:1952 src/icesh.cc:2025
 #, c-format
