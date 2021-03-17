@@ -50,7 +50,8 @@ void BrowseMenu::updatePopup() {
 
             YMenu *sub = nullptr;
             if (npath.dirExists())
-                sub = new BrowseMenu(app, smActionListener, wmActionListener, npath);
+                sub = new BrowseMenu(app, smActionListener,
+                                     getActionListener(), npath);
 
             DFile *pfile = new DFile(app, entry, null, npath);
             YMenuItem *item = add(new DObjectMenuItem(pfile));

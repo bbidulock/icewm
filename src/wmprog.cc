@@ -49,8 +49,8 @@ void DFile::open() {
 }
 
 ObjectMenu::ObjectMenu(YActionListener *actionListener, YWindow *parent):
-        YMenu(parent),
-        wmActionListener(nullptr) {
+    YMenu(parent)
+{
     setActionListener(actionListener);
 }
 
