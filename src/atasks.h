@@ -3,12 +3,14 @@
 
 #include "ywindow.h"
 #include "ytimer.h"
+#include "yaction.h"
 
 class TaskPane;
 class TaskButton;
 class TaskBarApp;
 class IAppletContainer;
 class ClientData;
+class YMenu;
 
 class TaskBarApp {
 public:
@@ -24,8 +26,11 @@ public:
 
     int getOrder() const;
     void setFlash(bool urgent);
-    void setToolTip(mstring tip);
+    void setToolTip(const mstring& tip);
     void repaint();
+
+    mstring getTitle();
+    mstring getIconTitle();
 
 private:
     ClientData* fFrame;
@@ -33,14 +38,19 @@ private:
     bool fShown;
 };
 
-class TaskButton: public YWindow, private YTimerListener {
+class TaskButton:
+    public YWindow,
+    private YTimerListener,
+    private YActionListener
+{
 public:
     TaskButton(TaskPane* taskPane);
     virtual ~TaskButton();
 
     void setShown(TaskBarApp* app, bool show);
-    bool getShown() const;
+    bool getShown();
     virtual bool isFocusTraversable();
+    virtual void updateToolTip();
 
     virtual void paint(Graphics& g, const YRect& r);
     virtual void handleButton(const XButtonEvent& button);
@@ -52,6 +62,7 @@ public:
     virtual void handleExpose(const XExposeEvent& expose);
     virtual void configure(const YRect2& r);
     virtual void repaint();
+    virtual void actionPerformed(YAction action, unsigned modifiers);
 
     void activate() const;
     void addApp(TaskBarApp* app);
@@ -64,11 +75,14 @@ public:
     TaskBarApp* getActive() const { return fActive; }
     ClientData* getFrame() const { return fActive->getFrame(); }
     TaskPane* taskPane() const { return fTaskPane; }
+    bool grouping() const { return fTaskGrouping; }
+    int estimate();
     static unsigned maxHeight();
 
 private:
     TaskPane* fTaskPane;
     TaskBarApp* fActive;
+    const bool fTaskGrouping;
     bool fRepainted;
     bool fShown;
     bool fFlashing;
@@ -77,6 +91,11 @@ private:
     int selected;
     lazy<YTimer> fFlashTimer;
     lazy<YTimer> fRaiseTimer;
+
+    typedef YArray<TaskBarApp*> GroupType;
+    typedef GroupType::IterType IterGroup;
+    GroupType fGroup;
+    lazy<YMenu> fMenu;
 
     virtual bool handleTimer(YTimer* t);
     ref<YFont> getFont();
@@ -120,6 +139,9 @@ public:
     void switchToNext();
     void movePrev();
     void moveNext();
+
+    bool grouping() const { return fTaskGrouping; }
+
 private:
     IAppletContainer* fTaskBar;
 
@@ -139,6 +161,7 @@ private:
 
     bool fNeedRelayout;
     bool fForceImmediate;
+    const bool fTaskGrouping;
 };
 
 #endif
