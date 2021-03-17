@@ -1,8 +1,6 @@
 #ifndef __SWITCH_H
 #define __SWITCH_H
 
-#include "ymenu.h"
-
 class YFrameWindow;
 class YWindowManager;
 class YIcon;
