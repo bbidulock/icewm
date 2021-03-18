@@ -3,6 +3,8 @@
 
 /* events don't get queued... is that a problem ? */
 
+#include "ytime.h"
+
 #define XA_GUI_EVENT_NAME "ICEWM_GUI_EVENT"
 
 enum GUIEvent {
@@ -57,6 +59,16 @@ static const char* gui_event_names[NUM_GUI_EVENTS] =
 };
 
 #endif
+
+class GuiSignaler {
+public:
+    GuiSignaler();
+    void signal(GUIEvent e);
+    const char* name(GUIEvent e);
+private:
+    bool started;
+    timeval next;
+};
 
 #endif
 

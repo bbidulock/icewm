@@ -6,6 +6,8 @@
 #include "config.h"
 #define WMAPP
 #include "appnames.h"
+#define GUI_EVENT_NAMES
+#include "guievent.h"
 #include "yfull.h"
 #include "wmprog.h"
 #include "wmwinmenu.h"
@@ -1332,33 +1334,7 @@ bool YWMApp::handleIdle() {
 }
 
 void YWMApp::signalGuiEvent(GUIEvent ge) {
-    /*
-     * The first event must be geStartup.
-     * Ignore all other events before that.
-     */
-    static bool started;
-    if (ge == geStartup)
-        started = true;
-    else if (started == false)
-        return;
-
-    /*
-     * Because there is no event buffering,
-     * when multiple events occur in a burst,
-     * only signal the first event of the burst.
-     */
-    timeval now = monotime();
-    static timeval next;
-    if (now < next && ge != geStartup) {
-        return;
-    }
-    next = now + millitime(100L);
-
-    unsigned char num = (unsigned char)ge;
-
-    XChangeProperty(xapp->display(), desktop->handle(),
-                    _XA_ICEWM_GUIEVENT, _XA_ICEWM_GUIEVENT,
-                    8, PropModeReplace, &num, 1);
+    guiSignaler->signal(ge);
 }
 
 bool YWMApp::filterEvent(const XEvent &xev) {
@@ -1837,6 +1813,51 @@ YWindow* YWMApp::splash(const char* splashFile) {
         }
     }
     return window;
+}
+
+GuiSignaler::GuiSignaler() :
+    started(false),
+    next(zerotime())
+{
+}
+
+const char* GuiSignaler::name(GUIEvent e) {
+    return gui_event_names[e];
+}
+
+void GuiSignaler::signal(GUIEvent ge) {
+    /*
+     * The first event must be geStartup.
+     * Ignore all other events before that.
+     */
+    if (started == false) {
+        if (ge == geStartup) {
+            started = true;
+        } else {
+            // tlog("%s: not started for %s", __func__, name(ge));
+            return;
+        }
+    }
+
+    /*
+     * Because there is no event buffering,
+     * when multiple events occur in a burst,
+     * only signal the first event of the burst.
+     */
+    timeval now = monotime();
+    if (now < next && ge != geStartup) {
+        // tlog("%s: ignoring %s", __func__, name(ge));
+        return;
+    }
+
+    // tlog("%s: signaling %s", __func__, name(ge));
+    next = now + millitime(ge == geStartup ? 1000L : 100L);
+
+    unsigned char num = static_cast<unsigned char>(ge);
+
+    XChangeProperty(xapp->display(), desktop->handle(),
+                    _XA_ICEWM_GUIEVENT, _XA_ICEWM_GUIEVENT,
+                    8, PropModeReplace, &num, 1);
 }
 
 // vim: set sw=4 ts=4 et:

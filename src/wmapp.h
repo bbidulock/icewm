@@ -128,6 +128,7 @@ private:
     lazy<YTimer> errorTimer;
     lazy<YTimer> splashTimer;
     lazy<YWindow> splashWindow;
+    lazy<GuiSignaler> guiSignaler;
 
     void createTaskBar();
     YWindow* splash(const char* splashFile);
