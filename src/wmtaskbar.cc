@@ -618,8 +618,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
 void TaskBar::relayoutNow() {
     if (fUpdates.nonempty()) {
-        for (YFrameWindow* frame : fUpdates) {
-            frame->updateAppStatus();
+        for (int i = fUpdates.getCount(); --i >= 0; ) {
+            if (i < fUpdates.getCount() && fUpdates[i]) {
+                fUpdates[i]->updateAppStatus();
+            }
         }
         fUpdates.clear();
     }
