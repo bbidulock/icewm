@@ -88,6 +88,12 @@ void YWindowManager::actionPerformed(YAction action, unsigned modifiers) {
             return ;
         }
     }
+    for (int w = 0; w < workspaceCount; w++) {
+        if (workspaceActionActivate[w] == action) {
+            activateWorkspace(w);
+            return ;
+        }
+    }
 }
 
 WindowListMenu::WindowListMenu(YActionListener *app, YWindow *parent):
