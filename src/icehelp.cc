@@ -946,6 +946,7 @@ FontRef FontTable::get(int size, int flags) {
 class HTListener {
 public:
     virtual void activateURL(mstring url, bool relative = false) = 0;
+    virtual void openBrowser(mstring url) = 0;
     virtual void handleClose() = 0;
 protected:
     virtual ~HTListener() {}
@@ -1072,9 +1073,12 @@ public:
 
     virtual void handleClick(const XButtonEvent &up, int /*count*/);
 
-    virtual void actionPerformed(YAction action, unsigned int /*modifiers*/) {
+    virtual void actionPerformed(YAction action, unsigned int modifiers = 0) {
         if (action == actionClose) {
             listener->handleClose();
+        }
+        else if (action == actionBrowser) {
+            listener->openBrowser(history.current());
         }
         else if (action == actionNext) {
             if (actionNext->isEnabled())
@@ -1168,6 +1172,7 @@ private:
     ActionItem actionIndex;
     ActionItem actionPrev;
     ActionItem actionNext;
+    ActionItem actionBrowser;
     ActionItem actionContents;
     ActionItem actionLink[10];
     HTListener *listener;
@@ -1230,6 +1235,8 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     actionIndex = menu->addItem(_("Index"), 0, null, actionIndex);
     actionIndex->setEnabled(false);
     menu->addSeparator();
+    actionBrowser = menu->addItem(_("Open in Browser"), 0, _("Ctrl+B"),
+                                  actionBrowser);
     actionClose = menu->addItem(_("Close"), 0, _("Ctrl+Q"), actionClose);
     menu->addSeparator();
 
@@ -1767,17 +1774,21 @@ bool HTextView::handleKey(const XKeyEvent &key) {
         int m = KEY_MODMASK(key.state);
         if ((m & ControlMask) != 0 && (m & ~ControlMask) == 0) {
             if (k == XK_q) {
-                actionPerformed(actionClose, 0);
+                actionPerformed(actionClose);
+                return true;
+            }
+            if (k == XK_b) {
+                actionPerformed(actionBrowser);
                 return true;
             }
         }
         if ((m & xapp->AltMask) != 0 && (m & ~xapp->AltMask) == 0) {
             if (k == XK_Left || k == XK_KP_Left) {
-                actionPerformed(actionLeft, 0);
+                actionPerformed(actionLeft);
                 return true;
             }
             if (k == XK_Right || k == XK_KP_Right) {
-                actionPerformed(actionRight, 0);
+                actionPerformed(actionRight);
                 return true;
             }
         }
@@ -1818,6 +1829,7 @@ public:
     }
 
     void activateURL(mstring url, bool relative = false);
+    void openBrowser(mstring url);
 
     virtual void configure(const YRect &r) {
         YWindow::configure(r);
@@ -1834,6 +1846,8 @@ private:
     bool loadFile(upath path);
     bool loadHttp(upath path);
     void invalidPath(upath path, const char *reason);
+    void run(const char* path, const char* arg1 = nullptr,
+             const char* arg2 = nullptr, const char* arg3 = nullptr);
 
     upath fPath;
     YApplication *app;
@@ -1977,6 +1991,60 @@ void FileView::activateURL(mstring url, bool relative) {
     fPath = path;
 }
 
+void FileView::openBrowser(mstring url) {
+    char* env = getenv("BROWSER");
+    mstring brow(nonempty(env) && !strchr(env, '/')
+                 ? mstring("/usr/bin/") + env : env);
+    if (brow != null && upath(brow).isExecutable()) {
+        run(brow, url);
+    }
+    else if (upath("/usr/bin/xdg-open").isExecutable()) {
+        run("/usr/bin/xdg-open", url);
+    }
+    else if (upath("/usr/bin/gnome-open").isExecutable()) {
+        run("/usr/bin/gnome-open", url);
+    }
+    else if (upath("/usr/bin/kde-open").isExecutable()) {
+        run("/usr/bin/kde-open", url);
+    }
+    else if (upath("/usr/bin/gio").isExecutable()) {
+        run("/usr/bin/gio", "open", url);
+    }
+    else if (upath("/usr/bin/python3").isExecutable()) {
+        run("/usr/bin/python3", "-m", "webbrowser", url);
+    }
+    else if (upath("/usr/bin/python").isExecutable()) {
+        run("/usr/bin/python", "-m", "webbrowser", url);
+    }
+    else if (upath("/usr/bin/sensible-browser").isExecutable()) {
+        run("/usr/bin/sensible-browser", url);
+    }
+}
+
+void FileView::run(const char* path, const char* arg1,
+                   const char* arg2, const char* arg3)
+{
+    char* args[] = {
+        const_cast<char*>(path),
+        const_cast<char*>(arg1),
+        const_cast<char*>(arg2),
+        const_cast<char*>(arg3),
+        nullptr
+    };
+    switch (fork()) {
+        case -1:
+            fail("fork");
+            break;
+        case 0:
+            if (execv(path, args) == -1) {
+                fail("exec %s", path);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 void FileView::invalidPath(upath path, const char *reason) {
     const char *cstr = path.string();
     const char *cfmt = _("Invalid path: %s\n");
@@ -2091,7 +2159,7 @@ public:
     bool downloadTo(const char *remote, const temp_file& local) {
         mstring cmd;
         if (curl.nonempty()) {
-            cmd = curl + " --compressed -s -o ";
+            cmd = curl + " --compressed --location -s -o ";
         }
         else if (wget.nonempty()) {
             cmd = wget + " -q -k -O ";
