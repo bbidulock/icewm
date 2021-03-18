@@ -74,7 +74,7 @@ public:
     virtual void handleClick(const XButtonEvent &up, int count) {
         if (up.button == 3 && count == 1) {
             YMenu *menu = folderMenu;
-            menu->popup(this, 0, 0, up.x_root, up.y_root,
+            menu->popup(this, nullptr, nullptr, up.x_root, up.y_root,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
