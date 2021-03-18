@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "ytimer.h"
 #include "yaction.h"
+#include "ypopup.h"
 
 class TaskPane;
 class TaskButton;
@@ -41,6 +42,7 @@ private:
 class TaskButton:
     public YWindow,
     private YTimerListener,
+    private YPopDownListener,
     private YActionListener
 {
 public:
@@ -63,7 +65,9 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
     virtual void actionPerformed(YAction action, unsigned modifiers);
+    virtual void handlePopDown(YPopupWindow *popup);
 
+    void popupGroup();
     void activate() const;
     void addApp(TaskBarApp* app);
     void remove(TaskBarApp* tapp);

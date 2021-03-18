@@ -550,6 +550,25 @@ ref<YFont> TaskButton::getActiveFont() {
     return activeTaskBarFont;
 }
 
+void TaskButton::popupGroup() {
+    fMenu->setActionListener(this);
+    fMenu->removeAll();
+    IterGroup iter = fGroup.iterator();
+    while (++iter) {
+        YAction act(EAction(301 + 2 * iter.where()));
+        YMenuItem* item = fMenu->addItem(iter->getTitle(), -2, null, act);
+        if (iter == fActive) {
+            item->setChecked(true);
+        }
+    }
+    int x = 0, y = taskBarAtTop * height();
+    mapToGlobal(x, y);
+    fMenu->popup(this, nullptr, this, x, y,
+                 YPopupWindow::pfCanFlipVertical |
+                 YPopupWindow::pfCanFlipHorizontal |
+                 YPopupWindow::pfPopupMenu);
+}
+
 void TaskButton::handleButton(const XButtonEvent& button) {
     YWindow::handleButton(button);
 
@@ -561,28 +580,12 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             selected = 2;
             repaint();
         }
-        if (button.button == Button1 && getCount() > 1) {
-            fMenu->setActionListener(this);
-            fMenu->removeAll();
-            IterGroup iter = fGroup.iterator();
-            while (++iter) {
-                YAction act(EAction(301 + 2 * iter.where()));
-                YMenuItem* item = fMenu->addItem(iter->getTitle(), -2, null, act);
-                if (iter == fActive) {
-                    item->setChecked(true);
-                }
-            }
-            int x = 0, y = taskBarAtTop * height();
-            mapToGlobal(x, y);
-            fMenu->popup(this, nullptr, nullptr, x, y,
-                         YPopupWindow::pfCanFlipVertical |
-                         YPopupWindow::pfCanFlipHorizontal |
-                         YPopupWindow::pfPopupMenu);
-        }
     }
     else if (button.type == ButtonRelease) {
         if (button.button == Button1 && selected == 2 && fActive) {
-            if (getFrame()->focused() && getFrame()->visibleNow() &&
+            if (fMenu) {
+            }
+            else if (getFrame()->focused() && getFrame()->visibleNow() &&
                 (!getFrame()->canRaise() || (button.state & ControlMask)))
             {
                 getFrame()->wmMinimize();
@@ -618,9 +621,6 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             selected = 0;
             repaint();
         }
-        if (fMenu && button.button == Button1) {
-            fMenu = null;
-        }
     }
 }
 
@@ -636,6 +636,9 @@ void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
         }
         fActive->activate();
     }
+}
+
+void TaskButton::handlePopDown(YPopupWindow* popup) {
     fMenu = null;
 }
 
@@ -671,9 +674,8 @@ void TaskButton::handleClick(const XButtonEvent& up, int /*count*/) {
     else if (up.button == Button5 && taskBarUseMouseWheel) {
         fTaskPane->switchToNext();
     }
-    else if (up.button == Button1 && fMenu && getCount() > 1) {
-        fMenu = null;
-        fActive->activate();
+    else if (up.button == Button1 && getCount() > 1) {
+        popupGroup();
     }
 }
 
@@ -843,9 +845,6 @@ TaskBarApp* TaskPane::addApp(ClientData* frame) {
 }
 
 void TaskPane::remove(TaskBarApp* task) {
-    if (task) {
-        task->button()->remove(task);
-    }
     findRemove(fApps, task);
 }
 
