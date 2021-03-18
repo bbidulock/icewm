@@ -114,9 +114,13 @@ void TaskButton::activate() const {
 
 bool TaskButton::getShown() {
     bool shown(fActive && fActive->getShown());
-    if (grouping()) {
-        for (IterGroup iter = fGroup.iterator(); !shown && ++iter; ) {
-            shown = iter->getShown();
+    if (!shown && grouping()) {
+        for (IterGroup iter = fGroup.reverseIterator(); ++iter; ) {
+            if (iter->getShown()) {
+                fActive = iter;
+                shown = true;
+                break;
+            }
         }
     }
     return shown;
@@ -152,6 +156,8 @@ void TaskButton::addApp(TaskBarApp* tapp) {
         updateToolTip();
     }
     fTaskPane->relayout();
+    if (visible())
+        repaint();
 }
 
 void TaskButton::remove(TaskBarApp* tapp) {
@@ -167,15 +173,36 @@ void TaskButton::remove(TaskBarApp* tapp) {
     if (fActive == nullptr) {
         fTaskPane->remove(this);
     }
-    else if (toolTipVisible()) {
-        updateToolTip();
+    else if (visible()) {
+        if (getShown())
+            repaint();
+        else
+            fTaskPane->relayout();
+        if (toolTipVisible())
+            updateToolTip();
     }
 }
 
 void TaskButton::setShown(TaskBarApp* tapp, bool ashow) {
     if (grouping()) {
-        if (getShown() != visible())
-            fTaskPane->relayout();
+        bool gdraw = (tapp == fActive);
+        bool shown = getShown();
+        if (ashow < shown && tapp == fActive) {
+            for (IterGroup iter = fGroup.reverseIterator(); ++iter; ) {
+                if (iter->getShown()) {
+                    fActive = iter;
+                    gdraw = true;
+                    break;
+                }
+            }
+        }
+        else if (ashow > shown) {
+            fActive = tapp;
+            gdraw = true;
+        }
+        fTaskPane->relayout();
+        if (visible() && gdraw)
+            repaint();
     }
     else if (tapp == fActive) {
         if (ashow != visible())
@@ -402,6 +429,8 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
         }
     }
 
+    int groupCount = getCount();
+    bool groupings = (groupCount > 1);
     bool textDrawn = false;
     int textX = 0;
     int textY = 0;
@@ -428,22 +457,22 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
             if (0 < wm && p + tx + wm < int(width())) {
                 textX = p + tx;
                 textY = p + ty;
-                g.drawStringEllipsis(textX, textY, str, wm);
+                int x = groupings * (font->ascent() + font->descent()) / 2;
+                g.drawStringEllipsis(textX + x, textY, str, wm);
                 textDrawn = true;
             }
         }
     }
 
-    int grouped = getCount();
-    if (grouped > 1 && (iconDrawn || textDrawn)) {
+    if (groupCount > 1 && (iconDrawn || textDrawn)) {
         char text[32];
-        snprintf(text, sizeof text, "%d", grouped);
+        snprintf(text, sizeof text, "%d", groupCount);
 
         ref<YFont> font(getNormalFont());
         int fw = font->textWidth(text, strlen(text));
         int fh = font->ascent();
         int ac = max(fw, fh);
-        int gx = textDrawn ? textX - 2 - 2 * iconDrawn : iconX;
+        int gx = textDrawn ? textX - 2 - 4 * iconDrawn : iconX;
         int gy = textDrawn ? textY - ac + font->descent()
                            : iconY + iconSize - fh - 1;
 
@@ -543,7 +572,7 @@ void TaskButton::handleButton(const XButtonEvent& button) {
                     item->setChecked(true);
                 }
             }
-            int x = 0, y = 0;
+            int x = 0, y = taskBarAtTop * height();
             mapToGlobal(x, y);
             fMenu->popup(this, nullptr, nullptr, x, y,
                          YPopupWindow::pfCanFlipVertical |
@@ -814,6 +843,9 @@ TaskBarApp* TaskPane::addApp(ClientData* frame) {
 }
 
 void TaskPane::remove(TaskBarApp* task) {
+    if (task) {
+        task->button()->remove(task);
+    }
     findRemove(fApps, task);
 }
 
