@@ -213,7 +213,7 @@ libitk_la_SOURCES = \
 	yicon.cc \
 	yicon.h \
 	yimage.h \
-	yinput.cc \
+	yinputline.cc \
 	yinputline.h \
 	ykey.h \
 	ylabel.cc \
@@ -278,6 +278,7 @@ icewm_SOURCES = \
 	yactionbutton.h \
 	objmenu.h \
 	objbutton.h \
+	objbutton.cc \
 	WinMgr.h \
 	ypoll.h \
 	ylib.h \

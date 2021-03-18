@@ -31,6 +31,7 @@ src/misc.cc
 src/movesize.cc
 src/mstring.cc
 src/objbar.cc
+src/objbutton.cc
 src/ref.cc
 src/strtest.cc
 src/testarray.cc
@@ -74,7 +75,7 @@ src/yfontcore.cc
 src/yfontxft.cc
 src/yicon.cc
 src/yimage_gdk.cc
-src/yinput.cc
+src/yinputline.cc
 src/ylabel.cc
 src/ylistbox.cc
 src/ylocale.cc
