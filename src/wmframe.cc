@@ -3224,6 +3224,7 @@ void YFrameWindow::updateAppStatus() {
         taskBar->relayoutTray();
 
         bool needTaskBarApp = true;
+        bool grouping = false;
 
         if (isSkipTaskBar())
             needTaskBarApp = false;
@@ -3235,8 +3236,10 @@ void YFrameWindow::updateAppStatus() {
             needTaskBarApp = false;
         if (owner() != nullptr && !taskBarShowTransientWindows)
             needTaskBarApp = false;
-        if (!visibleNow() && !taskBarShowAllWindows)
+        if (!visibleNow() && !taskBarShowAllWindows) {
+            grouping = taskBarTaskGrouping;
             needTaskBarApp = false;
+        }
         if (isUrgent())
             needTaskBarApp = true;
 
@@ -3245,7 +3248,7 @@ void YFrameWindow::updateAppStatus() {
         if (frameOption(foNoIgnoreTaskBar))
             needTaskBarApp = true;
 
-        if (needTaskBarApp && fTaskBarApp == nullptr)
+        if ((needTaskBarApp || grouping) && fTaskBarApp == nullptr)
             fTaskBarApp = taskBar->addTasksApp(this);
 
         if (fTaskBarApp) {
