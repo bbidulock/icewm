@@ -33,8 +33,6 @@ public:
     void setEnabled(bool e) { fEnabled = e; }
     void setSubmenu(YMenu *submenu) { fSubmenu = submenu; }
 
-    virtual void actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers);
-
     int queryHeight(int &top, int &bottom, int &pad) const;
 
     int getIconWidth() const;

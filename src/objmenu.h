@@ -13,8 +13,8 @@ class DObjectMenuItem: public YMenuItem {
 public:
     DObjectMenuItem(DObject *object);
     virtual ~DObjectMenuItem();
+    DObject* getObject() { return fObject; }
 
-    virtual void actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers);
 private:
     DObject *fObject;
 };

@@ -41,7 +41,11 @@ public:
     virtual void handleButton(const XButtonEvent &button);
 };
 
-class YWindowManager: private YDesktop, private YMsgBoxListener {
+class YWindowManager:
+    private YDesktop,
+    private YMsgBoxListener,
+    private YActionListener
+{
 public:
     YWindowManager(
         IApp *app,
@@ -70,6 +74,7 @@ public:
     virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
+    virtual void actionPerformed(YAction action, unsigned modifiers);
 
     void manageClients();
     void unmanageClients();

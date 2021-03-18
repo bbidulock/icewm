@@ -66,11 +66,6 @@ void YMenuItem::setIcon(ref<YIcon> icon) {
     fIcon = icon;
 }
 
-void YMenuItem::actionPerformed(YActionListener *listener, YAction action, unsigned int modifiers) {
-    if (listener && action != actionNull)
-        listener->actionPerformed(action, modifiers);
-}
-
 int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
     top = bottom = pad = 0;
 

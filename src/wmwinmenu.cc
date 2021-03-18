@@ -21,31 +21,6 @@
 
 #include "intl.h"
 
-class ActivateWindowMenuItem: public YMenuItem {
-public:
-    ActivateWindowMenuItem(YFrameWindow *frame):
-        YMenuItem(frame->getTitle(), -1, null, YAction(), nullptr),
-        fFrame(frame)
-    {
-        if (fFrame->clientIcon() != null)
-            setIcon(fFrame->clientIcon());
-    }
-
-    void actionPerformed(YActionListener *, YAction, unsigned modifiers) override {
-        for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
-            if (f == fFrame) {
-                if (modifiers & ShiftMask)
-                    f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
-                f->activateWindow(true, false);
-                return ;
-            }
-        }
-    }
-private:
-    YFrameWindow *fFrame;
-};
-
-
 YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
     if (!menu)
         menu = new YMenu();
@@ -86,14 +61,33 @@ YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
                     ((layerCount == 0 && layer > 0) && needSeparator))
                     menu->addSeparator();
 
-                menu->add(new ActivateWindowMenuItem(frame));
+                YAction action(EAction(int(frame->handle())));
+                YMenuItem* item = new YMenuItem(frame->getTitle(), -1, null,
+                                                action, nullptr);
+                if (item) {
+                    if (frame->clientIcon() != null)
+                        item->setIcon(frame->clientIcon());
+                    menu->add(item);
+                }
                 levelCount++;
                 layerCount++;
                 needSeparator = true;
             }
         }
     }
+    menu->setActionListener(this);
     return menu;
+}
+
+void YWindowManager::actionPerformed(YAction action, unsigned modifiers) {
+    for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
+        if (int(f->handle()) == action.ident()) {
+            if (modifiers & ShiftMask)
+                f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
+            f->activateWindow(true, false);
+            return ;
+        }
+    }
 }
 
 WindowListMenu::WindowListMenu(YActionListener *app, YWindow *parent):

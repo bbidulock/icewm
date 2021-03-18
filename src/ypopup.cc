@@ -203,9 +203,6 @@ bool YPopupWindow::popup(YWindow *owner,
 
 void YPopupWindow::popdown() {
     if (fUp) {
-        if (fPopDownListener)
-            fPopDownListener->handlePopDown(this);
-
         deactivatePopup();
         xapp->popdown(this);
         hide();
@@ -213,6 +210,9 @@ void YPopupWindow::popdown() {
 
         fFlags = 0;
         fForWindow = nullptr;
+
+        if (fPopDownListener)
+            fPopDownListener->handlePopDown(this);
     }
 }
 

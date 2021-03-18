@@ -40,15 +40,13 @@ void YMenu::setActionListener(YActionListener *actionListener) {
     fActionListener = actionListener;
 }
 
-void YMenu::finishPopup(YMenuItem *item, YAction action,
-                        unsigned int modifiers)
-{
+void YMenu::finishPopup(YMenuItem *item, YAction action, unsigned modifiers) {
     YActionListener *cmd = fActionListener;
 
     YPopupWindow::finishPopup();
 
-    if (item)
-        item->actionPerformed(cmd, action, modifiers);
+    if (cmd)
+        cmd->actionPerformed(action, modifiers);
 }
 
 lazy<YTimer> YMenu::fMenuTimer;

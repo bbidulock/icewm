@@ -30,11 +30,6 @@ DObjectMenuItem::~DObjectMenuItem() {
     delete fObject;
 }
 
-void DObjectMenuItem::actionPerformed(YActionListener * /*listener*/, YAction /*action*/, unsigned int /*modifiers*/) {
-    wmapp->signalGuiEvent(geLaunchApp);
-    fObject->open();
-}
-
 DFile::DFile(IApp *app, const mstring &name, ref<YIcon> icon, upath path): DObject(app, name, icon) {
     this->app = app;
     fPath = path;
@@ -217,8 +212,11 @@ public:
     virtual void accept(IClosablePopup *parent) override {
         YMenuItem* item = menu->getItem(zTarget);
         if (!item) return;
-        // even through all the obscure "abstraction" it should just run DObjectMenuItem::actionPerformed
-        item->actionPerformed(nullptr, actionRun, 0);
+        // just run DObjectMenuItem::actionPerformed
+        DObjectMenuItem* dobj = dynamic_cast<DObjectMenuItem*>(item);
+        if (!dobj) return;
+        wmapp->signalGuiEvent(geLaunchApp);
+        dobj->getObject()->open();
         parent->close();
     }
 
