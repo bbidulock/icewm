@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2020-12-18 21:26+0000\n"
+"PO-Revision-Date: 2021-03-19 18:56+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -285,16 +285,12 @@ msgstr ""
 "  Tempo de conexão:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "nome do ícone previsto"
+msgstr "desconectado"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Desenrolar"
+msgstr "desligado"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -337,16 +333,12 @@ msgid "Index"
 msgstr "Índice"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Navegador Web"
+msgstr "Abrir no navegador"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
@@ -1377,13 +1369,15 @@ msgstr ""
 
 #: src/wmapp.cc:770
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Confirmar reinício como terminal"
 
 #: src/wmapp.cc:771
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Cancelar o gerenciamento de todos os\n"
+"aplicativos como terminal. Proceder?"
 
 #: src/wmapp.cc:1075 src/yxapp.cc:1031
 msgid "<none>"
