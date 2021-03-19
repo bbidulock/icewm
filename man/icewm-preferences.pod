@@ -247,6 +247,10 @@ Treat Super/Win modifier as Ctrl+Alt.
 Support mouse wheel. When pressing Ctrl+Alt rotating the mouse wheel
 on the root window will cycle the focus over the windows.
 
+=item B<TaskBarTaskGrouping>=0
+
+Group applications with the same class name under a single task button.
+
 =item B<ShowPopupsAbovePointer>=0
 
 Show popup menus above mouse pointer.

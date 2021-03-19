@@ -1,8 +1,8 @@
 = IceWM Manual
 :!webfonts:
 :author: Marko Macek
-:revdate: 2017 November 18
-:revnumber: 1.4.2
+:revdate: 2021 March 17
+:revnumber: 2.2.1
 :homepage: https://ice-wm.org/
 :toc:
 :toclevels: 2
@@ -11,7 +11,7 @@
 == Introduction
 
 This document is the manual for the *IceWM* X11 window manager.
-The https://ice-wm.org/man[IceWM manpages] provide additional
+The https://ice-wm.org/man/[IceWM manpages] provide additional
 documentation.
 
 The goal of IceWM is to provide a small, fast and familiar window
@@ -23,9 +23,9 @@ currently possible when using mouse focus).
 IceWM originally was designed to emulate the look of Motif, OS/2
 Warp 4, OS/2 Warp 3 and Windows 95. Since it has a theming engine
 others styles are possible. A large number of original themes have
-been created and https://themes.ice-wm.org[published by users].
+been created and https://themes.ice-wm.org/[published by users].
 
-Further information can be found at https://ice-wm.org[the IceWM
+Further information can be found at https://ice-wm.org/[the IceWM
 website],
 at the https://github.com/bbidulock/icewm/[current site of
 development],
@@ -87,7 +87,7 @@ distribution and make sure that there is no concurrency between the
 X startup scripts. Ensure that the script is executable. Mine looks
 something like this:
 
-----
+....
 #!/bin/bash
 # run profile to set $PATH and other env vars correctly
 . $HOME/.bash_profile
@@ -98,7 +98,7 @@ xinput set-ptr-feedback 0 7 1.9 1
 # start icewm-session
 exec icewm-session
 xterm
-----
+....
 
 The xterm on the last line is there simply to make sure that your X
 session doesn't crash if IceWM does (should never happen). You can
@@ -115,14 +115,14 @@ executable `icewm-session` will run this script. During termination of
 
 Example `~/.icewm/startup` script:
 
-----
+....
 #!/bin/bash
 
 [ -x ~/.icewm/restart ] && source ~/.icewm/restart
 
 gnome-terminal --geometry 80x25+217+235 &
 xscreensaver &
-----
+....
 
 On termination the `shutdown` script will be run first, then
 `icewm-session` will terminate icewm and icewmbg.
@@ -679,7 +679,11 @@ Treat Super/Win modifier as Ctrl+Alt.
 
 * `UseMouseWheel = 0`
 +
-mouse wheel support
+Mouse wheel support.
+
+* `TaskBarTaskGrouping = 0`
++
+Group applications with the same class name under a single task button.
 
 * `ShowPopupsAbovePointer = 0`
 +
@@ -973,11 +977,14 @@ Show windows on the taskbar.
 
 * `TaskBarShowShowDesktopButton = 1`
 +
-Show 'show desktop' button on taskbar. If set to 2, it will move the icon to the right side, after the clock.
+Show 'show desktop' button on taskbar.
+If set to 2, it will move the icon to the right side, after the clock.
 
-* `ShowEllipsis = 1`
+* `ShowEllipsis = 0`
 +
-Show Ellipsis in taskbar items and some other locations. This is a visual indicator (like "..." or its nicer Unicode version) showing that a string didn't fit into the visible area or there is additional content behind this entry.
+Show Ellipsis in taskbar items and some other locations. This is a
+visual indicator like "..." to show that a string didn't fit into
+the visible area.
 
 * `TaskBarShowTray = 1`
 +
@@ -1039,9 +1046,9 @@ Show CPU frequency in CPU status tool tip.
 
 * `NetStatusShowOnlyRunning = 0`
 +
-Show network status only for connected devices, such as an active ethernet link
-or associated wireless interface. If false, any network interface that has been
-brought up will be displayed.
+Show network status only for connected devices, such as an active
+ethernet link or associated wireless interface. If false, any network
+interface that has been brought up will be displayed.
 
 * `TaskBarShowMEMStatus = 1`
 +
@@ -2672,7 +2679,7 @@ of themes which were created by users of IceWM.
 
 `icewm` supports the following options:
 
-----
+....
 -d, --display=NAME
 NAME of the X server to use.
 
@@ -2711,7 +2718,7 @@ Print the configuration directories.
 
 -l, --list-themes
 Print a list of all available themes.
-----
+....
 
 The restart option can be used to reload the IceWM configuration
 after modifications. It is the preferred way to restart IceWM from

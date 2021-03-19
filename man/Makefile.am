@@ -106,6 +106,8 @@ $(icewm_man1_htmls) $(extra_man1_htmls): %.1.html: %.pod
 		-e 's,([^A-Z/])CFGDIR/,\1$(CFGDIR)/,g' \
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
 		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
+		-e 's,<h1,<h2,g' \
+		-e 's,h1>,h2>,g' \
 		-e 's,http:,https:,g' $@ && rm -f $@.bak
 
 $(icewm_man5_htmls): %.5.html: %.pod
