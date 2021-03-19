@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-03-14 12:21+0100\n"
+"POT-Creation-Date: 2021-03-19 16:18+0100\n"
 "PO-Revision-Date: 2018-08-03 22:07+0000\n"
 "Last-Translator: Ad Soyad <kalemlik100@yandex.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -292,125 +292,135 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Çalışma Alanı: "
 
-#: src/icehelp.cc:1221
+#: src/icehelp.cc:1226
 msgid "Back"
 msgstr "Geri"
 
-#: src/icehelp.cc:1221
+#: src/icehelp.cc:1226
 msgid "Alt+Left"
 msgstr "Alt+Sol"
 
-#: src/icehelp.cc:1223
+#: src/icehelp.cc:1228
 msgid "Forward"
 msgstr "İleri"
 
-#: src/icehelp.cc:1223
+#: src/icehelp.cc:1228
 msgid "Alt+Right"
 msgstr "Alt+Sağ"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1231
 msgid "Previous"
 msgstr "Önceki"
 
-#: src/icehelp.cc:1227
+#: src/icehelp.cc:1232
 msgid "Next"
 msgstr "Sonraki"
 
-#: src/icehelp.cc:1229
+#: src/icehelp.cc:1234
 msgid "Contents"
 msgstr "İçindekiler"
 
-#: src/icehelp.cc:1230
+#: src/icehelp.cc:1235
 msgid "Index"
 msgstr "Indeks"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1238
+msgid "Open in Browser"
+msgstr ""
+
+#: src/icehelp.cc:1238
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+B"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Kapat"
 
-#: src/icehelp.cc:1233 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1245
 msgid "Icewm(1)"
 msgstr ""
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1247
 msgid "Icewmbg(1)"
 msgstr ""
 
-#: src/icehelp.cc:1242
+#: src/icehelp.cc:1249
 msgid "Icesound(1)"
 msgstr ""
 
-#: src/icehelp.cc:1244
+#: src/icehelp.cc:1251
 msgid "FAQ"
 msgstr ""
 
-#: src/icehelp.cc:1246
+#: src/icehelp.cc:1253
 msgid "Manual"
 msgstr ""
 
-#: src/icehelp.cc:1248
+#: src/icehelp.cc:1255
 msgid "Support"
 msgstr ""
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1257
 #, fuzzy
 msgid "Theme Howto"
 msgstr "Tema Yazarı:"
 
-#: src/icehelp.cc:1252
+#: src/icehelp.cc:1259
 msgid "Website"
 msgstr ""
 
-#: src/icehelp.cc:1254
+#: src/icehelp.cc:1261
 msgid "Github"
 msgstr ""
 
-#: src/icehelp.cc:1957
+#: src/icehelp.cc:1971
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "Desteklenmeyen arabirim: %s."
 
-#: src/icehelp.cc:1982
+#: src/icehelp.cc:2050
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Hatalı yol: %s\n"
 
-#: src/icehelp.cc:2005
+#: src/icehelp.cc:2073
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:2010
+#: src/icehelp.cc:2078
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:2039
+#: src/icehelp.cc:2107
 #, fuzzy
 msgid "Failed to create a temporary file"
 msgstr "Anonim boru yaratılmadı: %s"
 
-#: src/icehelp.cc:2132
+#: src/icehelp.cc:2200
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2155
+#: src/icehelp.cc:2223
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "%s açılamadı: %s"
 
-#: src/icehelp.cc:2163
+#: src/icehelp.cc:2231
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2167
+#: src/icehelp.cc:2235
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2204
+#: src/icehelp.cc:2272
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -448,7 +458,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2283
+#: src/icehelp.cc:2351
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Bilinmeyen işlem: «%s»"
@@ -547,71 +557,71 @@ msgstr "GNOME pencere durumu"
 msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: «%s»\n"
 
-#: src/icesh.cc:2260 src/icesh.cc:3468 src/icesh.cc:3939
+#: src/icesh.cc:2260 src/icesh.cc:3470 src/icesh.cc:3941
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:3110
+#: src/icesh.cc:3112
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3135
+#: src/icesh.cc:3137
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:3184 src/icesh.cc:3230
+#: src/icesh.cc:3186 src/icesh.cc:3232
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:3196
+#: src/icesh.cc:3198
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "«%s» işlemi en az %d argüman gerektirir."
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3208
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Hatalı ifade: «%s»"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
+#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1074
 #: src/yxapp.cc:1030
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
 
-#: src/icesh.cc:3265
+#: src/icesh.cc:3267
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3280
+#: src/icesh.cc:3282
 msgid "No actions specified."
 msgstr "İşlem belirtilmedi."
 
-#: src/icesh.cc:3385
+#: src/icesh.cc:3387
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: «%s»"
 
-#: src/icesh.cc:3402
+#: src/icesh.cc:3404
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:3438
+#: src/icesh.cc:3440
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Hatalı argüman: «%s»."
 
-#: src/icesh.cc:4241
+#: src/icesh.cc:4243
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Bilinmeyen işlem: «%s»"
@@ -1063,174 +1073,174 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Hakkında"
 
-#: src/wmapp.cc:79
+#: src/wmapp.cc:81
 #, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "Başka bir pencere yöneticisi zaten çalışıyor..."
 
-#: src/wmapp.cc:97
+#: src/wmapp.cc:99
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr ""
 
-#: src/wmapp.cc:101
+#: src/wmapp.cc:103
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:106
+#: src/wmapp.cc:108
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:377
+#: src/wmapp.cc:379
 msgid "_Logout"
 msgstr "_Oturumu Kapat"
 
-#: src/wmapp.cc:378
+#: src/wmapp.cc:380
 msgid "_Cancel logout"
 msgstr "O_turum kapatmayı iptal et"
 
-#: src/wmapp.cc:383
+#: src/wmapp.cc:385
 msgid "Lock _Workstation"
 msgstr "_Bilgisayarı Kitle"
 
-#: src/wmapp.cc:385 src/wmdialog.cc:72
+#: src/wmapp.cc:387 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Bilgi_sayarı Yeniden Başlat"
 
-#: src/wmapp.cc:387 src/wmdialog.cc:73
+#: src/wmapp.cc:389 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Bilgisa_yarı Kapat"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:389 src/wmdialog.cc:69
+#: src/wmapp.cc:391 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:394
+#: src/wmapp.cc:396
 msgid "Restart _Icewm"
 msgstr "Icewm'i Yeniden Başlat"
 
-#: src/wmapp.cc:396
+#: src/wmapp.cc:398
 msgid "Restart _Xterm"
 msgstr "Xterm'i Yeniden Başlat"
 
-#: src/wmapp.cc:406
+#: src/wmapp.cc:408
 msgid "_Menu"
 msgstr "_Menü"
 
-#: src/wmapp.cc:407
+#: src/wmapp.cc:409
 msgid "_Above Dock"
 msgstr "_En üstte"
 
-#: src/wmapp.cc:408
+#: src/wmapp.cc:410
 msgid "_Dock"
 msgstr "_Daha üstte"
 
-#: src/wmapp.cc:409
+#: src/wmapp.cc:411
 msgid "_OnTop"
 msgstr "Üs_tte"
 
-#: src/wmapp.cc:410
+#: src/wmapp.cc:412
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:411
+#: src/wmapp.cc:413
 msgid "_Below"
 msgstr "_Altta"
 
-#: src/wmapp.cc:412
+#: src/wmapp.cc:414
 msgid "D_esktop"
 msgstr "Ma_saüstü"
 
-#: src/wmapp.cc:447 src/wmwinlist.cc:362
+#: src/wmapp.cc:449 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "_Eski haline"
 
-#: src/wmapp.cc:449
+#: src/wmapp.cc:451
 msgid "_Move"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:453
 msgid "_Size"
 msgstr "B_oyutlandır"
 
-#: src/wmapp.cc:453 src/wmwinlist.cc:363
+#: src/wmapp.cc:455 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "_Küçült"
 
-#: src/wmapp.cc:455 src/wmwinlist.cc:364
+#: src/wmapp.cc:457 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "_Büyüt"
 
-#: src/wmapp.cc:456 src/wmwinlist.cc:365
+#: src/wmapp.cc:458 src/wmwinlist.cc:365
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Büyüt"
 
-#: src/wmapp.cc:457 src/wmwinlist.cc:366
+#: src/wmapp.cc:459 src/wmwinlist.cc:366
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Büyüt"
 
-#: src/wmapp.cc:460 src/wmwinlist.cc:367
+#: src/wmapp.cc:462 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "Tam ek_ran"
 
-#: src/wmapp.cc:463 src/wmwinlist.cc:369
+#: src/wmapp.cc:465 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "G_izle"
 
-#: src/wmapp.cc:465 src/wmwinlist.cc:370
+#: src/wmapp.cc:467 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "_Sar"
 
-#: src/wmapp.cc:472
+#: src/wmapp.cc:474
 msgid "R_aise"
 msgstr "Y_ukarı Kaldır"
 
-#: src/wmapp.cc:474 src/wmwinlist.cc:372
+#: src/wmapp.cc:476 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "_Aşağı İndir"
 
-#: src/wmapp.cc:476 src/wmwinlist.cc:373
+#: src/wmapp.cc:478 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "Kat_man"
 
-#: src/wmapp.cc:480 src/wmwinlist.cc:375
+#: src/wmapp.cc:482 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:481 src/wmwinlist.cc:376
+#: src/wmapp.cc:483 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "_Hepsini Kapla"
 
-#: src/wmapp.cc:487
+#: src/wmapp.cc:489
 msgid "Limit _Workarea"
 msgstr "Çalışma alanını kısıtla"
 
-#: src/wmapp.cc:491 src/wmwinlist.cc:377
+#: src/wmapp.cc:493 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "_Tray'e küçült"
 
-#: src/wmapp.cc:496 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:498 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "Ka_pat"
 
-#: src/wmapp.cc:498 src/wmwinlist.cc:394
+#: src/wmapp.cc:500 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "_Istemciyi Öldür"
 
-#: src/wmapp.cc:501 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:503 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "Pen_cere listesi"
 
-#: src/wmapp.cc:534
+#: src/wmapp.cc:536
 msgid "Another window manager already running, exiting..."
 msgstr "Başka bir pencere yöneticisi zaten çalışıyor..."
 
-#: src/wmapp.cc:606
+#: src/wmapp.cc:608
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1239,33 +1249,33 @@ msgstr ""
 "Yeniden başlatılamıyor: %s\n"
 "$PATH, %s'i gösteriyor mu?"
 
-#: src/wmapp.cc:768
+#: src/wmapp.cc:770
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:769
+#: src/wmapp.cc:771
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1073 src/yxapp.cc:1031
+#: src/wmapp.cc:1075 src/yxapp.cc:1031
 msgid "<none>"
 msgstr "<yok>"
 
-#: src/wmapp.cc:1403
+#: src/wmapp.cc:1379
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1409
+#: src/wmapp.cc:1385
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1417
+#: src/wmapp.cc:1393
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1276,7 +1286,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1426
+#: src/wmapp.cc:1402
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1333,26 +1343,26 @@ msgstr ""
 "Hata raporları, destek talebi ve yorumlar için  https://ice-wm.org/ adresini "
 "ziyaret ediniz...\n"
 
-#: src/wmapp.cc:1488
+#: src/wmapp.cc:1464
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1570
+#: src/wmapp.cc:1546
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Tanınmayan seçenek: %s\n"
 
-#: src/wmapp.cc:1648
+#: src/wmapp.cc:1624
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tanınmayan seçenek: %s\n"
 
-#: src/wmapp.cc:1700
+#: src/wmapp.cc:1676
 msgid "Confirm Logout"
 msgstr "Oturum Kapatma Onayı"
 
-#: src/wmapp.cc:1701
+#: src/wmapp.cc:1677
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1423,7 +1433,7 @@ msgid "_Cancel"
 msgstr "_Vazgeç"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:528 src/wmprog.cc:530 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:526 src/wmprog.cc:528 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "_Oturumu Kapat..."
@@ -1433,7 +1443,7 @@ msgid "_Restart icewm"
 msgstr "I_ceVM'i Yeniden Başlat"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:496 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:494 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "_Hakkında"
 
@@ -1467,76 +1477,76 @@ msgstr "Bilinmeyen pencere seşeneği: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Pencere seçeneklerinde söz dizimi hatası"
 
-#: src/wmprog.cc:392
+#: src/wmprog.cc:390
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:393
+#: src/wmprog.cc:391
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:394
+#: src/wmprog.cc:392
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:395
+#: src/wmprog.cc:393
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:396
+#: src/wmprog.cc:394
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:397
+#: src/wmprog.cc:395
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:419
+#: src/wmprog.cc:417
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:420
+#: src/wmprog.cc:418
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:421
+#: src/wmprog.cc:419
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:422
+#: src/wmprog.cc:420
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:482
+#: src/wmprog.cc:480
 msgid "Programs"
 msgstr "Programlar"
 
-#: src/wmprog.cc:486
+#: src/wmprog.cc:484
 msgid "_Run..."
 msgstr "Çalıştır"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:490 src/wmtaskbar.cc:233
+#: src/wmprog.cc:488 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "P_encereler"
 
-#: src/wmprog.cc:501
+#: src/wmprog.cc:499
 msgid "_Help"
 msgstr "_Yardım"
 
-#: src/wmprog.cc:506
+#: src/wmprog.cc:504
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:511
+#: src/wmprog.cc:509
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:516
+#: src/wmprog.cc:514
 msgid "_Themes"
 msgstr "_Temalar"
 
-#: src/wmprog.cc:520
+#: src/wmprog.cc:518
 msgid "Se_ttings"
 msgstr ""
 
@@ -1590,7 +1600,7 @@ msgstr "_Simgeleri Düzenle"
 msgid "_Refresh"
 msgstr "Ye_nile"
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:965
+#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:967
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
@@ -1613,7 +1623,7 @@ msgstr "Pencere listesi menüsü"
 msgid "Show Desktop"
 msgstr "Ma_saüstü"
 
-#: src/wmtaskbar.cc:965
+#: src/wmtaskbar.cc:967
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
@@ -1720,44 +1730,44 @@ msgstr "«%s» font kümesi yüklenemedi."
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "«%s» font kümesi için code'setler eksik"
 
-#: src/yinput.cc:18
+#: src/yinputline.cc:18
 msgid "_Copy"
 msgstr "K_opyala"
 
-#: src/yinput.cc:18
+#: src/yinputline.cc:18
 msgid "Ctrl+C"
 msgstr "Ctrl+C"
 
-#: src/yinput.cc:19
+#: src/yinputline.cc:19
 msgid "Cu_t"
 msgstr "_Kes"
 
-#: src/yinput.cc:19
+#: src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/yinput.cc:20
+#: src/yinputline.cc:20
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: src/yinput.cc:20
+#: src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/yinput.cc:21
+#: src/yinputline.cc:21
 msgid "Paste _Selection"
 msgstr "_Seçimi Yapıştır"
 
-#: src/yinput.cc:21
+#: src/yinputline.cc:21
 #, fuzzy
 msgid "Ctrl+P"
 msgstr "Ctrl+Q"
 
-#: src/yinput.cc:23
+#: src/yinputline.cc:23
 msgid "Select _All"
 msgstr "_Hepsini Seç"
 
-#: src/yinput.cc:23
+#: src/yinputline.cc:23
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
