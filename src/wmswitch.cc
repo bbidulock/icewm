@@ -237,7 +237,7 @@ public:
         manager->getFocus()->wmClose();
     }
 
-    virtual void destroyedItem(void *item) override
+    virtual void destroyedItem(YFrameWindow* item) override
     {
         if (getCount() == 0)
             return;

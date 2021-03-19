@@ -45,7 +45,7 @@ public:
     virtual ref<YIcon> getIcon(int idx) =0;
 
     // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(void* framePtr) =0;
+    virtual void destroyedItem(YFrameWindow* framePtr) =0;
 
     virtual bool isKey(KeySym k, unsigned int mod) =0;
 

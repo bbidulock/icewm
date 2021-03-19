@@ -235,7 +235,7 @@ public:
     }
 
     // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(void* framePtr) override {
+    virtual void destroyedItem(YFrameWindow* framePtr) override {
     }
 
 };
