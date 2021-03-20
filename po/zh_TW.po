@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2021-03-07 15:26+0000\n"
+"PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
@@ -284,16 +284,12 @@ msgstr ""
 "  上線時間：\t%ld：%02ld：%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "需要圖示名稱"
+msgstr "已中斷連接"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "向下循環"
+msgstr "關閉"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -336,16 +332,12 @@ msgid "Index"
 msgstr "索引"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "網頁瀏覽器"
+msgstr "在瀏覽器中開啟"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
@@ -1359,13 +1351,15 @@ msgstr ""
 
 #: src/wmapp.cc:770
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "確認做為終端機重新啟動"
 
 #: src/wmapp.cc:771
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"取消管理所有應用程式并做為\n"
+"終端機重新啟動。是否繼續？"
 
 #: src/wmapp.cc:1075 src/yxapp.cc:1031
 msgid "<none>"
