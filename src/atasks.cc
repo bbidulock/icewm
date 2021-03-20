@@ -560,6 +560,7 @@ void TaskButton::popupGroup() {
         if (iter == fActive) {
             item->setChecked(true);
         }
+        item->setIcon(iter->getFrame()->getIcon());
     }
     int x = 0, y = taskBarAtTop * height();
     mapToGlobal(x, y);
