@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2021-03-19 09:56+0000\n"
+"PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
@@ -326,16 +326,12 @@ msgid "Index"
 msgstr "索引"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "网页浏览器"
+msgstr "在浏览器中打开"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
