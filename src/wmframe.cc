@@ -133,11 +133,7 @@ YFrameWindow::~YFrameWindow() {
         endMoveSize();
     if (fPopupActive)
         fPopupActive->cancelPopup();
-    if (taskBar) {
-        taskBar->delistFrame(this, fTaskBarApp, fTrayApp);
-        fTaskBarApp = nullptr;
-        fTrayApp = nullptr;
-    }
+    removeAppStatus();
     removeFromWindowList();
     if (fMiniIcon) {
         delete fMiniIcon;
@@ -3258,6 +3254,14 @@ void YFrameWindow::updateAppStatus() {
                 fTaskBarApp->repaint();
         }
         taskBar->relayoutTasks();
+    }
+}
+
+void YFrameWindow::removeAppStatus() {
+    if (taskBar) {
+        taskBar->delistFrame(this, fTaskBarApp, fTrayApp);
+        fTaskBarApp = nullptr;
+        fTrayApp = nullptr;
     }
 }
 

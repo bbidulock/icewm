@@ -332,6 +332,7 @@ public:
     void updateProperties();
     void updateTaskBar();
     void updateAppStatus();
+    void removeAppStatus();
 
     void setWindowType(WindowType winType) { fWindowType = winType; }
     bool isTypeDock() { return (fWindowType == wtDock); }
