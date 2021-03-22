@@ -506,6 +506,12 @@ Hide the frame borders and title.
 
 Show the frame borders and title.
 
+=item B<denormal>
+
+Remove the WM_NORMAL_HINTS property, if it exists.
+This lifts font-size restrictions on resizing,
+especially for terminals.
+
 =item B<prop> I<PROPERTY>
 
 Print the value of property I<PROPERTY> if it is present.

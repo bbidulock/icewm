@@ -4164,6 +4164,10 @@ void IceSh::parseAction()
                                      NetHorizontal | NetVertical;
             changeState(NormalState);
         }
+        else if (isAction("denormal", 0)) {
+            FOREACH_WINDOW(window)
+                XDeleteProperty(display, window, XA_WM_NORMAL_HINTS);
+        }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;
             if (haveArg()) {
