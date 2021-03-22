@@ -715,26 +715,31 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             int focused = zItems->moveTarget(true);
             displayFocus(focused);
             return true;
-        } else if ((IS_WMKEY(k, vm, gKeySysSwitchLast))) {
+        }
+        else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
             m_hlItemFromMotion = -1;
             int focused = zItems->moveTarget(false);
             displayFocus(focused);
             return true;
-        } else if (k == XK_Escape) {
+        }
+        else if (k == XK_Escape) {
             cancel();
             return true;
         }
-        else if ((IS_WMKEY(k, vm, gKeyWinClose)))
+        else if (IS_WMKEY(k, vm, gKeyWinClose))
         {
             zItems->destroyTarget();
             return true;
         }
-
-        if (zItems->isKey(k, vm) && !modDown(m)) {
+        else if (zItems->isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
         }
-    } else if (key.type == KeyRelease) {
+        else if (manager->handleSwitchWorkspaceKey(key, k, vm)) {
+            return true;
+        }
+    }
+    else if (key.type == KeyRelease) {
         if (zItems->isKey(k, vm) && !modDown(m)) {
             accept();
             return true;

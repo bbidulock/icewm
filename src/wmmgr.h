@@ -263,6 +263,7 @@ public:
     };
 
     const DesktopLayout& layout() const { return fLayout; }
+    bool handleSwitchWorkspaceKey(const XKeyEvent& key, KeySym k, unsigned vm);
 
 private:
     struct WindowPosState {
