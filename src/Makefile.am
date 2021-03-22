@@ -94,6 +94,7 @@ libice_la_SOURCES = \
 	misc.cc \
 	mstring.cc \
 	mstring.h \
+	objmenu.cc \
 	objmenu.h \
 	prefs.h \
 	ref.cc \

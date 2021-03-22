@@ -13,7 +13,10 @@ public:
         YWindow *parent = nullptr);
     virtual ~BrowseMenu();
     virtual void updatePopup();
+
 private:
+    void loadItems();
+
     upath fPath;
     time_t fModTime;
     YSMListener *smActionListener;

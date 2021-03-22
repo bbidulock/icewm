@@ -431,9 +431,10 @@ SET(ICEWM_SRCS
     wmcontainer.cc wmclient.cc wmmgr.cc wmapp.cc
     wmframe.cc wmbutton.cc wmminiicon.cc wmtitle.cc
     movesize.cc themes.cc decorate.cc browse.cc
+    objbar.cc objbutton.cc objmenu.cc
     wmmenu.cc wmprog.cc wmpref.cc atasks.cc aworkspaces.cc
     amailbox.cc aclock.cc acpustatus.cc amemstatus.cc
-    applet.cc apppstatus.cc aaddressbar.cc objbar.cc objbutton.cc
+    applet.cc apppstatus.cc aaddressbar.cc
     akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
 

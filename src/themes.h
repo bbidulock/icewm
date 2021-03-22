@@ -17,7 +17,6 @@ public:
 private:
     YSMListener *smActionListener;
     mstring fTheme;
-    IApp *app;
 };
 
 class ThemesMenu: public ObjectMenu {
@@ -29,20 +28,22 @@ public:
     virtual void refresh();
 
 private:
-    void findThemes(const upath& path, YMenu *container);
+    void findThemes(const upath& path, ObjectMenu* container);
 
-    static YMenuItem *newThemeItem(
+    YMenuItem *newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
         const mstring& label,
-        const mstring& relThemeName);
+        const mstring& relThemeName,
+        ObjectMenu* container);
 
-    static void findThemeAlternatives(
+    void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
         const upath& path,
         const mstring& relName,
-        YMenuItem *item);
+        YMenuItem *item,
+        ObjectMenu* container);
 
     // this solution isn't nice. Saving it globaly somewhere would be
     // much better, we would have a themeCound from the last refresh
@@ -52,7 +53,6 @@ private:
     int themeCount;
 
     YSMListener *smActionListener;
-    YActionListener *wmActionListener;
     IApp *app;
 };
 

@@ -38,37 +38,23 @@ void BrowseMenu::updatePopup() {
         removeAll();
     else if (sb.st_mtime > fModTime) {
         fModTime = sb.st_mtime;
+        loadItems();
+    }
+}
 
-        removeAll();
+void BrowseMenu::loadItems() {
+    removeAll();
+    for (adir dir(fPath.string()); dir.next(); ) {
+        mstring entry(dir.entry());
+        upath npath(fPath + entry);
 
-        ref<YIcon> file = YIcon::getIcon("file");
-        ref<YIcon> folder = YIcon::getIcon("folder");
+        ObjectMenu *sub = nullptr;
+        if (npath.dirExists())
+            sub = new BrowseMenu(app, smActionListener,
+                                 getActionListener(), npath);
 
-        for (adir dir(fPath.string()); dir.next(); ) {
-            mstring entry(dir.entry());
-            upath npath(fPath + entry);
-
-            YMenu *sub = nullptr;
-            if (npath.dirExists())
-                sub = new BrowseMenu(app, smActionListener,
-                                     getActionListener(), npath);
-
-            DFile *pfile = new DFile(app, entry, null, npath);
-            YMenuItem *item = add(new DObjectMenuItem(pfile));
-            if (item) {
-                item->setSubmenu(sub);
-                if (sub) {
-                    if (folder != null)
-                        item->setIcon(folder);
-                } else {
-                    if (file != null)
-                        item->setIcon(file);
-                }
-            }
-            else if (sub) {
-                delete sub;
-            }
-        }
+        DFile *pfile = new DFile(app, entry, null, npath);
+        addObject(pfile, sub ? "folder" : "file", sub);
     }
 }
 

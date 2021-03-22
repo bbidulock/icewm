@@ -4,32 +4,45 @@
 #include "ymenu.h"
 #include "ymenuitem.h"
 #include "yaction.h"
-
 #include "obj.h"
 
 class DObject;
 
-class DObjectMenuItem: public YMenuItem {
-public:
-    DObjectMenuItem(DObject *object);
-    virtual ~DObjectMenuItem();
-    DObject* getObject() { return fObject; }
-
-private:
-    DObject *fObject;
-};
-
-class ObjectMenu: public YMenu, public ObjectContainer {
+class ObjectMenu:
+    public YMenu,
+    public ObjectContainer,
+    public YActionListener
+{
 public:
     ObjectMenu(YActionListener *wmActionListener, YWindow *parent = nullptr);
-    virtual ~ObjectMenu() =default;
+    virtual ~ObjectMenu();
 
-    virtual void addObject(DObject *object);
-    virtual void addObject(DObject *object, const char *icons);
+    virtual void actionPerformed(YAction action, unsigned modifiers);
+    virtual void addObject(DObject* object);
     virtual void addSeparator();
     virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container);
-protected:
-    YActionListener *wmActionListener;
+
+    YMenuItem* addObject(DObject* object, const char* icon,
+                         ObjectMenu* sub = nullptr, bool check = false);
+    YMenuItem* getObjectItem(DObject* object);
+
+    void setActionListener(YActionListener* al) override {
+        wmActionListener = al;
+    }
+    YActionListener* getActionListener() const override {
+        return wmActionListener;
+    }
+
+private:
+    struct ObjectAction {
+        DObject* object;
+        YAction action;
+        ObjectAction(DObject* obj, YAction act) : object(obj), action(act) { }
+    };
+    typedef YArray<ObjectAction> ArrayType;
+    ArrayType fArray;
+
+    YActionListener* wmActionListener;
 };
 
 #endif

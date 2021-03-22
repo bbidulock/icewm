@@ -54,6 +54,7 @@ public:
     void checkCommand(YAction action, bool check); // 0 == All
 
     int itemCount() const { return fItems.getCount(); }
+    int getSelectedItem() const { return selectedItem; }
     bool lastIsSeparator() const;
     YMenuItem *lastItem() const;
     YMenuItem *getItem(int n) const { return fItems[n]; }
@@ -62,8 +63,8 @@ public:
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
 
-    void setActionListener(YActionListener *actionListener);
-    YActionListener *getActionListener() const { return fActionListener; }
+    virtual void setActionListener(YActionListener *actionListener);
+    virtual YActionListener *getActionListener() const { return fActionListener; }
 
     virtual bool handleTimer(YTimer *timer);
     virtual void raise();

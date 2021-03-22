@@ -18,21 +18,9 @@
 #include <sys/stat.h>
 #include <time.h>
 
-DObjectMenuItem::DObjectMenuItem(DObject *object):
-    YMenuItem(object->getName(), -3, null, YAction(), nullptr)
+DFile::DFile(IApp *app, const mstring &name, ref<YIcon> icon, upath path):
+    DObject(app, name, icon), fPath(path)
 {
-    fObject = object;
-    if (object->getIcon() != null)
-        setIcon(object->getIcon());
-}
-
-DObjectMenuItem::~DObjectMenuItem() {
-    delete fObject;
-}
-
-DFile::DFile(IApp *app, const mstring &name, ref<YIcon> icon, upath path): DObject(app, name, icon) {
-    this->app = app;
-    fPath = path;
 }
 
 DFile::~DFile() {
@@ -40,48 +28,7 @@ DFile::~DFile() {
 
 void DFile::open() {
     const char *args[] = { openCommand, fPath.string(), nullptr };
-    app->runProgram(openCommand, args);
-}
-
-ObjectMenu::ObjectMenu(YActionListener *actionListener, YWindow *parent):
-    YMenu(parent)
-{
-    setActionListener(actionListener);
-}
-
-void ObjectMenu::addObject(DObject *fObject) {
-    add(new DObjectMenuItem(fObject));
-}
-
-void ObjectMenu::addObject(DObject *fObject, const char *icons) {
-    add(new DObjectMenuItem(fObject), icons);
-}
-
-void ObjectMenu::addSeparator() {
-    YMenu::addSeparator();
-}
-
-void ObjectMenu::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) {
-    if (container) {
-        YMenuItem *item =
-            addSubmenu(name, -3, container);
-
-        if (item && icon != null)
-            item->setIcon(icon);
-    }
-}
-
-DObject::DObject(IApp *app, const mstring &name, ref<YIcon> icon):
-    fName(name), fIcon(icon)
-{
-    this->app = app;
-}
-
-DObject::~DObject() {
-    fIcon = null;
-}
-
-void DObject::open() {
+    app()->runProgram(openCommand, args);
 }
 
 DProgram::DProgram(
@@ -98,10 +45,9 @@ DProgram::DProgram(
     fRes(newstr(wmclass)),
     fPid(0),
     fCmd(exe),
-    fArgs(args)
+    fArgs(args),
+    smActionListener(smActionListener)
 {
-    this->app = app;
-    this->smActionListener = smActionListener;
     if (fArgs.isEmpty() || fArgs.getString(fArgs.getCount() - 1))
         fArgs.append(nullptr);
 }
@@ -116,7 +62,7 @@ void DProgram::open() {
     else if (fRes)
         smActionListener->runOnce(fRes, &fPid, fCmd.string(), fArgs.getCArray());
     else
-        app->runProgram(fCmd.string(), fArgs.getCArray());
+        app()->runProgram(fCmd.string(), fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(
@@ -211,12 +157,9 @@ public:
     }
     virtual void accept(IClosablePopup *parent) override {
         YMenuItem* item = menu->getItem(zTarget);
-        if (!item) return;
-        // just run DObjectMenuItem::actionPerformed
-        DObjectMenuItem* dobj = dynamic_cast<DObjectMenuItem*>(item);
-        if (!dobj) return;
-        wmapp->signalGuiEvent(geLaunchApp);
-        dobj->getObject()->open();
+        if (item) {
+            menu->actionPerformed(item->getAction(), 0);
+        }
         parent->close();
     }
 
@@ -453,22 +396,11 @@ void StartMenu::refresh() {
 /// TODO #warning "make this into a menuprog (ala gnome.cc), and use mime"
     if (nonempty(openCommand)) {
         upath path[] = { upath::root(), YApplication::getHomeDir() };
-        YMenu *sub;
-        ref<YIcon> folder = YIcon::getIcon("folder");
-        for (unsigned int i = 0; i < ACOUNT(path); i++) {
-            upath& p = path[i];
-
+        ObjectMenu* sub;
+        for (const upath& p : path) {
             sub = new BrowseMenu(app, smActionListener, wmActionListener, p);
             DFile *file = new DFile(app, p, null, p);
-            YMenuItem *item = add(new DObjectMenuItem(file));
-            if (item && sub) {
-                item->setSubmenu(sub);
-                if (folder != null)
-                    item->setIcon(folder);
-            }
-            else {
-                delete sub;
-            }
+            addObject(file, "folder", sub, false);
         }
         addSeparator();
     }
