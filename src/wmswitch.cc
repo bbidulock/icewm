@@ -736,6 +736,11 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             return true;
         }
         else if (manager->handleSwitchWorkspaceKey(key, k, vm)) {
+            zItems->begin(true);
+            if (zItems->getCount())
+                repaint();
+            else
+                cancel();
             return true;
         }
     }
@@ -743,12 +748,19 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         if (zItems->isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
-        } else if (isModKey((KeyCode)key.keycode)) {
+        }
+        else if (isModKey(key.keycode) && notbit(key.state, modifiers())) {
             accept();
             return true;
         }
     }
     return YPopupWindow::handleKey(key);
+}
+
+unsigned SwitchWindow::modifiers() {
+    return gKeySysSwitchNext.mod
+         | gKeySysSwitchLast.mod
+         | gKeySysSwitchClass.mod;
 }
 
 bool SwitchWindow::isModKey(KeyCode c) {

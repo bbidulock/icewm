@@ -372,24 +372,27 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
         return true;
     }
 
-    if (wmapp->getSwitchWindow() != nullptr) {
-        if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+    if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+        if (wmapp->getSwitchWindow())
             wmapp->getSwitchWindow()->begin(true, key.state);
-            return true;
-        } else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            wmapp->getSwitchWindow()->begin(false, key.state);
-            return true;
-        } else if (gKeySysSwitchClass.eq(k, vm)) {
-            XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-            char *prop = frame && frame->client()->adopted()
-                       ? frame->client()->classHint()->resource() : nullptr;
-            wmapp->getSwitchWindow()->begin(true, key.state, prop);
-            return true;
-        }
+        return true;
     }
-    if (IS_WMKEY(k, vm, gKeySysWinNext)) {
+    else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+        if (wmapp->getSwitchWindow())
+            wmapp->getSwitchWindow()->begin(false, key.state);
+        return true;
+    }
+    else if (gKeySysSwitchClass.eq(k, vm)) {
+        XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
+        char *prop = frame && frame->client()->adopted()
+                   ? frame->client()->classHint()->resource() : nullptr;
+        if (wmapp->getSwitchWindow())
+            wmapp->getSwitchWindow()->begin(true, key.state, prop);
+        return true;
+    }
+    else if (IS_WMKEY(k, vm, gKeySysWinNext)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
         if (frame) frame->wmNextWindow();
         return true;
