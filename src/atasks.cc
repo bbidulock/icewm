@@ -18,6 +18,8 @@ static YColorName minimizedTaskBarAppFg(&clrMinimizedTaskBarAppText);
 static YColorName minimizedTaskBarAppBg(&clrMinimizedTaskBarApp);
 static YColorName invisibleTaskBarAppFg(&clrInvisibleTaskBarAppText);
 static YColorName invisibleTaskBarAppBg(&clrInvisibleTaskBarApp);
+static YColorName groupingBg(&clrActiveTitleBar);
+static YColorName groupingFg (&clrActiveTitleBarText);
 static ref<YFont> normalTaskBarFont;
 static ref<YFont> activeTaskBarFont;
 
@@ -262,6 +264,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     ref<YImage> bgRightG;
 
     int p(0);
+    int border_size;
     int left = 0;
     int style = 0;
 
@@ -360,6 +363,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
         int const dp(wmLook == lookFlat ? 0: wmLook == lookMetal ? 2 : p);
         int const ds(wmLook == lookFlat ? 0: wmLook == lookMetal ? 4 : 3);
+        border_size = ds;
 
         if ((int) width() > ds && (int) height() > ds) {
             if (bgGrad != null) {
@@ -431,6 +435,33 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
     int groupCount = getCount();
     bool groupings = (groupCount > 1);
+    YColor crumbsBg;
+
+    if (groupings) {
+        crumbsBg = bg.brighter();
+        if (crumbsBg == bg) crumbsBg = bg.darker();
+    }
+
+    if (groupings) {
+        // crumbs for grouped tabs
+        // drawing before text so that the text can overlap it for those who have really thin taskbar
+        int crumbSize = 7;
+        int crumb_gap = 3;
+        int crumbStep = crumbSize + crumb_gap;
+        g.setColor(crumbsBg);
+        int x = width() / 2 - crumbStep * groupCount / 2;
+        int y = height() - border_size; // please check I am getting border_size correctly above
+        for (int dn = 0; dn < groupCount; dn++) {
+            if (wmLook != lookFlat) {
+                g.fillArc(x+dn*crumbStep, y-crumbSize, crumbSize, crumbSize, 0, 360*64);
+            }
+            else {
+                // flat people are know to avoid circles
+                g.fillRect(x+dn*crumbStep, y-crumbSize, crumbSize, crumbSize);
+            }
+        }
+    }
+
     bool textDrawn = false;
     int textX = 0;
     int textY = 0;
@@ -438,7 +469,6 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     if (str != null) {
         ref<YFont> font = getFont();
         if (font != null) {
-            g.setColor(fg);
             g.setFont(font);
 
             int iconSize = 0;
@@ -450,37 +480,32 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
             int const tx = pad + iconSize;
             int const ty = max(2U,
                                (height() + font->height() -
-                                (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
+                               (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
             int const wm = int(width()) - p - pad - iconSize - 1;
 
             if (0 < wm && p + tx + wm < int(width())) {
                 textX = p + tx;
                 textY = p + ty;
-                int x = groupings * (font->ascent() + font->descent()) / 2;
+                int x = 0;
+                if (groupings) {
+                    mstring cnt = (mstring)groupCount;
+                    int margins = 4;
+                    x = font->textWidth(cnt, strlen(cnt)) + margins * 2;
+                    g.setColor(groupingBg);
+                    // circle will not work here because grouping is often used by users who
+                    // open 10+ windows
+                    // is there a way to draw "rounded corners" instead?
+                    g.fillRect(textX, textY - font->ascent(), x, font->ascent() + font->descent());
+                    g.setColor(groupingFg);
+                    g.drawStringEllipsis(textX + margins, textY, cnt, wm);
+                    x += 1;
+                }
+                g.setColor(fg);
                 g.drawStringEllipsis(textX + x, textY, str, wm);
                 textDrawn = true;
             }
         }
-    }
-
-    if (groupCount > 1 && (iconDrawn || textDrawn)) {
-        char text[32];
-        snprintf(text, sizeof text, "%d", groupCount);
-
-        ref<YFont> font(getNormalFont());
-        int fw = font->textWidth(text, strlen(text));
-        int fh = font->ascent();
-        int ac = max(fw, fh);
-        int gx = textDrawn ? textX - 2 - 4 * iconDrawn : iconX;
-        int gy = textDrawn ? textY - ac + font->descent()
-                           : iconY + iconSize - fh - 1;
-
-        g.setColor(YColor::black);
-        g.fillArc(gx, gy, ac, ac, 0, 360*64);
-        g.setColor(YColor::white);
-        g.setFont(font);
-        g.drawString(gx + (ac - fw + 1) / 2, gy + fh - 1, text);
     }
 
     if (bgGrad != null) {
@@ -631,7 +656,7 @@ void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
         if (fActive != fGroup[index]) {
             TaskBarApp* old = fActive;
             fActive = fGroup[index];
-            if (old) 
+            if (old)
                 old->repaint();
             fActive->repaint();
         }
