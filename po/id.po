@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2020-12-21 14:26+0000\n"
+"PO-Revision-Date: 2021-03-23 05:56+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -285,16 +285,12 @@ msgstr ""
 "  Waktu daring:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "Diperkirakan nama ikon"
+msgstr "terputus"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Gulung bawah"
+msgstr "turun"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -337,16 +333,12 @@ msgid "Index"
 msgstr "Indeks"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Peramban Web"
+msgstr "Buka di Peramban"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
@@ -1373,13 +1365,15 @@ msgstr ""
 
 #: src/wmapp.cc:770
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Konfirmasi Mulai Ulang sebagai Terminal"
 
 #: src/wmapp.cc:771
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Lepaskan semua aplikasi dan mulai ulang\n"
+"sebagai terminal. Melanjutkan?"
 
 #: src/wmapp.cc:1075 src/yxapp.cc:1031
 msgid "<none>"
