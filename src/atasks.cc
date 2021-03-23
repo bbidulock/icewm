@@ -442,7 +442,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
         if (crumbsBg == bg) crumbsBg = bg.darker();
     }
 
-    if (groupings) {
+    if (groupings && taskBarGroupingStyle == 0) {
         // crumbs for grouped tabs
         // drawing before text so that the text can overlap it for those who have really thin taskbar
         int crumbSize = 7;
@@ -488,7 +488,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                 textX = p + tx;
                 textY = p + ty;
                 int x = 0;
-                if (groupings) {
+                if (groupings && taskBarGroupingStyle == 1) {
                     mstring cnt = (mstring)groupCount;
                     int margins = 4;
                     x = font->textWidth(cnt, strlen(cnt)) + margins * 2;

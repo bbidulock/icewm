@@ -685,6 +685,10 @@ Mouse wheel support.
 +
 Group applications with the same class name under a single task button.
 
+* `TaskBarGroupingStyle = 0`
++
+How to show how many grouped windows are under the tab. 0 - dots, 1 - digits.
+
 * `ShowPopupsAbovePointer = 0`
 +
 Show popup menus above mouse pointer.

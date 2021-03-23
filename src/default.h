@@ -65,6 +65,7 @@ XIV(bool, taskBarWorkspacesTop,                 false)
 XSV(const char *, taskBarWorkspacesLimit,       0)
 XIV(bool, taskBarUseMouseWheel,                 true)
 XIV(bool, taskBarTaskGrouping,                  false)
+XIV(int,  taskBarGroupingStyle,                 0)
 XIV(bool, pagerShowPreview,                     true)
 XIV(bool, pagerShowWindowIcons,                 true)
 XIV(bool, pagerShowMinimized,                   true)
@@ -422,6 +423,7 @@ cfoption icewm_preferences[] = {
     OIV("NestedThemeMenuMinNumber",             &nestedThemeMenuMinNumber,  0, 1234,  "Minimal number of themes after which the Themes menu becomes nested (0=disabled)"),
     OIV("BatteryPollingPeriod",                 &batteryPollingPeriod, 2, 3600, "Delay between power status updates in seconds"),
     OIV("NetWorkAreaBehaviour",                 &netWorkAreaBehaviour, 0, 2,    "NET_WORKAREA behaviour: 0 (single/multimonitor with STRUT information, like metacity), 1 (always full desktop), 2 (singlemonitor with STRUT, multimonitor without STRUT)"),
+    OIV("TaskBarGroupingStyle",                 &taskBarGroupingStyle, 0, 1,    "How to show how many grouped windows are under the tab. (0=dots, 1=digits)"),
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
     OSV("IconThemes",                           &iconThemes,                    "Colon separated icon theme list with wildcard support. Minus prefix - can be used to exclude themes."),
