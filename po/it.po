@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2021-03-23 15:56+0000\n"
+"PO-Revision-Date: 2021-03-24 12:56+0000\n"
 "Last-Translator: Davide Aiello <davide.aiello@novilingulists.com>\n"
 "Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/it/>\n"
@@ -286,14 +286,10 @@ msgstr ""
 "  Tempo di collegamento:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
 msgstr "disconnesso"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
 msgstr "inattivo"
 
@@ -338,14 +334,10 @@ msgid "Index"
 msgstr "Indice analitico"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
 msgstr "Apri nel browser"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
@@ -1389,12 +1381,10 @@ msgstr ""
 "%s si trova in $PATH?"
 
 #: src/wmapp.cc:770
-#, fuzzy
 msgid "Confirm Restart as Terminal"
 msgstr "Conferma riavvio come terminale"
 
 #: src/wmapp.cc:771
-#, fuzzy
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
