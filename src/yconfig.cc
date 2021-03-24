@@ -103,6 +103,13 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         *key = XStringToKeysym(arg);
     }
 
+    if (*key == NoSymbol && !strncmp(arg, "Pointer_Button", 14)) {
+        int button = 0;
+        if (sscanf(arg + 14, "%d", &button) == 1 && button > 0) {
+            *key = button + XK_Pointer_Button1 - 1;
+        }
+    }
+
     if (*key == NoSymbol && *arg) {
         msg(_("Unknown key name %s in %s"), arg, orig_arg);
         return false;

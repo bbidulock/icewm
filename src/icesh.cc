@@ -2277,7 +2277,7 @@ void IceSh::click()
     if (tolong(xs, lx) &&
         tolong(ys, ly) &&
         tolong(bs, lb) &&
-        inrange<long>(lb, Button1, Button5))
+        inrange<long>(lb, Button1, Button5 + 4))
     {
         FOREACH_WINDOW(window) {
             int gx, gy, gw, gh;
