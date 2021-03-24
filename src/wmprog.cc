@@ -125,6 +125,9 @@ public:
     virtual void setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
     }
+    virtual char* getWMClass() override {
+        return nullptr;
+    }
 
     // move the focused target up or down and return the new focused element
     virtual int moveTarget(bool zdown) override {

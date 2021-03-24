@@ -181,6 +181,10 @@ public:
         fWMClass = wmclass;
     }
 
+    virtual char* getWMClass() override {
+        return fWMClass;
+    }
+
     virtual void updateList() override {
         freeList();
         getZList();
@@ -642,10 +646,8 @@ void SwitchWindow::paintVertical(Graphics &g) {
     }
 }
 
-void SwitchWindow::begin(bool zdown, int mods, char* wmclass) {
-    modsDown = mods & (xapp->AltMask | xapp->MetaMask |
-                       xapp->HyperMask | xapp->SuperMask |
-                       xapp->ModeSwitchMask | ControlMask);
+void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
+    modsDown = KEY_MODMASK(mods);
     zItems->setWMClass(wmclass);
 
     if (close())
@@ -706,8 +708,8 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
-    unsigned int m = KEY_MODMASK(key.state);
-    unsigned int vm = VMod(m);
+    unsigned m = KEY_MODMASK(key.state);
+    unsigned vm = VMod(m);
 
     if (key.type == KeyPress) {
         if (zItems->isKey(k, vm)) {
@@ -736,11 +738,9 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             return true;
         }
         else if (manager->handleSwitchWorkspaceKey(key, k, vm)) {
-            zItems->begin(true);
-            if (zItems->getCount())
-                repaint();
-            else
-                cancel();
+            close();
+            begin(true, modsDown, zItems->getWMClass()
+                  ? strdup(zItems->getWMClass()) : nullptr);
             return true;
         }
     }
@@ -749,7 +749,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             accept();
             return true;
         }
-        else if (isModKey(key.keycode) && notbit(key.state, modifiers())) {
+        else if (isModKey(key.keycode)) {
             accept();
             return true;
         }
@@ -766,23 +766,39 @@ unsigned SwitchWindow::modifiers() {
 bool SwitchWindow::isModKey(KeyCode c) {
     KeySym k = keyCodeToKeySym(c);
 
-    if (k == XK_Control_L || k == XK_Control_R ||
-        k == XK_Alt_L     || k == XK_Alt_R     ||
-        k == XK_Meta_L    || k == XK_Meta_R    ||
-        k == XK_Super_L   || k == XK_Super_R   ||
-        k == XK_Hyper_L   || k == XK_Hyper_R   ||
-        k == XK_ISO_Level3_Shift || k == XK_Mode_switch)
+    if (k == XK_Shift_L || k == XK_Shift_R)
+        return hasbit(modsDown, ShiftMask)
+            && hasbit(modifiers(), kfShift);
 
-        return true;
+    if (k == XK_Control_L || k == XK_Control_R)
+        return hasbit(modsDown, ControlMask)
+            && hasbit(modifiers(), kfCtrl);
+
+    if (k == XK_Alt_L     || k == XK_Alt_R)
+        return hasbit(modsDown, xapp->AltMask)
+            && hasbit(modifiers(), kfAlt);
+
+    if (k == XK_Meta_L    || k == XK_Meta_R)
+        return hasbit(modsDown, xapp->MetaMask)
+            && hasbit(modifiers(), kfMeta);
+
+    if (k == XK_Super_L   || k == XK_Super_R)
+        return hasbit(modsDown, xapp->SuperMask)
+            && hasbit(modifiers(), kfSuper);
+
+    if (k == XK_Hyper_L   || k == XK_Hyper_R)
+        return hasbit(modsDown, xapp->HyperMask)
+            && hasbit(modifiers(), kfHyper);
+
+    if (k == XK_ISO_Level3_Shift || k == XK_Mode_switch)
+        return hasbit(modsDown, xapp->ModeSwitchMask)
+            && hasbit(modifiers(), kfAltGr);
 
     return false;
 }
 
-bool SwitchWindow::modDown(int mod) {
-   int m = mod & (xapp->AltMask | xapp->MetaMask | xapp->HyperMask |
-         xapp->SuperMask | xapp->ModeSwitchMask | ControlMask);
-
-    return hasbits(m, modsDown);
+bool SwitchWindow::modDown(unsigned mod) {
+    return hasbits(KEY_MODMASK(mod), modsDown);
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {

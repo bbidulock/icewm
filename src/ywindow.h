@@ -133,7 +133,7 @@ public:
     void grabKeyM(int key, unsigned modifiers);
     void grabKey(int key, unsigned modifiers);
     void grabVKey(int key, unsigned vmodifiers);
-    unsigned VMod(int modifiers);
+    unsigned VMod(unsigned modifiers);
     void grabButtonM(int button, unsigned modifiers);
     void grabButton(int button, unsigned modifiers);
     void grabVButton(int button, unsigned vmodifiers);
@@ -244,7 +244,7 @@ public:
 
     bool hasPopup();
 
-    KeySym keyCodeToKeySym(unsigned int keycode, int index = 0);
+    KeySym keyCodeToKeySym(unsigned keycode, unsigned index = 0);
     static unsigned long getLastEnterNotifySerial();
 
     void unmanageWindow() { removeWindow(); }

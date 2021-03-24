@@ -51,6 +51,7 @@ public:
 
     // Filter items by WM_CLASS
     virtual void setWMClass(char* wmclass) =0;
+    virtual char* getWMClass() =0;
 };
 
 class SwitchWindow: public YPopupWindow, IClosablePopup {
@@ -62,7 +63,7 @@ public:
     virtual void paint(Graphics &g, const YRect &r) override;
     virtual void repaint() override;
 
-    void begin(bool zdown, int mods, char* wmclass = nullptr);
+    void begin(bool zdown, unsigned mods, char* wmclass = nullptr);
 
     virtual void activatePopup(int flags) override;
     virtual void deactivatePopup() override;
@@ -92,10 +93,10 @@ private:
     YColorName switchMfg;
     ref<YFont> switchFont;
 
-    int modsDown;
+    unsigned modsDown;
     bool isUp;
 
-    bool modDown(int m);
+    bool modDown(unsigned m);
     bool isModKey(KeyCode c);
     void resize(int xiscreen);
     unsigned modifiers();

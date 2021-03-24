@@ -1794,11 +1794,11 @@ void YWindow::grabVButton(int button, unsigned int vm) {
     }
 }
 
-unsigned int YWindow::VMod(int m) {
+unsigned YWindow::VMod(unsigned m) {
     unsigned vm = 0;
-    unsigned m1 = unsigned(m) & ~xapp->WinMask;
+    unsigned m1 = m & ~xapp->WinMask;
 
-    if (unsigned(m) & xapp->WinMask) {
+    if (m & xapp->WinMask) {
         if (modSuperIsCtrlAlt) {
             vm |= kfCtrl + kfAlt;
         } else if (xapp->WinMask == xapp->SuperMask) {
@@ -2094,7 +2094,7 @@ int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
 }
 
 
-KeySym YWindow::keyCodeToKeySym(unsigned int keycode, int index) {
+KeySym YWindow::keyCodeToKeySym(unsigned keycode, unsigned index) {
     KeySym k = XkbKeycodeToKeysym(xapp->display(), KeyCode(keycode), 0, index);
     return k;
 }
