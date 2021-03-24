@@ -98,6 +98,7 @@ private:
     bool modDown(int m);
     bool isModKey(KeyCode c);
     void resize(int xiscreen);
+    unsigned modifiers();
 
     void cancel();
     virtual bool close() override;
