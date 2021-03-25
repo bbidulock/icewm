@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-19 16:18+0100\n"
-"PO-Revision-Date: 2021-02-25 04:15+0000\n"
+"PO-Revision-Date: 2021-03-25 13:56+0000\n"
 "Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -283,16 +283,12 @@ msgstr ""
 "  Temps passé en ligne:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "Nom d'icône attendu"
+msgstr "déconnecté"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Dérouler"
+msgstr "arrêté"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -335,16 +331,12 @@ msgid "Index"
 msgstr "Index"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Navigateur Web"
+msgstr "Ouvrir dans le navigateur"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
@@ -1409,13 +1401,15 @@ msgstr ""
 
 #: src/wmapp.cc:770
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Confirmer le redémarrage en tant que terminal"
 
 #: src/wmapp.cc:771
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Annulez la gestion de toutes les applications et redémarrez\n"
+"en tant que terminal. Continuer ?"
 
 #: src/wmapp.cc:1075 src/yxapp.cc:1031
 msgid "<none>"
