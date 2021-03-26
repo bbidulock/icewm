@@ -159,6 +159,8 @@ public:
     virtual Time since() const = 0;
     virtual ClassHint* classHint() const = 0;
     virtual bool isUrgent() const = 0;
+    virtual void updateAppStatus() = 0;
+    virtual void removeAppStatus() = 0;
 protected:
     virtual ~ClientData() {}
 };

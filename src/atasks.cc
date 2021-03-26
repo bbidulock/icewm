@@ -882,7 +882,25 @@ bool TaskPane::handleTimer(YTimer* t) {
     return false;
 }
 
+void TaskPane::regroup() {
+    YArray<ClientData*> frames;
+    for (IterApps it = fApps.reverseIterator(); ++it; ) {
+        frames += it->getFrame();
+        it->getFrame()->removeAppStatus();
+    }
+
+    fTaskGrouping = taskBarTaskGrouping;
+    fNeedRelayout = true;
+
+    for (auto it = frames.reverseIterator(); ++it; ) {
+        it->updateAppStatus();
+    }
+}
+
 void TaskPane::relayoutNow(bool force) {
+    if (fTaskGrouping != taskBarTaskGrouping && !dragging())
+        regroup();
+
     if (!fNeedRelayout && !force)
         return ;
 

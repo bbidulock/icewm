@@ -145,6 +145,7 @@ public:
     void moveNext();
 
     bool grouping() const { return fTaskGrouping; }
+    void regroup();
 
 private:
     IAppletContainer* fTaskBar;
@@ -165,7 +166,7 @@ private:
 
     bool fNeedRelayout;
     bool fForceImmediate;
-    const bool fTaskGrouping;
+    bool fTaskGrouping;
 };
 
 #endif
