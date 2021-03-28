@@ -15,7 +15,6 @@
 #include "wmtitle.h"
 #include "wmbutton.h"
 #include "wmminiicon.h"
-#include "wmswitch.h"
 #include "wmtaskbar.h"
 #include "wmwinlist.h"
 #include "wmapp.h"
@@ -152,8 +151,6 @@ YFrameWindow::~YFrameWindow() {
     manager->removeCreatedFrame(this);
     removeFrame();
     manager->removeClientFrame(this);
-    if (wmapp->hasSwitchWindow())
-        wmapp->getSwitchWindow()->destroyedFrame(this);
     if (client()) {
         if (!client()->destroyed() && client()->adopted())
             XRemoveFromSaveSet(xapp->display(), client()->handle());
@@ -861,10 +858,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
-    if (wmapp->hasSwitchWindow()) {
-        if (wmapp->getSwitchWindow()->visible()) {
-            return ;
-        }
+    if (manager->switchWindowVisible()) {
+        return ;
     }
 #if 1
     if (focus.type == FocusIn &&

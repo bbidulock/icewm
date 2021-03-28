@@ -5,6 +5,7 @@
 #include "ylist.h"
 #include "yaction.h"
 #include "ymsgbox.h"
+#include "ypopup.h"
 #include "workspaces.h"
 
 extern YAction layerActionSet[WinLayerCount];
@@ -14,6 +15,7 @@ class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
 class YSMListener;
+class SwitchWindow;
 class IApp;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
@@ -44,7 +46,9 @@ public:
 class YWindowManager:
     private YDesktop,
     private YMsgBoxListener,
-    private YActionListener
+    private YActionListener,
+    private YTimerListener,
+    public YPopDownListener
 {
 public:
     YWindowManager(
@@ -74,6 +78,8 @@ public:
     virtual void handleRRNotify(const XRRNotifyEvent &notify);
 #endif
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
+    virtual void handlePopDown(YPopupWindow* popup);
+    virtual bool handleTimer(YTimer* timer);
     virtual void actionPerformed(YAction action, unsigned modifiers);
 
     void manageClients();
@@ -265,6 +271,9 @@ public:
     const DesktopLayout& layout() const { return fLayout; }
     bool handleSwitchWorkspaceKey(const XKeyEvent& key, KeySym k, unsigned vm);
 
+    bool switchWindowVisible() const;
+    SwitchWindow* getSwitchWindow();
+
 private:
     struct WindowPosState {
         int x, y, w, h;
@@ -273,7 +282,7 @@ private:
     };
 
     void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
-    bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned int m, unsigned int vm);
+    bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm);
     void setWmState(WMState newWmState);
     void refresh();
 
@@ -338,6 +347,8 @@ private:
     DesktopLayout fLayout;
     mstring fCurrentKeyboard;
     int fDefaultKeyboard;
+    SwitchWindow* fSwitchWindow;
+    lazy<YTimer> fSwitchDownTimer;
 };
 
 extern YWindowManager *manager;

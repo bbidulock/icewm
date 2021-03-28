@@ -8,7 +8,6 @@
 class YWindowManager;
 class AboutDlg;
 class CtrlAltDelete;
-class SwitchWindow;
 
 enum FocusModel {
     FocusCustom,
@@ -99,8 +98,6 @@ public:
 
     bool hasCtrlAltDelete() const { return ctrlAltDelete != nullptr; }
     CtrlAltDelete* getCtrlAltDelete();
-    bool hasSwitchWindow() const { return switchWindow != nullptr; }
-    SwitchWindow* getSwitchWindow();
     const char* getConfigFile() const { return configFile; }
     FocusModel getFocusMode() const { return focusMode; }
     YMenu* getWindowMenu();
@@ -121,7 +118,6 @@ private:
     AboutDlg* aboutDlg;
 
     CtrlAltDelete* ctrlAltDelete;
-    SwitchWindow* switchWindow;
     YMenu* windowMenu;
     int errorRequestCode;
     YFrameWindow* errorFrame;

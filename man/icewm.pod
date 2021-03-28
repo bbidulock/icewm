@@ -343,21 +343,23 @@ All non-Custom focus modes override these ten options.
 =back
 
 Apart from the mouse, B<icewm> supports changing input focus in two
-other ways. Both involve the keyboard.  The first uses the
-C<QuickSwitch> window.  It is activated by pressing C<Alt+Tab> or
+ways by keyboard.  By pressing C<Alt+Esc> or C<Alt+Shift+Esc>,
+input focus is immediately changed to the next or previous window,
+which will be raised to make it fully visible. The other method
+involves the quick switch.
+
+=head2 QUICK SWITCH
+
+The C<QuickSwitch> is activated by pressing C<Alt+Tab> or
 C<Alt+Shift+Tab>.  A window pops up in the centre of the screen with a
-narrow band over the next or previous window which will receive input
+narrow band over the next or previous window that will receive input
 focus when the C<Alt> key is released.  By repeatedly pressing
 C<Alt+Tab> or C<Alt+Shift+Tab> one can cycle through all windows.
+Arrow keys are also supported, as well as the C<Home> and C<End> key.
 
-The second keyboard method involves pressing C<Alt+Esc> or
-C<Alt+Shift+Esc>.  Input focus is immediately changed to the next or
-previous window, which will be raised to make it fully visible.
-
-And finally, there is another way which is a hybrid of keyboard and
-mouse control. It involves the C<QuickSwitch> popup explained before,
-after pressing C<Alt+Tab> and while still holding C<Alt> a left click
-on one of the list items causes the activation of the related window.
+A selected window can be closed by C<Delete> or C<Alt+F4>.
+While the C<QuickSwitch> is up, one can still change workspace.
+The C<QuickSwitch> also supports mouse operation to activate a window.
 
 =head2 WINDOW PLACEMENT
 

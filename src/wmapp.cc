@@ -14,7 +14,6 @@
 #include "wmapp.h"
 #include "wmframe.h"
 #include "wmmgr.h"
-#include "wmswitch.h"
 #include "wmstatus.h"
 #include "wmabout.h"
 #include "wmdialog.h"
@@ -343,13 +342,6 @@ CtrlAltDelete* YWMApp::getCtrlAltDelete() {
         ctrlAltDelete = new CtrlAltDelete(this, desktop);
     }
     return ctrlAltDelete;
-}
-
-SwitchWindow* YWMApp::getSwitchWindow() {
-    if (switchWindow == nullptr && quickSwitch) {
-        switchWindow = new SwitchWindow(desktop, nullptr, quickSwitchVertical);
-    }
-    return switchWindow;
 }
 
 void YWMApp::initPointers() {
@@ -1090,7 +1082,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     fRestartMsgBox(nullptr),
     aboutDlg(nullptr),
     ctrlAltDelete(nullptr),
-    switchWindow(nullptr),
     windowMenu(nullptr),
     errorRequestCode(0),
     errorFrame(nullptr),
@@ -1227,7 +1218,6 @@ YWMApp::~YWMApp() {
         aboutDlg = nullptr;
     }
 
-    delete switchWindow; switchWindow = nullptr;
     delete ctrlAltDelete; ctrlAltDelete = nullptr;
     delete taskBar; taskBar = nullptr;
 

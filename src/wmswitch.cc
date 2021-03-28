@@ -18,7 +18,6 @@ class WindowItemsCtrlr : public ISwitchItems
 {
     int zTarget;
     YArray<YFrameWindow*> zList;
-    YWindowManager *fRoot;
     YFrameWindow *fActiveWindow;
     YFrameWindow *fLastWindow;
     char *fWMClass;
@@ -32,7 +31,7 @@ class WindowItemsCtrlr : public ISwitchItems
     void getZList() {
 
         if (quickSwitchGroupWorkspaces || !quickSwitchToAllWorkspaces) {
-            int activeWorkspace = fRoot->activeWorkspace();
+            int activeWorkspace = manager->activeWorkspace();
             GetZListWorkspace(true, activeWorkspace);
             if (quickSwitchToAllWorkspaces) {
                 for (int w = 0; w < workspaceCount; ++w) {
@@ -56,7 +55,7 @@ class WindowItemsCtrlr : public ISwitchItems
     void GetZListWorkspace(bool workspaceOnly, int workspace)
     {
         for (int pass = 0; pass <= 5; pass++) {
-            YFrameIter w = fRoot->focusedReverseIterator();
+            YFrameIter w = manager->focusedReverseIterator();
 
             while (++w) {
                 // pass 0: focused window
@@ -75,7 +74,7 @@ class WindowItemsCtrlr : public ISwitchItems
 
                 if (!w->isUrgent()) {
                     if (workspaceOnly && w->isAllWorkspaces() &&
-                        workspace != fRoot->activeWorkspace()) {
+                        workspace != manager->activeWorkspace()) {
                         continue;
                     }
 
@@ -91,7 +90,7 @@ class WindowItemsCtrlr : public ISwitchItems
 
                 if (w->frameOption(YFrameWindow::foIgnoreQSwitch))
                     ;
-                else if (w == fRoot->getFocus()) {
+                else if (w == manager->getFocus()) {
                     if (pass == 0) append(w);
                 } else if (w->isUrgent()) {
                     if (quickSwitchToUrgent) {
@@ -117,7 +116,9 @@ class WindowItemsCtrlr : public ISwitchItems
     }
 
     void displayFocusChange(YFrameWindow *frame)  {
-        manager->switchFocusTo(frame, false);
+        if (frame->visible())
+            manager->setFocus(frame);
+        manager->restackWindows();
     }
 
 public:
@@ -140,7 +141,8 @@ public:
         const int cnt = getCount();
         return setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
     }
-    inline virtual int setTarget(int zPosition) override
+
+    virtual int setTarget(int zPosition) override
     {
         zTarget = zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
@@ -150,9 +152,10 @@ public:
         return zPosition;
     }
 
-
     WindowItemsCtrlr() :
-        zTarget(0), fRoot(manager), fActiveWindow(nullptr), fLastWindow(nullptr),
+        zTarget(0),
+        fActiveWindow(nullptr),
+        fLastWindow(nullptr),
         fWMClass(nullptr)
     {
     }
@@ -229,35 +232,30 @@ public:
     }
 
     virtual void destroyTarget() override {
-        auto id = getActiveItem();
-        if (id < 0) return;
-        auto item = zList[id];
-        if (!item) return;
-        auto client = item->client();
-        if (!client) return;
-        auto frame = client->getFrame();
-        if (!frame) return;
-        frame->activateWindow(true, false);
-        manager->getFocus()->wmClose();
+        if (inrange(getActiveItem(), 0, getCount() - 1))
+            zList[getActiveItem()]->wmClose();
     }
 
     virtual void destroyedItem(YFrameWindow* item) override
     {
-        if (getCount() == 0)
-            return;
-
-        YFrameWindow* frame = (YFrameWindow*) item;
-        if (frame == fLastWindow)
-            fLastWindow = nullptr;
-        auto pos = zTarget;
-        updateList();
-        setTarget( (pos >= 0 && pos < getCount()) ? pos : 0);
-        displayFocusChange(fActiveWindow);
+        int pos = find(zList, item);
+        if (pos >= 0) {
+            zList.remove(pos);
+            if (fLastWindow == item)
+                fLastWindow = nullptr;
+            if (fActiveWindow == item)
+                fActiveWindow = nullptr;
+            pos = clamp(zTarget - (zTarget > pos), 0, getCount() - 1);
+            setTarget(pos);
+            if (fLastWindow == nullptr)
+                fLastWindow = fActiveWindow;
+            if (fActiveWindow)
+                displayFocusChange(fActiveWindow);
+        }
     }
 
-    virtual bool isKey(KeySym k, unsigned int vm) override {
-        return gKeySysSwitchNext.eq(k, vm) ||
-              (gKeySysSwitchClass.eq(k, vm) && fWMClass != nullptr);
+    virtual YFrameWindow* current() const override {
+        return fActiveWindow;
     }
 };
 
@@ -664,7 +662,8 @@ void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
     int item = zItems->getActiveItem();
     if (item >= 0) {
         displayFocus(item);
-        isUp = popup(nullptr, nullptr, nullptr, xiscreen, YPopupWindow::pfNoPointerChange);
+        isUp = popup(nullptr, nullptr, manager, xiscreen,
+                     YPopupWindow::pfNoPointerChange);
     }
 
     if (zItems->getCount() < 1) {
@@ -706,34 +705,44 @@ void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     }
 }
 
+YFrameWindow* SwitchWindow::current() {
+    return zItems->current();
+}
+
+bool SwitchWindow::target(int delta) {
+    if (delta) {
+        m_hlItemFromMotion = -1;
+        int active = zItems->getActiveItem();
+        int count = zItems->getCount();
+        int index = (1 < count) ? (active + delta + count) % count : 0;
+        int focus = zItems->setTarget(index);
+        displayFocus(focus);
+    }
+    return true;
+}
+
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
     unsigned m = KEY_MODMASK(key.state);
     unsigned vm = VMod(m);
 
     if (key.type == KeyPress) {
-        if (zItems->isKey(k, vm)) {
-            m_hlItemFromMotion = -1;
-            int focused = zItems->moveTarget(true);
-            displayFocus(focused);
-            return true;
+        if (isKey(k, vm)) {
+            return target(+1);
         }
-        else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
-            m_hlItemFromMotion = -1;
-            int focused = zItems->moveTarget(false);
-            displayFocus(focused);
-            return true;
+        else if (gKeySysSwitchLast.eq(k, vm)) {
+            return target(-1);
         }
         else if (k == XK_Escape) {
             cancel();
             return true;
         }
-        else if (IS_WMKEY(k, vm, gKeyWinClose))
+        else if (gKeyWinClose.eq(k, vm))
         {
             zItems->destroyTarget();
             return true;
         }
-        else if (zItems->isKey(k, vm) && !modDown(m)) {
+        else if (isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
         }
@@ -743,9 +752,33 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
                   ? strdup(zItems->getWMClass()) : nullptr);
             return true;
         }
+        else if (k == XK_Down && m_verticalStyle) {
+            return target(+1);
+        }
+        else if (k == XK_Up && m_verticalStyle) {
+            return target(-1);
+        }
+        else if (k == XK_Right && !m_verticalStyle) {
+            return target(+1);
+        }
+        else if (k == XK_Left && !m_verticalStyle) {
+            return target(-1);
+        }
+        else if (k == XK_End) {
+            int num = zItems->getCount();
+            int act = zItems->getActiveItem();
+            return target(num - 1 - act);
+        }
+        else if (k == XK_Home) {
+            return target(-zItems->getActiveItem());
+        }
+        else if (k == XK_Delete) {
+            zItems->destroyTarget();
+            return true;
+        }
     }
     else if (key.type == KeyRelease) {
-        if (zItems->isKey(k, vm) && !modDown(m)) {
+        if (isKey(k, vm) && !modDown(m)) {
             accept();
             return true;
         }
@@ -755,6 +788,10 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         }
     }
     return YPopupWindow::handleKey(key);
+}
+
+bool SwitchWindow::isKey(KeySym k, unsigned vm) {
+    return gKeySysSwitchNext.eq(k, vm) || gKeySysSwitchClass.eq(k, vm);
 }
 
 unsigned SwitchWindow::modifiers() {

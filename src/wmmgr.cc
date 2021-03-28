@@ -93,6 +93,7 @@ YWindowManager::YWindowManager(
     fCreatedUpdated = true;
     fLayeredUpdated = true;
     fDefaultKeyboard = 0;
+    fSwitchWindow = nullptr;
 
     manager = this;
     desktop = this;
@@ -135,6 +136,7 @@ YWindowManager::~YWindowManager() {
     }
     delete fTopWin;
     delete rootProxy;
+    delete fSwitchWindow;
 }
 
 void YWindowManager::setWmState(WMState newWmState) {
@@ -279,6 +281,32 @@ void YWindowManager::setupRootProxy() {
     }
 }
 
+bool YWindowManager::handleTimer(YTimer* timer) {
+    if (timer == fSwitchDownTimer && switchWindowVisible() == false) {
+        delete fSwitchWindow;
+        fSwitchWindow = nullptr;
+        fSwitchDownTimer = null;
+    }
+    return false;
+}
+
+void YWindowManager::handlePopDown(YPopupWindow* popup) {
+    if (popup == fSwitchWindow) {
+        fSwitchDownTimer->setTimer(3000, this, true);
+    }
+}
+
+SwitchWindow* YWindowManager::getSwitchWindow() {
+    if (fSwitchWindow == nullptr && quickSwitch) {
+        fSwitchWindow = new SwitchWindow(desktop, nullptr, quickSwitchVertical);
+    }
+    return fSwitchWindow;
+}
+
+bool YWindowManager::switchWindowVisible() const {
+    return fSwitchWindow && fSwitchWindow->visible();
+}
+
 bool YWindowManager::handleSwitchWorkspaceKey(const XKeyEvent& key,
         KeySym k, unsigned vm)
 {
@@ -360,7 +388,7 @@ bool YWindowManager::handleSwitchWorkspaceKey(const XKeyEvent& key,
     return false;
 }
 
-bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*m*/, unsigned int vm) {
+bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm) {
     YFrameWindow *frame = getFocus();
 
     KProgramIterType p = keyProgs.iterator();
@@ -374,22 +402,23 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned int /*
 
     if (IS_WMKEY(k, vm, gKeySysSwitchNext)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        if (wmapp->getSwitchWindow())
-            wmapp->getSwitchWindow()->begin(true, key.state);
+        if (getSwitchWindow())
+            getSwitchWindow()->begin(true, key.state);
         return true;
     }
     else if (IS_WMKEY(k, vm, gKeySysSwitchLast)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        if (wmapp->getSwitchWindow())
-            wmapp->getSwitchWindow()->begin(false, key.state);
+        if (getSwitchWindow())
+            getSwitchWindow()->begin(false, key.state);
         return true;
     }
     else if (gKeySysSwitchClass.eq(k, vm)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        char *prop = frame && frame->client()->adopted()
-                   ? frame->client()->classHint()->resource() : nullptr;
-        if (wmapp->getSwitchWindow())
-            wmapp->getSwitchWindow()->begin(true, key.state, prop);
+        if (getSwitchWindow()) {
+            char *prop = frame && frame->client()->adopted()
+                       ? frame->client()->classHint()->resource() : nullptr;
+            getSwitchWindow()->begin(true, key.state, prop);
+        }
         return true;
     }
     else if (IS_WMKEY(k, vm, gKeySysWinNext)) {
@@ -561,7 +590,7 @@ bool YWindowManager::handleKey(const XKeyEvent &key) {
         unsigned int vm = VMod(m);
 
         MSG(("down key: %lu, mod: %d", k, m));
-        bool handled = handleWMKey(key, k, m, vm);
+        bool handled = handleWMKey(key, k, vm);
         if (xapp->WinMask && win95keys) {
             if (handled) {
             } else if (k == xapp->Win_L || k == xapp->Win_R) {
@@ -1978,8 +2007,19 @@ void YWindowManager::restackWindows() {
     else if (statusWorkspace && statusWorkspace->visible())
         w.append(statusWorkspace->handle());
 
+    int top = w.getCount();
+
     for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
         w.append(f->handle());
+    }
+
+    if (switchWindowVisible()) {
+        YFrameWindow* active = fSwitchWindow->current();
+        if (active) {
+            Window handle = active->handle();
+            if (findRemove(w, handle))
+                w.insert(top, handle);
+        }
     }
 
     if (w.getCount() > 1) {
@@ -2895,6 +2935,8 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
             setColormapWindow(getFocus());
         if (frame->affectsWorkArea())
             updateWorkArea();
+        if (switchWindowVisible())
+            fSwitchWindow->destroyedFrame(frame);
     }
 }
 
