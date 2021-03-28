@@ -51,6 +51,10 @@ public:
     bool contains(const YRect& r) const {
         return overlap(r) == r.pixels();
     }
+    bool contains(int x, int y) const {
+        return x >= xx && unsigned(x - xx) < ww
+            && y >= yy && unsigned(y - yy) < hh;
+    }
 
     bool operator==(YRect const& r) const {
         return xx == r.xx && yy == r.yy && ww == r.ww && hh == r.hh;
