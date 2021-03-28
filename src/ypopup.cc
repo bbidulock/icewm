@@ -12,12 +12,11 @@
 bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     PRECONDITION(popup != 0);
     if (fPopup == nullptr) {
-        //        Cursor changePointer = None; //!!!(popup->popupFlags() & YPopupWindow::pfNoPointerChange) ? None : rightPointer;
-        Cursor changePointer = (dontRotateMenuPointer ||
-                                (popup->popupFlags() & YPopupWindow::pfNoPointerChange) ?
-                                None : rightPointer.handle());
+        Cursor cursor = dontRotateMenuPointer ||
+                         (popup->popupFlags() & YPopupWindow::pfNoPointerChange)
+                      ? None : rightPointer.handle();
 
-        if (!grabEvents(forWindow ? forWindow : popup, changePointer,
+        if (!grabEvents(forWindow ? forWindow : popup, cursor,
                         ButtonPressMask | ButtonReleaseMask |
                         (menuMouseTracking ? PointerMotionMask : ButtonMotionMask)))
         {
@@ -62,10 +61,10 @@ YPopupWindow::~YPopupWindow() {
 void YPopupWindow::updatePopup() {
 }
 
-void YPopupWindow::sizePopup(int /*hspace*/) {
+void YPopupWindow::sizePopup(int hspace) {
 }
 
-void YPopupWindow::activatePopup(int /*flags*/) {
+void YPopupWindow::activatePopup(int flags) {
 }
 
 void YPopupWindow::deactivatePopup() {
@@ -228,44 +227,32 @@ void YPopupWindow::finishPopup() {
         xapp->popup()->cancelPopup();
 }
 
-bool YPopupWindow::handleKey(const XKeyEvent &/*key*/) {
+bool YPopupWindow::handleKey(const XKeyEvent& key) {
     return true;
 }
 
 void YPopupWindow::handleButton(const XButtonEvent &button) {
-    if ((button.x_root >= x() &&
-         button.y_root >= y() &&
-         button.x_root  < x() + int(width()) &&
-         button.y_root  < y() + int(height()) &&
-         button.window == handle()) /*|
-         button.button == Button4 ||
-         button.button == Button5*/)
+    if (geometry().contains(button.x_root, button.y_root) &&
+        button.window == handle())
+    {
         YWindow::handleButton(button);
-    else {
-        if (fForWindow) {
-            XEvent xev;
-
-            xev.xbutton = button;
-
-            xapp->handleGrabEvent(fForWindow, xev);
-        } else {
-            if (replayMenuCancelClick) {
-                xapp->replayEvent();
-                popdown();
-            } else {
-                if (button.type == ButtonRelease) {
-                    popdown();
-                }
-            }
-        }
+    }
+    else if (fForWindow) {
+        XEvent xev;
+        xev.xbutton = button;
+        xapp->handleGrabEvent(fForWindow, xev);
+    }
+    else if (replayMenuCancelClick) {
+        xapp->replayEvent();
+        popdown();
+    }
+    else if (button.type == ButtonRelease) {
+        popdown();
     }
 }
 
 void YPopupWindow::handleMotion(const XMotionEvent &motion) {
-    if (motion.x_root >= x() &&
-        motion.y_root >= y() &&
-        motion.x_root  < x() + int(width()) &&
-        motion.y_root  < y() + int(height()) &&
+    if (geometry().contains(motion.x_root, motion.y_root) &&
         motion.window == handle())
     {
         YWindow::handleMotion(motion);
@@ -274,18 +261,16 @@ void YPopupWindow::handleMotion(const XMotionEvent &motion) {
         handleMotionOutside(true, motion);
         if (fForWindow) {
             XEvent xev;
-
             xev.xmotion = motion;
-
             xapp->handleGrabEvent(fForWindow, xev);
         }
     }
 }
 
-void YPopupWindow::handleMotionOutside(bool /*top*/, const XMotionEvent &/*motion*/) {
+void YPopupWindow::handleMotionOutside(bool top, const XMotionEvent& motion) {
 }
 
-void YPopupWindow::dispatchMotionOutside(bool /*top*/, const XMotionEvent &motion) {
+void YPopupWindow::dispatchMotionOutside(bool top, const XMotionEvent& motion) {
     if (fPrevPopup) {
         fPrevPopup->handleMotionOutside(false, motion);
         fPrevPopup->dispatchMotionOutside(false, motion);

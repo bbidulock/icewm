@@ -58,6 +58,7 @@ public:
 
     YPopupWindow *prevPopup() const { return fPrevPopup; }
     void setPrevPopup(YPopupWindow *prevPopup) { fPrevPopup = prevPopup; }
+    void setPopDownListener(YPopDownListener* lis) { fPopDownListener = lis; }
 
     enum {
         pfButtonDown        = 1 << 0,
