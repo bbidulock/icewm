@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-03-19 16:18+0100\n"
+"POT-Creation-Date: 2021-03-28 23:26+0200\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:186 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:80
 #, fuzzy
 msgid "Default"
 msgstr "Delete"
@@ -590,7 +590,7 @@ msgstr "Kommandoen `%s' krever minst %d argumenter."
 msgid "Invalid expression: `%s'"
 msgstr "Ugyldig uttrykk: `%s'"
 
-#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1074
+#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1066
 #: src/yxapp.cc:1030
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -623,7 +623,7 @@ msgstr "Ugyldig argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Ugyldig argument: `%s'."
 
-#: src/icesh.cc:4243
+#: src/icesh.cc:4247
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ukjent kommando: `%s'"
@@ -1073,174 +1073,174 @@ msgstr ""
 msgid "icewm - About"
 msgstr "icewm - Om"
 
-#: src/wmapp.cc:81
+#: src/wmapp.cc:80
 #, fuzzy
 msgid "A window manager is already running, use --replace to replace it"
 msgstr "En annen vindusbehandler kjører allerede, avslutter..."
 
-#: src/wmapp.cc:99
+#: src/wmapp.cc:98
 #, c-format
 msgid "Failed to become the owner of the %s selection"
 msgstr ""
 
-#: src/wmapp.cc:103
+#: src/wmapp.cc:102
 msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmapp.cc:108
+#: src/wmapp.cc:107
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:379
+#: src/wmapp.cc:371
 msgid "_Logout"
 msgstr "_Logg av"
 
-#: src/wmapp.cc:380
+#: src/wmapp.cc:372
 msgid "_Cancel logout"
 msgstr "_Avbryt avlogging"
 
-#: src/wmapp.cc:385
+#: src/wmapp.cc:377
 msgid "Lock _Workstation"
 msgstr "Lås _arbeidsstasjon"
 
-#: src/wmapp.cc:387 src/wmdialog.cc:72
+#: src/wmapp.cc:379 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Start _maskinen på nytt"
 
-#: src/wmapp.cc:389 src/wmdialog.cc:73
+#: src/wmapp.cc:381 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "S_lå av maskinen"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:391 src/wmdialog.cc:69
+#: src/wmapp.cc:383 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:396
+#: src/wmapp.cc:388
 msgid "Restart _Icewm"
 msgstr "Start _Icewm på nytt"
 
-#: src/wmapp.cc:398
+#: src/wmapp.cc:390
 msgid "Restart _Xterm"
 msgstr "Start _Xterm på nytt"
 
-#: src/wmapp.cc:408
+#: src/wmapp.cc:400
 msgid "_Menu"
 msgstr "_Meny"
 
-#: src/wmapp.cc:409
+#: src/wmapp.cc:401
 msgid "_Above Dock"
 msgstr "_Over dock"
 
-#: src/wmapp.cc:410
+#: src/wmapp.cc:402
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:411
+#: src/wmapp.cc:403
 msgid "_OnTop"
 msgstr "_Øverst"
 
-#: src/wmapp.cc:412
+#: src/wmapp.cc:404
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:413
+#: src/wmapp.cc:405
 msgid "_Below"
 msgstr "_Under"
 
-#: src/wmapp.cc:414
+#: src/wmapp.cc:406
 msgid "D_esktop"
 msgstr "_Skrivebord"
 
-#: src/wmapp.cc:449 src/wmwinlist.cc:362
+#: src/wmapp.cc:441 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "_Gjenopprett"
 
-#: src/wmapp.cc:451
+#: src/wmapp.cc:443
 msgid "_Move"
 msgstr "_Flytt"
 
-#: src/wmapp.cc:453
+#: src/wmapp.cc:445
 msgid "_Size"
 msgstr "_Endre størrelse"
 
-#: src/wmapp.cc:455 src/wmwinlist.cc:363
+#: src/wmapp.cc:447 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "Mi_nimer"
 
-#: src/wmapp.cc:457 src/wmwinlist.cc:364
+#: src/wmapp.cc:449 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "Ma_ksimer"
 
-#: src/wmapp.cc:458 src/wmwinlist.cc:365
+#: src/wmapp.cc:450 src/wmwinlist.cc:365
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Maksimer"
 
-#: src/wmapp.cc:459 src/wmwinlist.cc:366
+#: src/wmapp.cc:451 src/wmwinlist.cc:366
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Maksimer"
 
-#: src/wmapp.cc:462 src/wmwinlist.cc:367
+#: src/wmapp.cc:454 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "_Fullskjerm"
 
-#: src/wmapp.cc:465 src/wmwinlist.cc:369
+#: src/wmapp.cc:457 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "G_jem"
 
-#: src/wmapp.cc:467 src/wmwinlist.cc:370
+#: src/wmapp.cc:459 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "_Rull opp"
 
-#: src/wmapp.cc:474
+#: src/wmapp.cc:466
 msgid "R_aise"
 msgstr "_Hev"
 
-#: src/wmapp.cc:476 src/wmwinlist.cc:372
+#: src/wmapp.cc:468 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "_Senk"
 
-#: src/wmapp.cc:478 src/wmwinlist.cc:373
+#: src/wmapp.cc:470 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "_Lag"
 
-#: src/wmapp.cc:482 src/wmwinlist.cc:375
+#: src/wmapp.cc:474 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "Fl_ytt til"
 
-#: src/wmapp.cc:483 src/wmwinlist.cc:376
+#: src/wmapp.cc:475 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "Finnes på _alle"
 
-#: src/wmapp.cc:489
+#: src/wmapp.cc:481
 msgid "Limit _Workarea"
 msgstr "_Begrens område"
 
-#: src/wmapp.cc:493 src/wmwinlist.cc:377
+#: src/wmapp.cc:485 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "_Trayikon"
 
-#: src/wmapp.cc:498 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:490 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "L_ukk"
 
-#: src/wmapp.cc:500 src/wmwinlist.cc:394
+#: src/wmapp.cc:492 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "_Drep klient"
 
-#: src/wmapp.cc:503 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:495 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "_Vindusliste"
 
-#: src/wmapp.cc:536
+#: src/wmapp.cc:528
 msgid "Another window manager already running, exiting..."
 msgstr "En annen vindusbehandler kjører allerede, avslutter..."
 
-#: src/wmapp.cc:608
+#: src/wmapp.cc:600
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1249,33 +1249,33 @@ msgstr ""
 "Kunne ikke starte `%s' på nytt\n"
 "Finnes `%s' i $PATH?"
 
-#: src/wmapp.cc:770
+#: src/wmapp.cc:762
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:771
+#: src/wmapp.cc:763
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1075 src/yxapp.cc:1031
+#: src/wmapp.cc:1067 src/yxapp.cc:1031
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/wmapp.cc:1379
+#: src/wmapp.cc:1369
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1385
+#: src/wmapp.cc:1375
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1393
+#: src/wmapp.cc:1383
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1286,7 +1286,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1402
+#: src/wmapp.cc:1392
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1345,26 +1345,26 @@ msgstr ""
 "Se https://ice-wm.org/ for å rapportere feil, få hjelp, og gi kommentarer.\n"
 "\n"
 
-#: src/wmapp.cc:1464
+#: src/wmapp.cc:1454
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1546
+#: src/wmapp.cc:1536
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Ukjent opsjon: %s\n"
 
-#: src/wmapp.cc:1624
+#: src/wmapp.cc:1614
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Ukjent opsjon: %s\n"
 
-#: src/wmapp.cc:1676
+#: src/wmapp.cc:1666
 msgid "Confirm Logout"
 msgstr "Bekreft avlogging"
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1667
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1435,7 +1435,7 @@ msgid "_Cancel"
 msgstr "A_vbryt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:526 src/wmprog.cc:528 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:458 src/wmprog.cc:460 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "_Logg av"
@@ -1445,15 +1445,15 @@ msgid "_Restart icewm"
 msgstr "_Start Icewm på nytt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:494 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:426 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "_Om"
 
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1393
 msgid "Kill Client: "
 msgstr "Drep klient: "
 
-#: src/wmframe.cc:1403
+#: src/wmframe.cc:1394
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1461,11 +1461,11 @@ msgstr ""
 "ADVARSEL! Alle ulagrede data vil gå tapt hvis\n"
 "denne klienten blir drept. Vil du fortsette?"
 
-#: src/wmmgr.cc:3162
+#: src/wmmgr.cc:3232
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3163
+#: src/wmmgr.cc:3233
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1479,76 +1479,76 @@ msgstr "Ukjent vindusopsjon: `%s'"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaksfeil i vindusopsjonene"
 
-#: src/wmprog.cc:390
+#: src/wmprog.cc:333
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:391
+#: src/wmprog.cc:334
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:392
+#: src/wmprog.cc:335
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:393
+#: src/wmprog.cc:336
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:394
+#: src/wmprog.cc:337
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:395
+#: src/wmprog.cc:338
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:417
+#: src/wmprog.cc:360
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:418
+#: src/wmprog.cc:361
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:419
+#: src/wmprog.cc:362
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:420
+#: src/wmprog.cc:363
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:480
+#: src/wmprog.cc:412
 msgid "Programs"
 msgstr "Programmer"
 
-#: src/wmprog.cc:484
+#: src/wmprog.cc:416
 msgid "_Run..."
 msgstr "_Kjør..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:488 src/wmtaskbar.cc:233
+#: src/wmprog.cc:420 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "_Vinduer"
 
-#: src/wmprog.cc:499
+#: src/wmprog.cc:431
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: src/wmprog.cc:504
+#: src/wmprog.cc:436
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:509
+#: src/wmprog.cc:441
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:514
+#: src/wmprog.cc:446
 msgid "_Themes"
 msgstr "_Temaer"
 
-#: src/wmprog.cc:518
+#: src/wmprog.cc:450
 msgid "Se_ttings"
 msgstr ""
 
@@ -1673,12 +1673,12 @@ msgstr "%lu. Skrivebordsområde %-.32s"
 msgid "%s: select failed"
 msgstr ""
 
-#: src/yconfig.cc:107
+#: src/yconfig.cc:114
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Ukjent nøkkelnavn `%s' i %s"
 
-#: src/yconfig.cc:122 src/yconfig.cc:133 src/yconfig.cc:145
+#: src/yconfig.cc:129 src/yconfig.cc:140 src/yconfig.cc:152
 #, fuzzy, c-format
 #| msgid "Bad argument: %s for %s"
 msgid "Bad argument: %s for %s [%d,%d]"
