@@ -296,9 +296,6 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
 bool SwitchWindow::close() {
     if (isUp) {
         cancelPopup();
-        isUp = false;
-        menuMouseTracking = m_oldMenuMouseTracking;
-        m_hlItemFromMotion = -1;
         return true;
     }
     return false;
@@ -687,6 +684,9 @@ void SwitchWindow::activatePopup(int /*flags*/) {
 }
 
 void SwitchWindow::deactivatePopup() {
+    isUp = false;
+    menuMouseTracking = m_oldMenuMouseTracking;
+    m_hlItemFromMotion = -1;
 }
 
 void SwitchWindow::displayFocus(int itemIdx) {
@@ -776,6 +776,12 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             zItems->destroyTarget();
             return true;
         }
+        else if (k >= '1' && k <= '9') {
+            int index = int(k - '1');
+            if (index < zItems->getCount())
+                target(index - zItems->getActiveItem());
+            return true;
+        }
     }
     else if (key.type == KeyRelease) {
         if (isKey(k, vm) && !modDown(m)) {
@@ -787,7 +793,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             return true;
         }
     }
-    return YPopupWindow::handleKey(key);
+    return true;
 }
 
 bool SwitchWindow::isKey(KeySym k, unsigned vm) {
@@ -846,6 +852,7 @@ void SwitchWindow::handleButton(const XButtonEvent &button) {
             if (button.button == Button1) {
                 zItems->setTarget(hintId);
                 accept();
+                return;
             }
             if (button.button == Button2) {
                 zItems->setTarget(hintId);
@@ -853,7 +860,7 @@ void SwitchWindow::handleButton(const XButtonEvent &button) {
             }
         }
     }
-    YPopupWindow::handleButton(button);
+    YWindow::handleButton(button);
 }
 
 // vim: set sw=4 ts=4 et:
