@@ -661,9 +661,9 @@ void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
 
     int item = zItems->getActiveItem();
     if (item >= 0) {
-        displayFocus(item);
         isUp = popup(nullptr, nullptr, manager, xiscreen,
                      YPopupWindow::pfNoPointerChange);
+        displayFocus(item);
     }
 
     if (zItems->getCount() < 1) {
