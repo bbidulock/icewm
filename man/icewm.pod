@@ -353,13 +353,18 @@ involves the quick switch.
 The C<QuickSwitch> is activated by pressing C<Alt+Tab> or
 C<Alt+Shift+Tab>.  A window pops up in the centre of the screen with a
 narrow band over the next or previous window that will receive input
-focus when the C<Alt> key is released.  By repeatedly pressing
-C<Alt+Tab> or C<Alt+Shift+Tab> one can cycle through all windows.
+focus when the C<Alt> key is released.  By repeatedly pressing the
+C<Tab> key, one can cycle over all windows.
 Arrow keys are also supported, as well as the C<Home> and C<End> key.
+Pressing a digit key selects the corresponding window from the list.
+One can also use the mouse wheel and click with the left mouse button.
 
-A selected window can be closed by C<Delete> or C<Alt+F4>.
-While the C<QuickSwitch> is up, one can still change workspace.
-The C<QuickSwitch> also supports mouse operation to activate a window.
+A selected window can be closed by C<Delete>, or C<Alt+F4>, or clicking
+with the middle mouse button.
+While the QuickSwitch window is up, one can still change workspace.
+
+The QuickSwitch has two distinct modes: vertical and horizontal.
+The selection can be limited to only the current workspace.
 
 =head2 WINDOW PLACEMENT
 

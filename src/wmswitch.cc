@@ -91,7 +91,7 @@ class WindowItemsCtrlr : public ISwitchItems
                 if (w->frameOption(YFrameWindow::foIgnoreQSwitch))
                     ;
                 else if (w == manager->getFocus()) {
-                    if (pass == 0) append(w);
+                    if (pass == 2) append(w);
                 } else if (w->isUrgent()) {
                     if (quickSwitchToUrgent) {
                         if (pass == 1) append(w);
@@ -117,7 +117,7 @@ class WindowItemsCtrlr : public ISwitchItems
 
     void displayFocusChange(YFrameWindow *frame)  {
         if (frame->visible())
-            manager->setFocus(frame);
+            manager->setFocus(frame, false, false);
         manager->restackWindows();
     }
 
@@ -329,7 +329,7 @@ void SwitchWindow::resize(int xiscreen) {
     int aWidth =
         quickSwitchSmallWindow ?
         (int) dw * 1/3
-        : (quickSwitchVertical ? (int) dw * 2/5 : (int) dw * 3/5);
+        : (m_verticalStyle ? (int) dw * 2/5 : (int) dw * 3/5);
 
     int tWidth = 0;
     if (quickSwitchMaxWidth) {
@@ -345,7 +345,7 @@ void SwitchWindow::resize(int xiscreen) {
         tWidth = cTitle != null ? switchFont->textWidth(cTitle) : 0;
     }
 
-    if (quickSwitchVertical || !quickSwitchAllIcons)
+    if (m_verticalStyle || !quickSwitchAllIcons)
         tWidth += 2 * quickSwitchIMargin + YIcon::largeSize() + 3;
     if (tWidth > aWidth)
         aWidth = tWidth;
@@ -355,7 +355,7 @@ void SwitchWindow::resize(int xiscreen) {
     int const mWidth(dw * 6/7);
     const int vMargins = quickSwitchVMargin*2;
 
-    if (quickSwitchVertical) {
+    if (m_verticalStyle) {
         w = aWidth;
         if (w >= mWidth)
             w = mWidth;
@@ -561,21 +561,26 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 
 int SwitchWindow::calcHintedItem(int x, int y)
 {
-    if (quickSwitchVertical)
-        return (y - m_hintAreaStart) / m_hintAreaStep;
-    else if(quickSwitchAllIcons && !quickSwitchHugeIcon)
-        return (x - m_hintAreaStart) / m_hintAreaStep;
-    else
-        return -2;
+    int ends = m_hintAreaStart + m_hintAreaStep * zItems->getCount();
+    if (m_verticalStyle) {
+        if (x >= 0 && x < int(width()) &&
+            y >= m_hintAreaStart && y < ends)
+            return (y - m_hintAreaStart) / m_hintAreaStep;
+    }
+    else if (quickSwitchAllIcons && !quickSwitchHugeIcon) {
+        if (y >= 0 && y < int(height()) &&
+            x >= m_hintAreaStart && x < ends)
+            return (x - m_hintAreaStart) / m_hintAreaStep;
+    }
+    return -2;
 }
 
 void SwitchWindow::handleMotion(const XMotionEvent& motion) {
-    int hintId = calcHintedItem(motion.x, motion.y);
-    //printf("hint id: %d\n", hintId);
-    if (hintId == m_hlItemFromMotion || hintId == -2)
-        return;
-    m_hlItemFromMotion = hintId;
-    repaint();
+    int hint = calcHintedItem(motion.x, motion.y);
+    if (m_hlItemFromMotion != hint) {
+        m_hlItemFromMotion = hint;
+        repaint();
+    }
 }
 
 void SwitchWindow::paintVertical(Graphics &g) {
@@ -845,22 +850,31 @@ bool SwitchWindow::modDown(unsigned mod) {
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
-    //printf("got click, hot item: %d\n", m_hintedItem);
     if (button.type == ButtonPress) {
-        int hintId = calcHintedItem(button.x, button.y);
-        if (hintId >= 0 && hintId < zItems->getCount()) {
+        int hint = calcHintedItem(button.x, button.y);
+        if (hint >= 0 && hint < zItems->getCount()) {
             if (button.button == Button1) {
-                zItems->setTarget(hintId);
+                zItems->setTarget(hint);
                 accept();
                 return;
             }
             if (button.button == Button2) {
-                zItems->setTarget(hintId);
+                zItems->setTarget(hint);
                 zItems->destroyTarget();
             }
         }
+        else if (button.button == Button1 &&
+                !geometry().contains(button.x_root, button.y_root)) {
+            cancel();
+            return;
+        }
+        if (button.button == Button4) {
+            target(-1);
+        }
+        if (button.button == Button5) {
+            target(+1);
+        }
     }
-    YWindow::handleButton(button);
 }
 
 // vim: set sw=4 ts=4 et:
