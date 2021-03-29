@@ -14,6 +14,34 @@
 #include "prefs.h"
 #include "yprefs.h"
 
+struct ZItem {
+    int prio;
+    int index;
+    YFrameWindow* frame;
+
+    static int compare(const void* p1, const void* p2) {
+        const ZItem* z1 = static_cast<const ZItem*>(p1);
+        const ZItem* z2 = static_cast<const ZItem*>(p2);
+        if (quickSwitchGroupWorkspaces) {
+            int w1 = z1->frame->getWorkspace();
+            int w2 = z2->frame->getWorkspace();
+            if (w1 != w2) {
+                int active = manager->activeWorkspace();
+                if (w1 == active)
+                    return -1;
+                else if (w2 == active)
+                    return +1;
+                else
+                    return w1 - w2;
+            }
+        }
+        if (z1->prio != z2->prio)
+            return z1->prio - z2->prio;
+        else
+            return z1->index - z2->index;
+    }
+};
+
 class WindowItemsCtrlr : public ISwitchItems
 {
     int zTarget;
@@ -22,97 +50,8 @@ class WindowItemsCtrlr : public ISwitchItems
     YFrameWindow *fLastWindow;
     char *fWMClass;
 
-    void append(YFrameWindow* w) {
-        if (find(zList, w) < 0) {
-            zList.append(w);
-        }
-    }
-
-    void getZList() {
-
-        if (quickSwitchGroupWorkspaces || !quickSwitchToAllWorkspaces) {
-            int activeWorkspace = manager->activeWorkspace();
-            GetZListWorkspace(true, activeWorkspace);
-            if (quickSwitchToAllWorkspaces) {
-                for (int w = 0; w < workspaceCount; ++w) {
-                    if (w != activeWorkspace)
-                        GetZListWorkspace(true, w);
-                }
-            }
-        } else
-            GetZListWorkspace(false, -1);
-
-        if (fActiveWindow != nullptr && find(zList, fActiveWindow) == -1)
-            fActiveWindow = nullptr;
-        if (fLastWindow != nullptr && find(zList, fLastWindow) == -1)
-            fLastWindow = nullptr;
-    }
-
     void freeList() {
         zList.clear();
-    }
-
-    void GetZListWorkspace(bool workspaceOnly, int workspace)
-    {
-        for (int pass = 0; pass <= 5; pass++) {
-            YFrameIter w = manager->focusedReverseIterator();
-
-            while (++w) {
-                // pass 0: focused window
-                // pass 1: urgent windows
-                // pass 2: normal windows
-                // pass 3: minimized windows
-                // pass 4: hidden windows
-                // pass 5: unfocusable windows
-
-                if (hasbit(w->client()->winHints(), WinHintsSkipFocus))
-                    continue;
-
-                if (!w->client()->adopted() && !w->visible()) {
-                    continue;
-                }
-
-                if (!w->isUrgent()) {
-                    if (workspaceOnly && w->isAllWorkspaces() &&
-                        workspace != manager->activeWorkspace()) {
-                        continue;
-                    }
-
-                    if (workspaceOnly && !w->visibleOn(workspace)) {
-                        continue;
-                    }
-                }
-
-                if (nonempty(fWMClass)) {
-                    if (w->client()->classHint()->match(fWMClass) == false)
-                        continue;
-                }
-
-                if (w->frameOption(YFrameWindow::foIgnoreQSwitch))
-                    ;
-                else if (w == manager->getFocus()) {
-                    if (pass == 2) append(w);
-                } else if (w->isUrgent()) {
-                    if (quickSwitchToUrgent) {
-                        if (pass == 1) append(w);
-                    } else {
-                        if (pass == 2) append(w);
-                    }
-                } else if (w->avoidFocus()) {
-                    if (pass == 5) append(w);
-                } else if (w->isHidden()) {
-                    if (pass == 4)
-                        if (quickSwitchToHidden)
-                            append(w);
-                } else if (w->isMinimized()) {
-                    if (pass == 3)
-                        if (quickSwitchToMinimized)
-                            append(w);
-                } else {
-                    if (pass == 2) append(w);
-                }
-            }
-        }
     }
 
     void displayFocusChange(YFrameWindow *frame)  {
@@ -189,8 +128,75 @@ public:
     }
 
     virtual void updateList() override {
-        freeList();
-        getZList();
+        YFrameWindow* const focused = manager->getFocus();
+        int const current = manager->activeWorkspace();
+        int const count = manager->focusedCount();
+        ZItem items[count];
+        int index = 0;
+
+        for (YFrameIter iter(manager->focusedReverseIterator()); ++iter; ) {
+            YFrameWindow* frame = iter;
+            YFrameClient* client = frame->client();
+
+            if (hasbit(client->winHints(), WinHintsSkipFocus))
+                continue;
+
+            if (!client->adopted() && !frame->visible())
+                continue;
+
+            if (!frame->isUrgent()) {
+                if (!quickSwitchToAllWorkspaces && !frame->visibleOn(current))
+                    continue;
+            }
+
+            if (nonempty(fWMClass)) {
+                if (client->classHint()->match(fWMClass) == false)
+                    continue;
+            }
+
+            if (frame->frameOption(YFrameWindow::foIgnoreQSwitch))
+                continue;
+
+            int prio = 0;
+            if (frame->isUrgent()) {
+                prio = 1 + !quickSwitchToUrgent;
+            }
+            else if (frame == focused) {
+                prio = 2;
+            }
+            else if (frame->avoidFocus()) {
+                prio = 5;
+            }
+            else if (frame->isHidden()) {
+                if (quickSwitchToHidden)
+                    prio = 4;
+            }
+            else if (frame->isMinimized()) {
+                if (quickSwitchToMinimized)
+                    prio = 3;
+            }
+            else {
+                prio = 2;
+            }
+            if (prio && index < count) {
+                items[index].prio = prio;
+                items[index].index = index;
+                items[index].frame = frame;
+                index += 1;
+            }
+        }
+
+        qsort(items, size_t(index), sizeof(ZItem), ZItem::compare);
+
+        zList.clear();
+        for (int i = 0; i < index; ++i) {
+            zList += items[i].frame;
+        }
+
+        if (fActiveWindow && find(zList, fActiveWindow) < 0)
+            fActiveWindow = nullptr;
+        if (fLastWindow && find(zList, fLastWindow) < 0)
+            fLastWindow = nullptr;
     }
 
     void displayFocusChange(int idx) override {
