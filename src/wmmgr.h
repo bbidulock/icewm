@@ -98,7 +98,7 @@ public:
     void destroyedClient(Window win);
     void mapClient(Window win);
 
-    void setFocus(YFrameWindow *f, bool canWarp = false);
+    void setFocus(YFrameWindow *f, bool canWarp = false, bool reorder = true);
     YFrameWindow *getFocus() { return fFocusWin; }
 
     void installColormap(Colormap cmap);

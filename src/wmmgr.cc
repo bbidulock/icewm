@@ -950,7 +950,7 @@ YFrameClient *YWindowManager::findClient(Window win) {
     return clientContext.find(win);
 }
 
-void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
+void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     YFrameClient *c = f ? f->client() : nullptr;
     Window w = None;
 
@@ -970,7 +970,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp) {
             w = f->handle();
 
         if (f->getInputFocusHint())
-            switchFocusTo(f);
+            switchFocusTo(f, reorder);
 
         f->setWmUrgency(false);
     }
@@ -2450,7 +2450,7 @@ void YWindowManager::activateWorkspace(long workspace) {
         unlockFocus();
 
         YFrameWindow *toFocus = getLastFocus(true, workspace);
-        setFocus(toFocus);
+        setFocus(toFocus, false, !switchWindowVisible());
         resetColormap(true);
 
         if (taskBar) {
