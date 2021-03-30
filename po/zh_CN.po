@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-28 23:26+0200\n"
-"PO-Revision-Date: 2021-03-20 11:56+0000\n"
+"PO-Revision-Date: 2021-03-30 04:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
@@ -689,10 +689,10 @@ msgid ""
 msgstr ""
 "\n"
 "调试选项：\n"
-"  -v, --valgrind      让 \"/usr/bin/valgrind\" 运行 icewm。\n"
-"                      彻底检查 icewm 的执行。\n"
-"  -g, --catchsegv     让 \"/usr/bin/catchsegv\" 运行 icewm。\n"
-"                      如果 icewm 发生段错误，则进行回溯跟踪。\n"
+"  -v, --valgrind      使用 \"/usr/bin/valgrind\" 运行 IceVM。\n"
+"                      彻底检查 IceVM 运行情况。\n"
+"  -g, --catchsegv     使用 \"/usr/bin/catchsegv\" 运行 IceVM\n"
+"                      在 IceVM 出现段错误时进行回溯。\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1170,7 +1170,7 @@ msgstr "AlphaBlending"
 
 #: src/wmabout.cc:57
 msgid "Renderer:"
-msgstr "呈现器："
+msgstr "渲染器："
 
 #: src/wmabout.cc:65
 msgid "icewm - About"
@@ -1572,7 +1572,7 @@ msgstr ""
 
 #: src/wmmgr.cc:3232
 msgid "Missing program setxkbmap"
-msgstr "程序 setxkbmap 缺失"
+msgstr "缺少程序 setxkbmap"
 
 #: src/wmmgr.cc:3233
 msgid "For keyboard switching, please install setxkbmap."
