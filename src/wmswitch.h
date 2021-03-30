@@ -22,18 +22,16 @@ public:
     virtual ~ISwitchItems() {}
 
     // move the focused target up or down and return the new focused element
-    virtual int moveTarget(bool zdown) = 0;
+    virtual void moveTarget(bool zdown) = 0;
     // run closing/destruction process for the pointed object
     virtual void destroyTarget() {}
     // set the target explicitly rather than switching around
-    virtual int setTarget(int zPosition) = 0;
+    virtual void setTarget(int zPosition) = 0;
     /// Show changed focus preview to user
-    virtual void displayFocusChange(int idxFocused) = 0;
+    virtual void displayFocusChange() { }
 
     // set target cursor and implementation specific stuff in the beginning
     virtual void begin(bool zdown) = 0;
-    // reset the cursor; the apparent state might be inconsistent
-    virtual void reset() = 0;
     virtual void cancel() = 0;
     virtual void accept(IClosablePopup* parent) = 0;
 
@@ -43,7 +41,8 @@ public:
     virtual ref<YIcon> getIcon(int idx) = 0;
 
     // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(YFrameWindow* framePtr) = 0;
+    virtual bool destroyedItem(YFrameWindow* frame) { return false; }
+    virtual bool createdItem(YFrameWindow* frame) { return false; }
 
     // Filter items by WM_CLASS
     virtual void setWMClass(char* wmclass) = 0;
@@ -70,6 +69,7 @@ public:
     virtual void handleButton(const XButtonEvent& button) override;
     virtual void handleMotion(const XMotionEvent& motion) override;
     void destroyedFrame(YFrameWindow* frame);
+    void createdFrame(YFrameWindow* frame);
     YFrameWindow* current();
 
 private:
@@ -92,26 +92,25 @@ private:
     ref<YFont> switchFont;
 
     unsigned modsDown;
-    bool isUp;
 
     bool modDown(unsigned m);
     bool isModKey(KeyCode c);
     bool isKey(KeySym k, unsigned mod);
     bool target(int delta);
 
-    void resize(int xiscreen);
+    void resize(int xiscreen, bool reposition);
     unsigned modifiers();
 
     void cancel();
     virtual bool close() override;
     void accept();
-    void displayFocus(int itemIdx);
+    void displayFocus();
     YFrameWindow* nextWindow(bool zdown);
 
     void paintHorizontal(Graphics& g);
     void paintVertical(Graphics& g);
     // -1: no hint, -2: hinting not supported
-    int calcHintedItem(int x, int y);
+    int hintedItem(int x, int y);
 
 private: // not-used
     SwitchWindow(const SwitchWindow &);

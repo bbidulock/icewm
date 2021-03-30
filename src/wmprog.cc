@@ -127,7 +127,7 @@ public:
     }
 
     // move the focused target up or down and return the new focused element
-    virtual int moveTarget(bool zdown) override {
+    virtual void moveTarget(bool zdown) override {
         int count = menu->itemCount();
         zTarget += zdown ? 1 : -1;
         if (zTarget >= count)
@@ -135,24 +135,20 @@ public:
         if (zTarget < 0)
             zTarget = max(0, count - 1);
         // no further gimmicks
-        return zTarget;
     }
     // move the focused target up or down and return the new focused element
-        virtual int setTarget(int where) override {
-            int count = menu->itemCount();
-            return zTarget = inrange(where, 0, count) ? zTarget : 0;
-        }
+    virtual void setTarget(int where) override {
+        int count = menu->itemCount();
+        zTarget = inrange(where, 0, count) ? zTarget : 0;
+    }
 
-    /// Show changed focus preview to user
-    virtual void displayFocusChange(int idxFocused) override {}
     // set target cursor and implementation specific stuff in the beginning
     virtual void begin(bool zdown) override {
         updateList();
+        zTarget = 0;
         moveTarget(zdown);
     }
-    virtual void reset() override {
-        zTarget = 0;
-    }
+
     virtual void cancel() override {
     }
     virtual void accept(IClosablePopup *parent) override {
@@ -176,11 +172,6 @@ public:
             return null;
         return menu->getItem(idx)->getIcon();
     }
-
-    // Manager notification about windows disappearing under the fingers
-    virtual void destroyedItem(YFrameWindow* framePtr) override {
-    }
-
 };
 
 void KProgram::open(unsigned mods) {

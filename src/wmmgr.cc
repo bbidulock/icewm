@@ -1705,6 +1705,8 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
                 frame->wmRaise();
             frame->setWmUrgency(true);
         }
+        if (switchWindowVisible())
+            fSwitchWindow->createdFrame(frame);
     }
     updateFullscreenLayerEnable(true);
 end:

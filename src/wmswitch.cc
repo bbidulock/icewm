@@ -76,19 +76,18 @@ public:
         return null;
     }
 
-    int moveTarget(bool zdown) override {
+    void moveTarget(bool zdown) override {
         const int cnt = getCount();
-        return setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
+        setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
     }
 
-    virtual int setTarget(int zPosition) override
+    virtual void setTarget(int zPosition) override
     {
         zTarget = zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
             fActiveWindow = zList[zTarget];
         else
             fActiveWindow = nullptr;
-        return zPosition;
     }
 
     WindowItemsCtrlr() :
@@ -199,9 +198,9 @@ public:
             fLastWindow = nullptr;
     }
 
-    void displayFocusChange(int idx) override {
-        if (inrange(idx, 0, getCount() - 1))
-            displayFocusChange(zList[idx]);
+    void displayFocusChange() override {
+        if (inrange(zTarget, 0, getCount() - 1))
+            displayFocusChange(zList[zTarget]);
     }
 
     virtual void begin(bool zdown) override
@@ -210,10 +209,6 @@ public:
         updateList();
         zTarget = 0;
         moveTarget(zdown);
-    }
-
-    virtual void reset() override {
-        zTarget = 0;
     }
 
     virtual void cancel() override {
@@ -242,7 +237,7 @@ public:
             zList[getActiveItem()]->wmClose();
     }
 
-    virtual void destroyedItem(YFrameWindow* item) override
+    virtual bool destroyedItem(YFrameWindow* item) override
     {
         int pos = find(zList, item);
         if (pos >= 0) {
@@ -258,6 +253,25 @@ public:
             if (fActiveWindow)
                 displayFocusChange(fActiveWindow);
         }
+        return pos >= 0;
+    }
+
+    virtual bool createdItem(YFrameWindow* frame) override
+    {
+        YFrameClient* client = frame->client();
+        if (notbit(client->winHints(), WinHintsSkipFocus) &&
+            (client->adopted() || frame->visible()) &&
+            (frame->isUrgent() || quickSwitchToAllWorkspaces ||
+             frame->visibleOn(manager->activeWorkspace())) &&
+            (isEmpty(fWMClass) || client->classHint()->match(fWMClass)) &&
+            !frame->frameOption(YFrameWindow::foIgnoreQSwitch) &&
+            (!frame->isHidden() || quickSwitchToHidden) &&
+            (!frame->isMinimized() || quickSwitchToMinimized))
+        {
+            zList += frame;
+            return true;
+        }
+        return false;
     }
 
     virtual YFrameWindow* current() const override {
@@ -291,7 +305,6 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
         switchMbg = &clrNormalMenu;
 
     modsDown = 0;
-    isUp = false;
 
     setStyle(wsSaveUnder | wsOverrideRedirect | wsPointerMotion | wsNoExpose);
     setTitle("IceSwitch");
@@ -300,7 +313,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
 }
 
 bool SwitchWindow::close() {
-    if (isUp) {
+    if (visible()) {
         cancelPopup();
         return true;
     }
@@ -322,7 +335,7 @@ SwitchWindow::~SwitchWindow() {
     delete zItems;
 }
 
-void SwitchWindow::resize(int xiscreen) {
+void SwitchWindow::resize(int xiscreen, bool reposition) {
     int dx, dy;
     unsigned dw, dh;
 
@@ -402,9 +415,13 @@ void SwitchWindow::resize(int xiscreen) {
     h += vMargins;
     w += quickSwitchHMargin * 2;
 
-    setGeometry(YRect(dx + ((dw - w) >> 1),
-                      dy + ((dh - h) >> 1),
-                      w, h));
+    if (reposition) {
+        setGeometry(YRect(dx + ((dw - w) >> 1),
+                          dy + ((dh - h) >> 1),
+                          w, h));
+    } else {
+        setSize(w, h);
+    }
 }
 
 void SwitchWindow::repaint() {
@@ -565,7 +582,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
     }
 }
 
-int SwitchWindow::calcHintedItem(int x, int y)
+int SwitchWindow::hintedItem(int x, int y)
 {
     int ends = m_hintAreaStart + m_hintAreaStep * zItems->getCount();
     if (m_verticalStyle) {
@@ -582,7 +599,7 @@ int SwitchWindow::calcHintedItem(int x, int y)
 }
 
 void SwitchWindow::handleMotion(const XMotionEvent& motion) {
-    int hint = calcHintedItem(motion.x, motion.y);
+    int hint = hintedItem(motion.x, motion.y);
     if (m_hlItemFromMotion != hint) {
         m_hlItemFromMotion = hint;
         repaint();
@@ -662,56 +679,54 @@ void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
     m_oldMenuMouseTracking = menuMouseTracking;
     menuMouseTracking = true;
 
-    int xiscreen = manager->getSwitchScreen();
     zItems->begin(zdown);
-
-    resize(xiscreen);
-
-    int item = zItems->getActiveItem();
-    if (item >= 0) {
-        isUp = popup(nullptr, nullptr, manager, xiscreen,
-                     YPopupWindow::pfNoPointerChange);
-        displayFocus(item);
-    }
-
-    if (zItems->getCount() < 1) {
-        close();
-    }
-    else if (isUp)
-    {
-        Window root, child;
-        int root_x, root_y, win_x, win_y;
-        unsigned int mask;
-
-        XQueryPointer(xapp->display(), handle(), &root, &child,
-                      &root_x, &root_y, &win_x, &win_y, &mask);
-
-        if (!modDown(mask))
-            accept();
+    if (zItems->getCount()) {
+        int xiscreen = manager->getSwitchScreen();
+        resize(xiscreen, true);
+        if (popup(nullptr, nullptr, manager, xiscreen,
+                  YPopupWindow::pfNoPointerChange) && visible()) {
+            Window root, child;
+            int root_x, root_y, win_x, win_y;
+            unsigned mask = 0;
+            if (XQueryPointer(xapp->display(), handle(), &root, &child,
+                              &root_x, &root_y, &win_x, &win_y, &mask)) {
+                if (!modDown(mask))
+                    accept();
+            }
+        }
     }
 }
 
-void SwitchWindow::activatePopup(int /*flags*/) {
+void SwitchWindow::activatePopup(int flags) {
+    displayFocus();
 }
 
 void SwitchWindow::deactivatePopup() {
-    isUp = false;
     menuMouseTracking = m_oldMenuMouseTracking;
     m_hlItemFromMotion = -1;
 }
 
-void SwitchWindow::displayFocus(int itemIdx) {
-    zItems->displayFocusChange(itemIdx);
+void SwitchWindow::displayFocus() {
+    zItems->displayFocusChange();
     repaint();
 }
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
-    zItems->destroyedItem(frame);
-    if (zItems->getCount() == 0) {
-        cancel();
+    bool active = zItems->getActiveItem();
+    if (zItems->destroyedItem(frame)) {
+        if (zItems->getCount() == 0) {
+            cancel();
+        }
+        else if (visible()) {
+            resize(getScreen(), active > zItems->getActiveItem());
+            repaint();
+        }
     }
-    else if (isUp) {
-        resize(manager->getSwitchScreen());
+}
+
+void SwitchWindow::createdFrame(YFrameWindow *frame) {
+    if (visible() && zItems->createdItem(frame)) {
+        resize(getScreen(), false);
         repaint();
     }
 }
@@ -726,8 +741,8 @@ bool SwitchWindow::target(int delta) {
         int active = zItems->getActiveItem();
         int count = zItems->getCount();
         int index = (1 < count) ? (active + delta + count) % count : 0;
-        int focus = zItems->setTarget(index);
-        displayFocus(focus);
+        zItems->setTarget(index);
+        displayFocus();
     }
     return true;
 }
@@ -856,30 +871,33 @@ bool SwitchWindow::modDown(unsigned mod) {
 }
 
 void SwitchWindow::handleButton(const XButtonEvent &button) {
-    if (button.type == ButtonPress) {
-        int hint = calcHintedItem(button.x, button.y);
-        if (hint >= 0 && hint < zItems->getCount()) {
-            if (button.button == Button1) {
-                zItems->setTarget(hint);
-                accept();
-                return;
-            }
-            if (button.button == Button2) {
-                zItems->setTarget(hint);
-                zItems->destroyTarget();
-            }
+    int hint;
+    switch (button.button * (button.type == ButtonPress ? 1 : -1)) {
+    case Button1:
+        m_hlItemFromMotion = -1;
+        if ((hint = hintedItem(button.x, button.y)) >= 0) {
+            zItems->setTarget(hint);
+            accept();
         }
-        else if (button.button == Button1 &&
-                !geometry().contains(button.x_root, button.y_root)) {
+        else if (!geometry().contains(button.x_root, button.y_root)) {
             cancel();
-            return;
         }
-        if (button.button == Button4) {
-            target(-1);
+        break;
+    case Button2:
+        m_hlItemFromMotion = -1;
+        if ((hint = hintedItem(button.x, button.y)) >= 0) {
+            target(hint - zItems->getActiveItem());
+            zItems->destroyTarget();
         }
-        if (button.button == Button5) {
-            target(+1);
-        }
+        break;
+    case Button4:
+        target(-1);
+        break;
+    case Button5:
+        target(+1);
+        break;
+    default:
+        break;
     }
 }
 
