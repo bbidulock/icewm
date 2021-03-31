@@ -111,9 +111,9 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
                path.string(), XpmGetErrorString(rc));
-    else if (fAttributes.npixels != 2)
+    /*else if (fAttributes.npixels != 2)
         warn("Invalid cursor pixmap: \"%s\" contains too many unique colors",
-               path.string());
+               path.string());*/
     else {
         fBackground.pixel = fAttributes.pixels[0];
         fForeground.pixel = fAttributes.pixels[1];
