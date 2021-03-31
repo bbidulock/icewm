@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-28 23:26+0200\n"
 "PO-Revision-Date: 2021-03-31 14:56+0000\n"
-"Last-Translator: Antonio Simón <antonio@trans-mission.com>\n"
+"Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/es/>\n"
 "Language: es\n"
@@ -2511,7 +2511,7 @@ msgstr "Juegos de rol"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:259
 msgid "Scanning"
-msgstr "Escaneo"
+msgstr "Escanear"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:261
@@ -2641,7 +2641,7 @@ msgstr "Videoconferencia"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:311
 msgid "Viewer"
-msgstr "Visor"
+msgstr "Visualizador"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:313
