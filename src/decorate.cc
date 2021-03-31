@@ -413,7 +413,7 @@ bool YFrameWindow::canLower() const {
 
 bool YFrameWindow::canRaise() const {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
-        if (w->visibleNow()) {
+        if (w->visibleNow() || w->visibleOn(getWorkspace())) {
             for (YFrameWindow* o = w; o != this; o = o->owner()) {
                 if (o == nullptr) {
                     return true;
