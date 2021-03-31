@@ -959,8 +959,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     MSG(("SET FOCUS f=%p", f));
 
     if (f == nullptr) {
-        YFrameWindow *ff = getFocus();
-        if (ff) switchFocusFrom(ff);
+        switchFocusFrom(getFocus());
     }
 
     if (f && f->visible()) {
@@ -2015,7 +2014,7 @@ void YWindowManager::restackWindows() {
         w.append(f->handle());
     }
 
-    if (switchWindowVisible()) {
+    if (quickSwitchRaiseCandidate && switchWindowVisible()) {
         YFrameWindow* active = fSwitchWindow->current();
         if (active) {
             Window handle = active->handle();
@@ -2970,12 +2969,9 @@ void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
 }
 
 void YWindowManager::switchFocusFrom(YFrameWindow *frame) {
-    if (frame == fFocusWin) {
-        if (fFocusWin) {
-            ///msg("losing %lX", fFocusWin);
-            fFocusWin->loseWinFocus();
-        }
+    if (fFocusWin == frame && frame) {
         fFocusWin = nullptr;
+        frame->loseWinFocus();
     }
 }
 

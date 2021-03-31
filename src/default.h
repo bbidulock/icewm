@@ -1,5 +1,5 @@
-#ifndef __DEFAULT_H
-#define __DEFAULT_H
+#ifndef DEFAULT_H
+#define DEFAULT_H
 
 #include "yconfig.h"
 
@@ -99,6 +99,7 @@ XIV(bool, quickSwitchToHidden,                  true)
 XIV(bool, quickSwitchToUrgent,                  true)
 XIV(bool, quickSwitchToAllWorkspaces,           false)
 XIV(bool, quickSwitchGroupWorkspaces,           true)
+XIV(bool, quickSwitchRaiseCandidate,            false)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
 XIV(bool, quickSwitchVertical,                  true)
@@ -185,7 +186,7 @@ XSV(const char *, openCommand,                  0)
 XSV(const char *, terminalCommand,              TERM " -hold")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
-#if defined(__linux__)
+#if __linux__
 XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff")
 XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot")
 XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend")
@@ -193,7 +194,7 @@ XSV(const char *, suspendCommand,               "test -e /run/systemd/system && 
 XSV(const char *, shutdownCommand,              0)
 XSV(const char *, rebootCommand,                0)
 XSV(const char *, suspendCommand,               0)
-#endif // LINUX
+#endif
 XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarMEMDelay,                       500)
 XIV(int, taskBarNetSamples,                     20)
@@ -202,7 +203,7 @@ XSV(const char *, cpuCommand,                   TERM " -name top -title Process\
 XSV(const char *, cpuClassHint,                 "top.XTerm")
 XIV(bool, cpuCombine,                           true)
 
-#ifdef __linux__
+#if __linux__
 XSV(const char *, netCommand,                   TERM " -name 'ss' -title 'Socket Statistics' -hold -e sh -c 'which ss > /dev/null && watch -t ss -putswl || netstat -c'")
 XSV(const char *, netClassHint,                 "ss.XTerm")
 #else
@@ -211,7 +212,7 @@ XSV(const char *, netClassHint,                 "netstat.XTerm")
 #endif
 
 XSV(const char *, netDevice,                    "[ew]*"
-#ifdef __OpenBSD__
+#if __OpenBSD__
                                                 " vio*"
 #endif
    )
@@ -226,7 +227,7 @@ XSV(const char *, fmtTimeAlt,                   NULL)
 XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #endif
 
-#if defined(CFGDEF)
+#ifdef CFGDEF
 
 cfoption icewm_preferences[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
@@ -279,12 +280,13 @@ cfoption icewm_preferences[] = {
     OBV("UseMouseWheel",                        &useMouseWheel,                 "Support mouse wheel"),
     OBV("ShowPopupsAbovePointer",               &showPopupsAbovePointer,        "Show popup menus above mouse pointer"),
     OBV("ReplayMenuCancelClick",                &replayMenuCancelClick,         "Send the clicks outside menus to target window"),
-    OBV("QuickSwitch",                          &quickSwitch,                   "Alt+Tab window switching"),
-    OBV("QuickSwitchToMinimized",               &quickSwitchToMinimized,        "Alt+Tab to minimized windows"),
-    OBV("QuickSwitchToHidden",                  &quickSwitchToHidden,           "Alt+Tab to hidden windows"),
+    OBV("QuickSwitch",                          &quickSwitch,                   "Enable Alt+Tab window switching"),
+    OBV("QuickSwitchToMinimized",               &quickSwitchToMinimized,        "Enable Alt+Tab to minimized windows"),
+    OBV("QuickSwitchToHidden",                  &quickSwitchToHidden,           "Enable Alt+Tab to hidden windows"),
     OBV("QuickSwitchToUrgent",                  &quickSwitchToUrgent,           "Prioritize Alt+Tab to urgent windows"),
-    OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Alt+Tab to windows on other workspaces"),
-    OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Alt+Tab: group windows on current workspace"),
+    OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Include windows from all workspaces in Alt+Tab"),
+    OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Group windows by workspace together in Alt+Tab"),
+    OBV("QuickSwitchRaiseCandidate",            &quickSwitchRaiseCandidate,     "Raise a selected window while Alt+Tabbing in the QuickSwitch"),
     OBV("QuickSwitchAllIcons",                  &quickSwitchAllIcons,           "Show all reachable icons when quick switching"),
     OBV("QuickSwitchTextFirst",                 &quickSwitchTextFirst,          "Show the window title above (all reachable) icons"),
     OBV("QuickSwitchSmallWindow",               &quickSwitchSmallWindow,        "Create a smaller QuickSwitch window of 1/3 screen width"),
@@ -484,10 +486,10 @@ cfoption icewm_preferences[] = {
     OKV("KeyWinArrangeNW",                      gKeyWinArrangeNW,               "Moves the active window to the top left corner of the screen."),
     OKV("KeyWinArrangeC",                       gKeyWinArrangeC,                "Moves the active window to the top middle of the screen."),
     OKV("KeyWinSmartPlace",                     gKeyWinSmartPlace,              "Smart place the active window."),
-    OKV("KeySysSwitchNext",                     gKeySysSwitchNext,              "Give focus to the next window and raise it."),
+    OKV("KeySysSwitchNext",                     gKeySysSwitchNext,              "Opens the QuickSwitch popup and/or moves the selector in the QuickSwitch popup"),
     OKV("KeySysSwitchLast",                     gKeySysSwitchLast,              "Works like KeySysSwitchNext but moving in the opposite direction."),
     OKV("KeySysSwitchClass",                    gKeySysSwitchClass,             "Is like KeySysSwitchNext but only for windows with the same WM_CLASS property as the currently focused window."),
-    OKV("KeySysWinNext",                        gKeySysWinNext,                 "Opens the QuickSwitch popup and/or moves the selector in the QuickSwitch popup"),
+    OKV("KeySysWinNext",                        gKeySysWinNext,                 "Give focus to the next window and raise it."),
     OKV("KeySysWinPrev",                        gKeySysWinPrev,                 "Give focus to the previous window and raise it."),
     OKV("KeyTaskBarSwitchNext",                 gKeyTaskBarSwitchNext,          "Switch to the next window in the Task Bar"),
     OKV("KeyTaskBarSwitchPrev",                 gKeyTaskBarSwitchPrev,          "Switch to the previous window in the Task Bar"),
@@ -568,6 +570,6 @@ cfoption wmapp_preferences[] = {
 #endif
 
 #include "themable.h"
-#endif /* __DEFAULT_H */
+#endif
 
 // vim: set sw=4 ts=4 et:

@@ -1335,8 +1335,10 @@ void YFrameWindow::doLower() {
 }
 
 void YFrameWindow::wmRaise() {
-    doRaise();
-    manager->restackWindows();
+    if (canRaise()) {
+        doRaise();
+        manager->restackWindows();
+    }
 }
 
 void YFrameWindow::doRaise() {
@@ -2666,7 +2668,8 @@ void YFrameWindow::updateLayer(bool restack) {
     if (newLayer != fWinActiveLayer) {
         removeFrame();
         fWinActiveLayer = newLayer;
-        insertFrame(true);
+        insertFrame(oldLayer != WinLayerFullscreen
+                || !manager->switchWindowVisible());
 
         if (client() && !client()->destroyed())
             client()->setLayerHint(fWinActiveLayer);
