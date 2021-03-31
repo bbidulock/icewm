@@ -1606,8 +1606,14 @@ void YFrameWindow::activate(bool canWarp, bool curWork) {
     if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)
             setWorkspace(manager->activeWorkspace());
-        else
+        else {
+            workspaces[getWorkspace()].focused = this;
             manager->activateWorkspace(getWorkspace());
+            xapp->sync();
+            XEvent ignored;
+            while (XCheckWindowEvent(xapp->display(), xapp->root(),
+                                     FocusChangeMask, &ignored)) { }
+        }
     }
     if (isUnmapped()) {
         makeMapped();
