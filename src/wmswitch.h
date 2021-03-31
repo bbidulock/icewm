@@ -5,14 +5,6 @@ class YFrameWindow;
 class YWindowManager;
 class YIcon;
 
-class IClosablePopup
-{
-public:
-    // report true if window was up; close in any case
-    virtual bool close() = 0;
-    virtual ~IClosablePopup() {}
-};
-
 // data model, default implementation is list of windows
 class ISwitchItems
 {
@@ -30,12 +22,11 @@ public:
     /// Show changed focus preview to user
     virtual void displayFocusChange() { }
 
-    // set target cursor and implementation specific stuff in the beginning
+    // set target cursor and setup
     virtual void begin(bool zdown) = 0;
     virtual void cancel() = 0;
-    virtual void accept(IClosablePopup* parent) = 0;
+    virtual void accept() = 0;
 
-    // XXX: convert to iterator
     virtual int getActiveItem() = 0;
     virtual mstring getTitle(int idx) = 0;
     virtual ref<YIcon> getIcon(int idx) = 0;
@@ -51,7 +42,7 @@ public:
     virtual YFrameWindow* current() const { return nullptr; }
 };
 
-class SwitchWindow: public YPopupWindow, private IClosablePopup {
+class SwitchWindow: public YPopupWindow {
 public:
     SwitchWindow(YWindow* parent, ISwitchItems* items, bool verticalStyle);
     ~SwitchWindow();
@@ -96,13 +87,13 @@ private:
     bool modDown(unsigned m);
     bool isModKey(KeyCode c);
     bool isKey(KeySym k, unsigned mod);
-    bool target(int delta);
+    void target(int delta);
 
     void resize(int xiscreen, bool reposition);
     unsigned modifiers();
 
     void cancel();
-    virtual bool close() override;
+    bool close();
     void accept();
     void displayFocus();
     YFrameWindow* nextWindow(bool zdown);

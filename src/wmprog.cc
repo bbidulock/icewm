@@ -139,7 +139,7 @@ public:
     // move the focused target up or down and return the new focused element
     virtual void setTarget(int where) override {
         int count = menu->itemCount();
-        zTarget = inrange(where, 0, count) ? zTarget : 0;
+        zTarget = inrange(where, 0, count - 1) ? zTarget : 0;
     }
 
     // set target cursor and implementation specific stuff in the beginning
@@ -151,26 +151,23 @@ public:
 
     virtual void cancel() override {
     }
-    virtual void accept(IClosablePopup *parent) override {
+    virtual void accept() override {
         YMenuItem* item = menu->getItem(zTarget);
         if (item) {
             menu->actionPerformed(item->getAction(), 0);
         }
-        parent->close();
     }
 
     virtual int getActiveItem() override {
         return zTarget;
     }
     virtual mstring getTitle(int idx) override {
-        if (idx<0 || idx>=this->getCount())
-            return null;
-        return menu->getItem(idx)->getName();
+        return inrange(idx, 0, getCount() - 1) ?
+            menu->getItem(idx)->getName() : null;
     }
     virtual ref<YIcon> getIcon(int idx) override {
-        if (idx<0 || idx>=this->getCount())
-            return null;
-        return menu->getItem(idx)->getIcon();
+        return inrange(idx, 0, getCount() - 1) ?
+            menu->getItem(idx)->getIcon() : null;
     }
 };
 
@@ -179,7 +176,8 @@ void KProgram::open(unsigned mods) {
 
     if (bIsDynSwitchMenu) {
         if (!pSwitchWindow) {
-            pSwitchWindow = new SwitchWindow(desktop, new MenuProgSwitchItems(fProg, fKey, fMod), quickSwitchVertical);
+            ISwitchItems* items = new MenuProgSwitchItems(fProg, fKey, fMod);
+            pSwitchWindow = new SwitchWindow(desktop, items, quickSwitchVertical);
         }
         pSwitchWindow->begin(true, mods);
     }
