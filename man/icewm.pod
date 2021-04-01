@@ -350,21 +350,25 @@ involves the quick switch.
 
 =head2 QUICK SWITCH
 
-The C<QuickSwitch> is activated by pressing C<Alt+Tab> or
+The B<QuickSwitch> is activated by pressing C<Alt+Tab> or
 C<Alt+Shift+Tab>.  A window pops up in the centre of the screen with a
-narrow band over the next or previous window that will receive input
-focus when the C<Alt> key is released.  By repeatedly pressing the
-C<Tab> key, one can cycle over all windows.
-Arrow keys are also supported, as well as the C<Home> and C<End> key.
+list of windows to choose from. A narrow band shows the next or previous
+window that will receive input focus when the Alt key is released.
+By repeatedly pressing the Tab key, one can cycle over all windows.
+If a Shift key is down, then the direction of traversal is reversed.
+
+Arrow keys are also supported, as well as the Home and End key.
 Pressing a digit key selects the corresponding window from the list.
 One can also use the mouse wheel and click with the left mouse button.
 
-A selected window can be closed by C<Delete>, or C<Alt+F4>, or clicking
-with the middle mouse button.
-While the QuickSwitch window is up, one can still change workspace.
+A selected window can be closed by Delete, or C<Alt+F4>, or the
+middle mouse button.  While the QuickSwitch window is up, one can
+still change workspace with the usual workspace hotkeys.  To cancel
+the QuickSwitch, press Escape or click outside of the QuickSwitch.
 
 The QuickSwitch has two distinct modes: vertical and horizontal.
-The selection can be limited to only the current workspace.
+The window list can include all windows or be limited to the current
+workspace. See the many preferences available for the QuickSwitch.
 
 =head2 WINDOW PLACEMENT
 
