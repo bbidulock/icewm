@@ -305,15 +305,15 @@ multi-monitor without STRUT).
 
 =item B<QuickSwitch>=1
 
-Alt+Tab window switching.
+Enable Alt+Tab window switching.
 
 =item B<QuickSwitchToMinimized>=1
 
-Alt+Tab to minimized windows.
+Enable Alt+Tab to minimized windows.
 
 =item B<QuickSwitchToHidden>=1
 
-Alt+Tab to hidden windows.
+Enable Alt+Tab to hidden windows.
 
 =item B<QuickSwitchToUrgent>=1
 
@@ -321,11 +321,15 @@ Prioritize Alt+Tab to urgent windows.
 
 =item B<QuickSwitchToAllWorkspaces>=0
 
-Alt+Tab to windows on other workspaces.
+Include windows from all workspaces in Alt+Tab.
 
 =item B<QuickSwitchGroupWorkspaces>=1
 
-Alt+Tab: group windows on current workspace.
+Group windows by workspace together in Alt+Tab.
+
+=item B<QuickSwitchRaiseCandidate>=0
+
+Raise a selected window while Alt+Tabbing in the QuickSwitch.
 
 =item B<QuickSwitchAllIcons>=1
 
@@ -337,11 +341,11 @@ Show the window title above (all reachable) icons.
 
 =item B<QuickSwitchSmallWindow>=0
 
-Attempt to create a small QuickSwitch window (1/3 instead of 3/5 of
+Create a smaller QuickSwitch window of 1/3 screen width.
 
 =item B<QuickSwitchMaxWidth>=0
 
-Go through all window titles and choose width of the longest one.
+Go trough all window titles and choose width of the longest one.
 
 =item B<QuickSwitchVertical>=1
 
