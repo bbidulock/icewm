@@ -28,18 +28,18 @@ static const char workspaceNames[] =
     "\" 1 \", \" 2 \", \" 3 \", \" 4 \"";
 
 static void show(cfoption *options) {
-    for (unsigned int i = 0; options[i].type != cfoption::CF_NONE; i++) {
-
-        if (options[i].description == nullptr ||
-            strlen(options[i].description) < 13)
-        {
+    for (unsigned i = 0; options[i].type != cfoption::CF_NONE; i++) {
+        size_t deslen = strlen(Elvis(options[i].description, ""));
+        if (deslen < 13) {
             die(13, "Invalid description for option \"%s\":\n"
                     "Each icewm option must have a meaningful description\n"
                     " and be documented in the manpage.\n",
                 options[i].name);
         }
+        const char* adddot = ASCII::isAlnum(options[i].description[deslen - 1])
+            ? "." : "";
 
-        printf("#  %s\n", options[i].description);
+        printf("#  %s%s\n", options[i].description, adddot);
 
         switch (options[i].type) {
         case cfoption::CF_BOOL:
@@ -78,8 +78,8 @@ static void show(cfoption *options) {
         case cfoption::CF_NONE:
             break;
         }
-        if (options[i].description)
-            puts("");
+
+        puts("");
     }
 }
 
