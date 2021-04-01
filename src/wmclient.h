@@ -150,7 +150,6 @@ public:
     virtual bool isAllWorkspaces() const = 0;
     virtual bool startMinimized() const = 0;
     virtual void wmOccupyWorkspace(int workspace) = 0;
-    virtual void wmOccupyOnlyWorkspace(int workspace) = 0;
     virtual void popupSystemMenu(YWindow *owner) = 0;
     virtual void popupSystemMenu(YWindow *owner, int x, int y,
                          unsigned int flags,

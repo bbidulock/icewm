@@ -1860,13 +1860,8 @@ void YFrameWindow::wmOccupyWorkspace(int workspace) {
     mainOwner()->setWorkspace(workspace);
 }
 
-void YFrameWindow::wmOccupyOnlyWorkspace(int workspace) {
-    PRECONDITION(workspace < workspaceCount);
-    mainOwner()->setWorkspace(workspace);
-}
-
 void YFrameWindow::wmMoveToWorkspace(int workspace) {
-    wmOccupyOnlyWorkspace(workspace);
+    wmOccupyWorkspace(workspace);
 }
 
 void YFrameWindow::updateAllowed() {

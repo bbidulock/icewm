@@ -83,7 +83,7 @@ void YWindowManager::actionPerformed(YAction action, unsigned modifiers) {
     for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
         if (int(f->handle()) == action.ident()) {
             if (modifiers & ShiftMask)
-                f->wmOccupyOnlyWorkspace(manager->activeWorkspace());
+                f->wmOccupyWorkspace(manager->activeWorkspace());
             f->activateWindow(true, false);
             return ;
         }
