@@ -121,8 +121,17 @@ static void ppod(cfoption *options) {
             break;
         }
         puts("");
-        if (nonempty(options[i].description))
-            printf("%s\n\n", options[i].description);
+
+        size_t deslen = strlen(Elvis(options[i].description, ""));
+        if (deslen < 13) {
+            die(13, "Invalid description for option \"%s\":\n"
+                    "Each icewm option must have a meaningful description\n"
+                    " and be documented in the manpage.\n",
+                options[i].name);
+        }
+        const char* adddot = ASCII::isAlnum(options[i].description[deslen - 1])
+            ? "." : "";
+        printf("%s%s\n\n", options[i].description, adddot);
     }
 }
 
