@@ -17,10 +17,10 @@ public:
     ObjectMenu(YActionListener *wmActionListener, YWindow *parent = nullptr);
     virtual ~ObjectMenu();
 
-    virtual void actionPerformed(YAction action, unsigned modifiers);
-    virtual void addObject(DObject* object);
-    virtual void addSeparator();
-    virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container);
+    virtual void actionPerformed(YAction action, unsigned modifiers) override;
+    virtual void addObject(DObject* object) override;
+    virtual void addSeparator() override;
+    virtual void addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) override;
 
     YMenuItem* addObject(DObject* object, const char* icon,
                          ObjectMenu* sub = nullptr, bool check = false);
