@@ -55,7 +55,8 @@ YMsgBox::YMsgBox(int buttons,
         if (icon != null) {
             if (text && !strchr(text, '\n') && icon->small() != null) {
                 fPixmap = icon->small()->renderToPixmap(xapp->depth());
-            } else {
+            }
+            else if (icon->large() != null) {
                 fPixmap = icon->large()->renderToPixmap(xapp->depth());
             }
         }
