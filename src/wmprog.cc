@@ -119,6 +119,9 @@ public:
     virtual int getCount() override {
         return menu->itemCount();
     }
+    virtual bool isKey(KeySym k, unsigned int mod) override {
+        return k == this->key && mod == this->mod;
+    }
     virtual void setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
     }

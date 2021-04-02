@@ -35,6 +35,8 @@ public:
     virtual bool destroyedItem(YFrameWindow* frame) { return false; }
     virtual bool createdItem(YFrameWindow* frame) { return false; }
 
+    virtual bool isKey(KeySym k, unsigned mod) = 0;
+
     // Filter items by WM_CLASS
     virtual void setWMClass(char* wmclass) = 0;
     virtual char* getWMClass() = 0;

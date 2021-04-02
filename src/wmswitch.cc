@@ -282,6 +282,11 @@ public:
     virtual YFrameWindow* current() const override {
         return fActiveWindow;
     }
+
+    virtual bool isKey(KeySym k, unsigned vm) override {
+        return gKeySysSwitchNext.eq(k, vm) || (fWMClass &&
+               gKeySysSwitchClass.eq(k, vm));
+    }
 };
 
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
@@ -808,6 +813,9 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             if (index < zItems->getCount())
                 target(index - zItems->getActiveItem());
         }
+        else if (zItems->isKey(k, vm) && !modDown(m)) {
+            accept();
+        }
     }
     else if (key.type == KeyRelease) {
         if ((isKey(k, vm) && !modDown(m)) || isModKey(key.keycode)) {
@@ -818,7 +826,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
 }
 
 bool SwitchWindow::isKey(KeySym k, unsigned vm) {
-    return gKeySysSwitchNext.eq(k, vm) || gKeySysSwitchClass.eq(k, vm);
+    return zItems->isKey(k, vm);
 }
 
 unsigned SwitchWindow::modifiers() {
