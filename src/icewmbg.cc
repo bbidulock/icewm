@@ -21,7 +21,6 @@ char const *ApplicationName = nullptr;
 
 class PixFile {
 public:
-    typedef ref<YResourcePaths> Paths;
     typedef ref<YPixmap> Pixmap;
 private:
     mstring name;
@@ -37,11 +36,11 @@ public:
         pix = null;
     }
     mstring file() const { return name; }
-    Pixmap pixmap(Paths paths) {
+    Pixmap pixmap() {
         time_t now = time(nullptr);
         if (pix == null) {
             if (last == 0 || last + 2 < now) {
-                pix = load(paths);
+                pix = load();
                 last = check = now;
             }
         }
@@ -51,7 +50,7 @@ public:
             struct stat st;
             if (path.stat(&st) == 0) {
                 if (last < st.st_mtime) {
-                    Pixmap tmp = load(paths);
+                    Pixmap tmp = load();
                     if (tmp != null) {
                         pix = tmp;
                         last = now;
@@ -61,11 +60,11 @@ public:
         }
         return pix;
     }
-    Pixmap load(Paths paths) {
+    Pixmap load() {
         Pixmap image;
         upath path(name);
         if (false == path.isAbsolute()) {
-            image = paths->loadPixmap(null, path);
+            image = YResourcePaths::loadPixmapFile(path);
         }
         if (image == null) {
             image = YPixmap::load(path);
@@ -83,10 +82,8 @@ public:
 
 class PixCache {
 public:
-    typedef ref<YResourcePaths> Paths;
     typedef ref<YPixmap> Pixmap;
 private:
-    Paths paths;
     YObjectArray<PixFile> pixes;
     int find(mstring name) {
         for (int i = 0; i < pixes.getCount(); ++i) {
@@ -96,16 +93,9 @@ private:
         }
         return -1;
     }
-    Paths getPaths() {
-        if (paths == null) {
-            paths = YResourcePaths::subdirs(null);
-        }
-        return paths;
-    }
 public:
     ~PixCache() {
         clear();
-        paths = null;
     }
     void add(mstring file, Pixmap pixmap = null) {
         if (-1 == find(file)) {
@@ -114,11 +104,10 @@ public:
     }
     Pixmap get(mstring name) {
         int k = find(name);
-        return k == -1 ? null : pixes[k]->pixmap(getPaths());
+        return k == -1 ? null : pixes[k]->pixmap();
     }
     void clear() {
         pixes.clear();
-        paths = null;
     }
     void unload() {
         for (int k = pixes.getCount(); --k >= 0; ) {
