@@ -40,15 +40,16 @@ YMenuItem* ObjectMenu::addObject(DObject* object, const char* icon,
                                  ObjectMenu* sub, bool checked) {
     YMenuItem* item = getObjectItem(object);
     if (item) {
-        if (icon == nullptr) {
+        if (object->getIcon() != null) {
             item->setIcon(object->getIcon());
-        } else if (*icon) {
+        }
+        else if (nonempty(icon)) {
             item->setIcon(YIcon::getIcon(icon));
         }
         if (checked) {
             item->setChecked(true);
         }
-        add(item, icon);
+        add(item);
     }
     return item;
 }
