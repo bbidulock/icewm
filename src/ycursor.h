@@ -3,7 +3,7 @@
 
 class YCursorLoader : public refcounted {
 public:
-    virtual Cursor load(upath path, unsigned int fallback) = 0;
+    virtual Cursor load(const char* path, unsigned fallback) = 0;
 };
 
 class YCursor {

@@ -273,7 +273,7 @@ public:
         : paths(YResourcePaths::subdirs("cursors/"))
     { }
 
-    virtual Cursor load(upath path, unsigned int fallback);
+    virtual Cursor load(const char* path, unsigned fallback);
 };
 
 static Pixmap createMask(int w, int h) {
@@ -341,26 +341,16 @@ YCursorLoader* YCursor::newLoader() {
     return new MyCursorLoader();
 }
 
-Cursor MyCursorLoader::load(upath name, unsigned int fallback)
-{
-    Cursor fCursor = None;
-
-    upath cursors("cursors/");
-
-    for (int i = 0; i < paths->getCount(); i++) {
-        upath path = paths->getPath(i) + cursors + name;
+Cursor MyCursorLoader::load(const char* name, unsigned fallback) {
+    for (auto base : *paths) {
+        upath path(base + "/cursors/" + name);
         if (path.fileExists()) {
-            if ((fCursor = load(path)) != None) {
-                /* stop when successful */
-                break;
-            }
+            Cursor c = load(path);
+            if (c)
+                return c;
         }
     }
-
-    if (fCursor == None)
-        fCursor = XCreateFontCursor(xapp->display(), fallback);
-
-    return fCursor;
+    return XCreateFontCursor(xapp->display(), fallback);
 }
 
 // vim: set sw=4 ts=4 et:
