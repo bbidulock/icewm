@@ -449,6 +449,9 @@ public:
 
     void sort();
 
+    mstring* begin() const { return getItemPtr(0); }
+    mstring* end() const { return begin() + getCount(); }
+
 private:
     mstring* getItemPtr(const SizeType index) const {
         return static_cast<mstring *>(
