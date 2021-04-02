@@ -5,8 +5,8 @@
  *  Release under terms of the GNU Library General Public License
  */
 
-#ifndef __YRESOURCEPATH_H
-#define __YRESOURCEPATH_H
+#ifndef YRESOURCEPATH_H
+#define YRESOURCEPATH_H
 
 #include "ypaint.h"
 #include "yarray.h"
@@ -14,7 +14,8 @@
 
 class YResourcePaths: public refcounted {
 public:
-    static ref<YResourcePaths> subdirs(upath subdir, bool themeOnly = false);
+    static ref<YResourcePaths> subdirs(const char* subdir = nullptr,
+                                       bool themeOnly = false);
 
     ref<YPixmap> loadPixmap(upath base, upath name) const;
     ref<YImage> loadImage(upath base, upath name) const;
@@ -22,22 +23,15 @@ public:
     static ref<YPixmap> loadPixmapFile(const upath& file);
     static ref<YImage> loadImageFile(const upath& file);
 
-    void clear() { return fPaths.clear(); }
-    int getCount() const { return fPaths.getCount(); }
-    const upath& getPath(int index) const { return *fPaths[index]; }
-
-    typedef YObjectArray<upath>::IterType IterType;
-    IterType iterator() { return fPaths.iterator(); }
-    IterType reverseIterator() { return fPaths.reverseIterator(); }
-
-protected:
-    void verifyPaths(upath base);
+    upath* begin() const { return (upath *) (void *) fPaths.begin(); }
+    upath* end()   const { return (upath *) (void *) fPaths.end(); }
 
 private:
-    YObjectArray<upath> fPaths;
+    MStringArray fPaths;
 
     YResourcePaths() {}
     void addDir(upath dir);
+    void verifyPaths(const char* base);
 
     template<class Pict>
     bool loadPict(upath baseName, ref<Pict>* pict) const;

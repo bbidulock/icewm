@@ -1430,9 +1430,9 @@ static void print_usage(const char *argv0) {
 
 static void print_themes_list() {
     themeName = nullptr;
-    ref<YResourcePaths> res(YResourcePaths::subdirs(null, true));
-    for (int i = 0; i < res->getCount(); ++i) {
-        for (sdir dir(res->getPath(i)); dir.next(); ) {
+    ref<YResourcePaths> res(YResourcePaths::subdirs(nullptr, true));
+    for (upath& path : *res) {
+        for (sdir dir(path); dir.next(); ) {
             upath thmp(dir.path() + dir.entry());
             if (thmp.dirExists()) {
                 for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {

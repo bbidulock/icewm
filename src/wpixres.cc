@@ -400,13 +400,12 @@ void PixmapsDescription::scan(const upath& path) {
 }
 
 static void loadPixmapResources() {
-    bool themeOnly = true;
-    for (int k = 0; k < 2; ++k, themeOnly = !themeOnly) {
-        ref<YResourcePaths> paths = YResourcePaths::subdirs(null, themeOnly);
-        for (int i = 0; i < (int) ACOUNT(pixdes); ++i) {
-            if (themeOnly == pixdes[i].themeOnly) {
-                for (int p = 0; p < paths->getCount(); ++p) {
-                    pixdes[i].scan(paths->getPath(p));
+    for (bool only : { true, false }) {
+        ref<YResourcePaths> paths = YResourcePaths::subdirs(nullptr, only);
+        for (PixmapsDescription& des : pixdes) {
+            if (only == des.themeOnly) {
+                for (upath& path : *paths) {
+                    des.scan(path);
                 }
             }
         }
@@ -414,9 +413,9 @@ static void loadPixmapResources() {
 }
 
 static void freePixmapResources() {
-    for (int i = 0; i < (int) ACOUNT(pixdes); ++i) {
-        for (int k = 0; k < pixdes[i].count(); ++k) {
-            pixdes[i].pixres[k].reset();
+    for (PixmapsDescription& des : pixdes) {
+        for (int k = 0; k < des.count(); ++k) {
+            des.pixres[k].reset();
         }
     }
 }
@@ -566,11 +565,11 @@ static PixbufOffset taskbuttonPixbufOffsets[] = {
 static void initPixmapOffsets() {
     extern unsigned taskbuttonIconOffset;
     if (taskbuttonIconOffset) {
-        for (unsigned i = 0; i < ACOUNT(taskbuttonPixmapOffsets); ++i) {
-            taskbuttonPixmapOffsets[i].split(taskbuttonIconOffset);
+        for (PixmapOffset& pix : taskbuttonPixmapOffsets) {
+            pix.split(taskbuttonIconOffset);
         }
-        for (unsigned i = 0; i < ACOUNT(taskbuttonPixbufOffsets); ++i) {
-            taskbuttonPixbufOffsets[i].split(taskbuttonIconOffset);
+        for (PixbufOffset& pix : taskbuttonPixbufOffsets) {
+            pix.split(taskbuttonIconOffset);
         }
     }
 
@@ -580,11 +579,10 @@ static void initPixmapOffsets() {
         frameT[1][0], frameTL[1][0], frameTR[1][0],
         frameT[1][1], frameTL[1][1], frameTR[1][1],
     };
-    const int count = int ACOUNT(ts);
     unsigned offset = UINT_MAX;
-    for (int i = 0; i < count; ++i) {
-        if (ts[i] != null) {
-            unsigned vo = ts[i]->verticalOffset();
+    for (const ref<YPixmap>& pix : ts) {
+        if (pix != null) {
+            unsigned vo = pix->verticalOffset();
             if (offset > vo) {
                 offset = vo;
             }
@@ -600,11 +598,11 @@ static void initPixmapOffsets() {
 }
 
 static void freePixmapOffsets() {
-    for (unsigned i = 0; i < ACOUNT(taskbuttonPixmapOffsets); ++i) {
-        taskbuttonPixmapOffsets[i].reset();
+    for (PixmapOffset& pix : taskbuttonPixmapOffsets) {
+        pix.reset();
     }
-    for (unsigned i = 0; i < ACOUNT(taskbuttonPixbufOffsets); ++i) {
-        taskbuttonPixbufOffsets[i].reset();
+    for (PixbufOffset& pix : taskbuttonPixbufOffsets) {
+        pix.reset();
     }
 }
 

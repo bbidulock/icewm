@@ -44,16 +44,13 @@ void BrowseMenu::updatePopup() {
 
 void BrowseMenu::loadItems() {
     removeAll();
-    for (adir dir(fPath.string()); dir.next(); ) {
-        mstring entry(dir.entry());
-        upath npath(fPath + entry);
-
+    for (sdir dir(fPath); dir.next(); ) {
+        upath npath(fPath + dir.entry());
         ObjectMenu *sub = nullptr;
         if (npath.dirExists())
             sub = new BrowseMenu(app, smActionListener,
                                  getActionListener(), npath);
-
-        DFile *pfile = new DFile(app, entry, null, npath);
+        DFile *pfile = new DFile(app, dir.entry(), null, npath);
         addObject(pfile, sub ? "folder" : "file", sub);
     }
 }

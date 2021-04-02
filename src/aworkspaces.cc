@@ -403,9 +403,9 @@ WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
 }
 
 WorkspaceIcons::WorkspaceIcons() {
-    ref<YResourcePaths> dirs(YResourcePaths::subdirs("workspace", false));
-    for (int i = 0; i < dirs->getCount(); ++i) {
-        upath path(dirs->getPath(i) + "/workspace/");
+    ref<YResourcePaths> dirs(YResourcePaths::subdirs("workspace/"));
+    for (upath& base : *dirs) {
+        upath path(base + "/workspace/");
         for (adir dir(path.string()); dir.next(); ) {
             files += (path + dir.entry()).string();
         }

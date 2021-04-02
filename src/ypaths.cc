@@ -16,14 +16,13 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-
 void YResourcePaths::addDir(upath dir) {
     if (dir.dirExists())
-        fPaths.append(new upath(dir));
+        fPaths.append(dir);
 }
 
-ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
-    ref<YResourcePaths> paths(new YResourcePaths());
+ref<YResourcePaths> YResourcePaths::subdirs(const char* subdir, bool themeOnly) {
+    YResourcePaths* paths(new YResourcePaths);
 
     upath privDir(YApplication::getPrivConfDir());
 
@@ -32,7 +31,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
     upath themeDir(themeExt.isEmpty() ? themeFile : themeFile.parent());
 
     if (themeDir.isAbsolute()) {
-        MSG(("Searching `%s' resources at absolute location", subdir.string()));
+        MSG(("Searching `%s' resources at absolute location", subdir));
 
         if (themeOnly) {
             paths->addDir(themeDir);
@@ -43,7 +42,7 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
             paths->addDir(YApplication::getLibDir());
         }
     } else {
-        MSG(("Searching `%s' resources at relative locations", subdir.string()));
+        MSG(("Searching `%s' resources at relative locations", subdir));
 
         upath themes("/themes/");
         upath themesPlusThemeDir(themes + themeDir);
@@ -63,22 +62,16 @@ ref<YResourcePaths> YResourcePaths::subdirs(upath subdir, bool themeOnly) {
         }
     }
 
-    DBG {
-        MSG(("Initial search path:"));
-        for (int i = 0; i < paths->getCount(); i++) {
-            upath path = paths->getPath(i) + "/icons/";
-            MSG(("%s", path.string()));
-        }
-    }
+    if (nonempty(subdir))
+        paths->verifyPaths(subdir);
 
-    paths->verifyPaths(subdir);
-    return paths;
+    return ref<YResourcePaths>(paths);
 }
 
-void YResourcePaths::verifyPaths(upath base) {
-    for (IterType iter = reverseIterator(); ++iter; ) {
+void YResourcePaths::verifyPaths(const char* base) {
+    for (upath* iter = end(); --iter >= begin(); ) {
         if (iter->relative(base).isExecutable() == false) {
-            iter.remove();
+            fPaths.remove(iter - begin());
         }
     }
 }
@@ -107,8 +100,8 @@ ref<YImage> YResourcePaths::loadImageFile(const upath& file) {
 
 template<class Pict>
 bool YResourcePaths::loadPict(upath baseName, ref<Pict>* pict) const {
-    for (int i = 0; i < getCount(); ++i) {
-        upath path = getPath(i) + baseName;
+    for (upath& base : *this) {
+        upath path(base + baseName);
         if (path.fileExists() && loadPictFile(path, pict))
             return true;
     }
