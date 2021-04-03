@@ -1128,7 +1128,7 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     default:
         for (int w(0); w < workspaceCount; w++) {
             if (action == workspaceActionMoveTo[w]) {
-                wmMoveToWorkspace(w);
+                wmOccupyWorkspace(w);
                 return ;
             }
         }
@@ -1858,10 +1858,6 @@ void YFrameWindow::wmOccupyAll() {
 void YFrameWindow::wmOccupyWorkspace(int workspace) {
     PRECONDITION(workspace < workspaceCount);
     mainOwner()->setWorkspace(workspace);
-}
-
-void YFrameWindow::wmMoveToWorkspace(int workspace) {
-    wmOccupyWorkspace(workspace);
 }
 
 void YFrameWindow::updateAllowed() {

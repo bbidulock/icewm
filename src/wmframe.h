@@ -86,7 +86,6 @@ public:
     void wmOccupyAll();
     void wmOccupyAllOrCurrent();
     void wmOccupyWorkspace(int workspace);
-    void wmMoveToWorkspace(int workspace);
     void wmSetLayer(long layer);
     void wmSetTrayOption(long option);
     void wmToggleTray();
