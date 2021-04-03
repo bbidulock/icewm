@@ -211,8 +211,8 @@ void YMenu::activateSubMenu(int item, bool byMouse) {
             getOffsets(l, t, r, b);
             findItemPos(item, xp, yp, ih);
             YRect rect(x(), y(), width(), height());
-            if (sub->getActionListener() == nullptr)
-                sub->setActionListener(getActionListener());
+            if (sub->fActionListener == nullptr)
+                sub->setActionListener(fActionListener);
             sub->popup(nullptr, this, nullptr,
                        x() + int(width()) - r, y() + yp - t,
                        int(width()) - r - l, -1,

@@ -30,7 +30,7 @@ public:
         wmActionListener = al;
     }
     YActionListener* getActionListener() const override {
-        return wmActionListener;
+        return const_cast<ObjectMenu*>(this);
     }
 
 private:
