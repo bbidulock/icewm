@@ -212,6 +212,7 @@ private:
     Atom _XA_NET_CURRENT_DESKTOP;
     Atom _XA_NET_DESKTOP_GEOMETRY;
     Atom _XA_NET_NUMBER_OF_DESKTOPS;
+    Atom _XA_NET_SUPPORTING_WM_CHECK;
     Atom _XA_NET_WORKAREA;
     Atom _XA_ICEWMBG_QUIT;
     Atom _XA_ICEWMBG_IMAGE;
@@ -236,6 +237,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_NET_CURRENT_DESKTOP(atom("_NET_CURRENT_DESKTOP")),
     _XA_NET_DESKTOP_GEOMETRY(atom("_NET_DESKTOP_GEOMETRY")),
     _XA_NET_NUMBER_OF_DESKTOPS(atom("_NET_NUMBER_OF_DESKTOPS")),
+    _XA_NET_SUPPORTING_WM_CHECK(atom("_NET_SUPPORTING_WM_CHECK")),
     _XA_NET_WORKAREA(atom("_NET_WORKAREA")),
     _XA_ICEWMBG_QUIT(atom("_ICEWMBG_QUIT")),
     _XA_ICEWMBG_IMAGE(atom("_ICEWMBG_IMAGE")),
@@ -802,6 +804,9 @@ bool Background::filterEvent(const XEvent &xev) {
                 this->exit(0);
             }
             return true;
+        }
+        if (xev.xproperty.atom == _XA_NET_SUPPORTING_WM_CHECK) {
+            update(true);
         }
     }
     else if (xev.type == ClientMessage) {
