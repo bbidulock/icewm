@@ -3228,7 +3228,7 @@ void YFrameWindow::updateAppStatus() {
         if (owner() != nullptr && !taskBarShowTransientWindows)
             needTaskBarApp = false;
         if (!visibleNow() && !taskBarShowAllWindows) {
-            grouping = taskBarTaskGrouping;
+            grouping = bool(taskBarTaskGrouping);
             needTaskBarApp = false;
         }
         if (isUrgent())

@@ -79,14 +79,14 @@ public:
     TaskBarApp* getActive() const { return fActive; }
     ClientData* getFrame() const { return fActive->getFrame(); }
     TaskPane* taskPane() const { return fTaskPane; }
-    bool grouping() const { return fTaskGrouping; }
+    int grouping() const { return fTaskGrouping; }
     int estimate();
     static unsigned maxHeight();
 
 private:
     TaskPane* fTaskPane;
     TaskBarApp* fActive;
-    const bool fTaskGrouping;
+    const int fTaskGrouping;
     bool fRepainted;
     bool fShown;
     bool fFlashing;
@@ -144,7 +144,7 @@ public:
     void movePrev();
     void moveNext();
 
-    bool grouping() const { return fTaskGrouping; }
+    int grouping() const { return fTaskGrouping; }
     void regroup();
 
 private:
@@ -166,7 +166,7 @@ private:
 
     bool fNeedRelayout;
     bool fForceImmediate;
-    bool fTaskGrouping;
+    int fTaskGrouping;
 };
 
 #endif

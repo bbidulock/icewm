@@ -18,6 +18,8 @@ static YColorName minimizedTaskBarAppFg(&clrMinimizedTaskBarAppText);
 static YColorName minimizedTaskBarAppBg(&clrMinimizedTaskBarApp);
 static YColorName invisibleTaskBarAppFg(&clrInvisibleTaskBarAppText);
 static YColorName invisibleTaskBarAppBg(&clrInvisibleTaskBarApp);
+static YColorName groupingBg(&clrActiveTitleBar);
+static YColorName groupingFg(&clrActiveTitleBarText);
 static ref<YFont> normalTaskBarFont;
 static ref<YFont> activeTaskBarFont;
 
@@ -40,7 +42,7 @@ void TaskBarApp::activate() const {
 }
 
 void TaskBarApp::setShown(bool show) {
-    if (fShown != show) {
+    if (fShown != show || (show && fFrame->focused())) {
         fShown = show;
         fButton->setShown(this, show);
     }
@@ -196,7 +198,7 @@ void TaskButton::setShown(TaskBarApp* tapp, bool ashow) {
                 }
             }
         }
-        else if (ashow > shown) {
+        else if (ashow > shown || tapp->getFrame()->focused()) {
             fActive = tapp;
             gdraw = true;
         }
@@ -262,6 +264,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     ref<YImage> bgRightG;
 
     int p(0);
+    int border_size;
     int left = 0;
     int style = 0;
 
@@ -360,6 +363,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
         int const dp(wmLook == lookFlat ? 0: wmLook == lookMetal ? 2 : p);
         int const ds(wmLook == lookFlat ? 0: wmLook == lookMetal ? 4 : 3);
+        border_size = ds;
 
         if ((int) width() > ds && (int) height() > ds) {
             if (bgGrad != null) {
@@ -431,6 +435,44 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
     int groupCount = getCount();
     bool groupings = (groupCount > 1);
+    YColor crumbsBg;
+
+    if (groupings) {
+        crumbsBg = bg.brighter();
+        if (crumbsBg == bg) crumbsBg = bg.darker();
+    }
+
+    if (groupings && (grouping() & 2)) {
+        // Draw rumbs for grouped tabs before text so that the text
+        // can overlap it for those who have really thin taskbar.
+        int crumbSize = 7;
+        int crumb_gap = 3;
+        int crumbStep = crumbSize + crumb_gap;
+        g.setColor(crumbsBg);
+
+        int x = width() / 2 - crumbStep * groupCount / 2;
+        int y = height() - border_size;
+        // please check if border_size is correctly above
+
+        int count = groupCount;
+        if (x < 0) {
+            x = 0;
+            count = (width() + crumbSize) / crumbStep;
+        }
+
+        for (int dn = 0; dn < count; dn++) {
+            if (wmLook != lookFlat) {
+                g.fillArc(x + dn * crumbStep, y - crumbSize,
+                          crumbSize, crumbSize, 0, 360 * 64);
+            }
+            else {
+                // flat people are know to avoid circles
+                g.fillRect(x + dn * crumbStep, y - crumbSize,
+                           crumbSize, crumbSize);
+            }
+        }
+    }
+
     bool textDrawn = false;
     int textX = 0;
     int textY = 0;
@@ -438,7 +480,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     if (str != null) {
         ref<YFont> font = getFont();
         if (font != null) {
-            g.setColor(fg);
+                g.setColor(fg);
             g.setFont(font);
 
             int iconSize = 0;
@@ -450,37 +492,37 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
             int const tx = pad + iconSize;
             int const ty = max(2U,
                                (height() + font->height() -
-                                (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
+                               (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
             int const wm = int(width()) - p - pad - iconSize - 1;
 
             if (0 < wm && p + tx + wm < int(width())) {
                 textX = p + tx;
                 textY = p + ty;
-                int x = groupings * (font->ascent() + font->descent()) / 2;
+                int x = 0;
+                if (groupings && (grouping() & 1)) {
+                    mstring cnt(groupCount);
+                    int margins = 2;
+                    x = font->textWidth(cnt, cnt.length()) + margins * 2;
+                    g.setColor(groupingBg);
+                    int linewidth = (font->ascent() + 1) / 2;
+                    g.setLineWidth(linewidth);
+                    g.setPenStyle(false, CapRound, JoinRound);
+                    // Circle will not work here because grouping is
+                    // often used by users who open 10+ windows.
+                    // is there a way to draw "rounded corners" instead?
+                    g.drawRect(textX + linewidth / 2,
+                               textY - font->ascent() + 2 + linewidth / 2,
+                               x - linewidth, font->ascent() - linewidth);
+                    g.setColor(groupingFg);
+                    g.drawStringEllipsis(textX + margins, textY + 1, cnt, wm);
+                    x += 1;
+                }
+                g.setColor(fg);
                 g.drawStringEllipsis(textX + x, textY, str, wm);
                 textDrawn = true;
             }
         }
-    }
-
-    if (groupCount > 1 && (iconDrawn || textDrawn)) {
-        char text[32];
-        snprintf(text, sizeof text, "%d", groupCount);
-
-        ref<YFont> font(getNormalFont());
-        int fw = font->textWidth(text, strlen(text));
-        int fh = font->ascent();
-        int ac = max(fw, fh);
-        int gx = textDrawn ? textX - 2 - 4 * iconDrawn : iconX;
-        int gy = textDrawn ? textY - ac + font->descent()
-                           : iconY + iconSize - fh - 1;
-
-        g.setColor(YColor::black);
-        g.fillArc(gx, gy, ac, ac, 0, 360*64);
-        g.setColor(YColor::white);
-        g.setFont(font);
-        g.drawString(gx + (ac - fw + 1) / 2, gy + fh - 1, text);
     }
 
     if (bgGrad != null) {
@@ -631,7 +673,7 @@ void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
         if (fActive != fGroup[index]) {
             TaskBarApp* old = fActive;
             fActive = fGroup[index];
-            if (old) 
+            if (old)
                 old->repaint();
             fActive->repaint();
         }
