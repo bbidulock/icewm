@@ -131,7 +131,7 @@ public:
 
     // move the focused target up or down and return the new focused element
     virtual void moveTarget(bool zdown) override {
-        int count = menu->itemCount();
+        int count = getCount();
         zTarget += zdown ? 1 : -1;
         if (zTarget >= count)
             zTarget = 0;
@@ -141,8 +141,7 @@ public:
     }
     // move the focused target up or down and return the new focused element
     virtual void setTarget(int where) override {
-        int count = menu->itemCount();
-        zTarget = inrange(where, 0, count - 1) ? zTarget : 0;
+        zTarget = clamp(where, 0, getCount() - 1);
     }
 
     // set target cursor and implementation specific stuff in the beginning
