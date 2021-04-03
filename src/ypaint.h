@@ -143,7 +143,7 @@ public:
     void setThinLines() { setLineWidth(0); }
     void setWideLines(unsigned width = 1) { setLineWidth(width >= 1 ? width : 1); }
     void setLineWidth(unsigned width);
-    void setPenStyle(bool dotLine = false); ///!!!hack
+    void setPenStyle(bool dotLine = false, int cap = CapButt, int join = JoinMiter);
     void setFunction(int function = GXcopy);
     unsigned long getColorPixel() const;
 

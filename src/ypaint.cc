@@ -490,10 +490,12 @@ void Graphics::setLineWidth(unsigned width) {
     XChangeGC(display(), gc, GCLineWidth, &gcv);
 }
 
-void Graphics::setPenStyle(bool dotLine) {
+void Graphics::setPenStyle(bool dotLine, int cap, int join) {
     XGCValues gcv;
-    unsigned long mask = GCLineStyle;
+    unsigned long mask = GCLineStyle | GCCapStyle | GCJoinStyle;
     gcv.line_style = dotLine ? LineOnOffDash : LineSolid;
+    gcv.cap_style = cap;
+    gcv.join_style = join;
 
     if (dotLine) {
         char dashes[] = { 1 };
@@ -502,8 +504,6 @@ void Graphics::setPenStyle(bool dotLine) {
         XSetDashes(display(), gc, dash_offset, dashes, num_dashes);
 
         gcv.line_width = 1;
-        gcv.cap_style = CapButt;
-        gcv.join_style = JoinMiter;
         mask |= GCLineWidth | GCCapStyle | GCJoinStyle;
     }
 
