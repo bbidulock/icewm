@@ -449,8 +449,12 @@ public:
 
     void sort();
 
-    mstring* begin() const { return getItemPtr(0); }
-    mstring* end() const { return begin() + getCount(); }
+    mstring* begin() const {
+        return const_cast<mstring*>(BaseType::begin());
+    }
+    mstring* end() const {
+        return const_cast<mstring*>(BaseType::end());
+    }
 
 private:
     mstring* getItemPtr(const SizeType index) const {
