@@ -2432,22 +2432,23 @@ void YWindowManager::activateWorkspace(long workspace) {
 
         setProperty(_XA_NET_CURRENT_DESKTOP, XA_CARDINAL, fActiveWorkspace);
 
-#if 1 // not needed when we drop support for GNOME hints
-        updateWorkArea();
-#endif
         resizeWindows();
 
-        for (YFrameWindow* w = topLayer(); w; w = w->nextLayer())
+        YArray<YFrameWindow*> stack;
+        for (YFrameWindow* w = topLayer(); w; w = w->nextLayer()) {
             if (w->visibleNow()) {
                 w->updateState();
                 w->updateTaskBar();
             }
-
-        for (YFrameWindow* w = bottomLayer(); w; w = w->prevLayer())
-            if (!w->visibleNow()) {
-                w->updateState();
-                w->updateTaskBar();
+            else if (w->getWorkspace() == fLastWorkspace) {
+                stack.append(w);
             }
+        }
+        for (; stack.nonempty(); stack.pop()) {
+            YFrameWindow* w = stack.last();
+            w->updateState();
+            w->updateTaskBar();
+        }
         unlockFocus();
 
         YFrameWindow *toFocus = getLastFocus(true, workspace);

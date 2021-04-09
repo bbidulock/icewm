@@ -1302,7 +1302,7 @@ void YFrameClient::setStateHint() {
     MSG(("set state 0x%8lX, saved 0x%8lX, win 0x%lx",
           state, fWinStateHint, handle()));
 
-    if (fWinStateHint == state || destroyed()) {
+    if (((fWinStateHint ^ state) & WIN_STATE_NET) == 0 || destroyed()) {
         return;
     } else {
         fWinStateHint = state;

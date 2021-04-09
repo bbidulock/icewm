@@ -264,6 +264,7 @@ public:
     long getState() const { return fWinState; }
     void setState(long mask, long state);
     bool hasState(long bit) const { return hasbit(fWinState, bit); }
+    bool hasStates(long bits) const { return hasbits(fWinState, bits); }
     bool notState(long bit) const { return !hasbit(fWinState, bit); }
 
     bool isFullscreen() const { return hasState(WinStateFullscreen); }
@@ -347,14 +348,14 @@ public:
     bool isMaximized() const { return hasState(WinStateMaximizedBoth); }
     bool isMaximizedVert() const { return hasState(WinStateMaximizedVert); }
     bool isMaximizedHoriz() const { return hasState(WinStateMaximizedHoriz); }
-    bool isMaximizedFully() const { return isMaximizedVert() && isMaximizedHoriz(); }
+    bool isMaximizedFully() const { return hasStates(WinStateMaximizedBoth); }
     bool isMinimized() const { return hasState(WinStateMinimized); }
     bool isHidden() const { return hasState(WinStateHidden); }
     bool isSkipPager() const { return hasState(WinStateSkipPager); }
     bool isSkipTaskBar() const { return hasState(WinStateSkipTaskBar); }
     bool isRollup() const { return hasState(WinStateRollup); }
     bool isSticky() const { return hasState(WinStateSticky); }
-    bool isAllWorkspaces() const { return (getWorkspace() == AllWorkspaces); }
+    bool isAllWorkspaces() const { return fWinWorkspace == AllWorkspaces; }
     bool wasMinimized() const { return hasState(WinStateWasMinimized); }
     bool wasHidden() const { return hasState(WinStateWasHidden); }
 
@@ -369,7 +370,7 @@ public:
     void setAllWorkspaces();
 
     bool visibleOn(int workspace) const {
-        return (isAllWorkspaces() || getWorkspace() == workspace);
+        return fWinWorkspace == workspace || fWinWorkspace == AllWorkspaces;
     }
     bool visibleNow() const;
 

@@ -296,13 +296,13 @@ void YWMApp::smSaveYourselfPhase2() {
                         continue;
                     }
                 }
-                fprintf(fp, "%d:%d:%d:%d %d %lu %ld\n",
+                fprintf(fp, "%d:%d:%u:%u %d %lu %ld\n",
                         f->x(), f->y(), f->client()->width(), f->client()->height(),
                         f->getWorkspace(), f->getState(), f->getActiveLayer());
             }
         }
     }
-    fprintf(fp, "w %lu\n", manager->activeWorkspace());
+    fprintf(fp, "w %u\n", unsigned(manager->activeWorkspace()));
     fclose(fp);
 end:
     YSMApplication::smSaveYourselfPhase2();

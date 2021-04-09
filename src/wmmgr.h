@@ -155,8 +155,8 @@ public:
 
     void initWorkspaces();
 
-    long activeWorkspace() const { return fActiveWorkspace; }
-    long lastWorkspace() const { return fLastWorkspace; }
+    int activeWorkspace() const { return int(fActiveWorkspace); }
+    int lastWorkspace() const { return int(fLastWorkspace); }
     void activateWorkspace(long workspace);
 
     void appendNewWorkspaces(long extra);
