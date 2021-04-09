@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-28 23:26+0200\n"
-"PO-Revision-Date: 2021-03-15 14:36+0000\n"
+"PO-Revision-Date: 2021-04-09 11:57+0000\n"
 "Last-Translator: Tommi Nieminen <software@legisign.org>\n"
-"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fi/>\n"
+"Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -288,10 +288,8 @@ msgid "disconnected"
 msgstr "ei yhteyttä"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Rullaa alas"
+msgstr "alemmas"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -335,13 +333,11 @@ msgstr "Hakemisto"
 
 #: src/icehelp.cc:1238
 msgid "Open in Browser"
-msgstr ""
+msgstr "Avaa selaimeen"
 
 #: src/icehelp.cc:1238
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
@@ -356,12 +352,14 @@ msgid "Icewm(1)"
 msgstr "IceWM(1)"
 
 #: src/icehelp.cc:1247
+#, fuzzy
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1249
+#, fuzzy
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1251
 msgid "FAQ"
@@ -540,7 +538,7 @@ msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
-msgstr "Sama Peli"
+msgstr "Sama-peli"
 
 #: src/icesh.cc:75
 msgid "For help please consult the man page icesh(1).\n"
@@ -549,29 +547,29 @@ msgstr "Katso ohjeet man-sivulta icesh(1).\n"
 #: src/icesh.cc:1509
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Domainin `%s' nimetyt symbolit (numeerinen alue: %ld-%ld):\n"
+msgstr "Alueen ”%s” nimetyt symbolit (lukualue: %ld–%ld):\n"
 
 #: src/icesh.cc:1567
 #, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Työpöytä arvoalueen ulkopuolella: %ld"
+msgstr "Työtila arvoalueen ulkopuolella: %ld"
 
 #: src/icesh.cc:1588
 #, c-format
 msgid "Invalid workspace name: `%s'"
-msgstr "Virheellinen työpöydän nimi: `%s'"
+msgstr "Virheellinen työtilan nimi: ”%s”"
 
 #: src/icesh.cc:1865
 msgid "GNOME window layer"
-msgstr "GNOME ikkunataso"
+msgstr "GNOME-ikkunataso"
 
 #: src/icesh.cc:1866
 msgid "IceWM tray option"
-msgstr "IceWM tarjotinoptio"
+msgstr "IceWM-ilmoitusaluevalinta"
 
 #: src/icesh.cc:1867
 msgid "Gravity symbols"
-msgstr "Gravity symbolit"
+msgstr "Gravity-symbolit"
 
 #: src/icesh.cc:1868
 msgid "Motif functions"
@@ -579,53 +577,53 @@ msgstr "Motif-funktiot"
 
 #: src/icesh.cc:1869
 msgid "Motif decorations"
-msgstr "Motif kehykset"
+msgstr "Motif-koristeet"
 
 #: src/icesh.cc:1870
 msgid "EWMH window state"
-msgstr "EWMH:n ikkunan tila"
+msgstr "EWMH-ikkunan tila"
 
 #: src/icesh.cc:1952 src/icesh.cc:2025
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "Työpöytä #%d: `%s'\n"
+msgstr "työtila %d: ”%s”\n"
 
 #: src/icesh.cc:2260 src/icesh.cc:3470 src/icesh.cc:3941
 #, c-format
 msgid "Invalid state: `%s'."
-msgstr "Virheellinen tila: `%s'."
+msgstr "Virheellinen tila: ”%s”."
 
 #: src/icesh.cc:3112
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr "Ikkunan muotoa ei saada 0x%lx"
+msgstr "Ikkunan 0x%lx geometriaa ei saatu"
 
 #: src/icesh.cc:3137
 #, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Virheellinen Xinerama: `%s'."
+msgstr "Virheellinen Xinerama: \"%s”."
 
 #: src/icesh.cc:3186 src/icesh.cc:3232
 #, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Virheellinen argumentti: `%s'"
+msgstr "Virheellinen parametri: ”%s”"
 
 #: src/icesh.cc:3198
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "Toiminto `%s' vaatii ainakin %d argumenttia."
+msgstr "Toiminto ”%s” vaatii ainakin %d parametria."
 
 #: src/icesh.cc:3208
 #, c-format
 msgid "Invalid expression: `%s'"
-msgstr "Virheellinen lauseke: `%s'"
+msgstr "Virheellinen lauseke: ”%s”"
 
 #: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1066
 #: src/yxapp.cc:1030
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Ei voida avata näyttöä: %s. X-palvelimen pitää olla käynnissä ja $DISPLAY:n "
+"Ei voida avata näyttöä: %s. X-palvelimen on oltava käynnissä ja $DISPLAYn "
 "asetettu."
 
 #: src/icesh.cc:3267
@@ -639,27 +637,27 @@ msgstr "Toimenpiteitä ei ole määritetty."
 #: src/icesh.cc:3387
 #, c-format
 msgid "Invalid window identifier: `%s'"
-msgstr "Virheellinen ikkunatunniste: `%s'"
+msgstr "Virheellinen ikkunatunniste: ”%s”"
 
 #: src/icesh.cc:3404
 #, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Virheellinen PID: `%s'"
+msgstr "Virheellinen PID: ”%s”"
 
 #: src/icesh.cc:3440
 #, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Virheellinen kerros: `%s'."
+msgstr "Virheellinen taso: ”%s”."
 
 #: src/icesh.cc:4247
 #, c-format
 msgid "Unknown action: `%s'"
-msgstr "Tuntematon toiminto: `%s'"
+msgstr "Tuntematon toiminto: ”%s”"
 
 #: src/iceskt.cc:42
 #, c-format
 msgid "Socket error: %d"
-msgstr "Socket-virhe: %d"
+msgstr "Pistokevirhe: %d"
 
 #: src/icesm.cc:69
 msgid ""
@@ -677,6 +675,19 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
+"  -c, --config=TSTO   Lataa IceWM:n asetukset TSTOsta.\n"
+"  -t, --theme=TSTO    Lataa IceWM:n teema TSTOsta.\n"
+"\n"
+"  -d, --display=NIMI  Yhdistä X-palvelimeen NIMI.\n"
+"  -a, --alpha         Käytä 32-bittistä läpikuultavuutta.\n"
+"  --sync              Tahdista viestintä X11-palvelimeen.\n"
+"\n"
+"  -i, --icewm=TSTO    Käytä TSTOa IceWM:n ikkunanhallintana.\n"
+"  -o, --output=TSTO   Ohjaa kaikki tuloste TSTOon.\n"
+"\n"
+"  -b, --nobg          Älä käynnistä icewmbg:tä.\n"
+"  -n, --notray        Älä käynnistä icewmtraytä.\n"
+"  -s, --sound         Käynnistä myös icesound.\n"
 
 #: src/icesm.cc:85
 msgid ""
@@ -687,11 +698,17 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Vianjäljitysvalitsimet:\n"
+"  -v, --valgrind      Anna /usr/bin/valgrind’in ajaa icewm.\n"
+"                      Tarkistaa huolellisesti icewm:n suorituksen.\n"
+"  -g, --catchsegv     Anna /usr/bin/catchsegv:n ajaa icewm.\n"
+"                      Antaa pinolistauksen, jos icewm kaatuu.\n"
 
 #: src/icesm.cc:188
 #, c-format
 msgid "Unknown option '%s'"
-msgstr "Tuntematon valinta `%s'"
+msgstr "Tuntematon valitsin ”%s”"
 
 #: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
@@ -706,7 +723,7 @@ msgstr "%s poistunut tila %d."
 #: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr "%s sai surmansa lähetteellä %d."
+msgstr "%s tapettiin signaalilla %d."
 
 #: src/icesm.cc:503
 msgid ""
@@ -717,20 +734,26 @@ msgid ""
 "\t2: Abort this session?\n"
 "\t3: Run a terminal?\n"
 msgstr ""
+" IceWM kaatui toistamiseen 10 sekunnin aikana. \n"
+" Haluatko:\n"
+"\n"
+"\t1: Käynnistää IceWM:n uudelleen?\n"
+"\t2: Lopettaa tämän istunnon?\n"
+"\t3: Käynnistää päätteen?\n"
 
 #: src/icesm.cc:509
 msgid "IceWM crash response"
-msgstr "IceWM kaatumisen vastaus"
+msgstr "IceWM:n kaatumisvastaus"
 
 #: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Toistetaan näytettä #%d (%s)"
+msgstr "Toistetaan näytettä %d (%s)"
 
 #: src/icesound.cc:329
 #, c-format
 msgid "%s: Invalid number of channels"
-msgstr "%s: Virheellinen kanavien lukumäärä"
+msgstr "%s: Virheellinen määrä kanavia"
 
 #: src/icesound.cc:335 src/icesound.cc:340
 msgid "Could not set OSS channels"
@@ -738,16 +761,16 @@ msgstr "OSS-kanavia ei voitu asettaa"
 
 #: src/icesound.cc:345 src/icesound.cc:373
 msgid "Could not sync OSS"
-msgstr "OSS ei voitu synkronoida"
+msgstr "OSS:ää ei voitu tahdistaa"
 
 #: src/icesound.cc:357
 msgid "OSS write failed"
-msgstr "OSS-kirjoitus epäonnistui"
+msgstr "OSS:ään kirjoittaminen epäonnistui"
 
 #: src/icesound.cc:361
 #, c-format
 msgid "OSS incomplete write (%d/%d)"
-msgstr "OSS puutteellinen kirjoitus (%d/%d)"
+msgstr "Puutteellinen kirjoitus OSS:ään (%d/%d)"
 
 #: src/icesound.cc:368
 msgid "Could not post OSS"
