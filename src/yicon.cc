@@ -148,7 +148,7 @@ public:
         };
 
         auto probeAndRegisterXdgFolders = [this, &add](
-                const mstring& iconPathToken, bool fromResources) -> unsigned {
+                mstring iconPathToken, bool fromResources) -> unsigned {
 
             // stop early because this is obviously matching a file!
             if (hasImageExtension(upath(iconPathToken)))
@@ -188,8 +188,8 @@ public:
 #ifdef CONFIG_LIBRSVG
             auto& scaleCat = pools[fromResources].getCat(SCALABLE);
             for (auto& contentDir : subcats) {
-                ret += gotcha(mstring(iconPathToken) + "/scalable" + contentDir,
-                        scaleCat);
+                ret += gotcha(mstring(iconPathToken, "/scalable", contentDir),
+                              scaleCat);
             }
 #endif
 
@@ -202,14 +202,13 @@ public:
 
                 for (auto& contentDir : subcats) {
                     for (auto& testDir : {
-                        // XXX: optimize concatenation with MStringBuilder
-                        mstring(iconPathToken) + "/" + szSize + "x" + szSize
-                        + contentDir,
-                        mstring(iconPathToken) + "/base/"
-                        + szSize + "x" + szSize + contentDir,
+                        mstring(iconPathToken, "/", szSize,
+                                "x", szSize, contentDir),
+                        mstring(iconPathToken, "/base/", szSize,
+                                "x", szSize, contentDir),
                         // some old themes contain just one dimension
                         // and a different naming convention
-                        mstring(iconPathToken) + contentDir + "/" + szSize
+                        mstring(iconPathToken, contentDir, "/", szSize)
                     }) {
                         ret += gotcha(testDir, kv);
                     }
@@ -331,8 +330,8 @@ public:
                 bool addSizeSfx) {
             // XXX: optimize string concatenation? Or go back to plain printf?
             if (addSizeSfx) {
-                basePath += "_";
-                basePath += mstring(long(size)) + "x" + mstring(long(size));
+                mstring szSize(size);
+                basePath = mstring(basePath, "_", szSize, "x", szSize);
             }
             for (auto& imgExt : iconExts) {
                 if (checkFile(basePath + imgExt))

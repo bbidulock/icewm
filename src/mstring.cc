@@ -83,6 +83,30 @@ mstring::mstring(const char *str1, const char *str2, const char *str3) {
     fRef.acquire();
 }
 
+mstring::mstring(const char *str1, const char *str2, const char *str3,
+                 const char *str4, const char *str5, const char *str6)
+{
+    const int count = 6;
+    const char* string[count] = {str1, str2, str3, str4, str5, str6};
+    size_t length[count];
+    size_t total = 0;
+    for (int i = 0; i < count; ++i) {
+        total += length[i] = (string[i] ? strlen(string[i]) : 0);
+    }
+    fOffset = 0;
+    fCount = total;
+    fRef.alloc(fCount);
+    size_t build = 0;
+    for (int i = 0; i < count; ++i) {
+        if (length[i]) {
+            memcpy(fRef->fStr + build, string[i], length[i]);
+            build += length[i];
+        }
+    }
+    fRef[fCount] = 0;
+    fRef.acquire();
+}
+
 mstring::mstring(long n):
     fRef(size_t(23)), fOffset(0), fCount(0)
 {
