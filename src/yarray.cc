@@ -108,11 +108,16 @@ void YBaseArray::extend(const SizeType extendedCount) {
 
 void YBaseArray::remove(const SizeType index) {
     PRECONDITION(index < getCount());
-    if (fCount > 0)
-        memmove(getElement(index), getElement(index + 1),
-                fElementSize * (--fCount - index));
-    else
-        clear();
+    if (0 <= index) {
+        int tail = fCount - index - 1;
+        if (tail > 0) {
+            memmove(getElement(index), getElement(index + 1),
+                    fElementSize * tail);
+            fCount--;
+        }
+        else if (tail == 0 && --fCount == 0)
+            clear();
+    }
 }
 
 void YBaseArray::shrink(const SizeType reducedCount) {
@@ -147,6 +152,7 @@ void YBaseArray::operator=(const YBaseArray& other) {
         if (other.nonempty()) {
             setCapacity(other.getCount());
             memcpy(fElements, other.fElements, fCount * fElementSize);
+            fCount = other.getCount();
         }
     }
 }

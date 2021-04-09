@@ -127,6 +127,9 @@ public:
     void insert(const SizeType index, const DataType &item) {
         YBaseArray::insert(index, &item);
     }
+    void pop() {
+        remove(getCount() - 1);
+    }
 
     const DataType *getItemPtr(const SizeType index) const {
         return static_cast<const DataType *>(YBaseArray::getItem(index));
@@ -139,6 +142,9 @@ public:
     }
     const DataType &operator*() const {
         return getItem(0);
+    }
+    const DataType &last() const {
+        return getItem(getCount() - 1);
     }
 
     DataType *getItemPtr(const SizeType index) {
@@ -153,6 +159,10 @@ public:
     DataType &operator*() {
         return getItem(0);
     }
+    DataType &last() {
+        return getItem(getCount() - 1);
+    }
+
     YArray<DataType>& operator+=(const DataType& item) {
         append(item); return *this;
     }
@@ -337,42 +347,6 @@ public:
 
     char *const *getCArray() const;
     char **release();
-};
-
-/*******************************************************************************
- * A stack emulated by a dynamic array
- ******************************************************************************/
-
-template <class DataType>
-class YStack: public YArray<DataType> {
-public:
-    using YArray<DataType>::getCount;
-    using YArray<DataType>::nonempty;
-
-    const DataType &getTop() const {
-        PRECONDITION(nonempty());
-        return getItem(getCount() - 1);
-    }
-    const DataType &operator*() const { return getTop(); }
-
-    virtual void push(const DataType &item) { append(item); }
-    void pop() {
-        PRECONDITION(nonempty());
-        remove(getCount() - 1);
-    }
-};
-
-/*******************************************************************************
- * A set emulated by a stack
- ******************************************************************************/
-
-template <class DataType>
-class YStackSet: public YStack<DataType> {
-public:
-    virtual void push(const DataType &item) {
-        findRemove(*this, item);
-        YStack<DataType>::push(item);
-    }
 };
 
 /*******************************************************************************
