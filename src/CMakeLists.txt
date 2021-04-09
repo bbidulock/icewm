@@ -456,6 +456,10 @@ if(BUILD_TESTING)
     target_compile_options(testpointer PUBLIC ${CXXFLAGS_COMMON})
     TARGET_LINK_LIBRARIES(testpointer)
     add_test(testpointer ${CMAKE_BINARY_DIR}/testpointer)
+
+    ADD_EXECUTABLE(testarray testarray.cc)
+    TARGET_LINK_LIBRARIES(testarray ice)
+    add_test(testarray ${CMAKE_BINARY_DIR}/testarray)
 endif()
 
 IF(CONFIG_FDO_MENUS)
