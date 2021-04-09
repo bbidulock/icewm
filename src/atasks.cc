@@ -473,7 +473,6 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
         }
     }
 
-    bool textDrawn = false;
     int textX = 0;
     int textY = 0;
     mstring str(fActive ? fActive->getIconTitle() : null);
@@ -520,7 +519,6 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                 }
                 g.setColor(fg);
                 g.drawStringEllipsis(textX + x, textY, str, wm);
-                textDrawn = true;
             }
         }
     }
