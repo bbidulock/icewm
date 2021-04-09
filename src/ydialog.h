@@ -6,7 +6,9 @@
 class YDialog: public YFrameClient {
 public:
     YDialog();
-    virtual ~YDialog();
+
+    void center();
+    void become();
 
     virtual void paint(Graphics &g, const YRect &r);
     virtual void repaint();
