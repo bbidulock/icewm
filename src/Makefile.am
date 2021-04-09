@@ -639,10 +639,10 @@ testlocale_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
 
 testarray_SOURCES = \
 	intl.h \
-	debug.h \
-	sysdep.h \
+	mstring.h \
+	yarray.h \
 	base.h \
-	ylib.h \
+	ypointer.h \
 	testarray.cc
 testarray_LDADD = libice.la @LIBINTL@
 
