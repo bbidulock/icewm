@@ -43,7 +43,7 @@ private:
 
 class YActionListener {
 public:
-    virtual void actionPerformed(YAction action, unsigned int modifiers) = 0;
+    virtual void actionPerformed(YAction action, unsigned modifiers = 0) = 0;
 protected:
     virtual ~YActionListener() {}
 };

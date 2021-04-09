@@ -2,13 +2,14 @@
 #define WMABOUT_H
 
 #include "ydialog.h"
+#include "yaction.h"
 
 class YLabel;
 class Sizeable;
 
 class AboutDlg: public YDialog {
 public:
-    AboutDlg();
+    AboutDlg(YActionListener* al = nullptr);
     ~AboutDlg();
 
     void showFocused();
@@ -17,6 +18,7 @@ public:
 private:
     YLabel* label(const char* text);
     Sizeable* fSizeable;
+    YActionListener* fListener;
 };
 
 #endif

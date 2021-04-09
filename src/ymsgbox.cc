@@ -167,10 +167,8 @@ void YMsgBox::actionPerformed(YAction action, unsigned int /*modifiers*/) {
 void YMsgBox::handleClose() {
     if (fListener)
         fListener->handleMsgBox(this, mbClose);
-    else {
-        manager->unmanageClient(this);
-        manager->focusTopWindow();
-    }
+    else
+        unmanage();
 }
 
 void YMsgBox::handleFocus(const XFocusChangeEvent& focus) {
@@ -180,10 +178,6 @@ void YMsgBox::handleFocus(const XFocusChangeEvent& focus) {
 }
 
 void YMsgBox::showFocused() {
-    YRect r(desktop->getScreenGeometry());
-    setPosition(r.x() + int(r.width() / 2) - int(width() / 2),
-                r.y() + int(r.height() / 2) - int(height() / 2));
-
     if (fInput) {
         fInput->requestFocus(false);
     }
@@ -194,12 +188,8 @@ void YMsgBox::showFocused() {
         fButtonOK->requestFocus(false);
     }
 
-    if (getFrame() == nullptr) {
-        manager->manageClient(handle(), false);
-    }
-    if (getFrame()) {
-        getFrame()->activateWindow(true);
-    }
+    center();
+    become();
 }
 
 void YMsgBox::unmanage() {

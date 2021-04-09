@@ -11,6 +11,8 @@
 #include "wpixmaps.h"
 #include "yxapp.h"
 #include "prefs.h"
+#include "wmmgr.h"
+#include "wmframe.h"
 
 static YColorName dialogBg(&clrDialog);
 
@@ -23,7 +25,29 @@ YDialog::YDialog():
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 
-YDialog::~YDialog() {
+void YDialog::center() {
+    YRect r(desktop->getScreenGeometry());
+    if (getFrame()) {
+        int x = r.x() + (int(r.width()) - int(getFrame()->width())) / 2;
+        int y = r.y() + (int(r.height()) - int(getFrame()->height())) / 2;
+        getFrame()->setNormalPositionOuter(x, y);
+    } else {
+        int x = r.x() + (int(r.width()) - int(width())) / 2;
+        int y = r.y() + (int(r.height()) - int(height())) / 2;
+        setPosition(x, y);
+    }
+}
+
+void YDialog::become() {
+    if (getFrame() == nullptr)
+        manager->manageClient(handle(), false);
+    if (getFrame()) {
+        int ws = manager->activeWorkspace();
+        if (getFrame()->visibleOn(ws) == false) {
+            getFrame()->setWorkspace(ws);
+        }
+        getFrame()->activateWindow(true);
+    }
 }
 
 void YDialog::paint(Graphics &g, const YRect& r) {

@@ -22,6 +22,8 @@ public:
     virtual int y() = 0;
     virtual void setPosition(int x, int y) = 0;
     virtual void realize() = 0;
+
+    void layout(YWindow* outside);
 };
 
 /*
@@ -31,15 +33,15 @@ class Spacer : public Sizeable {
 public:
     Spacer(unsigned width, unsigned height) :
         fW(width), fH(height), fX(0), fY(0) { }
-    virtual unsigned width() { return fW; }
-    virtual unsigned height() { return fH; }
-    virtual int x() { return fX; }
-    virtual int y() { return fY; }
-    virtual void setPosition(int x, int y) {
+    unsigned width() override { return fW; }
+    unsigned height() override { return fH; }
+    int x() override { return fX; }
+    int y() override { return fY; }
+    void setPosition(int x, int y) override {
         fX = x;
         fY = y;
     }
-    virtual void realize() { }
+    void realize() override { }
 protected:
     unsigned fW, fH;
     int fX, fY;
@@ -52,14 +54,14 @@ class Cell : public Sizeable {
 public:
     Cell(YWindow* win) : fWin(win) { }
     ~Cell() { delete fWin; }
-    virtual unsigned width() { return fWin->width(); }
-    virtual unsigned height() { return fWin->height(); }
-    virtual int x() { return fWin->x(); }
-    virtual int y() { return fWin->y(); }
-    virtual void setPosition(int x, int y) {
+    unsigned width() override { return fWin->width(); }
+    unsigned height() override { return fWin->height(); }
+    int x() override { return fWin->x(); }
+    int y() override { return fWin->y(); }
+    void setPosition(int x, int y) override {
         fWin->setPosition(x, y);
     }
-    virtual void realize() { fWin->show(); }
+    void realize() override { fWin->show(); }
 protected:
     YWindow* fWin;
 };
@@ -72,14 +74,14 @@ public:
     Padder(Sizeable* win, int hpad, int vpad) :
         fWin(win), fHori(hpad), fVert(vpad) { }
     ~Padder() { delete fWin; }
-    virtual unsigned width() { return fWin->width() + 2 * fHori; }
-    virtual unsigned height() { return fWin->height() + 2 * fVert; }
-    virtual int x() { return fWin->x() - fHori; }
-    virtual int y() { return fWin->y() - fVert; }
-    virtual void setPosition(int x, int y) {
+    unsigned width() override { return fWin->width() + 2 * fHori; }
+    unsigned height() override { return fWin->height() + 2 * fVert; }
+    int x() override { return fWin->x() - fHori; }
+    int y() override { return fWin->y() - fVert; }
+    void setPosition(int x, int y) override {
         fWin->setPosition(x + fHori, y + fVert);
     }
-    virtual void realize() { fWin->realize(); }
+    void realize() override { fWin->realize(); }
 protected:
     Sizeable* fWin;
     int fHori, fVert;
@@ -100,27 +102,27 @@ public:
     bool empty() const {
         return fSteps.isEmpty();
     }
-    virtual unsigned width() {
+    unsigned width() override {
         unsigned w = 1;
         for (Sizeable* step : fSteps)
             w = max(w, step->width());
         return w;
     }
-    virtual unsigned height() {
+    unsigned height() override {
         unsigned h = 0;
         for (Sizeable* step : fSteps)
             h += step->height();
         return h;
     }
-    virtual int x() { return empty() ? 0 : fSteps[0]->x(); }
-    virtual int y() { return empty() ? 0 : fSteps[0]->y(); }
-    virtual void setPosition(int x, int y) {
+    int x() override { return empty() ? 0 : fSteps[0]->x(); }
+    int y() override { return empty() ? 0 : fSteps[0]->y(); }
+    void setPosition(int x, int y) override {
         for (Sizeable* step : fSteps) {
             step->setPosition(x, y);
             y += step->height();
         }
     }
-    virtual void realize() {
+    void realize() override {
         for (Sizeable* step : fSteps)
             step->realize();
     }
@@ -153,20 +155,20 @@ public:
                 fRight->setPosition(x() + offset(), y());
         }
     }
-    virtual unsigned width() {
+    unsigned width() override {
         return fRight ? offset() + fRight->width() : fLeft->width();
     }
-    virtual unsigned height() {
+    unsigned height() override {
         return max(fLeft->height(), fRight ? fRight->height() : 0);
     }
-    virtual int x() { return fLeft->x(); }
-    virtual int y() { return fLeft->y(); }
-    virtual void setPosition(int x, int y) {
+    int x() override { return fLeft->x(); }
+    int y() override { return fLeft->y(); }
+    void setPosition(int x, int y) override {
         fLeft->setPosition(x, y);
         if (fRight)
             fRight->setPosition(x + offset(), y);
     }
-    virtual void realize() {
+    void realize() override {
         fLeft->realize();
         if (fRight)
             fRight->realize();
@@ -190,31 +192,31 @@ public:
         if (row) fRows += row;
         return *this;
     }
-    virtual unsigned width() {
+    unsigned width() override {
         unsigned w = 1;
         for (Sizeable* row : fRows)
             w = max(w, row->width());
         return w;
     }
-    virtual unsigned height() {
+    unsigned height() override {
         unsigned h = 1;
         for (Sizeable* row : fRows)
             h = max(h, row->y() + row->height());
         return h - y();
     }
-    virtual int x() {
+    int x() override {
         return fRows.nonempty() ? fRows[0]->x() : 0;
     }
-    virtual int y() {
+    int y() override {
         return fRows.nonempty() ? fRows[0]->y() : 0;
     }
-    virtual void setPosition(int x, int y) {
+    void setPosition(int x, int y) override {
         for (Sizeable* row : fRows) {
             row->setPosition(x, y);
             y += row->height();
         }
     }
-    virtual void realize() {
+    void realize() override {
         unsigned offset = 0;
         for (Row* row : fRows) {
             offset = max(offset, row->offset());
@@ -227,6 +229,15 @@ public:
 protected:
     YObjectArray<Row> fRows;
 };
+
+/*
+ * Communicate a layout to the outside world.
+ */
+inline void Sizeable::layout(YWindow* outside) {
+    setPosition(0, 0);
+    realize();
+    outside->setSize(width(), height());
+}
 
 #endif
 

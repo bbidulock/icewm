@@ -20,8 +20,9 @@
 
 #include "intl.h"
 
-AboutDlg::AboutDlg():
-    fSizeable(nullptr)
+AboutDlg::AboutDlg(YActionListener* al):
+    fSizeable(nullptr),
+    fListener(al)
 {
     const char version[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
     mstring copyright = mstring("Copyright ")
@@ -57,9 +58,7 @@ AboutDlg::AboutDlg():
     *table += new Row(label(_("Renderer:")), label(text));
 
     fSizeable = new Padder(ladder, 20, 20);
-    fSizeable->setPosition(0, 0);
-    fSizeable->realize();
-    setSize(fSizeable->width(), fSizeable->height());
+    fSizeable->layout(this);
 
     setTitle("About");
     setWindowTitle(_("icewm - About"));
@@ -83,23 +82,15 @@ YLabel* AboutDlg::label(const char* text) {
 }
 
 void AboutDlg::showFocused() {
-    int dx, dy;
-    unsigned dw, dh;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
-
-    if (getFrame() == nullptr)
-        manager->manageClient(handle(), false);
-    if (getFrame() != nullptr) {
-        getFrame()->setNormalPositionOuter(
-            dx + int(dw / 2 - getFrame()->width() / 2),
-            dy + int(dh / 2 - getFrame()->height() / 2));
-        getFrame()->activateWindow(true);
-    }
+    center();
+    become();
 }
 
 void AboutDlg::handleClose() {
-    if (!getFrame()->isHidden())
+    if (getFrame()->isHidden() == false)
         getFrame()->wmHide();
+    if (fListener)
+        fListener->actionPerformed(actionAboutClose);
 }
 
 // vim: set sw=4 ts=4 et:

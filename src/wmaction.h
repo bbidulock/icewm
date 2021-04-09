@@ -103,6 +103,8 @@ enum EAction {
     actionLayerThirteen      = 237,
     actionLayerFullscreen    = 239,
     actionLayerAboveAll      = 241,
+
+    actionAboutClose         = 243,
 };
 
 bool canShutdown(RebootShutdown reboot);
