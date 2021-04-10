@@ -12,7 +12,7 @@ XIV(bool, showEllipsis,                         true)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,                            true)
 #endif
-XIV(bool, modSuperIsCtrlAlt,                    true)
+XIV(bool, modSuperIsCtrlAlt,                    false)
 XIV(bool, doubleBuffer,                         true)
 XIV(bool, xrrDisable,                           false)
 XIV(int, xineramaPrimaryScreen,                 0)
