@@ -857,7 +857,9 @@ bool SwitchWindow::isModKey(KeyCode c) {
 
     if (k == XK_Super_L   || k == XK_Super_R)
         return hasbit(modsDown, xapp->SuperMask)
-            && hasbit(modifiers(), kfSuper);
+            && (modSuperIsCtrlAlt
+                ? hasbits(modifiers(), kfCtrl + kfAlt)
+                : hasbit(modifiers(), kfSuper));
 
     if (k == XK_Hyper_L   || k == XK_Hyper_R)
         return hasbit(modsDown, xapp->HyperMask)
