@@ -1,10 +1,11 @@
-#ifndef __YINPUT_H
-#define __YINPUT_H
+#ifndef YINPUT_H
+#define YINPUT_H
 
 #include "ywindow.h"
 #include "ytimer.h"
 #include "yaction.h"
 #include "ypointer.h"
+#include "ypopup.h"
 
 class YMenu;
 class YInputLine;
@@ -19,7 +20,12 @@ protected:
     virtual ~YInputListener() {}
 };
 
-class YInputLine: public YWindow, public YTimerListener, public YActionListener {
+class YInputLine:
+    public YWindow,
+    private YTimerListener,
+    private YActionListener,
+    private YPopDownListener
+{
 public:
     YInputLine(YWindow *parent = nullptr, YInputListener *listener = nullptr);
     virtual ~YInputLine();
@@ -37,6 +43,7 @@ public:
     virtual void handleClickDown(const XButtonEvent &down, int count);
     virtual void handleClick(const XButtonEvent &up, int count);
     virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual void handlePopDown(YPopupWindow *popup);
     virtual void handleSelection(const XSelectionEvent &selection);
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void configure(const YRect2& r);
