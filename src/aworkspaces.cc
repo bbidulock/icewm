@@ -164,6 +164,7 @@ void WorkspaceButton::inputReturn(YInputLine* input) {
             swap(*&str, *workspaces[fWorkspace]);
             manager->setDesktopNames();
             fPane->relabel(fWorkspace);
+            repaint();
         }
         fInput = nullptr;
     }
