@@ -862,7 +862,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
             fClickWindow = this;
             fClickCount = 1;
         } else {
-            if ((button.time - fClickTime < unsigned(MultiClickTime)) &&
+            if (button.time < fClickTime + MultiClickTime &&
                 fClickButton == button.button &&
                 motionDelta <= ClickMotionDistance &&
                 button.x >= 0 && button.y >= 0 &&
@@ -882,7 +882,7 @@ void YWindow::handleButton(const XButtonEvent &button) {
             !fClickDrag &&
             fClickCount > 0 &&
             fClickButtonDown == button.button &&
-            motionDelta <= ClickMotionDistance &&
+            // motionDelta <= ClickMotionDistance &&
             button.x >= 0 && button.y >= 0 &&
             button.x < int(width()) && button.y < int(height()))
         {
@@ -909,26 +909,21 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
             int const dx(abs(motion.x_root - fClickEvent.x_root));
             int const dy(abs(motion.y_root - fClickEvent.y_root));
             int const motionDelta(max(dx, dy));
-            int curButtons = 0;
-
-            curButtons =
-                ((motion.state & Button1Mask) ? (1 << 1) : 0) |
-                ((motion.state & Button2Mask) ? (1 << 2) : 0) |
-                ((motion.state & Button3Mask) ? (1 << 3) : 0) |
-                ((motion.state & Button4Mask) ? (1 << 4) : 0) |
-                ((motion.state & Button5Mask) ? (1 << 5) : 0);
-
-            if (((motion.time - fClickTime > unsigned(ClickMotionDelay)) ||
-                (motionDelta >= ClickMotionDistance)) &&
-                ((1 << fClickButton) == curButtons)
-               )
+            if (motion.time > fClickTime + ClickMotionDelay ||
+                motionDelta >= ClickMotionDistance)
             {
-                //msg("start drag %d %d %d", curButtons, fClickButton, motion.state);
-                fClickDrag = true;
-                handleBeginDrag(fClickEvent, motion);
+                if ((motion.state & xapp->ButtonMask) / Button1Mask
+                    == fClickButton)
+                {
+                    fClickDrag = handleBeginDrag(fClickEvent, motion);
+                }
             }
         }
     }
+}
+
+bool YWindow::handleBeginDrag(const XButtonEvent &, const XMotionEvent &) {
+    return false;
 }
 
 void YWindow::setToolTip(const mstring& tip) {

@@ -172,7 +172,7 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YFrameTitleBar::handleBeginDrag(
+bool YFrameTitleBar::handleBeginDrag(
         const XButtonEvent &down,
         const XMotionEvent &motion)
 {
@@ -183,13 +183,15 @@ void YFrameTitleBar::handleBeginDrag(
          down.subwindow == getFrame()->topLeftIndicator() ||
          down.subwindow == getFrame()->topRightIndicator()))
     {
-        getFrame()->handleBeginDrag(down, motion);
+        return getFrame()->handleBeginDrag(down, motion);
     }
     else if (getFrame()->canMove()) {
         getFrame()->startMoveSize(true, true,
                                   0, 0,
                                   down.x + x(), down.y + y());
+        return true;
     }
+    return false;
 }
 
 void YFrameTitleBar::activate() {

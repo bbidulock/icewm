@@ -120,14 +120,16 @@ void WorkspaceButton::handleDNDLeave() {
     repaint();
 }
 
-void WorkspaceButton::handleBeginDrag(const XButtonEvent& d, const XMotionEvent& m)
+bool WorkspaceButton::handleBeginDrag(const XButtonEvent& d, const XMotionEvent& m)
 {
-    if (d.button == Button1) {
+    if (d.button == Button1 && fPane->limited()) {
         fDragging = true;
         fDownX = d.x_root;
         fDelta = m.x_root - d.x_root;
         fPane->drag(fWorkspace, fDelta, true, false);
+        return true;
     }
+    return false;
 }
 
 void WorkspaceButton::handleDrag(const XButtonEvent& d, const XMotionEvent& m)

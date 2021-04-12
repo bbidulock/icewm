@@ -756,12 +756,14 @@ bool TaskButton::handleTimer(YTimer* t) {
     return false;
 }
 
-void TaskButton::handleBeginDrag(const XButtonEvent& down, const XMotionEvent& motion) {
+bool TaskButton::handleBeginDrag(const XButtonEvent& down, const XMotionEvent& motion) {
     if (down.button == Button1) {
         raise();
         fTaskPane->startDrag(this, 0, down.x + x(), down.y + y());
         fTaskPane->processDrag(motion.x + x(), motion.y + y());
+        return true;
     }
+    return false;
 }
 
 TaskPane::TaskPane(IAppletContainer* taskBar, YWindow* parent):

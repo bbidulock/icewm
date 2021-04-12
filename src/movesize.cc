@@ -977,12 +977,13 @@ void YFrameWindow::endMoveSize() {
     }
 }
 
-void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
+bool YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion) {
     if (down.button == Button3 && canMove()) {
         startMoveSize(true, true,
                       0, 0,
                       down.x, down.y);
         handleDrag(down, motion);
+        return true;
     }
     else if (down.button == Button1 && canSize()) {
         Window sw = (down.subwindow && indicatorsCreated)
@@ -1028,7 +1029,9 @@ void YFrameWindow::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
                           grabX, grabY,
                           down.x_root, down.y_root);
         }
+        return true;
     }
+    return false;
 }
 
 void YFrameWindow::moveWindow(int newX, int newY) {

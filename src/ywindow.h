@@ -120,7 +120,7 @@ public:
 
     virtual void handleClickDown(const XButtonEvent &, int) {}
     virtual void handleClick(const XButtonEvent &, int) {}
-    virtual void handleBeginDrag(const XButtonEvent &, const XMotionEvent &) {}
+    virtual bool handleBeginDrag(const XButtonEvent &, const XMotionEvent &);
     virtual void handleDrag(const XButtonEvent &, const XMotionEvent &) {}
     virtual void handleEndDrag(const XButtonEvent &, const XButtonEvent &) {}
 

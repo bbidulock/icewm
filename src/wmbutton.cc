@@ -163,7 +163,7 @@ void YFrameButton::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
-void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &/*motion*/) {
+bool YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent &/*motion*/) {
     bool dragButton = inrange(int(down.button), Button2, Button3);
     if (dragButton && getFrame()->canMove()) {
         if (!isPopupActive()) {
@@ -172,8 +172,10 @@ void YFrameButton::handleBeginDrag(const XButtonEvent &down, const XMotionEvent 
                                       0, 0,
                                       down.x + x() + (tbar ? tbar->x() : 0),
                                       down.y + y() + (tbar ? tbar->y() : 0));
+            return true;
         }
     }
+    return false;
 }
 
 void YFrameButton::handleVisibility(const XVisibilityEvent& visib) {

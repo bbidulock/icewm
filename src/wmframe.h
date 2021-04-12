@@ -51,7 +51,7 @@ public:
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual bool handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleMotion(const XMotionEvent &motion);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleFocus(const XFocusChangeEvent &focus);

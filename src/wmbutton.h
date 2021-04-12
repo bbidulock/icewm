@@ -15,7 +15,7 @@ public:
     virtual void paintFocus(Graphics &g, const YRect &r);
     virtual void handleButton(const XButtonEvent &button);
     virtual void handleClick(const XButtonEvent &up, int count);
-    virtual void handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
+    virtual bool handleBeginDrag(const XButtonEvent &down, const XMotionEvent &motion);
     virtual void handleVisibility(const XVisibilityEvent& visibility);
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void configure(const YRect2 &r);

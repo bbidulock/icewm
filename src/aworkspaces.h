@@ -10,6 +10,7 @@ class WorkspaceDragger {
     virtual void stopDrag() = 0;
     virtual void relabel(int ws) = 0;
     virtual unsigned width() const = 0;
+    virtual bool limited() const = 0;
     virtual ~WorkspaceDragger() {}
 };
 
@@ -38,7 +39,7 @@ private:
 
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
-    virtual void handleBeginDrag(const XButtonEvent&, const XMotionEvent&);
+    virtual bool handleBeginDrag(const XButtonEvent&, const XMotionEvent&);
     virtual void handleDrag(const XButtonEvent&, const XMotionEvent&);
     virtual void handleEndDrag(const XButtonEvent&, const XButtonEvent&);
     virtual void handleExpose(const XExposeEvent& expose) {}
@@ -138,6 +139,7 @@ private:
     IterType iterator() { return fButtons.iterator(); }
     WorkspaceButton* last() const { return fButtons[count()-1]; }
     int extent() const { return 0 < count() ? last()->extent() : 0; }
+    bool limited() const { return extent() < int(width()); }
 
     WorkspaceButton* create(int workspace, unsigned height);
     void label(WorkspaceButton* wk);
