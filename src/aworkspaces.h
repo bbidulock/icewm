@@ -139,7 +139,7 @@ private:
     IterType iterator() { return fButtons.iterator(); }
     WorkspaceButton* last() const { return fButtons[count()-1]; }
     int extent() const { return 0 < count() ? last()->extent() : 0; }
-    bool limited() const { return extent() < int(width()); }
+    bool limited() const;
 
     WorkspaceButton* create(int workspace, unsigned height);
     void label(WorkspaceButton* wk);

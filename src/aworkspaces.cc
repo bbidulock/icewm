@@ -465,6 +465,10 @@ void WorkspacesPane::setPressed(long ws, bool set) {
     }
 }
 
+bool WorkspacesPane::limited() const {
+    return 0 < count() && (last()->extent() - fButtons[0]->x()) > int(width());
+}
+
 void WorkspacesPane::drag(int ws, int dx, bool start, bool end) {
     int previous = fMoved;
     int farthest = extent() - fButtons[0]->x();
