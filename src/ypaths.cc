@@ -69,9 +69,10 @@ ref<YResourcePaths> YResourcePaths::subdirs(const char* subdir, bool themeOnly) 
 }
 
 void YResourcePaths::verifyPaths(const char* base) {
-    for (upath* iter = end(); --iter >= begin(); ) {
-        if (iter->relative(base).isExecutable() == false) {
-            fPaths.remove(iter - begin());
+    for (int i = fPaths.getCount(); --i >= 0; ) {
+        upath path(fPaths[i]);
+        if (path.relative(base).isExecutable() == false) {
+            fPaths.remove(i);
         }
     }
 }
