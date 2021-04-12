@@ -97,7 +97,7 @@ TaskButton::TaskButton(TaskPane* taskPane):
     fFlashing(false),
     fFlashOn(false),
     fFlashStart(zerotime()),
-    selected(0)
+    selected(1)
 {
     addStyle(wsToolTipping);
     setParentRelative();
@@ -659,7 +659,7 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             }
         }
         if (button.button == Button1 || button.button == Button2) {
-            selected = 0;
+            selected = 1;
             repaint();
         }
     }
@@ -690,7 +690,7 @@ void TaskButton::updateToolTip() {
 }
 
 void TaskButton::handleCrossing(const XCrossingEvent& crossing) {
-    if (selected > 0) {
+    if (selected >= 0) {
         if (crossing.type == EnterNotify) {
             selected = 2;
             repaint();
@@ -728,7 +728,7 @@ void TaskButton::handleDNDEnter() {
 
 void TaskButton::handleDNDLeave() {
     fRaiseTimer = null;
-    selected = 0;
+    selected = 1;
     repaint();
 }
 
