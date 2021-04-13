@@ -132,7 +132,8 @@ public:
     void drawMask(ref<YPixmap> pix, int x, int y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, unsigned w, unsigned h, int toX, int toY);
-    void fillRect(int x, int y, unsigned width, unsigned height);
+    void fillRect(int x, int y, unsigned width, unsigned height,
+                  unsigned rounding = 0);
     void fillRects(XRectangle * rects, int n);
     void fillPolygon(XPoint * points, int n, int shape,
                      int mode);

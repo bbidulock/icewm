@@ -255,6 +255,7 @@ public:
     enum WMState { wmSTARTUP, wmRUNNING, wmSHUTDOWN };
 
     WMState wmState() const { return fWmState; }
+    bool isRunning() const { return fWmState == wmRUNNING; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
     void setFullscreenEnabled(bool enable) { fFullscreenEnabled = enable; }
     const UserTime& lastUserTime() const { return fLastUserTime; }
