@@ -47,7 +47,7 @@ applications, and to a small set of monitoring applets.
 =item L<icewmbg(1)>
 
 The background setting application. It can assign plain background color
-or images in different formats to the X background.  Each work space can
+or images in different formats to the X background.  Each workspace can
 have its own background.  It supports semi-transparency. Semitransparent
 background image and colour can be configured. When the background image
 has changed then L<icewmbg(1)> can be notified to update the background.
@@ -214,20 +214,27 @@ The I<Show Desktop> button unmaps all application windows to fully
 uncover the desktop.
 
 The I<Window List Menu> button gives access to a menu with a list of
-active windows for the current work space and a list of work spaces
+active windows for the current workspace and a list of workspaces
 with sub-menus for their active application windows.
 
 The I<Toolbar> is a list of icons for applications which are defined in
 the toolbar configuration file.
 
-The I<Workspace List> shows one button for each work space.  The current
-work space is indicated by a pressed button.  Pressing another work space
-button switches to that work space.  The work spaces are defined in the
-F<preferences> file.  When C<PagerShowPreview> is turned on a small
-graphical summary for each workspace is shown.
+The I<Workspace Pane> shows one button for each workspace.  The current
+workspace is indicated by a pressed button.  Clicking another workspace
+switches to that workspace.  Press left mouse, then the Shift key, then
+release the left mouse, takes the current window to that workspace.
+Press left, then Alt, then release left, moves only the focused window
+to other workspace, without changing the current workspace.
+
+The workspaces are defined in the F<preferences> file.  To change a name
+for only this session, double click, edit the name and hit Enter.
+When C<PagerShowPreview> is turned on, a small graphical window summary
+for each workspace is shown. They support drag-and-drop: dragging a
+Firefox tab to a workspace button changes the current workspace.
 
 The I<Task Pane> consists of a list of wide buttons for each application
-which is running on the current work space, or all workspaces if
+which is running on the current workspace, or all workspaces if
 C<TaskBarShowAllWindows=1>.  Each task button shows the
 application icon and the application title.  The active application is
 indicated by a pressed button.  This is the application which has input
@@ -350,21 +357,26 @@ involves the quick switch.
 
 =head2 QUICK SWITCH
 
-The B<QuickSwitch> is activated by pressing C<Alt+Tab> or
-C<Alt+Shift+Tab>.  A window pops up in the centre of the screen with a
-list of windows to choose from. A narrow band shows the next or previous
-window that will receive input focus when the Alt key is released.
-By repeatedly pressing the Tab key, one can cycle over all windows.
-If a Shift key is down, then the direction of traversal is reversed.
+The B<QuickSwitch> is a means to quickly and interactively change
+the input focus to another window.  It is activated by pressing the
+C<Alt+Tab> or C<Alt+Shift+Tab> key combination.  A window pops up
+in the centre of the screen with a list of windows to choose from.
+A narrow band indicates a selection: the candidate window that will
+be activated to receive input focus when the Alt key is released.
 
+The selection can be changed.  By repeatedly pressing the Tab key, one
+can cycle over all windows.  If a Shift key is down, the direction of
+traversal is reversed. Or use the scroll wheel of the mouse.  Or use
+one of the digit keys to select the corresponding window from the list.
 Arrow keys are also supported, as well as the Home and End key.
-Pressing a digit key selects the corresponding window from the list.
-One can also use the mouse wheel and click with the left mouse button.
 
-A selected window can be closed by Delete, or C<Alt+F4>, or the
-middle mouse button.  While the QuickSwitch window is up, one can
-still change workspace with the usual workspace hotkeys.  To cancel
-the QuickSwitch, press Escape or click outside of the QuickSwitch.
+To make a selected window the active window, just release the Alt key,
+or hit the Return key, or click on it.  To cancel the QuickSwitch,
+press Escape or click outside of the QuickSwitch window.
+
+A selected window can be closed by Delete, C<Alt+F4>, or the middle
+mouse button.  While the QuickSwitch window is up, one can still change
+workspace with the usual workspace hotkeys.
 
 The QuickSwitch has two distinct modes: vertical and horizontal.
 The window list can include all windows or be limited to the current
@@ -395,10 +407,10 @@ windows in lower layers.
 
 =head2 WORKSPACES
 
-B<icewm> supports multiple virtual desktops called work spaces.  A work
-space is like a screen where a subset of all application windows are
-mapped.  Thanks to multiple work spaces we can more easily manage a
-large number of applications.  The number of work spaces and their names
+B<icewm> supports multiple virtual desktops called workspaces.  A
+workspace is like a screen where a subset of all application windows are
+mapped.  Thanks to multiple workspaces we can more easily manage a
+large number of applications.  The number of workspaces and their names
 are configurable in the F<preferences> file through the
 C<WorkspaceNames> option.  By default four workspaces are created
 with the names 1, 2, 3 and 4 thus:
@@ -409,10 +421,10 @@ This syntax is typical for B<icewm> options which receive multiple
 values.  It is a list of comma-separated values each of which can be
 quoted.
 
-The work spaces are visible on the toolbar.  One can switch to a
-different work space by pressing the work space button in the toolbar,
+The workspaces are visible on the toolbar.  One can switch to a
+different workspace by pressing the workspace button in the toolbar,
 but after becoming familiar with the 'keyboard shortcuts' below one will
-want to use a hotkey to choose a work space.  If the C<EdgeSwitch>
+want to use a hotkey to choose a workspace.  If the C<EdgeSwitch>
 options is enabled in the F<preferences> file (with sub-options
 C<HorizontalEdgeSwitch> and C<VerticalEdgeSwitch>) then one can move to
 the next or previous workspace by moving the mouse to the edge of the
@@ -420,7 +432,7 @@ screen.  The C<ContinuousEdgeSwitch> option enables continuous movement
 to subsequent workspaces.  The C<EdgeSwitchDelay> option says how long
 to wait before a change of workspace occurs.
 
-To move an application window to a different work space one can use a
+To move an application window to a different workspace one can use a
 keyboard shortcut.  Another option is to select the I<Move To> submenu
 in the window menu of the window frame.
 
@@ -611,7 +623,7 @@ Raises the window which currently has input focus.
 
 =item B<KeyWinOccupyAll>=C<Alt+F2>
 
-Makes the active window occupy all work spaces.
+Makes the active window occupy all workspaces.
 
 =item B<KeyWinLower>=C<Alt+F3>
 
@@ -1186,7 +1198,7 @@ See L<icewm-toolbar(5)>.
 Contains settings to control window appearance and behaviour which are
 specific to applications or groups of applications.  Options can control
 the border, whether it appears on the task bar, the window list, the
-system tray and the work spaces.  Also its layer, geometry, whether it
+system tray and the workspaces.  Also its layer, geometry, whether it
 can be moved, resized and closed.
 
 See L<icewm-winoptions(5)>.
