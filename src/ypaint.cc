@@ -428,8 +428,10 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 /******************************************************************************/
 
 void Graphics::fillRect(int x, int y, unsigned width, unsigned height,
-                        unsigned rounding)
+                        unsigned roundedCornerRadius)
 {
+    unsigned rounding = min(roundedCornerRadius, min(width, height) / 2);
+
     if (rounding == 0) {
         XFillRectangle(display(), drawable(), gc,
                        x - xOrigin, y - yOrigin, width, height);
@@ -464,23 +466,23 @@ void Graphics::fillRect(int x, int y, unsigned width, unsigned height,
         int n = 0;
         int t1 = arc[0].x + rounding;
         int t2 = arc[2].x + rounding;
-        if (t1 < t2) {
+        if (t1 <= t2) {
             rec[n].x = t1;
-            rec[n].width = t2 - t1;
+            rec[n].width = t2 - t1 + 1;
             rec[n].y = arc[0].y;
             rec[n].height = height;
             ++n;
         }
         int u1 = arc[0].y + rounding;
         int u2 = arc[1].y + rounding;
-        if (u1 < u2) {
+        if (u1 <= u2) {
             rec[n].x = x;
             rec[n].width = rounding;
             rec[n].y = u1;
-            rec[n].height = u2 - u1;
+            rec[n].height = u2 - u1 + 1;
             ++n;
             rec[n] = rec[n - 1];
-            rec[n].x += width - rounding - 1;
+            rec[n].x += width - rounding;
             ++n;
         }
         XFillRectangles(display(), drawable(), gc, rec, n);
