@@ -531,8 +531,8 @@ void YXApplication::initModifiers() {
     if (MetaMask == AltMask)
         MetaMask = 0;
 
-    MSG(("alt:%d meta:%d super:%d hyper:%d mode:%d num:%d scroll:%d",
-         AltMask, MetaMask, SuperMask, HyperMask, ModeSwitchMask,
+    MSG(("alt:%d meta:%d super:%d hyper:%d win:%d mode:%d num:%d scroll:%d",
+         AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
          NumLockMask, ScrollLockMask));
 
     // some hacks for "broken" modifier configurations
@@ -1024,8 +1024,10 @@ YXApplication::parseArgs(int argc, char **argv, const char *displayName) {
 Display* YXApplication::openDisplay(const char* displayName) {
     if (nonempty(displayName))
         setenv("DISPLAY", displayName, True);
+    else
+        displayName = getenv("DISPLAY");
 
-    Display* display = XOpenDisplay(nullptr);
+    Display* display = XOpenDisplay(displayName);
     if (display == nullptr)
         die(1, _("Can't open display: %s. X must be running and $DISPLAY set."),
             displayName ? displayName : _("<none>"));
@@ -1360,6 +1362,18 @@ const YProperty& YProperty::update() {
         discard();
     }
     return *this;
+}
+
+void YProperty::append(void const* data, int count) const {
+    unsigned char const* bytes = reinterpret_cast<unsigned char const*>(data);
+    XChangeProperty(xapp->display(), fWind, fProp, fKind, fBits,
+                    PropModeAppend, bytes, count);
+}
+
+void YProperty::replace(void const* data, int count) const {
+    unsigned char const* bytes = reinterpret_cast<unsigned char const*>(data);
+    XChangeProperty(xapp->display(), fWind, fProp, fKind, fBits,
+                    PropModeReplace, bytes, count);
 }
 
 // vim: set sw=4 ts=4 et:

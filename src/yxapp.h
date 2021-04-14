@@ -48,6 +48,8 @@ public:
 
     ~YProperty() { discard(); }
 
+    void append(void const* data, int count) const;
+    void replace(void const* data, int count) const;
     void discard();
     const YProperty& update();
     Atom property() const { return fProp; }
@@ -64,6 +66,7 @@ public:
     long operator*() const { return *data<long>(); }
     template<class T> T* operator->() const { return data<T>(); }
 
+    char* string() const { return data<char>(); }
     Atom* begin() const { return data<Atom>(); }
     Atom* end() const { return begin() + fSize; }
 
@@ -103,8 +106,8 @@ public:
     int displayWidth() { return DisplayWidth(display(), screen()); }
     int displayHeight() { return DisplayHeight(display(), screen()); }
     Atom atom(const char* name) { return XInternAtom(display(), name, False); }
-    void sync() { XSync(display(), False); }
-    void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) {
+    void sync() const { XSync(display(), False); }
+    void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) const {
         XSendEvent(display(), win, False, mask,
                    reinterpret_cast<XEvent*>(&ev));
     }
