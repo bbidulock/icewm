@@ -49,6 +49,7 @@ public:
     TaskButton(TaskPane* taskPane);
     virtual ~TaskButton();
 
+    void deselect() { selected = 0; }
     void setShown(TaskBarApp* app, bool show);
     bool getShown();
     virtual bool isFocusTraversable();
