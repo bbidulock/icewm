@@ -1256,6 +1256,9 @@ YWMApp::~YWMApp() {
     //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
 
     XFlush(display());
+    unsetenv("DISPLAY");
+    alarm(1);
+    wmapp = nullptr;
 }
 
 int YWMApp::mainLoop() {
