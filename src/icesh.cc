@@ -637,6 +637,23 @@ public:
         }
     }
 
+    void operator ^=(long state) {
+        const int size = 16;
+        Atom atoms[size];
+        int n = 0;
+        for (int i = 0; i < netStateAtomCount && n < size; ++i) {
+            bool flag = hasbit(state, netStateAtoms[i].flag);
+            if (flag && n < size) {
+                atoms[n++] = netStateAtoms[i].atom;
+            }
+        }
+        for (int i = 0; i < n; i += 2) {
+            send(ATOM_NET_WM_STATE, window(), NetStateToggle,
+                 atoms[i], (i + 1 < n) ? atoms[i + 1] : None,
+                 SourceIndication, None);
+        }
+    }
+
     void operator =(long state) {
         const int size = 16;
         Atom atoms[size];
@@ -1259,7 +1276,7 @@ class IceSh {
 public:
     IceSh(int argc, char **argv);
     ~IceSh();
-    operator int() const { return rc; }
+    operator int() const { return rc ? rc : windowList ? 0 : 1; }
 
 private:
     int rc;
@@ -3934,7 +3951,7 @@ void IceSh::parseAction()
             }
         }
         else if (isAction("netState", 0)) {
-            if (haveArg() && strchr("+-=", **argp)) {
+            if (haveArg() && strchr("+-=^", **argp)) {
                 char* arg = getArg();
                 long state(netstates.parseExpression(arg + 1));
                 if (state == -1) {
@@ -3949,6 +3966,8 @@ void IceSh::parseAction()
                             prop -= state;
                         else if (*arg == '=')
                             prop = state;
+                        else if (*arg == '^')
+                            prop ^= state;
                     }
                 }
             }

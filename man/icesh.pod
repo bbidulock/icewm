@@ -420,7 +420,9 @@ If I<STATE> is omitted then it shows the I<EWMH window state>.
 If I<STATE> starts with a C<+> then flags in I<STATE> are appended to
 the existing I<EWMH window state>.  If I<STATE> starts with a C<->
 then flags in I<STATE> are removed from the existing I<EWMH window
-state>.  If I<STATE> starts with a C<=> then the I<EWMH window state>
+state>.  If I<STATE> starts with a C<^> then flags in I<STATE> are
+toggled with respect to the existing I<EWMH window state>.
+If I<STATE> starts with a C<=> then the I<EWMH window state>
 is set to I<STATE>. See EXPRESSIONS below. A list of I<EWMH flags>
 can be found in the output of C<icesh symbols>.
 
@@ -833,6 +835,24 @@ Toggle the frame border of the focused window.
 =item B<DISPLAY>
 
 The default display.
+
+=back
+
+=head1 EXIT STATUS
+
+=over
+
+=item B<0>
+
+The last action completed successfully.
+
+=item B<1>
+
+The last action completed unsuccessfully, or no window met the condition.
+
+=item B<3>
+
+The display could not be opened.
 
 =back
 
