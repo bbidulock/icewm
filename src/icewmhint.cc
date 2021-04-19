@@ -83,7 +83,7 @@ int main(int argc, char **argv) {
             setenv("DISPLAY", value, True);
         }
         else {
-            check_help_version(*arg, get_hint_usage(), VERSION);
+            check_help_version(*arg, get_hint_usage, VERSION);
         }
     }
 

@@ -401,10 +401,10 @@ void print_copying_exit()
     exit(0);
 }
 
-void check_help_version(const char *arg, const char *help, const char *version)
+void check_help_version(const char *arg, help_text_fun help, const char *version)
 {
     if (is_help_switch(arg)) {
-        print_help_exit(help);
+        print_help_exit(help());
     }
     if (is_version_switch(arg)) {
         print_version_exit(version);
@@ -414,7 +414,12 @@ void check_help_version(const char *arg, const char *help, const char *version)
     }
 }
 
-void check_argv(int argc, char **argv, const char *help, const char *version)
+static const char* help_display()
+{
+    return "  -d, --display=NAME    NAME of the X server to use.\n";
+}
+
+void check_argv(int argc, char **argv, help_text_fun help, const char *version)
 {
     if (ApplicationName == nullptr) {
         ApplicationName = my_basename(argv[0]);
@@ -428,8 +433,8 @@ void check_argv(int argc, char **argv, const char *help, const char *version)
                 }
             }
             else if (strchr("h?vVcC", c)) {
-                check_help_version(*arg, nonempty(help) ? help :
-                    "  -d, --display=NAME    NAME of the X server to use.\n",
+                check_help_version(*arg,
+                    help ? help : help_display,
                     version);
             }
             else if (c == 'd') {

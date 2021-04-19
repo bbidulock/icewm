@@ -230,8 +230,9 @@ bool is_version_switch(const char *arg);
 void print_copying_exit();
 void print_help_exit(const char *help);
 void print_version_exit(const char *version);
-void check_help_version(const char *arg, const char *help, const char *version);
-void check_argv(int argc, char **argv, const char *help, const char *version);
+typedef const char* (*help_text_fun)();
+void check_help_version(const char *arg, help_text_fun help, const char *version);
+void check_argv(int argc, char **argv, help_text_fun help, const char *version);
 
 inline int intersection(int s1, int e1, int s2, int e2) {
     return max(0, min(e1, e2) - max(s1, s2));

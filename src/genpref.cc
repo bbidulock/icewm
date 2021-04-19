@@ -179,15 +179,21 @@ static void podpref()
     ppod(icewmbg_prefs);
 }
 
-int main(int argc, char **argv)
+static const char* help_text()
 {
+    static
     const char help[] =
         "  -o, --output=FILE   Write preferences to FILE.\n"
         "  -p                  Use perlpod output format.\n"
         ;
+    return help;
+}
+
+int main(int argc, char **argv)
+{
     bool pod = false;
 
-    check_argv(argc, argv, help, VERSION);
+    check_argv(argc, argv, help_text, VERSION);
 
     char* output = nullptr;
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {

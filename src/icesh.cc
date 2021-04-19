@@ -4373,7 +4373,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    check_argv(argc, argv, get_help_text(), VERSION);
+    check_argv(argc, argv, get_help_text, VERSION);
 
     return IceSh(argc, argv);
 }
