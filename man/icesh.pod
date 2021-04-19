@@ -230,6 +230,10 @@ Print the program version to F<stdout> and exit.
 
 Print copying permissions to F<stdout> for the program and exit.
 
+=item B<-q>, B<--quiet>
+
+Don't complain if no matching windows could be found.
+
 =back
 
 =head1 ACTIONS
@@ -688,6 +692,29 @@ List all named symbols.
 
 =back
 
+=head2 CONDITIONALS
+
+Icesh supports C<if-then-else> expressions. The full syntax is:
+
+    if selection
+    then
+        actions
+    elif selection
+    then
+        actions
+    else
+        actions
+    end
+
+Where C<selection> is a sequence of selection and filtering options,
+which evaluates to true when it is non-empty. That is, if one or more
+windows fulfilled the condition. If it is empty, then its C<actions>
+clause is ignored and the subsequent C<elif> or C<else> clause is tried
+or taken. Each clause is optional. Even the C<then> clause may be omitted.
+Whenever a selection condition evaluates to false, the window selection
+that existed before the C<if> clause is immediately restored.  Note that
+the use of conditionals is seldom needed.
+
 =head2 EXPRESSIONS
 
 Some of the window actions require one or two I<EXPRESSION> arguments.
@@ -828,6 +855,10 @@ Toggle the frame border of the focused window.
     if icesh -f motif | grep -q 'decor:$'; then \
         icesh -f motif decor All; else icesh -f motif decor ""; fi
 
+Here is a different solution using conditionals.
+
+    icesh -f if -P _NET_FRAME_EXTENTS=0 then bordered else borderless
+
 =head1 ENVIRONMENT
 
 =over
@@ -850,9 +881,17 @@ The last action completed successfully.
 
 The last action completed unsuccessfully, or no window met the condition.
 
+=item B<2>
+
+A conditional has invalid syntax.
+
 =item B<3>
 
 The display could not be opened.
+
+=item B<4>
+
+The X server reports an error while processing a request.
 
 =back
 
