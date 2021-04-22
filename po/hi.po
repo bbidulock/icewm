@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1301\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2018-04-07 14:35+0200\n"
-"PO-Revision-Date: 2020-10-22 12:49+0000\n"
+"PO-Revision-Date: 2021-04-22 16:57+0000\n"
 "Last-Translator: Panwar <caspian7pena@gmail.com>\n"
 "Language-Team: Hindi <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/hi/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/aapm.cc:177 src/aapm.cc:459 src/aapm.cc:681 src/aapm.cc:806
 msgid " - Power"
@@ -304,7 +304,7 @@ msgstr "सिस्टम"
 
 #: src/fdomenu.cc:91
 msgid "WINE"
-msgstr "WINE"
+msgstr "वाइन"
 
 #: src/fdomenu.cc:92
 msgid "Editors"
