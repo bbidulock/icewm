@@ -56,7 +56,7 @@ class WindowItemsCtrlr : public ISwitchItems
 
     void changeFocusTo(YFrameWindow *frame)  {
         if (frame->visible())
-            manager->setFocus(frame, false, !quickSwitchRaiseCandidate);
+            manager->setFocus(frame, false, false);
         if (quickSwitchRaiseCandidate)
             manager->restackWindows();
     }
