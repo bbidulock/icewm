@@ -36,6 +36,7 @@ public:
     virtual bool createdItem(YFrameWindow* frame) { return false; }
 
     virtual bool isKey(KeySym k, unsigned mod) = 0;
+    virtual unsigned modifiers() = 0;
 
     // Filter items by WM_CLASS
     virtual void setWMClass(char* wmclass) = 0;

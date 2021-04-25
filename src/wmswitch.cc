@@ -287,6 +287,12 @@ public:
         return gKeySysSwitchNext.eq(k, vm) || (fWMClass &&
                gKeySysSwitchClass.eq(k, vm));
     }
+
+    unsigned modifiers() override {
+        return gKeySysSwitchNext.mod
+             | gKeySysSwitchLast.mod
+             | gKeySysSwitchClass.mod;
+    }
 };
 
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
@@ -830,9 +836,7 @@ bool SwitchWindow::isKey(KeySym k, unsigned vm) {
 }
 
 unsigned SwitchWindow::modifiers() {
-    return gKeySysSwitchNext.mod
-         | gKeySysSwitchLast.mod
-         | gKeySysSwitchClass.mod;
+    return zItems->modifiers();
 }
 
 bool SwitchWindow::isModKey(KeyCode c) {

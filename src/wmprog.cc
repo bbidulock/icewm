@@ -92,8 +92,12 @@ DProgram *DProgram::newProgram(
 
 KProgramArrayType keyProgs;
 
-KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg)
-    : fKey(NoSymbol), fMod(0), bIsDynSwitchMenu(bIsDynSwitchMenuProg), fProg(prog), pSwitchWindow(nullptr)
+KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg) :
+    fKey(NoSymbol),
+    fMod(0),
+    bIsDynSwitchMenu(bIsDynSwitchMenuProg),
+    fProg(prog),
+    pSwitchWindow(nullptr)
 {
     YConfig::parseKey(key, &fKey, &fMod);
     keyProgs.append(this);
@@ -107,8 +111,8 @@ class MenuProgSwitchItems: public ISwitchItems {
     unsigned int mod;
 
 public:
-    MenuProgSwitchItems(DProgram* prog, KeySym key, unsigned keymod) : ISwitchItems()
-        , zTarget(0), key(key), mod(keymod) {
+    MenuProgSwitchItems(DProgram* prog, KeySym key, unsigned keymod) :
+        ISwitchItems(), zTarget(0), key(key), mod(keymod) {
         menu = new MenuProgMenu(wmapp, wmapp, nullptr /* no wmaction handling*/,
                 "switch popup internal menu", prog->fCmd, prog->fArgs);
     }
@@ -121,6 +125,9 @@ public:
     }
     virtual bool isKey(KeySym k, unsigned int mod) override {
         return k == this->key && mod == this->mod;
+    }
+    unsigned modifiers() override {
+        return mod;
     }
     virtual void setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
