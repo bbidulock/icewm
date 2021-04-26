@@ -1252,8 +1252,7 @@ YWMApp::~YWMApp() {
     extern void freeTitleColorsFonts();
     freeTitleColorsFonts();
 
-    //!!!XFreeGC(display(), outlineGC); lazy init in movesize.cc
-    //!!!XFreeGC(display(), clipPixmapGC); in ypaint.cc
+    YConfig::freeConfig(wmapp_preferences);
 
     XFlush(display());
     unsetenv("DISPLAY");
@@ -1400,6 +1399,7 @@ static void print_usage(const char *argv0) {
              "  -t, --theme=FILE    Load theme from FILE.\n"
              "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
              "  -p, --postpreferences  Print preferences after all processing.\n"
+             "  --rewrite-preferences  Update an existing preferences file.\n"
              "  --trace=conf,icon   Trace paths used to load configuration.\n"
              );
 
@@ -1570,6 +1570,7 @@ int main(int argc, char **argv) {
     YLocale locale;
     bool restart_wm(false);
     bool log_events(false);
+    bool rewrite_prefs(false);
     bool notify_parent(false);
     const char* configFile(nullptr);
     const char* displayName(nullptr);
@@ -1584,6 +1585,8 @@ int main(int argc, char **argv) {
                 overrideTheme = value;
             else if (is_switch(*arg, "p", "postpreferences"))
                 post_preferences = true;
+            else if (is_long_switch(*arg, "rewrite-preferences"))
+                rewrite_prefs = true;
             else if (is_long_switch(*arg, "extensions"))
                 show_extensions = true;
             else
@@ -1631,6 +1634,8 @@ int main(int argc, char **argv) {
 
     if (restart_wm)
         return restartWM(displayName, overrideTheme);
+    if (rewrite_prefs)
+        return WMConfig::rewritePrefs(wmapp_preferences, configFile);
 
     if (isEmpty(configFile))
         configFile = "preferences";
@@ -1761,6 +1766,7 @@ public:
         XSelectInput(xapp->display(), handle(), VisibilityChangeMask);
         props();
         show();
+        repaint();
         xapp->sync();
     }
     void place() {
@@ -1770,7 +1776,6 @@ public:
         int x = geo.x() + (geo.width() - w) / 2;
         int y = geo.y() + (geo.height() - h) / 2;
         setGeometry(YRect(x, y, w, h));
-        GraphicsBuffer(this).paint();
     }
     void props() {
         setTitle("IceSplash");
@@ -1780,6 +1785,7 @@ public:
         setProperty(_XA_WIN_LAYER, XA_CARDINAL, 15);
     }
     void repaint() {
+        GraphicsBuffer(this).paint();
     }
     void handleExpose(const XExposeEvent&) {
     }

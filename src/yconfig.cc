@@ -266,13 +266,18 @@ void YConfig::parseConfiguration(char *data) {
     }
 }
 
-bool YConfig::loadConfigFile(cfoption* opts, upath fileName, cfoption* more) {
+bool YConfig::loadConfigFile(cfoption* opts, upath fileName,
+                             cfoption* more, cfoption* xtra)
+{
     YTraceConfig trace(fileName.string());
     auto buf(fileName.loadText());
     if (buf) {
         YConfig(opts).parseConfiguration(buf);
         if (more) {
             YConfig(more).parseConfiguration(buf);
+        }
+        if (xtra) {
+            YConfig(xtra).parseConfiguration(buf);
         }
     }
     return buf;
@@ -322,6 +327,30 @@ YConfig& YConfig::loadTheme() {
 
 YConfig& YConfig::loadOverride() {
     return load("prefoverride");
+}
+
+bool cfoption::operator==(const cfoption& r) const {
+    if (type == r.type) {
+        switch (type) {
+            case CF_NONE:
+                return true;
+            case CF_BOOL:
+                return boolval() == r.boolval();
+            case CF_INT:
+                return intval() == r.intval();
+            case CF_UINT:
+                return uintval() == r.uintval();
+            case CF_STR:
+                return str() == r.str()
+                    || (str() && r.str() && 0 == strcmp(str(), r.str()));
+            case CF_KEY:
+                return key()->operator==(*r.key())
+                    && 0 == strcmp(key()->name, r.key()->name);
+            case CF_FUNC:
+                return false;
+        }
+    }
+    return false;
 }
 
 // vim: set sw=4 ts=4 et:

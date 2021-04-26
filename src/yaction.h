@@ -1,9 +1,7 @@
-#ifndef __YACTION_H
-#define __YACTION_H
+#ifndef YACTION_H
+#define YACTION_H
 
-#ifndef __WMACTION_H
 #include "wmaction.h"
-#endif
 
 class YAction {
 public:

@@ -14,6 +14,7 @@ public:
     static void setDefaultTheme(mstring themeName);
     static void printPrefs(long focus, cfoption* startup);
     static void print_options(cfoption* options);
+    static int rewritePrefs(cfoption* startup, const char* config);
 };
 
 // functions which are used in preferences options:

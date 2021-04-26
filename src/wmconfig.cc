@@ -6,12 +6,14 @@
 #include "config.h"
 #include "ykey.h"
 #include "yprefs.h"
+#include <errno.h>
 
 #define CFGDEF
 #include "wmconfig.h"
 #include "bindkey.h"
 #include "appnames.h"
 #include "default.h"
+#include "wmsave.h"
 #include "base.h"
 #include "yapp.h"
 #include "intl.h"
@@ -237,5 +239,139 @@ void WMConfig::printPrefs(long focus, cfoption* startup) {
     print_options(icewm_themable_preferences);
 }
 
+class OptionCopy {
+public:
+    OptionCopy() {
+        opts.setCapacity(512);
+        keys.setCapacity(128);
+    }
+    cfoption* copyOptions(cfoption* options);
+    static int countOptions(cfoption* options);
+
+private:
+    union cfvalue {
+        int i; unsigned u; const char* s; bool b;
+    };
+    YArray<cfvalue> opts;
+    YArray<WMKey> keys;
+};
+
+int OptionCopy::countOptions(cfoption* options) {
+    int i = 0;
+    while (options[i].type)
+        ++i;
+    return i + 1;
+}
+
+cfoption* OptionCopy::copyOptions(cfoption* options) {
+    const int count = countOptions(options);
+    cfoption* copy = new cfoption[count];
+    if (copy) {
+        memcpy(copy, options, count * sizeof(cfoption));
+        for (int i = 0; i < count; ++i) {
+            int o = opts.getCount();
+            int w = keys.getCount();
+            cfvalue val;
+            switch (copy[i].type) {
+                case cfoption::CF_NONE:
+                    break;
+                case cfoption::CF_BOOL:
+                    val.b = copy[i].boolval();
+                    opts.append(val);
+                    copy[i].v.b.bool_value = &opts[o].b;
+                    break;
+                case cfoption::CF_INT:
+                    val.i = copy[i].intval();
+                    opts.append(val);
+                    copy[i].v.i.int_value = &opts[o].i;
+                    break;
+                case cfoption::CF_UINT:
+                    val.u = copy[i].uintval();
+                    opts.append(val);
+                    copy[i].v.u.uint_value = &opts[o].u;
+                    break;
+                case cfoption::CF_STR:
+                    val.s = copy[i].str();
+                    opts.append(val);
+                    copy[i].v.s.string_value = &opts[o].s;
+                    break;
+                case cfoption::CF_KEY:
+                    keys.append(*copy[i].key());
+                    copy[i].v.k.key_value = &keys[w];
+                    break;
+                case cfoption::CF_FUNC:
+                    break;
+            }
+        }
+    }
+    return copy;
+}
+
+int WMConfig::rewritePrefs(cfoption* start_preferences, const char* config) {
+    upath origin(YApplication::getLibDir() + "/preferences");
+    upath source(nonempty(config) ? config :
+                 YApplication::getPrivConfDir() + "/preferences");
+
+    if (origin == source) {
+        errno = EDEADLK;
+        fail("%s", origin.string());
+        return EXIT_SUCCESS;
+    }
+    if (origin.fileExists() == false || origin.isReadable() == false) {
+        fail("%s", origin.string());
+        return EXIT_FAILURE;
+    }
+    if (source.fileExists() == false) {
+        if (source.copyFrom(origin)) {
+            return EXIT_SUCCESS;
+        } else {
+            fail("%s", source.string());
+            return EXIT_FAILURE;
+        }
+    }
+    if (source.isReadable() == false || source.isWritable() == false) {
+        fail("%s", source.string());
+        return EXIT_FAILURE;
+    }
+
+    OptionCopy copy;
+    asmart<cfoption> start(copy.copyOptions(start_preferences));
+    asmart<cfoption> icewm(copy.copyOptions(icewm_preferences));
+    asmart<cfoption> theme(copy.copyOptions(icewm_themable_preferences));
+    if (start && icewm && theme) {
+        bool load = YConfig::loadConfigFile(start, source, icewm, theme);
+        if (load) {
+            YArray<int> smods, imods, tmods;
+            for (int i = 0; start[i].type; ++i) {
+                if (start[i] != start_preferences[i]) {
+                    smods += i;
+                }
+            }
+            for (int i = 0; icewm[i].type; ++i) {
+                if (icewm[i] != icewm_preferences[i]) {
+                    imods += i;
+                }
+            }
+            for (int i = 0; theme[i].type; ++i) {
+                if (theme[i] != icewm_themable_preferences[i]) {
+                    tmods += i;
+                }
+            }
+            SavePrefs save;
+            if (save.loadText(origin)) {
+                if (smods.nonempty())
+                    save.applyMods(smods, start);
+                if (imods.nonempty())
+                    save.applyMods(imods, icewm);
+                if (tmods.nonempty())
+                    save.applyMods(tmods, theme);
+                if (save.saveText(source)) {
+                    return EXIT_SUCCESS;
+                }
+            }
+        }
+    }
+    return EXIT_FAILURE;
+}
 
 // vim: set sw=4 ts=4 et:

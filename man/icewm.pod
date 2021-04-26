@@ -188,6 +188,11 @@ actual values after B<icewm> has processed all of the configuration and
 theme files. In some advanced scenarios this can be helpful to inspect
 which configuration was chosen or whether option formatting was correct.
 
+=item B<--rewrite-preferences>
+
+Overwrite an existing preferences file with an icewm default preferences,
+but preserve all modifications insofar they deviate from the defaults.
+
 =item B<--extensions>
 
 Give a list of the current X extensions, their versions and status.
@@ -613,7 +618,12 @@ B<icewm> supports a large number of hotkeys to activate some behaviour
 with a single key combination.  These are all configurable in the
 F<preferences> file.  Here we give their preferences name, followed by
 their default value in double quotes, and a short descriptions of their
-effect:
+effect.
+
+Note that all use one or more key modifiers. Icewm supports the
+following modifiers: Alt, AltGr, Ctrl, Hyper, Meta, Shift, Super.
+Setting B<ModSuperIsCtrlAlt=1> makes the Super modifier an alias
+for Ctrl+Alt.
 
 =over
 

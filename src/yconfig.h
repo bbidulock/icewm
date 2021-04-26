@@ -133,14 +133,19 @@ struct cfoption {
         v.f.notify = f;
     }
     cfoption() : type(CF_NONE), size(0), name(nullptr), description(nullptr) { }
-    bool boolval() { return *v.b.bool_value; }
-    int intval() { return *v.i.int_value; }
-    int intmax() { return v.i.max; }
-    int intmin() { return v.i.min; }
-    unsigned uintval() { return *v.u.uint_value; }
-    const char* str() { return *v.s.string_value; }
-    WMKey* key() { return v.k.key_value; }
-    notifyfun fun() { return v.f.notify; }
+    bool boolval() const { return *v.b.bool_value; }
+    int intval() const { return *v.i.int_value; }
+    int intmax() const { return v.i.max; }
+    int intmin() const { return v.i.min; }
+    unsigned uintval() const { return *v.u.uint_value; }
+    unsigned uintmax() const { return v.u.max; }
+    unsigned uintmin() const { return v.u.min; }
+    const char* str() const { return *v.s.string_value; }
+    WMKey* key() const { return v.k.key_value; }
+    notifyfun fun() const { return v.f.notify; }
+
+    bool operator==(const cfoption& r) const;
+    bool operator!=(const cfoption& r) const { return !operator==(r); }
 };
 
 class Argument;
@@ -159,7 +164,7 @@ public:
     static void freeConfig(cfoption* options);
     static char* getArgument(Argument* dest, char* p, bool comma = false);
     static bool loadConfigFile(cfoption* options, upath fileName,
-                               cfoption* more = nullptr);
+                               cfoption* more = nullptr, cfoption* xtra = nullptr);
     static bool findLoadConfigFile(cfoption* options, const char* name);
     static bool findLoadThemeFile(cfoption* options);
     static bool parseKey(const char* arg, KeySym* key, unsigned int* mod);

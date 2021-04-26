@@ -197,6 +197,8 @@ libitk_la_SOURCES = \
 	wmconfig.h \
 	wmmgr.h \
 	wmoption.h \
+	wmsave.cc \
+	wmsave.h \
 	wmtaskbar.h \
 	workspaces.h \
 	wpixmaps.h \
