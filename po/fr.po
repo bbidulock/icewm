@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-04-26 19:30+0200\n"
-"PO-Revision-Date: 2021-03-25 13:56+0000\n"
-"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2021-04-26 20:57+0000\n"
+"Last-Translator: Guillaume GARDET <guillaume.gardet@opensuse.org>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -280,7 +280,7 @@ msgstr ""
 "  Taux actuel (E/S) :\t%li %s/%li %s\n"
 "  Taux moyen (E/S) :\t%lli %s/%lli %s\n"
 "  Transférés (E/S) :\t%lli %s/%lli %s\n"
-"  Temps passé en ligne:\t%ld:%02ld:%02ld%s%s"
+"  Temps passé en ligne :\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
@@ -406,7 +406,7 @@ msgstr "Échec de la création d'une fichier temporaire"
 #: src/icehelp.cc:2200
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr "Échec de l'exécution du système  (%s) (%d)"
+msgstr "Échec de l'exécution du système (%s) (%d)"
 
 #: src/icehelp.cc:2223
 #, c-format
@@ -551,7 +551,7 @@ msgstr "Pour obtenir de l'aide, consultez la page de manuel icesh(1).\n"
 #: src/icesh.cc:1506
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Symboles nommés du domaine \"%s\" (intervalle numérique: %ld-%ld) :\n"
+msgstr "Symboles nommés du domaine `%s' (intervalle numérique : %ld-%ld) :\n"
 
 #: src/icesh.cc:1564
 #, c-format
@@ -627,14 +627,13 @@ msgstr "Expression incorrecte : \"%s\""
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Impossible d'ouvrir le display %s. X doit être lancé et \n"
-"$DISPLAY doit être positionnée."
+"Impossible d'ouvrir le display %s. X doit être lancé et $DISPLAY doit être "
+"défini."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Mot-clé de menu inattendu : %s"
+msgstr "Inattendu : `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1187,7 +1186,7 @@ msgstr ""
 #: src/movesize.cc:876
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Direction inconnue dans la requête de déplacement/dimensionnement: %d"
+msgstr "Direction inconnue dans la requête de déplacement/dimensionnement : %d"
 
 #: src/wmabout.cc:29 src/wmabout.cc:30
 msgid "(C)"
@@ -1440,15 +1439,6 @@ msgstr ""
 "fenêtres.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1466,6 +1456,7 @@ msgstr ""
 "  -s, --splash=IMAGE  Affiche brièvement IMAGE au démarrage.\n"
 "  -p, --postpreferences   Imprime les préférences une fois le traitement "
 "terminé.\n"
+"  --rewrite-preferences  Met à jour le fichier de préférences existant.\n"
 "  --trace=conf,icon   Trace les chemins utilisés pour charger la "
 "configuration.\n"
 
@@ -1906,7 +1897,7 @@ msgstr "Impossible de charger le jeu de police \"%s\"."
 #: src/yfontcore.cc:128
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "Encodage absent pour le jeu de police \"%s\" : "
+msgstr "Encodage absent pour le jeu de police \"%s\" :"
 
 #: src/yinputline.cc:18
 msgid "_Copy"
@@ -1958,8 +1949,8 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Échec lors de la détection de l'encodage des caractères courants.\n"
-"Utilisation de l'encodage par défaut ISO-8859-1.\n"
+"Échec lors de la détection de l'encodage des caractères courants. Par défaut "
+"ISO-8859-1.\n"
 
 #: src/ylocale.cc:123 src/ylocale.cc:131
 #, c-format
