@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-03-28 23:26+0200\n"
+"POT-Creation-Date: 2021-04-26 19:30+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -299,7 +299,7 @@ msgstr "말아내리기"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:595 src/wmstatus.cc:207
+#: src/aworkspaces.cc:602 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "작업공간: "
 
@@ -547,125 +547,131 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "같은 게임"
 
-#: src/icesh.cc:75
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1509
+#: src/icesh.cc:1506
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "`%s' 도메인의 지명된 심볼들 (숫자 범위: %ld-%ld):\n"
 
-#: src/icesh.cc:1567
+#: src/icesh.cc:1564
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
-#: src/icesh.cc:1588
+#: src/icesh.cc:1585
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1862
 msgid "GNOME window layer"
 msgstr "GNOME 창 레이어"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1863
 msgid "IceWM tray option"
 msgstr "IceWM 트레이 옵션"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1864
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1868
+#: src/icesh.cc:1865
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1869
+#: src/icesh.cc:1866
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1870
+#: src/icesh.cc:1867
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME 창 상태"
 
-#: src/icesh.cc:1952 src/icesh.cc:2025
+#: src/icesh.cc:1949 src/icesh.cc:2022
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "작업공간 #%d: `%s'\n"
 
-#: src/icesh.cc:2260 src/icesh.cc:3470 src/icesh.cc:3941
+#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3109
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3134
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3186 src/icesh.cc:3232
+#: src/icesh.cc:3181 src/icesh.cc:3231
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3197
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "`%s' 동작은 최소 %d 개의 인수를 요구한다."
 
-#: src/icesh.cc:3208
+#: src/icesh.cc:3206
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "잘못된 표현: `%s'"
 
-#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1066
-#: src/yxapp.cc:1030
+#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "디스플레이를 열지 못함: %s. X 실행 중여야 하고 $DISPLAY 정해야 함."
 
-#: src/icesh.cc:3267
+#: src/icesh.cc:3331
+#, fuzzy, c-format
+#| msgid "Unexepected menu keyword: '%s'"
+msgid "Unexpected: `%s'."
+msgstr "예기치 않은 메뉴 키워드: '%s'"
+
+#: src/icesh.cc:3360
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3282
+#: src/icesh.cc:3375
 msgid "No actions specified."
 msgstr "아무 동작도 지정하지 않음."
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3484
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "잘못된 창 식별명: `%s'"
 
-#: src/icesh.cc:3404
+#: src/icesh.cc:3501
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3440
+#: src/icesh.cc:3537
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:4247
+#: src/icesh.cc:4348
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "알 수 없는 동작: `%s'"
@@ -1088,12 +1094,12 @@ msgstr "줄 넘기기"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:74
+#: src/icewmbg.cc:72
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "이미지 '%s'을(를) 로드하지 못했습니다."
 
-#: src/icewmbg.cc:881
+#: src/icewmbg.cc:913
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1191,7 +1197,7 @@ msgstr ""
 " 가운데: 0 배율: 1 = 2차원 채우기 및 가로세로비 유지형\n"
 "\n"
 
-#: src/icewmbg.cc:1086
+#: src/icewmbg.cc:1118
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "다른 icewmbg가 여전히 실행 중이므로 시작할 수 없습니다."
 
@@ -1232,43 +1238,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "이동/크기조절 요구에서 알 수 없는 방향: %d"
 
-#: src/wmabout.cc:28 src/wmabout.cc:29
+#: src/wmabout.cc:29 src/wmabout.cc:30
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:39
+#: src/wmabout.cc:40
 msgid "Theme:"
 msgstr "테마:"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:41
 msgid "Theme Description:"
 msgstr "테마 설명:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:42
 msgid "Theme Author:"
 msgstr "테마 만든이:"
 
-#: src/wmabout.cc:50
+#: src/wmabout.cc:51
 msgid "CodeSet:"
 msgstr "CodeSet:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:52
 msgid "Language:"
 msgstr "언어:"
 
-#: src/wmabout.cc:55
+#: src/wmabout.cc:56
 msgid "DoubleBuffer"
 msgstr ""
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:57
 msgid "AlphaBlending"
 msgstr ""
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:58
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:65
+#: src/wmabout.cc:64
 msgid "icewm - About"
 msgstr "icewm에 관하여"
 
@@ -1454,17 +1460,17 @@ msgid ""
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1067 src/yxapp.cc:1031
+#: src/wmapp.cc:1069 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<none>"
 
-#: src/wmapp.cc:1369
+#: src/wmapp.cc:1382
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      세션 관리자에게 문의할 때 사용할 클라이언트 ID입니다.\n"
 
-#: src/wmapp.cc:1375
+#: src/wmapp.cc:1388
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1474,7 +1480,7 @@ msgstr ""
 "  --debug             일반 디버그 메시지를 인쇄합니다.\n"
 "  --debug-z           창 스택 관련 디버그 메시지를 인쇄합니다.\n"
 
-#: src/wmapp.cc:1383
+#: src/wmapp.cc:1396
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1488,6 +1494,7 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
 "  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
@@ -1495,7 +1502,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE에서 테마를 로드합니다.\n"
 "  --postpreferences   모든 처리 후 기본 설정을 인쇄합니다.\n"
 
-#: src/wmapp.cc:1392
+#: src/wmapp.cc:1406
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1554,26 +1561,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1454
+#: src/wmapp.cc:1468
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 구성 디렉터리:\n"
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 구성된 옵션: %s\n"
 
-#: src/wmapp.cc:1614
+#: src/wmapp.cc:1631
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "알아볼 수 없는 옵션: '%s'"
 
-#: src/wmapp.cc:1666
+#: src/wmapp.cc:1677
 msgid "Confirm Logout"
 msgstr "종료 확인"
 
-#: src/wmapp.cc:1667
+#: src/wmapp.cc:1678
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1609,27 +1616,27 @@ msgstr "말아내리기"
 msgid "Rollup"
 msgstr "말아올리기"
 
-#: src/wmconfig.cc:33 src/wmconfig.cc:38 src/wmconfig.cc:44
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "테마 %s을(를) 로드하지 못함"
 
-#: src/wmconfig.cc:111
+#: src/wmconfig.cc:113
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "'%s' 옵션에 대한 알 수 없는 값 '%s'"
 
-#: src/wmconfig.cc:119
+#: src/wmconfig.cc:121
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "디렉토리 %s을(를) 만들 수 없음"
 
-#: src/wmconfig.cc:146
+#: src/wmconfig.cc:148
 #, c-format
 msgid "Unable to write to %s"
 msgstr "%s에 쓸 수 없음"
 
-#: src/wmconfig.cc:182
+#: src/wmconfig.cc:184
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "이름을 %s에서 %s(으)로 바꿀 수 없음"
@@ -1643,7 +1650,7 @@ msgid "_Cancel"
 msgstr "취소(_C)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:458 src/wmprog.cc:460 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "로그아웃(_L)..."
@@ -1653,15 +1660,15 @@ msgid "_Restart icewm"
 msgstr "icewm 다시 시작(_R)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:426 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:1393
+#: src/wmframe.cc:1401
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1402
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1669,11 +1676,11 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3231
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3233
+#: src/wmmgr.cc:3232
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1687,76 +1694,76 @@ msgstr "알 수 없는 창 옵션: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d 라인(%s)에 있는 창 옵션 구문 오류"
 
-#: src/wmprog.cc:333
+#: src/wmprog.cc:331
 msgid "_Click to focus"
 msgstr "클릭에 의한 포커스(_C)"
 
-#: src/wmprog.cc:334
+#: src/wmprog.cc:332
 msgid "_Explicit focus"
 msgstr "명확한 포커스(_E)"
 
-#: src/wmprog.cc:335
+#: src/wmprog.cc:333
 msgid "_Sloppy mouse focus"
 msgstr "슬로피 마우스 포커스(_S)"
 
-#: src/wmprog.cc:336
+#: src/wmprog.cc:334
 msgid "S_trict mouse focus"
 msgstr "엄격한 마우스 포커스(_S)"
 
-#: src/wmprog.cc:337
+#: src/wmprog.cc:335
 msgid "_Quiet sloppy focus"
 msgstr "조용한 슬로피 포커스(_Q)"
 
-#: src/wmprog.cc:338
+#: src/wmprog.cc:336
 msgid "Custo_m"
 msgstr "사용자 설정대로(_M)"
 
-#: src/wmprog.cc:360
+#: src/wmprog.cc:358
 msgid "_Manual"
 msgstr "매뉴얼(_M)"
 
-#: src/wmprog.cc:361
+#: src/wmprog.cc:359
 msgid "_Icewm(1)"
 msgstr "Icewm(1)(_I)"
 
-#: src/wmprog.cc:362
+#: src/wmprog.cc:360
 msgid "Icewm_Bg(1)"
 msgstr "IcewmBg(1)(_B)"
 
-#: src/wmprog.cc:363
+#: src/wmprog.cc:361
 msgid "Ice_Sound(1)"
 msgstr "IceSound(1)(_S)"
 
-#: src/wmprog.cc:412
+#: src/wmprog.cc:410
 msgid "Programs"
 msgstr "프로그램"
 
-#: src/wmprog.cc:416
+#: src/wmprog.cc:414
 msgid "_Run..."
 msgstr "실행(_R)..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:420 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "창(_W)"
 
-#: src/wmprog.cc:431
+#: src/wmprog.cc:429
 msgid "_Help"
 msgstr "도움말(_H)"
 
-#: src/wmprog.cc:436
+#: src/wmprog.cc:434
 msgid "_Focus"
 msgstr "초점(_F)"
 
-#: src/wmprog.cc:441
+#: src/wmprog.cc:439
 msgid "_Preferences"
 msgstr "_기본 설정"
 
-#: src/wmprog.cc:446
+#: src/wmprog.cc:444
 msgid "_Themes"
 msgstr "모양새(_T)"
 
-#: src/wmprog.cc:450
+#: src/wmprog.cc:448
 msgid "Se_ttings"
 msgstr "설정(_T)"
 
@@ -1993,12 +2000,12 @@ msgstr "잘못된 멀티바이트 문자열 \"%s\": %s"
 msgid "_OK"
 msgstr "예(_O)"
 
-#: src/ypaths.cc:94
+#: src/ypaths.cc:88
 #, c-format
 msgid "Image not readable: %s"
 msgstr "이미지를 읽을 수 없음: %s"
 
-#: src/ypaths.cc:117
+#: src/ypaths.cc:111
 #, c-format
 msgid "Could not find image %s"
 msgstr "%s 이미지를 찾을 수 없음"
@@ -2922,9 +2929,6 @@ msgstr "워드 프로세서"
 
 #~ msgid "Error at %s '%s'"
 #~ msgstr "%s '%s'에서 오류"
-
-#~ msgid "Unexepected menu keyword: '%s'"
-#~ msgstr "예기치 않은 메뉴 키워드: '%s'"
 
 #~ msgid "Error at menuprog '%s'"
 #~ msgstr "'%s' 메뉴 프로그램에서 오류"

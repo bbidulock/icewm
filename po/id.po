@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-03-28 23:26+0200\n"
+"POT-Creation-Date: 2021-04-26 19:30+0200\n"
 "PO-Revision-Date: 2021-03-23 05:56+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -296,7 +296,7 @@ msgstr "turun"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:595 src/wmstatus.cc:207
+#: src/aworkspaces.cc:602 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "Ruang kerja: "
 
@@ -540,114 +540,120 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Permainan yang Sama"
 
-#: src/icesh.cc:75
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Untuk bantuan silahkan baca halaman manual icesh(1).\n"
 
-#: src/icesh.cc:1509
+#: src/icesh.cc:1506
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nama simbol dari domain `%s' (rentang numerik: %ld-%ld):\n"
 
-#: src/icesh.cc:1567
+#: src/icesh.cc:1564
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Ruang kerja di luar jangkauan: %ld"
 
-#: src/icesh.cc:1588
+#: src/icesh.cc:1585
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nama ruang kerja tidak valid: `%s'"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1862
 msgid "GNOME window layer"
 msgstr "Lapisan jendela GNOME"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1863
 msgid "IceWM tray option"
 msgstr "Opsi baki IceWM"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1864
 msgid "Gravity symbols"
 msgstr "Simbol gravitasi"
 
-#: src/icesh.cc:1868
+#: src/icesh.cc:1865
 msgid "Motif functions"
 msgstr "Fungsi motif"
 
-#: src/icesh.cc:1869
+#: src/icesh.cc:1866
 msgid "Motif decorations"
 msgstr "Hiasan motif"
 
-#: src/icesh.cc:1870
+#: src/icesh.cc:1867
 msgid "EWMH window state"
 msgstr "Keadaan jendela EWMH"
 
-#: src/icesh.cc:1952 src/icesh.cc:2025
+#: src/icesh.cc:1949 src/icesh.cc:2022
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "ruang kerja #%d: `%s'\n"
 
-#: src/icesh.cc:2260 src/icesh.cc:3470 src/icesh.cc:3941
+#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Keadaan tidak valid: '%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3109
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Tidak dapat mendapatkan geometri jendela 0x%lx"
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3134
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama tidak valid: `%s'."
 
-#: src/icesh.cc:3186 src/icesh.cc:3232
+#: src/icesh.cc:3181 src/icesh.cc:3231
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argumen tidak valid: '%s'"
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3197
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aksi '%s' memerlukan setidaknya argumen %d."
 
-#: src/icesh.cc:3208
+#: src/icesh.cc:3206
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ekspresi tidak valid: '%s'"
 
-#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1066
-#: src/yxapp.cc:1030
+#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Tidak dapat membuka tampilan: %s. X harus berjalan dan atur $DISPLAY."
 
-#: src/icesh.cc:3267
+#: src/icesh.cc:3331
+#, fuzzy, c-format
+#| msgid "Unexepected menu keyword: '%s'"
+msgid "Unexpected: `%s'."
+msgstr "Kata kunci menu yang tidak diharapkan: '%s'"
+
+#: src/icesh.cc:3360
 msgid "No windows found."
 msgstr "Tidak ada jendela yang ditemukan."
 
-#: src/icesh.cc:3282
+#: src/icesh.cc:3375
 msgid "No actions specified."
 msgstr "Tidak ada aksi yang ditentukan."
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3484
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Pengidentifikasi jendela tidak valid: '%s'"
 
-#: src/icesh.cc:3404
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID tidak valid: '%s'"
 
-#: src/icesh.cc:3440
+#: src/icesh.cc:3537
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Lapisan tidak valid: `%s'."
 
-#: src/icesh.cc:4247
+#: src/icesh.cc:4348
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Aksi tidak diketahui: '%s'"
@@ -1004,12 +1010,12 @@ msgstr "Lipat Baris"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:74
+#: src/icewmbg.cc:72
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Gagal memuat berkas gambar '%s'."
 
-#: src/icewmbg.cc:881
+#: src/icewmbg.cc:913
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1109,7 +1115,7 @@ msgstr ""
 " center:0 scaled:1 = isi kedua dimensi dan pertahankan rasio aspek\n"
 "\n"
 
-#: src/icewmbg.cc:1086
+#: src/icewmbg.cc:1118
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Tidak dapat memulai, karena icewmbg lain masih berjalan."
 
@@ -1152,43 +1158,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Arah tidak dikenal dalam memindahkan/mengubah  permintaan: %d"
 
-#: src/wmabout.cc:28 src/wmabout.cc:29
+#: src/wmabout.cc:29 src/wmabout.cc:30
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:39
+#: src/wmabout.cc:40
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:41
 msgid "Theme Description:"
 msgstr "Deskripsi Tema:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:42
 msgid "Theme Author:"
 msgstr "Penulis Tema:"
 
-#: src/wmabout.cc:50
+#: src/wmabout.cc:51
 msgid "CodeSet:"
 msgstr "SetKode:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:52
 msgid "Language:"
 msgstr "Bahasa:"
 
-#: src/wmabout.cc:55
+#: src/wmabout.cc:56
 msgid "DoubleBuffer"
 msgstr "Buffer Ganda"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:57
 msgid "AlphaBlending"
 msgstr "Alfa Blending"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:58
 msgid "Renderer:"
 msgstr "Perender"
 
-#: src/wmabout.cc:65
+#: src/wmabout.cc:64
 msgid "icewm - About"
 msgstr "icewm - Tentang"
 
@@ -1375,18 +1381,18 @@ msgstr ""
 "Lepaskan semua aplikasi dan mulai ulang\n"
 "sebagai terminal. Melanjutkan?"
 
-#: src/wmapp.cc:1067 src/yxapp.cc:1031
+#: src/wmapp.cc:1069 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<NIHIL>"
 
-#: src/wmapp.cc:1369
+#: src/wmapp.cc:1382
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klien id yang digunakan saat menghubungi pengelola "
 "sesi.\n"
 
-#: src/wmapp.cc:1375
+#: src/wmapp.cc:1388
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1396,7 +1402,16 @@ msgstr ""
 "  --debug             Cetak pesan awakutu umum.\n"
 "  --debug-z           Cetak pesan awakutu tentang penumpukan jendela.\n"
 
-#: src/wmapp.cc:1383
+#: src/wmapp.cc:1396
+#, fuzzy
+#| msgid ""
+#| "\n"
+#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
+#| "  -c, --config=FILE   Load preferences from FILE.\n"
+#| "  -t, --theme=FILE    Load theme from FILE.\n"
+#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+#| "  -p, --postpreferences  Print preferences after all processing.\n"
+#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1404,6 +1419,7 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
 "  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
@@ -1414,7 +1430,7 @@ msgstr ""
 "  -p, --postpreferences  Preferensi cetak setelah semua pemrosesan.\n"
 "  --trace=conf,icon   Path jejak yang digunakan untuk memuat konfigurasi.\n"
 
-#: src/wmapp.cc:1392
+#: src/wmapp.cc:1406
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1474,26 +1490,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1454
+#: src/wmapp.cc:1468
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Direktori konfigurasi %s:\n"
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1550
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Opsi %s yang dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1614
+#: src/wmapp.cc:1631
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi yang tidak dikenali '%s'."
 
-#: src/wmapp.cc:1666
+#: src/wmapp.cc:1677
 msgid "Confirm Logout"
 msgstr "Konfirmasi Log Keluar"
 
-#: src/wmapp.cc:1667
+#: src/wmapp.cc:1678
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1529,27 +1545,27 @@ msgstr "Gulung bawah"
 msgid "Rollup"
 msgstr "Gulung atas"
 
-#: src/wmconfig.cc:33 src/wmconfig.cc:38 src/wmconfig.cc:44
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
 msgstr "Gagal memuat tema %s"
 
-#: src/wmconfig.cc:111
+#: src/wmconfig.cc:113
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Nilai '%s' yang tidak diketahui untuk opsi '%s'."
 
-#: src/wmconfig.cc:119
+#: src/wmconfig.cc:121
 #, c-format
 msgid "Unable to create directory %s"
 msgstr "Tidak dapat membuat direktori %s"
 
-#: src/wmconfig.cc:146
+#: src/wmconfig.cc:148
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Tidak dapat menulis ke %s"
 
-#: src/wmconfig.cc:182
+#: src/wmconfig.cc:184
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Tidak dapat mengganti nama %s menjadi %s"
@@ -1563,7 +1579,7 @@ msgid "_Cancel"
 msgstr "_Batal"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:458 src/wmprog.cc:460 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "_Keluar..."
@@ -1573,15 +1589,15 @@ msgid "_Restart icewm"
 msgstr "Mu_lai ulang icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:426 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "Tent_ang"
 
-#: src/wmframe.cc:1393
+#: src/wmframe.cc:1401
 msgid "Kill Client: "
 msgstr "Bunuh Klien: "
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1402
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1589,11 +1605,11 @@ msgstr ""
 "PERINGATAN! Semua perubahan yang belum disimpan akan hilang saat\n"
 "klien ini terbunuh. Apakah Anda ingin melanjutkan?"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3231
 msgid "Missing program setxkbmap"
 msgstr "Tak ada program setxkbmap"
 
-#: src/wmmgr.cc:3233
+#: src/wmmgr.cc:3232
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Untuk mengubah papan tik, silakan instal setxkbmap."
 
@@ -1607,76 +1623,76 @@ msgstr "Opsi jendela tidak dikenal: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Kesalahan sintaks dalam opsi jendela pada baris %d dari %s"
 
-#: src/wmprog.cc:333
+#: src/wmprog.cc:331
 msgid "_Click to focus"
 msgstr "_Klik untuk fokus"
 
-#: src/wmprog.cc:334
+#: src/wmprog.cc:332
 msgid "_Explicit focus"
 msgstr "Fokus _Eksplicit"
 
-#: src/wmprog.cc:335
+#: src/wmprog.cc:333
 msgid "_Sloppy mouse focus"
 msgstr "Foku_s tetikus yang ceroboh"
 
-#: src/wmprog.cc:336
+#: src/wmprog.cc:334
 msgid "S_trict mouse focus"
 msgstr "Fokus _tetikus yang ketat"
 
-#: src/wmprog.cc:337
+#: src/wmprog.cc:335
 msgid "_Quiet sloppy focus"
 msgstr "Fokus ceroboh yang tenan_g"
 
-#: src/wmprog.cc:338
+#: src/wmprog.cc:336
 msgid "Custo_m"
 msgstr "Ubaha_n"
 
-#: src/wmprog.cc:360
+#: src/wmprog.cc:358
 msgid "_Manual"
 msgstr "_Manual"
 
-#: src/wmprog.cc:361
+#: src/wmprog.cc:359
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:362
+#: src/wmprog.cc:360
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:363
+#: src/wmprog.cc:361
 msgid "Ice_Sound(1)"
 msgstr "Ice_Sound(1)"
 
-#: src/wmprog.cc:412
+#: src/wmprog.cc:410
 msgid "Programs"
 msgstr "Program"
 
-#: src/wmprog.cc:416
+#: src/wmprog.cc:414
 msgid "_Run..."
 msgstr "Jalan_kan..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:420 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "_Jendela"
 
-#: src/wmprog.cc:431
+#: src/wmprog.cc:429
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: src/wmprog.cc:436
+#: src/wmprog.cc:434
 msgid "_Focus"
 msgstr "_Fokus"
 
-#: src/wmprog.cc:441
+#: src/wmprog.cc:439
 msgid "_Preferences"
 msgstr "_Preferensi"
 
-#: src/wmprog.cc:446
+#: src/wmprog.cc:444
 msgid "_Themes"
 msgstr "_Tema"
 
-#: src/wmprog.cc:450
+#: src/wmprog.cc:448
 msgid "Se_ttings"
 msgstr "Penga_turan"
 
@@ -1914,12 +1930,12 @@ msgstr "String multibyte \"%s\": %s tidak valid"
 msgid "_OK"
 msgstr "_OK"
 
-#: src/ypaths.cc:94
+#: src/ypaths.cc:88
 #, c-format
 msgid "Image not readable: %s"
 msgstr "Gambar tidak dapat dibaca: %s"
 
-#: src/ypaths.cc:117
+#: src/ypaths.cc:111
 #, c-format
 msgid "Could not find image %s"
 msgstr "Tidak dapat menemukan gambar %s"
@@ -2916,9 +2932,6 @@ msgstr "Pengolah Kata"
 
 #~ msgid "Error at %s '%s'"
 #~ msgstr "Kesalahan pada %s '%s'"
-
-#~ msgid "Unexepected menu keyword: '%s'"
-#~ msgstr "Kata kunci menu yang tidak diharapkan: '%s'"
 
 #~ msgid "Error at menuprog '%s'"
 #~ msgstr "Kesalahan saat menuprog '%s'"

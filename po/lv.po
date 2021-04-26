@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-03-28 23:26+0200\n"
+"POT-Creation-Date: 2021-04-26 19:30+0200\n"
 "PO-Revision-Date: 2005-06-12 12:59+0300\n"
 "Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
 "Language-Team: \n"
@@ -289,7 +289,7 @@ msgstr "Atritināt"
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:595 src/wmstatus.cc:207
+#: src/aworkspaces.cc:602 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "Darba vide:"
 
@@ -504,126 +504,131 @@ msgstr "Ctrl+R"
 msgid "Same Game"
 msgstr "Tā pati spēle"
 
-#: src/icesh.cc:75
+#: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1509
+#: src/icesh.cc:1506
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nosauktie simboli domēnam `%s' (numuru apgabals: %ld-%ld):\n"
 
-#: src/icesh.cc:1567
+#: src/icesh.cc:1564
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Darba vide ārpus ranga: %d"
 
-#: src/icesh.cc:1588
+#: src/icesh.cc:1585
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Kļūdains darba vides nosaukums: `%s'"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1862
 msgid "GNOME window layer"
 msgstr "GNOMEs loga slānis"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1863
 msgid "IceWM tray option"
 msgstr "IceWM paplātes opcija"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1864
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1868
+#: src/icesh.cc:1865
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Iemīļotākās lietojumprogrammas"
 
-#: src/icesh.cc:1869
+#: src/icesh.cc:1866
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Iemīļotākās lietojumprogrammas"
 
-#: src/icesh.cc:1870
+#: src/icesh.cc:1867
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOMEs loga stāvoklis"
 
-#: src/icesh.cc:1952 src/icesh.cc:2025
+#: src/icesh.cc:1949 src/icesh.cc:2022
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "darba vide #%d: `%s'\n"
 
-#: src/icesh.cc:2260 src/icesh.cc:3470 src/icesh.cc:3941
+#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3112
+#: src/icesh.cc:3109
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3137
+#: src/icesh.cc:3134
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3186 src/icesh.cc:3232
+#: src/icesh.cc:3181 src/icesh.cc:3231
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3198
+#: src/icesh.cc:3197
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Darbībai `%s' vajag vismaz %d argumentus."
 
-#: src/icesh.cc:3208
+#: src/icesh.cc:3206
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Kļūdaina izteiksme: `%s'"
 
-#: src/icesh.cc:3219 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1066
-#: src/yxapp.cc:1030
+#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Nevaru atvērt displeju: %s. X ir jābūt palaistam un $DISPLEY uzstādītam."
 
-#: src/icesh.cc:3267
+#: src/icesh.cc:3331
+#, fuzzy, c-format
+msgid "Unexpected: `%s'."
+msgstr "Negaidīts atslēgvārds: %s"
+
+#: src/icesh.cc:3360
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3282
+#: src/icesh.cc:3375
 msgid "No actions specified."
 msgstr "Nav norādītu darbību."
 
-#: src/icesh.cc:3387
+#: src/icesh.cc:3484
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Kļūdains loga identifikators: `%s'"
 
-#: src/icesh.cc:3404
+#: src/icesh.cc:3501
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:3440
+#: src/icesh.cc:3537
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Kļūdains arguments: `%s'."
 
-#: src/icesh.cc:4247
+#: src/icesh.cc:4348
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nezināma darbība: `%s'"
@@ -937,12 +942,12 @@ msgstr "Pārnest rindas"
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icewmbg.cc:74
+#: src/icewmbg.cc:72
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Nevarēju atvērt %s: %s"
 
-#: src/icewmbg.cc:881
+#: src/icewmbg.cc:913
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1004,7 +1009,7 @@ msgstr ""
 " DesktopTransparencyColor - Logu caurspīdīguma krāsa\n"
 " DesktopTransparencyImage - Logu caurspīdīguma attēls\n"
 
-#: src/icewmbg.cc:1086
+#: src/icewmbg.cc:1118
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1039,43 +1044,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Nezināms virziens kustināšanas/izmēra maiņas pieprasījumam: %d"
 
-#: src/wmabout.cc:28 src/wmabout.cc:29
+#: src/wmabout.cc:29 src/wmabout.cc:30
 msgid "(C)"
 msgstr "©"
 
-#: src/wmabout.cc:39
+#: src/wmabout.cc:40
 msgid "Theme:"
 msgstr "Tēma:"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:41
 msgid "Theme Description:"
 msgstr "Tēmas apraksts:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:42
 msgid "Theme Author:"
 msgstr "Tēmas autors:"
 
-#: src/wmabout.cc:50
+#: src/wmabout.cc:51
 msgid "CodeSet:"
 msgstr ""
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:52
 msgid "Language:"
 msgstr ""
 
-#: src/wmabout.cc:55
+#: src/wmabout.cc:56
 msgid "DoubleBuffer"
 msgstr ""
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:57
 msgid "AlphaBlending"
 msgstr ""
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:58
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:65
+#: src/wmabout.cc:64
 msgid "icewm - About"
 msgstr "icewm - Par"
 
@@ -1265,23 +1270,23 @@ msgid ""
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1067 src/yxapp.cc:1031
+#: src/wmapp.cc:1069 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<nekas>"
 
-#: src/wmapp.cc:1369
+#: src/wmapp.cc:1382
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1375
+#: src/wmapp.cc:1388
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1383
+#: src/wmapp.cc:1396
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1289,10 +1294,11 @@ msgid ""
 "  -t, --theme=FILE    Load theme from FILE.\n"
 "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
 "  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1392
+#: src/wmapp.cc:1406
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1350,26 +1356,26 @@ msgstr ""
 "Apmeklējiet https://ice-wm.org/, lai ziņotu par kļūdām, prasītu atbalstu vai "
 "atstātu komentārus...\n"
 
-#: src/wmapp.cc:1454
+#: src/wmapp.cc:1468
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1536
+#: src/wmapp.cc:1550
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1614
+#: src/wmapp.cc:1631
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nezināma opcija: %s\n"
 
-#: src/wmapp.cc:1666
+#: src/wmapp.cc:1677
 msgid "Confirm Logout"
 msgstr "Apstiprināt izlogošanos"
 
-#: src/wmapp.cc:1667
+#: src/wmapp.cc:1678
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1405,27 +1411,27 @@ msgstr "Atritināt"
 msgid "Rollup"
 msgstr "Saritināt"
 
-#: src/wmconfig.cc:33 src/wmconfig.cc:38 src/wmconfig.cc:44
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, fuzzy, c-format
 msgid "Failed to load theme %s"
 msgstr "Nevarēju atvērt %s: %s"
 
-#: src/wmconfig.cc:111
+#: src/wmconfig.cc:113
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Nezināma darbība: `%s'"
 
-#: src/wmconfig.cc:119
+#: src/wmconfig.cc:121
 #, fuzzy, c-format
 msgid "Unable to create directory %s"
 msgstr "Neizdevās izveidot bērnprocesu: %s"
 
-#: src/wmconfig.cc:146
+#: src/wmconfig.cc:148
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/wmconfig.cc:182
+#: src/wmconfig.cc:184
 #, fuzzy, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Nevarēju atvērt %s: %s"
@@ -1440,7 +1446,7 @@ msgid "_Cancel"
 msgstr "At_celt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:458 src/wmprog.cc:460 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "Iz_logoties..."
@@ -1450,15 +1456,15 @@ msgid "_Restart icewm"
 msgstr "Pā_rstartēt icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:426 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "P_ar"
 
-#: src/wmframe.cc:1393
+#: src/wmframe.cc:1401
 msgid "Kill Client: "
 msgstr "Nogalināt klientu:"
 
-#: src/wmframe.cc:1394
+#: src/wmframe.cc:1402
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1466,11 +1472,11 @@ msgstr ""
 "UZMANĪBU! Visas nesaglabātās izmaiņas tiks zaudētas, kad\n"
 "šis klients tiks nogalināts. Vai jūs vēlaties turpināt?"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3231
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3233
+#: src/wmmgr.cc:3232
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -1484,76 +1490,76 @@ msgstr "Nezināma loga opcija: %s"
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Sintakses kļūda logu opcijās"
 
-#: src/wmprog.cc:333
+#: src/wmprog.cc:331
 msgid "_Click to focus"
 msgstr ""
 
-#: src/wmprog.cc:334
+#: src/wmprog.cc:332
 msgid "_Explicit focus"
 msgstr ""
 
-#: src/wmprog.cc:335
+#: src/wmprog.cc:333
 msgid "_Sloppy mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:336
+#: src/wmprog.cc:334
 msgid "S_trict mouse focus"
 msgstr ""
 
-#: src/wmprog.cc:337
+#: src/wmprog.cc:335
 msgid "_Quiet sloppy focus"
 msgstr ""
 
-#: src/wmprog.cc:338
+#: src/wmprog.cc:336
 msgid "Custo_m"
 msgstr ""
 
-#: src/wmprog.cc:360
+#: src/wmprog.cc:358
 msgid "_Manual"
 msgstr ""
 
-#: src/wmprog.cc:361
+#: src/wmprog.cc:359
 msgid "_Icewm(1)"
 msgstr ""
 
-#: src/wmprog.cc:362
+#: src/wmprog.cc:360
 msgid "Icewm_Bg(1)"
 msgstr ""
 
-#: src/wmprog.cc:363
+#: src/wmprog.cc:361
 msgid "Ice_Sound(1)"
 msgstr ""
 
-#: src/wmprog.cc:412
+#: src/wmprog.cc:410
 msgid "Programs"
 msgstr "Programmas"
 
-#: src/wmprog.cc:416
+#: src/wmprog.cc:414
 msgid "_Run..."
 msgstr "_Palaist..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:420 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "_Logi"
 
-#: src/wmprog.cc:431
+#: src/wmprog.cc:429
 msgid "_Help"
 msgstr "Palī_gs"
 
-#: src/wmprog.cc:436
+#: src/wmprog.cc:434
 msgid "_Focus"
 msgstr ""
 
-#: src/wmprog.cc:441
+#: src/wmprog.cc:439
 msgid "_Preferences"
 msgstr ""
 
-#: src/wmprog.cc:446
+#: src/wmprog.cc:444
 msgid "_Themes"
 msgstr "_Tēmas"
 
-#: src/wmprog.cc:450
+#: src/wmprog.cc:448
 msgid "Se_ttings"
 msgstr ""
 
@@ -1802,12 +1808,12 @@ msgstr "Kļūdaina vairākbaitu virkne \"%s\": %s"
 msgid "_OK"
 msgstr "_Labi"
 
-#: src/ypaths.cc:94
+#: src/ypaths.cc:88
 #, c-format
 msgid "Image not readable: %s"
 msgstr ""
 
-#: src/ypaths.cc:117
+#: src/ypaths.cc:111
 #, fuzzy, c-format
 msgid "Could not find image %s"
 msgstr "Nevaru atrast pikseļu karti %s"
@@ -2719,10 +2725,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Error at %s '%s'"
 #~ msgstr "Kļūda atslēgā %s"
-
-#, fuzzy
-#~ msgid "Unexepected menu keyword: '%s'"
-#~ msgstr "Negaidīts atslēgvārds: %s"
 
 #, fuzzy
 #~ msgid "Error at menuprog '%s'"
