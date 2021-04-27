@@ -119,27 +119,27 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     YAction action(actionNull);
     if (count >= 2 && (count % 2 == 0)) {
-        if (up.button == (unsigned) titleMaximizeButton &&
+        if (up.button == titleMaximizeButton &&
             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             action = actionMaximize;
         }
-        else if (up.button == (unsigned) titleMaximizeButton &&
+        else if (up.button == titleMaximizeButton &&
              ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             action = actionMaximizeVert;
         }
-        else if (up.button == (unsigned) titleMaximizeButton && xapp->AltMask &&
+        else if (up.button == titleMaximizeButton && xapp->AltMask &&
              ISMASK(KEY_MODMASK(up.state), xapp->AltMask + ShiftMask, ControlMask))
         {
             action = actionMaximizeHoriz;
         }
-        else if (up.button == (unsigned) titleRollupButton &&
+        else if (up.button == titleRollupButton &&
              ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             action = actionRollup;
         }
-        else if (up.button == (unsigned) titleRollupButton &&
+        else if (up.button == titleRollupButton &&
              ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             action = actionMaximizeHoriz;

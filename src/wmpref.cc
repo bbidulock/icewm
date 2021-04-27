@@ -74,7 +74,11 @@ PrefsMenu::PrefsMenu() :
             }
         }
         else if (o->type == cfoption::CF_INT) {
-            int val = o->intval();
+            long val = o->intval();
+            sc->addItem(o->name, -2, mstring(val), actionIndex);
+        }
+        else if (o->type == cfoption::CF_UINT) {
+            long val = o->uintval();
             sc->addItem(o->name, -2, mstring(val), actionIndex);
         }
         else if (o->type == cfoption::CF_STR) {
@@ -122,6 +126,11 @@ void PrefsMenu::actionPerformed(YAction action, unsigned int modifiers) {
             snprintf(buf, sizeof buf, "%d", o->intval());
             query(o, buf);
         }
+        else if (o->type == cfoption::CF_UINT) {
+            char buf[99];
+            snprintf(buf, sizeof buf, "%u", o->uintval());
+            query(o, buf);
+        }
         else if (o->type == cfoption::CF_STR) {
             query(o, o->str());
         }
@@ -160,6 +169,10 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
     if (opt->type == cfoption::CF_INT) {
         snprintf(name, sizeof name, "%s [%d-%d]",
                  opt->name, opt->intmin(), opt->intmax());
+    }
+    else if (opt->type == cfoption::CF_UINT) {
+        snprintf(name, sizeof name, "%s [%u-%u]",
+                 opt->name, opt->uintmin(), opt->uintmax());
     } else {
         strlcpy(name, opt->name, sizeof name);
     }
@@ -233,6 +246,20 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
                     *modify->v.i.int_value = value;
                     modified(modify);
                     msg("%s = %d", modify->name, value);
+                }
+                else modified(modify, false);
+            }
+            else if (modify->type == cfoption::CF_UINT && input.nonempty()) {
+                unsigned value = 0;
+                int len = 0;
+                input = input.trim();
+                if (sscanf(input, "%u%n", &value, &len) == 1 &&
+                    size_t(len) == input.length() &&
+                    inrange(value, modify->uintmin(), modify->uintmax()))
+                {
+                    *modify->v.u.uint_value = value;
+                    modified(modify);
+                    msg("%s = %u", modify->name, value);
                 }
                 else modified(modify, false);
             }

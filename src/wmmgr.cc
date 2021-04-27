@@ -649,7 +649,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
                     frame->wmPrevWindow();
             }
         }
-        else if (button.button + 10 == (unsigned) rootMenuButton) {
+        else if (button.button + 10 == rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(nullptr, nullptr, nullptr, button.x, button.y,
                                 YPopupWindow::pfCanFlipVertical |
@@ -657,7 +657,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
                                 YPopupWindow::pfPopupMenu |
                                 YPopupWindow::pfButtonDown);
         }
-        else if (button.button + 10 == (unsigned) rootWinMenuButton) {
+        else if (button.button + 10 == rootWinMenuButton) {
             popupWindowListMenu(this, button.x, button.y);
         }
         else {
@@ -679,17 +679,17 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
 
 void YWindowManager::handleClick(const XButtonEvent &up, int count) {
     if (count == 1) {
-        if (up.button == (unsigned) rootMenuButton) {
+        if (up.button == rootMenuButton) {
             if (rootMenu)
                 rootMenu->popup(nullptr, nullptr, nullptr, up.x, up.y,
                                 YPopupWindow::pfCanFlipVertical |
                                 YPopupWindow::pfCanFlipHorizontal |
                                 YPopupWindow::pfPopupMenu);
         }
-        else if (up.button == (unsigned) rootWinMenuButton) {
+        else if (up.button == rootWinMenuButton) {
             popupWindowListMenu(this, up.x, up.y);
         }
-        else if (up.button == (unsigned) rootWinListButton) {
+        else if (up.button == rootWinListButton) {
             windowList->showFocused(up.x_root, up.y_root);
         }
     }
