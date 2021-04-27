@@ -991,8 +991,11 @@ then C<MouseWinRaise> takes preference over C<MouseWinLower>.
 =back
 
 The title frame of a window also listens for mouse clicks.  Left double
-clicking maximizes the window (C<TitleBarMaximizeButton=1>).  Middle
-double clicking rolls up the window (C<TitleBarRollupButton=2>).
+clicking maximizes the window (C<TitleBarMaximizeButton=1>). Press
+Shift to only maximize vertically. Press Alt+Shift for horizontally.
+Middle double clicking rolls up the window (C<TitleBarRollupButton=2>).
+Also press Shift to maximize horizontally. If B<TitleBarRollupButton>
+is either 4 or 5 then the scroll wheel controls rolling up or down.
 Pressing a mouse button and moving it will move the window.
 C<Alt+Pointer_Button1> lowers the window.
 

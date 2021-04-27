@@ -135,11 +135,13 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
             action = actionMaximizeHoriz;
         }
         else if (up.button == titleRollupButton &&
+             up.button <= Button3 &&
              ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
         {
             action = actionRollup;
         }
         else if (up.button == titleRollupButton &&
+             up.button <= Button3 &&
              ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
         {
             action = actionMaximizeHoriz;
@@ -165,6 +167,14 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
                     wasCanRaise = true;
                 }
             }
+        }
+        else if (inrange<unsigned>(up.button, Button4, Button5) &&
+                 inrange<unsigned>(titleRollupButton, Button4, Button5))
+        {
+            if (up.button == Button4 && !getFrame()->isRollup())
+                action = actionRollup;
+            if (up.button == Button5 && getFrame()->isRollup())
+                action = actionRollup;
         }
     }
     if (action != actionNull) {
