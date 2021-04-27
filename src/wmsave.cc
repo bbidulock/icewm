@@ -1,6 +1,7 @@
 #include "config.h"
 #include "wmsave.h"
 #include "yconfig.h"
+#include "wmconfig.h"
 #include "yxapp.h"
 #include "intl.h"
 #include <regex.h>
@@ -114,7 +115,6 @@ void SavePrefs::applyMods(YArray<int>& mods, cfoption* options)
             if (0 == strcmp(o->name, "WorkspaceNames")) {
                 int i = 0;
                 size_t len = 0;
-                extern YStringArray configWorkspaces;
                 for (const char* work : configWorkspaces) {
                     if (++i == 1) {
                         snprintf(buf, sizeof buf, "%s=\"%s\"", o->name, work);
@@ -134,7 +134,6 @@ void SavePrefs::applyMods(YArray<int>& mods, cfoption* options)
             else if (0 == strcmp(o->name, "KeyboardLayouts")) {
                 int i = 0;
                 size_t len = 0;
-                extern YStringArray configKeyboards;
                 for (const char* keyb : configKeyboards) {
                     if (++i == 1) {
                         snprintf(buf, sizeof buf, "%s=\"%s\"", o->name, keyb);
