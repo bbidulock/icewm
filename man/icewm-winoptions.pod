@@ -44,6 +44,8 @@ Each line in the file must be in one of the following formats:
 
 =item I<ROLE>B<.>I<OPTION>B<:> I<VALUE>
 
+=item B<.>I<OPTION>B<:> I<VALUE>
+
 =back
 
 =back
