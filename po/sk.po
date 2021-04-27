@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-03-28 23:26+0200\n"
-"PO-Revision-Date: 2021-04-26 17:30+0000\n"
+"PO-Revision-Date: 2021-04-27 15:57+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
 "Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sk/>\n"
@@ -624,10 +624,9 @@ msgstr ""
 "nastavená."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Neočakávané kľúčové slovo menu: '%s'"
+msgstr "Neočakávané: `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1401,15 +1400,6 @@ msgstr ""
 "  --debug-z           Vypíše ladiace správy týkajúce naskladania okien.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1426,6 +1416,7 @@ msgstr ""
 "  -t, --theme=SÚBOR    Načíta tému zo SÚBOR-u.\n"
 "  -s, --splash=OBRAZ  Pri štarte krátko ukáže OBRAZ.\n"
 "  -p,--postpreferences  Vypíše predvoľby po spracovaní všetkého.\n"
+"  --rewrite-preferences  Aktualizuje existujúci súbor predvolieb.\n"
 "  --trace=conf,icon   Stopové cesty použité na načítanie konfigurácie.\n"
 
 #: src/wmapp.cc:1406
