@@ -1683,11 +1683,13 @@ YDesktop::YDesktop(YWindow *aParent, Window win):
 }
 
 YDesktop::~YDesktop() {
+#if DEBUG || PRECON
     for (YWindow* w; (w = firstWindow()) != nullptr; delete w) {
         char* name = demangle(typeid(*w).name());
         INFO("deleting stray %s", name);
         free(name);
     }
+#endif
     if (desktop == this)
         desktop = nullptr;
 }
