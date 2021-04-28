@@ -1249,7 +1249,7 @@ class IceSh {
 public:
     IceSh(int argc, char **argv);
     ~IceSh();
-    operator int() const { return rc ? rc : bool(windowList); }
+    operator int() const { return rc ? rc : windowList ? 0 : 1; }
 
 private:
     int rc;
