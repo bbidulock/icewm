@@ -320,13 +320,16 @@ bool YMenu::handleKey(const XKeyEvent &key) {
         if ((m & ~ShiftMask) == 0) {
             if (k == XK_Escape) {
                 cancelPopup();
-            } else if (k == XK_Left || k == XK_KP_Left) {
+            } else if (k == XK_Left || k == XK_KP_Left ||
+                      (m & ShiftMask && k == XK_h)) {
                 if (prevPopup())
                     cancelPopup();
             } else if (itemCount() > 0) {
-                if (k == XK_Up || k == XK_KP_Up)
+                if (k == XK_Up || k == XK_KP_Up ||
+                   (m & ShiftMask && k == XK_k))
                     focusItem(findActiveItem(selectedItem, -1));
-                else if (k == XK_Down || k == XK_KP_Down)
+                else if (k == XK_Down || k == XK_KP_Down ||
+                        (m & ShiftMask && k == XK_j))
                     focusItem(findActiveItem(selectedItem, 1));
                 else if (k == XK_Page_Up || k == XK_KP_Page_Up) {
                     int item = selectedItem;
@@ -356,7 +359,8 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                     focusItem(findActiveItem(itemCount() - 1, 1));
                 else if (k == XK_End || k == XK_KP_End)
                     focusItem(findActiveItem(0, -1));
-                else if (k == XK_Right || k == XK_KP_Right) {
+                else if (k == XK_Right || k == XK_KP_Right ||
+                        (m & ShiftMask && k == XK_l)) {
                     focusItem(selectedItem);
                     activateSubMenu(selectedItem, false);
                 } else if (k == XK_Return || k == XK_KP_Enter) {

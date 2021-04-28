@@ -213,7 +213,8 @@ The task bar consists from left to right  of the following components:
 
 The I<Menu> button in the lower left corner gives access to the B<icewm>
 root menu. This menu has sub-menus to start applications, to control
-B<icewm> settings, and the B<icewm> I<Logout> menu.
+B<icewm> settings, and the B<icewm> I<Logout> menu. Arrow keys can be
+used for navigation as well as Shift+{h,j,k,l}.
 
 The I<Show Desktop> button unmaps all application windows to fully
 uncover the desktop.
