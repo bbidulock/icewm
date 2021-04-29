@@ -42,7 +42,7 @@ enum ViewerDimensions {
 
 char const * ApplicationName = "icehelp";
 
-static bool verbose, nodelete, complain;
+static bool verbose, complain, ignoreClose;
 
 class cbuffer {
     size_t cap, ins;
@@ -1837,7 +1837,9 @@ public:
     }
 
     virtual void handleClose() {
-        app->exitLoop(0);
+        if (ignoreClose == false) {
+            app->exitLoop(0);
+        }
     }
     virtual void handleExpose(const XExposeEvent& expose) {
     }
@@ -2310,6 +2312,7 @@ static void print_help()
 int main(int argc, char **argv) {
     YLocale locale;
     const char *helpfile(nullptr);
+    bool nodelete = false, netping = false;
 
     for (char **arg = 1 + argv; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -2337,8 +2340,12 @@ int main(int argc, char **argv) {
                 print_version_exit(VERSION);
             else if (is_copying_switch(*arg))
                 print_copying_exit();
+            else if (is_long_switch(*arg, "noclose"))
+                ignoreClose = true;
             else if (is_long_switch(*arg, "nodelete"))
                 nodelete = true;
+            else if (is_long_switch(*arg, "netping"))
+                netping = true;
             else if (is_long_switch(*arg, "verbose"))
                 verbose = true;
             else if (is_long_switch(*arg, "sync")) {
@@ -2377,6 +2384,11 @@ int main(int argc, char **argv) {
     if (nodelete) {
         extern Atom _XA_WM_PROTOCOLS;
         XDeleteProperty(app.display(), view.handle(), _XA_WM_PROTOCOLS);
+    }
+    if (netping) {
+        extern Atom _XA_WM_PROTOCOLS, _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW;
+        Atom proto[] = { _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW, };
+        XSetWMProtocols(app.display(), view.handle(), proto, 2 - nodelete);
     }
 
     view.show();
