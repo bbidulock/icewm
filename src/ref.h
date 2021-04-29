@@ -95,6 +95,8 @@ public:
     T& operator*() { return *operator T*(); }
     T** operator&() { return &ptr; }
     T* _ptr() const { return ptr; }
+    bool operator==(T* q) { return q == ptr; }
+    bool operator!=(T* q) { return q != ptr; }
     bool operator==(const T* q) const { return q == ptr; }
     bool operator!=(const T* q) const { return q != ptr; }
 
