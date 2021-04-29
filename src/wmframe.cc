@@ -1375,7 +1375,7 @@ void YFrameWindow::wmClose() {
     client()->getProtocols(true);
 
     client()->sendPing();
-    if (client()->protocols() & YFrameClient::wpDeleteWindow) {
+    if (client()->protocol(YFrameClient::wpDeleteWindow)) {
         client()->sendDelete();
     } else {
         if (frameOption(foForcedClose)) {
@@ -1387,14 +1387,17 @@ void YFrameWindow::wmClose() {
     manager->ungrabServer();
 }
 
-void YFrameWindow::wmConfirmKill() {
+void YFrameWindow::wmConfirmKill(const char* message) {
+    if (message == nullptr) {
+        message = _("WARNING! All unsaved changes will be lost when\n"
+                    "this client is killed. Do you wish to proceed?");
+    }
     if (fKillMsgBox) {
         fKillMsgBox->unmanage();
     }
     fKillMsgBox = new YMsgBox(YMsgBox::mbBoth,
                       _("Kill Client: ") + getTitle(),
-                      _("WARNING! All unsaved changes will be lost when\n"
-                        "this client is killed. Do you wish to proceed?"),
+                      message,
                       this, "bomb");
 }
 
@@ -2508,7 +2511,7 @@ bool YFrameWindow::avoidFocus() {
     if (frameOption(foIgnoreNoFocusHint))
         return false;
 
-    if ((client()->protocols() & YFrameClient::wpTakeFocus) ||
+    if (client()->protocol(YFrameClient::wpTakeFocus) ||
         frameOption(foAppTakesFocus))
         return false;
 
@@ -3265,8 +3268,11 @@ void YFrameWindow::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fKillMsgBox) {
         msgbox->unmanage();
         fKillMsgBox = nullptr;
-        if (operation == YMsgBox::mbOK)
-            wmKill();
+        if (operation == YMsgBox::mbOK && !client()->destroyed()) {
+            if ( !client()->timedOut() || !client()->killPid()) {
+                wmKill();
+            }
+        }
     }
 }
 

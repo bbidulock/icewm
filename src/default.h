@@ -162,6 +162,7 @@ XIV(unsigned, rootMenuButton,                   3)
 XIV(unsigned, titleMaximizeButton,              1)
 XIV(unsigned, titleRollupButton,                2)
 XIV(int, msgBoxDefaultAction,                   0)
+XIV(int, pingTimeout,                           3)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
 XIV(int, taskBarApmGraphWidth,                  10)
@@ -405,6 +406,7 @@ cfoption icewm_preferences[] = {
     OIV("TitleBarMaximizeButton",               &titleMaximizeButton, 0, 5,     "TitleBar mouse-button double click to maximize the window"),
     OIV("TitleBarRollupButton",                 &titleRollupButton, 0, 5,       "TitleBar mouse-button double click to rollup the window"),
     OIV("MsgBoxDefaultAction",                  &msgBoxDefaultAction, 0, 1,     "Preselect to Cancel (0) or the OK (1) button in message boxes"),
+    OIV("PingTimeout",                          &pingTimeout, 0, (3600*24),     "Timeout in seconds for applications to respond to _NET_WM_PING protocol"),
     OIV("MailCheckDelay",                       &mailCheckDelay, 0, (3600*24),  "Delay between new-mail checks in seconds"),
     OIV("TaskBarCPUDelay",                      &taskBarCPUDelay, 10, (60*60*1000),    "Delay between CPU Monitor samples in ms"),
     OIV("TaskBarCPUSamples",                    &taskBarCPUSamples, 2, 1000,    "The width of the CPU Monitor applet in pixels"),

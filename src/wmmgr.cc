@@ -1005,7 +1005,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
 
     if (c &&
         w == c->handle() &&
-        ((c->protocols() & YFrameClient::wpTakeFocus) ||
+        (c->protocol(YFrameClient::wpTakeFocus) ||
          f->frameOption(YFrameWindow::foAppTakesFocus)))
     {
         c->sendTakeFocus();

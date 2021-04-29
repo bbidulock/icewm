@@ -187,18 +187,20 @@ public:
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };
 
-    enum {
+    enum WindowProtocols {
         wpDeleteWindow = 1 << 0,
         wpTakeFocus    = 1 << 1,
         wpPing         = 1 << 2,
-    } WindowProtocols;
+    };
 
-    void sendMessage(Atom msg, Time timeStamp);
-    bool sendTakeFocus();
-    bool sendDelete();
-    bool sendPing();
+    bool protocol(WindowProtocols wp) const { return bool(fProtocols & wp); }
+    void sendMessage(Atom msg, Time ts, long p2 = 0L, long p3 = 0L, long p4 = 0L);
+    void sendTakeFocus();
+    void sendDelete();
+    void sendPing();
     void recvPing(const XClientMessageEvent &message);
     bool killPid();
+    bool timedOut() const { return fTimedOut; }
 
     enum {
         csKeepX = 1,
@@ -231,7 +233,6 @@ public:
     int winGravity() const { return hasbit(sizeHintsFlags(), PWinGravity)
                                   ? fSizeHints->win_gravity : NorthWestGravity; }
 
-    unsigned protocols() const { return fProtocols; }
     void getProtocols(bool force);
 
     void getTransient();
@@ -323,6 +324,7 @@ private:
     XWMHints *fHints;
     Colormap fColormap;
     bool fShaped;
+    bool fTimedOut;
     bool fPinging;
     long fPingTime;
     lazy<YTimer> fPingTimer;

@@ -77,7 +77,7 @@ public:
     void wmRaise();
     void doRaise();
     void wmClose();
-    void wmConfirmKill();
+    void wmConfirmKill(const char* message = nullptr);
     void wmKill();
     void wmNextWindow();
     void wmPrevWindow();

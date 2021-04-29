@@ -16,6 +16,7 @@
 #include "yxcontext.h"
 #include "workspaces.h"
 #include "wmminiicon.h"
+#include "intl.h"
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
     long mask = PMinSize | PMaxSize | PResizeInc |
@@ -53,6 +54,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fProtocols = 0;
     fColormap = colormap;
     fShaped = false;
+    fTimedOut = false;
     fPinging = false;
     fPingTime = 0;
     fHints = nullptr;
@@ -304,87 +306,83 @@ void YFrameClient::gravityOffsets(int &xp, int &yp) {
     yp = offsets[g].right;
 }
 
-void YFrameClient::sendMessage(Atom msg, Time timeStamp) {
-    XClientMessageEvent xev;
-
-    memset(&xev, 0, sizeof(xev));
+void YFrameClient::sendMessage(Atom msg, Time ts, long p2, long p3, long p4) {
+    XClientMessageEvent xev = {};
     xev.type = ClientMessage;
     xev.window = handle();
     xev.message_type = _XA_WM_PROTOCOLS;
     xev.format = 32;
     xev.data.l[0] = msg;
-    xev.data.l[1] = timeStamp;
+    xev.data.l[1] = ts;
+    xev.data.l[2] = p2;
+    xev.data.l[3] = p3;
+    xev.data.l[4] = p4;
     xapp->send(xev, handle());
 }
 
-///extern Time lastEventTime;
-
-bool YFrameClient::sendTakeFocus() {
-    if (protocols() & wpTakeFocus) {
+void YFrameClient::sendTakeFocus() {
+    if (protocol(wpTakeFocus)) {
         sendMessage(_XA_WM_TAKE_FOCUS, xapp->getEventTime("sendTakeFocus"));
-        return true;
     }
-    return false;
 }
 
-bool YFrameClient::sendDelete() {
-    if (protocols() & wpDeleteWindow) {
+void YFrameClient::sendDelete() {
+    if (protocol(wpDeleteWindow)) {
         sendMessage(_XA_WM_DELETE_WINDOW, xapp->getEventTime("sendDelete"));
-        return true;
     }
-    return false;
 }
 
-bool YFrameClient::sendPing() {
-    bool sent = false;
-    if (hasbit(protocols(), (unsigned) wpPing) && fPinging == false) {
-        XClientMessageEvent xev = {};
-        xev.type = ClientMessage;
-        xev.window = handle();
-        xev.message_type = _XA_WM_PROTOCOLS;
-        xev.format = 32;
-        xev.data.l[0] = (long) _XA_NET_WM_PING;
-        xev.data.l[1] = xapp->getEventTime("sendPing");
-        xev.data.l[2] = (long) handle();
-        xev.data.l[3] = (long) this;
-        xev.data.l[4] = (long) fFrame;
-        xapp->send(xev, handle());
+void YFrameClient::sendPing() {
+    if (protocol(wpPing) && !fPinging && pingTimeout) {
+        fPingTime = xapp->getEventTime("sendPing");
+        sendMessage(_XA_NET_WM_PING, fPingTime,
+                    long(handle()), long(this), long(fFrame));
         fPinging = true;
-        fPingTime = xev.data.l[1];
-        fPingTimer->setTimer(3000L, this, true);
-        sent = true;
+        fPingTimer->setTimer(pingTimeout * 1000L, this, true);
     }
-    return sent;
 }
 
 bool YFrameClient::handleTimer(YTimer* timer) {
-    if (timer == nullptr || timer != fPingTimer) {
-        return false;
-    }
-
-    fPingTimer = null;
-    fPinging = false;
-
-    if (destroyed() || getFrame() == nullptr) {
-        return false;
-    }
-
-    if (killPid() == false && getFrame()->owner()) {
-        getFrame()->owner()->client()->killPid();
+    if (fPingTimer == timer) {
+        fPingTimer = null;
+        fPinging = false;
+        fTimedOut = true;
+        if (fPid == 0 && !getNetWMPid(&fPid) && fFrame->owner()) {
+            fFrame->owner()->client()->getNetWMPid(&fPid);
+        }
+        if ( !destroyed()) {
+            if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
+                if (killPid() == false) {
+                    fFrame->wmKill();
+                }
+            }
+            else if (fPid > 0) {
+                char* res = classHint()->resource();
+                char buf[234];
+                snprintf(buf, sizeof buf,
+                         _("Client %s with PID %ld fails to respond.\n"
+                           "Do you wish to terminate this client?\n"),
+                         res, fPid);
+                fFrame->wmConfirmKill(buf);
+                free(res);
+            }
+            else {
+                fFrame->wmConfirmKill();
+            }
+        }
     }
 
     return false;
 }
 
 bool YFrameClient::killPid() {
-    long pid = 0;
-    return getNetWMPid(&pid) && 0 < pid && 0 == kill(pid, SIGTERM);
+    return fPid > 0 && 0 == kill(fPid, SIGTERM);
 }
 
 bool YFrameClient::getNetWMPid(long *pid) {
     *pid = 0;
 
-    if (!prop.net_wm_pid)
+    if (!prop.net_wm_pid || destroyed())
         return false;
 
     if (fPid > 0) {
@@ -413,7 +411,7 @@ bool YFrameClient::getNetWMPid(long *pid) {
 
 void YFrameClient::recvPing(const XClientMessageEvent &message) {
     const long* l = message.data.l;
-    if (fPinging &&
+    if ((fPinging || (fTimedOut && l[3] == long(this))) &&
         l[0] == (long) _XA_NET_WM_PING &&
         l[1] == fPingTime &&
         l[2] == (long) handle() &&
@@ -424,6 +422,8 @@ void YFrameClient::recvPing(const XClientMessageEvent &message) {
         fPinging = false;
         fPingTime = xapp->getEventTime("recvPing");
         fPingTimer = null;
+        fTimedOut = false;
+        fPid = None;
     }
 }
 
@@ -669,6 +669,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             prop.net_wm_window_type = new_prop;
         } else if (property.atom == _XA_NET_WM_PID) {
             prop.net_wm_pid = new_prop;
+            fPid = None;
         } else if (property.atom == _XA_NET_WM_VISIBLE_NAME) {
         } else if (property.atom == _XA_NET_WM_VISIBLE_ICON_NAME) {
         } else if (property.atom == _XA_NET_WM_ALLOWED_ACTIONS) {
