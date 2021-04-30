@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-04-26 19:30+0200\n"
-"PO-Revision-Date: 2021-03-24 00:56+0000\n"
+"PO-Revision-Date: 2021-04-30 23:57+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -629,7 +629,7 @@ msgstr ""
 #: src/icesh.cc:3331
 #, c-format
 msgid "Unexpected: `%s'."
-msgstr ""
+msgstr "Inesperado: `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -745,7 +745,7 @@ msgstr ""
 "\n"
 "\t1: Reiniciar o IceWM?\n"
 "\t2: Cancelar esta sessão?\n"
-"        3: Executar um terminal?\n"
+" 3: Executar um terminal?\n"
 
 #: src/icesm.cc:509
 msgid "IceWM crash response"
@@ -1404,15 +1404,6 @@ msgstr ""
 "janelas.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1429,6 +1420,7 @@ msgstr ""
 "  -t, --theme=FICHEIRO    Carrega o tema do FICHEIRO.\n"
 "  -s, --splash=IMAGEM      Mostra brevemente a IMAGEM no arranque.\n"
 "  -p, --postpreferences   Mostra as preferências após todo o processamento.\n"
+"  --rewrite-preferences  Atualiza um ficheiro de preferências existente.\n"
 "  --trace=conf,icon   Caminho do trace usado para carregar a configuração.\n"
 
 #: src/wmapp.cc:1406
