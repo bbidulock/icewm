@@ -1720,10 +1720,10 @@ void HTextView::draw(Graphics &g, node *n1, bool isHref) {
             for (text_node *t = n->wrap; t; t = t->next) {
                 flagFont(t->fl);
                 g.setFont(font);
-                g.drawChars(t->text, 0, t->len, t->x - tx, t->y + font->ascent() - ty);
+                g.drawChars(t->text, 0, t->len, t->x - tx, t->y + 8 - ty);
                 if (isHref) {
-                    g.drawLine(t->x - tx, t->y - ty + font->ascent() + 1,
-                               t->x + t->w - tx, t->y - ty + font->ascent() + 1);
+                    g.drawLine(t->x - tx, t->y - ty + 8 + 1,
+                               t->x + t->w - tx, t->y - ty + 8 + 1);
                 }
             }
             break;
@@ -1749,7 +1749,7 @@ void HTextView::draw(Graphics &g, node *n1, bool isHref) {
             break;
 
         case node::li:
-            g.fillArc(n->xr - tx, n->yr + (font->height() - 7) / 2 - ty, 7, 7, 0, 360 * 64);
+            g.fillArc(n->xr - tx, n->yr - ty, 7, 7, 0, 360 * 64);
             if (n->container)
                 draw(g, n->container, isHref);
             break;
