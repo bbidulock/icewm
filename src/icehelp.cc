@@ -1851,6 +1851,10 @@ private:
     void run(const char* path, const char* arg1 = nullptr,
              const char* arg2 = nullptr, const char* arg3 = nullptr);
 
+    bool handleKey(const XKeyEvent &key) {
+        return scroll->handleScrollKeys(key) || YWindow::handleKey(key);
+    }
+
     upath fPath;
     YApplication *app;
 
@@ -2386,7 +2390,7 @@ int main(int argc, char **argv) {
         XDeleteProperty(app.display(), view.handle(), _XA_WM_PROTOCOLS);
     }
     if (netping) {
-        extern Atom _XA_WM_PROTOCOLS, _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW;
+        extern Atom _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW;
         Atom proto[] = { _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW, };
         XSetWMProtocols(app.display(), view.handle(), proto, 2 - nodelete);
     }

@@ -94,4 +94,9 @@ void YScrollView::repaint() {
     GraphicsBuffer(this).paint();
 }
 
+bool YScrollView::handleScrollKeys(const XKeyEvent& key) {
+    return scrollVert->handleScrollKeys(key)
+        || scrollHoriz->handleScrollKeys(key);
+}
+
 // vim: set sw=4 ts=4 et:

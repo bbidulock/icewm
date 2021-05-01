@@ -31,6 +31,7 @@ public:
     virtual void paint(Graphics& g, const YRect& r);
     virtual void repaint();
     virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual bool handleScrollKeys(const XKeyEvent& key);
 
 protected:
     void getGap(int& dx, int& dy);
