@@ -109,7 +109,8 @@ void SavePrefs::applyMods(YArray<int>& mods, cfoption* options)
                      o->name, o->uintval(), o->uintmin(), o->uintmax());
         }
         else if (o->type == cfoption::CF_STR) {
-            snprintf(buf, sizeof buf, "%s=\"%s\"\n", o->name, o->str());
+            snprintf(buf, sizeof buf, "%s=\"%s\"\n", o->name,
+                     Elvis(o->str(), ""));
         }
         else if (o->type == cfoption::CF_FUNC) {
             if (0 == strcmp(o->name, "WorkspaceNames")) {
@@ -256,15 +257,7 @@ bool SavePrefs::insertOption(cfoption* o, char* buf, size_t blen) {
         char* next = nextline(start);
         size_t slen = (next - start);
         size_t tlen = (start - text);
-        if (blen <= slen) {
-            memcpy(start, buf, blen);
-            for (char* p = start + blen; p + 1 < next; ++p) {
-                *p = ' ';
-                p[1] = '\n';
-            }
-        } else {
-            replace(text, tlen, buf, blen, next, strlen(next));
-        }
+        replace(text, tlen, buf, blen, next, strlen(next));
     }
     return c == 0;
 }

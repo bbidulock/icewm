@@ -341,8 +341,9 @@ bool cfoption::operator==(const cfoption& r) const {
             case CF_UINT:
                 return uintval() == r.uintval();
             case CF_STR:
-                return str() == r.str()
-                    || (str() && r.str() && 0 == strcmp(str(), r.str()));
+                return str() == r.str() ||
+                    (isEmpty(str()) ? isEmpty(r.str()) :
+                    (nonempty(r.str()) && 0 == strcmp(str(), r.str())));
             case CF_KEY:
                 return key()->operator==(*r.key())
                     && 0 == strcmp(key()->name, r.key()->name);
