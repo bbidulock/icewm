@@ -255,7 +255,6 @@ bool SavePrefs::insertOption(cfoption* o, char* buf, size_t blen) {
     if (c == 0) {
         char* start = text + match.rm_so;
         char* next = nextline(start);
-        size_t slen = (next - start);
         size_t tlen = (start - text);
         replace(text, tlen, buf, blen, next, strlen(next));
     }

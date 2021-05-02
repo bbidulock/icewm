@@ -878,34 +878,34 @@ const FontRef FontTable::noFont;
 FontEntry FontTable::table[] = {
     { 12, 0,
         "-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1",
-        "sans-serif-12", noFont },
+        "Snap:size=12,sans-serif:size=12", noFont },
     { 14, 0,
         "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso8859-1",
-        "sans-serif-14", noFont },
+        "Snap:size=14,sans-serif:size=14", noFont },
     { 18, 0,
         "-adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1",
-        "sans-serif-18", noFont },
+        "Snap:size=14,sans-serif:size=18", noFont },
     { 12, BOLD,
         "-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1",
-        "sans-serif-12:bold", noFont },
+        "Snap:size=12:bold,sans-serif:size=12:bold", noFont },
     { 14, BOLD,
         "-adobe-helvetica-bold-r-normal--14-140-75-75-p-82-iso8859-1",
-        "sans-serif-14:bold", noFont },
+        "Snap:size=14:bold,sans-serif:size=14:bold", noFont },
     { 18, BOLD,
         "-adobe-helvetica-bold-r-normal--18-180-75-75-p-103-iso8859-1",
-        "sans-serif-18:bold", noFont },
+        "Snap:size=18:bold,sans-serif:size=18:bold", noFont },
     { 12, MONO,
         "-adobe-courier-medium-r-normal--12-120-75-75-m-70-iso8859-1",
-        "sans-serif-12:spacing=mono", noFont },
+        "courier:size=12,monospace:size=12", noFont },
     { 17, MONO | BOLD,
         "-adobe-courier-bold-r-normal--17-120-100-100-m-100-iso8859-1",
-        "sans-serif-17:bold:spacing=mono", noFont },
+        "courier:size=17,monospace:size=17", noFont },
     { 12, ITAL,
         "-adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1",
-        "sans-serif-12:slant=oblique,italic", noFont },
+        "sans-serif-12:oblique", noFont },
     { 14, ITAL,
         "-adobe-helvetica-medium-o-normal--14-140-75-75-p-78-iso8859-1",
-        "sans-serif-14:slant=oblique,italic", noFont },
+        "sans-serif-14:oblique", noFont },
     { 0, 0, nullptr, nullptr, noFont },
 };
 FontRef FontTable::get(int size, int flags) {
@@ -938,7 +938,7 @@ FontRef FontTable::get(int size, int flags) {
         }
     }
     if (table[best].font == noFont) {
-        table[best].font = YFont::getFont(table[best].core, null, true);
+        table[best].font = YFont::getFont(table[best].core, table[best].xeft, true);
     }
     return table[best].font;
 }
@@ -1013,6 +1013,18 @@ public:
     virtual void paint(Graphics &g, const YRect &r) {
         g.setColor(bg);
         g.fillRect(r.x(), r.y(), r.width(), r.height());
+
+        if (ty < 20) {
+            int sz = 19;
+            g.setColor(bg.darker());
+            g.fillRect(width() - 20, 20 - ty - sz, sz, sz, 1);
+            g.setColor(bg.brighter());
+            for (int i = 0; i <= 2; ++i) {
+                g.drawLine(width() - 20 +  2, 20 - ty - 15 + i * 5,
+                           width() - 20 + 16, 20 - ty - 15 + i * 5);
+            }
+        }
+
         g.setColor(normalFg);
         g.setFont(font);
 
@@ -1802,13 +1814,19 @@ void HTextView::handleButton(const XButtonEvent &button) {
 }
 
 void HTextView::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
+    if (up.button == Button3) {
         menu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                     YPopupWindow::pfCanFlipVertical |
                     YPopupWindow::pfCanFlipHorizontal /*|
                     YPopupWindow::pfPopupMenu*/);
-        return ;
-    } else if (up.button == 1) {
+    }
+    else if (up.button == Button1 && up.x >= int(width()) - 20 && up.y <= 20 - ty) {
+        menu->popup(this, nullptr, nullptr,
+                    up.x_root - up.x + int(width()) - 1,
+                    up.y_root - up.y,
+                    YPopupWindow::pfFlipHorizontal);
+    }
+    else if (up.button == Button1) {
         node *anchor = nullptr;
         node *n = find_node(fRoot, up.x + tx, up.y + ty, anchor, node::anchor);
         if (n && anchor) {
