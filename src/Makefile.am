@@ -656,7 +656,7 @@ nodist_pkgdata_DATA = \
 	preferences
 
 preferences: genpref$(EXEEXT)
-	$(AM_V_GEN)./genpref$(EXEEXT) >$@
+	$(AM_V_GEN)./genpref$(EXEEXT) -o $@ -s
 
 CLEANFILES = preferences
 

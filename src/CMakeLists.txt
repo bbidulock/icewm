@@ -515,7 +515,7 @@ if(NOT CMAKE_CROSSCOMPILING)
     ADD_CUSTOM_COMMAND(TARGET genpref${EXEEXT}
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lib
-        COMMAND genpref${EXEEXT} -o ${CMAKE_BINARY_DIR}/lib/preferences
+        COMMAND genpref${EXEEXT} -o ${CMAKE_BINARY_DIR}/lib/preferences -s
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     INSTALL(FILES ${CMAKE_BINARY_DIR}/lib/preferences DESTINATION ${LIBDIR})
 endif()
