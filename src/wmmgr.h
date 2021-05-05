@@ -113,7 +113,7 @@ public:
 
     int calcCoverage(bool down, YFrameWindow *frame, int x, int y, int w, int h);
     void tryCover(bool down, YFrameWindow *frame, int x, int y, int w, int h,
-                  int &px, int &py, int &cover, int xiscreen);
+                  int& px, int& py, int& cover, int mx, int my, int Mx, int My);
     bool getSmartPlace(bool down, YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void placeWindow(YFrameWindow *frame, int x, int y, int cw, int ch, bool newClient, bool &canActivate);
@@ -331,6 +331,8 @@ private:
     WindowPosState *fArrangeInfo;
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
+    int fCascadeX;
+    int fCascadeY;
     int fIconColumn;
     int fIconRow;
     int lockFocusCount;
