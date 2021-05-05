@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-04-26 19:30+0200\n"
+"POT-Creation-Date: 2021-05-05 23:46+0200\n"
 "PO-Revision-Date: 2021-04-27 12:57+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,130 +297,130 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "Werkruimte: "
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Back"
 msgstr "Terug"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Alt+Left"
 msgstr "Alt+Links"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Forward"
 msgstr "Verder"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Alt+Right"
 msgstr "Alt+Rechts"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1243
 msgid "Previous"
 msgstr "Terug"
 
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1244
 msgid "Next"
 msgstr "Volgende"
 
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1246
 msgid "Contents"
 msgstr "Inhoudsopgave"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1247
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Open in Browser"
 msgstr "In browser openen"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1257
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1259
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1261
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1263
 msgid "FAQ"
 msgstr "VGV"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1265
 msgid "Manual"
 msgstr "Handleiding"
 
-#: src/icehelp.cc:1255
+#: src/icehelp.cc:1267
 msgid "Support"
 msgstr "Ondersteuning"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1269
 msgid "Theme Howto"
 msgstr "Thema HOWTO"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1271
 msgid "Website"
 msgstr "Website"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1273
 msgid "Github"
 msgstr "GitHub"
 
-#: src/icehelp.cc:1971
+#: src/icehelp.cc:1995
 msgid "Unsupported protocol."
 msgstr "Niet-ondersteund protocol."
 
-#: src/icehelp.cc:2050
+#: src/icehelp.cc:2074
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ongeldig pad: %s\n"
 
-#: src/icehelp.cc:2073
+#: src/icehelp.cc:2097
 msgid "Path does not refer to a file."
 msgstr "Pad wijst niet naar een bestand."
 
-#: src/icehelp.cc:2078
+#: src/icehelp.cc:2102
 msgid "Failed to open file for reading."
 msgstr "Bestand openen is mislukt."
 
-#: src/icehelp.cc:2107
+#: src/icehelp.cc:2131
 msgid "Failed to create a temporary file"
 msgstr "Aanmaken van een tijdelijk bestand is mislukt"
 
-#: src/icehelp.cc:2200
+#: src/icehelp.cc:2224
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Systeem (%s) (%d) uitvoeren is mislukt"
 
-#: src/icehelp.cc:2223
+#: src/icehelp.cc:2247
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Decomprimeren van %s is mislukt"
 
-#: src/icehelp.cc:2231
+#: src/icehelp.cc:2255
 msgid "Could not locate curl or wget in PATH"
 msgstr "Kon curl of wget niet vinden in PATH"
 
-#: src/icehelp.cc:2235
+#: src/icehelp.cc:2259
 msgid "Unsafe characters in URL"
 msgstr "Onveilige tekens in URL"
 
-#: src/icehelp.cc:2272
+#: src/icehelp.cc:2296
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -478,8 +478,8 @@ msgstr ""
 "\n"
 "  -B                  Weergeeft de manual page van IceWM icewmbg.\n"
 "  -b, --bugs          Weergeeft de IceWM-bugreports (op primitieve wijze).\n"
-"  -f, --faq           Weergeeft de IceWM FAQ (veelgestelde vragen) en HOWTO."
-"\n"
+"  -f, --faq           Weergeeft de IceWM FAQ (veelgestelde vragen) en "
+"HOWTO.\n"
 "  -g                  Weergeeft de IceWM Github-website.\n"
 "  -i, --icewm         Weergeeft de man-pagina van IceWM icewm.\n"
 "  -m, --manual        Weergeeft de IceWM Manual (standaard).\n"
@@ -497,7 +497,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2351
+#: src/icehelp.cc:2380
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Optie ‘%s’ wordt genegeerd"
@@ -1159,7 +1159,7 @@ msgstr ""
 "  -h, --help          Print dit gebruiksscherm en sluit af.\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:871
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Onbekende richting in verplaats/schaal verzoek: %d"
@@ -1546,6 +1546,13 @@ msgstr "Afrollen"
 msgid "Rollup"
 msgstr "Oprollen"
 
+#: src/wmclient.cc:363
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
@@ -1594,12 +1601,7 @@ msgstr "IceWM _herstarten"
 msgid "_About"
 msgstr "_Over"
 
-#
-#: src/wmframe.cc:1401
-msgid "Kill Client: "
-msgstr "Stoppen van: "
-
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1392
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1607,11 +1609,16 @@ msgstr ""
 "PAS OP! Alle niet opgeslagen veranderingen gaan verloren\n"
 "als u dit programma stopt! Wilt u doorgaan?"
 
-#: src/wmmgr.cc:3231
+#
+#: src/wmframe.cc:1399
+msgid "Kill Client: "
+msgstr "Stoppen van: "
+
+#: src/wmmgr.cc:3229
 msgid "Missing program setxkbmap"
 msgstr "Programma setxkbmap ontbreekt"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3230
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Om van toetsenbord te wisselen, installeer setxkbmap."
 

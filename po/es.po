@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-04-26 19:30+0200\n"
+"POT-Creation-Date: 2021-05-05 23:46+0200\n"
 "PO-Revision-Date: 2021-03-31 14:56+0000\n"
 "Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -298,130 +298,130 @@ msgstr "RED"
 msgid "Workspace: "
 msgstr "Área de trabajo: "
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Back"
 msgstr "Volver"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Alt+Left"
 msgstr "Alt+Izquierda"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Forward"
 msgstr "Avanzar"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Alt+Right"
 msgstr "Alt+Derecha"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1243
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1244
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1246
 msgid "Contents"
 msgstr "Contenidos"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1247
 msgid "Index"
 msgstr "Índice"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Open in Browser"
 msgstr "Abrir en navegador"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1257
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1259
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1261
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1263
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1265
 msgid "Manual"
 msgstr "Manual"
 
-#: src/icehelp.cc:1255
+#: src/icehelp.cc:1267
 msgid "Support"
 msgstr "Asistencia"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1269
 msgid "Theme Howto"
 msgstr "Cómo hacer temas"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1271
 msgid "Website"
 msgstr "Sitio web"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1273
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1971
+#: src/icehelp.cc:1995
 msgid "Unsupported protocol."
 msgstr "Protocolo no admitido."
 
-#: src/icehelp.cc:2050
+#: src/icehelp.cc:2074
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ruta no válida: %s\n"
 
-#: src/icehelp.cc:2073
+#: src/icehelp.cc:2097
 msgid "Path does not refer to a file."
 msgstr "La ruta no hace referencia a un archivo."
 
-#: src/icehelp.cc:2078
+#: src/icehelp.cc:2102
 msgid "Failed to open file for reading."
 msgstr "Error al abrir el archivo para leerlo."
 
-#: src/icehelp.cc:2107
+#: src/icehelp.cc:2131
 msgid "Failed to create a temporary file"
 msgstr "Error al crear un archivo temporal"
 
-#: src/icehelp.cc:2200
+#: src/icehelp.cc:2224
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Error al ejecutar el sistema(%s) (%d)"
 
-#: src/icehelp.cc:2223
+#: src/icehelp.cc:2247
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Error al descomprimir %s"
 
-#: src/icehelp.cc:2231
+#: src/icehelp.cc:2255
 msgid "Could not locate curl or wget in PATH"
 msgstr "No se pueden encontrar ni curl ni wget en PATH"
 
-#: src/icehelp.cc:2235
+#: src/icehelp.cc:2259
 msgid "Unsafe characters in URL"
 msgstr "Caracteres peligrosos en el URL"
 
-#: src/icehelp.cc:2272
+#: src/icehelp.cc:2296
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -494,7 +494,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2351
+#: src/icehelp.cc:2380
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Se ignora la opción «%s»"
@@ -1164,7 +1164,7 @@ msgstr ""
 "  -h, --help          Imprime esta pantalla de uso y sale.\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:871
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Dirección desconocida en la petición para mover/redimensionar: %d"
@@ -1561,6 +1561,13 @@ msgstr "Desenrollar"
 msgid "Rollup"
 msgstr "Enrollar"
 
+#: src/wmclient.cc:363
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
@@ -1609,11 +1616,7 @@ msgstr "Reiniciar _icewm"
 msgid "_About"
 msgstr "_Acerca de"
 
-#: src/wmframe.cc:1401
-msgid "Kill Client: "
-msgstr "Matar el cliente: "
-
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1392
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1621,11 +1624,15 @@ msgstr ""
 "¡AVISO! Todos los cambios sin guardar se perderán\n"
 "cuando este cliente sea terminado. ¿Desea continuar?"
 
-#: src/wmmgr.cc:3231
+#: src/wmframe.cc:1399
+msgid "Kill Client: "
+msgstr "Matar el cliente: "
+
+#: src/wmmgr.cc:3229
 msgid "Missing program setxkbmap"
 msgstr "Falta el programa setxkbmap"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3230
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Instale setxkbmap para cambiar de teclados."
 

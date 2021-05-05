@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-04-26 19:30+0200\n"
+"POT-Creation-Date: 2021-05-05 23:46+0200\n"
 "PO-Revision-Date: 2021-03-30 04:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
@@ -293,130 +293,130 @@ msgstr "网络"
 msgid "Workspace: "
 msgstr "工作区： "
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Back"
 msgstr "后退"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Alt+Left"
 msgstr "Alt+左方向键"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Forward"
 msgstr "前进"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Alt+Right"
 msgstr "Alt+右方向键"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1243
 msgid "Previous"
 msgstr "上一页"
 
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1244
 msgid "Next"
 msgstr "下一页"
 
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1246
 msgid "Contents"
 msgstr "内容"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1247
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Open in Browser"
 msgstr "在浏览器中打开"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "关闭"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1257
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1259
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1261
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1263
 msgid "FAQ"
 msgstr "问答"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1265
 msgid "Manual"
 msgstr "手册"
 
-#: src/icehelp.cc:1255
+#: src/icehelp.cc:1267
 msgid "Support"
 msgstr "支持"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1269
 msgid "Theme Howto"
 msgstr "主题帮助"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1271
 msgid "Website"
 msgstr "网站"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1273
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1971
+#: src/icehelp.cc:1995
 msgid "Unsupported protocol."
 msgstr "不支持的协议。"
 
-#: src/icehelp.cc:2050
+#: src/icehelp.cc:2074
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "路径无效：%s\n"
 
-#: src/icehelp.cc:2073
+#: src/icehelp.cc:2097
 msgid "Path does not refer to a file."
 msgstr "路径指向的不是文件。"
 
-#: src/icehelp.cc:2078
+#: src/icehelp.cc:2102
 msgid "Failed to open file for reading."
 msgstr "读取文件失败。"
 
-#: src/icehelp.cc:2107
+#: src/icehelp.cc:2131
 msgid "Failed to create a temporary file"
 msgstr "创建临时文件失败"
 
-#: src/icehelp.cc:2200
+#: src/icehelp.cc:2224
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "执行系统 (%s) (%d) 失败"
 
-#: src/icehelp.cc:2223
+#: src/icehelp.cc:2247
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "解压缩 %s 失败"
 
-#: src/icehelp.cc:2231
+#: src/icehelp.cc:2255
 msgid "Could not locate curl or wget in PATH"
 msgstr "无法依据 PATH 找到 curl 或 wget"
 
-#: src/icehelp.cc:2235
+#: src/icehelp.cc:2259
 msgid "Unsafe characters in URL"
 msgstr "URL 包含不安全的字符"
 
-#: src/icehelp.cc:2272
+#: src/icehelp.cc:2296
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -486,7 +486,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2351
+#: src/icehelp.cc:2380
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "忽略选项：‘%s'"
@@ -1137,7 +1137,7 @@ msgstr ""
 "  -h, --help          打印此帮助屏幕并退出。\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:871
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "移动/调整大小请求中的方向未知：%d"
@@ -1526,6 +1526,13 @@ msgstr "放下"
 msgid "Rollup"
 msgstr "卷起"
 
+#: src/wmclient.cc:363
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
@@ -1574,11 +1581,7 @@ msgstr "重启 icewm(_R)"
 msgid "_About"
 msgstr "关于(_A)"
 
-#: src/wmframe.cc:1401
-msgid "Kill Client: "
-msgstr "杀死客户端： "
-
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1392
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1586,11 +1589,15 @@ msgstr ""
 "警告！当这个客户程序被杀死时，所有\n"
 "没有保存的修改将丢失。你想继续吗？"
 
-#: src/wmmgr.cc:3231
+#: src/wmframe.cc:1399
+msgid "Kill Client: "
+msgstr "杀死客户端： "
+
+#: src/wmmgr.cc:3229
 msgid "Missing program setxkbmap"
 msgstr "缺少程序 setxkbmap"
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3230
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "要使用键盘切换，请安装 setxkbmap。"
 

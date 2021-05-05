@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-04-26 19:30+0200\n"
+"POT-Creation-Date: 2021-05-05 23:46+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Robert Taisz <robert.taisz@emerald.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -321,53 +321,53 @@ msgid "Workspace: "
 msgstr "Munkaterület: "
 
 # ../src/icehelp.cc:539
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Back"
 msgstr "Vissza"
 
 # ../src/icehelp.cc:539
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Alt+Left"
 msgstr "Alt+Bal"
 
 # ../src/icehelp.cc:540
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Forward"
 msgstr "Előre"
 
 # ../src/icehelp.cc:540
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Alt+Right"
 msgstr "Alt+Jobb"
 
 # ../src/icehelp.cc:542
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1243
 msgid "Previous"
 msgstr "Előző"
 
 # ../src/icehelp.cc:543
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1244
 msgid "Next"
 msgstr "Következő"
 
 # ../src/icehelp.cc:545
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1246
 msgid "Contents"
 msgstr "Tartalom"
 
 # ../src/icehelp.cc:546
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1247
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 #, fuzzy
 #| msgid "WebBrowser"
 msgid "Open in Browser"
 msgstr "Böngésző"
 
 # ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+B"
@@ -375,93 +375,93 @@ msgstr "Ctrl+Q"
 
 # ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
 # ../src/wmframe.cc:127
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Bezárás"
 
 # ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1257
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1259
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1261
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1263
 msgid "FAQ"
 msgstr "GYIK"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1265
 msgid "Manual"
 msgstr "Kézikönyv"
 
-#: src/icehelp.cc:1255
+#: src/icehelp.cc:1267
 msgid "Support"
 msgstr "Terméktámogatás"
 
 # ../src/wmabout.cc:33
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1269
 msgid "Theme Howto"
 msgstr "Téma útmutatója"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1271
 msgid "Website"
 msgstr "Webhely"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1273
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1971
+#: src/icehelp.cc:1995
 msgid "Unsupported protocol."
 msgstr "Nem támogatott protokoll."
 
 # ../src/icehelp.cc:1247
-#: src/icehelp.cc:2050
+#: src/icehelp.cc:2074
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Érvénytelen útvonal: %s\n"
 
-#: src/icehelp.cc:2073
+#: src/icehelp.cc:2097
 msgid "Path does not refer to a file."
 msgstr "Az elérési út nem hivatkozik fájlra."
 
-#: src/icehelp.cc:2078
+#: src/icehelp.cc:2102
 msgid "Failed to open file for reading."
 msgstr "Nem sikerült megnyitni a fájlt olvasáshoz."
 
-#: src/icehelp.cc:2107
+#: src/icehelp.cc:2131
 msgid "Failed to create a temporary file"
 msgstr "Nem sikerült létrehozni egy ideiglenes fájlt"
 
-#: src/icehelp.cc:2200
+#: src/icehelp.cc:2224
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Nem sikerült végrehajtani a rendszerparancsot (%s) (%d)"
 
-#: src/icehelp.cc:2223
+#: src/icehelp.cc:2247
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Nem sikerült a(z) %s kibontása"
 
-#: src/icehelp.cc:2231
+#: src/icehelp.cc:2255
 msgid "Could not locate curl or wget in PATH"
 msgstr "Nem sikerült megtalálni a curl vagy a wget programot a PATH változóban"
 
-#: src/icehelp.cc:2235
+#: src/icehelp.cc:2259
 msgid "Unsafe characters in URL"
 msgstr "Az URL nem biztonságos karaktereket tartalmaz"
 
-#: src/icehelp.cc:2272
+#: src/icehelp.cc:2296
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -538,7 +538,7 @@ msgstr ""
 "\n"
 
 # ../src/wmoption.cc:209
-#: src/icehelp.cc:2351
+#: src/icehelp.cc:2380
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "'%s' beállítás figyelmen kívül hagyása"
@@ -1319,7 +1319,7 @@ msgstr ""
 "  -h, --help          Megjeleníti ezt a használati képernyőt, és kilép.\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:871
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ismeretlen irány az áthelyezés/átméretezés kérésnél: %d"
@@ -1764,6 +1764,13 @@ msgstr "Legörget"
 msgid "Rollup"
 msgstr "Felgörgetés"
 
+#: src/wmclient.cc:363
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
@@ -1818,13 +1825,7 @@ msgstr "Az _IceWM újraindítása"
 msgid "_About"
 msgstr "N_évjegy"
 
-#
-# ../src/wmframe.cc:1183
-#: src/wmframe.cc:1401
-msgid "Kill Client: "
-msgstr "Kliens leölése: "
-
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1392
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1833,11 +1834,17 @@ msgstr ""
 "változtatás elveszik, ha ez a kliens ki lesz lőve!\n"
 "Biztosan ezt akarod?"
 
-#: src/wmmgr.cc:3231
+#
+# ../src/wmframe.cc:1183
+#: src/wmframe.cc:1399
+msgid "Kill Client: "
+msgstr "Kliens leölése: "
+
+#: src/wmmgr.cc:3229
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3230
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 

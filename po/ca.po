@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-04-26 19:30+0200\n"
+"POT-Creation-Date: 2021-05-05 23:46+0200\n"
 "PO-Revision-Date: 2021-04-26 20:57+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,130 +297,130 @@ msgstr "XARXA"
 msgid "Workspace: "
 msgstr "Espai de treball: "
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Back"
 msgstr "Enrere"
 
-#: src/icehelp.cc:1226
+#: src/icehelp.cc:1238
 msgid "Alt+Left"
 msgstr "Alt+Esquerra"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Forward"
 msgstr "Endavant"
 
-#: src/icehelp.cc:1228
+#: src/icehelp.cc:1240
 msgid "Alt+Right"
 msgstr "Alt+Dreta"
 
-#: src/icehelp.cc:1231
+#: src/icehelp.cc:1243
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/icehelp.cc:1232
+#: src/icehelp.cc:1244
 msgid "Next"
 msgstr "Següent"
 
-#: src/icehelp.cc:1234
+#: src/icehelp.cc:1246
 msgid "Contents"
 msgstr "Continguts"
 
-#: src/icehelp.cc:1235
+#: src/icehelp.cc:1247
 msgid "Index"
 msgstr "Índex"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Open in Browser"
 msgstr "Obre-ho al navegador"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1250
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Tanca"
 
-#: src/icehelp.cc:1240 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1245
+#: src/icehelp.cc:1257
 msgid "Icewm(1)"
 msgstr "Icewm (1)"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1259
 msgid "Icewmbg(1)"
 msgstr "Icewmbg (1)"
 
-#: src/icehelp.cc:1249
+#: src/icehelp.cc:1261
 msgid "Icesound(1)"
 msgstr "Icesound (1)"
 
-#: src/icehelp.cc:1251
+#: src/icehelp.cc:1263
 msgid "FAQ"
 msgstr "PMF"
 
-#: src/icehelp.cc:1253
+#: src/icehelp.cc:1265
 msgid "Manual"
 msgstr "Manual"
 
-#: src/icehelp.cc:1255
+#: src/icehelp.cc:1267
 msgid "Support"
 msgstr "Suport"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1269
 msgid "Theme Howto"
 msgstr "Gestió del tema"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1271
 msgid "Website"
 msgstr "Lloc web"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1273
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1971
+#: src/icehelp.cc:1995
 msgid "Unsupported protocol."
 msgstr "Protocol no admès."
 
-#: src/icehelp.cc:2050
+#: src/icehelp.cc:2074
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Camí no vàlid: %s\n"
 
-#: src/icehelp.cc:2073
+#: src/icehelp.cc:2097
 msgid "Path does not refer to a file."
 msgstr "El camí no fa referència a un fitxer."
 
-#: src/icehelp.cc:2078
+#: src/icehelp.cc:2102
 msgid "Failed to open file for reading."
 msgstr "Ha fallat obrir el fitxer per llegir-lo."
 
-#: src/icehelp.cc:2107
+#: src/icehelp.cc:2131
 msgid "Failed to create a temporary file"
 msgstr "Ha fallat crear un fitxer temporal"
 
-#: src/icehelp.cc:2200
+#: src/icehelp.cc:2224
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Ha fallat executar el sistema (%s) (%d)"
 
-#: src/icehelp.cc:2223
+#: src/icehelp.cc:2247
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Ha fallat descomprimir %s"
 
-#: src/icehelp.cc:2231
+#: src/icehelp.cc:2255
 msgid "Could not locate curl or wget in PATH"
 msgstr "No s'ha pogut ubicar curl o wget al CAMÍ"
 
-#: src/icehelp.cc:2235
+#: src/icehelp.cc:2259
 msgid "Unsafe characters in URL"
 msgstr "Caràcters no segurs a l'URL"
 
-#: src/icehelp.cc:2272
+#: src/icehelp.cc:2296
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -494,7 +494,7 @@ msgstr ""
 "%s.\n"
 "\n"
 
-#: src/icehelp.cc:2351
+#: src/icehelp.cc:2380
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "S'ignora l'opció \"%s\""
@@ -1154,7 +1154,7 @@ msgstr ""
 "  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
 "\n"
 
-#: src/movesize.cc:876
+#: src/movesize.cc:871
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Indicació desconeguda a la petició de mou/redimensiona: %d"
@@ -1540,6 +1540,13 @@ msgstr "Desenrotlla"
 msgid "Rollup"
 msgstr "Enrotlla"
 
+#: src/wmclient.cc:363
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
 msgid "Failed to load theme %s"
@@ -1588,11 +1595,7 @@ msgstr "_Reinicia l'icewm"
 msgid "_About"
 msgstr "_Quant a"
 
-#: src/wmframe.cc:1401
-msgid "Kill Client: "
-msgstr "Mata el client: "
-
-#: src/wmframe.cc:1402
+#: src/wmframe.cc:1392
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1600,11 +1603,15 @@ msgstr ""
 "ATENCIÓ! Tots els canvis no desats es perdran en\n"
 "matar el client. Encara voleu continuar?"
 
-#: src/wmmgr.cc:3231
+#: src/wmframe.cc:1399
+msgid "Kill Client: "
+msgstr "Mata el client: "
+
+#: src/wmmgr.cc:3229
 msgid "Missing program setxkbmap"
 msgstr "Manca el programa setxkbmap."
 
-#: src/wmmgr.cc:3232
+#: src/wmmgr.cc:3230
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Per canviar el teclat, si us plau, instal·leu setxkbmap."
 
