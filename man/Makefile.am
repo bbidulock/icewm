@@ -134,7 +134,7 @@ $(icewm_man5_htmls): %.5.html: %.pod
 		-e 's,\@CFGDIR\@,$(CFGDIR),g' \
 		-e 's,http:,https:,g' $@ && rm -f $@.bak
 
-$(icewm_man1_files) $(extra_man1_files): %.man: %.pod
+$(icewm_man1_files) $(extra_man1_files): %.man: %.pod Makefile
 	$(AM_V_GEN)pod2man --center="User Commands" \
 		--date="$(DATE)" \
 		--errors="none" \
@@ -153,7 +153,7 @@ $(icewm_man1_files) $(extra_man1_files): %.man: %.pod
 		-e 's,([^A-Z/])LIBDIR/,\1$(LIBDIR)/,g' \
 	        -e 's,\@CFGDIR\@,$(CFGDIR),g' $@ && rm -f $@.bak
 
-$(icewm_man5_files): %.man: %.pod
+$(icewm_man5_files): %.man: %.pod Makefile
 	$(AM_V_GEN)pod2man --center="Standards, Environments and Macros" \
 		--date="$(DATE)" \
 		--errors="none" \
