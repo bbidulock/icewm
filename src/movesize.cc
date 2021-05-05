@@ -107,6 +107,8 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
 
     int mx, my, Mx, My;
     manager->getWorkArea(this, &mx, &my, &Mx, &My, getScreen());
+    int vo = min(borderY(), int(topSideVerticalOffset));
+    my -= vo;
 
     /// !!! clean this up, it should snap to the closest thing it finds
 
@@ -135,11 +137,11 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
         xp += borderX();
         flags |= 8;
     }
-    if (yp < 0 || yp + height() > desktop->height()) {
+    if (yp < -vo || yp + height() > desktop->height()) {
         yp += borderY();
         flags |= 16;
     }
-    snapTo(xp, yp, 0, 0, desktop->width(), desktop->height(), flags);
+    snapTo(xp, yp, 0, -vo, desktop->width(), desktop->height(), flags);
     if (flags & 8) {
         xp -= borderX();
         flags &= ~8;
@@ -810,14 +812,7 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
 }
 
 void YFrameWindow::constrainPositionByModifier(int &x, int &y, const XMotionEvent &motion) {
-    unsigned int mask = motion.state & (ShiftMask | ControlMask);
-
-    x += borderX();
-    y += borderY();
-    x -= borderX();
-    y -= borderY();
-
-    if (snapMove && !(mask & (ControlMask | ShiftMask))) {
+    if (snapMove && notbit(motion.state, ShiftMask | ControlMask)) {
         snapTo(x, y);
     }
 }
