@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[2.1.2],
+AC_INIT([icewm],[2.3.3],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([2.1.2])
+AC_REVISION([2.3.3])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,10 +22,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2021-02-09'
+DATE='2021-04-28'
 AC_SUBST([DATE])
 
-MDOCDATE='February 9, 2021'
+MDOCDATE='April 28, 2021'
 AC_SUBST([MDOCDATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -356,6 +356,8 @@ fi
 AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
+AC_ARG_ENABLE([rsvg],
+    AS_HELP_STRING([--disable-rsvg],[Disable SVG using librsvg.]))
 AC_ARG_ENABLE([imlib2],
     AS_HELP_STRING([--disable-imlib2],[Disable imlib2 rendering.
         @<:@default=enabled@:>@]))
@@ -369,12 +371,14 @@ then
 	IMAGE_LIBS="$PIXBUF_LIBS"
 	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],[Define to enable gdk-pixbuf rendering.])
 	image_library=gdk-pixbuf-xlib-2.0])
-    PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
-	IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
-	IMAG_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
-	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
-	image_library="$image_library librsvg-2.0"],
-	[AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
+    if test x$enable_rsvg != xno; then
+        PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
+            IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
+            IMAG_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
+            AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
+            image_library="$image_library librsvg-2.0"],
+            [AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
+    fi
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
 	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
@@ -396,12 +400,14 @@ then
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library="$image_library libxpm"],
 	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
-    PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
-	IMAGE_CFLAGS="$IMAGE_CFLAGS $LIBRSVG_CFLAGS"
-	IMAGE_LIBS="$IMAGE_LIBS $LIBRSVG_LIBS"
-	AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
-	image_library="$image_library librsvg-2.0"],
-	[AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
+    if test x$enable_rsvg != xno; then
+        PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
+            IMAGE_CFLAGS="$IMAGE_CFLAGS $LIBRSVG_CFLAGS"
+            IMAGE_LIBS="$IMAGE_LIBS $LIBRSVG_LIBS"
+            AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
+            image_library="$image_library librsvg-2.0"],
+            [AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
+    fi
 fi
 if test "x$enable_gdk_pixbuf" != xyes &&
    test "x$enable_imlib2" = xno
