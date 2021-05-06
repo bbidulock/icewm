@@ -215,6 +215,7 @@ public:
     void deleteProperty(Atom property);
     void setProperty(Atom prop, Atom type, const Atom* values, int count);
     void setProperty(Atom property, Atom propType, Atom value);
+    void setNetName(const char* name);
     void setNetWindowType(Atom window_type);
     void setNetOpacity(Atom opacity);
     void setNetPid();
