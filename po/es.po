@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-05 23:46+0200\n"
+"POT-Creation-Date: 2021-05-06 19:26+0200\n"
 "PO-Revision-Date: 2021-03-31 14:56+0000\n"
 "Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
 "Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -298,130 +298,166 @@ msgstr "RED"
 msgid "Workspace: "
 msgstr "Área de trabajo: "
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Back"
 msgstr "Volver"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Alt+Left"
 msgstr "Alt+Izquierda"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Forward"
 msgstr "Avanzar"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Alt+Right"
 msgstr "Alt+Derecha"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1283
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/icehelp.cc:1244
+#: src/icehelp.cc:1284
 msgid "Next"
 msgstr "Siguiente"
 
-#: src/icehelp.cc:1246
+#: src/icehelp.cc:1286
 msgid "Contents"
 msgstr "Contenidos"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1287
 msgid "Index"
 msgstr "Índice"
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 msgid "Open in Browser"
 msgstr "Abrir en navegador"
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1292
+msgid "Reload"
+msgstr ""
+
+#: src/icehelp.cc:1292 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Cerrar"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1298
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1298
+#, fuzzy
+#| msgid "Ctrl+B"
+msgid "Ctrl+I"
+msgstr "Ctrl+B"
+
+#: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1302
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1263
+#: src/icehelp.cc:1304
 msgid "FAQ"
 msgstr "Preguntas frecuentes"
 
-#: src/icehelp.cc:1265
+#: src/icehelp.cc:1306
 msgid "Manual"
 msgstr "Manual"
 
-#: src/icehelp.cc:1267
+#: src/icehelp.cc:1306
+#, fuzzy
+#| msgid "Ctrl+B"
+msgid "Ctrl+M"
+msgstr "Ctrl+B"
+
+#: src/icehelp.cc:1308
 msgid "Support"
 msgstr "Asistencia"
 
-#: src/icehelp.cc:1269
+#: src/icehelp.cc:1310
 msgid "Theme Howto"
 msgstr "Cómo hacer temas"
 
-#: src/icehelp.cc:1271
+#: src/icehelp.cc:1310 src/iceview.cc:56
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1312
 msgid "Website"
 msgstr "Sitio web"
 
-#: src/icehelp.cc:1273
+#: src/icehelp.cc:1312 src/iceview.cc:57
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1314
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1995
+#: src/icehelp.cc:1318 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icehelp.cc:1323 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:2077
 msgid "Unsupported protocol."
 msgstr "Protocolo no admitido."
 
-#: src/icehelp.cc:2074
+#: src/icehelp.cc:2156
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ruta no válida: %s\n"
 
-#: src/icehelp.cc:2097
+#: src/icehelp.cc:2180
 msgid "Path does not refer to a file."
 msgstr "La ruta no hace referencia a un archivo."
 
-#: src/icehelp.cc:2102
+#: src/icehelp.cc:2185
 msgid "Failed to open file for reading."
 msgstr "Error al abrir el archivo para leerlo."
 
-#: src/icehelp.cc:2131
+#: src/icehelp.cc:2214
 msgid "Failed to create a temporary file"
 msgstr "Error al crear un archivo temporal"
 
-#: src/icehelp.cc:2224
+#: src/icehelp.cc:2307
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Error al ejecutar el sistema(%s) (%d)"
 
-#: src/icehelp.cc:2247
+#: src/icehelp.cc:2330
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Error al descomprimir %s"
 
-#: src/icehelp.cc:2255
+#: src/icehelp.cc:2338
 msgid "Could not locate curl or wget in PATH"
 msgstr "No se pueden encontrar ni curl ni wget en PATH"
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2342
 msgid "Unsafe characters in URL"
 msgstr "Caracteres peligrosos en el URL"
 
-#: src/icehelp.cc:2296
+#: src/icehelp.cc:2379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -494,7 +530,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2380
+#: src/icehelp.cc:2469
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Se ignora la opción «%s»"
@@ -530,10 +566,6 @@ msgstr "Ctrl+N"
 #: src/icesame.cc:60
 msgid "Restart"
 msgstr "Reiniciar"
-
-#: src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
@@ -1009,17 +1041,9 @@ msgstr "Ctrl+H"
 msgid "Expand Tabs"
 msgstr "Expandir los tabuladores"
 
-#: src/iceview.cc:56
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
 #: src/iceview.cc:57
 msgid "Wrap Lines"
 msgstr "Ajustar las líneas"
-
-#: src/iceview.cc:57
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:72
 #, c-format
@@ -1164,7 +1188,7 @@ msgstr ""
 "  -h, --help          Imprime esta pantalla de uso y sale.\n"
 "\n"
 
-#: src/movesize.cc:871
+#: src/movesize.cc:872
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Dirección desconocida en la petición para mover/redimensionar: %d"
@@ -1904,17 +1928,9 @@ msgstr "Ctrl+C"
 msgid "Cu_t"
 msgstr "Cor_tar"
 
-#: src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
 #: src/yinputline.cc:20
 msgid "_Paste"
 msgstr "_Pegar"
-
-#: src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
 
 #: src/yinputline.cc:21
 msgid "Paste _Selection"

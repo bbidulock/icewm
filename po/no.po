@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-05 23:46+0200\n"
+"POT-Creation-Date: 2021-05-06 19:26+0200\n"
 "PO-Revision-Date: 2002-09-22 22:00+0200\n"
 "Last-Translator: Petter Johan Olsen <petter.olsen@cc.uit.no>\n"
 "Language-Team: Norwegian\n"
@@ -290,136 +290,172 @@ msgstr ""
 msgid "Workspace: "
 msgstr "Skrivebordsområde: "
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Back"
 msgstr "Tilbake"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Alt+Left"
 msgstr "Alt+Venstre"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Forward"
 msgstr "Fram"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Alt+Right"
 msgstr "Alt+Høyre"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1283
 msgid "Previous"
 msgstr "Forrige"
 
-#: src/icehelp.cc:1244
+#: src/icehelp.cc:1284
 msgid "Next"
 msgstr "Neste"
 
-#: src/icehelp.cc:1246
+#: src/icehelp.cc:1286
 msgid "Contents"
 msgstr "Startside"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1287
 msgid "Index"
 msgstr "Ordliste"
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 msgid "Open in Browser"
 msgstr ""
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+B"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1292
+msgid "Reload"
+msgstr ""
+
+#: src/icehelp.cc:1292 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Lukk"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1298
 msgid "Icewm(1)"
 msgstr ""
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1298
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+I"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
 msgstr ""
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1302
 msgid "Icesound(1)"
 msgstr ""
 
-#: src/icehelp.cc:1263
+#: src/icehelp.cc:1304
 msgid "FAQ"
 msgstr ""
 
-#: src/icehelp.cc:1265
+#: src/icehelp.cc:1306
 msgid "Manual"
 msgstr ""
 
-#: src/icehelp.cc:1267
+#: src/icehelp.cc:1306
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+M"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1308
 msgid "Support"
 msgstr ""
 
-#: src/icehelp.cc:1269
+#: src/icehelp.cc:1310
 #, fuzzy
 msgid "Theme Howto"
 msgstr "Temaforfatter:"
 
-#: src/icehelp.cc:1271
+#: src/icehelp.cc:1310 src/iceview.cc:56
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1312
 msgid "Website"
 msgstr ""
 
-#: src/icehelp.cc:1273
+#: src/icehelp.cc:1312 src/iceview.cc:57
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1314
 msgid "Github"
 msgstr ""
 
-#: src/icehelp.cc:1995
+#: src/icehelp.cc:1318 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icehelp.cc:1323 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:2077
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "Enheten %s er ikke støttet."
 
-#: src/icehelp.cc:2074
+#: src/icehelp.cc:2156
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ugyldig sti: %s\n"
 
-#: src/icehelp.cc:2097
+#: src/icehelp.cc:2180
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:2102
+#: src/icehelp.cc:2185
 #, fuzzy
 msgid "Failed to open file for reading."
 msgstr "Kunne ikke velge vinduet i fokus"
 
-#: src/icehelp.cc:2131
+#: src/icehelp.cc:2214
 #, fuzzy
 msgid "Failed to create a temporary file"
 msgstr "Kunne ikke opprette anonymt rør: %s"
 
-#: src/icehelp.cc:2224
+#: src/icehelp.cc:2307
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2247
+#: src/icehelp.cc:2330
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "Kunne ikke åpne %s: %s"
 
-#: src/icehelp.cc:2255
+#: src/icehelp.cc:2338
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2342
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2296
+#: src/icehelp.cc:2379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -457,7 +493,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2380
+#: src/icehelp.cc:2469
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ukjent kommando: `%s'"
@@ -493,10 +529,6 @@ msgstr "Ctrl+N"
 #: src/icesame.cc:60
 msgid "Restart"
 msgstr "Starte på nytt"
-
-#: src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
@@ -934,17 +966,9 @@ msgstr "Ctrl+H"
 msgid "Expand Tabs"
 msgstr "Utvid tabulatortegn"
 
-#: src/iceview.cc:56
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
 #: src/iceview.cc:57
 msgid "Wrap Lines"
 msgstr "Del lange linjer"
-
-#: src/iceview.cc:57
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:72
 #, fuzzy, c-format
@@ -1032,7 +1056,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/movesize.cc:871
+#: src/movesize.cc:872
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Ukjent retning i flytt-/størrelsesendringforespørsel: %d"
@@ -1758,17 +1782,9 @@ msgstr "Ctrl+C"
 msgid "Cu_t"
 msgstr "Klipp _ut"
 
-#: src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
 #: src/yinputline.cc:20
 msgid "_Paste"
 msgstr "_Lim inn"
-
-#: src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
 
 #: src/yinputline.cc:21
 msgid "Paste _Selection"

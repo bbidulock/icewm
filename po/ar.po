@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.3.12.52\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-05 23:46+0200\n"
+"POT-Creation-Date: 2021-05-06 19:26+0200\n"
 "PO-Revision-Date: 2020-05-02 19:50+0000\n"
 "Last-Translator: mohammad alhargan <malham1@gmail.com>\n"
 "Language-Team: Arabic <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -301,134 +301,170 @@ msgstr "الشبكة"
 msgid "Workspace: "
 msgstr "مساحة العمل: "
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Back"
 msgstr "للخلف"
 
-#: src/icehelp.cc:1238
+#: src/icehelp.cc:1278
 msgid "Alt+Left"
 msgstr "Alt+يسار"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Forward"
 msgstr "تحويل"
 
-#: src/icehelp.cc:1240
+#: src/icehelp.cc:1280
 msgid "Alt+Right"
 msgstr "Alt+يمين"
 
-#: src/icehelp.cc:1243
+#: src/icehelp.cc:1283
 msgid "Previous"
 msgstr "سابق"
 
-#: src/icehelp.cc:1244
+#: src/icehelp.cc:1284
 msgid "Next"
 msgstr "التالي"
 
-#: src/icehelp.cc:1246
+#: src/icehelp.cc:1286
 msgid "Contents"
 msgstr "محتويات"
 
-#: src/icehelp.cc:1247
+#: src/icehelp.cc:1287
 msgid "Index"
 msgstr "فهرست"
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 #, fuzzy
 #| msgid "WebBrowser"
 msgid "Open in Browser"
 msgstr "مستعرض ويب"
 
-#: src/icehelp.cc:1250
+#: src/icehelp.cc:1290
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+B"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1292
+msgid "Reload"
+msgstr ""
+
+#: src/icehelp.cc:1292 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "إغلاق"
 
-#: src/icehelp.cc:1252 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1257
+#: src/icehelp.cc:1298
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1259
+#: src/icehelp.cc:1298
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+I"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1261
+#: src/icehelp.cc:1302
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1263
+#: src/icehelp.cc:1304
 msgid "FAQ"
 msgstr "الأسئلة والإجابات المتداولة"
 
-#: src/icehelp.cc:1265
+#: src/icehelp.cc:1306
 msgid "Manual"
 msgstr "دليل"
 
-#: src/icehelp.cc:1267
+#: src/icehelp.cc:1306
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+M"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1308
 msgid "Support"
 msgstr "دعم"
 
-#: src/icehelp.cc:1269
+#: src/icehelp.cc:1310
 msgid "Theme Howto"
 msgstr "الإرشادات التوضيحية للسمة"
 
-#: src/icehelp.cc:1271
+#: src/icehelp.cc:1310 src/iceview.cc:56
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1312
 msgid "Website"
 msgstr "موقع ويب"
 
-#: src/icehelp.cc:1273
+#: src/icehelp.cc:1312 src/iceview.cc:57
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1314
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1995
+#: src/icehelp.cc:1318 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icehelp.cc:1323 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:2077
 msgid "Unsupported protocol."
 msgstr "بروتوكول غير مدعوم."
 
-#: src/icehelp.cc:2074
+#: src/icehelp.cc:2156
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "مسار غير صالح: %s\n"
 
-#: src/icehelp.cc:2097
+#: src/icehelp.cc:2180
 msgid "Path does not refer to a file."
 msgstr "لا يشير المسار إلى ملف."
 
-#: src/icehelp.cc:2102
+#: src/icehelp.cc:2185
 msgid "Failed to open file for reading."
 msgstr "فشل فتح الملف للقراءة."
 
-#: src/icehelp.cc:2131
+#: src/icehelp.cc:2214
 msgid "Failed to create a temporary file"
 msgstr "فشل إنشاء ملف مؤقت"
 
-#: src/icehelp.cc:2224
+#: src/icehelp.cc:2307
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "فشل تنفيذ النظام (%s) (%d)"
 
-#: src/icehelp.cc:2247
+#: src/icehelp.cc:2330
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "فشل إلغاء ضغط الصورة %s"
 
-#: src/icehelp.cc:2255
+#: src/icehelp.cc:2338
 msgid "Could not locate curl or wget in PATH"
 msgstr "تعذر تحديد مسار curl أو wget في PATH"
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2342
 msgid "Unsafe characters in URL"
 msgstr "هناك أحرف غير آمنة في URL"
 
-#: src/icehelp.cc:2296
+#: src/icehelp.cc:2379
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -500,7 +536,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2380
+#: src/icehelp.cc:2469
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "تجاهل الخيار: `%s'"
@@ -536,10 +572,6 @@ msgstr "Ctrl+N"
 #: src/icesame.cc:60
 msgid "Restart"
 msgstr "إعادة التشغيل"
-
-#: src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
 
 #: src/icesame.cc:65
 msgid "Same Game"
@@ -1015,17 +1047,9 @@ msgstr "Ctrl+H"
 msgid "Expand Tabs"
 msgstr "توسيع علامة التبويب"
 
-#: src/iceview.cc:56
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
 #: src/iceview.cc:57
 msgid "Wrap Lines"
 msgstr "التفاف الخطوط"
-
-#: src/iceview.cc:57
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
 
 #: src/icewmbg.cc:72
 #, c-format
@@ -1167,7 +1191,7 @@ msgstr ""
 "  -h, --help          طباعة شاشة الاستخدام هذه ومساحات التخصيص.\n"
 "\n"
 
-#: src/movesize.cc:871
+#: src/movesize.cc:872
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "إتجاه غير معروف عند طلب نقل/تغيير مقاس: %d"
@@ -1895,17 +1919,9 @@ msgstr "Ctrl+C"
 msgid "Cu_t"
 msgstr "Cu_t"
 
-#: src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
 #: src/yinputline.cc:20
 msgid "_Paste"
 msgstr "لصق"
-
-#: src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
 
 #: src/yinputline.cc:21
 msgid "Paste _Selection"
