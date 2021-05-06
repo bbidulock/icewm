@@ -108,7 +108,8 @@ void YFrameWindow::snapTo(int &wx, int &wy) {
     int mx, my, Mx, My;
     manager->getWorkArea(this, &mx, &my, &Mx, &My, getScreen());
     int vo = min(borderY(), int(topSideVerticalOffset));
-    my -= vo;
+    if (my <= wy)
+        my -= vo;
 
     /// !!! clean this up, it should snap to the closest thing it finds
 
