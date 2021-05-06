@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-05-06 05:57+0000\n"
+"PO-Revision-Date: 2021-05-07 00:57+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6\n"
+"X-Generator: Weblate 4.6.1\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -339,7 +339,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "再読み込み"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -358,10 +358,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -380,10 +378,8 @@ msgid "Manual"
 msgstr "マニュアル"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
