@@ -616,7 +616,8 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     c = getc(fp);
                 }
 
-                node::node_type type = node::get_type(buf);
+                node::node_type type = buf.nonempty()
+                                     ? node::get_type(buf) : node::unknown;
                 node *n = new node(type);
                 if (n == nullptr)
                     break;
@@ -641,7 +642,8 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                                 c = getc(fp);
                             }
                         }
-                        n->add_attribute(abuf, vbuf);
+                        if (abuf.nonempty())
+                            n->add_attribute(abuf, vbuf);
                     }
                 }
 
@@ -759,13 +761,13 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         buf += "(R)"; // registered sign
                         continue;
                     }
-                    else if (strcmp(entity + 2, "tilde") == 0) {
+                    else if (entity.len() > 2 && !strcmp(entity + 2, "tilde")) {
                         c = entity[1];
                     }
-                    else if (strcmp(entity + 2, "acute") == 0) {
+                    else if (entity.len() > 2 && !strcmp(entity + 2, "acute")) {
                         c = entity[1];
                     }
-                    else if (strcmp(entity + 2, "uml") == 0) {
+                    else if (entity.len() > 2 && !strcmp(entity + 2, "uml")) {
                         c = entity[1];
                     }
                     else {
