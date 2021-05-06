@@ -909,6 +909,10 @@ Taskbar blink interval (ms) when requesting focus (0 = blinking disabled).
 
 Delay between power status updates (seconds).
 
+=item B<PingTimeout>=3  [0-86400]
+
+Timeout in seconds for applications to respond to the _NET_WM_PING protocol.
+
 =back
 
 =head2 BUTTONS AND KEYS
