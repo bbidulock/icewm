@@ -258,6 +258,16 @@ void YColor::alloc(const char* name) {
     fPixel = cache.black();
 }
 
+YColor& YColor::reverse() {
+    if (fPixel) {
+        fPixel = cache.get(0xFFFF - fPixel->red(),
+                           0xFFFF - fPixel->green(),
+                           0xFFFF - fPixel->blue(),
+                           0xFFFF - fPixel->alpha());
+    }
+    return *this;
+}
+
 #ifdef CONFIG_XFREETYPE
 XftColor* YPixel::allocXft() {
     fXftColor = new XftColor;

@@ -17,6 +17,7 @@ public:
 
     YColor darker();
     YColor brighter();
+    YColor& reverse();
 
     bool operator==(YColor& c);
     bool operator!=(YColor& c);
@@ -57,6 +58,7 @@ public:
     YColor brighter() { return color().brighter(); }
     unsigned long pixel() { return color().pixel(); }
     void release() { fColor.release(); }
+    void reverse() { if (!fColor) alloc(); fColor.reverse(); }
 
     operator bool() { return name() && *name(); }
     operator YColor() { return color(); }
