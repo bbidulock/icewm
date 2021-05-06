@@ -43,6 +43,21 @@ YScrollBar::~YScrollBar() {
         fScrollTimer->disableTimerListener(this);
 }
 
+void YScrollBar::enable() {
+    if (visible() == false) {
+        show();
+        raise();
+    }
+}
+
+void YScrollBar::reverseVideo() {
+    scrollBarBg.reverse();
+    scrollBarSlider.reverse();
+    scrollBarButton.reverse();
+    scrollBarActiveArrow.reverse();
+    scrollBarInactiveArrow.reverse();
+}
+
 void YScrollBar::setOrientation(Orientation anOrientation) {
     if (anOrientation != fOrientation) {
         fOrientation = anOrientation;

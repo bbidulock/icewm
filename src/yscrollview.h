@@ -2,6 +2,7 @@
 #define YSCROLLVIEW_H
 
 #include "ywindow.h"
+#include "ypointer.h"
 
 class YScrollBar;
 class YScrollBarListener;
@@ -16,8 +17,7 @@ protected:
 
 class YScrollView: public YWindow {
 public:
-    YScrollView(YWindow* aParent);
-    virtual ~YScrollView();
+    YScrollView(YWindow* aParent, YScrollable* scroll = nullptr);
 
     void setView(YScrollable* l);
     void setListener(YScrollBarListener* l);
@@ -27,19 +27,19 @@ public:
     YScrollable* getScrollable() { return scrollable; }
 
     void layout();
-    virtual void configure(const YRect2& r);
-    virtual void paint(Graphics& g, const YRect& r);
-    virtual void repaint();
-    virtual void handleExpose(const XExposeEvent& expose) {}
-    virtual bool handleScrollKeys(const XKeyEvent& key);
+    void configure(const YRect2& r) override ;
+    void paint(Graphics& g, const YRect& r) override { }
+    void repaint() override { }
+    void handleExpose(const XExposeEvent& expose) override {}
+    bool handleScrollKeys(const XKeyEvent& key);
 
 protected:
     void getGap(int& dx, int& dy);
 
 private:
     YScrollable* scrollable;
-    YScrollBar* scrollVert;
-    YScrollBar* scrollHoriz;
+    osmart<YScrollBar> scrollVert;
+    osmart<YScrollBar> scrollHoriz;
 };
 
 #endif

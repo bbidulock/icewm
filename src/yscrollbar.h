@@ -33,6 +33,7 @@ public:
     int getBlockIncrement() const { return fBlockIncrement; }
     int getValue() const { return fValue; }
 
+    void enable();
     void setOrientation(Orientation anOrientation);
     void setMaximum(int aMaximum);
     void setMinimum(int aMinimum);
@@ -68,6 +69,8 @@ public:
     virtual void handleDNDLeave();
     virtual void handleDNDPosition(int x, int y);
     void setScrollBarListener(YScrollBarListener *notify) { fListener = notify; }
+    static void reverseVideo();
+
 private:
     enum ScrollOp {
         goUp, goDown, goPageUp, goPageDown, goPosition, goNone

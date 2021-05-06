@@ -10,28 +10,19 @@
 
 static YColorName scrollBarBg(&clrScrollBar);
 
-YScrollView::YScrollView(YWindow *aParent):
+YScrollView::YScrollView(YWindow *aParent, YScrollable* scroll):
     YWindow(aParent),
-    scrollable(nullptr),
+    scrollable(scroll),
     scrollVert(new YScrollBar(YScrollBar::Vertical, this)),
     scrollHoriz(new YScrollBar(YScrollBar::Horizontal, this))
 {
-    scrollVert->show();
-    scrollHoriz->show();
     addStyle(wsNoExpose);
     setTitle("ScrollView");
     setBackground(scrollBarBg);
 }
 
-YScrollView::~YScrollView() {
-    delete scrollVert; scrollVert = nullptr;
-    delete scrollHoriz; scrollHoriz = nullptr;
-}
-
 void YScrollView::setView(YScrollable *s) {
     scrollable = s;
-    scrollVert->raise();
-    scrollHoriz->raise();
 }
 
 void YScrollView::setListener(YScrollBarListener* l) {
@@ -54,15 +45,15 @@ void YScrollView::layout() {
     getGap(dx, dy);
 
     if (dx > 0 && w > dx) {
-        scrollVert->show();
         scrollVert->setGeometry(YRect(w - dx, 0, dx, h > dy ? h - dy : 1));
+        scrollVert->enable();
     } else {
         scrollVert->hide();
         dx = 0;
     }
     if (dy > 0 && h > dy) {
-        scrollHoriz->show();
         scrollHoriz->setGeometry(YRect(0, h - dy, w > dx ? w - dx : 1, dx));
+        scrollHoriz->enable();
     } else {
         scrollHoriz->hide();
         dy = 0;
@@ -81,17 +72,7 @@ void YScrollView::layout() {
 void YScrollView::configure(const YRect2& r) {
     if (r.resized()) {
         layout();
-        repaint();
     }
-}
-
-void YScrollView::paint(Graphics &g, const YRect &r) {
-    g.setColor(scrollBarBg);
-    g.fillRect(r.x(), r.y(), r.width(), r.height());
-}
-
-void YScrollView::repaint() {
-    GraphicsBuffer(this).paint();
 }
 
 bool YScrollView::handleScrollKeys(const XKeyEvent& key) {
