@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-04-28 16:57+0000\n"
+"PO-Revision-Date: 2021-05-07 17:57+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.6\n"
+"X-Generator: Weblate 4.6.1\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
@@ -342,7 +342,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "Recarregar"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -361,10 +361,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -383,10 +381,8 @@ msgid "Manual"
 msgstr "Manual"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
@@ -928,18 +924,20 @@ msgstr ""
 "\n"
 "-O, --oss=DISPOSITIVO        Especifica o dispositivo OSS (padrão: \"%s\").\n"
 "\n"
-"-A, --alsa=DISPOSITIVO       Especifica o dispositivo ALSA (padrão: \"%s"
-"\").\n"
+"-A, --alsa=DISPOSITIVO       Especifica o dispositivo ALSA (padrão: \"%s\")."
 "\n"
-" -z, --snooze=milissegundos  Especifica o intervalo de espera entre os "
+"\n"
+"-z, --snooze=milissegundos  Especifica o intervalo de espera entre os "
 "eventos de som em\n"
 "                              milissegundos. O padrão é 500 milissegundos.\n"
 "\n"
-" -p, --play=som        Toca o som fornecido (nome ou número) e sai.\n"
+"-p, --play=som        Toca o som fornecido (nome ou número) e sai.\n"
 "\n"
-" -l, --list-files        Lista os caminhos de arquivos de som disponíveis e "
+"-l, --list-files        Lista os caminhos de arquivos de som disponíveis e "
 "sai.\n"
+"\n"
 "     --list-sounds       Lista os nome de arquivos de som suportados e sai.\n"
+"\n"
 "     --list-interfaces   Lista as interfaces de áudio suportados e sai.\n"
 "\n"
 "-v, --verbose                 Detalhado (imprime cada evento de áudio).\n"
@@ -949,11 +947,11 @@ msgstr ""
 "-h, --help                    Exibe esta tela de ajuda e sai.\n"
 "\n"
 "Valores de retorno:\n"
-"\n"
-"0     Successo.\n"
-"1     Erro geral.\n"
-"2     Erro de linha de comando.\n"
-"3     Erro de subsistemas (por ex.: não foi possível conectar ao servidor).\n"
+" \n"
+"0    Sucesso.\n"
+"1    Erro geral.\n"
+"2    Erro de linha de comando.\n"
+"3    Erro de subsistemas (por ex.: não foi possível conectar ao servidor).\n"
 "\n"
 
 #: src/icesound.cc:779
@@ -1571,6 +1569,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"O cliente %s com PID %ld falhou em responder.\n"
+"Deseja terminar este cliente?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
