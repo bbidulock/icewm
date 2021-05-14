@@ -1407,26 +1407,33 @@ void YWindowManager::setWindows(YFrameWindow **w, int count, YAction action) {
     focusTopWindow();
 }
 
-void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen) {
-    if (centerLarge) {
+void YWindowManager::getNewPosition(YFrameWindow *frame, int &x, int &y,
+                                    int w, int h, int xiscreen) {
+    if (centerTransientsOnOwner && frame->owner()) {
         int mx, my, Mx, My;
-        getWorkArea(frame, &mx, &my, &Mx, &My, xiscreen);
-        if (w > (Mx - mx) / 2 && h > (My - my) / 2) {
-            x = (mx + Mx - w) / 2;   /* = mx + (Mx - mx - w) / 2 */
-            if (x < mx) x = mx;
-            y = (my + My - h) / 2;   /* = my + (My - my - h) / 2 */
-            if (y < my) y = my;
-        }
-    }
-    else if (centerTransientsOnOwner && frame->owner()) {
-        x = frame->owner()->x() + frame->owner()->width() / 2 - w / 2;
-        y = frame->owner()->y() + frame->owner()->height() / 2 - h / 2;
+        getWorkArea(frame->owner(), &mx, &my, &Mx, &My);
+        mx -= frame->borderXN();
+        my -= frame->borderYN() - topSideVerticalOffset;
+        YRect o(frame->owner()->geometry());
+        int cx = max(mx, o.x()) / 2 + min(Mx, o.x() + int(o.width())) / 2 - w / 2;
+        int cy = max(my, o.y()) / 2 + min(My, o.y() + int(o.height())) / 2 - h / 2;
+        x = max(mx, min(Mx - w, cx));
+        y = max(my, min(My - h, cy));
     }
     else if (smartPlacement) {
         getSmartPlace(true, frame, x, y, w, h, xiscreen);
     }
     else {
         getCascadePlace(frame, fCascadeX, fCascadeY, x, y, w, h);
+    }
+    if (centerLarge) {
+        int mx, my, Mx, My;
+        getWorkArea(frame, &mx, &my, &Mx, &My);
+        int dw = (Mx - mx) / 2, dh = (My - my) / 2;
+        if (w > dw && h > dh) {
+            x = max(mx, mx + dw - w / 2);
+            y = max(my, my + dh - h / 2);
+        }
     }
 }
 
