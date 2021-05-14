@@ -263,7 +263,7 @@ YColor& YColor::reverse() {
         fPixel = cache.get(0xFFFF - fPixel->red(),
                            0xFFFF - fPixel->green(),
                            0xFFFF - fPixel->blue(),
-                           0xFFFF - fPixel->alpha());
+                           fPixel->alpha());
     }
     return *this;
 }
