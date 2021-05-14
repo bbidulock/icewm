@@ -165,7 +165,7 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
         *dest = '\0';
     }
 
-    char name[123];
+    char name[99];
     if (opt->type == cfoption::CF_INT) {
         snprintf(name, sizeof name, "%s [%d-%d]",
                  opt->name, opt->intmin(), opt->intmax());

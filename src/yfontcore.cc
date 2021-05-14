@@ -54,7 +54,6 @@ private:
     XFontSet fFontSet;
     int fAscent, fDescent;
 };
-#endif
 
 static char *getNameElement(const char *pattern, unsigned const element) {
     unsigned h(0);
@@ -63,6 +62,7 @@ static char *getNameElement(const char *pattern, unsigned const element) {
     while (*p && (*p != '-' || element != ++h)) ++p;
     return (element == h ? newstr(p + 1, "-") : newstr("*"));
 }
+#endif
 
 /******************************************************************************/
 
