@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2018-05-09 06:03+0000\n"
+"PO-Revision-Date: 2021-05-14 07:59+0000\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/lt/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -47,11 +47,11 @@ msgstr "maitinimas:\t%s"
 
 #: src/aclock.cc:179
 msgid "CLOCK"
-msgstr ""
+msgstr "LAIKRODIS"
 
 #: src/aclock.cc:185
 msgid "Date"
-msgstr ""
+msgstr "Data"
 
 #: src/aclock.cc:186 src/themes.cc:80
 msgid "Default"
@@ -84,16 +84,13 @@ msgstr ""
 "Ram (laisva): %5.2f (%.2f) M"
 
 #: src/acpustatus.cc:306
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Swap (free): %.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (laisva): %.2f (%.2f) M"
+"Swap (laisva): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:312
 #, c-format
@@ -122,16 +119,13 @@ msgid "Load: "
 msgstr "Apkrova: "
 
 #: src/acpustatus.cc:363
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (laisva): %5.2f (%.2f) M"
+"Ram (laisva): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
@@ -146,11 +140,11 @@ msgstr ""
 
 #: src/acpustatus.cc:662
 msgid "_Combine"
-msgstr ""
+msgstr "_Apjungti"
 
 #: src/acpustatus.cc:664
 msgid "_Separate"
-msgstr ""
+msgstr "_Atskirti"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -389,7 +383,7 @@ msgstr ""
 
 #: src/icehelp.cc:1304
 msgid "FAQ"
-msgstr ""
+msgstr "D.U.K."
 
 #: src/icehelp.cc:1306
 msgid "Manual"
@@ -1567,7 +1561,7 @@ msgstr "_Fokusavimas"
 
 #: src/wmprog.cc:439
 msgid "_Preferences"
-msgstr ""
+msgstr "_Nuostatos"
 
 #: src/wmprog.cc:444
 msgid "_Themes"
@@ -2231,10 +2225,8 @@ msgstr "Žaidimai"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:187
-#, fuzzy
-#| msgid "Language:"
 msgid "Languages"
-msgstr "Kalba:"
+msgstr "Kalbos"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:189
@@ -2289,7 +2281,7 @@ msgstr "Įvairialypė terpė"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
 #: src/fdospecgen.h:209
 msgid "Music"
-msgstr ""
+msgstr "Muzika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:211
@@ -2299,7 +2291,7 @@ msgstr "Tinklas"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:213
 msgid "News"
-msgstr ""
+msgstr "Naujienos"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
 #: src/fdospecgen.h:215
