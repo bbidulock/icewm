@@ -231,6 +231,7 @@ public:
     void paint(const class YRect& rect);
     void paint();
     void release();
+    void scroll(int dx, int dy);
 
     YWindow* window() const { return fWindow; }
     int nesting() const { return fNesting; }

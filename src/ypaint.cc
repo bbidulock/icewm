@@ -1218,7 +1218,56 @@ Pixmap GraphicsBuffer::pixmap() {
     return fPixmap;
 }
 
-/******************************************************************************/
-/******************************************************************************/
+void GraphicsBuffer::scroll(int dx, int dy) {
+    if (fPixmap == None || fDim != window()->dimension()) {
+        paint();
+    }
+    else if (dx == 0 && dy == 0) {
+    }
+    else if (abs(dx) >= int(window()->width())
+          || abs(dy) >= int(window()->height()))
+    {
+        paint();
+    }
+    else {
+        XGCValues gcv = {};
+        unsigned long gcvflags = GCGraphicsExposures;
+        gcv.graphics_exposures = False;
+        GC scrollGC = XCreateGC(xapp->display(), fPixmap, gcvflags, &gcv);
+        int ww = int(window()->width());
+        int hh = int(window()->height());
+        int sx, sy, px, py, pw, ph;
+        if (dy > 0) {
+            sy = dy; py = 0; ph = hh - dy;
+        } else {
+            sy = 0; py = -dy; ph = hh + dy;
+        }
+        if (dx > 0) {
+            sx = dx; px = 0; pw = ww - dx;
+        } else {
+            sx = 0; px = -dx; pw = ww + dx;
+        }
+        XCopyArea(xapp->display(), fPixmap, fPixmap, scrollGC,
+                  sx, sy, pw, ph, px, py);
+        XFreeGC(xapp->display(), scrollGC);
+
+        Graphics gfx(fPixmap, ww, hh, window()->depth());
+        YRect rect[2];
+        int count = 0;
+        if (dy > 0) rect[count++] = { 0, ph, ww, dy };
+        if (dy < 0) rect[count++] = { 0, 0, ww, -dy };
+        if (dx > 0) rect[count++] = { pw, 0, dx, hh };
+        if (dx < 0) rect[count++] = { 0, 0, -dx, hh };
+        for (int i = 0; i < count; ++i) {
+            XRectangle clip(rect[i]);
+            gfx.setClipRectangles(&clip, 1);
+            gfx.clearArea(clip.x, clip.y, clip.width, clip.height);
+            window()->paint(gfx, YRect(clip));
+        }
+        gfx.resetClip();
+        window()->setBackgroundPixmap(fPixmap);
+        window()->clearArea(0, 0, ww, hh);
+    }
+}
 
 // vim: set sw=4 ts=4 et:
