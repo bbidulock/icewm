@@ -10,9 +10,15 @@ B<icehelp> [I<OPTIONS>] I<FILENAME>
 
 =head1 DESCRIPTION
 
-B<icehelp> is a very simple HTML browser that displays the document
-specified on the command line.  It is used by L<icewm(1)> internal to
-display the L<IceWM Manual|https://ice-wm.org/manual> and the manual pages.
+B<icehelp> is a very simple HTML browser, which is used by L<icewm(1)>
+to display the L<IceWM Manual|https://ice-wm.org/manual> and the manpages.
+
+The document can be navigated by cursor keys, navigation keys and
+a scrollbar. To find text, hit C<Ctrl+F> for a search window.
+Hit the C<F3> function key to repeat a search.
+
+The top right corner shows a button, which opens a menu. This menu
+can also be opened by a right mouse button click.
 
 =head1 ARGUMENTS
 
@@ -20,9 +26,7 @@ display the L<IceWM Manual|https://ice-wm.org/manual> and the manual pages.
 
 =item I<FILENAME>
 
-Specifies the absolute or relative path (relative to the current working
-directory), that specifies the HTML file to browse.
-I<FILENAME> may also be the URL of a website.
+Specifies the file to browse.  It can also be the URL of a website.
 
 =back
 

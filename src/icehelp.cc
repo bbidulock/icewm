@@ -5,6 +5,7 @@
 #include "yxapp.h"
 #include "sysdep.h"
 #include "yaction.h"
+#include "yinputline.h"
 #include "ymenuitem.h"
 #include "ylocale.h"
 #include "yrect.h"
@@ -21,9 +22,9 @@
 #define ICEWM_1         DOCDIR "/icewm.1.html"
 #define ICEWMBG_1       DOCDIR "/icewmbg.1.html"
 #define ICESOUND_1      DOCDIR "/icesound.1.html"
-#define BACKGROUND      "rgb:DD/DD/DD"
+#define BACKGROUND      "rgb:E0/E0/E0"
 #define FOREGROUND      "rgb:00/00/00"
-#define LINK_COLOR      "rgb:00/00/CC"
+#define LINK_COLOR      "rgb:06/45/AD"
 #define RULE_COLOR      "rgb:80/80/80"
 
 #ifdef DEBUG
@@ -973,7 +974,10 @@ public:
 };
 
 class HTextView: public YWindow,
-    public YScrollBarListener, public YScrollable, public YActionListener
+    public YScrollBarListener,
+    public YScrollable,
+    public YActionListener,
+    public YInputListener
 {
 public:
     HTextView(HTListener *fL, YScrollView *v, YWindow *parent);
@@ -1017,6 +1021,8 @@ public:
     void draw(Graphics &g, node *n1, bool isHref = false);
     node *find_node(node *n, int x, int y, node *&anchor, node::node_type type);
     void find_fragment(const char *frag);
+    bool findNext(node* n1);
+    void startSearch();
 
     virtual void paint(Graphics &g, const YRect &r) {
         g.setColor(bg);
@@ -1040,12 +1046,20 @@ public:
     }
     virtual void handleExpose(const XExposeEvent& expose) {
     }
-    virtual void repaint() {
-        GraphicsBuffer(this).paint();
+
+    bool isFocusTraversable() {
+        return true;
     }
+
+    virtual void repaint() {
+        graphicsBuffer.paint();
+    }
+
     virtual void configure(const YRect2& r) {
-        resetScroll();
-        repaint();
+        if (r.resized()) {
+            resetScroll();
+            repaint();
+        }
     }
 
     void resetScroll() {
@@ -1067,7 +1081,7 @@ public:
             tx = x;
             ty = y;
 
-            scrollWindow(dx, dy);
+            graphicsBuffer.scroll(dx, dy);
         }
     }
 
@@ -1191,11 +1205,23 @@ public:
             if (fVerticalScroll->visible())
                 fVerticalScroll->repaint();
         }
-    }
-
-    virtual void configure(const YRect &r) {
-        YWindow::configure(r);
-        layout();
+        else if (action == actionFind) {
+            if (input == nullptr) {
+                input = new YInputLine(this, this);
+            }
+            if (input) {
+                input->setBorderWidth(2);
+                input->setGeometry(YRect(1, 1, 250, 25));
+                input->show();
+                xapp->sync();
+                setFocus(input);
+                input->requestFocus(true);
+                input->gotFocus();
+            }
+        }
+        else if (action == actionSearch) {
+            startSearch();
+        }
     }
 
     bool handleKey(const XKeyEvent &key);
@@ -1221,6 +1247,8 @@ private:
     ActionItem actionLeft;
     ActionItem actionRight;
     ActionItem actionIndex;
+    ActionItem actionFind;
+    ActionItem actionSearch;
     ActionItem actionPrev;
     ActionItem actionNext;
     ActionItem actionReload;
@@ -1231,10 +1259,12 @@ private:
     ActionItem actionReversed;
     HTListener *listener;
 
+    mstring search;
     mstring prevURL;
     mstring nextURL;
     mstring contentsURL;
     History history;
+    GraphicsBuffer graphicsBuffer;
 
     void flagFont(int n) {
         int mask = (n & (MONO | BOLD | ITAL)) | ((n & PRE) ? MONO : 0);
@@ -1255,6 +1285,19 @@ private:
         ~Flags() { view->flagFont(oldf); }
         operator int() const { return newf; }
     };
+
+    void inputReturn(YInputLine* inputline) {
+        search = input->getText();
+        delete input; input = nullptr;
+        startSearch();
+    }
+    void inputEscape(YInputLine* inputline) {
+        delete input; input = nullptr;
+    }
+    void inputLostFocus(YInputLine* inputline) {
+        delete input; input = nullptr;
+    }
+    YInputLine* input;
 };
 
 HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
@@ -1263,12 +1306,14 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     normalFg(FOREGROUND),
     linkFg(LINK_COLOR),
     hrFg(RULE_COLOR),
-    fScrollView(v), listener(fL) {
-
-    fVerticalScroll = fScrollView->getVerticalScrollBar();
-    fVerticalScroll->setScrollBarListener(this);
-    fHorizontalScroll = fScrollView->getHorizontalScrollBar();
-    fHorizontalScroll->setScrollBarListener(this);
+    fScrollView(v),
+    fVerticalScroll(v->getVerticalScrollBar()),
+    fHorizontalScroll(v->getHorizontalScrollBar()),
+    listener(fL),
+    graphicsBuffer(this),
+    input(nullptr)
+{
+    fScrollView->setListener(this);
     tx = ty = 0;
     conWidth = conHeight = 0;
     fontFlag = 0;
@@ -1289,6 +1334,8 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
     actionContents = menu->addItem(_("Contents"), 0, null, actionContents);
     actionIndex = menu->addItem(_("Index"), 0, null, actionIndex);
     actionIndex->setEnabled(false);
+    actionFind = menu->addItem(_("Find..."), 0, _("Ctrl+F"), actionFind);
+    actionSearch = menu->addItem(_("Find next"), 0, _("F3"), actionSearch);
     menu->addSeparator();
     actionBrowser = menu->addItem(_("Open in Browser"), 0, _("Ctrl+B"),
                                   actionBrowser);
@@ -1329,6 +1376,7 @@ HTextView::HTextView(HTListener *fL, YScrollView *v, YWindow *parent):
 
 HTextView::~HTextView() {
     delete fRoot;
+    delete input;
     delete menu;
 }
 
@@ -1828,13 +1876,44 @@ void HTextView::draw(Graphics &g, node *n1, bool isHref) {
     }
 }
 
+bool HTextView::findNext(node *n1) {
+    for (node *n = n1; n; n = n->next) {
+        if (n->container) {
+            if (findNext(n->container))
+                return true;
+        }
+        for (text_node *tn = n->wrap; tn; tn = tn->next) {
+            if (ty < tn->y - tn->th) {
+                const char* found = strstr(tn->text, search.c_str());
+                if (found && found < tn->text + tn->len) {
+                    setPos(0, tn->y - tn->th);
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void HTextView::startSearch() {
+    while (search.nonempty() && 0 < search[0] && search[0] < ' ') {
+        search = search.substring(1);
+    }
+    if (search.nonempty()) {
+        if (findNext(fRoot)) {
+            resetScroll();
+        }
+    }
+}
+
 bool HTextView::handleKey(const XKeyEvent &key) {
-    if (fVerticalScroll->handleScrollKeys(key) |
-        fHorizontalScroll->handleScrollKeys(key))
-    {
+    if (fScrollView->handleScrollKeys(key)) {
         return true;
     }
-    // unfortunately doesn't work: menu->handleKey(key);
+    if (input && input->visible()) {
+        return input->handleKey(key);
+    }
+
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
@@ -1875,6 +1954,10 @@ bool HTextView::handleKey(const XKeyEvent &key) {
                 actionPerformed(actionFreeType);
                 return true;
             }
+            if (k == XK_f) {
+                actionPerformed(actionFind);
+                return true;
+            }
         }
         if ((m & xapp->AltMask) != 0 && (m & ~xapp->AltMask) == 0) {
             if (k == XK_Left || k == XK_KP_Left) {
@@ -1886,8 +1969,14 @@ bool HTextView::handleKey(const XKeyEvent &key) {
                 return true;
             }
         }
+        if (notbit(m, ControlMask | xapp->AltMask | ShiftMask)) {
+            if (k == XK_F3) {
+                startSearch();
+                return true;
+            }
+        }
     }
-    return YWindow::handleKey(key);
+    return false;
 }
 
 void HTextView::handleButton(const XButtonEvent &button) {
@@ -1932,17 +2021,22 @@ public:
     void activateURL(mstring url, bool relative = false);
     void openBrowser(mstring url);
 
-    virtual void configure(const YRect &r) {
-        YWindow::configure(r);
-        scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+    void configure(const YRect2& r) override {
+        if (r.resized()) {
+            scroll->setGeometry(YRect(0, 0, r.width(), r.height()));
+        }
     }
 
-    virtual void handleClose() {
+    void handleClose() override {
         if (ignoreClose == false) {
             app->exitLoop(0);
         }
     }
-    virtual void handleExpose(const XExposeEvent& expose) {
+    void handleExpose(const XExposeEvent& expose) override {
+    }
+
+    bool isFocusTraversable() {
+        return true;
     }
 
 private:
@@ -1991,17 +2085,8 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
     };
 
     extern Atom _XA_WIN_ICONS;
-    XChangeProperty(xapp->display(), handle(),
-                    _XA_WIN_ICONS, XA_PIXMAP,
-                    32, PropModeReplace,
-                    (unsigned char *)icons, 4);
-
-    extern Atom _XA_NET_WM_PID;
-    XID pid = getpid();
-    XChangeProperty(xapp->display(), handle(),
-                    _XA_NET_WM_PID, XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&pid, 1);
+    setProperty(_XA_WIN_ICONS, XA_PIXMAP, icons, 4);
+    setNetPid();
 
     XWMHints wmhints = {};
     wmhints.flags = InputHint | StateHint | IconPixmapHint | IconMaskHint;
@@ -2492,13 +2577,13 @@ int main(int argc, char **argv) {
     YXApplication app(&argc, &argv);
     FileView view(&app, argc, argv);
     if (nodelete) {
-        extern Atom _XA_WM_PROTOCOLS;
         XDeleteProperty(app.display(), view.handle(), _XA_WM_PROTOCOLS);
-    }
-    if (netping) {
-        extern Atom _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW;
-        Atom proto[] = { _XA_NET_WM_PING, _XA_WM_DELETE_WINDOW, };
-        XSetWMProtocols(app.display(), view.handle(), proto, 2 - nodelete);
+    } else {
+        extern Atom _XA_NET_WM_PING;
+        Atom prot[] = {
+            _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS, _XA_NET_WM_PING
+        };
+        XSetWMProtocols(app.display(), view.handle(), prot, 2 + netping);
     }
     view.activateURL(helpfile);
     view.show();
