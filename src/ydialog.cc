@@ -40,7 +40,7 @@ void YDialog::center() {
 
 void YDialog::become() {
     if (getFrame() == nullptr)
-        manager->manageClient(handle(), false);
+        manager->manageClient(this, false);
     if (getFrame()) {
         int ws = manager->activeWorkspace();
         if (getFrame()->visibleOn(ws) == false) {

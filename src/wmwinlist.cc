@@ -543,7 +543,7 @@ void WindowList::showFocused(int x, int y) {
         int x = int((dw - w) / 2);
         int y = int((dh - h) / 2);
         setGeometry(YRect(x, y, w, h));
-        manager->manageClient(handle(), false);
+        manager->manageClient(this);
     }
     if (getFrame()) {
         if (x == -1 && y == -1) {

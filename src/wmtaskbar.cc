@@ -942,7 +942,7 @@ void TaskBar::popOut() {
 
 void TaskBar::showBar() {
     if (getFrame() == nullptr) {
-        manager->manageClient(handle(), false);
+        manager->manageClient(this);
         updateWinLayer();
         if (getFrame()) {
             getFrame()->setAllWorkspaces();

@@ -965,7 +965,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 
     if (f && f->visible()) {
-        if (c && c->visible() && !(f->isRollup() || f->isIconic()))
+        if (c && c->visible() && f->isMapped())
             w = c->handle();
         else
             w = f->handle();
@@ -1021,7 +1021,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
         canWarp &&
         !clickFocus &&
         warpPointer &&
-        wmState() == wmRUNNING)
+        isRunning())
     {
         XWarpPointer(xapp->display(), None, handle(), 0, 0, 0, 0,
                      f->x() + f->borderX(), f->y() + f->borderY() + f->titleY());
@@ -1109,9 +1109,17 @@ void YWindowManager::manageClients() {
                &winRoot, &winParent, &winClients, &clientCount);
 
     if (winClients)
-        for (unsigned int i = 0; i < clientCount; i++)
-            if (findClient(winClients[i]) == nullptr)
-                manageClient(winClients[i]);
+        for (unsigned i = 0; i < clientCount; i++) {
+            if (findClient(winClients[i]) == nullptr) {
+                YFrameClient* client = allocateClient(winClients[i], false);
+                if (client) {
+                    manageClient(client);
+                    if (client->getFrame() == nullptr) {
+                        delete client;
+                    }
+                }
+            }
+        }
 
     setWmState(wmRUNNING);
     ungrabServer();
@@ -1524,106 +1532,70 @@ setGeo:
     frame->setNormalGeometryOuter(posX, posY, posWidth, posHeight);
 }
 
-void YWindowManager::manageClient(Window win, bool mapClient) {
-    YFrameWindow* frame = nullptr;
-    YFrameClient* client = nullptr;
-    int cx = 0;
-    int cy = 0;
-    int cw = 1;
-    int ch = 1;
-    bool canManualPlace = false;
-    bool doActivate = (wmState() == YWindowManager::wmRUNNING);
-    bool requestFocus = true;
-
-    MSG(("managing window 0x%lX", win));
-    PRECONDITION(findFrame(win) == nullptr);
-
-    grabServer();
-    lockWorkArea();
-
-    client = findClient(win);
+YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
+    YFrameClient* client = findClient(win);
     if (client == nullptr) {
         XWindowAttributes attributes;
 
-        if (!XGetWindowAttributes(xapp->display(), win, &attributes))
-            goto end;
-
-        if (attributes.override_redirect)
-            goto end;
-
-        ///!!! is this correct ?
-        if (!mapClient && attributes.map_state == IsUnmapped)
-            goto end;
-
-        client = new YFrameClient(nullptr, nullptr, win,
-                                  attributes.depth,
-                                  attributes.visual,
-                                  attributes.colormap);
-        if (client == nullptr)
-            goto end;
-
-        if (client->isKdeTrayWindow()) {
-            if (taskBar) {
-                if (taskBar->windowTrayRequestDock(win)) {
-                    delete client;
-                    goto end;
+        if (XGetWindowAttributes(xapp->display(), win, &attributes) &&
+            attributes.override_redirect == false &&
+            (mapClient || attributes.map_state > IsUnmapped))
+        {
+            client = new YFrameClient(nullptr, nullptr, win,
+                                      attributes.depth,
+                                      attributes.visual,
+                                      attributes.colormap);
+            if (client && client->isKdeTrayWindow()) {
+                if (taskBar && taskBar->windowTrayRequestDock(win)) {
+                    delete client; client = nullptr;
                 }
             }
+            if (client && attributes.border_width)
+                client->setBorder(attributes.border_width);
         }
-
-        // temp workaro/und for flashblock problems
-        // reverted, causes problems with Qt5
-        if (client->isEmbed() && false) {
-            warn("app trying to map XEmbed window 0x%lX, ignoring", client->handle());
-            delete client;
-            goto end;
-        }
-
-        client->setBorder(attributes.border_width);
     }
+    return client;
+}
 
-    MSG(("initial geometry 1 (%d:%d %dx%d)",
-         client->x(), client->y(), client->width(), client->height()));
+YFrameWindow* YWindowManager::allocateFrame(YFrameClient* client) {
+    unsigned depth = (client->depth() == 32) ? 32 : xapp->depth();
+    bool sameDepth = (depth == xapp->depth());
+    Visual* visual = (sameDepth ? xapp->visual() : client->visual());
+    Colormap clmap = (sameDepth ? xapp->colormap() : client->colormap());
+    return new YFrameWindow(wmActionListener, depth, visual, clmap);
+}
 
-    cx = client->x();
-    cy = client->y();
-    cw = client->width();
-    ch = client->height();
+void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
+    bool canManualPlace = false;
+    bool doActivate = (mapClient && (isRunning() || client->visible()));
+    bool requestFocus = true;
 
-    if (client->visible() && wmState() == wmSTARTUP)
-        mapClient = true;
+    MSG(("manage client 0x%lX", client->handle()));
+    PRECONDITION(findFrame(client->handle()) == nullptr);
+
+    int cx = client->x();
+    int cy = client->y();
+    int cw = client->width();
+    int ch = client->height();
+    MSG(("initial geometry 1 (%d:%d %dx%d)", cx, cy, cw, ch));
 
     updateFullscreenLayerEnable(false);
 
-    {
-        unsigned depth = client->depth() == 32 ? 32 : xapp->depth();
-        bool sameDepth = (depth == xapp->depth());
-        Visual* visual = (sameDepth ? xapp->visual() : client->visual());
-        Colormap clmap = (sameDepth ? xapp->colormap() : client->colormap());
-        frame = new YFrameWindow(wmActionListener, depth, visual, clmap);
-    }
-
+    YFrameWindow* frame = allocateFrame(client);
     if (frame == nullptr) {
-        delete client;
-        goto end;
+        return;
     }
     MSG(("initial geometry 2 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
-
-    if (!mapClient) {
-        /// !!! fix (new internal state)
-        //frame->setState(WinStateHidden, WinStateHidden);
-        doActivate = false;
-    }
 
     frame->doManage(client, doActivate, requestFocus);
     MSG(("initial geometry 3 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
 
-    placeWindow(frame, cx, cy, cw, ch, (wmState() != wmSTARTUP), doActivate);
+    placeWindow(frame, cx, cy, cw, ch, isRunning(), doActivate);
 
     if ((limitSize || limitPosition) &&
-        (wmState() != wmSTARTUP) &&
+        isRunning() &&
         !frame->affectsWorkArea())
     {
         int posX(frame->x() + frame->borderXN()),
@@ -1642,7 +1614,7 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
 
 /// TODO #warning "cleanup the constrainSize code, there is some duplication"
             posHeight -= frame->titleYN();
-            frame->client()->constrainSize(posWidth, posHeight, 0);
+            client->constrainSize(posWidth, posHeight, 0);
             posHeight += frame->titleYN();
         }
 
@@ -1662,7 +1634,7 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
         frame->setNormalGeometryInner(posX, posY, posWidth, posHeight);
     }
 
-    if (wmState() == YWindowManager::wmRUNNING) {
+    if (isRunning()) {
         if (frame->frameOption(YFrameWindow::foAllWorkspaces))
             frame->setAllWorkspaces();
         if (frame->frameOption(YFrameWindow::foFullscreen))
@@ -1682,7 +1654,7 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
 
     frame->setManaged(true);
 
-    if (doActivate && manualPlacement && wmState() == wmRUNNING &&
+    if (doActivate && manualPlacement && isRunning() &&
         client != windowList &&
         client != taskBar &&
         !frame->owner() &&
@@ -1699,7 +1671,7 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
     frame->updateTaskBar();
     if (frame->affectsWorkArea())
         updateWorkArea();
-    if (wmState() == wmRUNNING) {
+    if (isRunning()) {
         if (doActivate) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
@@ -1713,9 +1685,6 @@ void YWindowManager::manageClient(Window win, bool mapClient) {
             fSwitchWindow->createdFrame(frame);
     }
     updateFullscreenLayerEnable(true);
-end:
-    ungrabServer();
-    unlockWorkArea();
 }
 
 void YWindowManager::mapClient(Window win) {
@@ -1727,8 +1696,21 @@ void YWindowManager::mapClient(Window win) {
         if (clickFocus || !strongPointerFocus)
             frame->activate(true);/// !!! is this ok
     }
-    else
-        manageClient(win, true);
+    else {
+        grabServer();
+        lockWorkArea();
+
+        YFrameClient* client = allocateClient(win, true);
+        if (client) {
+            manageClient(client, true);
+            if (client->getFrame() == nullptr) {
+                delete client;
+            }
+        }
+
+        ungrabServer();
+        unlockWorkArea();
+    }
 }
 
 void YWindowManager::unmanageClient(YFrameClient* client) {
@@ -1754,7 +1736,7 @@ void YWindowManager::destroyedClient(Window win) {
 }
 
 void YWindowManager::focusTopWindow() {
-    if (wmState() != wmRUNNING || focusLocked())
+    if (notRunning() || focusLocked())
         return ;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
@@ -1785,7 +1767,6 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
     YFrameWindow* frame;
     Window root, xwin = None;
     YWindow* ywin;
-    xsmart<char> title;
     int ignore;
     unsigned ignore2;
     if (XQueryPointer(xapp->display(), xapp->root(), &root, &xwin,
@@ -1793,9 +1774,8 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
         xwin != None &&
         (ywin = windowContext.find(xwin)) != nullptr &&
         !ywin->adopted() &&
-        ywin->fetchTitle(&title) &&
-        strcmp(title, "Frame") == 0 &&
-        (frame = (YFrameWindow *) ywin)->isManaged() &&
+        (frame = dynamic_cast<YFrameWindow *>(ywin)) != nullptr &&
+        frame->isManaged() &&
         frame->visibleOn(workspace) &&
         frame->avoidFocus() == false &&
         frame->client()->destroyed() == false &&
@@ -1885,9 +1865,7 @@ gotit:
 }
 
 void YWindowManager::focusLastWindow() {
-    if (wmState() != wmRUNNING)
-        return ;
-    if (focusLocked())
+    if (notRunning() || focusLocked())
         return;
     if (!clickFocus && strongPointerFocus) {
         XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
@@ -1895,9 +1873,7 @@ void YWindowManager::focusLastWindow() {
         return ;
     }
 
-/// TODO #warning "per workspace?"
     YFrameWindow *toFocus = getLastFocus(false);
-
     if (toFocus == nullptr || toFocus->client() == taskBar) {
         focusTopWindow();
     } else {
@@ -2741,9 +2717,7 @@ void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
 }
 
 void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
-    if (wmState() == wmSTARTUP || fWorkAreaUpdate ||
-        (showTaskBar && taskBar == nullptr))
-    {
+    if (isStartup() || fWorkAreaUpdate || (showTaskBar && taskBar == nullptr)) {
         return;
     }
 
