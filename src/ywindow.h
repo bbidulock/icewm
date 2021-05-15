@@ -65,7 +65,7 @@ public:
     bool getWindowAttributes(XWindowAttributes* attr);
     void beneath(YWindow* superior);
     void raiseTo(YWindow* inferior);
-    void setWindowFocus();
+    void setWindowFocus(Time timestamp = CurrentTime);
 
     bool fetchTitle(char** title);
     void setTitle(char const * title);
@@ -182,10 +182,11 @@ public:
         wsToolTip          = 1 << 7,
         wsBackingMapped    = 1 << 8,
         wsToolTipping      = 1 << 9,
+        wsTakeFocus        = 1 << 10,
     };
 
     virtual bool isFocusTraversable();
-    bool isFocused();
+    bool isFocused() const { return focused(); }
     void nextFocus();
     void prevFocus();
     bool changeFocus(bool next);

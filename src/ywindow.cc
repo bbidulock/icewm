@@ -195,8 +195,8 @@ Colormap YWindow::colormap() {
     return fColormap;
 }
 
-void YWindow::setWindowFocus() {
-    XSetInputFocus(xapp->display(), handle(), RevertToNone, CurrentTime);
+void YWindow::setWindowFocus(Time timestamp) {
+    XSetInputFocus(xapp->display(), handle(), RevertToNone, timestamp);
 }
 
 void YWindow::setTitle(char const * title) {
@@ -397,9 +397,11 @@ Window YWindow::create() {
     }
     fDepth = unsigned(wa.depth);
     fVisual = wa.visual;
-    if (parent() == desktop &&
-        !(flags & (wsManager | wsOverrideRedirect)))
-        XSetWMProtocols(xapp->display(), fHandle, &_XA_WM_DELETE_WINDOW, 1);
+    if (parent() == desktop && !(flags & (wsManager | wsOverrideRedirect))) {
+        Atom prot[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
+        const int n = 1 + hasbit(flags, wsTakeFocus);
+        XSetWMProtocols(xapp->display(), fHandle, prot, n);
+    }
 
     if ((flags & wfVisible) && !(flags & wfNullSize))
         XMapWindow(xapp->display(), fHandle);
@@ -1236,23 +1238,7 @@ bool YWindow::isFocusTraversable() {
     return false;
 }
 
-bool YWindow::isFocused() {
-    return (flags & wfFocused) != 0;
-#if 0
-    if (parent() == 0)
-        return true;
-    else if (isToplevel())
-        return (flags & wfFocused) != 0;
-    else
-        return (parent()->fFocusedWindow == this) && parent()->isFocused();
-#endif
-}
-
 void YWindow::requestFocus(bool requestUserFocus) {
-//    if (!toplevel())
-//        return ;
-
-//    setFocus(0);///!!! is this the right place?
     if (isToplevel()) {
         if (visible() && requestUserFocus)
             setWindowFocus();
