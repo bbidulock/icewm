@@ -966,7 +966,7 @@ void TaskPane::relayoutNow(bool force) {
         if (task->getShown()) {
             const int w1 = wid + (lc < rem);
             if (task != dragging()) {
-                task->setGeometry(YRect(x, 0, w1, height()));
+                task->setGeometry(YRect(x, 0, unsigned(w1), height()));
                 task->show();
             }
             x += w1;

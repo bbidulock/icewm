@@ -592,7 +592,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             fTasks->hide();
             fTasks->setGeometry(YRect(left[0],
                                       y[0],
-                                      max(0, right[0] - left[0]),
+                                      max(0U, unsigned(right[0] - left[0])),
                                       h[0]));
             fTasks->show();
             fTasks->relayout();
@@ -603,7 +603,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
         fAddressBar->setGeometry(YRect(left[row],
                                        y[row] + 2,
-                                       max(0, right[row] - left[row]),
+                                       max(0U, unsigned(right[row] - left[row])),
                                        h[row] - 4));
         fAddressBar->raise();
         if (::showAddressBar) {
@@ -693,7 +693,7 @@ void TaskBar::updateLocation() {
 
     int by = taskBarAtTop ? dy : dy + dh - 1;
 
-    fEdgeTrigger->setGeometry(YRect(x, by, w, 1));
+    fEdgeTrigger->setGeometry(YRect(x, by, w, 1U));
 
     int y = taskBarAtTop ? dy : dy + dh - h;
 
@@ -942,7 +942,7 @@ void TaskBar::popOut() {
 
 void TaskBar::showBar() {
     if (getFrame() == nullptr) {
-        manager->manageClient(handle());
+        manager->manageClient(handle(), false);
         updateWinLayer();
         if (getFrame()) {
             getFrame()->setAllWorkspaces();
