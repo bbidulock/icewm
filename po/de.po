@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-03-24 15:56+0000\n"
+"PO-Revision-Date: 2021-05-17 11:59+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6.2\n"
 "X-Language: de_DE\n"
 "X-Source-Language: C\n"
 
@@ -340,8 +340,9 @@ msgid "Ctrl+B"
 msgstr "Strg+B"
 
 #: src/icehelp.cc:1292
+#, fuzzy
 msgid "Reload"
-msgstr ""
+msgstr "Neu laden"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -363,7 +364,7 @@ msgstr "Icewm(1)"
 #, fuzzy
 #| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Strg+B"
+msgstr "Strg+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -385,7 +386,7 @@ msgstr "Handbuch"
 #, fuzzy
 #| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Strg+B"
+msgstr "Strg+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
@@ -665,7 +666,7 @@ msgstr ""
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
-msgstr "Unerwartetes Menü-Schlüsselwort: '%s'"
+msgstr "Unerwartet: '%s'"
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1473,7 +1474,8 @@ msgstr ""
 "  -t, --theme=DATEI   Theme aus DATEI laden.\n"
 "  -s, --spash=BILD           Kurz BILD beim Start anzeigen.\n"
 " -p,  --postpreferences    Einstellungen nach der ganzen Verarbeitung "
-"ausgeben.\n"
+"ausgeben..\n"
+"  --rewrite-preferences  Vorhandene Einstellungsdatei aktualisieren.\n"
 " --trace=conf,icon   Pfade zeichnen, die zum Laden der Konfiguration "
 "verwendet werden.\n"
 
@@ -1595,11 +1597,13 @@ msgid "Rollup"
 msgstr "Einrollen"
 
 #: src/wmclient.cc:363
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Client %s mitPID %ld antwortet nicht.\n"
+"Möchten Sie diesen Client beenden?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
