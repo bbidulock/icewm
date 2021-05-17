@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-03-24 12:56+0000\n"
+"PO-Revision-Date: 2021-05-17 11:59+0000\n"
 "Last-Translator: Davide Aiello <davide.aiello@novilingulists.com>\n"
-"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/it/>\n"
+"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -343,7 +343,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "Ricarica"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -362,10 +362,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -384,10 +382,8 @@ msgid "Manual"
 msgstr "Manuale"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
@@ -666,10 +662,9 @@ msgstr ""
 "variabile $DISPLAY deve essere impostata."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Parola chiave del menu imprevista: '%s'"
+msgstr "Imprevisto: `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1445,15 +1440,6 @@ msgstr ""
 "finestre.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1465,11 +1451,12 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -a, --alpha         Usa un oggetto visivo a 32 per la traslucenza.\n"
+"  -a, --alpha         Usa un oggetto visivo a 32 bit per la traslucenza.\n"
 "  -c, --config=FILE   Carica le preferenze da FILE.\n"
 "  -t, --theme=FILE    Carica il tema da FILE.\n"
 "  -s, --splash=IMAGE  Mostra brevemente IMAGE all'avvio.\n"
 "  -p, --postpreferences  Stampa le preferenze dopo l'elaborazione.\n"
+"  --rewrite-preferences  Aggiorna un file di preferenze esistente.\n"
 "  --trace=conf,icon   Traccia i percorsi utilizzati per caricare la "
 "configurazione.\n"
 
@@ -1593,6 +1580,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Il client %s con PID %ld non risponde.\n"
+"Terminare questo client?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
