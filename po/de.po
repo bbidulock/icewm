@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-05-17 11:59+0000\n"
+"PO-Revision-Date: 2021-05-17 14:59+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
@@ -340,7 +340,6 @@ msgid "Ctrl+B"
 msgstr "Strg+B"
 
 #: src/icehelp.cc:1292
-#, fuzzy
 msgid "Reload"
 msgstr "Neu laden"
 
@@ -361,8 +360,6 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
 msgstr "Strg+I"
 
@@ -383,8 +380,6 @@ msgid "Manual"
 msgstr "Handbuch"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
 msgstr "Strg+M"
 
@@ -663,10 +658,9 @@ msgstr ""
 "gesetzt sein."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Unerwartet: '%s'"
+msgstr "Unerwartet: '%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1448,15 +1442,6 @@ msgstr ""
 "stacking aus.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1468,15 +1453,14 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -a, --alpha          Verwendet einen 32Bit-Sichtkontakt zur "
-"Lichtdurchlässigkeit.\n"
-"  -c, --config=DATEI   Einstellungen aus DATEI laden.\n"
-"  -t, --theme=DATEI   Theme aus DATEI laden.\n"
-"  -s, --spash=BILD           Kurz BILD beim Start anzeigen.\n"
-" -p,  --postpreferences    Einstellungen nach der ganzen Verarbeitung "
-"ausgeben..\n"
+"  -a, --alpha  Verwendet einen 32Bit-Sichtkontakt zur Lichtdurchlässigkeit.\n"
+"  -c, --config=DATEI  Einstellungen aus DATEI laden.\n"
+"  -t, --theme=DATEI  Theme aus DATEI laden.\n"
+"  -s, --spash=BILD  Kurz BILD beim Start anzeigen.\n"
+" -p,  --postpreferences  Einstellungen nach der ganzen Verarbeitung ausgeben."
+"\n"
 "  --rewrite-preferences  Vorhandene Einstellungsdatei aktualisieren.\n"
-" --trace=conf,icon   Pfade zeichnen, die zum Laden der Konfiguration "
+" --trace=conf,icon  Pfade zeichnen, die zum Laden der Konfiguration "
 "verwendet werden.\n"
 
 #: src/wmapp.cc:1406
@@ -1597,7 +1581,7 @@ msgid "Rollup"
 msgstr "Einrollen"
 
 #: src/wmclient.cc:363
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
