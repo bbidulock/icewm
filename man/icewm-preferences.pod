@@ -669,6 +669,10 @@ Alternate Clock Time format (e.g., for blinking effects).
 
 Clock Date format for tooltip (strftime format string).
 
+=item B<DockApps>="right above"
+
+Support DockApps (right, left, above, below, or empty to disable).
+
 =item B<XRRPrimaryScreenName>=""
 
 Screen/output name of the primary screen.

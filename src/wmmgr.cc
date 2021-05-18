@@ -19,6 +19,7 @@
 #include "wmdialog.h"
 #include "wmsession.h"
 #include "wmprog.h"
+#include "wmdock.h"
 #include "wmapp.h"
 #include "prefs.h"
 #include "yprefs.h"
@@ -96,6 +97,7 @@ YWindowManager::YWindowManager(
     fLayeredUpdated = true;
     fDefaultKeyboard = 0;
     fSwitchWindow = nullptr;
+    fDockApp = nullptr;
 
     manager = this;
     desktop = this;
@@ -139,6 +141,7 @@ YWindowManager::~YWindowManager() {
     delete fTopWin;
     delete rootProxy;
     delete fSwitchWindow;
+    delete fDockApp;
 }
 
 void YWindowManager::setWmState(WMState newWmState) {
@@ -1098,17 +1101,19 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
 }
 
 void YWindowManager::manageClients() {
-    unsigned int clientCount;
+    unsigned clientCount = 0;
     Window winRoot, winParent;
     xsmart<Window> winClients;
 
     setWmState(wmSTARTUP);
     lockWorkArea();
     grabServer();
-    XQueryTree(xapp->display(), handle(),
-               &winRoot, &winParent, &winClients, &clientCount);
+    if (fDockApp == nullptr) {
+        fDockApp = new DockApp;
+    }
 
-    if (winClients)
+    if (XQueryTree(xapp->display(), handle(), &winRoot, &winParent,
+                   &winClients, &clientCount)) {
         for (unsigned i = 0; i < clientCount; i++) {
             if (findClient(winClients[i]) == nullptr) {
                 YFrameClient* client = allocateClient(winClients[i], false);
@@ -1120,6 +1125,7 @@ void YWindowManager::manageClients() {
                 }
             }
         }
+    }
 
     setWmState(wmRUNNING);
     ungrabServer();
@@ -1166,6 +1172,7 @@ void YWindowManager::unmanageClients() {
             }
         }
     }
+    delete fDockApp; fDockApp = nullptr;
 
     XSetInputFocus(xapp->display(), PointerRoot, RevertToNone, CurrentTime);
     notifyActive(nullptr);
@@ -1552,6 +1559,8 @@ YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
             }
             if (client && attributes.border_width)
                 client->setBorder(attributes.border_width);
+            if (client && fDockApp && fDockApp->dock(client))
+                client = nullptr;
         }
     }
     return client;
@@ -1720,6 +1729,9 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
         frame->unmanage();
         delete frame;
     }
+    else if (client->isDocked() && fDockApp) {
+        fDockApp->undock(client);
+    }
     delete client;
 }
 
@@ -1731,6 +1743,12 @@ void YWindowManager::destroyedClient(Window win) {
         delete frame;
     }
     else {
+        YFrameClient* client = findClient(win);
+        if (client && client->isDocked() && fDockApp) {
+            fDockApp->undock(client);
+            delete client;
+            return;
+        }
         MSG(("destroyed: unknown window: 0x%lX", win));
     }
 }
@@ -1989,11 +2007,17 @@ void YWindowManager::restackWindows() {
     else if (statusWorkspace && statusWorkspace->visible())
         w.append(statusWorkspace->handle());
 
+    if (fDockApp && fDockApp->above())
+        w.append(fDockApp->handle());
+
     int top = w.getCount();
 
     for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
         w.append(f->handle());
     }
+
+    if (fDockApp && fDockApp->below())
+        w.append(fDockApp->handle());
 
     if (quickSwitchRaiseCandidate && switchWindowVisible()) {
         YFrameWindow* active = fSwitchWindow->current();
@@ -2009,6 +2033,20 @@ void YWindowManager::restackWindows() {
 
         if (taskBar)
             taskBar->workspacesRepaint();
+    }
+}
+
+void YWindowManager::getWorkArea(int *mx, int *my, int *Mx, int *My) {
+    int s = max(0, min(xineramaPrimaryScreen, getScreenCount() - 1));
+    if (fWorkArea && 0 < fWorkAreaWorkspaceCount) {
+        *mx = fWorkArea[0][s].fMinX;
+        *my = fWorkArea[0][s].fMinY;
+        *Mx = fWorkArea[0][s].fMaxX;
+        *My = fWorkArea[0][s].fMaxY;
+    } else {
+        unsigned dw, dh;
+        getScreenGeometry(mx, my, &dw, &dh, s);
+        *Mx = dw; *My = dh;
     }
 }
 
@@ -2372,6 +2410,9 @@ void YWindowManager::workAreaUpdated() {
                 frame->getMiniIcon()->show();
             }
         }
+    }
+    if (fDockApp) {
+        fDockApp->adapt();
     }
 }
 

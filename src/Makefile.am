@@ -317,6 +317,8 @@ icewm_SOURCES = \
 	wmclient.cc \
 	MwmUtil.h \
 	wmclient.h \
+	wmdock.cc \
+	wmdock.h \
 	wmmgr.cc \
 	wmmgr.h \
 	workspaces.h \

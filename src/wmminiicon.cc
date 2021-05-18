@@ -44,7 +44,8 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
         minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
 
     if (fIconWindow) {
-        Window root, parent, *child;
+        Window root, parent;
+        xsmart<Window> child;
         unsigned border, depth, count;
         if (XGetGeometry(xapp->display(), fIconWindow, &root,
                          &fIconGeometry.xx, &fIconGeometry.yy,

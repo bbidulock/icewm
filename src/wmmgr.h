@@ -16,6 +16,7 @@ class YFrameClient;
 class YFrameWindow;
 class YSMListener;
 class SwitchWindow;
+class DockApp;
 class IApp;
 
 class EdgeSwitch: public YWindow, public YTimerListener {
@@ -108,6 +109,7 @@ public:
     void removeClientFrame(YFrameWindow *frame);
 
     void updateScreenSize(XEvent *event);
+    void getWorkArea(int *mx, int *my, int *Mx, int *My);
     void getWorkArea(const YFrameWindow *frame, int *mx, int *my, int *Mx, int *My, int xiscreen = -1);
     void getWorkAreaSize(YFrameWindow *frame, int *Mw,int *Mh);
 
@@ -356,6 +358,7 @@ private:
     int fDefaultKeyboard;
     SwitchWindow* fSwitchWindow;
     lazy<YTimer> fSwitchDownTimer;
+    DockApp* fDockApp;
 };
 
 extern YWindowManager *manager;

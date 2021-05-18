@@ -218,6 +218,7 @@ XSV(const char *, netDevice,                    "[ew]*"
 #endif
    )
 XSV(const char *, addressBarCommand,            0)
+XSV(const char *, dockApps,                     "right above")
 #ifdef CONFIG_I18N
 XSV(const char *, fmtTime,                      "%X")
 XSV(const char *, fmtTimeAlt,                   NULL)
@@ -454,6 +455,7 @@ cfoption icewm_preferences[] = {
     OSV("TimeFormat",                           &fmtTime,                       "Clock Time format (strftime format string)"),
     OSV("TimeFormatAlt",                        &fmtTimeAlt,                    "Alternate Clock Time format for blinking effects"),
     OSV("DateFormat",                           &fmtDate,                       "Clock Date format for tooltip (strftime format string)"),
+    OSV("DockApps",                             &dockApps,                       "Support DockApps (right, left, above, below, or empty to disable)"),
     OSV("XRRPrimaryScreenName",                 &xineramaPrimaryScreenName,     "screen/output name of the primary screen"),
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
 

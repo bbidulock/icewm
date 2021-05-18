@@ -226,6 +226,11 @@ public:
     Pixmap iconPixmapHint() const;
     Pixmap iconMaskHint() const;
     bool urgencyHint() const { return wmHint(XUrgencyHint); }
+    bool isDockApp() const;
+    bool isDockAppIcon() const;
+    bool isDockAppWindow() const;
+    bool isDocked() const { return fDocked; }
+    void setDocked(bool docked) { fDocked = docked; }
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
@@ -323,6 +328,7 @@ private:
     ClassHint fClassHint;
     XWMHints *fHints;
     Colormap fColormap;
+    bool fDocked;
     bool fShaped;
     bool fTimedOut;
     bool fPinging;
