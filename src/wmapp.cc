@@ -597,8 +597,12 @@ void YWMApp::runRestart(const char *path, char *const *args) {
 
     xapp->alert();
 
-    die(13, _("Could not restart: %s\nDoes $PATH lead to %s?"),
-         strerror(errno), path ? path : ICEWMEXE);
+    if (manager && desktop && desktop->getEventMask()) {
+        XSelectInput(xapp->display(), desktop->handle(), desktop->getEventMask());
+    } else {
+        die(13, _("Could not restart: %s\nDoes $PATH lead to %s?"),
+             strerror(errno), path ? path : ICEWMEXE);
+    }
 }
 
 void YWMApp::restartClient(const char *cpath, char *const *cargs) {
