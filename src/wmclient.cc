@@ -348,11 +348,16 @@ bool YFrameClient::handleTimer(YTimer* timer) {
         fPingTimer = null;
         fPinging = false;
         fTimedOut = true;
-        if (fPid == 0 && !getNetWMPid(&fPid) && fFrame->owner()) {
+        if (fPid == 0 && !getNetWMPid(&fPid) && fFrame && fFrame->owner()) {
             fFrame->owner()->client()->getNetWMPid(&fPid);
         }
         if ( !destroyed()) {
-            if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
+            if (fFrame == nullptr) {
+                if (isDocked() && killPid() == false) {
+                    XKillClient(xapp->display(), handle());
+                }
+            }
+            else if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
                 if (killPid() == false) {
                     fFrame->wmKill();
                 }

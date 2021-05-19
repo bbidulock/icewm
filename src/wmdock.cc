@@ -2,6 +2,8 @@
 #include "wmdock.h"
 #include "wmclient.h"
 #include "wmmgr.h"
+#include "ymenu.h"
+#include "ymenuitem.h"
 #include "yxapp.h"
 #include "yxcontext.h"
 #include <X11/Xatom.h>
@@ -12,10 +14,11 @@ DockApp::DockApp():
             DefaultVisual(xapp->display(), DefaultScreen(xapp->display())),
             DefaultColormap(xapp->display(), DefaultScreen(xapp->display()))),
     saveset(None),
-    isRight(false),
-    isLeft(false),
-    isAbove(false),
-    isBelow(false)
+    intern(None),
+    center(0),
+    layered(WinLayerInvalid),
+    direction(1),
+    isRight(true)
 {
     setStyle(wsOverrideRedirect | wsNoExpose);
 }
@@ -34,27 +37,38 @@ DockApp::~DockApp() {
 
 bool DockApp::setup() {
     extern const char* dockApps;
-    mstring config(mstring(dockApps).trim());
+    mstring config(mstring(dockApps).trim().lower());
     if (config.isEmpty()) {
         return false;
     }
-    else {
-        for (mstring s(config), r; s.splitall(' ', &s, &r); s = r) {
-            if (s == "right") {
-                isRight = true; isLeft = false;
-            } else if (s == "left") {
-                isLeft = true; isRight = false;
-            } else if (s == "above") {
-                isAbove = true; isBelow = false;
-            } else if (s == "below") {
-                isBelow = true; isAbove = false;
-            }
-        }
-        if (isRight + isLeft == 0)
+
+    for (mstring s(config), r; s.splitall(' ', &s, &r); s = r) {
+        if (s == "right") {
             isRight = true;
-        if (isAbove + isBelow == 0)
-            isAbove = true;
+        } else if (s == "left") {
+            isRight = false;
+        } else if (s == "above") {
+            layered = WinLayerAboveDock;
+        } else if (s == "dock") {
+            layered = WinLayerDock;
+        } else if (s == "ontop") {
+            layered = WinLayerOnTop;
+        } else if (s == "normal") {
+            layered = WinLayerNormal;
+        } else if (s == "below") {
+            layered = WinLayerBelow;
+        } else if (s == "desktop") {
+            layered = WinLayerDesktop;
+        } else if (s == "center") {
+            center = 0;
+        } else if (s == "down") {
+            center = 1;
+        } else if (s == "high") {
+            center = -1;
+        }
     }
+    if (layered == WinLayerInvalid)
+        layered = WinLayerDesktop;
 
     extern const char* clrNormalButton;
     YColor bg(clrNormalButton);
@@ -64,6 +78,16 @@ bool DockApp::setup() {
     XChangeProperty(xapp->display(), handle(), XA_WM_CLASS, XA_STRING, 8,
                     PropModeReplace, wmClassName, sizeof(wmClassName));
     return true;
+}
+
+void DockApp::grabit() {
+    XGrabButton(xapp->display(), AnyButton, ControlMask,
+                handle(), False, ButtonPressMask | ButtonReleaseMask,
+                GrabModeSync, GrabModeAsync, None, None);
+}
+
+void DockApp::ungrab() {
+    XUngrabButton(xapp->display(), AnyButton, ControlMask, handle());
 }
 
 Window DockApp::savewin() {
@@ -76,6 +100,20 @@ Window DockApp::savewin() {
         XStoreName(xapp->display(), saveset, "IceSave");
     }
     return saveset;
+}
+
+bool DockApp::isChild(Window window) {
+    Window rp;
+    unsigned count = 0;
+    xsmart<Window> child;
+    if (XQueryTree(xapp->display(), handle(), &rp, &rp, &child, &count)) {
+        for (unsigned i = 0; i < count; ++i) {
+            if (window == child[i]) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool DockApp::dock(YFrameClient* client) {
@@ -109,42 +147,41 @@ bool DockApp::dock(YFrameClient* client) {
         else if (created() == false && setup() == false) {
             icon = None;
         }
+    }
+    if (icon) {
+        XAddToSaveSet(xapp->display(), icon);
+        XReparentWindow(xapp->display(), icon, handle(),
+                        0, height() + 64);
+        if (isChild(icon)) {
+            XMapWindow(xapp->display(), icon);
+            if (icon != client->handle()) {
+                XAddToSaveSet(xapp->display(), client->handle());
+                XReparentWindow(xapp->display(), client->handle(),
+                                savewin(), 0, 0);
+            }
+            docks += docking(icon, client);
+            client->setDocked(true);
+            direction = +1;
+            retime();
+        }
         else {
-            XAddToSaveSet(xapp->display(), icon);
-            XReparentWindow(xapp->display(), icon, handle(),
-                            0, 64 * docks.getCount());
-
-            bool found = false;
-            Window parent;
-            unsigned count = 0;
-            xsmart<Window> child;
-            if (XQueryTree(xapp->display(), handle(), &root, &parent,
-                           &child, &count) == True) {
-                for (unsigned i = 0; i < count; ++i) {
-                    if (icon == child[i]) {
-                        found = true;
-                        break;
-                    }
-                }
-            }
-            if (found) {
-                XMapWindow(xapp->display(), icon);
-                if (icon != client->handle()) {
-                    XAddToSaveSet(xapp->display(), client->handle());
-                    XReparentWindow(xapp->display(), client->handle(),
-                                    savewin(), 0, 0);
-                }
-                docks += docking(icon, client);
-                client->setDocked(true);
-                adapt();
-            }
-            else {
-                XRemoveFromSaveSet(xapp->display(), icon);
-                icon = None;
-            }
+            XRemoveFromSaveSet(xapp->display(), icon);
+            icon = None;
         }
     }
     return bool(icon);
+}
+
+bool DockApp::handleTimer(YTimer* t) {
+    bool restart = false;
+    if (t == timer) {
+        if (manager->isRunning()) {
+            adapt();
+        } else {
+            restart = true;
+        }
+    }
+    return restart;
 }
 
 void DockApp::adapt() {
@@ -155,10 +192,13 @@ void DockApp::adapt() {
         int cols = (docks.getCount() + (rows - 1)) / rows;
         rows = (docks.getCount() + (cols - 1)) / cols;
         int xpos = isRight ? Mx - cols * 64 : 0;
-        int ypos = my + (My - my - rows * 64) / 2;
+        int ypos = (center == -1) ? 0
+                 : (center == +1) ? (My - rows * 64)
+                 : my + (My - my - rows * 64) / 2;
         setGeometry(YRect(xpos, ypos, cols * 64, rows * 64));
-        for (int i = 0; i < docks.getCount(); i++) {
-            int x = 64 * (i / rows);
+        for (int k = 0; k < docks.getCount(); k++) {
+            int i = (direction < 0) ? (docks.getCount() - 1 - k) : k;
+            int x = 64 * (cols - 1 - i / rows);
             int y = 64 * (i % rows);
             if (docks[i].window == docks[i].client->handle()) {
                 x += (64 - min(64, int(docks[i].client->width()))) / 2;
@@ -167,6 +207,21 @@ void DockApp::adapt() {
             XMoveWindow(xapp->display(), docks[i].window, x, y);
             XMapWindow(xapp->display(), docks[i].window);
         }
+#ifdef CONFIG_SHAPE_RR
+        if (false && shapes.supported) {
+            const int count = docks.getCount();
+            XRectangle rect[count];
+            for (int i = 0; i < count; ++i) {
+                rect[i].x = 64 * (cols - 1 - i / rows);
+                rect[i].y = 64 * (i % rows);
+                rect[i].width = 64;
+                rect[i].height = 64;
+            }
+            XShapeCombineRectangles(xapp->display(), handle(),
+                                    ShapeBounding, 0, 0, rect,
+                                    count, ShapeSet, Unsorted);
+        }
+#endif
 #ifdef CONFIG_SHAPE_MM
         if (false && shapes.supported) {
             XRectangle full;
@@ -185,9 +240,40 @@ void DockApp::adapt() {
             }
         }
 #endif
-        show();
-    } else {
+        if (visible() == false) {
+            show();
+            grabit();
+        }
+        proper();
+        checks();
+    }
+    else if (visible()) {
+        ungrab();
         hide();
+        proper();
+    }
+    if (timer)
+        timer = null;
+}
+
+void DockApp::checks() {
+}
+
+void DockApp::proper() {
+    if (intern == None) {
+        intern = xapp->atom("_ICEWM_DOCKAPPS");
+    }
+    if (intern) {
+        const int count = docks.getCount();
+        if (count) {
+            Atom atoms[count];
+            for (int i = 0; i < count; ++i) {
+                atoms[i] = Atom(docks[i].client->handle());
+            }
+            desktop->setProperty(intern, XA_WINDOW, atoms, count);
+        } else {
+            desktop->deleteProperty(intern);
+        }
     }
 }
 
@@ -216,10 +302,114 @@ bool DockApp::undock(YFrameClient* client) {
     for (int i = docks.getCount(); --i >= 0; ) {
         if (docks[i].client == client) {
             undock(i);
-            adapt();
+            direction = +1;
+            retime();
             return true;
         }
     }
     return false;
+}
+
+void DockApp::revoke(int k, bool kill) {
+    if (inrange(k, 0, docks.getCount() - 1)) {
+        docking dock(docks[k]);
+        XUnmapWindow(xapp->display(), dock.window);
+        if (kill || !dock.client->protocol(YFrameClient::wpDeleteWindow)) {
+            XDestroyWindow(xapp->display(), dock.client->handle());
+            if (dock.window != dock.client->handle())
+                XDestroyWindow(xapp->display(), dock.window);
+        } else {
+            dock.client->sendPing();
+            dock.client->sendDelete();
+        }
+        docks.remove(k);
+        retime();
+    }
+}
+
+void DockApp::actionPerformed(YAction action, unsigned modifiers) {
+    revoke(action.ident() - 1, false);
+}
+
+void DockApp::handlePopDown(YPopupWindow* popup) {
+    if (menu == popup)
+        menu = null;
+    if (docks.nonempty())
+        grabit();
+}
+
+void DockApp::handleButton(const XButtonEvent& button) {
+    if (hasbit(button.state, ControlMask)) {
+        XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
+    }
+    YWindow::handleButton(button);
+}
+
+void DockApp::handleClick(const XButtonEvent& button, int count) {
+    int click = int(button.button) * int(hasbit(button.state, ControlMask));
+    if (click == Button2 && count == 1) {
+        int k = 0;
+        for (docking dock : docks) {
+            if (dock.window == button.subwindow) {
+                revoke(k, hasbit(button.state, ShiftMask));
+                return;
+            }
+            ++k;
+        }
+    }
+    if (click == Button3 && count == 1) {
+        menu = null;
+        int rows = height() / 64;
+        // int cols = width() / 64;
+        int k = 0, select = -1, separators = 0;
+        for (docking dock : docks) {
+            const char* name = dock.client->classHint()->res_name;
+            xsmart<char> copy;
+            if (isEmpty(name)) {
+                dock.client->fetchTitle(&copy);
+                name = copy;
+            }
+            mstring number;
+            if (isEmpty(name)) {
+                number = mstring(k);
+                name = number.c_str();
+            }
+            menu->addItem(name, -1, null, YAction(EAction(k + 1)))
+                ->setChecked(true);
+            if (dock.window == button.subwindow) {
+                select = k + separators;
+            }
+            if (++k % rows == 0 && k < docks.getCount()) {
+                menu->addSeparator();
+                ++separators;
+            }
+        }
+        menu->setActionListener(this);
+        menu->popup(nullptr, nullptr, this,
+                    button.x_root, button.y_root,
+                    YPopupWindow::pfCanFlipVertical |
+                    YPopupWindow::pfCanFlipHorizontal);
+        if (select >= 0) {
+            menu->focusItem(select);
+        }
+    }
+    if (click == Button4) {
+        if (docks.getCount() > 1) {
+            docking dock(docks[0]);
+            docks.remove(0);
+            docks += dock;
+            direction = +1;
+            retime();
+        }
+    }
+    if (click == Button5) {
+        if (docks.getCount() > 1) {
+            docking dock(docks.last());
+            docks.pop();
+            docks.insert(0, dock);
+            direction = -1;
+            retime();
+        }
+    }
 }
 

@@ -2007,17 +2007,15 @@ void YWindowManager::restackWindows() {
     else if (statusWorkspace && statusWorkspace->visible())
         w.append(statusWorkspace->handle());
 
-    if (fDockApp && fDockApp->above())
-        w.append(fDockApp->handle());
-
     int top = w.getCount();
-
-    for (YFrameWindow* f = topLayer(); f; f = f->nextLayer()) {
-        w.append(f->handle());
+    int dockAppLayer = fDockApp && fDockApp->created()
+                     ? fDockApp->layer() : WinLayerInvalid;
+    for (int layer = WinLayerCount - 1; layer >= 0; --layer) {
+        if (layer == dockAppLayer)
+            w.append(fDockApp->handle());
+        for (YFrameWindow* f = fLayers[layer].front(); f; f = f->next())
+            w.append(f->handle());
     }
-
-    if (fDockApp && fDockApp->below())
-        w.append(fDockApp->handle());
 
     if (quickSwitchRaiseCandidate && switchWindowVisible()) {
         YFrameWindow* active = fSwitchWindow->current();
@@ -2404,15 +2402,15 @@ void YWindowManager::resizeWindows() {
 }
 
 void YWindowManager::workAreaUpdated() {
-    if (wmState() == wmRUNNING && (taskBar || !showTaskBar)) {
+    if (isRunning() && (taskBar || !showTaskBar)) {
         for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
             if (frame->isIconic()) {
                 frame->getMiniIcon()->show();
             }
         }
-    }
-    if (fDockApp) {
-        fDockApp->adapt();
+        if (fDockApp && fDockApp->visible()) {
+            fDockApp->adapt();
+        }
     }
 }
 

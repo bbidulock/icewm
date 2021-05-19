@@ -59,6 +59,7 @@ public:
     YMenuItem *lastItem() const;
     YMenuItem *getItem(int n) const { return fItems[n]; }
     void setItem(int n, YMenuItem *ref) { fItems[n] = ref; return; }
+    void focusItem(int item);
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
@@ -112,7 +113,6 @@ private:
     int findItem(int x, int y);
     int findActiveItem(int cur, int direction);
     int findHotItem(char k);
-    void focusItem(int item);
     void activateSubMenu(int item, bool byMouse);
 
     int activateItem(int modifiers, bool byMouse = false);
