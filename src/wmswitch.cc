@@ -25,6 +25,10 @@ struct ZItem {
         if (quickSwitchGroupWorkspaces) {
             int w1 = z1->frame->getWorkspace();
             int w2 = z2->frame->getWorkspace();
+            if (w1 == AllWorkspaces)
+                w1 = manager->activeWorkspace();
+            if (w2 == AllWorkspaces)
+                w2 = manager->activeWorkspace();
             if (w1 != w2) {
                 int active = manager->activeWorkspace();
                 if (w1 == active)
