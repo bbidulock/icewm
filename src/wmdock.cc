@@ -1,23 +1,31 @@
 #include "config.h"
 #include "wmdock.h"
 #include "wmclient.h"
+#include "wmframe.h"
 #include "wmmgr.h"
+#include "wmoption.h"
 #include "ymenu.h"
 #include "ymenuitem.h"
 #include "yxapp.h"
 #include "yxcontext.h"
 #include <X11/Xatom.h>
 
+const char DockApp::propertyName[] = "_ICEWM_DOCKAPPS";
+
 DockApp::DockApp():
     YWindow(nullptr, None,
-            DefaultDepth(xapp->display(), DefaultScreen(xapp->display())),
-            DefaultVisual(xapp->display(), DefaultScreen(xapp->display())),
-            DefaultColormap(xapp->display(), DefaultScreen(xapp->display()))),
+            DefaultDepth(xapp->display(), xapp->screen()),
+            DefaultVisual(xapp->display(), xapp->screen()),
+            DefaultColormap(xapp->display(), xapp->screen())),
+    dragged(nullptr),
     saveset(None),
     intern(None),
     center(0),
     layered(WinLayerInvalid),
     direction(1),
+    dragxpos(0),
+    dragypos(0),
+    restack(true),
     isRight(true)
 {
     setStyle(wsOverrideRedirect | wsNoExpose);
@@ -77,12 +85,21 @@ bool DockApp::setup() {
     unsigned char wmClassName[] = "icedock\0IceWM";
     XChangeProperty(xapp->display(), handle(), XA_WM_CLASS, XA_STRING, 8,
                     PropModeReplace, wmClassName, sizeof(wmClassName));
+    if (intern == None) {
+        intern = xapp->atom(propertyName);
+    }
+    if (intern) {
+        YProperty prop(desktop, intern, F32, 123L, XA_WINDOW, True);
+        for (Atom window : prop) {
+            recover += window;
+        }
+    }
     return true;
 }
 
 void DockApp::grabit() {
-    XGrabButton(xapp->display(), AnyButton, ControlMask,
-                handle(), False, ButtonPressMask | ButtonReleaseMask,
+    XGrabButton(xapp->display(), AnyButton, ControlMask, handle(), False,
+                ButtonPressMask | ButtonReleaseMask | Button1MotionMask,
                 GrabModeSync, GrabModeAsync, None, None);
 }
 
@@ -159,7 +176,30 @@ bool DockApp::dock(YFrameClient* client) {
                 XReparentWindow(xapp->display(), client->handle(),
                                 savewin(), 0, 0);
             }
-            docks += docking(icon, client);
+
+            bool closing = false;
+            int order = ordering(client, &closing);
+            if (closing) {
+                client->setDocked(true);
+                int k = docks.getCount();
+                docks += docking(icon, client, order);
+                revoke(k, false);
+                return true;
+            }
+
+            int found = find(recover, client->handle());
+            int k = docks.getCount();
+            while (k > 0 &&
+                   (order < docks[k-1].order ||
+                    (order == docks[k-1].order &&
+                     found >= 0 &&
+                     !inrange(find(recover, docks[k-1].client->handle()),
+                              0, found))))
+            {
+                k--;
+            }
+            docks.insert(k, docking(icon, client, order));
+
             client->setDocked(true);
             direction = +1;
             retime();
@@ -170,6 +210,42 @@ bool DockApp::dock(YFrameClient* client) {
         }
     }
     return bool(icon);
+}
+
+int DockApp::ordering(YFrameClient* client, bool* startClose) {
+    char* name = client->classHint()->res_name;
+    if (nonempty(name)) {
+        char* base = const_cast<char*>(my_basename(name));
+        if (nonempty(base) && base != name) {
+            char* copy = strdup(base);
+            if (copy) {
+                XFree(name);
+                name = copy;
+                client->classHint()->res_name = copy;
+            }
+        }
+    }
+
+    xsmart<char> copy;
+    if (isEmpty(name)) {
+        client->fetchTitle(&copy);
+        name = copy;
+    }
+
+    int order = 0;
+    if (nonempty(name)) {
+        WindowOption opt(name);
+        if (hintOptions)
+            hintOptions->mergeWindowOption(opt, name, true);
+        if (defOptions)
+            defOptions->mergeWindowOption(opt, name, false);
+        order = opt.order;
+        *startClose = hasbit(opt.option_mask, YFrameWindow::foClose)
+                       && hasbit(opt.options, YFrameWindow::foClose);
+    } else {
+        *startClose = false;
+    }
+    return order;
 }
 
 bool DockApp::handleTimer(YTimer* t) {
@@ -243,9 +319,12 @@ void DockApp::adapt() {
         if (visible() == false) {
             show();
             grabit();
+            if (restack) {
+                restack = false;
+                manager->restackWindows();
+            }
         }
         proper();
-        checks();
     }
     else if (visible()) {
         ungrab();
@@ -256,12 +335,9 @@ void DockApp::adapt() {
         timer = null;
 }
 
-void DockApp::checks() {
-}
-
 void DockApp::proper() {
     if (intern == None) {
-        intern = xapp->atom("_ICEWM_DOCKAPPS");
+        intern = xapp->atom(propertyName);
     }
     if (intern) {
         const int count = docks.getCount();
@@ -293,6 +369,9 @@ void DockApp::undock(int index) {
                             xapp->root(), 0, 0);
             XRemoveFromSaveSet(xapp->display(), dock.client->handle());
             XMapWindow(xapp->display(), dock.client->handle());
+        }
+        if (dragged == dock.client) {
+            dragged = nullptr;
         }
     }
     docks.remove(index);
@@ -410,6 +489,82 @@ void DockApp::handleClick(const XButtonEvent& button, int count) {
             direction = -1;
             retime();
         }
+    }
+}
+
+bool DockApp::handleBeginDrag(const XButtonEvent& down, const XMotionEvent& move) {
+    dragged = nullptr;
+    if (down.button == Button1 && hasbit(down.state, ControlMask)) {
+        if (down.subwindow && move.subwindow &&
+            down.subwindow == move.subwindow)
+        {
+            for (const docking& dock : docks) {
+                if (dock.window == down.subwindow) {
+                    XWindowAttributes attr;
+                    if (XGetWindowAttributes(xapp->display(),
+                                             dock.window, &attr))
+                    {
+                        dragged = dock.client;
+                        dragxpos = attr.x;
+                        dragypos = attr.y;
+                        XRaiseWindow(xapp->display(), dock.window);
+                        handleDrag(down, move);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return dragged;
+}
+
+void DockApp::handleDrag(const XButtonEvent& down, const XMotionEvent& move) {
+    if (dragged) {
+        for (const docking& dock : docks) {
+            if (dock.client == dragged) {
+                int x = dragxpos + (move.x_root - down.x_root);
+                int y = dragypos + (move.y_root - down.y_root);
+                XMoveWindow(xapp->display(), dock.window, x, y);
+                break;
+            }
+        }
+    }
+}
+
+void DockApp::handleEndDrag(const XButtonEvent& down, const XButtonEvent& up) {
+    if (dragged) {
+        XWindowAttributes attr = {};
+        int x = dragxpos + (up.x_root - down.x_root);
+        int y = dragypos + (up.y_root - down.y_root);
+        int d = -1;
+        int a = -1;
+        for (int i = 0; i < docks.getCount(); ++i) {
+            if (docks[i].client == dragged) {
+                d = i;
+            }
+            else if (a == -1
+                && XGetWindowAttributes(xapp->display(),
+                                        docks[i].window, &attr)
+                && attr.x / 64 == (x + 32) / 64
+                && attr.y / 64 == (y + 32) / 64) {
+                a = i;
+            }
+        }
+        if (d >= 0 && a >= 0) {
+            XMoveWindow(xapp->display(), docks[d].window,
+                        (attr.x / 64) * 64 + dragxpos % 64,
+                        (attr.y / 64) * 64 + dragypos % 64);
+            docking copy(docks[d]);
+            docks.remove(d);
+            docks.insert(a, copy);
+            proper();
+            retime();
+        }
+        else if (d >= 0) {
+            XMoveWindow(xapp->display(), docks[d].window,
+                        dragxpos, dragypos);
+        }
+        dragged = nullptr;
     }
 }
 

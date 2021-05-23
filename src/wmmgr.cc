@@ -1604,6 +1604,11 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
     frame->doManage(client, doActivate, requestFocus);
     MSG(("initial geometry 3 (%d:%d %dx%d)",
          client->x(), client->y(), client->width(), client->height()));
+    if (frame->client() == nullptr) {
+        client->setFrame(nullptr);
+        delete frame;
+        return;
+    }
 
     placeWindow(frame, cx, cy, cw, ch, isRunning(), doActivate);
 
@@ -1733,7 +1738,7 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
         frame->unmanage();
         delete frame;
     }
-    else if (client->isDocked() && fDockApp) {
+    if (client->isDocked() && fDockApp) {
         fDockApp->undock(client);
     }
     delete client;

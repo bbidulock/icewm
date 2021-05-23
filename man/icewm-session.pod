@@ -84,6 +84,22 @@ Print copying permissions and exit.
 
 =back
 
+=head2 DEBUGGING OPTIONS
+
+=over
+
+=item B<-v>, B<---valgrind>
+
+Let C</usr/bin/valgrind> run icewm.
+Thoroughly examines the execution of icewm.
+
+=item B<-g>, B<---catchsegv>
+
+Let C</usr/bin/catchsegv> run icewm.
+Gives a backtrace if icewm segfaults.
+
+=back
+
 =head1 USAGE
 
 On startup icewm-session executes the following steps.

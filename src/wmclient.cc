@@ -1051,6 +1051,18 @@ void YFrameClient::actionPerformed(YAction action) {
     if (getFrame()) {
         getFrame()->actionPerformed(action, 0U);
     }
+    else if (isDocked()) {
+        if (action == actionClose) {
+            Window icon = iconWindowHint();
+            sendDelete();
+            XDestroyWindow(xapp->display(), handle());
+            if (icon != handle()) {
+                XDestroyWindow(xapp->display(), icon);
+            }
+            setDestroyed();
+            xapp->sync();
+        }
+    }
 }
 
 void YFrameClient::getNameHint() {

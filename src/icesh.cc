@@ -179,6 +179,7 @@ static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_WIN_PROTOCOLS(XA_WIN_PROTOCOLS);
 static NAtom ATOM_GUI_EVENT(XA_GUI_EVENT_NAME);
 static NAtom ATOM_ICE_ACTION("_ICEWM_ACTION");
+static NAtom ATOM_ICE_DOCKAPPS("_ICEWM_DOCKAPPS");
 static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
 static NAtom ATOM_MOTIF_HINTS(_XA_MOTIF_WM_HINTS);
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
@@ -1301,6 +1302,7 @@ private:
     bool listXembed();
     void listXembed(Window w);
     void queryXembed(Window w);
+    void queryDockapps();
     bool listClients();
     bool listWindows();
     bool listScreens();
@@ -1819,6 +1821,14 @@ void IceSh::queryXembed(Window parent)
             this->windowList.append(window);
         }
         queryXembed(window);
+    }
+}
+
+void IceSh::queryDockapps()
+{
+    YProperty info(root, ATOM_ICE_DOCKAPPS, XA_WINDOW, 123);
+    for (int i = 0; i < info.count(); ++i) {
+        windowList.append(info[i]);
     }
 }
 
@@ -3427,6 +3437,13 @@ void IceSh::flag(char* arg)
         windowList.release();
         queryXembed(root);
         MSG(("xembed windows selected"));
+        selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "-Dockapps", "")) {
+        windowList.release();
+        queryDockapps();
+        MSG(("dockapps windows selected"));
         selecting = true;
         return;
     }

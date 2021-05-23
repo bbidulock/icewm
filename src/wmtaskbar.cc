@@ -139,7 +139,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
 {
     taskBar = this;
 
-    addStyle(wsNoExpose);
+    addStyle(wsDesktopAware | wsTakeFocus | wsNoExpose);
     setWinHintsHint(WinHintsSkipFocus |
                     WinHintsSkipWindowMenu |
                     WinHintsSkipTaskBar);

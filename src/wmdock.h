@@ -32,6 +32,9 @@ private:
     void handleButton(const XButtonEvent& button) override;
     void handleClick(const XButtonEvent& button, int count) override;
     void actionPerformed(YAction action, unsigned modifiers) override;
+    bool handleBeginDrag(const XButtonEvent& down, const XMotionEvent& move) override;
+    void handleDrag(const XButtonEvent& down, const XMotionEvent& move) override;
+    void handleEndDrag(const XButtonEvent& down, const XButtonEvent& up) override;
     void handlePopDown(YPopupWindow *popup) override;
     bool handleTimer(YTimer* timer) override;
     lazy<YTimer> timer;
@@ -40,13 +43,18 @@ private:
     struct docking {
         Window window;
         YFrameClient* client;
-        docking(Window w, YFrameClient* c) : window(w), client(c) { }
+        int order;
+        docking(Window w, YFrameClient* c, int o) :
+            window(w), client(c), order(o) { }
     };
     YArray<docking> docks;
+    YArray<Window> recover;
+    YFrameClient* dragged;
+
     void undock(int index);
+    int ordering(YFrameClient* client, bool* startClose);
     bool isChild(Window window);
     bool setup();
-    void checks();
     void grabit();
     void ungrab();
     void proper();
@@ -59,7 +67,12 @@ private:
     int center;
     int layered;
     int direction;
+    int dragxpos;
+    int dragypos;
+    bool restack;
     bool isRight;
+
+    static const char propertyName[];
 };
 
 #endif

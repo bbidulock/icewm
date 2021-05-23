@@ -116,6 +116,10 @@ with the override redirect bit set to evade management.
 
 Selects all windows which are embedded using the I<XEMBED> protocol.
 
+=item B<-D>, B<-Dockapps>
+
+Selects all Dockapp applications which are managed by icewm.
+
 =back
 
 =head2 FILTER OPTIONS

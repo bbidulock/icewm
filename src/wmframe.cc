@@ -146,26 +146,28 @@ YFrameWindow::~YFrameWindow() {
     // perhaps should be done another way
     removeTransients();
     removeAsTransient();
-    manager->lockWorkArea();
-    manager->removeFocusFrame(this);
-    manager->removeCreatedFrame(this);
-    removeFrame();
-    manager->removeClientFrame(this);
-    if (client()) {
-        if (!client()->destroyed() && client()->adopted())
-            XRemoveFromSaveSet(xapp->display(), client()->handle());
-        frameContext.remove(client()->handle());
-    }
-    if (fUserTimeWindow != None) {
-        windowContext.remove(fUserTimeWindow);
-    }
+    if (fContainer) {
+        manager->lockWorkArea();
+        manager->removeFocusFrame(this);
+        manager->removeCreatedFrame(this);
+        removeFrame();
+        manager->removeClientFrame(this);
+        if (client()) {
+            if (!client()->destroyed() && client()->adopted())
+                XRemoveFromSaveSet(xapp->display(), client()->handle());
+            frameContext.remove(client()->handle());
+        }
+        if (fUserTimeWindow != None) {
+            windowContext.remove(fUserTimeWindow);
+        }
 
-    delete fClient; fClient = nullptr;
-    delete fContainer; fContainer = nullptr;
-    delete fTitleBar; fTitleBar = nullptr;
+        delete fClient; fClient = nullptr;
+        delete fContainer; fContainer = nullptr;
+        delete fTitleBar; fTitleBar = nullptr;
 
-    manager->unlockWorkArea();
-    manager->updateClientList();
+        manager->unlockWorkArea();
+        manager->updateClientList();
+    }
 
     if (taskBar) {
         taskBar->workspacesRepaint();
