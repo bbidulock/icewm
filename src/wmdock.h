@@ -52,7 +52,7 @@ private:
     YFrameClient* dragged;
 
     void undock(int index);
-    int ordering(YFrameClient* client, bool* startClose);
+    int ordering(YFrameClient* client, bool* startClose, bool* forced);
     bool isChild(Window window);
     bool setup();
     void grabit();

@@ -177,13 +177,13 @@ bool DockApp::dock(YFrameClient* client) {
                                 savewin(), 0, 0);
             }
 
-            bool closing = false;
-            int order = ordering(client, &closing);
+            bool closing = false, forcing = false;
+            int order = ordering(client, &closing, &forcing);
             if (closing) {
                 client->setDocked(true);
                 int k = docks.getCount();
                 docks += docking(icon, client, order);
-                revoke(k, false);
+                revoke(k, forcing);
                 return true;
             }
 
@@ -212,7 +212,7 @@ bool DockApp::dock(YFrameClient* client) {
     return bool(icon);
 }
 
-int DockApp::ordering(YFrameClient* client, bool* startClose) {
+int DockApp::ordering(YFrameClient* client, bool* startClose, bool* forced) {
     char* name = client->classHint()->res_name;
     if (nonempty(name)) {
         char* base = const_cast<char*>(my_basename(name));
@@ -242,6 +242,8 @@ int DockApp::ordering(YFrameClient* client, bool* startClose) {
         order = opt.order;
         *startClose = hasbit(opt.option_mask, YFrameWindow::foClose)
                        && hasbit(opt.options, YFrameWindow::foClose);
+        *forced = hasbit(opt.option_mask, YFrameWindow::foForcedClose)
+                   && hasbit(opt.options, YFrameWindow::foForcedClose);
     } else {
         *startClose = false;
     }
