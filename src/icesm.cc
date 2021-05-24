@@ -368,6 +368,7 @@ public:
         else {
             static const char valgrind[] = "/usr/bin/valgrind";
             static const char catchsegv[] = "/usr/bin/catchsegv";
+            bool notify = true;
             const int size = 24;
             const char* args[size];
             int count = 0;
@@ -376,9 +377,12 @@ public:
             }
             else if (catchArg && access(catchsegv, X_OK) == 0) {
                 args[count++] = catchsegv;
+                notify = false;
             }
             args[count++] = icewmExe;
-            args[count++] = "--notify";
+            if (notify && startup_phase == 0) {
+                args[count++] = "--notify";
+            }
             args[count] = nullptr;
             appendOptions(args, count, size);
             char* copy = nullptr;
@@ -401,6 +405,12 @@ public:
             wm_pid = runProgram(args[0], args);
             if (copy) {
                 free(copy);
+            }
+            if (wm_pid > 0 && notify == false && startup_phase == 0) {
+                fsleep(1.0);
+                if (kill(wm_pid, 0) == 0) {
+                    notified();
+                }
             }
         }
     }
