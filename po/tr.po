@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2018-08-03 22:07+0000\n"
-"Last-Translator: Ad Soyad <kalemlik100@yandex.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/tr/>\n"
+"PO-Revision-Date: 2021-05-28 23:59+0000\n"
+"Last-Translator: Agah Emir <agahemir986@gmail.com>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.18\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -37,20 +37,20 @@ msgstr "C"
 
 #: src/aapm.cc:446
 msgid " - Full"
-msgstr " Tam"
+msgstr " - Dolu"
 
 #: src/aapm.cc:990
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "güç:\t%s"
 
 #: src/aclock.cc:179
 msgid "CLOCK"
-msgstr ""
+msgstr "SAAT"
 
 #: src/aclock.cc:185
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: src/aclock.cc:186 src/themes.cc:80
 msgid "Default"
@@ -66,9 +66,9 @@ msgid "_UTC"
 msgstr "_UTC"
 
 #: src/acpustatus.cc:295
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU Yükü: %3.2f %3.2f %3.2f, %u süreç."
+msgstr "CPU %s Yükü: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:301
 #, c-format
@@ -76,6 +76,8 @@ msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Bellek (dolu): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:306
 #, c-format
@@ -83,6 +85,8 @@ msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
+"\n"
+"Takas (boş): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:312
 #, c-format
@@ -90,6 +94,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Sıcaklığı: "
 
 #: src/acpustatus.cc:331 src/acpustatus.cc:371
 #, c-format
@@ -97,14 +103,16 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Frekansı: %.3fGHz"
 
 #: src/acpustatus.cc:348 src/acpustatus.cc:655
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 #: src/acpustatus.cc:348
 msgid "Load: "
-msgstr ""
+msgstr "Yükte: "
 
 #: src/acpustatus.cc:363
 #, c-format
@@ -112,25 +120,28 @@ msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Ram (kullanıcı): %5.3f (%.3f) G"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:429
 msgid "°C"
-msgstr ""
+msgstr "Santigrat Sıcaklık"
 
 #: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:662
 msgid "_Combine"
-msgstr ""
+msgstr "Birleştir"
 
 #: src/acpustatus.cc:664
+#, fuzzy
 msgid "_Separate"
-msgstr ""
+msgstr "_Ayır"
 
 #: src/amailbox.cc:62
 #, c-format
@@ -145,32 +156,32 @@ msgstr "Hatalı posta kutusu yolu: «%s»"
 #: src/amailbox.cc:133
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "DNS adı araması başarısız oldu %s"
 
 #: src/amailbox.cc:149
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Hatalı posta kutusu yolu: «%s»"
+msgstr "Geçersiz posta kutusu bağlantı noktası: \"%s\""
 
 #: src/amailbox.cc:307
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "YIFF sunucusuna bağlanılamıyor: %s"
+msgstr "Bağlanılamadı %s: %s"
 
 #: src/amailbox.cc:325
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "%s çalıştırılamadı: %s"
+msgstr "%skomutu bulunamadı."
 
 #: src/amailbox.cc:353 src/yapp.cc:417
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "%s açılamadı: %s"
+msgstr "%s Açılamadı"
 
 #: src/amailbox.cc:437
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Sokete yazma başarısız oldu: %s"
 
 #: src/amailbox.cc:683
 #, c-format
@@ -179,21 +190,21 @@ msgstr "Kullanılan Posta Kutusu, «%s»\n"
 
 #: src/amailbox.cc:790
 msgid "Suspended"
-msgstr ""
+msgstr "Askıya Alındı"
 
 #: src/amailbox.cc:794
 msgid "Error checking mailbox."
-msgstr "Posta kutusu okunurken hata oluştu."
+msgstr "Posta kutusu denetlenirken hata oluştu."
 
 #: src/amailbox.cc:801
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld posta mesajı."
+msgstr "%ld posta mesajı, %ld okunmamış."
 
 #: src/amailbox.cc:802
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld posta mesajı."
+msgstr "%ld posta mesajı, %ld okunmadı."
 
 #: src/amailbox.cc:808
 #, c-format
@@ -207,58 +218,58 @@ msgstr "%ld posta mesajı."
 
 #: src/amailbox.cc:950
 msgid "MAIL"
-msgstr ""
+msgstr "POSTA"
 
 #: src/amailbox.cc:952
 msgid "_Check"
-msgstr ""
+msgstr "_Kontrol"
 
 #: src/amailbox.cc:954
 msgid "_Suspend"
-msgstr ""
+msgstr "_Askıya Al"
 
 #: src/amemstatus.cc:144
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:148
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: src/amemstatus.cc:152
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:156
 msgid "bytes"
-msgstr ""
+msgstr "baytlar"
 
 #: src/amemstatus.cc:176
 msgid "Memory Total: "
-msgstr ""
+msgstr "Toplam Bellek: "
 
 #: src/amemstatus.cc:177
 msgid "Free: "
-msgstr ""
+msgstr "Boş: "
 
 #: src/amemstatus.cc:178
 msgid "Cached: "
-msgstr ""
+msgstr "Önbelleğe alınmış: "
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
-msgstr ""
+msgstr "Tamponlar: "
 
 #: src/amemstatus.cc:180
 msgid "User: "
-msgstr ""
+msgstr "Kullanıcı: "
 
 #: src/amemstatus.cc:262
 msgid "MEM"
-msgstr ""
+msgstr "MEM"
 
 #: src/apppstatus.cc:268
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Interface %s:\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
@@ -266,27 +277,25 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-" Arabirim %s:\n"
-"  Etkin hız (gelen/giden):\t%li %s/%li %s\n"
-"  Etkin ortalama (gelen/giden):\t%lli %s/%lli %s\n"
-"  Aktarılan (gelen/giden):\t%lli %s/%lli %s\n"
-"  Bağlı kalınan süre:\t%ld:%02ld:%02ld%s%s"
+"Arabirim %s:\n"
+" Etkin hız (gelen/giden):\t%li %s/%li %s\n"
+" Etkin ortalama (gelen/giden):\t%lli %s/%lli %s\n"
+" Aktarılan (gelen/giden):\t%lli %s/%lli %s\n"
+" Bağlı kalınan süre:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "simge adı bekleniyor"
+msgstr "bağlantı kesildi"
 
 #: src/apppstatus.cc:284
 #, fuzzy
 #| msgid "Rolldown"
 msgid "down"
-msgstr "Aşağı sar"
+msgstr "aşağı"
 
 #: src/apppstatus.cc:705
 msgid "NET"
-msgstr ""
+msgstr "NET"
 
 #: src/aworkspaces.cc:602 src/wmstatus.cc:207
 msgid "Workspace: "
@@ -322,21 +331,19 @@ msgstr "İçindekiler"
 
 #: src/icehelp.cc:1287
 msgid "Index"
-msgstr "Indeks"
+msgstr "İndeks"
 
 #: src/icehelp.cc:1290
 msgid "Open in Browser"
-msgstr ""
+msgstr "Tarayıcıda aç"
 
 #: src/icehelp.cc:1290
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "Yeniden yükle"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -352,52 +359,48 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1298
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1302
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1304
 msgid "FAQ"
-msgstr ""
+msgstr "SSS"
 
 #: src/icehelp.cc:1306
 msgid "Manual"
-msgstr ""
+msgstr "Kılavuz"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
-msgstr ""
+msgstr "Destek"
 
 #: src/icehelp.cc:1310
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Tema Yazarı:"
+msgstr "Tema Nasıl Yapılır"
 
 #: src/icehelp.cc:1310 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
 #: src/icehelp.cc:1312
+#, fuzzy
 msgid "Website"
-msgstr ""
+msgstr "Web Adresi"
 
 #: src/icehelp.cc:1312 src/iceview.cc:57
 msgid "Ctrl+W"
@@ -405,7 +408,7 @@ msgstr "Ctrl+W"
 
 #: src/icehelp.cc:1314
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1318 src/yinputline.cc:19
 msgid "Ctrl+X"
@@ -416,22 +419,21 @@ msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
 #: src/icehelp.cc:2077
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Desteklenmeyen arabirim: %s."
+msgstr "Desteklenmeyen arabirim."
 
 #: src/icehelp.cc:2156
-#, c-format
+#, c-format, fuzzy
 msgid "Invalid path: %s\n"
 msgstr "Hatalı yol: %s\n"
 
 #: src/icehelp.cc:2180
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Yol bir dosyaya işaret etmiyor."
 
 #: src/icehelp.cc:2185
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Dosya okunmak için açılırken başarısız oldu."
 
 #: src/icehelp.cc:2214
 #, fuzzy
@@ -441,23 +443,23 @@ msgstr "Anonim boru yaratılmadı: %s"
 #: src/icehelp.cc:2307
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Sistem yürütülemedi (%s) (%d)"
 
 #: src/icehelp.cc:2330
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "%s açılamadı: %s"
+msgstr "Açılması başarısız oldu %s"
 
 #: src/icehelp.cc:2338
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "PATH yolundaki curl veya wget bulunamadı"
 
 #: src/icehelp.cc:2342
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "URL'de olası dışı karakterler"
 
 #: src/icehelp.cc:2379
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
@@ -493,6 +495,41 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
+"Kullanım:%s [optıons] [FILENAME | URL]\n"
+"\n"
+"IceHelp, IceWM pencere yöneticisi için çok basit bir HTML tarayıcısıdır.\n"
+"Dosyadan bir HTML belgesi görüntüleyebilir veya bir web sitesine göz "
+"atabilir.\n"
+"Gezinilebilir bir geçmişte ziyaret edilen sayfaları hatırlar\n"
+"tuş bağlamaları ve bağlam menüsü (sağ fare tıklaması) ile.\n"
+"Ne görüntülerin oluşturulmasını ne de JavaScript'i desteklemez.\n"
+"Dosya veya URL verilmemişse, IceWM Kılavuzunu görüntüleyecektir.\n"
+"%s'den.\n"
+"\n"
+"Seçenekler:\n"
+"  -d, --display = Kullanılacak X sunucusunun ADI.\n"
+"  --sync X11 komutlarını senkronize et.\n"
+"\n"
+"  -B IceWM icewmbg kılavuz sayfasını görüntüleyin.\n"
+"  -b, --bugs IceWM hata raporlarını görüntüler (ilkel olarak).\n"
+"  -f, --faq IceWM SSS ve Nasıl Yapılır'ı görüntüleyin.\n"
+"  -g IceWM Github web sitesini görüntüleyin.\n"
+"  -i, --icewm IceWM icewm kılavuz sayfasını görüntüleyin.\n"
+"  -m, --manual IceWM Kılavuzunu görüntüleyin (varsayılan).\n"
+"  -s IceWM buz sesi kılavuz sayfasını görüntüler.\n"
+"  -t, --theme IceWM temalarını görüntüleyin Nasıl Yapılır.\n"
+"  -w, --website IceWM web sitesini görüntüleyin.\n"
+"\n"
+"  -V, --version Sürüm bilgilerini yazdırır ve çıkar.\n"
+"  -h, --help Bu kullanım ekranını yazdırır ve çıkar.\n"
+"\n"
+"Ortam Değişkenleri:\n"
+"  DISPLAY = NAME Kullanılacak X sunucusunun adı.\n"
+"\n"
+"Hataları, destek isteklerini, yorumları bildirmek için lütfen şu adresi "
+"ziyaret edin:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2469
 #, fuzzy, c-format
@@ -513,7 +550,7 @@ msgstr "Aç"
 
 #: src/icesame.cc:57
 msgid "Undo"
-msgstr "Gerial"
+msgstr "Geri al"
 
 #: src/icesame.cc:57
 msgid "Ctrl+Z"
@@ -532,22 +569,23 @@ msgid "Restart"
 msgstr "Yeniden Başlat"
 
 #: src/icesame.cc:65
+#, fuzzy
 msgid "Same Game"
-msgstr "Same Game"
+msgstr "Benzer Oyun"
 
 #: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "Yardım için lütfen icesh(1) man sayfasına bakın.\n"
 
 #: src/icesh.cc:1506
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Domain'in adlandırılmış sembolleri  «%s» (numerik aralık %ld-%ld):\n"
+msgstr "Alan adının isimlendirilmiş sembolleri`%s' (numerik aralık: %ld-%ld):\n"
 
 #: src/icesh.cc:1564
-#, fuzzy, c-format
+#, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Çalışma alanı limit dışında: %d"
+msgstr "Çalışma alanı limit dışında: %ld"
 
 #: src/icesh.cc:1585
 #, c-format
@@ -598,7 +636,7 @@ msgstr "Hatalı argüman: «%s»."
 #: src/icesh.cc:3109
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "0x%lx penceresinin geometrisi alınamıyor"
 
 #: src/icesh.cc:3134
 #, fuzzy, c-format
@@ -635,7 +673,7 @@ msgstr "Beklenmeyen anahtar kelime: %s"
 
 #: src/icesh.cc:3360
 msgid "No windows found."
-msgstr ""
+msgstr "Pencere bulunamadı."
 
 #: src/icesh.cc:3375
 msgid "No actions specified."
@@ -701,20 +739,19 @@ msgid "Unknown option '%s'"
 msgstr "Bilinmeyen işlem: «%s»"
 
 #: src/icesm.cc:452 src/icesm.cc:612
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Yeniden Başlat"
+msgstr "Yeniden başlat %s."
 
 #: src/icesm.cc:458
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s durumundan %d durumuyla çıkıldı."
 
 #: src/icesm.cc:464 src/icesm.cc:618
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s sinyali %d tarafından sonlandırıldı."
 
 #: src/icesm.cc:503
 msgid ""
@@ -735,29 +772,29 @@ msgstr "IceWM tray seçeneği"
 #: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
 msgid "Playing sample #%d (%s)"
-msgstr "Örnek çalınıyor,  #%d (%s)"
+msgstr "Örnek çalınıyor#%d (%s)"
 
 #: src/icesound.cc:329
-#, c-format
+#, c-format, fuzzy
 msgid "%s: Invalid number of channels"
-msgstr ""
+msgstr "%s: Geçersiz kanal sayısı"
 
 #: src/icesound.cc:335 src/icesound.cc:340
 msgid "Could not set OSS channels"
-msgstr ""
+msgstr "OSS kanalları ayarlanamadı"
 
 #: src/icesound.cc:345 src/icesound.cc:373
 msgid "Could not sync OSS"
-msgstr ""
+msgstr "OSS eşitlenemedi"
 
 #: src/icesound.cc:357
 msgid "OSS write failed"
-msgstr ""
+msgstr "OSS yazması başarısız"
 
 #: src/icesound.cc:361
-#, c-format
+#, c-format, fuzzy
 msgid "OSS incomplete write (%d/%d)"
-msgstr ""
+msgstr "OSS tamamlanmamış yazma (%d/%d)"
 
 #: src/icesound.cc:368
 #, fuzzy
@@ -770,25 +807,26 @@ msgid "Could not open OSS device %s"
 msgstr "%s pixel haritası bulunamadı"
 
 #: src/icesound.cc:402
+#, fuzzy
 msgid "Could not set OSS stereo"
-msgstr ""
+msgstr "OSS stereo ayarlanamadı"
 
 #: src/icesound.cc:407
 msgid "Could not reset OSS DSP"
-msgstr ""
+msgstr "OSS DSP sıfırlanamadı"
 
 #: src/icesound.cc:412
 msgid "Could not set OSS format"
-msgstr ""
+msgstr "OSS biçimi ayarlanamadı"
 
 #: src/icesound.cc:499
-#, c-format
+#, c-format, fuzzy
 msgid "ao_open_live failed with %d"
-msgstr ""
+msgstr "ao_open_live başarısız oldu %d"
 
 #: src/icesound.cc:510
 msgid "ao_play failed"
-msgstr ""
+msgstr "ao_play başarısız oldu"
 
 #: src/icesound.cc:676
 #, c-format
@@ -801,7 +839,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Tanınamayan argüman: %s\n"
 
 #: src/icesound.cc:688
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -851,64 +889,81 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"Kullanım: %s [SEÇENEKLER]...\n"
+"Kullanım: %s [SEÇENEK]...\n"
 "\n"
-"IceWM'in kaldırdığı GUI olaylarında ses dosyaları çalar.\n"
+"IceWM tarafından oluşturulan GUI olaylarında ses dosyalarını oynatır.\n"
+"Şu anda yapılandırılmış ses arabirimleri şunlardır: %s.\n"
+"Icesound bunlardan kullanışlı olanı seçecektir.\n"
 "\n"
 "Seçenekler:\n"
-"-d, --display=DISPLAY         Display used by IceWM (default: $DISPLAY).\n"
-"-s, --sample-dir=DIR          Specifies the directory which contains\n"
-"                              the sound files (ie ~/.icewm/sounds).\n"
-"-i, --interface=TARGET        Specifies the sound output target\n"
-"                              interface, one of OSS, YIFF, ESD, ALSA\n"
-"-D, --device=DEVICE           (ALSA & OSS only) specifies the device to use\n"
-"                              (OSS default: /dev/dsp; ALSA: default).\n"
-"-S, --server=ADDR:PORT        (ESD and YIFF) specifies server address and\n"
-"                              port number (default localhost:16001 for ESD\n"
-"                              and localhost:9433 for YIFF).\n"
-"-m, --audio-mode[=MODE]       (YIFF only) specifies the Audio mode (leave\n"
-"                              blank to get a list).\n"
-"--audio-mode-auto             (YIFF only) change Audio mode on the fly to\n"
-"                              best match sample's Audio (can cause\n"
-"                              problems with other Y clients, overrides\n"
-"                              --audio-mode).\n"
 "\n"
-"-v, --verbose                 Be verbose (prints out each sound event to\n"
-"                              stdout).\n"
-"-V, --version                 Prints version information and exits.\n"
-"-h, --help                    Prints (this) help screen and exits.\n"
+" -d, --display=DISPLAY  X11 IceWM tarafından kullanılan ekran (varsayılan: "
+"$DISPLAY).\n"
 "\n"
-"Return values:\n"
+" -s, --sample-dir=DIR Ses dosyalarının olduğu bir dizini belirtir.\n"
+" Varsayılan, $HOME/.config/icewm/sounds'tur.\n"
 "\n"
-"0     Success.\n"
-"1     General error.\n"
-"2     Command line error.\n"
-"3     Subsystems error (ie cannot connect to server).\n"
+" -i, --interface = LIST Ses çıkış arayüzlerini belirtir. Aşağıdakilerden "
+"biri veya daha fazlası:\n"
+" %s virgülle ayrılmış.\n"
+"\n"
+" -D, --device = DEVICE Yalnızca geriye dönük uyumluluk: varsayılan aygıt.\n"
+"Lütfen -A / -O / -S seçeneklerinden birini tercih edin.\n"
+"\n"
+" -O, --oss=DEVICE OSS cihazını belirtir (varsayılan: \"%s\").\n"
+"\n"
+" -A, --alsa = DEVICE ALSA aygıtını belirtir (varsayılan: \"%s\").\n"
+"\n"
+" -z, --snooze=milisecs Milisaniye cinsinden ses olayları arasındaki erteleme "
+"aralığını belirtir. Varsayılan 500 milisaniyedir.\n"
+"\n"
+" -p, --play =sound  Verilen sesi (ad veya numara) çalar ve çıkar.\n"
+"\n"
+" -l, --list-files Kullanılabilir ses dosyası yollarını ve çıkışları listeler."
+"\n"
+"\n"
+"     --list-sounds Desteklenen ses dosya adlarını ve çıkışları listeler.\n"
+"\n"
+"     --list-interfaces Desteklenen ses arabirimlerini ve çıkışlarını "
+"listeler.\n"
+"\n"
+" -v, --verbose Ayrıntılı olun ve her ses olayını yazdırın.\n"
+"\n"
+" -V, --version Sürüm bilgilerini yazdırır ve çıkar.\n"
+"\n"
+" -h, --help Yardım ekranını yazdırır ve çıkar.\n"
+"\n"
+"Dönüş değerleri:\n"
+"\n"
+" 0 Başarı. \n"
+" 1 Genel hata. \n"
+" 2 Komut satırı hatası. \n"
+" 3 Alt sistem hatası (sunucuya bağlanılamıyor gibi).\n"
 "\n"
 
 #: src/icesound.cc:779
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "%s için ses yok"
 
 #: src/icesound.cc:856
 msgid "Could not get GUI event property"
-msgstr ""
+msgstr "GUI olay özelliği alınamadı"
 
 #: src/icesound.cc:860
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Geçersiz GUI etkinliği alındı %d"
 
 #: src/icesound.cc:864
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "GUI etkinliği alındı %s"
 
 #: src/icesound.cc:878
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Çok hızlı; %s yok sayılıyor."
 
 #: src/icesound.cc:882
 #, c-format
@@ -923,17 +978,17 @@ msgstr "Desteklenmeyen arabirim: %s."
 #: src/icesound.cc:924
 #, c-format
 msgid "Using %s audio."
-msgstr ""
+msgstr "%s ses kullanılıyor."
 
 #: src/icesound.cc:928
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to connect to audio interfaces %s."
-msgstr "%s açılamadı: %s"
+msgstr "Ses arabirimlerine bağlanılamadı %s."
 
 #: src/icesound.cc:940
-#, fuzzy, c-format
+#, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Alınan sinyal %d: öldürülüyor..."
+msgstr "Alınan sinyal %s: Sonlandırılıyor..."
 
 #: src/icetray.cc:220
 msgid ""
@@ -962,12 +1017,11 @@ msgid "Wrap Lines"
 msgstr "Satırları Kaydır"
 
 #: src/icewmbg.cc:72
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load image '%s'."
-msgstr "%s açılamadı: %s"
+msgstr "Resim yüklenirken başarısız oldu '%s'."
 
 #: src/icewmbg.cc:913
-#, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1017,19 +1071,61 @@ msgid ""
 " center:0 scaled:1 = fill both dimensions and keep aspect ratio\n"
 "\n"
 msgstr ""
-"Kullanım: icewmbg\n"
-"Tercihler dosyasına göre masaüstü arkaplanını yükler\n"
-" DesktopBackgroundCenter  - Masaüstü arkaplanını yayılmış değil ortalanmış "
-"olarak görüntüler\n"
-" SupportSemitransparency  - Yarı saydam terminal desteği\n"
-" DesktopBackgroundColor   - Masaüstü arkaplan rengi\n"
-" DesktopBackgroundImage   - Masaüstü arkaplan resmi\n"
-" DesktopTransparencyColor - Yarı saydam pencereler için duyurulacak renk\n"
-" DesktopTransparencyImage - Yarı saydam pencereler için duyurulacak resim\n"
+"Kullanım: icewmbg [SEÇENEKLER]\n"
+"Birden fazla değerin verilebildiği yerlerde, bunlar virgülle ayrılır.\n"
+"Görüntü bir dizin olduğunda, o dizindeki tüm görüntüler kullanılır.\n"
+"\n"
+"Seçenekler:\n"
+" -p, --replace Mevcut bir icewmbg'yi değiştirin.\n"
+" -q, --quit Çalışan icewmbg'ye çıkmasını söyle.\n"
+" -r, --restart Çalışan icewmbg'ye kendisini yeniden başlatmasını söyleyin.\n"
+" -u, --shuffle Arka plan resimleri listesini karıştır/yeniden karıştır.\n"
+"\n"
+" -c, --config = DOSYA Tercihleri DOSYA'dan yükleyin.\n"
+" -t, --theme = NAME NAME adlı temayı yükleyin.\n"
+"\n"
+" -i, --image = DOSYA (S) DOSYA (S) 'dan arka plan resimleri yükleyin.\n"
+" -k, --color=NAME(S) NAME(S)'den arka plan renk(ler)ini kullanın.\n"
+"\n"
+" -s, --semis = DOSYA (S) Şeffaflık görüntülerini DOSYA (lar)'dan yükleyin.\n"
+" -x, --trans = NAME (S) NAME (S)'den şeffaf renk(ler) kullanın.\n"
+"\n"
+" -e, --center = 0/1 Merkezleme arka planını devre dışı bırakın/etkinleştirin."
+"\n"
+" -a, --scaled = 0/1 Ölçekleme arka planını devre dışı bırakın/etkinleştirin."
+"\n"
+" -m, --multi = 0/1 Çoklu arka planı devre dışı bırakın/etkinleştirin\n"
+" -y, --cycle=SECONDS Her SANİYE'de bir arka planlar arasında geçiş yapın.\n"
+"\n"
+" --display = NAME X sunucusuna bağlanmak için NAME kullanın.\n"
+" --sync X11 sunucusu ile iletişimi senkronize edin.\n"
+"\n"
+" -h, --help Bu kullanım ekranını yazdırın ve çıkın.\n"
+" -V, --version Sürüm bilgilerini yazdırır ve çıkar.\n"
+"\n"
+"Tercihler dosyasına göre masaüstü arka planını yükler:\n"
+"DesktopBackgroundCenter - Masaüstü arka planını ortalanmış olarak göster\n"
+"DesktopBackgroundScaled - Masaüstü arka planını ölçeklendirilmiş olarak "
+"görüntüle\n"
+"DesktopBackgroundColor - Masaüstü arka plan renkleri\n"
+"DesktopBackgroundImage - Masaüstü arka plan resimleri\n"
+"ShuffleBackgroundImages - Arka plan resimleri listesini karıştır\n"
+"DestekSemitransparency - Yarı saydam terminaller için destek\n"
+"DesktopTransparencyColor - Yarı saydamlık arka plan rengi/renkleri\n"
+"DesktopTransparencyImage - Yarı saydam arka plan resimleri\n"
+"DesktopBackgroundMultihead - Tüm monitörler üzerinde tek bir arka plan\n"
+"CycleBackgroundsPeriod - Arka plan üzerinde döngüler arasındaki saniye "
+"sayısı\n"
+"\n"
+"center:0 scaled:0 = döşenmiş\n"
+"center:1 scaled:0 = ortalanamış\n"
+"center:1 scaled:1 = bir boyutu doldur ve en boy oranını koru\n"
+"center:0 scaled:1 = her iki boyutu da doldur ve en boy oranını koru\n"
+"\n"
 
 #: src/icewmbg.cc:1118
 msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
+msgstr "Başlatılamıyor, çünkü başka bir icewmbg hala çalışıyor."
 
 #: src/icewmhint.cc:20
 #, fuzzy
@@ -1084,7 +1180,7 @@ msgstr ""
 
 #: src/wmabout.cc:52
 msgid "Language:"
-msgstr ""
+msgstr "Dil:"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
@@ -1095,8 +1191,9 @@ msgid "AlphaBlending"
 msgstr ""
 
 #: src/wmabout.cc:58
+#, fuzzy
 msgid "Renderer:"
-msgstr ""
+msgstr "Resmedici:"
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
@@ -1114,11 +1211,11 @@ msgstr ""
 
 #: src/wmapp.cc:102
 msgid "Waiting to replace the old window manager"
-msgstr ""
+msgstr "Eski pencere yöneticisinin değiştirilmesi bekleniyor"
 
 #: src/wmapp.cc:107
 msgid "done."
-msgstr ""
+msgstr "bitti."
 
 #: src/wmapp.cc:371
 msgid "_Logout"
@@ -1143,7 +1240,7 @@ msgstr "Bilgisa_yarı Kapat"
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
 #: src/wmapp.cc:383 src/wmdialog.cc:69
 msgid "_Sleep mode"
-msgstr ""
+msgstr "_Uyku modu"
 
 #: src/wmapp.cc:388
 msgid "Restart _Icewm"
@@ -1280,7 +1377,7 @@ msgstr ""
 
 #: src/wmapp.cc:762
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Uçbirim Olarak Yeniden Başlatmayı Onaylayın"
 
 #: src/wmapp.cc:763
 msgid ""
@@ -1379,14 +1476,14 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 #: src/wmapp.cc:1550
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Tanınmayan seçenek: %s\n"
+msgstr "%s yapılandırılmış seçenekler:%s\n"
 
 #: src/wmapp.cc:1631
-#, fuzzy, c-format
+#, c-format
 msgid "Unrecognized option '%s'."
-msgstr "Tanınmayan seçenek: %s\n"
+msgstr "Tanınmayan seçenek ' %s'."
 
 #: src/wmapp.cc:1677
 msgid "Confirm Logout"
@@ -1436,14 +1533,14 @@ msgid ""
 msgstr ""
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "%s açılamadı: %s"
+msgstr "Tema yüklenemedi %s"
 
 #: src/wmconfig.cc:113
 #, fuzzy, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Bilinmeyen işlem: «%s»"
+msgstr "\"%s\" seçeneği için bilinmeyen değer \"%s\"."
 
 #: src/wmconfig.cc:121
 #, fuzzy, c-format
@@ -1715,7 +1812,7 @@ msgstr "%s'te bilimeyen anahtar adı %s"
 #, fuzzy, c-format
 #| msgid "Bad argument: %s for %s"
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Kötü Argüman: %s için %s"
+msgstr "Kötü argüman: %s için %s [%d,%d]"
 
 #: src/ycursor.cc:112
 #, c-format
@@ -1765,7 +1862,7 @@ msgstr "«%s» font kümesi yüklenemedi."
 #: src/yfontcore.cc:128
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
-msgstr "«%s» font kümesi için code'setler eksik"
+msgstr "Yazı tipi kümesi için codeset'ler eksik«%s» :"
 
 #: src/yinputline.cc:18
 msgid "_Copy"
@@ -1839,9 +1936,9 @@ msgid "$USER or $LOGNAME not set?"
 msgstr "$USER ya da $LOGNAME ayarlanmamış?"
 
 #: src/yurl.cc:145
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "%s açılamadı: %s"
+msgstr "URL ayrıştırılamadı. \"%s\"."
 
 #: src/yurl.cc:161
 #, c-format
@@ -1862,42 +1959,42 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
 msgid "2DGraphics"
-msgstr ""
+msgstr "2D Grafikler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:45
 msgid "3DGraphics"
-msgstr ""
+msgstr "3D Grafikler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
 #: src/fdospecgen.h:47 src/fdospecgen.h:49
 msgid "Accessibility"
-msgstr ""
+msgstr "Ulaşılabilirlik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:51
 msgid "Accessories"
-msgstr ""
+msgstr "Donatılar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:53
 msgid "ActionGame"
-msgstr ""
+msgstr "Aksiyon Oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
 msgid "Adult"
-msgstr ""
+msgstr "Yetişkin"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
 msgid "AdventureGame"
-msgstr ""
+msgstr "Macera Oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:59
 msgid "Amusement"
-msgstr ""
+msgstr "Eğlence"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
@@ -1909,87 +2006,87 @@ msgstr "Same Game"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
 msgid "Archiving"
-msgstr ""
+msgstr "Arşivleme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:65
 msgid "Art"
-msgstr ""
+msgstr "Sanat"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:67
 msgid "ArtificialIntelligence"
-msgstr ""
+msgstr "Yapay Zeka"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:69
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:71
 msgid "Audio"
-msgstr ""
+msgstr "Ses"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:73
 msgid "AudioVideo"
-msgstr ""
+msgstr "SesVideo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:75
 msgid "AudioVideoEditing"
-msgstr ""
+msgstr "SesVideoDüzenleme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:77
 msgid "Biology"
-msgstr ""
+msgstr "Biyoloji"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:79
 msgid "BlocksGame"
-msgstr ""
+msgstr "Blok oyunları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:81
 msgid "BoardGame"
-msgstr ""
+msgstr "Tahta oyunları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:83
 msgid "Building"
-msgstr ""
+msgstr "İnşa"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:85
 msgid "Calculator"
-msgstr ""
+msgstr "Hesap makinesi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:87
 msgid "Calendar"
-msgstr ""
+msgstr "Takvim"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:89
 msgid "CardGame"
-msgstr ""
+msgstr "Kart oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:91
 msgid "Chart"
-msgstr ""
+msgstr "Grafik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:93
 msgid "Chat"
-msgstr ""
+msgstr "Sohbet"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:95
 msgid "Chemistry"
-msgstr ""
+msgstr "Kimya"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:97
@@ -1999,42 +2096,42 @@ msgstr "Saat"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
 #: src/fdospecgen.h:99
 msgid "Compression"
-msgstr ""
+msgstr "Sıkıştırma"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:101
 msgid "ComputerScience"
-msgstr ""
+msgstr "Bilgisayar bilimi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:103
 msgid "Construction"
-msgstr ""
+msgstr "İnşaat"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:105
 msgid "ContactManagement"
-msgstr ""
+msgstr "İletişim Yönetimi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:107
 msgid "Core"
-msgstr ""
+msgstr "Çekirdek"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:109
 msgid "DataVisualization"
-msgstr ""
+msgstr "Veri Görselleştirme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
 #: src/fdospecgen.h:111
 msgid "Database"
-msgstr ""
+msgstr "Veri tabanı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:113
 msgid "Debugger"
-msgstr ""
+msgstr "Hata ayıklayıcı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:115
@@ -2046,7 +2143,7 @@ msgstr "Ma_saüstü"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:117
 msgid "Development"
-msgstr ""
+msgstr "Geliştirme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:119
@@ -2056,82 +2153,83 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
 #: src/fdospecgen.h:121
 msgid "Dictionary"
-msgstr ""
+msgstr "Sözlük"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
 #: src/fdospecgen.h:123
 msgid "DiscBurning"
-msgstr ""
+msgstr "Disk Yazma"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:125
 msgid "Documentation"
-msgstr ""
+msgstr "Belgelendirme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:127
 msgid "Economy"
-msgstr ""
+msgstr "Ekonomi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:129
 msgid "Editors"
-msgstr ""
+msgstr "Editörler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:131
 msgid "Education"
-msgstr ""
+msgstr "Eğitim"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:133
 msgid "Electricity"
-msgstr ""
+msgstr "Elektrik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:135
 msgid "Electronics"
-msgstr ""
+msgstr "Elektronikler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
 #: src/fdospecgen.h:137
 msgid "Email"
-msgstr ""
+msgstr "E-posta"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
 #: src/fdospecgen.h:139
 msgid "Emulator"
-msgstr ""
+msgstr "Öykünücü"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:141
 msgid "Engineering"
-msgstr ""
+msgstr "Mühendislik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:143
+#, fuzzy
 msgid "Feed"
-msgstr ""
+msgstr "Akış"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
 #: src/fdospecgen.h:145
 msgid "FileManager"
-msgstr ""
+msgstr "Dosya Yöneticisi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
 #: src/fdospecgen.h:147
 msgid "FileTools"
-msgstr ""
+msgstr "Dosya Araçları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:149
 msgid "FileTransfer"
-msgstr ""
+msgstr "Dosya Transferi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
 #: src/fdospecgen.h:151
 msgid "Filesystem"
-msgstr ""
+msgstr "Dosya sistemi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:153
@@ -2143,12 +2241,12 @@ msgstr "İptal"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:155
 msgid "FlowChart"
-msgstr ""
+msgstr "Akış Grafiği"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:157
 msgid "GUIDesigner"
-msgstr ""
+msgstr "GUI Tasarımcısı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:159
@@ -2160,52 +2258,53 @@ msgstr "Same Game"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:161
 msgid "Geography"
-msgstr ""
+msgstr "Coğrafya"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:163
 msgid "Geology"
-msgstr ""
+msgstr "Jeoloji"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:165
 msgid "Geoscience"
-msgstr ""
+msgstr "Yerbilimi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:167
 msgid "Graphics"
-msgstr ""
+msgstr "Grafikler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
 #: src/fdospecgen.h:169
 msgid "HamRadio"
-msgstr ""
+msgstr "Amatör Radyo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:171
 msgid "HardwareSettings"
-msgstr ""
+msgstr "Donanım Ayarları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:173
 msgid "History"
-msgstr ""
+msgstr "Geçmiş"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:175
 msgid "Humanities"
-msgstr ""
+msgstr "Beşeri Bilimler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:177
+#, fuzzy
 msgid "IDE"
-msgstr ""
+msgstr "TGO"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:179
 msgid "IRCClient"
-msgstr ""
+msgstr "IRC İstemcisi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:181
@@ -2217,147 +2316,148 @@ msgstr "_Süreci Yoket"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:183
 msgid "InstantMessaging"
-msgstr ""
+msgstr "Anlık Mesajlaşma"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:185
 msgid "KidsGame"
-msgstr ""
+msgstr "Çocuk Oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:187
 msgid "Languages"
-msgstr ""
+msgstr "Diller"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:189
 msgid "Literature"
-msgstr ""
+msgstr "Edebiyat"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:191
 msgid "LogicGame"
-msgstr ""
+msgstr "Mantık Oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:193
 msgid "Maps"
-msgstr ""
+msgstr "Haritalar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:195
 msgid "Math"
-msgstr ""
+msgstr "Matematik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:197
 msgid "MedicalSoftware"
-msgstr ""
+msgstr "Tıbbi Yazılım"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:199
 msgid "Midi"
-msgstr ""
+msgstr "MIDI"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:201
 msgid "Mixer"
-msgstr ""
+msgstr "Karıştırıcı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
 #: src/fdospecgen.h:203
 msgid "Monitor"
-msgstr ""
+msgstr "Monitör"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:205
 msgid "Motif"
-msgstr ""
+msgstr "Motif"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:207
 msgid "Multimedia"
-msgstr ""
+msgstr "Multimedya"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
 #: src/fdospecgen.h:209
 msgid "Music"
-msgstr ""
+msgstr "Müzik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:211
 msgid "Network"
-msgstr ""
+msgstr "Ağ"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:213
 msgid "News"
-msgstr ""
+msgstr "Haberler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
 #: src/fdospecgen.h:215
 msgid "NumericalAnalysis"
-msgstr ""
+msgstr "Sayısal Analiz"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
 #: src/fdospecgen.h:217
 msgid "OCR"
-msgstr ""
+msgstr "OCR"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:219
 msgid "Office"
-msgstr ""
+msgstr "Ofis"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:221
 msgid "Other"
-msgstr ""
+msgstr "Diğer"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:223
+#, fuzzy
 msgid "P2P"
-msgstr ""
+msgstr "P2P"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:225
 msgid "PDA"
-msgstr ""
+msgstr "PDA"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:227
 msgid "PackageManager"
-msgstr ""
+msgstr "Paket Yöneticisi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
 #: src/fdospecgen.h:229
 msgid "ParallelComputing"
-msgstr ""
+msgstr "Paralel Hesaplama"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:231
 msgid "Photography"
-msgstr ""
+msgstr "Fotoğrafçılık"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:233
 msgid "Physics"
-msgstr ""
+msgstr "Fizik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:235
 msgid "Player"
-msgstr ""
+msgstr "Oynatıcı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:237
 msgid "Presentation"
-msgstr ""
+msgstr "Sunum"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
 #: src/fdospecgen.h:239
 msgid "Printing"
-msgstr ""
+msgstr "Yazdırma"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:241
@@ -2367,27 +2467,28 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
 #: src/fdospecgen.h:243
 msgid "ProjectManagement"
-msgstr ""
+msgstr "Proje Yönetimi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:245
 msgid "Publishing"
-msgstr ""
+msgstr "Yayıncılık"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:247
+#, fuzzy
 msgid "RasterGraphics"
-msgstr ""
+msgstr "Raster Grafikleri"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:249
 msgid "Recorder"
-msgstr ""
+msgstr "Kaydedici"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:251
 msgid "RemoteAccess"
-msgstr ""
+msgstr "Uzaktan Erişim"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:253
@@ -2397,72 +2498,74 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:255
 msgid "Robotics"
-msgstr ""
+msgstr "Robotik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:257
 msgid "RolePlaying"
-msgstr ""
+msgstr "Rol Yapma Oyunu"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:259
 msgid "Scanning"
-msgstr ""
+msgstr "Tarama"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:261
 msgid "Science"
-msgstr ""
+msgstr "Bilim"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:263
 msgid "Screensavers"
-msgstr ""
+msgstr "Ekran koruyucuları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
 #: src/fdospecgen.h:265
 msgid "Security"
-msgstr ""
+msgstr "Güvenlik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:267
+#, fuzzy
 msgid "Sequencer"
-msgstr ""
+msgstr "Sıralayıcı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:269
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:271
 msgid "Shooter"
-msgstr ""
+msgstr "Nişancı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:273
 msgid "Simulation"
-msgstr ""
+msgstr "Simulasyon"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:275
+#, fuzzy
 msgid "Spirituality"
-msgstr ""
+msgstr "Ruhanilik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:277
 msgid "Sports"
-msgstr ""
+msgstr "Spor Dalları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:279
 msgid "SportsGame"
-msgstr ""
+msgstr "Spor Oyunları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:281
 msgid "Spreadsheet"
-msgstr ""
+msgstr "Elektronik Tablo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:283
@@ -2474,92 +2577,94 @@ msgstr "Same Game"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:285
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
 #: src/fdospecgen.h:287
 msgid "TV"
-msgstr ""
+msgstr "Televizyon"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:289
+#, fuzzy
 msgid "Telephony"
-msgstr ""
+msgstr "Telefonculuk"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:291
 msgid "TelephonyTools"
-msgstr ""
+msgstr "Telefonculuk Araçları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
 #: src/fdospecgen.h:293
 msgid "TerminalEmulator"
-msgstr ""
+msgstr "Uçbirim Öykünücüsü"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:295
 msgid "TextEditor"
-msgstr ""
+msgstr "Metin Editörü"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:297
 msgid "TextTools"
-msgstr ""
+msgstr "Metin Araçları"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:299
 msgid "Translation"
-msgstr ""
+msgstr "Tercüme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:301
+#, fuzzy
 msgid "Tuner"
-msgstr ""
+msgstr "Akort"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:303
 msgid "Utility"
-msgstr ""
+msgstr "Yardımcı Yazılımlar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:305
 msgid "VectorGraphics"
-msgstr ""
+msgstr "Vektör Grafikler"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:307
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:309
 msgid "VideoConference"
-msgstr ""
+msgstr "Video Konferans"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:311
 msgid "Viewer"
-msgstr ""
+msgstr "Görüntüleyici"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:313
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:315
 msgid "WebBrowser"
-msgstr ""
+msgstr "İnternet Tarayıcısı"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
 #: src/fdospecgen.h:317
 msgid "WebDevelopment"
-msgstr ""
+msgstr "Web Geliştirme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
-msgstr ""
+msgstr "Kelime İşlemcisi"
 
 #~ msgid ""
 #~ "\n"
