@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-05-28 23:59+0000\n"
+"PO-Revision-Date: 2021-05-29 16:58+0000\n"
 "Last-Translator: Agah Emir <agahemir986@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/tr/>\n"
@@ -436,9 +436,8 @@ msgid "Failed to open file for reading."
 msgstr "Dosya okunmak için açılırken başarısız oldu."
 
 #: src/icehelp.cc:2214
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Anonim boru yaratılmadı: %s"
+msgstr "Geçici dosya oluşturulamadı"
 
 #: src/icehelp.cc:2307
 #, c-format
@@ -459,7 +458,7 @@ msgid "Unsafe characters in URL"
 msgstr "URL'de olası dışı karakterler"
 
 #: src/icehelp.cc:2379
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
 "\n"
@@ -495,46 +494,47 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"Kullanım:%s [optıons] [FILENAME | URL]\n"
+"Kullanım: %s [AYARLAR] [ DOSYA ADI| URL ]\n"
 "\n"
 "IceHelp, IceWM pencere yöneticisi için çok basit bir HTML tarayıcısıdır.\n"
 "Dosyadan bir HTML belgesi görüntüleyebilir veya bir web sitesine göz "
 "atabilir.\n"
-"Gezinilebilir bir geçmişte ziyaret edilen sayfaları hatırlar\n"
-"tuş bağlamaları ve bağlam menüsü (sağ fare tıklaması) ile.\n"
-"Ne görüntülerin oluşturulmasını ne de JavaScript'i desteklemez.\n"
-"Dosya veya URL verilmemişse, IceWM Kılavuzunu görüntüleyecektir.\n"
-"%s'den.\n"
+"Geçmişte ziyaret edilen sayfaları hatırlayabilir\n"
+"tuş bağlantıları ve bir bağlam menüsü ile (sağ fare tıklaması) ile "
+"hangilerinin gezilebilir olduğunu gösterebilir.\n"
+"Ne görüntülerin oluşturulmasını ne de JavaScript'i destekler.\n"
+"Dosya veya URL verilmezse IceWM kılavuzu görüntülenir\n"
+"%s öğesinden.\n"
 "\n"
 "Seçenekler:\n"
-"  -d, --display = Kullanılacak X sunucusunun ADI.\n"
-"  --sync X11 komutlarını senkronize et.\n"
+"  -d, --display=NAME Kullanılacak X sunucusunun adı.\n"
+"  --sync              X11 komutlarını eşitleyin.\n"
 "\n"
-"  -B IceWM icewmbg kılavuz sayfasını görüntüleyin.\n"
-"  -b, --bugs IceWM hata raporlarını görüntüler (ilkel olarak).\n"
-"  -f, --faq IceWM SSS ve Nasıl Yapılır'ı görüntüleyin.\n"
-"  -g IceWM Github web sitesini görüntüleyin.\n"
-"  -i, --icewm IceWM icewm kılavuz sayfasını görüntüleyin.\n"
-"  -m, --manual IceWM Kılavuzunu görüntüleyin (varsayılan).\n"
-"  -s IceWM buz sesi kılavuz sayfasını görüntüler.\n"
-"  -t, --theme IceWM temalarını görüntüleyin Nasıl Yapılır.\n"
-"  -w, --website IceWM web sitesini görüntüleyin.\n"
+"  -B                  IceWM icewmbg 'nin man sayfasını görüntüleyin.\n"
+"  -b, --bugs          IceWM hata raporlarını (temel olarak) görüntüleyin.\n"
+"  -f, --faq           IceWM'in SSS'ini ve Nasıl Yapılır'ını görüntüleyin.\n"
+"  -g                  IceWM Github web sitesini görüntüleyin.\n"
+"  -i, --icewm         IceWM'nin icewm man sayfasını görüntüleyin.\n"
+"  -m, --manual        IceWM'nin kılavuzunu görüntüleyin (varsayılan).\n"
+"  -s                  IceWM icesound man sayfasını görüntüleyin.\n"
+"  -t, --theme         IceWM temalarının nasıl yapıldığını gösterir.\n"
+"  -w, --website       IceWM'in web sitesini görüntüleyin.\n"
 "\n"
-"  -V, --version Sürüm bilgilerini yazdırır ve çıkar.\n"
-"  -h, --help Bu kullanım ekranını yazdırır ve çıkar.\n"
+"  -V, --version       Sürüm bilgilerini yazdırır ve çıkar.\n"
+"  -h, --help         Kullanım ekranını yazdırır ve çıkar.\n"
 "\n"
 "Ortam Değişkenleri:\n"
-"  DISPLAY = NAME Kullanılacak X sunucusunun adı.\n"
+"  DISPLAY=NAME        Kullanılacak X sunucusunun adı.\n"
 "\n"
-"Hataları, destek isteklerini, yorumları bildirmek için lütfen şu adresi "
-"ziyaret edin:\n"
+"Hataları, destek taleplerinizi ve görüşlerinizi bildirmek için lütfen şu "
+"adresi ziyaret edin:\n"
 "%s\n"
 "\n"
 
 #: src/icehelp.cc:2469
-#, fuzzy, c-format
+#, c-format
 msgid "Ignoring option '%s'"
-msgstr "Bilinmeyen işlem: «%s»"
+msgstr "'%s' seçeneği yoksayılıyor"
 
 #: src/icelist.cc:60
 msgid "List View"
@@ -569,7 +569,6 @@ msgid "Restart"
 msgstr "Yeniden Başlat"
 
 #: src/icesame.cc:65
-#, fuzzy
 msgid "Same Game"
 msgstr "Benzer Oyun"
 
@@ -605,22 +604,16 @@ msgid "Gravity symbols"
 msgstr ""
 
 #: src/icesh.cc:1865
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Motif functions"
-msgstr "Favori uygulamalar"
+msgstr "Motif fonksiyonları"
 
 #: src/icesh.cc:1866
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Motif decorations"
-msgstr "Favori uygulamalar"
+msgstr "Motif dekorasyonları"
 
 #: src/icesh.cc:1867
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME pencere durumu"
+msgstr "EWMH pencere durumu"
 
 #: src/icesh.cc:1949 src/icesh.cc:2022
 #, c-format
@@ -628,10 +621,9 @@ msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: «%s»\n"
 
 #: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Hatalı argüman: «%s»."
+msgstr "Geçersiz durum: '%s'."
 
 #: src/icesh.cc:3109
 #, c-format
@@ -645,10 +637,9 @@ msgid "Invalid Xinerama: `%s'."
 msgstr "Hatalı argüman: «%s»."
 
 #: src/icesh.cc:3181 src/icesh.cc:3231
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Hatalı argüman: «%s»."
+msgstr "Geçersiz argüman: '%s'"
 
 #: src/icesh.cc:3197
 #, c-format
@@ -667,9 +658,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Display açılamıyor: %s. X çalışıyor ve $DISPLAY ayarlanmış olmalı"
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Beklenmeyen anahtar kelime: %s"
+msgstr "Beklenmeyen: '%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -685,16 +676,14 @@ msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: «%s»"
 
 #: src/icesh.cc:3501
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Hatalı argüman: «%s»."
+msgstr "Geçersiz PID: '%s'"
 
 #: src/icesh.cc:3537
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Hatalı argüman: «%s»."
+msgstr "Geçersiz katman: '%s'."
 
 #: src/icesh.cc:4348
 #, c-format
@@ -734,9 +723,9 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:188
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option '%s'"
-msgstr "Bilinmeyen işlem: «%s»"
+msgstr "Bilinmeyen seçenek '%s'"
 
 #: src/icesm.cc:452 src/icesm.cc:612
 #, c-format
@@ -762,12 +751,16 @@ msgid ""
 "\t2: Abort this session?\n"
 "\t3: Run a terminal?\n"
 msgstr ""
+" IceWM, 10 saniye içinde ikinci kez çöktü.\n"
+" Ne yapmak istersiniz:\n"
+"\n"
+"\t1: IceWM'yi yeniden başlat?\n"
+"\t2: Oturumu iptal et?\n"
+"\t3: Uçbirimi çalıştır?\n"
 
 #: src/icesm.cc:509
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "IceWM tray seçeneği"
+msgstr "IceWM çökme yanıtı"
 
 #: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
@@ -797,9 +790,8 @@ msgid "OSS incomplete write (%d/%d)"
 msgstr "OSS tamamlanmamış yazma (%d/%d)"
 
 #: src/icesound.cc:368
-#, fuzzy
 msgid "Could not post OSS"
-msgstr "«%s» font kümesi yüklenemedi."
+msgstr "OSS gönderilemedi"
 
 #: src/icesound.cc:397
 #, fuzzy, c-format
@@ -1152,6 +1144,13 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
+"Kullanım: %s [SEÇENEKLER]\n"
+"Seçenekler:\n"
+"%s\n"
+"   -C, --copying Lisans bilgilerini yazdırır ve çıkar.\n"
+"   -V, --version Sürüm bilgilerini yazdırır ve çıkar.\n"
+"   -h, --help Kullanım ekranını yazdırır ve çıkar.\n"
+"\n"
 
 #: src/movesize.cc:872
 #, c-format
