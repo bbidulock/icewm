@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-03-20 11:56+0000\n"
+"PO-Revision-Date: 2021-05-31 22:00+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -30,11 +30,11 @@ msgstr "N"
 
 #: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669 src/aapm.cc:778
 msgid " - Charging"
-msgstr " – Dobíjení"
+msgstr " – Nabíjení"
 
 #: src/aapm.cc:194 src/aapm.cc:444 src/aapm.cc:671
 msgid "C"
-msgstr "D"
+msgstr "N"
 
 #: src/aapm.cc:446
 msgid " - Full"
@@ -106,7 +106,7 @@ msgid ""
 msgstr ""
 "\n"
 "↵\n"
-"CPU Freq: %.3fGHz"
+"Frekv.CPU: %.3fGHz"
 
 #: src/acpustatus.cc:348 src/acpustatus.cc:655
 msgid "CPU"
@@ -342,7 +342,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "Znovu načíst"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -361,10 +361,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -383,10 +381,8 @@ msgid "Manual"
 msgstr "Příručka"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
@@ -657,10 +653,9 @@ msgstr ""
 "nastavena."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Neočekávané klíčové slovo menu: '%s'"
+msgstr "Neočekáváno: `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1426,15 +1421,6 @@ msgstr ""
 "  --debug-z          Vypíše ladicí zprávy ohledně seskládání oken.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1451,6 +1437,7 @@ msgstr ""
 "  -t, --theme=SOUBOR  Načíst téma ze SOUBORu.\n"
 "  -s, --splash=OBRAZ  Při startu krátce ukáže OBRAZ.\n"
 "  -p, --postpreferences   Po zpracování vypsat nastavení.\n"
+"  --rewrite-preferences  Aktualizovat soubor s nastavením.\n"
 "  --trace=conf,icon   K zavedení konfigurace použity cesty pro sledování.\n"
 
 #: src/wmapp.cc:1406
@@ -1573,6 +1560,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Klient %s s PID %ld neodpovídá.\n"
+"Chcete ukončit tohoto klienta?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
