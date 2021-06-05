@@ -2093,10 +2093,10 @@ FileView::FileView(YApplication *iapp, int argc, char **argv)
                 icons[count++] = large_icon->mask();
             }
         }
-	if (count > 0) {
-	    extern Atom _XA_WIN_ICONS;
-	    setProperty(_XA_WIN_ICONS, XA_PIXMAP, icons, count);
-	}
+        if (count > 0) {
+            extern Atom _XA_WIN_ICONS;
+            setProperty(_XA_WIN_ICONS, XA_PIXMAP, icons, count);
+        }
     }
     setNetPid();
 

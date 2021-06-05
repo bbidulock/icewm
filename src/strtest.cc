@@ -31,7 +31,7 @@ static const char source[] = __FILE__;
         ++passed; else test_failed(u, s, __LINE__)
 
 #define ASSERT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
-		else { test_failed(#l, #r, __LINE__); return; }
+        else { test_failed(#l, #r, __LINE__); return; }
 #define EXPECT_EQ(l,r) if(++testsrun, (l) == (r)) ++passed; \
         else test_failed(#l, #r, __LINE__);
 
