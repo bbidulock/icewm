@@ -264,7 +264,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     ref<YImage> bgRightG;
 
     int p(0);
-    int border_size;
+    int border_size = 0;
     int left = 0;
     int style = 0;
 
