@@ -160,7 +160,7 @@ ref<YPixmap> YPixmap::create(unsigned w, unsigned h, unsigned depth, bool useMas
 }
 
 ref<YPixmap> YPixmap::createFromImage(ref<YImage> image, unsigned depth) {
-    return image->renderToPixmap(depth);
+    return image != null ? image->renderToPixmap(depth) : null;
 }
 
 ref<YPixmap> YPixmap::createFromPixmapAndMask(Pixmap /*pixmap*/,
