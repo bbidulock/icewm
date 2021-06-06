@@ -43,9 +43,7 @@ L<xrandr(1)>.
 
 =head1 BUGS
 
-B<icewm-menu-xrandr> had no known bugs at the time of release.  Please report bugs
-for current versions to the source code repository at
-L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 AUTHOR
 

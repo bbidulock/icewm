@@ -95,9 +95,7 @@ B<icewmtray> is compliant to the XDG system tray specification.
 
 =head1 BUGS
 
-B<icewmtray> had no known bugs at the time of release.  Please report bugs
-for current versions to the source code repository at
-L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 AUTHOR
 

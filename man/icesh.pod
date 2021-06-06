@@ -910,9 +910,7 @@ L<icewm(1)>, L<wmctrl(1)>, L<xdotool(1)>, L<xprop(1)>, L<xwininfo(1)>.
 
 =head1 BUGS
 
-B<icesh> had no known bugs at the time of release.  Please report bugs
-for current versions to the source code repository at
-L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
 =head1 AUTHOR
 
