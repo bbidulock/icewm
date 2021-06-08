@@ -96,14 +96,14 @@ if [[ -v DBGCM ]]; then
         -DCONFIG_XPM=ON \
         -DCMAKE_CXX_COMPILER_ID=clang \
         -DCMAKE_CXX_COMPILER=clang++ \
-        -DCMAKE_INSTALL_PREFIX=$prefix \
+        -DCMAKE_INSTALL_PREFIX="$prefix" \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DICEHELPIDX=$prefix/share/doc/icewm-common/html/icewm.html \
+        -DICEHELPIDX="$prefix/share/doc/icewm-common/html/icewm.html" \
         -DCFGDIR=/etc/X11/icewm \
         -DVERSION=10.9.8-debug \
-        -DDOCDIR=$prefix/share/doc/icewm-common \
+        -DDOCDIR="$prefix/share/doc/icewm-common" \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
-        -DXTERMCMD=$xterm &&
+        -DXTERMCMD="$xterm" &&
     gmake "$jobs"
 fi
 
@@ -115,7 +115,7 @@ if [[ -v RELCM ]]; then
     cd build &&
     cmake .. \
         -DCMAKE_BUILD_TYPE=MinSizeRel \
-        -DCMAKE_INSTALL_PREFIX=$prefix \
+        -DCMAKE_INSTALL_PREFIX="$prefix" \
         -DCONFIG_GDK_PIXBUF_XLIB=$GDK \
         -DCONFIG_IMLIB2=$IM2 \
         -DCONFIG_LIBRSVG=ON \
