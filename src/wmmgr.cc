@@ -1006,10 +1006,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
                        xapp->getEventTime("setFocus"));
         notifyActive(nullptr);
-        xapp->sync();
-        XEvent ignored;
-        while (XCheckWindowEvent(xapp->display(), xapp->root(),
-                                 FocusChangeMask, &ignored)) { }
     }
 
     if (c &&
