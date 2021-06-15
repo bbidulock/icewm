@@ -108,14 +108,17 @@ public:
         atom = XInternAtom(display, name, False); }
 };
 
-static TAtom _XA_ICEWM_GUI_EVENT("ICEWM_GUI_EVENT");
+static TAtom _XA_WM_CLIENT_LEADER("WM_CLIENT_LEADER");
+static TAtom _XA_WM_DELETE_WINDOW("WM_DELETE_WINDOW");
+static TAtom _XA_WM_PROTOCOLS("WM_PROTOCOLS");
+static TAtom _XA_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static TAtom _XA_WM_STATE("WM_STATE");
 static TAtom _XA_WIN_TRAY("WIN_TRAY");
-static TAtom _XA_WIN_WORKSPACE("_WIN_WORKSPACE");
-static TAtom _XA_WIN_WORKSPACE_COUNT("_WIN_WORKSPACE_COUNT");
-static TAtom _XA_WIN_WORKSPACE_NAMES("_WIN_WORKSPACE_NAMES");
-static TAtom _XA_WIN_STATE("_WIN_STATE");
 static TAtom _XA_WIN_LAYER("_WIN_LAYER");
+static TAtom _XA_ICEWM_GUI_EVENT("ICEWM_GUI_EVENT");
+static TAtom _XA_NET_CURRENT_DESKTOP("_NET_CURRENT_DESKTOP");
+static TAtom _XA_NET_NUMBER_OF_DESKTOPS("_NET_NUMBER_OF_DESKTOPS");
+static TAtom _XA_NET_DESKTOP_NAMES("_NET_DESKTOP_NAMES");
 static TAtom _XA_NET_WM_ACTION_ABOVE("_NET_WM_ACTION_ABOVE");
 static TAtom _XA_NET_WM_ACTION_BELOW("_NET_WM_ACTION_BELOW");
 static TAtom _XA_NET_WM_ACTION_CHANGE_DESKTOP("_NET_WM_ACTION_CHANGE_DESKTOP");
@@ -150,9 +153,6 @@ static TAtom _XA_NET_WM_PING("_NET_WM_PING");
 static TAtom _XA_NET_DESKTOP_LAYOUT("_NET_DESKTOP_LAYOUT");
 static TAtom _XA_NET_REQUEST_FRAME_EXTENTS("_NET_REQUEST_FRAME_EXTENTS");
 static TAtom _XA_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
-static TAtom _XA_WM_DELETE_WINDOW("WM_DELETE_WINDOW");
-static TAtom _XA_WM_PROTOCOLS("WM_PROTOCOLS");
-static TAtom _XA_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static TAtom _XA_NET_WM_WINDOW_TYPE("_NET_WM_WINDOW_TYPE");
 static TAtom _XA_NET_WM_WINDOW_TYPE_COMBO("_NET_WM_WINDOW_TYPE_COMBO");
 static TAtom _XA_NET_WM_WINDOW_TYPE_DESKTOP("_NET_WM_WINDOW_TYPE_DESKTOP");
@@ -185,11 +185,12 @@ void changeWorkspace(Window w, long workspace) {
 
     xev.type = ClientMessage;
     xev.window = w;
-    xev.message_type = _XA_WIN_WORKSPACE;
+    xev.message_type = _XA_NET_CURRENT_DESKTOP;
     xev.format = 32;
     xev.data.l[0] = workspace;
     xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
+    tell("changeWorkspace %ld\n", workspace);
 }
 
 void moveResize(Window w, int x, int y, int what) {
@@ -234,13 +235,15 @@ void setLayer(Window w, long layer) {
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+void setProperty(Window w, Atom prop, Atom type, Atom* data, size_t count) {
+    XChangeProperty(display, w, prop, type, 32, PropModeReplace,
+                    (unsigned char *) data, int(count));
+}
+
 void setLayout(Window w) {
     tell("setLayout %ld, %ld, %ld, %ld\n",
             layout.orient, layout.columns, layout.rows, layout.corner);
-    XChangeProperty(display, w,
-                    _XA_NET_DESKTOP_LAYOUT, XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *) &layout, 4);
+    setProperty(w, _XA_NET_DESKTOP_LAYOUT, XA_CARDINAL, (Atom*)&layout, 4);
 }
 
 #if 0
@@ -268,6 +271,37 @@ void requestExtents(Window w) {
     XSendEvent(display, root, False, SubstructureNotifyMask, (XEvent *) &xev);
 }
 
+static void getProperty(Window w, Atom p, Atom t, long* c) {
+    Atom r_type;
+    int r_format;
+    unsigned long count;
+    unsigned long bytes_remain;
+    unsigned char* prop = nullptr;
+
+    if (XGetWindowProperty(display, w, p,
+                           0, 1, False, t,
+                           &r_type, &r_format,
+                           &count, &bytes_remain,
+                           &prop) == Success && prop)
+    {
+        TEST(r_type == t && r_format == 32 && count == 1);
+        *c = ((long *)prop)[0];
+        XFree(prop);
+    }
+}
+
+static void updateWorkspaceCount() {
+    getProperty(root, _XA_NET_NUMBER_OF_DESKTOPS, XA_CARDINAL, &workspaceCount);
+}
+
+static void updateActiveWorkspace() {
+    getProperty(root, _XA_NET_CURRENT_DESKTOP, XA_CARDINAL, &activeWorkspace);
+}
+
+static void updateWindowWorkspace() {
+    getProperty(window, _XA_NET_CURRENT_DESKTOP, XA_CARDINAL, &windowWorkspace);
+}
+
 static int xfail(Display* display, XErrorEvent* xev) {
 
     char message[80], req[80], number[80];
@@ -292,43 +326,22 @@ static void sigcatch(int signo) {
     tell("Received signal %d: \"%s\".\n", signo, strsignal(signo));
 }
 
-int main(int argc, char **argv) {
+static void help(char* name) {
+    printf("Usage: %s [options]\n"
+            "\t-d display\n"
+            "\t-e : handle errors\n"
+            "\t-p : enable pinging\n"
+            "\t-s : synchronize\n"
+            , name);
+    exit(1);
+}
 
-    signal(SIGTERM, sigcatch);
-
-    bool pinging = false;
-
-    for (int opt, ok = 1; ok && (opt = getopt(argc, argv, "d:eps")) > 0; ) {
-        switch (opt) {
-        case 'd':
-            setenv("DISPLAY", optarg, True);
-            break;
-
-        case 'e':
-            XSetErrorHandler(xfail);
-            break;
-
-        case 'p':
-            pinging ^= true;
-            break;
-
-        case 's':
-            XSynchronize(display, True);
-            break;
-
-        default:
-            ok = 0;
-        }
-    }
-    if (optind < argc) {
-        fprintf(stderr, "%s: bad arg '%s'.\n", *argv, argv[optind]);
-        exit(1);
-    }
-
+static void test_run(char* progname, bool pinging) {
     int screen = XDefaultScreen(display);
     root = XRootWindow(display, screen);
     colormap = XDefaultColormap(display, screen);
     Pixel black = XBlackPixel(display, screen);
+    Pixel white = XWhitePixel(display, screen);
 
     window = XCreateWindow(display, root,
                            0,
@@ -348,7 +361,7 @@ int main(int argc, char **argv) {
 
     XClassHint classHint = { (char *)"name:1", (char *)"class 1" };
     XSetClassHint(display, window, &classHint);
-    XStoreName(display, window, basename(*argv));
+    XStoreName(display, window, basename(progname));
 
     char hostname[HOST_NAME_MAX + 1] = {};
     gethostname(hostname, HOST_NAME_MAX);
@@ -361,10 +374,7 @@ int main(int argc, char **argv) {
     XSetWMClientMachine(display, window, &hname);
 
     XID pid = getpid();
-    XChangeProperty(display, window,
-                    _XA_NET_WM_PID, XA_CARDINAL,
-                    32, PropModeReplace,
-                    (unsigned char *)&pid, 1);
+    setProperty(window, _XA_NET_WM_PID, XA_CARDINAL, &pid, 1);
 
     long imask = ExposureMask | StructureNotifyMask |
                  ButtonPressMask | ButtonReleaseMask |
@@ -374,12 +384,18 @@ int main(int argc, char **argv) {
 
     XSelectInput(display, root, PropertyChangeMask);
 
+    Window leader = XCreateWindow(display, root, 0, 0, 10, 10, 0, CopyFromParent,
+                                  InputOnly, CopyFromParent, None, None);
+    setProperty(window, _XA_WM_CLIENT_LEADER, XA_WINDOW, &leader, 1);
+
     XMapRaised(display, window);
 
-    unmapped = XCreateSimpleWindow(display, root, 0, 0, 100, 100, 20, 0, black);
+    unmapped = XCreateSimpleWindow(display, root, 0, 0, 100, 100, 20, white, black);
     XClassHint unclassHint = { (char *)"unmapped:1", (char *)"class 1" };
     XSetClassHint(display, unmapped, &unclassHint);
     XStoreName(display, unmapped, "unmapped");
+
+    setProperty(unmapped, _XA_WM_CLIENT_LEADER, XA_WINDOW, &leader, 1);
 
     Atom wmstate[] = {
         // _XA_NET_WM_STATE_ABOVE,
@@ -390,20 +406,17 @@ int main(int argc, char **argv) {
         // _XA_NET_WM_STATE_HIDDEN,
         // _XA_NET_WM_STATE_MAXIMIZED_HORZ,
         // _XA_NET_WM_STATE_MAXIMIZED_VERT,
-        // _XA_NET_WM_STATE_MODAL,
+        _XA_NET_WM_STATE_MODAL,
         // _XA_NET_WM_STATE_SHADED,
         // _XA_NET_WM_STATE_SKIP_PAGER,
         // _XA_NET_WM_STATE_SKIP_TASKBAR,
-        // _XA_NET_WM_STATE_STICKY,
+        _XA_NET_WM_STATE_STICKY,
     };
-    XChangeProperty(display, unmapped,
-                    _XA_NET_WM_STATE, XA_ATOM,
-                    32, PropModeReplace,
-                    (unsigned char *) wmstate, COUNT(wmstate));
+    setProperty(unmapped, _XA_NET_WM_STATE, XA_ATOM, wmstate, COUNT(wmstate));
     Atom wintype[] = {
         // _XA_NET_WM_WINDOW_TYPE_COMBO,
         // _XA_NET_WM_WINDOW_TYPE_DESKTOP,
-        // _XA_NET_WM_WINDOW_TYPE_DIALOG,
+        _XA_NET_WM_WINDOW_TYPE_DIALOG,
         // _XA_NET_WM_WINDOW_TYPE_DND,
         // _XA_NET_WM_WINDOW_TYPE_DOCK,
         // _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU,
@@ -413,13 +426,11 @@ int main(int argc, char **argv) {
         // _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,
         // _XA_NET_WM_WINDOW_TYPE_SPLASH,
         // _XA_NET_WM_WINDOW_TYPE_TOOLBAR,
-        _XA_NET_WM_WINDOW_TYPE_TOOLTIP,
+        // _XA_NET_WM_WINDOW_TYPE_TOOLTIP,
         // _XA_NET_WM_WINDOW_TYPE_UTILITY,
     };
-    XChangeProperty(display, unmapped,
-                    _XA_NET_WM_WINDOW_TYPE, XA_ATOM,
-                    32, PropModeReplace,
-                    (unsigned char *) wintype, COUNT(wintype));
+    setProperty(unmapped, _XA_NET_WM_WINDOW_TYPE, XA_ATOM,
+                wintype, COUNT(wintype));
     Atom actions[] = {
         _XA_NET_WM_ACTION_ABOVE,
         _XA_NET_WM_ACTION_BELOW,
@@ -435,12 +446,13 @@ int main(int argc, char **argv) {
         _XA_NET_WM_ACTION_SHADE,
         _XA_NET_WM_ACTION_STICK,
     };
-    XChangeProperty(display, unmapped,
-                    _XA_NET_WM_ALLOWED_ACTIONS, XA_ATOM,
-                    32, PropModeReplace,
-                    (unsigned char *) actions, COUNT(actions));
+    setProperty(unmapped, _XA_NET_WM_ALLOWED_ACTIONS, XA_ATOM,
+                actions, COUNT(actions));
 
     XSelectInput(display, unmapped, imask);
+
+    updateWorkspaceCount();
+    updateActiveWorkspace();
 
     XEvent xev = {};
 /// XButtonEvent &button = xev.xbutton;
@@ -451,7 +463,7 @@ int main(int argc, char **argv) {
     while (XNextEvent(display, &xev) == Success) switch (xev.type) {
 
     case ClientMessage: {
-        if (client.message_type == _XA_WM_PROTOCOLS) {
+        if (client.message_type == _XA_WM_PROTOCOLS && client.window == window) {
             TEST(client.format == 32);
             if (client.data.l[0] == _XA_WM_DELETE_WINDOW) {
                 tell("WM_DELETE_WINDOW\n");
@@ -460,6 +472,7 @@ int main(int argc, char **argv) {
             else
             if (client.data.l[0] == _XA_WM_TAKE_FOCUS) {
                 tell("WM_TAKE_FOCUS\n");
+                XSetInputFocus(display, window, None, CurrentTime);
                 break;
             }
             else
@@ -494,7 +507,39 @@ int main(int argc, char **argv) {
             k = CTRL(k);
 
         if (k == 'q' || k == XK_Escape)
-            return 0;
+            return;
+        else if (k == '?' || k == 'h') {
+            printf("0 : layer desktop\n"
+                   "1 : layer below\n"
+                   "2 : layer normal\n"
+                   "3 : layer on top\n"
+                   "4 : layer dock\n"
+                   "5 : layer above dock\n"
+                   "? : help\n"
+                   "M : toggle state modal\n"
+                   "a : toggle state above\n"
+                   "b : toggle state below\n"
+                   "f : toggle fullscreen\n"
+                   "s : toggle sticky\n"
+                   "t : toggle skip taskbar\n"
+                   "m : move resize 8\n"
+                   "r : move resize 4\n"
+                   "x : extents unmapped\n"
+                   "X : extents window\n"
+                   "^X : extents root\n"
+                   "Left : goto previous workspace\n"
+                   "Right : goto next workspace\n"
+                   "Shift+Left : move to previous workspace\n"
+                   "Shift+Right : move to next workspace\n"
+                   "^B : layout bottom left\n"
+                   "^C : control layout dimensions\n"
+                   "^H : horizontal layout orientation\n"
+                   "^L : layout top left\n"
+                   "^R : layout bottom right\n"
+                   "^T : layout top right\n"
+                   "^V : vertical layout orientation\n"
+                   "\n");
+        }
         else if (k == XK_Left && m == 0)
             changeWorkspace(root,
                             (workspaceCount +
@@ -517,14 +562,10 @@ int main(int argc, char **argv) {
             toggleState(window, _XA_NET_WM_STATE_BELOW);
         else if (k == 'M')
             toggleState(window, _XA_NET_WM_STATE_MODAL);
+        else if (k == 's')
+            toggleState(window, _XA_NET_WM_STATE_STICKY);
         else if (k == 't')
             toggleState(window, _XA_NET_WM_STATE_SKIP_TASKBAR);
-#if 0
-            //toggleState(window, WinStateAllWorkspaces);
-        /*
-        else if (k == 'd')
-            toggleState(window, WinStateDockHorizontal);
-            */
         else if (k == '0')
             setLayer(window, WinLayerDesktop);
         else if (k == '1')
@@ -537,13 +578,15 @@ int main(int argc, char **argv) {
             setLayer(window, WinLayerDock);
         else if (k == '5')
             setLayer(window, WinLayerAboveDock);
-#endif
         else if (k == 'm') {
             tell("%d %d\n", key.x_root, key.y_root);
             moveResize(window, key.x_root, key.y_root, 8); // move
         } else if (k == 'r') {
             tell("%d %d\n", key.x_root, key.y_root);
             moveResize(window, key.x_root, key.y_root, 4); // _|
+        }
+        else if (k == 'u') {
+            XMapRaised(display, unmapped);
         }
         else if (k == 'x' || k == 'X' || k == CTRL('X')) {
             Window w = m == ShiftMask ? window :
@@ -589,7 +632,9 @@ int main(int argc, char **argv) {
                 sscanf(buf, " %ld", &layout.rows);
             setLayout(root);
         }
-        else {
+        else if (k != XK_Shift_L && k != XK_Shift_R &&
+                 k != XK_Control_L && k != XK_Control_R)
+        {
             tell("Unrecognized key %d\n", k);
         }
     } break;
@@ -605,98 +650,20 @@ int main(int argc, char **argv) {
         unsigned char *prop(0);
 
         if (property.window == root &&
-            property.atom == _XA_WIN_WORKSPACE) {
-            if (XGetWindowProperty(display, root,
-                                   _XA_WIN_WORKSPACE_COUNT,
-                                   0, 1, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
-                workspaceCount = ((long *)prop)[0];
-                XFree(prop);
-            }
-            if (XGetWindowProperty(display, root,
-                                   _XA_WIN_WORKSPACE,
-                                   0, 1, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
-                activeWorkspace = ((long *)prop)[0];
-                tell("active=%ld of %ld\n", activeWorkspace, workspaceCount);
-                XFree(prop);
-            }
+            property.atom == _XA_NET_CURRENT_DESKTOP) {
+            updateWorkspaceCount();
+            updateActiveWorkspace();
+            tell("active=%ld of %ld\n", activeWorkspace, workspaceCount);
         }
         else if (property.window == root &&
-                 property.atom == _XA_WIN_WORKSPACE_NAMES) {
+                 property.atom == _XA_NET_DESKTOP_NAMES) {
         }
-#if 0
-        else if (property.atom == _XA_WIN_WORKAREA) {
-            if (XGetWindowProperty(display, root,
-                                   _XA_WIN_WORKAREA,
-                                   0, 4, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 4);
-                long *area = (long *)prop;
-                tell("workarea: min=%d,%d max=%d,%d\n",
-                       area[0],
-                       area[1],
-                       area[2],
-                       area[3]);
-                XFree(prop);
-            }
-        }
-#endif
         else if (property.window == window &&
-                 property.atom == _XA_WIN_WORKSPACE) {
-            if (XGetWindowProperty(display, root,
-                                   _XA_WIN_WORKSPACE_COUNT,
-                                   0, 1, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
-                workspaceCount = ((long *)prop)[0];
-                XFree(prop);
-            }
-            if (XGetWindowProperty(display, window,
-                                   _XA_WIN_WORKSPACE,
-                                   0, 1, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
-                windowWorkspace = ((long *)prop)[0];
-                tell("workspace %ld of %ld\n", windowWorkspace, workspaceCount);
-                XFree(prop);
-            }
-        }
-        else if (property.atom == _XA_WIN_STATE) {
-            long state[2] = {};
-            if (XGetWindowProperty(display, window,
-                                   _XA_WIN_STATE,
-                                   0, 2, False, AnyPropertyType,
-                                   &r_type, &r_format,
-                                   &count, &bytes_remain,
-                                   &prop) == Success && prop)
-            {
-                TEST(r_type == XA_CARDINAL && r_format == 32 && count == 2);
-                state[0] = ((long *)prop)[0];
-                state[1] = ((long *)prop)[1];
-                tell("win state %lX %lX\n", state[0], state[1]);
-                XFree(prop);
-            }
+                 property.atom == _XA_NET_CURRENT_DESKTOP) {
+            updateWindowWorkspace();
         }
         else if (property.atom == _XA_NET_WM_STATE) {
-            if (XGetWindowProperty(display, window,
+            if (XGetWindowProperty(display, property.window,
                                    _XA_NET_WM_STATE,
                                    0, 20, False, AnyPropertyType,
                                    &r_type, &r_format,
@@ -704,7 +671,10 @@ int main(int argc, char **argv) {
                                    &prop) == Success && prop)
             {
                 TEST(r_type == XA_ATOM && r_format == 32);
-                tell("net wm state  ");
+                tell("net wm state %s: ",
+                        property.window == window ? "window" :
+                        property.window == unmapped ? "unmapped" :
+                        "unknown");
                 for (unsigned long i = 0; i < count; ++i) {
                     printf("%s%s", i ? ", " : "",
                             atomName(((long *)prop)[i]));
@@ -714,7 +684,7 @@ int main(int argc, char **argv) {
             }
         }
         else if (property.atom == _XA_WM_STATE) {
-            if (XGetWindowProperty(display, window,
+            if (XGetWindowProperty(display, property.window,
                                    _XA_WM_STATE,
                                    0, 2, False, AnyPropertyType,
                                    &r_type, &r_format,
@@ -722,7 +692,10 @@ int main(int argc, char **argv) {
                                    &prop) == Success && prop)
             {
                 TEST(r_type == _XA_WM_STATE && r_format == 32 && count == 2);
-                tell("wm state");
+                tell("wm state %s:",
+                        property.window == window ? "window" :
+                        property.window == unmapped ? "unmapped" :
+                        "unknown");
                 for (unsigned i = 0; i < count; ++i) {
                     printf("%s%ld", i ? ", " : "  ", ((long *)prop)[i]);
                 }
@@ -731,7 +704,7 @@ int main(int argc, char **argv) {
             }
         }
         else if (property.atom == _XA_WIN_LAYER) {
-            if (XGetWindowProperty(display, window,
+            if (XGetWindowProperty(display, property.window,
                                    _XA_WIN_LAYER,
                                    0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
@@ -740,12 +713,15 @@ int main(int argc, char **argv) {
             {
                 TEST(r_type == XA_CARDINAL && r_format == 32 && count == 1);
                 long layer = ((long *)prop)[0];
-                tell("win layer %ld\n", layer);
+                tell("win layer %s: %ld\n",
+                        property.window == window ? "window" :
+                        property.window == unmapped ? "unmapped" :
+                        "unknown", layer);
                 XFree(prop);
             }
         }
         else if (property.atom == _XA_ICEWM_GUI_EVENT) {
-            if (XGetWindowProperty(display, window,
+            if (XGetWindowProperty(display, property.window,
                                    _XA_ICEWM_GUI_EVENT,
                                    0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
@@ -760,7 +736,7 @@ int main(int argc, char **argv) {
             }
         }
         else if (property.atom == _XA_WIN_TRAY) {
-            if (XGetWindowProperty(display, window,
+            if (XGetWindowProperty(display, property.window,
                                    _XA_WIN_TRAY,
                                    0, 1, False, AnyPropertyType,
                                    &r_type, &r_format,
@@ -784,13 +760,33 @@ int main(int argc, char **argv) {
             unsigned long after(0);
             unsigned char* prop(0);
             if (XGetWindowProperty(display, w, atom,
-                                   0, 1000000, False, AnyPropertyType,
+                                   0, 4, False, AnyPropertyType,
                                    &type, &format, &nitems,
                                    &after, &prop) == Success && prop) {
                 tell("%-8s %-26s %2d %s\n", s, atomName(atom), format,
                         atomName(type));
                 if (atom == _XA_NET_FRAME_EXTENTS) {
                     TEST(type == XA_CARDINAL && format == 32 && nitems == 4);
+                    long* data = (long *) prop;
+                    int n = int(nitems);
+                    for (int i = 0; i < n; ++i) {
+                        printf("%s%ld", i ? ", " : "\t\t", data[i]);
+                    }
+                    if (n)
+                        printf("\n");
+                }
+                else if (atom == XA_WINDOW) {
+                    TEST(type == XA_WINDOW && format == 32 && nitems == 1);
+                    long* data = (long *) prop;
+                    int n = int(nitems);
+                    for (int i = 0; i < n; ++i) {
+                        printf("%s%ld", i ? ", " : "\t\t", data[i]);
+                    }
+                    if (n)
+                        printf("\n");
+                }
+                else if (atom == XA_CARDINAL) {
+                    TEST(type == XA_CARDINAL && format == 32 && nitems == 1);
                     long* data = (long *) prop;
                     int n = int(nitems);
                     for (int i = 0; i < n; ++i) {
@@ -811,6 +807,43 @@ int main(int argc, char **argv) {
     default:
         break;
     }
+}
+
+int main(int argc, char **argv) {
+
+    signal(SIGTERM, sigcatch);
+
+    bool pinging = false;
+
+    for (int opt; (opt = getopt(argc, argv, "d:epsh?")) > 0; ) {
+        switch (opt) {
+        case 'd':
+            setenv("DISPLAY", optarg, True);
+            break;
+
+        case 'e':
+            XSetErrorHandler(xfail);
+            break;
+
+        case 'p':
+            pinging ^= true;
+            break;
+
+        case 's':
+            XSynchronize(display, True);
+            break;
+
+        default:
+            help(*argv);
+        }
+    }
+    if (optind < argc) {
+        printf("%s: bad arg '%s'.\n", *argv, argv[optind]);
+        help(*argv);
+    } else {
+        test_run(*argv, pinging);
+    }
+    return 0;
 }
 
 // vim: set sw=4 ts=4 et:
