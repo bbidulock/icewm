@@ -416,7 +416,10 @@ Print the window title.
 
 =item B<setGeometry> I<GEOMETRY>
 
-Set the window geometry to I<GEOMETRY>.
+Set the window geometry to I<GEOMETRY>.  This geometry should be
+specified in a format that can be parsed by L<XParseGeometry(3)>.
+Negative offsets are with respect to the bottom or right side of
+the screen.  Use C<+-> for a truly negative position.
 
 =item B<getGeometry>
 
@@ -906,7 +909,8 @@ Some commands, like manager actions, are specific to IceWM.
 
 =head1 SEE ALSO
 
-L<icewm(1)>, L<wmctrl(1)>, L<xdotool(1)>, L<xprop(1)>, L<xwininfo(1)>.
+L<icewm(1)>, L<wmctrl(1)>, L<xdotool(1)>, L<xprop(1)>,
+L<xwininfo(1)>, L<XParseGeometry(3)>.
 
 =head1 BUGS
 
