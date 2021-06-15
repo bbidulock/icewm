@@ -400,12 +400,38 @@ void YFrameWindow::layoutClient() {
     }
 }
 
+bool YFrameWindow::isGroupModalFor(const YFrameWindow* other) const {
+    bool have = false;
+    if (hasState(WinStateModal) && owner() == nullptr) {
+        Window leader = client()->clientLeader();
+        if (leader && leader == other->client()->clientLeader()) {
+            bool self = false, that = false;
+            for (auto& modal : groupModals) {
+                if (modal == this) {
+                    self = true;
+                }
+                if (modal == other) {
+                    that = true;
+                }
+            }
+            have = self && !that;
+        }
+    }
+    return have;
+}
+
+bool YFrameWindow::isTransientFor(const YFrameWindow* other) const {
+    YFrameWindow* o = owner();
+    while (o && o != other) {
+        o = o->owner();
+    }
+    return o == other;
+}
+
 bool YFrameWindow::canLower() const {
     for (YFrameWindow* w = next(); w; w = w->next()) {
-        for (YFrameWindow* o = owner(); o != w; o = o->owner()) {
-            if (o == nullptr) {
-                return true;
-            }
+        if (isTransientFor(w) == false && isGroupModalFor(w) == false) {
+            return true;
         }
     }
     return false;
@@ -414,11 +440,9 @@ bool YFrameWindow::canLower() const {
 bool YFrameWindow::canRaise() const {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow() || w->visibleOn(getWorkspace())) {
-            for (YFrameWindow* o = w; o != this; o = o->owner()) {
-                if (o == nullptr) {
-                    return true;
-                }
-            }
+            if (w->isTransientFor(this) == false &&
+                w->isGroupModalFor(this) == false)
+                return true;
         }
     }
     return false;

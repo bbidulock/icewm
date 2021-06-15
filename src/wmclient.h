@@ -144,7 +144,7 @@ public:
     virtual void wmMinimize() = 0;
     virtual int getWorkspace() const = 0;
     virtual int getTrayOrder() const = 0;
-    virtual long getTrayOption() const = 0;
+    virtual int getTrayOption() const = 0;
     virtual unsigned frameOptions() const = 0;
     virtual bool isSticky() const = 0;
     virtual bool isAllWorkspaces() const = 0;
@@ -220,7 +220,7 @@ public:
 
     void getWMHints();
     XWMHints *hints() const { return fHints; }
-    bool wmHint(long flag) const { return fHints && (fHints->flags & flag); }
+    bool wmHint(int flag) const { return fHints && (fHints->flags & flag); }
     Window windowGroupHint() const;
     Window iconWindowHint() const;
     Pixmap iconPixmapHint() const;
@@ -255,25 +255,25 @@ public:
     mstring windowTitle() { return fWindowTitle; }
     mstring iconTitle() { return fIconTitle; }
 
-    void setWorkspaceHint(long workspace);
-    bool getWinWorkspaceHint(long *workspace);
+    void setWorkspaceHint(int workspace);
+    bool getWinWorkspaceHint(int* workspace);
 
-    void setLayerHint(long layer);
-    bool getLayerHint(long *layer);
+    void setLayerHint(int layer);
+    bool getLayerHint(int* layer);
 
-    void setWinTrayHint(long tray_opt);
-    bool getWinTrayHint(long *tray_opt);
+    void setWinTrayHint(int tray_opt);
+    bool getWinTrayHint(int* tray_opt);
 
     void setStateHint();
-    void setWinHintsHint(long hints);
-    long winHints() const { return fWinHints; }
+    void setWinHintsHint(int hints);
+    int winHints() const { return fWinHints; }
 
     bool getWinIcons(Atom* type, long* count, long** elem);
     bool getKwmIcon(long* count, Pixmap** pixmap);
     bool getNetWMIcon(long* count, long** elem);
 
-    bool getNetWMStateHint(long *mask, long *state);
-    bool getNetWMDesktopHint(long *workspace);
+    bool getNetWMStateHint(int* mask, int* state);
+    bool getNetWMDesktopHint(int* workspace);
     bool getNetWMPid(long *pid);
     bool getNetWMStrut(int *left, int *right, int *top, int *bottom);
     bool getNetWMStrutPartial(int *left, int *right, int *top, int *bottom);
@@ -285,7 +285,7 @@ public:
     void setNetWMFullscreenMonitors(int top, int bottom, int left, int right);
     void setNetFrameExtents(int left, int right, int top, int bottom);
     void setNetWMAllowedActions(Atom *actions, int count);
-    void netStateRequest(long action, long mask);
+    void netStateRequest(int action, int mask);
     void actionPerformed(YAction action);
 
     bool isPinging() const { return fPinging; }
@@ -323,7 +323,7 @@ private:
     int haveButtonGrab;
     unsigned int fBorder;
     FrameState fSavedFrameState;
-    long fWinStateHint;
+    int fWinStateHint;
     XSizeHints *fSizeHints;
     ClassHint fClassHint;
     XWMHints *fHints;
@@ -334,7 +334,7 @@ private:
     bool fPinging;
     long fPingTime;
     lazy<YTimer> fPingTimer;
-    long fWinHints;
+    int fWinHints;
     long fPid;
 
     mstring fWindowTitle;

@@ -482,10 +482,10 @@ bool initLogEvents() {
         setLogEvent(ButtonPress, true);
         setLogEvent(ButtonRelease, true);
         // setLogEvent(MotionNotify, true);
-        // setLogEvent(EnterNotify, true);
-        // setLogEvent(LeaveNotify, true);
-        // setLogEvent(FocusIn, true);
-        // setLogEvent(FocusOut, true);
+        setLogEvent(EnterNotify, true);
+        setLogEvent(LeaveNotify, true);
+        setLogEvent(FocusIn, true);
+        setLogEvent(FocusOut, true);
         // setLogEvent(KeymapNotify, true);
         // setLogEvent(Expose, true);
         // setLogEvent(GraphicsExpose, true);

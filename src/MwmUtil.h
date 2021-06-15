@@ -20,8 +20,8 @@
  *
  **/
 
-#ifndef __MWMUTIL_H
-#define __MWMUTIL_H
+#ifndef MWMUTIL_H
+#define MWMUTIL_H
 
 #define PROP_MWM_HINTS_ELEMENTS  5
 
@@ -97,6 +97,10 @@ struct MwmHints {
 
     bool decorAll() const { return decorations & MWM_DECOR_ALL; }
     long decor() const { return decorAll() ? ~decorations : decorations; }
+
+    bool inputModal() const { return hasInput() &&
+                              input_mode >= MWM_INPUT_APPLICATION_MODAL &&
+                              input_mode <= MWM_INPUT_FULL_APPLICATION_MODAL; }
 };
 
 /*
