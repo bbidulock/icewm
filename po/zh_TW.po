@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-06 19:26+0200\n"
+"POT-Creation-Date: 2021-06-17 17:23+0200\n"
 "PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -299,166 +299,184 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "工作區："
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Back"
 msgstr "後退"
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Forward"
 msgstr "前進"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:1283
+#: src/icehelp.cc:1331
 msgid "Previous"
 msgstr "上一個"
 
-#: src/icehelp.cc:1284
+#: src/icehelp.cc:1332
 msgid "Next"
 msgstr "下一個"
 
-#: src/icehelp.cc:1286
+#: src/icehelp.cc:1334
 msgid "Contents"
 msgstr "內容"
 
-#: src/icehelp.cc:1287
+#: src/icehelp.cc:1335
 msgid "Index"
 msgstr "索引"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1337
+msgid "Find..."
+msgstr ""
+
+#: src/icehelp.cc:1337
+#, fuzzy
+#| msgid "Ctrl+B"
+msgid "Ctrl+F"
+msgstr "Ctrl+B"
+
+#: src/icehelp.cc:1338
+msgid "Find next"
+msgstr ""
+
+#: src/icehelp.cc:1338
+msgid "F3"
+msgstr ""
+
+#: src/icehelp.cc:1340
 msgid "Open in Browser"
 msgstr "在瀏覽器中開啟"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1340
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1292
+#: src/icehelp.cc:1342
 msgid "Reload"
 msgstr ""
 
-#: src/icehelp.cc:1292 src/icesame.cc:60
+#: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "關閉"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 #, fuzzy
 #| msgid "Ctrl+B"
 msgid "Ctrl+I"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1300
+#: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1302
+#: src/icehelp.cc:1352
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1304
+#: src/icehelp.cc:1354
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Manual"
 msgstr "手動"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 #, fuzzy
 #| msgid "Ctrl+B"
 msgid "Ctrl+M"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1308
+#: src/icehelp.cc:1358
 msgid "Support"
 msgstr "支援"
 
-#: src/icehelp.cc:1310
+#: src/icehelp.cc:1360
 msgid "Theme Howto"
 msgstr "佈景主題 Howto"
 
-#: src/icehelp.cc:1310 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/icehelp.cc:1312
+#: src/icehelp.cc:1362
 msgid "Website"
 msgstr "網站"
 
-#: src/icehelp.cc:1312 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icehelp.cc:1314
+#: src/icehelp.cc:1364
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1318 src/yinputline.cc:19
+#: src/icehelp.cc:1368 src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/icehelp.cc:1323 src/yinputline.cc:20
+#: src/icehelp.cc:1373 src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2077
+#: src/icehelp.cc:2180
 msgid "Unsupported protocol."
 msgstr "不支援的通訊協定。"
 
-#: src/icehelp.cc:2156
+#: src/icehelp.cc:2259
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "路徑無效：%s\n"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2283
 msgid "Path does not refer to a file."
 msgstr "路徑未參考檔案。"
 
-#: src/icehelp.cc:2185
+#: src/icehelp.cc:2288
 msgid "Failed to open file for reading."
 msgstr "無法開啟要閱讀的檔案。"
 
-#: src/icehelp.cc:2214
+#: src/icehelp.cc:2317
 msgid "Failed to create a temporary file"
 msgstr "建立臨時檔案失敗"
 
-#: src/icehelp.cc:2307
+#: src/icehelp.cc:2410
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "執行系統 (%s) (%d) 失敗"
 
-#: src/icehelp.cc:2330
+#: src/icehelp.cc:2433
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "解壓縮 %s 失敗"
 
-#: src/icehelp.cc:2338
+#: src/icehelp.cc:2441
 msgid "Could not locate curl or wget in PATH"
 msgstr "在 PATH 中找不到 curl 或 wget"
 
-#: src/icehelp.cc:2342
+#: src/icehelp.cc:2445
 msgid "Unsafe characters in URL"
 msgstr "URL 中存在不安全的字元"
 
-#: src/icehelp.cc:2379
+#: src/icehelp.cc:2482
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -528,7 +546,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2572
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "正在忽略選項「%s」"
@@ -573,116 +591,116 @@ msgstr "Same 遊戲"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "若要取得說明，請參考 man 頁面 icesh(1)。\n"
 
-#: src/icesh.cc:1506
+#: src/icesh.cc:1508
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "網域「%s」的命名符號（數值範圍：%ld-%ld）：\n"
 
-#: src/icesh.cc:1564
+#: src/icesh.cc:1566
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "工作區超出範圍︰%ld"
 
-#: src/icesh.cc:1585
+#: src/icesh.cc:1587
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "無效的工作區名稱：「%s」"
 
-#: src/icesh.cc:1862
+#: src/icesh.cc:1872
 msgid "GNOME window layer"
 msgstr "GNOME 視窗層次"
 
-#: src/icesh.cc:1863
+#: src/icesh.cc:1873
 msgid "IceWM tray option"
 msgstr "IceWM 系統列選項"
 
-#: src/icesh.cc:1864
+#: src/icesh.cc:1874
 msgid "Gravity symbols"
 msgstr "Gravity 符號"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1875
 msgid "Motif functions"
 msgstr "Motif 功能"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1876
 msgid "Motif decorations"
 msgstr "Motif 修飾"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1877
 msgid "EWMH window state"
 msgstr "EWMH 視窗狀態"
 
-#: src/icesh.cc:1949 src/icesh.cc:2022
+#: src/icesh.cc:1959 src/icesh.cc:2032
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "工作區 #%d：「%s」\n"
 
-#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
+#: src/icesh.cc:2267 src/icesh.cc:3584 src/icesh.cc:4057
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "無效狀態：`%s'。"
 
-#: src/icesh.cc:3109
+#: src/icesh.cc:3119
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "無法獲取視窗 0x%lx 的記憶體"
 
-#: src/icesh.cc:3134
+#: src/icesh.cc:3144
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "無效 Xinerama：`%s'。"
 
-#: src/icesh.cc:3181 src/icesh.cc:3231
+#: src/icesh.cc:3191 src/icesh.cc:3241
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "引數無效：「%s」"
 
-#: src/icesh.cc:3197
+#: src/icesh.cc:3207
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "動作「%s」需要至少 %d 個引數。"
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3216
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表示式無效：「%s」"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/icesh.cc:3227 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
 #: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
-#: src/icesh.cc:3331
+#: src/icesh.cc:3341
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "非預期的功能表關鍵字：「%s」"
 
-#: src/icesh.cc:3360
+#: src/icesh.cc:3370
 msgid "No windows found."
 msgstr "找不到視窗。"
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3385
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:3484
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "無效的視窗識別碼：「%s」"
 
-#: src/icesh.cc:3501
+#: src/icesh.cc:3518
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "無效 PID：`%s'"
 
-#: src/icesh.cc:3537
+#: src/icesh.cc:3554
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "無效層：`%s'。"
 
-#: src/icesh.cc:4348
+#: src/icesh.cc:4365
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知動作：「%s」"
@@ -743,22 +761,22 @@ msgstr ""
 msgid "Unknown option '%s'"
 msgstr "未知選項「%s」"
 
-#: src/icesm.cc:452 src/icesm.cc:612
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
 msgstr "重新啟動 %s。"
 
-#: src/icesm.cc:458
+#: src/icesm.cc:468
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s 已離開，狀態為 %d。"
 
-#: src/icesm.cc:464 src/icesm.cc:618
+#: src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
 
-#: src/icesm.cc:503
+#: src/icesm.cc:513
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -774,7 +792,7 @@ msgstr ""
 "\t2: 中止此工作階段？\n"
 "\t3: 執行終端機?\n"
 
-#: src/icesm.cc:509
+#: src/icesm.cc:519
 msgid "IceWM crash response"
 msgstr "IceWM 當機回應"
 
@@ -1370,7 +1388,7 @@ msgstr "視窗清單(_W)"
 msgid "Another window manager already running, exiting..."
 msgstr "已有另一個視窗管理程式正在執行，離開中..."
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:603
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1379,11 +1397,11 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 是否指向 %s？"
 
-#: src/wmapp.cc:762
+#: src/wmapp.cc:766
 msgid "Confirm Restart as Terminal"
 msgstr "確認做為終端機重新啟動"
 
-#: src/wmapp.cc:763
+#: src/wmapp.cc:767
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -1391,16 +1409,16 @@ msgstr ""
 "取消管理所有應用程式并做為\n"
 "終端機重新啟動。是否繼續？"
 
-#: src/wmapp.cc:1069 src/yxapp.cc:1033
+#: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<無>"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1386
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      聯絡工作階段管理程式時要使用的用戶端 ID。\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1392
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1410,7 +1428,7 @@ msgstr ""
 "  --debug             列印一般除錯訊息。\n"
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1400
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1438,7 +1456,7 @@ msgstr ""
 "  -p、--postpreferences  執行所有處理後列印優先設定。\n"
 "  --trace=conf,icon   追蹤用於載入組態的路徑。\n"
 
-#: src/wmapp.cc:1406
+#: src/wmapp.cc:1410
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1497,26 +1515,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1468
+#: src/wmapp.cc:1472
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 組態目錄︰\n"
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1554
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 設定的選項：%s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1635
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別選項「%s」。"
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1681
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1682
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1552,7 +1570,7 @@ msgstr "向下循環"
 msgid "Rollup"
 msgstr "向上循環"
 
-#: src/wmclient.cc:363
+#: src/wmclient.cc:367
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -1607,7 +1625,7 @@ msgstr "重新啟動 icewm(_R)"
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:1392
+#: src/wmframe.cc:1439
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1615,15 +1633,15 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1446
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
-#: src/wmmgr.cc:3229
+#: src/wmmgr.cc:3254
 msgid "Missing program setxkbmap"
 msgstr "缺少程式 setxkbmap"
 
-#: src/wmmgr.cc:3230
+#: src/wmmgr.cc:3255
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "若要進行鍵盤切換，請安裝 setxkbmap。"
 

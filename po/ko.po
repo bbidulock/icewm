@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-06 19:26+0200\n"
+"POT-Creation-Date: 2021-06-17 17:23+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -303,170 +303,188 @@ msgstr "NET"
 msgid "Workspace: "
 msgstr "작업공간: "
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Back"
 msgstr "뒤로"
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Forward"
 msgstr "앞으로"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:1283
+#: src/icehelp.cc:1331
 msgid "Previous"
 msgstr "이전으로"
 
-#: src/icehelp.cc:1284
+#: src/icehelp.cc:1332
 msgid "Next"
 msgstr "다음으로"
 
-#: src/icehelp.cc:1286
+#: src/icehelp.cc:1334
 msgid "Contents"
 msgstr "내용"
 
-#: src/icehelp.cc:1287
+#: src/icehelp.cc:1335
 msgid "Index"
 msgstr "색인"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1337
+msgid "Find..."
+msgstr ""
+
+#: src/icehelp.cc:1337
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+F"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1338
+msgid "Find next"
+msgstr ""
+
+#: src/icehelp.cc:1338
+msgid "F3"
+msgstr ""
+
+#: src/icehelp.cc:1340
 #, fuzzy
 #| msgid "WebBrowser"
 msgid "Open in Browser"
 msgstr "웹 브라우저"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1340
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+B"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1292
+#: src/icehelp.cc:1342
 msgid "Reload"
 msgstr ""
 
-#: src/icehelp.cc:1292 src/icesame.cc:60
+#: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "닫기"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+I"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1300
+#: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1302
+#: src/icehelp.cc:1352
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1304
+#: src/icehelp.cc:1354
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Manual"
 msgstr "매뉴얼"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+M"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1308
+#: src/icehelp.cc:1358
 msgid "Support"
 msgstr "지원"
 
-#: src/icehelp.cc:1310
+#: src/icehelp.cc:1360
 msgid "Theme Howto"
 msgstr "테마 만드는 방법"
 
-#: src/icehelp.cc:1310 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/icehelp.cc:1312
+#: src/icehelp.cc:1362
 msgid "Website"
 msgstr "웹 사이트"
 
-#: src/icehelp.cc:1312 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icehelp.cc:1314
+#: src/icehelp.cc:1364
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1318 src/yinputline.cc:19
+#: src/icehelp.cc:1368 src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/icehelp.cc:1323 src/yinputline.cc:20
+#: src/icehelp.cc:1373 src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2077
+#: src/icehelp.cc:2180
 msgid "Unsupported protocol."
 msgstr "프로토콜 지원 안 됨."
 
-#: src/icehelp.cc:2156
+#: src/icehelp.cc:2259
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "잘못된 경로: %s\n"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2283
 msgid "Path does not refer to a file."
 msgstr "경로가 파일을 참조하지 않습니다."
 
-#: src/icehelp.cc:2185
+#: src/icehelp.cc:2288
 msgid "Failed to open file for reading."
 msgstr "읽기 위해 파일을 열지 못했습니다."
 
-#: src/icehelp.cc:2214
+#: src/icehelp.cc:2317
 msgid "Failed to create a temporary file"
 msgstr "임시 파일 만들기 실패"
 
-#: src/icehelp.cc:2307
+#: src/icehelp.cc:2410
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "시스템을 실행하지 못했습니다(%s)(%d)."
 
-#: src/icehelp.cc:2330
+#: src/icehelp.cc:2433
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "%s를 압축을 푸는 데 실패"
 
-#: src/icehelp.cc:2338
+#: src/icehelp.cc:2441
 msgid "Could not locate curl or wget in PATH"
 msgstr "PATH에서 curl 또는 wget을 찾을 수 없습니다."
 
-#: src/icehelp.cc:2342
+#: src/icehelp.cc:2445
 msgid "Unsafe characters in URL"
 msgstr "URL의 안전하지 않은 문자"
 
-#: src/icehelp.cc:2379
+#: src/icehelp.cc:2482
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -538,7 +556,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2572
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "옵션 '%s' 무시"
@@ -583,127 +601,127 @@ msgstr "같은 게임"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1506
+#: src/icesh.cc:1508
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "`%s' 도메인의 지명된 심볼들 (숫자 범위: %ld-%ld):\n"
 
-#: src/icesh.cc:1564
+#: src/icesh.cc:1566
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
-#: src/icesh.cc:1585
+#: src/icesh.cc:1587
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
-#: src/icesh.cc:1862
+#: src/icesh.cc:1872
 msgid "GNOME window layer"
 msgstr "GNOME 창 레이어"
 
-#: src/icesh.cc:1863
+#: src/icesh.cc:1873
 msgid "IceWM tray option"
 msgstr "IceWM 트레이 옵션"
 
-#: src/icesh.cc:1864
+#: src/icesh.cc:1874
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1875
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1876
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1877
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME 창 상태"
 
-#: src/icesh.cc:1949 src/icesh.cc:2022
+#: src/icesh.cc:1959 src/icesh.cc:2032
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "작업공간 #%d: `%s'\n"
 
-#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
+#: src/icesh.cc:2267 src/icesh.cc:3584 src/icesh.cc:4057
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3109
+#: src/icesh.cc:3119
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3134
+#: src/icesh.cc:3144
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3181 src/icesh.cc:3231
+#: src/icesh.cc:3191 src/icesh.cc:3241
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3197
+#: src/icesh.cc:3207
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "`%s' 동작은 최소 %d 개의 인수를 요구한다."
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3216
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "잘못된 표현: `%s'"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/icesh.cc:3227 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
 #: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "디스플레이를 열지 못함: %s. X 실행 중여야 하고 $DISPLAY 정해야 함."
 
-#: src/icesh.cc:3331
+#: src/icesh.cc:3341
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "예기치 않은 메뉴 키워드: '%s'"
 
-#: src/icesh.cc:3360
+#: src/icesh.cc:3370
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3385
 msgid "No actions specified."
 msgstr "아무 동작도 지정하지 않음."
 
-#: src/icesh.cc:3484
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "잘못된 창 식별명: `%s'"
 
-#: src/icesh.cc:3501
+#: src/icesh.cc:3518
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3537
+#: src/icesh.cc:3554
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:4348
+#: src/icesh.cc:4365
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "알 수 없는 동작: `%s'"
@@ -765,23 +783,23 @@ msgstr ""
 msgid "Unknown option '%s'"
 msgstr "알 수 없는 옵션 '%s'"
 
-#: src/icesm.cc:452 src/icesm.cc:612
+#: src/icesm.cc:462 src/icesm.cc:622
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "다시 시작"
 
-#: src/icesm.cc:458
+#: src/icesm.cc:468
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s이(가) 상태 %d(으)로 종료되었습니다."
 
-#: src/icesm.cc:464 src/icesm.cc:618
+#: src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s이(가) 신호 %d에 의해 종료되었습니다."
 
-#: src/icesm.cc:503
+#: src/icesm.cc:513
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -803,7 +821,7 @@ msgstr ""
 "\t1: IceWM을 다시 시작하시겠습니까?\n"
 "\t2: 이 세션을 중단하시겠습니까?\n"
 
-#: src/icesm.cc:509
+#: src/icesm.cc:519
 msgid "IceWM crash response"
 msgstr "IceWM 충돌 응답"
 
@@ -1465,7 +1483,7 @@ msgstr "창 목록(_W)"
 msgid "Another window manager already running, exiting..."
 msgstr "다른 창 관리자 이미 실행 중, 나감..."
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:603
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1474,27 +1492,27 @@ msgstr ""
 "다시 시작 못함: %s\n"
 "$PATH가 %s를 가리키는가?"
 
-#: src/wmapp.cc:762
+#: src/wmapp.cc:766
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:763
+#: src/wmapp.cc:767
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1069 src/yxapp.cc:1033
+#: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<none>"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1386
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      세션 관리자에게 문의할 때 사용할 클라이언트 ID입니다.\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1392
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1504,7 +1522,7 @@ msgstr ""
 "  --debug             일반 디버그 메시지를 인쇄합니다.\n"
 "  --debug-z           창 스택 관련 디버그 메시지를 인쇄합니다.\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1400
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1526,7 +1544,7 @@ msgstr ""
 "  -t, --theme=FILE    FILE에서 테마를 로드합니다.\n"
 "  --postpreferences   모든 처리 후 기본 설정을 인쇄합니다.\n"
 
-#: src/wmapp.cc:1406
+#: src/wmapp.cc:1410
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1585,26 +1603,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1468
+#: src/wmapp.cc:1472
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 구성 디렉터리:\n"
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1554
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 구성된 옵션: %s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1635
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "알아볼 수 없는 옵션: '%s'"
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1681
 msgid "Confirm Logout"
 msgstr "종료 확인"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1682
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1640,7 +1658,7 @@ msgstr "말아내리기"
 msgid "Rollup"
 msgstr "말아올리기"
 
-#: src/wmclient.cc:363
+#: src/wmclient.cc:367
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -1695,7 +1713,7 @@ msgstr "icewm 다시 시작(_R)"
 msgid "_About"
 msgstr "정보(_A)"
 
-#: src/wmframe.cc:1392
+#: src/wmframe.cc:1439
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1703,15 +1721,15 @@ msgstr ""
 "경고! 이 클라이언트를 죽이면 저장되지 않은\n"
 "변경 사항을 모두 잃어버립니다. 계속할까요?"
 
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1446
 msgid "Kill Client: "
 msgstr "클라이언트 죽이기: "
 
-#: src/wmmgr.cc:3229
+#: src/wmmgr.cc:3254
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3230
+#: src/wmmgr.cc:3255
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 

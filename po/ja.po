@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-06 19:26+0200\n"
+"POT-Creation-Date: 2021-06-17 17:23+0200\n"
 "PO-Revision-Date: 2021-05-07 00:57+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,162 +297,180 @@ msgstr "ネット"
 msgid "Workspace: "
 msgstr "ワークスペース: "
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Back"
 msgstr "戻る"
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Alt+Left"
 msgstr "Alt+Left"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Forward"
 msgstr "進む"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Alt+Right"
 msgstr "Alt+Right"
 
-#: src/icehelp.cc:1283
+#: src/icehelp.cc:1331
 msgid "Previous"
 msgstr "前"
 
-#: src/icehelp.cc:1284
+#: src/icehelp.cc:1332
 msgid "Next"
 msgstr "次"
 
-#: src/icehelp.cc:1286
+#: src/icehelp.cc:1334
 msgid "Contents"
 msgstr "内容"
 
-#: src/icehelp.cc:1287
+#: src/icehelp.cc:1335
 msgid "Index"
 msgstr "目次"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1337
+msgid "Find..."
+msgstr ""
+
+#: src/icehelp.cc:1337
+#, fuzzy
+#| msgid "Ctrl+B"
+msgid "Ctrl+F"
+msgstr "Ctrl+B"
+
+#: src/icehelp.cc:1338
+msgid "Find next"
+msgstr ""
+
+#: src/icehelp.cc:1338
+msgid "F3"
+msgstr ""
+
+#: src/icehelp.cc:1340
 msgid "Open in Browser"
 msgstr "ブラウザで開く"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1340
 msgid "Ctrl+B"
 msgstr "Ctrl+B"
 
-#: src/icehelp.cc:1292
+#: src/icehelp.cc:1342
 msgid "Reload"
 msgstr "再読み込み"
 
-#: src/icehelp.cc:1292 src/icesame.cc:60
+#: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "閉じる"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Ctrl+I"
 msgstr "Ctrl+I"
 
-#: src/icehelp.cc:1300
+#: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1302
+#: src/icehelp.cc:1352
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1304
+#: src/icehelp.cc:1354
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Manual"
 msgstr "マニュアル"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Ctrl+M"
 msgstr "Ctrl+M"
 
-#: src/icehelp.cc:1308
+#: src/icehelp.cc:1358
 msgid "Support"
 msgstr "サポート"
 
-#: src/icehelp.cc:1310
+#: src/icehelp.cc:1360
 msgid "Theme Howto"
 msgstr "テーマの作成方法について"
 
-#: src/icehelp.cc:1310 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/icehelp.cc:1312
+#: src/icehelp.cc:1362
 msgid "Website"
 msgstr "Web サイト"
 
-#: src/icehelp.cc:1312 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icehelp.cc:1314
+#: src/icehelp.cc:1364
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1318 src/yinputline.cc:19
+#: src/icehelp.cc:1368 src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/icehelp.cc:1323 src/yinputline.cc:20
+#: src/icehelp.cc:1373 src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2077
+#: src/icehelp.cc:2180
 msgid "Unsupported protocol."
 msgstr "未対応のプロトコルです。"
 
-#: src/icehelp.cc:2156
+#: src/icehelp.cc:2259
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "パスが正しくありません: %s\n"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2283
 msgid "Path does not refer to a file."
 msgstr "パスの指定がファイルを指し示していません。"
 
-#: src/icehelp.cc:2185
+#: src/icehelp.cc:2288
 msgid "Failed to open file for reading."
 msgstr "ファイルを読み込み用に開く処理が失敗しました。"
 
-#: src/icehelp.cc:2214
+#: src/icehelp.cc:2317
 msgid "Failed to create a temporary file"
 msgstr "一時ファイルを作成する処理が失敗しました"
 
-#: src/icehelp.cc:2307
+#: src/icehelp.cc:2410
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "system(%s) の実行に失敗しました (%d)"
 
-#: src/icehelp.cc:2330
+#: src/icehelp.cc:2433
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "%s の展開に失敗しました"
 
-#: src/icehelp.cc:2338
+#: src/icehelp.cc:2441
 msgid "Could not locate curl or wget in PATH"
 msgstr "PATH 内に curl および wget のどちらも見つかりません"
 
-#: src/icehelp.cc:2342
+#: src/icehelp.cc:2445
 msgid "Unsafe characters in URL"
 msgstr "URL 内に安全ではない文字が含まれています"
 
-#: src/icehelp.cc:2379
+#: src/icehelp.cc:2482
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -527,7 +545,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2572
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "下記のオプションは無視されます: '%s'"
@@ -573,81 +591,81 @@ msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 "ヘルプを読みたい場合は icesh(1) のマニュアルページを参照してください。\n"
 
-#: src/icesh.cc:1506
+#: src/icesh.cc:1508
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "領域 `%s' に対するシンボル名 (数値範囲: %ld-%ld):\n"
 
-#: src/icesh.cc:1564
+#: src/icesh.cc:1566
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "ワークスペースの範囲が正しくありません: %ld"
 
-#: src/icesh.cc:1585
+#: src/icesh.cc:1587
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "ワークスペース名が正しくありません: `%s'"
 
-#: src/icesh.cc:1862
+#: src/icesh.cc:1872
 msgid "GNOME window layer"
 msgstr "GNOME ウインドウレイヤ"
 
-#: src/icesh.cc:1863
+#: src/icesh.cc:1873
 msgid "IceWM tray option"
 msgstr "IceWM トレイアイコン"
 
-#: src/icesh.cc:1864
+#: src/icesh.cc:1874
 msgid "Gravity symbols"
 msgstr "グラビティシンボル"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1875
 msgid "Motif functions"
 msgstr "Motif 機能"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1876
 msgid "Motif decorations"
 msgstr "Motif 装飾"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1877
 msgid "EWMH window state"
 msgstr "EWMH ウインドウ状態"
 
-#: src/icesh.cc:1949 src/icesh.cc:2022
+#: src/icesh.cc:1959 src/icesh.cc:2032
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "ワークスペース #%d: `%s'\n"
 
-#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
+#: src/icesh.cc:2267 src/icesh.cc:3584 src/icesh.cc:4057
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "状態が正しくありません: `%s'."
 
-#: src/icesh.cc:3109
+#: src/icesh.cc:3119
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "ウインドウ 0x%lx のジオメトリを取得できません"
 
-#: src/icesh.cc:3134
+#: src/icesh.cc:3144
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama が正しくありません: `%s'."
 
-#: src/icesh.cc:3181 src/icesh.cc:3231
+#: src/icesh.cc:3191 src/icesh.cc:3241
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "パラメータが正しくありません: `%s'"
 
-#: src/icesh.cc:3197
+#: src/icesh.cc:3207
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "アクション `%s' には少なくとも %d 個のパラメータが必要です。"
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3216
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表現が正しくありません: `%s'"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/icesh.cc:3227 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
 #: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -655,35 +673,35 @@ msgstr ""
 "ディスプレイ %s を開くことができません。X が起動されていて、かつ $DISPLAY が"
 "セットされていなければなりません。"
 
-#: src/icesh.cc:3331
+#: src/icesh.cc:3341
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "予期しないキーワードです: '%s'."
 
-#: src/icesh.cc:3360
+#: src/icesh.cc:3370
 msgid "No windows found."
 msgstr "ウインドウが見つかりませんでした。"
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3385
 msgid "No actions specified."
 msgstr "アクションが指定されていません。"
 
-#: src/icesh.cc:3484
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "ウインドウの識別子が正しくありません: `%s'"
 
-#: src/icesh.cc:3501
+#: src/icesh.cc:3518
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID が正しくありません: `%s'"
 
-#: src/icesh.cc:3537
+#: src/icesh.cc:3554
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "レイヤが正しくありません: `%s'."
 
-#: src/icesh.cc:4348
+#: src/icesh.cc:4365
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "不明なアクションです: `%s'"
@@ -747,22 +765,22 @@ msgstr ""
 msgid "Unknown option '%s'"
 msgstr "不明なオプションです: `%s'"
 
-#: src/icesm.cc:452 src/icesm.cc:612
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
 msgstr "%s を再起動します。"
 
-#: src/icesm.cc:458
+#: src/icesm.cc:468
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s はステータスコード %d で終了しました。"
 
-#: src/icesm.cc:464 src/icesm.cc:618
+#: src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s はシグナル %d で終了しました。"
 
-#: src/icesm.cc:503
+#: src/icesm.cc:513
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -778,7 +796,7 @@ msgstr ""
 "\t2: このセッションを中止しますか？\n"
 "\t3: 端末を起動しますか？\n"
 
-#: src/icesm.cc:509
+#: src/icesm.cc:519
 msgid "IceWM crash response"
 msgstr "IceWM クラッシュ応答"
 
@@ -1392,7 +1410,7 @@ msgstr "ウインドウ一覧 (_W)"
 msgid "Another window manager already running, exiting..."
 msgstr "他のウインドウマネージャが既に起動しています。終了します..."
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:603
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1401,11 +1419,11 @@ msgstr ""
 "%s を再起動できません。\n"
 "$PATH 内に %s がありますか？"
 
-#: src/wmapp.cc:762
+#: src/wmapp.cc:766
 msgid "Confirm Restart as Terminal"
 msgstr "端末として再起動を行なう確認"
 
-#: src/wmapp.cc:763
+#: src/wmapp.cc:767
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -1413,18 +1431,18 @@ msgstr ""
 "全てのアプリケーションを管理から外し、\n"
 "端末として再起動します。よろしいですか？"
 
-#: src/wmapp.cc:1069 src/yxapp.cc:1033
+#: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<なし>"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1386
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      セッションマネージャに接続する際のクライアント ID を指"
 "定します。\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1392
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1435,7 +1453,7 @@ msgstr ""
 "  --debug-z           ウインドウのスタック処理に関連するデバッグメッセージを"
 "表示します。\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1455,7 +1473,7 @@ msgstr ""
 "  --rewrite-preferences  既存の設定ファイルを更新します。\n"
 "  --trace=conf,icon   設定の読み込み時に使用するパスをトレースします。\n"
 
-#: src/wmapp.cc:1406
+#: src/wmapp.cc:1410
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1515,26 +1533,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1468
+#: src/wmapp.cc:1472
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s の設定ディレクトリ:\n"
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1554
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s の設定済みオプション: %s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1635
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "認識できないオプション '%s' です。"
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1681
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1682
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1570,7 +1588,7 @@ msgstr "シェード解除"
 msgid "Rollup"
 msgstr "シェード"
 
-#: src/wmclient.cc:363
+#: src/wmclient.cc:367
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -1627,7 +1645,7 @@ msgstr "icewm を再起動 (_R)"
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:1392
+#: src/wmframe.cc:1439
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1635,15 +1653,15 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1446
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
-#: src/wmmgr.cc:3229
+#: src/wmmgr.cc:3254
 msgid "Missing program setxkbmap"
 msgstr "プログラム setxkbmap がありません"
 
-#: src/wmmgr.cc:3230
+#: src/wmmgr.cc:3255
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 "キーボードの切り替えを行なうため、 setxkbmap をインストールしてください。"

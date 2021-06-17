@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-06 19:26+0200\n"
+"POT-Creation-Date: 2021-06-17 17:23+0200\n"
 "PO-Revision-Date: 2019-06-15 19:49+0000\n"
 "Last-Translator: Olga Smirnova <mistresssilvara@hotmail.com>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -312,170 +312,188 @@ msgstr "СЕТЬ"
 msgid "Workspace: "
 msgstr "Рабочее место: "
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Back"
 msgstr "Назад"
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Alt+Left"
 msgstr "Alt+Влево"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Forward"
 msgstr "Вперед"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Alt+Right"
 msgstr "Alt+Вправо"
 
-#: src/icehelp.cc:1283
+#: src/icehelp.cc:1331
 msgid "Previous"
 msgstr "Предыдущий"
 
-#: src/icehelp.cc:1284
+#: src/icehelp.cc:1332
 msgid "Next"
 msgstr "Следующий"
 
-#: src/icehelp.cc:1286
+#: src/icehelp.cc:1334
 msgid "Contents"
 msgstr "Содержимое"
 
-#: src/icehelp.cc:1287
+#: src/icehelp.cc:1335
 msgid "Index"
 msgstr "Содержание"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1337
+msgid "Find..."
+msgstr ""
+
+#: src/icehelp.cc:1337
+#, fuzzy
+#| msgid "Ctrl+Q"
+msgid "Ctrl+F"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1338
+msgid "Find next"
+msgstr ""
+
+#: src/icehelp.cc:1338
+msgid "F3"
+msgstr ""
+
+#: src/icehelp.cc:1340
 #, fuzzy
 #| msgid "WebBrowser"
 msgid "Open in Browser"
 msgstr "Обозреватель Web"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1340
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+B"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1292
+#: src/icehelp.cc:1342
 msgid "Reload"
 msgstr ""
 
-#: src/icehelp.cc:1292 src/icesame.cc:60
+#: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+I"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1300
+#: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1302
+#: src/icehelp.cc:1352
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1304
+#: src/icehelp.cc:1354
 msgid "FAQ"
 msgstr "Часто задаваемые вопросы"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Manual"
 msgstr "Руководство"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 #, fuzzy
 #| msgid "Ctrl+Q"
 msgid "Ctrl+M"
 msgstr "Ctrl+Q"
 
-#: src/icehelp.cc:1308
+#: src/icehelp.cc:1358
 msgid "Support"
 msgstr "Поддержка"
 
-#: src/icehelp.cc:1310
+#: src/icehelp.cc:1360
 msgid "Theme Howto"
 msgstr "Инструкции по темам"
 
-#: src/icehelp.cc:1310 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
-#: src/icehelp.cc:1312
+#: src/icehelp.cc:1362
 msgid "Website"
 msgstr "Веб-сайт"
 
-#: src/icehelp.cc:1312 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: src/icehelp.cc:1314
+#: src/icehelp.cc:1364
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1318 src/yinputline.cc:19
+#: src/icehelp.cc:1368 src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Ctrl+X"
 
-#: src/icehelp.cc:1323 src/yinputline.cc:20
+#: src/icehelp.cc:1373 src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2077
+#: src/icehelp.cc:2180
 msgid "Unsupported protocol."
 msgstr "Протокол не поддерживается."
 
-#: src/icehelp.cc:2156
+#: src/icehelp.cc:2259
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Неправильный путь: %s\n"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2283
 msgid "Path does not refer to a file."
 msgstr "Путь не указывает на файл."
 
-#: src/icehelp.cc:2185
+#: src/icehelp.cc:2288
 msgid "Failed to open file for reading."
 msgstr "Не удалось открыть файл для чтения."
 
-#: src/icehelp.cc:2214
+#: src/icehelp.cc:2317
 msgid "Failed to create a temporary file"
 msgstr "Ошибка создания временного файла: %s"
 
-#: src/icehelp.cc:2307
+#: src/icehelp.cc:2410
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Не удалось запустить систему(%s) (%d)"
 
-#: src/icehelp.cc:2330
+#: src/icehelp.cc:2433
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Ошибка распаковки %s"
 
-#: src/icehelp.cc:2338
+#: src/icehelp.cc:2441
 msgid "Could not locate curl or wget in PATH"
 msgstr "'curl' или 'wget' в PATH не найдены"
 
-#: src/icehelp.cc:2342
+#: src/icehelp.cc:2445
 msgid "Unsafe characters in URL"
 msgstr "Опасные знаки в ссылке"
 
-#: src/icehelp.cc:2379
+#: src/icehelp.cc:2482
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -547,7 +565,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2572
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Неизвестная опция: '%s'"
@@ -592,89 +610,89 @@ msgstr "Игра IceSame"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "За справкой обратитесь к странице руководства icesh(1).\n"
 
-#: src/icesh.cc:1506
+#: src/icesh.cc:1508
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Поименованные символы в домене `%s' (числовой диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:1564
+#: src/icesh.cc:1566
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Рабочее место за пределами: %ld"
 
-#: src/icesh.cc:1585
+#: src/icesh.cc:1587
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неверное имя рабочего места: `%s'"
 
-#: src/icesh.cc:1862
+#: src/icesh.cc:1872
 msgid "GNOME window layer"
 msgstr "Уровень окна GNOME"
 
-#: src/icesh.cc:1863
+#: src/icesh.cc:1873
 msgid "IceWM tray option"
 msgstr "Опция системного лотка IceWM"
 
-#: src/icesh.cc:1864
+#: src/icesh.cc:1874
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1875
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "Сохранить Изменения"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1876
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "Сохранить Изменения"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1877
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Состояние окна GNOME"
 
-#: src/icesh.cc:1949 src/icesh.cc:2022
+#: src/icesh.cc:1959 src/icesh.cc:2032
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "рабочее место #%d: `%s'\n"
 
-#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
+#: src/icesh.cc:2267 src/icesh.cc:3584 src/icesh.cc:4057
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid state: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3109
+#: src/icesh.cc:3119
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3134
+#: src/icesh.cc:3144
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3181 src/icesh.cc:3231
+#: src/icesh.cc:3191 src/icesh.cc:3241
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3197
+#: src/icesh.cc:3207
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Действие `%s' требует как минимум %d аргумента(ов)."
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3216
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Неправильное выражение: `%s'"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/icesh.cc:3227 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
 #: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -682,38 +700,38 @@ msgstr ""
 "Не могу открыть Display %s. X-сервер должен быть загружен и \n"
 "переменная $DISPLAY установлена."
 
-#: src/icesh.cc:3331
+#: src/icesh.cc:3341
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "Непредвиденное ключевое слово меню: %s"
 
-#: src/icesh.cc:3360
+#: src/icesh.cc:3370
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3385
 msgid "No actions specified."
 msgstr "Не указано никаких действий."
 
-#: src/icesh.cc:3484
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неверный идентификатор окна: `%s'"
 
-#: src/icesh.cc:3501
+#: src/icesh.cc:3518
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid PID: `%s'"
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:3537
+#: src/icesh.cc:3554
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'"
 msgid "Invalid layer: `%s'."
 msgstr "Неправильный аргумент: `%s'"
 
-#: src/icesh.cc:4348
+#: src/icesh.cc:4365
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестное действие: `%s'"
@@ -775,23 +793,23 @@ msgstr ""
 msgid "Unknown option '%s'"
 msgstr "Неизвестная опция: '%s'"
 
-#: src/icesm.cc:452 src/icesm.cc:612
+#: src/icesm.cc:462 src/icesm.cc:622
 #, fuzzy, c-format
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Перезапуск"
 
-#: src/icesm.cc:458
+#: src/icesm.cc:468
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s завершился с кодом %d."
 
-#: src/icesm.cc:464 src/icesm.cc:618
+#: src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s был уничтожен через сигнал %d."
 
-#: src/icesm.cc:503
+#: src/icesm.cc:513
 #, fuzzy
 #| msgid ""
 #| " IceWM crashed for the second time in 10 seconds. \n"
@@ -813,7 +831,7 @@ msgstr ""
 "\t1: Перезапустить IceWM?\n"
 "\t2: Прервать этот сеанс?\n"
 
-#: src/icesm.cc:509
+#: src/icesm.cc:519
 msgid "IceWM crash response"
 msgstr "Ответ на сбой IceWM"
 
@@ -1423,7 +1441,7 @@ msgstr "_Список Окон"
 msgid "Another window manager already running, exiting..."
 msgstr "Оконный менеджер уже запущен. Выхожу..."
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:603
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1432,27 +1450,27 @@ msgstr ""
 "Не могу перезапустить: %s\n"
 "Содержится ли %s в $PATH?"
 
-#: src/wmapp.cc:762
+#: src/wmapp.cc:766
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:763
+#: src/wmapp.cc:767
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1069 src/yxapp.cc:1033
+#: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<пусто>"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1386
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Идентификатор клиента для связи с менеджером сеансов.\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1392
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1463,7 +1481,7 @@ msgstr ""
 "  --debug-z           Печатать отладочные сообщения, относящиеся к стеку "
 "окон.\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1400
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -1485,7 +1503,7 @@ msgstr ""
 "  -t, --theme=FILE    Загрузка темы из файла FILE.\n"
 "  --postpreferences   Вывод настроек после завершения обработки.\n"
 
-#: src/wmapp.cc:1406
+#: src/wmapp.cc:1410
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1546,26 +1564,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1468
+#: src/wmapp.cc:1472
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Каталоги конфигурации %s:\n"
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1554
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Настроенные параметры %s: %s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1635
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Неизвестная опция '%s'."
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1681
 msgid "Confirm Logout"
 msgstr "Подтверждение выхода"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1682
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1602,7 +1620,7 @@ msgstr "Скрутить вниз"
 msgid "Rollup"
 msgstr "Скрутить"
 
-#: src/wmclient.cc:363
+#: src/wmclient.cc:367
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -1657,7 +1675,7 @@ msgstr "_Перезапуск IceWM"
 msgid "_About"
 msgstr "_О программе"
 
-#: src/wmframe.cc:1392
+#: src/wmframe.cc:1439
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1666,15 +1684,15 @@ msgstr ""
 "при закрытии этого окна. Вы согласны его закрыть?"
 
 #
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1446
 msgid "Kill Client: "
 msgstr "Убить Окно: "
 
-#: src/wmmgr.cc:3229
+#: src/wmmgr.cc:3254
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3230
+#: src/wmmgr.cc:3255
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 

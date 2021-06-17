@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-05-06 19:26+0200\n"
+"POT-Creation-Date: 2021-06-17 17:23+0200\n"
 "PO-Revision-Date: 2021-05-17 14:59+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/de/>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -299,162 +299,180 @@ msgstr "NETZ"
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Back"
 msgstr "Zurück"
 
-#: src/icehelp.cc:1278
+#: src/icehelp.cc:1326
 msgid "Alt+Left"
 msgstr "Alt+Links"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Forward"
 msgstr "Weiter"
 
-#: src/icehelp.cc:1280
+#: src/icehelp.cc:1328
 msgid "Alt+Right"
 msgstr "Alt+Rechts"
 
-#: src/icehelp.cc:1283
+#: src/icehelp.cc:1331
 msgid "Previous"
 msgstr "Vorherige"
 
-#: src/icehelp.cc:1284
+#: src/icehelp.cc:1332
 msgid "Next"
 msgstr "Nächste"
 
-#: src/icehelp.cc:1286
+#: src/icehelp.cc:1334
 msgid "Contents"
 msgstr "Inhalte"
 
-#: src/icehelp.cc:1287
+#: src/icehelp.cc:1335
 msgid "Index"
 msgstr "Index"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1337
+msgid "Find..."
+msgstr ""
+
+#: src/icehelp.cc:1337
+#, fuzzy
+#| msgid "Ctrl+B"
+msgid "Ctrl+F"
+msgstr "Strg+B"
+
+#: src/icehelp.cc:1338
+msgid "Find next"
+msgstr ""
+
+#: src/icehelp.cc:1338
+msgid "F3"
+msgstr ""
+
+#: src/icehelp.cc:1340
 msgid "Open in Browser"
 msgstr "In Browser öffnen"
 
-#: src/icehelp.cc:1290
+#: src/icehelp.cc:1340
 msgid "Ctrl+B"
 msgstr "Strg+B"
 
-#: src/icehelp.cc:1292
+#: src/icehelp.cc:1342
 msgid "Reload"
 msgstr "Neu laden"
 
-#: src/icehelp.cc:1292 src/icesame.cc:60
+#: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
 msgstr "Strg+R"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
 msgid "Close"
 msgstr "Schließen"
 
-#: src/icehelp.cc:1293 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
 msgid "Ctrl+Q"
 msgstr "Strg+Q"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
-#: src/icehelp.cc:1298
+#: src/icehelp.cc:1348
 msgid "Ctrl+I"
 msgstr "Strg+I"
 
-#: src/icehelp.cc:1300
+#: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
 msgstr "Icewmbg(1)"
 
-#: src/icehelp.cc:1302
+#: src/icehelp.cc:1352
 msgid "Icesound(1)"
 msgstr "Icesound(1)"
 
-#: src/icehelp.cc:1304
+#: src/icehelp.cc:1354
 msgid "FAQ"
 msgstr "FAQ"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Manual"
 msgstr "Handbuch"
 
-#: src/icehelp.cc:1306
+#: src/icehelp.cc:1356
 msgid "Ctrl+M"
 msgstr "Strg+M"
 
-#: src/icehelp.cc:1308
+#: src/icehelp.cc:1358
 msgid "Support"
 msgstr "Unterstützung"
 
-#: src/icehelp.cc:1310
+#: src/icehelp.cc:1360
 msgid "Theme Howto"
 msgstr "Theme HowTo"
 
-#: src/icehelp.cc:1310 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:56
 msgid "Ctrl+T"
 msgstr "Strg+T"
 
-#: src/icehelp.cc:1312
+#: src/icehelp.cc:1362
 msgid "Website"
 msgstr "Webseite"
 
-#: src/icehelp.cc:1312 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:57
 msgid "Ctrl+W"
 msgstr "Strg+W"
 
-#: src/icehelp.cc:1314
+#: src/icehelp.cc:1364
 msgid "Github"
 msgstr "Github"
 
-#: src/icehelp.cc:1318 src/yinputline.cc:19
+#: src/icehelp.cc:1368 src/yinputline.cc:19
 msgid "Ctrl+X"
 msgstr "Strg+X"
 
-#: src/icehelp.cc:1323 src/yinputline.cc:20
+#: src/icehelp.cc:1373 src/yinputline.cc:20
 msgid "Ctrl+V"
 msgstr "Strg+V"
 
-#: src/icehelp.cc:2077
+#: src/icehelp.cc:2180
 msgid "Unsupported protocol."
 msgstr "Nicht unterstütztes Protokoll."
 
-#: src/icehelp.cc:2156
+#: src/icehelp.cc:2259
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Ungültiger Pfad: %s\n"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2283
 msgid "Path does not refer to a file."
 msgstr "Der Pfad führt zu keiner Datei."
 
-#: src/icehelp.cc:2185
+#: src/icehelp.cc:2288
 msgid "Failed to open file for reading."
 msgstr "Konnte nicht zum lesen geöffnet werden."
 
-#: src/icehelp.cc:2214
+#: src/icehelp.cc:2317
 msgid "Failed to create a temporary file"
 msgstr "Erstellung einer temporären Datei ist fehlgeschlagen"
 
-#: src/icehelp.cc:2307
+#: src/icehelp.cc:2410
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Ausführung vom system(%s) ist fehlgeschlagen (%d)"
 
-#: src/icehelp.cc:2330
+#: src/icehelp.cc:2433
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Konnte %s nicht entpacken"
 
-#: src/icehelp.cc:2338
+#: src/icehelp.cc:2441
 msgid "Could not locate curl or wget in PATH"
 msgstr "curl oder wget konnten in PATH nicht gefunden werden"
 
-#: src/icehelp.cc:2342
+#: src/icehelp.cc:2445
 msgid "Unsafe characters in URL"
 msgstr "Unsichere Zeichen in der URL"
 
-#: src/icehelp.cc:2379
+#: src/icehelp.cc:2482
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -530,7 +548,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2572
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Option '%s' wird ignoriert"
@@ -575,81 +593,81 @@ msgstr "Gleiches Spiel"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Für Hilfe bitte die Manpage (1) hinzuziehen.\n"
 
-#: src/icesh.cc:1506
+#: src/icesh.cc:1508
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Benannte Symbole aus der Domain `%s` (Wertebereich: %ld-%ld):\n"
 
-#: src/icesh.cc:1564
+#: src/icesh.cc:1566
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Arbeitsbereich außerhalb des Wertebereichs: %ld"
 
-#: src/icesh.cc:1585
+#: src/icesh.cc:1587
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ungültiger Name des Arbeitsbereichs: `%s`"
 
-#: src/icesh.cc:1862
+#: src/icesh.cc:1872
 msgid "GNOME window layer"
 msgstr "GNOME-Fensterebene"
 
-#: src/icesh.cc:1863
+#: src/icesh.cc:1873
 msgid "IceWM tray option"
 msgstr "IceWM-Trayoption"
 
-#: src/icesh.cc:1864
+#: src/icesh.cc:1874
 msgid "Gravity symbols"
 msgstr "Gravitationssymbole"
 
-#: src/icesh.cc:1865
+#: src/icesh.cc:1875
 msgid "Motif functions"
 msgstr "Motif-Funktionen"
 
-#: src/icesh.cc:1866
+#: src/icesh.cc:1876
 msgid "Motif decorations"
 msgstr "Motif-Ausstattung"
 
-#: src/icesh.cc:1867
+#: src/icesh.cc:1877
 msgid "EWMH window state"
 msgstr "EWMH-Fensterzustand"
 
-#: src/icesh.cc:1949 src/icesh.cc:2022
+#: src/icesh.cc:1959 src/icesh.cc:2032
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Arbeitsbereich #%d: `%s`\n"
 
-#: src/icesh.cc:2257 src/icesh.cc:3567 src/icesh.cc:4040
+#: src/icesh.cc:2267 src/icesh.cc:3584 src/icesh.cc:4057
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ungültiger Status: `%s'."
 
-#: src/icesh.cc:3109
+#: src/icesh.cc:3119
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Geometrie von Fenster 0x%lx kann nicht abgerufen werden"
 
-#: src/icesh.cc:3134
+#: src/icesh.cc:3144
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ungültiges Xinemara: `%s'."
 
-#: src/icesh.cc:3181 src/icesh.cc:3231
+#: src/icesh.cc:3191 src/icesh.cc:3241
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ungültiges Argument: `%s'"
 
-#: src/icesh.cc:3197
+#: src/icesh.cc:3207
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aktion `%s` benötigt mindestens %d Argumente."
 
-#: src/icesh.cc:3206
+#: src/icesh.cc:3216
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ungültiger Ausdruck: `%s`"
 
-#: src/icesh.cc:3217 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1068
+#: src/icesh.cc:3227 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1072
 #: src/yxapp.cc:1032
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -657,35 +675,35 @@ msgstr ""
 "Das Display kann nicht geöffnet werden: %s. Der X muss laufen und $DISPLAY "
 "gesetzt sein."
 
-#: src/icesh.cc:3331
+#: src/icesh.cc:3341
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Unerwartet: '%s'."
 
-#: src/icesh.cc:3360
+#: src/icesh.cc:3370
 msgid "No windows found."
 msgstr "Keine Fenster gefunden."
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3385
 msgid "No actions specified."
 msgstr "Keine Aktionen angegeben."
 
-#: src/icesh.cc:3484
+#: src/icesh.cc:3501
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ungültiger Fensterbezeichner: `%s`"
 
-#: src/icesh.cc:3501
+#: src/icesh.cc:3518
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ungültige PID: `%s'"
 
-#: src/icesh.cc:3537
+#: src/icesh.cc:3554
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ungültige Schicht: `%s'."
 
-#: src/icesh.cc:4348
+#: src/icesh.cc:4365
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Unbekannte Aktion: `%s`"
@@ -749,22 +767,22 @@ msgstr ""
 msgid "Unknown option '%s'"
 msgstr "Unbekannte Option: '%s'"
 
-#: src/icesm.cc:452 src/icesm.cc:612
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
 msgstr "Neustart %s."
 
-#: src/icesm.cc:458
+#: src/icesm.cc:468
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s endete mit Status %d."
 
-#: src/icesm.cc:464 src/icesm.cc:618
+#: src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s wurde durch Signal %d getötet."
 
-#: src/icesm.cc:503
+#: src/icesm.cc:513
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -780,7 +798,7 @@ msgstr ""
 "2: Diese Sitzung abbrechen?\n"
 "3: Ein Terminal laufen lassen?\n"
 
-#: src/icesm.cc:509
+#: src/icesm.cc:519
 msgid "IceWM crash response"
 msgstr "IceWM-Absturz-Reaktion"
 
@@ -1398,7 +1416,7 @@ msgstr "_Fensterliste"
 msgid "Another window manager already running, exiting..."
 msgstr "Ein anderer Fenstermanager ist bereits aktiv, beenden..."
 
-#: src/wmapp.cc:600
+#: src/wmapp.cc:603
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -1407,11 +1425,11 @@ msgstr ""
 "Neustart fehlgeschlagen: %s\n"
 "Verweist die Variable $PATH auf das Programm %s?"
 
-#: src/wmapp.cc:762
+#: src/wmapp.cc:766
 msgid "Confirm Restart as Terminal"
 msgstr "Neustart als Terminal bestätigen"
 
-#: src/wmapp.cc:763
+#: src/wmapp.cc:767
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -1419,18 +1437,18 @@ msgstr ""
 "Verwaltung aller Anwendungen aufheben und\n"
 "als Terminal neu starten. Fortfahren?"
 
-#: src/wmapp.cc:1069 src/yxapp.cc:1033
+#: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<keines>"
 
-#: src/wmapp.cc:1382
+#: src/wmapp.cc:1386
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      zu verwendende Client-ID, wenn der Sitzungs-Manager "
 "kontaktiert wird.\n"
 
-#: src/wmapp.cc:1388
+#: src/wmapp.cc:1392
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -1441,7 +1459,7 @@ msgstr ""
 "  --debug-z           Gibt Debug-Nachrichten mit dem Blick auf window "
 "stacking aus.\n"
 
-#: src/wmapp.cc:1396
+#: src/wmapp.cc:1400
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1457,13 +1475,13 @@ msgstr ""
 "  -c, --config=DATEI  Einstellungen aus DATEI laden.\n"
 "  -t, --theme=DATEI  Theme aus DATEI laden.\n"
 "  -s, --spash=BILD  Kurz BILD beim Start anzeigen.\n"
-" -p,  --postpreferences  Einstellungen nach der ganzen Verarbeitung ausgeben."
-"\n"
+" -p,  --postpreferences  Einstellungen nach der ganzen Verarbeitung "
+"ausgeben.\n"
 "  --rewrite-preferences  Vorhandene Einstellungsdatei aktualisieren.\n"
 " --trace=conf,icon  Pfade zeichnen, die zum Laden der Konfiguration "
 "verwendet werden.\n"
 
-#: src/wmapp.cc:1406
+#: src/wmapp.cc:1410
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1524,26 +1542,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1468
+#: src/wmapp.cc:1472
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s Konfigurationsverzeichnisse:\n"
 
-#: src/wmapp.cc:1550
+#: src/wmapp.cc:1554
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurierte Optionen: %s\n"
 
-#: src/wmapp.cc:1631
+#: src/wmapp.cc:1635
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Unbekannte Option: '%s'."
 
-#: src/wmapp.cc:1677
+#: src/wmapp.cc:1681
 msgid "Confirm Logout"
 msgstr "Abmelden bestätigen"
 
-#: src/wmapp.cc:1678
+#: src/wmapp.cc:1682
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -1580,7 +1598,7 @@ msgstr "Herunterrollen"
 msgid "Rollup"
 msgstr "Einrollen"
 
-#: src/wmclient.cc:363
+#: src/wmclient.cc:367
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -1637,7 +1655,7 @@ msgstr "_IceWM neu starten"
 msgid "_About"
 msgstr "_Über"
 
-#: src/wmframe.cc:1392
+#: src/wmframe.cc:1439
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -1647,15 +1665,15 @@ msgstr ""
 "Wünschen Sie trotzdem fortzufahren?"
 
 #
-#: src/wmframe.cc:1399
+#: src/wmframe.cc:1446
 msgid "Kill Client: "
 msgstr "Client töten: "
 
-#: src/wmmgr.cc:3229
+#: src/wmmgr.cc:3254
 msgid "Missing program setxkbmap"
 msgstr "Fehlendes Program: 'setxkbmap'"
 
-#: src/wmmgr.cc:3230
+#: src/wmmgr.cc:3255
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Um die Tastatur zu ändern, installieren Sie bitte setxkbmap."
 
