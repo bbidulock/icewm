@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-05-06 19:26+0200\n"
-"PO-Revision-Date: 2021-03-23 05:56+0000\n"
+"PO-Revision-Date: 2021-06-17 14:58+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.6.2\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -342,7 +342,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1292
 msgid "Reload"
-msgstr ""
+msgstr "Muat ulang"
 
 #: src/icehelp.cc:1292 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -361,10 +361,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1298
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1300
 msgid "Icewmbg(1)"
@@ -383,10 +381,8 @@ msgid "Manual"
 msgstr "Manual"
 
 #: src/icehelp.cc:1306
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1308
 msgid "Support"
@@ -657,10 +653,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Tidak dapat membuka tampilan: %s. X harus berjalan dan atur $DISPLAY."
 
 #: src/icesh.cc:3331
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Kata kunci menu yang tidak diharapkan: '%s'"
+msgstr "Tak diharapkan: `%s'."
 
 #: src/icesh.cc:3360
 msgid "No windows found."
@@ -1216,7 +1211,7 @@ msgstr "Alfa Blending"
 
 #: src/wmabout.cc:58
 msgid "Renderer:"
-msgstr "Perender"
+msgstr "Perender:"
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
@@ -1427,15 +1422,6 @@ msgstr ""
 "  --debug-z           Cetak pesan awakutu tentang penumpukan jendela.\n"
 
 #: src/wmapp.cc:1396
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -1452,6 +1438,7 @@ msgstr ""
 "  -t, --theme=FILE    Muat tema dari FILE.\n"
 "  -s, --splash=IMAGE  Perlihatkan secara singkat IMAGE pada saat awal mula.\n"
 "  -p, --postpreferences  Preferensi cetak setelah semua pemrosesan.\n"
+"  --rewrite-preferences  Mutakhirkan berkas preferensi yang ada.\n"
 "  --trace=conf,icon   Path jejak yang digunakan untuk memuat konfigurasi.\n"
 
 #: src/wmapp.cc:1406
@@ -1575,6 +1562,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Klien %s dengan PID %ld gagal merespon.\n"
+"Apakah Anda ingin mengakhiri klien ini?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
