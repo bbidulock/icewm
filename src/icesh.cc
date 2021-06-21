@@ -949,6 +949,18 @@ public:
         }
     }
 
+    void filterByMapState(int state) {
+        vector<Window> keep;
+        for (YTreeIter client(*this); client; ++client) {
+            XWindowAttributes attr = {};
+            if (XGetWindowAttributes(display, client, &attr)
+                && attr.map_state == state) {
+                keep.push_back(client);
+            }
+        }
+        fChildren = keep;
+    }
+
     void findTaskbar() {
         vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
@@ -3317,6 +3329,8 @@ bool IceSh::conditional()
         if (ifte() == NoS)
             unexpected();
         trees.pop_back();
+        if (trees.size())
+            windowList = trees.back();
     }
     else if (evaluating()) {
         return false;
@@ -3347,7 +3361,10 @@ void IceSh::flags()
     bool act = false;
 
     while (haveArg()) {
-        if (argp[0][0] == '-') {
+        if (conditional()) {
+            /*ignore*/;
+        }
+        else if (argp[0][0] == '-') {
             char* arg = getArg();
             if (arg[1] == '-')
                 arg++;
@@ -3355,9 +3372,6 @@ void IceSh::flags()
         }
         else if (argp[0][0] == '+' && strchr("frwT", argp[0][1])) {
             flag(getArg());
-        }
-        else if (conditional()) {
-            /*ignore*/;
         }
         else {
             act = true;
@@ -3452,6 +3466,20 @@ void IceSh::flag(char* arg)
             windowList.getClientList();
         windowList.filterLast();
         MSG(("last window selected"));
+        selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "-unmapped", "")) {
+        if ( ! windowList && ! selecting)
+            windowList.getClientList();
+        windowList.filterByMapState(IsUnmapped);
+        selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "-viewable", "")) {
+        if ( ! windowList && ! selecting)
+            windowList.getClientList();
+        windowList.filterByMapState(IsViewable);
         selecting = true;
         return;
     }

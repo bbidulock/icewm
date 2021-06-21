@@ -158,6 +158,16 @@ To match at the end use a C<$> suffix.
 Filters clients by process ID. Clients with a _NET_WM_PID property equal
 to I<PID> are selected.
 
+=item B<-u>, B<-unmapped>
+
+Filter clients and keep those which are currently not viewable.
+These are hidden, minimized, rolled-up, or on another workspace.
+
+=item B<-v>, B<-viewable>
+
+Filter clients and keep only those which are currently viewable.
+These clients are mapped on the current workspace.
+
 =item B<-G>, B<-Gravity> I<GRAVITY>
 
 Filters clients by the window gravity field of the WM_NORMAL_HINTS
@@ -175,7 +185,7 @@ an exclamation mark then the filtering is inverted.
 
 Filters clients by I<EWMH window state>. Clients which have at
 least an EWMH window state of I<STATE> are selected.  This state
-refers to details like B<minized> or B<maximized>. See EXPRESSIONS
+refers to details like B<MINIZED> or B<MAXIMIZED>. See EXPRESSIONS
 below. If I<STATE> starts with an exclamation mark then the filtering
 is inverted.  A question mark C<?> filters clients with any bit set
 in I<STATE>.
@@ -714,13 +724,14 @@ Icesh supports C<if-then-else> expressions. The full syntax is:
     end
 
 Where C<selection> is a sequence of selection and filtering options,
-which evaluates to true when it is non-empty. That is, if one or more
+which evaluates to B<true> when it is non-empty. That is, if one or more
 windows fulfilled the condition. If it is empty, then its C<actions>
 clause is ignored and the subsequent C<elif> or C<else> clause is tried
 or taken. Each clause is optional. Even the C<then> clause may be omitted.
-Whenever a selection condition evaluates to false, the window selection
-that existed before the C<if> clause is immediately restored.  Note that
-the use of conditionals is seldom needed.
+
+Whenever a selection condition evaluates to B<false>, the window selection
+that existed before the C<if> clause is immediately restored.  This also
+happens after an C<end> clause.
 
 =head2 EXPRESSIONS
 
@@ -865,6 +876,14 @@ Toggle the frame border of the focused window.
 Here is a different solution using conditionals.
 
     icesh -f if -P _NET_FRAME_EXTENTS=0 then bordered else borderless
+
+Here is a conditional to either toggle the visibility of a roxterm,
+which has a WM_ROLE value of C<special>, or start it with B<runonce>.
+
+    icesh sync if -c roxterm.Roxterm -R special then \
+        if -v then hide \
+        elif -u then setWorkspace this sync activate \
+        else runonce roxterm --role=special
 
 =head1 ENVIRONMENT
 
