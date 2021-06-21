@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-06-17 17:23+0200\n"
-"PO-Revision-Date: 2021-06-17 14:58+0000\n"
+"PO-Revision-Date: 2021-06-21 06:57+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -334,21 +334,19 @@ msgstr "Indeks"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "Temukan…"
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+F"
-msgstr "Ctrl+B"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "Temukan berikutnya"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
 msgid "Open in Browser"
