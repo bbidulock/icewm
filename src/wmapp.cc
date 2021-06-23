@@ -809,8 +809,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         YFrameWindow **w = nullptr;
         int count = 0;
 
-        manager->getWindowsToArrange(&w, &count);
-        if (w) {
+        if (manager->getWindowsToArrange(&w, &count)) {
             manager->tileWindows(w, count,
                                  (action == actionTileVertical) ? true : false);
             delete [] w;
@@ -818,8 +817,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionArrange) {
         YFrameWindow **w = nullptr;
         int count = 0;
-        manager->getWindowsToArrange(&w, &count);
-        if (w) {
+        if (manager->getWindowsToArrange(&w, &count)) {
             manager->smartPlace(w, count);
             delete [] w;
         }
@@ -828,16 +826,14 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionHideAll || action == actionMinimizeAll) {
         YFrameWindow **w = nullptr;
         int count = 0;
-        manager->getWindowsToArrange(&w, &count);
-        if (w) {
+        if (manager->getWindowsToArrange(&w, &count)) {
             manager->setWindows(w, count, action);
             delete [] w;
         }
     } else if (action == actionShowDesktop) {
         YFrameWindow **w = nullptr;
         int count = 0;
-        manager->getWindowsToArrange(&w, &count, true, true);
-        if (w && count > 0) {
+        if (manager->getWindowsToArrange(&w, &count, true, true)) {
             manager->setWindows(w, count, actionMinimizeAll);
             manager->setShowingDesktop(true);
         } else {
@@ -848,8 +844,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionCascade) {
         YFrameWindow **w = nullptr;
         int count = 0;
-        manager->getWindowsToArrange(&w, &count);
-        if (w) {
+        if (manager->getWindowsToArrange(&w, &count)) {
             manager->cascadePlace(w, count);
             delete [] w;
         }

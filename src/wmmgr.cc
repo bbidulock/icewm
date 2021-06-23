@@ -770,12 +770,11 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         if (message.data.l[0] == 0 && fShowingDesktop) {
             undoArrange();
             setShowingDesktop(false);
-        } else
-        if (message.data.l[0] != 0 && !fShowingDesktop) {
+        }
+        else if (message.data.l[0] == True && !fShowingDesktop) {
             YFrameWindow **w = nullptr;
             int count = 0;
-            getWindowsToArrange(&w, &count, true, true);
-            if (w && count > 0)
+            if (getWindowsToArrange(&w, &count, true, true))
                 setWindows(w, count, actionMinimizeAll);
             setShowingDesktop(true);
             delete [] w;
@@ -3144,9 +3143,13 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
 bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
                                          bool all, bool skipNonMinimizable)
 {
-    for (int loop = 0; loop < 2; ++loop) {
-        int n = 0;
-        for (YFrameWindow *w = topLayer(WinLayerNormal); w; w = w->next()) {
+    int capacity = focusedCount() + 1;
+    int indexarr = 0;
+    YFrameWindow** arrange = new YFrameWindow *[capacity];
+    if (capacity && arrange) {
+        for (YFrameWindow *w = topLayer(WinLayerOnTop);
+             w && w->getActiveLayer() >= WinLayerBelow;
+             w = w->nextLayer()) {
             if (w->owner() == nullptr && // not transient ?
                 w->visibleNow() && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
@@ -3155,20 +3158,20 @@ bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
                 !w->isHidden() &&
                 (!skipNonMinimizable || w->canMinimize()))
             {
-                if (loop)
-                    (*win)[n] = w;
-                n++;
-            }
-        }
-        if (loop == 0) {
-            *count = n;
-            *win = (n == 0) ? nullptr : new YFrameWindow *[*count];
-            if (*win == nullptr) {
-                return false;
+                if (indexarr < capacity) {
+                    arrange[indexarr] = w;
+                    indexarr++;
+                }
             }
         }
     }
-    return true;
+    if (indexarr == 0) {
+        delete[] arrange;
+        arrange = nullptr;
+    }
+    *count = indexarr;
+    *win = arrange;
+    return bool(indexarr);
 }
 
 void YWindowManager::saveArrange(YFrameWindow **w, int count) {
