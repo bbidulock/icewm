@@ -336,12 +336,31 @@ static void help(char* name) {
     exit(1);
 }
 
+static Pixel getColor(const char* name) {
+    int screen = XDefaultScreen(display);
+    colormap = XDefaultColormap(display, screen);
+    XColor color = {}, exact;
+    Pixel pixel;
+    if (XLookupColor(display, colormap, name, &exact, &color) &&
+        XAllocColor(display, colormap, &color))
+        pixel = color.pixel;
+    else if (XParseColor(display, colormap, name, &color) &&
+        XAllocColor(display, colormap, &color))
+        pixel = color.pixel;
+    else
+        pixel = XWhitePixel(display, screen);
+    tell("color %s = 0x%lX\n", name, pixel);
+    return pixel;
+}
+
 static void test_run(char* progname, bool pinging) {
     int screen = XDefaultScreen(display);
     root = XRootWindow(display, screen);
     colormap = XDefaultColormap(display, screen);
-    Pixel black = XBlackPixel(display, screen);
+    // Pixel black = XBlackPixel(display, screen);
     Pixel white = XWhitePixel(display, screen);
+    Pixel blue = getColor("blue");
+    Pixel yellow = getColor("yellow");
 
     window = XCreateWindow(display, root,
                            0,
@@ -351,7 +370,7 @@ static void test_run(char* progname, bool pinging) {
                            CopyFromParent, InputOutput, CopyFromParent,
                            None, None);
 
-    XSetWindowBackground(display, window, black);
+    XSetWindowBackground(display, window, blue);
 
     Atom protocols[] = {
         _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS,
@@ -390,10 +409,12 @@ static void test_run(char* progname, bool pinging) {
 
     XMapRaised(display, window);
 
-    unmapped = XCreateSimpleWindow(display, root, 0, 0, 100, 100, 20, white, black);
+    unmapped = XCreateSimpleWindow(display, root, 0, 0, 100, 100, 20,
+                                   white, yellow);
     XClassHint unclassHint = { (char *)"unmapped:1", (char *)"class 1" };
     XSetClassHint(display, unmapped, &unclassHint);
     XStoreName(display, unmapped, "unmapped");
+    setProperty(unmapped, _XA_NET_WM_PID, XA_CARDINAL, &pid, 1);
 
     setProperty(unmapped, _XA_WM_CLIENT_LEADER, XA_WINDOW, &leader, 1);
 
@@ -524,6 +545,7 @@ static void test_run(char* progname, bool pinging) {
                    "t : toggle skip taskbar\n"
                    "m : move resize 8\n"
                    "r : move resize 4\n"
+                   "u : map the unmapped\n"
                    "x : extents unmapped\n"
                    "X : extents window\n"
                    "^X : extents root\n"
