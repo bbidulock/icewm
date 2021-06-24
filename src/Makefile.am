@@ -612,7 +612,7 @@ testwinhints_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testwinhints.cc
-testwinhints_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
+testwinhints_LDFLAGS = $(CORE_LIBS)
 
 testnetwmhints_SOURCES = \
 	intl.h \
@@ -621,7 +621,7 @@ testnetwmhints_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testnetwmhints.cc
-testnetwmhints_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
+testnetwmhints_LDFLAGS = $(CORE_LIBS)
 
 testmap_SOURCES = \
 	intl.h \
@@ -630,7 +630,7 @@ testmap_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testmap.cc
-testmap_LDFLAGS = $(IMAGE_LIBS) $(CORE_LIBS)
+testmap_LDFLAGS = libice.la $(CORE_LIBS)
 
 testlocale_SOURCES = \
 	intl.h \

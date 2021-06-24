@@ -13,31 +13,35 @@
 #include <X11/keysym.h>
 
 #include "WinMgr.h"
+#include "logevent.h"
+#include "base.h"
 
 /// _SET would be nice to have
 #define _NET_WM_STATE_REMOVE 0
 #define _NET_WM_STATE_ADD 1
 #define _NET_WM_STATE_TOGGLE 2
 
-#define KEY_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask))
-#define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
-#define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
-
-static char *displayName = 0;
 static Display *display = 0;
 static Colormap defaultColormap;
 static Window root = None;
 static Window window = None;
+const char* ApplicationName = "testmap";
 
+static int rx = -1, ry = -1;
+static int wx = -1, wy = -1;
+static unsigned int ww = 0, wh = 0;
 
-int rx = -1, ry = -1;
-int wx = -1, wy = -1;
-unsigned int ww = 0, wh = 0;
+int main(int argc, char** argv) {
+    check_argv(argc, argv, nullptr, "");
 
-int main(int argc, char ** /*argv*/) {
+    display = XOpenDisplay(nullptr);
+    if (display == nullptr) {
+        fail("Can't open display: %s. ", XDisplayName(nullptr));
+        return 0;
+    }
+
     XSetWindowAttributes attr;
 
-    assert((display = XOpenDisplay(displayName)) != 0);
     root = RootWindow(display, DefaultScreen(display));
     defaultColormap = DefaultColormap(display, DefaultScreen(display));
 
@@ -104,7 +108,7 @@ int main(int argc, char ** /*argv*/) {
             case PropertyNotify:
                 break;
             default:
-                fprintf(stderr, "event=%d\n", xev.type);
+                fprintf(stderr, "event=%s\n", eventName(xev.type));
                 break;
             }
         }
