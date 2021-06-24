@@ -14,9 +14,8 @@
 
 #include "WinMgr.h"
 
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #define KEY_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask))
-#define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
-#define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
 
 static char *displayName = 0;
 static Display *display = 0;

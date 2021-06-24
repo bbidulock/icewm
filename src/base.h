@@ -121,15 +121,6 @@ void show_backtrace(const int limit = 0);
 #define ACOUNT(x) (sizeof(x)/sizeof(x[0]))
 #define BUFNSIZE(x) x, sizeof(x)
 
-//!!! clean these up
-#define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
-#define BUTTON_MASK(x) ((x) & (xapp->ButtonMask))
-#define BUTTON_MODMASK(x) ((x) & (xapp->ButtonKeyMask))
-#define IS_BUTTON(s,b) (BUTTON_MODMASK(s) == (b))
-
-#define ISMASK(w,e,n) (((w) & ~(n)) == (e))
-#define HASMASK(w,e,n) ((((w) & ~(n)) & (e)) == (e))
-
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 char const * strnxt(const char *str, const char *delim = " \t");
 const char* errno_string();

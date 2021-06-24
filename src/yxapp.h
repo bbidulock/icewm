@@ -1,9 +1,11 @@
-#ifndef __YXAPP_H
-#define __YXAPP_H
+#ifndef YXAPP_H
+#define YXAPP_H
 
 #include "yapp.h"
 #include "ywindow.h"
 #include <X11/Xutil.h>
+
+#define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
 
 class YAtom {
     const char* name;
@@ -175,6 +177,15 @@ public:
 
     bool hasControlAlt(unsigned state) const;
     bool hasWinMask(unsigned state) const;
+    unsigned buttonMask(unsigned state) const {
+        return state & ButtonMask;
+    }
+    unsigned buttonModMask(unsigned state) const {
+        return state & ButtonKeyMask;
+    }
+    bool isButton(unsigned state, unsigned mask) const {
+        return mask == buttonModMask(state);
+    }
 
     static const char* getHelpText();
 

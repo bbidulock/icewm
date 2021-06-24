@@ -380,7 +380,7 @@ void TrayPane::relayoutNow() {
 }
 
 void TrayPane::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
+    if (up.button == 3 && count == 1 && xapp->isButton(up.state, Button3Mask)) {
         fTaskBar->contextMenu(up.x_root, up.y_root);
     }
     else if ((up.button == Button4 || up.button == Button5)

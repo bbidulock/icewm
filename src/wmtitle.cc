@@ -14,6 +14,8 @@
 #include "prefs.h"
 #include "intl.h"
 
+#define ISMASK(w,e,n) (((w) & ~(n)) == (e))
+
 static ref<YFont> titleFont;
 
 static YColorName titleBarBackground[2] = {
@@ -108,7 +110,7 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     }
     else if (button.type == ButtonRelease) {
         if ((button.button == Button1 || button.button == Button3) &&
-            IS_BUTTON(button.state, Button1Mask + Button3Mask))
+            xapp->isButton(button.state, Button1Mask + Button3Mask))
         {
             windowList->showFocused(button.x_root, button.y_root);
         }

@@ -595,7 +595,7 @@ void YScrollBar::handleButton(const XButtonEvent &button) {
 }
 
 void YScrollBar::handleMotion(const XMotionEvent &motion) {
-    if (BUTTON_MASK(motion.state) != Button1Mask)
+    if (xapp->buttonMask(motion.state) != Button1Mask)
         return;
 
     if (fOrientation == Vertical) {

@@ -177,7 +177,7 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
 }
 
 void WindowListBox::handleClick(const XButtonEvent &up, int count) {
-    if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
+    if (up.button == 3 && count == 1 && xapp->isButton(up.state, Button3Mask)) {
         int no = findItemByPoint(up.x, up.y);
 
         if (no != -1) {

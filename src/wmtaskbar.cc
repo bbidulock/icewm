@@ -830,7 +830,7 @@ bool TaskBar::handleKey(const XKeyEvent &key) {
 void TaskBar::handleButton(const XButtonEvent &button) {
     if ((button.type == ButtonRelease) &&
         (button.button == 1 || button.button == 3) &&
-        (BUTTON_MODMASK(button.state) == Button1Mask + Button3Mask))
+        xapp->isButton(button.state, Button1Mask + Button3Mask))
     {
         windowList->showFocused(button.x_root, button.y_root);
     }
@@ -859,7 +859,7 @@ void TaskBar::handleClick(const XButtonEvent &up, int count) {
     } else if (up.button == 2) {
         windowList->showFocused(up.x_root, up.y_root);
     } else {
-        if (up.button == 3 && count == 1 && IS_BUTTON(up.state, Button3Mask)) {
+        if (up.button == 3 && count == 1 && xapp->isButton(up.state, Button3Mask)) {
             contextMenu(up.x_root, up.y_root);
         }
     }

@@ -413,13 +413,13 @@ void YInputLine::handleClickDown(const XButtonEvent &down, int count) {
 }
 
 void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3 && IS_BUTTON(up.state, Button3Mask)) {
+    if (up.button == 3 && xapp->isButton(up.state, Button3Mask)) {
         inputMenu->setActionListener(this);
         inputMenu->popup(this, nullptr, this, up.x_root, up.y_root,
                          YPopupWindow::pfCanFlipVertical |
                          YPopupWindow::pfCanFlipHorizontal);
         inputMenu->setPopDownListener(this);
-    } else if (up.button == 2 && IS_BUTTON(up.state, Button2Mask)) {
+    } else if (up.button == 2 && xapp->isButton(up.state, Button2Mask)) {
         requestSelection(true);
     }
 }

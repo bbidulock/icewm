@@ -37,8 +37,6 @@
 #define _NET_WM_BOTTOMLEFT  3
 
 #define KEY_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask))
-#define BUTTON_MASK(x) ((x) & (Button1Mask | Button2Mask | Button3Mask))
-#define BUTTON_MODMASK(x) ((x) & (ControlMask | ShiftMask | Mod1Mask | Button1Mask | Button2Mask | Button3Mask))
 
 #define COUNT(a)    (int(sizeof a / sizeof(*a)))
 #define CTRL(k)     ((k) & 0x1F)
