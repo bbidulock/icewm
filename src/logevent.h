@@ -48,5 +48,6 @@ void setAtomName(AtomNameFunc atomNameFunc);
 void logClientMessage(const XClientMessageEvent& xev);
 bool toggleLogEvents();
 bool initLogEvents();
+const char* eventName(int eventType);
 
 #endif

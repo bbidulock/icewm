@@ -61,7 +61,7 @@ static const char eventNames[][17] = {
     "MappingNotify",        // 34
     "GenericEvent",         // 35
 };
-static const char* eventName(int eventType) {
+const char* eventName(int eventType) {
     if (inrange(eventType, KeyPress, GenericEvent))
         return eventNames[eventType - KeyPress];
     return "UnknownEvent!";
@@ -409,6 +409,14 @@ void logRandrNotify(const XEvent& xev) {
 }
 #endif
 
+#else
+const char* eventName(int eventType) {
+    static char name[3];
+    name[0] = eventType / 10 % 10 + '0';
+    name[1] = eventType % 10 + '0';
+    name[2] = '\0';
+    return name;
+}
 #endif
 
 #if LOGEVENTS
