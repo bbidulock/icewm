@@ -621,7 +621,7 @@ testnetwmhints_SOURCES = \
 	base.h \
 	WinMgr.h \
 	testnetwmhints.cc
-testnetwmhints_LDFLAGS = $(CORE_LIBS)
+testnetwmhints_LDFLAGS = libice.la $(CORE_LIBS)
 
 testmap_SOURCES = \
 	intl.h \
