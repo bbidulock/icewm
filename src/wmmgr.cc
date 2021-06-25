@@ -2891,7 +2891,7 @@ void YWindowManager::updateClientList() {
             if (fLayers[i]) {
                 YFrameIter frame = fLayers[i].reverseIterator();
                 while (++frame) {
-                    if (frame->client()->adopted()) {
+                    if (frame->client() && frame->client()->adopted()) {
                         ids.append(frame->client()->handle());
                     }
                 }
@@ -2908,7 +2908,7 @@ void YWindowManager::updateClientList() {
 
         ids.shrink(0);
         for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
-            if (frame->client()->adopted())
+            if (frame->client() && frame->client()->adopted())
                 ids.append(frame->client()->handle());
         }
 
