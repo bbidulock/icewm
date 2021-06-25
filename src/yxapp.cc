@@ -1330,7 +1330,7 @@ YTextProperty::YTextProperty(const char* str) {
     format = 8;
     if (str) {
         nitems = strlen(str);
-        value = new unsigned char[1 + nitems];
+        value = (unsigned char *) malloc(1 + nitems);
         if (value) memcpy(value, str, 1 + nitems);
     } else {
         nitems = 0;
@@ -1339,7 +1339,7 @@ YTextProperty::YTextProperty(const char* str) {
 }
 
 YTextProperty::~YTextProperty() {
-    if (value) delete[] value;
+    if (value) XFree(value);
 }
 
 void YProperty::discard() {
