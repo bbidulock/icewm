@@ -65,6 +65,7 @@ YMsgBox::YMsgBox(int buttons,
     setLayerHint(WinLayerAboveDock);
     setWorkspaceHint(AllWorkspaces);
     setWinHintsHint(WinHintsSkipWindowMenu);
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
     Atom protocols[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
     XSetWMProtocols(xapp->display(), handle(), protocols, 2);
     getProtocols(true);

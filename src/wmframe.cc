@@ -433,6 +433,8 @@ void YFrameWindow::manage() {
     }
     if (client()->adopted())
         XAddToSaveSet(xapp->display(), client()->handle());
+    else
+        client()->getPropertiesList();
 
     client()->reparent(container(), 0, 0);
     client()->setFrame(this);
