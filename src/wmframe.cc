@@ -1520,8 +1520,7 @@ void YFrameWindow::setWinFocus() {
         updateTaskBar();
 
         if (true || !clientMouseActions)
-            if (focusOnClickClient &&
-                !(raiseOnClickClient && (this != manager->top(getActiveLayer()))))
+            if (focusOnClickClient && (!raiseOnClickClient || !canRaise()))
                 container()->releaseButtons();
     }
 }
