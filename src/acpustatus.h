@@ -37,7 +37,7 @@ public:
     void getStatus();
     void getStatusPlatform();
     int getAcpiTemp(char* tempbuf, int buflen);
-    float getCpuFreq(unsigned int cpu);
+    float getCpuFreq(int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
     static void freeFont() { tempFont = null; }
