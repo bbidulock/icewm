@@ -197,7 +197,7 @@ void loadWindowInfo() {
 
     while (fgets(line, sizeof(line), fp) != nullptr) {
         if (line[0] == 'c') {
-            if (sscanf(line, "c %s %s %s %d:%d:%d:%d %ld %lu %ld",
+            if (sscanf(line, "c %1020s %1020s %1020s %d:%d:%d:%d %ld %lu %ld",
                        cid, klass, instance, &x, &y, &w, &h,
                        &workspace, &state, &layer) == 10)
             {
@@ -214,7 +214,7 @@ void loadWindowInfo() {
                 msg(_("Session Manager: Unknown line %s"), line);
             }
         } else if (line[0] == 'r') {
-            if (sscanf(line, "r %s %s %d:%d:%d:%d %ld %lu %ld",
+            if (sscanf(line, "r %1020s %1020s %d:%d:%d:%d %ld %lu %ld",
                        cid, role, &x, &y, &w, &h,
                        &workspace, &state, &layer) == 9)
             {
@@ -296,7 +296,7 @@ void YWMApp::smSaveYourselfPhase2() {
                         continue;
                     }
                 }
-                fprintf(fp, "%d:%d:%u:%u %d %u %d\n",
+                fprintf(fp, "%d:%d:%u:%u %d %d %d\n",
                         f->x(), f->y(), f->client()->width(), f->client()->height(),
                         f->getWorkspace(), f->getState(), f->getActiveLayer());
             }

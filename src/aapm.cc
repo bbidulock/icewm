@@ -74,8 +74,8 @@ void YApm::ApmStr(char *s, bool Tool) {
 #endif
     int fd = open(APMDEV, O_RDONLY);
     char apmver[16];
-    int ACstatus = 0;
-    int BATflag = 0;
+    unsigned ACstatus = 0;
+    unsigned BATflag = 0;
     int BATlife = 1;
     int BATtime;
     char units[16];
@@ -131,17 +131,15 @@ void YApm::ApmStr(char *s, bool Tool) {
     energyFull = energyNow = 0;
 
     char driver[16];
-    int apmflags;
-    int BATstatus;
-    int i = sscanf(buf, "%s %s 0x%x 0x%x 0x%x 0x%x %d%% %d %s",
+    unsigned apmflags = 0;
+    unsigned BATstatus = 0;
+    int i = sscanf(buf, "%15s %15s 0x%x 0x%x 0x%x 0x%x %d%% %d %15s",
                    driver, apmver, &apmflags,
                    &ACstatus, &BATstatus, &BATflag, &BATlife,
                    &BATtime, units);
     if (i != 9)
     {
-        static int error = 1;
-        if (error) {
-            error = 0;
+        if (ONCE) {
             warn("%s - unknown format (%d)", APMDEV, i);
         }
         return ;
@@ -235,10 +233,10 @@ void YApm::AcpiStr(char *s, bool Tool) {
         if (fd != nullptr) {
             while (fgets(buf, sizeof(buf), fd)) {
                 if ((strncasecmp(buf, "state:", 6) == 0 &&
-                     sscanf(buf + 6, "%s", buf2) > 0) ||
+                     sscanf(buf + 6, "%78s", buf2) > 0) ||
                     //older /proc/acpi format
                     (strncasecmp(buf, "Status:", 7) == 0 &&
-                     sscanf(buf + 7, "%s", buf2) > 0)) {
+                     sscanf(buf + 7, "%78s", buf2) > 0)) {
                     if (strncasecmp(buf2, "on-line", 7) == 0) {
                         ACstatus = AC_ONLINE;
                     }
@@ -293,10 +291,10 @@ void YApm::AcpiStr(char *s, bool Tool) {
         if (fd != nullptr) {
             while (fgets(buf, sizeof(buf), fd)) {
                 if ((strncasecmp(buf, "charging state:", 15) == 0 &&
-                     sscanf(buf + 15, "%s", buf2) > 0) ||
+                     sscanf(buf + 15, "%78s", buf2) > 0) ||
                     //older /proc/acpi format
                     (strncasecmp(buf, "State:", 6) == 0 &&
-                     sscanf(buf + 6, "%s", buf2) > 0)) {
+                     sscanf(buf + 6, "%78s", buf2) > 0)) {
                     if (strncasecmp(buf2, "charging", 8) == 0) {
                         BATstatus = BAT_CHARGING;
                     }
@@ -320,7 +318,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
                     }
                 }
                 else if (strncasecmp(buf, "present:", 8) == 0) {
-                    sscanf(buf + 8, "%s", buf2);
+                    sscanf(buf + 8, "%78s", buf2);
                     if (strncasecmp(buf2, "yes", 3) == 0) {
                         BATpresent = BAT_PRESENT;
                     }
@@ -726,7 +724,8 @@ void YApm::PmuStr(char *s, const bool tool_tip)
          continue;
       }
 
-      int flags = 0, rem_time=-1, charge = 0, max_charge = 0, voltage = 0;
+      unsigned flags = 0;
+      int rem_time = -1, charge = 0, max_charge = 0, voltage = 0;
       while ( fgets(line, ACOUNT(line), fd) != nullptr )
         if (strncmp("flags", line, strlen("flags")) == 0)
           sscanf(strchr(line, ':')+2, "%x", &flags);
@@ -740,7 +739,7 @@ void YApm::PmuStr(char *s, const bool tool_tip)
           sscanf(strchr(line, ':')+2, "%d", &voltage);
       fclose(fd);
 
-      const bool battery_present = flags & 0x1,
+      const bool battery_present = (flags & 0x1),
         battery_charging = (flags & 0x2),
         battery_full = !battery_charging && power_present,
         time_in_min= rem_time>600;
