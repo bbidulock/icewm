@@ -1281,8 +1281,10 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
     if (xcoord == nullptr)
         return false;
     ycoord = new int[n];
-    if (ycoord == nullptr)
+    if (ycoord == nullptr) {
+        delete[] xcoord;
         return false;
+    }
 
     xcount = ycount = 0;
     addco(xcoord, xcount, mx);
