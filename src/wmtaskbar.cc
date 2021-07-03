@@ -869,7 +869,7 @@ void TaskBar::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*
     xapp->releaseEvents();
 }
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
-    int newPosition = 0;
+    bool newPosition = false;
 
     xapp->grabEvents(this, YXApplication::movePointer.handle(),
                          ButtonPressMask |
@@ -878,7 +878,7 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 
 
     if (motion.y_root < int(desktop->height() / 2))
-        newPosition = 1;
+        newPosition = true;
 
     if (taskBarAtTop != newPosition) {
         taskBarAtTop = newPosition;
