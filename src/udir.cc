@@ -37,6 +37,7 @@ public:
 cdir::cdir(const char* path)
     : fPath(path), impl(nullptr)
 {
+    fEntry[0] = '\0';
     if (path) {
         open();
     }

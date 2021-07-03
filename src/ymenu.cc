@@ -58,6 +58,7 @@ YMenu::YMenu(YWindow *parent):
     fMenusel(null)
 {
     paintedItem = selectedItem = -1;
+    paramPos = namePos = 0;
     submenuItem = -1;
     fPopup = nullptr;
     fActionListener = nullptr;

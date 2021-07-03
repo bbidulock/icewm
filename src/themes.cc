@@ -49,6 +49,7 @@ void DTheme::open() {
 }
 
 ThemesMenu::ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent): ObjectMenu(wmActionListener, parent) {
+    themeCount = 0;
     this->app = app;
     this->smActionListener = smActionListener;
 }

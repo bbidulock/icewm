@@ -674,6 +674,7 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     fState(mbxNoMail),
     check(mailbox, this),
     fHandler(handler),
+    fCount(0),
     fUnread(0),
     fSuspended(false)
 {
