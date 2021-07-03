@@ -197,8 +197,8 @@ YCursorPixmap::YCursorPixmap(upath path):
                 break;
 
             case '"': { // --- the XPM header ---
-                unsigned foo; int x, y;
-                int tokens = fscanf(xpm, "%u %u %u %u %u %u",
+                unsigned foo; int x = 0, y = 0;
+                int tokens = fscanf(xpm, "%u %u %u %u %d %d",
                     &foo, &foo, &foo, &foo, &x, &y);
                 if (tokens == 6) {
                     fHotspotX = (x < 0 ? 0 : x);
