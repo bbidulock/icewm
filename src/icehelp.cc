@@ -2018,8 +2018,8 @@ public:
         FontTable::reset();
     }
 
-    void activateURL(mstring url, bool relative = false);
-    void openBrowser(mstring url);
+    void activateURL(mstring url, bool relative = false) override;
+    void openBrowser(mstring url) override;
 
     void configure(const YRect2& r) override {
         if (r.resized()) {
@@ -2035,7 +2035,7 @@ public:
     void handleExpose(const XExposeEvent& expose) override {
     }
 
-    bool isFocusTraversable() {
+    bool isFocusTraversable() override {
         return true;
     }
 
@@ -2046,7 +2046,7 @@ private:
     void run(const char* path, const char* arg1 = nullptr,
              const char* arg2 = nullptr, const char* arg3 = nullptr);
 
-    bool handleKey(const XKeyEvent &key) {
+    bool handleKey(const XKeyEvent &key) override {
         return view->handleKey(key);
     }
 
