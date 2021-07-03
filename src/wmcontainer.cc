@@ -34,34 +34,12 @@ YClientContainer::~YClientContainer() {
 }
 
 void YClientContainer::handleButton(const XButtonEvent &button) {
-    bool doRaise = false;
-    bool doActivate = false;
-    bool firstClick = false;
-
-    if (!(button.state & ControlMask) &&
-        (buttonRaiseMask & (1 << (button.button - 1))) &&
-        (!useMouseWheel || (button.button != 4 && button.button != 5)))
-    {
-        if (focusOnClickClient) {
-            if (!getFrame()->isTypeDock()) {
-                doActivate = true;
-                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
-                    firstClick = true;
-            }
-        }
-        if (raiseOnClickClient) {
-            doRaise = true;
-            if (getFrame()->canRaise())
-                firstClick = true;
-        }
-    }
-
     if (clientMouseActions) {
         unsigned int k = button.button + XK_Pointer_Button1 - 1;
         unsigned int m = KEY_MODMASK(button.state);
         unsigned int vm = VMod(m);
 
-        if (IS_WMKEY(k, vm, gMouseWinSize)) {
+        if (gMouseWinSize.eq(k, vm)) {
             XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
 
             int px = button.x + x();
@@ -89,7 +67,8 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
                                           mx, my);
             }
             return ;
-        } else if (IS_WMKEY(k, vm, gMouseWinMove)) {
+        }
+        else if (gMouseWinMove.eq(k, vm)) {
             XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
 
             if (getFrame()->canMove()) {
@@ -115,17 +94,39 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 
-    ///!!! do this first?
-    if (doActivate && getFrame() != manager->getFocus())
-        getFrame()->activate();
-    if (doRaise)
-        getFrame()->wmRaise();
+    bool doRaise = false;
+    bool doActivate = false;
+    bool firstClick = false;
+
+    if (!(button.state & ControlMask) &&
+        (buttonRaiseMask & (1 << (button.button - 1))) &&
+        (!useMouseWheel || (button.button != 4 && button.button != 5)))
+    {
+        if (focusOnClickClient) {
+            if (!getFrame()->isTypeDock()) {
+                doActivate = (getFrame() != manager->getFocus());
+                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
+                    firstClick = true;
+            }
+        }
+        if (raiseOnClickClient && getFrame()->canRaise()) {
+            doRaise = true;
+            firstClick = true;
+        }
+    }
+
     ///!!! it might be nice if this was per-window option (app-request)
     if (!firstClick || passFirstClickToClient)
         XAllowEvents(xapp->display(), ReplayPointer, CurrentTime);
     else
         XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
-    XSync(xapp->display(), False);
+    xapp->sync();
+
+    ///!!! do this first?
+    if (doActivate)
+        getFrame()->focus();
+    if (doRaise && (!doActivate || !raiseOnFocus))
+        getFrame()->wmRaise();
 }
 
 // manage button grab on frame window to capture clicks to client window
@@ -143,68 +144,48 @@ void YClientContainer::grabButtons() {
                        focusOnClickClient ||
                        raiseOnClickClient))
     {
+        for (int button = Button1; button <= Button3; ++button) {
+            if (buttonRaiseMask & (1 << (button - Button1))) {
+                XGrabButton(xapp->display(), button, AnyModifier,
+                            handle(), True, ButtonPressMask,
+                            GrabModeSync, GrabModeAsync, None, None);
+            }
+        }
         fHaveGrab = true;
-
-        XGrabButton(xapp->display(),
-                    Button1, AnyModifier,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-        XGrabButton(xapp->display(),
-                    Button2, AnyModifier,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
-        XGrabButton(xapp->display(),
-                    Button3, AnyModifier,
-                    handle(), True,
-                    ButtonPressMask,
-                    GrabModeSync, GrabModeAsync, None, None);
     }
 }
 
 void YClientContainer::releaseButtons() {
     if (fHaveGrab) {
         fHaveGrab = false;
-
-        XUngrabButton(xapp->display(), Button1, AnyModifier, handle());
-        XUngrabButton(xapp->display(), Button2, AnyModifier, handle());
-        XUngrabButton(xapp->display(), Button3, AnyModifier, handle());
+        for (int button = Button1; button <= Button3; ++button) {
+            if (buttonRaiseMask & (1 << (button - Button1))) {
+                XUngrabButton(xapp->display(), button, AnyModifier, handle());
+            }
+        }
         fHaveActionGrab = false;
     }
     grabActions();
 }
 
 void YClientContainer::regrabMouse() {
-    XUngrabButton(xapp->display(), Button1, AnyModifier, handle());
-    XUngrabButton(xapp->display(), Button2, AnyModifier, handle());
-    XUngrabButton(xapp->display(), Button3, AnyModifier, handle());
-
-    if (fHaveActionGrab)  {
-        fHaveActionGrab = false;
-        grabActions();
-    }
-
-    if (fHaveGrab ) {
-        fHaveGrab = false;
-        grabButtons();
-    }
+    fHaveActionGrab = false;
+    releaseButtons();
+    grabButtons();
 }
 
 void YClientContainer::grabActions() {
     if (clientMouseActions && fHaveActionGrab == false) {
+        WMKey grab[] = { gMouseWinMove, gMouseWinSize,
+                         gMouseWinRaise, gMouseWinLower };
+        const int count = int ACOUNT(grab) - (gMouseWinRaise == gMouseWinLower);
+        for (int i = 0; i < count; ++i) {
+            int button = int(grab[i].key) - XK_Pointer_Button1 + Button1;
+            if (inrange(button, Button1, Button3)) {
+                grabVButton(button, grab[i].mod);
+            }
+        }
         fHaveActionGrab = true;
-        const KeySym minButton = XK_Pointer_Button1;
-        const KeySym maxButton = XK_Pointer_Button3;
-        const KeySym xkButton0 = XK_Pointer_Button1 - 1;
-        if (inrange(gMouseWinMove.key, minButton, maxButton))
-            grabVButton(gMouseWinMove.key - xkButton0, gMouseWinMove.mod);
-        if (inrange(gMouseWinSize.key, minButton, maxButton))
-            grabVButton(gMouseWinSize.key - xkButton0, gMouseWinSize.mod);
-        if (inrange(gMouseWinRaise.key, minButton, maxButton))
-            grabVButton(gMouseWinRaise.key - xkButton0, gMouseWinRaise.mod);
-        if (inrange(gMouseWinLower.key, minButton, maxButton))
-            grabVButton(gMouseWinLower.key - xkButton0, gMouseWinLower.mod);
     }
 }
 
