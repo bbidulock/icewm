@@ -1519,9 +1519,10 @@ void YFrameWindow::setWinFocus() {
         }
         updateTaskBar();
 
-        if (true || !clientMouseActions)
-            if (focusOnClickClient && (!raiseOnClickClient || !canRaise()))
+        if (true || !clientMouseActions) {
+            if (!raiseOnClickClient || !canRaise() || !overlaps(bool(Below)))
                 container()->releaseButtons();
+        }
     }
 }
 
