@@ -218,7 +218,7 @@ int mstring::count(char ch) const {
 }
 
 bool mstring::equals(const char *str) const {
-    return equals(str, str ? strlen(str) : 0);
+    return (str && *str) ? equals(str, strlen(str)) : isEmpty();
 }
 
 bool mstring::equals(const char *str, size_t len) const {
