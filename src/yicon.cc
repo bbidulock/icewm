@@ -19,10 +19,7 @@
 
 #include <fnmatch.h>
 
-#include <vector>
-#include <initializer_list>
 #include <functional>
-#include <set>
 
 // place holder for scalable category, a size beyond normal limits
 #define SCALABLE 9000
@@ -104,201 +101,192 @@ static void iterUniqueSizeRev(std::function<bool(unsigned)> f, unsigned toSkip) 
     }
 }
 
-class IconPathIndex {
+struct IconCategory {
 public:
-    struct IconCategory {
-    public:
-        struct entry {
-            mstring path;
-#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
-            int itype; // actually a bit field from IconTypeFilter
-#endif
-        };
-        std::vector<entry> folders;
-        unsigned size;
-        IconCategory(unsigned is) : size(is) {}
-    };
-    struct Pool {
-        std::vector<IconCategory> categories;
-        IconCategory anyCategory;
-        Pool() : anyCategory(0) {
-            iterUniqueSizeRev([&](unsigned is) {
-                    categories.emplace_back(is); return true;
-                }, -1);
-        }
-        IconCategory& getCat(unsigned is)
-        {
-            for (auto& it: categories)
-                if (it.size == is)
-                    return it;
-            categories.emplace_back(is);
-            return *categories.rbegin();
-        }
-    } pools[2]; // zero are resource folders, one is based on IconPath
+    MStringArray folders;
+    IconCategory(unsigned is) : size(is) {}
+    const unsigned size;
+};
 
-    IconPathIndex() {
-        std::set<mstring> dedupTestPath;
-        auto add = [&dedupTestPath](IconCategory& cat,
-                IconCategory::entry&& el) {
+struct CategoryPool {
+    YObjectArray<IconCategory> categories;
 
-            if (dedupTestPath.insert(el.path).second) {
-                MSG(("adding specific icon directory: %s", el.path.c_str()));
-                cat.folders.emplace_back(std::move(el));
-            }
-        };
+    IconCategory anyCategory;
 
-        auto probeAndRegisterXdgFolders = [this, &add](
-                mstring iconPathToken, bool fromResources) -> unsigned {
-
-            // stop early because this is obviously matching a file!
-            if (hasImageExtension(upath(iconPathToken)))
-                return 0;
-            unsigned ret = 0;
-
-            auto gotcha = [&](const mstring& testDir, IconCategory& cat) {
-                if (!upath(testDir).dirExists())
-                    return false;
-
-                // finally!
-#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
-                int flags = 0;
-                switch (contentDir[1]) {
-                case 'a':
-                    flags |= YIcon::FOR_APPS;
-                    break;
-                case 'p':
-                    flags |= YIcon::FOR_PLACES;
-                    break;
-                case 'd':
-                    flags |= YIcon::FOR_DEVICES;
-                    break;
-                case 'c':
-                    flags |= YIcon::FOR_MENUCATS;
-                    break;
-#error FIXME: an enum value for "status"
-                }
-                add(cat, IconCategory::entry { testDir + "/",
-                        flags });
-#else
-                add(cat, IconCategory::entry { testDir + "/" });
-#endif
+    CategoryPool() : anyCategory(0) {
+        iterUniqueSizeRev([&](unsigned size) {
+                categories.append(new IconCategory(size));
                 return true;
-            };
-            // try the scalable version if can handle SVG
-#ifdef CONFIG_LIBRSVG
-            auto& scaleCat = pools[fromResources].getCat(SCALABLE);
-            for (auto& contentDir : subcats) {
-                ret += gotcha(mstring(iconPathToken, "/scalable", contentDir),
-                              scaleCat);
+            }, -1);
+    }
+
+    IconCategory& getCat(unsigned size) {
+        for (auto& it: categories)
+            if (it->size == size)
+                return *it;
+
+        IconCategory* cat = new IconCategory(size);
+        categories += cat;
+        return *cat;
+    }
+};
+
+class IconPathIndex {
+private:
+    // pool zero are resource folders,
+    // pool one is based on IconPath.
+    struct CategoryPool pools[2];
+    MStringArray dedupTestPath;
+
+    void addPath(IconCategory& cat, mstring el) {
+        bool insert = true;
+        for (const mstring& str : dedupTestPath)
+            if (el == str) {
+                insert = false;
+                break;
             }
+
+        if (insert) {
+            MSG(("adding specific icon directory: %s", el.c_str()));
+            dedupTestPath.append(el);
+            cat.folders.append(el);
+        }
+    };
+
+    unsigned probeAndRegisterXdgFolders(
+            mstring iconPathToken, bool fromResources) {
+
+        // stop early because this is obviously matching a file!
+        if (hasImageExtension(upath(iconPathToken)))
+            return 0;
+
+        unsigned ret = 0;
+
+        auto gotcha = [&](const mstring& testDir, IconCategory& cat) {
+            if (!upath(testDir).dirExists())
+                return false;
+
+            addPath(cat, testDir + "/");
+            return true;
+        };
+
+        // try the scalable version if it can handle SVG
+#ifdef CONFIG_LIBRSVG
+        auto& scaleCat = pools[fromResources].getCat(SCALABLE);
+        for (auto& contentDir : subcats) {
+            ret += gotcha(mstring(iconPathToken, "/scalable", contentDir),
+                          scaleCat);
+        }
 #endif
 
-            for (auto& kv : pools[fromResources].categories) {
-                // special handling above
-                if (kv.size == SCALABLE)
+        for (auto& kv : pools[fromResources].categories) {
+            // special handling above
+            if (kv->size == SCALABLE)
+                continue;
+
+            mstring szSize(long(kv->size));
+
+            for (auto& contentDir : subcats) {
+                for (auto& testDir : {
+                    mstring(iconPathToken, "/", szSize,
+                            "x", szSize, contentDir),
+                    mstring(iconPathToken, "/base/", szSize,
+                            "x", szSize, contentDir),
+                    // some old themes contain just one dimension
+                    // and a different naming convention
+                    mstring(iconPathToken, contentDir, "/", szSize)
+                }) {
+                    ret += gotcha(testDir, *kv);
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    YArray<const char*> skiplist;
+    YArray<const char*> matchlist;
+
+    void probeIconFolder(mstring iPath, bool fromResources) {
+
+        auto& pool = pools[fromResources];
+
+        // try base path in any case (later), for any icon type, loading
+        // with the filename expansion scheme
+        addPath(pool.anyCategory, iPath + "/");
+
+        for (auto& themeExprTok : matchlist) {
+            // probe the folder like it was specified by user directly up to
+            // the theme location and then also look for themes (by name)
+            // underneath that folder
+
+            unsigned nFoundForFolder = 0;
+
+            for (auto themeExpr : { iPath, iPath + "/" + themeExprTok }) {
+
+                // were already XDG-like found by fishing in the simple
+                // attempt?
+                if (nFoundForFolder)
                     continue;
 
-                mstring szSize(long(kv.size));
+                wordexp_t exp;
+                if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
+                    for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
+                        auto match = exp.we_wordv[i];
 
-                for (auto& contentDir : subcats) {
-                    for (auto& testDir : {
-                        mstring(iconPathToken, "/", szSize,
-                                "x", szSize, contentDir),
-                        mstring(iconPathToken, "/base/", szSize,
-                                "x", szSize, contentDir),
-                        // some old themes contain just one dimension
-                        // and a different naming convention
-                        mstring(iconPathToken, contentDir, "/", szSize)
-                    }) {
-                        ret += gotcha(testDir, kv);
+                        // get theme name from folder base name
+                        auto bname = strrchr(match, (unsigned) '/');
+                        if (bname && 0 == strcmp(bname, "/icons")) {
+                            *bname = '\0';
+                            bname = strrchr(match, (unsigned) '/');
+                        }
+                        if (!bname)
+                            continue;
+                        bname++;
+                        for (auto& blistPattern : skiplist) {
+                            if (0 == fnmatch(blistPattern, bname, 0))
+                                goto NEXT_FROM_WORDEXP;
+                        }
+
+                        // found a potential theme folder to consider?
+                        // does even the entry folder exist or is this a
+                        // dead reference?
+                        if (!upath(match).dirExists())
+                            continue;
+
+                        nFoundForFolder += probeAndRegisterXdgFolders(match,
+                                fromResources);
+                        NEXT_FROM_WORDEXP: ;
                     }
+                    wordfree(&exp);
+                }
+                else { // wordexp failed?
+                    nFoundForFolder += probeAndRegisterXdgFolders(themeExpr,
+                            fromResources);
                 }
             }
+        }
+    }
 
-            return ret;
-        };
-
-        std::vector<const char*> skiplist, matchlist;
+public:
+    IconPathIndex() {
 
         char *save = nullptr;
         csmart themesCopy(newstr(iconThemes));
-        for (auto *tok = strtok_r(themesCopy, ":", &save); tok;
-                tok = strtok_r(0, ":", &save)) {
+        for (auto *tok = strtok_r(themesCopy, ":", &save);
+                tok; tok = strtok_r(0, ":", &save)) {
             if (tok[0] == '-')
-                skiplist.emplace_back(tok + 1);
+                skiplist.append(tok + 1);
             else
-                matchlist.emplace_back(tok);
+                matchlist.append(tok);
         }
+
         for (auto *extra: { "*.xpm", "*.png", "*.svg"})
-            skiplist.emplace_back(extra);
-
-        auto probeIconFolder = [&](mstring iPath, bool fromResources) {
-
-            auto& pool = pools[fromResources];
-            // try base path in any case (later), for any icon type, loading
-            // with the filename expansion scheme
-            add(pool.anyCategory, IconCategory::entry {
-                iPath + "/"
-#ifdef SUPPORT_XDG_ICON_TYPE_CATEGORIES
-                , YIcon::FOR_ANY_PURPOSE //| privFlag
-#endif
-            });
-
-            for (auto& themeExprTok : matchlist) {
-                // probe the folder like it was specified by user directly up to
-                // the theme location and then also look for themes (by name)
-                // underneath that folder
-
-                unsigned nFoundForFolder = 0;
-
-                for (auto themeExpr : { iPath, iPath + "/" + themeExprTok }) {
-
-                    // were already XDG-like found by fishing in the simple
-                    // attempt?
-                    if (nFoundForFolder)
-                        continue;
-
-                    wordexp_t exp;
-                    if (wordexp(themeExpr, &exp, WRDE_NOCMD) == 0) {
-                        for (size_t i = 0; i < size_t(exp.we_wordc); ++i) {
-                            auto match = exp.we_wordv[i];
-
-                            // get theme name from folder base name
-                            auto bname = strrchr(match, (unsigned) '/');
-                            if (bname && 0 == strcmp(bname, "/icons")) {
-                                *bname = '\0';
-                                bname = strrchr(match, (unsigned) '/');
-                            }
-                            if (!bname)
-                                continue;
-                            bname++;
-                            for (auto& blistPattern : skiplist) {
-                                if (0 == fnmatch(blistPattern, bname, 0))
-                                    goto NEXT_FROM_WORDEXP;
-                            }
-
-                            // found a potential theme folder to consider?
-                            // does even the entry folder exist or is this a
-                            // dead reference?
-                            if (!upath(match).dirExists())
-                                continue;
-
-                            nFoundForFolder += probeAndRegisterXdgFolders(match,
-                                    fromResources);
-                            NEXT_FROM_WORDEXP: ;
-                        }
-                        wordfree(&exp);
-                    }
-                    else { // wordexp failed?
-                        nFoundForFolder += probeAndRegisterXdgFolders(themeExpr,
-                                fromResources);
-                    }
-                }
-            }
-        };
+            skiplist.append(extra);
 
         // first scan the private resource folders
         auto iceIconPaths = YResourcePaths::subdirs("icons");
+
         // this returned icewm directories containing "icons" folder
         for (upath& path : *iceIconPaths) {
             for (auto& blistPattern : skiplist)
@@ -307,12 +295,17 @@ public:
             probeIconFolder(path + "/icons", true);
             NEXT_FROM_ICON_RES_DIR: ;
         }
+
         // now test the system icons folders specified by user or defaults
         csmart copy(newstr(iconPath));
         for (char* itok = strtok_r(copy, ":", &save); itok;
                 itok = strtok_r(0, ":", &save)) {
             probeIconFolder(itok, false);
         }
+
+        dedupTestPath.clear();
+        skiplist.clear();
+        matchlist.clear();
     }
 
     upath locateIcon(int size, mstring baseName, bool fromResources) {
@@ -362,7 +355,7 @@ public:
                 unsigned probeAllButThis = 0) {
 
             for (auto& folder : cat.folders) {
-                if (smartScanFolder(folder.path, addSizeSfx, probeAllButThis))
+                if (smartScanFolder(folder, addSizeSfx, probeAllButThis))
                     return true;
             }
             return false;
@@ -536,6 +529,7 @@ ref<YIcon> YIcon::getIcon(const char *name) {
 
 void YIcon::freeIcons() {
     iconCache.clear();
+    iconIndex = null;
 }
 
 unsigned YIcon::menuSize() {
