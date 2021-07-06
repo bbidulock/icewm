@@ -50,6 +50,9 @@ YMenuItem* ObjectMenu::addObject(DObject* object, const char* icon,
             item->setChecked(true);
         }
         add(item);
+        if (sub) {
+            item->setSubmenu(sub);
+        }
     }
     return item;
 }
