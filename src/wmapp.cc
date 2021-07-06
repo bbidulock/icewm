@@ -1227,7 +1227,10 @@ YWMApp::~YWMApp() {
     if (statusWorkspace)
         statusWorkspace = null;
 
-    rootMenu = null;
+    if (rootMenu._ptr()) {
+        rootMenu->setShared(false);
+        rootMenu = null;
+    }
     windowList = null;
 
     if (windowMenu) {
@@ -1240,7 +1243,10 @@ YWMApp::~YWMApp() {
         logoutMenu->setShared(false);
         logoutMenu = null;
     }
-    windowListMenu = null;
+    if (windowListMenu._ptr()) {
+        windowListMenu->setShared(false);
+        windowListMenu = null;
+    }
     layerMenu = null;
     moveMenu = null;
 
