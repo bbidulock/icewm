@@ -1363,7 +1363,7 @@ void YFrameWindow::doRaise() {
         family += this;
         const int layer = getActiveLayer();
         const Window leader = client()->clientLeader();
-        if (leader && owner() == nullptr) {
+        if (leader && owner() == nullptr && notState(WinStateModal)) {
             for (auto& modal : groupModals) {
                 if (modal == leader &&
                     find(family, modal.frame) < 0 &&
@@ -1385,8 +1385,11 @@ void YFrameWindow::doRaise() {
         }
 
         YFrameWindow* topmost = manager->top(layer);
-        YArray<YFrameWindow*> raise;
-        YArray<YFrameWindow*> other;
+        while (topmost && topmost != this && 0 <= find(family, topmost)) {
+            topmost = topmost->next();
+        }
+
+        YArray<YFrameWindow*> raise, other;
         for (YFrameWindow* frame = topmost; frame; frame = frame->next()) {
             if (find(family, frame) < 0)
                 other += frame;
@@ -1397,16 +1400,13 @@ void YFrameWindow::doRaise() {
         }
 
         if (other.getCount() < raise.getCount()) {
-            YFrameWindow* bottom = next();
-            for (int i = 0; i < other.getCount(); ++i) {
-                manager->setAbove(other[i], bottom);
-                bottom = other[i]->next();
+            for (int i = other.getCount() - 1; 0 <= i; --i) {
+                manager->setAbove(other[i], next());
             }
         }
         else {
             for (int i = 0; i < raise.getCount(); ++i) {
                 manager->setAbove(raise[i], topmost);
-                topmost = raise[i]->next();
             }
         }
 
@@ -3174,6 +3174,15 @@ void YFrameWindow::setState(int mask, int state) {
             client()->hints()->flags &= ~XUrgencyHint;
         }
         updateTaskBar();
+    }
+    if (deltaState & WinStateModal) {
+        if (notbit(fNewState, WinStateModal)) {
+            for (int i = groupModals.getCount() - 1; 0 <= i; --i) {
+                if (groupModals[i] == this) {
+                    groupModals.remove(i);
+                }
+            }
+        }
     }
     if (hasbit(deltaState, WinStateMinimized) && minimizeToDesktop) {
         if (isMinimized()) {
