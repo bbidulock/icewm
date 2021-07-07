@@ -4,15 +4,11 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-#include "ylib.h"
-#include <X11/keysym.h>
 #include "wmcontainer.h"
 #include "wmframe.h"
 #include "wmmgr.h"
 #include "yxapp.h"
 #include "prefs.h"
-
-#include <stdio.h>
 
 YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
                                    int depth, Visual *visual, Colormap cmap)
