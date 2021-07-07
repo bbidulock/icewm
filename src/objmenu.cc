@@ -9,6 +9,9 @@ ObjectMenu::ObjectMenu(YActionListener* actionListener, YWindow* parent):
 }
 
 ObjectMenu::~ObjectMenu() {
+    for (const ObjectAction& obj : fArray) {
+        delete obj.object;
+    }
 }
 
 void ObjectMenu::actionPerformed(YAction action, unsigned modifiers) {
