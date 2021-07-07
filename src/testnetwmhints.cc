@@ -89,6 +89,7 @@ static Colormap colormap;
 static Window root = None;
 static Window window = None;
 static Window unmapped = None;
+static Window unviewed = None;
 ///static GC gc;
 
 static long workspaceCount = 4;
@@ -118,6 +119,7 @@ static TAtom _XA_WM_STATE("WM_STATE");
 static TAtom _XA_WIN_TRAY("WIN_TRAY");
 static TAtom _XA_WIN_LAYER("_WIN_LAYER");
 static TAtom _XA_ICEWM_GUI_EVENT("ICEWM_GUI_EVENT");
+static TAtom _XA_NET_WM_DESKTOP("_NET_WM_DESKTOP");
 static TAtom _XA_NET_CURRENT_DESKTOP("_NET_CURRENT_DESKTOP");
 static TAtom _XA_NET_NUMBER_OF_DESKTOPS("_NET_NUMBER_OF_DESKTOPS");
 static TAtom _XA_NET_DESKTOP_NAMES("_NET_DESKTOP_NAMES");
@@ -187,7 +189,7 @@ void changeWorkspace(Window w, long workspace) {
 
     xev.type = ClientMessage;
     xev.window = w;
-    xev.message_type = _XA_NET_CURRENT_DESKTOP;
+    xev.message_type = _XA_NET_WM_DESKTOP;
     xev.format = 32;
     xev.data.l[0] = workspace;
     xev.data.l[1] = CurrentTime; //xev.data.l[1] = timeStamp;
@@ -313,7 +315,7 @@ static void updateActiveWorkspace() {
 }
 
 static void updateWindowWorkspace() {
-    getProperty(window, _XA_NET_CURRENT_DESKTOP, XA_CARDINAL, &windowWorkspace);
+    getProperty(window, _XA_NET_WM_DESKTOP, XA_CARDINAL, &windowWorkspace);
 }
 
 static int xfail(Display* display, XErrorEvent* xev) {
@@ -379,6 +381,7 @@ static void test_run(char* progname, bool pinging) {
     // Pixel black = XBlackPixel(display, screen);
     Pixel white = XWhitePixel(display, screen);
     Pixel blue = getColor("blue");
+    Pixel green = getColor("green");
     Pixel yellow = getColor("yellow");
 
     window = XCreateWindow(display, root,
@@ -437,6 +440,15 @@ static void test_run(char* progname, bool pinging) {
 
     setProperty(unmapped, _XA_WM_CLIENT_LEADER, XA_WINDOW, &leader, 1);
 
+    unviewed = XCreateSimpleWindow(display, root, 0, 0, 100, 100, 20,
+                                   white, green);
+    XClassHint vwclassHint = { (char *)"unviewed", (char *)"testnet" };
+    XSetClassHint(display, unviewed, &vwclassHint);
+    XStoreName(display, unviewed, "unviewed");
+    setProperty(unviewed, _XA_NET_WM_PID, XA_CARDINAL, &pid, 1);
+
+    setProperty(unviewed, _XA_WM_CLIENT_LEADER, XA_WINDOW, &leader, 1);
+
     Atom wmstate[] = {
         // _XA_NET_WM_STATE_ABOVE,
         // _XA_NET_WM_STATE_BELOW,
@@ -453,6 +465,8 @@ static void test_run(char* progname, bool pinging) {
         _XA_NET_WM_STATE_STICKY,
     };
     setProperty(unmapped, _XA_NET_WM_STATE, XA_ATOM, wmstate, COUNT(wmstate));
+    setProperty(unviewed, _XA_NET_WM_STATE, XA_ATOM, wmstate, COUNT(wmstate));
+
     Atom wintype[] = {
         // _XA_NET_WM_WINDOW_TYPE_COMBO,
         // _XA_NET_WM_WINDOW_TYPE_DESKTOP,
@@ -471,6 +485,9 @@ static void test_run(char* progname, bool pinging) {
     };
     setProperty(unmapped, _XA_NET_WM_WINDOW_TYPE, XA_ATOM,
                 wintype, COUNT(wintype));
+    setProperty(unviewed, _XA_NET_WM_WINDOW_TYPE, XA_ATOM,
+                wintype, COUNT(wintype));
+
     Atom actions[] = {
         _XA_NET_WM_ACTION_ABOVE,
         _XA_NET_WM_ACTION_BELOW,
@@ -488,8 +505,11 @@ static void test_run(char* progname, bool pinging) {
     };
     setProperty(unmapped, _XA_NET_WM_ALLOWED_ACTIONS, XA_ATOM,
                 actions, COUNT(actions));
+    setProperty(unviewed, _XA_NET_WM_ALLOWED_ACTIONS, XA_ATOM,
+                actions, COUNT(actions));
 
     XSelectInput(display, unmapped, imask);
+    XSelectInput(display, unviewed, imask);
 
     updateWorkspaceCount();
     updateActiveWorkspace();
@@ -567,6 +587,7 @@ static void test_run(char* progname, bool pinging) {
                    "m : move resize 8\n"
                    "r : move resize 4\n"
                    "u : map the unmapped\n"
+                   "v : map the unviewed\n"
                    "x : extents unmapped\n"
                    "X : extents window\n"
                    "^X : extents root\n"
@@ -635,6 +656,9 @@ static void test_run(char* progname, bool pinging) {
         }
         else if (k == 'u') {
             XMapRaised(display, unmapped);
+        }
+        else if (k == 'v') {
+            XMapRaised(display, unviewed);
         }
         else if (k == 'x' || k == 'X' || k == CTRL('X')) {
             Window w = m == ShiftMask ? window :
@@ -707,7 +731,7 @@ static void test_run(char* progname, bool pinging) {
                  property.atom == _XA_NET_DESKTOP_NAMES) {
         }
         else if (property.window == window &&
-                 property.atom == _XA_NET_CURRENT_DESKTOP) {
+                 property.atom == _XA_NET_WM_DESKTOP) {
             updateWindowWorkspace();
         }
         else if (property.atom == _XA_NET_WM_STATE) {
@@ -722,6 +746,7 @@ static void test_run(char* progname, bool pinging) {
                 tell("net wm state %s: ",
                         property.window == window ? "window" :
                         property.window == unmapped ? "unmapped" :
+                        property.window == unviewed ? "unviewed" :
                         "unknown");
                 for (unsigned long i = 0; i < count; ++i) {
                     printf("%s%s", i ? ", " : "",
@@ -743,6 +768,7 @@ static void test_run(char* progname, bool pinging) {
                 tell("wm state %s:",
                         property.window == window ? "window" :
                         property.window == unmapped ? "unmapped" :
+                        property.window == unviewed ? "unviewed" :
                         "unknown");
                 for (unsigned i = 0; i < count; ++i) {
                     printf("%s%ld", i ? ", " : "  ", ((long *)prop)[i]);
@@ -764,6 +790,7 @@ static void test_run(char* progname, bool pinging) {
                 tell("win layer %s: %ld\n",
                         property.window == window ? "window" :
                         property.window == unmapped ? "unmapped" :
+                        property.window == unviewed ? "unviewed" :
                         "unknown", layer);
                 XFree(prop);
             }
@@ -801,6 +828,7 @@ static void test_run(char* progname, bool pinging) {
             Window w = property.window;
             const char *s = w == window ? "window" :
                             w == unmapped ? "unmapped" :
+                            w == unviewed ? "unviewed" :
                             w == root ? "root" : "other!";
             Atom type(None);
             int format(0);
