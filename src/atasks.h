@@ -77,6 +77,8 @@ public:
     int getOrder() const;
     int getCount() const;
 
+    TaskBarApp* getNextShown(TaskBarApp* tapp) const;
+    TaskBarApp* getPrevShown(TaskBarApp* tapp) const;
     TaskBarApp* getActive() const { return fActive; }
     ClientData* getFrame() const { return fActive->getFrame(); }
     TaskPane* taskPane() const { return fTaskPane; }

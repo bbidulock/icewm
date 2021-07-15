@@ -185,6 +185,38 @@ void TaskButton::remove(TaskBarApp* tapp) {
     }
 }
 
+TaskBarApp* TaskButton::getNextShown(TaskBarApp* tapp) const {
+    if (grouping()) {
+        int k = tapp ? find(fGroup, tapp) : -1;
+        if (k >= 0 || tapp == nullptr) {
+            while (++k < fGroup.getCount()) {
+                if (fGroup[k]->getShown()) {
+                    return fGroup[k];
+                }
+            }
+        }
+    } else if (tapp == nullptr) {
+        return fActive;
+    }
+    return nullptr;
+}
+
+TaskBarApp* TaskButton::getPrevShown(TaskBarApp* tapp) const {
+    if (grouping()) {
+        int k = tapp ? find(fGroup, tapp) : fGroup.getCount();
+        if (k > 0) {
+            while (--k >= 0) {
+                if (fGroup[k]->getShown()) {
+                    return fGroup[k];
+                }
+            }
+        }
+    } else if (tapp == nullptr) {
+        return fActive;
+    }
+    return nullptr;
+}
+
 void TaskButton::setShown(TaskBarApp* tapp, bool ashow) {
     if (grouping()) {
         bool gdraw = (tapp == fActive);
@@ -790,28 +822,46 @@ void TaskPane::insert(TaskBarApp* tapp) {
 }
 
 TaskBarApp* TaskPane::predecessor(TaskBarApp* tapp) {
-    const int count = fApps.getCount();
-    const int found = find(fApps, tapp);
-    if (found >= 0) {
-        for (int i = count - 1; 1 <= i; --i) {
-            int k = (found + i) % count;
-            if (fApps[k]->getShown()) {
-                return fApps[k];
-            }
+    TaskButton* button = tapp->button();
+    TaskBarApp* prev = button->getPrevShown(tapp);
+    if (prev && button->getShown()) {
+        return prev;
+    } else {
+        int k = find(fTasks, button);
+        if (k >= 0) {
+            int i = k;
+            do {
+                i = (i - 1 + fTasks.getCount()) % fTasks.getCount();
+                if (fTasks[i]->getShown()) {
+                    prev = fTasks[i]->getPrevShown(nullptr);
+                    if (prev && prev != tapp) {
+                        return prev;
+                    }
+                }
+            } while (i != k);
         }
     }
     return nullptr;
 }
 
 TaskBarApp* TaskPane::successor(TaskBarApp* tapp) {
-    const int count = fApps.getCount();
-    const int found = find(fApps, tapp);
-    if (found >= 0) {
-        for (int i = 1; i < count; ++i) {
-            int k = (found + i) % count;
-            if (fApps[k]->getShown()) {
-                return fApps[k];
-            }
+    TaskButton* button = tapp->button();
+    TaskBarApp* next = button->getNextShown(tapp);
+    if (next && button->getShown()) {
+        return next;
+    } else {
+        int k = find(fTasks, button);
+        if (k >= 0) {
+            int i = k;
+            do {
+                i = (i + 1) % fTasks.getCount();
+                if (fTasks[i]->getShown()) {
+                    next = fTasks[i]->getNextShown(nullptr);
+                    if (next && next != tapp) {
+                        return next;
+                    }
+                }
+            } while (i != k);
         }
     }
     return nullptr;
