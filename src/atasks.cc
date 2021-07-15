@@ -1101,20 +1101,26 @@ void TaskPane::moveNext() {
 }
 
 void TaskPane::switchToPrev() {
-    TaskBarApp* act = getActiveApp();
-    if (act) {
-        TaskBarApp* pre = predecessor(act);
-        if (pre && pre != act)
-            pre->activate();
+    TaskButton* active = getActiveButton();
+    if (active) {
+        int index = find(fTasks, active);
+        if (index > 0)
+            --index;
+        else
+            index = fTasks.getCount() - 1;
+        fTasks[index]->activate();
     }
 }
 
 void TaskPane::switchToNext() {
-    TaskBarApp* act = getActiveApp();
-    if (act) {
-        TaskBarApp* suc = successor(act);
-        if (suc && suc != act)
-            suc->activate();
+    TaskButton* active = getActiveButton();
+    if (active) {
+        int index = find(fTasks, active);
+        if (index + 1 < fTasks.getCount())
+            ++index;
+        else
+            index = 0;
+        fTasks[index]->activate();
     }
 }
 
