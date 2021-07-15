@@ -154,6 +154,7 @@ static TAtom _XA_NET_WM_STATE_STICKY("_NET_WM_STATE_STICKY");
 static TAtom _XA_NET_WM_MOVERESIZE("_NET_WM_MOVERESIZE");
 static TAtom _XA_NET_WM_PID("_NET_WM_PID");
 static TAtom _XA_NET_WM_PING("_NET_WM_PING");
+static TAtom _XA_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static TAtom _XA_NET_DESKTOP_LAYOUT("_NET_DESKTOP_LAYOUT");
 static TAtom _XA_NET_REQUEST_FRAME_EXTENTS("_NET_REQUEST_FRAME_EXTENTS");
 static TAtom _XA_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
@@ -733,6 +734,12 @@ static void test_run(char* progname, bool pinging) {
         else if (property.window == window &&
                  property.atom == _XA_NET_WM_DESKTOP) {
             updateWindowWorkspace();
+        }
+        else if (property.window == root &&
+                 property.atom == _XA_NET_ACTIVE_WINDOW) {
+            long win = None;
+            getProperty(root, _XA_NET_ACTIVE_WINDOW, XA_WINDOW, &win);
+            tell("active window = 0x%lX\n", win);
         }
         else if (property.atom == _XA_NET_WM_STATE) {
             if (XGetWindowProperty(display, property.window,
