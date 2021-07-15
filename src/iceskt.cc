@@ -25,7 +25,6 @@ public:
         sk.connect((struct sockaddr *) &in, sizeof(in));
     }
     virtual ~SockTest() {
-        sk.close();
     }
 
     virtual void socketConnected() {

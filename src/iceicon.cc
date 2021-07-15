@@ -599,7 +599,7 @@ int main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 
-    check_argv(argc, argv, help(), VERSION);
+    check_argv(argc, argv, help, VERSION);
 
     YStringArray names;
     YXApplication app(&argc, &argv);
