@@ -101,6 +101,8 @@ private:
     bool fTrace;
     mstring fReason;
     static int fInstanceCounter;
+    static int fDestructCounter;
+    static csmart openssl_path;
 
     void resolve();
     void countMessages();

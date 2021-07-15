@@ -28,6 +28,8 @@
 extern YColorName taskBarBg;
 
 int MailCheck::fInstanceCounter;
+int MailCheck::fDestructCounter;
+csmart MailCheck::openssl_path;
 
 MailCheck::MailCheck(mstring url, MailBoxStatus *mbx):
     state(IDLE),
@@ -73,6 +75,11 @@ MailCheck::~MailCheck() {
     if (fAddr) {
         freeaddrinfo(fAddr);
         fAddr = nullptr;
+    }
+    if (++fDestructCounter == fInstanceCounter) {
+        if (openssl_path != nullptr) {
+            openssl_path = nullptr;
+        }
     }
 }
 
@@ -319,11 +326,14 @@ void MailCheck::startCheck() {
 
 void MailCheck::startSSL() {
     const char file[] = "openssl";
-    csmart path(path_lookup(file));
-    if (path == nullptr) {
-        if (ONCE)
-            warn(_("Failed to find %s command"), file);
-        return;
+
+    if (openssl_path == nullptr) {
+        openssl_path = path_lookup(file);
+        if (openssl_path == nullptr) {
+            if (ONCE)
+                warn(_("Failed to find %s command"), file);
+            return;
+        }
     }
 
     int other;
@@ -349,8 +359,8 @@ void MailCheck::startSSL() {
                 file, "s_client", "-quiet", "-no_ign_eof",
                 "-connect", hostnamePort, nullptr
             };
-            execv(path, (char* const*) args);
-            fail(_("Failed to execute %s"), (char *) path);
+            execv(openssl_path, (char* const*) args);
+            fail(_("Failed to execute %s"), (char *) openssl_path);
             _exit(1);
         }
         else {
