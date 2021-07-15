@@ -52,7 +52,7 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 			COMMAND msgmerge -o ${_tempPO} ${EXTRA_MSGMERGE} -s ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po ${_potFile}
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 			COMMENT "Updated: ${_tempPO}")
-		ADD_CUSTOM_TARGET(${_lang}.po DEPENDS ${_tempPO})
+		ADD_CUSTOM_TARGET(generate-${_lang}.po DEPENDS ${_tempPO})
 
 		SET(_tempMO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo")
 		ADD_CUSTOM_COMMAND(OUTPUT ${_tempMO}
@@ -60,9 +60,9 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 			DEPENDS ${_tempPO}
 			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 		#COMMENT "Compiled: ${_tempMO}")
-		ADD_CUSTOM_TARGET(${_lang}.gmo DEPENDS ${_tempMO})
+		ADD_CUSTOM_TARGET(generate-${_lang}.gmo DEPENDS ${_tempMO})
 		install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
-		add_dependencies(translations ${_lang}.gmo)
+		add_dependencies(translations generate-${_lang}.gmo)
 	endforeach()
 
   endif()
