@@ -5,10 +5,9 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <stdlib.h>
-#include "yfull.h"
+#include <X11/Xatom.h>
 #include "yxapp.h"
 #include "yprefs.h"
-#include "ypaths.h"
 #include "ytimer.h"
 #include "udir.h"
 #include "intl.h"
@@ -60,14 +59,7 @@ public:
         return pix;
     }
     Pixmap load() {
-        Pixmap image;
-        upath path(name);
-        if (false == path.isAbsolute()) {
-            image = YResourcePaths::loadPixmapFile(path);
-        }
-        if (image == null) {
-            image = YPixmap::load(path);
-        }
+        Pixmap image(YPixmap::load(name));
         if (image == null) {
             tlog(_("Failed to load image '%s'."), name.c_str());
         }
@@ -191,6 +183,7 @@ private:
     char** mainArgv;
     bool verbose;
     bool randInited;
+    bool themeInited;
     Strings backgroundImages;
     YColors backgroundColors;
     Strings transparencyImages;
@@ -223,7 +216,6 @@ private:
     Atom _XA_ICEWMBG_RESTART;
     Atom _XA_ICEWMBG_PID;
     Atom _XA_ICEWM_WINOPT;
-    Atom _XA_WIN_PROTOCOLS;
     Atom _XA_UTF8_STRING;
 };
 
@@ -232,6 +224,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     mainArgv(*argv),
     verbose(verb),
     randInited(false),
+    themeInited(false),
     activeWorkspace(0),
     cycleOffset(0),
     desktopCount(MAX_WORKSPACES),
@@ -251,7 +244,6 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_ICEWMBG_SHUFFLE(atom("_ICEWMBG_SHUFFLE")),
     _XA_ICEWMBG_RESTART(atom("_ICEWMBG_RESTART")),
     _XA_ICEWM_WINOPT(atom("_ICEWM_WINOPTHINT")),
-    _XA_WIN_PROTOCOLS(atom("_WIN_PROTOCOLS")),
     _XA_UTF8_STRING(atom("UTF8_STRING"))
 {
     char abuf[42];
@@ -270,7 +262,7 @@ Background::Background(int *argc, char ***argv, bool verb):
 }
 
 upath Background::getThemeDir() {
-    if (themeDir == null && nonempty(themeName)) {
+    if (themeInited == false && nonempty(themeName)) {
         upath path(themeName);
         if (path.isAbsolute() == false) {
             if (strchr(themeName, '/') == nullptr) {
@@ -291,6 +283,7 @@ upath Background::getThemeDir() {
             tlog("Could not find theme dir");
             themeDir = "";
         }
+        themeInited = true;
     }
     return themeDir;
 }
