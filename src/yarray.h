@@ -138,13 +138,13 @@ public:
         return *getItemPtr(index);
     }
     const DataType &operator[](const SizeType index) const {
-        return getItem(index);
+        return *getItemPtr(index);
     }
     const DataType &operator*() const {
-        return getItem(0);
+        return *getItemPtr(0);
     }
     const DataType &last() const {
-        return getItem(getCount() - 1);
+        return *getItemPtr(getCount() - 1);
     }
 
     DataType *getItemPtr(const SizeType index) {
@@ -154,13 +154,13 @@ public:
         return *getItemPtr(index);
     }
     DataType &operator[](const SizeType index) {
-        return getItem(index);
+        return *getItemPtr(index);
     }
     DataType &operator*() {
-        return getItem(0);
+        return *getItemPtr(0);
     }
     DataType &last() {
-        return getItem(getCount() - 1);
+        return *getItemPtr(getCount() - 1);
     }
 
     YArray<DataType>& operator+=(const DataType& item) {
@@ -251,7 +251,7 @@ public:
         return *getItemPtr(index);
     }
     ref<DataType> operator[](const SizeType index) const {
-        return getItem(index);
+        return *getItemPtr(index);
     }
 
     virtual void remove(const SizeType index) {
@@ -396,7 +396,7 @@ public:
         return *getItemPtr(index);
     }
     mstring& operator[](const SizeType index) const {
-        return getItem(index);
+        return *getItemPtr(index);
     }
     MStringArray& operator+=(const mstring& item) {
         append(item); return *this;
