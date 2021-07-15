@@ -35,13 +35,13 @@ bool WMConfig::loadThemeConfiguration() {
         fail(_("Failed to load theme %s"), themeName);
     }
     if (!conf && strcmp(themeName, CONFIG_DEFAULT_THEME)) {
-        themeName = CONFIG_DEFAULT_THEME;
+        themeName = newstr(CONFIG_DEFAULT_THEME);
         if (conf.loadTheme() == false) {
             fail(_("Failed to load theme %s"), themeName);
         }
     }
     if (!conf && strpcmp(themeName, "default", "/")) {
-        themeName = "default/default.theme";
+        themeName = newstr("default/default.theme");
         if (conf.loadTheme() == false) {
             fail(_("Failed to load theme %s"), themeName);
         }
