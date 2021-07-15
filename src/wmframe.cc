@@ -101,7 +101,7 @@ YFrameWindow::YFrameWindow(
     fWindowType(wtNormal)
 {
     setStyle(wsOverrideRedirect);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setTitle("Frame");
     setBackground(inactiveBorderBg);
 }

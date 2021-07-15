@@ -583,7 +583,7 @@ void YFrameWindow::manualPlace() {
     buttonDownY = 0;
 
     if (!xapp->grabEvents(desktop,
-                          YXApplication::movePointer,
+                          YWMApp::movePointer,
                           ButtonPressMask |
                           ButtonReleaseMask |
                           PointerMotionMask))
@@ -891,7 +891,7 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
         buttonDownY = mouseYroot;
 
         wmapp->signalGuiEvent(geWindowMoved);
-        grabPointer = YXApplication::movePointer;
+        grabPointer = YWMApp::movePointer;
     } else if (!doMove) {
         wmapp->signalGuiEvent(geWindowSized);
 
@@ -915,7 +915,7 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
             else if (grabX == 1)
                 grabPointer = YWMApp::sizeRightPointer;
             else
-                grabPointer = YXApplication::leftPointer;
+                grabPointer = YWMApp::leftPointer;
 
         }
 

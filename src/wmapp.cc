@@ -28,7 +28,7 @@
 #include "prefs.h"
 #include "udir.h"
 #include "ascii.h"
-#include "ypaths.h"
+#include "ycursor.h"
 #include "yxcontext.h"
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
@@ -46,18 +46,21 @@ static bool initializing(true);
 YWMApp *wmapp;
 YWindowManager *manager;
 
-YCursor YWMApp::sizeRightPointer;
-YCursor YWMApp::sizeTopRightPointer;
-YCursor YWMApp::sizeTopPointer;
-YCursor YWMApp::sizeTopLeftPointer;
-YCursor YWMApp::sizeLeftPointer;
-YCursor YWMApp::sizeBottomLeftPointer;
-YCursor YWMApp::sizeBottomPointer;
-YCursor YWMApp::sizeBottomRightPointer;
-YCursor YWMApp::scrollLeftPointer;
-YCursor YWMApp::scrollRightPointer;
-YCursor YWMApp::scrollUpPointer;
-YCursor YWMApp::scrollDownPointer;
+Cursor YWMApp::leftPointer;
+Cursor YWMApp::rightPointer;
+Cursor YWMApp::movePointer;
+Cursor YWMApp::sizeRightPointer;
+Cursor YWMApp::sizeTopRightPointer;
+Cursor YWMApp::sizeTopPointer;
+Cursor YWMApp::sizeTopLeftPointer;
+Cursor YWMApp::sizeLeftPointer;
+Cursor YWMApp::sizeBottomLeftPointer;
+Cursor YWMApp::sizeBottomPointer;
+Cursor YWMApp::sizeBottomRightPointer;
+Cursor YWMApp::scrollLeftPointer;
+Cursor YWMApp::scrollRightPointer;
+Cursor YWMApp::scrollUpPointer;
+Cursor YWMApp::scrollDownPointer;
 
 lazy<MoveMenu> moveMenu;
 lazy<LayerMenu> layerMenu;
@@ -344,21 +347,131 @@ CtrlAltDelete* YWMApp::getCtrlAltDelete() {
     return ctrlAltDelete;
 }
 
-void YWMApp::initPointers() {
-    osmart<YCursorLoader> l(YCursor::newLoader());
+void YWMApp::subdirs(const char* subdir, bool themeOnly, MStringArray& paths) {
+    if (resourcePaths.isEmpty()) {
+        upath privDir(YApplication::getPrivConfDir());
+        upath confDir(YApplication::getConfigDir());
+        upath libsDir(YApplication::getLibDir());
+        upath themeFile(themeName);
+        upath themeDir(themeFile.getExtension().isEmpty()
+                       ? themeFile : themeFile.parent());
 
-    sizeRightPointer       = l->load("sizeR.xpm",   XC_right_side);
-    sizeTopRightPointer    = l->load("sizeTR.xpm",  XC_top_right_corner);
-    sizeTopPointer         = l->load("sizeT.xpm",   XC_top_side);
-    sizeTopLeftPointer     = l->load("sizeTL.xpm",  XC_top_left_corner);
-    sizeLeftPointer        = l->load("sizeL.xpm",   XC_left_side);
-    sizeBottomLeftPointer  = l->load("sizeBL.xpm",  XC_bottom_left_corner);
-    sizeBottomPointer      = l->load("sizeB.xpm",   XC_bottom_side);
-    sizeBottomRightPointer = l->load("sizeBR.xpm",  XC_bottom_right_corner);
-    scrollLeftPointer      = l->load("scrollL.xpm", XC_sb_left_arrow);
-    scrollRightPointer     = l->load("scrollR.xpm", XC_sb_right_arrow);
-    scrollUpPointer        = l->load("scrollU.xpm", XC_sb_up_arrow);
-    scrollDownPointer      = l->load("scrollD.xpm", XC_sb_down_arrow);
+        if (themeDir.isAbsolute()) {
+            if (privDir.dirExists()) {
+                resourcePaths += privDir;
+                themeOnlyPath += false;
+            }
+            if (themeDir.dirExists()) {
+                resourcePaths += themeDir;
+                themeOnlyPath += true;
+            }
+            if (confDir.dirExists()) {
+                resourcePaths += confDir;
+                themeOnlyPath += false;
+            }
+            if (libsDir.dirExists()) {
+                resourcePaths += libsDir;
+                themeOnlyPath += false;
+            }
+        } else {
+            const upath themes("/themes/");
+            const upath themesPlus(themes + themeDir);
+
+            if (privDir.dirExists()) {
+                upath plus(privDir + themesPlus);
+                if (plus.dirExists()) {
+                    resourcePaths += plus;
+                    themeOnlyPath += true;
+                }
+                resourcePaths += privDir;
+                themeOnlyPath += false;
+            }
+            if (confDir.dirExists()) {
+                upath plus(confDir + themesPlus);
+                if (plus.dirExists()) {
+                    resourcePaths += plus;
+                    themeOnlyPath += true;
+                }
+                resourcePaths += confDir;
+                themeOnlyPath += false;
+            }
+            if (libsDir.dirExists()) {
+                upath plus(libsDir + themesPlus);
+                if (plus.dirExists()) {
+                    resourcePaths += plus;
+                    themeOnlyPath += true;
+                }
+                resourcePaths += libsDir;
+                themeOnlyPath += false;
+            }
+        }
+        pathsTimer->setTimer(3210L, this, true);
+    }
+    for (int i = 0; i < resourcePaths.getCount(); ++i) {
+        if (themeOnly == false || themeOnlyPath[i] == true) {
+            if (isEmpty(subdir) ||
+                upath(resourcePaths[i]).relative(subdir).isExecutable())
+            {
+                paths += resourcePaths[i];
+            }
+        }
+    }
+}
+
+void YWMApp::freePointers() {
+    Cursor ptrs[] = {
+        leftPointer, rightPointer, movePointer,
+        sizeRightPointer, sizeTopRightPointer,
+        sizeTopPointer, sizeTopLeftPointer,
+        sizeLeftPointer, sizeBottomLeftPointer,
+        sizeBottomPointer, sizeBottomRightPointer,
+        scrollLeftPointer, scrollRightPointer,
+        scrollUpPointer, scrollDownPointer,
+    };
+    for (Cursor pt : ptrs)
+        XFreeCursor(display(), pt);
+}
+
+void YWMApp::initPointers() {
+    struct {
+        Cursor* curp;
+        const char* name;
+        unsigned fallback;
+    } work[] = {
+        { &leftPointer           , "left.xpm",    XC_left_ptr },
+        { &rightPointer          , "right.xpm",   XC_right_ptr },
+        { &movePointer           , "move.xpm",    XC_fleur },
+        { &sizeRightPointer      , "sizeR.xpm",   XC_right_side },
+        { &sizeTopRightPointer   , "sizeTR.xpm",  XC_top_right_corner },
+        { &sizeTopPointer        , "sizeT.xpm",   XC_top_side },
+        { &sizeTopLeftPointer    , "sizeTL.xpm",  XC_top_left_corner },
+        { &sizeLeftPointer       , "sizeL.xpm",   XC_left_side },
+        { &sizeBottomLeftPointer , "sizeBL.xpm",  XC_bottom_left_corner },
+        { &sizeBottomPointer     , "sizeB.xpm",   XC_bottom_side },
+        { &sizeBottomRightPointer, "sizeBR.xpm",  XC_bottom_right_corner },
+        { &scrollLeftPointer     , "scrollL.xpm", XC_sb_left_arrow },
+        { &scrollRightPointer    , "scrollR.xpm", XC_sb_right_arrow },
+        { &scrollUpPointer       , "scrollU.xpm", XC_sb_up_arrow },
+        { &scrollDownPointer     , "scrollD.xpm", XC_sb_down_arrow },
+    };
+    MStringArray dirs;
+    subdirs("cursors", false, dirs);
+    for (auto& w : work) {
+        *w.curp = None;
+        for (mstring& base : dirs) {
+            upath path(base + "/cursors/" + w.name);
+            if (path.fileExists()) {
+                Cursor c = YCursor::load(path.string());
+                if (c) {
+                    *w.curp = c;
+                    break;
+                }
+            }
+        }
+        if (*w.curp == None) {
+            *w.curp = XCreateFontCursor(xapp->display(), w.fallback);
+        }
+    }
 }
 
 void LogoutMenu::updatePopup() {
@@ -515,6 +628,11 @@ bool YWMApp::handleTimer(YTimer *timer) {
     else if (timer == splashTimer) {
         splashTimer = null;
         splashWindow = null;
+    }
+    else if (timer == pathsTimer) {
+        resourcePaths.clear();
+        themeOnlyPath.clear();
+        pathsTimer = null;
     }
     return false;
 }
@@ -1091,6 +1209,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     managerWindow(None)
 {
     wmapp = this;
+    YIcon::iconResourceLocator = this;
 
     WMConfig::loadConfiguration(configFile);
     WMConfig::loadThemeConfiguration();
@@ -1139,7 +1258,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
     initIcons();
     initIconSize();
-    WPixRes::initPixmaps();
+    WPixRes::initPixmaps(this);
 
     if (scrollBarWidth == 0) {
         switch(wmLook) {
@@ -1263,6 +1382,7 @@ YWMApp::~YWMApp() {
     unsetenv("DISPLAY");
     alarm(1);
     wmapp = nullptr;
+    YIcon::iconResourceLocator = nullptr;
 }
 
 int YWMApp::mainLoop() {
@@ -1449,9 +1569,12 @@ static void print_usage(const char *argv0) {
 
 static void print_themes_list() {
     themeName = nullptr;
-    ref<YResourcePaths> res(YResourcePaths::subdirs(nullptr, true));
-    for (upath& path : *res) {
-        for (sdir dir(path); dir.next(); ) {
+    MStringArray resources;
+    resources += YApplication::getPrivConfDir();
+    resources += YApplication::getConfigDir();
+    resources += YApplication::getLibDir();
+    for (mstring& path : resources) {
+        for (sdir dir(path + "/themes/"); dir.next(); ) {
             upath thmp(dir.path() + dir.entry());
             if (thmp.dirExists()) {
                 for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {
@@ -1646,8 +1769,11 @@ int main(int argc, char **argv) {
         configFile = "preferences";
     loadStartup(configFile);
 
-    if (nonempty(overrideTheme))
-        themeName = overrideTheme;
+    if (nonempty(overrideTheme)) {
+        unsigned last = ACOUNT(wmapp_preferences) - 2;
+        YConfig::freeConfig(wmapp_preferences + last);
+        themeName = newstr(overrideTheme);
+    }
     loggingEvents |= log_events;
     if (loggingEvents)
         initLogEvents();

@@ -45,7 +45,7 @@ EdgeTrigger::EdgeTrigger(TaskBar *owner):
     fHideOrShow(Hide)
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setDND(enabled());
     setTitle("IceEdge");
 }
@@ -162,7 +162,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
        MWM_HINTS_FUNCTIONS | MWM_HINTS_DECORATIONS,
        MWM_FUNC_MOVE));
     setFrameState(NormalState);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setDND(true);
 
     fEdgeTrigger = new EdgeTrigger(this);
@@ -871,7 +871,7 @@ void TaskBar::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
     bool newPosition = false;
 
-    xapp->grabEvents(this, YXApplication::movePointer.handle(),
+    xapp->grabEvents(this, YWMApp::movePointer,
                          ButtonPressMask |
                          ButtonReleaseMask |
                          PointerMotionMask);

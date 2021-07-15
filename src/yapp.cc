@@ -19,6 +19,7 @@
 #include "ywordexp.h"
 
 IMainLoop *mainLoop;
+int DelayFuzziness = 10;
 static int signalPipe[2];
 static sigset_t oldSignalMask;
 static sigset_t signalMask;
@@ -517,6 +518,21 @@ upath YApplication::getHomeDir() {
         }
     }
     return upath(null);
+}
+
+void YApplication::subdirs(const char* subdir, bool to, class MStringArray& ms) {
+    upath paths[] = {
+        getPrivConfDir(),
+        getConfigDir(),
+        getLibDir(),
+    };
+    for (upath& path : paths) {
+        if (path != null) {
+            if (isEmpty(subdir) || path.relative(subdir).isExecutable()) {
+                ms += path;
+            }
+        }
+    }
 }
 
 upath YApplication::findConfigFile(upath name) {

@@ -10,8 +10,6 @@
 #include "config.h"
 #include "yxapp.h"
 #include "ycursor.h"
-#include "ypaths.h"
-#include "ypointer.h"
 
 #ifdef CONFIG_XPM
 #include <X11/xpm.h>
@@ -26,7 +24,7 @@ typedef Imlib_Image Image;
 
 class YCursorPixmap {
 public:
-    YCursorPixmap(upath path);
+    YCursorPixmap(const char* path);
     ~YCursorPixmap();
 
     Pixmap pixmap() const { return fPixmap; }
@@ -93,7 +91,7 @@ private:
 //
 // === use libXpm to load the cursor pixmap ===
 //
-YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
+YCursorPixmap::YCursorPixmap(const char* path): fValid(false) {
     fAttributes.colormap  = xapp->colormap();
     fAttributes.closeness = 65535;
     fAttributes.valuemask = XpmColormap|XpmCloseness|
@@ -105,15 +103,15 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
     fAttributes.height = 0;
 
     int const rc(XpmReadFileToPixmap(xapp->display(), desktop->handle(),
-                                     path.string(),
+                                     path,
                                      &fPixmap, &fMask, &fAttributes));
 
     if (rc != XpmSuccess)
         warn(_("Loading of pixmap \"%s\" failed: %s"),
-               path.string(), XpmGetErrorString(rc));
+               path, XpmGetErrorString(rc));
     /*else if (fAttributes.npixels != 2)
         warn("Invalid cursor pixmap: \"%s\" contains too many unique colors",
-               path.string());*/
+               path);*/
     else {
         fBackground.pixel = fAttributes.pixels[0];
         fForeground.pixel = fAttributes.pixels[1];
@@ -129,13 +127,12 @@ YCursorPixmap::YCursorPixmap(upath path): fValid(false) {
 //
 // === use Imlib to load the cursor pixmap ===
 //
-YCursorPixmap::YCursorPixmap(upath path):
+YCursorPixmap::YCursorPixmap(const char* path):
     fHotspotX(0), fHotspotY(0)
 {
-    mstring cs(path.path());
-    fImage = imlib_load_image_immediately_without_cache(cs.c_str());
+    fImage = imlib_load_image_immediately_without_cache(path);
     if (fImage == nullptr) {
-        warn(_("Loading of pixmap \"%s\" failed"), cs.c_str());
+        warn(_("Loading of pixmap \"%s\" failed"), path);
         return;
     }
     context();
@@ -177,9 +174,9 @@ YCursorPixmap::YCursorPixmap(upath path):
     XAllocColor(xapp->display(), xapp->colormap(), &fBackground);
 
     // --- find the hotspot by reading the xpm header manually ---
-    FILE* xpm = path.fopen("rb");
+    FILE* xpm = fopen(path, "rb");
     if (xpm == nullptr)
-        warn(_("BUG? Imlib was able to read \"%s\""), cs.c_str());
+        warn(_("BUG? Imlib was able to read \"%s\""), path);
     else {
         while (fgetc(xpm) != '{'); // --- that's safe since imlib accepted ---
 
@@ -205,7 +202,7 @@ YCursorPixmap::YCursorPixmap(upath path):
                     fHotspotY = (y < 0 ? 0 : y);
                 } else if (tokens != 4)
                     warn(_("BUG? Malformed XPM header but Imlib "
-                           "was able to parse \"%s\""), cs.c_str());
+                           "was able to parse \"%s\""), path);
 
                 fclose(xpm);
                 return;
@@ -213,10 +210,10 @@ YCursorPixmap::YCursorPixmap(upath path):
             default:
                 if (c == EOF)
                     warn(_("BUG? Unexpected end of XPM file but Imlib "
-                           "was able to parse \"%s\""), cs.c_str());
+                           "was able to parse \"%s\""), path);
                 else
                     warn(_("BUG? Unexpected character but Imlib "
-                           "was able to parse \"%s\""), cs.c_str());
+                           "was able to parse \"%s\""), path);
 
                 fclose(xpm);
                 return;
@@ -226,7 +223,7 @@ YCursorPixmap::YCursorPixmap(upath path):
 
 #elif defined CONFIG_GDK_PIXBUF_XLIB
 
-YCursorPixmap::YCursorPixmap(upath /*path*/):
+YCursorPixmap::YCursorPixmap(const char* /*path*/):
     fPixmap(None), fMask(None),
     fHotspotX(0), fHotspotY(0)
 {
@@ -258,29 +255,11 @@ void YCursorPixmap::release() {
 #endif
 }
 
-YCursor::~YCursor() {
-    unload();
-}
-
-class MyCursorLoader : public YCursorLoader {
-private:
-    ref<YResourcePaths> paths;
-
-    Cursor load(upath path);
-
-public:
-    MyCursorLoader()
-        : paths(YResourcePaths::subdirs("cursors/"))
-    { }
-
-    virtual Cursor load(const char* path, unsigned fallback);
-};
-
 static Pixmap createMask(int w, int h) {
     return XCreatePixmap(xapp->display(), desktop->handle(), w, h, 1);
 }
 
-Cursor MyCursorLoader::load(upath path) {
+Cursor YCursor::load(const char* path) {
     Cursor fCursor = None;
     YCursorPixmap pixmap(path);
 
@@ -323,34 +302,6 @@ Cursor MyCursorLoader::load(upath path) {
         XFreePixmap(xapp->display(), bilevel);
     }
     return fCursor;
-}
-
-void YCursor::unload() {
-    if (fOwned) {
-        fOwned = false;
-        if (fCursor) {
-            if (xapp) {
-                XFreeCursor(xapp->display(), fCursor);
-            }
-            fCursor = None;
-        }
-    }
-}
-
-YCursorLoader* YCursor::newLoader() {
-    return new MyCursorLoader();
-}
-
-Cursor MyCursorLoader::load(const char* name, unsigned fallback) {
-    for (auto base : *paths) {
-        upath path(base + "/cursors/" + name);
-        if (path.fileExists()) {
-            Cursor c = load(path);
-            if (c)
-                return c;
-        }
-    }
-    return XCreateFontCursor(xapp->display(), fallback);
 }
 
 // vim: set sw=4 ts=4 et:

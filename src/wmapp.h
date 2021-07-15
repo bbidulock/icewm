@@ -4,6 +4,7 @@
 #include "ysmapp.h"
 #include "ymsgbox.h"
 #include "guievent.h"
+#include "yicon.h"
 
 class YWindowManager;
 class AboutDlg;
@@ -81,18 +82,21 @@ public:
     bool mapClientByPid(const char* resource, long pid);
     bool mapClientByResource(const char* resource, long *pid);
 
-    static YCursor sizeRightPointer;
-    static YCursor sizeTopRightPointer;
-    static YCursor sizeTopPointer;
-    static YCursor sizeTopLeftPointer;
-    static YCursor sizeLeftPointer;
-    static YCursor sizeBottomLeftPointer;
-    static YCursor sizeBottomPointer;
-    static YCursor sizeBottomRightPointer;
-    static YCursor scrollLeftPointer;
-    static YCursor scrollRightPointer;
-    static YCursor scrollUpPointer;
-    static YCursor scrollDownPointer;
+    static Cursor leftPointer;
+    static Cursor rightPointer;
+    static Cursor movePointer;
+    static Cursor sizeRightPointer;
+    static Cursor sizeTopRightPointer;
+    static Cursor sizeTopPointer;
+    static Cursor sizeTopLeftPointer;
+    static Cursor sizeLeftPointer;
+    static Cursor sizeBottomLeftPointer;
+    static Cursor sizeBottomPointer;
+    static Cursor sizeBottomRightPointer;
+    static Cursor scrollLeftPointer;
+    static Cursor scrollRightPointer;
+    static Cursor scrollUpPointer;
+    static Cursor scrollDownPointer;
 
     ref<YIcon> getDefaultAppIcon();
 
@@ -101,7 +105,7 @@ public:
     const char* getConfigFile() const { return configFile; }
     FocusModel getFocusMode() const { return focusMode; }
     YMenu* getWindowMenu();
-
+    void subdirs(const char* subdir, bool themeOnly, MStringArray& paths);
     void unregisterProtocols();
 
 private:
@@ -122,12 +126,14 @@ private:
     int errorRequestCode;
     YFrameWindow* errorFrame;
     lazy<YTimer> errorTimer;
+    lazy<YTimer> pathsTimer;
     lazy<YTimer> splashTimer;
     lazy<YWindow> splashWindow;
     lazy<GuiSignaler> guiSignaler;
 
     void createTaskBar();
     YWindow* splash(const char* splashFile);
+    virtual Cursor getRightPointer() const { return rightPointer; }
     virtual bool handleTimer(YTimer *timer);
     virtual int handleError(XErrorEvent *xev);
     void runRestart(const char *path, char *const *args);
@@ -136,6 +142,10 @@ private:
     Window managerWindow;
     ref<YIcon> defaultAppIcon;
 
+    MStringArray resourcePaths;
+    YArray<bool> themeOnlyPath;
+
+    void freePointers();
     void initPointers();
     void initIcons();
     void initIconSize();
@@ -143,7 +153,7 @@ private:
 
 extern YWMApp * wmapp;
 
-#ifdef __WMPROG_H
+#ifdef WMPROG_H
 class RootMenu  : public StartMenu {
 public:
     RootMenu() : StartMenu(wmapp, wmapp, wmapp, "menu") {
@@ -153,7 +163,7 @@ public:
 extern lazily<RootMenu> rootMenu;
 #endif
 
-#ifdef __WMWINMENU_H
+#ifdef WMWINMENU_H
 class SharedWindowList  : public WindowListMenu {
 public:
     SharedWindowList() : WindowListMenu(wmapp) {

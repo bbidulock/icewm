@@ -138,8 +138,6 @@ libice_la_SOURCES = \
 	ymsgbox.h \
 	ypaint.cc \
 	ypaint.h \
-	ypaths.cc \
-	ypaths.h \
 	ypipereader.cc \
 	ypipereader.h \
 	ypixmap.cc \
@@ -232,7 +230,6 @@ libitk_la_SOURCES = \
 	ymenuitem.h \
 	ymsgbox.h \
 	ypaint.h \
-	ypaths.h \
 	ypixmap.h \
 	ypointer.h \
 	ypoll.h \
@@ -395,7 +392,6 @@ icewm_session_SOURCES = \
 	intl.h \
 	sysdep.h \
 	yapp.h \
-	ytrace.h \
 	ytime.h \
 	ytimer.h \
 	icesm.cc
@@ -414,11 +410,8 @@ icewmbg_SOURCES = \
 	base.h \
 	themable.h \
 	default.h \
-	ykey.h \
-	yfull.h \
 	yxapp.h \
 	yprefs.h \
-	ypaths.h \
 	icewmbg.cc \
 	icewmbg_prefs.h
 icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@

@@ -16,6 +16,7 @@ public:
 
     upath iconName() const { return fPath; }
 
+    static class IResourceLocator* iconResourceLocator;
     static ref<YIcon> getIcon(const char *name);
     static void freeIcons();
     bool isCached() { return fCached; }

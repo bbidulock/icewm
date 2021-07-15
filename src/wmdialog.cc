@@ -56,7 +56,7 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
     unsigned w = 140, h = 22;
 
     setStyle(wsOverrideRedirect);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setToplevel(true);
 
     /* Create the following buttons in an ordered sequence,

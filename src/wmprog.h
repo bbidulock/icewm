@@ -1,5 +1,5 @@
-#ifndef __WMPROG_H
-#define __WMPROG_H
+#ifndef WMPROG_H
+#define WMPROG_H
 
 #include "objmenu.h"
 

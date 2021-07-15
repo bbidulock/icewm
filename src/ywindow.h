@@ -2,7 +2,6 @@
 #define YWINDOW_H
 
 #include "ypaint.h"
-#include "ycursor.h"
 #include "yarray.h"
 #include "ylist.h"
 #include "yrect.h"
@@ -129,7 +128,7 @@ public:
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
-    void setPointer(const YCursor& pointer);
+    void setPointer(Cursor pointer);
     void grabKeyM(int key, unsigned modifiers);
     void grabKey(int key, unsigned modifiers);
     void grabVKey(int key, unsigned vmodifiers);
@@ -283,8 +282,8 @@ private:
     unsigned fStyle;
     int fX, fY;
     unsigned fWidth, fHeight;
-    YCursor fPointer;
     int unmapCount;
+    Cursor fPointer;
     Graphics *fGraphics;
     long fEventMask;
     int fWinGravity, fBitGravity;
@@ -311,9 +310,9 @@ private:
 
     static YAutoScroll *fAutoScroll;
 
-    void addIgnoreUnmap(Window w);
-    bool ignoreUnmap(Window w);
-    void removeAllIgnoreUnmap(Window w);
+    void addIgnoreUnmap()       { ++unmapCount; }
+    bool ignoreUnmap()          { return (0 < unmapCount) && unmapCount--; }
+    void removeAllIgnoreUnmap() { unmapCount = 0; }
 };
 
 class YDndWindow : public YWindow {

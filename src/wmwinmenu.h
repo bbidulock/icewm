@@ -1,5 +1,5 @@
-#ifndef __WMWINMENU_H
-#define __WMWINMENU_H
+#ifndef WMWINMENU_H
+#define WMWINMENU_H
 
 class WindowListMenu: public YMenu {
     typedef YMenu super;

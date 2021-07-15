@@ -21,9 +21,6 @@ YXApplication *xapp = nullptr;
 YDesktop *desktop = nullptr;
 YContext<YWindow> windowContext;
 
-YCursor YXApplication::leftPointer;
-YCursor YXApplication::rightPointer;
-YCursor YXApplication::movePointer;
 bool YXApplication::synchronizeX11;
 bool YXApplication::alphaBlending;
 
@@ -486,13 +483,6 @@ const char* YXApplication::atomName(Atom atom) {
     static char buf[32];
     snprintf(buf, sizeof buf, "Atom(%lu)", atom);
     return buf;
-}
-
-void YXApplication::initPointers() {
-    osmart<YCursorLoader> l(YCursor::newLoader());
-    leftPointer  = l->load("left.xpm",  XC_left_ptr);
-    rightPointer = l->load("right.xpm", XC_right_ptr);
-    movePointer  = l->load("move.xpm",  XC_fleur);
 }
 
 void YXApplication::initModifiers() {
@@ -1080,7 +1070,6 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     initAtoms();
     initModifiers();
-    initPointers();
 }
 
 void YExtension::init(Display* dis, QueryFunc ext, QueryFunc ver) {
@@ -1120,8 +1109,8 @@ void YXApplication::initExtensions(Display* dpy) {
 }
 
 YXApplication::~YXApplication() {
-    if (fColormap32 != CopyFromParent)
-        XFreeColormap(xapp->display(), fColormap32);
+    if (fColormap32)
+        XFreeColormap(display(), fColormap32);
 
     xfd.unregisterPoll();
     XCloseDisplay(display());

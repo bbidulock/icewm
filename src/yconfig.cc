@@ -5,7 +5,6 @@
 #include "yconfig.h"
 #include "ypaint.h"
 #include "yprefs.h"
-#include "ypaths.h"
 #include "sysdep.h"
 #include "binascii.h"
 #include "yapp.h"

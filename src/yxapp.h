@@ -3,6 +3,7 @@
 
 #include "yapp.h"
 #include "ywindow.h"
+#include "ycursor.h"
 #include <X11/Xutil.h>
 
 #define KEY_MODMASK(x) ((x) & (xapp->KeyMask))
@@ -155,9 +156,6 @@ public:
     void setClipboardText(mstring data);
     void dropClipboard();
 
-    static YCursor leftPointer;
-    static YCursor rightPointer;
-    static YCursor movePointer;
     static bool alphaBlending;
     static bool synchronizeX11;
 
@@ -191,6 +189,7 @@ public:
 
 protected:
     virtual int handleError(XErrorEvent* xev);
+    virtual Cursor getRightPointer() const { return None; }
 
 private:
     XRenderPictFormat* findFormat(int depth) const;
@@ -233,7 +232,6 @@ private:
 
     void initModifiers();
     static void initAtoms();
-    static void initPointers();
 
     static const char* parseArgs(int argc, char **argv, const char *displayName);
     static Display* openDisplay(const char* displayName);

@@ -14,7 +14,7 @@ bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
     if (fPopup == nullptr) {
         Cursor cursor = dontRotateMenuPointer ||
                          (popup->popupFlags() & YPopupWindow::pfNoPointerChange)
-                      ? None : rightPointer.handle();
+                      ? None : getRightPointer();
 
         if (!grabEvents(forWindow ? forWindow : popup, cursor,
                         ButtonPressMask | ButtonReleaseMask |

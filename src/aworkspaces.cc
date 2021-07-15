@@ -6,7 +6,7 @@
 #include "wmframe.h"
 #include "wmmgr.h"
 #include "udir.h"
-#include "ypaths.h"
+#include "wmapp.h"
 #include "wpixmaps.h"
 #include "intl.h"
 #include <math.h>
@@ -407,8 +407,9 @@ WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
 }
 
 WorkspaceIcons::WorkspaceIcons() {
-    ref<YResourcePaths> dirs(YResourcePaths::subdirs("workspace/"));
-    for (upath& base : *dirs) {
+    MStringArray dirs;
+    wmapp->subdirs("workspace", false, dirs);
+    for (const mstring& base : dirs) {
         upath path(base + "/workspace/");
         for (adir dir(path.string()); dir.next(); ) {
             files += (path + dir.entry()).string();

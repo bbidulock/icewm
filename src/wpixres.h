@@ -1,10 +1,10 @@
-#ifndef __WPIXRES_H
-#define __WPIXRES_H
+#ifndef WPIXRES_H
+#define WPIXRES_H
 
 class WPixRes {
 public:
 
-    static void initPixmaps();
+    static void initPixmaps(class IResourceLocator* locator);
     static void freePixmaps();
 
 };

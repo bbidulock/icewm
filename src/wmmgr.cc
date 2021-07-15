@@ -104,7 +104,7 @@ YWindowManager::YWindowManager(
 
     setWmState(wmSTARTUP);
     setStyle(wsManager);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
 #ifdef CONFIG_XRANDR
     if (xrandr.supported) {
         XRRSelectInput(xapp->display(), handle(),
@@ -3282,7 +3282,7 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
     fVert(vertical)
 {
     setStyle(wsOverrideRedirect | wsInputOnly);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setGeometry();
     setTitle("IceEdgeSwitch");
     show();
@@ -3307,7 +3307,7 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
     } else if (crossing.type == LeaveNotify && crossing.mode == NotifyNormal) {
         if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
             fEdgeSwitchTimer = null;
-            setPointer(YXApplication::leftPointer);
+            setPointer(YWMApp::leftPointer);
         }
     }
 }
@@ -3376,7 +3376,7 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     }
 
 end:
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     return false;
 }
 

@@ -4,7 +4,7 @@
 #include "applet.h"
 #include "yprefs.h"
 #include "prefs.h"
-#include "yxapp.h"
+#include "wmapp.h"
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wpixmaps.h"
@@ -1023,7 +1023,7 @@ void TaskPane::configure(const YRect2& r) {
 
 void TaskPane::startDrag(TaskButton* drag, int /*byMouse*/, int sx, int sy) {
     if (fDragging == nullptr) {
-        if (xapp->grabEvents(this, YXApplication::movePointer.handle(),
+        if (xapp->grabEvents(this, YWMApp::movePointer,
                              ButtonPressMask |
                              ButtonReleaseMask |
                              PointerMotionMask))

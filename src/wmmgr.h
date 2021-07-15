@@ -29,7 +29,7 @@ public:
     void setGeometry();
 private:
     YWindowManager *fManager;
-    YCursor & fCursor;
+    Cursor fCursor;
     int fDelta;
     bool fVert;
 

@@ -34,7 +34,12 @@ public:
     virtual void unregisterPoll(YPollBase *t) = 0;
 };
 
-class YApplication: public IApp, public IMainLoop {
+class IResourceLocator {
+public:
+    virtual void subdirs(const char* sd, bool to, class MStringArray& ms) = 0;
+};
+
+class YApplication: public IApp, public IMainLoop, public IResourceLocator {
 public:
     YApplication(int *argc, char ***argv);
     virtual ~YApplication();
@@ -54,6 +59,7 @@ public:
     virtual void runCommand(const char *prog);
     virtual int waitProgram(int p);
 
+    virtual void subdirs(const char* sd, bool to, class MStringArray& ms);
     virtual upath findConfigFile(upath relativePath);
     static upath locateConfigFile(upath relativePath);
     static const upath& getLibDir();

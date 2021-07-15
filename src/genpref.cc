@@ -18,7 +18,9 @@ void addBgImage(const char *, const char *, bool) {}
 //#include "default.h"
 #define CFGDEF
 #define GENPREF
+#define extern
 #include "yprefs.h"
+#undef extern
 #include "bindkey.h"
 #include "default.h"
 #include "themable.h"

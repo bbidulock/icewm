@@ -7,7 +7,7 @@
 #include "wmcontainer.h"
 #include "wmframe.h"
 #include "wmmgr.h"
-#include "yxapp.h"
+#include "wmapp.h"
 #include "prefs.h"
 
 YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
@@ -19,7 +19,7 @@ YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
     fHaveActionGrab = false;
 
     setStyle(wsManager | wsNoExpose);
-    setPointer(YXApplication::leftPointer);
+    setPointer(YWMApp::leftPointer);
     setTitle("Container");
     show();
 }

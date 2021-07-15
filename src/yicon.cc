@@ -11,7 +11,7 @@
 #include "sysdep.h"
 #include "prefs.h"
 #include "yprefs.h"
-#include "ypaths.h"
+#include "wmapp.h"
 #include "ypointer.h"
 #include "ywordexp.h"
 
@@ -23,6 +23,8 @@
 
 // place holder for scalable category, a size beyond normal limits
 #define SCALABLE 9000
+
+IResourceLocator* YIcon::iconResourceLocator;
 
 YIcon::YIcon(upath filename) :
         fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
@@ -285,12 +287,28 @@ public:
             skiplist.append(extra);
 
         // first scan the private resource folders
-        auto iceIconPaths = YResourcePaths::subdirs("icons");
+        MStringArray iceIconPaths;
+        if (YIcon::iconResourceLocator == nullptr)
+            YIcon::iconResourceLocator = xapp;
+        if (YIcon::iconResourceLocator)
+            YIcon::iconResourceLocator->subdirs("icons", false, iceIconPaths);
+        else {
+            upath paths[] = {
+                YApplication::getPrivConfDir(),
+                YApplication::getConfigDir(),
+                YApplication::getLibDir(),
+            };
+            for (upath& path : paths) {
+                if (path != null && path.relative("icons").isExecutable()) {
+                    iceIconPaths += path;
+                }
+            }
+        }
 
         // this returned icewm directories containing "icons" folder
-        for (upath& path : *iceIconPaths) {
+        for (mstring& path : iceIconPaths) {
             for (auto& blistPattern : skiplist)
-                if (0 == fnmatch(blistPattern, path.string(), 0))
+                if (0 == fnmatch(blistPattern, path, 0))
                     goto NEXT_FROM_ICON_RES_DIR;
             probeIconFolder(path + "/icons", true);
             NEXT_FROM_ICON_RES_DIR: ;
