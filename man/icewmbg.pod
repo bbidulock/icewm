@@ -14,32 +14,31 @@ B<icewmbg> can assign a colour or image to the I<X11> desktop background.
 Many image formats are supported.  Each L<icewm(1)> work space can have
 its own background.
 
-When the background image has changed then B<icewmbg> can be notified to
-update the background.  When switching work spaces it checks the image
-file modification time.  If the file has changed then it reloads the
+When the background image has changed, then B<icewmbg> can be notified to
+update the background.  When switching work spaces, it checks the image
+file modification time.  If the file has changed, then it reloads the
 background image from file.
 
 B<icewmbg> supports semi-transparency.  Semitransparent background
 images and colours can be configured.  If these are not specified then
 the default background is used.
 
-It uses XINERAMA and RANDR to support backgrounds on all connected
-monitors.  When monitors appear/disappear or change their resolution
+It uses RandR or Xinerama to support backgrounds on all connected
+monitors.  When monitors appear/disappear, or change their resolution,
 B<icewmbg> will adjust.  It supports an option for one large background
 over all monitors.
 
 It will update the C<_ICEWMBG_IMAGE> property of the root window to the
 path of the background image whenever it changes the desktop background.
 
-It should be started before L<icewm(1)>, preferably by the
-L<icewm-session(1)> program.
+B<icewmbg> is started automatically by L<icewm-session(1)>.
 
 =head1 OPTIONS
 
 =head2 SPECIFIC OPTIONS
 
 Where multiple values can be given for images
-or colours they are separated by commas.
+or colours, they are separated by commas.
 Each such value may be enclosed in double quotes.
 When I<FILE> is a directory then all images
 from that directory are used in sorted order.
@@ -53,8 +52,8 @@ which will be expanded according to L<glob(7)>.
 
 =item B<-p>, B<--replace>
 
-Replace an existing B<icewmbg>. If there is a running B<icewmbg> it is
-instructed to quit.  The new B<icewmbg> will take over.
+Replace an existing B<icewmbg>. If there is a running B<icewmbg>,
+it is instructed to quit.  The new B<icewmbg> will take over.
 
 =item B<-q>, B<--quit>
 
@@ -63,9 +62,9 @@ L<icewm-session(1)> when L<icewm(1)> exits.
 
 =item B<-r>, B<--restart>
 
-Tell the running B<icewmbg> to restart itself.  This is useful when a
-background file or directory has changed or when settings in preferences
-files have changed.
+Tell the running B<icewmbg> to restart itself.  This is useful when
+a background file or directory has changed, or when settings in
+preferences files have changed.
 
 =item B<-u>, B<--shuffle>
 
@@ -113,7 +112,7 @@ This overrules the C<DesktopBackgroundScaled> preference.
 
 =item B<-m>, B<--multi>={I<0>|I<1>}
 
-Disable/Enable multi-head background.
+Disable or enable a single background over all monitors.
 This overrules the C<DesktopBackgroundMultihead> preference.
 
 =item B<-y>, B<--cycle>=I<SECONDS>
@@ -121,21 +120,17 @@ This overrules the C<DesktopBackgroundMultihead> preference.
 Cycle over the list of background images every I<SECONDS>.
 This overrules the C<CycleBackgroundsPeriod> preference.
 
-=item B<-d>, B<--display>=I<DISPLAY>
-
-Use I<DISPLAY> to connect to the X server.
-If this option is missing then I<DISPLAY>
-is read from the environment variable C<DISPLAY>.
-
-=item B<--sync>
-
-Use a slower synchronous mode communication with I<X11> server.
-
 =back
 
 =head2 GENERAL OPTIONS
 
 =over
+
+=item B<-d>, B<--display>=I<DISPLAY>
+
+Use I<DISPLAY> to connect to the X server.
+If this option is missing then I<DISPLAY>
+is read from the environment variable C<DISPLAY>.
 
 =item B<-h>, B<--help>
 
@@ -148,6 +143,10 @@ Print the program version to F<stdout> and exit.
 =item B<-C>, B<--copying>
 
 Print copying permissions to F<stdout> for the program and exit.
+
+=item B<--sync>
+
+Use a slower synchronous mode communication with I<X11> server.
 
 =back
 
@@ -177,18 +176,17 @@ overrides again.  Therefore, if you want to allow the theme to set the
 background use F<preferences> for your settings, otherwise use
 F<prefoverride>.  See L<icewm-prefoverride(5)>.
 
-=head2 SCALING
+=head2 IMAGE SCALING
 
-Often a background image has a different width or height than the
-screen.  The settings can specify to centre (C<DesktopBackgroundCenter>)
-or scale (C<DesktopBackgroundScaled>) an image.  Either option is either
-B<0> (disabled) or B<1> (enabled).  What happens for their combination
-is given by the following table:
+Often a background image has a different width or height than the screen.
+The image can then be replicated (tiled), centered or scaled. This is
+controlled by C<DesktopBackgroundCenter> and C<DesktopBackgroundScaled>.
+What happens for their combination is given by the following table:
 
-  center:0 scaled:0 = the background is replicated in both directions
-  center:1 scaled:0 = the background is centered, but not scaled
-  center:1 scaled:1 = fill one dimension and preserve the aspect ratio
-  center:0 scaled:1 = fill both dimensions and preserve the aspect ratio
+  center:0 scaled:0 = The background is replicated in both directions.
+  center:1 scaled:0 = The background is centered, but not scaled.
+  center:1 scaled:1 = Fill one dimension and preserve the aspect ratio.
+  center:0 scaled:1 = Fill both dimensions and preserve the aspect ratio.
 
 =head1 SIGNALS
 
@@ -218,7 +216,7 @@ L<icewm-preferences(5)>,
 L<icewm-prefoverride(5)>,
 L<wmsetbg(1)>,
 L<xsetbg(1)>,
-L<xv(1)>.
+L<xwallpaper(1)>.
 
 =head1 BUGS
 
