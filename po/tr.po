@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-07-08 08:14+0200\n"
-"PO-Revision-Date: 2021-07-18 19:11+0000\n"
+"PO-Revision-Date: 2021-07-18 22:11+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/tr/>\n"
@@ -132,7 +132,7 @@ msgstr "°C"
 #: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
-msgstr "CPU"
+msgstr "CPU%d"
 
 #: src/acpustatus.cc:662
 msgid "_Combine"
@@ -170,12 +170,12 @@ msgstr "Bağlanılamadı %s: %s"
 #: src/amailbox.cc:325
 #, c-format
 msgid "Failed to find %s command"
-msgstr "%s komutu bulunamadı."
+msgstr "%s komutu bulunamadı"
 
 #: src/amailbox.cc:353 src/yapp.cc:417
 #, c-format
 msgid "Failed to execute %s"
-msgstr "%s çalıştırılamadı"
+msgstr "%s çalıştırma başarısız oldu"
 
 #: src/amailbox.cc:437
 #, c-format
@@ -257,7 +257,7 @@ msgstr "Önbellek: "
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
-msgstr "Tampon:"
+msgstr "Tampon: "
 
 #: src/amemstatus.cc:180
 msgid "User: "
@@ -1220,7 +1220,7 @@ msgstr "Dil:"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
-msgstr "DoubleBuffer"
+msgstr "ÇiftTampon"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
@@ -1578,7 +1578,7 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
-" %s istemcisi (PID %ld kodlu) yanıt veremiyor.\n"
+"%s istemcisi (PID %ld kodlu) yanıt veremiyor.\n"
 "Bu istemciyi sonlandırmak istiyor musunuz?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
@@ -1594,7 +1594,7 @@ msgstr "'%s' seçeneği için bilinmeyen değer '%s'."
 #: src/wmconfig.cc:121
 #, c-format
 msgid "Unable to create directory %s"
-msgstr "%s dizini oluşturulamadı."
+msgstr "%s dizini oluşturulamadı"
 
 #: src/wmconfig.cc:148
 #, c-format
@@ -1657,7 +1657,7 @@ msgstr "Bilinmeyen pencere seşeneği: %s"
 #: src/wmoption.cc:330
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "%d satırı %s dosyası  pencere seçeneğinde söz dizimi hatası"
+msgstr "%d satırı %s dosyası pencere seçeneğinde söz dizimi hatası"
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -1697,7 +1697,7 @@ msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:361
 msgid "Ice_Sound(1)"
-msgstr "Ice_Sound(1)"
+msgstr "Ice_Ses(1)"
 
 #: src/wmprog.cc:410
 msgid "Programs"
