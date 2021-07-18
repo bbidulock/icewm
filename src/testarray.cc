@@ -256,7 +256,7 @@ static void test_mstr() {
     watch mark;
 
     char buf[24];
-    const int N = 12345;
+    const int N = 1234;
     asmart<mstring> ms(new mstring[N]);
     for (int i = 0; i < N; ++i) {
         snprintf(buf, sizeof buf, "%d", i);
@@ -265,6 +265,7 @@ static void test_mstr() {
     MStringArray ma;
     for (int i = 0; i < N; ++i) {
         ma.append(ms[i]);
+        assert(find(ma, ms[i]) == i);
     }
 
     int c = 0;
