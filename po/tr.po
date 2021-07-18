@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-07-08 08:14+0200\n"
-"PO-Revision-Date: 2021-07-14 18:10+0300\n"
-"Last-Translator: <madanadam@gmail.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/tr/>\n"
+"PO-Revision-Date: 2021-07-18 19:11+0000\n"
+"Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:186 src/aapm.cc:465 src/aapm.cc:686 src/aapm.cc:810
 msgid " - Power"
@@ -132,14 +132,13 @@ msgstr "°C"
 #: src/acpustatus.cc:656
 #, c-format
 msgid "CPU%d"
-msgstr "İşlemci%d"
+msgstr "CPU"
 
 #: src/acpustatus.cc:662
 msgid "_Combine"
 msgstr "_Birleştir"
 
 #: src/acpustatus.cc:664
-
 msgid "_Separate"
 msgstr "_Ayır"
 
@@ -1416,6 +1415,7 @@ msgid ""
 "as a terminal. Proceed?"
 msgstr "Tüm uygulamaları bırakın ve terminal \n "
 "olarak yeniden başlatın. Devam?"
+
 #: src/wmapp.cc:1073 src/yxapp.cc:1033
 msgid "<none>"
 msgstr "<yok>"
@@ -1424,6 +1424,7 @@ msgstr "<yok>"
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      Oturum yöneticisiyle iletişim kurarken kullanılacak istemci kimliği.\n"
+
 #: src/wmapp.cc:1392
 msgid ""
 "\n"
