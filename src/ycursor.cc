@@ -304,4 +304,25 @@ Cursor YCursor::load(const char* path) {
     return fCursor;
 }
 
+Cursor YCursor::load() {
+    if (path) {
+        cursor = unsigned(load(path));
+        delete[] path; path = nullptr;
+    }
+    if (glyph && !cursor) {
+        cursor = unsigned(XCreateFontCursor(xapp->display(), glyph));
+    }
+    return Cursor(cursor);
+}
+
+void YCursor::discard() {
+    if (cursor && xapp) {
+        XFreeCursor(xapp->display(), Cursor(cursor));
+        cursor = 0;
+    }
+    if (path) {
+        delete[] path; path = nullptr;
+    }
+}
+
 // vim: set sw=4 ts=4 et:

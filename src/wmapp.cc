@@ -46,21 +46,21 @@ static bool initializing(true);
 YWMApp *wmapp;
 YWindowManager *manager;
 
-Cursor YWMApp::leftPointer;
-Cursor YWMApp::rightPointer;
-Cursor YWMApp::movePointer;
-Cursor YWMApp::sizeRightPointer;
-Cursor YWMApp::sizeTopRightPointer;
-Cursor YWMApp::sizeTopPointer;
-Cursor YWMApp::sizeTopLeftPointer;
-Cursor YWMApp::sizeLeftPointer;
-Cursor YWMApp::sizeBottomLeftPointer;
-Cursor YWMApp::sizeBottomPointer;
-Cursor YWMApp::sizeBottomRightPointer;
-Cursor YWMApp::scrollLeftPointer;
-Cursor YWMApp::scrollRightPointer;
-Cursor YWMApp::scrollUpPointer;
-Cursor YWMApp::scrollDownPointer;
+YCursor YWMApp::leftPointer;
+YCursor YWMApp::rightPointer;
+YCursor YWMApp::movePointer;
+YCursor YWMApp::sizeRightPointer;
+YCursor YWMApp::sizeTopRightPointer;
+YCursor YWMApp::sizeTopPointer;
+YCursor YWMApp::sizeTopLeftPointer;
+YCursor YWMApp::sizeLeftPointer;
+YCursor YWMApp::sizeBottomLeftPointer;
+YCursor YWMApp::sizeBottomPointer;
+YCursor YWMApp::sizeBottomRightPointer;
+YCursor YWMApp::scrollLeftPointer;
+YCursor YWMApp::scrollRightPointer;
+YCursor YWMApp::scrollUpPointer;
+YCursor YWMApp::scrollDownPointer;
 
 lazy<MoveMenu> moveMenu;
 lazy<LayerMenu> layerMenu;
@@ -419,22 +419,22 @@ void YWMApp::subdirs(const char* subdir, bool themeOnly, MStringArray& paths) {
 }
 
 void YWMApp::freePointers() {
-    Cursor ptrs[] = {
-        leftPointer, rightPointer, movePointer,
-        sizeRightPointer, sizeTopRightPointer,
-        sizeTopPointer, sizeTopLeftPointer,
-        sizeLeftPointer, sizeBottomLeftPointer,
-        sizeBottomPointer, sizeBottomRightPointer,
-        scrollLeftPointer, scrollRightPointer,
-        scrollUpPointer, scrollDownPointer,
+    YCursor* ptrs[] = {
+        &leftPointer, &rightPointer, &movePointer,
+        &sizeRightPointer, &sizeTopRightPointer,
+        &sizeTopPointer, &sizeTopLeftPointer,
+        &sizeLeftPointer, &sizeBottomLeftPointer,
+        &sizeBottomPointer, &sizeBottomRightPointer,
+        &scrollLeftPointer, &scrollRightPointer,
+        &scrollUpPointer, &scrollDownPointer,
     };
-    for (Cursor pt : ptrs)
-        XFreeCursor(display(), pt);
+    for (YCursor* pt : ptrs)
+        pt->discard();
 }
 
 void YWMApp::initPointers() {
     struct {
-        Cursor* curp;
+        YCursor* curp;
         const char* name;
         unsigned fallback;
     } work[] = {
@@ -454,22 +454,35 @@ void YWMApp::initPointers() {
         { &scrollUpPointer       , "scrollU.xpm", XC_sb_up_arrow },
         { &scrollDownPointer     , "scrollD.xpm", XC_sb_down_arrow },
     };
+    unsigned size = ACOUNT(work);
+    unsigned mask = 0;
+    unsigned done = 0;
     MStringArray dirs;
     subdirs("cursors", false, dirs);
-    for (auto& w : work) {
-        *w.curp = None;
-        for (mstring& base : dirs) {
-            upath path(base + "/cursors/" + w.name);
-            if (path.fileExists()) {
-                Cursor c = YCursor::load(path.string());
-                if (c) {
-                    *w.curp = c;
-                    break;
+    for (const char* base : dirs) {
+        const size_t bufsize = 1024;
+        char path[bufsize];
+        snprintf(path, bufsize, "%s/cursors", base);
+        for (cdir dir(path); dir.next(); ) {
+            const char* dot = strchr(dir.entry(), '.');
+            if (dot && strcmp(dot, ".xpm") == 0) {
+                for (unsigned i = 0; i < size; ++i) {
+                    if ((mask & (1 << i)) == 0 &&
+                        strcmp(work[i].name, dir.entry()) == 0) {
+                        char buf[bufsize];
+                        snprintf(buf, bufsize, "%s/%s", path, dir.entry());
+                        work[i].curp->init(newstr(buf), work[i].fallback);
+                        mask |= (1 << i);
+                        if (++done == size)
+                            return;
+                    }
                 }
             }
         }
-        if (*w.curp == None) {
-            *w.curp = XCreateFontCursor(xapp->display(), w.fallback);
+    }
+    for (unsigned i = 0; i < size; ++i) {
+        if ((mask & (1 << i)) == 0) {
+            work[i].curp->init(nullptr, work[i].fallback);
         }
     }
 }

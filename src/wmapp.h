@@ -82,21 +82,21 @@ public:
     bool mapClientByPid(const char* resource, long pid);
     bool mapClientByResource(const char* resource, long *pid);
 
-    static Cursor leftPointer;
-    static Cursor rightPointer;
-    static Cursor movePointer;
-    static Cursor sizeRightPointer;
-    static Cursor sizeTopRightPointer;
-    static Cursor sizeTopPointer;
-    static Cursor sizeTopLeftPointer;
-    static Cursor sizeLeftPointer;
-    static Cursor sizeBottomLeftPointer;
-    static Cursor sizeBottomPointer;
-    static Cursor sizeBottomRightPointer;
-    static Cursor scrollLeftPointer;
-    static Cursor scrollRightPointer;
-    static Cursor scrollUpPointer;
-    static Cursor scrollDownPointer;
+    static YCursor leftPointer;
+    static YCursor rightPointer;
+    static YCursor movePointer;
+    static YCursor sizeRightPointer;
+    static YCursor sizeTopRightPointer;
+    static YCursor sizeTopPointer;
+    static YCursor sizeTopLeftPointer;
+    static YCursor sizeLeftPointer;
+    static YCursor sizeBottomLeftPointer;
+    static YCursor sizeBottomPointer;
+    static YCursor sizeBottomRightPointer;
+    static YCursor scrollLeftPointer;
+    static YCursor scrollRightPointer;
+    static YCursor scrollUpPointer;
+    static YCursor scrollDownPointer;
 
     ref<YIcon> getDefaultAppIcon();
 
