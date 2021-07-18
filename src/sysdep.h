@@ -40,6 +40,9 @@
 #ifndef HOST_NAME_MAX
 # define HOST_NAME_MAX 64
 #endif
+#ifndef PATH_MAX
+# define PATH_MAX 1024
+#endif
 
 #endif
 

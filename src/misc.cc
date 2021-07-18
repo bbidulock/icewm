@@ -611,7 +611,6 @@ char* path_lookup(const char* name) {
         return nullptr;
 
     const size_t namlen = strlen(name);
-    char filebuf[PATH_MAX];
 
     char *directory, *save = nullptr;
     for (directory = strtok_r(env, ":", &save); directory;
@@ -619,8 +618,10 @@ char* path_lookup(const char* name) {
     {
         size_t dirlen = strlen(directory);
         size_t length = dirlen + namlen + 3;
-        if (length < sizeof filebuf) {
-            snprintf(filebuf, sizeof filebuf, "%s/%s",
+        const size_t bufsize = 1234;
+        if (length < bufsize) {
+            char filebuf[bufsize];
+            snprintf(filebuf, bufsize, "%s/%s",
                      dirlen ? directory : ".", name);
             if (isExeFile(filebuf)) {
                 return newstr(filebuf);
