@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:41+0200\n"
+"POT-Creation-Date: 2021-07-28 20:46+0200\n"
 "PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -302,6 +302,696 @@ msgstr "NET"
 #: src/aworkspaces.cc:604 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "工作區："
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:43
+msgid "2DGraphics"
+msgstr "2D 圖形"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:45
+msgid "3DGraphics"
+msgstr "3D 圖形"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
+#: src/fdospecgen.h:47 src/fdospecgen.h:49
+msgid "Accessibility"
+msgstr "無障礙"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:51
+msgid "Accessories"
+msgstr "小工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:53
+msgid "ActionGame"
+msgstr "動作遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:55
+msgid "Adult"
+msgstr "成人遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:57
+msgid "AdventureGame"
+msgstr "冒險遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:59
+msgid "Amusement"
+msgstr "娛樂"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:61
+msgid "ArcadeGame"
+msgstr "街機遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:63
+msgid "Archiving"
+msgstr "封存"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:65
+msgid "Art"
+msgstr "繪圖"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:67
+msgid "ArtificialIntelligence"
+msgstr "人工智慧"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:69
+msgid "Astronomy"
+msgstr "天文"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:71
+msgid "Audio"
+msgstr "音訊"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:73
+msgid "AudioVideo"
+msgstr "音訊與視訊"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:75
+msgid "AudioVideoEditing"
+msgstr "影音編輯"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:77
+msgid "Biology"
+msgstr "生物"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:79
+msgid "BlocksGame"
+msgstr "Blocks 類型遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:81
+msgid "BoardGame"
+msgstr "桌上遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:83
+msgid "Building"
+msgstr "建造"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:85
+msgid "Calculator"
+msgstr "計算機"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:87
+msgid "Calendar"
+msgstr "行事曆"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:89
+msgid "CardGame"
+msgstr "卡牌遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:91
+msgid "Chart"
+msgstr "圖表"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:93
+msgid "Chat"
+msgstr "聊天"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:95
+msgid "Chemistry"
+msgstr "化學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:97
+msgid "Clock"
+msgstr "時鐘"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
+#: src/fdospecgen.h:99
+msgid "Compression"
+msgstr "壓縮"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:101
+msgid "ComputerScience"
+msgstr "電腦科學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:103
+msgid "Construction"
+msgstr "營造"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:105
+msgid "ContactManagement"
+msgstr "聯絡人管理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:107
+msgid "Core"
+msgstr "核心"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:109
+msgid "DataVisualization"
+msgstr "資料視覺化"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
+#: src/fdospecgen.h:111
+msgid "Database"
+msgstr "資料庫"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:113
+msgid "Debugger"
+msgstr "偵錯器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:115
+msgid "DesktopSettings"
+msgstr "桌面設定"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:117
+msgid "Development"
+msgstr "程式開發"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:119
+msgid "Dialup"
+msgstr "撥接"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
+#: src/fdospecgen.h:121
+msgid "Dictionary"
+msgstr "字典"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
+#: src/fdospecgen.h:123
+msgid "DiscBurning"
+msgstr "燒錄光碟"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:125
+msgid "Documentation"
+msgstr "文件"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:127
+msgid "Economy"
+msgstr "經濟"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:129
+msgid "Editors"
+msgstr "編輯器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:131
+msgid "Education"
+msgstr "教育軟體"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:133
+msgid "Electricity"
+msgstr "電力"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:135
+msgid "Electronics"
+msgstr "電子學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
+#: src/fdospecgen.h:137
+msgid "Email"
+msgstr "電子郵件"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
+#: src/fdospecgen.h:139
+msgid "Emulator"
+msgstr "模擬器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:141
+msgid "Engineering"
+msgstr "工程"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:143
+msgid "Feed"
+msgstr "Feed"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
+#: src/fdospecgen.h:145
+msgid "FileManager"
+msgstr "檔案管理員"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
+#: src/fdospecgen.h:147
+msgid "FileTools"
+msgstr "檔案工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:149
+msgid "FileTransfer"
+msgstr "檔案傳輸"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:151
+msgid "Filesystem"
+msgstr "檔案系統"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:153
+msgid "Finance"
+msgstr "財務"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:155
+msgid "FlowChart"
+msgstr "流程圖"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:157
+msgid "GUIDesigner"
+msgstr "GUI 設計工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:159
+msgid "Game"
+msgstr "遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:161
+msgid "Geography"
+msgstr "地理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:163
+msgid "Geology"
+msgstr "地質"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:165
+msgid "Geoscience"
+msgstr "地球科學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:167
+msgid "Graphics"
+msgstr "圖形處理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
+#: src/fdospecgen.h:169
+msgid "HamRadio"
+msgstr "業餘無線電"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:171
+msgid "HardwareSettings"
+msgstr "硬體設定"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:173
+msgid "History"
+msgstr "歷史"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:175
+msgid "Humanities"
+msgstr "人文學科"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:177
+msgid "IDE"
+msgstr "IDE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:179
+msgid "IRCClient"
+msgstr "IRC 用戶端"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:181
+msgid "ImageProcessing"
+msgstr "影像處理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:183
+msgid "InstantMessaging"
+msgstr "即時通訊"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:185
+msgid "KidsGame"
+msgstr "兒童遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:187
+msgid "Languages"
+msgstr "語言"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:189
+msgid "Literature"
+msgstr "文學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:191
+msgid "LogicGame"
+msgstr "邏輯遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:193
+msgid "Maps"
+msgstr "地圖"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:195
+msgid "Math"
+msgstr "數學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:197
+msgid "MedicalSoftware"
+msgstr "醫療軟體"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:199
+msgid "Midi"
+msgstr "Midi"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:201
+msgid "Mixer"
+msgstr "混音器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
+#: src/fdospecgen.h:203
+msgid "Monitor"
+msgstr "監視器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:205
+msgid "Motif"
+msgstr "Motif"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:207
+msgid "Multimedia"
+msgstr "多媒體程式"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
+#: src/fdospecgen.h:209
+msgid "Music"
+msgstr "音樂"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:211
+msgid "Network"
+msgstr "網路"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:213
+msgid "News"
+msgstr "新聞"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
+#: src/fdospecgen.h:215
+msgid "NumericalAnalysis"
+msgstr "數值分析"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
+#: src/fdospecgen.h:217
+msgid "OCR"
+msgstr "OCR"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:219
+msgid "Office"
+msgstr "辨公軟體"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:221
+msgid "Other"
+msgstr "其它"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:223
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:225
+msgid "PDA"
+msgstr "PDA"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:227
+msgid "PackageManager"
+msgstr "套件管理員"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
+#: src/fdospecgen.h:229
+msgid "ParallelComputing"
+msgstr "平行計算"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:231
+msgid "Photography"
+msgstr "攝影"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:233
+msgid "Physics"
+msgstr "物理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:235
+msgid "Player"
+msgstr "播放器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:237
+msgid "Presentation"
+msgstr "簡報"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
+#: src/fdospecgen.h:239
+msgid "Printing"
+msgstr "列印"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:241
+msgid "Profiling"
+msgstr "分析"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
+#: src/fdospecgen.h:243
+msgid "ProjectManagement"
+msgstr "專案管理"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:245
+msgid "Publishing"
+msgstr "發佈"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:247
+msgid "RasterGraphics"
+msgstr "點陣圖形"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:249
+msgid "Recorder"
+msgstr "錄製器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:251
+msgid "RemoteAccess"
+msgstr "遠端存取"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:253
+msgid "RevisionControl"
+msgstr "版本控制"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:255
+msgid "Robotics"
+msgstr "機器人"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:257
+msgid "RolePlaying"
+msgstr "角色扮演"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:259
+msgid "Scanning"
+msgstr "掃描"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:261
+msgid "Science"
+msgstr "科學"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:263
+msgid "Screensavers"
+msgstr "螢幕保護程式"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
+#: src/fdospecgen.h:265
+msgid "Security"
+msgstr "安全性"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:267
+msgid "Sequencer"
+msgstr "編曲程式"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:269
+msgid "Settings"
+msgstr "設定"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:271
+msgid "Shooter"
+msgstr "射擊遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:273
+msgid "Simulation"
+msgstr "模擬遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:275
+msgid "Spirituality"
+msgstr "精神"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:277
+msgid "Sports"
+msgstr "體育"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:279
+msgid "SportsGame"
+msgstr "運動遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:281
+msgid "Spreadsheet"
+msgstr "試算表"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:283
+msgid "StrategyGame"
+msgstr "益智類遊戲"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:285
+msgid "System"
+msgstr "系統工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
+#: src/fdospecgen.h:287
+msgid "TV"
+msgstr "電視"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:289
+msgid "Telephony"
+msgstr "電話"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:291
+msgid "TelephonyTools"
+msgstr "電話工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:293
+msgid "TerminalEmulator"
+msgstr "終端機模擬器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:295
+msgid "TextEditor"
+msgstr "文字編輯器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:297
+msgid "TextTools"
+msgstr "文字工具"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:299
+msgid "Translation"
+msgstr "翻譯"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:301
+msgid "Tuner"
+msgstr "調諧器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:303
+msgid "Utility"
+msgstr "公用程式"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:305
+msgid "VectorGraphics"
+msgstr "向量繪圖"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:307
+msgid "Video"
+msgstr "視訊"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:309
+msgid "VideoConference"
+msgstr "視訊會議"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:311
+msgid "Viewer"
+msgstr "檢視器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:313
+msgid "WINE"
+msgstr "Wine"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:315
+msgid "WebBrowser"
+msgstr "網頁瀏覽器"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
+#: src/fdospecgen.h:317
+msgid "WebDevelopment"
+msgstr "網頁開發"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:319
+msgid "WordProcessor"
+msgstr "文書處理器"
 
 #: src/icehelp.cc:1326
 msgid "Back"
@@ -2088,420 +2778,6 @@ msgstr "不支援的介面：%s。"
 #| msgid "Could not find image %s"
 msgid "Could not load image \"%s\""
 msgstr "找不到圖案 %s"
-
-#~ msgid "2DGraphics"
-#~ msgstr "2D 圖形"
-
-#~ msgid "3DGraphics"
-#~ msgstr "3D 圖形"
-
-#~ msgid "Accessibility"
-#~ msgstr "無障礙"
-
-#~ msgid "Accessories"
-#~ msgstr "小工具"
-
-#~ msgid "ActionGame"
-#~ msgstr "動作遊戲"
-
-#~ msgid "Adult"
-#~ msgstr "成人遊戲"
-
-#~ msgid "AdventureGame"
-#~ msgstr "冒險遊戲"
-
-#~ msgid "Amusement"
-#~ msgstr "娛樂"
-
-#~ msgid "ArcadeGame"
-#~ msgstr "街機遊戲"
-
-#~ msgid "Archiving"
-#~ msgstr "封存"
-
-#~ msgid "Art"
-#~ msgstr "繪圖"
-
-#~ msgid "ArtificialIntelligence"
-#~ msgstr "人工智慧"
-
-#~ msgid "Astronomy"
-#~ msgstr "天文"
-
-#~ msgid "Audio"
-#~ msgstr "音訊"
-
-#~ msgid "AudioVideo"
-#~ msgstr "音訊與視訊"
-
-#~ msgid "AudioVideoEditing"
-#~ msgstr "影音編輯"
-
-#~ msgid "Biology"
-#~ msgstr "生物"
-
-#~ msgid "BlocksGame"
-#~ msgstr "Blocks 類型遊戲"
-
-#~ msgid "BoardGame"
-#~ msgstr "桌上遊戲"
-
-#~ msgid "Building"
-#~ msgstr "建造"
-
-#~ msgid "Calculator"
-#~ msgstr "計算機"
-
-#~ msgid "Calendar"
-#~ msgstr "行事曆"
-
-#~ msgid "CardGame"
-#~ msgstr "卡牌遊戲"
-
-#~ msgid "Chart"
-#~ msgstr "圖表"
-
-#~ msgid "Chat"
-#~ msgstr "聊天"
-
-#~ msgid "Chemistry"
-#~ msgstr "化學"
-
-#~ msgid "Clock"
-#~ msgstr "時鐘"
-
-#~ msgid "Compression"
-#~ msgstr "壓縮"
-
-#~ msgid "ComputerScience"
-#~ msgstr "電腦科學"
-
-#~ msgid "Construction"
-#~ msgstr "營造"
-
-#~ msgid "ContactManagement"
-#~ msgstr "聯絡人管理"
-
-#~ msgid "Core"
-#~ msgstr "核心"
-
-#~ msgid "DataVisualization"
-#~ msgstr "資料視覺化"
-
-#~ msgid "Database"
-#~ msgstr "資料庫"
-
-#~ msgid "Debugger"
-#~ msgstr "偵錯器"
-
-#~ msgid "DesktopSettings"
-#~ msgstr "桌面設定"
-
-#~ msgid "Development"
-#~ msgstr "程式開發"
-
-#~ msgid "Dialup"
-#~ msgstr "撥接"
-
-#~ msgid "Dictionary"
-#~ msgstr "字典"
-
-#~ msgid "DiscBurning"
-#~ msgstr "燒錄光碟"
-
-#~ msgid "Documentation"
-#~ msgstr "文件"
-
-#~ msgid "Economy"
-#~ msgstr "經濟"
-
-#~ msgid "Editors"
-#~ msgstr "編輯器"
-
-#~ msgid "Education"
-#~ msgstr "教育軟體"
-
-#~ msgid "Electricity"
-#~ msgstr "電力"
-
-#~ msgid "Electronics"
-#~ msgstr "電子學"
-
-#~ msgid "Email"
-#~ msgstr "電子郵件"
-
-#~ msgid "Emulator"
-#~ msgstr "模擬器"
-
-#~ msgid "Engineering"
-#~ msgstr "工程"
-
-#~ msgid "Feed"
-#~ msgstr "Feed"
-
-#~ msgid "FileManager"
-#~ msgstr "檔案管理員"
-
-#~ msgid "FileTools"
-#~ msgstr "檔案工具"
-
-#~ msgid "FileTransfer"
-#~ msgstr "檔案傳輸"
-
-#~ msgid "Filesystem"
-#~ msgstr "檔案系統"
-
-#~ msgid "Finance"
-#~ msgstr "財務"
-
-#~ msgid "FlowChart"
-#~ msgstr "流程圖"
-
-#~ msgid "GUIDesigner"
-#~ msgstr "GUI 設計工具"
-
-#~ msgid "Game"
-#~ msgstr "遊戲"
-
-#~ msgid "Geography"
-#~ msgstr "地理"
-
-#~ msgid "Geology"
-#~ msgstr "地質"
-
-#~ msgid "Geoscience"
-#~ msgstr "地球科學"
-
-#~ msgid "Graphics"
-#~ msgstr "圖形處理"
-
-#~ msgid "HamRadio"
-#~ msgstr "業餘無線電"
-
-#~ msgid "HardwareSettings"
-#~ msgstr "硬體設定"
-
-#~ msgid "History"
-#~ msgstr "歷史"
-
-#~ msgid "Humanities"
-#~ msgstr "人文學科"
-
-#~ msgid "IDE"
-#~ msgstr "IDE"
-
-#~ msgid "IRCClient"
-#~ msgstr "IRC 用戶端"
-
-#~ msgid "ImageProcessing"
-#~ msgstr "影像處理"
-
-#~ msgid "InstantMessaging"
-#~ msgstr "即時通訊"
-
-#~ msgid "KidsGame"
-#~ msgstr "兒童遊戲"
-
-#~ msgid "Languages"
-#~ msgstr "語言"
-
-#~ msgid "Literature"
-#~ msgstr "文學"
-
-#~ msgid "LogicGame"
-#~ msgstr "邏輯遊戲"
-
-#~ msgid "Maps"
-#~ msgstr "地圖"
-
-#~ msgid "Math"
-#~ msgstr "數學"
-
-#~ msgid "MedicalSoftware"
-#~ msgstr "醫療軟體"
-
-#~ msgid "Midi"
-#~ msgstr "Midi"
-
-#~ msgid "Mixer"
-#~ msgstr "混音器"
-
-#~ msgid "Monitor"
-#~ msgstr "監視器"
-
-#~ msgid "Motif"
-#~ msgstr "Motif"
-
-#~ msgid "Multimedia"
-#~ msgstr "多媒體程式"
-
-#~ msgid "Music"
-#~ msgstr "音樂"
-
-#~ msgid "Network"
-#~ msgstr "網路"
-
-#~ msgid "News"
-#~ msgstr "新聞"
-
-#~ msgid "NumericalAnalysis"
-#~ msgstr "數值分析"
-
-#~ msgid "OCR"
-#~ msgstr "OCR"
-
-#~ msgid "Office"
-#~ msgstr "辨公軟體"
-
-#~ msgid "Other"
-#~ msgstr "其它"
-
-#~ msgid "P2P"
-#~ msgstr "P2P"
-
-#~ msgid "PDA"
-#~ msgstr "PDA"
-
-#~ msgid "PackageManager"
-#~ msgstr "套件管理員"
-
-#~ msgid "ParallelComputing"
-#~ msgstr "平行計算"
-
-#~ msgid "Photography"
-#~ msgstr "攝影"
-
-#~ msgid "Physics"
-#~ msgstr "物理"
-
-#~ msgid "Player"
-#~ msgstr "播放器"
-
-#~ msgid "Presentation"
-#~ msgstr "簡報"
-
-#~ msgid "Printing"
-#~ msgstr "列印"
-
-#~ msgid "Profiling"
-#~ msgstr "分析"
-
-#~ msgid "ProjectManagement"
-#~ msgstr "專案管理"
-
-#~ msgid "Publishing"
-#~ msgstr "發佈"
-
-#~ msgid "RasterGraphics"
-#~ msgstr "點陣圖形"
-
-#~ msgid "Recorder"
-#~ msgstr "錄製器"
-
-#~ msgid "RemoteAccess"
-#~ msgstr "遠端存取"
-
-#~ msgid "RevisionControl"
-#~ msgstr "版本控制"
-
-#~ msgid "Robotics"
-#~ msgstr "機器人"
-
-#~ msgid "RolePlaying"
-#~ msgstr "角色扮演"
-
-#~ msgid "Scanning"
-#~ msgstr "掃描"
-
-#~ msgid "Science"
-#~ msgstr "科學"
-
-#~ msgid "Screensavers"
-#~ msgstr "螢幕保護程式"
-
-#~ msgid "Security"
-#~ msgstr "安全性"
-
-#~ msgid "Sequencer"
-#~ msgstr "編曲程式"
-
-#~ msgid "Settings"
-#~ msgstr "設定"
-
-#~ msgid "Shooter"
-#~ msgstr "射擊遊戲"
-
-#~ msgid "Simulation"
-#~ msgstr "模擬遊戲"
-
-#~ msgid "Spirituality"
-#~ msgstr "精神"
-
-#~ msgid "Sports"
-#~ msgstr "體育"
-
-#~ msgid "SportsGame"
-#~ msgstr "運動遊戲"
-
-#~ msgid "Spreadsheet"
-#~ msgstr "試算表"
-
-#~ msgid "StrategyGame"
-#~ msgstr "益智類遊戲"
-
-#~ msgid "System"
-#~ msgstr "系統工具"
-
-#~ msgid "TV"
-#~ msgstr "電視"
-
-#~ msgid "Telephony"
-#~ msgstr "電話"
-
-#~ msgid "TelephonyTools"
-#~ msgstr "電話工具"
-
-#~ msgid "TerminalEmulator"
-#~ msgstr "終端機模擬器"
-
-#~ msgid "TextEditor"
-#~ msgstr "文字編輯器"
-
-#~ msgid "TextTools"
-#~ msgstr "文字工具"
-
-#~ msgid "Translation"
-#~ msgstr "翻譯"
-
-#~ msgid "Tuner"
-#~ msgstr "調諧器"
-
-#~ msgid "Utility"
-#~ msgstr "公用程式"
-
-#~ msgid "VectorGraphics"
-#~ msgstr "向量繪圖"
-
-#~ msgid "Video"
-#~ msgstr "視訊"
-
-#~ msgid "VideoConference"
-#~ msgstr "視訊會議"
-
-#~ msgid "Viewer"
-#~ msgstr "檢視器"
-
-#~ msgid "WINE"
-#~ msgstr "Wine"
-
-#~ msgid "WebBrowser"
-#~ msgstr "網頁瀏覽器"
-
-#~ msgid "WebDevelopment"
-#~ msgstr "網頁開發"
-
-#~ msgid "WordProcessor"
-#~ msgstr "文書處理器"
 
 #~ msgid ""
 #~ "\n"

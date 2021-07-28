@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:41+0200\n"
+"POT-Creation-Date: 2021-07-28 20:46+0200\n"
 "PO-Revision-Date: 2020-05-26 14:39+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -304,6 +304,696 @@ msgstr "ΔΙΚΤ."
 #: src/aworkspaces.cc:604 src/wmstatus.cc:207
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:43
+msgid "2DGraphics"
+msgstr "2Δ-Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:45
+msgid "3DGraphics"
+msgstr "3Δ-Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
+#: src/fdospecgen.h:47 src/fdospecgen.h:49
+msgid "Accessibility"
+msgstr "Προσβασιμότητα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:51
+msgid "Accessories"
+msgstr "Εργαλεία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:53
+msgid "ActionGame"
+msgstr "ΠαιχνίδιΔράσης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:55
+msgid "Adult"
+msgstr "Ενήλικος"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:57
+msgid "AdventureGame"
+msgstr "Παιχνίδι περιπέτειας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:59
+msgid "Amusement"
+msgstr "Ψυχαγωγία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:61
+msgid "ArcadeGame"
+msgstr "Ουφάδικο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:63
+msgid "Archiving"
+msgstr "Αρχειοθέτηση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:65
+msgid "Art"
+msgstr "Τέχνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:67
+msgid "ArtificialIntelligence"
+msgstr "Τεχνητή νοημοσύνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:69
+msgid "Astronomy"
+msgstr "Αστρονομία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:71
+msgid "Audio"
+msgstr "Ήχος"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:73
+msgid "AudioVideo"
+msgstr "Ήχος Βίντεο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:75
+msgid "AudioVideoEditing"
+msgstr "Επεξεργασία ήχου βίντεο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:77
+msgid "Biology"
+msgstr "Βιολογία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:79
+msgid "BlocksGame"
+msgstr "Παιχνίδι μπλοκ"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:81
+msgid "BoardGame"
+msgstr "Επιτραπέζιο παιχνίδι"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:83
+msgid "Building"
+msgstr "Κατασκευή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:85
+msgid "Calculator"
+msgstr "Αριθμομηχανή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:87
+msgid "Calendar"
+msgstr "Ημερολόγιο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:89
+msgid "CardGame"
+msgstr "ΠαιχνίδιαΜεΧαρτιά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:91
+msgid "Chart"
+msgstr "Γράφημα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:93
+msgid "Chat"
+msgstr "Συνομιλία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:95
+msgid "Chemistry"
+msgstr "Χημεία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:97
+msgid "Clock"
+msgstr "Ρολόι"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
+#: src/fdospecgen.h:99
+msgid "Compression"
+msgstr "Συμπίεση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:101
+msgid "ComputerScience"
+msgstr "Επιστήμη των υπολογιστών"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:103
+msgid "Construction"
+msgstr "Κατασκευή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:105
+msgid "ContactManagement"
+msgstr "Επικοινωνία Διαχείριση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:107
+msgid "Core"
+msgstr "Πυρήνας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:109
+msgid "DataVisualization"
+msgstr "Οπτικοποίηση δεδομένων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
+#: src/fdospecgen.h:111
+msgid "Database"
+msgstr "Βάση δεδομένων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:113
+msgid "Debugger"
+msgstr "Αποσφαλματωτής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:115
+msgid "DesktopSettings"
+msgstr "ΡυθμίσειςΕπιφάνειαςΕργασίας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:117
+msgid "Development"
+msgstr "Ανάπτυξη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:119
+msgid "Dialup"
+msgstr "Τηλεφωνική σύνδεση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
+#: src/fdospecgen.h:121
+msgid "Dictionary"
+msgstr "Λεξικό"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
+#: src/fdospecgen.h:123
+msgid "DiscBurning"
+msgstr "Εγγραφή δίσκου"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:125
+msgid "Documentation"
+msgstr "Τεκμηρίωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:127
+msgid "Economy"
+msgstr "Οικονομία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:129
+msgid "Editors"
+msgstr "Επεξεργαστές"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:131
+msgid "Education"
+msgstr "Εκπαίδευση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:133
+msgid "Electricity"
+msgstr "Ηλεκτρισμός"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:135
+msgid "Electronics"
+msgstr "Ηλεκτρονική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
+#: src/fdospecgen.h:137
+msgid "Email"
+msgstr "Ηλεκτρονική αλληλογραφία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
+#: src/fdospecgen.h:139
+msgid "Emulator"
+msgstr "Προσομοιωτής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:141
+msgid "Engineering"
+msgstr "Μηχανική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:143
+msgid "Feed"
+msgstr "Ροή"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
+#: src/fdospecgen.h:145
+msgid "FileManager"
+msgstr "Διαχειριστής αρχείων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
+#: src/fdospecgen.h:147
+msgid "FileTools"
+msgstr "Εργαλεία αρχείων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:149
+msgid "FileTransfer"
+msgstr "Μεταφορά αρχείων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:151
+msgid "Filesystem"
+msgstr "ΣύστημαΑρχείων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:153
+msgid "Finance"
+msgstr "Οικονομικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:155
+msgid "FlowChart"
+msgstr "Διάγραμμα ροής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:157
+msgid "GUIDesigner"
+msgstr "Σχεδιαστής GUI"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:159
+msgid "Game"
+msgstr "Παιχνίδια"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:161
+msgid "Geography"
+msgstr "Γεωγραφία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:163
+msgid "Geology"
+msgstr "Γεωλογία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:165
+msgid "Geoscience"
+msgstr "Γεωλογικές επιστήμες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:167
+msgid "Graphics"
+msgstr "Γραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
+#: src/fdospecgen.h:169
+msgid "HamRadio"
+msgstr "Ραδιόφωνο Χαμ"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:171
+msgid "HardwareSettings"
+msgstr "ΡυθμίσειςΥλικού"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:173
+msgid "History"
+msgstr "Ιστορία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:175
+msgid "Humanities"
+msgstr "Κλασσικές μελέτες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:177
+msgid "IDE"
+msgstr "IDE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:179
+msgid "IRCClient"
+msgstr "Πελάτης IRC"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:181
+msgid "ImageProcessing"
+msgstr "Επεξεργασία εικόνας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:183
+msgid "InstantMessaging"
+msgstr "Άμεσα μηνύματα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:185
+msgid "KidsGame"
+msgstr "ΠαιχνίδιαΓιαΠαιδιά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:187
+msgid "Languages"
+msgstr "Γλώσσες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:189
+msgid "Literature"
+msgstr "Λογοτεχνία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:191
+msgid "LogicGame"
+msgstr "Παιχνίδι λογικής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:193
+msgid "Maps"
+msgstr "Χάρτες"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:195
+msgid "Math"
+msgstr "Μαθηματικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:197
+msgid "MedicalSoftware"
+msgstr "Ιατρικό λογισμικό"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:199
+msgid "Midi"
+msgstr "Συσκευές Midi"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:201
+msgid "Mixer"
+msgstr "Μίκτης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
+#: src/fdospecgen.h:203
+msgid "Monitor"
+msgstr "Οθόνη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:205
+msgid "Motif"
+msgstr "Μοτίβο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:207
+msgid "Multimedia"
+msgstr "Πολυμέσα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
+#: src/fdospecgen.h:209
+msgid "Music"
+msgstr "Μουσική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:211
+msgid "Network"
+msgstr "Δίκτυο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:213
+msgid "News"
+msgstr "Ειδήσεις"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
+#: src/fdospecgen.h:215
+msgid "NumericalAnalysis"
+msgstr "Αριθμητική ανάλυση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
+#: src/fdospecgen.h:217
+msgid "OCR"
+msgstr "OCR"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:219
+msgid "Office"
+msgstr "Γραφείο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:221
+msgid "Other"
+msgstr "Άλλα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:223
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:225
+msgid "PDA"
+msgstr "PDA"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
+#: src/fdospecgen.h:227
+msgid "PackageManager"
+msgstr "Διαχειριστής πακέτων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
+#: src/fdospecgen.h:229
+msgid "ParallelComputing"
+msgstr "Παράλληλα υπολογιστικά συστήματα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:231
+msgid "Photography"
+msgstr "Φωτογραφία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:233
+msgid "Physics"
+msgstr "Φυσική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:235
+msgid "Player"
+msgstr "Παίκτης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:237
+msgid "Presentation"
+msgstr "Παρουσίαση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
+#: src/fdospecgen.h:239
+msgid "Printing"
+msgstr "Εκτύπωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:241
+msgid "Profiling"
+msgstr "Μελέτη προφίλ"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
+#: src/fdospecgen.h:243
+msgid "ProjectManagement"
+msgstr "Διαχείριση έργου"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:245
+msgid "Publishing"
+msgstr "Έκδοση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:247
+msgid "RasterGraphics"
+msgstr "Γραφικά Raster"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
+#: src/fdospecgen.h:249
+msgid "Recorder"
+msgstr "Μηχάνημα εγγραφής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:251
+msgid "RemoteAccess"
+msgstr "Απομακρυσμένη σύνδεση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:253
+msgid "RevisionControl"
+msgstr "Έλεγχος αναθεώρησης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:255
+msgid "Robotics"
+msgstr "Ρομποτική"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:257
+msgid "RolePlaying"
+msgstr "Διαδικτυακό παιχνίδι ρόλων"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
+#: src/fdospecgen.h:259
+msgid "Scanning"
+msgstr "Σάρωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:261
+msgid "Science"
+msgstr "Επιστήμη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:263
+msgid "Screensavers"
+msgstr "Προφυλάξεις οθόνης"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
+#: src/fdospecgen.h:265
+msgid "Security"
+msgstr "Ασφάλεια"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:267
+msgid "Sequencer"
+msgstr "Αναπαραγωγέας αλληλουχίας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:269
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:271
+msgid "Shooter"
+msgstr "Σκοπευτής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:273
+msgid "Simulation"
+msgstr "Προσομοίωση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
+#: src/fdospecgen.h:275
+msgid "Spirituality"
+msgstr "Πνευματικότητα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
+#: src/fdospecgen.h:277
+msgid "Sports"
+msgstr "Αθλητικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:279
+msgid "SportsGame"
+msgstr "Αθλητικό παιχνίδι"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:281
+msgid "Spreadsheet"
+msgstr "Λογιστικό φύλλο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
+#: src/fdospecgen.h:283
+msgid "StrategyGame"
+msgstr "ΠαιχνίδιΣτρατιγικής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:285
+msgid "System"
+msgstr "Σύστημα"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
+#: src/fdospecgen.h:287
+msgid "TV"
+msgstr "Τηλεόραση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:289
+msgid "Telephony"
+msgstr "Τηλεφωνία"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:291
+msgid "TelephonyTools"
+msgstr "Εργαλεία τηλεφωνίας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
+#: src/fdospecgen.h:293
+msgid "TerminalEmulator"
+msgstr "Εξομοιωτής τερματικού"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:295
+msgid "TextEditor"
+msgstr "ΕπεξεργαστήςΚειμένου"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
+#: src/fdospecgen.h:297
+msgid "TextTools"
+msgstr "Εργαλεία κειμένου"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
+#: src/fdospecgen.h:299
+msgid "Translation"
+msgstr "Μετάφραση"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
+#: src/fdospecgen.h:301
+msgid "Tuner"
+msgstr "Συντονιστής"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:303
+msgid "Utility"
+msgstr "Εργαλείο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
+#: src/fdospecgen.h:305
+msgid "VectorGraphics"
+msgstr "ΔιανυσματικάΓραφικά"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:307
+msgid "Video"
+msgstr "Βίντεο"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:309
+msgid "VideoConference"
+msgstr "Τηλεδιάσκεψη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
+#: src/fdospecgen.h:311
+msgid "Viewer"
+msgstr "Προβολέας"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
+#: src/fdospecgen.h:313
+msgid "WINE"
+msgstr "WINE"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
+#: src/fdospecgen.h:315
+msgid "WebBrowser"
+msgstr "Περιηγητής ιστού"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
+#: src/fdospecgen.h:317
+msgid "WebDevelopment"
+msgstr "ΔικτυακήΑνάπτυξη"
+
+#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
+#: src/fdospecgen.h:319
+msgid "WordProcessor"
+msgstr "Επεξεργαστής κειμένου"
 
 #: src/icehelp.cc:1326
 msgid "Back"
@@ -2190,420 +2880,6 @@ msgstr "Μη υποστηριζόμενη διεπαφή: %s ."
 #| msgid "Could not find image %s"
 msgid "Could not load image \"%s\""
 msgstr "Αδυναμία εύρεσης της εικόνας %s"
-
-#~ msgid "2DGraphics"
-#~ msgstr "2Δ-Γραφικά"
-
-#~ msgid "3DGraphics"
-#~ msgstr "3Δ-Γραφικά"
-
-#~ msgid "Accessibility"
-#~ msgstr "Προσβασιμότητα"
-
-#~ msgid "Accessories"
-#~ msgstr "Εργαλεία"
-
-#~ msgid "ActionGame"
-#~ msgstr "ΠαιχνίδιΔράσης"
-
-#~ msgid "Adult"
-#~ msgstr "Ενήλικος"
-
-#~ msgid "AdventureGame"
-#~ msgstr "Παιχνίδι περιπέτειας"
-
-#~ msgid "Amusement"
-#~ msgstr "Ψυχαγωγία"
-
-#~ msgid "ArcadeGame"
-#~ msgstr "Ουφάδικο"
-
-#~ msgid "Archiving"
-#~ msgstr "Αρχειοθέτηση"
-
-#~ msgid "Art"
-#~ msgstr "Τέχνη"
-
-#~ msgid "ArtificialIntelligence"
-#~ msgstr "Τεχνητή νοημοσύνη"
-
-#~ msgid "Astronomy"
-#~ msgstr "Αστρονομία"
-
-#~ msgid "Audio"
-#~ msgstr "Ήχος"
-
-#~ msgid "AudioVideo"
-#~ msgstr "Ήχος Βίντεο"
-
-#~ msgid "AudioVideoEditing"
-#~ msgstr "Επεξεργασία ήχου βίντεο"
-
-#~ msgid "Biology"
-#~ msgstr "Βιολογία"
-
-#~ msgid "BlocksGame"
-#~ msgstr "Παιχνίδι μπλοκ"
-
-#~ msgid "BoardGame"
-#~ msgstr "Επιτραπέζιο παιχνίδι"
-
-#~ msgid "Building"
-#~ msgstr "Κατασκευή"
-
-#~ msgid "Calculator"
-#~ msgstr "Αριθμομηχανή"
-
-#~ msgid "Calendar"
-#~ msgstr "Ημερολόγιο"
-
-#~ msgid "CardGame"
-#~ msgstr "ΠαιχνίδιαΜεΧαρτιά"
-
-#~ msgid "Chart"
-#~ msgstr "Γράφημα"
-
-#~ msgid "Chat"
-#~ msgstr "Συνομιλία"
-
-#~ msgid "Chemistry"
-#~ msgstr "Χημεία"
-
-#~ msgid "Clock"
-#~ msgstr "Ρολόι"
-
-#~ msgid "Compression"
-#~ msgstr "Συμπίεση"
-
-#~ msgid "ComputerScience"
-#~ msgstr "Επιστήμη των υπολογιστών"
-
-#~ msgid "Construction"
-#~ msgstr "Κατασκευή"
-
-#~ msgid "ContactManagement"
-#~ msgstr "Επικοινωνία Διαχείριση"
-
-#~ msgid "Core"
-#~ msgstr "Πυρήνας"
-
-#~ msgid "DataVisualization"
-#~ msgstr "Οπτικοποίηση δεδομένων"
-
-#~ msgid "Database"
-#~ msgstr "Βάση δεδομένων"
-
-#~ msgid "Debugger"
-#~ msgstr "Αποσφαλματωτής"
-
-#~ msgid "DesktopSettings"
-#~ msgstr "ΡυθμίσειςΕπιφάνειαςΕργασίας"
-
-#~ msgid "Development"
-#~ msgstr "Ανάπτυξη"
-
-#~ msgid "Dialup"
-#~ msgstr "Τηλεφωνική σύνδεση"
-
-#~ msgid "Dictionary"
-#~ msgstr "Λεξικό"
-
-#~ msgid "DiscBurning"
-#~ msgstr "Εγγραφή δίσκου"
-
-#~ msgid "Documentation"
-#~ msgstr "Τεκμηρίωση"
-
-#~ msgid "Economy"
-#~ msgstr "Οικονομία"
-
-#~ msgid "Editors"
-#~ msgstr "Επεξεργαστές"
-
-#~ msgid "Education"
-#~ msgstr "Εκπαίδευση"
-
-#~ msgid "Electricity"
-#~ msgstr "Ηλεκτρισμός"
-
-#~ msgid "Electronics"
-#~ msgstr "Ηλεκτρονική"
-
-#~ msgid "Email"
-#~ msgstr "Ηλεκτρονική αλληλογραφία"
-
-#~ msgid "Emulator"
-#~ msgstr "Προσομοιωτής"
-
-#~ msgid "Engineering"
-#~ msgstr "Μηχανική"
-
-#~ msgid "Feed"
-#~ msgstr "Ροή"
-
-#~ msgid "FileManager"
-#~ msgstr "Διαχειριστής αρχείων"
-
-#~ msgid "FileTools"
-#~ msgstr "Εργαλεία αρχείων"
-
-#~ msgid "FileTransfer"
-#~ msgstr "Μεταφορά αρχείων"
-
-#~ msgid "Filesystem"
-#~ msgstr "ΣύστημαΑρχείων"
-
-#~ msgid "Finance"
-#~ msgstr "Οικονομικά"
-
-#~ msgid "FlowChart"
-#~ msgstr "Διάγραμμα ροής"
-
-#~ msgid "GUIDesigner"
-#~ msgstr "Σχεδιαστής GUI"
-
-#~ msgid "Game"
-#~ msgstr "Παιχνίδια"
-
-#~ msgid "Geography"
-#~ msgstr "Γεωγραφία"
-
-#~ msgid "Geology"
-#~ msgstr "Γεωλογία"
-
-#~ msgid "Geoscience"
-#~ msgstr "Γεωλογικές επιστήμες"
-
-#~ msgid "Graphics"
-#~ msgstr "Γραφικά"
-
-#~ msgid "HamRadio"
-#~ msgstr "Ραδιόφωνο Χαμ"
-
-#~ msgid "HardwareSettings"
-#~ msgstr "ΡυθμίσειςΥλικού"
-
-#~ msgid "History"
-#~ msgstr "Ιστορία"
-
-#~ msgid "Humanities"
-#~ msgstr "Κλασσικές μελέτες"
-
-#~ msgid "IDE"
-#~ msgstr "IDE"
-
-#~ msgid "IRCClient"
-#~ msgstr "Πελάτης IRC"
-
-#~ msgid "ImageProcessing"
-#~ msgstr "Επεξεργασία εικόνας"
-
-#~ msgid "InstantMessaging"
-#~ msgstr "Άμεσα μηνύματα"
-
-#~ msgid "KidsGame"
-#~ msgstr "ΠαιχνίδιαΓιαΠαιδιά"
-
-#~ msgid "Languages"
-#~ msgstr "Γλώσσες"
-
-#~ msgid "Literature"
-#~ msgstr "Λογοτεχνία"
-
-#~ msgid "LogicGame"
-#~ msgstr "Παιχνίδι λογικής"
-
-#~ msgid "Maps"
-#~ msgstr "Χάρτες"
-
-#~ msgid "Math"
-#~ msgstr "Μαθηματικά"
-
-#~ msgid "MedicalSoftware"
-#~ msgstr "Ιατρικό λογισμικό"
-
-#~ msgid "Midi"
-#~ msgstr "Συσκευές Midi"
-
-#~ msgid "Mixer"
-#~ msgstr "Μίκτης"
-
-#~ msgid "Monitor"
-#~ msgstr "Οθόνη"
-
-#~ msgid "Motif"
-#~ msgstr "Μοτίβο"
-
-#~ msgid "Multimedia"
-#~ msgstr "Πολυμέσα"
-
-#~ msgid "Music"
-#~ msgstr "Μουσική"
-
-#~ msgid "Network"
-#~ msgstr "Δίκτυο"
-
-#~ msgid "News"
-#~ msgstr "Ειδήσεις"
-
-#~ msgid "NumericalAnalysis"
-#~ msgstr "Αριθμητική ανάλυση"
-
-#~ msgid "OCR"
-#~ msgstr "OCR"
-
-#~ msgid "Office"
-#~ msgstr "Γραφείο"
-
-#~ msgid "Other"
-#~ msgstr "Άλλα"
-
-#~ msgid "P2P"
-#~ msgstr "P2P"
-
-#~ msgid "PDA"
-#~ msgstr "PDA"
-
-#~ msgid "PackageManager"
-#~ msgstr "Διαχειριστής πακέτων"
-
-#~ msgid "ParallelComputing"
-#~ msgstr "Παράλληλα υπολογιστικά συστήματα"
-
-#~ msgid "Photography"
-#~ msgstr "Φωτογραφία"
-
-#~ msgid "Physics"
-#~ msgstr "Φυσική"
-
-#~ msgid "Player"
-#~ msgstr "Παίκτης"
-
-#~ msgid "Presentation"
-#~ msgstr "Παρουσίαση"
-
-#~ msgid "Printing"
-#~ msgstr "Εκτύπωση"
-
-#~ msgid "Profiling"
-#~ msgstr "Μελέτη προφίλ"
-
-#~ msgid "ProjectManagement"
-#~ msgstr "Διαχείριση έργου"
-
-#~ msgid "Publishing"
-#~ msgstr "Έκδοση"
-
-#~ msgid "RasterGraphics"
-#~ msgstr "Γραφικά Raster"
-
-#~ msgid "Recorder"
-#~ msgstr "Μηχάνημα εγγραφής"
-
-#~ msgid "RemoteAccess"
-#~ msgstr "Απομακρυσμένη σύνδεση"
-
-#~ msgid "RevisionControl"
-#~ msgstr "Έλεγχος αναθεώρησης"
-
-#~ msgid "Robotics"
-#~ msgstr "Ρομποτική"
-
-#~ msgid "RolePlaying"
-#~ msgstr "Διαδικτυακό παιχνίδι ρόλων"
-
-#~ msgid "Scanning"
-#~ msgstr "Σάρωση"
-
-#~ msgid "Science"
-#~ msgstr "Επιστήμη"
-
-#~ msgid "Screensavers"
-#~ msgstr "Προφυλάξεις οθόνης"
-
-#~ msgid "Security"
-#~ msgstr "Ασφάλεια"
-
-#~ msgid "Sequencer"
-#~ msgstr "Αναπαραγωγέας αλληλουχίας"
-
-#~ msgid "Settings"
-#~ msgstr "Ρυθμίσεις"
-
-#~ msgid "Shooter"
-#~ msgstr "Σκοπευτής"
-
-#~ msgid "Simulation"
-#~ msgstr "Προσομοίωση"
-
-#~ msgid "Spirituality"
-#~ msgstr "Πνευματικότητα"
-
-#~ msgid "Sports"
-#~ msgstr "Αθλητικά"
-
-#~ msgid "SportsGame"
-#~ msgstr "Αθλητικό παιχνίδι"
-
-#~ msgid "Spreadsheet"
-#~ msgstr "Λογιστικό φύλλο"
-
-#~ msgid "StrategyGame"
-#~ msgstr "ΠαιχνίδιΣτρατιγικής"
-
-#~ msgid "System"
-#~ msgstr "Σύστημα"
-
-#~ msgid "TV"
-#~ msgstr "Τηλεόραση"
-
-#~ msgid "Telephony"
-#~ msgstr "Τηλεφωνία"
-
-#~ msgid "TelephonyTools"
-#~ msgstr "Εργαλεία τηλεφωνίας"
-
-#~ msgid "TerminalEmulator"
-#~ msgstr "Εξομοιωτής τερματικού"
-
-#~ msgid "TextEditor"
-#~ msgstr "ΕπεξεργαστήςΚειμένου"
-
-#~ msgid "TextTools"
-#~ msgstr "Εργαλεία κειμένου"
-
-#~ msgid "Translation"
-#~ msgstr "Μετάφραση"
-
-#~ msgid "Tuner"
-#~ msgstr "Συντονιστής"
-
-#~ msgid "Utility"
-#~ msgstr "Εργαλείο"
-
-#~ msgid "VectorGraphics"
-#~ msgstr "ΔιανυσματικάΓραφικά"
-
-#~ msgid "Video"
-#~ msgstr "Βίντεο"
-
-#~ msgid "VideoConference"
-#~ msgstr "Τηλεδιάσκεψη"
-
-#~ msgid "Viewer"
-#~ msgstr "Προβολέας"
-
-#~ msgid "WINE"
-#~ msgstr "WINE"
-
-#~ msgid "WebBrowser"
-#~ msgstr "Περιηγητής ιστού"
-
-#~ msgid "WebDevelopment"
-#~ msgstr "ΔικτυακήΑνάπτυξη"
-
-#~ msgid "WordProcessor"
-#~ msgstr "Επεξεργαστής κειμένου"
 
 #~ msgid ""
 #~ "\n"

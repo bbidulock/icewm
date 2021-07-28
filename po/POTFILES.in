@@ -13,6 +13,7 @@ src/aworkspaces.cc
 src/browse.cc
 src/decorate.cc
 src/fdomenu.cc
+src/fdospecgen.h
 src/genpref.cc
 src/globit.cc
 src/iceclock.cc
