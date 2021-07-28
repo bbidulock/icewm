@@ -13,7 +13,7 @@
 #include "argument.h"
 #include "intl.h"
 
-#define TIMEOUT_MS 700
+#define TIMEOUT_MS 1400
 
 static char* getWord(char* word, size_t wordsize, char* start) {
     char *p = start;
