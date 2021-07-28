@@ -267,6 +267,11 @@ static void test_mstr() {
         ma.append(ms[i]);
         assert(find(ma, ms[i]) == i);
     }
+    long n = 0L;
+    for (mstring& m : ma) {
+        assert(m == mstring(n));
+        n++;
+    }
 
     int c = 0;
     for (iter_t iter = ma.iterator(); ++iter; ) {
