@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-07-28 20:46+0200\n"
-"PO-Revision-Date: 2021-06-18 12:58+0000\n"
+"PO-Revision-Date: 2021-07-29 01:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -143,7 +143,7 @@ msgstr "個別 (_S)"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "キーボード"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -2356,7 +2356,7 @@ msgstr "コマンドのパラメータが足りません"
 #: src/wmmenu.cc:55
 #, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "コマンド  '%2$s' に対するパラメータ %1$d が誤っています"
+msgstr "コマンド '%2$s' に対するパラメータ %1$d が誤っています"
 
 #: src/wmmenu.cc:110
 #, c-format
@@ -2369,10 +2369,9 @@ msgid "Error at %s '%s'"
 msgstr "%s '%s' でエラーです"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "不明なキーワードです: `%s'"
+msgstr "予期しないメニューキーワードです: `%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2380,20 +2379,18 @@ msgid "Error at menuprog '%s'"
 msgstr "menuprog '%s' でエラーが発生しました"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "menuprog '%s' でエラーが発生しました"
+msgstr "menuprogreload でエラーが発生しました: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "include ステートメントにファイル名のパラメータが指定されていません"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "menuprog '%s' でエラーが発生しました"
+msgstr "includeprog '%s' でエラーが発生しました"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2440,7 +2437,7 @@ msgstr "修正内容の保存"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "%s に対する新しい値を入力してください: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2629,10 +2626,9 @@ msgid "%s: select failed"
 msgstr "%s: select が失敗しました"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "フォント \"%s\" を読み込めませんでした。"
+msgstr "色 \"%s\" を処理できませんでした"
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2787,26 +2783,22 @@ msgstr ""
 "  --sync              X11 コマンドを同期させます。\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "%s インターフェイスへの対応はコンパイルされていません。"
+msgstr "PNG 画像への対応が有効化されていません"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "JPEG 画像への対応が有効化されていません"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "未対応のインターフェイスです: %s"
+msgstr "未対応のファイル形式です: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "画像 %s が見つかりません"
+msgstr "画像 \"%s\" を読み込めませんでした"
 
 #~ msgid ""
 #~ "\n"
