@@ -47,6 +47,8 @@ bin_PROGRAMS = \
 noinst_PROGRAMS = \
 	genpref
 
+TESTS = strtest testpointer testarray
+
 if BUILD_TESTS
 noinst_PROGRAMS += \
 	testarray \
@@ -475,11 +477,9 @@ iceclock_SOURCES = \
 iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
 
 strtest_SOURCES = \
-	intl.h \
-	debug.h \
-	sysdep.h \
 	base.h \
 	udir.h \
+	upath.h \
 	strtest.cc \
 	mstring.h
 strtest_LDADD = libice.la
@@ -635,7 +635,6 @@ testlocale_SOURCES = \
 testlocale_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
 
 testarray_SOURCES = \
-	intl.h \
 	mstring.h \
 	yarray.h \
 	base.h \
