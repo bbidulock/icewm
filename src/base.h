@@ -22,8 +22,18 @@ inline T min(T a, T b) {
 }
 
 template <class T>
+inline T min(T a, T b, T c) {
+    return (a < b ? a < c ? a : c : b < c ? b : c);
+}
+
+template <class T>
 inline T max(T a, T b) {
     return (a < b ? b : a);
+}
+
+template <class T>
+inline T max(T a, T b, T c) {
+    return (a < b ? b < c ? c : b : a < c ? c : a);
 }
 
 template <class T>
