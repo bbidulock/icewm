@@ -459,23 +459,20 @@ void YWMApp::initPointers() {
     unsigned done = 0;
     MStringArray dirs;
     subdirs("cursors", false, dirs);
-    for (const char* base : dirs) {
-        const size_t bufsize = 1024;
-        char path[bufsize];
-        snprintf(path, bufsize, "%s/cursors", base);
-        for (cdir dir(path); dir.next(); ) {
-            const char* dot = strchr(dir.entry(), '.');
-            if (dot && strcmp(dot, ".xpm") == 0) {
-                for (unsigned i = 0; i < size; ++i) {
-                    if ((mask & (1 << i)) == 0 &&
-                        strcmp(work[i].name, dir.entry()) == 0) {
-                        char buf[bufsize];
-                        snprintf(buf, bufsize, "%s/%s", path, dir.entry());
-                        work[i].curp->init(newstr(buf), work[i].fallback);
-                        mask |= (1 << i);
-                        if (++done == size)
-                            return;
-                    }
+    for (mstring& basedir : dirs) {
+        mstring cursors(basedir + "/cursors");
+        for (cdir dir(cursors); dir.nextExt(".xpm"); ) {
+            const char* nam = dir.entry();
+            for (unsigned i = 0; i < size; ++i) {
+                if ((mask & (1 << i)) == 0 && strcmp(work[i].name, nam) == 0) {
+                    size_t len = cursors.length() + 2 + strlen(nam);
+                    char* path = new char[len];
+                    if (path)
+                        snprintf(path, len, "%s/%s", cursors.c_str(), nam);
+                    work[i].curp->init(path, work[i].fallback);
+                    mask |= (1 << i);
+                    if (++done == size)
+                        return;
                 }
             }
         }
@@ -1587,11 +1584,12 @@ static void print_themes_list() {
     resources += YApplication::getConfigDir();
     resources += YApplication::getLibDir();
     for (mstring& path : resources) {
-        for (sdir dir(path + "/themes/"); dir.next(); ) {
-            upath thmp(dir.path() + dir.entry());
+        upath subdir(path + "/themes/");
+        for (sdir dir(subdir); dir.next(); ) {
+            upath thmp(subdir + dir.entry());
             if (thmp.dirExists()) {
                 for (sdir thmdir(thmp); thmdir.nextExt(".theme"); ) {
-                    upath theme(thmdir.path() + thmdir.entry());
+                    upath theme(thmp + thmdir.entry());
                     puts(theme.string());
                 }
             }
