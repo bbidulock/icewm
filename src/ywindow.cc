@@ -583,25 +583,22 @@ void YWindow::handleEvent(const XEvent &event) {
 
     case MotionNotify:
          {
-             XEvent new_event, old_event;
+             const long mask = KeyPressMask |
+                               KeyReleaseMask |
+                               ButtonPressMask |
+                               ButtonReleaseMask |
+                               ButtonMotionMask;
+             XEvent old_event(event), new_event;
 
-             old_event = event;
-             while (/*XPending(app->display()) > 0 &&*/
-                    XCheckMaskEvent(xapp->display(),
-                                 KeyPressMask |
-                                 KeyReleaseMask |
-                                 ButtonPressMask |
-                                 ButtonReleaseMask |
-                                 ButtonMotionMask,
-                                 &new_event) == True)
-             {
+             while (XCheckMaskEvent(xapp->display(), mask, &new_event)) {
                  if (event.type != new_event.type ||
-                     event.xmotion.window != new_event.xmotion.window)
+                     event.xmotion.window != new_event.xmotion.window ||
+                     event.xmotion.subwindow != new_event.xmotion.subwindow)
                  {
                      XPutBackEvent(xapp->display(), &new_event);
                      break;
                  } else {
-                     XSync(xapp->display(), False);
+                     xapp->sync();
                      old_event = new_event;
                  }
              }
