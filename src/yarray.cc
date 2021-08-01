@@ -32,22 +32,31 @@ YBaseArray::YBaseArray(const YBaseArray& other):
     fElementSize(other.fElementSize),
     fCapacity(other.fCount),
     fCount(other.fCount),
-    fElements(new StorageType[fCapacity * fElementSize])
+    fElements(nullptr)
 {
-    memcpy(fElements, other.fElements, fCount * fElementSize);
+    const unsigned size = unsigned(fCount) * fElementSize;
+    if (size) {
+        fElements = new StorageType[size];
+        if (fElements)
+            memcpy(fElements, other.fElements, size);
+        else
+            fCount = fCapacity = 0;
+    }
 }
 
 void YBaseArray::setCapacity(SizeType nCapacity) {
     if (nCapacity != fCapacity) {
-        StorageType *nElements = new StorageType[nCapacity * fElementSize];
-        size_t how_much = min(nCapacity, fCapacity) * fElementSize;
-        if (how_much)
-        {
-            assert(fElements);
-            memcpy(nElements, fElements, how_much);
+        const unsigned newSize = unsigned(nCapacity) * fElementSize;
+        StorageType* nElements = new StorageType[newSize];
+        if (nElements == nullptr)
+            return;
+        if (fElements) {
+            if (0 < fCount) {
+                const unsigned oldSize = unsigned(fCount) * fElementSize;
+                memcpy(nElements, fElements, min(newSize, oldSize));
+            }
+            delete[] fElements;
         }
-
-        delete[] fElements;
         fElements = nElements;
         fCapacity = nCapacity;
         fCount = min(fCount, fCapacity);
@@ -55,34 +64,39 @@ void YBaseArray::setCapacity(SizeType nCapacity) {
 }
 
 void YBaseArray::append(const void *item) {
-    if (fCount >= fCapacity) {
-        setCapacity(max(fCapacity * 2, 4));
+    if (fCapacity < fCount + 1) {
+        setCapacity(max(fCapacity * 2, fCount + 1, 4));
     }
-
-    memcpy(getElement(fCount++), item, fElementSize);
-
-    assert(fCount <= fCapacity);
+    if (fCount < fCapacity) {
+        memcpy(getElement(fCount), item, fElementSize);
+        fCount++;
+    }
 }
 
 void YBaseArray::insert(const SizeType index, const void *item) {
-    assert(index <= fCount);
+    PRECONDITION(index <= fCount);
 
-    const SizeType nCount = max(fCount + 1, index + 1);
+    const SizeType nCount = max(index, fCount) + 1;
     const SizeType nCapacity(nCount <= fCapacity ? fCapacity :
-                             max(nCount, fCapacity * 2));
-    StorageType *nElements(nCount <= fCapacity ? fElements :
-                           new StorageType[nCapacity * fElementSize]);
-
-    if (nElements != fElements && fElements)
-        memcpy(nElements, fElements, min(index, fCount) * fElementSize);
+                             max(nCount, fCapacity * 2, 4));
+    StorageType* nElements = fElements;
+    if (fCapacity < nCapacity) {
+        const unsigned newSize = unsigned(nCapacity) * fElementSize;
+        nElements = new StorageType[newSize];
+        if (nElements == nullptr)
+            return;
+        const SizeType head = min(index, fCount);
+        if (0 < head)
+            memcpy(nElements, fElements, unsigned(head) * fElementSize);
+    }
 
     if (index < fCount && fElements)
-        memmove(nElements + (index + 1) * fElementSize,
-                fElements + (index) * fElementSize,
-                (fCount - index) * fElementSize);
+        memmove(nElements + unsigned(index + 1) * fElementSize,
+                fElements + unsigned(index) * fElementSize,
+                unsigned(fCount - index) * fElementSize);
     else if (fCount < index && nElements)
-        memset(nElements + fCount * fElementSize,
-               0, (index - fCount) * fElementSize);
+        memset(nElements + unsigned(fCount) * fElementSize,
+               0, unsigned(index - fCount) * fElementSize);
 
     if (nElements != fElements) {
         delete[] fElements;
@@ -90,18 +104,19 @@ void YBaseArray::insert(const SizeType index, const void *item) {
         fCapacity = nCapacity;
     }
 
-    memcpy(getElement(index), item, fElementSize);
+    memcpy(fElements + unsigned(index) * fElementSize, item, fElementSize);
     fCount = nCount;
 
-    assert(fCount <= fCapacity);
-    assert(index < fCount);
+    PRECONDITION(fCount <= fCapacity);
+    PRECONDITION(index < fCount);
 }
 
 void YBaseArray::extend(const SizeType extendedCount) {
     if (fCapacity < extendedCount)
         setCapacity(extendedCount);
-    if (fCount < extendedCount) {
-        memset(getElement(fCount), 0, (extendedCount - fCount) * fElementSize);
+    if (fCount < extendedCount && extendedCount <= fCapacity) {
+        memset(fElements + unsigned(fCount) * fElementSize, 0,
+               unsigned(extendedCount - fCount) * fElementSize);
         fCount = extendedCount;
     }
 }
@@ -112,7 +127,7 @@ void YBaseArray::remove(const SizeType index) {
         int tail = fCount - index - 1;
         if (tail > 0) {
             memmove(getElement(index), getElement(index + 1),
-                    fElementSize * tail);
+                    unsigned(tail) * fElementSize);
             fCount--;
         }
         else if (tail == 0 && --fCount == 0)
@@ -151,7 +166,8 @@ void YBaseArray::operator=(const YBaseArray& other) {
         clear();
         if (other.nonempty()) {
             setCapacity(other.getCount());
-            memcpy(fElements, other.fElements, fCount * fElementSize);
+            memcpy(fElements, other.fElements,
+                   unsigned(fCount) * fElementSize);
             fCount = other.getCount();
         }
     }
