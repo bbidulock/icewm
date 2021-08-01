@@ -3,73 +3,125 @@
 #include "base.h"
 #include <dirent.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
 class DirPtr {
 private:
-    bool own;
     DIR *ptr;
-    struct dirent *de;
+    dirent *de;
 
-    void open(const char *path) { ptr = opendir(path); own = true; }
+    void open(const char* path) { ptr = opendir(path); }
     bool read() { return (de = readdir(ptr)) != nullptr; }
     bool dots() const { return '.' == *name(); }
 
 public:
-    DirPtr(const char * path) : own(false), ptr(nullptr), de(nullptr) { open(path); }
-    DirPtr(upath path) : own(false), ptr(nullptr), de(nullptr) { open(path.string()); }
-    DirPtr(void *vp) : own(false), ptr(static_cast<DIR*>(vp)), de(nullptr) { }
+    DirPtr(const char* path) : ptr(nullptr), de(nullptr) { open(path); }
+    ~DirPtr() { close(); }
+    void close() { if (ptr) { closedir(ptr); ptr = nullptr; de = nullptr; } }
 
-    ~DirPtr() { if (own) close(); }
-    void close() { if (ptr) { closedir(ptr); ptr = nullptr; own = false; de = nullptr; } }
-
-    operator DIR *() const { return ptr; }
+    operator DIR*() const { return ptr; }
+    operator bool() const { return ptr != nullptr; }
 
     char* name() const { return de->d_name; }
     int length() const { return int(strlen(name())); }
     int size() const { return 1 + length(); }
-    struct dirent *next() {
+    dirent* next() {
         while (read() && dots());
         return de;
     }
     void rewind() const { rewinddir(ptr); }
+    bool isDir() {
+        if (de) {
+#ifdef DT_DIR
+            if (de->d_type) {
+                return de->d_type == DT_DIR;
+            }
+#endif
+            struct stat st;
+            if (fstatat(dirfd(ptr), name(), &st, 0) == 0) {
+                return S_ISDIR(st.st_mode);
+            }
+        }
+        return false;
+    }
+    bool isFile() {
+        if (de) {
+#ifdef DT_REG
+            if (de->d_type && de->d_type != DT_LNK) {
+                return de->d_type == DT_REG;
+            }
+#endif
+            struct stat st;
+            if (fstatat(dirfd(ptr), name(), &st, 0) == 0) {
+                return S_ISREG(st.st_mode);
+            }
+        }
+        return false;
+    }
+    bool isLink() {
+        if (de) {
+#ifdef DT_LNK
+            if (de->d_type) {
+                return de->d_type == DT_LNK;
+            }
+#endif
+            struct stat st;
+            if (fstatat(dirfd(ptr), name(), &st, 0) == 0) {
+                return S_ISLNK(st.st_mode);
+            }
+        }
+        return false;
+    }
 };
 
 cdir::cdir(const char* path)
-    : fPath(path), impl(nullptr)
+    : dirp(nullptr)
 {
     fEntry[0] = '\0';
     if (path) {
-        open();
+        open(path);
     }
 }
 
 void cdir::close() {
-    if (impl) {
-        DirPtr(impl).close();
-        impl = nullptr;
+    if (dirp) {
+        delete dirp;
+        dirp = nullptr;
     }
 }
 
 bool cdir::open(const char* path) {
-    fPath = path;
-    return open();
-}
-
-bool cdir::open() {
     close();
-    if (fPath) {
-        impl = static_cast<void *>(opendir(fPath));
-    }
+    dirp = new DirPtr(path);
+    if (dirp && *dirp == nullptr)
+        close();
     return isOpen();
 }
 
+bool cdir::isDir() const {
+    return dirp && dirp->isDir();
+}
+
+bool cdir::isFile() const {
+    return dirp && dirp->isFile();
+}
+
+bool cdir::isLink() const {
+    return dirp && dirp->isLink();
+}
+
 bool cdir::next() {
-    if (impl) {
-        DirPtr dirp(impl);
-        if (dirp.next()) {
-            strlcpy(fEntry, dirp.name(), sizeof fEntry);
+    if (dirp && dirp->next()) {
+        strlcpy(fEntry, dirp->name(), sizeof fEntry);
+        return true;
+    }
+    return false;
+}
+
+bool cdir::nextDir() {
+    while (next()) {
+        if (dirp->isDir())
             return true;
-        }
     }
     return false;
 }
@@ -85,17 +137,29 @@ bool cdir::nextExt(const char *extension) {
     return false;
 }
 
+bool cdir::nextFile() {
+    while (next()) {
+        if (dirp->isFile())
+            return true;
+    }
+    return false;
+}
+
 void cdir::rewind() {
     if (isOpen()) {
-        DirPtr(impl).rewind();
+        dirp->rewind();
     }
 }
 
+int cdir::descriptor() const {
+    return dirp ? dirfd(*dirp) : -1;
+}
+
 adir::adir(const char* path)
-    : fPath(path), fLast(-1)
+    : fLast(-1)
 {
     if (path) {
-        open();
+        open(path);
     }
 }
 
@@ -105,23 +169,16 @@ void adir::close() {
 }
 
 bool adir::open(const char* path) {
-    fPath = path;
-    return open();
-}
-
-bool adir::open() {
     close();
-    if (fPath) {
-        DirPtr dirp(fPath);
-        if (dirp) {
-            while (dirp.next()) {
-                fName.append(dirp.name());
-            }
-            fName.sort();
+    DirPtr dirp(path);
+    if (dirp) {
+        while (dirp.next()) {
+            fName.append(dirp.name());
         }
-        fLast = -1;
+        fName.sort();
+        return true;
     }
-    return isOpen();
+    return false;
 }
 
 bool adir::next() {
@@ -146,41 +203,51 @@ bool adir::nextExt(const char *extension) {
     return false;
 }
 
-udir::udir(const upath& path)
-    : fPath(path), impl(nullptr)
+udir::udir(upath path)
+    : dirp(nullptr)
 {
-    if (fPath.nonempty()) {
-        open();
-    }
+    open(path);
 }
 
 void udir::close() {
-    if (impl) {
-        DirPtr(impl).close();
-        impl = nullptr;
+    if (dirp) {
+        delete dirp;
+        dirp = nullptr;
     }
 }
 
-bool udir::open(const upath& path) {
-    fPath = path;
-    return open();
-}
-
-bool udir::open() {
+bool udir::open(upath path) {
     close();
-    if (fPath.nonempty()) {
-        impl = static_cast<void *>(opendir(fPath.string()));
-    }
+    dirp = new DirPtr(path.string());
+    if (dirp && *dirp == false)
+        close();
     return isOpen();
 }
 
+bool udir::isDir() const {
+    return dirp && dirp->isDir();
+}
+
+bool udir::isFile() const {
+    return dirp && dirp->isFile();
+}
+
+bool udir::isLink() const {
+    return dirp && dirp->isLink();
+}
+
 bool udir::next() {
-    if (impl) {
-        DirPtr dirp(impl);
-        if (dirp.next()) {
-            fEntry = dirp.name();
+    if (dirp && dirp->next()) {
+        fEntry = dirp->name();
+        return true;
+    }
+    return false;
+}
+
+bool udir::nextDir() {
+    while (next()) {
+        if (dirp->isDir())
             return true;
-        }
     }
     return false;
 }
@@ -194,12 +261,22 @@ bool udir::nextExt(const mstring& extension) {
     return false;
 }
 
-sdir::sdir(const upath& path)
-    : fPath(path), fLast(-1)
-{
-    if (path.nonempty()) {
-        open();
+bool udir::nextFile() {
+    while (next()) {
+        if (dirp->isFile())
+            return true;
     }
+    return false;
+}
+
+int udir::descriptor() const {
+    return dirp ? dirfd(*dirp) : -1;
+}
+
+sdir::sdir(upath path)
+    : fLast(-1)
+{
+    open(path);
 }
 
 void sdir::close() {
@@ -207,33 +284,21 @@ void sdir::close() {
     fLast = -1;
 }
 
-bool sdir::open(const upath& path) {
-    fPath = path;
-    return open();
-}
-
-bool sdir::open() {
+bool sdir::open(upath path) {
     close();
-    if (fPath.nonempty()) {
-        DirPtr dirp(fPath);
-        if (dirp) {
-            while (dirp.next()) {
-                mstring copy(dirp.name());
-                fName.append(copy);
-            }
-            fName.sort();
+    DirPtr dirp(path.string());
+    if (dirp) {
+        while (dirp.next()) {
+            fName.append(dirp.name());
         }
-        fLast = -1;
+        fName.sort();
+        return true;
     }
-    return isOpen();
+    return false;
 }
 
 bool sdir::next() {
     return 1 + fLast < count() && ++fLast >= 0;
-}
-
-const mstring& sdir::entry() const {
-    return fName[fLast];
 }
 
 bool sdir::nextExt(const mstring& extension) {
