@@ -18,92 +18,19 @@
 
 char const *ApplicationName = nullptr;
 
-class PixFile {
+class Cache {
 public:
-    typedef ref<YPixmap> Pixmap;
-private:
-    mstring name;
-    Pixmap pix;
-    time_t last, check;
-public:
-    explicit PixFile(mstring file)
-        : name(file), last(0L), check(0L)
-    {
-    }
-    ~PixFile() {
-        pix = null;
-    }
-    mstring file() const { return name; }
-    Pixmap pixmap() {
-        time_t now = time(nullptr);
-        if (pix == null) {
-            if (last == 0 || last + 2 < now) {
-                pix = load();
-                last = check = now;
-            }
-        }
-        else if (check + 10 < now) {
-            check = now;
-            upath path(name);
-            struct stat st;
-            if (path.stat(&st) == 0) {
-                if (last < st.st_mtime) {
-                    Pixmap tmp = load();
-                    if (tmp != null) {
-                        pix = tmp;
-                        last = now;
-                    }
-                }
-            }
-        }
-        return pix;
-    }
-    Pixmap load() {
-        Pixmap image(YPixmap::load(name));
-        if (image == null) {
+    Cache() { }
+    ~Cache() { clear(); }
+    void clear() { }
+    void unload() { }
+    void add(upath s) { }
+    ref<YPixmap> get(mstring name) {
+        ref<YPixmap> pixmap(YPixmap::load(name));
+        if (pixmap == null && testOnce(name.c_str(), __LINE__)) {
             tlog(_("Failed to load image '%s'."), name.c_str());
         }
-        return image;
-    }
-    void unload() {
-        pix = null;
-        last = check = 0L;
-    }
-};
-
-class PixCache {
-public:
-    typedef ref<YPixmap> Pixmap;
-private:
-    YObjectArray<PixFile> pixes;
-    int find(mstring name) {
-        for (int i = 0; i < pixes.getCount(); ++i) {
-            if (name == pixes[i]->file()) {
-                return i;
-            }
-        }
-        return -1;
-    }
-public:
-    ~PixCache() {
-        clear();
-    }
-    void add(mstring file) {
-        if (-1 == find(file)) {
-            pixes.append(new PixFile(file));
-        }
-    }
-    Pixmap get(mstring name) {
-        int k = find(name);
-        return k == -1 ? null : pixes[k]->pixmap();
-    }
-    void clear() {
-        pixes.clear();
-    }
-    void unload() {
-        for (int k = pixes.getCount(); --k >= 0; ) {
-            pixes[k]->unload();
-        }
+        return pixmap;
     }
 };
 
@@ -188,8 +115,9 @@ private:
     YColors backgroundColors;
     Strings transparencyImages;
     YColors transparencyColors;
-    PixCache cache;
+    Cache cache;
     upath themeDir;
+    const int mypid;
     int activeWorkspace;
     int cycleOffset;
     int desktopCount;
@@ -209,14 +137,12 @@ private:
     Atom _XA_NET_NUMBER_OF_DESKTOPS;
     Atom _XA_NET_SUPPORTING_WM_CHECK;
     Atom _XA_NET_WORKAREA;
-    Atom _XA_NET_WM_NAME;
     Atom _XA_ICEWMBG_QUIT;
     Atom _XA_ICEWMBG_IMAGE;
     Atom _XA_ICEWMBG_SHUFFLE;
     Atom _XA_ICEWMBG_RESTART;
     Atom _XA_ICEWMBG_PID;
     Atom _XA_ICEWM_WINOPT;
-    Atom _XA_UTF8_STRING;
 };
 
 Background::Background(int *argc, char ***argv, bool verb):
@@ -225,6 +151,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     verbose(verb),
     randInited(false),
     themeInited(false),
+    mypid(getpid()),
     activeWorkspace(0),
     cycleOffset(0),
     desktopCount(MAX_WORKSPACES),
@@ -238,13 +165,11 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_NET_NUMBER_OF_DESKTOPS(atom("_NET_NUMBER_OF_DESKTOPS")),
     _XA_NET_SUPPORTING_WM_CHECK(atom("_NET_SUPPORTING_WM_CHECK")),
     _XA_NET_WORKAREA(atom("_NET_WORKAREA")),
-    _XA_NET_WM_NAME(atom("_NET_WM_NAME")),
     _XA_ICEWMBG_QUIT(atom("_ICEWMBG_QUIT")),
     _XA_ICEWMBG_IMAGE(atom("_ICEWMBG_IMAGE")),
     _XA_ICEWMBG_SHUFFLE(atom("_ICEWMBG_SHUFFLE")),
     _XA_ICEWMBG_RESTART(atom("_ICEWMBG_RESTART")),
-    _XA_ICEWM_WINOPT(atom("_ICEWM_WINOPTHINT")),
-    _XA_UTF8_STRING(atom("UTF8_STRING"))
+    _XA_ICEWM_WINOPT(atom("_ICEWM_WINOPTHINT"))
 {
     char abuf[42];
     snprintf(abuf, sizeof abuf, "_ICEWMBG_PID_S%d", xapp->screen());
@@ -291,14 +216,14 @@ upath Background::getThemeDir() {
 Background::~Background() {
     int pid = getBgPid();
     if (supportSemitransparency) {
-        if (pid <= 0 || pid == getpid()) {
+        if (pid <= 0 || pid == mypid) {
             if (_XA_XROOTPMAP_ID)
                 deleteProperty(_XA_XROOTPMAP_ID);
             if (_XA_XROOTCOLOR_PIXEL)
                 deleteProperty(_XA_XROOTCOLOR_PIXEL);
         }
     }
-    if (pid == getpid()) {
+    if (pid == mypid) {
         deleteProperty(_XA_ICEWMBG_PID);
         deleteProperty(_XA_ICEWMBG_IMAGE);
     }
@@ -306,7 +231,6 @@ Background::~Background() {
     clearBackgroundColors();
     clearTransparencyImages();
     clearTransparencyColors();
-    cache.clear();
 }
 
 int Background::mainLoop() {
@@ -350,12 +274,7 @@ void Background::addImage(Strings& images, const char* name, bool append) {
             ++name;
         }
         upath path(name);
-        bool globbing = path.hasglob();
-        if (globbing == false && path.dirExists()) {
-            path += "*";
-            globbing = true;
-        }
-        if (globbing) {
+        if (path.hasglob()) {
             YStringArray list;
             if (path.glob(list, "/")) {
                 if (permute) {
@@ -378,15 +297,34 @@ void Background::addImage(Strings& images, const char* name, bool append) {
         else {
             bool isAbs = path.isAbsolute();
             path = path.expand();
-            bool xist = (isAbs && path.fileExists());
+            bool xist = (isAbs && path.isReadable());
             if (xist == false && isAbs == false) {
                 upath p(getThemeDir() + path);
-                if (p.fileExists()) {
+                if (p.isReadable()) {
                     path = p;
                     xist = true;
                 }
             }
-            if (xist || (isAbs == false && path.fileExists())) {
+            if (xist && path.dirExists()) {
+                int start = images.getCount();
+                for (udir dir(path); dir.nextFile(); ) {
+                    if (hasImageExt(dir.entry())) {
+                        upath file(path + dir.entry());
+                        images.append(file);
+                        cache.add(file);
+                        if (images.getCount() >= ICEBG_MAX_ARGS)
+                            break;
+                    }
+                }
+                if (permute) {
+                    int k = images.getCount();
+                    randinit(k);
+                    while (start < --k) {
+                        images.swap(k, start + randmax(k - start));
+                    }
+                }
+            }
+            else if (xist && path.fileExists()) {
                 images.append(path);
                 cache.add(path);
             }
@@ -395,7 +333,7 @@ void Background::addImage(Strings& images, const char* name, bool append) {
 }
 
 void Background::add(const char* name, const char* value, bool append) {
-    if (value == nullptr || *value == 0) {
+    if (isEmpty(value)) {
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         addImage(backgroundImages, value, append);
@@ -513,7 +451,7 @@ YColor Background::getTransparencyColor() {
 void Background::randinit(long seed) {
     if (randInited == false) {
         timeval now = walltime();
-        srand(unsigned((seed + getpid()) * now.tv_sec + now.tv_usec));
+        srand(unsigned((seed + mypid) * now.tv_sec + now.tv_usec));
         randInited = true;
     }
 }
@@ -796,33 +734,33 @@ bool Background::filterEvent(const XEvent &xev) {
         if (xev.xproperty.atom == _XA_NET_CURRENT_DESKTOP) {
             update();
         }
-        if (xev.xproperty.atom == _XA_NET_NUMBER_OF_DESKTOPS) {
+        else if (xev.xproperty.atom == _XA_NET_NUMBER_OF_DESKTOPS) {
             getNumberOfDesktops();
         }
-        if (xev.xproperty.atom == _XA_NET_DESKTOP_GEOMETRY) {
+        else if (xev.xproperty.atom == _XA_NET_DESKTOP_GEOMETRY) {
             unsigned w = desktopWidth, h = desktopHeight;
             getDesktopGeometry();
             update(w != desktopWidth || h != desktopHeight);
         }
-        if (xev.xproperty.atom == _XA_NET_WORKAREA) {
+        else if (xev.xproperty.atom == _XA_NET_WORKAREA) {
             unsigned w = desktopWidth, h = desktopHeight;
             desktop->updateXineramaInfo(desktopWidth, desktopHeight);
             update(w != desktopWidth || h != desktopHeight);
         }
-        if (xev.xproperty.atom == _XA_ICEWMBG_PID) {
+        else if (xev.xproperty.atom == _XA_ICEWMBG_PID) {
             int pid = getBgPid();
-            if (pid > 0 && pid != getpid()) {
+            if (pid > 0 && pid != mypid) {
                 this->exit(0);
             }
             return true;
         }
-        if (xev.xproperty.atom == _XA_NET_SUPPORTING_WM_CHECK) {
+        else if (xev.xproperty.atom == _XA_NET_SUPPORTING_WM_CHECK) {
             checkTimer->setTimer(100L, this, true);
         }
     }
     else if (xev.type == ClientMessage) {
         if (xev.xclient.message_type == _XA_ICEWMBG_QUIT) {
-            if (xev.xclient.data.l[0] != getpid()) {
+            if (xev.xclient.data.l[0] != mypid) {
                 if (verbose) tlog("quit");
                 this->exit(0);
             }
@@ -868,13 +806,12 @@ void Background::sendClientMessage(Atom message) const {
     xev.window = window();
     xev.message_type = message;
     xev.format = 32;
-    xev.data.l[0] = getpid();
+    xev.data.l[0] = mypid;
     send(xev, window(), StructureNotifyMask);
     sync();
 }
 
 bool Background::become(bool replace) {
-    long mypid = (long) getpid();
     int pid = getBgPid();
 
     if (pid > 0 && pid != mypid && (replace || kill(pid, 0) != 0)) {
@@ -893,12 +830,13 @@ bool Background::become(bool replace) {
         }
     }
     if (pid <= 0) {
-        changeLongProperty(_XA_ICEWMBG_PID, (unsigned char *) &mypid);
+        long lpid = mypid;
+        changeLongProperty(_XA_ICEWMBG_PID, (unsigned char *) &lpid);
         sync();
-        pid = (int) mypid;
+        pid = mypid;
     }
 
-    return pid == (int) mypid;
+    return pid == mypid;
 }
 
 static const char* get_help_text() {
@@ -969,9 +907,9 @@ void addBgImage(const char* name, const char* value, bool append) {
 
 static void bgLoadConfig(const char *configFile, const char *overrideTheme)
 {
-    if (configFile == nullptr || *configFile == 0)
+    if (isEmpty(configFile))
         configFile = "preferences";
-    if (overrideTheme && *overrideTheme)
+    if (nonempty(overrideTheme))
         themeName = overrideTheme;
     else
     {
