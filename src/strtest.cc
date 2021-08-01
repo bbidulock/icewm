@@ -440,8 +440,9 @@ static void test_cdir()
     strtest tester("cdir");
 
     {
-        cdir c("/etc");
-        assert(c.path(), c.isOpen());
+        const char cpath[] = "/etc";
+        cdir c(cpath);
+        assert(cpath, c.isOpen());
         int n = 0, p = 0, g = 0, r = 0;
         while (c.next()) {
             ++n;
@@ -449,21 +450,21 @@ static void test_cdir()
             if (0 == strcmp(c.entry(), "group")) ++g;
             if (0 == strcmp(c.entry(), "resolv.conf")) ++r;
         }
-        assert(c.path(), n >= 3);
-        assert(c.path(), p == 1);
-        assert(c.path(), g == 1);
-        assert(c.path(), r == 1);
+        assert(cpath, n >= 3);
+        assert(cpath, p == 1);
+        assert(cpath, g == 1);
+        assert(cpath, r == 1);
 
-        c.open();
+        c.open(cpath);
         n = 0;
         while (c.nextExt(".conf")) {
             ++n;
             const char *p = c.entry();
-            assert(c.path(),
+            assert(cpath,
                     strlen(p) >= 5 &&
                     0 == strcmp(p + strlen(p) - 5, ".conf"));
         }
-        assert(c.path(), n > 0);
+        assert(cpath, n > 0);
     }
 }
 
@@ -471,8 +472,9 @@ static void test_udir()
 {
     strtest tester("udir");
     {
-        udir u("/etc");
-        assert(u.path(), u.isOpen());
+        const char cpath[] = "/etc";
+        udir u(cpath);
+        assert(cpath, u.isOpen());
         int n = 0, p = 0, g = 0, r = 0;
         while (u.next()) {
             ++n;
@@ -480,18 +482,18 @@ static void test_udir()
             if (u.entry() == "group") ++g;
             if (u.entry() == "resolv.conf") ++r;
         }
-        assert(u.path(), n >= 3);
-        assert(u.path(), p == 1);
-        assert(u.path(), g == 1);
-        assert(u.path(), r == 1);
+        assert(cpath, n >= 3);
+        assert(cpath, p == 1);
+        assert(cpath, g == 1);
+        assert(cpath, r == 1);
 
-        u.open("/etc");
+        u.open(cpath);
         n = 0;
         while (u.nextExt(".conf")) {
             ++n;
-            assert(u.path(), u.entry().endsWith(".conf"));
+            assert(cpath, u.entry().endsWith(".conf"));
         }
-        assert(u.path(), n > 0);
+        assert(cpath, n > 0);
     }
 }
 
@@ -500,8 +502,9 @@ static void test_adir()
     strtest tester("adir");
 
     {
-        adir a("/etc");
-        assert(a.path(), a.isOpen());
+        const char cpath[] = "/etc";
+        adir a(cpath);
+        assert(cpath, a.isOpen());
         char buf[300] = "";
         while (a.next()) {
             const char *e = a.entry();
@@ -518,8 +521,9 @@ static void test_sdir()
     strtest tester("sdir");
 
     {
-        sdir s("/etc");
-        assert(s.path(), s.isOpen());
+        const char cpath[] = "/etc";
+        sdir s(cpath);
+        assert(cpath, s.isOpen());
         char buf[300] = "";
         while (s.next()) {
             mstring c(s.entry());
