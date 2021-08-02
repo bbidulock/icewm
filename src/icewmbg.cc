@@ -4,6 +4,7 @@
 #include <signal.h>
 #include <time.h>
 #include <sys/stat.h>
+#include <sys/resource.h>
 #include <stdlib.h>
 #include <X11/Xatom.h>
 #include "yxapp.h"
@@ -274,6 +275,9 @@ void Background::addImage(Strings& images, const char* name, bool append) {
             ++name;
         }
         upath path(name);
+        if (path.name() == "*") {
+            path = path.parent();
+        }
         if (path.hasglob()) {
             YStringArray list;
             if (path.glob(list, "/")) {
@@ -707,7 +711,7 @@ void Background::changeBackground(bool force) {
     {
         this->exit(0);
     }
-    currentBackgroundPixmap = backgroundPixmap;
+    // currentBackgroundPixmap = backgroundPixmap;
     currentBackgroundColor = backgroundColor;
 }
 
@@ -1025,8 +1029,10 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (nice(5)) {
-        /*ignore*/;
+    if (getpriority(PRIO_PROCESS, 0) < 5) {
+        if (nice(5)) {
+            /*ignore*/;
+        }
     }
 
     Background bg(&argc, &argv, verbose);
