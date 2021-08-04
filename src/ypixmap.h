@@ -42,18 +42,7 @@ public:
 private:
     YPixmap(Pixmap pixmap, Pixmap mask,
             unsigned width, unsigned height,
-            unsigned depth, ref<YImage> image):
-        fWidth(width),
-        fHeight(height),
-        fDepth(depth),
-        fPixmap(pixmap),
-        fMask(mask),
-        fPicture(None),
-        fImage(image),
-        fPixmap32(),
-        fPixmap24()
-    {
-    }
+            unsigned depth, ref<YImage> image);
     virtual ~YPixmap();
 
     friend class YImage;

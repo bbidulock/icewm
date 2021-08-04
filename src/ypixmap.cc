@@ -51,6 +51,19 @@ void YPixmap::replicate(bool horiz, bool copyMask) {
     (horiz ? fWidth : fHeight) = dim;
 }
 
+YPixmap::YPixmap(Pixmap pixmap, Pixmap mask,
+        unsigned width, unsigned height,
+        unsigned depth, ref<YImage> image):
+    fWidth(width),
+    fHeight(height),
+    fDepth(depth),
+    fPixmap(pixmap),
+    fMask(mask),
+    fPicture(None),
+    fImage(image)
+{
+}
+
 YPixmap::~YPixmap() {
     if (fPixmap != None) {
         if (xapp != nullptr)
