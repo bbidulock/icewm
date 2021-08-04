@@ -190,6 +190,15 @@ Background::Background(int *argc, char ***argv, bool verb):
     catchSignal(SIGQUIT);
     catchSignal(SIGUSR1);
     catchSignal(SIGUSR2);
+
+#ifdef CONFIG_DEFAULT_BACKGROUND
+    if (backgroundImages.isEmpty()) {
+        const char def[] = CONFIG_DEFAULT_BACKGROUND "";
+        if (sizeof(def) > 1) {
+            add("DesktopBackgroundImage", def, true);
+        }
+    }
+#endif
 }
 
 upath Background::getThemeDir() {
@@ -1027,6 +1036,9 @@ int main(int argc, char **argv) {
             }
             else if (GetArgument(value, "y", "cycle", arg, argv + argc)) {
                 cycle = value;
+            }
+            else if (GetArgument(value, "d", "display", arg, argv + argc)) {
+                /*ignore*/;
             }
             else
                 warn(_("Unrecognized option '%s'."), *arg);

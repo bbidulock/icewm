@@ -487,6 +487,12 @@ AC_ARG_WITH([theme],
                     with_theme="default/default.theme")
 AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_THEME],
                    "${with_theme}",[Name of default theme])
+AC_ARG_WITH([background],
+    AS_HELP_STRING([--with-background=PATH],
+                   [Default background image or directory.]),
+                   [],[with_background=""])
+AC_DEFINE_UNQUOTED([CONFIG_DEFAULT_BACKGROUND], "${with_background}",
+                   [Path of default background image or directory.])
 AC_ARG_WITH([xterm],
     AS_HELP_STRING([--with-xterm=xterm],[Default X11 terminal emulator.]),
         [],[with_xterm=xterm])
