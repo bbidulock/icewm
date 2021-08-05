@@ -61,6 +61,7 @@ public:
     void enableSemitransparency(bool enable = true) {
         supportSemitransparency = enable;
     }
+    bool haveBackgrounds() { return imageInited; }
 
 private:
     virtual bool filterEvent(const XEvent& xev);
@@ -118,6 +119,7 @@ private:
     bool verbose;
     bool randInited;
     bool themeInited;
+    bool imageInited;
     Strings backgroundImages;
     YColors backgroundColors;
     Strings transparencyImages;
@@ -157,6 +159,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     verbose(verb),
     randInited(false),
     themeInited(false),
+    imageInited(false),
     mypid(getpid()),
     activeWorkspace(0),
     cycleOffset(0),
@@ -190,15 +193,6 @@ Background::Background(int *argc, char ***argv, bool verb):
     catchSignal(SIGQUIT);
     catchSignal(SIGUSR1);
     catchSignal(SIGUSR2);
-
-#ifdef CONFIG_DEFAULT_BACKGROUND
-    if (backgroundImages.isEmpty()) {
-        const char def[] = CONFIG_DEFAULT_BACKGROUND "";
-        if (sizeof(def) > 1) {
-            add("DesktopBackgroundImage", def, true);
-        }
-    }
-#endif
 }
 
 upath Background::getThemeDir() {
@@ -355,6 +349,7 @@ void Background::add(const char* name, const char* value, bool append) {
     }
     else if (0 == strcmp(name, "DesktopBackgroundImage")) {
         addImage(backgroundImages, value, append);
+        imageInited = true;
     }
     else if (0 == strcmp(name, "DesktopBackgroundColor")) {
         if (append == false) {
@@ -1101,6 +1096,15 @@ int main(int argc, char **argv) {
     }
     if (cycle) {
         cycleBackgroundsPeriod = atoi(cycle);
+    }
+
+    if (bg.haveBackgrounds() == false) {
+#ifdef CONFIG_DEFAULT_BACKGROUND
+        const char def[] = CONFIG_DEFAULT_BACKGROUND "";
+        if (def[0]) {
+            bgParse("DesktopBackgroundImage", def);
+        }
+#endif
     }
 
     globalBg = nullptr;
