@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:46+0200\n"
+"POT-Creation-Date: 2021-08-06 14:08+0200\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -1376,7 +1376,7 @@ msgstr "Dejanje `%s' zahteva vsaj %d argumentov."
 msgid "Invalid expression: `%s'"
 msgstr "Neveljaven izraz: `%s'"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1198
+#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1723,12 +1723,12 @@ msgstr "Razširi uhlje"
 msgid "Wrap Lines"
 msgstr "Prelom vrstic"
 
-#: src/icewmbg.cc:64
+#: src/icewmbg.cc:34
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Neuspešno odpiranje %s: %s"
 
-#: src/icewmbg.cc:906
+#: src/icewmbg.cc:854
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1790,7 +1790,12 @@ msgstr ""
 " DesktopTransparencyColor - Barva oznanitve polprosojnih oken\n"
 " DesktopTransparencyImage - Slika oznanitve polprosojnih oken\n"
 
-#: src/icewmbg.cc:1111
+#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#, fuzzy, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Neprepoznana izbira: %s\n"
+
+#: src/icewmbg.cc:1066
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1883,156 +1888,156 @@ msgstr ""
 msgid "done."
 msgstr ""
 
-#: src/wmapp.cc:497
+#: src/wmapp.cc:494
 msgid "_Logout"
 msgstr "_Odjava"
 
-#: src/wmapp.cc:498
+#: src/wmapp.cc:495
 msgid "_Cancel logout"
 msgstr "Prekli_c odjave"
 
-#: src/wmapp.cc:503
+#: src/wmapp.cc:500
 msgid "Lock _Workstation"
 msgstr "_Zakleni delovno postajo"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:72
+#: src/wmapp.cc:502 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Ponoven _zagon sistema"
 
-#: src/wmapp.cc:507 src/wmdialog.cc:73
+#: src/wmapp.cc:504 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Zaustavitev _sistema"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:509 src/wmdialog.cc:69
+#: src/wmapp.cc:506 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:511
 msgid "Restart _Icewm"
 msgstr "Ponoven zagon _IceWM"
 
-#: src/wmapp.cc:516
+#: src/wmapp.cc:513
 msgid "Restart _Xterm"
 msgstr "Ponoven zagon _Xterma"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:523
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:524
 msgid "_Above Dock"
 msgstr "Nad sid_rom"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:525
 msgid "_Dock"
 msgstr "_Zasidraj"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:526
 msgid "_OnTop"
 msgstr "Na _vrh"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:527
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:528
 msgid "_Below"
 msgstr "_Spodaj"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:529
 msgid "D_esktop"
 msgstr "_Namizje"
 
-#: src/wmapp.cc:567 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "O_bnovi"
 
-#: src/wmapp.cc:569
+#: src/wmapp.cc:566
 msgid "_Move"
 msgstr "P_restavi"
 
-#: src/wmapp.cc:571
+#: src/wmapp.cc:568
 msgid "_Size"
 msgstr "Velikos_t"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "Poma_njšaj"
 
-#: src/wmapp.cc:575 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "R_azpni"
 
-#: src/wmapp.cc:576 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:365
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Razpni"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:366
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Razpni"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "_Celoten zaslon"
 
-#: src/wmapp.cc:583 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "S_krij"
 
-#: src/wmapp.cc:585 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "Navz_gor"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:589
 msgid "R_aise"
 msgstr "_Dvigni"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "_Spusti"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "S_loj"
 
-#: src/wmapp.cc:600 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "Prestavi _v"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "Za_sedi vse"
 
-#: src/wmapp.cc:607
+#: src/wmapp.cc:604
 msgid "Limit _Workarea"
 msgstr "_Omeji delovno površino"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "Pladenj z _ikonami"
 
-#: src/wmapp.cc:616 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "_Zapri"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "_Ubij odjemalca"
 
-#: src/wmapp.cc:621 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "_Seznam oken"
 
-#: src/wmapp.cc:659
+#: src/wmapp.cc:656
 msgid "Another window manager already running, exiting..."
 msgstr "Drug upravljalnik oken že teče, končujem..."
 
-#: src/wmapp.cc:734
+#: src/wmapp.cc:731
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2041,33 +2046,33 @@ msgstr ""
 "Ne morem ponovno zagnati: %s\n"
 "Ali je %s v spremenljivki $PATH?"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1199 src/yxapp.cc:1023
+#: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
 msgstr "<brez>"
 
-#: src/wmapp.cc:1520
+#: src/wmapp.cc:1517
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1526
+#: src/wmapp.cc:1523
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1534
+#: src/wmapp.cc:1531
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2079,7 +2084,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1544
+#: src/wmapp.cc:1541
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2137,26 +2142,21 @@ msgstr ""
 "Sporočanje hroščev, zahteve za podporo, komentarji, ... na https://ice-wm."
 "org/\n"
 
-#: src/wmapp.cc:1609
+#: src/wmapp.cc:1607
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1691
+#: src/wmapp.cc:1689
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Neprepoznana izbira: %s\n"
 
-#: src/wmapp.cc:1772
-#, fuzzy, c-format
-msgid "Unrecognized option '%s'."
-msgstr "Neprepoznana izbira: %s\n"
-
-#: src/wmapp.cc:1821
+#: src/wmapp.cc:1819
 msgid "Confirm Logout"
 msgstr "Potrdi odjavo"
 
-#: src/wmapp.cc:1822
+#: src/wmapp.cc:1820
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

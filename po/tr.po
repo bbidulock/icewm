@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:46+0200\n"
+"POT-Creation-Date: 2021-08-06 14:08+0200\n"
 "PO-Revision-Date: 2021-07-21 10:11+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1356,7 +1356,7 @@ msgstr "'%s' eylemi en az %d değişken gerektiriyor."
 msgid "Invalid expression: `%s'"
 msgstr "Hatalı ifade: «%s»"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1198
+#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1742,12 +1742,12 @@ msgstr "Tabları Aç"
 msgid "Wrap Lines"
 msgstr "Satır Kaydır"
 
-#: src/icewmbg.cc:64
+#: src/icewmbg.cc:34
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "'%s' resmi yüklenirken başarısız oldu."
 
-#: src/icewmbg.cc:906
+#: src/icewmbg.cc:854
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1852,7 +1852,12 @@ msgstr ""
 " center:0 scaled:1 = her iki boyutu da doldur ve en boy oranını koru\n"
 "\n"
 
-#: src/icewmbg.cc:1111
+#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Tanınmayan seçenek ' %s'."
+
+#: src/icewmbg.cc:1066
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Başlatılamıyor, çünkü başka icewmbg hala çalışıyor."
 
@@ -1951,152 +1956,152 @@ msgstr "Eski pencere yöneticisinin değiştirilmesi bekleniyor"
 msgid "done."
 msgstr "bitti."
 
-#: src/wmapp.cc:497
+#: src/wmapp.cc:494
 msgid "_Logout"
 msgstr "_Oturumu Kapat"
 
-#: src/wmapp.cc:498
+#: src/wmapp.cc:495
 msgid "_Cancel logout"
 msgstr "O_turum kapatmayı iptal et"
 
-#: src/wmapp.cc:503
+#: src/wmapp.cc:500
 msgid "Lock _Workstation"
 msgstr "_Bilgisayarı Kilitle"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:72
+#: src/wmapp.cc:502 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Bilgisayarı Yeniden _Başlat"
 
-#: src/wmapp.cc:507 src/wmdialog.cc:73
+#: src/wmapp.cc:504 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Bilgisayarı _Kapat"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:509 src/wmdialog.cc:69
+#: src/wmapp.cc:506 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "_Uyku modu"
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:511
 msgid "Restart _Icewm"
 msgstr "_Icewm'i Yeniden Başlat"
 
-#: src/wmapp.cc:516
+#: src/wmapp.cc:513
 msgid "Restart _Xterm"
 msgstr "_Xterm'i Yeniden Başlat"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:523
 msgid "_Menu"
 msgstr "_Menü"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:524
 msgid "_Above Dock"
 msgstr "_En üstte"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:525
 msgid "_Dock"
 msgstr "_Daha üstte"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:526
 msgid "_OnTop"
 msgstr "Üs_tte"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:527
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:528
 msgid "_Below"
 msgstr "_Altta"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:529
 msgid "D_esktop"
 msgstr "_Masaüstü"
 
-#: src/wmapp.cc:567 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "_Eski haline"
 
-#: src/wmapp.cc:569
+#: src/wmapp.cc:566
 msgid "_Move"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:571
+#: src/wmapp.cc:568
 msgid "_Size"
 msgstr "B_oyutlandır"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "_Küçült"
 
-#: src/wmapp.cc:575 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "_Büyüt"
 
-#: src/wmapp.cc:576 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "_Dikey Büyüt"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "_Yatay Büyüt"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "Tam ek_ran"
 
-#: src/wmapp.cc:583 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "G_izle"
 
-#: src/wmapp.cc:585 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "_Sar"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:589
 msgid "R_aise"
 msgstr "Y_ukarı Kaldır"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "_Aşağı İndir"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "Kat_man"
 
-#: src/wmapp.cc:600 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "_Hepsini Kapla"
 
-#: src/wmapp.cc:607
+#: src/wmapp.cc:604
 msgid "Limit _Workarea"
 msgstr "Çalışma alanını kısıtla"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "_Tepsiye küçült"
 
-#: src/wmapp.cc:616 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "Ka_pat"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "_Istemciyi Öldür"
 
-#: src/wmapp.cc:621 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "Pen_cere listesi"
 
-#: src/wmapp.cc:659
+#: src/wmapp.cc:656
 msgid "Another window manager already running, exiting..."
 msgstr "Başka bir pencere yöneticisi çalışıyor..."
 
-#: src/wmapp.cc:734
+#: src/wmapp.cc:731
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2105,11 +2110,11 @@ msgstr ""
 "Yeniden başlatılamıyor: %s\n"
 "$PATH, %s'i içeriyor mu?"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
 msgstr "Uçbirim Olarak Yeniden Başlatmayı Onaylayın"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2117,18 +2122,18 @@ msgstr ""
 "Tüm uygulamaları bırakın ve terminal \n"
 " olarak yeniden başlatın. Devam?"
 
-#: src/wmapp.cc:1199 src/yxapp.cc:1023
+#: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
 msgstr "<yok>"
 
-#: src/wmapp.cc:1520
+#: src/wmapp.cc:1517
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Oturum yöneticisiyle iletişim kurarken kullanılacak "
 "istemci kimliği.\n"
 
-#: src/wmapp.cc:1526
+#: src/wmapp.cc:1523
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2139,7 +2144,7 @@ msgstr ""
 "  --debug-z           Pencere yığınlaması ile ilgili hata ayıklama "
 "mesajlarını yazdırın.\n"
 
-#: src/wmapp.cc:1534
+#: src/wmapp.cc:1531
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2160,7 +2165,7 @@ msgstr ""
 "  --trace=conf,icon   Yapılandırmayı yüklemek için kullanılan yolları "
 "izleyin.\n"
 
-#: src/wmapp.cc:1544
+#: src/wmapp.cc:1541
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2220,26 +2225,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1609
+#: src/wmapp.cc:1607
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s yapılandırma dizinleri:\n"
 
-#: src/wmapp.cc:1691
+#: src/wmapp.cc:1689
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s yapılandırılmış seçenekler:%s\n"
 
-#: src/wmapp.cc:1772
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "Tanınmayan seçenek ' %s'."
-
-#: src/wmapp.cc:1821
+#: src/wmapp.cc:1819
 msgid "Confirm Logout"
 msgstr "Oturum Kapatma Onayı"
 
-#: src/wmapp.cc:1822
+#: src/wmapp.cc:1820
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

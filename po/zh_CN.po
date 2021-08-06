@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:46+0200\n"
+"POT-Creation-Date: 2021-08-06 14:08+0200\n"
 "PO-Revision-Date: 2021-03-30 04:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
@@ -1353,7 +1353,7 @@ msgstr "命令 `%s' 需要至少 %d 个参数。"
 msgid "Invalid expression: `%s'"
 msgstr "无效表达式: `%s'"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1198
+#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1734,12 +1734,12 @@ msgstr "展开标签页"
 msgid "Wrap Lines"
 msgstr "换行"
 
-#: src/icewmbg.cc:64
+#: src/icewmbg.cc:34
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "加载图片 '%s' 失败。"
 
-#: src/icewmbg.cc:906
+#: src/icewmbg.cc:854
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1837,7 +1837,12 @@ msgstr ""
 " center:0 scaled:1 = 沿双方向填充并保持缩放率\n"
 "\n"
 
-#: src/icewmbg.cc:1111
+#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "无法识别的选项：'%s'。"
+
+#: src/icewmbg.cc:1066
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "无法启动，因为其他 icewmbg 仍在运行。"
 
@@ -1935,152 +1940,152 @@ msgstr "等待替换旧的窗口管理器"
 msgid "done."
 msgstr "完成。"
 
-#: src/wmapp.cc:497
+#: src/wmapp.cc:494
 msgid "_Logout"
 msgstr "注销(_L)"
 
-#: src/wmapp.cc:498
+#: src/wmapp.cc:495
 msgid "_Cancel logout"
 msgstr "取消注销(_C)"
 
-#: src/wmapp.cc:503
+#: src/wmapp.cc:500
 msgid "Lock _Workstation"
 msgstr "锁住工作站(_W)"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:72
+#: src/wmapp.cc:502 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "重启计算机(_B)"
 
-#: src/wmapp.cc:507 src/wmdialog.cc:73
+#: src/wmapp.cc:504 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "关机(_D)"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:509 src/wmdialog.cc:69
+#: src/wmapp.cc:506 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "睡眠模式(_S)"
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:511
 msgid "Restart _Icewm"
 msgstr "重新启动 _Icewm"
 
-#: src/wmapp.cc:516
+#: src/wmapp.cc:513
 msgid "Restart _Xterm"
 msgstr "重新启动 Xterm(_X)"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:523
 msgid "_Menu"
 msgstr "菜单(_M)"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:524
 msgid "_Above Dock"
 msgstr "停放在上层(_A)"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:525
 msgid "_Dock"
 msgstr "停放(_D)"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:526
 msgid "_OnTop"
 msgstr "顶层(_O)"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:527
 msgid "_Normal"
 msgstr "正常(_N)"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:528
 msgid "_Below"
 msgstr "底层(_B)"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:529
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:567 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "恢复(_R)"
 
-#: src/wmapp.cc:569
+#: src/wmapp.cc:566
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: src/wmapp.cc:571
+#: src/wmapp.cc:568
 msgid "_Size"
 msgstr "改变大小(_S)"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "最小化(_N)"
 
-#: src/wmapp.cc:575 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#: src/wmapp.cc:576 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "垂直最大化(_V)"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "水平最大化(_Z)"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "全屏(_F)"
 
-#: src/wmapp.cc:583 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: src/wmapp.cc:585 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "卷起(_U)"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:589
 msgid "R_aise"
 msgstr "上移一层(_A)"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "下移一层(_L)"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "分层排序(_Y)"
 
-#: src/wmapp.cc:600 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "移动到(_T)"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "占据所有工作区(_A)"
 
-#: src/wmapp.cc:607
+#: src/wmapp.cc:604
 msgid "Limit _Workarea"
 msgstr "限制工作区(_W)"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "显示为托盘图标(_I)"
 
-#: src/wmapp.cc:616 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "杀死客户程序(_K)"
 
-#: src/wmapp.cc:621 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "窗口列表(_W)"
 
-#: src/wmapp.cc:659
+#: src/wmapp.cc:656
 msgid "Another window manager already running, exiting..."
 msgstr "另一个 窗口管理器 已经在运行，正在退出..."
 
-#: src/wmapp.cc:734
+#: src/wmapp.cc:731
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2089,11 +2094,11 @@ msgstr ""
 "无法重新启动：%s\n"
 "%s 在路径 $PATH 中吗？"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
 msgstr "确认作为终端重启动"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2101,16 +2106,16 @@ msgstr ""
 "取消管理所有应用程序并作为终端\n"
 "重启动。是否继续？"
 
-#: src/wmapp.cc:1199 src/yxapp.cc:1023
+#: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
 msgstr "<无>"
 
-#: src/wmapp.cc:1520
+#: src/wmapp.cc:1517
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      与会话管理器通信时使用客户端 ID\n"
 
-#: src/wmapp.cc:1526
+#: src/wmapp.cc:1523
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2120,7 +2125,7 @@ msgstr ""
 "  --debug             打印通用调试信息。\n"
 "  --debug-z           窗口层叠时打印调试信息。\n"
 
-#: src/wmapp.cc:1534
+#: src/wmapp.cc:1531
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2148,7 +2153,7 @@ msgstr ""
 "  -p, --postpreferences  处理完成后显示配置选项。\n"
 "  --trace=conf,icon   追踪用于加载配置文件的路径。\n"
 
-#: src/wmapp.cc:1544
+#: src/wmapp.cc:1541
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2207,26 +2212,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1609
+#: src/wmapp.cc:1607
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 配置选项目录：\n"
 
-#: src/wmapp.cc:1691
+#: src/wmapp.cc:1689
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 配置选项：%s\n"
 
-#: src/wmapp.cc:1772
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "无法识别的选项：'%s'。"
-
-#: src/wmapp.cc:1821
+#: src/wmapp.cc:1819
 msgid "Confirm Logout"
 msgstr "确认退出"
 
-#: src/wmapp.cc:1822
+#: src/wmapp.cc:1820
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

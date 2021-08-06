@@ -6,11 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-07-28 20:46+0200\n"
+"POT-Creation-Date: 2021-08-06 14:08+0200\n"
 "PO-Revision-Date: 2021-07-29 01:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1357,7 +1357,7 @@ msgstr "アクション `%s' には少なくとも %d 個のパラメータが�
 msgid "Invalid expression: `%s'"
 msgstr "表現が正しくありません: `%s'"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1198
+#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1750,12 +1750,12 @@ msgstr "タブ拡張"
 msgid "Wrap Lines"
 msgstr "行折り返し"
 
-#: src/icewmbg.cc:64
+#: src/icewmbg.cc:34
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "画像 '%s' の読み込みに失敗しました。"
 
-#: src/icewmbg.cc:906
+#: src/icewmbg.cc:854
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1857,7 +1857,12 @@ msgstr ""
 " center:0 scaled:1 = 縦横の両方を埋め、アスペクト比を維持\n"
 "\n"
 
-#: src/icewmbg.cc:1111
+#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "認識できないオプション '%s' です。"
+
+#: src/icewmbg.cc:1066
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "既に icewmbg が動作しているため、新しく起動することができません。"
 
@@ -1957,152 +1962,152 @@ msgstr "以前のウインドウマネージャの置き換えを待っていま
 msgid "done."
 msgstr "完了。"
 
-#: src/wmapp.cc:497
+#: src/wmapp.cc:494
 msgid "_Logout"
 msgstr "ログアウト (_L)"
 
-#: src/wmapp.cc:498
+#: src/wmapp.cc:495
 msgid "_Cancel logout"
 msgstr "ログアウトを破棄 (_C)"
 
-#: src/wmapp.cc:503
+#: src/wmapp.cc:500
 msgid "Lock _Workstation"
 msgstr "ワークステーションをロック (_W)"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:72
+#: src/wmapp.cc:502 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "再起動 (_B)"
 
-#: src/wmapp.cc:507 src/wmdialog.cc:73
+#: src/wmapp.cc:504 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "シャットダウン (_D)"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:509 src/wmdialog.cc:69
+#: src/wmapp.cc:506 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "スリープモード (_S)"
 
-#: src/wmapp.cc:514
+#: src/wmapp.cc:511
 msgid "Restart _Icewm"
 msgstr "icewm を再起動 (_I)"
 
-#: src/wmapp.cc:516
+#: src/wmapp.cc:513
 msgid "Restart _Xterm"
 msgstr "xterm を再起動 (_X)"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:523
 msgid "_Menu"
 msgstr "メニュー (_M)"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:524
 msgid "_Above Dock"
 msgstr "ドックの上 (_A)"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:525
 msgid "_Dock"
 msgstr "ドック (_D)"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:526
 msgid "_OnTop"
 msgstr "上に (_O)"
 
-#: src/wmapp.cc:530
+#: src/wmapp.cc:527
 msgid "_Normal"
 msgstr "通常 (_N)"
 
-#: src/wmapp.cc:531
+#: src/wmapp.cc:528
 msgid "_Below"
 msgstr "下に (_B)"
 
-#: src/wmapp.cc:532
+#: src/wmapp.cc:529
 msgid "D_esktop"
 msgstr "デスクトップ (_E)"
 
-#: src/wmapp.cc:567 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:362
 msgid "_Restore"
 msgstr "元に戻す (_R)"
 
-#: src/wmapp.cc:569
+#: src/wmapp.cc:566
 msgid "_Move"
 msgstr "移動 (_M)"
 
-#: src/wmapp.cc:571
+#: src/wmapp.cc:568
 msgid "_Size"
 msgstr "サイズ (_S)"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:363
 msgid "Mi_nimize"
 msgstr "最小化 (_N)"
 
-#: src/wmapp.cc:575 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:364
 msgid "Ma_ximize"
 msgstr "最大化 (_X)"
 
-#: src/wmapp.cc:576 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:365
 msgid "Maximize_Vert"
 msgstr "垂直方向に最大化 (_V)"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:366
 msgid "MaximizeHori_z"
 msgstr "水平方向に最大化 (_Z)"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:367
 msgid "_Fullscreen"
 msgstr "フルスクリーン (_F)"
 
-#: src/wmapp.cc:583 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:369
 msgid "_Hide"
 msgstr "隠す (_H)"
 
-#: src/wmapp.cc:585 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:370
 msgid "Roll_up"
 msgstr "シェード (_U)"
 
-#: src/wmapp.cc:592
+#: src/wmapp.cc:589
 msgid "R_aise"
 msgstr "上に表示 (_A)"
 
-#: src/wmapp.cc:594 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:372
 msgid "_Lower"
 msgstr "下に表示 (_L)"
 
-#: src/wmapp.cc:596 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:373
 msgid "La_yer"
 msgstr "レイヤ (_Y)"
 
-#: src/wmapp.cc:600 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:375
 msgid "Move _To"
 msgstr "移動 (_T)"
 
-#: src/wmapp.cc:601 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:376
 msgid "Occupy _All"
 msgstr "居座る (_A)"
 
-#: src/wmapp.cc:607
+#: src/wmapp.cc:604
 msgid "Limit _Workarea"
 msgstr "作業領域の制限 (_W)"
 
-#: src/wmapp.cc:611 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:377
 msgid "Tray _icon"
 msgstr "トレイアイコン (_I)"
 
-#: src/wmapp.cc:616 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
 msgid "_Close"
 msgstr "閉じる (_C)"
 
-#: src/wmapp.cc:618 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:394
 msgid "_Kill Client"
 msgstr "クライアント強制終了 (_K)"
 
-#: src/wmapp.cc:621 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
 msgid "_Window list"
 msgstr "ウインドウ一覧 (_W)"
 
-#: src/wmapp.cc:659
+#: src/wmapp.cc:656
 msgid "Another window manager already running, exiting..."
 msgstr "他のウインドウマネージャが既に起動しています。終了します..."
 
-#: src/wmapp.cc:734
+#: src/wmapp.cc:731
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2111,11 +2116,11 @@ msgstr ""
 "%s を再起動できません。\n"
 "$PATH 内に %s がありますか？"
 
-#: src/wmapp.cc:897
+#: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
 msgstr "端末として再起動を行なう確認"
 
-#: src/wmapp.cc:898
+#: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2123,18 +2128,18 @@ msgstr ""
 "全てのアプリケーションを管理から外し、\n"
 "端末として再起動します。よろしいですか？"
 
-#: src/wmapp.cc:1199 src/yxapp.cc:1023
+#: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
 msgstr "<なし>"
 
-#: src/wmapp.cc:1520
+#: src/wmapp.cc:1517
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      セッションマネージャに接続する際のクライアント ID を指"
 "定します。\n"
 
-#: src/wmapp.cc:1526
+#: src/wmapp.cc:1523
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2145,7 +2150,7 @@ msgstr ""
 "  --debug-z           ウインドウのスタック処理に関連するデバッグメッセージを"
 "表示します。\n"
 
-#: src/wmapp.cc:1534
+#: src/wmapp.cc:1531
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2165,7 +2170,7 @@ msgstr ""
 "  --rewrite-preferences  既存の設定ファイルを更新します。\n"
 "  --trace=conf,icon   設定の読み込み時に使用するパスをトレースします。\n"
 
-#: src/wmapp.cc:1544
+#: src/wmapp.cc:1541
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2225,26 +2230,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1609
+#: src/wmapp.cc:1607
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s の設定ディレクトリ:\n"
 
-#: src/wmapp.cc:1691
+#: src/wmapp.cc:1689
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s の設定済みオプション: %s\n"
 
-#: src/wmapp.cc:1772
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "認識できないオプション '%s' です。"
-
-#: src/wmapp.cc:1821
+#: src/wmapp.cc:1819
 msgid "Confirm Logout"
 msgstr "ログアウトの確認"
 
-#: src/wmapp.cc:1822
+#: src/wmapp.cc:1820
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"

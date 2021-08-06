@@ -38,15 +38,6 @@ src/objbar.cc
 src/objbutton.cc
 src/objmenu.cc
 src/ref.cc
-src/strtest.cc
-src/testarray.cc
-src/testlocale.cc
-src/testmap.cc
-src/testmenus.cc
-src/testnetwmhints.cc
-src/testpointer.cc
-src/testsizes.cc
-src/testwinhints.cc
 src/themes.cc
 src/udir.cc
 src/upath.cc
