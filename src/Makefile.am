@@ -652,5 +652,5 @@ nodist_pkgdata_DATA = \
 preferences: genpref$(EXEEXT)
 	$(AM_V_GEN)./genpref$(EXEEXT) -o $@ -s
 
-CLEANFILES = preferences
+CLEANFILES = preferences strtest testarray testpointer
 
