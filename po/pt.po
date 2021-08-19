@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-08-06 14:08+0200\n"
-"PO-Revision-Date: 2021-07-08 16:11+0000\n"
+"PO-Revision-Date: 2021-08-19 19:14+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -144,7 +144,7 @@ msgstr "_Separar"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "Teclado"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -1616,35 +1616,24 @@ msgstr ""
 "Opções:\n"
 "\n"
 "-d, --display=DISPLAY Display X11 usado pelo IceWM (padrão: $DISPLAY).\n"
-"\n"
 "-s, --sample-dir=DIR Especifica o diretório que contém\n"
 "os ficheiros de som (~/.icewm/sounds).\n"
-"\n"
 "-i, --interface=LISTA Especifica as interfaces de saída de som. Uma ou mais\n"
 "de %s separadas por vírgula.\n"
-"\n"
 "-D, --device=DISPOSITIVO Apenas para retro-compatibilidade: o dispositivo "
 "padrão. \n"
 "Prefira uma das opções -A/-O/-S.\n"
-"\n"
 "-O, --oss=DISPOSITIVO Especifica o dispositivo OSS (padrão: \"%s\").\n"
-"\n"
 "-A, --alsa=DISPOSITIVO Especifica o dispositivo ALSA (padrão: \"%s\").\n"
-"\n"
 " -z, --snooze=milissegundos Especifica o intervalo de espera entre os "
 "eventos de som em\n"
 "milissegundos. O padrão é 500 milissegundos.\n"
-"\n"
 " -p, --play=som Reproduz o som fornecido (nome ou número) e sai.\n"
-"\n"
 " -l, --list-files Lista os caminhos de ficheiros de som disponíveis e sai.\n"
 " --list-sounds Lista os nome de ficheiros de som suportados e sai.\n"
 " --list-interfaces Lista as interfaces de áudio suportados e sai.\n"
-"\n"
 "-v, --verbose Detalhado (imprime cada evento de áudio).\n"
-"\n"
 "-V, --version Mostra a informação da versão e sai.\n"
-"\n"
 "-h, --help Mostra este ecrã de ajuda e sai.\n"
 "\n"
 "Valores de retorno:\n"
@@ -2313,7 +2302,7 @@ msgstr "_Sair..."
 
 #: src/wmdialog.cc:75
 msgid "_Restart icewm"
-msgstr "_Reiniciar icewm"
+msgstr "_Reiniciar o icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
@@ -2334,54 +2323,51 @@ msgstr "Interromper cliente: "
 
 #: src/wmmenu.cc:37
 msgid "Missing command argument"
-msgstr ""
+msgstr "Argumento de comando em falta"
 
 #: src/wmmenu.cc:55
-#, fuzzy, c-format
-#| msgid "Bad argument: %s for %s [%d,%d]"
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Argumento inválido: %s para %s [%d,%d]"
+msgstr "Mau argumento %d para o comando '%s'"
 
 #: src/wmmenu.cc:110
 #, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr ""
+msgstr "Erro na palavra-chave '%s' para %s"
 
 #: src/wmmenu.cc:156
 #, c-format
 msgid "Error at %s '%s'"
-msgstr ""
+msgstr "Erro em %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unexpected: `%s'."
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Inesperado: `%s'."
+msgstr "Palavra-chave inesperada do menu: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
 msgid "Error at menuprog '%s'"
-msgstr ""
+msgstr "Erro no menuprog '%s'"
 
 #: src/wmmenu.cc:320
 #, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr ""
+msgstr "Erro no menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "Argumento do nome de ficheiro em falta para incluir declaração"
 
 #: src/wmmenu.cc:365
 #, c-format
 msgid "Error at includeprog '%s'"
-msgstr ""
+msgstr "Erro em includeprog '%s'"
 
 #: src/wmmenu.cc:408
-#, fuzzy, c-format
-#| msgid "Unknown option '%s'"
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Opção desconhecida: `%s'"
+msgstr "Palavra-chave desconhecida: '%s'"
 
 #: src/wmmenu.cc:419
 #, c-format
@@ -2389,11 +2375,13 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"Palavra-chave desconhecida para um não-contentor: '%s'.\n"
+"Espera-se 'chave' ou 'executar uma vez' aqui.\n"
 
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "'%s' não produz resultado"
 
 #: src/wmmgr.cc:3259
 msgid "Missing program setxkbmap"
@@ -2420,7 +2408,7 @@ msgstr "Guardar modificações"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Introduzir um novo valor para %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2609,10 +2597,9 @@ msgid "%s: select failed"
 msgstr "%s: falha na seleção"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Não foi possível carregar a fonte \"%s\"."
+msgstr "Não foi possível analisar a cor \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2760,26 +2747,22 @@ msgstr ""
 "  --sync              Sincronizar comandos X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Suporte para a interface %s não compilado."
+msgstr "O suporte para imagens PNG não foi ativado"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "O suporte para imagens JPEG não foi ativado"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Interface não suportada: %s."
+msgstr "Formato de ficheiro não suportado: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Não foi possível encontrar a imagem %s"
+msgstr "Não foi possível carregar a imagem \"%s\""
 
 #~ msgid ""
 #~ "\n"
