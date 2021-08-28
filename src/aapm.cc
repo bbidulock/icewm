@@ -424,7 +424,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
             BATcapacity_full >= 0 && BATcapacity_remain >= 0 && BATrate > 0)
         {
             if (BATtime_remain == -1)
-                BATtime_remain = (60 * BATcapacity_remain) / BATrate;
+                BATtime_remain = ((long long)60 * BATcapacity_remain) / BATrate;
             snprintf(bat_info, sizeof bat_info, "%d:%02d",
                      BATtime_remain / 60, BATtime_remain % 60);
         }
@@ -432,7 +432,7 @@ void YApm::AcpiStr(char *s, bool Tool) {
                  BATcapacity_remain >= 0 && BATcapacity_full > 0)
         {
             snprintf(bat_info, sizeof bat_info, "%3d%%",
-                    (100 * BATcapacity_remain) / BATcapacity_full);
+                    ((long long)100 * BATcapacity_remain) / BATcapacity_full);
         }
 
         if (BATstatus == BAT_CHARGING) {
@@ -646,16 +646,16 @@ void YApm::SysStr(char *s, bool Tool) {
             BATstatus == BAT_DISCHARGING &&
             BATcapacity_full > 0 && BATcapacity_remain >= 0 && BATrate > 0)
         {
-            BATtime_remain = (60 * BATcapacity_remain) / BATrate;
+            BATtime_remain = ((long long)60 * BATcapacity_remain) / BATrate;
             snprintf(bat_info, sizeof bat_info, "%d:%02d (%3d%%)",
                     BATtime_remain / 60, BATtime_remain % 60,
-                    (100 * BATcapacity_remain) / BATcapacity_full);
+                    ((long long)100 * BATcapacity_remain) / BATcapacity_full);
         }
         else if (BATpresent == BAT_PRESENT &&
                  BATcapacity_remain >= 0 && BATcapacity_full > 0)
         {
             snprintf(bat_info, sizeof bat_info, "%3d%%",
-                     (100 * BATcapacity_remain) / BATcapacity_full);
+                     ((long long)100 * BATcapacity_remain) / BATcapacity_full);
         }
         else {
             //battery is absent or we didn't parse some needed values
