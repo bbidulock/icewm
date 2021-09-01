@@ -375,7 +375,7 @@ taskbar.
 
 Resize window by I<WIDTH> by I<HEIGHT> pixels. If I<WIDTH> or I<HEIGHT>
 ends with a percent sign C<%>, then they refer to a percentage of the
-current window size. For instance, C<sizeto 50% 200> increases the width
+current window size. For instance, C<sizeby 50% 200> increases the width
 by 50% and increases the height by 200 pixels.
 
 =item B<move> I<X> I<Y>
