@@ -54,6 +54,7 @@ private:
     void ApmStr(char *s, bool Tool);
     bool ignore_directory_bat_entry(const char* name);
     bool ignore_directory_ac_entry(const char* name);
+    FILE* open3(const char* src1, const char* src2, const char* src3);
 
     YColorName apmBg;
     YColorName apmFg;
@@ -65,6 +66,9 @@ private:
 
     // inspection mode: legacy APM, legacy ACPI (procfs), PMU (Mac), ACPI (sysfs)
     enum { APM, ACPI, PMU, SYSFS } mode;
+    enum AC_Status { AC_UNKNOWN, AC_ONLINE, AC_OFFLINE };
+    enum BAT_Present { BAT_ABSENT, BAT_PRESENT };
+    enum BAT_Status { BAT_UNKNOWN, BAT_CHARGING, BAT_DISCHARGING, BAT_FULL };
     //number of batteries (for apm == 1)
     int batteryNum;
 
