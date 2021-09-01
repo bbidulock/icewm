@@ -212,11 +212,14 @@ XSV(const char *, netCommand,                   TERM " -name netstat -title 'Net
 XSV(const char *, netClassHint,                 "netstat.XTerm")
 #endif
 
-XSV(const char *, netDevice,                    "[ew]*"
 #if __OpenBSD__
-                                                " vio*"
+#define NET_DEVICES                             "[ew]* vio*"
+#else
+#define NET_DEVICES                             "[ew]*"
 #endif
-   )
+XSV(const char *, netDevice,                    NET_DEVICES)
+#undef NET_DEVICES
+
 XSV(const char *, addressBarCommand,            0)
 XSV(const char *, dockApps,                     "right high desktop")
 #ifdef CONFIG_I18N
