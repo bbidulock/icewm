@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-08-06 14:08+0200\n"
-"PO-Revision-Date: 2021-06-21 06:57+0000\n"
+"PO-Revision-Date: 2021-09-04 16:12+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
 msgid " - Power"
@@ -146,7 +146,7 @@ msgstr "Pi_sahkan"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "Papan Tik"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -2355,10 +2355,9 @@ msgid "Error at %s '%s'"
 msgstr "Kesalahan pada %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Kata kunci tidak dikenal '%s'"
+msgstr "Kata kunci menu yang tidak dipilih: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2366,20 +2365,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Kesalahan saat menuprog '%s'"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Kesalahan saat menuprog '%s'"
+msgstr "Kesalahan di menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Argumen nama berkas hilang untuk menyertakan pernyataan"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Kesalahan saat menuprog '%s'"
+msgstr "Kesalahan di includeprog '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2425,7 +2422,7 @@ msgstr "Simpan Modifikasi"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Masukkan nilai baru untuk %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2614,10 +2611,9 @@ msgid "%s: select failed"
 msgstr "%s: pilih gagal"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Tidak dapat memuat fonta \"%s\"."
+msgstr "Tidak dapat mengurai warna '%s'"
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2765,26 +2761,22 @@ msgstr ""
 "  --sync              Sinkronisasi perintah X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Dukungan untuk antarmuka %s tidak dikompilasi."
+msgstr "Dukungan untuk gambar PNG tidak diaktifkan"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Dukungan untuk gambar JPEG tidak diaktifkan"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Antarmuka yang tidak didukung: %s."
+msgstr "Format berkas yang tidak didukung: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Tidak dapat menemukan gambar %s"
+msgstr "Tidak dapat membuat gambar “%s”."
 
 #~ msgid ""
 #~ "\n"
