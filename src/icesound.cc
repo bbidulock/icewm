@@ -733,7 +733,7 @@ Return values:\n\
   2    Command line error.\n\
   3    Subsystems error (ie cannot connect to server).\n\n"),
            ApplicationName, audio_interfaces, audio_interfaces,
-           ALSA_DEFAULT_DEVICE, OSS_DEFAULT_DEVICE);
+           OSS_DEFAULT_DEVICE, ALSA_DEFAULT_DEVICE);
 
     ::exit(0);
 }
