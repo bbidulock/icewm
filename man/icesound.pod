@@ -80,11 +80,11 @@ Please prefer one of the B<-A>, B<-O> or B<-S> options.
 
 =item B<-O>, B<--oss>=I<DEVICE>
 
-Specifies the OSS device (default: C<default>).
+Specifies the OSS device (default: F</dev/dsp>).
 
 =item B<-A>, B<--alsa>=I<DEVICE>
 
-Specifies the ALSA device (default: F</dev/dsp>).
+Specifies the ALSA device (default: C<default>).
 
 =item B<-z>, B<--snooze>=I<MILLISECONDS>
 
