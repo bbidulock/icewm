@@ -502,9 +502,16 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             loadPath = findIcon(size);
         }
         if (loadPath != null) {
-            auto cs(loadPath.path());
+            mstring cs(loadPath.path());
             YTraceIcon trace(cs);
-            icon = YImage::load(cs);
+
+#ifdef CONFIG_LIBRSVG
+            mstring ext(loadPath.getExtension().lower());
+            if (ext == ".svg")
+                icon = YImage::loadsvg(cs);
+            else
+#endif
+                icon = YImage::load(cs);
         }
         else {
             TLOG(("Icon not found: %s", fPath.string()));
@@ -522,13 +529,28 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
     return icon;
 }
 
-
-ref<YImage> YIcon::bestLoad(int size, ref<YImage>& img, bool& flag) {
-    if (flag == false) {
-        img = loadIcon(size);
-        flag = true;
+ref<YImage> YIcon::huge() {
+    if (loadedH == false) {
+        fHuge = loadIcon(hugeIconSize);
+        loadedH = true;
     }
-    return img;
+    return fHuge;
+}
+
+ref<YImage> YIcon::large() {
+    if (loadedL == false) {
+        fLarge = loadIcon(largeIconSize);
+        loadedL = true;
+    }
+    return fLarge;
+}
+
+ref<YImage> YIcon::small() {
+    if (loadedS == false) {
+        fSmall = loadIcon(smallIconSize);
+        loadedS = true;
+    }
+    return fSmall;
 }
 
 ref<YImage> YIcon::getScaledIcon(unsigned size) {

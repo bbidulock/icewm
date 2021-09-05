@@ -94,6 +94,12 @@ Picture YPixmap::picture() {
     return fPicture;
 }
 
+void YPixmap::forgetImage() {
+    if (fImage != null) {
+        fImage = null;
+    }
+}
+
 void YPixmap::freePicture() {
     if (fPicture) {
         XRenderFreePicture(xapp->display(), fPicture);

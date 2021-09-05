@@ -154,6 +154,7 @@ libice_la_SOURCES = \
 	ysocket.cc \
 	ysocket.h \
 	ystring.h \
+	ysvg.cc \
 	ytime.cc \
 	ytime.h \
 	ytimer.cc \

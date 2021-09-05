@@ -181,7 +181,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     _XA_ICEWM_WINOPT(atom("_ICEWM_WINOPTHINT"))
 {
     char abuf[42];
-    snprintf(abuf, sizeof abuf, "_ICEWMBG_PID_S%d", xapp->screen());
+    snprintf(abuf, sizeof abuf, "_ICEWMBG_PID_S%d", screen());
     _XA_ICEWMBG_PID = atom(abuf);
 
     desktop->setStyle(YWindow::wsDesktopAware);
@@ -260,10 +260,10 @@ static bool hasImageExt(const char* name) {
         const char* ext = &name[len - 3];
         if (3 == strspn(ext, "jpngxmJPNGXM"))
             return true;
-#ifdef CONFIG_LIBRSVG
+/* #ifdef CONFIG_LIBRSVG
         if (0 == strcasecmp(ext, "svg"))
             return true;
-#endif
+* #endif */
     }
     else if (len >= 6 && name[len - 5] == '.') {
         const char* ext = &name[len - 4];
@@ -671,6 +671,7 @@ void Background::changeBackground(bool force) {
     ref<YPixmap> back = renderBackground(backgroundImage, backgroundColor);
 
     if (back != null) {
+        back->forgetImage();
         bPixmap = back->pixmap();
         XSetWindowBackgroundPixmap(display(), window(), bPixmap);
         changeStringProperty(_XA_ICEWMBG_IMAGE, (char *) backgroundName.c_str());
@@ -695,6 +696,8 @@ void Background::changeBackground(bool force) {
             currentTransparencyPixmap =
                 trans == null || (samePixmap && sameColor) ? back :
                 renderBackground(trans, tColor);
+            if (currentTransparencyPixmap != null)
+                currentTransparencyPixmap->forgetImage();
 
             unsigned long tPixel(tColor.pixel());
             Pixmap tPixmap(currentTransparencyPixmap != null

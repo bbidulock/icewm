@@ -36,6 +36,7 @@ public:
     Pixmap pixmap(unsigned depth);
     Picture picture();
     void freePicture();
+    void forgetImage();
     ref<YPixmap> scale(unsigned w, unsigned h);
     ref<YPixmap> subimage(unsigned x, unsigned y, unsigned w, unsigned h);
 

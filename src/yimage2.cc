@@ -2,49 +2,8 @@
 
 #ifdef CONFIG_IMLIB2
 
-#include "yimage.h"
+#include "yimage2.h"
 #include "yxapp.h"
-#include <Imlib2.h>
-
-#ifdef CONFIG_LIBRSVG
-#include <librsvg/rsvg.h>
-#include "yfileio.h"
-#endif
-
-#define ATH 10  /* alpha threshold */
-
-typedef Imlib_Image Image;
-
-class YImage2: public YImage {
-public:
-    YImage2(unsigned width, unsigned height, Image image):
-        YImage(width, height), fImage(image) { }
-    virtual ~YImage2() {
-        context();
-        imlib_free_image();
-    }
-    virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
-    virtual ref<YImage> scale(unsigned width, unsigned height);
-    virtual void draw(Graphics& g, int dx, int dy);
-    virtual void draw(Graphics& g, int x, int y,
-                       unsigned w, unsigned h, int dx, int dy);
-    virtual void composite(Graphics& g, int x, int y,
-                            unsigned w, unsigned h, int dx, int dy);
-    virtual unsigned depth() const;
-    virtual bool hasAlpha() const;
-    virtual bool valid() const { return fImage != nullptr; }
-    virtual ref<YImage> subimage(int x, int y, unsigned w, unsigned h);
-    virtual void save(upath filename);
-    virtual void copy(Graphics& g, int x, int y);
-    static ref<YImage> loadsvg(upath filename);
-
-private:
-    Image fImage;
-
-    void context() const {
-        imlib_context_set_image(fImage);
-    }
-};
 
 const char* YImage::renderName() {
     return "Imlib2";
@@ -64,80 +23,7 @@ unsigned YImage2::depth() const {
     return imlib_image_has_alpha() ? 32 : 24;
 }
 
-ref<YImage> YImage2::loadsvg(upath filename) {
-    ref<YImage> icon;
-
-#ifdef CONFIG_LIBRSVG
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpragmas"
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
-#pragma GCC diagnostic ignored "-Wunknown-warning-option"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
-    fcsmart filedata(filename.loadText());
-    if (filedata) {
-        size_t length = strlen(filedata);
-        GError* error = nullptr;
-        const guint8* gudata = reinterpret_cast<const guint8 *>(filedata.data());
-        RsvgHandle* handle = rsvg_handle_new_from_data(gudata, length, &error);
-        if (handle) {
-            RsvgDimensionData dim = { 0, 0, 0, 0 };
-            rsvg_handle_get_dimensions(handle, &dim);
-            GdkPixbuf* pixbuf = rsvg_handle_get_pixbuf(handle);
-            rsvg_handle_close(handle, &error);
-            bool alpha = gdk_pixbuf_get_has_alpha(pixbuf);
-            int nchans = gdk_pixbuf_get_n_channels(pixbuf);
-            int stride = gdk_pixbuf_get_rowstride(pixbuf);
-            int width = dim.width;
-            int height = dim.height;
-            guchar* pixels = gdk_pixbuf_get_pixels(pixbuf);
-            Image image = imlib_create_image(width, height);
-            if (image) {
-                imlib_context_set_image(image);
-                imlib_image_set_has_alpha(1);
-                imlib_context_set_mask_alpha_threshold(ATH);
-                imlib_context_set_anti_alias(1);
-                DATA32* data = imlib_image_get_data();
-                DATA32* argb = data;
-                for (int row = 0; row < height; row++) {
-                    const guchar* rowpix = pixels + row * stride;
-                    for (int col = 0; col < width; col++, rowpix += nchans) {
-                        const guchar red = rowpix[0];
-                        const guchar grn = rowpix[1];
-                        const guchar blu = rowpix[2];
-                        const guchar alp = rowpix[3];
-                        if (alpha && alp < ATH)
-                            *argb++ = 0;
-                        else if (alpha)
-                            *argb++ = red << 16 | grn << 8 | blu | alp << 24;
-                        else
-                            *argb++ = red << 16 | grn << 8 | blu | 0xFF000000;
-                    }
-                }
-                imlib_image_put_back_data(data);
-                icon.init(new YImage2(width, height, image));
-            }
-            g_object_unref(G_OBJECT(pixbuf));
-        }
-        else {
-            TLOG(("SVG %s error: %s", filename.string(), error->message));
-            g_clear_error(&error);
-        }
-    }
-    else {
-        TLOG(("SVG %s error: %s", filename.string(), errno_string()));
-    }
-
-#pragma GCC diagnostic pop
-#endif
-
-    return icon;
-}
-
 ref<YImage> YImage::load(upath filename) {
-    if (filename.getExtension() == ".svg") {
-        return YImage2::loadsvg(filename);
-    }
     Image image = imlib_load_image_immediately_without_cache(filename.string());
     if (image) {
         imlib_context_set_image(image);

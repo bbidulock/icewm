@@ -10,6 +10,9 @@ class Graphics;
 class YImage: public refcounted {
 public:
     static ref<YImage> load(upath filename);
+#ifdef CONFIG_LIBRSVG
+    static ref<YImage> loadsvg(upath filename);
+#endif
     static ref<YImage> createFromPixmap(ref<YPixmap> image);
     static ref<YImage> createFromPixmapAndMask(Pixmap pix, Pixmap mask,
                                                unsigned width, unsigned height);

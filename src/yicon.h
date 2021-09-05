@@ -7,10 +7,9 @@ public:
     YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge);
     ~YIcon();
 
-    ref<YImage> huge() { return bestLoad(hugeSize(), fHuge, loadedH); }
-    ref<YImage> large() { return bestLoad(largeSize(), fLarge, loadedL); }
-    ref<YImage> small() { return bestLoad(smallSize(), fSmall, loadedS); }
-
+    ref<YImage> huge();
+    ref<YImage> large();
+    ref<YImage> small();
 
     ref<YImage> getScaledIcon(unsigned size);
 
@@ -56,8 +55,6 @@ private:
     bool fCached;
 
     upath fPath;
-
-    ref<YImage> bestLoad(int size, ref<YImage>& img, bool& flag);
 
     void removeFromCache();
     static int cacheFind(upath name);
