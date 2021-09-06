@@ -5,6 +5,7 @@
 #ifdef CONFIG_IMLIB2
 #include "yimage2.h"
 #include <librsvg/rsvg.h>
+#include <string.h>
 #include "yfileio.h"
 #include "base.h"
 #endif
