@@ -1036,10 +1036,28 @@ public:
                 match = true;
             }
             else if (prop.format() == 8 && valueString) {
-                if (prop.count() == long(strlen(valueString)) &&
-                    0 == strcmp(prop.data<char>(), valueString))
-                {
-                    match = true;
+                for (int i = 0;; ++i) {
+                    char letter = prop.data<char>(i);
+                    if (valueString[i] == '\0') {
+                        match = (i >= prop.count() || letter == '\0');
+                        break;
+                    }
+                    else if (i >= prop.count()) {
+                        match = (0 == strcmp(valueString + i, "."));
+                        break;
+                    }
+                    else if (letter == '\0') {
+                        if (valueString[i] != '.') {
+                            break;
+                        }
+                        if (valueString[i + 1] == '\0') {
+                            match = true;
+                            break;
+                        }
+                    }
+                    else if (letter != valueString[i]) {
+                        break;
+                    }
                 }
             }
             else if (prop.format() == 32 && valueString) {
@@ -3055,6 +3073,11 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             else {
                 for (int i = 0; i < prop.count(); ++i) {
                     unsigned char ch = prop.data<unsigned char>(i);
+                    if (ch == '\0') {
+                        if (i + 1 == prop.count()) {
+                            break;
+                        }
+                    }
                     putchar(isPrint(ch) ? ch : '.');
                 }
                 newline();
