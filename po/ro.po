@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-08-06 14:08+0200\n"
+"POT-Creation-Date: 2021-09-09 22:52+0200\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -15,27 +15,42 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
+#: src/aapm.cc:66
+#, fuzzy, c-format
+msgid "Can't open the APM device %s"
+msgstr "Nu pot găsi harta de pixeli %s"
+
+#: src/aapm.cc:74 src/aapm.cc:92
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr ""
+
+#: src/aapm.cc:122
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr ""
+
+#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
 msgstr " - Pornire"
 
-#: src/aapm.cc:186 src/aapm.cc:466 src/aapm.cc:687
+#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:190 src/aapm.cc:440 src/aapm.cc:667 src/aapm.cc:777
+#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
 msgstr " - Încărcare"
 
-#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669
+#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
 msgstr ""
 
-#: src/aapm.cc:444
+#: src/aapm.cc:407
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:989
+#: src/aapm.cc:943
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -1276,126 +1291,126 @@ msgstr "Acelaşi joc"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1520
+#: src/icesh.cc:1538
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Denumiri simbolice ale domeniului `%s' (interval numeric: %ld-%ld):\n"
 
-#: src/icesh.cc:1578
+#: src/icesh.cc:1596
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Spaţiu de lucru în afara domeniului: %d"
 
-#: src/icesh.cc:1599
+#: src/icesh.cc:1617
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Spaţiu de lucru invalid: `%s'"
 
-#: src/icesh.cc:1884
+#: src/icesh.cc:1902
 msgid "GNOME window layer"
 msgstr "Fereastra strat GNOME"
 
-#: src/icesh.cc:1885
+#: src/icesh.cc:1903
 msgid "IceWM tray option"
 msgstr "Opţiune Icewm tray"
 
-#: src/icesh.cc:1886
+#: src/icesh.cc:1904
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1887
+#: src/icesh.cc:1905
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif functions"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:1888
+#: src/icesh.cc:1906
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Motif decorations"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:1889
+#: src/icesh.cc:1907
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Fereastra de stare GNOME"
 
-#: src/icesh.cc:1971 src/icesh.cc:2044
+#: src/icesh.cc:1989 src/icesh.cc:2062
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "spaţiu de lucru #%d: `%s'\n"
 
-#: src/icesh.cc:2279 src/icesh.cc:3612 src/icesh.cc:4085
+#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3131
+#: src/icesh.cc:3154
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3156
+#: src/icesh.cc:3179
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3203 src/icesh.cc:3253
+#: src/icesh.cc:3226 src/icesh.cc:3276
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3219
+#: src/icesh.cc:3242
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:3228
+#: src/icesh.cc:3251
 #, fuzzy, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
 
-#: src/icesh.cc:3355
+#: src/icesh.cc:3378
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr ""
 
-#: src/icesh.cc:3384
+#: src/icesh.cc:3407
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3399
+#: src/icesh.cc:3422
 msgid "No actions specified."
 msgstr "Nici o acţiune specificată"
 
-#: src/icesh.cc:3529
+#: src/icesh.cc:3552
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificator de ferestră invalid: `%s'"
 
-#: src/icesh.cc:3546
+#: src/icesh.cc:3569
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3582
+#: src/icesh.cc:3605
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:4393
+#: src/icesh.cc:4416
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acţiune necunoscută: `%s'"
@@ -1709,7 +1724,7 @@ msgstr "Împachetează liniile"
 msgid "Failed to load image '%s'."
 msgstr "Nu pot găsi harta de pixeli %s"
 
-#: src/icewmbg.cc:854
+#: src/icewmbg.cc:857
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1760,12 +1775,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1770
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opţiune nerecunoscută: %s\n"
 
-#: src/icewmbg.cc:1066
+#: src/icewmbg.cc:1069
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 

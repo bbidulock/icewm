@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-08-06 14:08+0200\n"
+"POT-Creation-Date: 2021-09-09 22:52+0200\n"
 "PO-Revision-Date: 2020-05-26 14:39+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,27 +20,43 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 3.6.1\n"
 
-#: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
+#: src/aapm.cc:66
+#, fuzzy, c-format
+#| msgid "Could not open OSS device %s"
+msgid "Can't open the APM device %s"
+msgstr "Αδυναμία ανοίγματος της συσκευής OSS %s"
+
+#: src/aapm.cc:74 src/aapm.cc:92
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr ""
+
+#: src/aapm.cc:122
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr ""
+
+#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
 msgstr " - Τροφοδοσία"
 
-#: src/aapm.cc:186 src/aapm.cc:466 src/aapm.cc:687
+#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:190 src/aapm.cc:440 src/aapm.cc:667 src/aapm.cc:777
+#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
 msgstr " - Φόρτιση"
 
-#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669
+#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:444
+#: src/aapm.cc:407
 msgid " - Full"
 msgstr " - Πλήρης"
 
-#: src/aapm.cc:989
+#: src/aapm.cc:943
 #, c-format
 msgid "power:\t%s"
 msgstr "ενέργεια:\t%s"
@@ -1296,83 +1312,83 @@ msgstr "Ίδιο Παιχνίδι"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Για βοήθεια παρακαλούμε συμβουλευτείτε τη σελίδα man icesh(1).\n"
 
-#: src/icesh.cc:1520
+#: src/icesh.cc:1538
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Ονομασθέντα σύμβολα του domain `%s' (αριθμητικό εύρος: %ld-%ld):\n"
 
-#: src/icesh.cc:1578
+#: src/icesh.cc:1596
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Η επιφάνεια εργασίας είναι εκτός εμβέλειας: %ld"
 
-#: src/icesh.cc:1599
+#: src/icesh.cc:1617
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
 
-#: src/icesh.cc:1884
+#: src/icesh.cc:1902
 msgid "GNOME window layer"
 msgstr "GNOME, επίπεδο παράθυρου"
 
-#: src/icesh.cc:1885
+#: src/icesh.cc:1903
 msgid "IceWM tray option"
 msgstr "Επιλογή του ραφιού του IceWM"
 
-#: src/icesh.cc:1886
+#: src/icesh.cc:1904
 msgid "Gravity symbols"
 msgstr "Σύμβολα βαρύτητας"
 
-#: src/icesh.cc:1887
+#: src/icesh.cc:1905
 msgid "Motif functions"
 msgstr "Λειτουργίες μοτίβου"
 
-#: src/icesh.cc:1888
+#: src/icesh.cc:1906
 msgid "Motif decorations"
 msgstr "Διακοσμήσεις μοτίβου"
 
-#: src/icesh.cc:1889
+#: src/icesh.cc:1907
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME, κατάσταση παράθυρου"
 
-#: src/icesh.cc:1971 src/icesh.cc:2044
+#: src/icesh.cc:1989 src/icesh.cc:2062
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "επιφάνεια εργασίας #%d: `%s'\n"
 
-#: src/icesh.cc:2279 src/icesh.cc:3612 src/icesh.cc:4085
+#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Μη έγκυρη κατάσταση: `%s' ."
 
-#: src/icesh.cc:3131
+#: src/icesh.cc:3154
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Αδυναμία λήψης γεωμετρίας παραθύρου 0x%lx"
 
-#: src/icesh.cc:3156
+#: src/icesh.cc:3179
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Μη έγκυρο Xinerama: `%s' ."
 
-#: src/icesh.cc:3203 src/icesh.cc:3253
+#: src/icesh.cc:3226 src/icesh.cc:3276
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Μη έγκυρο όρισμα: `%s' ."
 
-#: src/icesh.cc:3219
+#: src/icesh.cc:3242
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορίσματα."
 
-#: src/icesh.cc:3228
+#: src/icesh.cc:3251
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1380,35 +1396,35 @@ msgstr ""
 "Δεν μπορώ να ανοίξω την προβολή: %s . Ο X θα πρέπει να τρέχει, και η "
 "μεταβλητή $DISPLAY να έχει οριστεί."
 
-#: src/icesh.cc:3355
+#: src/icesh.cc:3378
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "Μη αναμενόμενη λέξη κλειδί: %s"
 
-#: src/icesh.cc:3384
+#: src/icesh.cc:3407
 msgid "No windows found."
 msgstr "Δεν βρέθηκαν παράθυρα."
 
-#: src/icesh.cc:3399
+#: src/icesh.cc:3422
 msgid "No actions specified."
 msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
-#: src/icesh.cc:3529
+#: src/icesh.cc:3552
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Μη έγκυρο αναγνωριστικό παράθυρου: `%s'"
 
-#: src/icesh.cc:3546
+#: src/icesh.cc:3569
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Μη έγκυρο PID: `%s' ."
 
-#: src/icesh.cc:3582
+#: src/icesh.cc:3605
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Μη έγκυρο στρώμα: `%s' ."
 
-#: src/icesh.cc:4393
+#: src/icesh.cc:4416
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Άγνωστη ενέργεια: `%s'"
@@ -1791,7 +1807,7 @@ msgstr "Αναδίπλωση των γραμμών"
 msgid "Failed to load image '%s'."
 msgstr "Αδυναμία ανοίγματος της εικόνας '%s'."
 
-#: src/icewmbg.cc:854
+#: src/icewmbg.cc:857
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1917,12 +1933,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1770
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
 
-#: src/icewmbg.cc:1066
+#: src/icewmbg.cc:1069
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Αδυναμία εκκίνησης, επειδή, ήδη, τρέχει ένα άλλο icewmbg ."
 

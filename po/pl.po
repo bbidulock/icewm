@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-08-06 14:08+0200\n"
+"POT-Creation-Date: 2021-09-09 22:52+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -18,27 +18,43 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3\n"
 
-#: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
+#: src/aapm.cc:66
+#, fuzzy, c-format
+#| msgid "Could not open OSS device %s"
+msgid "Can't open the APM device %s"
+msgstr "Nie udało się otworzyć urządzenia OS %s"
+
+#: src/aapm.cc:74 src/aapm.cc:92
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr ""
+
+#: src/aapm.cc:122
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr ""
+
+#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
 msgstr " - Zasilanie"
 
-#: src/aapm.cc:186 src/aapm.cc:466 src/aapm.cc:687
+#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:190 src/aapm.cc:440 src/aapm.cc:667 src/aapm.cc:777
+#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
 msgstr " - Ładowanie"
 
-#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669
+#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:444
+#: src/aapm.cc:407
 msgid " - Full"
 msgstr " - Pełny"
 
-#: src/aapm.cc:989
+#: src/aapm.cc:943
 #, c-format
 msgid "power:\t%s"
 msgstr "zasilanie:\t%s"
@@ -1298,90 +1314,90 @@ msgstr "To samo"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1520
+#: src/icesh.cc:1538
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Nazwane symbole domeny \"%s\" (zakres numeryczny: %ld-%ld):\n"
 
-#: src/icesh.cc:1578
+#: src/icesh.cc:1596
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Obszar roboczy poza zakresem: %ld"
 
-#: src/icesh.cc:1599
+#: src/icesh.cc:1617
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Nieprawidłowa nazwa obszaru roboczego: \"%s\""
 
-#: src/icesh.cc:1884
+#: src/icesh.cc:1902
 msgid "GNOME window layer"
 msgstr "Warstwa okna GNOME"
 
-#: src/icesh.cc:1885
+#: src/icesh.cc:1903
 msgid "IceWM tray option"
 msgstr "Opcje zasobnika IceWM"
 
-#: src/icesh.cc:1886
+#: src/icesh.cc:1904
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1887
+#: src/icesh.cc:1905
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "Zapisz modyfikacje"
 
-#: src/icesh.cc:1888
+#: src/icesh.cc:1906
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "Zapisz modyfikacje"
 
-#: src/icesh.cc:1889
+#: src/icesh.cc:1907
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "Stan okna GNOME"
 
-#: src/icesh.cc:1971 src/icesh.cc:2044
+#: src/icesh.cc:1989 src/icesh.cc:2062
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "obszar roboczy #%d: \"%s\"\n"
 
-#: src/icesh.cc:2279 src/icesh.cc:3612 src/icesh.cc:4085
+#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:3131
+#: src/icesh.cc:3154
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3156
+#: src/icesh.cc:3179
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:3203 src/icesh.cc:3253
+#: src/icesh.cc:3226 src/icesh.cc:3276
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:3219
+#: src/icesh.cc:3242
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Operacja \"%s\" wymaga co najmniej %d argumentów."
 
-#: src/icesh.cc:3228
+#: src/icesh.cc:3251
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Nieprawidłowe wyrażenie: \"%s\""
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1389,38 +1405,38 @@ msgstr ""
 "Nie można otworzyć ekranu: %s. X-y muszą być uruchomione oraz musi być "
 "ustawiona zmienna $DISPLAY."
 
-#: src/icesh.cc:3355
+#: src/icesh.cc:3378
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "Nieoczekiwane słowo kluczowe menu: %s"
 
-#: src/icesh.cc:3384
+#: src/icesh.cc:3407
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3399
+#: src/icesh.cc:3422
 msgid "No actions specified."
 msgstr "Nie określono akcji."
 
-#: src/icesh.cc:3529
+#: src/icesh.cc:3552
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Nieprawidłowy identyfikator okna: \"%s\""
 
-#: src/icesh.cc:3546
+#: src/icesh.cc:3569
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:3582
+#: src/icesh.cc:3605
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Nieprawidłowy argument: \"%s\"."
 
-#: src/icesh.cc:4393
+#: src/icesh.cc:4416
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Nieznana akcja: \"%s\""
@@ -1852,7 +1868,7 @@ msgstr "Zawijaj linie"
 msgid "Failed to load image '%s'."
 msgstr "Nie udało się wczytać obrazu %s."
 
-#: src/icewmbg.cc:854
+#: src/icewmbg.cc:857
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1953,12 +1969,12 @@ msgstr ""
 "proporcji↵\n"
 "\n"
 
-#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1770
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nierozpoznana opcja %s."
 
-#: src/icewmbg.cc:1066
+#: src/icewmbg.cc:1069
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 "Nie można uruchomić, ponieważ wciąż uruchomiony jest inny program icewmbg."

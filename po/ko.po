@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-08-06 14:08+0200\n"
+"POT-Creation-Date: 2021-09-09 22:52+0200\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,27 +20,43 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 3.3\n"
 
-#: src/aapm.cc:184 src/aapm.cc:463 src/aapm.cc:684 src/aapm.cc:809
+#: src/aapm.cc:66
+#, fuzzy, c-format
+#| msgid "Could not open OSS device %s"
+msgid "Can't open the APM device %s"
+msgstr "OSS 장치%s을(를) 열 수 없음"
+
+#: src/aapm.cc:74 src/aapm.cc:92
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr ""
+
+#: src/aapm.cc:122
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr ""
+
+#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
 msgstr " - 전력"
 
-#: src/aapm.cc:186 src/aapm.cc:466 src/aapm.cc:687
+#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:190 src/aapm.cc:440 src/aapm.cc:667 src/aapm.cc:777
+#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
 msgstr " - 충전 중"
 
-#: src/aapm.cc:192 src/aapm.cc:442 src/aapm.cc:669
+#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:444
+#: src/aapm.cc:407
 msgid " - Full"
 msgstr " - 전체"
 
-#: src/aapm.cc:989
+#: src/aapm.cc:943
 #, c-format
 msgid "power:\t%s"
 msgstr "전원:\t%s"
@@ -1295,127 +1311,127 @@ msgstr "같은 게임"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1520
+#: src/icesh.cc:1538
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "`%s' 도메인의 지명된 심볼들 (숫자 범위: %ld-%ld):\n"
 
-#: src/icesh.cc:1578
+#: src/icesh.cc:1596
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
-#: src/icesh.cc:1599
+#: src/icesh.cc:1617
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
-#: src/icesh.cc:1884
+#: src/icesh.cc:1902
 msgid "GNOME window layer"
 msgstr "GNOME 창 레이어"
 
-#: src/icesh.cc:1885
+#: src/icesh.cc:1903
 msgid "IceWM tray option"
 msgstr "IceWM 트레이 옵션"
 
-#: src/icesh.cc:1886
+#: src/icesh.cc:1904
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:1887
+#: src/icesh.cc:1905
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif functions"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1888
+#: src/icesh.cc:1906
 #, fuzzy
 #| msgid "Save Modifications"
 msgid "Motif decorations"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:1889
+#: src/icesh.cc:1907
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME 창 상태"
 
-#: src/icesh.cc:1971 src/icesh.cc:2044
+#: src/icesh.cc:1989 src/icesh.cc:2062
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "작업공간 #%d: `%s'\n"
 
-#: src/icesh.cc:2279 src/icesh.cc:3612 src/icesh.cc:4085
+#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3131
+#: src/icesh.cc:3154
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:3156
+#: src/icesh.cc:3179
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid Xinerama: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3203 src/icesh.cc:3253
+#: src/icesh.cc:3226 src/icesh.cc:3276
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3219
+#: src/icesh.cc:3242
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "`%s' 동작은 최소 %d 개의 인수를 요구한다."
 
-#: src/icesh.cc:3228
+#: src/icesh.cc:3251
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "잘못된 표현: `%s'"
 
-#: src/icesh.cc:3239 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "디스플레이를 열지 못함: %s. X 실행 중여야 하고 $DISPLAY 정해야 함."
 
-#: src/icesh.cc:3355
+#: src/icesh.cc:3378
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "예기치 않은 메뉴 키워드: '%s'"
 
-#: src/icesh.cc:3384
+#: src/icesh.cc:3407
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:3399
+#: src/icesh.cc:3422
 msgid "No actions specified."
 msgstr "아무 동작도 지정하지 않음."
 
-#: src/icesh.cc:3529
+#: src/icesh.cc:3552
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "잘못된 창 식별명: `%s'"
 
-#: src/icesh.cc:3546
+#: src/icesh.cc:3569
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3582
+#: src/icesh.cc:3605
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:4393
+#: src/icesh.cc:4416
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "알 수 없는 동작: `%s'"
@@ -1835,7 +1851,7 @@ msgstr "줄 넘기기"
 msgid "Failed to load image '%s'."
 msgstr "이미지 '%s'을(를) 로드하지 못했습니다."
 
-#: src/icewmbg.cc:854
+#: src/icewmbg.cc:857
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1933,12 +1949,12 @@ msgstr ""
 " 가운데: 0 배율: 1 = 2차원 채우기 및 가로세로비 유지형\n"
 "\n"
 
-#: src/icewmbg.cc:1039 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1770
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "알아볼 수 없는 옵션: '%s'"
 
-#: src/icewmbg.cc:1066
+#: src/icewmbg.cc:1069
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "다른 icewmbg가 여전히 실행 중이므로 시작할 수 없습니다."
 
