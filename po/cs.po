@@ -9,10 +9,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-09 22:52+0200\n"
-"PO-Revision-Date: 2021-07-29 13:10+0000\n"
+"PO-Revision-Date: 2021-09-11 21:11+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,20 +21,19 @@ msgstr ""
 "X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Nemohu otevřít OSS zařízení %s"
+msgstr "Nemohu otevřít APM zařízení %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Pro APM zařízení %s nelze použít ioctl"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Zařízení APM %s (%d) používá neznámý formát."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
