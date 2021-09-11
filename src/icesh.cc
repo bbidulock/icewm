@@ -163,6 +163,7 @@ vector<NAtom*> NAtom::fAtoms;
 
 static NAtom ATOM_WM_STATE("WM_STATE");
 static NAtom ATOM_WM_CHANGE_STATE("WM_CHANGE_STATE");
+static NAtom ATOM_WM_CLIENT_LEADER("WM_CLIENT_LEADER");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
@@ -1333,6 +1334,8 @@ private:
     void listXembed(Window w);
     void queryXembed(Window w);
     void queryDockapps();
+    void extendClass();
+    void extendGroup();
     bool listClients();
     bool listWindows();
     bool listScreens();
@@ -1631,6 +1634,23 @@ static Window getFrameWindow(Window window)
         window = parent;
     }
     return None;
+}
+
+static Window getGroupLeader(Window window) {
+    Window lead = None;
+    YClient prop(window, ATOM_WM_CLIENT_LEADER);
+    if (prop) {
+        lead = prop.data()[0];
+    } else {
+        XWMHints* h = XGetWMHints(display, window);
+        if (h) {
+            if (h->flags & WindowGroupHint) {
+                lead = h->window_group;
+            }
+            XFree(h);
+        }
+    }
+    return lead;
 }
 
 static bool getGeometry(Window window, int& x, int& y, int& width, int& height) {
@@ -3187,6 +3207,91 @@ void IceSh::flush()
         throw 1;
 }
 
+void IceSh::extendClass()
+{
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+    if (windowList) {
+        vector<XClassHint> classes;
+        FOREACH_WINDOW(window) {
+            XClassHint h = { nullptr, nullptr };
+            if (XGetClassHint(display, window, &h) == True) {
+                classes.push_back(h);
+            }
+        }
+        YWindowTree clients;
+        clients.getClientList();
+        for (YTreeIter window(clients); window; ++window) {
+            if (windowList.have(window) == false) {
+                XClassHint h = { nullptr, nullptr };
+                if (XGetClassHint(display, window, &h) == True) {
+                    if (nonempty(h.res_class)) {
+                        for (XClassHint c : classes) {
+                            if (nonempty(c.res_class)
+                                && !strcmp(c.res_class, h.res_class)) {
+                                addWindow(window);
+                                break;
+                            }
+                        }
+                    }
+                    else if (nonempty(h.res_name)) {
+                        for (XClassHint c : classes) {
+                            if (isEmpty(c.res_class)
+                                && nonempty(c.res_name)
+                                && !strcmp(c.res_name, h.res_name)) {
+                                addWindow(window);
+                                break;
+                            }
+                        }
+                    }
+                }
+                XFree(h.res_name);
+                XFree(h.res_class);
+            }
+        }
+        for (XClassHint h : classes) {
+            XFree(h.res_name);
+            XFree(h.res_class);
+        }
+        classes.clear();
+    }
+}
+
+void IceSh::extendGroup()
+{
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+    if (windowList) {
+        YWindowTree leaders;
+        FOREACH_WINDOW(window) {
+            Window lead = getGroupLeader(window);
+            if (lead) {
+                leaders.append(lead);
+            }
+        }
+        YWindowTree clients;
+        clients.getClientList();
+        for (YTreeIter window(clients); window; ++window) {
+            if (windowList.have(window) == false) {
+                Window lead = getGroupLeader(window);
+                if (lead && leaders.have(lead)) {
+                    addWindow(window);
+                }
+            }
+        }
+    }
+}
+
 IceSh::IceSh(int ac, char **av) :
     rc(0),
     argc(ac),
@@ -3393,7 +3498,7 @@ void IceSh::flags()
                 arg++;
             flag(arg);
         }
-        else if (argp[0][0] == '+' && strchr("frwT", argp[0][1])) {
+        else if (argp[0][0] == '+' && strchr("fgrwCT", argp[0][1])) {
             flag(getArg());
         }
         else {
@@ -3412,6 +3517,7 @@ void IceSh::flags()
                 if (w <= root)
                     throw 1;
                 setWindow(w);
+                selecting = true;
                 parseAction();
             }
             flush();
@@ -3482,6 +3588,14 @@ void IceSh::flag(char* arg)
         queryDockapps();
         MSG(("dockapps windows selected"));
         selecting = true;
+        return;
+    }
+    if (isOptArg(arg, "+group", "")) {
+        extendGroup();
+        return;
+    }
+    if (isOptArg(arg, "+Class", "")) {
+        extendClass();
         return;
     }
     if (isOptArg(arg, "-last", "")) {

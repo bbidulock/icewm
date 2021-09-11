@@ -381,12 +381,19 @@ icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS)
 
 icesh_SOURCES = \
 	intl.h \
+	ascii.h \
 	debug.h \
-	sysdep.h \
 	base.h \
+	MwmUtil.h \
 	WinMgr.h \
+	guievent.h \
+	logevent.h \
+	wmaction.h \
+	ypointer.h \
+	ytime.h \
+	yrect.h \
 	icesh.cc
-icesh_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
+icesh_LDADD = libice.la $(X_LIBS) $(RANDR_LIBS) $(XINERAMA_LIBS) -lX11 @LIBINTL@
 
 icewm_session_SOURCES = \
 	appnames.h \

@@ -14,8 +14,7 @@
 
 =head1 DESCRIPTION
 
-B<icesh> provides commands to directly interact with the L<icewm(1)> window
-manager.  There are two types of commands:
+B<icesh> provides two types of commands:
 
 =over
 
@@ -40,7 +39,7 @@ This can be used in scripts and in L<icewm-keys(5)>
 to define your own window management hotkeys.  For example, to
 immediately close all xterm windows do C<icesh -c xterm close>.
 
-There are about seven C<SELECT OPTIONS> to select windows.
+There are about ten C<SELECT OPTIONS> to select windows.
 They start with a minus sign '-' or with a plus sign '+'.
 The first starts a new selection. The second adds more
 windows to an existing selection.
@@ -76,6 +75,39 @@ If needed, they can be repeated for successive actions.
 
 =over
 
+=item B<-a>, B<-all>
+
+Selects all client windows of the window manager.
+
+=item B<-f>, B<-focus>, B<+f>, B<+focus>
+
+Selects the application window which is currently focused.
+The option with minus sign replaces the existing selection with
+the focused window. With a plus sign the focused window is added to
+an existing selection.
+
+=item B<+g>, B<+group>
+
+Extend the current selection with client windows which
+belong to the same application window group.
+
+=item B<-r>, B<-root>, B<+r>, B<+root>
+
+Selects the root window.
+The option with minus sign replaces the existing selection with
+the root window. With a plus sign the root window is added to
+an existing selection.
+
+=item B<-s>, B<-shown>
+
+Selects all client windows which are on the current workspace.
+
+=item B<-t>, B<-top>
+
+Selects all toplevel windows from the display unconditionally.
+This includes windows which have never been mapped and windows
+with the override redirect bit set to evade management.
+
 =item B<-w>, B<-window>, B<+w>, B<+window> I<WINDOW_ID>
 
 Specifies the identifier of the window, I<WINDOW_ID>, for which the
@@ -84,37 +116,15 @@ and B<focus> for the currently focused window.
 The option with minus sign replaces the existing selection.
 With a plus sign the window is added to an existing selection.
 
-=item B<-r>, B<-root>, B<+r>, B<+root>
-
-Is equivalent to B<-window> B<root> and selects the root window.
-The option with minus sign replaces the existing selection with
-the root window. With a plus sign the root window is added to
-an existing selection.
-
-=item B<-f>, B<-focus>, B<+f>, B<+focus>
-
-Is equivalent to B<-window> B<focus> and selects the focused window.
-The option with minus sign replaces the existing selection with
-the focused window. With a plus sign the focused window is added to
-an existing selection.
-
-=item B<-a>, B<-all>
-
-Selects all client windows of the window manager.
-
-=item B<-s>, B<-shown>
-
-Selects all clients which are on the current workspace.
-
-=item B<-t>, B<-top>
-
-Selects all toplevel windows from the display unconditionally.
-This includes windows which have never been mapped and windows
-with the override redirect bit set to evade management.
-
 =item B<-x>, B<-xembed>
 
 Selects all windows which are embedded using the I<XEMBED> protocol.
+
+=item B<+C>, B<+Class>
+
+Extend the current selection with client windows that
+have a similar WM_CLASS property, which specifies the
+resource instance and the class name.
 
 =item B<-D>, B<-Dockapps>
 
