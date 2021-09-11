@@ -8,6 +8,8 @@
 #include <string.h>
 #include "yfileio.h"
 #include "base.h"
+#else
+#include "yimage.h"
 #endif
 
 ref<YImage> YImage::loadsvg(upath filename) {
