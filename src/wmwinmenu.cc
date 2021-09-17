@@ -4,82 +4,15 @@
  * Copyright (C) 1997-2001 Marko Macek
  */
 #include "config.h"
-
-#include "wmaction.h"
-#include "ylib.h"
 #include "ymenu.h"
 #include "ymenuitem.h"
-#include "yaction.h"
-#include "sysdep.h"
 #include "prefs.h"
-#include "yicon.h"
-
 #include "wmmgr.h"
 #include "wmframe.h"
 #include "wmwinmenu.h"
-#include "workspaces.h"
-
 #include "intl.h"
 
-YMenu *YWindowManager::createWindowMenu(YMenu *menu, long workspace) {
-    if (!menu)
-        menu = new YMenu();
-
-    int level, levelCount, windowLevel, layerCount;
-    YFrameWindow *frame;
-    bool needSeparator = false;
-
-    /// !!! fix performance (smarter update, on change only)
-    for (int layer = 0 ; layer < WinLayerCount; layer++) {
-        layerCount = 0;
-        if (top(layer) == nullptr)
-            continue;
-        for (level = 0; level < 4; level++) {
-            levelCount = 0;
-            for (frame = top(layer); frame; frame = frame->next()) {
-                if (!frame->client()->adopted())
-                    continue;
-                if (!frame->visibleOn(workspace))
-                    continue;
-                if (frame->frameOption(YFrameWindow::foIgnoreWinList))
-                    continue;
-                if (workspace != activeWorkspace() && frame->visibleNow())
-                    continue;
-
-                windowLevel = 0;
-                if (frame->isHidden())
-                    windowLevel = 3;
-                else if (frame->isMinimized())
-                    windowLevel = 2;
-                else if (frame->isRollup())
-                    windowLevel = 1;
-
-                if (level != windowLevel)
-                    continue;
-
-                if ((levelCount == 0 && level > 0) ||
-                    ((layerCount == 0 && layer > 0) && needSeparator))
-                    menu->addSeparator();
-
-                YAction action(EAction(int(frame->handle())));
-                YMenuItem* item = new YMenuItem(frame->getTitle(), -1, null,
-                                                action, nullptr);
-                if (item) {
-                    if (frame->clientIcon() != null)
-                        item->setIcon(frame->clientIcon());
-                    menu->add(item);
-                }
-                levelCount++;
-                layerCount++;
-                needSeparator = true;
-            }
-        }
-    }
-    menu->setActionListener(this);
-    return menu;
-}
-
-void YWindowManager::actionPerformed(YAction action, unsigned modifiers) {
+void WindowListMenu::actionPerformed(YAction action, unsigned modifiers) {
     for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
         if (int(f->handle()) == action.ident()) {
             if (modifiers & ShiftMask)
@@ -90,41 +23,111 @@ void YWindowManager::actionPerformed(YAction action, unsigned modifiers) {
     }
     for (int w = 0; w < workspaceCount; w++) {
         if (workspaceActionActivate[w] == action) {
-            activateWorkspace(w);
+            manager->activateWorkspace(w);
             return ;
         }
+    }
+    if (action == actionWindowList) {
+        defer->actionPerformed(action, modifiers);
     }
 }
 
 WindowListMenu::WindowListMenu(YActionListener *app, YWindow *parent):
     YMenu(parent)
+    , defer(app)
 {
-    setActionListener(app);
+    setActionListener(this);
+    setShared(true);
 }
 
 void WindowListMenu::updatePopup() {
     removeAll();
 
-    manager->createWindowMenu(this, manager->activeWorkspace()); // !!! fix
+    int activeWorkspace = manager->activeWorkspace();
 
-    bool first = true;
-
-    for (int d = 0; d < workspaceCount; d++) {
-        if (d == manager->activeWorkspace())
-            continue;
-        if (first) {
-            addSeparator();
-            first = false;
+    struct entry {
+        YFrameWindow *frame;
+        int space;
+        int layer;
+        int level;
+        entry(YFrameWindow* f, int s, int la, int le)
+            : frame(f), space(s), layer(la), level(le) { }
+        bool operator<(const entry& e) {
+            return (space != e.space) ? space < e.space :
+                   (layer != e.layer) ? layer < e.layer : level < e.level;
         }
-        char s[128];
-        snprintf(s, sizeof s,
-                _("%lu. Workspace %-.32s"), (unsigned long)(d + 1),
-                workspaceNames[d]);
+    };
 
-        YMenu *sub = nullptr;
-        if (manager->windowCount(d) > 0) // !!! do lazy create menu instead
-            sub = manager->createWindowMenu(nullptr, d);
-        addItem(s, (d < 10) ? 0 : -1, workspaceActionActivate[d], sub);
+    YArray<entry> entries;
+
+    for (int layer = 0 ; layer < WinLayerCount; layer++) {
+        YFrameWindow *frame = manager->top(layer);
+        for (; frame; frame = frame->next()) {
+            if (frame->client()->adopted() &&
+                !frame->frameOption(YFrameWindow::foIgnoreWinList))
+            {
+                int level =
+                    frame->isHidden() ? 3 :
+                    frame->isMinimized() ? 2 :
+                    frame->isRollup() ? 1 : 0;
+                int space = (frame->getWorkspace() == AllWorkspaces ||
+                             frame->getWorkspace() == activeWorkspace)
+                            ? 0 : 1 + frame->getWorkspace();
+                entry et(frame, space, layer, level);
+                int lo = 0, hi = entries.getCount();
+                while (lo < hi) {
+                    int pv = (lo + hi) / 2;
+                    if (et < entries[pv])
+                        hi = pv;
+                    else
+                        lo = pv + 1;
+                }
+                entries.insert(lo, et);
+            }
+        }
+    }
+
+    int k = 0;
+    for (int space = 0; space <= workspaceCount; space++) {
+        if (space - 1 != activeWorkspace) {
+            YMenu* addTo = this;
+            if (0 < space) {
+                char buf[128];
+                snprintf(buf, sizeof buf, _("%lu. Workspace %-.32s"),
+                         (unsigned long) space, workspaceNames[space - 1]);
+                YMenu* sub = nullptr;
+                if (k < entries.getCount() && entries[k].space == space) {
+                    sub = addTo = new YMenu();
+                    if (sub) {
+                        setActionListener(this);
+                    }
+                }
+                if (space == 1 + (activeWorkspace == 0)) {
+                    addSeparator();
+                }
+                addItem(buf, (space < 10) ? 0 : -1,
+                        workspaceActionActivate[space - 1], sub);
+            }
+            for (; k < entries.getCount() && entries[k].space <= space; ++k) {
+                if (entries[k].space == space && addTo) {
+                    YFrameWindow *frame = entries[k].frame;
+                    YAction action(EAction(int(frame->handle())));
+                    YMenuItem* item = new YMenuItem(frame->getTitle(), -1,
+                                                    null, action, nullptr);
+                    if (item) {
+                        if (frame->clientIcon() != null) {
+                            item->setIcon(frame->clientIcon());
+                        }
+                        if (0 < k && 0 < addTo->itemCount()) {
+                            if (entries[k - 1] < entries[k]) {
+                                addTo->addSeparator();
+                            }
+                        }
+                        addTo->add(item);
+                    }
+                }
+            }
+        }
     }
     addSeparator();
     addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);

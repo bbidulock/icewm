@@ -1,12 +1,21 @@
 #ifndef WMWINMENU_H
 #define WMWINMENU_H
 
-class WindowListMenu: public YMenu {
+class WindowListMenu:
+    public YMenu,
+    private YActionListener
+{
     typedef YMenu super;
+
 public:
     WindowListMenu(YActionListener *app, YWindow *parent = nullptr);
-    virtual void updatePopup();
-    virtual void activatePopup(int flags);
+
+private:
+    void actionPerformed(YAction action, unsigned modifiers) override;
+    void activatePopup(int flags) override;
+    void updatePopup() override;
+
+    YActionListener* defer;
 };
 
 #endif
