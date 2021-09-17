@@ -36,6 +36,7 @@ public:
     void addItem(YListItem *item);
     void addAfter(YListItem *after, YListItem *item);
     void addBefore(YListItem *before, YListItem *item);
+    void insertAt(int position, YListItem* item);
     void removeItem(YListItem *item);
 
     virtual void configure(const YRect2 &r);

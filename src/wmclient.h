@@ -157,6 +157,7 @@ public:
     virtual void updateSubmenus() = 0;
     virtual Time since() const = 0;
     virtual ClassHint* classHint() const = 0;
+    virtual Window clientLeader() const = 0;
     virtual bool isUrgent() const = 0;
     virtual void updateAppStatus() = 0;
     virtual void removeAppStatus() = 0;

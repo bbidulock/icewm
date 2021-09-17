@@ -3,7 +3,6 @@
 
 #include "WinMgr.h"
 #include "ylist.h"
-#include "yaction.h"
 #include "ymsgbox.h"
 #include "ypopup.h"
 #include "workspaces.h"
@@ -47,7 +46,6 @@ public:
 class YWindowManager:
     private YDesktop,
     private YMsgBoxListener,
-    private YActionListener,
     private YTimerListener,
     public YPopDownListener
 {
@@ -81,7 +79,6 @@ public:
     virtual void handleMsgBox(YMsgBox *msgbox, int operation);
     virtual void handlePopDown(YPopupWindow* popup);
     virtual bool handleTimer(YTimer* timer);
-    virtual void actionPerformed(YAction action, unsigned modifiers);
 
     void manageClients();
     void unmanageClients();
@@ -151,7 +148,6 @@ public:
     void updateClientList();
     void updateUserTime(const UserTime& userTime);
 
-    YMenu *createWindowMenu(YMenu *menu, long workspace);
     int windowCount(long workspace);
     void popupWindowListMenu(YWindow *owner, int x, int y);
 

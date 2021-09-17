@@ -363,6 +363,7 @@ public:
     bool hasMiniIcon() const { return fMiniIcon != nullptr; }
     MiniIcon *getMiniIcon();
     ClassHint* classHint() const { return client()->classHint(); }
+    Window clientLeader() const { return client()->clientLeader(); }
 
     bool isManaged() const { return fManaged; }
     void setManaged(bool isManaged) { fManaged = isManaged; }

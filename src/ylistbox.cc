@@ -94,26 +94,20 @@ bool YListBox::isFocusTraversable() {
 }
 
 void YListBox::addAfter(YListItem *after, YListItem *item) {
-    int i = findItem(after);
-    if (i >= 0) {
-        fItems.insert(i + 1, item);
-        if (fFocusedItem > i)
-            fFocusedItem++;
-        if (fWidestItem > i)
-            fWidestItem++;
-    } else {
-        fItems.append(item);
-    }
-    outdated();
+    int position = findItem(after);
+    insertAt(0 <= position ? 1 + position : -1, item);
 }
 
 void YListBox::addBefore(YListItem *before, YListItem *item) {
-    int i = findItem(before);
-    if (i >= 0) {
-        fItems.insert(i, item);
-        if (fFocusedItem >= i)
+    insertAt(findItem(before), item);
+}
+
+void YListBox::insertAt(int position, YListItem *item) {
+    if (inrange(position, 0, getItemCount())) {
+        fItems.insert(position, item);
+        if (fFocusedItem >= position)
             fFocusedItem++;
-        if (fWidestItem >= i)
+        if (fWidestItem >= position)
             fWidestItem++;
     } else {
         fItems.append(item);

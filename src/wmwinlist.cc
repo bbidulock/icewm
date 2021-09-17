@@ -156,7 +156,8 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
                                            YPopupWindow::pfPopupMenu);
                 } else {
                     YMenu* windowListAllPopup = windowList->getWindowListAllPopup();
-                    windowListAllPopup->popup(nullptr, nullptr, nullptr, key.x_root, key.y_root,
+                    windowListAllPopup->popup(nullptr, nullptr, nullptr,
+                                              key.x_root, key.y_root,
                                               YPopupWindow::pfCanFlipVertical |
                                               YPopupWindow::pfCanFlipHorizontal |
                                               YPopupWindow::pfPopupMenu);
@@ -196,7 +197,8 @@ void WindowListBox::handleClick(const XButtonEvent &up, int count) {
                                    YPopupWindow::pfPopupMenu);
         } else {
             YMenu* windowListAllPopup = windowList->getWindowListAllPopup();
-            windowListAllPopup->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
+            windowListAllPopup->popup(nullptr, nullptr, nullptr,
+                                      up.x_root, up.y_root,
                                       YPopupWindow::pfCanFlipVertical |
                                       YPopupWindow::pfCanFlipHorizontal |
                                       YPopupWindow::pfPopupMenu);
@@ -331,6 +333,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
 
 WindowList::WindowList(YWindow *aParent):
     YFrameClient(aParent, nullptr),
+    allWorkspacesItem(nullptr),
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
 {
@@ -393,8 +396,8 @@ WindowListPopup::WindowListPopup() {
     closeSubmenu->addSeparator();
     closeSubmenu->addItem(_("_Kill Client"), -2, null, actionKill);
 #if 0
-    closeSubmenu->addItem(_("_Terminate Process"), -2, 0, actionTermProcess)->setEnabled(false);
-    closeSubmenu->addItem(_("Kill _Process"), -2, 0, actionKillProcess)->setEnabled(false);
+    closeSubmenu->addItem(_("_Terminate Process"), -2, 0, actionTermProcess);
+    closeSubmenu->addItem(_("Kill _Process"), -2, 0, actionKillProcess);
 #endif
 
     addItem(_("_Close"), -2, actionClose, closeSubmenu);
@@ -445,13 +448,13 @@ WindowList::~WindowList() {
 
 void WindowList::updateWorkspaces() {
     if (workspaceItem.isEmpty()) {
-        workspaceItem.append(new WindowListItem(nullptr, AllWorkspaces));
-        list->addItem(workspaceItem[0]);
+        allWorkspacesItem = new WindowListItem(nullptr, AllWorkspaces);
+        workspaceItem.append(allWorkspacesItem);
+        list->addItem(allWorkspacesItem);
     }
-    WindowListItem *allWS = workspaceItem[workspaceItem.getCount() - 1];
     for (int ws = workspaceItem.getCount() - 1; ws < workspaceCount; ++ws) {
         workspaceItem.insert(ws, new WindowListItem(nullptr, ws));
-        list->addBefore(allWS, workspaceItem[ws]);
+        list->addBefore(allWorkspacesItem, workspaceItem[ws]);
     }
     for (int ws = workspaceItem.getCount() - 1; ws > workspaceCount; --ws) {
         list->removeItem(workspaceItem[ws - 1]);
@@ -486,12 +489,63 @@ void WindowList::insertApp(WindowListItem *item) {
         frame->owner()->winListItem())
     {
         list->addAfter(frame->owner()->winListItem(), item);
-    } else {
+    }
+    else {
         int ws = frame->getWorkspace();
-        if (0 <= ws && ws < workspaceItem.getCount())
-            list->addAfter(workspaceItem[ws], item);
-        else
+        Window lead = frame->clientLeader();
+        ClassHint* hint = frame->classHint();
+        int start = (0 <= ws && ws + 1 < workspaceItem.getCount())
+                    ? list->findItem(workspaceItem[ws])
+                    : list->findItem(allWorkspacesItem);
+        int stop = (0 <= ws && ws + 1 < workspaceItem.getCount())
+                    ? list->findItem(workspaceItem[ws + 1])
+                    : list->getItemCount();
+        if (0 <= start && start < stop) {
+            int best = 1 + start;
+            if (lead) {
+                int have = 0;
+                for (int i = best; i < stop; ++i) {
+                    WindowListItem* test =
+                        dynamic_cast<WindowListItem*>(list->getItem(i));
+                    if (test && test->getFrame() &&
+                        lead == test->getFrame()->clientLeader()) {
+                        have = i + 1;
+                    }
+                }
+                if (have) {
+                    list->insertAt(have, item);
+                    return;
+                }
+            }
+            int have = stop;
+            for (int i = best; i < stop; ++i) {
+                WindowListItem* test =
+                    dynamic_cast<WindowListItem*>(list->getItem(i));
+                if (test && test->getFrame()) {
+                    ClassHint* klas = test->getFrame()->classHint();
+                    int cmp =
+                        hint == nullptr ? +1 :
+                        klas == nullptr ? -1 :
+                        nonempty(hint->res_class) ?
+                        isEmpty(klas->res_class) ? -1 :
+                        strcmp(hint->res_class, klas->res_class) :
+                        nonempty(hint->res_name) ?
+                        isEmpty(klas->res_name) ? -1 :
+                        strcmp(hint->res_name, klas->res_name) : +1;
+                    if (cmp < 0) {
+                        list->insertAt(i, item);
+                        return;
+                    }
+                    if (cmp == 0) {
+                        have = i + 1;
+                    }
+                }
+            }
+            list->insertAt(have, item);
+        }
+        else {
             list->addItem(item);
+        }
     }
 }
 

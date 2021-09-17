@@ -79,6 +79,7 @@ public:
     YMenu* getWindowListAllPopup();
 
 private:
+    WindowListItem* allWorkspacesItem;
     osmart<WindowListPopup> windowListPopup;
     osmart<WindowListAllPopup> windowListAllPopup;
     osmart<YScrollView> scroll;
