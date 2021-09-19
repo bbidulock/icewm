@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-09 22:52+0200\n"
-"PO-Revision-Date: 2021-09-19 07:11+0000\n"
+"PO-Revision-Date: 2021-09-19 17:12+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -1220,9 +1220,9 @@ msgid ""
 msgstr ""
 "Uso: %s [OPÇÕES] [ NOME DO ARQUIVO | URL ]\n"
 "\n"
-"A ajuda &apos;IceHelp&apos; é um navegador HTML simples para o\n"
+"A ajuda 'IceHelp' é um navegador HTML simples para o\n"
 "gerenciador de janelas IceWM.\n"
-"Ele pode exibir um documento HTML a partir de um arquivo, ou\n"
+"Ele exibe um documento HTML a partir de um arquivo, ou\n"
 "navegar em um sítio/site.\n"
 "Ele guarda as páginas visitadas em um histórico, que é navegável\n"
 "por uma combinação de teclas do teclado e um menu de contexto\n"
@@ -1236,8 +1236,10 @@ msgstr ""
 "  --sync              Sincroniza os comandos X11.\n"
 "\n"
 "  -B                  Exibe a página do manual do icewmbg do IceWM.\n"
-"  -b, --bugs          Exibe os relatórios de erros/falhas (bugs) do IceWM (primitivo).\n"
-"  -f, --faq           Exibe as perguntas mais frequentes (FAQ) e as dicas do \n"
+"  -b, --bugs          Exibe os relatórios de erros/falhas (bugs) do IceWM "
+"(primitivo).\n"
+"  -f, --faq           Exibe as perguntas mais frequentes (FAQ) e as dicas do "
+"\n"
 "                      IceWM.\n"
 "  -g                  Exibe a página eletrônica do GitHub do IceWM.\n"
 "  -i, --icewm         Exibe a página do manual do icewm do IceWM.\n"
@@ -1319,7 +1321,7 @@ msgstr "O nome `%s' da área de trabalho não é válido"
 
 #: src/icesh.cc:1902
 msgid "GNOME window layer"
-msgstr "Camada da janela GNOME"
+msgstr "Camada da janela do GNOME"
 
 #: src/icesh.cc:1903
 msgid "IceWM tray option"
@@ -1359,7 +1361,7 @@ msgstr "Não foi possível obter a geometria da janela 0x%lx"
 #: src/icesh.cc:3179
 #, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "A extensão Xinerama `%s' não é válida."
+msgstr "A extensão do Xinerama `%s' não é válida."
 
 #: src/icesh.cc:3226 src/icesh.cc:3276
 #, c-format
@@ -1410,7 +1412,7 @@ msgstr "O PID `%s' não é válido"
 #: src/icesh.cc:3605
 #, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Camada `%s' não é válida."
+msgstr "A camada `%s' não é válida."
 
 #: src/icesh.cc:4416
 #, c-format
@@ -1563,11 +1565,11 @@ msgstr "Não foi possível definir o formato OSS (Open Sound System)"
 #: src/icesound.cc:499
 #, c-format
 msgid "ao_open_live failed with %d"
-msgstr "o &apos;ao_open_live&apos; falhou com %d"
+msgstr "o 'ao_open_live' falhou com %d"
 
 #: src/icesound.cc:510
 msgid "ao_play failed"
-msgstr "o &apos;ao_play&apos; falhou"
+msgstr "o 'ao_play' falhou"
 
 #: src/icesound.cc:676
 #, c-format
