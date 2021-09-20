@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-09 22:52+0200\n"
-"PO-Revision-Date: 2021-09-19 17:12+0000\n"
+"PO-Revision-Date: 2021-09-20 02:31+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -2153,8 +2153,9 @@ msgstr "<nenhum>"
 #: src/wmapp.cc:1517
 msgid "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
-"  --client-id=ID      A identificação (ID) do cliente a ser utilizado ao\n"
-"                      entrar em contato com o gerenciador de sessão.\n"
+"  --client-id=ID      A identificação do cliente (ID) a ser utilizado ao\n"
+"                                   entrar em contato com o gerenciador de "
+"sessão.\n"
 
 #: src/wmapp.cc:1523
 msgid ""
@@ -2164,8 +2165,8 @@ msgid ""
 msgstr ""
 "\n"
 "  --debug             Exibe as mensagens de depuração genéricas.\n"
-"  --debug-z           Exibe as mensagens de depuração relacionadas                       "
-"ao empilhamento das janelas.\n"
+"  --debug-z         Exibe as mensagens de depuração relacionadas ao "
+"empilhamento das janelas.\n"
 
 #: src/wmapp.cc:1531
 msgid ""
@@ -2237,15 +2238,15 @@ msgstr ""
 "  --directories          Exibe os diretórios de configuração.\n"
 "  -l, --list-themes      Exibe uma lista de todos os temas disponíveis.\n"
 "\n"
-"Variáveis do ambiente:\n"
+"Variáveis de ambiente:\n"
 "  ICEWM_PRIVCFG=CAMINHO  Diretório para os arquivos de configuração do\n"
 "                         usuário, \"$XDG_CONFIG_HOME/icewm\" se existir ou\n"
 "                         \"$HOME/.icewm\" por padrão.\n"
 "  DISPLAY=NOME           Nome do servidor X a ser utilizado.\n"
 "  MAIL=URL               Localização da sua caixa de correio (e-mail).\n"
 "\n"
-"Para relatar erros ou falhas (bugs), solicitações de suporte e comentários, por favor, "
-"visite:\n"
+"Para relatar erros ou falhas (bugs), solicitações de suporte e comentários, "
+"por favor, visite:\n"
 "%s\n"
 "\n"
 
@@ -2257,7 +2258,7 @@ msgstr "%s diretórios de configuração:\n"
 #: src/wmapp.cc:1689
 #, c-format
 msgid "%s configured options:%s\n"
-msgstr "%s opções configuradas: %s\n"
+msgstr "%s opções estão configuradas: %s\n"
 
 #: src/wmapp.cc:1819
 msgid "Confirm Logout"
@@ -2386,7 +2387,7 @@ msgstr "Erro na palavra-chave '%s' para %s"
 #: src/wmmenu.cc:156
 #, c-format
 msgid "Error at %s '%s'"
-msgstr "Erro em %s '%s'"
+msgstr "Erro %s em '%s'"
 
 #: src/wmmenu.cc:222
 #, c-format
@@ -2774,7 +2775,7 @@ msgstr "_OK"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
-msgstr "$USER ou $LOGNAME não foram definidos?"
+msgstr "O $USER ou o $LOGNAME não foram definidos?"
 
 #: src/yurl.cc:145
 #, c-format
