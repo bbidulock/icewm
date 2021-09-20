@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-09 22:52+0200\n"
-"PO-Revision-Date: 2021-09-20 02:31+0000\n"
+"PO-Revision-Date: 2021-09-20 02:34+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -2648,7 +2648,7 @@ msgstr "%s: falhou na seleção"
 #: src/ycolor.cc:229 src/ycolor.cc:240
 #, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Não foi possível analisar a cor \"%s\"."
+msgstr "Não foi possível analisar a cor \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
