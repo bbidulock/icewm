@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-09 22:52+0200\n"
-"PO-Revision-Date: 2020-05-26 14:39+0000\n"
+"PO-Revision-Date: 2021-09-21 08:11+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
-"Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/el/>\n"
+"Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.7.1\n"
 
 #: src/aapm.cc:66
 #, fuzzy, c-format
@@ -161,7 +161,7 @@ msgstr "_Χωρισμός"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "Πληκτρολόγιο"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -286,7 +286,7 @@ msgstr "Χρήστης: "
 
 #: src/amemstatus.cc:262
 msgid "MEM"
-msgstr "ΜΝΗ."
+msgstr "ΜΝΗ"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -305,7 +305,7 @@ msgstr ""
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
-msgstr ""
+msgstr "αποσυδεδεμένος"
 
 #: src/apppstatus.cc:284
 #, fuzzy
@@ -315,7 +315,7 @@ msgstr "Ξεδίπλωμα"
 
 #: src/apppstatus.cc:705
 msgid "NET"
-msgstr "ΔΙΚΤ."
+msgstr "ΔΙΚΤ"
 
 #: src/aworkspaces.cc:604 src/wmstatus.cc:207
 msgid "Workspace: "
@@ -1045,37 +1045,31 @@ msgstr "Ευρετήριο"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "Εύρεση..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+F"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "Εύρεση επομένου"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Περιηγητής ιστού"
+msgstr "Άνοιγμα στον περιηγητή ιστού"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "Επαναφόρτωση"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1094,10 +1088,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1116,10 +1108,8 @@ msgid "Manual"
 msgstr "Εγχειρίδιο Χρήσης"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -2020,7 +2010,7 @@ msgstr ""
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
-msgstr "icewm - Περί..."
+msgstr "icewm - Περί"
 
 #: src/wmapp.cc:83
 msgid "A window manager is already running, use --replace to replace it"
@@ -2488,9 +2478,9 @@ msgid "Error at includeprog '%s'"
 msgstr "Σφάλμα στο πρόγραμμα %s"
 
 #: src/wmmenu.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Άγνωστη ενέργεια: `%s'"
+msgstr "Άγνωστη λέξη κλειδί: «%s»"
 
 #: src/wmmenu.cc:419
 #, c-format
@@ -2506,7 +2496,7 @@ msgstr ""
 
 #: src/wmmgr.cc:3259
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Λείπει το πρόγραμμα setxkbmap"
 
 #: src/wmmgr.cc:3260
 msgid "For keyboard switching, please install setxkbmap."
@@ -2529,7 +2519,7 @@ msgstr "Αποθήκευση των μετατροπών"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Εισαγωγή νέας τιμής για %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
