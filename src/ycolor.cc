@@ -392,15 +392,15 @@ YColor YPixel::brighter() {
 }
 
 unsigned long YColor::pixel() {
-    return fPixel->pixel();
+    return fPixel ? fPixel->pixel() : xapp->black();
 }
 
 YColor YColor::darker() {
-    return fPixel->darker();
+    return fPixel ? fPixel->darker() : *this;
 }
 
 YColor YColor::brighter() {
-    return fPixel->brighter();
+    return fPixel ? fPixel->brighter() : *this;
 }
 
 bool YColor::operator==(YColor& c) {

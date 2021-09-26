@@ -138,7 +138,7 @@ public:
     void fillPolygon(XPoint * points, int n, int shape,
                      int mode);
     void fillArc(int x, int y, unsigned width, unsigned height, int a1, int a2);
-    void setColor(YColor aColor);
+    void setColor(const YColor& aColor);
     void setColorPixel(unsigned long pixel);
     void setFont(ref<YFont> aFont);
     void setThinLines() { setLineWidth(0); }

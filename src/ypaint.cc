@@ -524,10 +524,12 @@ void Graphics::fillArc(int x, int y, unsigned width, unsigned height, int a1, in
 
 /******************************************************************************/
 
-void Graphics::setColor(YColor aColor) {
-    fColor = aColor;
-    unsigned long pixel = fColor.pixel();
-    setColorPixel(pixel);
+void Graphics::setColor(const YColor& aColor) {
+    if (aColor) {
+        fColor = aColor;
+        unsigned long pixel = fColor.pixel();
+        setColorPixel(pixel);
+    }
 }
 
 void Graphics::setColorPixel(unsigned long pixel) {
