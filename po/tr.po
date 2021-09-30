@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-09 22:52+0200\n"
+"POT-Creation-Date: 2021-09-30 22:26+0200\n"
 "PO-Revision-Date: 2021-07-21 10:11+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1298,116 +1298,116 @@ msgstr "Aynı Oyunu"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Yardım için lütfen icesh(1) man sayfasına bakın.\n"
 
-#: src/icesh.cc:1538
+#: src/icesh.cc:1541
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "'%s' alan adının adlandırılmış sembolleri (numerik aralık: %ld-%ld):\n"
 
-#: src/icesh.cc:1596
+#: src/icesh.cc:1599
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Çalışma alanı limit dışında: %ld"
 
-#: src/icesh.cc:1617
+#: src/icesh.cc:1620
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Hatalı çalışma alanı adı: '%s'"
 
-#: src/icesh.cc:1902
+#: src/icesh.cc:1922
 msgid "GNOME window layer"
 msgstr "GNOME pencere katmanı"
 
-#: src/icesh.cc:1903
+#: src/icesh.cc:1923
 msgid "IceWM tray option"
 msgstr "IceWM tepsi seçeneği"
 
-#: src/icesh.cc:1904
+#: src/icesh.cc:1924
 msgid "Gravity symbols"
 msgstr "Yerçekimi sembolleri"
 
-#: src/icesh.cc:1905
+#: src/icesh.cc:1925
 msgid "Motif functions"
 msgstr "Motif fonksiyonları"
 
-#: src/icesh.cc:1906
+#: src/icesh.cc:1926
 msgid "Motif decorations"
 msgstr "Motif dekorasyonları"
 
-#: src/icesh.cc:1907
+#: src/icesh.cc:1927
 msgid "EWMH window state"
 msgstr "EWMH pencere durumu"
 
-#: src/icesh.cc:1989 src/icesh.cc:2062
+#: src/icesh.cc:2009 src/icesh.cc:2082
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: '%s'\n"
 
-#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
+#: src/icesh.cc:2317 src/icesh.cc:3749 src/icesh.cc:4222
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Geçersiz durum: '%s'."
 
-#: src/icesh.cc:3154
+#: src/icesh.cc:3174
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "0x%lx penceresinin geometrisi alınamıyor"
 
-#: src/icesh.cc:3179
+#: src/icesh.cc:3199
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Hatalı Xinerama: '%s'."
 
-#: src/icesh.cc:3226 src/icesh.cc:3276
+#: src/icesh.cc:3331 src/icesh.cc:3381
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Geçersiz argüman: '%s'"
 
-#: src/icesh.cc:3242
+#: src/icesh.cc:3347
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "'%s' eylemi en az %d değişken gerektiriyor."
 
-#: src/icesh.cc:3251
+#: src/icesh.cc:3356
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Hatalı ifade: «%s»"
 
-#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Ekran açılamıyor: %s. X çalışır durumda ve $DISPLAY ayarlanmış olmalıdır."
 
-#: src/icesh.cc:3378
+#: src/icesh.cc:3483
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Beklenmeyen: '%s'."
 
-#: src/icesh.cc:3407
+#: src/icesh.cc:3512
 msgid "No windows found."
 msgstr "Pencere bulunamadı."
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3528
 msgid "No actions specified."
 msgstr "Eylem belirtilmedi."
 
-#: src/icesh.cc:3552
+#: src/icesh.cc:3666
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: '%s'"
 
-#: src/icesh.cc:3569
+#: src/icesh.cc:3683
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Geçersiz PID: '%s'"
 
-#: src/icesh.cc:3605
+#: src/icesh.cc:3719
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Geçersiz katman: '%s'."
 
-#: src/icesh.cc:4416
+#: src/icesh.cc:4530
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Bilinmeyen eylem: '%s'"
@@ -1868,7 +1868,7 @@ msgstr ""
 " center:0 scaled:1 = her iki boyutu da doldur ve en boy oranını koru\n"
 "\n"
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1774
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tanınmayan seçenek ' %s'."
@@ -2033,7 +2033,7 @@ msgstr "_Altta"
 msgid "D_esktop"
 msgstr "_Masaüstü"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:365
 msgid "_Restore"
 msgstr "_Eski haline"
 
@@ -2045,31 +2045,31 @@ msgstr "_Taşı"
 msgid "_Size"
 msgstr "B_oyutlandır"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:366
 msgid "Mi_nimize"
 msgstr "_Küçült"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:367
 msgid "Ma_ximize"
 msgstr "_Büyüt"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:368
 msgid "Maximize_Vert"
 msgstr "_Dikey Büyüt"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:369
 msgid "MaximizeHori_z"
 msgstr "_Yatay Büyüt"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:370
 msgid "_Fullscreen"
 msgstr "Tam ek_ran"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:372
 msgid "_Hide"
 msgstr "G_izle"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:373
 msgid "Roll_up"
 msgstr "_Sar"
 
@@ -2077,19 +2077,19 @@ msgstr "_Sar"
 msgid "R_aise"
 msgstr "Y_ukarı Kaldır"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:375
 msgid "_Lower"
 msgstr "_Aşağı İndir"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:376
 msgid "La_yer"
 msgstr "Kat_man"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:378
 msgid "Move _To"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:379
 msgid "Occupy _All"
 msgstr "_Hepsini Kapla"
 
@@ -2097,19 +2097,19 @@ msgstr "_Hepsini Kapla"
 msgid "Limit _Workarea"
 msgstr "Çalışma alanını kısıtla"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:380
 msgid "Tray _icon"
 msgstr "_Tepsiye küçült"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
 msgid "_Close"
 msgstr "Ka_pat"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:397
 msgid "_Kill Client"
 msgstr "_Istemciyi Öldür"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "Pen_cere listesi"
 
@@ -2251,11 +2251,11 @@ msgstr "%s yapılandırma dizinleri:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s yapılandırılmış seçenekler:%s\n"
 
-#: src/wmapp.cc:1819
+#: src/wmapp.cc:1823
 msgid "Confirm Logout"
 msgstr "Oturum Kapatma Onayı"
 
-#: src/wmapp.cc:1820
+#: src/wmapp.cc:1824
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2528,37 +2528,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Oturum Yöneticisi: Bilinmeyen satır %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "D_ikey Döşe"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "_Yatay Döşe"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "_Basamakla"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Düzenle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Hepsini Küçült"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "H_epsini gizle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:386 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "Ge_rial"
 
@@ -2596,31 +2596,31 @@ msgstr "Görev Çubuğunu Göster"
 msgid "All Workspaces"
 msgstr "Tüm Çalışma Alanları"
 
-#: src/wmwinlist.cc:368
+#: src/wmwinlist.cc:371
 msgid "_Show"
 msgstr "_Göster"
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:374
 msgid "_Raise"
 msgstr "_Yükselt"
 
-#: src/wmwinlist.cc:392
+#: src/wmwinlist.cc:395
 msgid "Del"
 msgstr "Sil"
 
-#: src/wmwinlist.cc:396
+#: src/wmwinlist.cc:399
 msgid "_Terminate Process"
 msgstr "_İşlemi Sonlandır"
 
-#: src/wmwinlist.cc:397
+#: src/wmwinlist.cc:400
 msgid "Kill _Process"
 msgstr "İşlemi _Öldür"
 
-#: src/wmwinlist.cc:432 src/wmwinlist.cc:433
+#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
 msgid "Window list"
 msgstr "Pencere Listesi"
 
-#: src/wmwinmenu.cc:121
+#: src/wmwinmenu.cc:96
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Çalışma Alanı %-.32s"
@@ -2737,24 +2737,24 @@ msgstr "_Hepsini Seç"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:55
+#: src/ylocale.cc:56
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "C kütüphanesi yada XLib yerelleştirmeyi desteklemiyor. Varsayılan 'C' "
 "locale'ye dönüldü."
 
-#: src/ylocale.cc:90
+#: src/ylocale.cc:91
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Geçerli yerel ayar kod kümesi belirlenemedi. ISO-8859-1 varsayılıyor.\n"
 
-#: src/ylocale.cc:123 src/ylocale.cc:131
+#: src/ylocale.cc:124 src/ylocale.cc:132
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv (yeterli) %s - %s dönüştürücüsü sağlamıyor."
 
-#: src/ylocale.cc:231
+#: src/ylocale.cc:234
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Geçersiz çok baytlı dize \"%s\": %s"

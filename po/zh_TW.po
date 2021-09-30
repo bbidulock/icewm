@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-09 22:52+0200\n"
+"POT-Creation-Date: 2021-09-30 22:26+0200\n"
 "PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -1301,116 +1301,116 @@ msgstr "Same 遊戲"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "若要取得說明，請參考 man 頁面 icesh(1)。\n"
 
-#: src/icesh.cc:1538
+#: src/icesh.cc:1541
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "網域「%s」的命名符號（數值範圍：%ld-%ld）：\n"
 
-#: src/icesh.cc:1596
+#: src/icesh.cc:1599
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "工作區超出範圍︰%ld"
 
-#: src/icesh.cc:1617
+#: src/icesh.cc:1620
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "無效的工作區名稱：「%s」"
 
-#: src/icesh.cc:1902
+#: src/icesh.cc:1922
 msgid "GNOME window layer"
 msgstr "GNOME 視窗層次"
 
-#: src/icesh.cc:1903
+#: src/icesh.cc:1923
 msgid "IceWM tray option"
 msgstr "IceWM 系統列選項"
 
-#: src/icesh.cc:1904
+#: src/icesh.cc:1924
 msgid "Gravity symbols"
 msgstr "Gravity 符號"
 
-#: src/icesh.cc:1905
+#: src/icesh.cc:1925
 msgid "Motif functions"
 msgstr "Motif 功能"
 
-#: src/icesh.cc:1906
+#: src/icesh.cc:1926
 msgid "Motif decorations"
 msgstr "Motif 修飾"
 
-#: src/icesh.cc:1907
+#: src/icesh.cc:1927
 msgid "EWMH window state"
 msgstr "EWMH 視窗狀態"
 
-#: src/icesh.cc:1989 src/icesh.cc:2062
+#: src/icesh.cc:2009 src/icesh.cc:2082
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "工作區 #%d：「%s」\n"
 
-#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
+#: src/icesh.cc:2317 src/icesh.cc:3749 src/icesh.cc:4222
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "無效狀態：`%s'。"
 
-#: src/icesh.cc:3154
+#: src/icesh.cc:3174
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "無法獲取視窗 0x%lx 的記憶體"
 
-#: src/icesh.cc:3179
+#: src/icesh.cc:3199
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "無效 Xinerama：`%s'。"
 
-#: src/icesh.cc:3226 src/icesh.cc:3276
+#: src/icesh.cc:3331 src/icesh.cc:3381
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "引數無效：「%s」"
 
-#: src/icesh.cc:3242
+#: src/icesh.cc:3347
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "動作「%s」需要至少 %d 個引數。"
 
-#: src/icesh.cc:3251
+#: src/icesh.cc:3356
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表示式無效：「%s」"
 
-#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
-#: src/icesh.cc:3378
+#: src/icesh.cc:3483
 #, fuzzy, c-format
 #| msgid "Unexepected menu keyword: '%s'"
 msgid "Unexpected: `%s'."
 msgstr "非預期的功能表關鍵字：「%s」"
 
-#: src/icesh.cc:3407
+#: src/icesh.cc:3512
 msgid "No windows found."
 msgstr "找不到視窗。"
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3528
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:3552
+#: src/icesh.cc:3666
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "無效的視窗識別碼：「%s」"
 
-#: src/icesh.cc:3569
+#: src/icesh.cc:3683
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "無效 PID：`%s'"
 
-#: src/icesh.cc:3605
+#: src/icesh.cc:3719
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "無效層：`%s'。"
 
-#: src/icesh.cc:4416
+#: src/icesh.cc:4530
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知動作：「%s」"
@@ -1855,7 +1855,7 @@ msgstr ""
 " center:1 scaled:1 = 沿兩個方向填充並保持長寬比率\n"
 "\n"
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1774
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別選項「%s」。"
@@ -2019,7 +2019,7 @@ msgstr "下層(_B)"
 msgid "D_esktop"
 msgstr "桌面(_E)"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:365
 msgid "_Restore"
 msgstr "還原(_R)"
 
@@ -2031,31 +2031,31 @@ msgstr "移動(_M)"
 msgid "_Size"
 msgstr "大小(_S)"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:366
 msgid "Mi_nimize"
 msgstr "縮小(_N)"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:367
 msgid "Ma_ximize"
 msgstr "放大(_X)"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:368
 msgid "Maximize_Vert"
 msgstr "垂直最大化(_V)"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:369
 msgid "MaximizeHori_z"
 msgstr "水平最大化(_Z)"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:370
 msgid "_Fullscreen"
 msgstr "全螢幕(_F)"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:372
 msgid "_Hide"
 msgstr "隱藏(_H)"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:373
 msgid "Roll_up"
 msgstr "向上循環(_U)"
 
@@ -2063,19 +2063,19 @@ msgstr "向上循環(_U)"
 msgid "R_aise"
 msgstr "提升(_A)"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:375
 msgid "_Lower"
 msgstr "降低(_L)"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:376
 msgid "La_yer"
 msgstr "層次(_Y)"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:378
 msgid "Move _To"
 msgstr "移至(_T)"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:379
 msgid "Occupy _All"
 msgstr "全部佔據(_A)"
 
@@ -2083,19 +2083,19 @@ msgstr "全部佔據(_A)"
 msgid "Limit _Workarea"
 msgstr "限制工作區域(_W)"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:380
 msgid "Tray _icon"
 msgstr "系統列圖示(_I)"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
 msgid "_Close"
 msgstr "關閉(_C)"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:397
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
@@ -2240,11 +2240,11 @@ msgstr "%s 組態目錄︰\n"
 msgid "%s configured options:%s\n"
 msgstr "%s 設定的選項：%s\n"
 
-#: src/wmapp.cc:1819
+#: src/wmapp.cc:1823
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1820
+#: src/wmapp.cc:1824
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2518,37 +2518,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "作業階段管理程式：未知的列 %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "垂直並排(_V)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "水平並排(_I)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "階狀(_S)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "排列(_A)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "全部縮到最小(_M)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "全部隱藏(_H)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:386 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "復原(_U)"
 
@@ -2586,31 +2586,31 @@ msgstr "顯示工作列"
 msgid "All Workspaces"
 msgstr "所有工作區"
 
-#: src/wmwinlist.cc:368
+#: src/wmwinlist.cc:371
 msgid "_Show"
 msgstr "顯示(_S)"
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:374
 msgid "_Raise"
 msgstr "提升(_R)"
 
-#: src/wmwinlist.cc:392
+#: src/wmwinlist.cc:395
 msgid "Del"
 msgstr "刪除"
 
-#: src/wmwinlist.cc:396
+#: src/wmwinlist.cc:399
 msgid "_Terminate Process"
 msgstr "終止行程(_T)"
 
-#: src/wmwinlist.cc:397
+#: src/wmwinlist.cc:400
 msgid "Kill _Process"
 msgstr "砍掉行程(_P)"
 
-#: src/wmwinlist.cc:432 src/wmwinlist.cc:433
+#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
 msgid "Window list"
 msgstr "視窗清單"
 
-#: src/wmwinmenu.cc:121
+#: src/wmwinmenu.cc:96
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu。工作區 %-.32s"
@@ -2723,21 +2723,21 @@ msgstr "全部選取(_A)"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:55
+#: src/ylocale.cc:56
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr "C 函式庫或 Xlib 不支援的語系。回復為「C」語系。"
 
-#: src/ylocale.cc:90
+#: src/ylocale.cc:91
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr "判別目前語系的字碼集時失敗。假定為 ISO-8859-1。\n"
 
-#: src/ylocale.cc:123 src/ylocale.cc:131
+#: src/ylocale.cc:124 src/ylocale.cc:132
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv 不（完全）支援 %s 到 %s 的轉換器。"
 
-#: src/ylocale.cc:231
+#: src/ylocale.cc:234
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "無效的多位元字串「%s」：%s"

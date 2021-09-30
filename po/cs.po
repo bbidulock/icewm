@@ -8,11 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-09 22:52+0200\n"
+"POT-Creation-Date: 2021-09-30 22:26+0200\n"
 "PO-Revision-Date: 2021-09-11 21:11+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1294,81 +1294,81 @@ msgstr "Stejná Hra"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Pomoc Vám poskytne man, stránka icesh(1).\n"
 
-#: src/icesh.cc:1538
+#: src/icesh.cc:1541
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Pojmenované znaky domény „%s“ (číselný rozsah: %ld-%ld):\n"
 
-#: src/icesh.cc:1596
+#: src/icesh.cc:1599
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Pracovní prostor je mimo rozsah: %ld"
 
-#: src/icesh.cc:1617
+#: src/icesh.cc:1620
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Neplatné jméno plochy: „%s“"
 
-#: src/icesh.cc:1902
+#: src/icesh.cc:1922
 msgid "GNOME window layer"
 msgstr "GNOME hladina okna"
 
-#: src/icesh.cc:1903
+#: src/icesh.cc:1923
 msgid "IceWM tray option"
 msgstr "Přepínače IceWM tray"
 
-#: src/icesh.cc:1904
+#: src/icesh.cc:1924
 msgid "Gravity symbols"
 msgstr "Symboly váhy"
 
-#: src/icesh.cc:1905
+#: src/icesh.cc:1925
 msgid "Motif functions"
 msgstr "Motif - funkce"
 
-#: src/icesh.cc:1906
+#: src/icesh.cc:1926
 msgid "Motif decorations"
 msgstr "Motif - dekorace"
 
-#: src/icesh.cc:1907
+#: src/icesh.cc:1927
 msgid "EWMH window state"
 msgstr "EWMH stav okna"
 
-#: src/icesh.cc:1989 src/icesh.cc:2062
+#: src/icesh.cc:2009 src/icesh.cc:2082
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "pracovní plocha #%d: „%s“\n"
 
-#: src/icesh.cc:2297 src/icesh.cc:3635 src/icesh.cc:4108
+#: src/icesh.cc:2317 src/icesh.cc:3749 src/icesh.cc:4222
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Neplatný stav: `%s'."
 
-#: src/icesh.cc:3154
+#: src/icesh.cc:3174
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Nelze získat rozměry okna 0x%lx"
 
-#: src/icesh.cc:3179
+#: src/icesh.cc:3199
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Neplatná Xinerama: `%s'."
 
-#: src/icesh.cc:3226 src/icesh.cc:3276
+#: src/icesh.cc:3331 src/icesh.cc:3381
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Neplatný argument: `%s'"
 
-#: src/icesh.cc:3242
+#: src/icesh.cc:3347
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Akce „%s“ vyžaduje nejméně %d argumentů."
 
-#: src/icesh.cc:3251
+#: src/icesh.cc:3356
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Neplatný výraz: `%s'"
 
-#: src/icesh.cc:3262 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
 #: src/yxapp.cc:1022
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1376,35 +1376,35 @@ msgstr ""
 "Nelze otevřít displej: %s. Server X musí být spuštěn a proměnná $DISPLAY "
 "nastavena."
 
-#: src/icesh.cc:3378
+#: src/icesh.cc:3483
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Neočekáváno: `%s'."
 
-#: src/icesh.cc:3407
+#: src/icesh.cc:3512
 msgid "No windows found."
 msgstr "Nenalezena žádná okna."
 
-#: src/icesh.cc:3422
+#: src/icesh.cc:3528
 msgid "No actions specified."
 msgstr "Nebyla zadána žádná akce."
 
-#: src/icesh.cc:3552
+#: src/icesh.cc:3666
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Neplatné označení okna: „%s“"
 
-#: src/icesh.cc:3569
+#: src/icesh.cc:3683
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Neplatný PID: `%s'"
 
-#: src/icesh.cc:3605
+#: src/icesh.cc:3719
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Neplatná vrstva: `%s'."
 
-#: src/icesh.cc:4416
+#: src/icesh.cc:4530
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Neznámá akce: „%s“"
@@ -1859,7 +1859,7 @@ msgstr ""
 "část obrazu se ořízne)\n"
 "\n"
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1770
+#: src/icewmbg.cc:1042 src/wmapp.cc:1774
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Nerozpoznaná volba '%s'."
@@ -2023,7 +2023,7 @@ msgstr "_Dole"
 msgid "D_esktop"
 msgstr "_Plocha"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:362
+#: src/wmapp.cc:564 src/wmwinlist.cc:365
 msgid "_Restore"
 msgstr "O_bnovit"
 
@@ -2035,31 +2035,31 @@ msgstr "_Přesunout"
 msgid "_Size"
 msgstr "_Velikost"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:363
+#: src/wmapp.cc:570 src/wmwinlist.cc:366
 msgid "Mi_nimize"
 msgstr "_Minimalizovat"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:364
+#: src/wmapp.cc:572 src/wmwinlist.cc:367
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovat"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:365
+#: src/wmapp.cc:573 src/wmwinlist.cc:368
 msgid "Maximize_Vert"
 msgstr "Maximalizuj_Vert"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:366
+#: src/wmapp.cc:574 src/wmwinlist.cc:369
 msgid "MaximizeHori_z"
 msgstr "Maximalizuj_Horiz"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:367
+#: src/wmapp.cc:577 src/wmwinlist.cc:370
 msgid "_Fullscreen"
 msgstr "_Celá obrazovka"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:369
+#: src/wmapp.cc:580 src/wmwinlist.cc:372
 msgid "_Hide"
 msgstr "_Schovat"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:370
+#: src/wmapp.cc:582 src/wmwinlist.cc:373
 msgid "Roll_up"
 msgstr "S_rolovat"
 
@@ -2067,19 +2067,19 @@ msgstr "S_rolovat"
 msgid "R_aise"
 msgstr "Navrc_h"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:372
+#: src/wmapp.cc:591 src/wmwinlist.cc:375
 msgid "_Lower"
 msgstr "_Dospod"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:373
+#: src/wmapp.cc:593 src/wmwinlist.cc:376
 msgid "La_yer"
 msgstr "Vrs_tva"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:375
+#: src/wmapp.cc:597 src/wmwinlist.cc:378
 msgid "Move _To"
 msgstr "Přesu_nout na"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:376
+#: src/wmapp.cc:598 src/wmwinlist.cc:379
 msgid "Occupy _All"
 msgstr "Obs_adit vše"
 
@@ -2087,19 +2087,19 @@ msgstr "Obs_adit vše"
 msgid "Limit _Workarea"
 msgstr "Omez pracovní ob_last"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:377
+#: src/wmapp.cc:608 src/wmwinlist.cc:380
 msgid "Tray _icon"
 msgstr "Tray _ikona"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:392 src/wmwinlist.cc:400
+#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:394
+#: src/wmapp.cc:615 src/wmwinlist.cc:397
 msgid "_Kill Client"
 msgstr "_Zabít klienta"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:130
+#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "Seznam _oken"
 
@@ -2238,11 +2238,11 @@ msgstr "%s konfigurační adresáře:\n"
 msgid "%s configured options:%s\n"
 msgstr "%s zkonfigurované voľby: %s\n"
 
-#: src/wmapp.cc:1819
+#: src/wmapp.cc:1823
 msgid "Confirm Logout"
 msgstr "Potvrdit odhlášení"
 
-#: src/wmapp.cc:1820
+#: src/wmapp.cc:1824
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2515,37 +2515,37 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Správce relace: Neznámý řádek %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:379 src/wmwinlist.cc:412
+#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
 msgid "Tile _Vertically"
 msgstr "Uspořádat _svisle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:380 src/wmwinlist.cc:413
+#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
 msgid "T_ile Horizontally"
 msgstr "Uspořádat _vodorovně"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:381 src/wmwinlist.cc:414
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
 msgid "Ca_scade"
 msgstr "Uspořádat do _kaskády"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
 msgid "_Arrange"
 msgstr "_Uspořádat"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:384 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
 msgid "_Minimize All"
 msgstr "_Minimalizovat vše"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:385 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
 msgid "_Hide All"
 msgstr "_Schovat vše"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:386 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
 msgid "_Undo"
 msgstr "Vrá_tit"
 
@@ -2583,31 +2583,31 @@ msgstr "Zobraz panel úloh"
 msgid "All Workspaces"
 msgstr "Všechny pracovní plochy"
 
-#: src/wmwinlist.cc:368
+#: src/wmwinlist.cc:371
 msgid "_Show"
 msgstr "Ukáz_at"
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:374
 msgid "_Raise"
 msgstr "_Zvýšit"
 
-#: src/wmwinlist.cc:392
+#: src/wmwinlist.cc:395
 msgid "Del"
 msgstr "Smazat"
 
-#: src/wmwinlist.cc:396
+#: src/wmwinlist.cc:399
 msgid "_Terminate Process"
 msgstr "_Ukončit proces"
 
-#: src/wmwinlist.cc:397
+#: src/wmwinlist.cc:400
 msgid "Kill _Process"
 msgstr "_Zabít proces"
 
-#: src/wmwinlist.cc:432 src/wmwinlist.cc:433
+#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
 msgid "Window list"
 msgstr "Seznam oken"
 
-#: src/wmwinmenu.cc:121
+#: src/wmwinmenu.cc:96
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Pracovní plocha %-.32s"
@@ -2721,25 +2721,25 @@ msgstr "Vybr_at vše"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:55
+#: src/ylocale.cc:56
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Nastavení jazyka (locale) není knihovnou C nebo Xlib podporováno. Vracím "
 "nastavení jazyka (locale) na „C“."
 
-#: src/ylocale.cc:90
+#: src/ylocale.cc:91
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Nepodařilo se zjistit znakovou sadu stávajícího jazykového nastavení. "
 "Předpokládám ISO-8859-1.\n"
 
-#: src/ylocale.cc:123 src/ylocale.cc:131
+#: src/ylocale.cc:124 src/ylocale.cc:132
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv (dostatečně) nepodporuje konverzi z %s do %s."
 
-#: src/ylocale.cc:231
+#: src/ylocale.cc:234
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neplatný vícebajtový řetězec „%s“: %s"
