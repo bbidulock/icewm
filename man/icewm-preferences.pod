@@ -635,7 +635,8 @@ Favour Xft fonts over core X11 fonts where possible.
 
 =item B<MailBoxPath>=""
 
-Mailbox path (use \$MAIL instead).
+A colon separated list of paths of your mailboxes.
+If this is empty, $MAILPATH or $MAIL is used instead.
 
 Path to a mbox file. Remote mail boxes are accessed by specifying an URL
 using the Common Internet Scheme Syntax (RFC 1738):
@@ -986,7 +987,8 @@ themes from selection.
 
 =item B<MailBoxPath>=""
 
-Mailbox path (use \$MAIL instead).
+A colon separated list of paths of your mailboxes.
+If this is empty, $MAILPATH or $MAIL is used instead.
 
 =back
 
