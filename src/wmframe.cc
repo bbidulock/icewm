@@ -3324,7 +3324,7 @@ void YFrameWindow::updateAppStatus() {
             needTaskBarApp = true;
 
         if (frameOption(foIgnoreTaskBar))
-            needTaskBarApp = false;
+            needTaskBarApp = grouping = false;
         if (frameOption(foNoIgnoreTaskBar))
             needTaskBarApp = true;
 
@@ -3527,10 +3527,9 @@ void YFrameWindow::wmSnapMove(int tcb, int lcr) {
 
     int xiscreen = desktop->getScreenForRect(x(), y(), width(), height());
 
-    YFrameWindow **w = nullptr;
-    int count = 0;
-
-    manager->getWindowsToArrange(&w, &count);
+    YArrange arrange = manager->getWindowsToArrange();
+    YFrameWindow** w = arrange.begin();
+    int count = arrange.size();
 
     manager->getWorkArea(this, &mx, &my, &Mx, &My, xiscreen);
 
@@ -3575,7 +3574,7 @@ void YFrameWindow::wmSnapMove(int tcb, int lcr) {
 
     setCurrentPositionOuter(newX, newY);
 
-    delete [] w;
+    arrange.discard();
 }
 
 int YFrameWindow::getTopCoord(int my, YFrameWindow **w, int count)

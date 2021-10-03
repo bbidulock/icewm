@@ -931,54 +931,35 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             manager->unmanageClient(aboutDlg);
             aboutDlg = nullptr;
         }
-    } else if (action == actionTileVertical ||
-               action == actionTileHorizontal)
-    {
-        YFrameWindow **w = nullptr;
-        int count = 0;
-
-        if (manager->getWindowsToArrange(&w, &count)) {
-            manager->tileWindows(w, count,
-                                 (action == actionTileVertical) ? true : false);
-            delete [] w;
-        }
-    } else if (action == actionArrange) {
-        YFrameWindow **w = nullptr;
-        int count = 0;
-        if (manager->getWindowsToArrange(&w, &count)) {
-            manager->smartPlace(w, count);
-            delete [] w;
-        }
-    } else if (action == actionArrangeIcons) {
+    }
+    else if (action == actionTileVertical) {
+        manager->tileWindows(true);
+    }
+    else if (action == actionTileHorizontal) {
+        manager->tileWindows(false);
+    }
+    else if (action == actionArrange) {
+        manager->arrangeWindows();
+    }
+    else if (action == actionArrangeIcons) {
         manager->arrangeIcons();
-    } else if (action == actionHideAll || action == actionMinimizeAll) {
-        YFrameWindow **w = nullptr;
-        int count = 0;
-        if (manager->getWindowsToArrange(&w, &count)) {
-            manager->setWindows(w, count, action);
-            delete [] w;
-        }
-    } else if (action == actionShowDesktop) {
-        YFrameWindow **w = nullptr;
-        int count = 0;
-        if (manager->getWindowsToArrange(&w, &count, true, true)) {
-            manager->setWindows(w, count, actionMinimizeAll);
-            manager->setShowingDesktop(true);
-        } else {
-            manager->undoArrange();
-            manager->setShowingDesktop(false);
-        }
-        delete [] w;
-    } else if (action == actionCascade) {
-        YFrameWindow **w = nullptr;
-        int count = 0;
-        if (manager->getWindowsToArrange(&w, &count)) {
-            manager->cascadePlace(w, count);
-            delete [] w;
-        }
-    } else if (action == actionUndoArrange) {
+    }
+    else if (action == actionHideAll) {
+        manager->actionWindows(action);
+    }
+    else if (action == actionMinimizeAll) {
+        manager->actionWindows(action);
+    }
+    else if (action == actionShowDesktop) {
+        manager->toggleDesktop();
+    }
+    else if (action == actionCascade) {
+        manager->cascadeWindows();
+    }
+    else if (action == actionUndoArrange) {
         manager->undoArrange();
-    } else if (action == actionWindowList) {
+    }
+    else if (action == actionWindowList) {
         if (windowList->visible())
             windowList->getFrame()->wmHide();
         else

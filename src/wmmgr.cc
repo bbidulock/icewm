@@ -772,12 +772,12 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             setShowingDesktop(false);
         }
         else if (message.data.l[0] == True && !fShowingDesktop) {
-            YFrameWindow **w = nullptr;
-            int count = 0;
-            if (getWindowsToArrange(&w, &count, true, true))
-                setWindows(w, count, actionMinimizeAll);
+            YArrange arrange = getWindowsToArrange(true, true);
+            if (arrange) {
+                setWindows(arrange, actionMinimizeAll);
+                arrange.discard();
+            }
             setShowingDesktop(true);
-            delete [] w;
         }
         return;
     }
@@ -1261,6 +1261,7 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
 
     x = mx;
     y = my;
+
     int cover, px, py;
     int *xcoord, *ycoord;
     int xcount, ycount;
@@ -1336,26 +1337,33 @@ bool YWindowManager::getSmartPlace(bool down, YFrameWindow *frame1, int &x, int 
     return true;
 }
 
-void YWindowManager::smartPlace(YFrameWindow **w, int count) {
-    saveArrange(w, count);
-
-    if (count == 0)
+void YWindowManager::smartPlace(YArrange arrange) {
+    if (saveArrange(arrange) == false)
         return;
+
+    int* screens = new int[arrange.size()];
+    int k = 0;
+    for (YFrameWindow* f : arrange) {
+        screens[k++] = f->getScreen();
+    }
 
     int n = getScreenCount();
     for (int s = 0; s < n; s++)
     {
-        for (int i = 0; i < count; i++) {
-            YFrameWindow *f = w[i];
-            int x = f->x();
-            int y = f->y();
-            if (s != f->getScreen())
-                continue;
-            if (getSmartPlace(false, f, x, y, f->width(), f->height(), s)) {
-                f->setNormalPositionOuter(x, y);
+        k = 0;
+        for (YFrameWindow* f : arrange) {
+            if (s == screens[k]) {
+                int x = f->x();
+                int y = f->y();
+                if (getSmartPlace(false, f, x, y, f->width(), f->height(), s)) {
+                    f->setNormalPositionOuter(x, y);
+                }
             }
+            k++;
         }
     }
+
+    delete[] screens;
 }
 
 void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h) {
@@ -1368,6 +1376,7 @@ void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY
 
     x = lastX;
     y = lastY;
+    y -= min(frame->borderYN(), int(topSideVerticalOffset));
 
     lastX += wsTitleBar;
     lastY += wsTitleBar;
@@ -1381,10 +1390,8 @@ void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY
     }
 }
 
-void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
-    saveArrange(w, count);
-
-    if (count == 0)
+void YWindowManager::cascadePlace(YArrange arrange) {
+    if (saveArrange(arrange) == false)
         return;
 
     int mx, my, Mx, My;
@@ -1392,8 +1399,8 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
 
     int lx = mx;
     int ly = my;
-    for (int i = count; i > 0; i--) {
-        YFrameWindow *f = w[i - 1];
+    for (int i = arrange.size(); --i >= 0; ) {
+        YFrameWindow* f = arrange[i];
         int x;
         int y;
 
@@ -1402,15 +1409,12 @@ void YWindowManager::cascadePlace(YFrameWindow **w, int count) {
     }
 }
 
-void YWindowManager::setWindows(YFrameWindow **w, int count, YAction action) {
-    saveArrange(w, count);
-
-    if (count == 0)
+void YWindowManager::setWindows(YArrange arrange, YAction action) {
+    if (saveArrange(arrange) == false)
         return;
 
     lockFocus();
-    for (int i = 0; i < count; ++i) {
-        YFrameWindow *f = w[i];
+    for (YFrameWindow* f : arrange) {
         if (action == actionHideAll) {
             if (!f->isHidden())
                 f->setState(WinStateUnmapped, WinStateHidden);
@@ -3068,32 +3072,33 @@ void YWindowManager::tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th) 
     if (w->hasState(mask)) {
         w->setState(mask, 0);
     }
-    tw -= 2 * w->borderXN();
-    th -= 2 * w->borderYN() + w->titleYN();
-    w->client()->constrainSize(tw, th, ///WinLayerNormal,
-                               0);
-    tw += 2 * w->borderXN();
-    th += 2 * w->borderYN() + w->titleYN();
-    w->setNormalGeometryOuter(tx, ty, tw, th);
+    int bx = w->borderXN();
+    int bb = w->borderYN();
+    int bt = bb + w->titleYN();
+    int vo = min(bb, int(topSideVerticalOffset));
+    int cw = tw - bx - bx;
+    int ch = th - bb - (bt - vo);
+    w->client()->constrainSize(cw, ch, None);
+    int ow = cw + bx + bx;
+    int oh = ch + bb + bt;
+    w->setNormalGeometryOuter(tx, ty - vo, ow, oh);
 }
 
-void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
-    saveArrange(w, count);
-
-    if (count <= 0)
-        return ;
+void YWindowManager::tileWindows(YArrange arrange, bool vertical) {
+    if (saveArrange(arrange) == false)
+        return;
 
     int curWin = 0;
     int cols = 1;
 
-    while (cols * cols <= count)
+    while (cols * cols <= arrange.size())
         cols++;
     cols--;
 
     int areaX, areaY, areaW, areaH;
 
     int mx, my, Mx, My;
-    getWorkArea(w[0], &mx, &my, &Mx, &My);
+    getWorkArea(arrange[0], &mx, &my, &Mx, &My);
 
     if (vertical) { // swap meaning of rows/cols
         areaY = mx;
@@ -3107,7 +3112,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
         areaH = My - my;
     }
 
-    int normalRows = count / cols;
+    int normalRows = arrange.size() / cols;
     int normalWidth = areaW / cols;
     int windowX = areaX;
 
@@ -3116,7 +3121,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
         int windowWidth = normalWidth;
         int windowY = areaY;
 
-        if (col >= (cols * (1 + normalRows) - count))
+        if (col >= (cols * (1 + normalRows) - arrange.size()))
             rows++;
         if (col >= (cols * (1 + normalWidth) - areaW))
             windowWidth++;
@@ -3130,10 +3135,10 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
                 windowHeight++;
 
             if (vertical) // swap meaning of rows/cols
-                tilePlace(w[curWin++],
+                tilePlace(arrange[curWin++],
                           windowY, windowX, windowHeight, windowWidth);
             else
-                tilePlace(w[curWin++],
+                tilePlace(arrange[curWin++],
                           windowX, windowY, windowWidth, windowHeight);
 
             windowY += windowHeight;
@@ -3142,8 +3147,7 @@ void YWindowManager::tileWindows(YFrameWindow **w, int count, bool vertical) {
     }
 }
 
-bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
-                                         bool all, bool skipNonMinimizable)
+YArrange YWindowManager::getWindowsToArrange(bool all, bool skipNonMinimizable)
 {
     int capacity = focusedCount() + 1;
     int indexarr = 0;
@@ -3155,54 +3159,56 @@ bool YWindowManager::getWindowsToArrange(YFrameWindow ***win, int *count,
             if (w->owner() == nullptr && // not transient ?
                 w->visibleNow() && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
-                !w->isRollup() &&
-                !w->isMinimized() &&
-                !w->isHidden() &&
-                (!skipNonMinimizable || w->canMinimize()))
+                !w->isUnmapped() &&
+                (!skipNonMinimizable || w->canMinimize()) &&
+                indexarr + 1 < capacity)
             {
-                if (indexarr < capacity) {
-                    arrange[indexarr] = w;
-                    indexarr++;
-                }
+                arrange[indexarr] = w;
+                indexarr++;
             }
         }
+        arrange[indexarr] = nullptr;
     }
     if (indexarr == 0) {
         delete[] arrange;
         arrange = nullptr;
     }
-    *count = indexarr;
-    *win = arrange;
-    return bool(indexarr);
+    return YArrange(arrange, indexarr);
 }
 
-void YWindowManager::saveArrange(YFrameWindow **w, int count) {
-    delete [] fArrangeInfo;
-    fArrangeCount = count;
-    fArrangeInfo = new WindowPosState[count];
+bool YWindowManager::saveArrange(YArrange arrange) {
+    if (arrange.size() != fArrangeCount || fArrangeInfo == nullptr) {
+        delete[] fArrangeInfo;
+        fArrangeCount = arrange.size();
+        fArrangeInfo = new WindowPosState[fArrangeCount];
+    }
     if (fArrangeInfo) {
-        for (int i = 0; i < count; i++) {
-            fArrangeInfo[i].x = w[i]->x();
-            fArrangeInfo[i].y = w[i]->y();
-            fArrangeInfo[i].w = w[i]->width();
-            fArrangeInfo[i].h = w[i]->height();
-            fArrangeInfo[i].state = w[i]->getState();
-            fArrangeInfo[i].frame = w[i];
+        WindowPosState* info = fArrangeInfo;
+        for (YFrameWindow* frame : arrange) {
+            info->x = frame->x();
+            info->y = frame->y();
+            info->w = frame->width();
+            info->h = frame->height();
+            info->state = frame->getState();
+            info->frame = frame;
+            info++;
         }
     }
     setShowingDesktop(false);
+    return 0 < fArrangeCount;
 }
+
 void YWindowManager::undoArrange() {
-    if (fArrangeInfo) {
+    if (fArrangeInfo && 0 < fArrangeCount) {
         lockFocus();
         for (int i = 0; i < fArrangeCount; i++) {
-            YFrameWindow *f = fArrangeInfo[i].frame;
+            WindowPosState info(fArrangeInfo[i]);
+            YFrameWindow* f = info.frame;
+            if (f && (f->getState() & WIN_STATE_ALL) != info.state) {
+                f->setState(WIN_STATE_ALL, info.state);
+            }
             if (f) {
-                f->setState(WIN_STATE_ALL, fArrangeInfo[i].state);
-                f->setNormalGeometryOuter(fArrangeInfo[i].x,
-                                          fArrangeInfo[i].y,
-                                          fArrangeInfo[i].w,
-                                          fArrangeInfo[i].h);
+                f->setNormalGeometryOuter(info.x, info.y, info.w, info.h);
             }
         }
         delete [] fArrangeInfo; fArrangeInfo = nullptr;
@@ -3211,6 +3217,50 @@ void YWindowManager::undoArrange() {
         focusTopWindow();
     }
     setShowingDesktop(false);
+}
+
+void YWindowManager::tileWindows(bool vertical) {
+    YArrange arrange = getWindowsToArrange();
+    if (arrange) {
+        tileWindows(arrange, vertical);
+        arrange.discard();
+    }
+}
+
+void YWindowManager::arrangeWindows() {
+    YArrange arrange = getWindowsToArrange();
+    if (arrange) {
+        smartPlace(arrange);
+        arrange.discard();
+    }
+}
+
+void YWindowManager::actionWindows(YAction action) {
+    YArrange arrange = getWindowsToArrange();
+    if (arrange) {
+        setWindows(arrange, action);
+        arrange.discard();
+    }
+}
+
+void YWindowManager::toggleDesktop() {
+    YArrange arrange = getWindowsToArrange(true, true);
+    if (arrange) {
+        setWindows(arrange, actionMinimizeAll);
+        setShowingDesktop(true);
+        arrange.discard();
+    } else {
+        undoArrange();
+        setShowingDesktop(false);
+    }
+}
+
+void YWindowManager::cascadeWindows() {
+    YArrange arrange = getWindowsToArrange(true, true);
+    if (arrange) {
+        cascadePlace(arrange);
+        arrange.discard();
+    }
 }
 
 bool YWindowManager::haveClients() {

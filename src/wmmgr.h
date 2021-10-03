@@ -43,6 +43,20 @@ public:
     virtual void handleButton(const XButtonEvent &button);
 };
 
+class YArrange {
+public:
+    YArrange(YFrameWindow** w, int n) : win(w), count(n) { }
+    void discard() { delete[] win; win = nullptr; count = 0; }
+    int size() const { return count; }
+    YFrameWindow** begin() const { return win; }
+    YFrameWindow** end() const { return win + count; }
+    YFrameWindow* operator[](int index) const { return win[index]; }
+    operator bool() const { return win && count; }
+private:
+    YFrameWindow** win;
+    int count;
+};
+
 class YWindowManager:
     private YDesktop,
     private YMsgBoxListener,
@@ -210,17 +224,22 @@ public:
     void switchToLastWorkspace(bool takeCurrent);
 
     void tilePlace(YFrameWindow *w, int tx, int ty, int tw, int th);
-    void tileWindows(YFrameWindow **w, int count, bool vertical);
-    void smartPlace(YFrameWindow **w, int count);
+    void tileWindows(YArrange arrange, bool vertical);
+    void smartPlace(YArrange arrange);
     void getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY, int &x, int &y, int w, int h);
-    void cascadePlace(YFrameWindow **w, int count);
-    void setWindows(YFrameWindow **w, int count, YAction action);
+    void cascadePlace(YArrange arrange);
+    void setWindows(YArrange arrange, YAction action);
 
-    bool getWindowsToArrange(YFrameWindow ***w, int *count, bool sticky = false, bool skipNonMinimizable = false);
+    YArrange getWindowsToArrange(bool sticky = false, bool skipNonMinimizable = false);
 
-    void saveArrange(YFrameWindow **w, int count);
+    bool saveArrange(YArrange arrange);
     void undoArrange();
     void arrangeIcons();
+    void tileWindows(bool vertical);
+    void arrangeWindows();
+    void actionWindows(YAction action);
+    void toggleDesktop();
+    void cascadeWindows();
 
     bool haveClients();
     void setupRootProxy();

@@ -80,54 +80,55 @@ void WindowListBox::activateItem(YListItem *item) {
     }
 }
 
-void WindowListBox::getSelectedWindows(YArray<YFrameWindow *> &frames) {
+YArrange WindowListBox::getSelectedWindows() {
+    YFrameWindow** frames = nullptr;
+    int count = 0;
     if (hasSelection()) {
+        for (IterType iter(getIterator()); ++iter; ) {
+            count += isSelected(iter.where());
+        }
+    }
+    if (count) {
+        frames = new YFrameWindow*[count];
+        int k = 0;
         for (IterType iter(getIterator()); ++iter; ) {
             if (isSelected(iter.where())) {
                 WindowListItem *item = static_cast<WindowListItem *>(*iter);
                 ClientData *frame = item->getFrame();
-                if (frame)
-                    frames.append(static_cast<YFrameWindow *>(frame));
+                if (frame && k < count) {
+                    frames[k++] = static_cast<YFrameWindow *>(frame);
+                }
             }
         }
     }
+    return YArrange(frames, count);
 }
 
 void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
     bool save = focusCurrentWorkspace;
     if (save) focusCurrentWorkspace = false;
 
-    YArray<YFrameWindow *> frameList;
-    getSelectedWindows(frameList);
-
-    if (action == actionTileVertical ||
-        action == actionTileHorizontal)
-    {
-        if (frameList.nonempty())
-            manager->tileWindows(frameList.getItemPtr(0),
-                                 frameList.getCount(),
-                                 (action == actionTileVertical));
-    } else if (action == actionCascade ||
-               action == actionArrange)
-    {
-        if (frameList.nonempty()) {
-            if (action == actionCascade) {
-                manager->cascadePlace(frameList.getItemPtr(0),
-                                      frameList.getCount());
-            } else if (action == actionArrange) {
-                manager->smartPlace(frameList.getItemPtr(0),
-                                    frameList.getCount());
+    YArrange arrange = getSelectedWindows();
+    if (arrange == false) {
+    }
+    else if (action == actionTileVertical) {
+        manager->tileWindows(arrange, true);
+    }
+    else if (action == actionTileHorizontal) {
+        manager->tileWindows(arrange, false);
+    }
+    else if (action == actionCascade) {
+        manager->cascadePlace(arrange);
+    }
+    else if (action == actionArrange) {
+        manager->smartPlace(arrange);
+    }
+    else {
+        for (YFrameWindow* frame : arrange) {
+            if ((action != actionHide || !frame->isHidden()) &&
+                (action != actionMinimize || !frame->isMinimized())) {
+                frame->actionPerformed(action, modifiers);
             }
-        }
-    } else {
-        for (int i = 0; i < frameList.getCount(); i++) {
-            if (action == actionHide)
-                if (frameList[i]->isHidden())
-                    continue;
-            if (action == actionMinimize)
-                if (frameList[i]->isMinimized())
-                    continue;
-            frameList[i]->actionPerformed(action, modifiers);
         }
     }
 
