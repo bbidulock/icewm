@@ -573,8 +573,8 @@ Top, bottom, left, and right are indices of the I<icesh xinerama> command.
 
 Observe the selected windows and report any changes. This includes
 focus, visibility, position, size and all window properties.
-To monitor the protocol request messages that client applications
-send to icewm, spy on the root window.
+To monitor all of the protocol request messages that client applications
+may send to icewm, also spy on the root window.
 
 =back
 
