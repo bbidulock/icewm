@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-10-09 22:39+0000\n"
+"PO-Revision-Date: 2021-10-10 01:11+0000\n"
 "Last-Translator: Taras Panchenko <top39@ukr.net>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/uk/>\n"
@@ -1399,10 +1399,9 @@ msgid "Invalid PID: `%s'"
 msgstr "Невірний аргумент: \"%s\""
 
 #: src/icesh.cc:3719
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Невірний аргумент: \"%s\"."
+msgstr "Недійсний пласт: `%s'."
 
 #: src/icesh.cc:4530
 #, c-format
@@ -1482,10 +1481,8 @@ msgid ""
 msgstr ""
 
 #: src/icesm.cc:519
-#, fuzzy
-#| msgid "IceWM tray option"
 msgid "IceWM crash response"
-msgstr "Опція панелі завдань IceWM"
+msgstr "Відгук на збій IceWM"
 
 #: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
@@ -1959,9 +1956,8 @@ msgid "Cannot start, because another icewmbg is still running."
 msgstr "Помилка запуску, інший процес icewmbg вже запущений."
 
 #: src/icewmhint.cc:20
-#, fuzzy
 msgid "Usage: icewmhint class.instance option arg\n"
-msgstr "Використання: icewmhint [сlasse.instanсe] option argument\n"
+msgstr "Використання: icewmhint class.instance option arg\n"
 
 #: src/icewmhint.cc:57
 #, c-format
@@ -2136,16 +2132,12 @@ msgid "Ma_ximize"
 msgstr "Розгорнути"
 
 #: src/wmapp.cc:573 src/wmwinlist.cc:368
-#, fuzzy
-#| msgid "Maximize"
 msgid "Maximize_Vert"
-msgstr "Розгорнути"
+msgstr "Розгорнути по _вертикалі"
 
 #: src/wmapp.cc:574 src/wmwinlist.cc:369
-#, fuzzy
-#| msgid "Maximize"
 msgid "MaximizeHori_z"
-msgstr "Розгорнути"
+msgstr "Розгорнути по _горизонталі"
 
 #: src/wmapp.cc:577 src/wmwinlist.cc:370
 msgid "_Fullscreen"
@@ -2465,10 +2457,9 @@ msgid "Error at %s '%s'"
 msgstr "Помилка у ключі %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Невідоме ключове слово '%s'"
+msgstr "Невідоме ключове слово меню: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
