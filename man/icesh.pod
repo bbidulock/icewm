@@ -130,6 +130,10 @@ resource instance and the class name.
 
 Selects all Dockapp applications which are managed by icewm.
 
+=item B<-T>
+
+Selects the IceWM taskbar.
+
 =back
 
 =head2 FILTER OPTIONS
