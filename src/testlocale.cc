@@ -41,18 +41,24 @@ print_string(const YLChar *lstr, YUChar *ustr)
 
 int main() {
 #ifdef CONFIG_I18N
-    size_t ulen;
+    {
+        YLocale locale;
+        printf("Default locale: %s\n", YLocale::getLocaleName());
+    }
 
-    const YLChar *lstr("Möhrenkäuter");
-    YUChar *ustr(YLocale("de_DE.iso-8859-1").
-                 unicodeString(lstr, strlen(lstr), ulen));
-    print_string(lstr, ustr);
+    {
+        size_t ulen;
 
-    lstr = foreign_str ("ISO8859-15", "Euro sign: ¤");
-    ustr = YLocale("de_DE.iso-8859-1").
-        unicodeString(lstr, strlen(lstr), ulen);
-    print_string(lstr, ustr);
+        const YLChar *lstr("Möhrenkäuter");
+        YUChar *ustr(YLocale("de_DE.iso-8859-1").
+                     unicodeString(lstr, strlen(lstr), ulen));
+        print_string(lstr, ustr);
 
+        lstr = foreign_str ("ISO8859-15", "Euro sign: ¤");
+        ustr = YLocale("de_DE.iso-8859-1").
+            unicodeString(lstr, strlen(lstr), ulen);
+        print_string(lstr, ustr);
+    }
 
 /*
     YLChar * utf8(YLocale("de_DE.utf8").localeString(unicode));
