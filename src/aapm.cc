@@ -828,6 +828,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
 
             battio.unit = i;
             if (ioctl(acpifd, ACPIIO_BATT_GET_BATTINFO, &battio) != -1) {
+                char buf[42];
                 snprintf(buf, sizeof buf, "Battery%d", i);
                 acpiBatteries[batteryNum++] = new Battery(buf);
             }
