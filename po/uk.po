@@ -1458,7 +1458,7 @@ msgstr "Невідомий параметр '%s'"
 #: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
-msgstr "Перезапустити."
+msgstr "Перезапустити %s."
 
 #: src/icesm.cc:468
 #, c-format
