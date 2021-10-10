@@ -10,6 +10,7 @@
 
 #include "config.h"
 #include "ylocale.h"
+#include "ascii.h"
 #include "base.h"
 #include "intl.h"
 #include <string.h>
@@ -155,6 +156,7 @@ YLocale* YLocale::instance;
 
 YLocale::YLocale(char const* localeName)
     : converter(nullptr)
+    , rightToLeft(false)
 {
     if (instance == nullptr) {
         instance = this;
@@ -163,6 +165,7 @@ YLocale::YLocale(char const* localeName)
 #endif
         bindtextdomain(PACKAGE, LOCDIR);
         textdomain(PACKAGE);
+        getDirection();
     }
 }
 
@@ -258,6 +261,17 @@ int YLocale::getRating(const char *localeStr) {
             i--;
     }
     return i;
+}
+
+void YLocale::getDirection() {
+    const char* loc = converter ? converter->localeName() : "C";
+    if (loc && (*loc == 'a' || *loc == 'h')) {
+        bool arab = !strncmp(loc, "ar", 2) && !ASCII::isAlpha(loc[2]);
+        bool hebr = !strncmp(loc, "he", 2) && !ASCII::isAlpha(loc[2]);
+        if (arab || hebr) {
+            rightToLeft = true;
+        }
+    }
 }
 
 // vim: set sw=4 ts=4 et:

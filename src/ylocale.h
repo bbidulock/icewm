@@ -20,6 +20,7 @@ public:
 
     static const char* getLocaleName();
     static int getRating(const char* localeStr);
+    static bool RTL() { return instance->rightToLeft; }
 
 #ifdef CONFIG_I18N
     static YLChar* localeString(YUChar const* uStr, size_t uLen, size_t& lLen);
@@ -28,6 +29,8 @@ public:
 
 private:
     class YConverter* converter;
+    bool rightToLeft;
+    void getDirection();
 
     static YLocale* instance;
 };
