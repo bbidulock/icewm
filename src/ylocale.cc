@@ -264,12 +264,15 @@ int YLocale::getRating(const char *localeStr) {
 }
 
 void YLocale::getDirection() {
+    using namespace ASCII;
     const char* loc = converter ? converter->localeName() : "C";
-    if (loc && (*loc == 'a' || *loc == 'h')) {
-        bool arab = !strncmp(loc, "ar", 2) && !ASCII::isAlpha(loc[2]);
-        bool hebr = !strncmp(loc, "he", 2) && !ASCII::isAlpha(loc[2]);
-        if (arab || hebr) {
-            rightToLeft = true;
+    if (loc && isLower(*loc) && isLower(loc[1]) && !isAlpha(loc[2])) {
+        const char rtls[][4] = { "ar", "fa", "he", "ps", "sd", "ur", };
+        for (auto rtl : rtls) {
+            if (rtl[0] == loc[0] && rtl[1] == loc[1]) {
+                rightToLeft = true;
+                break;
+            }
         }
     }
 }
