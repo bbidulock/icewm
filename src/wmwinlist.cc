@@ -13,6 +13,7 @@
 #include "wmmgr.h"
 #include "wmapp.h"
 #include "workspaces.h"
+#include "wpixmaps.h"
 #include <assert.h>
 #include "intl.h"
 
@@ -339,6 +340,14 @@ WindowList::WindowList(YWindow *aParent):
     list(new WindowListBox(scroll, scroll))
 {
     addStyle(wsNoExpose);
+
+    if (listbackPixmap != null) {
+        scroll->setBackgroundPixmap(listbackPixmap);
+    }
+    else if (nonempty(clrListBox)) {
+        scroll->setBackground(YColorName(clrListBox));
+    }
+
     scroll->setView(list);
 
     updateWorkspaces();
