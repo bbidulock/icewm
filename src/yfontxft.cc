@@ -6,6 +6,8 @@
 #include "ypaint.h"
 #include "ypointer.h"
 #include "yxapp.h"
+#include "yfontname.h"
+#include "yfontbase.h"
 #include "intl.h"
 #include <stdio.h>
 #include <ft2build.h>
@@ -29,7 +31,7 @@
 
 /******************************************************************************/
 
-class YXftFont : public YFont {
+class YXftFont : public YFontBase {
 public:
 #ifdef CONFIG_I18N
     typedef class YUnicodeString string_t;
@@ -337,27 +339,27 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     return parts;
 }
 
-ref<YFont> getXftFontXlfd(mstring name, bool antialias) {
-    ref<YFont> font(new YXftFont(name, true, antialias));
-    if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", name.c_str());
-        font.init(new YXftFont("sans-serif:size=12", false, antialias));
-        if (font == null || !font->valid()) {
+YFontBase* getXftFontXlfd(const char* name) {
+    YFontBase* font(new YXftFont(name, true, true));
+    if (font == nullptr || !font->valid()) {
+        msg("failed to load font '%s', trying fallback", name);
+        font = new YXftFont("sans-serif:size=12", false, true);
+        if (font == nullptr || !font->valid()) {
             msg("Could not load fallback Xft font.");
-            return null;
+            font = nullptr;
         }
     }
     return font;
 }
 
-ref<YFont> getXftFont(mstring name, bool antialias) {
-    ref<YFont>font(new YXftFont(name, false, antialias));
-    if (font == null || !font->valid()) {
-        msg("failed to load font '%s', trying fallback", name.c_str());
-        font.init(new YXftFont("sans-serif:size=12", false, antialias));
-        if (font == null || !font->valid()) {
+YFontBase* getXftFont(const char* name) {
+    YFontBase* font(new YXftFont(name, false, true));
+    if (font == nullptr || !font->valid()) {
+        msg("failed to load font '%s', trying fallback", name);
+        font = new YXftFont("sans-serif:size=12", false, true);
+        if (font == nullptr || !font->valid()) {
             msg("Could not load fallback Xft font.");
-            return null;
+            font = nullptr;
         }
     }
     return font;

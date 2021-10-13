@@ -11,14 +11,20 @@
 #include "yicon.h"
 #include "obj.h"
 
-ref<YFont> ObjectButton::font;
+YFont ObjectButton::font;
 YColorName ObjectButton::bgColor(&clrToolButton);
 YColorName ObjectButton::fgColor(&clrToolButtonText);
 
-ref<YFont> ObjectButton::getFont() {
-    return font != null ? font : font =
-        (*toolButtonFontName ? YFont::getFont(XFA(toolButtonFontName))
-         : YButton::getFont());
+YFont ObjectButton::getFont() {
+    if (font == null) {
+        if (toolButtonFontName.nonempty()) {
+            font = toolButtonFontName;
+        }
+        if (font == null) {
+            font = YButton::getFont();
+        }
+    }
+    return font;
 }
 
 YColor ObjectButton::getColor() {

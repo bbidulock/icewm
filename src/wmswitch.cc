@@ -312,7 +312,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     switchBg(&clrQuickSwitch),
     switchHl(&clrQuickSwitchActive),
     switchMfg(&clrActiveTitleBarText),
-    switchFont(YFont::getFont(XFA(switchFontName))),
+    switchFont(switchFontName),
     modsDown(0)
 {
     // I prefer clrNormalMenu but some themes use inverted settings where

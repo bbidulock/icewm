@@ -25,7 +25,7 @@
 YColorName YWindowManagerStatus::statusFg(&clrMoveSizeStatusText);
 YColorName YWindowManagerStatus::statusBg(&clrMoveSizeStatus);
 
-ref<YFont> YWindowManagerStatus::statusFont;
+YFont YWindowManagerStatus::statusFont;
 
 lazy<MoveSizeStatus> statusMoveSize;
 lazy<WorkspaceStatus> statusWorkspace;
@@ -59,7 +59,7 @@ void YWindowManagerStatus::configureStatus() {
     fConfigured = true;
 
     if (statusFont == null)
-        statusFont = YFont::getFont(XFA(statusFontName));
+        statusFont = statusFontName;
 
     int sW = statusFont->textWidth(longestStatus());
     int sH = statusFont->height();

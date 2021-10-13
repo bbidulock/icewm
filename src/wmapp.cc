@@ -1364,8 +1364,8 @@ YWMApp::~YWMApp() {
     workspaces.reset();
     WPixRes::freePixmaps();
 
-    extern void freeTitleColorsFonts();
-    freeTitleColorsFonts();
+    extern void clearFontCache();
+    clearFontCache();
 
     YConfig::freeConfig(wmapp_preferences);
 

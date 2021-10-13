@@ -11,15 +11,15 @@
 
 #ifdef CFGDEF
 #define XFV(t,a,b,c) \
-    t a(b); \
-    t a##Xft = c;
+    t a##Core = b; \
+    t a##Xft = c; \
+    YFontName a(&a##Core, &a##Xft);
 #else
 #define XFV(t,a,b,c) \
-    extern t a; \
-    extern t a##Xft;
+    extern t a##Core; \
+    extern t a##Xft; \
+    extern YFontName a;
 #endif
-
-#define XFA(a) a, a##Xft
 
 #ifdef CFGDEF
 #define XIV(t,a,b) t a(b);
@@ -31,6 +31,7 @@
 #define YCONFIG_H
 
 #include <X11/X.h>
+#include "yfontname.h"
 
 #ifdef CONFIG_XFREETYPE
 #define FONT(pt) "-*-sans-medium-r-*-*-*-" #pt "-*-*-*-*-*-*"
@@ -73,14 +74,14 @@ struct WMKey {
 #ifdef CFGDESC
 #define DESC(d) d
 #else
-#define DESC(d) ((const char *) 0)
+#define DESC(d) nullptr
 #endif
 
 #define OBV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d))
 #define OIV(n,v,m,M,d) cfoption(n, sizeof(n), v, m, M, DESC(d))
 #define OUV(n,v,m,M,d) cfoption(n, sizeof(n), v, m, M, DESC(d))
 #define OSV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d))
-#define OFV(n,v,d)     cfoption(n, sizeof(n), v, DESC(d)), \
+#define OFV(n,v,d)     cfoption(n, sizeof(n), v##Core, DESC(d)), \
                        cfoption(n "Xft", sizeof(n "Xft"), v##Xft, DESC(d))
 #define OKV(n,v,d)     cfoption(n, sizeof(n), &v, DESC(d))
 #define OKF(n,f,d)     cfoption(n, sizeof(n), f, DESC(d))

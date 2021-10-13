@@ -32,7 +32,7 @@ public:
 
     void setText(const mstring &text, bool asMarked);
     mstring getText();
-    ref<YFont> getFont() const { return inputFont; }
+    YFont getFont() const { return inputFont; }
     void setListener(YInputListener* listener) { fListener = listener; }
 
     virtual void paint(Graphics &g, const YRect &r);
@@ -90,7 +90,7 @@ private:
     const short fBlinkTime;
     YInputListener* fListener;
 
-    ref<YFont> inputFont;
+    YFont inputFont;
     YColorName inputBg;
     YColorName inputFg;
     YColorName inputSelectionBg;

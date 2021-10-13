@@ -47,8 +47,8 @@ private:
     virtual bool handleTimer(YTimer *t);
 
     virtual void actionPerformed(YAction button, unsigned int modifiers);
-    virtual ref<YFont> getActiveFont();
-    virtual ref<YFont> getFont();
+    virtual YFont getActiveFont();
+    virtual YFont getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
     virtual YDimension getTextSize();
@@ -76,8 +76,8 @@ private:
     static YColorName activeBackupBg;
     static YColorName activeButtonFg;
 
-    static ref<YFont> normalButtonFont;
-    static ref<YFont> activeButtonFont;
+    static YFont normalButtonFont;
+    static YFont activeButtonFont;
 };
 
 class WorkspaceIcons {

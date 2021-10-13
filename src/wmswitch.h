@@ -83,7 +83,7 @@ private:
     YColorName switchHl;
     YColorName switchMbg;
     YColorName switchMfg;
-    ref<YFont> switchFont;
+    YFont switchFont;
 
     unsigned modsDown;
 

@@ -17,7 +17,7 @@
 
 #include <string.h>
 
-extern ref<YFont> menuFont;
+extern YFont menuFont;
 
 YMenuItem::YMenuItem(const mstring &name, int aHotCharPos, const mstring &param,
                      YAction action, YMenu *submenu) :

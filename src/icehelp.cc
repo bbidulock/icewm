@@ -12,6 +12,8 @@
 #include "ascii.h"
 #include "intl.h"
 #include "ykey.h"
+#include "yfontname.h"
+#include "yfontbase.h"
 #include <strings.h>
 #include <X11/Xutil.h>
 
@@ -862,61 +864,58 @@ public:
     }
 };
 
-typedef ref<YFont> FontRef;
 class FontEntry {
 public:
     int size;
     int flag;
     const char *core;
     const char *xeft;
-    FontRef font;
+    YFont font;
 };
 class FontTable {
 public:
     static FontEntry table[];
-    static const FontRef noFont;
-    static FontRef get(int size, int flags);
+    static YFont get(int size, int flags);
     static void reset() {
         for (int k = 0; table[k].size; ++k) {
-            table[k].font = noFont;
+            table[k].font = null;
         }
     }
 };
-const FontRef FontTable::noFont;
 FontEntry FontTable::table[] = {
     { 12, 0,
         "-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1",
-        "Snap:size=10,sans-serif:size=10", noFont },
+        "Snap:size=10,sans-serif:size=10" },
     { 14, 0,
         "-adobe-helvetica-medium-r-normal--14-140-75-75-p-77-iso8859-1",
-        "Snap:size=12,sans-serif:size=12", noFont },
+        "Snap:size=12,sans-serif:size=12" },
     { 18, 0,
         "-adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1",
-        "Snap:size=14,sans-serif:size=14", noFont },
+        "Snap:size=14,sans-serif:size=14" },
     { 12, BOLD,
         "-adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1",
-        "Snap:size=10:bold,sans-serif:size=10:bold", noFont },
+        "Snap:size=10:bold,sans-serif:size=10:bold" },
     { 14, BOLD,
         "-adobe-helvetica-bold-r-normal--14-140-75-75-p-82-iso8859-1",
-        "Snap:size=12:bold,sans-serif:size=12:bold", noFont },
+        "Snap:size=12:bold,sans-serif:size=12:bold" },
     { 18, BOLD,
         "-adobe-helvetica-bold-r-normal--18-180-75-75-p-103-iso8859-1",
-        "Snap:size=14:bold,sans-serif:size=14:bold", noFont },
+        "Snap:size=14:bold,sans-serif:size=14:bold" },
     { 12, MONO,
         "-adobe-courier-medium-r-normal--12-120-75-75-m-70-iso8859-1",
-        "courier:size=10,monospace:size=10", noFont },
+        "courier:size=10,monospace:size=10" },
     { 17, MONO | BOLD,
         "-adobe-courier-bold-r-normal--17-120-100-100-m-100-iso8859-1",
-        "courier:size=14,monospace:size=14", noFont },
+        "courier:size=14,monospace:size=14" },
     { 12, ITAL,
         "-adobe-helvetica-medium-o-normal--12-120-75-75-p-67-iso8859-1",
-        "sans-serif:size=10:oblique", noFont },
+        "sans-serif:size=10:oblique" },
     { 14, ITAL,
         "-adobe-helvetica-medium-o-normal--14-140-75-75-p-78-iso8859-1",
-        "sans-serif:size=12:oblique", noFont },
-    { 0, 0, nullptr, nullptr, noFont },
+        "sans-serif:size=12:oblique" },
+    { 0, 0, nullptr, nullptr },
 };
-FontRef FontTable::get(int size, int flags) {
+YFont FontTable::get(int size, int flags) {
     int best = 0;
     int diff = abs(size - table[best].size);
     for (int i = 1; table[i].size > 0; ++i) {
@@ -945,9 +944,10 @@ FontRef FontTable::get(int size, int flags) {
             }
         }
     }
-    if (table[best].font == noFont) {
+    if (table[best].font == null) {
         const char* xeft = noFreeType ? nullptr : table[best].xeft;
-        table[best].font = YFont::getFont(table[best].core, xeft, true);
+        YFontName fontName(&table[best].core, &xeft);
+        table[best].font = fontName;
     }
     return table[best].font;
 }
@@ -1234,7 +1234,7 @@ private:
     unsigned conWidth;
     unsigned conHeight;
 
-    FontRef font;
+    YFont font;
     int fontFlag, fontSize;
     YColorName bg, normalFg, linkFg, hrFg;
 
@@ -2016,6 +2016,8 @@ public:
         delete view;
         delete scroll;
         FontTable::reset();
+        extern void clearFontCache();
+        clearFontCache();
     }
 
     void activateURL(mstring url, bool relative = false) override;

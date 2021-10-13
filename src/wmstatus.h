@@ -27,7 +27,7 @@ protected:
     void setScreen(int screen) { fScreen = screen; }
     static YColorName statusFg;
     static YColorName statusBg;
-    static ref<YFont> statusFont;
+    static YFont statusFont;
 
 private:
     void configureStatus();

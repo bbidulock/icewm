@@ -27,8 +27,8 @@ YColorName YButton::normalButtonFg(&clrNormalButtonText);
 YColorName YButton::activeButtonBg(&clrActiveButton);
 YColorName YButton::activeButtonFg(&clrActiveButtonText);
 
-ref<YFont> YButton::normalButtonFont;
-ref<YFont> YButton::activeButtonFont;
+YFont YButton::normalButtonFont;
+YFont YButton::activeButtonFont;
 int YButton::buttonObjectCount;
 
 YButton::YButton(YWindow *parent, YAction action, YMenu *popup) :
@@ -83,7 +83,7 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
                     y + (h - fImage->height()) / 2);
     }
     else if (fText != null) {
-        ref<YFont> font(getFont());
+        YFont font(getFont());
 
         int const w(font->textWidth(fText));
         int const p((width() + 1 - w) / 2);
@@ -334,21 +334,21 @@ void YButton::handleCrossing(const XCrossingEvent &crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-ref<YFont> YButton::getActiveFont() {
+YFont YButton::getActiveFont() {
     if (activeButtonFont == null)
-        activeButtonFont = YFont::getFont(XFA(activeButtonFontName));
+        activeButtonFont = activeButtonFontName;
     return activeButtonFont;
 }
 
-ref<YFont> YButton::getNormalFont() {
+YFont YButton::getNormalFont() {
     if (normalButtonFont == null)
-        normalButtonFont = YFont::getFont(XFA(normalButtonFontName));
+        normalButtonFont = normalButtonFontName;
     return normalButtonFont;
 }
 
 YDimension YButton::getTextSize() {
     if (fText != null) {
-        ref<YFont> font(getActiveFont());
+        YFont font(getActiveFont());
         return YDimension(font->textWidth(fText), font->height());
     } else {
         return YDimension(1, 1);
@@ -480,7 +480,7 @@ void YButton::actionPerformed(YAction action, unsigned modifiers) {
         fListener->actionPerformed(action, modifiers);
 }
 
-ref<YFont> YButton::getFont() {
+YFont YButton::getFont() {
     return fPressed ? getActiveFont() : getNormalFont();
 }
 

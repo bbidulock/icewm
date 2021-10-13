@@ -34,7 +34,7 @@ private:
     IAppletContainer* taskBar;
     mstring fKeyboard;
     ref<YIcon> fIcon;
-    ref<YFont> fFont;
+    YFont fFont;
     YColorName fColor;
     osmart<YMenu> fMenu;
     int fIndex;

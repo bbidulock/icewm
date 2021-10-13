@@ -5,6 +5,7 @@
 #include "yxapp.h"
 #include "yaction.h"
 #include "ylocale.h"
+#include "yfontname.h"
 #include "yicon.h"
 #include "intl.h"
 
@@ -45,7 +46,10 @@ public:
         fWidth = 0;
         fHeight = 0;
 
-        font = YFont::getFont("-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*", "monospace:size=10");
+        static const char* coreFont = "-adobe-courier-medium-r-*-*-*-100-*-*-*-*-*-*";
+        static const char* xfteFont = "monospace:size=10";
+        YFontName fontName(&coreFont, &xfteFont);
+        font = fontName;
         fontWidth = font->textWidth("M");
         fontHeight = font->height();
 
@@ -554,7 +558,7 @@ private:
     int wrapWidth;
 
     YColorName bg, fg;
-    ref<YFont> font;
+    YFont font;
     ref<YImage> fImage;
     YScrollView *view;
     YScrollBar *fVerticalScroll;

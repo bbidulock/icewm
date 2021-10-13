@@ -14,7 +14,7 @@
 #define utf8ellipsis "\xe2\x80\xa6"
 const unsigned utf32ellipsis = 0x2026;
 extern cfoption icewm_preferences[];
-extern ref<YFont> menuFont;
+extern YFont menuFont;
 YArray<int> PrefsMenu::mods;
 
 PrefsMenu::PrefsMenu() :

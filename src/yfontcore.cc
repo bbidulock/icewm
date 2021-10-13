@@ -14,7 +14,7 @@
 #include <locale.h>
 #endif
 
-class YCoreFont : public YFont {
+class YCoreFont : public YFontBase {
 public:
     YCoreFont(char const * name);
     virtual ~YCoreFont();
@@ -33,7 +33,7 @@ private:
 };
 
 #ifdef CONFIG_I18N
-class YFontSet : public YFont {
+class YFontSet : public YFontBase {
 public:
     YFontSet(char const * name);
     virtual ~YFontSet();
@@ -214,26 +214,24 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
 
 #endif // CONFIG_I18N
 
-ref<YFont> getCoreFont(const char *name) {
-    ref<YFont> font;
+YFontBase* getCoreFont(const char *name) {
+    YFontBase* font;
 #ifdef CONFIG_I18N
-    if (multiByte && font.init(new YFontSet(name)) != null) {
+    if (multiByte && (font = new YFontSet(name)) != nullptr) {
         MSG(("FontSet: %s", name));
         if (font->valid())
             return font;
-        font = null;
         msg("failed to load fontset '%s'", name);
     }
 #endif
 
-    if (font.init(new YCoreFont(name)) != null) {
+    if ((font = new YCoreFont(name)) != nullptr) {
         MSG(("CoreFont: %s", name));
         if (font->valid())
             return font;
-        font = null;
     }
     msg("failed to load font '%s'", name);
-    return null;
+    return nullptr;
 }
 
 #endif

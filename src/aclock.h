@@ -68,7 +68,7 @@ private:
     char lastTime[TimeSize];
     YColorName clockBg;
     YColorName clockFg;
-    ref<YFont> clockFont;
+    YFont clockFont;
 };
 #endif
 

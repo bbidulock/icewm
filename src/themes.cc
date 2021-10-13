@@ -24,7 +24,7 @@
 #include "intl.h"
 
 const unsigned utf32ellipsis = 0x2026;
-extern ref<YFont> menuFont;
+extern YFont menuFont;
 
 DTheme::DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme):
     DObject(app, label, null), fTheme(theme)

@@ -41,7 +41,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     fSelecting(false),
     fBlinkTime(333),
     fListener(listener),
-    inputFont(YFont::getFont(XFA(inputFontName))),
+    inputFont(inputFontName),
     inputBg(&clrInput),
     inputFg(&clrInputText),
     inputSelectionBg(&clrInputSelection),
@@ -81,7 +81,7 @@ void YInputLine::configure(const YRect2& r) {
 }
 
 void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
-    ref<YFont> font = inputFont;
+    YFont font = inputFont;
     int min, max, minOfs = 0, maxOfs = 0;
     int textLen = fText.length();
 
@@ -435,7 +435,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
 }
 
 unsigned YInputLine::offsetToPos(int offset) {
-    ref<YFont> font = inputFont;
+    YFont font = inputFont;
     int ofs = 0, pos = 0;
     int textLen = fText.length();
 
@@ -526,7 +526,7 @@ void YInputLine::limit() {
     if (markPos > textLen)
         markPos = textLen;
 
-    ref<YFont> font = inputFont;
+    YFont font = inputFont;
     if (font != null) {
         int curOfs = font->textWidth(fText.substring(0, curPos));
         int curLen = font->textWidth(fText.substring(0, textLen));

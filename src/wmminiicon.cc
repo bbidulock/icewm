@@ -10,7 +10,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 
-static ref<YFont> minimizedWindowFont;
+static YFont minimizedWindowFont;
 static YColorName normalMinimizedWindowBg(&clrNormalMinimizedWindow);
 static YColorName normalMinimizedWindowFg(&clrNormalMinimizedWindowText);
 static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
@@ -41,7 +41,7 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     setPosition(-1, -1);
 
     if (minimizedWindowFont == null)
-        minimizedWindowFont = YFont::getFont(XFA(minimizedWindowFontName));
+        minimizedWindowFont = minimizedWindowFontName;
 
     if (fIconWindow) {
         Window root, parent;

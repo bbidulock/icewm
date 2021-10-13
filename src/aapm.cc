@@ -769,7 +769,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
     IApplet(this, aParent),
     YTimerListener(),
     apmTimer(nullptr), apmBg(&clrApm), apmFg(&clrApmText),
-    apmFont(YFont::getFont(XFA(apmFontName))),
+    apmFont(apmFontName),
     apmColorOnLine(&clrApmLine),
     apmColorBattery(&clrApmBat),
     apmColorGraphBg(&clrApmGraphBg),

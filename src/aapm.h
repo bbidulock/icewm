@@ -58,7 +58,7 @@ private:
 
     YColorName apmBg;
     YColorName apmFg;
-    ref<YFont> apmFont;
+    YFont apmFont;
 
     YColorName apmColorOnLine;
     YColorName apmColorBattery;

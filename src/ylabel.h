@@ -23,7 +23,7 @@ private:
 
     static YColorName labelFg;
     static YColorName labelBg;
-    static ref<YFont> labelFont;
+    static YFont labelFont;
     static int labelObjectCount;
 };
 

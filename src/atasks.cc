@@ -20,8 +20,8 @@ static YColorName invisibleTaskBarAppFg(&clrInvisibleTaskBarAppText);
 static YColorName invisibleTaskBarAppBg(&clrInvisibleTaskBarApp);
 static YColorName groupingBg(&clrActiveTaskBarAppText);
 static YColorName groupingFg(&clrActiveTaskBarApp);
-static ref<YFont> normalTaskBarFont;
-static ref<YFont> activeTaskBarFont;
+static YFont normalTaskBarFont;
+static YFont activeTaskBarFont;
 
 TaskBarApp::TaskBarApp(ClientData* frame, TaskButton* button) :
     fFrame(frame),
@@ -509,7 +509,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     int textY = 0;
     mstring str(fActive ? fActive->getIconTitle() : null);
     if (str != null) {
-        ref<YFont> font = getFont();
+        YFont font = getFont();
         if (font != null) {
                 g.setColor(fg);
             g.setFont(font);
@@ -574,7 +574,7 @@ int TaskButton::estimate() {
 
     mstring str(fActive ? fActive->getIconTitle() : null);
     if (str != null) {
-        ref<YFont> font = getFont();
+        YFont font = getFont();
         if (font != null) {
             if (taskBarShowWindowIcons)
                 p += 2;
@@ -593,8 +593,8 @@ unsigned TaskButton::maxHeight() {
     return 2 + max(activeHeight, normalHeight);
 }
 
-ref<YFont> TaskButton::getFont() {
-    ref<YFont> font;
+YFont TaskButton::getFont() {
+    YFont font;
     if (fActive && getFrame()->focused())
         font = getActiveFont();
     if (font == null)
@@ -602,15 +602,15 @@ ref<YFont> TaskButton::getFont() {
     return font;
 }
 
-ref<YFont> TaskButton::getNormalFont() {
+YFont TaskButton::getNormalFont() {
     if (normalTaskBarFont == null)
-        normalTaskBarFont = YFont::getFont(XFA(normalTaskBarFontName));
+        normalTaskBarFont = normalTaskBarFontName;
     return normalTaskBarFont;
 }
 
-ref<YFont> TaskButton::getActiveFont() {
+YFont TaskButton::getActiveFont() {
     if (activeTaskBarFont == null)
-        activeTaskBarFont = YFont::getFont(XFA(activeTaskBarFontName));
+        activeTaskBarFont = activeTaskBarFontName;
     return activeTaskBarFont;
 }
 

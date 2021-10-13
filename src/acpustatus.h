@@ -58,7 +58,7 @@ private:
     void draw(Graphics& g);
     void temperature(Graphics& g);
 
-    static ref<YFont> tempFont;
+    static YFont tempFont;
 };
 
 class CPUStatusControl : private CPUStatusHandler, public YActionListener

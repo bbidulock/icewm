@@ -96,7 +96,7 @@ private:
     void updateItems();
 
     YColorName bg, fg;
-    ref<YFont> font;
+    YFont font;
     int fontWidth, fontHeight;
 };
 
@@ -155,7 +155,10 @@ YIconView::YIconView(YScrollView *view, YWindow *aParent):
 {
     fView = view;
 
-    font = YFont::getFont("-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*", "monospace:size=10");
+    static const char* corefont = "-b&h-lucida-medium-r-*-*-*-120-*-*-*-*-*-*";
+    static const char* xftefont = "monospace:size=10";
+    YFontName fontName(&corefont, &xftefont);
+    font = fontName;
     fontWidth = font->textWidth("M");
     fontHeight = font->height();
 
@@ -550,7 +553,7 @@ void ObjectList::updateList() {
     adir dir(fPath);
     YArray<ObjectIconItem *> file;
     while (dir.next()) {
-        ObjectIconItem *o = new ObjectIconItem(dir.path(), dir.entry());
+        ObjectIconItem *o = new ObjectIconItem(fPath, dir.entry());
         if (o) {
             if (o->isFolder())
                 list->addItem(o);

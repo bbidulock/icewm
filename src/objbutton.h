@@ -36,7 +36,7 @@ public:
     virtual void handleButton(const XButtonEvent& up);
     virtual void updateToolTip();
 
-    virtual ref<YFont> getFont();
+    virtual YFont getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
     static void freeFont() { font = null; }
@@ -47,7 +47,7 @@ private:
     osmart<DObject> fObject;
     osmart<LazyMenu> fMenu;
 
-    static ref<YFont> font;
+    static YFont font;
     static YColorName bgColor;
     static YColorName fgColor;
 };

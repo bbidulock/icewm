@@ -14,7 +14,7 @@ KeyboardStatus::KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent):
     IApplet(this, aParent),
     taskBar(taskBar),
     fKeyboard(manager->getKeyboard()),
-    fFont(YFont::getFont(XFA(tempFontName))),
+    fFont(tempFontName),
     fColor(&clrCpuTemp),
     fIndex(0)
 {

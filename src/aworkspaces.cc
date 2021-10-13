@@ -19,8 +19,8 @@ YColorName WorkspaceButton::activeButtonBg(&clrWorkspaceActiveButton);
 YColorName WorkspaceButton::activeBackupBg(&clrActiveButton);
 YColorName WorkspaceButton::activeButtonFg(&clrWorkspaceActiveButtonText);
 
-ref<YFont> WorkspaceButton::normalButtonFont;
-ref<YFont> WorkspaceButton::activeButtonFont;
+YFont WorkspaceButton::normalButtonFont;
+YFont WorkspaceButton::activeButtonFont;
 
 WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     super(parent, YAction()),
@@ -539,10 +539,10 @@ void WorkspacesPane::stopDrag() {
     }
 }
 
-ref<YFont> WorkspaceButton::getActiveFont() {
+YFont WorkspaceButton::getActiveFont() {
     if (activeButtonFont == null) {
-        if (*activeWorkspaceFontName || *activeWorkspaceFontNameXft) {
-            activeButtonFont = YFont::getFont(XFA(activeWorkspaceFontName));
+        if (activeWorkspaceFontName.nonempty()) {
+            activeButtonFont = activeWorkspaceFontName;
         }
         if (activeButtonFont == null) {
             activeButtonFont = YButton::getActiveFont();
@@ -551,13 +551,13 @@ ref<YFont> WorkspaceButton::getActiveFont() {
     return activeButtonFont;
 }
 
-ref<YFont> WorkspaceButton::getFont() {
+YFont WorkspaceButton::getFont() {
     if (isPressed()) {
         return getActiveFont();
     }
     else if (normalButtonFont == null) {
-        if (*normalWorkspaceFontName || *normalWorkspaceFontNameXft) {
-            normalButtonFont = YFont::getFont(XFA(normalWorkspaceFontName));
+        if (normalWorkspaceFontName.nonempty()) {
+            normalButtonFont = normalWorkspaceFontName;
         }
         if (normalButtonFont == null) {
             normalButtonFont = YButton::getFont();
@@ -583,7 +583,7 @@ YSurface WorkspaceButton::getSurface() {
 }
 
 YDimension WorkspaceButton::getTextSize() {
-    ref<YFont> font(getActiveFont());
+    YFont font(getActiveFont());
     return YDimension(font->textWidth(name()), font->height());
 }
 
@@ -713,7 +713,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
             strlcpy(label, baseName(), min(5, int(sizeof label)));
         }
         if (label[0] != 0) {
-            ref<YFont> font = getFont();
+            YFont font = getFont();
 
             int wx = (w - font->textWidth(label)) / 2 + x;
             int wy = (h - font->height()) / 2 + font->ascent() + y;

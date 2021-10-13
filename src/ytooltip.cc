@@ -21,7 +21,7 @@ enum ToolTipMargins {
 YToolTipWindow::YToolTipWindow() :
     toolTipBg(&clrToolTip),
     toolTipFg(&clrToolTipText),
-    toolTipFont(YFont::getFont(XFA(toolTipFontName)))
+    toolTipFont(toolTipFontName)
 {
     setStyle(wsToolTip | wsOverrideRedirect | wsSaveUnder | wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_TOOLTIP);

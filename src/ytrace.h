@@ -78,4 +78,11 @@ public:
     ~YTraceProg() { }
 };
 
+class YTraceFont : public YTrace {
+public:
+    YTraceFont(const char* inst = nullptr, bool busy = true) :
+        YTrace("font", inst, busy) { }
+    ~YTraceFont() { }
+};
+
 #endif

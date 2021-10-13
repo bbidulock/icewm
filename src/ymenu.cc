@@ -19,7 +19,7 @@ static YColorName activeMenuItemFg(&clrActiveMenuItemText);
 static YColorName disabledMenuItemFg(&clrDisabledMenuItemText);
 static YColorName disabledMenuItemSt(&clrDisabledMenuItemShadow);
 
-ref<YFont> menuFont;
+YFont menuFont;
 
 ref<YPixmap> menusepPixmap;
 ref<YPixmap> menuselPixmap;
@@ -73,7 +73,7 @@ YMenu::YMenu(YWindow *parent):
     addStyle(wsNoExpose);
 
     if (menuFont == null)
-        menuFont = YFont::getFont(XFA(menuFontName));
+        menuFont = menuFontName;
     ++fMenuObjectCount;
 }
 

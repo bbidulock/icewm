@@ -1,54 +1,104 @@
 #include "config.h"
 
 #include "ypaint.h"
-#include "yxapp.h"
-#include "ywindow.h"
+#include "base.h"
 #include "default.h"
 #include "yprefs.h"
+#include "yfontbase.h"
+#include "yfontcache.h"
 
 #include <string.h>
+#include "ytrace.h"
 
-extern ref<YFont> getXftFont(mstring name, bool antialias);
-extern ref<YFont> getXftFontXlfd(mstring name, bool antialias);
-extern ref<YFont> getCoreFont(const char*);
+extern YFontBase* getXftFont(const char* name);
+extern YFontBase* getXftFontXlfd(const char* name);
+extern YFontBase* getCoreFont(const char*);
 
-ref<YFont> YFont::getFont(mstring name, mstring xftFont, bool antialias) {
-    ref<YFont> ret;
+YFontCache fontCache;
 
+YFont YFont::operator=(YFontName& fontName) {
 #if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
     if (fontPreferFreetype) {
-        if (xftFont.nonempty())
-            ret = getXftFont(xftFont, antialias);
-        if (ret == null)
-            ret = getXftFontXlfd(name, antialias);
+        if (fontName.haveXft()) {
+            base = fontCache.lookup(fontName.xftName());
+            if (base == nullptr) {
+                base = getXftFont(fontName.xftName());
+                if (base) {
+                    YTraceFont trace(fontName.xftName());
+                    fontCache.store(fontName.xftName(), base);
+                }
+            }
+        }
+        if (base == nullptr && fontName.haveCore()) {
+            base = fontCache.lookup(fontName.coreName());
+            if (base == nullptr) {
+                base = getXftFontXlfd(fontName.coreName());
+                if (base) {
+                    YTraceFont trace(fontName.coreName());
+                    fontCache.store(fontName.coreName(), base);
+                }
+            }
+        }
     }
-    if (ret == null)
-        ret = getCoreFont(name);
+    if (base == nullptr && fontName.haveCore()) {
+        base = fontCache.lookup(fontName.coreName());
+        if (base == nullptr) {
+            base = getCoreFont(fontName.coreName());
+            if (base) {
+                YTraceFont trace(fontName.coreName());
+                fontCache.store(fontName.coreName(), base);
+            }
+        }
+    }
 
 #elif defined(CONFIG_XFREETYPE)
-    if (xftFont.nonempty())
-        ret = getXftFont(xftFont, antialias);
-    if (ret == null)
-        ret = getXftFontXlfd(name, antialias);
+    if (fontName.haveXft()) {
+        base = fontCache.lookup(fontName.xftName());
+        if (base == nullptr) {
+            base = getXftFont(fontName.xftName());
+            if (base) {
+                YTraceFont trace(fontName.xftName());
+                fontCache.store(fontName.xftName(), base);
+            }
+        }
+    }
+    if (base == nullptr && fontName.haveCore()) {
+        base = fontCache.lookup(fontName.coreName());
+        if (base == nullptr) {
+            base = getXftFontXlfd(fontName.coreName());
+            if (base) {
+                YTraceFont trace(fontName.coreName());
+                fontCache.store(fontName.coreName(), base);
+            }
+        }
+    }
 
 #elif defined(CONFIG_COREFONTS)
-    ret = getCoreFont(name);
+    if (fontName.haveCore()) {
+        base = fontCache.lookup(fontName.coreName());
+        if (base == nullptr) {
+            base = getCoreFont(fontName.coreName());
+            if (base) {
+                YTraceFont trace(fontName.coreName());
+                fontCache.store(fontName.coreName(), base);
+            }
+        }
+    }
 
 #else
-    (void) antialias;
     if (ONCE)
         warn("Neither XFT fonts nor X11 core fonts are configured!");
 
 #endif
 
-    return ret;
+    return *this;
 }
 
-int YFont::textWidth(char const * str) const {
+int YFontBase::textWidth(char const * str) const {
     return textWidth(str, strlen(str));
 }
 
-int YFont::multilineTabPos(const char *str) const {
+int YFontBase::multilineTabPos(const char *str) const {
     int tabPos(0);
 
     for (const char * end(strchr(str, '\n')); end;
@@ -66,7 +116,7 @@ int YFont::multilineTabPos(const char *str) const {
     return (tabPos ? tabPos + 3 * textWidth(" ", 1) : 0);
 }
 
-YDimension YFont::multilineAlloc(const char *str) const {
+YDimension YFontBase::multilineAlloc(const char *str) const {
     const unsigned tabPos(multilineTabPos(str));
     YDimension alloc(0, ascent());
 
@@ -85,6 +135,10 @@ YDimension YFont::multilineAlloc(const char *str) const {
     alloc.w = max(alloc.w, tab ? tabPos + textWidth(tab + 1) : textWidth(str));
 
     return alloc;
+}
+
+void clearFontCache() {
+    fontCache.clear();
 }
 
 // vim: set sw=4 ts=4 et:

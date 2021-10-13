@@ -7,6 +7,7 @@
 #include "ypaint.h"
 #include "yxapp.h"
 #include "yprefs.h"
+#include "yfontbase.h"
 #include "ascii.h"
 #include "intl.h"
 #include <stdlib.h>
@@ -29,7 +30,7 @@ static inline Display* display()  { return xapp->display(); }
 Graphics::Graphics(YWindow & window,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(window.handle()),
-    fColor(), fFont(null),
+    fColor(), fFont(),
     fPicture(None),
     xOrigin(0), yOrigin(0)
 {
@@ -44,7 +45,7 @@ Graphics::Graphics(YWindow & window,
 
 Graphics::Graphics(YWindow & window):
     fDrawable(window.handle()),
-    fColor(), fFont(null),
+    fColor(), fFont(),
     fPicture(None),
     xOrigin(0), yOrigin(0)
  {
@@ -60,7 +61,7 @@ Graphics::Graphics(YWindow & window):
 
 Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
     fDrawable(pixmap->pixmap()),
-    fColor(), fFont(null),
+    fColor(), fFont(),
     fPicture(None),
     xOrigin(x_org), yOrigin(y_org)
  {
@@ -77,7 +78,7 @@ Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
 Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
                    unsigned long vmask, XGCValues * gcv):
     fDrawable(drawable),
-    fColor(), fFont(null),
+    fColor(), fFont(),
     fPicture(None),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
@@ -90,7 +91,7 @@ Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth,
 
 Graphics::Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth):
     fDrawable(drawable),
-    fColor(), fFont(null),
+    fColor(), fFont(),
     fPicture(None),
     xOrigin(0), yOrigin(0),
     rWidth(w), rHeight(h), rDepth(depth)
@@ -539,7 +540,7 @@ void Graphics::setColorPixel(unsigned long pixel) {
     XSetForeground(display(), gc, pixel);
 }
 
-void Graphics::setFont(ref<YFont> aFont) {
+void Graphics::setFont(YFont aFont) {
     fFont = aFont;
 }
 

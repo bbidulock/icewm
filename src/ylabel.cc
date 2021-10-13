@@ -12,7 +12,7 @@
 
 YColorName YLabel::labelFg(&clrLabelText);
 YColorName YLabel::labelBg(&clrLabel);
-ref<YFont> YLabel::labelFont;
+YFont YLabel::labelFont;
 int YLabel::labelObjectCount;
 
 YLabel::YLabel(const mstring &label, YWindow *parent):
@@ -24,7 +24,7 @@ YLabel::YLabel(const mstring &label, YWindow *parent):
     setBitGravity(NorthWestGravity);
 
     if (labelFont == null)
-        labelFont = YFont::getFont(XFA(labelFontName));
+        labelFont = labelFontName;
     ++labelObjectCount;
 
     autoSize();

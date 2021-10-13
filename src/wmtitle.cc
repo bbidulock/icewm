@@ -16,7 +16,7 @@
 
 #define ISMASK(w,e,n) (((w) & ~(n)) == (e))
 
-static ref<YFont> titleFont;
+static YFont titleFont;
 
 static YColorName titleBarBackground[2] = {
     &clrInactiveTitleBar, &clrActiveTitleBar
@@ -30,7 +30,7 @@ static YColorName titleBarShadowText[2] = {
 
 void YFrameTitleBar::initTitleColorsFonts() {
     if (titleFont == null) {
-        titleFont = YFont::getFont(XFA(titleFontName));
+        titleFont = titleFontName;
     }
 }
 

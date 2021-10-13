@@ -43,7 +43,7 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
     negativePosition(INT_MAX),
     clockBg(&clrClock),
     clockFg(&clrClockText),
-    clockFont(YFont::getFont(XFA(clockFontName)))
+    clockFont(clockFontName)
 {
     memset(positions, 0, sizeof positions);
     memset(previous, 0, sizeof previous);

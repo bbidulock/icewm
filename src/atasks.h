@@ -105,9 +105,9 @@ private:
     lazy<YMenu> fMenu;
 
     virtual bool handleTimer(YTimer* t);
-    ref<YFont> getFont();
-    static ref<YFont> getNormalFont();
-    static ref<YFont> getActiveFont();
+    YFont getFont();
+    static YFont getNormalFont();
+    static YFont getActiveFont();
 };
 
 class TaskPane: public YWindow, private YTimerListener {

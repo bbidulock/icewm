@@ -20,7 +20,7 @@
 
 #include <string.h>
 
-static ref<YFont> listBoxFont;
+static YFont listBoxFont;
 static YColorName listBoxBg(&clrListBox);
 static YColorName listBoxFg(&clrListBoxText);
 static YColorName listBoxSelBg(&clrListBoxSelected);
@@ -30,9 +30,9 @@ inline int getIconSize() {
     return int(YIcon::smallSize());
 }
 
-inline ref<YFont> getListBoxFont() {
+inline YFont getListBoxFont() {
     if (listBoxFont == null)
-        listBoxFont = YFont::getFont(XFA(listBoxFontName));
+        listBoxFont = listBoxFontName;
     return listBoxFont;
 }
 
@@ -69,7 +69,7 @@ YListBox::YListBox(YScrollView *view, YWindow *aParent):
     fGradient(null)
 {
     if (listBoxFont == null)
-        listBoxFont = YFont::getFont(XFA(listBoxFontName));
+        listBoxFont = listBoxFontName;
     addStyle(wsNoExpose);
     setBitGravity(NorthWestGravity);
     addEventMask(VisibilityChangeMask);

@@ -52,9 +52,9 @@ public:
     bool isPopupActive() const { return fPopupActive; }
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
-    virtual ref<YFont> getFont();
-    virtual ref<YFont> getActiveFont();
-    virtual ref<YFont> getNormalFont();
+    virtual YFont getFont();
+    virtual YFont getActiveFont();
+    virtual YFont getNormalFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
     virtual YDimension getTextSize();
@@ -96,8 +96,8 @@ protected:
     static YColorName activeButtonFg;
 
 private:
-    static ref<YFont> normalButtonFont;
-    static ref<YFont> activeButtonFont;
+    static YFont normalButtonFont;
+    static YFont activeButtonFont;
     static int buttonObjectCount;
 };
 

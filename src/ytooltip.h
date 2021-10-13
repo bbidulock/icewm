@@ -21,7 +21,7 @@ private:
 
     YColorName toolTipBg;
     YColorName toolTipFg;
-    ref<YFont> toolTipFont;
+    YFont toolTipFont;
 };
 
 class YToolTip: public YTimerListener {
