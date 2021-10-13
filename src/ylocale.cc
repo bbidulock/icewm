@@ -264,6 +264,7 @@ int YLocale::getRating(const char *localeStr) {
 }
 
 void YLocale::getDirection() {
+#ifdef CONFIG_I18N
     using namespace ASCII;
     const char* loc = converter ? converter->localeName() : "C";
     if (loc && isLower(*loc) && isLower(loc[1]) && !isAlpha(loc[2])) {
@@ -275,6 +276,7 @@ void YLocale::getDirection() {
             }
         }
     }
+#endif
 }
 
 // vim: set sw=4 ts=4 et:
