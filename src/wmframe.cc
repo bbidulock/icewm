@@ -1063,7 +1063,10 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
             wmClose();
         break;
     case actionKill:
-        wmConfirmKill();
+        if (client()->adopted())
+            wmConfirmKill();
+        else
+            wmClose();
         break;
     case actionHide:
         if (canHide())
