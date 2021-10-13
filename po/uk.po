@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-10-12 01:11+0000\n"
+"PO-Revision-Date: 2021-10-14 01:14+0000\n"
 "Last-Translator: Taras Panchenko <top39@ukr.net>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/uk/>\n"
@@ -1289,7 +1289,7 @@ msgstr "Гра SameGame"
 
 #: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "Для довідки зверніться до сторінки посібника icesh(1).\n"
 
 #: src/icesh.cc:1541
 #, c-format
@@ -1316,7 +1316,7 @@ msgstr "Опція панелі завдань IceWM"
 
 #: src/icesh.cc:1924
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravity-маркери"
 
 #: src/icesh.cc:1925
 msgid "Motif functions"
@@ -1343,7 +1343,7 @@ msgstr "Недійсний стан: \"%s\"."
 #: src/icesh.cc:3174
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Не вдається отримати геометрію вікна 0x%lx"
 
 #: src/icesh.cc:3199
 #, c-format
@@ -1450,6 +1450,13 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Параметри зневадження:\n"
+"  -v, --valgrind      Дозволяє \"/usr/bin/valgrind\" запускати icewm.\n"
+"                      Ретельно вивчає виконання процесу icewm.\n"
+"  -g, --catchsegv     Дозволяє \"/usr/bin/catchsegv\" запускати icewm.\n"
+"                      Виконує зворотне відстеження, якщо у icewm з'явиться "
+"несправність segfaults.\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1459,7 +1466,7 @@ msgstr "Невідомий параметр '%s'"
 #: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
-msgstr "Перезапустити %s."
+msgstr "перезапустити %s."
 
 #: src/icesm.cc:468
 #, c-format
@@ -1480,6 +1487,12 @@ msgid ""
 "\t2: Abort this session?\n"
 "\t3: Run a terminal?\n"
 msgstr ""
+" IceWM аварійно зупинився вдруге за 10 секунд. \n"
+" Що ви бажаєте:\n"
+"\n"
+"\t1: Перезапустити IceWM?\n"
+"\t2: Перервати поточний сеанс?\n"
+"\t3: Запустити термінал?\n"
 
 #: src/icesm.cc:519
 msgid "IceWM crash response"
@@ -1919,15 +1932,15 @@ msgstr "Мова:"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "Подвійний буфер"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
-msgstr ""
+msgstr "Альфа-змішування"
 
 #: src/wmabout.cc:58
 msgid "Renderer:"
-msgstr ""
+msgstr "Відтворювач:"
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
@@ -1982,7 +1995,7 @@ msgstr "Перезапустити _IceWM"
 
 #: src/wmapp.cc:513
 msgid "Restart _Xterm"
-msgstr "Вийти у _Xterm"
+msgstr "Перезапустити _Xterm"
 
 #: src/wmapp.cc:523
 msgid "_Menu"
@@ -2107,13 +2120,15 @@ msgstr ""
 
 #: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Підтвердження перезапуску як термінал"
 
 #: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Не керувати застосунками та перезапустити\n"
+"як термінал. Продовжити?"
 
 #: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
@@ -2275,6 +2290,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Клієнт %s з PID %ld не відповідає.\n"
+"Ви бажаєте припинити роботу клієнта?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2488,7 +2505,7 @@ msgstr "_Фокус"
 
 #: src/wmprog.cc:439
 msgid "_Preferences"
-msgstr ""
+msgstr "_Налаштування"
 
 #: src/wmprog.cc:444
 msgid "_Themes"
@@ -2745,12 +2762,12 @@ msgstr "Не вдалося розпакувати %s."
 #: src/yurl.cc:161
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgstr "Неповний hex-перехід у URL-адресі на позиції %d."
 
 #: src/yurl.cc:168
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
-msgstr ""
+msgstr "Невідповідний hex-перехід у URL-адресі на позиції %d."
 
 #: src/yxapp.cc:981
 msgid ""
