@@ -48,7 +48,7 @@ Splash image on startup (IceWM.jpg)
 =item B<Trace>=""
 
 Enable tracing for the given list of modules.
-Modules which are traceable include B<conf, icon, prog, systray>.
+Modules which are traceable include B<conf, font, icon, prog, systray>.
 
 =item B<ClickToFocus>=1
 
