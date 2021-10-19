@@ -3322,7 +3322,7 @@ void YWindowManager::handleMsgBox(YMsgBox *msgbox, int operation) {
 }
 
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
-    YWindow(desktop),
+    YDndWindow(desktop),
     fManager(manager),
     fCursor(delta < 0 ? vertical ? YWMApp::scrollUpPointer
                                  : YWMApp::scrollLeftPointer
@@ -3335,6 +3335,7 @@ EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
     setPointer(YWMApp::leftPointer);
     setGeometry();
     setTitle("IceEdgeSwitch");
+    setDND(true);
     show();
 }
 
@@ -3359,6 +3360,16 @@ void EdgeSwitch::handleCrossing(const XCrossingEvent &crossing) {
             fEdgeSwitchTimer = null;
             setPointer(YWMApp::leftPointer);
         }
+    }
+}
+
+void EdgeSwitch::handleDNDEnter() {
+    fEdgeSwitchTimer->setTimer(edgeSwitchDelay, this, true);
+}
+
+void EdgeSwitch::handleDNDLeave() {
+    if (fEdgeSwitchTimer && fEdgeSwitchTimer->getTimerListener() == this) {
+        fEdgeSwitchTimer = null;
     }
 }
 

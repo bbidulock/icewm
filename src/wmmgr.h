@@ -18,13 +18,15 @@ class SwitchWindow;
 class DockApp;
 class IApp;
 
-class EdgeSwitch: public YWindow, public YTimerListener {
+class EdgeSwitch: public YDndWindow, public YTimerListener {
 public:
     EdgeSwitch(YWindowManager *manager, int delta, bool vertical);
     virtual ~EdgeSwitch();
 
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual bool handleTimer(YTimer *t);
+    virtual void handleDNDEnter();
+    virtual void handleDNDLeave();
     void setGeometry();
 private:
     YWindowManager *fManager;
