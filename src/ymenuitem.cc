@@ -70,7 +70,7 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
     top = bottom = pad = 0;
 
     if (getName() != null || getSubmenu()) {
-        int fontHeight = max(16, int(menuFont->height()) + 1);
+        int fontHeight = max(16, int(menuFont ? menuFont->height() : 0) + 1);
         int ih = max(fontHeight, int(YIcon::menuSize()));
 
         if (wmLook == lookWarp4 || wmLook == lookWin95) {
@@ -108,12 +108,12 @@ int YMenuItem::getIconWidth() const {
 
 int YMenuItem::getNameWidth() const {
     mstring name = getName();
-    return name != null ? menuFont->textWidth(name) : 0;
+    return name != null && menuFont ? menuFont->textWidth(name) : 0;
 }
 
 int YMenuItem::getParamWidth() const {
     mstring param = getParam();
-    return  param != null ? menuFont->textWidth(param) : 0;
+    return  param != null && menuFont ? menuFont->textWidth(param) : 0;
 }
 
 // vim: set sw=4 ts=4 et:

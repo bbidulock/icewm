@@ -65,10 +65,17 @@ public:
 
     bool operator==(null_ref &) const { return base == nullptr; }
     bool operator!=(null_ref &) const { return base != nullptr; }
+    operator bool() const { return base != nullptr; }
 
     YFontBase* operator->() const { return base; }
+    YFontBase* operator*() const { return base; }
 
 private:
+    operator int() const = delete;
+    operator void*() const = delete;
+
+    typedef YFontBase* (*fontloader)(const char* name);
+    void loadFont(fontloader loader, const char* name);
     YFontBase* base;
 };
 

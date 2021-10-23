@@ -84,24 +84,25 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
     }
     else if (fText != null) {
         YFont font(getFont());
+        if (font) {
+            int const w(font->textWidth(fText));
+            int const p((width() + 1 - w) / 2);
+            int yp((height() - font->height()) / 2
+                   + font->ascent() + d);
 
-        int const w(font->textWidth(fText));
-        int const p((width() + 1 - w) / 2);
-        int yp((height() - font->height()) / 2
-               + font->ascent() + d);
-
-        g.setFont(font);
-        g.setColor(getColor());
-        if (!fEnabled) {
-            g.setColor(YColor::white);
-            g.drawChars(fText, d + p + 1, yp + 1);
-            g.setColor(YColor::white->darker().darker());
-            g.drawChars(fText, d + p, yp);
-        } else {
-            g.drawChars(fText, d + p, yp);
+            g.setFont(font);
+            g.setColor(getColor());
+            if (!fEnabled) {
+                g.setColor(YColor::white);
+                g.drawChars(fText, d + p + 1, yp + 1);
+                g.setColor(YColor::white->darker().darker());
+                g.drawChars(fText, d + p, yp);
+            } else {
+                g.drawChars(fText, d + p, yp);
+            }
+            if (fHotCharPos >= 0)
+                g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
         }
-        if (fHotCharPos >= 0)
-            g.drawCharUnderline(d + p, yp, fText, fHotCharPos);
     }
 }
 
@@ -347,12 +348,14 @@ YFont YButton::getNormalFont() {
 }
 
 YDimension YButton::getTextSize() {
+    YDimension dim(1, 1);
     if (fText != null) {
         YFont font(getActiveFont());
-        return YDimension(font->textWidth(fText), font->height());
-    } else {
-        return YDimension(1, 1);
+        if (font) {
+            dim = YDimension(font->textWidth(fText), font->height());
+        }
     }
+    return dim;
 }
 
 void YButton::updateSize() {

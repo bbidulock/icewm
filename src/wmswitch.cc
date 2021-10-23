@@ -370,7 +370,7 @@ void SwitchWindow::resize(int xiscreen, bool reposition) {
         : (m_verticalStyle ? (int) dw * 2/5 : (int) dw * 3/5);
 
     int tWidth = 0;
-    if (quickSwitchMaxWidth) {
+    if (quickSwitchMaxWidth && switchFont) {
         int space = (int) switchFont->textWidth(" ");   /* make entries one space character wider */
         int zCount = zItems->getCount();
         for (int i = 0; i < zCount; i++) {
@@ -380,7 +380,7 @@ void SwitchWindow::resize(int xiscreen, bool reposition) {
                 tWidth = oWidth;
         }
     } else {
-        tWidth = cTitle != null ? switchFont->textWidth(cTitle) : 0;
+        tWidth = cTitle != null && switchFont ? switchFont->textWidth(cTitle) : 0;
     }
 
     if (m_verticalStyle || !quickSwitchAllIcons)
@@ -389,7 +389,7 @@ void SwitchWindow::resize(int xiscreen, bool reposition) {
         aWidth = tWidth;
 
     int w = aWidth;
-    int h = switchFont->height();
+    int h = switchFont ? switchFont->height() : 1;
     int const mWidth(dw * 6/7);
     const int vMargins = quickSwitchVMargin*2;
 
@@ -510,10 +510,12 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
         }
 
         g.setColor(switchFg);
-        g.setFont(switchFont);
+        if (switchFont) {
+            g.setFont(switchFont);
+        }
 
         mstring cTitle = zItems->getTitle(zItems->getActiveItem());
-        if (cTitle != null) {
+        if (cTitle != null && switchFont) {
             const int x = max((width() - tOfs -
                                switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs;
             const int y(quickSwitchAllIcons
@@ -645,7 +647,9 @@ void SwitchWindow::paintVertical(Graphics &g) {
 
         int contentY = quickSwitchVMargin;
 
-        g.setFont(switchFont);
+        if (switchFont) {
+            g.setFont(switchFont);
+        }
         g.setColor(switchFg);
         for (int i = 0, zCount = zItems->getCount(); i < zCount; i++) {
             if (contentY + frameHght > (int) height())

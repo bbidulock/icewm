@@ -511,7 +511,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     if (str != null) {
         YFont font = getFont();
         if (font != null) {
-                g.setColor(fg);
+            g.setColor(fg);
             g.setFont(font);
 
             int iconSize = 0;

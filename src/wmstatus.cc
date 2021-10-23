@@ -89,13 +89,14 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
         else
             g.fillRect(x, y, w, h);
     }
-    g.setColor(statusFg);
-    g.setFont(statusFont);
-
-    mstring status(getStatus());
-    g.drawChars(status,
-                width() / 2 - statusFont->textWidth(status) / 2,
-                height() - statusFont->descent() - 2);
+    if (statusFont) {
+        mstring status(getStatus());
+        g.setFont(statusFont);
+        g.setColor(statusFg);
+        g.drawChars(status,
+                    width() / 2 - statusFont->textWidth(status) / 2,
+                    height() - statusFont->descent() - 2);
+    }
 }
 
 void YWindowManagerStatus::begin() {

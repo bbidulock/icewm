@@ -65,7 +65,7 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
         g.fillRect(0, 0, width(), height());
     }
 
-    if (fLabel != null) {
+    if (fLabel != null && labelFont) {
         int y = 1 + labelFont->ascent();
         int x = 1;
         int h = labelFont->height();
@@ -87,7 +87,7 @@ void YLabel::setText(const char* label) {
 }
 
 void YLabel::autoSize() {
-    int h = labelFont->height();
+    int h = labelFont ? labelFont->height() : 8;
     int w = 0;
     if (fLabel != null) {
         int w1;
@@ -95,7 +95,7 @@ void YLabel::autoSize() {
         int n = 0;
 
         for (s = fLabel; s.splitall('\n', &s, &r); s = r) {
-            w1 = labelFont->textWidth(s);
+            w1 = labelFont ? labelFont->textWidth(s) : 16;
             if (w1 > w)
                 w = w1;
             n++;

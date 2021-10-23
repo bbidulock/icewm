@@ -714,15 +714,16 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         }
         if (label[0] != 0) {
             YFont font = getFont();
+            if (font) {
+                int wx = (w - font->textWidth(label)) / 2 + x;
+                int wy = (h - font->height()) / 2 + font->ascent() + y;
 
-            int wx = (w - font->textWidth(label)) / 2 + x;
-            int wy = (h - font->height()) / 2 + font->ascent() + y;
-
-            g.setFont(font);
-            g.setColor(colors[0]);
-            g.drawChars(label, 0, strlen(label), wx+1, wy+1);
-            g.setColor(colors[3]);
-            g.drawChars(label, 0, strlen(label), wx, wy);
+                g.setFont(font);
+                g.setColor(colors[0]);
+                g.drawChars(label, 0, strlen(label), wx+1, wy+1);
+                g.setColor(colors[3]);
+                g.drawChars(label, 0, strlen(label), wx, wy);
+            }
         }
         if (surface.gradient != null) {
             g.maxOpacity();

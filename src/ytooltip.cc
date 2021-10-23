@@ -43,7 +43,7 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
     g.fillRect(0, 0, width(), height());
     g.setColor(YColor::black);
     g.drawRect(0, 0, width() - 1, height() - 1);
-    if (fText != null) {
+    if (fText != null && toolTipFont) {
         int y = toolTipFont->ascent() + TTYMargin;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
@@ -53,8 +53,10 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
 
 void YToolTipWindow::setText(const mstring& tip) {
     fText = tip;
-    YDimension size(toolTipFont->multilineAlloc(fText));
-    setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
+    if (toolTipFont) {
+        YDimension size(toolTipFont->multilineAlloc(fText));
+        setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
+    }
 }
 
 void YToolTip::setText(const mstring& tip) {

@@ -250,9 +250,10 @@ void YActionButton::configure(const YRect2& r) {
 }
 
 YDimension YActionButton::getTextSize() {
+    YFont font(getActiveFont());
     return YDimension(
-            max(72, getActiveFont()->textWidth(getText()) + 12),
-            max(18, getActiveFont()->height()));
+            max(72, font ? font->textWidth(getText()) + 12 : 0),
+            max(18, font ? font->height() : 0));
 }
 
 // vim: set sw=4 ts=4 et:

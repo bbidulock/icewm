@@ -151,7 +151,7 @@ int YMenu::onCascadeButton(int selItem, int x, int /*y*/, bool /*checkPopup*/) {
             return 0;
 #endif
 
-        unsigned fontHeight = menuFont->height() + 1;
+        unsigned fontHeight = (menuFont ? menuFont->height() : 0) + 1;
         unsigned h = fontHeight;
 
         if (getItem(selItem)->getIcon() != null &&
@@ -385,7 +385,8 @@ void YMenu::handleButton(const XButtonEvent &button) {
         if (button.type == ButtonPress && itemCount() > 0) {
             if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
                 const int itemHeight = height() / itemCount();
-                const int stepSize = max(menuFont->height(), itemHeight);
+                const int fontHeight = menuFont ? menuFont->height() : 0;
+                const int stepSize = max(fontHeight, itemHeight);
                 hideSubmenu();
                 setPosition(x(), clamp(y() - (int)(button.state & ShiftMask ?
                                                    3 * stepSize : stepSize),
@@ -402,7 +403,8 @@ void YMenu::handleButton(const XButtonEvent &button) {
         if (button.type == ButtonPress && itemCount() > 0) {
             if (inrange(button.x_root, x(), x() + int(width()) - 1)) {
                 const int itemHeight = height() / itemCount();
-                const int stepSize = max(menuFont->height(), itemHeight);
+                const int fontHeight = menuFont ? menuFont->height() : 0;
+                const int stepSize = max(fontHeight, itemHeight);
                 hideSubmenu();
                 setPosition(x(), clamp(y() + (int)(button.state & ShiftMask ?
                                                    3 * stepSize : stepSize),
@@ -1002,8 +1004,8 @@ void YMenu::drawSeparator(Graphics &g, int x, int y, unsigned w) {
 
 void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const int r,
                       const int minY, const int maxY, bool draw) {
-    int const fontHeight(menuFont->height() + 1);
-    int const fontBaseLine(menuFont->ascent());
+    int const fontHeight((menuFont ? menuFont->height() : 0) + 1);
+    int const fontBaseLine(menuFont ? menuFont->ascent() : 1);
 
     YMenuItem *mitem = getItem(i);
     mstring name = mitem->getName();
@@ -1089,7 +1091,9 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t, const 
                            : menuItemFg
                            : disabledMenuItemFg);
                 g.setColor(fg);
-                g.setFont(menuFont);
+                if (menuFont) {
+                    g.setFont(menuFont);
+                }
 
                 int delta = active;
                 if (wmLook == lookMotif || wmLook == lookGtk ||
