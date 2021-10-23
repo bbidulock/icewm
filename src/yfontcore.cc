@@ -2,9 +2,6 @@
 
 #ifdef CONFIG_COREFONTS
 
-#include "ypaint.h"
-#include "sysdep.h"
-
 #include "intl.h"
 #include "yxapp.h"
 
@@ -19,7 +16,7 @@ public:
     YCoreFont(char const * name);
     virtual ~YCoreFont();
 
-    virtual bool valid() const { return (NULL != fFont); }
+    virtual bool valid() const { return fFont != nullptr; }
     virtual int descent() const { return fFont->max_bounds.descent; }
     virtual int ascent() const { return fFont->max_bounds.ascent; }
     virtual int textWidth(mstring s) const;
@@ -38,7 +35,7 @@ public:
     YFontSet(char const * name);
     virtual ~YFontSet();
 
-    virtual bool valid() const { return (None != fFontSet); }
+    virtual bool valid() const { return fFontSet != nullptr; }
     virtual int descent() const { return fDescent; }
     virtual int ascent() const { return fAscent; }
     virtual int textWidth(mstring s) const;
@@ -67,20 +64,18 @@ static char *getNameElement(const char *pattern, unsigned const element) {
 /******************************************************************************/
 
 YCoreFont::YCoreFont(char const * name) {
-    if (NULL == (fFont = XLoadQueryFont(xapp->display(), name))) {
+    fFont = XLoadQueryFont(xapp->display(), name);
+    if (fFont == nullptr) {
         if (testOnce(name, __LINE__))
             warn(_("Could not load font \"%s\"."), name);
-
-        if (NULL == (fFont = XLoadQueryFont(xapp->display(), "fixed")))
-            warn(_("Loading of fallback font \"%s\" failed."), "fixed");
     }
 }
 
 YCoreFont::~YCoreFont() {
-    if (fFont != 0) {
-        if (xapp != 0)
+    if (fFont) {
+        if (xapp)
             XFreeFont(xapp->display(), fFont);
-        fFont = 0;
+        fFont = nullptr;
     }
 }
 
@@ -111,16 +106,10 @@ YFontSet::YFontSet(char const * name):
 
     fFontSet = getFontSetWithGuess(name, &missing, &nMissing, &defString);
 
-    if (None == fFontSet) {
+    if (fFontSet == nullptr) {
         if (testOnce(name, __LINE__))
             warn(_("Could not load fontset \"%s\"."), name);
         if (nMissing) XFreeStringList(missing);
-
-        fFontSet = XCreateFontSet(xapp->display(), "fixed",
-                                  &missing, &nMissing, &defString);
-
-        if (None == fFontSet)
-            warn(_("Loading of fallback font \"%s\" failed."), "fixed");
     }
 
     if (fFontSet) {
@@ -134,7 +123,7 @@ YFontSet::YFontSet(char const * name):
 
         XFontSetExtents * extents(XExtentsOfFontSet(fFontSet));
 
-        if (NULL != extents) {
+        if (extents) {
             fAscent = -extents->max_logical_extent.y;
             fDescent = extents->max_logical_extent.height - fAscent;
         }
@@ -142,10 +131,10 @@ YFontSet::YFontSet(char const * name):
 }
 
 YFontSet::~YFontSet() {
-    if (NULL != fFontSet) {
-        if (xapp != 0)
+    if (fFontSet) {
+        if (xapp)
             XFreeFontSet(xapp->display(), fFontSet);
-        fFontSet = 0;
+        fFontSet = nullptr;
     }
 }
 
@@ -169,17 +158,17 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     XFontSet fontset(XCreateFontSet(xapp->display(), pattern,
                                     missing, nMissing, defString));
 
-    if (None != fontset && !*nMissing) // --------------- got an exact match ---
+    if (fontset && !*nMissing) // --------------- got an exact match ---
         return fontset;
 
     if (*nMissing) XFreeStringList(*missing);
 
-    if (None == fontset) { // --- get a fallback fontset for pattern analyis ---
+    if (fontset == nullptr) { // --- get a fallback fontset for pattern analyis ---
         fontset = XCreateFontSet(xapp->display(), pattern,
                                  missing, nMissing, defString);
     }
 
-    if (None != fontset) { // ----------------------------- get default XLFD ---
+    if (fontset) { // ----------------------------- get default XLFD ---
         char ** fontnames;
         XFontStruct ** fontstructs;
         XFontsOfFontSet(fontset, &fontstructs, &fontnames);
@@ -222,6 +211,7 @@ YFontBase* getCoreFont(const char *name) {
         if (font->valid())
             return font;
         msg("failed to load fontset '%s'", name);
+        delete font;
     }
 #endif
 
@@ -229,9 +219,14 @@ YFontBase* getCoreFont(const char *name) {
         MSG(("CoreFont: %s", name));
         if (font->valid())
             return font;
+        delete font;
     }
     msg("failed to load font '%s'", name);
     return nullptr;
+}
+
+YFontBase* getCoreDefault(const char* name) {
+    return getCoreFont("10x20");
 }
 
 #endif

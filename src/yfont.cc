@@ -1,94 +1,75 @@
 #include "config.h"
 
 #include "ypaint.h"
-#include "base.h"
-#include "default.h"
 #include "yprefs.h"
-#include "yfontbase.h"
 #include "yfontcache.h"
 
 #include <string.h>
 #include "ytrace.h"
 
+#ifdef CONFIG_XFREETYPE
 extern YFontBase* getXftFont(const char* name);
 extern YFontBase* getXftFontXlfd(const char* name);
-extern YFontBase* getCoreFont(const char*);
+extern YFontBase* getXftDefault(const char* name);
+#endif
+#ifdef CONFIG_COREFONTS
+extern YFontBase* getCoreFont(const char* name);
+extern YFontBase* getCoreDefault(const char* name);
+#endif
 
 YFontCache fontCache;
 
-YFont YFont::operator=(YFontName& fontName) {
-#if defined(CONFIG_XFREETYPE) && defined(CONFIG_COREFONTS)
-    if (fontPreferFreetype) {
-        if (fontName.haveXft()) {
-            base = fontCache.lookup(fontName.xftName());
-            if (base == nullptr) {
-                base = getXftFont(fontName.xftName());
-                if (base) {
-                    YTraceFont trace(fontName.xftName());
-                    fontCache.store(fontName.xftName(), base);
-                }
-            }
-        }
-        if (base == nullptr && fontName.haveCore()) {
-            base = fontCache.lookup(fontName.coreName());
-            if (base == nullptr) {
-                base = getXftFontXlfd(fontName.coreName());
-                if (base) {
-                    YTraceFont trace(fontName.coreName());
-                    fontCache.store(fontName.coreName(), base);
-                }
-            }
+void YFont::loadFont(fontloader loader, const char* name) {
+    base = fontCache.lookup(name);
+    if (base == nullptr) {
+        base = loader(name);
+        if (base) {
+            YTraceFont trace(name);
+            fontCache.store(name, base);
         }
     }
-    if (base == nullptr && fontName.haveCore()) {
-        base = fontCache.lookup(fontName.coreName());
-        if (base == nullptr) {
-            base = getCoreFont(fontName.coreName());
-            if (base) {
-                YTraceFont trace(fontName.coreName());
-                fontCache.store(fontName.coreName(), base);
-            }
-        }
-    }
+}
 
-#elif defined(CONFIG_XFREETYPE)
-    if (fontName.haveXft()) {
-        base = fontCache.lookup(fontName.xftName());
-        if (base == nullptr) {
-            base = getXftFont(fontName.xftName());
-            if (base) {
-                YTraceFont trace(fontName.xftName());
-                fontCache.store(fontName.xftName(), base);
-            }
-        }
-    }
-    if (base == nullptr && fontName.haveCore()) {
-        base = fontCache.lookup(fontName.coreName());
-        if (base == nullptr) {
-            base = getXftFontXlfd(fontName.coreName());
-            if (base) {
-                YTraceFont trace(fontName.coreName());
-                fontCache.store(fontName.coreName(), base);
-            }
-        }
-    }
+YFont YFont::operator=(YFontName& name) {
+    base = nullptr;
 
-#elif defined(CONFIG_COREFONTS)
-    if (fontName.haveCore()) {
-        base = fontCache.lookup(fontName.coreName());
-        if (base == nullptr) {
-            base = getCoreFont(fontName.coreName());
-            if (base) {
-                YTraceFont trace(fontName.coreName());
-                fontCache.store(fontName.coreName(), base);
+    for (bool tf : { true, false }) {
+#ifdef CONFIG_XFREETYPE
+        if (tf == fontPreferFreetype) {
+            if (base == nullptr && name.haveXft()) {
+                loadFont(getXftFont, name.xftName());
+            }
+            if (base == nullptr && name.haveCore()) {
+                loadFont(getXftFontXlfd, name.coreName());
             }
         }
+#endif
+#ifdef CONFIG_COREFONTS
+        if (tf) {
+            if (base == nullptr && name.haveCore()) {
+                loadFont(getCoreFont, name.coreName());
+            }
+        }
+#endif
     }
+#ifdef CONFIG_XFREETYPE
+    if (base == nullptr) {
+        loadFont(getXftDefault,
+                 name.haveXft() ? name.xftName() :
+                 name.haveCore() ? name.coreName() : "");
+    }
+#endif
+#ifdef CONFIG_COREFONTS
+    if (base == nullptr) {
+        loadFont(getCoreDefault, name.haveCore() ? name.coreName() : "");
+    }
+#endif
 
-#else
+#ifndef CONFIG_XFREETYPE
+#ifndef CONFIG_COREFONTS
     if (ONCE)
         warn("Neither XFT fonts nor X11 core fonts are configured!");
-
+#endif
 #endif
 
     return *this;
