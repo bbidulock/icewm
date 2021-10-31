@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-10-14 12:12+0000\n"
+"PO-Revision-Date: 2021-10-31 22:11+0000\n"
 "Last-Translator: Taras Panchenko <top39@ukr.net>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/uk/>\n"
@@ -1348,7 +1348,7 @@ msgstr "Не вдається отримати геометрію вікна 0x%
 #: src/icesh.cc:3199
 #, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Недійсний Xinerama: `%s'."
+msgstr "Неспроможність Xinerama: `%s'."
 
 #: src/icesh.cc:3331 src/icesh.cc:3381
 #, c-format
@@ -1376,7 +1376,7 @@ msgstr ""
 #: src/icesh.cc:3483
 #, c-format
 msgid "Unexpected: `%s'."
-msgstr "Неочікуване ключове слово меню: '%s'."
+msgstr "Не передбачено: `%s'."
 
 #: src/icesh.cc:3512
 msgid "No windows found."
@@ -2170,7 +2170,7 @@ msgstr ""
 "  -s, --splash=IMAGE  Швидко показувати IMAGE під час запуску.\n"
 "  --postpreferences   Друк налаштувань після завершення обробки.\n"
 "  --rewrite-preferences  Оновити існуючий файл налаштувань.\n"
-"  --trace=conf,icon   Трасування шляхів, що використовуються для "
+"  --trace=conf,icon   Відстеження шляхів, що використовуються для "
 "завантаження конфігурації.\n"
 
 #: src/wmapp.cc:1541
@@ -2375,7 +2375,7 @@ msgstr "Помилка у ключі %s '%s'"
 #: src/wmmenu.cc:222
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Невідоме ключове слово меню: '%s'"
+msgstr "Непередбачене ключове слово меню: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2631,7 +2631,7 @@ msgstr "%s: не вдалося вибрати"
 #: src/ycolor.cc:229 src/ycolor.cc:240
 #, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Не можу завантажити шрифт \"%s\""
+msgstr "Не вдалося розібрати колір \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2757,7 +2757,7 @@ msgstr "Змінні $USER та $LOGNAME не визначені?"
 #: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Не вдалося проаналізувати URL %s."
+msgstr "Не вдалося розібрати URL \"%s\"."
 
 #: src/yurl.cc:161
 #, c-format
