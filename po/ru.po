@@ -15,35 +15,34 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2019-06-15 19:49+0000\n"
-"Last-Translator: Olga Smirnova <mistresssilvara@hotmail.com>\n"
-"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ru/>\n"
+"PO-Revision-Date: 2021-10-31 22:11+0000\n"
+"Last-Translator: Taras Panchenko <top39@ukr.net>\n"
+"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.8.1\n"
 "X-Language: ru_RU\n"
 "X-Source-Language: C\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Не удается открыть OSS устройство %s"
+msgstr "Не удается открыть APM устройство %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Не удается запустить ioctl для устройства APM %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Устройство APM %s (%d) использует неизвестный формат."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -68,7 +67,7 @@ msgstr " - Полный"
 #: src/aapm.cc:943
 #, c-format
 msgid "power:\t%s"
-msgstr "power:\t%s"
+msgstr "мощность:\t%s"
 
 #: src/aclock.cc:179
 msgid "CLOCK"
@@ -170,7 +169,7 @@ msgstr "_Разделить"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "Клавиатура"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -313,16 +312,12 @@ msgstr ""
 "  Время работы:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "отсутствует имя иконка"
+msgstr "разъединено"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Скрутить вниз"
+msgstr "вниз"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -1056,37 +1051,31 @@ msgstr "Содержание"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "Поиск..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+F"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "Найти следующее"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Обозреватель Web"
+msgstr "Открыть в Web-браузере"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "Перезагрузить"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1105,10 +1094,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1127,10 +1114,8 @@ msgid "Manual"
 msgstr "Руководство"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -1345,25 +1330,19 @@ msgstr "Опция системного лотка IceWM"
 
 #: src/icesh.cc:1924
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Gravity-маркеры"
 
 #: src/icesh.cc:1925
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Сохранить Изменения"
+msgstr "Функции Motif"
 
 #: src/icesh.cc:1926
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Сохранить Изменения"
+msgstr "Украшения Motif"
 
 #: src/icesh.cc:1927
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "Состояние окна GNOME"
+msgstr "Состояние окна EWMH"
 
 #: src/icesh.cc:2009 src/icesh.cc:2082
 #, c-format
@@ -1371,21 +1350,19 @@ msgid "workspace #%d: `%s'\n"
 msgstr "рабочее место #%d: `%s'\n"
 
 #: src/icesh.cc:2317 src/icesh.cc:3749 src/icesh.cc:4222
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Неправильный аргумент: `%s'"
+msgstr "Неправильное состояние: `%s'."
 
 #: src/icesh.cc:3174
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Невозможно получить геометрию окна 0x%lx"
 
 #: src/icesh.cc:3199
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Неправильный аргумент: `%s'"
+msgstr "Невозможность Xinerama: `%s'."
 
 #: src/icesh.cc:3331 src/icesh.cc:3381
 #, c-format
@@ -1407,18 +1384,17 @@ msgstr "Неправильное выражение: `%s'"
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Не могу открыть Display %s. X-сервер должен быть загружен и \n"
-"переменная $DISPLAY установлена."
+"Не могу открыть дисплей: %s. X-сервер должен быть загружен и переменная $"
+"DISPLAY установлена."
 
 #: src/icesh.cc:3483
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Непредвиденное ключевое слово меню: %s"
+msgstr "Не предусмотрено: `%s'."
 
 #: src/icesh.cc:3512
 msgid "No windows found."
-msgstr ""
+msgstr "Окна не найдены."
 
 #: src/icesh.cc:3528
 msgid "No actions specified."
@@ -1430,16 +1406,14 @@ msgid "Invalid window identifier: `%s'"
 msgstr "Неверный идентификатор окна: `%s'"
 
 #: src/icesh.cc:3683
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Неправильный аргумент: `%s'"
+msgstr "Неверный PID: `%s'"
 
 #: src/icesh.cc:3719
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'"
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Неправильный аргумент: `%s'"
+msgstr "Неправильный слой: `%s'."
 
 #: src/icesh.cc:4530
 #, c-format
@@ -1452,17 +1426,6 @@ msgid "Socket error: %d"
 msgstr "Ошибка socket-а: %d"
 
 #: src/icesm.cc:69
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -1482,9 +1445,13 @@ msgstr ""
 "  -t, --theme=FILE    Загрузка темы IceWM из файла FILE.\n"
 "\n"
 "  -d, --display=NAME  Подключение к серверу X по имени NAME.\n"
+"  -a, --alpha         Использовать 32-битное представление прозрачности. \n"
 "  --sync              Синхронизация обмена данными с сервером X11.\n"
 "\n"
 "  -i, --icewm=FILE    Использовать FILE в качестве менеджера окон IceWM.\n"
+"  -o, --output=FILE   Перенаправить вывод в FILE.\n"
+"\n"
+"  -b, --nobg          Не запускать icewmbg.\n"
 "  -n, --notray        Не запускать icewmtray.\n"
 "  -s, --sound         Также запустить icesound.\n"
 
@@ -1497,6 +1464,13 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Параметры отладки:\n"
+"  -v, --valgrind      Позволяет \"/usr/bin/valgrind\" запускать icewm.\n"
+"                      Тщательно исследует выполнение icewm.\n"
+"  -g, --catchsegv     Позволяет \"/usr/bin/catchsegv\" запускать icewm.\n"
+"                      Исполняет обратную трассировку, если icewm выдаст "
+"segfaults.\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1504,10 +1478,9 @@ msgid "Unknown option '%s'"
 msgstr "Неизвестная опция: '%s'"
 
 #: src/icesm.cc:462 src/icesm.cc:622
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Перезапуск"
+msgstr "перезапустить %s."
 
 #: src/icesm.cc:468
 #, c-format
@@ -1520,13 +1493,6 @@ msgid "%s was killed by signal %d."
 msgstr "%s был уничтожен через сигнал %d."
 
 #: src/icesm.cc:513
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -1540,6 +1506,7 @@ msgstr ""
 "\n"
 "\t1: Перезапустить IceWM?\n"
 "\t2: Прервать этот сеанс?\n"
+"\t3: Запустить терминал?\n"
 
 #: src/icesm.cc:519
 msgid "IceWM crash response"
@@ -1681,9 +1648,9 @@ msgstr ""
 "несколько\n"
 "                         значений: %s, разделенных запятыми.\n"
 "\n"
-" -D, --device=УСТР-ВО     Только для совместимости: устройство по "
-"умолчанию. \n"
-"                         Вместо него используйте параметры -A или -O.\n"
+" -D, --device=УСТР-ВО     Только для совместимости: устройство по умолчанию. "
+"\n"
+"                         Вместо него используйте параметры -O или -A.\n"
 "\n"
 " -O, --oss=УСТ-ВО        Устройство OSS (по умолчанию: \"%s\").\n"
 "\n"
@@ -1976,15 +1943,15 @@ msgstr "Язык:"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "Двойной буфер"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
-msgstr ""
+msgstr "Альфа-смешение"
 
 #: src/wmabout.cc:58
 msgid "Renderer:"
-msgstr ""
+msgstr "Рендерер:"
 
 #: src/wmabout.cc:64
 msgid "icewm - About"
@@ -1993,8 +1960,7 @@ msgstr "Об IceWM"
 #
 #: src/wmapp.cc:83
 msgid "A window manager is already running, use --replace to replace it"
-msgstr ""
-"Оконный менеджер уже запущен; чтобы заменить его, используйте --replace."
+msgstr "Оконный менеджер уже запущен; чтобы заменить его, используйте --replace"
 
 #: src/wmapp.cc:101
 #, c-format
@@ -2167,13 +2133,15 @@ msgstr ""
 
 #: src/wmapp.cc:894
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Подтвердите перезагрузку как терминал"
 
 #: src/wmapp.cc:895
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Отменить управление всеми приложениями\n"
+"и перезапустить как терминал. Продолжить?"
 
 #: src/wmapp.cc:1196 src/yxapp.cc:1023
 msgid "<none>"
@@ -2197,12 +2165,6 @@ msgstr ""
 "окон.\n"
 
 #: src/wmapp.cc:1531
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  --postpreferences   Print preferences after all processing.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2214,9 +2176,14 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
+"  -a, --alpha         Использовать 32-битное представление прозрачности.\n"
 "  -c, --config=FILE   Загрузка настроек из файла FILE.\n"
 "  -t, --theme=FILE    Загрузка темы из файла FILE.\n"
+"  -s, --splash=IMAGE  Кратковременно показать файл IMAGE во время запуска.\n"
 "  --postpreferences   Вывод настроек после завершения обработки.\n"
+"  --rewrite-preferences  Перезаписать существующий файл настроек.\n"
+"  --trace=conf,icon   Отслеживание путей, используемых для загрузки "
+"конфигурации.\n"
 
 #: src/wmapp.cc:1541
 #, c-format
@@ -2336,6 +2303,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Клиент %s с PID %ld не отвечает.\n"
+"Вы хотите прервать работу клиента?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2418,10 +2387,9 @@ msgid "Error at %s '%s'"
 msgstr "Ошибка в %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Неизвестное ключевое слово '%s'"
+msgstr "Непредусмотренное ключевое слово меню: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2429,20 +2397,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Ошибка menuprog %s"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Ошибка menuprog %s"
+msgstr "Ошибка в menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Отсутствует аргумент имени файла для оператора"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Ошибка menuprog %s"
+msgstr "Ошибка в includeprog '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2465,11 +2431,11 @@ msgstr "%s не возвращает выходных данных"
 
 #: src/wmmgr.cc:3259
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Отсутствует программа setxkbmap"
 
 #: src/wmmgr.cc:3260
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Для переключения клавиатуры установите setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
@@ -2488,7 +2454,7 @@ msgstr "Сохранить Изменения"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Введите новое значение для %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2677,10 +2643,9 @@ msgid "%s: select failed"
 msgstr "%s: не удалось выбрать"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Не могу загрузить шрифт \"%s\"."
+msgstr "Не удалось разобрать цвет \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2690,7 +2655,7 @@ msgstr "Неизвестный символ %s в %s"
 #: src/yconfig.cc:128 src/yconfig.cc:139 src/yconfig.cc:151
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Неправильный аргумент %s для %s [%d,%d]"
+msgstr "Неправильный аргумент: %s для %s [%d,%d]"
 
 #: src/ycursor.cc:110
 #, c-format
@@ -2827,26 +2792,22 @@ msgstr ""
 "  --sync              Синхронизация команд X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Поддержка интерфейса %s не включена."
+msgstr "Поддержка изображений PNG не была включена"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Поддержка изображений JPEG не была включена"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Интерфейс %s не поддерживается."
+msgstr "Неподдерживаемый формат файла: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Не могу найти картинку %s"
+msgstr "Не удалось загрузить изображение \"%s\""
 
 #~ msgid ""
 #~ "\n"
