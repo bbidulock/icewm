@@ -135,6 +135,10 @@ private:
     lazy<YTimer> fRepaintTimer;
     lazy<WorkspaceIcons> paths;
     ArrayType fButtons;
+    WorkspaceButton* index(int ws) const {
+        extern bool rightToLeft;
+        return fButtons[rightToLeft ? count() - ws - 1 : ws];
+    }
     int count() const { return fButtons.getCount(); }
     IterType iterator() { return fButtons.iterator(); }
     WorkspaceButton* last() const { return fButtons[count()-1]; }

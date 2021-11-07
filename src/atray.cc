@@ -17,7 +17,7 @@
 #include "applet.h"
 #include "yprefs.h"
 #include "yxapp.h"
-#include "prefs.h"
+#include "default.h"
 #include "wmframe.h"
 #include "wmmgr.h"
 #include "wmwinlist.h"
@@ -336,42 +336,41 @@ void TrayPane::remove(TrayApp* tapp) {
     findRemove(fApps, tapp);
 }
 
-int TrayPane::getRequiredWidth() {
-    int tc = 0;
-
-    for (IterType a = fApps.iterator(); ++a; )
-        if (a->getShown()) tc++;
-
-    return (tc ? 4 + tc * (height() - 4) : 1);
+unsigned TrayPane::countShownApps() const {
+    unsigned count = 0;
+    for (TrayApp* a : fApps) {
+        if (a->getShown())
+            count++;
+    }
+    return count;
 }
 
 void TrayPane::relayoutNow() {
-    if (!fNeedRelayout)
+    if (!fNeedRelayout || height() == 1)
         return ;
 
     fNeedRelayout = false;
 
-    unsigned nw = getRequiredWidth();
+    const unsigned count = countShownApps();;
+    const unsigned nw = count ? 4 + count * (height() - 4) : 1;
     if (nw != width()) {
         MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
         setGeometry(YRect(x() + width() - nw, y(), nw, height()));
         fTaskBar->relayout();
     }
 
-    int x, y;
-    unsigned w, h;
-    int tc = 0;
+    unsigned h = height() - 4;
+    unsigned w = h;
+    int x = int(width() - 2 - count * w);
+    int y = 2;
 
-    for (IterType a = fApps.iterator(); ++a; )
-        if (a->getShown()) tc++;
-
-    w = h = height() - 4;
-    x = int(width()) - 2 - tc * w;
-    y = 2;
-
-    for (IterType f = fApps.iterator(); ++f; ) {
+    for (TrayApp* f : fApps) {
         if (f->getShown()) {
-            f->setGeometry(YRect(x, y, w, h));
+            YRect r(x, y, w, h);
+            if (rightToLeft) {
+                r.xx = nw - r.xx - r.ww - 1;
+            }
+            f->setGeometry(r);
             f->show();
             x += w;
         } else

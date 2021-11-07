@@ -3,7 +3,7 @@
 #include "atray.h"
 #include "applet.h"
 #include "yprefs.h"
-#include "prefs.h"
+#include "default.h"
 #include "wmapp.h"
 #include "wmmgr.h"
 #include "wmframe.h"
@@ -997,7 +997,7 @@ void TaskPane::relayoutNow(bool force) {
 
     int tc = 0;
 
-    for (IterTask task = fTasks.iterator(); ++task; ) {
+    for (TaskButton* task : fTasks) {
         if (task->getShown())
             tc++;
         else
@@ -1012,11 +1012,15 @@ void TaskPane::relayoutNow(bool force) {
     int x = 0;
     int lc = 0;
 
-    for (IterTask task = fTasks.iterator(); ++task; ) {
+    for (TaskButton* task : fTasks) {
         if (task->getShown()) {
             const int w1 = wid + (lc < rem);
             if (task != dragging()) {
-                task->setGeometry(YRect(x, 0, unsigned(w1), height()));
+                YRect r(x, 0, unsigned(w1), height());
+                if (rightToLeft) {
+                    r.xx = width() - r.xx - r.ww - 1;
+                }
+                task->setGeometry(r);
                 task->show();
             }
             x += w1;

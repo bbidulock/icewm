@@ -68,7 +68,7 @@ public:
     TrayApp *predecessor(TrayApp *tapp);
     TrayApp *successor(TrayApp *tapp);
     void remove(TrayApp* tapp);
-    int getRequiredWidth();
+    unsigned countShownApps() const;
 
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();

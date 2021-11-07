@@ -1,7 +1,8 @@
 #include "config.h"
 #include "aworkspaces.h"
 #include "workspaces.h"
-#include "prefs.h"
+#include "default.h"
+#include "yprefs.h"
 #include "yxapp.h"
 #include "wmframe.h"
 #include "wmmgr.h"
@@ -368,8 +369,9 @@ void WorkspacesPane::updateButtons() {
     MSG(("WorkspacesPane::udpateButtons(): updating %d -> %d",
          count(), int(workspaceCount)));
 
-    if (count() > workspaceCount)
-        fButtons.shrink(max<int>(1, workspaceCount));
+    while (workspaceCount < count() && 1 < count()) {
+        fButtons.remove(rightToLeft ? 0 : count() - 1);
+    }
 
     int width = extent() - fMoved;
     for (int i = count(), n = workspaceCount; i < n; ++i) {
@@ -391,7 +393,7 @@ void WorkspacesPane::updateButtons() {
 
 WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
     WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
-    fButtons += wk;
+    fButtons.insert(rightToLeft ? 0 : count(), wk);
     if (pagerShowPreview) {
         unsigned dw = desktop->width();
         unsigned dh = desktop->height();
@@ -444,14 +446,14 @@ void WorkspacesPane::label(WorkspaceButton* wk) {
 }
 
 void WorkspacesPane::relabel(int ws) {
-    label(fButtons[ws]);
+    label(index(ws));
     repositionButtons();
     paths = null;
 }
 
 void WorkspacesPane::setPressed(long ws, bool set) {
     if (inrange<long>(1+ws, 1, count())) {
-        WorkspaceButton* wk = fButtons[int(ws)];
+        WorkspaceButton* wk = index(ws);
         wk->setPressed(set);
         if (set) {
             fActive = int(ws);
@@ -720,9 +722,9 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
 
                 g.setFont(font);
                 g.setColor(colors[0]);
-                g.drawChars(label, 0, strlen(label), wx+1, wy+1);
+                g.drawString(wx+1, wy+1, label);
                 g.setColor(colors[3]);
-                g.drawChars(label, 0, strlen(label), wx, wy);
+                g.drawString(wx, wy, label);
             }
         }
         if (surface.gradient != null) {
