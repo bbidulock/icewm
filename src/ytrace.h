@@ -5,12 +5,7 @@ class YTrace {
 public:
     YTrace(const char* kind, const char* inst = nullptr, bool busy = true) :
         kind(kind), inst(inst), busy(busy),
-        have(kind && traces(kind))
-    {
-        if (busy && inst && have) {
-            show();
-        }
-    }
+        have(kind && traces(kind)) { }
     virtual ~YTrace() { }
 
     void done() {
@@ -45,7 +40,7 @@ public:
     }
 
 protected:
-    virtual void show() { show(busy, kind, inst); }
+    virtual void show() { if (have && inst) show(busy, kind, inst); }
     virtual void show(bool busy, const char* kind, const char* inst);
     const char* getKind() const { return kind; }
     const char* getInst() const { return inst; }
@@ -60,29 +55,31 @@ private:
 class YTraceIcon : public YTrace {
 public:
     YTraceIcon(const char* inst = nullptr, bool busy = true) :
-        YTrace("icon", inst, busy) { }
+        YTrace("icon", inst, busy) { show(); }
     ~YTraceIcon() { }
 };
 
 class YTraceConfig : public YTrace {
 public:
     YTraceConfig(const char* inst = nullptr, bool busy = true) :
-        YTrace("conf", inst, busy) { }
+        YTrace("conf", inst, busy) { show(); }
     ~YTraceConfig() { done(); }
 };
 
 class YTraceProg : public YTrace {
 public:
     YTraceProg(const char* inst = nullptr, bool busy = true) :
-        YTrace("prog", inst, busy) { }
+        YTrace("prog", inst, busy) { show(); }
     ~YTraceProg() { }
 };
 
 class YTraceFont : public YTrace {
+    class YFontBase* base;
 public:
-    YTraceFont(const char* inst = nullptr, bool busy = true) :
-        YTrace("font", inst, busy) { }
+    YTraceFont(const char* inst = nullptr, YFontBase* base = nullptr) :
+        YTrace("font", inst), base(base) { YTrace::show(); }
     ~YTraceFont() { }
+    void show(bool busy, const char* kind, const char* inst) override;
 };
 
 #endif
