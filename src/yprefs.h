@@ -2,6 +2,7 @@
 #define YPREFS_H
 
 #include "yconfig.h"
+#include "fontmacro.h"
 
 XIV(bool, dontRotateMenuPointer,                true)
 XIV(bool, fontPreferFreetype,                   true)
@@ -9,6 +10,7 @@ XIV(bool, menuMouseTracking,                    false)
 XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, showPopupsAbovePointer,               false)
 XIV(bool, showEllipsis,                         true)
+XIV(bool, rightToLeft,                          false)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,                            true)
 #endif
@@ -57,7 +59,7 @@ XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
 
 XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")
 XSV(const char *, clrToolTipText,               "rgb:00/00/00")
-XFV(const char *, toolTipFontName,              FONT(120), "sans-serif:size=12")
+XFV(const char *, toolTipFontName,              FONT(12,120), "sans-serif:size=12")
 
 #endif
 
