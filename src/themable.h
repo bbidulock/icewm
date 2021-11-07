@@ -1,6 +1,8 @@
 #ifndef THEAMABLE_H
 #define THEAMABLE_H
 
+#include "fontmacro.h"
+
 // themable preferences (themes can set only these)
 
 #if defined(CONFIG_I18N) || 1 // maybe not such a good idea
@@ -50,24 +52,23 @@ XSV(const char *, titleButtonsSupported,        "xmis")
 XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
 
-XFV(const char *, titleFontName,                FONT(120), "sans-serif:size=12")
-XFV(const char *, menuFontName,                 BOLDFONT(100), "sans-serif:size=10:bold")
-XFV(const char *, statusFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
-XFV(const char *, switchFontName,               BOLDTTFONT(120), "monospace:size=12:bold")
-XFV(const char *, normalButtonFontName,         FONT(120), "sans-serif:size=12")
-XFV(const char *, activeButtonFontName,         BOLDFONT(120), "sans-serif:size=12:bold")
-XFV(const char *, normalTaskBarFontName,        FONT(120), "sans-serif:size=12")
-XFV(const char *, activeTaskBarFontName,        BOLDFONT(120), "sans-serif:size=12:bold")
-XFV(const char *, toolButtonFontName,           FONT(120), "sans-serif:size=12")
-XFV(const char *, normalWorkspaceFontName,      FONT(120), "sans-serif:size=12")
-XFV(const char *, activeWorkspaceFontName,      FONT(120), "sans-serif:size=12")
-XFV(const char *, minimizedWindowFontName,      FONT(120), "sans-serif:size=12")
-XFV(const char *, listBoxFontName,              FONT(120), "sans-serif:size=12")
-XFV(const char *, labelFontName,                FONT(140), "sans-serif:size=12")
-XFV(const char *, clockFontName,                TTFONT(140), "monospace:size=12")
-XFV(const char *, tempFontName,                 TTFONT(140), "monospace:size=12")
-XFV(const char *, apmFontName,                  TTFONT(140), "monospace:size=12")
-XFV(const char *, inputFontName,                TTFONT(140), "monospace:size=12")
+XFV(const char *, titleFontName,                FONT(12,120), "sans-serif:size=12")
+XFV(const char *, menuFontName,                 BOLDFONT(10,100), "sans-serif:size=10:bold")
+XFV(const char *, statusFontName,               BOLDTTFONT(12,120), "monospace:size=12:bold")
+XFV(const char *, switchFontName,               BOLDTTFONT(12,120), "monospace:size=12:bold")
+XFV(const char *, normalButtonFontName,         FONT(12,120), "sans-serif:size=12")
+XFV(const char *, activeButtonFontName,         BOLDFONT(12,120), "sans-serif:size=12:bold")
+XFV(const char *, normalTaskBarFontName,        FONT(12,120), "sans-serif:size=12")
+XFV(const char *, activeTaskBarFontName,        BOLDFONT(12,120), "sans-serif:size=12:bold")
+XFV(const char *, toolButtonFontName,           FONT(12,120), "sans-serif:size=12")
+XFV(const char *, normalWorkspaceFontName,      FONT(12,120), "sans-serif:size=12")
+XFV(const char *, activeWorkspaceFontName,      FONT(12,120), "sans-serif:size=12")
+XFV(const char *, listBoxFontName,              FONT(12,120), "sans-serif:size=12")
+XFV(const char *, labelFontName,                FONT(14,140), "sans-serif:size=12")
+XFV(const char *, clockFontName,                TTFONT(14,140), "monospace:size=12")
+XFV(const char *, tempFontName,                 TTFONT(14,140), "monospace:size=12")
+XFV(const char *, apmFontName,                  TTFONT(14,140), "monospace:size=12")
+XFV(const char *, inputFontName,                TTFONT(14,140), "monospace:size=12")
 
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
@@ -80,10 +81,6 @@ XSV(const char *, clrActiveTitleBarText,        "rgb:FF/FF/FF")
 XSV(const char *, clrInactiveTitleBarText,      "rgb:00/00/00")
 XSV(const char *, clrActiveTitleBarShadow,      "")
 XSV(const char *, clrInactiveTitleBarShadow,    "")
-XSV(const char *, clrNormalMinimizedWindow,     "rgb:C0/C0/C0")
-XSV(const char *, clrNormalMinimizedWindowText, "rgb:00/00/00")
-XSV(const char *, clrActiveMinimizedWindow,     "rgb:E0/E0/E0")
-XSV(const char *, clrActiveMinimizedWindowText, "rgb:00/00/00")
 XSV(const char *, clrNormalMenu,                "rgb:C0/C0/C0")
 XSV(const char *, clrActiveMenuItem,            "rgb:A0/A0/A0")
 XSV(const char *, clrActiveMenuItemText,        "rgb:00/00/00")
@@ -215,7 +212,6 @@ cfoption icewm_themable_preferences[] = {
     OFV("ToolButtonFontName",                   &toolButtonFontName,            "Name of the tool button font (fallback: NormalButtonFontName)."),
     OFV("NormalWorkspaceFontName",              &normalWorkspaceFontName,       "Name of the normal workspace button font (fallback: NormalButtonFontName)."),
     OFV("ActiveWorkspaceFontName",              &activeWorkspaceFontName,       "Name of the active workspace button font (fallback: ActiveButtonFontName)."),
-    OFV("MinimizedWindowFontName",              &minimizedWindowFontName,       "Name of the mini-window font."),
     OFV("ListBoxFontName",                      &listBoxFontName,               "Name of the window list font."),
     OFV("ToolTipFontName",                      &toolTipFontName,               "Name of the tool tip font."),
     OFV("ClockFontName",                        &clockFontName,                 "Name of the task bar clock font."),
@@ -249,11 +245,6 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorActiveTitleBar",                  &clrActiveTitleBar,             "Background of the titlebar of active windows"),
     OSV("ColorActiveTitleBarText",              &clrActiveTitleBarText,         "Text color of the titlebar of active windows"),
     OSV("ColorActiveTitleBarShadow",            &clrActiveTitleBarShadow,       "Text shadow of the titlebar of active windows"),
-
-    OSV("ColorNormalMinimizedWindow",           &clrNormalMinimizedWindow,      "Background for mini icons of regular windows"),
-    OSV("ColorNormalMinimizedWindowText",       &clrNormalMinimizedWindowText,  "Text color for mini icons of regular windows"),
-    OSV("ColorActiveMinimizedWindow",           &clrActiveMinimizedWindow,      "Background for mini icons of active windows"),
-    OSV("ColorActiveMinimizedWindowText",       &clrActiveMinimizedWindowText,  "Text color for mini icons of active windows"),
 
     OSV("ColorNormalMenu",                      &clrNormalMenu,                 "Background of pop-up menus"),
     OSV("ColorNormalMenuItemText",              &clrNormalMenuItemText,         "Text color of regular menu items"),
