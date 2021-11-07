@@ -38,7 +38,7 @@ public:
 
 private:
     void getConverters();
-    iconv_t getConverter(char const *from, char const **& to);
+    iconv_t getConverter(char const* from, char const**& to);
     const char* getCodeset();
 
     iconv_t toUnicode;
@@ -99,7 +99,7 @@ void YConverter::getConverters() {
 
     // #warning "this is getting way too complicated"
 
-    char const * unicodeCharsets[] = {
+    char const* unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
         CONFIG_UNICODE_SET,
 #endif
@@ -179,12 +179,12 @@ YLocale::~YLocale() {
 }
 
 #ifdef CONFIG_I18N
-YLChar * YLocale::localeString(YUChar const *uStr, size_t uLen, size_t &lLen) {
+char* YLocale::localeString(wchar_t const* uStr, size_t uLen, size_t &lLen) {
     PRECONDITION(instance);
     if (uStr == nullptr)
         return nullptr;
 
-    YLChar* lStr(new YLChar[uLen + 1]);
+    char* lStr(new char[uLen + 1]);
 #ifdef __NetBSD__
     const
 #endif
@@ -203,20 +203,20 @@ YLChar * YLocale::localeString(YUChar const *uStr, size_t uLen, size_t &lLen) {
         }
     }
 
-    *((YLChar *) outbuf) = 0;
-    lLen = ((YLChar *) outbuf) - lStr;
+    *((char *) outbuf) = 0;
+    lLen = ((char *) outbuf) - lStr;
 
     return lStr;
 }
 
-YUChar *YLocale::unicodeString(const YLChar* lStr, size_t const lLen,
+wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
                                size_t& uLen)
 {
     PRECONDITION(instance);
     if (lStr == nullptr)
         return nullptr;
 
-    YUChar* uStr(new YUChar[lLen + 1]);
+    wchar_t* uStr(new wchar_t[lLen + 1]);
 #ifdef __NetBSD__
     const
 #endif
@@ -235,8 +235,8 @@ YUChar *YLocale::unicodeString(const YLChar* lStr, size_t const lLen,
         }
     }
 
-    *((YUChar *) outbuf) = 0;
-    uLen = ((YUChar *) outbuf) - uStr;
+    *((wchar_t *) outbuf) = 0;
+    uLen = ((wchar_t *) outbuf) - uStr;
 
     return uStr;
 }
@@ -268,7 +268,14 @@ void YLocale::getDirection() {
     using namespace ASCII;
     const char* loc = converter ? converter->localeName() : "C";
     if (loc && isLower(*loc) && isLower(loc[1]) && !isAlpha(loc[2])) {
-        const char rtls[][4] = { "ar", "fa", "he", "ps", "sd", "ur", };
+        const char rtls[][4] = {
+            "ar",   // arabic
+            "fa",   // farsi
+            "he",   // hebrew
+            "ps",   // pashto
+            "sd",   // sindhi
+            "ur",   // urdu
+        };
         for (auto rtl : rtls) {
             if (rtl[0] == loc[0] && rtl[1] == loc[1]) {
                 rightToLeft = true;

@@ -19,12 +19,23 @@ extern YFontBase* getCoreDefault(const char* name);
 
 YFontCache fontCache;
 
+void YTraceFont::show(bool busy, const char* kind, const char* inst) {
+    char detail[128];
+    if (base) {
+        snprintf(detail, sizeof detail, " ascent=%d,descent=%d",
+                 base->ascent(), base->descent());
+    } else {
+        *detail = '\0';
+    }
+    tlog("%s open: %s%s", kind, inst, detail);
+}
+
 void YFont::loadFont(fontloader loader, const char* name) {
     base = fontCache.lookup(name);
     if (base == nullptr) {
         base = loader(name);
         if (base) {
-            YTraceFont trace(name);
+            YTraceFont trace(name, base);
             fontCache.store(name, base);
         }
     }
@@ -75,10 +86,6 @@ YFont YFont::operator=(YFontName& name) {
     return *this;
 }
 
-int YFontBase::textWidth(char const * str) const {
-    return textWidth(str, strlen(str));
-}
-
 int YFontBase::multilineTabPos(const char *str) const {
     int tabPos(0);
 
@@ -116,6 +123,12 @@ YDimension YFontBase::multilineAlloc(const char *str) const {
     alloc.w = max(alloc.w, tab ? tabPos + textWidth(tab + 1) : textWidth(str));
 
     return alloc;
+}
+
+const char* YFontBase::ellipsis() const {
+    const unsigned utf32ellipsis = 0x2026;
+    static const char utf8ellipsis[] = "\xe2\x80\xa6";
+    return showEllipsis && supports(utf32ellipsis) ? utf8ellipsis : "...";
 }
 
 void clearFontCache() {

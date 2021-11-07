@@ -10,9 +10,6 @@
 
 #include <stddef.h>
 
-typedef char YLChar;
-typedef wchar_t YUChar;
-
 class YLocale {
 public:
     YLocale(char const* localeName = "");
@@ -23,8 +20,8 @@ public:
     static bool RTL() { return instance->rightToLeft; }
 
 #ifdef CONFIG_I18N
-    static YLChar* localeString(YUChar const* uStr, size_t uLen, size_t& lLen);
-    static YUChar* unicodeString(YLChar const* lStr, size_t lLen, size_t& uLen);
+    static char* localeString(wchar_t const* uStr, size_t uLen, size_t& lLen);
+    static wchar_t* unicodeString(char const* lStr, size_t lLen, size_t& uLen);
 #endif
 
 private:

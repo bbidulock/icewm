@@ -54,16 +54,12 @@ public:
         fData[index] = value;
     }
 
-    data_t const* cStr() {
-        return fData;
-    }
-
     data_t get(size_t index) const {
         return (index < fSize ? fData[index] : 0);
     }
 
     data_t operator[](size_t index) const {  get(index); }
-    data_t const* data() const { return fData; }
+    data_t* data() const { return fData; }
     size_t length() const { return fSize - 1; }
     size_t size() const { return fSize; }
 
@@ -99,39 +95,39 @@ private:
 
 #ifdef CONFIG_I18N
 
-class YUnicodeString : public YString<YUChar> {
+class YUnicodeString : public YString<wchar_t> {
 public:
-    YUnicodeString(YUChar const* str):
-        YString<YUChar>(str)
+    YUnicodeString(wchar_t const* str):
+        YString<wchar_t>(str)
     { }
-    YUnicodeString(YUChar const* str, size_t len):
-        YString<YUChar>(str, len)
+    YUnicodeString(wchar_t const* str, size_t len):
+        YString<wchar_t>(str, len)
     { }
-    YUnicodeString(YLChar const* lstr):
-        YString<YUChar>()
+    YUnicodeString(char const* lstr):
+        YString<wchar_t>()
     {
         size_t ulen(0);
-        YUChar* ustr(YLocale::unicodeString(lstr, strlen(lstr), ulen));
+        wchar_t* ustr(YLocale::unicodeString(lstr, strlen(lstr), ulen));
         assign(ustr, ulen);
     }
-    YUnicodeString(YLChar const* lstr, size_t llen):
-        YString<YUChar>()
+    YUnicodeString(char const* lstr, size_t llen):
+        YString<wchar_t>()
     {
         size_t ulen(0);
-        YUChar* ustr(YLocale::unicodeString(lstr, llen, ulen));
+        wchar_t* ustr(YLocale::unicodeString(lstr, llen, ulen));
         assign(ustr, ulen);
     }
 };
 
 #endif
 
-class YLocaleString : public YString<YLChar> {
+class YLocaleString : public YString<char> {
 public:
-    YLocaleString(YLChar const* str):
-        YString<YLChar>(str)
+    YLocaleString(char const* str):
+        YString<char>(str)
     { }
-    YLocaleString(YLChar const* str, size_t len):
-        YString<YLChar>(str, len)
+    YLocaleString(char const* str, size_t len):
+        YString<char>(str, len)
     { }
 };
 

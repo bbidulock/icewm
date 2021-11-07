@@ -8,6 +8,7 @@
 #include "yxapp.h"
 #include "yfontname.h"
 #include "yfontbase.h"
+#include "ybidi.h"
 #include "intl.h"
 #include <stdio.h>
 #include <ft2build.h>
@@ -18,47 +19,26 @@
 #define nl_langinfo(X) ""
 #endif
 
-#ifdef CONFIG_FRIBIDI
-        // remove deprecated warnings for now...
-        #include <fribidi/fribidi-config.h>
-        #if FRIBIDI_USE_GLIB+0
-                #include <glib.h>
-                #undef G_GNUC_DEPRECATED
-                #define G_GNUC_DEPRECATED
-        #endif
-        #include <fribidi/fribidi.h>
-#endif
-
 /******************************************************************************/
 
 class YXftFont : public YFontBase {
 public:
-#ifdef CONFIG_I18N
-    typedef class YUnicodeString string_t;
-    typedef XftChar32 char_t;
-    #define XftDrawString XftDrawString32
-    #define XftTextExtents XftTextExtents32
-#else
-    typedef class YLocaleString string_t;
-    typedef XftChar8 char_t;
-    #define XftTextExtents XftTextExtents8
-    #define XftDrawString XftDrawString8
-#endif
+    typedef YString<wchar_t> string_t;
 
     YXftFont(mstring name, bool xlfd);
+    YXftFont(XftFont* font);
     virtual ~YXftFont();
 
     bool valid() const override { return 0 < fFontCount; }
     int descent() const override { return fDescent; }
     int ascent() const override { return fAscent; }
-    int textWidth(mstring s) const override;
     int textWidth(char const * str, int len) const override;
 
-    int textWidth(string_t const & str) const;
+    int textWidth(string_t& str) const;
     void drawGlyphs(class Graphics & graphics, int x, int y,
-                            char const * str, int len) override;
+                    const char* str, int len, int limit = 0) override;
 
-    bool supports(unsigned utf32char) override;
+    bool supports(unsigned utf32char) const override;
 
 private:
     struct TextPart {
@@ -67,12 +47,17 @@ private:
         unsigned width;
     };
 
-    TextPart * partitions(char_t * str, size_t len, size_t nparts = 0) const;
+    TextPart * partitions(wchar_t* str, size_t len, size_t nparts = 0) const;
     void drawString(Graphics& g, XftFont* font, int x, int y,
-                    char_t* str, size_t len);
-    void textExtents(XftFont* font, char_t* str, size_t len,
+                    wchar_t* str, size_t len);
+    void textExtents(XftFont* font, wchar_t* str, size_t len,
                      XGlyphInfo& extends) const {
-        XftTextExtents(xapp->display(), font, str, len, &extends);
+        switch (true) {
+            case sizeof(wchar_t) == sizeof(FcChar32):
+                XftTextExtents32(xapp->display(), font,
+                                 (FcChar32 *) str, len, &extends);
+            case false: ;
+        }
     }
 
     int fFontCount, fAscent, fDescent;
@@ -80,36 +65,16 @@ private:
 };
 
 void YXftFont::drawString(Graphics &g, XftFont* font, int x, int y,
-                          char_t* str, size_t len)
+                          wchar_t* str, size_t len)
 {
-#ifdef CONFIG_FRIBIDI
-    const size_t bufsize = 256;
-    char_t buf[bufsize];
-    char_t* vis_str = buf;
-    asmart<char_t> big;
-
-    if (len >= bufsize) {
-        big = new char_t[len+1];
-        if (big == nullptr)
-            return;
-        vis_str = big;
+    YBidi bidi(str, len);
+    switch (true) {
+        case sizeof(wchar_t) == sizeof(FcChar32):
+            XftDrawString32(g.handleXft(), g.color().xftColor(), font,
+                            x - g.xorigin(), y - g.yorigin(),
+                            (FcChar32 *) bidi.string(), bidi.length());
+        case false: ;
     }
-
-    FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
-
-    if (fribidi_log2vis(str, len, &pbase_dir, //input
-                        vis_str, // output
-                        nullptr, nullptr, nullptr // stats
-                        ))
-    {
-        str = vis_str;
-    }
-#endif
-
-    XftDrawString(g.handleXft(), g.color().xftColor(), font,
-                  x - g.xorigin(),
-                  y - g.yorigin(),
-                  str, len);
 }
 
 /******************************************************************************/
@@ -139,113 +104,113 @@ YXftFont::YXftFont(mstring name, bool use_xlfd):
             fFonts[count++] = font;
         } else {
             warn(_("Could not load font \"%s\"."), fname.c_str());
-            --fFontCount;
         }
     }
-
-    if (0 == fFontCount || 0 == count) {
-        msg("xft: fallback from '%s'", name.c_str());
-        XftFont *sans =
-            XftFontOpen(xapp->display(), xapp->screen(),
-                        XFT_FAMILY, XftTypeString, "sans-serif",
-                        XFT_PIXEL_SIZE, XftTypeInteger, 12,
-                        NULL);
-        if (sans) {
-            delete[] fFonts;
-
-            fFontCount = 1;
-            fFonts = new XftFont* [fFontCount];
-            fFonts[0] = sans;
-
-            fAscent = sans->ascent;
-            fDescent = sans->descent;
-        } else
-            warn(_("Loading of fallback font \"%s\" failed."), "sans-serif");
+    if ((fFontCount = count) == 0) {
+        delete[] fFonts; fFonts = nullptr;
     }
 }
 
+YXftFont::YXftFont(XftFont* font) :
+    fFontCount(1),
+    fAscent(font->ascent),
+    fDescent(font->descent),
+    fFonts(new XftFont* [1])
+{
+    *fFonts = font;
+}
+
 YXftFont::~YXftFont() {
-    for (int n = 0; n < fFontCount; ++n) {
-        // this leaks memory when xapp is destroyed before fonts
-        if (xapp != nullptr)
-            XftFontClose(xapp->display(), fFonts[n]);
+    if (xapp) {
+        for (int i = fFontCount; 0 < i--; )
+            XftFontClose(xapp->display(), fFonts[i]);
     }
     delete[] fFonts;
 }
 
-int YXftFont::textWidth(mstring s) const {
-    return textWidth(s.c_str(), s.length());
-}
-
-int YXftFont::textWidth(string_t const & text) const {
-    char_t * str((char_t *) text.data());
-    size_t len(text.length());
-
-    TextPart *parts = partitions(str, len);
+int YXftFont::textWidth(string_t& str) const {
+    YBidi bidi(str.data(), str.length());
+    TextPart* parts = partitions(bidi.string(), bidi.length());
     unsigned width(0);
 
-    for (TextPart * p = parts; p && p->length; ++p) width+= p->width;
+    for (TextPart* p = parts; p && p->length; ++p) {
+        width += p->width;
+    }
 
     delete[] parts;
     return width;
 }
 
-int YXftFont::textWidth(char const * str, int len) const {
-    return textWidth(string_t(str, len));
+int YXftFont::textWidth(const char* str, int len) const {
+    int width;
+    if (0 < len) {
+#ifndef CONFIG_I18N
+        const size_t size = len + 1;
+        wchar_t text[size];
+        int count = 0;
+        for (int i = 0; i < len; ) {
+            int k = mbtowc(&text[count], str + i, size_t(len - i));
+            if (k < 1) {
+                i++;
+            } else {
+                i += k;
+                count++;
+            }
+        }
+        text[count] = 0;
+        string_t string(text, count);
+#else
+        YUnicodeString string(str, len);
+#endif
+        width = textWidth(string);
+    } else {
+        width = 0;
+    }
+    return width;
 }
 
 void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
-                          char const * str, int len) {
-    string_t xtext(str, len);
-    if (0 == xtext.length()) return;
+                          const char* str, int len, int limit) {
+    if (0 < len) {
+#ifndef CONFIG_I18N
+        const size_t size = len + 1;
+        wchar_t text[size];
+        int count = 0;
+        for (int i = 0; i < len; ) {
+            int k = mbtowc(&text[count], str + i, size_t(len - i));
+            if (k < 1) {
+                i++;
+            } else {
+                i += k;
+                count++;
+            }
+        }
+        text[count] = 0;
+        wchar_t* xstr(text);
+        size_t xlen(count);
+#else
+        YUnicodeString string(str, len);
+        wchar_t* xstr(string.data());
+        size_t xlen(string.length());
+#endif
 
-    int const y0(y - ascent());
-    int const gcFn(graphics.function());
-
-    char_t * xstr((char_t *) xtext.data());
-    size_t xlen(xtext.length());
-
-    TextPart *parts = partitions(xstr, xlen);
-///    unsigned w(0);
-///    unsigned const h(height());
-
-///    for (TextPart *p = parts; p && p->length; ++p) w+= p->width;
-
-///    YPixmap *pixmap = new YPixmap(w, h);
-///    Graphics canvas(*pixmap, 0, 0);
-//    XftGraphics textarea(graphics, xapp->visual(), xapp->colormap());
-
-    switch (gcFn) {
-        case GXxor:
-///         textarea.drawRect(*YColor::black, 0, 0, w, h);
-            break;
-
-        case GXcopy:
-///            canvas.copyDrawable(graphics.drawable(),
-///                                x - graphics.xorigin(), y0 - graphics.yorigin(), w, h, 0, 0);
-            break;
-    }
-
-
-    int xpos(0);
-    for (TextPart *p = parts; p && p->length; ++p) {
-        if (p->font) {
-            drawString(graphics, p->font,
-                       xpos + x, ascent() + y0,
-                       xstr, p->length);
+        TextPart *parts = partitions(xstr, xlen);
+        int xpos = x;
+        for (TextPart *p = parts; p && p->length; ++p) {
+            if (p->font) {
+                drawString(graphics, p->font,
+                           xpos, y,
+                           xstr, p->length);
+            }
+            xstr += p->length;
+            xpos += p->width;
         }
 
-        xstr += p->length;
-        xpos += p->width;
+        delete[] parts;
     }
-
-    delete[] parts;
-
-///    graphics.copyDrawable(canvas.drawable(), 0, 0, w, h, x, y0);
-///    delete pixmap;
 }
 
-bool YXftFont::supports(unsigned utf32char) {
+bool YXftFont::supports(unsigned utf32char) const {
     if (utf32char >= 255 && strcmp("UTF-8", nl_langinfo(CODESET)))
         return false;
 
@@ -257,21 +222,17 @@ bool YXftFont::supports(unsigned utf32char) {
     return true;
 }
 
-YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
-                                          size_t nparts) const
+YXftFont::TextPart* YXftFont::partitions(wchar_t* str, size_t len,
+                                         size_t nparts) const
 {
-    XGlyphInfo extends;
     XftFont ** lFont(fFonts + fFontCount);
     XftFont ** font(nullptr);
-    char_t * c(str);
+    wchar_t * c(str);
 
-    if (fFonts == nullptr || fFontCount == 0)
-        return nullptr;
-
-    for (char_t * endptr(str + len); c < endptr; ++c) {
+    for (wchar_t* endptr(str + len); c < endptr; ++c) {
         XftFont ** probe(fFonts);
 
-        while (probe < lFont && !XftGlyphExists(xapp->display(), *probe, *c))
+        while (probe < lFont && !XftCharExists(xapp->display(), *probe, *c))
             ++probe;
 
         if (probe != font) {
@@ -280,6 +241,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
                 parts[nparts].length = (c - str);
 
                 if (font < lFont) {
+                    XGlyphInfo extends;
                     textExtents(*font, str, (c - str), extends);
                     parts[nparts].font = *font;
                     parts[nparts].width = extends.xOff;
@@ -302,6 +264,7 @@ YXftFont::TextPart * YXftFont::partitions(char_t * str, size_t len,
     parts[nparts].length = (c - str);
 
     if (nullptr != font && font < lFont) {
+        XGlyphInfo extends;
         textExtents(*font, str, (c - str), extends);
         parts[nparts].font = *font;
         parts[nparts].width = extends.xOff;
@@ -330,7 +293,12 @@ YFontBase* getXftFont(const char* name) {
 }
 
 YFontBase* getXftDefault(const char* name) {
-    return getXftFont("10x20");
+    XftFont* font =
+        XftFontOpen(xapp->display(), xapp->screen(),
+                    XFT_FAMILY, XftTypeString, "sans-serif",
+                    XFT_PIXEL_SIZE, XftTypeInteger, 12,
+                    nullptr);
+    return font ? new YXftFont(font) : nullptr;
 }
 
 #endif // CONFIG_XFREETYPE

@@ -278,7 +278,8 @@ void Graphics::drawChars(const char *data, int offset, int len, int x, int y) {
 }
 
 void Graphics::drawString(int x, int y, char const * str) {
-    drawChars(str, 0, int(strlen(str)), x, y);
+    if (fFont != null)
+        fFont->drawGlyphs(*this, x, y, str, int(strlen(str)));
 }
 
 /**
@@ -286,6 +287,9 @@ void Graphics::drawString(int x, int y, char const * str) {
  * ... character.
  */
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
+    if (fFont != null)
+        fFont->drawGlyphs(*this, x, y, str, int(strlen(str)), maxWidth);
+/*
     const int len(strlen(str));
 
     if (fFont == null || fFont->textWidth(str, len) <= maxWidth) {
@@ -351,6 +355,7 @@ void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     if (showEllipsis && rawPos < len) {
         drawChars(ellipsis, 0, 3, x + drawPos, y);
     }
+    */
 }
 
 
