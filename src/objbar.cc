@@ -9,6 +9,7 @@
 #include "objbutton.h"
 #include "wmtaskbar.h"
 #include "wpixmaps.h"
+#include "yprefs.h"
 
 ObjectBar::ObjectBar(YWindow *parent): YWindow(parent) {
     setParentRelative();
@@ -21,20 +22,24 @@ ObjectBar::~ObjectBar() {
 void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
-        button->setSize(button->width() + 4, button->width() + 4);
-    } else
+        button->setSize(button->width() + 4,
+                        max(button->width() + 4, height()));
+    } else {
         button->setText(name);
+        if (button->height() < height())
+            button->setSize(button->width(), height());
+    }
 
     IterType iter(objects.reverseIterator());
     while (++iter && !*iter);
-    const int extent(iter ? iter->x() + int(iter->width()) : 0);
-
-    button->setPosition(extent, 0);
-    if (button->height() < height())
-        button->setSize(button->width(), height());
     objects.append(button);
 
-    setSize(extent + button->width(), height());
+    unsigned w = 0;
+    for (ObjectButton* obj : objects) {
+        w += obj ? obj->width() : 4;
+    }
+    setSize(w, height());
+
     button->show();
 }
 
@@ -53,7 +58,7 @@ void ObjectBar::addObject(DObject *object) {
 
 void ObjectBar::addSeparator() {
     setSize(int(width()) <= 1 ? 4 : width() + 4, height());
-    objects.append(0);
+    objects.append(nullptr);
 }
 
 void ObjectBar::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) {
@@ -65,12 +70,13 @@ void ObjectBar::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *containe
 }
 
 void ObjectBar::configure(const YRect2& r) {
-    if (r.resized()) {
+    if (r.resized() && 1 < r.height()) {
         int left = 0;
-        for (IterType obj(objects.iterator()); ++obj; ) {
-            if (*obj) {
-                if (obj->x() != left || obj->y() != 0) {
-                    obj->setPosition(left, 0);
+        for (ObjectButton* obj : objects) {
+            if (obj) {
+                int x = rightToLeft ? r.width() - 1 - obj->width() - left : left;
+                if (x != obj->x() || obj->y()) {
+                    obj->setPosition(x, 0);
                 }
                 if (obj->height() < r.height()) {
                     obj->setSize(obj->width(), r.height());
@@ -93,9 +99,9 @@ void ObjectBar::handleButton(const XButtonEvent& up) {
 }
 
 void ObjectBar::refresh() {
-    for (IterType iter(objects.iterator()); ++iter; ) {
-        if (*iter) {
-            iter->repaint();
+    for (ObjectButton* obj : objects) {
+        if (obj) {
+            obj->repaint();
         }
     }
 }
