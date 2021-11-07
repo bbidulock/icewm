@@ -286,7 +286,7 @@ void Pane::paint(Graphics &g, const YRect &/*r*/) {
     g.fillRect(0, 0, width(), TH);
     g.setColor(titleFg);
 /// !!!    g.drawPixmap(folder->small(), 2, 4);
-    g.drawChars(title, 0, strlen(title), 20, 17);
+    g.drawString(20, 17, title);
     //g.setColor(bg);
     //g.fillRect(0, TH, width(), height() - TH);
 }
