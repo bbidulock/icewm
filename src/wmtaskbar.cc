@@ -31,6 +31,7 @@
 #include "aworkspaces.h"
 #include "yxtray.h"
 #include "prefs.h"
+#include "yprefs.h"
 #include "wpixmaps.h"
 #include "aapm.h"
 
@@ -133,7 +134,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fFullscreen(false),
     fIsCollapsed(false),
     fMenuShown(false),
-    fNeedRelayout(false),
+    fNeedRelayout(true),
     fButtonUpdate(false),
     fWorkspacesUpdate(false)
 {
@@ -414,7 +415,6 @@ void TaskBar::initApplets() {
 
 void TaskBar::trayChanged() {
     relayout();
-    //    updateLayout();
 }
 
 struct LayoutInfo {
@@ -579,7 +579,11 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
 
             right[wlist[i].row] -= ww + wlist[i].pre + wlist[i].post;
         }
-        wlist[i].w->setGeometry(YRect(xx, yy, ww, hh));
+        YRect r(xx, yy, ww, hh);
+        if (rightToLeft) {
+            r.xx = w - r.xx - r.ww;
+        }
+        wlist[i].w->setGeometry(r);
         if (wlist[i].show)
             wlist[i].w->show();
     }
@@ -587,24 +591,24 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.clear();
     /* ----------------------------------------------------------------- */
 
-    if (taskBarShowWindows) {
-        if (fTasks) {
-            fTasks->hide();
-            fTasks->setGeometry(YRect(left[0],
-                                      y[0],
-                                      max(0U, unsigned(right[0] - left[0])),
-                                      h[0]));
-            fTasks->show();
-            fTasks->relayout();
+    if (taskBarShowWindows && fTasks) {
+        fTasks->hide();
+        YRect r(left[0], y[0], max(1U, unsigned(right[0] - left[0])), h[0]);
+        if (rightToLeft) {
+            r.xx = w - r.xx - r.ww;
         }
+        fTasks->setGeometry(r);
+        fTasks->show();
+        fTasks->relayout();
     }
     if (fAddressBar) {
         int row = taskBarDoubleHeight;
-
-        fAddressBar->setGeometry(YRect(left[row],
-                                       y[row] + 2,
-                                       max(0U, unsigned(right[row] - left[row])),
-                                       h[row] - 4));
+        YRect r(left[row], y[row] + 2,
+                max(1U, unsigned(right[row] - left[row])), h[row] - 4);
+        if (rightToLeft) {
+            r.xx = w - r.xx - r.ww;
+        }
+        fAddressBar->setGeometry(r);
         fAddressBar->raise();
         if (::showAddressBar) {
             if (taskBarDoubleHeight || !taskBarShowWindows)
@@ -652,6 +656,9 @@ void TaskBar::updateFullscreen(bool fullscreen) {
 void TaskBar::updateLocation() {
     fNeedRelayout = false;
 
+    if (getFrame() == nullptr) {
+        showBar();
+    }
     if (fIsHidden && !fIsCollapsed) {
         if (getFrame() && visible())
             getFrame()->wmHide();
@@ -668,10 +675,14 @@ void TaskBar::updateLocation() {
 
     if (taskBarWidthPercentage < 100) {
         w = (dw * taskBarWidthPercentage + 50) / 100;
-        if (strcmp(taskBarJustify, "right") == 0)
-            x = dx + (dw - w);
-        if (strcmp(taskBarJustify, "center") == 0)
-            x = dx + (dw - w)/2;
+        if (nonempty(taskBarJustify)) {
+            if (strcmp(taskBarJustify, "left") == 0)
+                x = dx;
+            else if (strcmp(taskBarJustify, "right") == 0)
+                x = dx + (dw - w);
+            else if (strcmp(taskBarJustify, "center") == 0)
+                x = dx + (dw - w)/2;
+        }
     }
 
     updateLayout(w, h);
@@ -688,7 +699,7 @@ void TaskBar::updateLocation() {
             w = h = 0;
         }
 
-        x = dx + (dw - w);
+        x = rightToLeft ? dx : dx + (dw - w);
     }
 
     int by = taskBarAtTop ? dy : dy + dh - 1;
@@ -882,18 +893,12 @@ void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motio
 
     if (taskBarAtTop != newPosition) {
         taskBarAtTop = newPosition;
-        //setPosition(x(), taskBarAtTop ? -1 : int(desktop->height() - height() + 1));
         updateLocation();
-        //repaint();
-        //manager->updateWorkArea();
     }
 }
 
 void TaskBar::popupStartMenu() {
     if (fApplications) {
-        /*requestFocus();
-         fApplications->requestFocus();
-         fApplications->setFocus();*/
         popOut();
         fApplications->popupMenu();
     }
@@ -948,7 +953,6 @@ void TaskBar::showBar() {
             getFrame()->setAllWorkspaces();
             if (enableAddressBar && ::showAddressBar && taskBarDoubleHeight)
                 getFrame()->activate(true);
-            updateLocation();
             parent()->setTitle("TaskBarFrame");
             getFrame()->updateLayer();
         }
