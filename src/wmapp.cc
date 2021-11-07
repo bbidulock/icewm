@@ -1674,6 +1674,8 @@ static void print_configured(const char *argv0) {
 
 static void loadStartup(const char* configFile)
 {
+    rightToLeft = YLocale::RTL();
+
     YConfig(wmapp_preferences).load(configFile);
 
     YXApplication::alphaBlending |= alphaBlending;
@@ -1783,8 +1785,6 @@ void YWMApp::createTaskBar() {
         for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
             frame->updateAppStatus();
         }
-        taskBar->showBar();
-        taskBar->relayoutNow();
     }
 }
 
