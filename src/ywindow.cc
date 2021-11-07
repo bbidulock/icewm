@@ -2038,41 +2038,22 @@ void YDesktop::getScreenGeometry(int *x, int *y,
 }
 
 int YDesktop::getScreenForRect(int x, int y, unsigned width, unsigned height) {
-    int screen = -1;
-    long coverage = -1;
-
-    if (xiInfo.getCount() < 2)
-        return 0;
-    for (int s = 0; s < xiInfo.getCount(); s++) {
-        int x_i = intersection(x, x + int(width),
-                               xiInfo[s].x_org,
-                               xiInfo[s].x_org + int(xiInfo[s].width));
-        //MSG(("x_i %d %d %d %d %d", x_i, x, width, xiInfo[s].x_org, xiInfo[s].width));
-        int y_i = intersection(y, y + int(height),
-                               xiInfo[s].y_org,
-                               xiInfo[s].y_org + int(xiInfo[s].height));
-        //MSG(("y_i %d %d %d %d %d", y_i, y, height, xiInfo[s].y_org, xiInfo[s].height));
-
-        long cov = (1L + x_i) * (1L + y_i);
-
-        //MSG(("cov=%ld %d %d s:%d xc:%d yc:%d %d %d %d %d", cov, x, y, s, x_i, y_i, xiInfo[s].x_org, xiInfo[s].y_org, xiInfo[s].width, xiInfo[s].height));
-
-        if (cov > coverage) {
-            screen = s;
-            coverage = cov;
+    int screen = 0;
+    if (1 < xiInfo.getCount()) {
+        long best = xiInfo[0].coverage(x, y, width, height);
+        for (int s = 1; s < xiInfo.getCount(); s++) {
+            long cov = xiInfo[s].coverage(x, y, width, height);
+            if (cov > best) {
+                best = cov;
+                screen = s;
+            }
         }
     }
     return screen;
 }
 
-
 KeySym YWindow::keyCodeToKeySym(unsigned keycode, unsigned index) {
-    KeySym k = XkbKeycodeToKeysym(xapp->display(), KeyCode(keycode), 0, index);
-    return k;
-}
-
-int YDesktop::getScreenCount() {
-    return xiInfo.getCount();
+    return XkbKeycodeToKeysym(xapp->display(), KeyCode(keycode), 0, index);
 }
 
 // vim: set sw=4 ts=4 et:

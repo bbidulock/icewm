@@ -33,6 +33,16 @@ struct DesktopScreenInfo {
     unsigned vertical() const {
         return height + unsigned(y_org);
     }
+    int horizontalCoverage(int x, unsigned w) {
+        return intersection(x, x + int(w), x_org, x_org + int(width));
+    }
+    int verticalCoverage(int y, unsigned h) {
+        return intersection(y, y + int(h), y_org, y_org + int(height));
+    }
+    long coverage(int x, int y, unsigned w, unsigned h) {
+        return (1L + horizontalCoverage(x, w))
+             * (1L + verticalCoverage(y, h));
+    }
 };
 
 class YWindow : protected YWindowList, private YWindowNode {
@@ -352,7 +362,7 @@ public:
                            int screen_no = -1);
     int getScreenForRect(int x, int y, unsigned width, unsigned height);
 
-    int getScreenCount();
+    int getScreenCount() const { return xiInfo.getCount(); }
 
     virtual void grabKeys() {}
 
