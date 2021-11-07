@@ -716,12 +716,11 @@ int find(const YArray<DataType>& array, const DataType& data) {
 }
 
 template<class DataType>
-bool findRemove(YArray<DataType>& array, DataType& data) {
+bool findRemove(YArray<DataType>& array, DataType data) {
     int k = find(array, data);
-    if (k >= 0)
-        array.remove(k);
-    return k >= 0;
+    return 0 <= k ? array.remove(k), true : false;
 }
+
 #endif
 
 // vim: set sw=4 ts=4 et:
