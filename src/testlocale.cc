@@ -23,12 +23,12 @@ foreign_str(char const *charset, char const *foreign)
 }
 
 static void
-print_string(const YLChar *lstr, YUChar *ustr)
+print_string(const char *lstr, wchar_t *ustr)
 {
     printf ("In locale encoding: \"%s\"\n", lstr);
     printf ("In unicode encoding: \"");
 
-    for (YUChar * u(ustr); *u; ++u) printf("\\U%04x", *u);
+    for (wchar_t * u(ustr); *u; ++u) printf("\\U%04x", *u);
 
     puts ("\"");
 }
@@ -49,8 +49,8 @@ int main() {
     {
         size_t ulen;
 
-        const YLChar *lstr("Möhrenkäuter");
-        YUChar *ustr(YLocale("de_DE.iso-8859-1").
+        const char *lstr("Möhrenkäuter");
+        wchar_t *ustr(YLocale("de_DE.iso-8859-1").
                      unicodeString(lstr, strlen(lstr), ulen));
         print_string(lstr, ustr);
 
@@ -61,10 +61,10 @@ int main() {
     }
 
 /*
-    YLChar * utf8(YLocale("de_DE.utf8").localeString(unicode));
+    char * utf8(YLocale("de_DE.utf8").localeString(unicode));
     printf("utf8: %s\n", utf8);
 
-    YLChar * latin1(YLocale("de_DE.iso-8859-1").localeString(unicode));
+    char * latin1(YLocale("de_DE.iso-8859-1").localeString(unicode));
     printf("iso-8859-1: %s\n", latin1);
 */
 
