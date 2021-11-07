@@ -75,6 +75,17 @@ public:
     pair(const L& l, const R& r) : left(l), right(r) { }
 };
 
+template<typename T>
+class YRange {
+    T *b, *e;
+public:
+    YRange(T* b, size_t n) : b(b), e(b + n) { }
+    YRange(T* b, int n) : b(b), e(b + n) { }
+    YRange(T* b, T* e) : b(b), e(e) { }
+    const T* begin() const { return b; }
+    const T* end() const { return e; }
+};
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */
