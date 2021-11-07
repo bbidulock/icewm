@@ -2426,9 +2426,11 @@ void YWindowManager::workAreaUpdated() {
 
 void YWindowManager::arrangeIcons() {
     fIconColumn = fIconRow = 0;
-    for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
-        if (frame->hasMiniIcon()) {
-            frame->updateIconPosition();
+    for (bool tf : {false, true}) {
+        for (MiniIcon* icon : MiniIcon::fIcons) {
+            if (icon->getFrame()->isMinimized() == tf) {
+                icon->getFrame()->updateIconPosition();
+            }
         }
     }
 }
@@ -2765,12 +2767,12 @@ void YWindowManager::wmCloseSession() { // ----------------- shutdow started ---
             f->wmClose();
 }
 
-void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY) {
+void YWindowManager::getIconPosition(MiniIcon* iw, int *iconX, int *iconY) {
     if (isStartup() || fWorkAreaUpdate || (showTaskBar && taskBar == nullptr)) {
         return;
     }
 
-    MiniIcon *iw = frame->getMiniIcon();
+    YFrameWindow* frame = iw->getFrame();
 
     int mrow, mcol, Mrow, Mcol; /* Minimum and maximum for rows and columns */
     int width, height; /* column width and row height */
@@ -2782,16 +2784,16 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
         getWorkArea(frame, &mcol, &mrow, &Mcol, &Mrow);
         width = iw->width() + 2 * margin;
         height = iw->height() + 2 * margin;
-        drow = (int)miniIconsBottomToTop * -2 + 1;
-        dcol = (int)miniIconsRightToLeft * -2 + 1;
+        drow = miniIconsBottomToTop ? -1 : +1;
+        dcol = miniIconsRightToLeft ? -1 : +1;
         iconRow = iconY;
         iconCol = iconX;
     } else {
         getWorkArea(frame, &mrow, &mcol, &Mrow, &Mcol);
         width = iw->height() + 2 * margin;
         height = iw->width() + 2 * margin;
-        drow = (int)miniIconsRightToLeft * -2 + 1;
-        dcol = (int)miniIconsBottomToTop * -2 + 1;
+        drow = miniIconsRightToLeft ? -1 : +1;
+        dcol = miniIconsBottomToTop ? -1 : +1;
         iconRow = iconX;
         iconCol = iconY;
     }
@@ -2804,6 +2806,45 @@ void YWindowManager::getIconPosition(YFrameWindow *frame, int *iconX, int *iconY
     /* Calculate start row and start column */
     int srow = (drow > 0) ? mrow : (Mrow - height);
     int scol = (dcol > 0) ? mcol : (Mcol - width);
+
+    if (MiniIcon::fIcons.getCount() < 256) {
+        int r = srow, c = scol;
+        int omax = width * height, over = omax;
+        YRect best(r, c, width, height);
+        do {
+            YRect geo(c, r, width, height);
+            int olap = 0;
+            for (MiniIcon* icon : MiniIcon::fIcons) {
+                if (icon != iw) {
+                    olap += geo.overlap(icon->geometry());
+                }
+            }
+            if (olap < over) {
+                over = olap;
+                best = geo;
+            }
+            c += width * dcol;
+            if (c >= Mcol - width / 2 || c < mcol - width / 2) {
+                c = scol;
+                r += height * drow;
+                if (r >= Mcol - height / 2 || r < mrow - height / 2) {
+                    break;
+                }
+            }
+        } while (0 < over);
+        if (over == 0) {
+            *iconCol = best.x();
+            *iconRow = best.y();
+            if ((drow > 0 ? *iconRow > fIconRow : *iconRow < fIconRow)
+                || (fIconRow == *iconRow &&
+                    (dcol > 0 ? *iconCol > fIconColumn
+                      : *iconCol < fIconColumn))) {
+                fIconRow = *iconRow;
+                fIconColumn = *iconCol;
+            }
+            return;
+        }
+    }
 
     if ((fIconColumn == 0 && fIconRow == 0) ||
         !(inrange(fIconRow, mrow, Mrow - height) &&

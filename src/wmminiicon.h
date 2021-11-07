@@ -29,12 +29,16 @@ public:
     YFrameWindow *getFrame() const { return fFrame; };
     Window iconWindow();
 
+    typedef YArray<MiniIcon*> ArrayType;
+    static ArrayType fIcons;
+
 private:
     YFrameWindow *fFrame;
     Window fIconWindow;
     YRect fIconGeometry;
 
     YFrameClient* client() const;
+    bool acceptableDimensions(unsigned w, unsigned h) const;
 };
 
 

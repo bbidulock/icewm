@@ -15,6 +15,7 @@ class YFrameClient;
 class YFrameWindow;
 class YSMListener;
 class SwitchWindow;
+class MiniIcon;
 class DockApp;
 class IApp;
 
@@ -205,7 +206,7 @@ public:
     void workAreaUpdated();
     void resizeWindows();
 
-    void getIconPosition(YFrameWindow *frame, int *iconX, int *iconY);
+    void getIconPosition(MiniIcon* iw, int *iconX, int *iconY);
 
     void wmCloseSession();
     void exitAfterLastClient(bool shuttingDown);

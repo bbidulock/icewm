@@ -10,13 +10,9 @@
 #include "yxapp.h"
 #include "prefs.h"
 
-static YFont minimizedWindowFont;
-static YColorName normalMinimizedWindowBg(&clrNormalMinimizedWindow);
-static YColorName normalMinimizedWindowFg(&clrNormalMinimizedWindowText);
-static YColorName activeMinimizedWindowBg(&clrActiveMinimizedWindow);
-static YColorName activeMinimizedWindowFg(&clrActiveMinimizedWindowText);
+MiniIcon::ArrayType MiniIcon::fIcons;
 
-static bool acceptableDimensions(unsigned w, unsigned h) {
+bool MiniIcon::acceptableDimensions(unsigned w, unsigned h) const {
     unsigned lower = YIcon::hugeSize() / 2;
     unsigned upper = 3 * YIcon::hugeSize() / 2;
     return inrange(w, lower, upper) && inrange(h, lower, upper);
@@ -39,9 +35,6 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     setSize(YIcon::hugeSize(), YIcon::hugeSize());
     setTitle("MiniIcon");
     setPosition(-1, -1);
-
-    if (minimizedWindowFont == null)
-        minimizedWindowFont = minimizedWindowFontName;
 
     if (fIconWindow) {
         Window root, parent;
@@ -85,6 +78,8 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
     }
 
     updateIcon();
+
+    fIcons += this;
 }
 
 MiniIcon::~MiniIcon() {
@@ -94,6 +89,7 @@ MiniIcon::~MiniIcon() {
                         fIconGeometry.xx, fIconGeometry.hh);
         XRemoveFromSaveSet(xapp->display(), fIconWindow);
     }
+    findRemove(fIcons, this);
 }
 
 void MiniIcon::handleExpose(const XExposeEvent& expose) {
@@ -147,7 +143,7 @@ void MiniIcon::updateIcon() {
 void MiniIcon::updatePosition() {
     int xpos = x();
     int ypos = y();
-    manager->getIconPosition(fFrame, &xpos, &ypos);
+    manager->getIconPosition(this, &xpos, &ypos);
     if (xpos != x() || ypos != y()) {
         setPosition(xpos, ypos);
     }
