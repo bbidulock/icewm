@@ -116,9 +116,10 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     }
 
     if (font != null) {
-        int yp = 1 + font->ascent();
+        int yo = ::max(0, (int(height()) - int(font->height())) / 2);
+        int yp = 1 + font->ascent() + yo;
         int curOfs = font->textWidth(fText.substring(0, curPos));
-        int cx = curOfs - leftOfs;
+        int cx = ::max(1, curOfs - leftOfs);
 
         g.setFont(font);
 
@@ -127,7 +128,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
             if (fText != null)
                 g.drawChars(fText.substring(0, textLen), -leftOfs, yp);
             if (fHasFocus && fCursorVisible)
-                g.drawLine(cx, 0, cx, font->height() + 2);
+                g.drawLine(cx, yo, cx, font->height() + 2);
         } else {
             if (min > 0) {
                 g.setColor(inputFg);
