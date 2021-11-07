@@ -8,32 +8,31 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-06-28 20:08+0000\n"
-"Last-Translator: Lucie Charrier <c.chalu@free.fr>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2021-11-07 14:07+0000\n"
+"Last-Translator: wallon <franckjl@hotmail.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.8.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Impossible d'ouvrir le périphérique OSS %s"
+msgstr "Impossible d'ouvrir le dispositif APM %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Impossible d'ouvrir l'input-ouput-control du dispositif APM %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Format inconnu utilisé par le dispositif APM %s (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -41,7 +40,7 @@ msgstr " - Courant"
 
 #: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
-msgstr "C"
+msgstr "P"
 
 #: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
@@ -160,7 +159,7 @@ msgstr "_Séparer"
 
 #: src/akeyboard.cc:76
 msgid "Keyboard"
-msgstr ""
+msgstr "Clavier"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -205,7 +204,7 @@ msgstr "Échec de l'écriture dans le socket : %s"
 #: src/amailbox.cc:694
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Utilisation de la boîte à lettre \"%s\"\n"
+msgstr "Utilisation de la boîte aux lettres \"%s\"\n"
 
 #: src/amailbox.cc:801
 msgid "Suspended"
@@ -213,7 +212,7 @@ msgstr "Mis en veille"
 
 #: src/amailbox.cc:805
 msgid "Error checking mailbox."
-msgstr "Échec de vérification de la boîte à lettre."
+msgstr "Échec de vérification de la boîte aux lettres."
 
 #: src/amailbox.cc:812
 #, c-format
@@ -861,7 +860,7 @@ msgstr "Balayage"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:261
 msgid "Science"
-msgstr "Science"
+msgstr "Sciences"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:263
@@ -2415,10 +2414,9 @@ msgid "Error at %s '%s'"
 msgstr "Erreur à %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Mot-clé inconnu '%s'"
+msgstr "Mot-clé inconnu : '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2426,20 +2424,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Erreur dans la programmation de menu '%s'"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Erreur dans la programmation de menu '%s'"
+msgstr "Erreur dans la programmation de menu : '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Un argument de nom de fichier à inclure dans l'énoncé est manquant"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Erreur dans la programmation de menu '%s'"
+msgstr "Erreur au niveau de l'inclusion du programme '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2485,7 +2481,7 @@ msgstr "Sauvegarder les modifications"
 #: src/wmpref.cc:180
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Saisissez une nouvelle valeur pour %s : "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2674,10 +2670,9 @@ msgid "%s: select failed"
 msgstr "%s : la sélection a échoué"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Impossible de charger la police \"%s\"."
+msgstr "Impossible de charger la police \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2828,26 +2823,22 @@ msgstr ""
 "  --sync              Synchronise les commandes X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Support pour l'interface %s non compilé."
+msgstr "Le support des images PNG n'était pas activé"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Le support des images JPEG n'était pas activé"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Interface %s non supportée."
+msgstr "Format de fichier non pris en charge : %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Impossible de trouver l'image %s"
+msgstr "Impossible de charger l'image \"%s\""
 
 #~ msgid ""
 #~ "\n"
