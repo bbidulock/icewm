@@ -1,8 +1,9 @@
 #include "config.h"
 #include "yxtray.h"
-#include "prefs.h"
-#include "wmoption.h"
 #include "ytimer.h"
+#include "yprefs.h"
+#include "default.h"
+#include "wmoption.h"
 #include <X11/Xutil.h>
 #include <X11/Xproto.h>
 #include <X11/extensions/Xcomposite.h>
@@ -793,7 +794,9 @@ void YXTray::relayout(bool enforced) {
     if (enforced == false)
         return;
 
-    for (IterType ec = fDocked.iterator(); ++ec; ) {
+    for (IterType ec = rightToLeft
+                     ? fDocked.reverseIterator()
+                     : fDocked.iterator(); ++ec; ) {
         if (false == ec->fVisible) {
             // skip
         }
