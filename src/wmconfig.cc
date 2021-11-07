@@ -237,6 +237,8 @@ void WMConfig::printPrefs(long focus, cfoption* startup) {
 
     print_options(icewm_preferences);
     print_options(icewm_themable_preferences);
+
+    fflush(stdout);
 }
 
 class OptionCopy {
