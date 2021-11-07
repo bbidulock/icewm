@@ -45,14 +45,18 @@ void YScrollView::layout() {
     getGap(dx, dy);
 
     if (dx > 0 && w > dx) {
-        scrollVert->setGeometry(YRect(w - dx, 0, dx, h > dy ? h - dy : 1));
+        scrollVert->setGeometry(YRect(w - dx, 0,
+                                int(scrollBarWidth),
+                                h > dy ? h - dy : 1));
         scrollVert->enable();
     } else {
         scrollVert->hide();
         dx = 0;
     }
     if (dy > 0 && h > dy) {
-        scrollHoriz->setGeometry(YRect(0, h - dy, w > dx ? w - dx : 1, dx));
+        scrollHoriz->setGeometry(YRect(0, h - dy,
+                                 w > dx ? w - dx : 1,
+                                 int(scrollBarHeight)));
         scrollHoriz->enable();
     } else {
         scrollHoriz->hide();
