@@ -2,16 +2,13 @@
 
 #ifdef CONFIG_XFREETYPE
 
-#include "ystring.h"
 #include "ypaint.h"
-#include "ypointer.h"
+#include "ystring.h"
 #include "yxapp.h"
-#include "yfontname.h"
 #include "yfontbase.h"
 #include "ybidi.h"
 #include "intl.h"
 #include <stdio.h>
-#include <ft2build.h>
 #include <X11/Xft/Xft.h>
 #ifdef CONFIG_I18N
 #include <langinfo.h>
@@ -23,8 +20,6 @@
 
 class YXftFont : public YFontBase {
 public:
-    typedef YString<wchar_t> string_t;
-
     YXftFont(mstring name, bool xlfd);
     YXftFont(XftFont* font);
     virtual ~YXftFont();
@@ -32,50 +27,72 @@ public:
     bool valid() const override { return 0 < fFontCount; }
     int descent() const override { return fDescent; }
     int ascent() const override { return fAscent; }
-    int textWidth(char const * str, int len) const override;
+    int textWidth(char const* str, int len) const override;
 
-    int textWidth(string_t& str) const;
-    void drawGlyphs(class Graphics & graphics, int x, int y,
+    int textWidth(wchar_t* text, int length) const;
+    void drawGlyphs(class Graphics& g, int x, int y,
                     const char* str, int len, int limit = 0) override;
-
     bool supports(unsigned utf32char) const override;
 
 private:
     struct TextPart {
-        XftFont * font;
-        size_t length;
-        unsigned width;
+        XftFont* font;
+        int length;
+        int width;
+        TextPart() { }
+        TextPart(XftFont* f, int l, int w) :
+                 font(f), length(l), width(w) { }
+    };
+    class TextParts {
+        TextPart* parts;
+        int length;
+    public:
+        int extent;
+
+        TextParts(int n): parts(new TextPart[n]), length(n), extent(0) { }
+        void discard() { delete[] parts; parts = nullptr; length = 0; }
+        TextPart* begin() const { return &parts[0]; }
+        TextPart* end() const { return &parts[length]; }
+        TextPart& operator[](int index) const { return parts[index]; }
+        int size() const { return length; }
     };
 
-    TextPart * partitions(wchar_t* str, size_t len, size_t nparts = 0) const;
+    TextParts partitions(wchar_t* str, int len, int nparts = 0) const;
+
+    void drawLimitLeft(Graphics& g, XftFont* font, int x, int y,
+                       wchar_t* str, int len, int width, int limit) const;
+    void drawLimitRight(Graphics& g, XftFont* font, int x, int y,
+                        wchar_t* str, int len, int width, int limit) const;
     void drawString(Graphics& g, XftFont* font, int x, int y,
-                    wchar_t* str, size_t len);
-    void textExtents(XftFont* font, wchar_t* str, size_t len,
-                     XGlyphInfo& extends) const {
+                    wchar_t* str, int len) const {
         switch (true) {
-            case sizeof(wchar_t) == sizeof(FcChar32):
-                XftTextExtents32(xapp->display(), font,
-                                 (FcChar32 *) str, len, &extends);
-            case false: ;
+        case sizeof(wchar_t) == sizeof(FcChar32):
+            XftDrawString32(g.handleXft(), g.color().xftColor(), font,
+                            x - g.xorigin(), y - g.yorigin(),
+                            (FcChar32 *) str, len);
+        case false: ;
         }
+    }
+
+    void textExtents(XftFont* font, wchar_t* str, int len,
+                     XGlyphInfo* extents) const {
+        switch (true) {
+        case sizeof(wchar_t) == sizeof(FcChar32):
+            XftTextExtents32(xapp->display(), font,
+                             (FcChar32 *) str, len, extents);
+        case false: ;
+        }
+    }
+
+    wchar_t ellipsis() const {
+        const unsigned utf32ellipsis = 0x2026;
+        extern bool showEllipsis;
+        return showEllipsis && supports(utf32ellipsis) ? utf32ellipsis : None;
     }
 
     int fFontCount, fAscent, fDescent;
     XftFont** fFonts;
 };
-
-void YXftFont::drawString(Graphics &g, XftFont* font, int x, int y,
-                          wchar_t* str, size_t len)
-{
-    YBidi bidi(str, len);
-    switch (true) {
-        case sizeof(wchar_t) == sizeof(FcChar32):
-            XftDrawString32(g.handleXft(), g.color().xftColor(), font,
-                            x - g.xorigin(), y - g.yorigin(),
-                            (FcChar32 *) bidi.string(), bidi.length());
-        case false: ;
-    }
-}
 
 /******************************************************************************/
 
@@ -88,26 +105,32 @@ YXftFont::YXftFont(mstring name, bool use_xlfd):
     int count = 0;
     for (mstring s(name), r; s.splitall(',', &s, &r); s = r) {
         mstring fname = s.trim();
-        if (fname.isEmpty() || count >= fFontCount)
-            continue;
-
-        XftFont* font;
-        if (use_xlfd) {
-            font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
-        } else {
-            font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
-        }
-
-        if (font) {
-            fAscent = max(fAscent, font->ascent);
-            fDescent = max(fDescent, font->descent);
-            fFonts[count++] = font;
-        } else {
-            warn(_("Could not load font \"%s\"."), fname.c_str());
+        if (fname.nonempty() && count < fFontCount) {
+            XftFont* font;
+            if (use_xlfd) {
+                font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
+            } else {
+                font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
+            }
+            if (font) {
+                fFonts[count++] = font;
+            } else {
+                warn(_("Could not load font \"%s\"."), fname.c_str());
+            }
         }
     }
     if ((fFontCount = count) == 0) {
         delete[] fFonts; fFonts = nullptr;
+    } else {
+        long numer = 0, accum = 0, decum = 0;
+        for (int i = 0; i < count; ++i) {
+            XftFont* font = fFonts[i];
+            accum += font->ascent * (count - i);
+            decum += font->descent * (count - i);
+            numer += (count - i);
+        }
+        fAscent = int((accum + (numer / 2)) / numer);
+        fDescent = int((decum + (numer / 2)) / numer);
     }
 }
 
@@ -128,24 +151,18 @@ YXftFont::~YXftFont() {
     delete[] fFonts;
 }
 
-int YXftFont::textWidth(string_t& str) const {
-    YBidi bidi(str.data(), str.length());
-    TextPart* parts = partitions(bidi.string(), bidi.length());
-    unsigned width(0);
-
-    for (TextPart* p = parts; p && p->length; ++p) {
-        width += p->width;
-    }
-
-    delete[] parts;
-    return width;
+int YXftFont::textWidth(wchar_t* text, int length) const {
+    YBidi bidi(text, length);
+    TextParts parts = partitions(bidi.string(), int(bidi.length()));
+    parts.discard();
+    return parts.extent;
 }
 
 int YXftFont::textWidth(const char* str, int len) const {
     int width;
     if (0 < len) {
 #ifndef CONFIG_I18N
-        const size_t size = len + 1;
+        const int size = len + 1;
         wchar_t text[size];
         int count = 0;
         for (int i = 0; i < len; ) {
@@ -158,22 +175,22 @@ int YXftFont::textWidth(const char* str, int len) const {
             }
         }
         text[count] = 0;
-        string_t string(text, count);
+        width = textWidth(text, count);
 #else
         YUnicodeString string(str, len);
+        width = textWidth(string.data(), int(string.length()));
 #endif
-        width = textWidth(string);
     } else {
         width = 0;
     }
     return width;
 }
 
-void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
+void YXftFont::drawGlyphs(Graphics& g, int x, int y,
                           const char* str, int len, int limit) {
-    if (0 < len) {
+    if (0 < len && 0 <= limit) {
 #ifndef CONFIG_I18N
-        const size_t size = len + 1;
+        const int size = len + 1;
         wchar_t text[size];
         int count = 0;
         for (int i = 0; i < len; ) {
@@ -186,27 +203,149 @@ void YXftFont::drawGlyphs(Graphics & graphics, int x, int y,
             }
         }
         text[count] = 0;
-        wchar_t* xstr(text);
-        size_t xlen(count);
+        YBidi bidi(text, count);
 #else
-        YUnicodeString string(str, len);
-        wchar_t* xstr(string.data());
-        size_t xlen(string.length());
+        YUnicodeString unicode(str, len);
+        YBidi bidi(unicode.data(), unicode.length());
 #endif
-
-        TextPart *parts = partitions(xstr, xlen);
-        int xpos = x;
-        for (TextPart *p = parts; p && p->length; ++p) {
-            if (p->font) {
-                drawString(graphics, p->font,
-                           xpos, y,
-                           xstr, p->length);
+        TextParts parts = partitions(bidi.string(), int(bidi.length()));
+        if (limit == 0 && bidi.isRTL() && int(g.rwidth()) < parts.extent) {
+            limit = int(g.rwidth());
+        }
+        if (limit == 0) {
+            wchar_t* xstr = bidi.string();
+            int xpos = 0;
+            for (TextPart& p : parts) {
+                if (p.font) {
+                    drawString(g, p.font, x + xpos, y, xstr, p.length);
+                }
+                xstr += p.length;
+                xpos += p.width;
             }
-            xstr += p->length;
-            xpos += p->width;
+        }
+        else {
+            bool clipping = (x - g.xorigin() + limit < int(g.rwidth()));
+            if (clipping) {
+                XRectangle clip = {
+                    short(x - g.xorigin()),
+                    short(y - ascent() - g.yorigin()),
+                    (unsigned short) limit,
+                    (unsigned short) g.rheight()
+                };
+                g.setClipRectangles(&clip, 1);
+            }
+
+            if (bidi.isRTL() == false) {
+                wchar_t* xstr = bidi.string();
+                int xpos = 0;
+                for (TextPart& p : parts) {
+                    if (p.font && xpos < limit) {
+                        if (limit - xpos >= p.width) {
+                            drawString(g, p.font, x + xpos, y, xstr, p.length);
+                        } else {
+                            drawLimitLeft(g, p.font, x + xpos, y, xstr,
+                                          p.length, p.width, limit - xpos);
+                            break;
+                        }
+                    }
+                    xstr += p.length;
+                    xpos += p.width;
+                }
+            } else {
+                wchar_t* xstr = bidi.string();
+                int xpos = 0;
+                for (TextPart* q = parts.end(); --q >= parts.begin(); ) {
+                    TextPart& p(*q);
+                    if (p.font && xpos < limit) {
+                        int left = limit - xpos;
+                        if (left >= p.width) {
+                            int xoff = x + left - p.width;
+                            drawString(g, p.font, xoff, y, xstr, p.length);
+                        } else {
+                            drawLimitRight(g, p.font, x, y, xstr,
+                                           p.length, p.width, left);
+                            break;
+                        }
+                    }
+                    xstr += p.length;
+                    xpos += p.width;
+                }
+            }
+
+            if (clipping) {
+                g.resetClip();
+            }
         }
 
-        delete[] parts;
+        parts.discard();
+    }
+}
+
+void YXftFont::drawLimitLeft(Graphics& g, XftFont* font, int x, int y,
+                             wchar_t* str, int len, int width, int limit) const
+{
+    wchar_t el = ellipsis();
+    int ew = el ? textWidth(&el, 1) : None;
+    if (ew) {
+        limit -= ew;
+    }
+    if (0 < limit && 0 < len) {
+        int lo = 0, hi = len, pw = width;
+        while (lo < hi) {
+            int pv = (lo + hi + 1) / 2;
+            pw = textWidth(str, pv);
+            if (pw <= limit) {
+                lo = pv;
+            } else {
+                hi = pv - 1;
+            }
+        }
+        if (pw > limit)
+            lo -= 1;
+        if (0 < ew) {
+            const int size = lo + 2;
+            wchar_t copy[size];
+            memcpy(copy, str, lo * sizeof(wchar_t));
+            copy[lo] = el;
+            copy[lo + 1] = 0;
+            drawString(g, font, x, y, copy, lo + 1);
+        } else {
+            drawString(g, font, x, y, str, lo);
+        }
+    }
+}
+
+void YXftFont::drawLimitRight(Graphics& g, XftFont* font, int x, int y,
+                              wchar_t* str, int len, int width, int limit) const
+{
+    wchar_t el = ellipsis();
+    int ew = el ? textWidth(&el, 1) : None;
+    if (0 < limit && 0 < len) {
+        int lo = 0, hi = len, pw = width + ew;
+        while (lo < hi) {
+            int pv = (lo + hi + 1) / 2;
+            pw = textWidth(str + len - pv, pv) + ew;
+            if (pw <= limit) {
+                lo = pv;
+            } else {
+                hi = pv - 1;
+            }
+        }
+        if (pw > limit && lo > 0) {
+            lo -= 1;
+        }
+        if (0 < ew) {
+            const int size = lo + 2;
+            wchar_t copy[size];
+            memcpy(copy + 1, str + len - lo, lo * sizeof(wchar_t));
+            copy[0] = el;
+            copy[lo + 1] = 0;
+            pw = textWidth(copy, lo + 1);
+            drawString(g, font, x + limit - pw, y, copy, lo + 1);
+        } else {
+            pw = textWidth(str + len - lo, lo);
+            drawString(g, font, x + limit - pw, y, str + len - lo, lo);
+        }
     }
 }
 
@@ -222,55 +361,47 @@ bool YXftFont::supports(unsigned utf32char) const {
     return true;
 }
 
-YXftFont::TextPart* YXftFont::partitions(wchar_t* str, size_t len,
-                                         size_t nparts) const
+YXftFont::TextParts YXftFont::partitions(wchar_t* str, int len, int nparts) const
 {
-    XftFont ** lFont(fFonts + fFontCount);
+    XftFont ** endFont(fFonts + fFontCount);
     XftFont ** font(nullptr);
-    wchar_t * c(str);
+    int c = 0;
 
-    for (wchar_t* endptr(str + len); c < endptr; ++c) {
+    for (; c < len; ++c) {
         XftFont ** probe(fFonts);
 
-        while (probe < lFont && !XftCharExists(xapp->display(), *probe, *c))
+        while (probe < endFont
+            && !XftCharExists(xapp->display(), *probe, str[c]))
             ++probe;
 
         if (probe != font) {
-            if (nullptr != font) {
-                TextPart *parts = partitions(c, len - (c - str), nparts + 1);
-                parts[nparts].length = (c - str);
-
-                if (font < lFont) {
-                    XGlyphInfo extends;
-                    textExtents(*font, str, (c - str), extends);
-                    parts[nparts].font = *font;
-                    parts[nparts].width = extends.xOff;
+            if (font) {
+                TextParts parts = partitions(str + c, len - c, nparts + 1);
+                if (font < endFont) {
+                    XGlyphInfo extents;
+                    textExtents(*font, str, c, &extents);
+                    parts[nparts] = TextPart(*font, c, extents.xOff);
+                    parts.extent += extents.xOff;
                 } else {
-                    parts[nparts].font = nullptr;
-                    parts[nparts].width = 0;
-                    MSG(("glyph not found: %d", *(c - 1)));
+                    parts[nparts] = TextPart(nullptr, c, 0);
+                    MSG(("glyph not found: %d", str[c]));
                 }
-
                 return parts;
-            } else
+            } else {
                 font = probe;
+            }
         }
     }
 
-    TextPart *parts = new TextPart[nparts + 2];
-    parts[nparts + 1].font =  nullptr;
-    parts[nparts + 1].width = 0;
-    parts[nparts + 1].length = 0;
-    parts[nparts].length = (c - str);
+    TextParts parts(nparts + 1);
 
-    if (nullptr != font && font < lFont) {
-        XGlyphInfo extends;
-        textExtents(*font, str, (c - str), extends);
-        parts[nparts].font = *font;
-        parts[nparts].width = extends.xOff;
+    if (font && font < endFont) {
+        XGlyphInfo extents;
+        textExtents(*font, str, c, &extents);
+        parts[nparts] = TextPart(*font, c, extents.xOff);
+        parts.extent += extents.xOff;
     } else {
-        parts[nparts].font = nullptr;
-        parts[nparts].width = 0;
+        parts[nparts] = TextPart(nullptr, c, 0);
     }
 
     return parts;
