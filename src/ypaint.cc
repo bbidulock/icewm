@@ -289,75 +289,7 @@ void Graphics::drawString(int x, int y, char const * str) {
 void Graphics::drawStringEllipsis(int x, int y, const char *str, int maxWidth) {
     if (fFont != null)
         fFont->drawGlyphs(*this, x, y, str, int(strlen(str)), maxWidth);
-/*
-    const int len(strlen(str));
-
-    if (fFont == null || fFont->textWidth(str, len) <= maxWidth) {
-        drawChars(str, 0, len, x, y);
-        return;
-    }
-
-    auto ellipsis = showEllipsis && fFont->supports(utf32ellipsis) ?
-            utf8ellipsis : "...";
-
-    if (showEllipsis)
-        maxWidth -= fFont->textWidth(ellipsis, 3);
-
-    int rawPos(0), drawPos(0), trimLen(0), trimWid(0);
-
-    if (maxWidth > 0) {
-        while (rawPos < len) {
-            int glyphLen, glyphWidth;
-#ifdef CONFIG_I18N
-            wchar_t wc;
-            if (multiByte) {
-                glyphLen = mbtowc(&wc, str + rawPos, size_t(len - rawPos));
-                if (glyphLen < 1) { // bad things
-                    rawPos++;
-                    continue;
-                }
-                glyphWidth = fFont->textWidth(str + rawPos, glyphLen);
-            } else
-#endif
-            {
-                glyphLen = 1;
-                glyphWidth = fFont->textWidth(str + rawPos, 1);
-            }
-
-            if (drawPos + glyphWidth >= maxWidth)
-                break;
-            bool isSpace =
-#ifdef CONFIG_I18N
-                multiByte ?
-                    !iswprint(wc) :
-#endif
-                    (1 == glyphLen && ASCII::isWhiteSpace(str[rawPos]));
-
-            if (isSpace)
-            {
-                trimLen += glyphLen;
-                trimWid += glyphWidth;
-            } else {
-                trimLen = trimWid = 0;
-            }
-
-            rawPos += glyphLen;
-            drawPos += glyphWidth;
-        }
-        // chop off trailing whitespace
-        rawPos -= trimLen;
-        drawPos -= trimWid;
-    }
-
-    if (rawPos > 0)
-        drawChars(str, 0, rawPos, x, y);
-
-    if (showEllipsis && rawPos < len) {
-        drawChars(ellipsis, 0, 3, x + drawPos, y);
-    }
-    */
 }
-
 
 void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
 /// TODO #warning "FIXME: don't mess with multibyte here, use a wide char"
