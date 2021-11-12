@@ -24,10 +24,11 @@ public:
 #ifdef CONFIG_FRIBIDI
         , big(new wchar_t[length + 1])
 #endif
+        , rtl(false)
     {
 #ifdef CONFIG_FRIBIDI
         if (big) {
-            FriBidiCharType pbase_dir = FRIBIDI_TYPE_N;
+            FriBidiCharType pbase_dir = FRIBIDI_PAR_ON;
             switch (true) {
                 case sizeof(wchar_t) == sizeof(unsigned):
                     if (fribidi_log2vis((const FriBidiChar *) str,
@@ -36,6 +37,7 @@ public:
                                         nullptr, nullptr, nullptr))
                     {
                         str = big;
+                        rtl = (pbase_dir & 1);
                     }
                 case false: ;
             }
@@ -44,12 +46,14 @@ public:
     }
     wchar_t* string() const { return str; }
     size_t length() const { return len; }
+    bool isRTL() const { return rtl; }
 private:
     wchar_t* str;
     size_t len;
 #ifdef CONFIG_FRIBIDI
     asmart<wchar_t> big;
 #endif
+    bool rtl;
 };
 
 #endif
