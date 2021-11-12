@@ -189,7 +189,7 @@ char* YLocale::localeString(wchar_t const* uStr, size_t uLen, size_t &lLen) {
     const
 #endif
     char* inbuf((char *) uStr);
-    char* outbuf((char *) lStr);
+    char* outbuf(lStr);
     size_t inlen(uLen), outlen(uLen);
 
     errno = 0;
@@ -203,8 +203,8 @@ char* YLocale::localeString(wchar_t const* uStr, size_t uLen, size_t &lLen) {
         }
     }
 
-    *((char *) outbuf) = 0;
-    lLen = ((char *) outbuf) - lStr;
+    *outbuf = '\0';
+    lLen = outbuf - lStr;
 
     return lStr;
 }
@@ -220,8 +220,8 @@ wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
 #ifdef __NetBSD__
     const
 #endif
-    char* inbuf((char *) lStr);
-    char* outbuf((char *) uStr);
+    char* inbuf(const_cast<char *>(lStr));
+    char* outbuf(reinterpret_cast<char *>(uStr));
     size_t inlen(lLen), outlen(4 * lLen);
 
     errno = 0;
@@ -235,8 +235,8 @@ wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
         }
     }
 
-    *((wchar_t *) outbuf) = 0;
-    uLen = ((wchar_t *) outbuf) - uStr;
+    *(reinterpret_cast<wchar_t *>(outbuf)) = 0;
+    uLen = reinterpret_cast<wchar_t *>(outbuf) - uStr;
 
     return uStr;
 }
