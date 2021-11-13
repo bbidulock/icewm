@@ -18,15 +18,19 @@ public:
     static const char* getLocaleName();
     static int getRating(const char* localeStr);
     static bool RTL() { return instance->rightToLeft; }
+    static bool UTF8() { return instance->codesetUTF8; }
 
 #ifdef CONFIG_I18N
     static char* localeString(wchar_t const* uStr, size_t uLen, size_t& lLen);
     static wchar_t* unicodeString(char const* lStr, size_t lLen, size_t& uLen);
+#else
+    static wchar_t* wideCharString(char const* str, size_t len, size_t& out);
 #endif
 
 private:
     class YConverter* converter;
     bool rightToLeft;
+    bool codesetUTF8;
     void getDirection();
 
     static YLocale* instance;

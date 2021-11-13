@@ -14,12 +14,12 @@
 #include "base.h"
 #include "intl.h"
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef CONFIG_I18N
 #include <errno.h>
 #include <langinfo.h>
 #include <locale.h>
-#include <stdlib.h>
 #include <wchar.h>
 #include <assert.h>
 #include <X11/Xlib.h>
@@ -35,10 +35,11 @@ public:
     iconv_t unicode() const { return toUnicode; }
     iconv_t localer() const { return toLocale; }
     const char* localeName() const { return fLocaleName; }
+    const char* codesetName() const { return fCodeset; }
 
 private:
     void getConverters();
-    iconv_t getConverter(char const* from, char const**& to);
+    iconv_t getConverter(const char* from, const char**& to);
     const char* getCodeset();
 
     iconv_t toUnicode;
@@ -47,7 +48,7 @@ private:
     const char* fCodeset;
 };
 
-YConverter::YConverter(char const* localeName) :
+YConverter::YConverter(const char* localeName) :
     toUnicode(invalid),
     toLocale(invalid),
     fLocaleName(setlocale(LC_ALL, localeName))
@@ -67,7 +68,7 @@ YConverter::YConverter(char const* localeName) :
 }
 
 const char* YConverter::getCodeset() {
-    char const* codeset = nullptr;
+    const char* codeset = nullptr;
     int const codesetItems[] = {
 #ifdef CONFIG_NL_CODESETS
         CONFIG_NL_CODESETS
@@ -99,7 +100,7 @@ void YConverter::getConverters() {
 
     // #warning "this is getting way too complicated"
 
-    char const* unicodeCharsets[] = {
+    const char* unicodeCharsets[] = {
 #ifdef CONFIG_UNICODE_SET
         CONFIG_UNICODE_SET,
 #endif
@@ -112,13 +113,13 @@ void YConverter::getConverters() {
         nullptr
     };
 
-    char const* localeCharsets[] = {
+    const char* localeCharsets[] = {
         cstrJoin(fCodeset, "//TRANSLIT", nullptr),
         fCodeset,
         nullptr
     };
 
-    char const** ucs(unicodeCharsets);
+    const char** ucs(unicodeCharsets);
     toUnicode = getConverter(localeCharsets[1], ucs);
     if (toUnicode == invalid)
         die(1, _("iconv doesn't supply (sufficient) "
@@ -126,7 +127,7 @@ void YConverter::getConverters() {
 
     MSG(("toUnicode converts from %s to %s", localeCharsets[1], *ucs));
 
-    char const** lcs(localeCharsets);
+    const char** lcs(localeCharsets);
     toLocale = getConverter(*ucs, lcs);
     if (toLocale == invalid)
         die(1, _("iconv doesn't supply (sufficient) "
@@ -154,14 +155,16 @@ iconv_t YConverter::getConverter(const char* from, const char**& to) {
 
 YLocale* YLocale::instance;
 
-YLocale::YLocale(char const* localeName)
+YLocale::YLocale(const char* localeName)
     : converter(nullptr)
     , rightToLeft(false)
+    , codesetUTF8(false)
 {
     if (instance == nullptr) {
         instance = this;
 #ifdef CONFIG_I18N
         converter = new YConverter(localeName);
+        codesetUTF8 = (0 == strncmp(converter->codesetName(), "UTF-8", 5));
 #endif
         bindtextdomain(PACKAGE, LOCDIR);
         textdomain(PACKAGE);
@@ -239,6 +242,25 @@ wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
     uLen = reinterpret_cast<wchar_t *>(outbuf) - uStr;
 
     return uStr;
+}
+#else
+
+wchar_t* YLocale::wideCharString(const char* str, size_t len, size_t& out) {
+    wchar_t* text = new wchar_t[len + 1];
+    size_t count = 0;
+    mbtowc(nullptr, nullptr, size_t(0));
+    for (size_t i = 0; i < len; ++i) {
+        int k = mbtowc(&text[count], str + i, len - i);
+        if (k < 1) {
+            i++;
+        } else {
+            i += k;
+            count++;
+        }
+    }
+    text[count] = 0;
+    out = count;
+    return text;
 }
 #endif
 
