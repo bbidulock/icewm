@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <langinfo.h>
 
 char const *ApplicationName("testlocale");
 bool multiByte(true);
@@ -44,6 +45,7 @@ int main() {
     {
         YLocale locale;
         printf("Default locale: %s\n", YLocale::getLocaleName());
+        printf("nl_langinfo(%d): %s\n", CODESET, nl_langinfo(CODESET));
     }
 
     {
