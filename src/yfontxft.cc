@@ -10,11 +10,6 @@
 #include "intl.h"
 #include <stdio.h>
 #include <X11/Xft/Xft.h>
-#ifdef CONFIG_I18N
-#include <langinfo.h>
-#else
-#define nl_langinfo(X) ""
-#endif
 
 /******************************************************************************/
 
@@ -161,25 +156,8 @@ int YXftFont::textWidth(wchar_t* text, int length) const {
 int YXftFont::textWidth(const char* str, int len) const {
     int width;
     if (0 < len) {
-#ifndef CONFIG_I18N
-        const int size = len + 1;
-        wchar_t text[size];
-        int count = 0;
-        for (int i = 0; i < len; ) {
-            int k = mbtowc(&text[count], str + i, size_t(len - i));
-            if (k < 1) {
-                i++;
-            } else {
-                i += k;
-                count++;
-            }
-        }
-        text[count] = 0;
-        width = textWidth(text, count);
-#else
-        YUnicodeString string(str, len);
+        YWideString string(str, len);
         width = textWidth(string.data(), int(string.length()));
-#endif
     } else {
         width = 0;
     }
@@ -189,25 +167,8 @@ int YXftFont::textWidth(const char* str, int len) const {
 void YXftFont::drawGlyphs(Graphics& g, int x, int y,
                           const char* str, int len, int limit) {
     if (0 < len && 0 <= limit) {
-#ifndef CONFIG_I18N
-        const int size = len + 1;
-        wchar_t text[size];
-        int count = 0;
-        for (int i = 0; i < len; ) {
-            int k = mbtowc(&text[count], str + i, size_t(len - i));
-            if (k < 1) {
-                i++;
-            } else {
-                i += k;
-                count++;
-            }
-        }
-        text[count] = 0;
-        YBidi bidi(text, count);
-#else
-        YUnicodeString unicode(str, len);
-        YBidi bidi(unicode.data(), unicode.length());
-#endif
+        YWideString wide(str, len);
+        YBidi bidi(wide.data(), wide.length());
         TextParts parts = partitions(bidi.string(), int(bidi.length()));
         if (limit == 0 && bidi.isRTL() && int(g.rwidth()) < parts.extent) {
             limit = int(g.rwidth());
@@ -350,7 +311,7 @@ void YXftFont::drawLimitRight(Graphics& g, XftFont* font, int x, int y,
 }
 
 bool YXftFont::supports(unsigned utf32char) const {
-    if (utf32char >= 255 && strcmp("UTF-8", nl_langinfo(CODESET)))
+    if (utf32char >= 255 && YLocale::UTF8() == false)
         return false;
 
     // be conservative, only report when all font candidates can do it

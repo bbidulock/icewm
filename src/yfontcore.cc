@@ -5,19 +5,19 @@
 #include "intl.h"
 #include "yxapp.h"
 #include "yprefs.h"
-#ifdef CONFIG_I18N
-#include <locale.h>
-#endif
+#include "ystring.h"
+#include "ylocale.h"
+#include "ybidi.h"
 
 class YCoreFont : public YFontBase {
 public:
-    YCoreFont(char const * name);
+    YCoreFont(const char* name);
     virtual ~YCoreFont();
 
     virtual bool valid() const override { return fFont != nullptr; }
     virtual int descent() const override { return fDescent; }
     virtual int ascent() const override { return fAscent; }
-    virtual int textWidth(char const * str, int len) const override;
+    virtual int textWidth(const char* str, int len) const override;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             const char* str, int len, int limit = 0) override;
 
@@ -29,32 +29,33 @@ private:
 #ifdef CONFIG_I18N
 class YFontSet : public YFontBase {
 public:
-    YFontSet(char const * name);
+    YFontSet(const char* name);
     virtual ~YFontSet();
 
     virtual bool valid() const override { return fFontSet != nullptr; }
     virtual int descent() const override { return fDescent; }
     virtual int ascent() const override { return fAscent; }
-    virtual int textWidth(char const * str, int len) const override;
+    virtual int textWidth(const char* str, int len) const override;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             const char* str, int len, int limit = 0) override;
 
 private:
-    static XFontSet getFontSetWithGuess(char const * pattern, char *** missing,
-                                        int * nMissing, char ** defString);
+    static XFontSet guessFontSet(const char* pattern, char*** missing,
+                                       int* nMissing, char** defString);
     static char* getNameElement(const char* pat, int index, const char* def);
     static int countChar(const char* str, char ch);
+    int textWidth(const YBidi& string) const {
+        return XwcTextEscapement(fFontSet, string.string(), string.length());
+    }
     int textWidth(wchar_t* string, int num_wchars) const {
         return XwcTextEscapement(fFontSet, string, num_wchars);
-    }
-    void draw(Graphics& g, int x, int y, const char* str, int len) const {
-        XmbDrawString(xapp->display(), g.drawable(), fFontSet, g.handleX(),
-                      x - g.xorigin(), y - g.yorigin(), str, len);
     }
     void draw(Graphics& g, int x, int y, wchar_t* text, int count) const {
         XwcDrawString(xapp->display(), g.drawable(), fFontSet, g.handleX(),
                       x - g.xorigin(), y - g.yorigin(), text, count);
     }
+    void drawLimitRight(Graphics& g, int x, int y, wchar_t* text, int count, int width, int limit) const;
+    void drawLimitLeft(Graphics& g, int x, int y, wchar_t* text, int count, int width, int limit) const;
 
     XFontSet fFontSet;
     int fAscent, fDescent;
@@ -179,13 +180,13 @@ void YCoreFont::drawGlyphs(Graphics& g, int x, int y,
 
 #ifdef CONFIG_I18N
 
-YFontSet::YFontSet(char const * name):
+YFontSet::YFontSet(const char* name):
     fFontSet(None), fAscent(0), fDescent(0)
 {
     int nMissing = 0;
     char **missing = nullptr, *defString = nullptr;
 
-    fFontSet = getFontSetWithGuess(name, &missing, &nMissing, &defString);
+    fFontSet = guessFontSet(name, &missing, &nMissing, &defString);
     if (fFontSet) {
         YTraceFont trace;
         if (trace.tracing()) {
@@ -253,67 +254,101 @@ int YFontSet::textWidth(const char *str, int len) const {
 void YFontSet::drawGlyphs(Graphics& g, int x, int y,
                           const char* str, int len, int limit)
 {
-    const int maxwide = 987;
-    wchar_t wides[maxwide];
-    int numwides = 0;
-    for (int i = 0; i < len && str[i] && numwides < maxwide; ) {
-        int k = mbtowc(&wides[numwides], str + i, size_t(len - i));
-        if (k < 1) {
-            i++;
-        } else {
-            i += k;
-            numwides++;
-        }
-    }
+    YWideString wide(str, len);
+    YBidi bidi(wide.data(), wide.length());
     int tw;
-    if (limit == 0 || (tw = textWidth(wides, numwides)) <= limit) {
-        draw(g, x, y, wides, numwides);
+    if (limit == 0 || (tw = textWidth(bidi)) <= limit) {
+        draw(g, x, y, bidi.string(), bidi.length());
     }
-    else {
-        const char* el = showEllipsis ? ellipsis() : "";
-        int ew = showEllipsis ? textWidth(el, 3) : 0;
+    else if (bidi.isRTL()) {
+        drawLimitRight(g, x, y, bidi.string(), bidi.length(), tw, limit);
+    } else {
+        drawLimitLeft(g, x, y, bidi.string(), bidi.length(), tw, limit);
+    }
+}
+
+void YFontSet::drawLimitLeft(Graphics& g, int x, int y, wchar_t* text,
+                             int count, int width, int limit) const
+{
+    const char* el = showEllipsis ? ellipsis() : "";
+    int ew = showEllipsis ? textWidth(el, 3) : 0;
+    if (ew) {
         limit -= ew;
-        if (limit > 0) {
-            int lo = 0, hi = numwides;
-            while (lo < hi) {
-                int pv = (lo + hi + 1) / 2;
-                int pw = textWidth(wides, pv);
-                if (pw <= limit) {
-                    lo = pv;
-                } else {
-                    hi = pv - 1;
+    }
+    if (0 < limit && 0 < count) {
+        int lo = 0, hi = count, pw = width;
+        while (lo < hi) {
+            int pv = (lo + hi + 1) / 2;
+            pw = textWidth(text, pv);
+            if (pw <= limit) {
+                lo = pv;
+            } else {
+                hi = pv - 1;
+            }
+        }
+        if (pw > limit && lo > 0)
+            lo -= 1;
+        if (0 < ew) {
+            YWideString ellips(el, 3);
+            for (int i = 0; i < int(ellips.length()); ++i) {
+                if (lo < count) {
+                    text[lo++] = ellips[i];
                 }
             }
-            if (0 < ew) {
-                for (int i = 0; i < 3 && el[i] && lo < maxwide; ) {
-                    int k = mbtowc(&wides[lo], el + i, size_t(3 - i));
-                    if (k < 1) {
-                        break;
-                    } else {
-                        i += k;
-                        lo++;
-                    }
-                }
+        }
+        draw(g, x, y, text, lo);
+    }
+}
+
+void YFontSet::drawLimitRight(Graphics& g, int x, int y, wchar_t* text,
+                              int count, int width, int limit) const
+{
+    const char* el = showEllipsis ? ellipsis() : "";
+    int ew = showEllipsis ? textWidth(el, 3) : 0;
+    if (0 < limit && 0 < count) {
+        int lo = 0, hi = count, pw = width + ew;
+        while (lo < hi) {
+            int pv = (lo + hi + 1) / 2;
+            pw = textWidth(text + count - pv, pv) + ew;
+            if (pw <= limit) {
+                lo = pv;
+            } else {
+                hi = pv - 1;
             }
-            draw(g, x, y, wides, lo);
+        }
+        if (pw > limit && lo > 0) {
+            lo -= 1;
+        }
+        if (0 < ew) {
+            YWideString ellipsis(el, 3);
+            size_t ellen = ellipsis.length();
+            size_t size = lo + ellen;
+            wchar_t* copy = new wchar_t[size + 1];
+            memcpy(copy, ellipsis.data(), ellen * sizeof(wchar_t));
+            memcpy(copy + ellen, text + count - lo, lo * sizeof(wchar_t));
+            copy[size] = 0;
+            pw = textWidth(copy, size);
+            draw(g, x + limit - pw, y, copy, size);
+            delete[] copy;
+        } else {
+            pw = textWidth(text + count - lo, lo);
+            draw(g, x + limit - pw, y, text + count - lo, lo);
         }
     }
 }
 
-XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
-                                       int * nMissing, char ** defString) {
+XFontSet YFontSet::guessFontSet(const char* pattern, char*** missing,
+                                      int* nMissing, char** defString) {
     XFontSet fontset(XCreateFontSet(xapp->display(), pattern,
                                     missing, nMissing, defString));
+#ifdef CONFIG_I18N
     if (fontset == nullptr || *nMissing == 0)
         return fontset;
 
     char** names = nullptr;
     XFontStruct** fonts = nullptr;
     int fontCount = XFontsOfFontSet(fontset, &fonts, &names);
-    if (fontCount < 1 || names[0][0] != '-')
-        return fontset;
-    char* initial = names[0];
-    if (countChar(initial, '-') != 14)
+    if (fontCount < 1 || names[0][0] != '-' || countChar(names[0], '-') != 14)
         return fontset;
 
     if (0 < *nMissing) {
@@ -321,20 +356,22 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     }
     XFreeFontSet(xapp->display(), fontset);
 
-    char* weight(getNameElement(pattern, 3, "medium"));
-    char* slant(getNameElement(pattern, 4, "r"));
-    char* pxlsz(getNameElement(pattern, 7, "12"));
+    char* family = getNameElement(names[0], 2, "*");
+    char* weight = getNameElement(names[0], 3, "medium");
+    char* slant = getNameElement(names[0], 4, "r");
+    char* pxlsz = getNameElement(names[0], 7, "12");
 
     const size_t patlen = strlen(pattern);
     const size_t bufsize = patlen + 128;
-    char* buffer = new char[bufsize];
+    char* const buffer = new char[bufsize];
     snprintf(buffer, bufsize,
              "%s,"
-             "-*-*-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
+             "-*-%s-%s-%s-*-*-%s-*-*-*-*-*-*-*,"
              , pattern
-             , weight, slant, pxlsz
+             , family, weight, slant, pxlsz
              );
 
+    delete[] family;
     delete[] pxlsz;
     delete[] slant;
     delete[] weight;
@@ -344,6 +381,7 @@ XFontSet YFontSet::getFontSetWithGuess(char const * pattern, char *** missing,
     fontset = XCreateFontSet(xapp->display(), buffer,
                              missing, nMissing, defString);
     delete[] buffer;
+#endif
     return fontset;
 }
 

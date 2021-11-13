@@ -9,29 +9,30 @@
 #define YSTRING_H
 
 #include <string.h>
-
-#ifdef CONFIG_I18N
-
 #include "ylocale.h"
 
-class YUnicodeString {
+class YWideString {
 public:
-    YUnicodeString(char const* lstr, size_t llen) :
+    YWideString(const char* lstr, size_t llen) :
         fLength(0),
+#ifdef CONFIG_I18N
         fData(YLocale::unicodeString(lstr, llen, fLength))
+#else
+        fData(YLocale::wideCharString(lstr, llen, fLength))
+#endif
     {
     }
-    ~YUnicodeString() {
+    YWideString(size_t size, wchar_t* text) : fLength(size), fData(text) { }
+    ~YWideString() {
         delete[] fData;
     }
     size_t length() const { return fLength; }
     wchar_t* data() const { return fData; }
+    wchar_t& operator[](int index) const { return fData[index]; }
 private:
     size_t fLength;
     wchar_t* fData;
 };
-
-#endif
 
 extern "C" {
     extern int XFree(void*);
