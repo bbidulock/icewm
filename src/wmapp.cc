@@ -491,8 +491,9 @@ void LogoutMenu::updatePopup() {
     if (showLogoutMenu) {
         setShared(true); /// !!! get rid of this (refcount objects)
         if (showLogoutSubMenu) {
-            addItem(_("_Logout"), -2, null, actionLogout);
-            addItem(_("_Cancel logout"), -2, null, actionCancelLogout)->setEnabled(false);
+            addItem(_("_Logout"), -2, null, actionLogout, "logout");
+            addItem(_("_Cancel logout"), -2, null, actionCancelLogout,
+                    "cancel-logout")->setEnabled(false);
             addSeparator();
 
             int const oldItemCount = itemCount();
