@@ -147,8 +147,7 @@ YXftFont::~YXftFont() {
 }
 
 int YXftFont::textWidth(wchar_t* text, int length) const {
-    YBidi bidi(text, length);
-    TextParts parts = partitions(bidi.string(), int(bidi.length()));
+    TextParts parts = partitions(text, length);
     parts.discard();
     return parts.extent;
 }
@@ -157,7 +156,8 @@ int YXftFont::textWidth(const char* str, int len) const {
     int width;
     if (0 < len) {
         YWideString string(str, len);
-        width = textWidth(string.data(), int(string.length()));
+        YBidi bidi(string.data(), string.length());
+        width = textWidth(bidi.string(), int(bidi.length()));
     } else {
         width = 0;
     }
@@ -261,7 +261,7 @@ void YXftFont::drawLimitLeft(Graphics& g, XftFont* font, int x, int y,
                 hi = pv - 1;
             }
         }
-        if (pw > limit)
+        if (pw > limit && lo > 0)
             lo -= 1;
         if (0 < ew) {
             const int size = lo + 2;
