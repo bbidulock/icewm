@@ -22,6 +22,7 @@ nobase_dist_pkgdata_DATA = \
 	icons/app_32x32.xpm \
 	icons/bomb_16x16.xpm \
 	icons/bomb_32x32.xpm \
+	icons/cancel-logout_16x16.xpm \
 	icons/communicator-abook_16x16.xpm \
 	icons/communicator-abook_32x32.xpm \
 	icons/communicator-browser_16x16.xpm \
