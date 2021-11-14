@@ -3,7 +3,7 @@ Building IceWM with CMake
 
 The CMake build system for IceWM is an alternative
 to the traditional configure build system.
-The minimum supported CMake version is 2.6 (May 2008).
+The minimum supported CMake version is 3.2 (March 2015).
 
 Installation instructions:
 --------------------------
