@@ -162,7 +162,7 @@ ref<YPixmap> YPixmap::subimage(unsigned x, unsigned y, unsigned w, unsigned h) {
     PRECONDITION(h <= height() && y <= height() - h);
 
     ref<YPixmap> pixmap(YPixmap::create(w, h, depth()));
-    Graphics g(pixmap, 0, 0);
+    Graphics g(pixmap);
     g.copyPixmap(ref<YPixmap>(this), x, y, w, h, 0, 0);
     return pixmap;
 }

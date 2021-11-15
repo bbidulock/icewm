@@ -94,9 +94,9 @@ struct YSurface {
 
 class Graphics {
 public:
-    Graphics(YWindow & window, unsigned long vmask, XGCValues * gcv);
-    Graphics(YWindow & window);
-    Graphics(ref<YPixmap> pixmap, int x_org, int y_org);
+    Graphics(YWindow& window, unsigned long vmask, XGCValues* gcv);
+    explicit Graphics(YWindow& window);
+    explicit Graphics(ref<YPixmap> pixmap);
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth, unsigned long vmask, XGCValues * gcv);
     Graphics(Drawable drawable, unsigned w, unsigned h, unsigned depth);
     ~Graphics();
@@ -137,15 +137,15 @@ public:
     void drawMask(ref<YPixmap> pix, int x, int y);
     void drawClippedPixmap(Pixmap pix, Pixmap clip,
                            int x, int y, unsigned w, unsigned h, int toX, int toY);
-    void fillRect(int x, int y, unsigned width, unsigned height,
-                  unsigned rounding = 0);
+    void fillRect(int x, int y, unsigned width, unsigned height);
+    void fillRect(int x, int y, unsigned width, unsigned height, unsigned rounding);
     void fillRects(XRectangle * rects, int n);
     void fillPolygon(XPoint * points, int n, int shape,
                      int mode);
     void fillArc(int x, int y, unsigned width, unsigned height, int a1, int a2);
     void setColor(const YColor& aColor);
     void setColorPixel(unsigned long pixel);
-    void setFont(YFont aFont);
+    void setFont(YFont aFont) { fFont = aFont; }
     void setThinLines() { setLineWidth(0); }
     void setWideLines(unsigned width = 1) { setLineWidth(width >= 1 ? width : 1); }
     void setLineWidth(unsigned width);

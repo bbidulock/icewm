@@ -2199,7 +2199,7 @@ ref<YIcon> newClientIcon(int count, int reclen, long * elem) {
 
         if (depth == 1) {
             ref<YPixmap> img = YPixmap::create(w, h, xapp->depth());
-            Graphics g(img, 0, 0);
+            Graphics g(img);
 
             g.setColorPixel(0xffffffff);
             g.fillRect(0, 0, w, h);

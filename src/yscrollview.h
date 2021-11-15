@@ -30,7 +30,7 @@ public:
     void configure(const YRect2& r) override ;
     void paint(Graphics& g, const YRect& r) override { }
     void repaint() override { }
-    void handleExpose(const XExposeEvent& expose) override {}
+    void handleExpose(const XExposeEvent& expose) override;
     bool handleScrollKeys(const XKeyEvent& key);
 
 protected:

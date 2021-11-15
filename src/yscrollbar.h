@@ -69,6 +69,7 @@ public:
     virtual void handleDNDLeave();
     virtual void handleDNDPosition(int x, int y);
     void setScrollBarListener(YScrollBarListener *notify) { fListener = notify; }
+    static YColor background();
     static void reverseVideo();
 
 private:

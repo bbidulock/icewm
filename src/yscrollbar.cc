@@ -58,6 +58,10 @@ void YScrollBar::reverseVideo() {
     scrollBarInactiveArrow.reverse();
 }
 
+YColor YScrollBar::background() {
+    return scrollBarBg;
+}
+
 void YScrollBar::setOrientation(Orientation anOrientation) {
     if (anOrientation != fOrientation) {
         fOrientation = anOrientation;

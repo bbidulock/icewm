@@ -48,7 +48,7 @@ Graphics::Graphics(YWindow & window):
     fColor(), fFont(),
     fPicture(None),
     xOrigin(0), yOrigin(0)
- {
+{
     rWidth = window.width();
     rHeight = window.height();
     rDepth = (window.depth() ? window.depth() : xapp->depth());
@@ -59,12 +59,12 @@ Graphics::Graphics(YWindow & window):
 #endif
 }
 
-Graphics::Graphics(ref<YPixmap> pixmap, int x_org, int y_org):
+Graphics::Graphics(ref<YPixmap> pixmap):
     fDrawable(pixmap->pixmap()),
     fColor(), fFont(),
     fPicture(None),
-    xOrigin(x_org), yOrigin(y_org)
- {
+    xOrigin(0), yOrigin(0)
+{
     rWidth = pixmap->width();
     rHeight = pixmap->height();
     rDepth = pixmap->depth();
@@ -365,14 +365,17 @@ void Graphics::drawStringMultiline(int x, int y, const char *str) {
 
 /******************************************************************************/
 
+void Graphics::fillRect(int x, int y, unsigned width, unsigned height) {
+    XFillRectangle(display(), drawable(), gc,
+                   x - xOrigin, y - yOrigin, width, height);
+}
+
 void Graphics::fillRect(int x, int y, unsigned width, unsigned height,
                         unsigned roundedCornerRadius)
 {
     unsigned rounding = min(roundedCornerRadius, min(width, height) / 2);
-
     if (rounding == 0) {
-        XFillRectangle(display(), drawable(), gc,
-                       x - xOrigin, y - yOrigin, width, height);
+        fillRect(x, y, width, height);
     } else {
         XArc arc[4];
 
@@ -475,10 +478,6 @@ void Graphics::setColorPixel(unsigned long pixel) {
         pixel |= 0xFF000000;
     }
     XSetForeground(display(), gc, pixel);
-}
-
-void Graphics::setFont(YFont aFont) {
-    fFont = aFont;
 }
 
 void Graphics::setLineWidth(unsigned width) {
