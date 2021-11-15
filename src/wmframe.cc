@@ -1707,9 +1707,21 @@ void YFrameWindow::repaint() {
     paint(getGraphics(), geometry());
 }
 
+static Bool checkExpose(Display* display, XEvent* event, XPointer arg) {
+    if (event->type == Expose && event->xexpose.window == *(Window*)arg) {
+        *(Window*)arg = None;
+    }
+    return False;
+}
+
 void YFrameWindow::handleExpose(const XExposeEvent &expose) {
     if (expose.count == 0) {
-        repaint();
+        XEvent check;
+        Window where = expose.window;
+        XCheckIfEvent(xapp->display(), &check, checkExpose, (XPointer) &where);
+        if (where == expose.window) {
+            repaint();
+        }
     }
 }
 
