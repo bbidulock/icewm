@@ -197,10 +197,10 @@ but preserve all modifications insofar they deviate from the defaults.
 
 Give a list of the current X extensions, their versions and status.
 
-=item B<--trace>=I<conf>,I<icon>,I<prog>,I<systray>
+=item B<--trace>=I<conf>,I<font>,I<icon>,I<prog>,I<systray>
 
 Enable tracing of the paths which are used to load configuration,
-and/or icons, and/or executed programs, and/or system tray applets.
+fonts, icons, executed programs, and/or system tray applets.
 
 =back
 
