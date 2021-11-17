@@ -189,7 +189,9 @@ bool YPopupWindow::popup(YWindow *owner,
         char* title = nullptr;
         if (parent && parent->fetchTitle(&title)) {
             if (0 == strcmp(title, "TitleBar")) {
-                int tx = parent->x();
+                int tx = 0;
+                int ty = parent->y();
+                parent->mapToGlobal(tx, ty);
                 int tw = int(parent->width());
                 if (x + int(width()) > tx + tw &&
                     tx + tw - int(width()) < dx + int(uw))
