@@ -76,9 +76,12 @@ void ThemesMenu::refresh() {
     findThemes(cnfThemes, this);
     findThemes(libThemes, this);
 
-    addSeparator();
     mstring defTheme(CONFIG_DEFAULT_THEME);
-    newThemeItem(app, smActionListener, _("Default"), defTheme, this);
+    YMenuItem *im = newThemeItem(app, smActionListener, _("Default"), defTheme, this);
+    if (im) {
+        addSeparator();
+        add(im);
+    }
 }
 
 int ThemesMenu::countThemes(const upath& path) {
