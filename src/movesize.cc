@@ -1077,22 +1077,24 @@ void YFrameWindow::handleMotion(const XMotionEvent &motion) {
         int newWidth = width(), newHeight = height();
 
         handleResizeMouse(motion, newX, newY, newWidth, newHeight);
-
-        drawMoveSizeFX(x(), y(), width(), height());
-        setCurrentGeometryOuter(YRect(newX, newY, newWidth, newHeight));
-        drawMoveSizeFX(x(), y(), width(), height());
-
+        YRect rect(newX, newY, newWidth, newHeight);
+        if (rect != geometry()) {
+            drawMoveSizeFX(x(), y(), width(), height());
+            setCurrentGeometryOuter(rect);
+            drawMoveSizeFX(x(), y(), width(), height());
+        }
         statusMoveSize->setStatus(this);
-        return ;
-    } else if (movingWindow) {
+    }
+    else if (movingWindow) {
         int newX = x();
         int newY = y();
 
         handleMoveMouse(motion, newX, newY);
         moveWindow(newX, newY);
-        return ;
     }
-    YWindow::handleMotion(motion);
+    else {
+        YWindow::handleMotion(motion);
+    }
 }
 
 

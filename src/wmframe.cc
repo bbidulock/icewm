@@ -3034,6 +3034,9 @@ void YFrameWindow::updateNormalSize() {
 }
 
 void YFrameWindow::setCurrentGeometryOuter(YRect newSize) {
+    if (newSize == geometry())
+        return;
+
     MSG(("setCurrentGeometryOuter: %d %d %d %d",
          newSize.x(), newSize.y(), newSize.width(), newSize.height()));
     setWindowGeometry(newSize);
