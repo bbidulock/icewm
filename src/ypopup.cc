@@ -184,6 +184,20 @@ bool YPopupWindow::popup(YWindow *owner,
         if (y < dy)
             y = dy;
     }
+    else {
+        YWindow* parent = forWindow->parent();
+        char* title = nullptr;
+        if (parent && parent->fetchTitle(&title)) {
+            if (0 == strcmp(title, "TitleBar")) {
+                int tx = parent->x();
+                int tw = int(parent->width());
+                if (x + int(width()) > tx + tw &&
+                    tx + tw - int(width()) < dx + int(uw))
+                    x = max(dx, max(tx, tx + tw - int(width())));
+            }
+            XFree(title);
+        }
+    }
 
     setPosition(x, y);
 
