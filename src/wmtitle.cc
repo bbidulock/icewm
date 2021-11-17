@@ -65,7 +65,8 @@ YFrameTitleBar::~YFrameTitleBar() {
 }
 
 bool YFrameTitleBar::isRight(char c) {
-    return (strchr(titleButtonsRight, c) != nullptr);
+    const char* distant = rightToLeft ? titleButtonsLeft : titleButtonsRight;
+    return (strchr(distant, c) != nullptr);
 }
 
 bool YFrameTitleBar::supported(char c) {
@@ -225,8 +226,9 @@ void YFrameTitleBar::layoutButtons() {
     int right(int(getFrame()->width()) - 2 * getFrame()->borderX() -
               (titleQ[pi] != null ? int(titleQ[pi]->width()) : 0));
 
-    if (titleButtonsLeft) {
-        for (const char *bc = titleButtonsLeft; *bc; bc++) {
+    const char* nearby = rightToLeft ? titleButtonsRight : titleButtonsLeft;
+    if (nearby) {
+        for (const char *bc = nearby; *bc; bc++) {
             if (*bc == ' ')
                 left++;
             else {
@@ -244,8 +246,9 @@ void YFrameTitleBar::layoutButtons() {
         }
     }
 
-    if (titleButtonsRight) {
-        for (const char *bc = titleButtonsRight; *bc; bc++) {
+    const char* distant = rightToLeft ? titleButtonsLeft : titleButtonsRight;
+    if (distant) {
+        for (const char *bc = distant; *bc; bc++) {
             if (*bc == ' ')
                 right--;
             else {
@@ -319,8 +322,9 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     if (titleQ[focused()] != null)
         onRight -= int(titleQ[focused()]->width());
 
-    if (titleButtonsLeft) {
-        for (const char *bc = titleButtonsLeft; *bc; bc++) {
+    const char* nearby = rightToLeft ? titleButtonsRight : titleButtonsLeft;
+    if (nearby) {
+        for (const char *bc = nearby; *bc; bc++) {
             if (*bc == ' ')
                 ++onLeft;
             else {
@@ -331,8 +335,9 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    if (titleButtonsRight) {
-        for (const char *bc = titleButtonsRight; *bc; bc++) {
+    const char* distant = rightToLeft ? titleButtonsLeft : titleButtonsRight;
+    if (distant) {
+        for (const char *bc = distant; *bc; bc++) {
             if (*bc == ' ')
                 --onRight;
             else {
@@ -510,8 +515,9 @@ void YFrameTitleBar::renderShape(Graphics& g) {
         if (titleQ[focused()] != null)
             onRight -= int(titleQ[focused()]->width());
 
-        if (titleButtonsLeft)
-            for (const char *bc = titleButtonsLeft; *bc; bc++) {
+        const char* nearby = rightToLeft ? titleButtonsRight : titleButtonsLeft;
+        if (nearby)
+            for (const char *bc = nearby; *bc; bc++) {
                 if (*bc == ' ')
                     ++onLeft;
                 else {
@@ -531,8 +537,9 @@ void YFrameTitleBar::renderShape(Graphics& g) {
                 }
             }
 
-        if (titleButtonsRight)
-            for (const char *bc = titleButtonsRight; *bc; bc++) {
+        const char* distant = rightToLeft ? titleButtonsLeft : titleButtonsRight;
+        if (distant)
+            for (const char *bc = distant; *bc; bc++) {
                 if (*bc == ' ')
                     --onRight;
                 else {

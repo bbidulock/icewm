@@ -51,7 +51,8 @@ bool YFrameButton::focused() const {
 }
 
 bool YFrameButton::onRight() const {
-    return (strchr(titleButtonsRight, fKind) != nullptr);
+    const char* buttons = rightToLeft ? titleButtonsLeft : titleButtonsRight;
+    return strchr(buttons, fKind) != nullptr;
 }
 
 void YFrameButton::setKind(char kind) {
