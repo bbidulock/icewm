@@ -985,8 +985,9 @@ void TaskBar::handlePopDown(YPopupWindow * /*popup*/) {
 }
 
 void TaskBar::configure(const YRect2& r) {
-    if (r.resized() && 1 < r.width()) {
+    if (r.resized() && 1 < r.width() && !fIsCollapsed) {
         repaint();
+        clearWindow();
     }
     updateWMHints();
 }
