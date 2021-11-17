@@ -359,8 +359,8 @@ YDimension YButton::getTextSize() {
 }
 
 void YButton::updateSize() {
-    int w = 72;
-    int h = 18;
+    unsigned w = 72;
+    unsigned h = 18;
     if (fIcon != null) {
         w = h = fIconSize;
     }
@@ -373,24 +373,29 @@ void YButton::updateSize() {
         w = d.w;
         h = d.h;
     }
-    setSize(w + 3 + 2 - LOOK(lookMetal | lookFlat),
-            h + 3 + 2 - LOOK(lookMetal | lookFlat));
+    unsigned ww = w + 3 + 2 - LOOK(lookMetal | lookFlat);
+    unsigned hh = h + 3 + 2 - LOOK(lookMetal | lookFlat);
+    setSize(ww, max(hh, height()));
 }
 
 void YButton::setIcon(ref<YIcon> icon, int iconSize) {
-    fIcon = icon;
-    fIconSize = iconSize;
-    fImage = null;
+    if (icon != fIcon || iconSize != fIconSize || fImage != null) {
+        fIcon = icon;
+        fIconSize = iconSize;
+        fImage = null;
 
-    updateSize();
+        updateSize();
+    }
 }
 
 void YButton::setImage(ref<YImage> image) {
-    fImage = image;
-    fIconSize = 0;
-    fIcon = null;
+    if (image != fImage || fIcon != null || fIconSize != 0) {
+        fImage = image;
+        fIconSize = 0;
+        fIcon = null;
 
-    updateSize();
+        updateSize();
+    }
 }
 
 void YButton::setText(const mstring &str, int hotChar) {
@@ -420,7 +425,9 @@ void YButton::setText(const mstring &str, int hotChar) {
                 installAccelerator(hotKey, xapp->AltMask, this);
         }
     }
-    updateSize();
+    if (fIcon == null && fImage == null) {
+        updateSize();
+    }
 }
 
 void YButton::setPopup(YMenu *popup) {
