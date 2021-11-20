@@ -1038,6 +1038,9 @@ int main(int argc, char **argv) {
             else if (GetArgument(value, "d", "display", arg, argv + argc)) {
                 /*ignore*/;
             }
+            else if (GetArgument(value, "C", "copying", arg, argv + argc)) {
+                /*ignore*/;
+            }
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }
