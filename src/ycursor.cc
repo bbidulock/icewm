@@ -236,7 +236,8 @@ YCursorPixmap::~YCursorPixmap() {
         XFreePixmap(xapp->display(), fPixmap);
     if (fMask)
         XFreePixmap(xapp->display(), fMask);
-    XpmFreeAttributes(&fAttributes);
+    if (fValid)
+        XpmFreeAttributes(&fAttributes);
 
 #elif defined CONFIG_IMLIB2
     release();
