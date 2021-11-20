@@ -13,10 +13,12 @@ public:
     YMenuItem();
     virtual ~YMenuItem();
 
-    mstring getName() const { return fName; }
-    mstring getParam() const { return fParam; }
+    mstring& getName() { return fName; }
+    mstring& getParam() { return fParam; }
     YAction getAction() const { return fAction; }
     YMenu *getSubmenu() const { return fSubmenu; }
+    bool haveName() const { return fName.nonempty(); }
+    bool haveName(const mstring& name) const { return fName.equals(name); }
 
     int getHotChar() const {
         return (fName != null && fHotCharPos >= 0) ? fName.charAt(fHotCharPos) : -1;
@@ -33,11 +35,11 @@ public:
     void setEnabled(bool e) { fEnabled = e; }
     void setSubmenu(YMenu *submenu) { fSubmenu = submenu; }
 
-    int queryHeight(int &top, int &bottom, int &pad) const;
+    int queryHeight(int &top, int &bottom, int &pad);
 
     int getIconWidth() const;
-    int getNameWidth() const;
-    int getParamWidth() const;
+    int getNameWidth();
+    int getParamWidth();
 
     bool isSeparator() { return getName() == null && getSubmenu() == nullptr; }
 

@@ -47,7 +47,7 @@ public:
     YMenuItem *findAction(YAction action);
     YMenuItem *findSubmenu(const YMenu *sub);
     YMenuItem *findName(const mstring &name, const int first = 0);
-    int findFirstLetRef(char firstLet, const int first, const int ignCase = 1);
+    int findFirstLetRef(char firstLetter, int first, bool ignoreCase = true);
 
     void enableCommand(YAction action); // 0 == All
     void disableCommand(YAction action); // 0 == All
@@ -104,8 +104,9 @@ private:
 
     void drawSubmenuArrow(Graphics &g, YMenuItem *mitem,
                           int left, int top);
-    void paintItem(Graphics &g, const int i, const int l, const int t, const int r,
-                   const int minY, const int maxY, bool draw);
+    void paintItem(Graphics &g, const int i, const int l, const int t,
+                   const int r, const int minY, const int maxY, const int eh,
+                   const int top, const int bottom, const int pad);
 
     void repaintItem(int item);
     void paintItems();

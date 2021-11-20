@@ -66,23 +66,27 @@ void YMenuItem::setIcon(ref<YIcon> icon) {
     fIcon = icon;
 }
 
-int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
-    top = bottom = pad = 0;
-
-    if (getName() != null || getSubmenu()) {
+int YMenuItem::queryHeight(int &top, int &bottom, int &pad) {
+    int height;
+    if (isSeparator()) {
+        top = 0;
+        bottom = 0;
+        pad = 1;
+        height = LOOK(lookMetal | lookFlat) ? 3 : 4;
+    } else {
         int fontHeight = max(16, int(menuFont ? menuFont->height() : 0) + 1);
         int ih = max(fontHeight, int(YIcon::menuSize()));
 
-        if (wmLook == lookWarp4 || wmLook == lookWin95) {
+        if (LOOK(lookWarp4 | lookWin95)) {
             top = bottom = 0;
             pad = 1;
-        } else if (wmLook == lookMetal || wmLook == lookFlat) {
+        } else if (LOOK(lookMetal | lookFlat)) {
             top = bottom = 1;
             pad = 1;
-        } else if (wmLook == lookMotif) {
+        } else if (LOOK(lookMotif)) {
             top = bottom = 2;
             pad = 0; //1
-        } else if (wmLook == lookGtk) {
+        } else if (LOOK(lookGtk)) {
             top = bottom = 2;
             pad = 0; //1
         } else {
@@ -90,15 +94,9 @@ int YMenuItem::queryHeight(int &top, int &bottom, int &pad) const {
             bottom = 2;
             pad = 0; //1;
         }
-
-        return (top + pad + ih + pad + bottom);
-    } else {
-        top = 0;
-        bottom = 0;
-        pad = 1;
-
-        return ((wmLook == lookMetal || wmLook == lookFlat) ? 3 : 4);
+        height = top + pad + ih + pad + bottom;
     }
+    return height;
 }
 
 int YMenuItem::getIconWidth() const {
@@ -106,14 +104,12 @@ int YMenuItem::getIconWidth() const {
     return icon != null ? YIcon::menuSize(): 0;
 }
 
-int YMenuItem::getNameWidth() const {
-    mstring name = getName();
-    return name != null && menuFont ? menuFont->textWidth(name) : 0;
+int YMenuItem::getNameWidth() {
+    return fName.nonempty() && menuFont ? menuFont->textWidth(fName) : 0;
 }
 
-int YMenuItem::getParamWidth() const {
-    mstring param = getParam();
-    return  param != null && menuFont ? menuFont->textWidth(param) : 0;
+int YMenuItem::getParamWidth() {
+    return fParam.nonempty() && menuFont ? menuFont->textWidth(fParam) : 0;
 }
 
 // vim: set sw=4 ts=4 et:

@@ -152,7 +152,7 @@ void ThemesMenu::findThemes(const upath& path, ObjectMenu* container) {
                 // looks like a submenu but is an item
                 // of that kind... weird, ignore
             }
-            else if (0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0, 1)))
+            else if (0 > (relatedItemPos = container->findFirstLetRef(fLetter, 0)))
             {
                 MSG(("adding: %s to main menu", subdir.string()));
             }
