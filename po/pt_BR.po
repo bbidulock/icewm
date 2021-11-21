@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-11-21 00:08+0000\n"
+"PO-Revision-Date: 2021-11-21 00:23+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -602,7 +602,7 @@ msgstr "Gráfico de Fluxo"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:157
 msgid "GUIDesigner"
-msgstr "Desenho da Interface Gráfica do Usuário"
+msgstr "Interface Gráfica do Usuário de Desenho"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:159
