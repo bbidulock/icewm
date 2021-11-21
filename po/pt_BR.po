@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-09-30 22:26+0200\n"
-"PO-Revision-Date: 2021-09-20 02:34+0000\n"
+"PO-Revision-Date: 2021-11-21 00:08+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7.1\n"
+"X-Generator: Weblate 4.8.1\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:66
@@ -29,12 +29,12 @@ msgstr "Não é possível abrir o dispositivo APM %s"
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr "Não consigo localizar o dispositivo APM %s"
+msgstr "Não foi possível localizar o dispositivo APM %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr "Formato desconhecido usado pelo dispositivo APM %s (%d)."
+msgstr "O formato utilizado pelo dispositivo APM %s (%d) não é conhecido."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
