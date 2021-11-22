@@ -153,13 +153,11 @@ int YXftFont::textWidth(wchar_t* text, int length) const {
 }
 
 int YXftFont::textWidth(const char* str, int len) const {
-    int width;
+    int width = 0;
     if (0 < len) {
         YWideString string(str, len);
         YBidi bidi(string.data(), string.length());
         width = textWidth(bidi.string(), int(bidi.length()));
-    } else {
-        width = 0;
     }
     return width;
 }
@@ -213,23 +211,23 @@ void YXftFont::drawGlyphs(Graphics& g, int x, int y,
                     xpos += p.width;
                 }
             } else {
-                wchar_t* xstr = bidi.string();
-                int xpos = 0;
+                wchar_t* xstr = bidi.string() + bidi.length();
+                int xpos = limit;
                 for (TextPart* q = parts.end(); --q >= parts.begin(); ) {
                     TextPart& p(*q);
-                    if (p.font && xpos < limit) {
-                        int left = limit - xpos;
-                        if (left >= p.width) {
-                            int xoff = x + left - p.width;
-                            drawString(g, p.font, xoff, y, xstr, p.length);
+                    if (p.font && 0 < xpos) {
+                        xstr -= p.length;
+                        int left = xpos - p.width;
+                        if (left >= 0) {
+                            drawString(g, p.font, x + left,
+                                       y, xstr, p.length);
                         } else {
                             drawLimitRight(g, p.font, x, y, xstr,
-                                           p.length, p.width, left);
+                                           p.length, p.width, xpos);
                             break;
                         }
+                        xpos -= p.width;
                     }
-                    xstr += p.length;
-                    xpos += p.width;
                 }
             }
 
@@ -328,6 +326,9 @@ YXftFont::TextParts YXftFont::partitions(wchar_t* str, int len, int nparts) cons
     XftFont ** font(nullptr);
     int c = 0;
 
+    while (c < len && str[c] == ' ')
+        ++c;
+
     for (; c < len; ++c) {
         XftFont ** probe(fFonts);
 
@@ -351,6 +352,11 @@ YXftFont::TextParts YXftFont::partitions(wchar_t* str, int len, int nparts) cons
             } else {
                 font = probe;
             }
+        }
+
+        while (c + 1 < len && str[c + 1] == ' ' &&
+               XftCharExists(xapp->display(), *probe, str[c + 1])) {
+            ++c;
         }
     }
 
