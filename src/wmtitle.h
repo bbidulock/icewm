@@ -32,6 +32,7 @@ public:
     void refresh();
 
     static YColor background(bool active);
+    static bool isRight(const YFrameButton* b);
     static bool isRight(char c);
     static bool supported(char c);
 
@@ -59,6 +60,7 @@ private:
 
     enum { Count = 8, };
     YFrameButton* fButtons[Count];
+    static bool swapTitleButtons;
 };
 
 #endif

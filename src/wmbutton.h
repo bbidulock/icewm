@@ -28,7 +28,6 @@ public:
     ref<YPixmap> getPixmap(int pn) const;
     YFrameWindow *getFrame() const;
     YFrameTitleBar *titlebar() const;
-    bool onRight() const;
     char getKind() const { return fKind; }
 
 private:
