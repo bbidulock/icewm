@@ -198,8 +198,8 @@ Embedding life cycle
 	_XEMBED_INFO
 		XEMBED_MAPPED
     Message Specifications
-	XEMBED_EMBEDDED_NOTIFY		NOT supported
-	XEMBED_WINDOW_ACTIVATE		NOT supported
+	XEMBED_EMBEDDED_NOTIFY		supported
+	XEMBED_WINDOW_ACTIVATE		supported
 	XEMBED_WINDOW_DEACTIVATE	NOT supported
 	XEMBED_REQUEST_FOCUS		NOT supported
 	XEMBED_FOCUS_IN			NOT supported
