@@ -354,9 +354,11 @@ YXftFont::TextParts YXftFont::partitions(wchar_t* str, int len, int nparts) cons
             }
         }
 
-        while (c + 1 < len && str[c + 1] == ' ' &&
-               XftCharExists(xapp->display(), *probe, str[c + 1])) {
-            ++c;
+        if (probe < endFont) {
+            while (c + 1 < len && str[c + 1] == ' ' &&
+                   XftCharExists(xapp->display(), *probe, str[c + 1])) {
+                ++c;
+            }
         }
     }
 
