@@ -525,7 +525,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                                (height() + font->height() -
                                (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
                                font->descent());
-            int const wm = int(width()) - p - pad - iconSize - 1;
+            int const wm = int(width()) - p - pad - iconSize - 2;
 
             if (0 < wm && p + tx + wm < int(width())) {
                 textX = p + tx;
