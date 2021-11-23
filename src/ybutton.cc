@@ -375,7 +375,7 @@ void YButton::updateSize() {
     }
     unsigned ww = w + 3 + 2 - LOOK(lookMetal | lookFlat);
     unsigned hh = h + 3 + 2 - LOOK(lookMetal | lookFlat);
-    setSize(ww, max(hh, height()));
+    setSize(ww, hh);
 }
 
 void YButton::setIcon(ref<YIcon> icon, int iconSize) {
