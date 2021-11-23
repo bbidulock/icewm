@@ -117,7 +117,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 
     if (font != null) {
         int yo = ::max(0, (int(height()) - int(font->height())) / 2);
-        int yp = 1 + font->ascent() + yo;
+        int yp = font->ascent() + yo;
         int curOfs = font->textWidth(fText.substring(0, curPos));
         int cx = ::max(1, curOfs - leftOfs);
 
