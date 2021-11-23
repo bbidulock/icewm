@@ -67,6 +67,7 @@ private:
     virtual bool filterEvent(const XEvent& xev);
     virtual void handleSignal(int sig);
     virtual bool handleTimer(YTimer* timer);
+    virtual int handleError(XErrorEvent* xev);
 
     void restart() const;
     void changeBackground(bool force);
@@ -413,6 +414,10 @@ bool Background::handleTimer(YTimer* timer) {
         update(true);
     }
     return false;
+}
+
+int Background::handleError(XErrorEvent* xev) {
+    return BadRequest;
 }
 
 Image Background::getBackgroundImage() {
