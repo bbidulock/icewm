@@ -553,7 +553,9 @@ void YFrameWindow::getNewPos(const XConfigureRequestEvent& cr,
     if (affectsWorkArea() == false) {
         int screen = desktop->getScreenForRect(cx, cy, cw, ch);
         int left, top, right, bottom;
-        if (taskBar && screen == taskBar->getFrame()->getScreen()) {
+        if (taskBar && taskBar->getFrame() &&
+            screen == taskBar->getFrame()->getScreen())
+        {
             manager->getWorkArea(this, &left, &top, &right, &bottom, screen);
         }
         else {
