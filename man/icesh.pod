@@ -70,7 +70,7 @@ actions apply. If none is given, but an action does require a window,
 then a selection crossbar is invoked to select the desired window
 interactively. The manager actions do not require window options.
 
-The following five options I<select> one or more client windows.
+The following options I<select> one or more client windows.
 If needed, they can be repeated for successive actions.
 
 =over
