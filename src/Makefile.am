@@ -115,6 +115,7 @@ libice_la_SOURCES = \
 	yapp.h \
 	yarray.cc \
 	yarray.h \
+	ybidi.h \
 	ycolor.cc \
 	ycolor.h \
 	yconfig.cc \
@@ -124,7 +125,11 @@ libice_la_SOURCES = \
 	yfileio.cc \
 	yfileio.h \
 	yfont.cc \
+	yfontbase.h \
+	yfontcache.h \
 	yfontcore.cc \
+	yfontmacro.h \
+	yfontname.h \
 	yfontxft.cc \
 	yfull.h \
 	yimage.h \
