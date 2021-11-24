@@ -3,6 +3,7 @@
 #ifdef CONFIG_XFREETYPE
 
 #include "ypaint.h"
+#include "yprefs.h"
 #include "ystring.h"
 #include "yxapp.h"
 #include "yfontbase.h"
@@ -168,8 +169,12 @@ void YXftFont::drawGlyphs(Graphics& g, int x, int y,
         YWideString wide(str, len);
         YBidi bidi(wide.data(), wide.length());
         TextParts parts = partitions(bidi.string(), int(bidi.length()));
-        if (limit == 0 && bidi.isRTL() && int(g.rwidth()) < parts.extent) {
-            limit = int(g.rwidth());
+        if (limit == 0) {
+            if (bidi.isRTL() && int(g.rwidth()) < parts.extent) {
+                limit = int(g.rwidth());
+            }
+        } else if (parts.extent <= limit && rightToLeft == false) {
+            limit = 0;
         }
         if (limit == 0) {
             wchar_t* xstr = bidi.string();
