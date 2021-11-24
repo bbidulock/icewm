@@ -128,7 +128,7 @@ libice_la_SOURCES = \
 	yfontbase.h \
 	yfontcache.h \
 	yfontcore.cc \
-	yfontmacro.h \
+	fontmacro.h \
 	yfontname.h \
 	yfontxft.cc \
 	yfull.h \
