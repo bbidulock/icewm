@@ -304,8 +304,10 @@ void TaskBar::initApplets() {
         fCollapseButton = new ObjectButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
             fCollapseButton->setWinGravity(StaticGravity);
-            if (taskbarCollapseImage != null) {
-                fCollapseButton->setImage(taskbarCollapseImage);
+            ref<YImage> image = leftToRight
+                              ? taskbarCollapseImage : taskbarExpandImage;
+            if (image != null) {
+                fCollapseButton->setImage(image);
             } else {
                 fCollapseButton->setText(leftToRight ? ">" : "<");
             }
@@ -969,21 +971,16 @@ void TaskBar::actionPerformed(YAction action, unsigned int modifiers) {
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
-        if (fIsCollapsed) {
-            if (taskbarExpandImage != null) {
-                fCollapseButton->setImage(taskbarExpandImage);
-            } else {
-                fCollapseButton->setText(leftToRight ? "<" : ">");
-            }
-            fCollapseButton->setToolTip(_("Show Taskbar"));
+        ref<YImage> image = (leftToRight == fIsCollapsed)
+                          ? taskbarExpandImage : taskbarCollapseImage;
+        const char* text = (leftToRight == fIsCollapsed) ? "<" : ">";
+        const char* ttip = fIsCollapsed ? _("Show Taskbar") : _("Hide Taskbar");
+        if (image != null) {
+            fCollapseButton->setImage(image);
         } else {
-            if (taskbarCollapseImage != null) {
-                fCollapseButton->setImage(taskbarCollapseImage);
-            } else {
-                fCollapseButton->setText(leftToRight ? ">" : "<");
-            }
-            fCollapseButton->setToolTip(_("Hide Taskbar"));
+            fCollapseButton->setText(text);
         }
+        fCollapseButton->setToolTip(ttip);
         fCollapseButton->repaint();
     }
 
