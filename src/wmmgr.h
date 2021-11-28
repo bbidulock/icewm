@@ -250,6 +250,8 @@ public:
     void setKeyboard(int configIndex);
     mstring getKeyboard();
     void updateKeyboard(int configIndex);
+    void reflectKeyboard(int configIndex, mstring keyboard);
+    void kbLayout();
 
     void updateFullscreenLayer();
     void updateFullscreenLayerEnable(bool enable);
@@ -376,6 +378,7 @@ private:
     int fDefaultKeyboard;
     SwitchWindow* fSwitchWindow;
     lazy<YTimer> fSwitchDownTimer;
+    lazy<YTimer> fLayoutTimer;
     DockApp* fDockApp;
 };
 

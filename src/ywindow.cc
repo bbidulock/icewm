@@ -927,6 +927,10 @@ bool YWindow::toolTipVisible() {
     return fToolTip && fToolTip->visible();
 }
 
+void YWindow::toolTipVisibility(bool visible) {
+    visible ? fToolTip->enter(this) : fToolTip->leave();
+}
+
 void YWindow::updateToolTip() {
 }
 

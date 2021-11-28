@@ -21,6 +21,7 @@ void logExpose(const XExposeEvent& xev);
 void logFocus(const XFocusChangeEvent& xev);
 void logGravity(const XGravityEvent& xev);
 void logKey(const XKeyEvent& xev);
+void logMapping(const XMappingEvent& xev);
 void logMapRequest(const XMapRequestEvent& xev);
 void logMapNotify(const XMapEvent& xev);
 void logUnmap(const XUnmapEvent& xev);

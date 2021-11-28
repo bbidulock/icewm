@@ -11,6 +11,7 @@ XIV(bool, replayMenuCancelClick,                false)
 XIV(bool, showPopupsAbovePointer,               false)
 XIV(bool, showEllipsis,                         true)
 XIV(bool, rightToLeft,                          false)
+XIV(bool, leftToRight,                          true)
 #ifdef CONFIG_I18N
 XIV(bool, multiByte,                            true)
 #endif

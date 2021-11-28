@@ -9,6 +9,7 @@
 #include "ypointer.h"
 
 class IAppletContainer;
+class IApp;
 
 class KeyboardStatus:
     public IApplet,
@@ -16,11 +17,12 @@ class KeyboardStatus:
     private YActionListener
 {
 public:
-    KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent);
+    KeyboardStatus(IApp* app, IAppletContainer* taskBar, YWindow *aParent);
     virtual ~KeyboardStatus();
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleClick(const XButtonEvent& up, int count);
+    virtual void handleCrossing(const XCrossingEvent& crossing);
 
     void updateKeyboard(mstring keyboard);
     void getStatus();
@@ -28,16 +30,20 @@ public:
 
 private:
     bool picture();
+    mstring detectLayout();
     void fill(Graphics& g);
     void draw(Graphics& g);
 
+    IApp* app;
     IAppletContainer* taskBar;
     mstring fKeyboard;
+    mstring fToolTip;
     ref<YIcon> fIcon;
     YFont fFont;
     YColorName fColor;
     osmart<YMenu> fMenu;
     int fIndex;
+    bool fInside;
 };
 
 #endif

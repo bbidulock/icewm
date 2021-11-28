@@ -20,7 +20,7 @@ public:
     virtual ~IApp();
     virtual upath findConfigFile(upath relativePath) = 0;
     virtual void runCommand(const char *prog) = 0;
-    virtual int runProgram(const char *path, const char *const *args) = 0;
+    virtual int runProgram(const char *path, const char *const *args, int fd = -1) = 0;
     virtual void exit(int exitCode) = 0;
     virtual int waitProgram(int p) = 0;
 };
@@ -55,7 +55,7 @@ public:
     void catchSignal(int sig);
     void resetSignals();
 
-    virtual int runProgram(const char *path, const char *const *args);
+    virtual int runProgram(const char *path, const char *const *args, int fd = -1);
     virtual void runCommand(const char *prog);
     virtual int waitProgram(int p);
 

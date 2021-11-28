@@ -247,6 +247,7 @@ public:
     Picture createPicture();
 
     bool toolTipVisible();
+    void toolTipVisibility(bool visible);
     virtual void updateToolTip();
 
     void acquireSelection(bool selection);
@@ -365,6 +366,7 @@ public:
     int getScreenCount() const { return xiInfo.getCount(); }
 
     virtual void grabKeys() {}
+    virtual void kbLayout() {}
 
 protected:
     YArray<DesktopScreenInfo> xiInfo;

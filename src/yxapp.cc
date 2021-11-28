@@ -793,9 +793,21 @@ bool YXApplication::filterEvent(const XEvent &xev) {
         XMappingEvent xmapping = xev.xmapping;
         XRefreshKeyboardMapping(&xmapping);
 
+        while (0 < XPending(display())) {
+            XEvent event;
+            XNextEvent(display(), &event);
+            if (event.type == MappingNotify) {
+                XRefreshKeyboardMapping(&event.xmapping);
+            } else {
+                XPutBackEvent(display(), &event);
+                break;
+            }
+        }
+
         initModifiers();
 
         desktop->grabKeys();
+        desktop->kbLayout();
         return true;
     }
     return false;

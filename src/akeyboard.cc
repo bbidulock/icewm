@@ -5,18 +5,22 @@
 #include "themable.h"
 #include "ymenuitem.h"
 #include "ytrace.h"
+#include "yapp.h"
 #include "wmmgr.h"
 #include "intl.h"
+#include <unistd.h>
 
 extern ref<YPixmap> taskbackPixmap;
 
-KeyboardStatus::KeyboardStatus(IAppletContainer* taskBar, YWindow *aParent):
-    IApplet(this, aParent),
-    taskBar(taskBar),
+KeyboardStatus::KeyboardStatus(IApp* app, IAppletContainer* tb, YWindow* parent):
+    IApplet(this, parent),
+    app(app),
+    taskBar(tb),
     fKeyboard(manager->getKeyboard()),
     fFont(tempFontName),
     fColor(&clrCpuTemp),
-    fIndex(0)
+    fIndex(0),
+    fInside(false)
 {
     if (configKeyboards.nonempty()) {
         int w = (fFont != null ? 4 + fFont->textWidth("MM", 2) : 0);
@@ -33,8 +37,21 @@ KeyboardStatus::~KeyboardStatus() {
 }
 
 void KeyboardStatus::updateKeyboard(mstring keyboard) {
-    if (fKeyboard != keyboard) {
+    if (keyboard == null) {
+        keyboard = detectLayout();
+    }
+    else if (fKeyboard != keyboard) {
+        fToolTip = keyboard;
+    }
+    if (fKeyboard != keyboard && keyboard != null) {
         fKeyboard = keyboard;
+        for (int i = 0; i < configKeyboards.getCount(); ++i) {
+            if (configKeyboards[i] == keyboard) {
+                fIndex = i;
+                manager->reflectKeyboard(fIndex, fKeyboard);
+                break;
+            }
+        }
         if (fKeyboard != null) {
             fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
         } else {
@@ -43,11 +60,63 @@ void KeyboardStatus::updateKeyboard(mstring keyboard) {
         repaint();
         if (toolTipVisible())
             updateToolTip();
+        else if (fInside && fToolTip != null)
+            toolTipVisibility(true);
     }
 }
 
+mstring KeyboardStatus::detectLayout() {
+    mstring keyboard;
+    fToolTip = null;
+    auto program = "setxkbmap";
+    csmart path(path_lookup(program));
+    if (path) {
+        const char* const args[] = { program, "-query", nullptr };
+        char tempfile[] = "icewmXXXXXX";
+        int tmp = mkstemp(tempfile);
+        if (tmp > 2) {
+            int pid = app->runProgram(path, args, tmp);
+            if (pid > 0) {
+                int status = app->waitProgram(pid);
+                if (WIFEXITED(status) && WEXITSTATUS(status)) {
+                    tlog(_("%s exited with status %d."),
+                            program, WEXITSTATUS(status));
+                } else if (WIFSIGNALED(status)) {
+                    tlog(_("%s was killed by signal %d."),
+                            program, WTERMSIG(status));
+                }
+                lseek(tmp, 0L, SEEK_SET);
+                fcsmart data(filereader(tmp).read_all());
+                char* dsave = nullptr;
+                for (char* line = strtok_r(data, "\n", &dsave);
+                     line; line = strtok_r(nullptr, "\n", &dsave)) {
+                    char* lsave = nullptr;
+                    char* label = strtok_r(line, " \t", &lsave);
+                    char* value = strtok_r(nullptr, " \t", &lsave);
+                    if (label && value && label[strlen(label)-1] == ':') {
+                        fToolTip += mstring(label, " \t ", value, "\n");
+                        if (strcmp(label, "layout:") == 0) {
+                            keyboard = value;
+                        }
+                    }
+                }
+            }
+            unlink(tempfile);
+            updateToolTip();
+        }
+    }
+    return keyboard;
+}
+
 void KeyboardStatus::updateToolTip() {
-    setToolTip(fKeyboard);
+    if (fToolTip != null) {
+        if (fToolTip[fToolTip.length() - 1] == '\n') {
+            fToolTip = fToolTip.substring(0, fToolTip.length() - 1) + " ";
+        }
+        setToolTip(fToolTip);
+    } else {
+        setToolTip(fKeyboard);
+    }
 }
 
 void KeyboardStatus::actionPerformed(YAction action, unsigned int modifiers) {
@@ -85,6 +154,22 @@ void KeyboardStatus::handleClick(const XButtonEvent& up, int count) {
                      YPopupWindow::pfCanFlipHorizontal |
                      YPopupWindow::pfPopupMenu);
     }
+}
+
+void KeyboardStatus::handleCrossing(const XCrossingEvent& crossing) {
+    if (crossing.type == EnterNotify) {
+        if (crossing.mode == NotifyNormal) {
+            fInside = true;
+        } else if (crossing.mode == NotifyUngrab) {
+            if (crossing.detail == NotifyAncestor) {
+                fInside = true;
+            }
+        }
+    }
+    else if (crossing.type == LeaveNotify) {
+        fInside = false;
+    }
+    YWindow::handleCrossing(crossing);
 }
 
 bool KeyboardStatus::picture() {

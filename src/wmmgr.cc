@@ -287,10 +287,18 @@ void YWindowManager::setupRootProxy() {
 }
 
 bool YWindowManager::handleTimer(YTimer* timer) {
-    if (timer == fSwitchDownTimer && switchWindowVisible() == false) {
-        delete fSwitchWindow;
-        fSwitchWindow = nullptr;
+    if (timer == fSwitchDownTimer) {
         fSwitchDownTimer = null;
+        if (switchWindowVisible() == false) {
+            delete fSwitchWindow;
+            fSwitchWindow = nullptr;
+        }
+    }
+    if (timer == fLayoutTimer) {
+        fLayoutTimer = null;
+        if (taskBar) {
+            taskBar->keyboardUpdate(null);
+        }
     }
     return false;
 }
@@ -3321,6 +3329,11 @@ void YWindowManager::updateKeyboard(int configIndex) {
     setKeyboard(configIndex);
 }
 
+void YWindowManager::reflectKeyboard(int configIndex, mstring keyboard) {
+    fDefaultKeyboard = configIndex;
+    fCurrentKeyboard = keyboard;
+}
+
 void YWindowManager::setKeyboard(int configIndex) {
     if (inrange(configIndex, 0, configKeyboards.getCount() - 1)) {
         fDefaultKeyboard = configIndex;
@@ -3356,6 +3369,10 @@ void YWindowManager::setKeyboard(mstring keyboard) {
 
 mstring YWindowManager::getKeyboard() {
     return fCurrentKeyboard;
+}
+
+void YWindowManager::kbLayout() {
+    fLayoutTimer->setTimer(100L, this, true);
 }
 
 void YWindowManager::handleMsgBox(YMsgBox *msgbox, int operation) {

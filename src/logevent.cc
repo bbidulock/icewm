@@ -247,6 +247,17 @@ void logKey(const XKeyEvent& xev) {
         boolStr(xev.same_screen));
 }
 
+void logMapping(const XMappingEvent& xev) {
+    tlog("window=0x%lX: mapping request=%s, keycode=%d, n=%d, serial=%lu, send=%s",
+        xev.window,
+        xev.request == MappingModifier ? "MappingModifier" :
+        xev.request == MappingKeyboard ? "MappingKeyboard" :
+        xev.request == MappingPointer ? "MappingPointer" : "?",
+        xev.first_keycode, xev.count,
+        (unsigned long) xev.serial,
+        boolStr(xev.send_event));
+}
+
 void logMapRequest(const XMapRequestEvent& xev) {
     tlog("window=0x%lX: mapRequest serial=%lu parent=0x%lX",
         xev.window,
@@ -465,7 +476,7 @@ void logEvent(const XEvent& xev) {
         (fun) logAny,               // 31 SelectionNotify
         (fun) logColormap,          // 32 ColormapNotify
         (fun) logClientMessage,     // 33 ClientMessage
-        (fun) logAny,               // 34 MappingNotify
+        (fun) logMapping,           // 34 MappingNotify
         (fun) logAny,               // 35 GenericEvent
     };
     if (loggingEvents && size_t(xev.type) < sizeof loggedEvents &&
@@ -508,7 +519,7 @@ bool initLogEvents() {
         setLogEvent(ConfigureNotify, true);
         setLogEvent(ConfigureRequest, true);
         // setLogEvent(GravityNotify, true);
-        // setLogEvent(ResizeRequest, true);
+        setLogEvent(ResizeRequest, true);
         // setLogEvent(CirculateNotify, true);
         // setLogEvent(CirculateRequest, true);
         // setLogEvent(PropertyNotify, true);
@@ -517,7 +528,7 @@ bool initLogEvents() {
         // setLogEvent(SelectionNotify, true);
         // setLogEvent(ColormapNotify, true);
         setLogEvent(ClientMessage, true);
-        // setLogEvent(MappingNotify, true);
+        setLogEvent(MappingNotify, true);
         // setLogEvent(GenericEvent, true);
 
         loggedEventsInited = true;

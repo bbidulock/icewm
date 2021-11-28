@@ -304,8 +304,11 @@ void TaskBar::initApplets() {
         fCollapseButton = new ObjectButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
             fCollapseButton->setWinGravity(StaticGravity);
-            fCollapseButton->setText(">");
-            fCollapseButton->setImage(taskbarCollapseImage);
+            if (taskbarCollapseImage != null) {
+                fCollapseButton->setImage(taskbarCollapseImage);
+            } else {
+                fCollapseButton->setText(leftToRight ? ">" : "<");
+            }
             fCollapseButton->setActionListener(this);
             fCollapseButton->setToolTip(_("Hide Taskbar"));
             fCollapseButton->setTitle("Collapse");
@@ -319,7 +322,7 @@ void TaskBar::initApplets() {
         fMailBoxControl = nullptr;
 
     if (configKeyboards.nonempty()) {
-        fKeyboardStatus = new KeyboardStatus(this, this);
+        fKeyboardStatus = new KeyboardStatus(wmapp, this, this);
     } else
         fKeyboardStatus = nullptr;
 
@@ -966,9 +969,21 @@ void TaskBar::actionPerformed(YAction action, unsigned int modifiers) {
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
-        fCollapseButton->setText(fIsCollapsed ? "<": ">");
-        fCollapseButton->setImage(fIsCollapsed ? taskbarExpandImage : taskbarCollapseImage);
-        fCollapseButton->setToolTip(fIsCollapsed ? _("Show Taskbar") : _("Hide Taskbar"));
+        if (fIsCollapsed) {
+            if (taskbarExpandImage != null) {
+                fCollapseButton->setImage(taskbarExpandImage);
+            } else {
+                fCollapseButton->setText(leftToRight ? "<" : ">");
+            }
+            fCollapseButton->setToolTip(_("Show Taskbar"));
+        } else {
+            if (taskbarCollapseImage != null) {
+                fCollapseButton->setImage(taskbarCollapseImage);
+            } else {
+                fCollapseButton->setText(leftToRight ? ">" : "<");
+            }
+            fCollapseButton->setToolTip(_("Hide Taskbar"));
+        }
         fCollapseButton->repaint();
     }
 

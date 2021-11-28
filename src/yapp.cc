@@ -389,7 +389,7 @@ void YApplication::closeFiles() {
 #endif
 }
 
-int YApplication::runProgram(const char *path, const char *const *args) {
+int YApplication::runProgram(const char *path, const char *const *args, int fd) {
     flushXEvents();
 
     int cpid = -1;
@@ -408,6 +408,10 @@ int YApplication::runProgram(const char *path, const char *const *args) {
         if (open("/dev/null", O_RDONLY) != 0)
             _exit(1);
 #endif
+        if (2 < fd) {
+            dup2(fd, 1);
+            close(fd);
+        }
         closeFiles();
 
         if (args)
