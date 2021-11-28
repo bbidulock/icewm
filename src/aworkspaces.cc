@@ -243,6 +243,8 @@ long WorkspacesPane::limitWidth(long paneWidth) {
     const char* str = taskBarWorkspacesLimit;
     long taskBarWidth = desktop->getScreenGeometry().width()
                       * taskBarWidthPercentage / 100;
+    long horizontally = taskBarWorkspacesLeft == leftToRight ?
+                        taskBarWidth - x() : x() + long(width());
     long reserved = 200L;
     long maxPixels = 0;
     long maxButtons = 0;
@@ -251,7 +253,7 @@ long WorkspacesPane::limitWidth(long paneWidth) {
         char* end = nullptr;
         long num = strtol(str, &end, 0);
         if (end && str < end && inrange(num, 0L, long(SHRT_MAX))) {
-            maxPixels = max(50L, taskBarWidth - x() - reserved);
+            maxPixels = max(50L, horizontally - reserved);
             maxButtons = maxPixels * count() / non_zero(paneWidth);
             maxPercent = 100L * maxPixels / taskBarWidth;
             if (*end == ' ')
@@ -271,9 +273,9 @@ long WorkspacesPane::limitWidth(long paneWidth) {
     }
     if (isEmpty(str) || 0 == (maxPixels | maxButtons)) {
         if (taskBarDoubleHeight && taskBarWorkspacesTop) {
-            maxPixels = taskBarWidth - x() - reserved;
+            maxPixels = horizontally - reserved;
         } else {
-            maxPixels = (taskBarWidth - x() - reserved) / 2;
+            maxPixels = (horizontally - reserved) / 2;
             maxButtons = 20;    // old limit
         }
     }
