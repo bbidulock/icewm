@@ -127,7 +127,7 @@ public:
 
     void drawString(int x, int y, char const * str);
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
-    void drawStringMultiline(int x, int y, char const * str);
+    void drawStringMultiline(const char* str, int x, int y, unsigned width);
 
     void drawPixmap(ref<YPixmap> pix, int x, int y);
     void drawPixmap(ref<YPixmap> pix, int x, int y, unsigned w, unsigned h, int dx, int dy);

@@ -47,7 +47,7 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
         int y = toolTipFont->ascent() + TTYMargin;
         g.setFont(toolTipFont);
         g.setColor(toolTipFg);
-        g.drawStringMultiline(TTXMargin, y, fText);
+        g.drawStringMultiline(fText, TTXMargin, y, width() - 2 * TTXMargin);
     }
 }
 

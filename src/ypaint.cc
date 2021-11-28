@@ -343,32 +343,40 @@ void Graphics::drawCharUnderline(int x, int y, const char *str, int charPos) {
         drawLine(x + left, y + 2, x + right, y + 2);
 }
 
-void Graphics::drawStringMultiline(int x, int y, const char *str) {
-    unsigned const tx(x + fFont->multilineTabPos(str));
+void Graphics::drawStringMultiline(const char* str, int x, int y, unsigned w) {
+    const int tabpos = fFont->multilineTabPos(str);
+    const int tabx = tabpos ? x + tabpos : x;
 
-    for (const char * end(strchr(str, '\n')); end;
-         str = end + 1, end = strchr(str, '\n')) {
-        int const len(int(end - str));
-        const char* tab(static_cast<const char *>(memchr(str, '\t', len)));
+    while (*str) {
+        const char* nln = strchr(str, '\n');
+        const char* end = nln ? nln : str + strlen(str);
+        const int len = int(end - str);
+        const char* tab = static_cast<const char *>(memchr(str, '\t', len));
 
-        if (tab) {
-            drawChars(str, 0, int(tab - str), x, y);
-            drawChars(tab + 1, 0, int(end - tab) - 1, int(tx), y);
+        if (leftToRight) {
+            if (tab) {
+                const char* ing = tab + 1;
+                drawChars(str, 0, int(tab - str), x, y);
+                drawChars(ing, 0, int(end - ing), tabx, y);
+            } else {
+                drawChars(str, 0, int(end - str), x, y);
+            }
+        } else if (rightToLeft) {
+            if (tab) {
+                const char* ing = tab + 1;
+                int sw = fFont->textWidth(str, int(tab - str));
+                int iw = fFont->textWidth(ing, int(end - ing));
+                drawChars(str, 0, int(tab - str), x + w - sw, y);
+                drawChars(ing, 0, int(end - ing), x + w - tabpos - iw, y);
+            } else {
+                int sw = fFont->textWidth(str, int(end - str));
+                drawChars(str, 0, int(end - str), x + w - sw, y);
+            }
         }
-        else
-            drawChars(str, 0, int(end - str), x, y);
 
-        y+= fFont->height();
+        y += fFont->height();
+        str = *end ? end + 1 : end;
     }
-
-    const char * tab(strchr(str, '\t'));
-
-    if (tab) {
-        drawChars(str, 0, int(tab - str), x, y);
-        drawChars(tab + 1, 0, int(strlen(tab + 1)), int(tx), y);
-    }
-    else
-        drawChars(str, 0, int(strlen(str)), x, y);
 }
 
 /******************************************************************************/
