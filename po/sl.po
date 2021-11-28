@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-30 22:26+0200\n"
+"POT-Creation-Date: 2021-11-28 17:47+0100\n"
 "PO-Revision-Date: 2004-10-03 21:56+0200\n"
 "Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
 "Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
@@ -64,7 +64,7 @@ msgstr "C"
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:943
+#: src/aapm.cc:944
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -77,11 +77,11 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:186 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:80
 msgid "Default"
 msgstr "Privzeto"
 
-#: src/aclock.cc:187 src/acpustatus.cc:663 src/amailbox.cc:964
+#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -90,49 +90,49 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:297
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Obremenitev CPE: %3.2f %3.2f %3.2f, %u procesov."
 
-#: src/acpustatus.cc:301
+#: src/acpustatus.cc:303
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:308
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:331 src/acpustatus.cc:371
+#: src/acpustatus.cc:333 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:348 src/acpustatus.cc:658
+#: src/acpustatus.cc:350 src/acpustatus.cc:660
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:348
+#: src/acpustatus.cc:350
 #, fuzzy
 msgid "Load: "
 msgstr "Obremenitev CPE"
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:365
 #, c-format
 msgid ""
 "\n"
@@ -141,24 +141,34 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:429
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:659
+#: src/acpustatus.cc:661
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:667
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:669
 msgid "_Separate"
 msgstr ""
 
-#: src/akeyboard.cc:76
+#: src/akeyboard.cc:82 src/icesm.cc:468
+#, c-format
+msgid "%s exited with status %d."
+msgstr ""
+
+#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr ""
+
+#: src/akeyboard.cc:145
 msgid "Keyboard"
 msgstr ""
 
@@ -192,7 +202,7 @@ msgstr "Ne morem se povezati s strežnikom YIFF: %s"
 msgid "Failed to find %s command"
 msgstr "Neuspešna izvedba %s: %s"
 
-#: src/amailbox.cc:363 src/yapp.cc:418
+#: src/amailbox.cc:363 src/yapp.cc:422
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "Neuspešno odpiranje %s: %s"
@@ -319,7 +329,7 @@ msgstr "Spravi navzdol"
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:604 src/wmstatus.cc:207
+#: src/aworkspaces.cc:606 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "Delovna površina: "
 
@@ -1111,11 +1121,11 @@ msgstr ""
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:123
 msgid "Close"
 msgstr "Zapri"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -1160,7 +1170,7 @@ msgstr ""
 msgid "Theme Howto"
 msgstr "Avtor teme:"
 
-#: src/icehelp.cc:1360 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:60
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1168,7 +1178,7 @@ msgstr "Ctrl+T"
 msgid "Website"
 msgstr ""
 
-#: src/icehelp.cc:1362 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:61
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1184,48 +1194,48 @@ msgstr "Ctrl+X"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2182
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "Nepodprt vmesnik: %s."
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2261
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Neveljavna pot: %s\n"
 
-#: src/icehelp.cc:2283
+#: src/icehelp.cc:2285
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:2288
+#: src/icehelp.cc:2290
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:2317
+#: src/icehelp.cc:2319
 #, fuzzy
 msgid "Failed to create a temporary file"
 msgstr "Neuspešna izdelava anonimne cevi: %s"
 
-#: src/icehelp.cc:2410
+#: src/icehelp.cc:2412
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2433
+#: src/icehelp.cc:2435
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "Neuspešno odpiranje %s: %s"
 
-#: src/icehelp.cc:2441
+#: src/icehelp.cc:2443
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2445
+#: src/icehelp.cc:2447
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2482
+#: src/icehelp.cc:2484
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1263,7 +1273,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2572
+#: src/icehelp.cc:2574
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Neznano dejanje: `%s'"
@@ -1391,8 +1401,8 @@ msgstr "Dejanje `%s' zahteva vsaj %d argumentov."
 msgid "Invalid expression: `%s'"
 msgstr "Neveljaven izraz: `%s'"
 
-#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
-#: src/yxapp.cc:1022
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1177
+#: src/yxapp.cc:1034
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -1475,16 +1485,6 @@ msgstr "Neznano dejanje: `%s'"
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Zaženi znova"
-
-#: src/icesm.cc:468
-#, c-format
-msgid "%s exited with status %d."
-msgstr ""
-
-#: src/icesm.cc:474 src/icesm.cc:628
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr ""
 
 #: src/icesm.cc:513
 msgid ""
@@ -1722,19 +1722,19 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Hex View"
 msgstr "Pogled v šestnajstiškem načinu"
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:56
+#: src/iceview.cc:60
 msgid "Expand Tabs"
 msgstr "Razširi uhlje"
 
-#: src/iceview.cc:57
+#: src/iceview.cc:61
 msgid "Wrap Lines"
 msgstr "Prelom vrstic"
 
@@ -1743,7 +1743,7 @@ msgstr "Prelom vrstic"
 msgid "Failed to load image '%s'."
 msgstr "Neuspešno odpiranje %s: %s"
 
-#: src/icewmbg.cc:857
+#: src/icewmbg.cc:862
 #, fuzzy
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1805,12 +1805,12 @@ msgstr ""
 " DesktopTransparencyColor - Barva oznanitve polprosojnih oken\n"
 " DesktopTransparencyImage - Slika oznanitve polprosojnih oken\n"
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1774
+#: src/icewmbg.cc:1050 src/wmapp.cc:1755
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Neprepoznana izbira: %s\n"
 
-#: src/icewmbg.cc:1069
+#: src/icewmbg.cc:1077
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1911,148 +1911,148 @@ msgstr "_Odjava"
 msgid "_Cancel logout"
 msgstr "Prekli_c odjave"
 
-#: src/wmapp.cc:500
+#: src/wmapp.cc:501
 msgid "Lock _Workstation"
 msgstr "_Zakleni delovno postajo"
 
-#: src/wmapp.cc:502 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Ponoven _zagon sistema"
 
-#: src/wmapp.cc:504 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Zaustavitev _sistema"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:506 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:511
+#: src/wmapp.cc:512
 msgid "Restart _Icewm"
 msgstr "Ponoven zagon _IceWM"
 
-#: src/wmapp.cc:513
+#: src/wmapp.cc:514
 msgid "Restart _Xterm"
 msgstr "Ponoven zagon _Xterma"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:524
 msgid "_Menu"
 msgstr "_Menu"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:525
 msgid "_Above Dock"
 msgstr "Nad sid_rom"
 
-#: src/wmapp.cc:525
+#: src/wmapp.cc:526
 msgid "_Dock"
 msgstr "_Zasidraj"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:527
 msgid "_OnTop"
 msgstr "Na _vrh"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:528
 msgid "_Normal"
 msgstr "_Običajno"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:529
 msgid "_Below"
 msgstr "_Spodaj"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:530
 msgid "D_esktop"
 msgstr "_Namizje"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:365
+#: src/wmapp.cc:565 src/wmwinlist.cc:375
 msgid "_Restore"
 msgstr "O_bnovi"
 
-#: src/wmapp.cc:566
+#: src/wmapp.cc:567
 msgid "_Move"
 msgstr "P_restavi"
 
-#: src/wmapp.cc:568
+#: src/wmapp.cc:569
 msgid "_Size"
 msgstr "Velikos_t"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:366
+#: src/wmapp.cc:571 src/wmwinlist.cc:376
 msgid "Mi_nimize"
 msgstr "Poma_njšaj"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:367
+#: src/wmapp.cc:573 src/wmwinlist.cc:377
 msgid "Ma_ximize"
 msgstr "R_azpni"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:368
+#: src/wmapp.cc:574 src/wmwinlist.cc:378
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Razpni"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:369
+#: src/wmapp.cc:575 src/wmwinlist.cc:379
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Razpni"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:370
+#: src/wmapp.cc:578 src/wmwinlist.cc:380
 msgid "_Fullscreen"
 msgstr "_Celoten zaslon"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:372
+#: src/wmapp.cc:581 src/wmwinlist.cc:382
 msgid "_Hide"
 msgstr "S_krij"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:373
+#: src/wmapp.cc:583 src/wmwinlist.cc:383
 msgid "Roll_up"
 msgstr "Navz_gor"
 
-#: src/wmapp.cc:589
+#: src/wmapp.cc:590
 msgid "R_aise"
 msgstr "_Dvigni"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:375
+#: src/wmapp.cc:592 src/wmwinlist.cc:385
 msgid "_Lower"
 msgstr "_Spusti"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:376
+#: src/wmapp.cc:594 src/wmwinlist.cc:386
 msgid "La_yer"
 msgstr "S_loj"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:378
+#: src/wmapp.cc:598 src/wmwinlist.cc:388
 msgid "Move _To"
 msgstr "Prestavi _v"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:379
+#: src/wmapp.cc:599 src/wmwinlist.cc:389
 msgid "Occupy _All"
 msgstr "Za_sedi vse"
 
-#: src/wmapp.cc:604
+#: src/wmapp.cc:605
 msgid "Limit _Workarea"
 msgstr "_Omeji delovno površino"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:380
+#: src/wmapp.cc:609 src/wmwinlist.cc:390
 msgid "Tray _icon"
 msgstr "Pladenj z _ikonami"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
+#: src/wmapp.cc:614 src/wmwinlist.cc:405 src/wmwinlist.cc:413
 msgid "_Close"
 msgstr "_Zapri"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:397
+#: src/wmapp.cc:616 src/wmwinlist.cc:407
 msgid "_Kill Client"
 msgstr "_Ubij odjemalca"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "_Seznam oken"
 
-#: src/wmapp.cc:656
+#: src/wmapp.cc:657
 msgid "Another window manager already running, exiting..."
 msgstr "Drug upravljalnik oken že teče, končujem..."
 
-#: src/wmapp.cc:731
+#: src/wmapp.cc:732
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2061,33 +2061,33 @@ msgstr ""
 "Ne morem ponovno zagnati: %s\n"
 "Ali je %s v spremenljivki $PATH?"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:895
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:896
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1196 src/yxapp.cc:1023
+#: src/wmapp.cc:1178 src/yxapp.cc:1035
 msgid "<none>"
 msgstr "<brez>"
 
-#: src/wmapp.cc:1517
+#: src/wmapp.cc:1499
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1523
+#: src/wmapp.cc:1505
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1531
+#: src/wmapp.cc:1513
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2099,7 +2099,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1541
+#: src/wmapp.cc:1523
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2157,21 +2157,21 @@ msgstr ""
 "Sporočanje hroščev, zahteve za podporo, komentarji, ... na https://ice-wm."
 "org/\n"
 
-#: src/wmapp.cc:1607
+#: src/wmapp.cc:1589
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1671
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Neprepoznana izbira: %s\n"
 
-#: src/wmapp.cc:1823
+#: src/wmapp.cc:1802
 msgid "Confirm Logout"
 msgstr "Potrdi odjavo"
 
-#: src/wmapp.cc:1824
+#: src/wmapp.cc:1803
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2179,31 +2179,31 @@ msgstr ""
 "Ob odjavi se bodo zaprli vsi aktivni programi.\n"
 "Naj nadaljujem?"
 
-#: src/wmbutton.cc:85
+#: src/wmbutton.cc:81
 msgid "Raise/Lower"
 msgstr "Spusti/Znižaj"
 
-#: src/wmbutton.cc:90
+#: src/wmbutton.cc:86
 msgid "Hide"
 msgstr "Skrij"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:92
 msgid "Restore"
 msgstr "Obnovi"
 
-#: src/wmbutton.cc:100
+#: src/wmbutton.cc:96
 msgid "Maximize"
 msgstr "Razpni"
 
-#: src/wmbutton.cc:106
+#: src/wmbutton.cc:102
 msgid "Minimize"
 msgstr "Pomanjšaj"
 
-#: src/wmbutton.cc:112
+#: src/wmbutton.cc:108
 msgid "Rolldown"
 msgstr "Spravi navzdol"
 
-#: src/wmbutton.cc:115
+#: src/wmbutton.cc:111
 msgid "Rollup"
 msgstr "Spravi navzgor"
 
@@ -2249,8 +2249,8 @@ msgid "_Cancel"
 msgstr "_Prekliči"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "_Odjava..."
 
@@ -2259,11 +2259,11 @@ msgid "_Restart icewm"
 msgstr "Po_noven zagon IceWM"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "O pro_gramu"
 
-#: src/wmframe.cc:1441
+#: src/wmframe.cc:1447
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2271,7 +2271,7 @@ msgstr ""
 "OPOZORILO! Vse neshranjene spremebe se bodo ob prekinitvi\n"
 "tega odjemalca izgubile. Ali želite nadaljevati?"
 
-#: src/wmframe.cc:1448
+#: src/wmframe.cc:1454
 msgid "Kill Client: "
 msgstr "Prekini odjemalca: "
 
@@ -2335,11 +2335,11 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3259
+#: src/wmmgr.cc:3363
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3260
+#: src/wmmgr.cc:3364
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -2413,7 +2413,7 @@ msgid "_Run..."
 msgstr "P_oženi..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:418 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:234
 msgid "_Windows"
 msgstr "_Okna"
 
@@ -2443,105 +2443,105 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Upravljalnik sej: neznana vrstica %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:216 src/wmwinlist.cc:392 src/wmwinlist.cc:425
 msgid "Tile _Vertically"
 msgstr "Zloži na_vpično"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:218 src/wmwinlist.cc:393 src/wmwinlist.cc:426
 msgid "T_ile Horizontally"
 msgstr "Zlož_i vodoravno"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:220 src/wmwinlist.cc:394 src/wmwinlist.cc:427
 msgid "Ca_scade"
 msgstr "_Kaskadno"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:222 src/wmwinlist.cc:395 src/wmwinlist.cc:428
 msgid "_Arrange"
 msgstr "_Razporedi"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:224 src/wmwinlist.cc:397 src/wmwinlist.cc:429
 msgid "_Minimize All"
 msgstr "Poma_njšaj vse"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:226 src/wmwinlist.cc:398 src/wmwinlist.cc:430
 msgid "_Hide All"
 msgstr "Skri_j vse"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:228 src/wmwinlist.cc:399 src/wmwinlist.cc:431
 msgid "_Undo"
 msgstr "P_rekliči"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
+#: src/wmtaskbar.cc:231
 msgid "Arrange _Icons"
 msgstr "Razporedi _ikone"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:236
+#: src/wmtaskbar.cc:237
 msgid "_Refresh"
 msgstr "Os_veži"
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Opravilna vrstica"
 
-#: src/wmtaskbar.cc:332
+#: src/wmtaskbar.cc:336
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Priljubljeni programi"
 
-#: src/wmtaskbar.cc:357
+#: src/wmtaskbar.cc:361
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Menu s seznamom oken"
 
-#: src/wmtaskbar.cc:366
+#: src/wmtaskbar.cc:370
 msgid "Show Desktop"
 msgstr "Prikaži namizje"
 
-#: src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:978
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
 msgstr "Opravilna vrstica"
 
-#: src/wmwinlist.cc:46
+#: src/wmwinlist.cc:47
 msgid "All Workspaces"
 msgstr "Vse delovne površine"
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:381
 msgid "_Show"
 msgstr "Pri_kaži"
 
-#: src/wmwinlist.cc:374
+#: src/wmwinlist.cc:384
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "_Dvigni"
 
-#: src/wmwinlist.cc:395
+#: src/wmwinlist.cc:405
 msgid "Del"
 msgstr "Izbriši"
 
-#: src/wmwinlist.cc:399
+#: src/wmwinlist.cc:409
 msgid "_Terminate Process"
 msgstr "_Prekini proces"
 
-#: src/wmwinlist.cc:400
+#: src/wmwinlist.cc:410
 msgid "Kill _Process"
 msgstr "Ubij _proces"
 
-#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
+#: src/wmwinlist.cc:445 src/wmwinlist.cc:446
 msgid "Window list"
 msgstr "Seznam oken"
 
@@ -2609,25 +2609,20 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "Hrošč? Nepričakovan znak, vendar je Imlib lahko razčlenil \"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:164
+#: src/yfontcore.cc:120 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nisem mogel naložiti pisave \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:187
-#, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Nalaganje nadomestne pisave \"%s\" ni uspelo."
-
-#: src/yfontcore.cc:116
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Ne morem naložiti nabora pisav \"%s\"."
-
-#: src/yfontcore.cc:128
+#: src/yfontcore.cc:207
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Manjkajoči nabori znakov za nabor pisav \"%s\":"
+
+#: src/yfontcore.cc:235
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Ne morem naložiti nabora pisav \"%s\"."
 
 #: src/yinputline.cc:18
 msgid "_Copy"
@@ -2662,24 +2657,24 @@ msgstr "Izberi _vse"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:56
+#: src/ylocale.cc:57
 #, fuzzy
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr "Knjižnica C ne podpira tega jezikovnega okolja. Vključujem okolje 'C'."
 
-#: src/ylocale.cc:91
+#: src/ylocale.cc:92
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Določitev nabora znakov za trenutni locale ni uspela. Predpostavljam, da je "
 "ISO-8859-1.\n"
 
-#: src/ylocale.cc:124 src/ylocale.cc:132
+#: src/ylocale.cc:125 src/ylocale.cc:133
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv pretvornikom %2$s ne ponuja (zadostnega) %1$s."
 
-#: src/ylocale.cc:234
+#: src/ylocale.cc:237
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Neveljaven večzložni niz \"%s\": %s"
@@ -2707,7 +2702,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:981
+#: src/yxapp.cc:993
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2733,6 +2728,9 @@ msgstr "Nepodprt vmesnik: %s."
 #, fuzzy, c-format
 msgid "Could not load image \"%s\""
 msgstr "Ne najdem zemljevida točk %s"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Nalaganje nadomestne pisave \"%s\" ni uspelo."
 
 #~ msgid ""
 #~ "\n"

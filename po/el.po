@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-30 22:26+0200\n"
+"POT-Creation-Date: 2021-11-28 17:47+0100\n"
 "PO-Revision-Date: 2021-09-21 08:11+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -56,7 +56,7 @@ msgstr "C"
 msgid " - Full"
 msgstr " - Πλήρης"
 
-#: src/aapm.cc:943
+#: src/aapm.cc:944
 #, c-format
 msgid "power:\t%s"
 msgstr "ενέργεια:\t%s"
@@ -69,11 +69,11 @@ msgstr "ΡΟΛΟΙ"
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: src/aclock.cc:186 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:80
 msgid "Default"
 msgstr "Εξ ορισμού"
 
-#: src/aclock.cc:187 src/acpustatus.cc:663 src/amailbox.cc:964
+#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Απενεργοποίηση"
@@ -82,12 +82,12 @@ msgstr "_Απενεργοποίηση"
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:297
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s Φόρτωση: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:301
+#: src/acpustatus.cc:303
 #, c-format
 msgid ""
 "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\n"
 "Ram (ελεύθερη): %5.2f (%.2f) G"
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:308
 #, c-format
 msgid ""
 "\n"
@@ -105,7 +105,7 @@ msgstr ""
 "\n"
 "Swap (ελεύθερη): %.2f (%.2f) G"
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
@@ -114,7 +114,7 @@ msgstr ""
 "\n"
 "Θερμοκρασία ACPI: "
 
-#: src/acpustatus.cc:331 src/acpustatus.cc:371
+#: src/acpustatus.cc:333 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
@@ -123,15 +123,15 @@ msgstr ""
 "\n"
 "Συχνότητα Επεξεργαστή: %.3fGHz"
 
-#: src/acpustatus.cc:348 src/acpustatus.cc:658
+#: src/acpustatus.cc:350 src/acpustatus.cc:660
 msgid "CPU"
 msgstr "CPU"
 
-#: src/acpustatus.cc:348
+#: src/acpustatus.cc:350
 msgid "Load: "
 msgstr "Φόρτωση: "
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:365
 #, c-format
 msgid ""
 "\n"
@@ -142,24 +142,34 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:429
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:659
+#: src/acpustatus.cc:661
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:667
 msgid "_Combine"
 msgstr "_Συνδυασμός"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:669
 msgid "_Separate"
 msgstr "_Χωρισμός"
 
-#: src/akeyboard.cc:76
+#: src/akeyboard.cc:82 src/icesm.cc:468
+#, c-format
+msgid "%s exited with status %d."
+msgstr "Το %s εξήχθη με αναφορά κατάστασης %d."
+
+#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr "Το %s σκοτώθηκε από το σήμα %d."
+
+#: src/akeyboard.cc:145
 msgid "Keyboard"
 msgstr "Πληκτρολόγιο"
 
@@ -193,7 +203,7 @@ msgstr "Αδυναμία σύνδεσης στο %s: %s"
 msgid "Failed to find %s command"
 msgstr "Αδυναμία εύρεσης της εντολής %s"
 
-#: src/amailbox.cc:363 src/yapp.cc:418
+#: src/amailbox.cc:363 src/yapp.cc:422
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Αδυναμία εκτέλεσης του %s"
@@ -317,7 +327,7 @@ msgstr "Ξεδίπλωμα"
 msgid "NET"
 msgstr "ΔΙΚΤ"
 
-#: src/aworkspaces.cc:604 src/wmstatus.cc:207
+#: src/aworkspaces.cc:606 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
@@ -1075,11 +1085,11 @@ msgstr "Επαναφόρτωση"
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:123
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -1119,7 +1129,7 @@ msgstr "Υποστήριξη"
 msgid "Theme Howto"
 msgstr "Οδηγίες ΠώςΝα Θεμάτων"
 
-#: src/icehelp.cc:1360 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:60
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1127,7 +1137,7 @@ msgstr "Ctrl+T"
 msgid "Website"
 msgstr "Ιστότοπος"
 
-#: src/icehelp.cc:1362 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:61
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1143,47 +1153,47 @@ msgstr "Ctrl+X"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2182
 msgid "Unsupported protocol."
 msgstr "Μη υποστηριζόμενο πρωτόκολλο."
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2261
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Εσφαλμένη διαδρομή: %s\n"
 
-#: src/icehelp.cc:2283
+#: src/icehelp.cc:2285
 msgid "Path does not refer to a file."
 msgstr "Η διαδρομή δεν παραπέμπει σε κάποιο αρχείο."
 
-#: src/icehelp.cc:2288
+#: src/icehelp.cc:2290
 msgid "Failed to open file for reading."
 msgstr "Αδυναμία ανοίγματος του αρχείου για ανάγνωση."
 
-#: src/icehelp.cc:2317
+#: src/icehelp.cc:2319
 msgid "Failed to create a temporary file"
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
 # ?
-#: src/icehelp.cc:2410
+#: src/icehelp.cc:2412
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Αδυναμία εκτέλεσης του συστημικού (%s) (%d)"
 
-#: src/icehelp.cc:2433
+#: src/icehelp.cc:2435
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Αδυναμία αποσυμπίεσης %s"
 
-#: src/icehelp.cc:2441
+#: src/icehelp.cc:2443
 msgid "Could not locate curl or wget in PATH"
 msgstr "Αδυναμία εντοπισμού του curl ή του wget στη διαδρομή (PATH)"
 
-#: src/icehelp.cc:2445
+#: src/icehelp.cc:2447
 msgid "Unsafe characters in URL"
 msgstr "Μη ασφαλείς χαρακτήρες στη διεύθυνση URL"
 
-#: src/icehelp.cc:2482
+#: src/icehelp.cc:2484
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1257,7 +1267,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2572
+#: src/icehelp.cc:2574
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Παραβλέπεται η επιλογή '%s'"
@@ -1378,8 +1388,8 @@ msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορί
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
-#: src/yxapp.cc:1022
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1177
+#: src/yxapp.cc:1034
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
@@ -1483,16 +1493,6 @@ msgstr "Άγνωστη επιλογή '%s'"
 #, c-format
 msgid "restart %s."
 msgstr "επανεκκίνηση %s."
-
-#: src/icesm.cc:468
-#, c-format
-msgid "%s exited with status %d."
-msgstr "Το %s εξήχθη με αναφορά κατάστασης %d."
-
-#: src/icesm.cc:474 src/icesm.cc:628
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr "Το %s σκοτώθηκε από το σήμα %d."
 
 #: src/icesm.cc:513
 #, fuzzy
@@ -1776,19 +1776,19 @@ msgstr ""
 "  -c, --config=FILE   Φόρτωμα των προτιμήσεων από το ΑΡΧΕΙΟ.\n"
 "  -t, --theme=FILE    Φόρτωμα του θέματος από το ΑΡΧΕΙΟ.\n"
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Hex View"
 msgstr "Δεκαεξαδική προβολή"
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:56
+#: src/iceview.cc:60
 msgid "Expand Tabs"
 msgstr "Επέκταση των καρτελών"
 
-#: src/iceview.cc:57
+#: src/iceview.cc:61
 msgid "Wrap Lines"
 msgstr "Αναδίπλωση των γραμμών"
 
@@ -1797,7 +1797,7 @@ msgstr "Αναδίπλωση των γραμμών"
 msgid "Failed to load image '%s'."
 msgstr "Αδυναμία ανοίγματος της εικόνας '%s'."
 
-#: src/icewmbg.cc:857
+#: src/icewmbg.cc:862
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1923,12 +1923,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1774
+#: src/icewmbg.cc:1050 src/wmapp.cc:1755
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
 
-#: src/icewmbg.cc:1069
+#: src/icewmbg.cc:1077
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Αδυναμία εκκίνησης, επειδή, ήδη, τρέχει ένα άλλο icewmbg ."
 
@@ -2039,144 +2039,144 @@ msgstr "_Αποσύνδεση"
 msgid "_Cancel logout"
 msgstr "_Ακύρωση της αποσύνδεσης"
 
-#: src/wmapp.cc:500
+#: src/wmapp.cc:501
 msgid "Lock _Workstation"
 msgstr "Κλείδωμα _Σταθμού εργασίας"
 
-#: src/wmapp.cc:502 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Επαν_εκκίνηση"
 
-#: src/wmapp.cc:504 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "_Τερματισμός"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:506 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr "_Κατάσταση λειτουργίας ύπνου"
 
-#: src/wmapp.cc:511
+#: src/wmapp.cc:512
 msgid "Restart _Icewm"
 msgstr "Επανεκκίνηση του _Icewm"
 
-#: src/wmapp.cc:513
+#: src/wmapp.cc:514
 msgid "Restart _Xterm"
 msgstr "Επανεκκίνηση του _Xterm"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:524
 msgid "_Menu"
 msgstr "_Κατάλογος"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:525
 msgid "_Above Dock"
 msgstr "_Πάνω από το Dock"
 
-#: src/wmapp.cc:525
+#: src/wmapp.cc:526
 msgid "_Dock"
 msgstr "_Dock"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:527
 msgid "_OnTop"
 msgstr "_Στην Κορυφή"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:528
 msgid "_Normal"
 msgstr "_Κανονικό"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:529
 msgid "_Below"
 msgstr "_Απο Κάτω"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:530
 msgid "D_esktop"
 msgstr "Ε_πιφάνεια εργασίας"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:365
+#: src/wmapp.cc:565 src/wmwinlist.cc:375
 msgid "_Restore"
 msgstr "_Επαναφορά"
 
-#: src/wmapp.cc:566
+#: src/wmapp.cc:567
 msgid "_Move"
 msgstr "_Μετακκίνηση"
 
-#: src/wmapp.cc:568
+#: src/wmapp.cc:569
 msgid "_Size"
 msgstr "_Μέγεθος"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:366
+#: src/wmapp.cc:571 src/wmwinlist.cc:376
 msgid "Mi_nimize"
 msgstr "Ελ_αχιστοποίηση"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:367
+#: src/wmapp.cc:573 src/wmwinlist.cc:377
 msgid "Ma_ximize"
 msgstr "Με_γιστοποίηση"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:368
+#: src/wmapp.cc:574 src/wmwinlist.cc:378
 msgid "Maximize_Vert"
 msgstr "Μεγιστοποίηση_Κάθ"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:369
+#: src/wmapp.cc:575 src/wmwinlist.cc:379
 msgid "MaximizeHori_z"
 msgstr "Μεγιστοποίηση_Οριζ"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:370
+#: src/wmapp.cc:578 src/wmwinlist.cc:380
 msgid "_Fullscreen"
 msgstr "_Πλήρης οθόνη"
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:372
+#: src/wmapp.cc:581 src/wmwinlist.cc:382
 msgid "_Hide"
 msgstr "_Απόκρυψη"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:373
+#: src/wmapp.cc:583 src/wmwinlist.cc:383
 msgid "Roll_up"
 msgstr "Τ_ύλιγμα"
 
-#: src/wmapp.cc:589
+#: src/wmapp.cc:590
 msgid "R_aise"
 msgstr "_Ανύψωση"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:375
+#: src/wmapp.cc:592 src/wmwinlist.cc:385
 msgid "_Lower"
 msgstr "Χαμή_λωμα"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:376
+#: src/wmapp.cc:594 src/wmwinlist.cc:386
 msgid "La_yer"
 msgstr "Στ_ρώμα"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:378
+#: src/wmapp.cc:598 src/wmwinlist.cc:388
 msgid "Move _To"
 msgstr "Μετακίνηση _σε"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:379
+#: src/wmapp.cc:599 src/wmwinlist.cc:389
 msgid "Occupy _All"
 msgstr "Κατάληψη _Όλων"
 
-#: src/wmapp.cc:604
+#: src/wmapp.cc:605
 msgid "Limit _Workarea"
 msgstr "Περιορισμός της _Περιοχής Εργασίας"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:380
+#: src/wmapp.cc:609 src/wmwinlist.cc:390
 msgid "Tray _icon"
 msgstr "Εικονίδ_ιο Ραφιού"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
+#: src/wmapp.cc:614 src/wmwinlist.cc:405 src/wmwinlist.cc:413
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:397
+#: src/wmapp.cc:616 src/wmwinlist.cc:407
 msgid "_Kill Client"
 msgstr "_Σκότωμα του Πελάτη"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "Λίαστα _παράθυρων"
 
-#: src/wmapp.cc:656
+#: src/wmapp.cc:657
 msgid "Another window manager already running, exiting..."
 msgstr "Ένας άλλος διαχειριστής παραθύρων ήδη τρέχει· γίνεται έξοδος..."
 
-#: src/wmapp.cc:731
+#: src/wmapp.cc:732
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2185,28 +2185,28 @@ msgstr ""
 "Αδύνατη η επανεκκίνηση: %s\n"
 "Όντως οδηγεί το $PATH στο %s ;"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:895
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:896
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1196 src/yxapp.cc:1023
+#: src/wmapp.cc:1178 src/yxapp.cc:1035
 msgid "<none>"
 msgstr "<κανένα>"
 
-#: src/wmapp.cc:1517
+#: src/wmapp.cc:1499
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
 "γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1523
+#: src/wmapp.cc:1505
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2217,7 +2217,7 @@ msgstr ""
 "  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
 "στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1531
+#: src/wmapp.cc:1513
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2247,7 +2247,7 @@ msgstr ""
 "  --trace=conf,icon   Ίχνη διαδρομών που χρησιμοποιούνται για τη φόρτωση "
 "ρυθμίσεων.\n"
 
-#: src/wmapp.cc:1541
+#: src/wmapp.cc:1523
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2314,21 +2314,21 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/wmapp.cc:1607
+#: src/wmapp.cc:1589
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s κατάλογοι ρυθμίσεων:\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1671
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s ρυθμισμένες επιλογές:%s\n"
 
-#: src/wmapp.cc:1823
+#: src/wmapp.cc:1802
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση αποσύνδεσης"
 
-#: src/wmapp.cc:1824
+#: src/wmapp.cc:1803
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2337,31 +2337,31 @@ msgstr ""
 "\n"
 "Να προχωρήσω;"
 
-#: src/wmbutton.cc:85
+#: src/wmbutton.cc:81
 msgid "Raise/Lower"
 msgstr "Ανύψωση/Χαμήλωμα"
 
-#: src/wmbutton.cc:90
+#: src/wmbutton.cc:86
 msgid "Hide"
 msgstr "Απόκρυψη"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:92
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: src/wmbutton.cc:100
+#: src/wmbutton.cc:96
 msgid "Maximize"
 msgstr "Μεγιστοποίηση"
 
-#: src/wmbutton.cc:106
+#: src/wmbutton.cc:102
 msgid "Minimize"
 msgstr "Ελαχιστοποίηση"
 
-#: src/wmbutton.cc:112
+#: src/wmbutton.cc:108
 msgid "Rolldown"
 msgstr "Ξεδίπλωμα"
 
-#: src/wmbutton.cc:115
+#: src/wmbutton.cc:111
 msgid "Rollup"
 msgstr "Τύλιγμα"
 
@@ -2406,8 +2406,8 @@ msgid "_Cancel"
 msgstr "_Ακύρωση"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "_Αποσύνδεση..."
 
@@ -2416,11 +2416,11 @@ msgid "_Restart icewm"
 msgstr "_Επανεκκίνηση του icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "_Περί"
 
-#: src/wmframe.cc:1441
+#: src/wmframe.cc:1447
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2430,7 +2430,7 @@ msgstr ""
 "\n"
 "Επιθυμείς να συνεχίσεις;"
 
-#: src/wmframe.cc:1448
+#: src/wmframe.cc:1454
 msgid "Kill Client: "
 msgstr "Σκότωμα του Πελάτη: "
 
@@ -2494,11 +2494,11 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3259
+#: src/wmmgr.cc:3363
 msgid "Missing program setxkbmap"
 msgstr "Λείπει το πρόγραμμα setxkbmap"
 
-#: src/wmmgr.cc:3260
+#: src/wmmgr.cc:3364
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -2570,7 +2570,7 @@ msgid "_Run..."
 msgstr "_Εκτέλεση..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:418 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:234
 msgid "_Windows"
 msgstr "_Παράθυρα"
 
@@ -2600,95 +2600,95 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Διαχειριστής συνεδρίας: Άγνωστη γραμμή %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:216 src/wmwinlist.cc:392 src/wmwinlist.cc:425
 msgid "Tile _Vertically"
 msgstr "Παράλληλη Τοποθέτηση _Κάθετα"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:218 src/wmwinlist.cc:393 src/wmwinlist.cc:426
 msgid "T_ile Horizontally"
 msgstr "Παράλληλη τοποθέτηση _τριζόντια"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:220 src/wmwinlist.cc:394 src/wmwinlist.cc:427
 msgid "Ca_scade"
 msgstr "Διαδοχική επικάλυψη"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:222 src/wmwinlist.cc:395 src/wmwinlist.cc:428
 msgid "_Arrange"
 msgstr "_Παράθεση"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:224 src/wmwinlist.cc:397 src/wmwinlist.cc:429
 msgid "_Minimize All"
 msgstr "_Ελαχιστοποίηση όλων"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:226 src/wmwinlist.cc:398 src/wmwinlist.cc:430
 msgid "_Hide All"
 msgstr "_Απόκρυψη όλων"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:228 src/wmwinlist.cc:399 src/wmwinlist.cc:431
 msgid "_Undo"
 msgstr "_Αναίρεση"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
+#: src/wmtaskbar.cc:231
 msgid "Arrange _Icons"
 msgstr "Παράθεση _εικονιδίων"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:236
+#: src/wmtaskbar.cc:237
 msgid "_Refresh"
 msgstr "_Ανανέωση"
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
 msgid "Hide Taskbar"
 msgstr "Απόκρυψη της γραμμής εργασιών"
 
-#: src/wmtaskbar.cc:332
+#: src/wmtaskbar.cc:336
 msgid "Favorite Applications"
 msgstr "Αγαπημένες εφαρμογές"
 
-#: src/wmtaskbar.cc:357
+#: src/wmtaskbar.cc:361
 msgid "Window List Menu"
 msgstr "Μενού λίστας παράθυρων"
 
-#: src/wmtaskbar.cc:366
+#: src/wmtaskbar.cc:370
 msgid "Show Desktop"
 msgstr "Εμφάνιση της επιφάνεια εργασίας"
 
-#: src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:978
 msgid "Show Taskbar"
 msgstr "Προβολή της γραμμής εργασιών"
 
-#: src/wmwinlist.cc:46
+#: src/wmwinlist.cc:47
 msgid "All Workspaces"
 msgstr "Όλες οι επιφάνειες εργασίας"
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:381
 msgid "_Show"
 msgstr "_Προβολη"
 
-#: src/wmwinlist.cc:374
+#: src/wmwinlist.cc:384
 msgid "_Raise"
 msgstr "_Ανύψωση"
 
-#: src/wmwinlist.cc:395
+#: src/wmwinlist.cc:405
 msgid "Del"
 msgstr "Διαγραφή"
 
-#: src/wmwinlist.cc:399
+#: src/wmwinlist.cc:409
 msgid "_Terminate Process"
 msgstr "_Τερματισμός διεργασίας"
 
-#: src/wmwinlist.cc:400
+#: src/wmwinlist.cc:410
 msgid "Kill _Process"
 msgstr "Διακοπή _Διεργασίας"
 
-#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
+#: src/wmwinlist.cc:445 src/wmwinlist.cc:446
 msgid "Window list"
 msgstr "Λίστα παραθύρων"
 
@@ -2759,25 +2759,20 @@ msgstr ""
 "ΣΦΑΛΜΑ; Αναπάντεχοι χαρακτήρες, αλλά το Imlib ήταν σε θέση να αναλύσει το "
 "\"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:164
+#: src/yfontcore.cc:120 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Δεν ήταν δυνατή η φόρτωση της γραμματοσειράς \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:187
-#, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Η φόρτωση της εφεδρικής γραμματοσειράς \"%s\" απέτυχε."
-
-#: src/yfontcore.cc:116
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Δεν ήταν δυνατή η φόρτωση της ομάδας γραμματοσειρών \"%s\"."
-
-#: src/yfontcore.cc:128
+#: src/yfontcore.cc:207
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Λείπουν ομάδες κώδικα για την ομάδα γραμματοσειρών \"%s\":"
+
+#: src/yfontcore.cc:235
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Δεν ήταν δυνατή η φόρτωση της ομάδας γραμματοσειρών \"%s\"."
 
 #: src/yinputline.cc:18
 msgid "_Copy"
@@ -2811,25 +2806,25 @@ msgstr "Επιλογή _Όλων"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:56
+#: src/ylocale.cc:57
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Η τοπικοποίηση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C η το Xlib. Γίνεται "
 "υποχώρηση στη 'C' locale'."
 
-#: src/ylocale.cc:91
+#: src/ylocale.cc:92
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Απέτυχε ο καθορισμός της τρέχουσας ομάδας κώδικα για την τοπικοποίηση. Το "
 "σύστημα θα υποθέσει την ISO-8859-1.\n"
 
-#: src/ylocale.cc:124 src/ylocale.cc:132
+#: src/ylocale.cc:125 src/ylocale.cc:133
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "το iconv δεν παρέχει (επαρκείς) μετατροπείς από %s σε %s ."
 
-#: src/ylocale.cc:234
+#: src/ylocale.cc:237
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Μη έγκυρος στίχος πολλαπλών μπάιτιων \"%s\": %s"
@@ -2857,7 +2852,7 @@ msgstr "Μη ολοκληρωμένη δεκαεξαδική φυγή στη δ�
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Μη έγγυρη δεκαεξαδική φυγή στη διεύθυνση URL, στη θέση %d."
 
-#: src/yxapp.cc:981
+#: src/yxapp.cc:993
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2886,6 +2881,9 @@ msgstr "Μη υποστηριζόμενη διεπαφή: %s ."
 #| msgid "Could not find image %s"
 msgid "Could not load image \"%s\""
 msgstr "Αδυναμία εύρεσης της εικόνας %s"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Η φόρτωση της εφεδρικής γραμματοσειράς \"%s\" απέτυχε."
 
 #~ msgid ""
 #~ "\n"

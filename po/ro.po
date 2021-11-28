@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-09-30 22:26+0200\n"
+"POT-Creation-Date: 2021-11-28 17:47+0100\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -50,7 +50,7 @@ msgstr ""
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:943
+#: src/aapm.cc:944
 #, c-format
 msgid "power:\t%s"
 msgstr ""
@@ -63,12 +63,12 @@ msgstr ""
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:186 src/themes.cc:81
+#: src/aclock.cc:186 src/themes.cc:80
 #, fuzzy
 msgid "Default"
 msgstr "Şterge"
 
-#: src/aclock.cc:187 src/acpustatus.cc:663 src/amailbox.cc:964
+#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
@@ -77,48 +77,48 @@ msgstr ""
 msgid "_UTC"
 msgstr ""
 
-#: src/acpustatus.cc:295
+#: src/acpustatus.cc:297
 #, fuzzy, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Încărcarea CPU: %3.2f %3.2f %3.2f, %u procese."
 
-#: src/acpustatus.cc:301
+#: src/acpustatus.cc:303
 #, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:306
+#: src/acpustatus.cc:308
 #, c-format
 msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 
-#: src/acpustatus.cc:312
+#: src/acpustatus.cc:314
 #, c-format
 msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
 
-#: src/acpustatus.cc:331 src/acpustatus.cc:371
+#: src/acpustatus.cc:333 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
 
-#: src/acpustatus.cc:348 src/acpustatus.cc:658
+#: src/acpustatus.cc:350 src/acpustatus.cc:660
 msgid "CPU"
 msgstr ""
 
-#: src/acpustatus.cc:348
+#: src/acpustatus.cc:350
 msgid "Load: "
 msgstr ""
 
-#: src/acpustatus.cc:363
+#: src/acpustatus.cc:365
 #, c-format
 msgid ""
 "\n"
@@ -127,24 +127,34 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:429
+#: src/acpustatus.cc:431
 msgid "°C"
 msgstr ""
 
-#: src/acpustatus.cc:659
+#: src/acpustatus.cc:661
 #, c-format
 msgid "CPU%d"
 msgstr ""
 
-#: src/acpustatus.cc:665
+#: src/acpustatus.cc:667
 msgid "_Combine"
 msgstr ""
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:669
 msgid "_Separate"
 msgstr ""
 
-#: src/akeyboard.cc:76
+#: src/akeyboard.cc:82 src/icesm.cc:468
+#, c-format
+msgid "%s exited with status %d."
+msgstr ""
+
+#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr ""
+
+#: src/akeyboard.cc:145
 msgid "Keyboard"
 msgstr ""
 
@@ -178,7 +188,7 @@ msgstr "Nu mă pot conecta la serverul YIFF: %s"
 msgid "Failed to find %s command"
 msgstr ""
 
-#: src/amailbox.cc:363 src/yapp.cc:418
+#: src/amailbox.cc:363 src/yapp.cc:422
 #, fuzzy, c-format
 msgid "Failed to execute %s"
 msgstr "Nu pot găsi harta de pixeli %s"
@@ -303,7 +313,7 @@ msgstr "Rulează în jos"
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:604 src/wmstatus.cc:207
+#: src/aworkspaces.cc:606 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "Spaţiu de lucru: "
 
@@ -1095,11 +1105,11 @@ msgstr ""
 msgid "Ctrl+R"
 msgstr "Ctrl+R"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59 src/wmbutton.cc:127
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:123
 msgid "Close"
 msgstr "Închide"
 
-#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:59
+#: src/icehelp.cc:1343 src/icesame.cc:62 src/iceview.cc:63
 msgid "Ctrl+Q"
 msgstr "Ctrl+Q"
 
@@ -1144,7 +1154,7 @@ msgstr ""
 msgid "Theme Howto"
 msgstr "Autor temă:"
 
-#: src/icehelp.cc:1360 src/iceview.cc:56
+#: src/icehelp.cc:1360 src/iceview.cc:60
 msgid "Ctrl+T"
 msgstr "Ctrl+T"
 
@@ -1152,7 +1162,7 @@ msgstr "Ctrl+T"
 msgid "Website"
 msgstr ""
 
-#: src/icehelp.cc:1362 src/iceview.cc:57
+#: src/icehelp.cc:1362 src/iceview.cc:61
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -1168,47 +1178,47 @@ msgstr "Ctrl+X"
 msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
-#: src/icehelp.cc:2180
+#: src/icehelp.cc:2182
 #, fuzzy
 msgid "Unsupported protocol."
 msgstr "Interfaţă nesuportată: %s."
 
-#: src/icehelp.cc:2259
+#: src/icehelp.cc:2261
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Cale invalidă: %s\n"
 
-#: src/icehelp.cc:2283
+#: src/icehelp.cc:2285
 msgid "Path does not refer to a file."
 msgstr ""
 
-#: src/icehelp.cc:2288
+#: src/icehelp.cc:2290
 msgid "Failed to open file for reading."
 msgstr ""
 
-#: src/icehelp.cc:2317
+#: src/icehelp.cc:2319
 msgid "Failed to create a temporary file"
 msgstr ""
 
-#: src/icehelp.cc:2410
+#: src/icehelp.cc:2412
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2433
+#: src/icehelp.cc:2435
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "Nu pot găsi harta de pixeli %s"
 
-#: src/icehelp.cc:2441
+#: src/icehelp.cc:2443
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2445
+#: src/icehelp.cc:2447
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2482
+#: src/icehelp.cc:2484
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1246,7 +1256,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2572
+#: src/icehelp.cc:2574
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Acţiune necunoscută: `%s'"
@@ -1374,8 +1384,8 @@ msgstr ""
 msgid "Invalid expression: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1195
-#: src/yxapp.cc:1022
+#: src/icesh.cc:3367 src/icesound.cc:794 src/icewmhint.cc:37 src/wmapp.cc:1177
+#: src/yxapp.cc:1034
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
@@ -1457,16 +1467,6 @@ msgstr "Acţiune necunoscută: `%s'"
 #| msgid "Restart"
 msgid "restart %s."
 msgstr "Repornire"
-
-#: src/icesm.cc:468
-#, c-format
-msgid "%s exited with status %d."
-msgstr ""
-
-#: src/icesm.cc:474 src/icesm.cc:628
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr ""
 
 #: src/icesm.cc:513
 msgid ""
@@ -1703,19 +1703,19 @@ msgid ""
 "  -t, --theme=FILE    Load the theme from FILE.\n"
 msgstr ""
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Hex View"
 msgstr "Afişare Hexa"
 
-#: src/iceview.cc:55
+#: src/iceview.cc:59
 msgid "Ctrl+H"
 msgstr "Ctrl+H"
 
-#: src/iceview.cc:56
+#: src/iceview.cc:60
 msgid "Expand Tabs"
 msgstr "Expandează tab-uri"
 
-#: src/iceview.cc:57
+#: src/iceview.cc:61
 msgid "Wrap Lines"
 msgstr "Împachetează liniile"
 
@@ -1724,7 +1724,7 @@ msgstr "Împachetează liniile"
 msgid "Failed to load image '%s'."
 msgstr "Nu pot găsi harta de pixeli %s"
 
-#: src/icewmbg.cc:857
+#: src/icewmbg.cc:862
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1775,12 +1775,12 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icewmbg.cc:1042 src/wmapp.cc:1774
+#: src/icewmbg.cc:1050 src/wmapp.cc:1755
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opţiune nerecunoscută: %s\n"
 
-#: src/icewmbg.cc:1069
+#: src/icewmbg.cc:1077
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1881,148 +1881,148 @@ msgstr "Ieşire"
 msgid "_Cancel logout"
 msgstr "Renunţare ieşire"
 
-#: src/wmapp.cc:500
+#: src/wmapp.cc:501
 msgid "Lock _Workstation"
 msgstr "Blochează staţia de lucru"
 
-#: src/wmapp.cc:502 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:72
 msgid "Re_boot"
 msgstr "Reporneşte"
 
-#: src/wmapp.cc:504 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:73
 msgid "Shut_down"
 msgstr "Opreşte"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:506 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:69
 msgid "_Sleep mode"
 msgstr ""
 
-#: src/wmapp.cc:511
+#: src/wmapp.cc:512
 msgid "Restart _Icewm"
 msgstr "Repornire _Icewm"
 
-#: src/wmapp.cc:513
+#: src/wmapp.cc:514
 msgid "Restart _Xterm"
 msgstr "Repornire _Xterm"
 
-#: src/wmapp.cc:523
+#: src/wmapp.cc:524
 msgid "_Menu"
 msgstr "_Meniu"
 
-#: src/wmapp.cc:524
+#: src/wmapp.cc:525
 msgid "_Above Dock"
 msgstr "Dochează de_asupra"
 
-#: src/wmapp.cc:525
+#: src/wmapp.cc:526
 msgid "_Dock"
 msgstr "_Dochează"
 
-#: src/wmapp.cc:526
+#: src/wmapp.cc:527
 msgid "_OnTop"
 msgstr "Deasupra"
 
-#: src/wmapp.cc:527
+#: src/wmapp.cc:528
 msgid "_Normal"
 msgstr "_Normal"
 
-#: src/wmapp.cc:528
+#: src/wmapp.cc:529
 msgid "_Below"
 msgstr "Dedesu_bt"
 
-#: src/wmapp.cc:529
+#: src/wmapp.cc:530
 msgid "D_esktop"
 msgstr "D_esktop"
 
-#: src/wmapp.cc:564 src/wmwinlist.cc:365
+#: src/wmapp.cc:565 src/wmwinlist.cc:375
 msgid "_Restore"
 msgstr "_Restaurează"
 
-#: src/wmapp.cc:566
+#: src/wmapp.cc:567
 msgid "_Move"
 msgstr "_Mută"
 
-#: src/wmapp.cc:568
+#: src/wmapp.cc:569
 msgid "_Size"
 msgstr "Mărime"
 
-#: src/wmapp.cc:570 src/wmwinlist.cc:366
+#: src/wmapp.cc:571 src/wmwinlist.cc:376
 msgid "Mi_nimize"
 msgstr "Mi_nimizează"
 
-#: src/wmapp.cc:572 src/wmwinlist.cc:367
+#: src/wmapp.cc:573 src/wmwinlist.cc:377
 msgid "Ma_ximize"
 msgstr "Ma_ximizează"
 
-#: src/wmapp.cc:573 src/wmwinlist.cc:368
+#: src/wmapp.cc:574 src/wmwinlist.cc:378
 #, fuzzy
 #| msgid "Maximize"
 msgid "Maximize_Vert"
 msgstr "Maximizează"
 
-#: src/wmapp.cc:574 src/wmwinlist.cc:369
+#: src/wmapp.cc:575 src/wmwinlist.cc:379
 #, fuzzy
 #| msgid "Maximize"
 msgid "MaximizeHori_z"
 msgstr "Maximizează"
 
-#: src/wmapp.cc:577 src/wmwinlist.cc:370
+#: src/wmapp.cc:578 src/wmwinlist.cc:380
 msgid "_Fullscreen"
 msgstr ""
 
-#: src/wmapp.cc:580 src/wmwinlist.cc:372
+#: src/wmapp.cc:581 src/wmwinlist.cc:382
 msgid "_Hide"
 msgstr "Ascunde"
 
-#: src/wmapp.cc:582 src/wmwinlist.cc:373
+#: src/wmapp.cc:583 src/wmwinlist.cc:383
 msgid "Roll_up"
 msgstr "Rulează"
 
-#: src/wmapp.cc:589
+#: src/wmapp.cc:590
 msgid "R_aise"
 msgstr "Ridică"
 
-#: src/wmapp.cc:591 src/wmwinlist.cc:375
+#: src/wmapp.cc:592 src/wmwinlist.cc:385
 msgid "_Lower"
 msgstr "_Coboară"
 
-#: src/wmapp.cc:593 src/wmwinlist.cc:376
+#: src/wmapp.cc:594 src/wmwinlist.cc:386
 msgid "La_yer"
 msgstr "Strat"
 
-#: src/wmapp.cc:597 src/wmwinlist.cc:378
+#: src/wmapp.cc:598 src/wmwinlist.cc:388
 msgid "Move _To"
 msgstr "Mută în"
 
-#: src/wmapp.cc:598 src/wmwinlist.cc:379
+#: src/wmapp.cc:599 src/wmwinlist.cc:389
 msgid "Occupy _All"
 msgstr "Ocupă tot"
 
-#: src/wmapp.cc:604
+#: src/wmapp.cc:605
 msgid "Limit _Workarea"
 msgstr "Limitează spaţiul de lucru"
 
-#: src/wmapp.cc:608 src/wmwinlist.cc:380
+#: src/wmapp.cc:609 src/wmwinlist.cc:390
 msgid "Tray _icon"
 msgstr ""
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:395 src/wmwinlist.cc:403
+#: src/wmapp.cc:614 src/wmwinlist.cc:405 src/wmwinlist.cc:413
 msgid "_Close"
 msgstr "Închide"
 
-#: src/wmapp.cc:615 src/wmwinlist.cc:397
+#: src/wmapp.cc:616 src/wmwinlist.cc:407
 msgid "_Kill Client"
 msgstr "Închide clientul"
 
-#: src/wmapp.cc:618 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "Lista ferestre"
 
-#: src/wmapp.cc:656
+#: src/wmapp.cc:657
 msgid "Another window manager already running, exiting..."
 msgstr "Un alt manager de ferestre rulează, ies..."
 
-#: src/wmapp.cc:731
+#: src/wmapp.cc:732
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2031,33 +2031,33 @@ msgstr ""
 "Nu pot reporni: %s\n"
 "Conduce calea $PATH către %s?"
 
-#: src/wmapp.cc:894
+#: src/wmapp.cc:895
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:895
+#: src/wmapp.cc:896
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1196 src/yxapp.cc:1023
+#: src/wmapp.cc:1178 src/yxapp.cc:1035
 msgid "<none>"
 msgstr "<nu există>"
 
-#: src/wmapp.cc:1517
+#: src/wmapp.cc:1499
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1523
+#: src/wmapp.cc:1505
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1531
+#: src/wmapp.cc:1513
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2069,7 +2069,7 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1541
+#: src/wmapp.cc:1523
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2101,21 +2101,21 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/wmapp.cc:1607
+#: src/wmapp.cc:1589
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1671
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Opţiune nerecunoscută: %s\n"
 
-#: src/wmapp.cc:1823
+#: src/wmapp.cc:1802
 msgid "Confirm Logout"
 msgstr "Confirmă ieşirea"
 
-#: src/wmapp.cc:1824
+#: src/wmapp.cc:1803
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2123,31 +2123,31 @@ msgstr ""
 "Ieşirea va închide toate aplicaţiile active.\n"
 "Continuaţi?"
 
-#: src/wmbutton.cc:85
+#: src/wmbutton.cc:81
 msgid "Raise/Lower"
 msgstr "Ridică/Coboară"
 
-#: src/wmbutton.cc:90
+#: src/wmbutton.cc:86
 msgid "Hide"
 msgstr "Ascunde"
 
-#: src/wmbutton.cc:96
+#: src/wmbutton.cc:92
 msgid "Restore"
 msgstr "Restaurează"
 
-#: src/wmbutton.cc:100
+#: src/wmbutton.cc:96
 msgid "Maximize"
 msgstr "Maximizează"
 
-#: src/wmbutton.cc:106
+#: src/wmbutton.cc:102
 msgid "Minimize"
 msgstr "Minimizează"
 
-#: src/wmbutton.cc:112
+#: src/wmbutton.cc:108
 msgid "Rolldown"
 msgstr "Rulează în jos"
 
-#: src/wmbutton.cc:115
+#: src/wmbutton.cc:111
 msgid "Rollup"
 msgstr "Rulează în sus"
 
@@ -2193,8 +2193,8 @@ msgid "_Cancel"
 msgstr "Renunţă"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
+#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "Ieşire..."
 
@@ -2203,11 +2203,11 @@ msgid "_Restart icewm"
 msgstr "_Reporneşte icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "Despre"
 
-#: src/wmframe.cc:1441
+#: src/wmframe.cc:1447
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2215,7 +2215,7 @@ msgstr ""
 "AVERTISMENT! Toate schimbările nesalvate vor fi pierdute\n"
 "când acest client este închis. Doriţi sa continuaţi?"
 
-#: src/wmframe.cc:1448
+#: src/wmframe.cc:1454
 msgid "Kill Client: "
 msgstr "Închide client: "
 
@@ -2279,11 +2279,11 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3259
+#: src/wmmgr.cc:3363
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3260
+#: src/wmmgr.cc:3364
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -2357,7 +2357,7 @@ msgid "_Run..."
 msgstr "_Rulează..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:418 src/wmtaskbar.cc:233
+#: src/wmprog.cc:418 src/wmtaskbar.cc:234
 msgid "_Windows"
 msgstr "Ferestre"
 
@@ -2387,108 +2387,108 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Managerul de sesiuni: linie necunoscută %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:215 src/wmwinlist.cc:382 src/wmwinlist.cc:415
+#: src/wmtaskbar.cc:216 src/wmwinlist.cc:392 src/wmwinlist.cc:425
 msgid "Tile _Vertically"
 msgstr "Alăturare _verticală"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:217 src/wmwinlist.cc:383 src/wmwinlist.cc:416
+#: src/wmtaskbar.cc:218 src/wmwinlist.cc:393 src/wmwinlist.cc:426
 msgid "T_ile Horizontally"
 msgstr "Alăturare or_izontală"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:384 src/wmwinlist.cc:417
+#: src/wmtaskbar.cc:220 src/wmwinlist.cc:394 src/wmwinlist.cc:427
 msgid "Ca_scade"
 msgstr "Ca_scadare"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:385 src/wmwinlist.cc:418
+#: src/wmtaskbar.cc:222 src/wmwinlist.cc:395 src/wmwinlist.cc:428
 msgid "_Arrange"
 msgstr "_Aranjare"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:387 src/wmwinlist.cc:419
+#: src/wmtaskbar.cc:224 src/wmwinlist.cc:397 src/wmwinlist.cc:429
 msgid "_Minimize All"
 msgstr "_Minimizează tot"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:388 src/wmwinlist.cc:420
+#: src/wmtaskbar.cc:226 src/wmwinlist.cc:398 src/wmwinlist.cc:430
 msgid "_Hide All"
 msgstr "_Ascunde tot"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:389 src/wmwinlist.cc:421
+#: src/wmtaskbar.cc:228 src/wmwinlist.cc:399 src/wmwinlist.cc:431
 msgid "_Undo"
 msgstr "Anulează"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
+#: src/wmtaskbar.cc:231
 msgid "Arrange _Icons"
 msgstr "Aranjează _iconuri"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:236
+#: src/wmtaskbar.cc:237
 msgid "_Refresh"
 msgstr "Actualizea_ză"
 
-#: src/wmtaskbar.cc:309 src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Hide Taskbar"
 msgstr "Bara sarcini"
 
-#: src/wmtaskbar.cc:332
+#: src/wmtaskbar.cc:336
 #, fuzzy
 #| msgid "Favorite applications"
 msgid "Favorite Applications"
 msgstr "Aplicaţii favorite"
 
-#: src/wmtaskbar.cc:357
+#: src/wmtaskbar.cc:361
 #, fuzzy
 #| msgid "Window list menu"
 msgid "Window List Menu"
 msgstr "Meniu lista ferestre"
 
-#: src/wmtaskbar.cc:366
+#: src/wmtaskbar.cc:370
 #, fuzzy
 msgid "Show Desktop"
 msgstr "D_esktop"
 
-#: src/wmtaskbar.cc:967
+#: src/wmtaskbar.cc:978
 #, fuzzy
 #| msgid "Task Bar"
 msgid "Show Taskbar"
 msgstr "Bara sarcini"
 
-#: src/wmwinlist.cc:46
+#: src/wmwinlist.cc:47
 #, fuzzy
 msgid "All Workspaces"
 msgstr "Spaţiu de lucru: "
 
-#: src/wmwinlist.cc:371
+#: src/wmwinlist.cc:381
 msgid "_Show"
 msgstr "Arată"
 
-#: src/wmwinlist.cc:374
+#: src/wmwinlist.cc:384
 #, fuzzy
 #| msgid "R_aise"
 msgid "_Raise"
 msgstr "Ridică"
 
-#: src/wmwinlist.cc:395
+#: src/wmwinlist.cc:405
 #, fuzzy
 msgid "Del"
 msgstr "Şterge"
 
-#: src/wmwinlist.cc:399
+#: src/wmwinlist.cc:409
 msgid "_Terminate Process"
 msgstr "Termină procesul"
 
-#: src/wmwinlist.cc:400
+#: src/wmwinlist.cc:410
 msgid "Kill _Process"
 msgstr "Opreşte procesul"
 
-#: src/wmwinlist.cc:435 src/wmwinlist.cc:436
+#: src/wmwinlist.cc:445 src/wmwinlist.cc:446
 msgid "Window list"
 msgstr "Lista ferestre"
 
@@ -2555,25 +2555,20 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUG? Caracter neaşteptat dar Imlib a reuşît procesarea \"%s\""
 
-#: src/yfontcore.cc:72 src/yfontxft.cc:164
+#: src/yfontcore.cc:120 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Nu pot încărca fontul \"%s\"."
 
-#: src/yfontcore.cc:75 src/yfontcore.cc:123 src/yfontxft.cc:187
-#, c-format
-msgid "Loading of fallback font \"%s\" failed."
-msgstr "Încărcarea fontului de rezervă \"%s\" a eşuat."
-
-#: src/yfontcore.cc:116
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Nu pot încărca setul de fonturi \"%s\"."
-
-#: src/yfontcore.cc:128
+#: src/yfontcore.cc:207
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Lipseşte setul de coduri pentru setul de fonturi \"%s\":"
+
+#: src/yfontcore.cc:235
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Nu pot încărca setul de fonturi \"%s\"."
 
 #: src/yinputline.cc:18
 msgid "_Copy"
@@ -2608,21 +2603,21 @@ msgstr "Selecte_ază tot"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:56
+#: src/ylocale.cc:57
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 
-#: src/ylocale.cc:91
+#: src/ylocale.cc:92
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 
-#: src/ylocale.cc:124 src/ylocale.cc:132
+#: src/ylocale.cc:125 src/ylocale.cc:133
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv nu furnizează (suficient) %s pentru convertirea %s."
 
-#: src/ylocale.cc:234
+#: src/ylocale.cc:237
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Şir multioctet invalid \"%s\": %s"
@@ -2650,7 +2645,7 @@ msgstr ""
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#: src/yxapp.cc:981
+#: src/yxapp.cc:993
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
@@ -2676,6 +2671,9 @@ msgstr "Interfaţă nesuportată: %s."
 #, fuzzy, c-format
 msgid "Could not load image \"%s\""
 msgstr "Nu pot găsi harta de pixeli %s"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Încărcarea fontului de rezervă \"%s\" a eşuat."
 
 #~ msgid ""
 #~ "\n"
