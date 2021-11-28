@@ -279,18 +279,20 @@ bool CPUStatus::handleTimer(YTimer *t) {
 }
 
 void CPUStatus::updateToolTip() {
+    char buf[256];
     char cpuid[16] = "";
     if (fCpuID >= 0)
         snprintf(cpuid, sizeof(cpuid), "%d", fCpuID);
+
 #ifdef __linux__
-    char fmt[255] = "";
+    memset(buf, 0, sizeof buf);
 #define ___checkspace if (more<0 || rest-more<=0) return; pos+=more; rest-=more;
     struct sysinfo sys;
 
     if (0 == sysinfo(&sys))
     {
-        char *pos = fmt;
-        int rest = sizeof(fmt);
+        char* pos = buf;
+        int rest = sizeof(buf);
         float l1 = float(sys.loads[0]) / 65536.0,
               l5 = float(sys.loads[1]) / 65536.0,
               l15 = float(sys.loads[2]) / 65536.0;
@@ -339,10 +341,8 @@ void CPUStatus::updateToolTip() {
                         form, maxf / 1e6, minf / 1e6, perc + 4);
             }
         }
-        setToolTip(mstring(fmt));
     }
 #else
-    char buf[99];
     double loadavg[3];
     if (getloadavg(loadavg, 3) < 0)
         return;
@@ -372,9 +372,31 @@ void CPUStatus::updateToolTip() {
         snprintf(buf + strlen(buf), sizeof buf - strlen(buf),
                  _("\nCPU Freq: %.3fGHz"), freq * 1e-9);
     }
+#endif
+
+    for (char* str = buf; *str; ) {
+        char* nln = strchr(str, '\n');
+        int len = nln ? int(nln - str) : int(strlen(str));
+        char* tab = static_cast<char *>(memchr(str, '\t', len));
+        if (tab) {
+        } else {
+            char* col = static_cast<char *>(memchr(str, ':', len));
+            if (col) {
+                if (col[1] == ' ') {
+                    col[1] = '\t';
+                } else {
+                    size_t size = strlen(col);
+                    if (col - buf + size + 2 < sizeof buf) {
+                        memmove(col + 2, col + 1, size);
+                        col[1] = '\t';
+                    }
+                }
+            }
+        }
+        str = nln ? nln + 1 : str + len;
+    }
 
     setToolTip(buf);
-#endif
 }
 
 void CPUStatus::handleClick(const XButtonEvent &up, int count) {
