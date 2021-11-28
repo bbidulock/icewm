@@ -101,7 +101,7 @@ int YFontBase::multilineTabPos(const char *str) const {
     const char * tab(strchr(str, '\t'));
     if (tab) tabPos = max(tabPos, textWidth(str, tab - str));
 
-    return (tabPos ? tabPos + 3 * textWidth(" ", 1) : 0);
+    return tabPos ? tabPos + textWidth(".|", 2) : 0;
 }
 
 YDimension YFontBase::multilineAlloc(const char *str) const {
