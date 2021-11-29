@@ -333,6 +333,8 @@ YXftFont::TextParts YXftFont::partitions(wchar_t* str, int len, int nparts) cons
 
     while (c < len && str[c] == ' ')
         ++c;
+    if (c == len)
+        c = 0;
 
     for (; c < len; ++c) {
         XftFont ** probe(fFonts);
