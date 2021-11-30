@@ -173,6 +173,10 @@ public:
         if (fRight)
             fRight->realize();
     }
+    void swapColumns() {
+        if (fLeft && fRight)
+            ::swap(fLeft, fRight);
+    }
 
 protected:
     Sizeable* fLeft;
@@ -205,7 +209,10 @@ public:
         return h - y();
     }
     int x() override {
-        return fRows.nonempty() ? fRows[0]->x() : 0;
+        int x = fRows.nonempty() ? fRows[0]->x() : 0;
+        for (Sizeable* row : fRows)
+            x = min(x, row->x());
+        return x;
     }
     int y() override {
         return fRows.nonempty() ? fRows[0]->y() : 0;
@@ -224,6 +231,11 @@ public:
         for (Row* row : fRows) {
             row->setOffset(offset);
             row->realize();
+        }
+    }
+    void swapColumns() {
+        for (Row* row : fRows) {
+            row->swapColumns();
         }
     }
 protected:
