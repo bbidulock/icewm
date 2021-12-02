@@ -869,13 +869,12 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
     }
 #if 1
     if (focus.type == FocusIn &&
-        focus.mode != NotifyGrab &&
+        focus.mode == NotifyNormal &&
         focus.window == handle() &&
         focus.detail != NotifyInferior &&
         focus.detail != NotifyPointer &&
         focus.detail != NotifyPointerRoot)
-        if (manager->getFocus() == this)
-            manager->switchFocusTo(this);
+        manager->switchFocusTo(this);
 #endif
 #if 0
     else if (focus.type == FocusOut &&
