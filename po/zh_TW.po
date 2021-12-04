@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-11-28 17:47+0100\n"
+"POT-Creation-Date: 2021-12-04 23:19+0100\n"
 "PO-Revision-Date: 2021-03-20 11:56+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -61,33 +61,33 @@ msgstr " - 電池已滿"
 msgid "power:\t%s"
 msgstr "電量︰\t%s"
 
-#: src/aclock.cc:179
+#: src/aclock.cc:166
 msgid "CLOCK"
 msgstr "時鐘"
 
-#: src/aclock.cc:185
+#: src/aclock.cc:172
 msgid "Date"
 msgstr "日期"
 
-#: src/aclock.cc:186 src/themes.cc:80
+#: src/aclock.cc:173 src/themes.cc:80
 msgid "Default"
 msgstr "預設"
 
-#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
+#: src/aclock.cc:174 src/acpustatus.cc:687 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "停用(_D)"
 
-#: src/aclock.cc:188
+#: src/aclock.cc:175
 msgid "_UTC"
 msgstr "UTC(_U)"
 
-#: src/acpustatus.cc:297
+#: src/acpustatus.cc:299
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s 負載：%3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:305
 #, c-format
 msgid ""
 "\n"
@@ -96,7 +96,7 @@ msgstr ""
 "\n"
 "RAM (可用)：%5.3f (%.3f) G"
 
-#: src/acpustatus.cc:308
+#: src/acpustatus.cc:310
 #, c-format
 msgid ""
 "\n"
@@ -105,7 +105,7 @@ msgstr ""
 "\n"
 "Swap (可用)：%.3f (%.3f) G"
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:316
 #, c-format
 msgid ""
 "\n"
@@ -114,7 +114,7 @@ msgstr ""
 "\n"
 "ACPI 溫度："
 
-#: src/acpustatus.cc:333 src/acpustatus.cc:373
+#: src/acpustatus.cc:335 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
@@ -123,7 +123,7 @@ msgstr ""
 "\n"
 "CPU 頻率：%.3fGHz"
 
-#: src/acpustatus.cc:350 src/acpustatus.cc:660
+#: src/acpustatus.cc:350 src/acpustatus.cc:682
 msgid "CPU"
 msgstr "CPU"
 
@@ -142,34 +142,52 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:431
+#: src/acpustatus.cc:453
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:661
+#: src/acpustatus.cc:683
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:689
 msgid "_Combine"
 msgstr "合併(_C)"
 
-#: src/acpustatus.cc:669
+#: src/acpustatus.cc:691
 msgid "_Separate"
 msgstr "獨立(_S)"
 
-#: src/akeyboard.cc:82 src/icesm.cc:468
+#: src/akeyboard.cc:83 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s 已離開，狀態為 %d。"
 
-#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#: src/akeyboard.cc:86 src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
 
-#: src/akeyboard.cc:145
+#: src/akeyboard.cc:98
+msgid "rules:"
+msgstr ""
+
+#: src/akeyboard.cc:99
+msgid "model:"
+msgstr ""
+
+#: src/akeyboard.cc:100
+msgid "layout:"
+msgstr ""
+
+#: src/akeyboard.cc:101
+#, fuzzy
+#| msgid "Bad option: %s"
+msgid "options:"
+msgstr "不當的選項：%s"
+
+#: src/akeyboard.cc:151
 msgid "Keyboard"
 msgstr ""
 
@@ -203,7 +221,7 @@ msgstr "無法連接到 %s：%s"
 msgid "Failed to find %s command"
 msgstr "尋找 %s 指令失敗"
 
-#: src/amailbox.cc:363 src/yapp.cc:422
+#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
 msgstr "執行 %s 失敗"
@@ -325,7 +343,7 @@ msgstr "關閉"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:606 src/wmstatus.cc:208
+#: src/aworkspaces.cc:608 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "工作區："
 
@@ -1877,7 +1895,7 @@ msgstr "記憶體不足（長度＝%d）。"
 msgid "Warning: "
 msgstr "警告："
 
-#: src/misc.cc:376
+#: src/misc.cc:387
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1937,7 +1955,7 @@ msgstr "AlphaBlending"
 msgid "Renderer:"
 msgstr "轉譯器："
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:66
 msgid "icewm - About"
 msgstr "icewm - 關於"
 
@@ -1970,16 +1988,16 @@ msgstr "取消登出(_C)"
 msgid "Lock _Workstation"
 msgstr "鎖定工作站(_W)"
 
-#: src/wmapp.cc:503 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:70
 msgid "Re_boot"
 msgstr "重開機(_B)"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:71
 msgid "Shut_down"
 msgstr "關機(_D)"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:507 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:67
 msgid "_Sleep mode"
 msgstr "睡眠模式(_S)"
 
@@ -2095,7 +2113,7 @@ msgstr "關閉(_C)"
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:72 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
@@ -2312,30 +2330,30 @@ msgstr "無法寫入 %s"
 msgid "Unable to rename %s to %s"
 msgstr "無法將 %s 重新命名為 %s"
 
-#: src/wmdialog.cc:67
+#: src/wmdialog.cc:65
 msgid "Loc_k Workstation"
 msgstr "鎖定工作站(_K)"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:51
+#: src/wmdialog.cc:68 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr "取消(_C)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmdialog.cc:69 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
 #: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "登出(_L)..."
 
-#: src/wmdialog.cc:75
+#: src/wmdialog.cc:73
 msgid "_Restart icewm"
 msgstr "重新啟動 icewm(_R)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
+#: src/wmdialog.cc:74 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "關於(_A)"
 
-#: src/wmframe.cc:1447
+#: src/wmframe.cc:1445
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2343,7 +2361,7 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:1454
+#: src/wmframe.cc:1452
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
@@ -2407,6 +2425,11 @@ msgstr ""
 "未知的非容器關鍵字：「%s」。\n"
 "此處需要「key」或「runonce」。\n"
 
+#: src/wmmenu.cc:498
+#, c-format
+msgid "'%s' timed out!"
+msgstr ""
+
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
@@ -2434,7 +2457,7 @@ msgstr "第 %d 行 (%s) 中的視窗選項語法有誤"
 msgid "Save Modifications"
 msgstr "儲存修改"
 
-#: src/wmpref.cc:180
+#: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
 msgstr ""
@@ -2562,23 +2585,23 @@ msgstr "排列圖示(_I)"
 msgid "_Refresh"
 msgstr "重新整理(_R)"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
+#: src/wmtaskbar.cc:315 src/wmtaskbar.cc:986
 msgid "Hide Taskbar"
 msgstr "隱藏工作列"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:338
 msgid "Favorite Applications"
 msgstr "喜愛的應用程式"
 
-#: src/wmtaskbar.cc:361
+#: src/wmtaskbar.cc:363
 msgid "Window List Menu"
 msgstr "視窗列表選單"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:372
 msgid "Show Desktop"
 msgstr "顯示桌面"
 
-#: src/wmtaskbar.cc:978
+#: src/wmtaskbar.cc:986
 msgid "Show Taskbar"
 msgstr "顯示工作列"
 
@@ -2671,17 +2694,17 @@ msgstr "程式臭蟲？XPM 檔案非預期結束，但是 Imlib 之前可以解�
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "程式臭蟲？非預期字元，但是 Imlib 之前可以解析「%s」"
 
-#: src/yfontcore.cc:120 src/yfontxft.cc:114
+#: src/yfontcore.cc:116 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "無法載入字型「%s」。"
 
-#: src/yfontcore.cc:207
+#: src/yfontcore.cc:203
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "字型集 \"%s\" 缺少字碼集："
 
-#: src/yfontcore.cc:235
+#: src/yfontcore.cc:231
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "無法載入字型集「%s」。"
@@ -2811,9 +2834,6 @@ msgstr "找不到圖案 %s"
 
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 #~ msgstr "無效的遊標像素圖：\"%s\" 含有太多單一顏色"
-
-#~ msgid "Bad option: %s"
-#~ msgstr "不當的選項：%s"
 
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "

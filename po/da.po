@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-11-28 17:47+0100\n"
+"POT-Creation-Date: 2021-12-04 23:19+0100\n"
 "PO-Revision-Date: 2020-03-13 16:55+0000\n"
 "Last-Translator: scootergrisen <scootergrisen@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -60,33 +60,33 @@ msgstr " - Fuld"
 msgid "power:\t%s"
 msgstr "strøm:\t%s"
 
-#: src/aclock.cc:179
+#: src/aclock.cc:166
 msgid "CLOCK"
 msgstr "UR"
 
-#: src/aclock.cc:185
+#: src/aclock.cc:172
 msgid "Date"
 msgstr "Dato"
 
-#: src/aclock.cc:186 src/themes.cc:80
+#: src/aclock.cc:173 src/themes.cc:80
 msgid "Default"
 msgstr "Standard"
 
-#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
+#: src/aclock.cc:174 src/acpustatus.cc:687 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Deaktivér"
 
-#: src/aclock.cc:188
+#: src/aclock.cc:175
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:297
+#: src/acpustatus.cc:299
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s-belastning: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:305
 #, c-format
 msgid ""
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "\n"
 "Ram (ledig): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:308
+#: src/acpustatus.cc:310
 #, c-format
 msgid ""
 "\n"
@@ -104,7 +104,7 @@ msgstr ""
 "\n"
 "Swap (ledig): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:316
 #, c-format
 msgid ""
 "\n"
@@ -113,7 +113,7 @@ msgstr ""
 "\n"
 "ACPI-temperatur: "
 
-#: src/acpustatus.cc:333 src/acpustatus.cc:373
+#: src/acpustatus.cc:335 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
@@ -122,7 +122,7 @@ msgstr ""
 "\n"
 "CPU-frekvens: %.3fGHz"
 
-#: src/acpustatus.cc:350 src/acpustatus.cc:660
+#: src/acpustatus.cc:350 src/acpustatus.cc:682
 msgid "CPU"
 msgstr "CPU"
 
@@ -141,34 +141,52 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:431
+#: src/acpustatus.cc:453
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:661
+#: src/acpustatus.cc:683
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:689
 msgid "_Combine"
 msgstr "_Kombiner"
 
-#: src/acpustatus.cc:669
+#: src/acpustatus.cc:691
 msgid "_Separate"
 msgstr "_Separer"
 
-#: src/akeyboard.cc:82 src/icesm.cc:468
+#: src/akeyboard.cc:83 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s afsluttede med status %d."
 
-#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#: src/akeyboard.cc:86 src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s blev dræbt med signal %d."
 
-#: src/akeyboard.cc:145
+#: src/akeyboard.cc:98
+msgid "rules:"
+msgstr ""
+
+#: src/akeyboard.cc:99
+msgid "model:"
+msgstr ""
+
+#: src/akeyboard.cc:100
+msgid "layout:"
+msgstr ""
+
+#: src/akeyboard.cc:101
+#, fuzzy
+#| msgid "Bad option: %s"
+msgid "options:"
+msgstr "Dårligt tilvalg: %s"
+
+#: src/akeyboard.cc:151
 msgid "Keyboard"
 msgstr ""
 
@@ -202,7 +220,7 @@ msgstr "Kan ikke oprette forbindelse til %s: %s"
 msgid "Failed to find %s command"
 msgstr "Kunne ikke finde %s-kommandoen"
 
-#: src/amailbox.cc:363 src/yapp.cc:422
+#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Kunne ikke eksekvere %s"
@@ -326,7 +344,7 @@ msgstr "Rul ned"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:606 src/wmstatus.cc:208
+#: src/aworkspaces.cc:608 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "Arbejdsområde: "
 
@@ -1908,7 +1926,7 @@ msgstr "Ikke mere ledig hukommelse (len=%d)."
 msgid "Warning: "
 msgstr "Advarsel: "
 
-#: src/misc.cc:376
+#: src/misc.cc:387
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1968,7 +1986,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:66
 msgid "icewm - About"
 msgstr "icewm - Om"
 
@@ -2002,16 +2020,16 @@ msgstr "_Annuller udlogning"
 msgid "Lock _Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmapp.cc:503 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:70
 msgid "Re_boot"
 msgstr "_Genstart"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:71
 msgid "Shut_down"
 msgstr "_Luk ned"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:507 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:67
 msgid "_Sleep mode"
 msgstr "_Slumretilstand"
 
@@ -2128,7 +2146,7 @@ msgstr "_Luk"
 msgid "_Kill Client"
 msgstr "_Dræb klient"
 
-#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:72 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "_Vinduesliste"
 
@@ -2349,30 +2367,30 @@ msgstr "Kan ikke skrive til %s"
 msgid "Unable to rename %s to %s"
 msgstr "Kan ikke omdøbe %s til %s"
 
-#: src/wmdialog.cc:67
+#: src/wmdialog.cc:65
 msgid "Loc_k Workstation"
 msgstr "Lås _arbejdsstation"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:51
+#: src/wmdialog.cc:68 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr "_Annuller"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmdialog.cc:69 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
 #: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "Log _ud..."
 
-#: src/wmdialog.cc:75
+#: src/wmdialog.cc:73
 msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
+#: src/wmdialog.cc:74 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "O_m"
 
-#: src/wmframe.cc:1447
+#: src/wmframe.cc:1445
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2380,7 +2398,7 @@ msgstr ""
 "ADVARSEL! Alle ændringer som ikke er gemt, vil gå tabt, når\n"
 "denne klient dræbes. Vil du fortsætte?"
 
-#: src/wmframe.cc:1454
+#: src/wmframe.cc:1452
 msgid "Kill Client: "
 msgstr "Dræb klient: "
 
@@ -2444,6 +2462,11 @@ msgstr ""
 "Ukendt nøgleord for en ikke-beholder: \"%s\".\n"
 "Ventede enten \"key\" eller \"runonce\" her.\n"
 
+#: src/wmmenu.cc:498
+#, c-format
+msgid "'%s' timed out!"
+msgstr ""
+
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
@@ -2471,7 +2494,7 @@ msgstr "Syntaksfejl i vinduestilvalg på linje %d af %s"
 msgid "Save Modifications"
 msgstr "Gem ændringer"
 
-#: src/wmpref.cc:180
+#: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
 msgstr ""
@@ -2599,23 +2622,23 @@ msgstr "Arranger _ikoner"
 msgid "_Refresh"
 msgstr "_Opdater"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
+#: src/wmtaskbar.cc:315 src/wmtaskbar.cc:986
 msgid "Hide Taskbar"
 msgstr "Skjul værktøjslinje"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:338
 msgid "Favorite Applications"
 msgstr "Favoritprogrammer"
 
-#: src/wmtaskbar.cc:361
+#: src/wmtaskbar.cc:363
 msgid "Window List Menu"
 msgstr "Vindueslistemenu"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:372
 msgid "Show Desktop"
 msgstr "Vis skrivebord"
 
-#: src/wmtaskbar.cc:978
+#: src/wmtaskbar.cc:986
 msgid "Show Taskbar"
 msgstr "Vis værktøjslinje"
 
@@ -2710,17 +2733,17 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "FEJL? Uventet tegn men Imlib kunne godt fortolke \"%s\""
 
-#: src/yfontcore.cc:120 src/yfontxft.cc:114
+#: src/yfontcore.cc:116 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunne ikke indlæse skrifttype \"%s\"."
 
-#: src/yfontcore.cc:207
+#: src/yfontcore.cc:203
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Manglende tegnsæt for skrifttypesæt \"%s\":"
 
-#: src/yfontcore.cc:235
+#: src/yfontcore.cc:231
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "Kunne ikke indlæse skrifttypesæt \"%s\"."
@@ -2855,9 +2878,6 @@ msgstr "Kunne ikke finde pixelkort %s"
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 #~ msgstr ""
 #~ "Ugyldigt markør-pixelkort: \"%s\" indeholder for mange unikke farver"
-
-#~ msgid "Bad option: %s"
-#~ msgstr "Dårligt tilvalg: %s"
 
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-11-28 17:47+0100\n"
+"POT-Creation-Date: 2021-12-04 23:19+0100\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
 "Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -59,33 +59,33 @@ msgstr " - Pełny"
 msgid "power:\t%s"
 msgstr "zasilanie:\t%s"
 
-#: src/aclock.cc:179
+#: src/aclock.cc:166
 msgid "CLOCK"
 msgstr "ZEGAR"
 
-#: src/aclock.cc:185
+#: src/aclock.cc:172
 msgid "Date"
 msgstr "Data"
 
-#: src/aclock.cc:186 src/themes.cc:80
+#: src/aclock.cc:173 src/themes.cc:80
 msgid "Default"
 msgstr "Domyślny"
 
-#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
+#: src/aclock.cc:174 src/acpustatus.cc:687 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "Wyłącz"
 
-#: src/aclock.cc:188
+#: src/aclock.cc:175
 msgid "_UTC"
 msgstr "_UTC"
 
-#: src/acpustatus.cc:297
+#: src/acpustatus.cc:299
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "Obciążenie procesora %s: %3.2f %3.2f %3.2f, %u"
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:305
 #, c-format
 msgid ""
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "\n"
 "Ram (wolny): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:308
+#: src/acpustatus.cc:310
 #, c-format
 msgid ""
 "\n"
@@ -103,7 +103,7 @@ msgstr ""
 "\n"
 "Pamięć wymiany (wolna): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:316
 #, c-format
 msgid ""
 "\n"
@@ -112,7 +112,7 @@ msgstr ""
 "\n"
 "Temperatura ACPI: "
 
-#: src/acpustatus.cc:333 src/acpustatus.cc:373
+#: src/acpustatus.cc:335 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
@@ -121,7 +121,7 @@ msgstr ""
 "\n"
 "Częstotliwość procesora: %.3f GHz"
 
-#: src/acpustatus.cc:350 src/acpustatus.cc:660
+#: src/acpustatus.cc:350 src/acpustatus.cc:682
 msgid "CPU"
 msgstr "Procesor"
 
@@ -140,34 +140,52 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:431
+#: src/acpustatus.cc:453
 msgid "°C"
 msgstr "°C"
 
-#: src/acpustatus.cc:661
+#: src/acpustatus.cc:683
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:689
 msgid "_Combine"
 msgstr "Połą_cz"
 
-#: src/acpustatus.cc:669
+#: src/acpustatus.cc:691
 msgid "_Separate"
 msgstr "Rozłącz"
 
-#: src/akeyboard.cc:82 src/icesm.cc:468
+#: src/akeyboard.cc:83 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
 msgstr "Program %s zakończył działanie ze stanem %d."
 
-#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#: src/akeyboard.cc:86 src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "Działanie programu %s zostało przerwane przez sygnał %d."
 
-#: src/akeyboard.cc:145
+#: src/akeyboard.cc:98
+msgid "rules:"
+msgstr ""
+
+#: src/akeyboard.cc:99
+msgid "model:"
+msgstr ""
+
+#: src/akeyboard.cc:100
+msgid "layout:"
+msgstr ""
+
+#: src/akeyboard.cc:101
+#, fuzzy
+#| msgid "Bad option: %s"
+msgid "options:"
+msgstr "Nieprawidłowa opcja: %s"
+
+#: src/akeyboard.cc:151
 msgid "Keyboard"
 msgstr ""
 
@@ -201,7 +219,7 @@ msgstr "Nie można się połączyć z %s: %s"
 msgid "Failed to find %s command"
 msgstr "Nie można znaleźć polecenia %s"
 
-#: src/amailbox.cc:363 src/yapp.cc:422
+#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
 msgstr "Nie można wykonać %s"
@@ -327,7 +345,7 @@ msgstr "Zwiń"
 msgid "NET"
 msgstr "SIEĆ"
 
-#: src/aworkspaces.cc:606 src/wmstatus.cc:208
+#: src/aworkspaces.cc:608 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "Obszar roboczy: "
 
@@ -1992,7 +2010,7 @@ msgstr "Brak pamięci (len=%d)."
 msgid "Warning: "
 msgstr "Ostrzeżenie: "
 
-#: src/misc.cc:376
+#: src/misc.cc:387
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2053,7 +2071,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:66
 msgid "icewm - About"
 msgstr "O IceWM"
 
@@ -2087,16 +2105,16 @@ msgstr "Anuluj wyjś_cie"
 msgid "Lock _Workstation"
 msgstr "Zablokuj stano_wisko"
 
-#: src/wmapp.cc:503 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:70
 msgid "Re_boot"
 msgstr "Uruchom ponownie komputer"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:71
 msgid "Shut_down"
 msgstr "Zamknij"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:507 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:67
 msgid "_Sleep mode"
 msgstr "Tryb uśpienia"
 
@@ -2212,7 +2230,7 @@ msgstr "Zamknij"
 msgid "_Kill Client"
 msgstr "Zam_knij klienta"
 
-#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:72 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "Lista okien"
 
@@ -2426,30 +2444,30 @@ msgstr "Nie można zapisać w %s"
 msgid "Unable to rename %s to %s"
 msgstr "Nie można zmienić nazwy %s na %s"
 
-#: src/wmdialog.cc:67
+#: src/wmdialog.cc:65
 msgid "Loc_k Workstation"
 msgstr "Zablo_kuj stację roboczą"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:51
+#: src/wmdialog.cc:68 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr "Anuluj"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmdialog.cc:69 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
 #: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "Wy_loguj..."
 
-#: src/wmdialog.cc:75
+#: src/wmdialog.cc:73
 msgid "_Restart icewm"
 msgstr "U_ruchom ponownie IceWM"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
+#: src/wmdialog.cc:74 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "Inform_acje"
 
-#: src/wmframe.cc:1447
+#: src/wmframe.cc:1445
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2457,7 +2475,7 @@ msgstr ""
 "UWAGA! Wszystkie niezapisane zmiany zostaną utracone\n"
 "gdy ten klient zostanie zamknięty. Czy chcesz kontynuować?"
 
-#: src/wmframe.cc:1454
+#: src/wmframe.cc:1452
 msgid "Kill Client: "
 msgstr "Zamknij klienta: "
 
@@ -2521,6 +2539,11 @@ msgstr ""
 "Nieznane słowo kluczowe dla elementu niebędącego kontenerem: %s.\n"
 "Oczekiwano key lub runonce.\n"
 
+#: src/wmmenu.cc:498
+#, c-format
+msgid "'%s' timed out!"
+msgstr ""
+
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
@@ -2548,7 +2571,7 @@ msgstr "Błąd składni w opcjach okna w wierszu %d pliku %s"
 msgid "Save Modifications"
 msgstr "Zapisz modyfikacje"
 
-#: src/wmpref.cc:180
+#: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
 msgstr ""
@@ -2676,23 +2699,23 @@ msgstr "Rozmieść ikony"
 msgid "_Refresh"
 msgstr "Odśwież"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
+#: src/wmtaskbar.cc:315 src/wmtaskbar.cc:986
 msgid "Hide Taskbar"
 msgstr "Ukryj pasek zadań"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:338
 msgid "Favorite Applications"
 msgstr "Ulubione aplikacje"
 
-#: src/wmtaskbar.cc:361
+#: src/wmtaskbar.cc:363
 msgid "Window List Menu"
 msgstr "Menu listy okien"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:372
 msgid "Show Desktop"
 msgstr "Pokaż biurko"
 
-#: src/wmtaskbar.cc:978
+#: src/wmtaskbar.cc:986
 msgid "Show Taskbar"
 msgstr "Pokaż pasek zadań"
 
@@ -2786,17 +2809,17 @@ msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr ""
 "USTERKA? Nieoczekiwany znak, ale program Imlib zdołał przeanalizować plik %s"
 
-#: src/yfontcore.cc:120 src/yfontxft.cc:114
+#: src/yfontcore.cc:116 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Błąd ładowania fontu \"%s\"."
 
-#: src/yfontcore.cc:207
+#: src/yfontcore.cc:203
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "Nieokreślone kodowanie zestawu fontów \"%s\":"
 
-#: src/yfontcore.cc:235
+#: src/yfontcore.cc:231
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "Błąd ładowania zestawu fontów \"%s\"."
@@ -2930,9 +2953,6 @@ msgstr "Nie udało się znaleźć obrazu %s"
 
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 #~ msgstr "Błąd obrazka kursora: \"%s\" zawiera za dużo różnych kolorów"
-
-#~ msgid "Bad option: %s"
-#~ msgstr "Nieprawidłowa opcja: %s"
 
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "

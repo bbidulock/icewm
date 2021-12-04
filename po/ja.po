@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2021-11-28 17:47+0100\n"
+"POT-Creation-Date: 2021-12-04 23:19+0100\n"
 "PO-Revision-Date: 2021-09-10 01:11+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -58,33 +58,33 @@ msgstr " - 充電完了"
 msgid "power:\t%s"
 msgstr "電源: \t%s"
 
-#: src/aclock.cc:179
+#: src/aclock.cc:166
 msgid "CLOCK"
 msgstr "時計"
 
-#: src/aclock.cc:185
+#: src/aclock.cc:172
 msgid "Date"
 msgstr "日付"
 
-#: src/aclock.cc:186 src/themes.cc:80
+#: src/aclock.cc:173 src/themes.cc:80
 msgid "Default"
 msgstr "既定値"
 
-#: src/aclock.cc:187 src/acpustatus.cc:665 src/amailbox.cc:964
+#: src/aclock.cc:174 src/acpustatus.cc:687 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "無効 (_D)"
 
-#: src/aclock.cc:188
+#: src/aclock.cc:175
 msgid "_UTC"
 msgstr "UTC (_U)"
 
-#: src/acpustatus.cc:297
+#: src/acpustatus.cc:299
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
 msgstr "CPU %s の負荷: %3.2f %3.2f %3.2f, %u 個のプロセス"
 
-#: src/acpustatus.cc:303
+#: src/acpustatus.cc:305
 #, c-format
 msgid ""
 "\n"
@@ -93,7 +93,7 @@ msgstr ""
 "\n"
 "メモリ (空き): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:308
+#: src/acpustatus.cc:310
 #, c-format
 msgid ""
 "\n"
@@ -102,7 +102,7 @@ msgstr ""
 "\n"
 "スワップ (空き): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:314
+#: src/acpustatus.cc:316
 #, c-format
 msgid ""
 "\n"
@@ -111,7 +111,7 @@ msgstr ""
 "\n"
 "ACPI 温度: "
 
-#: src/acpustatus.cc:333 src/acpustatus.cc:373
+#: src/acpustatus.cc:335 src/acpustatus.cc:373
 #, c-format
 msgid ""
 "\n"
@@ -120,7 +120,7 @@ msgstr ""
 "\n"
 "CPU 周波数: %.3fGHz"
 
-#: src/acpustatus.cc:350 src/acpustatus.cc:660
+#: src/acpustatus.cc:350 src/acpustatus.cc:682
 msgid "CPU"
 msgstr "CPU"
 
@@ -139,34 +139,52 @@ msgstr ""
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:431
+#: src/acpustatus.cc:453
 msgid "°C"
 msgstr "度 (摂氏)"
 
-#: src/acpustatus.cc:661
+#: src/acpustatus.cc:683
 #, c-format
 msgid "CPU%d"
 msgstr "CPU%d"
 
-#: src/acpustatus.cc:667
+#: src/acpustatus.cc:689
 msgid "_Combine"
 msgstr "一括 (_C)"
 
-#: src/acpustatus.cc:669
+#: src/acpustatus.cc:691
 msgid "_Separate"
 msgstr "個別 (_S)"
 
-#: src/akeyboard.cc:82 src/icesm.cc:468
+#: src/akeyboard.cc:83 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
 msgstr "%s はステータスコード %d で終了しました。"
 
-#: src/akeyboard.cc:85 src/icesm.cc:474 src/icesm.cc:628
+#: src/akeyboard.cc:86 src/icesm.cc:474 src/icesm.cc:628
 #, c-format
 msgid "%s was killed by signal %d."
 msgstr "%s はシグナル %d で終了しました。"
 
-#: src/akeyboard.cc:145
+#: src/akeyboard.cc:98
+msgid "rules:"
+msgstr ""
+
+#: src/akeyboard.cc:99
+msgid "model:"
+msgstr ""
+
+#: src/akeyboard.cc:100
+msgid "layout:"
+msgstr ""
+
+#: src/akeyboard.cc:101
+#, fuzzy
+#| msgid "Bad option: %s"
+msgid "options:"
+msgstr "オプションが正しくありません: %s"
+
+#: src/akeyboard.cc:151
 msgid "Keyboard"
 msgstr "キーボード"
 
@@ -200,7 +218,7 @@ msgstr "%s:%s に接続できませんでした"
 msgid "Failed to find %s command"
 msgstr "%s コマンドの検出に失敗しました"
 
-#: src/amailbox.cc:363 src/yapp.cc:422
+#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
 msgstr "%s の実行に失敗しました"
@@ -322,7 +340,7 @@ msgstr "ダウン"
 msgid "NET"
 msgstr "ネット"
 
-#: src/aworkspaces.cc:606 src/wmstatus.cc:208
+#: src/aworkspaces.cc:608 src/wmstatus.cc:208
 msgid "Workspace: "
 msgstr "ワークスペース: "
 
@@ -1894,7 +1912,7 @@ msgstr "メモリ不足 (長さ=%d)."
 msgid "Warning: "
 msgstr "警告: "
 
-#: src/misc.cc:376
+#: src/misc.cc:387
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1954,7 +1972,7 @@ msgstr "アルファブレンディング"
 msgid "Renderer:"
 msgstr "レンダラ:"
 
-#: src/wmabout.cc:64
+#: src/wmabout.cc:66
 msgid "icewm - About"
 msgstr "icewm について"
 
@@ -1989,16 +2007,16 @@ msgstr "ログアウトを破棄 (_C)"
 msgid "Lock _Workstation"
 msgstr "ワークステーションをロック (_W)"
 
-#: src/wmapp.cc:503 src/wmdialog.cc:72
+#: src/wmapp.cc:503 src/wmdialog.cc:70
 msgid "Re_boot"
 msgstr "再起動 (_B)"
 
-#: src/wmapp.cc:505 src/wmdialog.cc:73
+#: src/wmapp.cc:505 src/wmdialog.cc:71
 msgid "Shut_down"
 msgstr "シャットダウン (_D)"
 
 #. TRANSLATORS: This means "energy saving mode" or "suspended system". Not "interrupt". Not "hibernate".
-#: src/wmapp.cc:507 src/wmdialog.cc:69
+#: src/wmapp.cc:507 src/wmdialog.cc:67
 msgid "_Sleep mode"
 msgstr "スリープモード (_S)"
 
@@ -2114,7 +2132,7 @@ msgstr "閉じる (_C)"
 msgid "_Kill Client"
 msgstr "クライアント強制終了 (_K)"
 
-#: src/wmapp.cc:619 src/wmdialog.cc:74 src/wmwinmenu.cc:133
+#: src/wmapp.cc:619 src/wmdialog.cc:72 src/wmwinmenu.cc:133
 msgid "_Window list"
 msgstr "ウインドウ一覧 (_W)"
 
@@ -2329,30 +2347,30 @@ msgstr "%s に書き込めません"
 msgid "Unable to rename %s to %s"
 msgstr "%s を %s に名前変更できません"
 
-#: src/wmdialog.cc:67
+#: src/wmdialog.cc:65
 msgid "Loc_k Workstation"
 msgstr "ワークステーションをロック (_K)"
 
-#: src/wmdialog.cc:70 src/ymsgbox.cc:51
+#: src/wmdialog.cc:68 src/ymsgbox.cc:51
 msgid "_Cancel"
 msgstr "キャンセル (_C)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:71 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
+#: src/wmdialog.cc:69 src/wmprog.cc:456 src/wmprog.cc:458 src/wmtaskbar.cc:244
 #: src/wmtaskbar.cc:246
 msgid "_Logout..."
 msgstr "ログアウト (_L)..."
 
-#: src/wmdialog.cc:75
+#: src/wmdialog.cc:73
 msgid "_Restart icewm"
 msgstr "icewm を再起動 (_R)"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:76 src/wmprog.cc:424 src/wmtaskbar.cc:239
+#: src/wmdialog.cc:74 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
 msgstr "情報 (_A)"
 
-#: src/wmframe.cc:1447
+#: src/wmframe.cc:1445
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2360,7 +2378,7 @@ msgstr ""
 "このクライアントを強制終了すると、保存されて\n"
 "いない変更点が失われてしまいます。処理を続けてよろしいですか？"
 
-#: src/wmframe.cc:1454
+#: src/wmframe.cc:1452
 msgid "Kill Client: "
 msgstr "クライアント強制終了: "
 
@@ -2421,6 +2439,11 @@ msgstr ""
 "非コンテナに対する不明なキーワードです: '%s' 。\n"
 "ここでは 'key' もしくは 'runonce' のいずれかが期待されます。\n"
 
+#: src/wmmenu.cc:498
+#, c-format
+msgid "'%s' timed out!"
+msgstr ""
+
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
@@ -2449,7 +2472,7 @@ msgstr "%d 行目 (%s) のウインドウオプション内に文法エラーが
 msgid "Save Modifications"
 msgstr "修正内容の保存"
 
-#: src/wmpref.cc:180
+#: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
 msgstr "%s に対する新しい値を入力してください: "
@@ -2577,23 +2600,23 @@ msgstr "アイコン整列 (_I)"
 msgid "_Refresh"
 msgstr "再描画 (_R)"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:985
+#: src/wmtaskbar.cc:315 src/wmtaskbar.cc:986
 msgid "Hide Taskbar"
 msgstr "タスクバーを隠す"
 
-#: src/wmtaskbar.cc:336
+#: src/wmtaskbar.cc:338
 msgid "Favorite Applications"
 msgstr "お気に入りのアプリケーション"
 
-#: src/wmtaskbar.cc:361
+#: src/wmtaskbar.cc:363
 msgid "Window List Menu"
 msgstr "ウインドウ一覧メニュー"
 
-#: src/wmtaskbar.cc:370
+#: src/wmtaskbar.cc:372
 msgid "Show Desktop"
 msgstr "デスクトップの表示"
 
-#: src/wmtaskbar.cc:978
+#: src/wmtaskbar.cc:986
 msgid "Show Taskbar"
 msgstr "タスクバーを表示"
 
@@ -2691,17 +2714,17 @@ msgstr ""
 "バグ？ \"%s\" で予期しない文字が現われましたが、 imlib 側で読み込めてしまいま"
 "した"
 
-#: src/yfontcore.cc:120 src/yfontxft.cc:114
+#: src/yfontcore.cc:116 src/yfontxft.cc:114
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "フォント \"%s\" を読み込めませんでした。"
 
-#: src/yfontcore.cc:207
+#: src/yfontcore.cc:203
 #, c-format
 msgid "Missing codesets for fontset \"%s\":"
 msgstr "フォントセット \"%s\" に対するコードセットがありません:"
 
-#: src/yfontcore.cc:235
+#: src/yfontcore.cc:231
 #, c-format
 msgid "Could not load fontset \"%s\"."
 msgstr "フォントセット \"%s\" を読み込めませんでした。"
@@ -2833,9 +2856,6 @@ msgstr "画像 \"%s\" を読み込めませんでした"
 #~ msgstr ""
 #~ "カーソルのピクセルマップが正しくありません: \"%s\" にはユニークな色が多す"
 #~ "ぎます"
-
-#~ msgid "Bad option: %s"
-#~ msgstr "オプションが正しくありません: %s"
 
 #~ msgid ""
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
