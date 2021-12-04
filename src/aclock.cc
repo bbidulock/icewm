@@ -20,7 +20,7 @@
 
 static char const *AppletClockTimeFmt = "%T";
 
-char const * YClock::strTimeFmt(struct tm const & t) {
+const char* YClock::strTimeFmt(const struct tm& t) {
     if (fTimeFormat)
         return fTimeFormat;
     if ((ledPixColon == null) || (! prettyClock) || strcmp(fmtTime, "%X"))
@@ -64,7 +64,7 @@ YClock::~YClock() {
 }
 
 void YClock::autoSize() {
-    char s[TimeSize];
+    char str[TimeSize];
     time_t newTime = time(nullptr);
     struct tm t = *localtime(&newTime);
     int maxMonth = -1;
@@ -77,12 +77,9 @@ void YClock::autoSize() {
     t.tm_wday = 0;
 
     for (int m = 0; m < 12 ; m++) {
-        int len, w;
-
         t.tm_mon = m;
-
-        len = strftime(s, sizeof(s), strTimeFmt(t), &t);
-        w = calcWidth(s, len);
+        int len = strftime(str, TimeSize, strTimeFmt(t), &t);
+        int w = calcWidth(str, len);
         if (w > maxWidth) {
             maxMonth = m;
             maxWidth = w;
@@ -91,12 +88,9 @@ void YClock::autoSize() {
     t.tm_mon = maxMonth;
 
     for (int dw = 0; dw <= 6; dw++) {
-        int len, w;
-
         t.tm_wday = dw;
-
-        len = strftime(s, sizeof(s), strTimeFmt(t), &t);
-        w = calcWidth(s, len);
+        int len = strftime(str, TimeSize, strTimeFmt(t), &t);
+        int w = calcWidth(str, len);
         if (w > maxWidth) {
             maxWidth = w;
         }
@@ -105,7 +99,7 @@ void YClock::autoSize() {
     if (!prettyClock)
         maxWidth += 4;
 
-    setSize(maxWidth, taskBarGraphHeight);
+    setSize(maxWidth, unsigned(taskBarGraphHeight));
 }
 
 void YClock::handleButton(const XButtonEvent &button) {
@@ -124,18 +118,11 @@ void YClock::handleButton(const XButtonEvent &button) {
 }
 
 void YClock::updateToolTip() {
-    char s[DateSize];
+    char str[DateSize];
     time_t newTime = time(nullptr);
-    struct tm *t;
-
-    if (toolTipUTC)
-        t = gmtime(&newTime);
-    else
-        t = localtime(&newTime);
-
-    strftime(s, sizeof(s), fmtDate, t);
-
-    setToolTip(s);
+    struct tm *t = toolTipUTC ? gmtime(&newTime) : localtime(&newTime);
+    strftime(str, DateSize, fmtDate, t);
+    setToolTip(str);
 }
 
 void YClock::handleCrossing(const XCrossingEvent &crossing) {
@@ -238,8 +225,13 @@ bool YClock::picture() {
 
     Graphics G(getPixmap(), width(), height(), depth());
 
-    if (create)
+    if (create) {
+        memset(positions, 0, sizeof positions);
+        memset(previous, 0, sizeof previous);
+        memset(lastTime, 0, sizeof lastTime);
+        negativePosition = INT_MAX;
         fill(G);
+    }
 
     return clockTicked
          ? clockTicked = false, draw(G), true
@@ -251,7 +243,7 @@ bool YClock::draw(Graphics& g) {
     long nextChime = 1000L - walltm.tv_usec / 1000L;
     time_t newTime = walltm.tv_sec;
     int len;
-    char s[TimeSize];
+    char str[TimeSize];
 
     clockTimer->setTimer(nextChime, this, true);
 
@@ -259,16 +251,16 @@ bool YClock::draw(Graphics& g) {
 
 #ifdef DEBUG
     if (countEvents)
-        len = snprintf(s, sizeof(s), "%d", xeventcount);
+        len = snprintf(str, TimeSize, "%d", xeventcount);
     else
 #endif
-        len = strftime(s, sizeof(s), strTimeFmt(*t), t);
+        len = strftime(str, TimeSize, strTimeFmt(*t), t);
 
-    if (toolTipVisible() || strcmp(s, lastTime)) {
-        memcpy(lastTime, s, TimeSize);
+    if (toolTipVisible() || strcmp(str, lastTime)) {
+        memcpy(lastTime, str, TimeSize);
         return prettyClock
-             ? paintPretty(g, s, len)
-             : paintPlain(g, s, len);
+             ? paintPretty(g, str, len)
+             : paintPlain(g, str, len);
     }
 
     return true;
@@ -308,14 +300,16 @@ void YClock::fill(Graphics& g, int x, int y, int w, int h)
     }
     else {
         ref<YImage> gradient(getGradient());
-
-        if (gradient != null)
+        if (gradient != null) {
             g.drawImage(gradient, this->x() + x, this->y() + y,
                          w, h, x, y);
-        else
-        if (taskbackPixmap != null) {
+        }
+        else if (taskbackPixmap != null) {
+            XRectangle clip = YRect(x, y, w, h);
+            g.setClipRectangles(&clip, 1);
             g.fillPixmap(taskbackPixmap, x, y,
                          w, h, this->x() + x, this->y() + y);
+            g.resetClip();
         }
         else if (clockBg) {
             g.setColor(clockBg);
@@ -328,29 +322,26 @@ void YClock::fill(Graphics& g, int x, int y, int w, int h)
     }
 }
 
-bool YClock::paintPretty(Graphics& g, const char* s, int len) {
+bool YClock::paintPretty(Graphics& g, const char* str, int len) {
     bool paint = false;
     if (prettyClock) {
         bool const mustFill = hasTransparency();
-        int x = width();
+        int x = int(width());
+        int y = 0;
 
         ++paintCount;
         for (int i = len - 1; x >= 0; i--) {
-            ref<YPixmap> p;
-            if (i >= 0)
-                p = getPixmap(s[i]);
-            else
-                p = ledPixSpace;
-            if (p != null)
-                x -= p->width();
+            ref<YPixmap> pix(i >= 0 ? getPixmap(str[i]) : ledPixSpace);
+            if (pix != null)
+                x -= pix->width();
 
             if (paintCount <= 1) {
                 // evade bug
             }
             else if (i >= 0) {
-                if (positions[i] == x && previous[i] == s[i])
+                if (positions[i] == x && previous[i] == str[i])
                     continue;
-                else positions[i] = x, previous[i] = s[i];
+                else positions[i] = x, previous[i] = str[i];
             }
             else if (i == -1) {
                 if (negativePosition == x)
@@ -358,12 +349,13 @@ bool YClock::paintPretty(Graphics& g, const char* s, int len) {
                 else negativePosition = x;
             }
 
-            if (p != null) {
+            if (pix != null) {
                 if (mustFill)
-                    fill(g, x, 0, p->width(), height());
+                    fill(g, x, 0, pix->width(), height());
 
-                g.drawPixmap(p, x, 0);
-            } else if (i < 0) {
+                g.drawPixmap(pix, x, y);
+            }
+            else if (i < 0 && 0 < x) {
                 fill(g, 0, 0, x, height());
                 break;
             }
@@ -373,7 +365,7 @@ bool YClock::paintPretty(Graphics& g, const char* s, int len) {
     return paint;
 }
 
-bool YClock::paintPlain(Graphics& g, const char* s, int len) {
+bool YClock::paintPlain(Graphics& g, const char* str, int len) {
     fill(g);
     if (!prettyClock) {
         int y =  (height() - 1 - clockFont->height()) / 2
@@ -381,7 +373,7 @@ bool YClock::paintPlain(Graphics& g, const char* s, int len) {
 
         g.setColor(clockFg);
         g.setFont(clockFont);
-        g.drawChars(s, 0, len, 2, y);
+        g.drawChars(str, 0, len, 2, y);
     }
     return true;
 }
@@ -439,16 +431,16 @@ ref<YPixmap> YClock::getPixmap(char c) {
     return pix;
 }
 
-int YClock::calcWidth(const char *s, int count) {
+int YClock::calcWidth(const char* str, int count) {
     if (!prettyClock)
-        return clockFont->textWidth(s, count);
+        return clockFont->textWidth(str, count);
     else {
         int len = 0;
 
         while (count--) {
-            ref<YPixmap> p = getPixmap(*s++);
-            if (p != null)
-                len += p->width();
+            ref<YPixmap> pix = getPixmap(*str++);
+            if (pix != null)
+                len += pix->width();
         }
         return len;
     }
@@ -463,8 +455,8 @@ bool YClock::hasTransparency() {
         transparent = 1;
         return true;
     }
-    ref<YPixmap> p = getPixmap('0');
-    if (p != null && p->mask()) {
+    ref<YPixmap> pix = getPixmap('0');
+    if (pix != null && pix->mask()) {
         transparent = 1;
         return true;
     }

@@ -1,5 +1,5 @@
-#ifndef __CLOCK_H
-#define __CLOCK_H
+#ifndef ACLOCK_H
+#define ACLOCK_H
 
 #include "ywindow.h"
 #include "ytimer.h"
@@ -23,7 +23,7 @@ public:
 
 private:
     void autoSize();
-    char const * strTimeFmt(struct tm const & t);
+    const char* strTimeFmt(const struct tm& t);
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handleButton(const XButtonEvent &button);
@@ -54,13 +54,13 @@ private:
     void changeTimeFormat(const char* format);
     using IApplet::getPixmap;
     ref<YPixmap> getPixmap(char ch);
-    int calcWidth(const char *s, int count);
+    int calcWidth(const char* str, int count);
     bool hasTransparency();
     bool draw(Graphics& g);
     void fill(Graphics& g);
     void fill(Graphics& g, int x, int y, int w, int h);
-    bool paintPretty(Graphics& g, const char* s, int len);
-    bool paintPlain(Graphics& g, const char* s, int len);
+    bool paintPretty(Graphics& g, const char* str, int len);
+    bool paintPlain(Graphics& g, const char* str, int len);
 
     int negativePosition;
     int positions[TimeSize];
