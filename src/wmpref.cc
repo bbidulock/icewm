@@ -146,9 +146,7 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
     if (nonempty(retrieved)) {
         char* dest = retrieved;
         char* term = retrieved;
-        for (char* tok = strtok(retrieved, "# \t\n");
-             tok; tok = strtok(nullptr, "# \t\n"))
-        {
+        for (tokens tok(retrieved, "# \t\n"); tok; ++tok) {
             if (strlen(tok) + (dest - term) < 60) {
                 if (term < dest) {
                     *dest++ = ' ';
@@ -158,8 +156,8 @@ void PrefsMenu::query(cfoption* opt, const char* old) {
                 *dest++ = '\n';
                 term = dest;
             }
-            while (*tok) {
-                *dest++ = *tok++;
+            for (char* src = tok; *src; ) {
+                *dest++ = *src++;
             }
         }
         *dest = '\0';

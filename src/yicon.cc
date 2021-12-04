@@ -336,15 +336,12 @@ private:
 
 public:
     IconPathIndex() {
-
-        char *save = nullptr;
         csmart themesCopy(newstr(iconThemes));
-        for (auto *tok = strtok_r(themesCopy, ":", &save);
-                tok; tok = strtok_r(nullptr, ":", &save)) {
-            if (tok[0] == '-')
-                skiplist.append(tok + 1);
+        for (tokens theme(themesCopy, ":"); theme; ++theme) {
+            if (theme[0] == '-')
+                skiplist.append(theme + 1);
             else
-                matchlist.append(tok);
+                matchlist.append(theme);
         }
 
         skiplist.append("*.???");
@@ -375,9 +372,8 @@ public:
 
         // now test the system icons folders specified by user or defaults
         csmart copy(newstr(iconPath));
-        for (char* itok = strtok_r(copy, ":", &save);
-             itok; itok = strtok_r(nullptr, ":", &save)) {
-            probeIconFolder(itok, false);
+        for (tokens folder(copy, ":"); folder; ++folder) {
+            probeIconFolder(folder.token(), false);
         }
 
         dedupTestPath.clear();

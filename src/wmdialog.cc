@@ -26,9 +26,7 @@ bool couldRunCommand(const char *cmd) {
         return false;
     // else-case. Defined, but check whether it's executable first
     csmart copy(newstr(cmd));
-    char *save = nullptr;
-    char *tokn = strtok_r(copy, " \t\n", &save);
-    csmart path(path_lookup(tokn));
+    csmart path(path_lookup(tokens(copy, " \t\n")));
     return path;
 }
 
