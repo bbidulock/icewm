@@ -468,7 +468,7 @@ void MenuLoader::progMenus(
 
     int pid = fork();
     if (pid == -1) {
-        fail("Forking '%s' failed", command);
+        fail(_("Failed to execute %s"), command);
     }
     else if (pid == 0) {
         close(fds[0]);
@@ -485,7 +485,7 @@ void MenuLoader::progMenus(
             if (path) {
                 execv(path, argv);
             }
-            fail("Exec '%s' failed", path ? path : command);
+            fail(_("Failed to execute %s"), path ? path : command);
         }
         _exit(99);
     }
@@ -495,12 +495,12 @@ void MenuLoader::progMenus(
         filereader rdr(fds[0]);
         auto buf = rdr.read_pipe(TIMEOUT_MS, &expired);
         if (expired) {
-            warn("'%s' timed out!", command);
+            warn(_("'%s' timed out!"), command);
             kill(pid, SIGKILL);
         }
-        int status = 0;
-        if (waitpid(pid, &status, 0) == 0 && status) {
-            warn("'%s' exited with code %d.", command, status);
+        int status = app->waitProgram(pid);
+        if (status) {
+            tlog(_("%s exited with status %d."), command, status);
         }
         else if (nonempty(buf)) {
             parseMenus(buf, container);
