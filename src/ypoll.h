@@ -1,5 +1,5 @@
-#ifndef __YPOLL_H__
-#define __YPOLL_H__
+#ifndef YPOLL_H
+#define YPOLL_H
 
 class YPollBase {
 public:
@@ -37,6 +37,13 @@ protected:
 
 private:
     T *fOwner;
+};
+
+class YPidWaiter {
+public:
+    virtual void waitCompleted(int pid, int status) = 0;
+    virtual void waitForPid(int pid);
+    virtual ~YPidWaiter();
 };
 
 #endif

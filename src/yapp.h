@@ -22,7 +22,7 @@ public:
     virtual void runCommand(const char *prog) = 0;
     virtual int runProgram(const char *path, const char *const *args, int fd = -1) = 0;
     virtual void exit(int exitCode) = 0;
-    virtual int waitProgram(int p) = 0;
+    virtual int waitProgram(int pid) = 0;
 };
 
 class IMainLoop {
@@ -32,6 +32,8 @@ public:
     virtual void unregisterTimer(YTimer *t) = 0;
     virtual void registerPoll(YPollBase *t) = 0;
     virtual void unregisterPoll(YPollBase *t) = 0;
+    virtual void unregisterWait(YPidWaiter *w) = 0;
+    virtual void registerWait(int pid, YPidWaiter* waiter) = 0;
 };
 
 class IResourceLocator {
@@ -57,7 +59,9 @@ public:
 
     virtual int runProgram(const char *path, const char *const *args, int fd = -1);
     virtual void runCommand(const char *prog);
-    virtual int waitProgram(int p);
+    virtual int waitProgram(int pid);
+    virtual void registerWait(int pid, YPidWaiter* waiter);
+    virtual void unregisterWait(YPidWaiter* waiter);
 
     virtual void subdirs(const char* sd, bool to, class MStringArray& ms);
     virtual upath findConfigFile(upath relativePath);
@@ -71,6 +75,13 @@ private:
     YArray<YTimer*> timers;
     YArray<YPollBase*> polls;
     typedef YArray<YPollBase*>::IterType YPollIterType;
+
+    struct WaitHandler {
+        int pid;
+        YPidWaiter* waiter;
+        WaitHandler(int pid, YPidWaiter* waiter) : pid(pid), waiter(waiter) { }
+    };
+    YArray<WaitHandler> waits;
 
     YSignalPoll sfd;
     friend class YSignalPoll;

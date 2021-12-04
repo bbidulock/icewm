@@ -323,10 +323,21 @@ void YApplication::exit(int exitCode) {
 
 void YApplication::handleSignal(int sig) {
     if (sig == SIGCHLD) {
-        int s, rc;
-        do {
-            rc = waitpid(-1, &s, WNOHANG);
-        } while (rc > 0);
+        for (int pid = 1; pid > 0 || (pid == -1 && errno == EINTR); ) {
+            int status = errno = 0;
+            pid = waitpid(-1, &status, WNOHANG);
+            if (pid > 0) {
+                for (int i = waits.getCount(); 0 <= --i; ) {
+                    if (i < waits.getCount()) {
+                        if (waits[i].pid == pid) {
+                            YPidWaiter* waiter = waits[i].waiter;
+                            waits.remove(i);
+                            waiter->waitCompleted(pid, status);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -425,13 +436,11 @@ int YApplication::runProgram(const char *path, const char *const *args, int fd) 
     return cpid;
 }
 
-int YApplication::waitProgram(int p) {
-    int rc = -1, status = 0;
-    if (p > 0) {
-        do {
-            errno = status = 0;
-            rc = waitpid(p, &status, 0);
-        } while (rc == -1 && errno == EINTR);
+int YApplication::waitProgram(int pid) {
+    int rc = -1, status = errno = 0;
+    if (pid > 0) {
+        while ((rc = waitpid(pid, &status, 0)) == -1 && errno == EINTR)
+            status = errno = 0;
     }
     return rc == -1 ? -1 : status;
 }
@@ -472,6 +481,26 @@ void YSignalPoll::notifyRead()
         owner()->handleSignal(info.ssi_signo);
 }
 #endif
+
+void YApplication::registerWait(int pid, YPidWaiter* waiter) {
+    waits += WaitHandler(pid, waiter);
+}
+
+void YApplication::unregisterWait(YPidWaiter* waiter) {
+    for (int i = waits.getCount(); 0 <= --i; ) {
+        if (waiter == waits[i].waiter) {
+            waits.remove(i);
+        }
+    }
+}
+
+YPidWaiter::~YPidWaiter() {
+    mainLoop->unregisterWait(this);
+}
+
+void YPidWaiter::waitForPid(int pid) {
+    mainLoop->registerWait(pid, this);
+}
 
 const upath& YApplication::getLibDir() {
     static upath dir( LIBDIR );
