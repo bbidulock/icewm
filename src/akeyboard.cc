@@ -9,6 +9,7 @@
 #include "wmmgr.h"
 #include "intl.h"
 #include <unistd.h>
+#include <sys/wait.h>
 
 extern ref<YPixmap> taskbackPixmap;
 
@@ -87,14 +88,19 @@ mstring KeyboardStatus::detectLayout() {
                 }
                 lseek(tmp, 0L, SEEK_SET);
                 fcsmart data(filereader(tmp).read_all());
-                char* dsave = nullptr;
-                for (char* line = strtok_r(data, "\n", &dsave);
-                     line; line = strtok_r(nullptr, "\n", &dsave)) {
-                    char* lsave = nullptr;
-                    char* label = strtok_r(line, " \t", &lsave);
-                    char* value = strtok_r(nullptr, " \t", &lsave);
+                // rules: model: layout: options:
+                for (tokens lines(data, "\n"); lines; ++lines) {
+                    tokens words(lines, " \t");
+                    char* label = words;
+                    char* value = ++words;
                     if (label && value && label[strlen(label)-1] == ':') {
-                        fToolTip += mstring(label, " \t ", value, "\n");
+                        const char* trans =
+                            strcmp(label, "rules:") == 0 ? _("rules:") :
+                            strcmp(label, "model:") == 0 ? _("model:") :
+                            strcmp(label, "layout:") == 0 ? _("layout:") :
+                            strcmp(label, "options:") == 0 ? _("options:") :
+                            label;
+                        fToolTip += mstring(trans, " \t ", value, "\n");
                         if (strcmp(label, "layout:") == 0) {
                             keyboard = value;
                         }
