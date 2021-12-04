@@ -643,7 +643,8 @@ void WindowList::showFocused(int x, int y) {
         }
         getFrame()->setRequestedLayer(WinLayerAboveDock);
         getFrame()->setAllWorkspaces();
-        getFrame()->activateWindow(true);
+        getFrame()->wmShow();
+        manager->setFocus(getFrame());
     }
 }
 

@@ -3504,7 +3504,7 @@ int YWindowManager::getSwitchScreen() {
     return inrange(s, 0, getScreenCount() - 1) ? s : 0;
 }
 
-void YWindowManager::doWMAction(WMAction action) {
+void YWindowManager::doWMAction(WMAction action, bool putback) {
     XClientMessageEvent xev;
     memset(&xev, 0, sizeof(xev));
 
@@ -3515,9 +3515,14 @@ void YWindowManager::doWMAction(WMAction action) {
     xev.data.l[0] = CurrentTime;
     xev.data.l[1] = action;
 
-    MSG(("new mask/state: %ld/%ld", xev.data.l[0], xev.data.l[1]));
-
-    xapp->send(xev, xapp->root(), SubstructureNotifyMask);
+    if (putback) {
+        XEvent event;
+        event.xclient = xev;
+        XPutBackEvent(xapp->display(), &event);
+    }
+    else {
+        xapp->send(xev, xapp->root(), SubstructureNotifyMask);
+    }
 }
 
 #ifdef CONFIG_XRANDR

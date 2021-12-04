@@ -257,7 +257,7 @@ public:
     void updateFullscreenLayerEnable(bool enable);
     int getSwitchScreen();
 
-    static void doWMAction(WMAction action);
+    static void doWMAction(WMAction action, bool putback = false);
     void lockFocus() {
         //MSG(("lockFocus %d", lockFocusCount));
         lockFocusCount++;
