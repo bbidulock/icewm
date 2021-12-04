@@ -86,6 +86,16 @@ public:
     const T* end() const { return e; }
 };
 
+class tokens {
+    const char* sep;
+    char* save, *tok;
+public:
+    tokens(char* data, const char* sep);
+    operator char*() const { return tok; }
+    char* token() const { return tok; }
+    char* operator++();
+};
+
 /*** String Functions *********************************************************/
 
 /* Prefer this as a safer alternative over strcpy. Return strlen(from). */

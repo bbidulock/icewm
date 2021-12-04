@@ -294,6 +294,17 @@ void* memrchr(const void* ptr, char chr, size_t num) {
 }
 #endif
 
+tokens::tokens(char* data, const char* sep)
+    : sep(sep)
+    , save(nullptr)
+    , tok(strtok_r(data, sep, &save))
+{
+}
+
+char* tokens::operator++() {
+    return tok = strtok_r(nullptr, sep, &save);
+}
+
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
 {
     unsigned int alen = strlen(name);
@@ -614,10 +625,7 @@ char* path_lookup(const char* name) {
 
     const size_t namlen = strlen(name);
 
-    char *directory, *save = nullptr;
-    for (directory = strtok_r(env, ":", &save); directory;
-         directory = strtok_r(nullptr, ":", &save))
-    {
+    for (tokens directory(env, ":"); directory; ++directory) {
         size_t dirlen = strlen(directory);
         size_t length = dirlen + namlen + 3;
         const size_t bufsize = 1234;
