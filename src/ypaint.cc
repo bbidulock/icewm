@@ -570,6 +570,13 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int x, int y) {
 
 void Graphics::drawPixmap(ref<YPixmap> pix, int sx, int sy,
                           unsigned w, unsigned h, int dx, int dy) {
+    Picture source = pix->picture(), destin = picture();
+    if (source && destin) {
+        XRenderComposite(display(), PictOpSrc, source, None, destin,
+                         0, 0, 0, 0, dx - xOrigin, dy - yOrigin, w, h);
+        return;
+    }
+
     Pixmap pixmap(pix->pixmap(rdepth()));
     if (pixmap == None) {
         tlog("Graphics::%s: attempt to draw pixmap 0x%lx of depth %d with gc of depth %d\n",
@@ -594,9 +601,10 @@ void Graphics::drawMask(ref<YPixmap> pix, int x, int y) {
 void Graphics::drawClippedPixmap(Pixmap pix, Pixmap clip,
                                  int x, int y, unsigned w, unsigned h, int toX, int toY)
 {
-    unsigned long mask =
+    unsigned long mask = GCFunction |
         GCGraphicsExposures | GCClipMask | GCClipXOrigin | GCClipYOrigin;
     XGCValues gcv;
+    gcv.function = GXcopy;
     gcv.graphics_exposures = False;
     gcv.clip_mask = clip;
     gcv.clip_x_origin = toX - xOrigin;
@@ -901,11 +909,17 @@ void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
     if (xpixmap == None)
         return;
 
-    px%= pw; const int pww(px ? pw - px : 0);
-    py%= ph; const int phh(py ? ph - py : 0);
+    px %= pw;
+    py %= ph;
+    if (px < 0)
+        px += pw;
+    if (py < 0)
+        py += ph;
+    const int pww(px ? pw - px : 0);
+    const int phh(py ? ph - py : 0);
 
-    if (px) {
-        if (py)
+    if (0 < px) {
+        if (0 < py)
             XCopyArea(display(), xpixmap, drawable(), gc,
                       px, py, pww, phh, x - xOrigin, y - yOrigin);
 
@@ -914,10 +928,10 @@ void Graphics::fillPixmap(ref<YPixmap> pixmap, int x, int y,
                       px, 0, pww, min(hh, ph), x - xOrigin, yy - yOrigin);
     }
 
-    for (int xx(x + pww), ww(w - pww); ww > 0; xx+= pw, ww-= pw) {
+    for (int xx(x + pww), ww(w - pww); ww > 0; xx += pw, ww -= pw) {
         int const www(min(ww, pw));
 
-        if (py)
+        if (0 < py)
             XCopyArea(display(), xpixmap, drawable(), gc,
                       0, py, www, phh, xx - xOrigin, y - yOrigin);
 
