@@ -295,9 +295,8 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         FrameState st = client()->getFrameState();
 
         if (st == WithdrawnState) {
-            XWMHints *h = client()->hints();
-            if (h && (h->flags & StateHint))
-                st = h->initial_state;
+            if (client()->wmHint(StateHint))
+                st = client()->hints()->initial_state;
             else
                 st = NormalState;
         }
@@ -869,7 +868,7 @@ void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
     }
 #if 1
     if (focus.type == FocusIn &&
-        focus.mode == NotifyNormal &&
+        focus.mode != NotifyGrab &&
         focus.window == handle() &&
         focus.detail != NotifyInferior &&
         focus.detail != NotifyPointer &&
@@ -2610,12 +2609,10 @@ bool YFrameWindow::avoidFocus() {
 }
 
 bool YFrameWindow::getInputFocusHint() {
-    XWMHints* hints = client()->hints();
     bool input = true;
 
-    if ( !frameOption(foIgnoreNoFocusHint) &&
-        (hints && (hints->flags & InputHint) && !hints->input)) {
-        input = false;
+    if ( !frameOption(foIgnoreNoFocusHint) && client()->wmHint(InputHint)) {
+        input = bool(client()->hints()->input & True);
     }
     if (frameOption(foDoNotFocus)) {
         input = false;
