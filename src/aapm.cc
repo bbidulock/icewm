@@ -769,7 +769,6 @@ YApm::YApm(YWindow *aParent, bool autodetect):
     IApplet(this, aParent),
     YTimerListener(),
     apmTimer(nullptr), apmBg(&clrApm), apmFg(&clrApmText),
-    apmFont(apmFontName),
     apmColorOnLine(&clrApmLine),
     apmColorBattery(&clrApmBat),
     apmColorGraphBg(&clrApmGraphBg),
@@ -858,6 +857,7 @@ YApm::YApm(YWindow *aParent, bool autodetect):
     if (autodetect && 0 == batteryNum)
         return;
 
+    apmFont = apmFontName;
     updateState();
 
     apmTimer->setTimer(1000 * batteryPollingPeriod, this, true);
