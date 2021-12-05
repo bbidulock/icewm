@@ -572,7 +572,7 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int sx, int sy,
                           unsigned w, unsigned h, int dx, int dy) {
     Picture source = pix->picture(), destin = picture();
     if (source && destin) {
-        XRenderComposite(display(), PictOpSrc, source, None, destin,
+        XRenderComposite(display(), PictOpOver, source, None, destin,
                          0, 0, 0, 0, dx - xOrigin, dy - yOrigin, w, h);
         return;
     }
