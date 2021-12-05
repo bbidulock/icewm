@@ -15,10 +15,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-04 23:19+0100\n"
-"PO-Revision-Date: 2021-10-31 22:11+0000\n"
+"PO-Revision-Date: 2021-12-06 01:27+0000\n"
 "Last-Translator: Taras Panchenko <top39@ukr.net>\n"
-"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ru/>\n"
+"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -179,21 +179,19 @@ msgstr "%s был уничтожен через сигнал %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "правила:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "модель:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "раскладка:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Неправильная опция: %s"
+msgstr "опции:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
@@ -2446,7 +2444,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "У '%s' вышло время!"
 
 #: src/wmmenu.cc:509
 #, c-format
