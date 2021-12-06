@@ -212,6 +212,13 @@ public:
         BaseType::append(item); return *this;
     }
 
+    DataType** begin() const {
+        return (DataType**) YBaseArray::begin();
+    }
+    DataType** end() const {
+        return (DataType**) YBaseArray::end();
+    }
+
 private:
     YObjectArray(const YObjectArray&);
     YObjectArray& operator=(const YObjectArray&);

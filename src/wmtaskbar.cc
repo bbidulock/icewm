@@ -273,7 +273,7 @@ void TaskBar::initApplets() {
         fNetStatus = nullptr;
 
     if (taskBarShowClock)
-        fClock = new YClock(smActionListener, this, this);
+        fClock = new ClockSet(smActionListener, this, this);
     else
         fClock = nullptr;
 
@@ -469,8 +469,11 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         wlist.append(nw);
     }
 
-    nw = LayoutInfo( fClock, Over, Top, Same, Keep, 2, 2 );
-    wlist.append(nw);
+    if (fClock) {
+        for (YClock* clock : *fClock) {
+            wlist += LayoutInfo( clock, Over, Top, Same, Keep, 2, 2 );
+        }
+    }
 
     if (taskBarShowMailboxStatus) {
         for (auto m = fMailBoxControl->iterator(); ++m; ) {

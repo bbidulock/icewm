@@ -18,32 +18,36 @@
 #include "ymenuitem.h"
 #include "intl.h"
 
-static char const *AppletClockTimeFmt = "%T";
+static const char AppletClockTimeFmt[] = "%T";
 
 const char* YClock::strTimeFmt(const struct tm& t) {
-    if (fTimeFormat)
+    if (fTimeFormat && isEmpty(fAltFormat))
         return fTimeFormat;
-    if ((ledPixColon == null) || (! prettyClock) || strcmp(fmtTime, "%X"))
-        return (fmtTimeAlt && (t.tm_sec & 1) ? fmtTimeAlt : fmtTime);
+    if (ledPixColon == null || ! prettyClock || strcmp(fmtTime, "%X"))
+        return (fAltFormat && (t.tm_sec & 1) ? fAltFormat : fTimeFormat);
     return AppletClockTimeFmt;
 }
 
-YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent):
-    IApplet(this, aParent),
+YClock::YClock(YSMListener* sml, IAppletContainer* iapp, YWindow* parent,
+               const char* envTZ, const char* myTZ, const char* format):
+    IApplet(this, parent),
     clockUTC(false),
     toolTipUTC(false),
     clockTicked(true),
     paintCount(0),
     transparent(-1),
-    smActionListener(smActionListener),
+    smActionListener(sml),
     iapp(iapp),
     fMenu(nullptr),
-    fTimeFormat(nullptr),
+    fTimeFormat(format),
+    fAltFormat(fmtTimeAlt),
     fPid(0),
     negativePosition(INT_MAX),
     clockBg(&clrClock),
     clockFg(&clrClockText),
-    clockFont(clockFontName)
+    defaultTimezone(envTZ),
+    displayTimezone(myTZ),
+    currentTimezone(envTZ)
 {
     memset(positions, 0, sizeof positions);
     memset(previous, 0, sizeof previous);
@@ -63,14 +67,33 @@ YClock::YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *a
 YClock::~YClock() {
 }
 
+bool YClock::timezone(bool restore) {
+    if (displayTimezone) {
+        const char* want = restore ? defaultTimezone : displayTimezone;
+        const char* have = currentTimezone;
+        if (want != have && (!want || !have || strcmp(want, have))) {
+            if (want) {
+                setenv("TZ", want, True);
+            } else {
+                unsetenv("TZ");
+            }
+            currentTimezone = want;
+            tzset();
+            return true;
+        }
+    }
+    return false;
+}
+
 void YClock::autoSize() {
+    bool restore = timezone();
     char str[TimeSize];
-    time_t newTime = time(nullptr);
+    time_t newTime = seconds();
     struct tm t = *localtime(&newTime);
     int maxMonth = -1;
     int maxWidth = -1;
 
-    t.tm_sec = 59;
+    t.tm_sec = 58;
     t.tm_min = 48;
     t.tm_hour = 23;
     t.tm_mday = 25;
@@ -100,6 +123,7 @@ void YClock::autoSize() {
         maxWidth += 4;
 
     setSize(maxWidth, unsigned(taskBarGraphHeight));
+    timezone(restore);
 }
 
 void YClock::handleButton(const XButtonEvent &button) {
@@ -118,19 +142,18 @@ void YClock::handleButton(const XButtonEvent &button) {
 }
 
 void YClock::updateToolTip() {
+    bool restore = timezone();
     char str[DateSize];
-    time_t newTime = time(nullptr);
+    time_t newTime = seconds();
     struct tm *t = toolTipUTC ? gmtime(&newTime) : localtime(&newTime);
     strftime(str, DateSize, fmtDate, t);
     setToolTip(str);
+    timezone(restore);
 }
 
 void YClock::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify) {
-        if (crossing.state & ControlMask)
-            toolTipUTC = true;
-        else
-            toolTipUTC = false;
+        toolTipUTC = hasbit(crossing.state, ControlMask);
         clockTimer->startTimer();
     }
     clockTimer->runTimer();
@@ -152,8 +175,11 @@ const YAction actionClockUTC;
 void YClock::handleClick(const XButtonEvent &up, int count) {
     if (up.button == 1) {
         if (clockCommand && clockCommand[0] &&
-            (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2)))
+            (taskBarLaunchOnSingleClick ? count == 1 : !(count % 2))) {
+            bool restore = timezone();
             smActionListener->runCommandOnce(clockClassHint, clockCommand, &fPid);
+            timezone(restore);
+        }
 #ifdef DEBUG
     } else if (up.button == 2) {
         if ((count % 2) == 0)
@@ -181,7 +207,9 @@ void YClock::handleClick(const XButtonEvent &up, int count) {
 }
 
 void YClock::changeTimeFormat(const char* format) {
+    bool restore = timezone();
     fTimeFormat = format;
+    fAltFormat = nullptr;
     autoSize();
     freePixmap();
     memset(positions, 0, sizeof positions);
@@ -191,6 +219,7 @@ void YClock::changeTimeFormat(const char* format) {
     clockTicked = true;
     repaint();
     iapp->relayout();
+    timezone(restore);
 }
 
 void YClock::actionPerformed(YAction action, unsigned int modifiers) {
@@ -201,7 +230,9 @@ void YClock::actionPerformed(YAction action, unsigned int modifiers) {
     else if (action == actionClockUTC) {
         clockUTC ^= true;
         clockTicked = true;
+        bool restore = timezone();
         repaint();
+        timezone(restore);
     }
     else if (action == actionClockHM) {
         changeTimeFormat(" %H:%M ");
@@ -239,31 +270,32 @@ bool YClock::picture() {
 }
 
 bool YClock::draw(Graphics& g) {
+    bool restore = timezone();
     timeval walltm = walltime();
     long nextChime = 1000L - walltm.tv_usec / 1000L;
     time_t newTime = walltm.tv_sec;
-    int len;
-    char str[TimeSize];
 
     clockTimer->setTimer(nextChime, this, true);
 
     auto t = clockUTC ? gmtime(&newTime) : localtime(&newTime);
 
+    char str[TimeSize];
+    int len =
 #ifdef DEBUG
-    if (countEvents)
-        len = snprintf(str, TimeSize, "%d", xeventcount);
-    else
+        countEvents ? snprintf(str, TimeSize, "%d", xeventcount) :
 #endif
-        len = strftime(str, TimeSize, strTimeFmt(*t), t);
+        strftime(str, TimeSize, strTimeFmt(*t), t);
 
+    bool drawn = true;
     if (toolTipVisible() || strcmp(str, lastTime)) {
         memcpy(lastTime, str, TimeSize);
-        return prettyClock
+        drawn = prettyClock
              ? paintPretty(g, str, len)
              : paintPlain(g, str, len);
     }
 
-    return true;
+    timezone(restore);
+    return drawn;
 }
 
 void YClock::fill(Graphics& g)
@@ -367,10 +399,8 @@ bool YClock::paintPretty(Graphics& g, const char* str, int len) {
 
 bool YClock::paintPlain(Graphics& g, const char* str, int len) {
     fill(g);
-    if (!prettyClock) {
-        int y =  (height() - 1 - clockFont->height()) / 2
-            + clockFont->ascent();
-
+    if (!prettyClock && (clockFont || (clockFont = clockFontName) != null)) {
+        int y = clockFont->ascent() + (height() - 1 - clockFont->height()) / 2;
         g.setColor(clockFg);
         g.setFont(clockFont);
         g.drawChars(str, 0, len, 2, y);
@@ -379,13 +409,14 @@ bool YClock::paintPlain(Graphics& g, const char* str, int len) {
 }
 
 bool YClock::handleTimer(YTimer *t) {
-    if (t != clockTimer)
-        return false;
-    if (toolTipVisible())
-        updateToolTip();
-    clockTicked = true;
-    repaint();
-    return true;
+    if (t == clockTimer) {
+        if (toolTipVisible())
+            updateToolTip();
+        clockTicked = true;
+        repaint();
+        return true;
+    }
+    return false;
 }
 
 ref<YPixmap> YClock::getPixmap(char c) {
@@ -432,36 +463,74 @@ ref<YPixmap> YClock::getPixmap(char c) {
 }
 
 int YClock::calcWidth(const char* str, int count) {
-    if (!prettyClock)
-        return clockFont->textWidth(str, count);
-    else {
-        int len = 0;
-
-        while (count--) {
-            ref<YPixmap> pix = getPixmap(*str++);
+    int len = 0;
+    if (prettyClock) {
+        for (char c : YRange<const char>(str, count)) {
+            ref<YPixmap> pix = getPixmap(c);
             if (pix != null)
                 len += pix->width();
         }
-        return len;
     }
+    else if (clockFont || (clockFont = clockFontName) != null) {
+        len = clockFont->textWidth(str, count);
+    }
+    return len;
 }
 
 bool YClock::hasTransparency() {
-    if (transparent == 0)
-        return false;
-    else if (transparent == 1)
-        return true;
-    if (!prettyClock) {
-        transparent = 1;
-        return true;
+    if (transparent < 0) {
+        if (prettyClock == false) {
+            transparent = 1;
+        }
+        else if ((ledPixColon != null && ledPixColon->mask())
+             || (ledPixNum[0] != null && ledPixNum[0]->mask())) {
+            transparent = 1;
+        }
+        else {
+            transparent = 0;
+        }
     }
-    ref<YPixmap> pix = getPixmap('0');
-    if (pix != null && pix->mask()) {
-        transparent = 1;
-        return true;
+    return bool(transparent & 1);
+}
+
+ClockSet::ClockSet(YSMListener* sml, IAppletContainer* iapp, YWindow* parent) {
+    const char* tz = strstr(fmtTime, "TZ=");
+    if (tz) {
+        if (tz - fmtTime > 1) {
+            specs += newstr(fmtTime, tz - fmtTime);
+        }
+        while (tz) {
+            const char* next = strstr(tz + 3, "TZ=");
+            int len = int(next ? next - tz : strlen(tz));
+            specs += newstr(tz, len);
+            tz = next;
+        }
+        char* envtz = getenv("TZ");
+        for (char* spec : specs) {
+            if (strncmp(spec, "TZ=", 3) == 0) {
+                char* space = strchr(spec, ' ');
+                if (space && strlen(space) > 2) {
+                    *space = '\0';
+                    clocks += new YClock(sml, iapp, parent,
+                                         envtz, spec + 3, space + 1);
+                }
+            } else {
+                clocks += new YClock(sml, iapp, parent,
+                                     nullptr, nullptr, spec);
+            }
+        }
     }
-    transparent = 0;
-    return false;
+    else if (1 < strlen(fmtTime)) {
+        clocks += new YClock(sml, iapp, parent,
+                             nullptr, nullptr, fmtTime);
+    }
+}
+
+ClockSet::~ClockSet() {
+    clocks.clear();
+    for (char* spec : specs) {
+        delete[] spec;
+    }
 }
 
 // vim: set sw=4 ts=4 et:

@@ -18,7 +18,8 @@ class YClock:
     private YActionListener
 {
 public:
-    YClock(YSMListener *smActionListener, IAppletContainer* iapp, YWindow *aParent);
+    YClock(YSMListener* sml, IAppletContainer* iapp, YWindow* parent,
+           const char* envTZ, const char* myTZ, const char* format);
     virtual ~YClock();
 
 private:
@@ -49,6 +50,7 @@ private:
     IAppletContainer* iapp;
     osmart<YMenu> fMenu;
     const char* fTimeFormat;
+    const char* fAltFormat;
     long fPid;
 
     void changeTimeFormat(const char* format);
@@ -69,7 +71,27 @@ private:
     YColorName clockBg;
     YColorName clockFg;
     YFont clockFont;
+
+    friend class ClockSet;
+    const char* defaultTimezone;
+    const char* displayTimezone;
+    const char* currentTimezone;
+    bool timezone(bool restore = false);
 };
+
+class ClockSet {
+public:
+    ClockSet(YSMListener* sml, IAppletContainer* iapp, YWindow* parent);
+    ~ClockSet();
+    YClock** begin() const { return clocks.begin(); }
+    YClock** end() const { return clocks.end(); }
+    int count() const { return clocks.getCount(); }
+    YClock* operator[](int index) const { return clocks[index]; }
+private:
+    YObjectArray<YClock> clocks;
+    YArray<char*> specs;
+};
+
 #endif
 
 // vim: set sw=4 ts=4 et:

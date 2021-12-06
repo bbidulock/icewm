@@ -275,7 +275,7 @@ MenuProgMenu::~MenuProgMenu() {
 }
 
 void MenuProgMenu::updatePopup() {
-    time_t now = time(nullptr);
+    time_t now = seconds();
     if (fModTime == 0 || (0 < fTimeout && now >= fModTime + fTimeout)) {
         refresh();
         fModTime = now;

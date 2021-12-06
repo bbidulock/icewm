@@ -17,7 +17,7 @@ class KeyboardStatus;
 class MailBoxControl;
 class MailBoxStatus;
 class YButton;
-class YClock;
+class ClockSet;
 class YApm;
 class TaskBarMenu;
 class TaskPane;
@@ -83,8 +83,6 @@ private:
     virtual void configure(const YRect2 &r);
     virtual void repaint();
 
-    YClock *clock() { return fClock; }
-
 public:
     bool windowTrayRequestDock(Window w);
     void setWorkspaceActive(long workspace, bool active);
@@ -148,7 +146,7 @@ private:
 
     ObjectButton *fCollapseButton;
     TrayPane *fWindowTray;
-    YClock *fClock;
+    ClockSet* fClock;
     KeyboardStatus *fKeyboardStatus;
     MailBoxControl *fMailBoxControl;
     MEMStatus *fMEMStatus;
