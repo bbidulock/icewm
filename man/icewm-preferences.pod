@@ -660,15 +660,16 @@ Network device for which to show status.
 
 =item B<TimeFormat>="%X"
 
-The clock time format. See the strftime manpage for the meaning
-of all the percent options. It is possible to have multiple
-clocks for different time zones by starting each clock format
-with a time zone specification in the form of C<TZ=...>,
-followed by a space.
+The clock time format. See the strftime manpage for the meaning of all
+the percent options. It is possible to define multiple clocks for
+different time zones in a single I<TimeFormat>.  A new clock is defined
+by the beginning of the string, and by each time zone specification
+which starts with C<TZ=...>, followed by a space. For example,
+B<TimeFormat>=C<%X TZ=Asia/Aden %T TZ=Asia/Baku %T> defines 3 clocks.
 
 =item B<TimeFormatAlt>=""
 
-Alternate Clock Time format (e.g., for blinking effects).
+Alternate Clock Time format shown every other second.
 
 =item B<DateFormat>="%c"
 
