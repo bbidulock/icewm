@@ -350,7 +350,6 @@ XFontSet YFontSet::guessFontSet(const char* pattern, char*** missing,
     if (0 < *nMissing) {
         XFreeStringList(*missing);
     }
-    XFreeFontSet(xapp->display(), fontset);
 
     char* family = getNameElement(names[0], 2, "*");
     char* weight = getNameElement(names[0], 3, "medium");
@@ -371,6 +370,7 @@ XFontSet YFontSet::guessFontSet(const char* pattern, char*** missing,
     delete[] pxlsz;
     delete[] slant;
     delete[] weight;
+    XFreeFontSet(xapp->display(), fontset);
 
     MSG(("trying fuzzy fontset pattern: \"%s\"", buffer));
 
