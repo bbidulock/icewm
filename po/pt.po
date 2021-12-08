@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-04 23:19+0100\n"
-"PO-Revision-Date: 2021-11-24 13:12+0000\n"
+"PO-Revision-Date: 2021-12-08 18:12+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -169,21 +169,19 @@ msgstr "%s foi terminado pelo sinal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "regras:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modelo:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "esquema:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Opção inválida: %s"
+msgstr "opções:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
@@ -2356,7 +2354,7 @@ msgstr "_Reiniciar o icewm"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:74 src/wmprog.cc:424 src/wmtaskbar.cc:239
 msgid "_About"
-msgstr "So_bre"
+msgstr "_Acerca"
 
 #: src/wmframe.cc:1445
 msgid ""
@@ -2430,7 +2428,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "'%s' expirou!"
 
 #: src/wmmenu.cc:509
 #, c-format
