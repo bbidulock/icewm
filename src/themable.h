@@ -2,6 +2,14 @@
 #define THEAMABLE_H
 
 #include "fontmacro.h"
+#include "appnames.h" // for the QUOTE macro
+
+#ifndef ICEWM_DEFAULT_FONT_SIZE
+#define ICEWM_DEFAULT_FONT_SIZE 12
+#endif
+#ifndef ICEWM_DEFAULT_SMALLFONT_SIZE
+#define ICEWM_DEFAULT_SMALLFONT_SIZE 10
+#endif
 
 // themable preferences (themes can set only these)
 
@@ -52,23 +60,24 @@ XSV(const char *, titleButtonsSupported,        "xmis")
 XSV(const char *, themeAuthor,                  0)
 XSV(const char *, themeDescription,             0)
 
-XFV(const char *, titleFontName,                FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, menuFontName,                 BOLDFONT(10,100), "DejaVu Sans:size=10:bold")
-XFV(const char *, statusFontName,               BOLDTTFONT(12,120), "monospace:size=12:bold")
-XFV(const char *, switchFontName,               BOLDTTFONT(12,120), "monospace:size=12:bold")
-XFV(const char *, normalButtonFontName,         FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, activeButtonFontName,         BOLDFONT(12,120), "DejaVu Sans:size=12:bold")
-XFV(const char *, normalTaskBarFontName,        FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, activeTaskBarFontName,        BOLDFONT(12,120), "DejaVu Sans:size=12:bold")
-XFV(const char *, toolButtonFontName,           FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, normalWorkspaceFontName,      FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, activeWorkspaceFontName,      FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, listBoxFontName,              FONT(12,120), "DejaVu Sans:size=12")
-XFV(const char *, labelFontName,                FONT(14,140), "DejaVu Sans:size=12")
-XFV(const char *, clockFontName,                TTFONT(14,140), "monospace:size=12")
-XFV(const char *, tempFontName,                 TTFONT(14,140), "monospace:size=12")
-XFV(const char *, apmFontName,                  TTFONT(14,140), "monospace:size=12")
-XFV(const char *, inputFontName,                TTFONT(14,140), "monospace:size=12")
+XFV(const char *, titleFontName,                FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, menuFontName,                 BOLDFONT(10,100), "DejaVu Sans:bold:size=" QUOTE(ICEWM_DEFAULT_SMALLFONT_SIZE))
+XFV(const char *, statusFontName,               BOLDTTFONT(12,120), "monospace:bold:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, switchFontName,               BOLDTTFONT(12,120), "DejaVu Sans Mono:monospace:bold:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, normalButtonFontName,         FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, activeButtonFontName,         BOLDFONT(12,120), "DejaVu Sans:bold:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, normalTaskBarFontName,        FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, activeTaskBarFontName,        BOLDFONT(12,120), "DejaVu Sans:bold:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, toolButtonFontName,           FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, normalWorkspaceFontName,      FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, activeWorkspaceFontName,      FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, listBoxFontName,              FONT(12,120), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+// XXX: following are misaligned, 14 vs. 12 in TTF build, to be clarified, maybe introduce ICEWM_DEFAULT_LARGEFONT_SIZE?
+XFV(const char *, labelFontName,                FONT(14,140), "DejaVu Sans:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, clockFontName,                TTFONT(14,140), "DejaVu Sans Mono:monospace:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, tempFontName,                 TTFONT(14,140), "DejaVu Sans Mono:monospace:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, apmFontName,                  TTFONT(14,140), "DejaVu Sans Mono:monospace:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
+XFV(const char *, inputFontName,                TTFONT(14,140), "DejaVu Sans Mono:monospace:size=" QUOTE(ICEWM_DEFAULT_FONT_SIZE))
 
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")
