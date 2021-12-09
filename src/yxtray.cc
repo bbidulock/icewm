@@ -847,7 +847,9 @@ void YXTray::trayUpdateGeometry(unsigned w, unsigned h, bool visible) {
     }
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
-        fGeometry.setRect(x() + int(width()) - int(w), y(), w, h);
+        int ypos = (h == height()) ? y() :
+                   max(1, (int(parent()->height()) - int(h)) / 2);
+        fGeometry.setRect(x() + int(width()) - int(w), ypos, w, h);
         setGeometry(fGeometry);
         if (visible)
             show();
