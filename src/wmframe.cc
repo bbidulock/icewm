@@ -1704,7 +1704,9 @@ void YFrameWindow::refresh() {
 }
 
 void YFrameWindow::repaint() {
-    paint(getGraphics(), geometry());
+    if (hasBorders()) {
+        paint(getGraphics(), geometry());
+    }
 }
 
 static Bool checkExpose(Display* display, XEvent* event, XPointer arg) {
