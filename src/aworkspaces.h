@@ -147,6 +147,7 @@ private:
 
     WorkspaceButton* create(int workspace, unsigned height);
     void label(WorkspaceButton* wk);
+    void createButtons();
     void repositionButtons();
     void resize(unsigned width, unsigned height);
     long limitWidth(long paneWidth);

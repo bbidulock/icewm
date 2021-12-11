@@ -219,10 +219,24 @@ WorkspacesPane::WorkspacesPane(YWindow *parent):
     fMillis(16L),
     fRepositioning(false),
     fReconfiguring(false),
-    fRepaintSpaces(false)
+    fRepaintSpaces(false),
+    fButtons(workspaceCount)
 {
     addStyle(wsNoExpose);
     setParentRelative();
+    createButtons();
+}
+
+void WorkspacesPane::createButtons() {
+    fReconfiguring = true;
+    unsigned width = 0;
+    unsigned height = smallIconSize + 8;
+    for (int i = 0, n = workspaceCount; i < n; ++i) {
+        width += create(i, height)->width();
+    }
+    resize(width, height);
+    setPressed(manager->activeWorkspace(), true);
+    fReconfiguring = false;
 }
 
 void WorkspacesPane::resize(unsigned width, unsigned height) {
@@ -351,19 +365,7 @@ void WorkspacesPane::relabelButtons() {
 
 void WorkspacesPane::configure(const YRect2& r) {
     if ((fReconfiguring | fRepositioning) == false && r.resized()) {
-        fReconfiguring = true;
-        if (count() == 0) {
-            unsigned width = 0, height = max(smallIconSize + 8, r.height());
-            for (int i = 0, n = workspaceCount; i < n; ++i)
-                width += create(i, height)->width();
-            resize(width, height);
-            setPressed(manager->activeWorkspace(), true);
-            paths = null;
-        }
-        else {
-            repositionButtons();
-        }
-        fReconfiguring = false;
+        repositionButtons();
     }
 }
 

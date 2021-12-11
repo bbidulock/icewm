@@ -185,6 +185,7 @@ public:
     using BaseType::getItem;
 
     YObjectArray() {}
+    YObjectArray(SizeType capacity) : BaseType(capacity) {}
     virtual ~YObjectArray() {
         clear();
     }
