@@ -20,9 +20,6 @@
 #include <wctype.h>
 #endif
 
-#define utf8ellipsis "\xe2\x80\xa6"
-const unsigned utf32ellipsis = 0x2026;
-
 static inline Display* display()  { return xapp->display(); }
 
 /******************************************************************************/

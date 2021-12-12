@@ -29,7 +29,7 @@ public:
 #ifdef CONFIG_FRIBIDI
         if (big) {
             FriBidiCharType pbase_dir = FRIBIDI_PAR_ON;
-            switch (true) {
+            switch (int(true)) {
                 case sizeof(wchar_t) == sizeof(unsigned):
                     if (fribidi_log2vis((const FriBidiChar *) str,
                                         len, &pbase_dir,

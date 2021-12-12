@@ -3,7 +3,7 @@
 
 #include <string.h>
 
-class YDimension;
+struct YDimension;
 class Graphics;
 class mstring;
 

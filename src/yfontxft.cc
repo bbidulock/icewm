@@ -64,7 +64,7 @@ private:
                         wchar_t* str, int len, int width, int limit) const;
     void drawString(Graphics& g, XftFont* font, int x, int y,
                     wchar_t* str, int len) const {
-        switch (true) {
+        switch (int(true)) {
         case sizeof(wchar_t) == sizeof(FcChar32):
             XftDrawString32(g.handleXft(), g.color().xftColor(), font,
                             x - g.xorigin(), y - g.yorigin(),
@@ -75,7 +75,7 @@ private:
 
     void textExtents(XftFont* font, wchar_t* str, int len,
                      XGlyphInfo* extents) const {
-        switch (true) {
+        switch (int(true)) {
         case sizeof(wchar_t) == sizeof(FcChar32):
             XftTextExtents32(xapp->display(), font,
                              (FcChar32 *) str, len, extents);
