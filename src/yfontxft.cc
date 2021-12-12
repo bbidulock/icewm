@@ -7,6 +7,7 @@
 #include "ystring.h"
 #include "yxapp.h"
 #include "yfontbase.h"
+#include "ylocale.h"
 #include "ybidi.h"
 #include "intl.h"
 #include <stdio.h>
@@ -25,9 +26,11 @@ public:
     int ascent() const override { return fAscent; }
     int textWidth(char const* str, int len) const override;
 
-    int textWidth(wchar_t* text, int length) const;
+    int textWidth(wchar_t* text, int length) const override;
     void drawGlyphs(class Graphics& g, int x, int y,
                     const char* str, int len, int limit = 0) override;
+    void drawGlyphs(class Graphics& g, int x, int y,
+                    wchar_t* str, int len, int limit = 0) override;
     bool supports(unsigned utf32char) const override;
 
 private:
@@ -167,7 +170,14 @@ void YXftFont::drawGlyphs(Graphics& g, int x, int y,
                           const char* str, int len, int limit) {
     if (0 < len && 0 <= limit) {
         YWideString wide(str, len);
-        YBidi bidi(wide.data(), wide.length());
+        drawGlyphs(g, x, y, wide.data(), int(wide.length()), limit);
+    }
+}
+
+void YXftFont::drawGlyphs(Graphics& g, int x, int y,
+                          wchar_t* data, int len, int limit) {
+    if (0 < len && 0 <= limit) {
+        YBidi bidi(data, len);
         TextParts parts = partitions(bidi.string(), int(bidi.length()));
         if (limit == 0) {
             if (bidi.isRTL() && int(g.rwidth()) < parts.extent) {

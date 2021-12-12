@@ -12,7 +12,7 @@
 
 class YLocale {
 public:
-    YLocale(char const* localeName = "");
+    YLocale(const char* localeName = "");
     ~YLocale();
 
     static const char* getLocaleName();
@@ -21,11 +21,12 @@ public:
     static bool UTF8() { return instance->codesetUTF8; }
 
 #ifdef CONFIG_I18N
-    static char* localeString(wchar_t const* uStr, size_t uLen, size_t& lLen);
-    static wchar_t* unicodeString(char const* lStr, size_t lLen, size_t& uLen);
+    static char* localeString(const wchar_t* uStr, size_t uLen, size_t& lLen);
+    static wchar_t* unicodeString(const char* lStr, size_t lLen, size_t& uLen);
 #else
-    static wchar_t* wideCharString(char const* str, size_t len, size_t& out);
+    static wchar_t* wideCharString(const char* str, size_t len, size_t& out);
 #endif
+    static char* narrowString(const wchar_t* uStr, size_t uLen, size_t& lLen);
 
 private:
     class YConverter* converter;

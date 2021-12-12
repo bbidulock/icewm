@@ -17,21 +17,21 @@ foreign_str(char const *charset, char const *foreign)
     size_t size = len + 80;
     char * str = new char [size];
 
-    snprintf(str, size, "\033%%/1\\%03zo\\%03zo%s\002%s",
-             128 + len / 128, 128 + len % 128, charset, foreign);
+    snprintf(str, size, "%s: %s",
+             charset, foreign);
 
     return str;
 }
 
 static void
-print_string(const char *lstr, wchar_t *ustr)
+print_string(const char *lstr, wchar_t *ustr, size_t ulen)
 {
     printf ("In locale encoding: \"%s\"\n", lstr);
     printf ("In unicode encoding: \"");
 
     for (wchar_t * u(ustr); *u; ++u) printf("\\U%04x", *u);
 
-    puts ("\"");
+    printf ("\" (len=%zu)\n", ulen);
 }
 
 #define TEST_RATING(LocaleFragment) \
@@ -48,27 +48,32 @@ int main() {
         printf("nl_langinfo(%d): %s\n", CODESET, nl_langinfo(CODESET));
     }
 
+    size_t ulen;
+    wchar_t* ustr;
+
     {
-        size_t ulen;
+        const char* lstr = "Möhrenkäuter";
+        YLocale locale("de_DE.iso-8859-1");
+        ulen = 0;
+        ustr = locale.unicodeString(lstr, strlen(lstr), ulen);
+        print_string(lstr, ustr, ulen);
 
-        const char *lstr("Möhrenkäuter");
-        wchar_t *ustr(YLocale("de_DE.iso-8859-1").
-                     unicodeString(lstr, strlen(lstr), ulen));
-        print_string(lstr, ustr);
-
-        lstr = foreign_str ("ISO8859-15", "Euro sign: ¤");
-        ustr = YLocale("de_DE.iso-8859-1").
-            unicodeString(lstr, strlen(lstr), ulen);
-        print_string(lstr, ustr);
+        size_t llen = 0;
+        char * cstr = locale.localeString(ustr, ulen, llen);
+        printf("cstr: %s (%zu)\n", cstr, llen);
     }
 
-/*
-    char * utf8(YLocale("de_DE.utf8").localeString(unicode));
-    printf("utf8: %s\n", utf8);
+    {
+        const char* lstr = foreign_str ("ISO8859-15", "Euro sign: ¤");
+        YLocale locale("de_DE.iso-8859-1");
+        ulen = 0;
+        ustr = locale.unicodeString(lstr, strlen(lstr), ulen);
+        print_string(lstr, ustr, ulen);
 
-    char * latin1(YLocale("de_DE.iso-8859-1").localeString(unicode));
-    printf("iso-8859-1: %s\n", latin1);
-*/
+        size_t llen = 0;
+        char * cstr = locale.localeString(ustr, ulen, llen);
+        printf("cstr: %s (%zu)\n", cstr, llen);
+    }
 
     {
         YLocale locale("de_DE@euro");

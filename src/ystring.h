@@ -9,26 +9,33 @@
 #define YSTRING_H
 
 #include <string.h>
-#include "ylocale.h"
+
+class null_ref;
+class mstring;
 
 class YWideString {
 public:
-    YWideString(const char* lstr, size_t llen) :
-        fLength(0),
-#ifdef CONFIG_I18N
-        fData(YLocale::unicodeString(lstr, llen, fLength))
-#else
-        fData(YLocale::wideCharString(lstr, llen, fLength))
-#endif
-    {
-    }
+    YWideString(const char* lstr, size_t llen);
     YWideString(size_t size, wchar_t* text) : fLength(size), fData(text) { }
+    YWideString(mstring);
+    YWideString() : fLength(0), fData(nullptr) { }
+    YWideString(const YWideString& copy);
     ~YWideString() {
         delete[] fData;
     }
     size_t length() const { return fLength; }
     wchar_t* data() const { return fData; }
-    wchar_t& operator[](int index) const { return fData[index]; }
+    wchar_t& operator[](size_t index) const { return fData[index]; }
+    wchar_t charAt(size_t index) const { return fData[index]; }
+    void replace(size_t pos, size_t plen, const YWideString& insert);
+    void operator=(const YWideString& copy);
+    void operator=(mstring s);
+    operator mstring();
+    bool isEmpty() const { return fLength == 0; }
+    bool nonempty() const { return fLength > 0; }
+    bool operator==(null_ref &) const { return isEmpty(); }
+    bool operator!=(null_ref &) const { return nonempty(); }
+    YWideString copy(size_t offset, size_t length);
 private:
     size_t fLength;
     wchar_t* fData;

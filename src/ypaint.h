@@ -122,10 +122,11 @@ public:
     void drawArrow(YDirection direction, int x, int y, unsigned size, bool pressed = false);
 
     void drawChars(mstring s, int x, int y);
-    void drawChars(char const * data, int offset, int len, int x, int y);
+    void drawChars(const char* data, int offset, int len, int x, int y);
+    void drawChars(wchar_t* data, int offset, int len, int x, int y);
     void drawCharUnderline(int x, int y, char const * str, int charPos);
 
-    void drawString(int x, int y, char const * str);
+    void drawString(int x, int y, const char* str);
     void drawStringEllipsis(int x, int y, char const * str, int maxWidth);
     void drawStringMultiline(const char* str, int x, int y, unsigned width);
 

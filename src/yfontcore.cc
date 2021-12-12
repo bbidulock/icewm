@@ -17,9 +17,12 @@ public:
     virtual bool valid() const override { return fFont != nullptr; }
     virtual int descent() const override { return fDescent; }
     virtual int ascent() const override { return fAscent; }
+    virtual int textWidth(wchar_t* str, int len) const override;
     virtual int textWidth(const char* str, int len) const override;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             const char* str, int len, int limit = 0) override;
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
+                            wchar_t* str, int len, int limit = 0) override;
 
 private:
     XFontStruct * fFont;
@@ -38,6 +41,8 @@ public:
     virtual int textWidth(const char* str, int len) const override;
     virtual void drawGlyphs(class Graphics & graphics, int x, int y,
                             const char* str, int len, int limit = 0) override;
+    virtual void drawGlyphs(class Graphics & graphics, int x, int y,
+                            wchar_t* str, int len, int limit = 0) override;
 
 private:
     static XFontSet guessFontSet(const char* pattern, char*** missing,
@@ -47,7 +52,7 @@ private:
     int textWidth(const YBidi& string) const {
         return XwcTextEscapement(fFontSet, string.string(), string.length());
     }
-    int textWidth(wchar_t* string, int num_wchars) const {
+    int textWidth(wchar_t* string, int num_wchars) const override {
         return XwcTextEscapement(fFontSet, string, num_wchars);
     }
     void draw(Graphics& g, int x, int y, wchar_t* text, int count) const {
@@ -127,6 +132,31 @@ YCoreFont::~YCoreFont() {
 
 int YCoreFont::textWidth(const char *str, int len) const {
     return XTextWidth(fFont, str, len);
+}
+
+int YCoreFont::textWidth(wchar_t* wstr, int len) const {
+    int width = 0;
+    if (0 < len && wstr) {
+        size_t size = 0;
+        char* cstr = YLocale::narrowString(wstr, len, size);
+        if (cstr && size) {
+            width = textWidth(cstr, int(size));
+        }
+        delete[] cstr;
+    }
+    return width;
+}
+
+void YCoreFont::drawGlyphs(Graphics& g, int x, int y,
+                           wchar_t* wstr, int len, int limit) {
+    if (0 < len && wstr) {
+        size_t size = 0;
+        char* cstr = YLocale::narrowString(wstr, len, size);
+        if (cstr && size) {
+            drawGlyphs(g, x, y, cstr, int(size), limit);
+        }
+        delete[] cstr;
+    }
 }
 
 void YCoreFont::drawGlyphs(Graphics& g, int x, int y,
@@ -251,7 +281,13 @@ void YFontSet::drawGlyphs(Graphics& g, int x, int y,
                           const char* str, int len, int limit)
 {
     YWideString wide(str, len);
-    YBidi bidi(wide.data(), wide.length());
+    drawGlyphs(g, x, y, wide.data(), int(wide.length()), limit);
+}
+
+void YFontSet::drawGlyphs(Graphics& g, int x, int y,
+                          wchar_t* data, int len, int limit)
+{
+    YBidi bidi(data, len);
     int tw;
     if (limit == 0 || (tw = textWidth(bidi)) <= limit) {
         draw(g, x, y, bidi.string(), bidi.length());

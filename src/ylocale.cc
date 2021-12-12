@@ -15,6 +15,7 @@
 #include "intl.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef CONFIG_I18N
 #include <errno.h>
@@ -182,27 +183,32 @@ YLocale::~YLocale() {
 }
 
 #ifdef CONFIG_I18N
-char* YLocale::localeString(wchar_t const* uStr, size_t uLen, size_t &lLen) {
+char* YLocale::localeString(const wchar_t* uStr, size_t uLen, size_t &lLen) {
     PRECONDITION(instance);
     if (uStr == nullptr)
         return nullptr;
 
-    char* lStr(new char[uLen + 1]);
+    iconv(instance->converter->localer(), nullptr, nullptr, nullptr, nullptr);
+
+    size_t lSize = 4 * uLen;
+    char* lStr = new char[lSize + 1];
 #ifdef __NetBSD__
     const
 #endif
-    char* inbuf((char *) uStr);
-    char* outbuf(lStr);
-    size_t inlen(uLen), outlen(uLen);
+    char* inbuf = (char *) uStr;
+    char* outbuf = lStr;
+    size_t inlen = uLen * sizeof(wchar_t);
+    size_t outlen = lSize;
 
     errno = 0;
     size_t count = iconv(instance->converter->localer(),
                          &inbuf, &inlen, &outbuf, &outlen);
     if (count == size_t(-1)) {
         static unsigned count, shift;
-        if (++count >= (1U << shift)) {
+        if (++count <= 2 || (count - 2) >= (1U << shift)) {
             ++shift;
-            warn("Invalid unicode string: %s", strerror(errno));
+            warn("Invalid unicode string: %s (%zd/%u)",
+                 strerror(errno), ((wchar_t*)inbuf - uStr), *inbuf);
         }
     }
 
@@ -218,6 +224,8 @@ wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
     PRECONDITION(instance);
     if (lStr == nullptr)
         return nullptr;
+
+    iconv(instance->converter->unicode(), nullptr, nullptr, nullptr, nullptr);
 
     wchar_t* uStr(new wchar_t[lLen + 1]);
 #ifdef __NetBSD__
@@ -263,6 +271,54 @@ wchar_t* YLocale::wideCharString(const char* str, size_t len, size_t& out) {
     return text;
 }
 #endif
+
+char* YLocale::narrowString(const wchar_t* uStr, size_t uLen, size_t& lLen) {
+    PRECONDITION(instance);
+    if (uStr == nullptr || uLen == 0) {
+        lLen = 0;
+        return nullptr;
+    }
+
+    size_t size = 4 + 3 * uLen / 2;
+    char* dest = new char[size + 1];
+    size_t done;
+
+    for (;;) {
+        const wchar_t* ptr = uStr;
+        mbstate_t state;
+        memset(&state, 0, sizeof(mbstate_t));
+        done = wcsrtombs(dest, &ptr, size, &state);
+        if (done == size_t(-1)) {
+            done = (ptr > uStr) ? ptr - uStr : 0;
+            if (done + 4 >= size) {
+                delete[] dest;
+                size = 4 + 3 * size / 2;
+                dest = new char[size + 1];
+            } else {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+
+    if (done == 0) {
+        delete[] dest;
+        dest = nullptr;
+    }
+    else if (2 * done < size && 30 < size) {
+        char* copy = new char[done + 1];
+        memcpy(copy, dest, done);
+        copy[done] = '\0';
+        delete[] dest;
+        dest = copy;
+    } else {
+        dest[done] = '\0';
+    }
+
+    lLen = done;
+    return dest;
+}
 
 const char *YLocale::getLocaleName() {
 #ifdef CONFIG_I18N

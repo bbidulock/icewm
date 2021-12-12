@@ -617,10 +617,11 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
             r.xx = w - r.xx - r.ww;
         }
         fAddressBar->setGeometry(r);
-        fAddressBar->raise();
         if (::showAddressBar) {
-            if (taskBarDoubleHeight || !taskBarShowWindows)
+            if (taskBarDoubleHeight || !taskBarShowWindows) {
+                fAddressBar->raise();
                 fAddressBar->show();
+            }
         }
     }
 

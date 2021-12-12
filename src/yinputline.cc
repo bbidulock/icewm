@@ -31,7 +31,6 @@ public:
 
 YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     YWindow(parent),
-    fText(null),
     markPos(0),
     curPos(0),
     leftOfs(0),
@@ -55,7 +54,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
 YInputLine::~YInputLine() {
 }
 
-void YInputLine::setText(const mstring &text, bool asMarked) {
+void YInputLine::setText(mstring text, bool asMarked) {
     fText = text;
     leftOfs = 0;
     curPos = fText.length();
@@ -97,8 +96,8 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
         g.setColor(inputBg);
         g.fillRect(0, 0, width(), height());
     } else {
-        minOfs = font->textWidth(fText.substring(0, min)) - leftOfs;
-        maxOfs = font->textWidth(fText.substring(0, max)) - leftOfs;
+        minOfs = font->textWidth(fText.data(), min) - leftOfs;
+        maxOfs = font->textWidth(fText.data(), max) - leftOfs;
 
         if (minOfs > 0) {
             g.setColor(inputBg);
@@ -118,7 +117,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
     if (font != null) {
         int yo = ::max(0, (int(height()) - int(font->height())) / 2);
         int yp = font->ascent() + yo;
-        int curOfs = font->textWidth(fText.substring(0, curPos));
+        int curOfs = font->textWidth(fText.data(), curPos);
         int cx = ::max(1, curOfs - leftOfs);
 
         g.setFont(font);
@@ -126,22 +125,22 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
         if (curPos == markPos || !fHasFocus || fText == null) {
             g.setColor(inputFg);
             if (fText != null)
-                g.drawChars(fText.substring(0, textLen), -leftOfs, yp);
+                g.drawChars(fText.data(), 0, textLen, -leftOfs, yp);
             if (fHasFocus && fCursorVisible)
                 g.drawLine(cx, yo, cx, font->height() + 2);
         } else {
             if (min > 0) {
                 g.setColor(inputFg);
-                g.drawChars(fText.substring(0, min), -leftOfs, yp);
+                g.drawChars(fText.data(), 0, min, -leftOfs, yp);
             }
             /// !!! same here
             if (min < max) {
                 g.setColor(inputSelectionFg);
-                g.drawChars(fText.substring(min, max - min), minOfs, yp);
+                g.drawChars(fText.data(), min, max - min, minOfs, yp);
             }
             if (max < textLen) {
                 g.setColor(inputFg);
-                g.drawChars(fText.substring(max, textLen - max), maxOfs, yp);
+                g.drawChars(fText.data(), max, textLen - max, maxOfs, yp);
             }
         }
     }
@@ -328,7 +327,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 char s[16];
 
                 if (getCharFromEvent(key, s, sizeof(s))) {
-                    replaceSelection(mstring(s, strlen(s)));
+                    replaceSelection(s, strlen(s));
                     return true;
                 }
             }
@@ -430,7 +429,7 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
         YProperty prop(selection.requestor, selection.property,
                        F8, 32 * 1024, selection.target, True);
         if (prop) {
-            replaceSelection(mstring(prop.data<char>(), prop.size()));
+            replaceSelection(prop.data<char>(), prop.size());
         }
     }
 }
@@ -442,7 +441,7 @@ unsigned YInputLine::offsetToPos(int offset) {
 
     if (font != null) {
         while (pos < textLen) {
-            ofs += font->textWidth(fText.substring(pos, 1));
+            ofs += font->textWidth(fText.data() + pos, 1);
             if (ofs < offset)
                 pos++;
             else
@@ -529,8 +528,8 @@ void YInputLine::limit() {
 
     YFont font = inputFont;
     if (font != null) {
-        int curOfs = font->textWidth(fText.substring(0, curPos));
-        int curLen = font->textWidth(fText.substring(0, textLen));
+        int curOfs = font->textWidth(fText.data(), curPos);
+        int curLen = font->textWidth(fText.data(), textLen);
 
         if (curOfs >= leftOfs + int(width()) + 1)
             leftOfs = curOfs - width() + 2;
@@ -543,18 +542,19 @@ void YInputLine::limit() {
     }
 }
 
-void YInputLine::replaceSelection(const mstring &str) {
+void YInputLine::replaceSelection(const char* insert, int amount) {
     unsigned from = min(curPos, markPos);
     unsigned to = max(curPos, markPos);
-    fText = fText.replace(from, to - from, str);
-    curPos = markPos = from + str.length();
+    YWideString wide(insert, amount);
+    fText.replace(from, to - from, wide);
+    curPos = markPos = from + wide.length();
     limit();
     repaint();
 }
 
 bool YInputLine::deleteSelection() {
     if (hasSelection()) {
-        replaceSelection(null);
+        replaceSelection("", 0);
         return true;
     }
     return false;
@@ -578,12 +578,6 @@ bool YInputLine::deletePreviousChar() {
         return true;
     }
     return false;
-}
-
-bool YInputLine::insertChar(char ch) {
-    char s[2] = { ch, 0 };
-    replaceSelection(s);
-    return true;
 }
 
 #define CHCLASS(c) ((c) == ' ')
@@ -671,9 +665,14 @@ bool YInputLine::cutSelection() {
 }
 
 bool YInputLine::copySelection() {
-    int min = ::min(curPos, markPos), max = ::max(curPos, markPos);
-    return min < max && fText.nonempty()
-        && (xapp->setClipboardText(fText.substring(min, max - min)), true);
+    unsigned min = ::min(curPos, markPos), max = ::max(curPos, markPos);
+    if (min < max && fText.length() <= max) {
+        YWideString copy(fText.copy(min, max - min));
+        xapp->setClipboardText(copy);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void YInputLine::actionPerformed(YAction action, unsigned int /*modifiers*/) {
@@ -696,7 +695,8 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 
 void YInputLine::complete() {
     char* res = nullptr;
-    int res_count = globit_best(fText, &res, nullptr, nullptr);
+    mstring mstr(fText);
+    int res_count = globit_best(mstr, &res, nullptr, nullptr);
     // directory is not a final match
     if (res_count == 1 && upath(res).dirExists())
         res_count++;

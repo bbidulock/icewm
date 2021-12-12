@@ -1,15 +1,15 @@
 #ifndef YINPUT_H
 #define YINPUT_H
 
-#include "ywindow.h"
 #include "ytimer.h"
 #include "yaction.h"
-#include "ypointer.h"
 #include "ypopup.h"
+#include "ystring.h"
 
 class YMenu;
 class YInputLine;
 class YInputMenu;
+class YWideString;
 
 class YInputListener {
 public:
@@ -30,7 +30,7 @@ public:
     YInputLine(YWindow *parent = nullptr, YInputListener *listener = nullptr);
     virtual ~YInputLine();
 
-    void setText(const mstring &text, bool asMarked);
+    void setText(mstring text, bool asMarked);
     mstring getText();
     YFont getFont() const { return inputFont; }
     void setListener(YInputListener* listener) { fListener = listener; }
@@ -53,12 +53,11 @@ public:
     virtual void repaint();
 
     bool move(unsigned pos, bool extend);
-    bool hasSelection() const { return (curPos != markPos) ? true : false; }
-    void replaceSelection(const mstring &str);
+    bool hasSelection() const { return curPos != markPos; }
+    void replaceSelection(const char* str, int len);
     bool deleteSelection();
     bool deleteNextChar();
     bool deletePreviousChar();
-    bool insertChar(char ch);
     unsigned nextWord(unsigned pos, bool sep);
     unsigned prevWord(unsigned pos, bool sep);
     bool deleteNextWord();
@@ -79,7 +78,7 @@ private:
     void autoScroll(int delta, const XMotionEvent *mouse);
     unsigned offsetToPos(int offset);
 
-    mstring fText;
+    YWideString fText;
     unsigned markPos;
     unsigned curPos;
     int leftOfs;

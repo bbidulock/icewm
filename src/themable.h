@@ -68,7 +68,7 @@ XFV(const char *, labelFontName,                FONT(14,140), FSANS)
 XFV(const char *, clockFontName,                TTFONT(14,140), FMONO)
 XFV(const char *, tempFontName,                 TTFONT(14,140), FMONO)
 XFV(const char *, apmFontName,                  TTFONT(14,140), FMONO)
-XFV(const char *, inputFontName,                TTFONT(14,140), FMONO)
+XFV(const char *, inputFontName,                TTFONT(14,140), FBOLD)
 
 XSV(const char *, clrDialog,                    "rgb:C0/C0/C0")
 XSV(const char *, clrActiveBorder,              "rgb:C0/C0/C0")

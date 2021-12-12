@@ -290,6 +290,12 @@ void Graphics::drawString(int x, int y, char const * str) {
         fFont->drawGlyphs(*this, x, y, str, int(strlen(str)));
 }
 
+void Graphics::drawChars(wchar_t* data, int offset, int len, int x, int y)
+{
+    if (fFont != null)
+        fFont->drawGlyphs(*this, x, y, data + offset, len);
+}
+
 /**
  * Draw a string but limit its width. If overlong, truncate and show optional
  * ... character.
