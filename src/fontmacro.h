@@ -43,4 +43,12 @@
 
 #endif
 
+#define FQUOT(x) #x
+#define FSIZE(x) ":size=" FQUOT(x)
+#define FSANS   "DejaVu Sans" FSIZE(12)
+#define FBOLD   FSANS ":bold"
+#define FSMAL   "DejaVu Sans" FSIZE(10) ":bold"
+#define FMONO   "DejaVu Sans Mono:monospace" FSIZE(12)
+#define FMONB   FMONO ":bold"
+
 #endif

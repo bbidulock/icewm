@@ -60,7 +60,7 @@ XIV(WMLook, wmLook,                             CONFIG_DEFAULT_LOOK)
 
 XSV(const char *, clrToolTip,                   "rgb:E0/E0/00")
 XSV(const char *, clrToolTipText,               "rgb:00/00/00")
-XFV(const char *, toolTipFontName,              FONT(12,120), "DejaVu Sans:size=12")
+XFV(const char *, toolTipFontName,              FONT(12,120), FSANS)
 
 #endif
 
