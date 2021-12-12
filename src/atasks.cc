@@ -800,7 +800,6 @@ TaskPane::TaskPane(IAppletContainer* taskBar, YWindow* parent):
     fForceImmediate(false),
     fTaskGrouping(taskBarTaskGrouping)
 {
-    addStyle(wsNoExpose);
     if (getGradient() == null && taskbackPixmap == null) {
         setBackground(taskBarBg);
     }
@@ -1046,10 +1045,17 @@ void TaskPane::handleClick(const XButtonEvent& up, int count) {
     }
 }
 
+void TaskPane::handleExpose(const XExposeEvent& expose) {
+    YRect r(expose.x, expose.y, expose.width, expose.height);
+    paint(getGraphics(), r);
+}
+
 void TaskPane::paint(Graphics& g, const YRect& r) {
     if (taskbackPixmap == null && getGradient() == null) {
         g.setColor(taskBarBg);
         g.fillRect(r.x(), r.y(), r.width(), r.height());
+    } else {
+        clearArea(r.xx, r.yy, r.ww, r.hh);
     }
 }
 

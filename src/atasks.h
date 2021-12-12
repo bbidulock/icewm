@@ -134,7 +134,7 @@ public:
     virtual void handleClick(const XButtonEvent& up, int count);
     virtual void handleMotion(const XMotionEvent& motion);
     virtual void handleButton(const XButtonEvent& button);
-    virtual void handleExpose(const XExposeEvent& expose) {}
+    virtual void handleExpose(const XExposeEvent& expose);
     virtual void paint(Graphics& g, const YRect& r);
 
     void startDrag(TaskButton* drag, int byMouse, int sx, int sy);
