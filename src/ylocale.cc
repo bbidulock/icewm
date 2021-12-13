@@ -16,12 +16,12 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <wchar.h>
 
 #ifdef CONFIG_I18N
 #include <errno.h>
 #include <langinfo.h>
 #include <locale.h>
-#include <wchar.h>
 #include <assert.h>
 #include <X11/Xlib.h>
 #include <iconv.h>
