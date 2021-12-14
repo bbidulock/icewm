@@ -4397,7 +4397,7 @@ void IceSh::parseAction()
         }
         else if (isAction("maximize", 0)) {
             FOREACH_WINDOW(window)
-                YNetState(window) += NetFullscreen;
+                YNetState(window) += NetHorizontal | NetVertical;
         }
         else if (isAction("minimize", 0)) {
             FOREACH_WINDOW(window)
