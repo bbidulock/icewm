@@ -64,38 +64,62 @@ void YFrameWindow::updateMenu() {
 }
 
 void YFrameWindow::updateSubmenus() {
-    YMenuItem *item = windowMenu()->findSubmenu(moveMenu);
-    if (item)
-        item->setEnabled(!isAllWorkspaces());
+    if (moveMenu) {
+        YMenuItem *item = windowMenu()->findSubmenu(moveMenu);
+        if (item) {
+            bool enable = !isAllWorkspaces() && 1 < workspaceCount;
+            item->setEnabled(enable);
+            if (enable) {
+                moveMenu->updatePopup();
+                moveMenu->setActionListener(this);
 
-    moveMenu->updatePopup();
-    moveMenu->setActionListener(this);
-    for (int i(0); i < moveMenu->itemCount(); i++) {
-        item = moveMenu->getItem(i);
-        if (item && item->getAction() == workspaceActionMoveTo[i]) {
-            bool const e(i == getWorkspace());
-            item->setEnabled(!e);
-            item->setChecked(e);
+                for (int i(0); i < moveMenu->itemCount(); i++) {
+                    item = moveMenu->getItem(i);
+                    if (item && item->getAction() == workspaceActionMoveTo[i]) {
+                        bool const e(i == getWorkspace());
+                        item->setEnabled(!e);
+                        item->setChecked(e);
+                    }
+                }
+            }
         }
     }
 
-    layerMenu->updatePopup();
-    layerMenu->setActionListener(this);
-    int layer = WinLayerCount - 1;
-    for (int j(0); j < layerMenu->itemCount(); j++) {
-        item = layerMenu->getItem(j);
-        YAction action = item->getAction();
-        while (action < layerActionSet[layer] && 0 < layer) {
-            --layer;
-        }
-        if (action == layerActionSet[layer]) {
-            bool const e(layer == getActiveLayer());
-            item->setEnabled(!e);
-            item->setChecked(e);
+    if (layerMenu) {
+        YMenuItem *item = windowMenu()->findSubmenu(layerMenu);
+        if (item) {
+            layerMenu->updatePopup();
+            layerMenu->setActionListener(this);
+
+            int layer = WinLayerCount - 1;
+            for (int j(0); j < layerMenu->itemCount(); j++) {
+                YMenuItem* item = layerMenu->getItem(j);
+                YAction action = item->getAction();
+                while (action < layerActionSet[layer] && 0 < layer) {
+                    --layer;
+                }
+                if (action == layerActionSet[layer]) {
+                    bool const e(layer == getActiveLayer());
+                    item->setEnabled(!e);
+                    item->setChecked(e);
+                }
+            }
         }
     }
 
-    item = windowMenu()->findAction(actionToggleTray);
+    if (tileMenu) {
+        YMenuItem *item = windowMenu()->findSubmenu(tileMenu);
+        if (item) {
+            bool enable = canMove();
+            item->setEnabled(enable);
+            if (enable) {
+                tileMenu->updatePopup();
+                tileMenu->setActionListener(this);
+            }
+        }
+    }
+
+    YMenuItem* item = windowMenu()->findAction(actionToggleTray);
     if (item) {
         bool checked = (getTrayOption() != WinTrayIgnore);
         bool enabled = notbit(frameOptions(), foIgnoreTaskBar);

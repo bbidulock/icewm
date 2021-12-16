@@ -96,6 +96,15 @@ nobase_dist_pkgdata_DATA = \
 	icons/suspend_32x32.xpm \
 	icons/themes_16x16.xpm \
 	icons/themes_32x32.xpm \
+	icons/tilebottom_48x48.png \
+	icons/tilebottomleft_48x48.png \
+	icons/tilebottomright_48x48.png \
+	icons/tilecenter_48x48.png \
+	icons/tileleft_48x48.png \
+	icons/tileright_48x48.png \
+	icons/tiletop_48x48.png \
+	icons/tiletopleft_48x48.png \
+	icons/tiletopright_48x48.png \
 	icons/vim_16x16.xpm \
 	icons/vim_32x32.xpm \
 	icons/vim_48x48.xpm \

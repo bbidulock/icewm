@@ -324,11 +324,11 @@ void WindowListBox::enableCommands(YMenu *popup) {
         }
     }
     if (selected == false) {
-        moveMenu->disableCommand(actionNull);
         popup->disableCommand(actionNull);
     }
     else {
         moveMenu->setActionListener(this);
+        tileMenu->setActionListener(this);
         layerMenu->setActionListener(this);
     }
 }
@@ -384,6 +384,7 @@ WindowListPopup::WindowListPopup() {
     addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
     addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
     addSubmenu(_("La_yer"), -2, layerMenu);
+    addSubmenu(_("Tile"), -2, tileMenu);
     addSeparator();
     addSubmenu(_("Move _To"), -2, moveMenu);
     addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);

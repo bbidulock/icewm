@@ -105,6 +105,15 @@ enum EAction {
     actionLayerAboveAll      = 241,
 
     actionAboutClose         = 243,
+    actionTileLeft           = 245,
+    actionTileRight          = 246,
+    actionTileTop            = 247,
+    actionTileBottom         = 248,
+    actionTileTopLeft        = 249,
+    actionTileTopRight       = 250,
+    actionTileBottomLeft     = 251,
+    actionTileBottomRight    = 252,
+    actionTileCenter         = 253,
 };
 
 bool canShutdown(RebootShutdown reboot);
