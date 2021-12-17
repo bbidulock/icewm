@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-16 20:45+0100\n"
-"PO-Revision-Date: 2021-12-10 12:13+0000\n"
+"PO-Revision-Date: 2021-12-17 13:12+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8 bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
 #, c-format
@@ -2045,39 +2045,39 @@ msgstr "_Escriptori"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Meitat esquerra"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Meitat dreta"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "Meitat superior"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "Meitat inferior"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "A dalt a l'esquerra"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "A dalt a la dreta"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "A baix a l'esquerra"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "A baix a la dreta"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "Al mig"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:218 src/wmwinlist.cc:394
@@ -2145,7 +2145,7 @@ msgstr "_Capa"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "Mosaic"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
