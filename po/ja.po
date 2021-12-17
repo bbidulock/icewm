@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-16 20:45+0100\n"
-"PO-Revision-Date: 2021-12-06 11:12+0000\n"
+"PO-Revision-Date: 2021-12-17 05:12+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.8.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
 #, c-format
@@ -2056,39 +2056,39 @@ msgstr "デスクトップ (_E)"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "左半分"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "右半分"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "上半分"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "下半分"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "左上"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "右上"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "左下"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "右下"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "中央"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:218 src/wmwinlist.cc:394
@@ -2156,7 +2156,7 @@ msgstr "レイヤ (_Y)"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "タイル"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
