@@ -3030,12 +3030,15 @@ void YWindowManager::notifyActive(YFrameWindow *frame) {
 void YWindowManager::switchFocusTo(YFrameWindow *frame, bool reorderFocus) {
 
     if (frame != fFocusWin) {
-        if (fFocusWin)
-            fFocusWin->loseWinFocus();
-        fFocusWin = frame;
-        ///msg("setting %lX", fFocusWin);
-        if (fFocusWin)
+        if (fFocusWin) {
+            YFrameWindow* f = fFocusWin;
+            fFocusWin = nullptr;
+            f->loseWinFocus();
+        }
+        if (frame) {
+            fFocusWin = frame;
             fFocusWin->setWinFocus();
+        }
 
         workspaces[activeWorkspace()].focused = frame;
     }
