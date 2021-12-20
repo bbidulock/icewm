@@ -463,6 +463,7 @@ private:
     WindowListItem *fWinListItem;
     ref<YIcon> fFrameIcon;
     lazy<WindowOption> fHintOption;
+    lazy<YTimer> fFocusEventTimer;
 
     YMsgBox *fKillMsgBox;
     YFrameWindow *fOwner;

@@ -863,27 +863,18 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void YFrameWindow::handleFocus(const XFocusChangeEvent &focus) {
-    if (manager->switchWindowVisible()) {
+    if (manager->switchWindowVisible() || client()->adopted() == false) {
         return ;
     }
-#if 1
     if (focus.type == FocusIn &&
         focus.mode != NotifyGrab &&
         focus.window == handle() &&
         focus.detail != NotifyInferior &&
         focus.detail != NotifyPointer &&
         focus.detail != NotifyPointerRoot)
-        manager->switchFocusTo(this);
-#endif
-#if 0
-    else if (focus.type == FocusOut &&
-               focus.mode == NotifyNormal &&
-               focus.detail != NotifyInferior &&
-               focus.detail != NotifyPointer &&
-               focus.detail != NotifyPointerRoot &&
-               focus.window == handle())
-        manager->switchFocusFrom(this);
-#endif
+    {
+        fFocusEventTimer->setTimer(None, this, true);
+    }
     layoutShape();
 }
 
@@ -894,6 +885,15 @@ bool YFrameWindow::handleTimer(YTimer *t) {
         }
         else if (t == fDelayFocusTimer) {
             focus(false);
+        }
+        else if (t == fFocusEventTimer) {
+            if (manager->getFocus() != this && client()->visible()) {
+                Window win = 0; int rev = 0;
+                XGetInputFocus(xapp->display(), &win, &rev);
+                if (win == client()->handle()) {
+                    manager->switchFocusTo(this);
+                }
+            }
         }
     }
     return false;
