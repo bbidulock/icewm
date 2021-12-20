@@ -676,6 +676,14 @@ bool YWMApp::handleTimer(YTimer *timer) {
         themeOnlyPath.clear();
         pathsTimer = null;
     }
+    else if (timer == refreshTimer) {
+        YWindow w;
+        w.lower();
+        w.setGeometry(desktop->geometry());
+        w.show();
+        refreshTimer = null;
+    }
+
     return false;
 }
 
@@ -993,7 +1001,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     }
     else if (action == actionWindowList) {
         if (windowList->visible())
-            windowList->getFrame()->wmHide();
+            windowList->handleClose();
         else
             windowList->showFocused(-1, -1);
     } else if (action == actionWinOptions) {
@@ -1421,6 +1429,7 @@ int YWMApp::mainLoop() {
             fail("notify parent");
         }
     }
+    refreshTimer->setTimer(20L, this, true);
 
     int rc = super::mainLoop();
     signalGuiEvent(geShutdown);
