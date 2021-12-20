@@ -64,7 +64,7 @@ public:
     virtual void handleFocus(const XFocusChangeEvent &focus);
     virtual void handleExpose(const XExposeEvent&) {}
     virtual void handleClose();
-
+    virtual bool handleTimer(YTimer *timer);
     virtual void configure(const YRect2 &r);
     void relayout();
 
@@ -86,6 +86,7 @@ private:
     osmart<YScrollView> scroll;
     osmart<WindowListBox> list;
     YObjectArray<WindowListItem> workspaceItem;
+    YTimer focusTimer;
 
     void setupClient();
     void insertApp(WindowListItem *item);

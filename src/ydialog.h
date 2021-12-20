@@ -15,11 +15,13 @@ public:
     virtual void configure(const YRect2& r2);
     virtual void handleExpose(const XExposeEvent &expose) {}
     virtual bool handleKey(const XKeyEvent &key);
+    virtual bool handleTimer(YTimer* timer);
     virtual ref<YImage> getGradient();
 
 private:
     ref<YImage> fGradient;
     YSurface fSurface;
+    YTimer focusTimer;
 
     const YSurface& getSurface();
 };

@@ -42,11 +42,24 @@ void YDialog::become() {
     if (getFrame() == nullptr)
         manager->manageClient(this, false);
     if (getFrame()) {
-        int ws = manager->activeWorkspace();
-        if (getFrame()->visibleOn(ws) == false) {
-            getFrame()->setWorkspace(ws);
+        if (getFrame()->visibleNow() == false) {
+            getFrame()->setWorkspace(manager->activeWorkspace());
         }
-        getFrame()->activateWindow(true);
+        getFrame()->wmRaise();
+        getFrame()->wmShow();
+        xapp->sync();
+        focusTimer.setTimer(None, this, true);
+    }
+}
+
+bool YDialog::handleTimer(YTimer* timer) {
+    if (timer == &focusTimer) {
+        if (visible()) {
+            manager->setFocus(getFrame());
+        }
+        return false;
+    } else {
+        return YFrameClient::handleTimer(timer);
     }
 }
 
