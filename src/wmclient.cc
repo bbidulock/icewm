@@ -67,6 +67,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fClientLeader = None;
     fPid = 0;
     prop = {};
+    xapp->ignorable = None;
 
     if (win == None) {
         getSizeHints();
@@ -490,10 +491,15 @@ FrameState YFrameClient::getFrameState() {
     return st;
 }
 
-void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
-    YWindow::handleUnmap(unmap);
+void YFrameClient::handleMapNotify(const XMapEvent& map) {
+    if (xapp->ignorable == handle()) {
+        xapp->ignorable = None;
+    }
+}
 
+void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
     MSG(("UnmapWindow"));
+    xapp->ignorable = handle();
 
     bool unmanage = true;
     bool destroy = false;

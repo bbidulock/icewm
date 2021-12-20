@@ -176,6 +176,7 @@ public:
 
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleColormap(const XColormapEvent &colormap);
+    virtual void handleMapNotify(const XMapEvent& map);
     virtual void handleUnmap(const XUnmapEvent &unmap);
     virtual void handleDestroyWindow(const XDestroyWindowEvent &destroyWindow);
     virtual void handleClientMessage(const XClientMessageEvent &message);
