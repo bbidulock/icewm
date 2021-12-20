@@ -243,6 +243,7 @@ private:
     static YAtomName atom_info[];
 public:
     static const char* atomName(Atom atom);
+    static Window ignorable;
 };
 
 extern YXApplication *xapp;

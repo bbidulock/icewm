@@ -23,6 +23,7 @@ YContext<YWindow> windowContext;
 
 bool YXApplication::synchronizeX11;
 bool YXApplication::alphaBlending;
+Window YXApplication::ignorable;
 
 Atom _XA_WM_CHANGE_STATE;
 Atom _XA_WM_CLASS;
@@ -1220,17 +1221,23 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
         }
     } else {
         if (xev.type == MapRequest) {
-            // !!! java seems to do this ugliness
-            //YFrameWindow *f = getFrame(xev.xany.window);
-            TLOG(("APP BUG? mapRequest for window %lX sent to destroyed frame %lX!",
-                xev.xmaprequest.parent,
-                xev.xmaprequest.window));
-            desktop->handleEvent(xev);
+            if (xev.xmaprequest.window != ignorable) {
+                // !!! java seems to do this ugliness
+                //YFrameWindow *f = getFrame(xev.xany.window);
+                TLOG(("APP BUG? mapRequest for window %lX "
+                      "sent to destroyed frame %lX!",
+                    xev.xmaprequest.window,
+                    xev.xmaprequest.parent));
+                desktop->handleEvent(xev);
+            }
         } else if (xev.type == ConfigureRequest) {
-            TLOG(("APP BUG? configureRequest for window %lX sent to destroyed frame %lX!",
-                xev.xmaprequest.parent,
-                xev.xmaprequest.window));
-            desktop->handleEvent(xev);
+            if (xev.xconfigurerequest.window != ignorable) {
+                TLOG(("APP BUG? configureRequest for window %lX "
+                      "sent to destroyed frame %lX!",
+                    xev.xconfigurerequest.window,
+                    xev.xconfigurerequest.parent));
+                desktop->handleEvent(xev);
+            }
         }
         else if (xev.type == ClientMessage && desktop) {
             Atom mesg = xev.xclient.message_type;
@@ -1265,7 +1272,7 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
     if (rc == Success)
         return rc;
 
-    XDBG {
+    XDBG if (xev->resourceid != ignorable) {
         char message[80], req[80], number[80];
 
         snprintf(number, sizeof number, "%d", xev->request_code);
