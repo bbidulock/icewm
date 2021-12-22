@@ -692,7 +692,13 @@ void show_backtrace(const int limit) {
     char* prog = progpath();
     char* path = prog ? prog : path_lookup("icewm");
 
-    fprintf(stderr, "backtrace:\n"); fflush(stderr);
+    timeval now;
+    gettimeofday(&now, nullptr);
+    struct tm *loc = localtime(&now.tv_sec);
+    unsigned msec = (unsigned)(now.tv_usec / 1000);
+
+    fprintf(stderr, "%02d:%02d:%02d.%03u: %s:\n", loc->tm_hour, loc->tm_min,
+            loc->tm_sec, msec, "backtrace"); fflush(stderr);
 
     int status(1);
     if (path && access(tool, X_OK) == 0) {
@@ -725,7 +731,7 @@ void show_backtrace(const int limit) {
     if (status) {
         backtrace_symbols_fd(array, count, 2);
     }
-    fprintf(stderr, "end\n");
+    fputs("end\n\n", stderr); fflush(stderr);
 #endif
 }
 
