@@ -197,8 +197,15 @@ public:
             zList += items[i].frame;
         }
 
-        if (fActiveWindow && find(zList, fActiveWindow) < 0)
-            fActiveWindow = nullptr;
+        if (fActiveWindow) {
+            int act = find(zList, fActiveWindow);
+            if (act < 0) {
+                fActiveWindow = nullptr;
+            } else if (act) {
+                zList.remove(act);
+                zList.insert(0, fActiveWindow);
+            }
+        }
         if (fLastWindow && find(zList, fLastWindow) < 0)
             fLastWindow = nullptr;
     }
