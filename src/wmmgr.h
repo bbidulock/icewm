@@ -274,6 +274,14 @@ public:
     }
     void requestWorkAreaUpdate() { ++fWorkAreaUpdate; }
 
+    void lockRestack() { fRestackLock++; }
+    void unlockRestack() {
+        if (0 == --fRestackLock && fRestackUpdate) {
+            fRestackUpdate = 0;
+            restackWindows();
+        }
+    }
+
     enum WMState { wmSTARTUP, wmRUNNING, wmSHUTDOWN };
 
     WMState wmState() const { return fWmState; }
@@ -364,6 +372,8 @@ private:
     int lockFocusCount;
     int fWorkAreaLock;
     int fWorkAreaUpdate;
+    int fRestackLock;
+    int fRestackUpdate;
     int fServerGrabCount;
     bool fFullscreenEnabled;
 
@@ -383,6 +393,12 @@ private:
 };
 
 extern YWindowManager *manager;
+
+class YRestackLock {
+public:
+    YRestackLock() { manager->lockRestack(); }
+    ~YRestackLock() { manager->unlockRestack(); }
+};
 
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 

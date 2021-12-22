@@ -92,6 +92,8 @@ YWindowManager::YWindowManager(
     fWorkAreaScreenCount = 0;
     fWorkAreaLock = 0;
     fWorkAreaUpdate = 0;
+    fRestackLock = 0;
+    fRestackUpdate = 0;
     fFullscreenEnabled = true;
     fCreatedUpdated = true;
     fLayeredUpdated = true;
@@ -1114,6 +1116,7 @@ void YWindowManager::manageClients() {
 
     setWmState(wmSTARTUP);
     lockWorkArea();
+    lockRestack();
     grabServer();
     if (fDockApp == nullptr) {
         fDockApp = new DockApp;
@@ -1136,6 +1139,7 @@ void YWindowManager::manageClients() {
 
     setWmState(wmRUNNING);
     ungrabServer();
+    unlockRestack();
     unlockWorkArea();
 
     YProperty prop(this, _XA_NET_ACTIVE_WINDOW, F32, 1, XA_WINDOW);
@@ -1601,6 +1605,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
     int ch = client->height();
     MSG(("initial geometry 1 (%d:%d %dx%d)", cx, cy, cw, ch));
 
+    YRestackLock restack;
     updateFullscreenLayerEnable(false);
 
     YFrameWindow* frame = allocateFrame(client);
@@ -2001,6 +2006,11 @@ void YWindowManager::updateFullscreenLayer() { /// HACK !!!
 }
 
 void YWindowManager::restackWindows() {
+    if (fRestackLock) {
+        fRestackUpdate++;
+        return;
+    }
+
     YArray<Window> w(10 + focusedCount());
 
     w.append(fTopWin->handle());
