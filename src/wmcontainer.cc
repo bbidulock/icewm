@@ -196,7 +196,9 @@ void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &conf
 }
 
 void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
-    if (mapRequest.window == getFrame()->client()->handle()) {
+    if (mapRequest.window == getFrame()->client()->handle()
+        && getFrame()->isPassive() == false)
+    {
         if (getFrame()->isUnmapped()) {
             manager->lockFocus();
             getFrame()->makeMapped();

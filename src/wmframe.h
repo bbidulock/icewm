@@ -409,6 +409,7 @@ public:
 
     void setWmUrgency(bool wmUrgency);
     bool isUrgent() const;
+    bool isPassive() const;
 
     int getScreen() const;
     void refresh();
@@ -421,6 +422,7 @@ public:
     Window topRightIndicator() const { return topRight; }
     Time since() const { return fStartManaged; }
     bool startMinimized() const { return frameOption(foMinimized); }
+    bool ignoreActivation() const { return frameOption(foIgnoreActivationMessages); }
 
     void addToWindowList();
     void removeFromWindowList();

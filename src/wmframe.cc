@@ -673,7 +673,7 @@ void YFrameWindow::netRestackWindow(Window window, int detail) {
     else {
         switch (detail) {
         case Above:
-            if (canRaise()) {
+            if (canRaise() && !isPassive()) {
                 wmRaise();
                 if (focusOnAppRaise) {
                     if ( !frameOption(foNoFocusOnAppRaise) &&
@@ -3592,6 +3592,10 @@ void YFrameWindow::setWmUrgency(bool wmUrgency) {
 
 bool YFrameWindow::isUrgent() const {
     return hasState(WinStateUrgent) || client()->urgencyHint();
+}
+
+bool YFrameWindow::isPassive() const {
+    return isMinimized() && startMinimized() && ignoreActivation();
 }
 
 int YFrameWindow::getScreen() const {

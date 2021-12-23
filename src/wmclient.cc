@@ -853,7 +853,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         //printf("active window w=0x%lX\n", message.window);
         YFrameWindow* f = getFrame();
-        if (f && !f->frameOption(YFrameWindow::foIgnoreActivationMessages)) {
+        if (f && !f->ignoreActivation()) {
             f->activate();
             f->wmRaise();
         }
