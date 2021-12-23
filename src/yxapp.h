@@ -110,10 +110,8 @@ public:
     int displayHeight() { return DisplayHeight(display(), screen()); }
     Atom atom(const char* name) { return XInternAtom(display(), name, False); }
     void sync() const { XSync(display(), False); }
-    void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) const {
-        XSendEvent(display(), win, False, mask,
-                   reinterpret_cast<XEvent*>(&ev));
-    }
+    void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) const;
+    Window parent(Window child) const;
 
     bool hasColormap() const { return fHasColormaps; }
     bool synchronized() const { return synchronizeX11; }

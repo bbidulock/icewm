@@ -890,6 +890,19 @@ bool YFrameWindow::handleTimer(YTimer *t) {
             if (manager->getFocus() != this && client()->visible()) {
                 Window win = 0; int rev = 0;
                 XGetInputFocus(xapp->display(), &win, &rev);
+                while (win != client()->handle()) {
+                    YWindow* found = windowContext.find(win);
+                    if (found) {
+                        break;
+                    } else {
+                        Window par = xapp->parent(win);
+                        if (par == None || par == xapp->root()) {
+                            break;
+                        } else {
+                            win = par;
+                        }
+                    }
+                }
                 if (win == client()->handle()) {
                     manager->switchFocusTo(this);
                 }

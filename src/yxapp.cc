@@ -1313,6 +1313,21 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
     return rc;
 }
 
+void YXApplication::send(XClientMessageEvent& ev, Window win, long mask) const {
+    XSendEvent(display(), win, False, mask, reinterpret_cast<XEvent*>(&ev));
+}
+
+Window YXApplication::parent(Window child) const {
+    Window paren = None;
+    Window rootw = None;
+    Window* data = nullptr;
+    unsigned num = None;
+    if (XQueryTree(display(), child, &rootw, &paren, &data, &num) && data) {
+        XFree(data);
+    }
+    return paren;
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
