@@ -128,7 +128,6 @@ private:
     lazy<YTimer> errorTimer;
     lazy<YTimer> pathsTimer;
     lazy<YTimer> splashTimer;
-    lazy<YTimer> refreshTimer;
     lazy<YWindow> splashWindow;
     lazy<GuiSignaler> guiSignaler;
 

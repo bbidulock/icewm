@@ -676,13 +676,6 @@ bool YWMApp::handleTimer(YTimer *timer) {
         themeOnlyPath.clear();
         pathsTimer = null;
     }
-    else if (timer == refreshTimer) {
-        YWindow w;
-        w.lower();
-        w.setGeometry(desktop->geometry());
-        w.show();
-        refreshTimer = null;
-    }
 
     return false;
 }
@@ -1429,7 +1422,6 @@ int YWMApp::mainLoop() {
             fail("notify parent");
         }
     }
-    refreshTimer->setTimer(20L, this, true);
 
     int rc = super::mainLoop();
     signalGuiEvent(geShutdown);

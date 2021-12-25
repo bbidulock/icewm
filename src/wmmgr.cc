@@ -911,15 +911,15 @@ Window YWindowManager::findWindow(const char *resource) {
         }
     }
 
-    Window match = None, root = desktop->handle(), parent;
+    Window match = None;
     xsmart<Window> clients;
     unsigned count = 0;
-    XQueryTree(xapp->display(), root, &root, &parent, &clients, &count);
-
-    for (unsigned i = 0; match == None && i < count; ++i) {
-        YWindow* ywin = windowContext.find(clients[i]);
-        if (nullptr == ywin) {
-            match = matchWindow(clients[i], resource);
+    if (xapp->children(handle(), &clients, &count)) {
+        for (unsigned i = 0; match == None && i < count; ++i) {
+            YWindow* ywin = windowContext.find(clients[i]);
+            if (nullptr == ywin) {
+                match = matchWindow(clients[i], resource);
+            }
         }
     }
 
@@ -931,15 +931,14 @@ Window YWindowManager::findWindow(Window win, char const* resource,
     if (isEmpty(resource))
         return None;
 
-    Window match = None, parent, root;
+    Window match = None;
     xsmart<Window> clients;
     unsigned count = 0;
-
-    XQueryTree(xapp->display(), win, &root, &parent, &clients, &count);
-
-    for (unsigned i = 0; match == None && i < count; ++i) {
-        if (matchWindow(clients[i], resource))
-            match = clients[i];
+    if (xapp->children(win, &clients, &count)) {
+        for (unsigned i = 0; match == None && i < count; ++i) {
+            if (matchWindow(clients[i], resource))
+                match = clients[i];
+        }
     }
     if (maxdepth) {
         for (unsigned i = 0; match == None && i < count; ++i) {
@@ -1110,9 +1109,11 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
 }
 
 void YWindowManager::manageClients() {
-    unsigned clientCount = 0;
-    Window winRoot, winParent;
-    xsmart<Window> winClients;
+    YWindow sheet(this);
+    sheet.lower();
+    sheet.setGeometry(geometry());
+    sheet.show();
+    xapp->sync();
 
     setWmState(wmSTARTUP);
     lockWorkArea();
@@ -1122,11 +1123,13 @@ void YWindowManager::manageClients() {
         fDockApp = new DockApp;
     }
 
-    if (XQueryTree(xapp->display(), handle(), &winRoot, &winParent,
-                   &winClients, &clientCount)) {
-        for (unsigned i = 0; i < clientCount; i++) {
-            if (findClient(winClients[i]) == nullptr) {
-                YFrameClient* client = allocateClient(winClients[i], false);
+    unsigned count = 0;
+    xsmart<Window> clients;
+    if (xapp->children(handle(), &clients, &count)) {
+        Window ignore = sheet.handle();
+        for (unsigned i = 0; i < count; i++) {
+            if (clients[i] != ignore && findClient(clients[i]) == nullptr) {
+                YFrameClient* client = allocateClient(clients[i], false);
                 if (client) {
                     manageClient(client);
                     if (client->getFrame() == nullptr) {
@@ -1136,6 +1139,7 @@ void YWindowManager::manageClients() {
             }
         }
     }
+    sheet.hide();
 
     setWmState(wmRUNNING);
     ungrabServer();

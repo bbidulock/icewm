@@ -120,10 +120,9 @@ Window DockApp::savewin() {
 }
 
 bool DockApp::isChild(Window window) {
-    Window rp;
     unsigned count = 0;
     xsmart<Window> child;
-    if (XQueryTree(xapp->display(), handle(), &rp, &rp, &child, &count)) {
+    if (xapp->children(handle(), &child, &count)) {
         for (unsigned i = 0; i < count; ++i) {
             if (window == child[i]) {
                 return true;
