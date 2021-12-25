@@ -1328,6 +1328,12 @@ Window YXApplication::parent(Window child) const {
     return paren;
 }
 
+bool YXApplication::children(Window win, Window** data, unsigned* num) const {
+    Window rootw;
+    Window paren;
+    return XQueryTree(display(), win, &rootw, &paren, data, num);
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
