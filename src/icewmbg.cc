@@ -683,8 +683,13 @@ void Background::changeBackground(bool force) {
         handleBackground = true;
     }
     if (false == handleBackground) {
-        XSetWindowBackgroundPixmap(display(), window(), None);
+        back = YPixmap::create(1, 1, desktop->depth());
+        Graphics g(back);
+        g.setColorPixel(bPixel);
+        g.drawPoint(0, 0);
+        bPixmap = back->pixmap();
         XSetWindowBackground(display(), window(), bPixel);
+        XSetWindowBackgroundPixmap(display(), window(), bPixmap);
         deleteProperty(_XA_ICEWMBG_IMAGE);
         handleBackground = true;
     }
@@ -719,11 +724,14 @@ void Background::changeBackground(bool force) {
     XFlush(display());
     cache.clear();
 
-    if (false == supportSemitransparency &&
-        backgroundImages.getCount() <= 1 &&
+    if (backgroundImages.getCount() <= 1 &&
         backgroundColors.getCount() <= 1)
     {
-        this->exit(0);
+        XKillClient(display(), AllTemporary);
+        XSetCloseDownMode(display(), RetainTemporary);
+        XSync(display(), False);
+        XCloseDisplay(display());
+        _exit(0);
     }
     // currentBackgroundPixmap = backgroundPixmap;
     currentBackgroundColor = backgroundColor;
