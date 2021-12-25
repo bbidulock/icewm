@@ -101,6 +101,7 @@ YFrameWindow::YFrameWindow(
     fWindowType(wtNormal)
 {
     setStyle(wsOverrideRedirect);
+    setBitGravity(NorthWestGravity);
     setPointer(YWMApp::leftPointer);
     setTitle("Frame");
     setBackground(inactiveBorderBg);
