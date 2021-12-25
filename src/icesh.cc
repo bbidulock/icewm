@@ -81,6 +81,11 @@ static bool tolong(const char* str, long& num, int base = 10) {
     return end && str < end && 0 == *end;
 }
 
+template<class T>
+bool contains(vector<T>& v, T t) {
+    return find(v.begin(), v.end(), t) != v.end();
+}
+
 /******************************************************************************/
 
 class NAtom {
@@ -1241,8 +1246,7 @@ public:
     Confine& xine() { return fConfine; }
 
     bool have(Window window) {
-        return fChildren.end() !=
-            find(fChildren.begin(), fChildren.end(), window);
+        return contains(fChildren, window);
     }
 
     void remove(Window window) {
@@ -1306,6 +1310,7 @@ private:
     void flush();
     void flags();
     void flag(char* arg);
+    bool plus(char* arg);
     void xinit();
     void motif(Window window, char** args, int count);
     void setBorderTitle(int border, int title);
@@ -1336,6 +1341,7 @@ private:
     void queryDockapps();
     void extendClass();
     void extendGroup();
+    void extendPid();
     bool listClients();
     bool listWindows();
     bool listScreens();
@@ -3279,13 +3285,46 @@ void IceSh::extendGroup()
                 leaders.append(lead);
             }
         }
-        YWindowTree clients;
-        clients.getClientList();
-        for (YTreeIter window(clients); window; ++window) {
-            if (windowList.have(window) == false) {
-                Window lead = getGroupLeader(window);
-                if (lead && leaders.have(lead)) {
-                    addWindow(window);
+        if (leaders) {
+            YWindowTree clients;
+            clients.getClientList();
+            for (YTreeIter window(clients); window; ++window) {
+                if (windowList.have(window) == false) {
+                    Window lead = getGroupLeader(window);
+                    if (lead && leaders.have(lead)) {
+                        addWindow(window);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void IceSh::extendPid()
+{
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+    if (windowList) {
+        vector<long> pidset;
+        FOREACH_WINDOW(window) {
+            long pid = *YCardinal(window, ATOM_NET_WM_PID);
+            if (1 < pid && !contains(pidset, pid))
+                pidset.push_back(pid);
+        }
+        if (pidset.size()) {
+            YWindowTree clients;
+            clients.getClientList();
+            for (YTreeIter window(clients); window; ++window) {
+                if (windowList.have(window) == false) {
+                    long pid = *YCardinal(window, ATOM_NET_WM_PID);
+                    if (1 < pid && contains(pidset, pid)) {
+                        windowList.append(window);
+                    }
                 }
             }
         }
@@ -3498,7 +3537,7 @@ void IceSh::flags()
                 arg++;
             flag(arg);
         }
-        else if (argp[0][0] == '+' && strchr("fgrwCT", argp[0][1])) {
+        else if (plus(argp[0])) {
             flag(getArg());
         }
         else {
@@ -3528,6 +3567,11 @@ void IceSh::flags()
         msg(_("No actions specified."));
         throw 1;
     }
+}
+
+bool IceSh::plus(char* arg)
+{
+    return '+' == *arg && strchr("cfgrwCPT", arg[1]);
 }
 
 void IceSh::flag(char* arg)
@@ -3592,6 +3636,10 @@ void IceSh::flag(char* arg)
     }
     if (isOptArg(arg, "+group", "")) {
         extendGroup();
+        return;
+    }
+    if (isOptArg(arg, "+Pid", "")) {
+        extendPid();
         return;
     }
     if (isOptArg(arg, "+Class", "")) {
@@ -3773,7 +3821,7 @@ void IceSh::flag(char* arg)
         MSG(("xinerama %s selected", val));
         filtering = true;
     }
-    else if (isOptArg(arg, "-class", val)) {
+    else if (isOptArg(arg, "-class", val) || isOptArg(arg, "+class", val)) {
         char *wmname = val;
         char *wmclass = nullptr;
         char *p = val;
@@ -3798,10 +3846,19 @@ void IceSh::flag(char* arg)
 
         MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
 
-        if ( ! windowList)
-            windowList.getClientList();
-        windowList.filterByClass(wmname, wmclass);
-        filtering = true;
+        if (*arg == '-') {
+            if ( ! windowList)
+                windowList.getClientList();
+            windowList.filterByClass(wmname, wmclass);
+            filtering = true;
+        }
+        else {
+            YWindowTree tree;
+            tree.getClientList();
+            tree.filterByClass(wmname, wmclass);
+            windowList += tree;
+            selecting = true;
+        }
     }
 #ifdef DEBUG
     else if (strpcmp(arg, "-debug") == 0) {

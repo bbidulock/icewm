@@ -39,10 +39,9 @@ This can be used in scripts and in L<icewm-keys(5)>
 to define your own window management hotkeys.  For example, to
 immediately close all xterm windows do C<icesh -c xterm close>.
 
-There are about ten C<SELECT OPTIONS> to select windows.
-They start with a minus sign '-' or with a plus sign '+'.
-The first starts a new selection. The second adds more
-windows to an existing selection.
+There are a dozen C<SELECT OPTIONS> to select windows.  They start
+with a '-' or a '+'.  The '-' starts a new selection, while the '+'
+adds more windows to an existing selection.
 
 This selection of windows can be reduced by C<FILTER OPTIONS>.
 These remove unwanted windows from the current selection.
@@ -67,7 +66,7 @@ B<icesh> recognizes the following options:
 
 Select options specify the window or windows to which subsequent
 actions apply. If none is given, but an action does require a window,
-then a selection crossbar is invoked to select the desired window
+then a selection crosshair is shown to select the desired window
 interactively. The manager actions do not require window options.
 
 The following options I<select> one or more client windows.
@@ -120,15 +119,29 @@ With a plus sign the window is added to an existing selection.
 
 Selects all windows which are embedded using the I<XEMBED> protocol.
 
+=item B<+c>, B<+class> I<CLASS>
+
+Extend the current selection with client windows that have a
+I<WM_CLASS> property equal to I<CLASS>. This is the resource
+instance and class name.  If I<CLASS> contains a period, only
+windows with exactly the same I<WM_CLASS> property are matched.
+If there is no period, windows of the same class and windows
+of the same instance are selected.
+
 =item B<+C>, B<+Class>
 
 Extend the current selection with client windows that
-have a similar WM_CLASS property, which specifies the
-resource instance and the class name.
+have a I<WM_CLASS> property I<similar> to the already
+selected set of windows.
 
 =item B<-D>, B<-Dockapps>
 
 Selects all Dockapp applications which are managed by icewm.
+
+=item B<+P>, B<+Pid>
+
+Extend the current selection with client windows that have
+the same process identifier as one of the selected windows.
 
 =item B<-T>
 
@@ -144,12 +157,13 @@ implicitly assumed to filter all client windows.
 
 =over
 
-=item B<-c>, B<-class> I<WM_CLASS>
+=item B<-c>, B<-class> I<CLASS>
 
-Filters the set of windows on window manager class, I<WM_CLASS>.  If
-I<WM_CLASS> contains a period, only windows with exactly the same
-I<WM_CLASS> property are matched.  If there is no period, windows of the
-same class and windows of the same instance (aka. I<-name>) are selected.
+Filters the set of windows on their I<WM_CLASS> property.  This is
+the resource instance and class name. If I<CLASS> contains a period,
+only windows with exactly the same I<WM_CLASS> property are matched.
+If there is no period, windows of the same class and windows of the
+same instance (aka. I<-name>) are selected.
 
 =item B<-l>, B<-last>
 
@@ -367,15 +381,17 @@ Show the window on all workspaces.
 
 =item B<unsticky>
 
-Show the window on only one workspace.
+Show the window on just one workspace.
 
 =item B<urgent>
 
-Set the urgent flag.
+Set the urgent flag to flash the task button.
 
 =item B<resize> I<WIDTH> I<HEIGHT>
 
-Resize window to I<WIDTH> by I<HEIGHT> window units.
+Resize window to I<WIDTH> by I<HEIGHT> window units.  For text based
+applications like terminals, a window unit is the size of a single
+character cell.
 
 =item B<sizeto> I<WIDTH> I<HEIGHT>
 
@@ -463,12 +479,12 @@ can be found in the output of C<icesh symbols>.
 
 =item B<setLayer> I<LAYER>
 
-Move the specified window to another I<GNOME window layer>.
-See below for I<LAYER> symbols.
+Move the specified window to another I<window layer>.
+See EXPRESSIONS below for a list of I<LAYER> symbols.
 
 =item B<getLayer>
 
-Print the I<GNOME window layer> for the specified window.
+Print the I<window layer> for the specified window.
 
 =item B<setWorkspace> I<WORKSPACE>
 
@@ -532,8 +548,7 @@ reset with the B<remove> argument. With B<funcs> and B<decor> individual
 fields of this property can be enabled or disabled. If I<FUNCTIONS> or
 I<DECORATIONS> starts with a minus or plus sign then the existing value
 is modified, otherwise it is set to the new value. Note that if C<All>
-is set, then other set fields will be disabled and cleared fields will
-be enabled.
+is set, other set fields are disabled and cleared fields are enabled.
 
 =item B<borderless>
 
@@ -545,17 +560,16 @@ Show the frame borders and title.
 
 =item B<denormal>
 
-Remove the WM_NORMAL_HINTS property, if it exists.
-This lifts font-size restrictions on resizing,
-especially for terminals.
+Remove the WM_NORMAL_HINTS property, if it exists.  This lifts
+font-size restrictions on resizing, especially for terminals.
 
 =item B<prop> I<PROPERTY>
 
-Print the value of property I<PROPERTY> if it is present.
+Print the value of property I<PROPERTY>, if it is present.
 
 =item B<properties>
 
-Print all properties.
+Print all properties and their values.
 
 =item B<frame>
 
@@ -878,7 +892,7 @@ Move all windows on workspace "Top" to the current workspace.
 Restore all hidden clients, minimize all clients on the current
 workspace and activate Firefox.
 
-    icesh -S hidden restore -a -W "this" minimize -a -c Firefox activate
+    icesh -N HIDDEN restore -a -W "this" minimize -a -c Firefox activate
 
 Resize the focused window to occupy the right half of the desktop area.
 
