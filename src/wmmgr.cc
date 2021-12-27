@@ -1158,9 +1158,10 @@ void YWindowManager::manageClients() {
     if (getFocus() == nullptr) {
         focusTopWindow();
     }
-    for (YFrameIter frame = fCreationOrder.iterator(); ++frame; ) {
-        if (frame->isIconic()) {
-            frame->getMiniIcon()->show();
+    for (MiniIcon* icon : MiniIcon::fIcons) {
+        if (icon->getFrame()->isIconic()) {
+            icon->lower();
+            icon->show();
         }
     }
 }
