@@ -149,10 +149,15 @@ void MiniIcon::updatePosition() {
     }
 }
 
+void MiniIcon::stack() {
+    YWindow* sup = manager->bottomLayer();
+    return sup ? beneath(sup) : lower();
+}
+
 void MiniIcon::show() {
     updatePosition();
     if (x() != -1 || y() != -1) {
-        beneath(manager->bottomLayer());
+        stack();
         YWindow::show();
     }
 }
@@ -206,7 +211,7 @@ bool MiniIcon::handleBeginDrag(const XButtonEvent& d, const XMotionEvent& m) {
 }
 
 void MiniIcon::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u) {
-    beneath(manager->bottomLayer());
+    stack();
 }
 
 void MiniIcon::handleDrag(const XButtonEvent &down, const XMotionEvent &motion) {

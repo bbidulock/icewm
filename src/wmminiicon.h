@@ -37,6 +37,7 @@ private:
     Window fIconWindow;
     YRect fIconGeometry;
 
+    void stack();
     YFrameClient* client() const;
     bool acceptableDimensions(unsigned w, unsigned h) const;
 };
