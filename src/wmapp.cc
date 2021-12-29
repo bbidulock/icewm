@@ -946,13 +946,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     } else if (action == actionFocusCustom) {
         setFocusMode(FocusCustom);
     } else if (action == actionRefresh) {
-        osmart<YWindow> w(new YWindow());
-        if (w) {
-            w->setGeometry(desktop->geometry());
-            w->raise();
-            w->show();
-            w->hide();
-        }
+        refreshDesktop();
     } else if (action == actionAbout) {
         if (aboutDlg == nullptr)
             aboutDlg = new AboutDlg(this);
@@ -1909,6 +1903,33 @@ void YWMApp::handleSMAction(WMAction message) {
     for (auto p : pairs)
         if (message == p.left)
             return actionPerformed(p.right);
+}
+
+void YWMApp::refreshDesktop() {
+    YWindow* w = new YWindow;
+    Window handle = None;
+    long mask = 0xFFFFFF;
+
+    for (int i = 0; i <= 2 && w; ++i) {
+        if (i == 0) {
+            w->setStyle(YWindow::wsOverrideRedirect | YWindow::wsDesktopAware);
+            w->setGeometry(desktop->geometry());
+            handle = w->handle();
+            XSelectInput(display(), handle, mask);
+            w->raise();
+            w->show();
+        }
+        else if (i == 1) {
+            w->setTitle("IceRefresh");
+        }
+        else if (i == 2) {
+            delete w; w = nullptr;
+        }
+        sync();
+        XEvent event;
+        while (XCheckWindowEvent(display(), handle, mask, &event)) {
+        }
+    }
 }
 
 class SplashWindow : public YWindow {

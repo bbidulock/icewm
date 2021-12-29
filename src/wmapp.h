@@ -107,6 +107,7 @@ public:
     YMenu* getWindowMenu();
     void subdirs(const char* subdir, bool themeOnly, MStringArray& paths);
     void unregisterProtocols();
+    void refreshDesktop();
 
 private:
     char** mainArgv;
