@@ -150,8 +150,7 @@ void MiniIcon::updatePosition() {
 }
 
 void MiniIcon::stack() {
-    YWindow* sup = manager->bottomLayer();
-    return sup ? beneath(sup) : lower();
+    beneath(manager->bottomWindow());
 }
 
 void MiniIcon::show() {
@@ -185,7 +184,7 @@ void MiniIcon::handleClick(const XButtonEvent &up, int /*count*/) {
     }
     else if (up.button == Button1) {
         if (up.state & xapp->AltMask) {
-            lower();
+            stack();
         } else {
             if (!(up.state & ControlMask))
                 getFrame()->wmRaise();

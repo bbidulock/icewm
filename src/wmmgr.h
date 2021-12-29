@@ -138,6 +138,7 @@ public:
     void setTop(long layer, YFrameWindow *top);
     YFrameWindow *bottom(long layer) const;
     void setBottom(long layer, YFrameWindow *bottom);
+    YWindow* bottomWindow() const { return fBottom; }
 
     YFrameWindow *topLayer(long layer = WinLayerCount - 1);
     YFrameWindow *bottomLayer(long layer = 0);
@@ -365,6 +366,7 @@ private:
     WindowPosState *fArrangeInfo;
     YProxyWindow *rootProxy;
     YWindow *fTopWin;
+    YWindow *fBottom;
     int fCascadeX;
     int fCascadeY;
     int fIconColumn;

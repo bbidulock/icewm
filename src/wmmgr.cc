@@ -123,6 +123,12 @@ YWindowManager::YWindowManager(
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
     fTopWin->setTitle("IceTopWin");
     fTopWin->show();
+
+    fBottom = new YWindow();
+    fBottom->setStyle(wsOverrideRedirect | wsInputOnly);
+    fBottom->setGeometry(YRect(-1, -1, 1, 1));
+    fBottom->setTitle("IceBottom");
+
     if (edgeHorzWorkspaceSwitching) {
         edges += new EdgeSwitch(this, -1, false);
         edges += new EdgeSwitch(this, +1, false);
@@ -141,6 +147,7 @@ YWindowManager::~YWindowManager() {
         delete [] fWorkArea;
     }
     delete fTopWin;
+    delete fBottom;
     delete rootProxy;
     delete fSwitchWindow;
     delete fDockApp;
@@ -2016,7 +2023,7 @@ void YWindowManager::restackWindows() {
         return;
     }
 
-    YArray<Window> w(10 + focusedCount());
+    YArray<Window> w(12 + focusedCount());
 
     w.append(fTopWin->handle());
 
@@ -2059,12 +2066,11 @@ void YWindowManager::restackWindows() {
         }
     }
 
-    if (w.getCount() > 1) {
-        XRestackWindows(xapp->display(), &*w, w.getCount());
+    w.append(fBottom->handle());
+    XRestackWindows(xapp->display(), &*w, w.getCount());
 
-        if (taskBar)
-            taskBar->workspacesRepaint();
-    }
+    if (taskBar)
+        taskBar->workspacesRepaint();
 }
 
 void YWindowManager::getWorkArea(int *mx, int *my, int *Mx, int *My) {
