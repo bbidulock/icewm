@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-16 20:45+0100\n"
-"PO-Revision-Date: 2021-05-14 07:59+0000\n"
+"PO-Revision-Date: 2021-12-30 22:12+0000\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/lt/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3;\n"
-"X-Generator: Weblate 4.6.2\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
 #, fuzzy, c-format
@@ -173,25 +173,23 @@ msgstr ""
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "taisyklės:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modelis:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "išdėstymas:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Bloga parinktis: %s"
+msgstr "parinktys:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "Klaviatūra"
 
 #: src/amailbox.cc:64
 #, c-format
