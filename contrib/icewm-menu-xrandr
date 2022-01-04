@@ -144,6 +144,7 @@ sub parse_edid
     if($blob =~ /00fc00(.*?)0a/)
     {
         my $name=pack("H*", $1);
+        $name =~ s/\0.*//;
         # XXX: not sure about endian, check EDID spec
         #print "moo, $currentEdid is $1 for $curmon aka $name\n";
         $realname{$curmon} = $name.'~'.$curmon;
