@@ -658,6 +658,8 @@ void TaskBar::relayoutNow() {
 void TaskBar::updateFullscreen(bool fullscreen) {
     if (fFullscreen != fullscreen && getFrame()) {
         fFullscreen = fullscreen;
+        if (fullscreen && getFrame()->getRequestedLayer() == WinLayerAboveAll)
+            updateWinLayer();
         fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
     }
 }
