@@ -248,7 +248,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     updateIcon();
     manage();
     manager->appendCreatedFrame(this);
-    bool isRunning = manager->wmState() == YWindowManager::wmRUNNING;
+    bool isRunning = manager->isRunning();
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
@@ -1751,9 +1751,8 @@ void YFrameWindow::focus(bool canWarp) {
             newY = int(- borderY());
         setCurrentPositionOuter(newX, newY);
     }
-
     manager->setFocus(this, canWarp);
-    if (raiseOnFocus && manager->wmState() == YWindowManager::wmRUNNING) {
+    if (raiseOnFocus && manager->isRunning()) {
         wmRaise();
     }
 }
@@ -3276,7 +3275,8 @@ void YFrameWindow::setState(int mask, int state) {
     }
     if (deltaState & fNewState & WinStateFullscreen) {
         if (notbit(deltaState & fNewState, WinStateUnmapped)) {
-            activate();
+            if (manager->isRunning())
+                activate();
         }
     }
     if (deltaState & fNewState & WinStateFocused) {
