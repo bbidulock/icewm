@@ -118,7 +118,7 @@ YWindowManager::YWindowManager(
     }
 #endif
 
-    fTopWin = new YWindow();
+    fTopWin = new YTopWindow();
     fTopWin->setStyle(wsOverrideRedirect | wsInputOnly);
     fTopWin->setGeometry(YRect(-1, -1, 1, 1));
     fTopWin->setTitle("IceTopWin");
@@ -971,18 +971,19 @@ YFrameClient *YWindowManager::findClient(Window win) {
 }
 
 void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
-    YFrameClient *c = f ? f->client() : nullptr;
+    YFrameClient* c = nullptr;
     Window w = None;
 
     if (focusLocked())
         return;
     MSG(("SET FOCUS f=%p", f));
 
-    if (f == nullptr) {
-        switchFocusFrom(getFocus());
+    if (f == nullptr || (fFocusWin && fFocusWin->visible() == false)) {
+        switchFocusFrom(fFocusWin);
     }
 
     if (f && f->visible()) {
+        c = f->client();
         if (c && c->visible() && f->isMapped())
             w = c->handle();
         else
@@ -1009,7 +1010,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 #endif
 
-    bool focusUnset(fFocusWin == nullptr);
+    bool focusUnset(fFocusWin == nullptr || fFocusWin->visible() == false);
     if (w != None) {
         if (f->getInputFocusHint()) {
             XSetInputFocus(xapp->display(), w, RevertToNone,
@@ -1021,6 +1022,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
         XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
                        xapp->getEventTime("setFocus"));
         notifyActive(nullptr);
+        fTopWin->setFrame(f);
+    } else {
+        fTopWin->setFrame(nullptr);
     }
 
     if (c &&
@@ -1720,10 +1724,11 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
             frame->activateWindow(true);
             if (canManualPlace && opaqueMove)
                 frame->wmMove();
-        } else if (requestFocus) {
+        } else {
             if (mapInactiveOnTop)
                 frame->wmRaise();
-            frame->setWmUrgency(true);
+            if (requestFocus && frame->avoidFocus() == false)
+                frame->setWmUrgency(true);
         }
         if (switchWindowVisible())
             fSwitchWindow->createdFrame(frame);
@@ -3637,6 +3642,86 @@ void YWindowManager::raiseFocusFrame(YFrameWindow* frame) {
         fFocusedOrder.remove(frame);
         fFocusedOrder.append(frame);
     }
+}
+
+YTopWindow::YTopWindow() : YWindow(), fFrame(nullptr), fHandle(None) {
+}
+
+void YTopWindow::setFrame(YFrameWindow* frame) {
+    fFrame = frame;
+    fHandle = frame ? frame->handle() : None;
+}
+
+bool YTopWindow::handleKey(const XKeyEvent& key) {
+    if (key.type == KeyPress &&
+        manager->netActiveWindow() == None &&
+        fHandle && fFrame && fFrame->visible() &&
+        windowContext.find(fHandle) == fFrame &&
+        xapp->AltMask)
+    {
+        YFrameWindow* f = fFrame;
+        KeySym k = keyCodeToKeySym(key.keycode);
+        unsigned m = KEY_MODMASK(key.state);
+        unsigned vm = VMod(m);
+
+        if (gKeyWinClose.eq(k, vm)) {
+            f->actionPerformed(actionClose);
+        }
+        else if (gKeyWinPrev.eq(k, vm)) {
+            f->wmPrevWindow();
+        }
+        else if (gKeyWinMaximizeVert.eq(k, vm)) {
+            f->actionPerformed(actionMaximizeVert);
+        }
+        else if (gKeyWinMaximizeHoriz.eq(k, vm)) {
+            f->actionPerformed(actionMaximizeHoriz);
+        }
+        else if (gKeyWinRaise.eq(k, vm)) {
+            f->actionPerformed(actionRaise);
+        }
+        else if (gKeyWinOccupyAll.eq(k, vm)) {
+            f->actionPerformed(actionOccupyAllOrCurrent);
+        }
+        else if (gKeyWinLower.eq(k, vm)) {
+            f->actionPerformed(actionLower);
+        }
+        else if (gKeyWinRestore.eq(k, vm)) {
+            f->actionPerformed(actionRestore);
+        }
+        else if (gKeyWinNext.eq(k, vm)) {
+            f->wmNextWindow();
+        }
+        else if (gKeyWinMove.eq(k, vm)) {
+            f->actionPerformed(actionMove);
+        }
+        else if (gKeyWinSize.eq(k, vm)) {
+            f->actionPerformed(actionSize);
+        }
+        else if (gKeyWinMinimize.eq(k, vm)) {
+            f->actionPerformed(actionMinimize);
+        }
+        else if (gKeyWinMaximize.eq(k, vm)) {
+            f->actionPerformed(actionMaximize);
+        }
+        else if (gKeyWinHide.eq(k, vm)) {
+            f->actionPerformed(actionHide);
+        }
+        else if (gKeyWinRollup.eq(k, vm)) {
+            f->actionPerformed(actionRollup);
+        }
+        else if (gKeyWinFullscreen.eq(k, vm)) {
+            f->actionPerformed(actionFullscreen);
+        }
+        else if (gKeyWinMenu.eq(k, vm)) {
+            f->popupSystemMenu(this);
+        }
+        else if (f->isIconic() || f->isRollup()) {
+            if ((k == XK_Menu) || (k == XK_F10 && m == ShiftMask)) {
+                f->popupSystemMenu(this);
+            }
+        }
+    }
+    return true;
 }
 
 // vim: set sw=4 ts=4 et:

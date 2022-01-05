@@ -60,6 +60,17 @@ private:
     int count;
 };
 
+class YTopWindow : public YWindow {
+public:
+    YTopWindow();
+    bool handleKey(const XKeyEvent& key) override;
+    void setFrame(YFrameWindow* frame);
+
+private:
+    YFrameWindow* fFrame;
+    Window fHandle;
+};
+
 class YWindowManager:
     private YDesktop,
     private YMsgBoxListener,
@@ -307,6 +318,7 @@ public:
 
     bool switchWindowVisible() const;
     SwitchWindow* getSwitchWindow();
+    Window netActiveWindow() const { return fActiveWindow; }
 
 private:
     struct WindowPosState {
@@ -365,7 +377,7 @@ private:
     int fArrangeCount;
     WindowPosState *fArrangeInfo;
     YProxyWindow *rootProxy;
-    YWindow *fTopWin;
+    YTopWindow *fTopWin;
     YWindow *fBottom;
     int fCascadeX;
     int fCascadeY;
