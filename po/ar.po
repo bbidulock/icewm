@@ -23,17 +23,17 @@ msgstr ""
 #: src/aapm.cc:66
 #, c-format
 msgid "Can't open the APM device %s"
-msgstr "لا يمكن فتح جهاز"
+msgstr "لا يمكن فتح جهاز APM %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr "لا يمكن استخدام جهازAPM٪"
+msgstr "لا يمكن استخدام جهاز APM %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr "تنسيق غير معروف مستخدم من قبل جهاز APM)."
+msgstr "تنسيق غير معروف مستخدم من قبل جهاز APM %s (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -1405,7 +1405,7 @@ msgstr "لا يمكن فتح العرض: %s. يجب تشغيل X وتعيين $D
 #: src/icesh.cc:3483
 #, c-format
 msgid "Unexpected: `%s'."
-msgstr "غير متوقع:٪ s."
+msgstr "غير متوقع: `%s'."
 
 #: src/icesh.cc:3512
 msgid "No windows found."
@@ -1492,9 +1492,9 @@ msgid ""
 msgstr ""
 "\n"
 "خيارات التصحيح:\n"
-"   -v، --valgrind دعنا نشغل \"/ usr / bin / valgrind\" icewm.\n"
+"   -v، --valgrind دعنا نشغل \"/usr/bin/valgrind\" icewm.\n"
 "                       يفحص بدقة إعدام الجليد.\n"
-"   -g، --catchsegv لنشغل \"/ usr / bin / catchsegv\" icewm.\n"
+"   -g، --catchsegv لنشغل \"/usr/bin/catchsegv\" icewm.\n"
 "                       يعطي تتبع عكسي إذا كان icewm segfaults.\n"
 
 #: src/icesm.cc:188
@@ -2364,7 +2364,7 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
-"فشل العميل في الاستجابة.\n"
+"فشل العميل في الاستجابة %s PID %ld.\n"
 "هل ترغب في إنهاء هذا العميل؟\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
@@ -2449,7 +2449,7 @@ msgstr "خطأ في %s '%s'"
 #: src/wmmenu.cc:222
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "قائمة أساسية غير متوقعة"
+msgstr "قائمة أساسية غير متوقعة: `%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2459,7 +2459,7 @@ msgstr "خطأ في menuprog %s"
 #: src/wmmenu.cc:320
 #, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "خطأ في"
+msgstr "خطأ في menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
@@ -2468,7 +2468,7 @@ msgstr "وسيطة اسم الملف لتضمين العبارة غير موجو
 #: src/wmmenu.cc:365
 #, c-format
 msgid "Error at includeprog '%s'"
-msgstr "خطأ في"
+msgstr "خطأ في '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2487,7 +2487,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr "نفد وقته :"
+msgstr "نفد وقته : '%s'"
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2519,7 +2519,7 @@ msgstr "حفظ التعديلات"
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr "أدخل قيمة جديدة "
+msgstr "أدخل قيمة جديدة %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2700,7 +2700,7 @@ msgstr "%s: فشل التحديد"
 #: src/ycolor.cc:229 src/ycolor.cc:240
 #, c-format
 msgid "Could not parse color \"%s\""
-msgstr "تعذر تحليل اللون"
+msgstr "تعذر تحليل اللون %s."
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2852,12 +2852,12 @@ msgstr "لم يتم تمكين دعم صور JPEG"
 #: src/yximage.cc:171
 #, c-format
 msgid "Unsupported file format: %s"
-msgstr "تنسيق ملف غير معتمد"
+msgstr "واجهة غير مدعومة: %s."
 
 #: src/yximage.cc:175 src/yximage.cc:198
 #, c-format
 msgid "Could not load image \"%s\""
-msgstr "تعذر تحميل الصورة"
+msgstr "لا يمكن العثور على الصورة %s"
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "فشل تحميل الخط الاحتياطي %s."
