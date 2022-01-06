@@ -860,6 +860,11 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                 fAutoRaiseTimer->disableTimerListener(this);
             }
         }
+    } else if (crossing.type == LeaveNotify &&
+               crossing.mode == NotifyNormal &&
+               crossing.detail == NotifyNonlinearVirtual) {
+        if (fDelayFocusTimer)
+            fDelayFocusTimer->disableTimerListener(this);
     }
 }
 
