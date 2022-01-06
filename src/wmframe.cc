@@ -1587,6 +1587,8 @@ void YFrameWindow::loseWinFocus() {
 
         if (hasState(WinStateFocused)) {
             setState(WinStateFocused | WinStateUrgent, 0);
+        } else {
+            updateLayer();
         }
         if (true || !clientMouseActions)
             if (focusOnClickClient || raiseOnClickClient)
@@ -3252,11 +3254,6 @@ void YFrameWindow::setState(int mask, int state) {
     updateLayout();
     updateState();
     updateLayer();
-    if (hasbit(fOldState | fNewState, WinStateFullscreen) ||
-        manager->top(WinLayerFullscreen))
-    {
-        manager->updateFullscreenLayer();
-    }
     manager->unlockWorkArea();
 
     if (hasbit(deltaState, WinStateRollup | WinStateMinimized)) {

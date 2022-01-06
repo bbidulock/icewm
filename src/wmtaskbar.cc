@@ -655,7 +655,10 @@ void TaskBar::relayoutNow() {
     }
 }
 
-void TaskBar::updateFullscreen(bool fullscreen) {
+void TaskBar::updateFullscreen() {
+    bool fullscreen = manager->getFocus() &&
+                      manager->getFocus()->isFullscreen() &&
+                      manager->getFocus()->visible();
     if (fFullscreen != fullscreen && getFrame()) {
         fFullscreen = fullscreen;
         if (fullscreen && getFrame()->getRequestedLayer() == WinLayerAboveAll)
@@ -800,6 +803,9 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
         } else {
             if (ahwm_hack) {
                 fEdgeTrigger->startTimer();
+                if (manager->getFocus() == getFrame()) {
+                    manager->focusLastWindow();
+                }
             }
         }
     }
@@ -933,11 +939,11 @@ void TaskBar::popupWindowListMenu() {
 
 bool TaskBar::autoTimer(bool doShow) {
     MSG(("hide taskbar"));
+    updateFullscreen();
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
         getFrame()->focus();
         manager->switchFocusTo(getFrame(), true);
-        manager->updateFullscreenLayer();
     }
     if (taskBarAutoHide) {
         fIsHidden = !doShow && !hasPopup();

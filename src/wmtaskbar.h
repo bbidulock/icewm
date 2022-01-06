@@ -114,7 +114,7 @@ public:
 
     bool hidden() const { return fIsCollapsed | fIsHidden | !getFrame(); }
     bool autoTimer(bool show);
-    void updateFullscreen(bool fullscreen);
+    void updateFullscreen();
     Window edgeTriggerWindow() { return fEdgeTrigger->handle(); }
     void switchToPrev();
     void switchToNext();

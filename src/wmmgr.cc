@@ -1062,7 +1062,6 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 
     MSG(("SET FOCUS END"));
-    updateFullscreenLayer();
 }
 
 YFrameWindow *YWindowManager::top(long layer) const {
@@ -1622,7 +1621,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
     MSG(("initial geometry 1 (%d:%d %dx%d)", cx, cy, cw, ch));
 
     YRestackLock restack;
-    updateFullscreenLayerEnable(false);
+    setFullscreenEnabled(false);
 
     YFrameWindow* frame = allocateFrame(client);
     if (frame == nullptr) {
@@ -1733,7 +1732,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
         if (switchWindowVisible())
             fSwitchWindow->createdFrame(frame);
     }
-    updateFullscreenLayerEnable(true);
+    setFullscreenEnabled(true);
 }
 
 void YWindowManager::mapClient(Window win) {
@@ -2007,21 +2006,6 @@ void YWindowManager::removeLayeredFrame(YFrameWindow *frame) {
     fLayeredUpdated = true;
 }
 
-void YWindowManager::updateFullscreenLayerEnable(bool enable) {
-    fFullscreenEnabled = enable;
-    updateFullscreenLayer();
-}
-
-void YWindowManager::updateFullscreenLayer() { /// HACK !!!
-    for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
-        if (w->getActiveLayer() == WinLayerFullscreen || w->isFullscreen()) {
-            w->updateLayer();
-        }
-    }
-    if (taskBar)
-        taskBar->updateFullscreen(getFocus() && getFocus()->isFullscreen());
-}
-
 void YWindowManager::restackWindows() {
     if (fRestackLock) {
         fRestackUpdate++;
@@ -2074,8 +2058,10 @@ void YWindowManager::restackWindows() {
     w.append(fBottom->handle());
     XRestackWindows(xapp->display(), &*w, w.getCount());
 
-    if (taskBar)
+    if (taskBar) {
         taskBar->workspacesRepaint();
+        taskBar->updateFullscreen();
+    }
 }
 
 void YWindowManager::getWorkArea(int *mx, int *my, int *Mx, int *My) {
