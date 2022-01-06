@@ -253,18 +253,17 @@ void CPUStatus::draw(Graphics& g) {
 
 void CPUStatus::temperature(Graphics& g) {
     if (cpustatusShowAcpiTempInGraph) {
-        char temp[10];
-        getAcpiTemp(temp, sizeof(temp));
+        char temp[50];
+        int len = getAcpiTemp(temp, sizeof(temp));
         g.setColor(fTempColor);
         if (tempFont == null)
             tempFont = tempFontName;
         if (tempFont) {
             g.setFont(tempFont);
-            int h = height();
-            int y = (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
+            int y = (height() - tempFont->height()) / 2 + tempFont->ascent();
             int w = tempFont->textWidth(temp);
             int x = max(0, (int(g.rwidth()) - w) / 2);
-            g.drawChars(temp, 0, 3, x, y);
+            g.drawChars(temp, 0, len, x, y);
         }
     }
 }
