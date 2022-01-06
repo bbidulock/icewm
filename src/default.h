@@ -175,6 +175,7 @@ XIV(int, batteryPollingPeriod,                  10)
 XIV(int, netWorkAreaBehaviour,                  0)
 
 XSV(const char *, acpiIgnoreBatteries,          0)
+XSV(const char *, ignoreThermalZones,           0)
 XSV(const char *, mailBoxPath,                  0)
 XSV(const char *, mailCommand,                  TERM " -name mutt -e mutt")
 XSV(const char *, mailClassHint,                "mutt.XTerm")
@@ -461,6 +462,7 @@ cfoption icewm_preferences[] = {
     OSV("DockApps",                             &dockApps,                       "Support DockApps (right, left, center, down, high, above, below, desktop, or empty to disable). Control with Ctrl+Mouse."),
     OSV("XRRPrimaryScreenName",                 &xineramaPrimaryScreenName,     "screen/output name of the primary screen"),
     OSV("AcpiIgnoreBatteries",                  &acpiIgnoreBatteries,           "List of battery names (directories) in /proc/acpi/battery to ignore. Useful when more slots are built-in, but only one battery is used"),
+    OSV("IgnoreThermalZones",                   &ignoreThermalZones,            "List of thermal zone types, from /sys/class/thermal/thermal_zoneX/type, to ignore. Useful when some temp reads block for too long, e.g. iwlwifi"),
 
     OKV("MouseWinMove",                         gMouseWinMove,                  "Mouse binding for window move"),
     OKV("MouseWinSize",                         gMouseWinSize,                  "Mouse binding for window resize"),

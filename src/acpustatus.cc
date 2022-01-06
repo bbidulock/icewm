@@ -431,6 +431,22 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             if (strncmp(dir.entry(), "thermal", 7))
                 continue;
 
+            if (ignoreThermalZones) {
+                snprintf(namebuf, sizeof namebuf,
+                        "/sys/class/thermal/%s/type", dir.entry());
+                auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
+                if (len > 0) {
+                    // Trim newline, if it exists.
+                    if (buf[len - 1] == '\n') {
+                        buf[len - 1] = '\0';
+                    }
+
+                    if (strstr(ignoreThermalZones, buf)) {
+                        continue;
+                    }
+                }
+            }
+
             snprintf(namebuf, sizeof namebuf,
                     "/sys/class/thermal/%s/temp", dir.entry());
             auto len = filereader(namebuf).read_all(BUFNSIZE(buf));

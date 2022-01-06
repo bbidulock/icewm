@@ -689,6 +689,11 @@ Screen/output name of the primary screen.
 List of battery names (directories) in /proc/acpi/battery to ignore.
 Useful when more slots are built-in, but only one battery is used.
 
+=item B<IgnoreThermalZones>=""
+
+List of thermal zone types, from /sys/class/thermal_zoneX/type to ignore.
+Useful when some thermal zones block for too long when the temp is read.
+
 =item B<TaskBarCPUSamples>=20  [2-1000]
 
 The width of the CPU Monitor applet in pixels.
