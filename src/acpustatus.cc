@@ -252,20 +252,43 @@ void CPUStatus::draw(Graphics& g) {
 }
 
 void CPUStatus::temperature(Graphics& g) {
-    if (cpustatusShowAcpiTempInGraph) {
-        char temp[50];
-        int len = getAcpiTemp(temp, sizeof(temp));
-        g.setColor(fTempColor);
-        if (tempFont == null)
-            tempFont = tempFontName;
-        if (tempFont) {
-            g.setFont(tempFont);
-            int y = (height() - tempFont->height()) / 2 + tempFont->ascent();
-            int w = tempFont->textWidth(temp);
-            int x = max(0, (int(g.rwidth()) - w) / 2);
-            g.drawChars(temp, 0, len, x, y);
-        }
+    if (!cpustatusShowAcpiTempInGraph) {
+        return;
     }
+
+    if (tempFont == null) {
+        tempFont = tempFontName;
+    }
+
+    if (!tempFont) {
+        return;
+    }
+
+    char temp[32];
+    int tw = tempFont->textWidth("99");
+    int sw = tempFont->textWidth(" ");
+
+    if (tw + sw <= 0) {
+        return;
+    }
+
+    int max_temps = (int(g.rwidth()) + sw) / (tw + sw);
+
+    if (max_temps <= 0) {
+        return;
+    }
+
+    // Assuming temps under 100 C for space fit purposes.
+    int n_chars = 3 * max_temps - 1;
+    int filllen = min(int(sizeof(temp)), n_chars + 1);
+
+    int len = getAcpiTemp(temp, filllen, false);
+    int y = (height() - tempFont->height()) / 2 + tempFont->ascent();
+    int x = max(0, (int(g.rwidth()) - len * sw) / 2);
+
+    g.setColor(fTempColor);
+    g.setFont(tempFont);
+    g.drawChars(temp, 0, len, x, y);
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
@@ -314,7 +337,7 @@ void CPUStatus::updateToolTip() {
             char *posEx = pos;
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
-            more = getAcpiTemp(pos, rest);
+            more = getAcpiTemp(pos, rest, true);
             if (more)
             {
               ___checkspace;
@@ -416,11 +439,13 @@ void CPUStatus::updateStatus() {
     repaint();
 }
 
-int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
+int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool longform) {
     int retbuflen = 0;
 #if __linux__
     char namebuf[300];
     char buf[64];
+
+    bool needspace = false;
 
     memset(tempbuf, 0, buflen);
 
@@ -430,26 +455,44 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
             if (strncmp(dir.entry(), "thermal", 7))
                 continue;
 
+            if (!longform) {
+                snprintf(namebuf, sizeof namebuf,
+                        "/sys/class/thermal/%s/type", dir.entry());
+                auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
+
+                if (len && strstr(buf, "iwlwifi")) {
+                    continue;
+                }
+            }
+
             snprintf(namebuf, sizeof namebuf,
                     "/sys/class/thermal/%s/temp", dir.entry());
             auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
             if (len > 4) {
+                // Remove the milligrades and newline.
                 int seglen = len - 4;
-                if (retbuflen + seglen + 4 >= buflen) {
+                int extra = longform ? 3 : 1;
+                if (needspace) extra++;
+                if (retbuflen + seglen + extra > buflen) {
                     break;
+                }
+                if (needspace) {
+                    tempbuf[retbuflen++] = ' ';
                 }
                 strncat(tempbuf + retbuflen, buf, seglen);
                 retbuflen += seglen;
-                tempbuf[retbuflen++] = '.';
-                tempbuf[retbuflen++] = buf[seglen];
-                tempbuf[retbuflen++] = ' ';
+                if (longform) {
+                    tempbuf[retbuflen++] = '.';
+                    tempbuf[retbuflen++] = buf[seglen];
+                }
                 tempbuf[retbuflen] = '\0';
+                needspace = true;
             }
         }
-        if (1 < retbuflen && retbuflen + 1 < buflen) {
+        if (longform && 1 < retbuflen && retbuflen + 1 < buflen) {
             // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
             // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-            const char* T = _("°C");
+            const char* T = _(" °C");
             int len = int(strlen(T));
             if (retbuflen + len + 1 < buflen) {
                 for (int i = 0; T[i]; ++i)

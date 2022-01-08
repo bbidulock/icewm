@@ -36,7 +36,7 @@ public:
     void updateStatus();
     void getStatus();
     void getStatusPlatform();
-    int getAcpiTemp(char* tempbuf, int buflen);
+    int getAcpiTemp(char* tempbuf, int buflen, bool longform);
     float getCpuFreq(int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
