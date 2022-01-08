@@ -252,10 +252,6 @@ void CPUStatus::draw(Graphics& g) {
 }
 
 void CPUStatus::temperature(Graphics& g) {
-    if (!cpustatusShowAcpiTempInGraph) {
-        return;
-    }
-
     if (tempFont == null) {
         tempFont = tempFontName;
     }
@@ -439,11 +435,41 @@ void CPUStatus::updateStatus() {
     repaint();
 }
 
+signed char CPUStatus::tzPriority(const char *tz_type) {
+    // tz_type must be a null terminated string.
+    // High numbers are preferred.
+    // Negative numbers are excluded.
+    if (strstr(tz_type, "iwlwifi")) {
+        return -1;
+    }
+
+    if (strstr(tz_type, "x86_pkg_temp")) {
+        return 3;
+    }
+
+    if (!strncmp(tz_type, "pch_", 4)) {
+        return 2;
+    }
+
+    if (strstr(tz_type, "acpitz")) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool longform) {
     int retbuflen = 0;
 #if __linux__
-    char namebuf[300];
+    char namebuf[128];
     char buf[64];
+
+#define MAXTEMPS 16
+#define MAXTZLEN 16
+
+    signed char priorities[MAXTEMPS];
+    char tzs[MAXTEMPS][MAXTZLEN];
+    int n_tzs = 0;
 
     bool needspace = false;
 
@@ -455,18 +481,50 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool longform) {
             if (strncmp(dir.entry(), "thermal", 7))
                 continue;
 
-            if (!longform) {
-                snprintf(namebuf, sizeof namebuf,
-                        "/sys/class/thermal/%s/type", dir.entry());
-                auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
-
-                if (len && strstr(buf, "iwlwifi")) {
-                    continue;
-                }
+            if (strlen(dir.entry()) >= MAXTZLEN) {
+                continue;
             }
 
             snprintf(namebuf, sizeof namebuf,
-                    "/sys/class/thermal/%s/temp", dir.entry());
+                    "/sys/class/thermal/%s/type", dir.entry());
+            auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
+            if (len) {
+                priorities[n_tzs] = tzPriority(buf);
+                strncpy(tzs[n_tzs++], dir.entry(), MAXTZLEN);
+            }
+            if (n_tzs >= MAXTEMPS) {
+                break;
+            }
+        }
+
+        // Sort thermal zones according to priority.
+        // inds are into tzs.
+        signed char inds[MAXTEMPS];
+        for (int i = 0; i < n_tzs; i++) inds[i] = i;
+        for (int i = 0; i < n_tzs; i++) {
+            signed char best = -1;
+            signed char bestind = -1;
+            for (int j = i; j < n_tzs; j++) {
+                if (bestind < 0 || priorities[j] > best) {
+                    best = priorities[j];
+                    bestind = j;
+                }
+            }
+
+            signed char temp = inds[i];
+            inds[i] = inds[bestind];
+            inds[bestind] = temp;
+            temp = priorities[i];
+            priorities[i] = best;
+            priorities[bestind] = temp;
+        }
+
+        for (int i = 0; i < n_tzs; i++) {
+            if (priorities[i] < 0) {
+                continue;
+            }
+            snprintf(namebuf, sizeof namebuf,
+                    "/sys/class/thermal/%s/temp", tzs[inds[i]]);
             auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
             if (len > 4) {
                 // Remove the milligrades and newline.
@@ -489,14 +547,16 @@ int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool longform) {
                 needspace = true;
             }
         }
-        if (longform && 1 < retbuflen && retbuflen + 1 < buflen) {
+        if (longform && retbuflen > 1) {
             // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
             // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-            const char* T = _(" °C");
+            const char* T = _("°C");
             int len = int(strlen(T));
             if (retbuflen + len + 1 < buflen) {
-                for (int i = 0; T[i]; ++i)
+                tempbuf[retbuflen++] = ' ';
+                for (int i = 0; T[i]; ++i) {
                     tempbuf[retbuflen++] = T[i];
+                }
                 tempbuf[retbuflen] = '\0';
             }
         }

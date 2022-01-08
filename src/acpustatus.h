@@ -36,7 +36,6 @@ public:
     void updateStatus();
     void getStatus();
     void getStatusPlatform();
-    int getAcpiTemp(char* tempbuf, int buflen, bool longform);
     float getCpuFreq(int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
@@ -57,6 +56,8 @@ private:
     void fill(Graphics& g);
     void draw(Graphics& g);
     void temperature(Graphics& g);
+    signed char tzPriority(const char* tz);
+    int getAcpiTemp(char* tempbuf, int buflen, bool longform);
 
     static YFont tempFont;
 };
