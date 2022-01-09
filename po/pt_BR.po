@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-16 20:45+0100\n"
-"PO-Revision-Date: 2021-11-24 18:12+0000\n"
-"Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
+"PO-Revision-Date: 2022-01-09 18:11+0000\n"
+"Last-Translator: Rodrigo Macedo <rmsolucoeseminformatic4@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8.1\n"
+"X-Generator: Weblate 4.9.1\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:66
@@ -171,15 +171,15 @@ msgstr "%s foi aniquilado(a) pelo sinal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "regras:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modelo:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "leiaute:"
 
 #: src/akeyboard.cc:101
 #, fuzzy
@@ -2070,11 +2070,11 @@ msgstr "Ár_ea de Trabalho"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Mão Esquerda"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Mão Direita"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
