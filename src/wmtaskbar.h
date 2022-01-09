@@ -111,7 +111,7 @@ public:
     void relayoutNow();
 
     void detachDesktopTray();
-
+    bool isCollapsed() const { return fIsCollapsed; }
     bool hidden() const { return fIsCollapsed | fIsHidden | !getFrame(); }
     bool autoTimer(bool show);
     void updateFullscreen();
@@ -124,6 +124,7 @@ public:
 
 private:
     void popOut();
+    void obtainFocus();
 
     AddressBar *addressBar() const { return fAddressBar; }
     TaskPane *taskPane() const { return fTasks; }

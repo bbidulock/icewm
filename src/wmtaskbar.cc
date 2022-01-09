@@ -75,7 +75,7 @@ void EdgeTrigger::show(bool enable) {
         YWindow::show();
     } else {
         YWindow::hide();
-        if (enabled) {
+        if (enabled && !fTaskBar->isCollapsed()) {
             startTimer();
         }
     }
@@ -659,9 +659,9 @@ void TaskBar::updateFullscreen() {
     bool fullscreen = manager->getFocus() &&
                       manager->getFocus()->isFullscreen() &&
                       manager->getFocus()->visible();
-    if (fFullscreen != fullscreen && getFrame()) {
+    if (fFullscreen != fullscreen) {
         fFullscreen = fullscreen;
-        if (fullscreen && getFrame()->getRequestedLayer() == WinLayerAboveAll)
+        if (fFullscreen == false)
             updateWinLayer();
         fEdgeTrigger->show((fFullscreen | fIsHidden) && !fIsCollapsed);
     }
@@ -938,21 +938,21 @@ void TaskBar::popupWindowListMenu() {
 }
 
 bool TaskBar::autoTimer(bool doShow) {
-    MSG(("hide taskbar"));
+    MSG(("taskbar timer show=%s full=%s hidden=%s",
+        boolstr(doShow), boolstr(fFullscreen), boolstr(fIsHidden)));
     updateFullscreen();
     if (fFullscreen && doShow && taskBarFullscreenAutoShow) {
         fIsHidden = false;
-        getFrame()->focus();
-        manager->switchFocusTo(getFrame(), true);
+        obtainFocus();
     }
     if (taskBarAutoHide) {
-        fIsHidden = !doShow && !hasPopup();
+        fIsHidden = !doShow && !hasPopup() && manager->getFocus() != getFrame();
         if (taskBarDoubleHeight == false && taskBarShowWindows) {
             fIsHidden &= !(addressBar() && addressBar()->visible());
         }
         updateLocation();
     }
-    return fIsHidden == doShow;
+    return fIsHidden == doShow && taskBarAutoHide && !fIsCollapsed;
 }
 
 void TaskBar::popOut() {
@@ -960,9 +960,10 @@ void TaskBar::popOut() {
         handleCollapseButton();
     }
     if (taskBarAutoHide) {
+        bool hidden = fIsHidden;
         fIsHidden = false;
         updateLocation();
-        fIsHidden = taskBarAutoHide;
+        fIsHidden = hidden;
         if (fEdgeTrigger) {
             MSG(("start hide 4"));
             fEdgeTrigger->startTimer();
@@ -974,11 +975,10 @@ void TaskBar::popOut() {
 void TaskBar::showBar() {
     if (getFrame() == nullptr) {
         manager->manageClient(this);
-        updateWinLayer();
         if (getFrame()) {
             getFrame()->setAllWorkspaces();
             if (enableAddressBar && ::showAddressBar && taskBarDoubleHeight)
-                getFrame()->activate(true);
+                obtainFocus();
             parent()->setTitle("TaskBarFrame");
             getFrame()->updateLayer();
         }
@@ -1070,8 +1070,15 @@ void TaskBar::relayoutTray() {
 
 void TaskBar::showAddressBar() {
     popOut();
-    if (fAddressBar != nullptr)
+    if (fAddressBar) {
+        obtainFocus();
         fAddressBar->showNow();
+    }
+}
+
+void TaskBar::obtainFocus() {
+    getFrame()->focus();
+    manager->switchFocusTo(getFrame(), true);
 }
 
 void TaskBar::setWorkspaceActive(long workspace, bool active) {
