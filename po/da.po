@@ -21,9 +21,9 @@ msgstr ""
 
 #: src/aapm.cc:66
 #, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#| msgid "Could not open APM device %s"
 msgid "Can't open the APM device %s"
-msgstr "Kunne ikke åbne OSS-enhed %s"
+msgstr "Kunne ikke åbne APM-enhed %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format

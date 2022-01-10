@@ -22,9 +22,9 @@ msgstr ""
 
 #: src/aapm.cc:66
 #, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#| msgid "Could not open APM device %s"
 msgid "Can't open the APM device %s"
-msgstr "OSS 장치%s을(를) 열 수 없음"
+msgstr "APM 장치%s을(를) 열 수 없음"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
