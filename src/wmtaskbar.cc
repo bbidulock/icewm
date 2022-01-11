@@ -84,7 +84,8 @@ void EdgeTrigger::show(bool enable) {
 void EdgeTrigger::handleCrossing(const XCrossingEvent &crossing) {
     if (crossing.type == EnterNotify /* && crossing.mode != NotifyNormal */) {
         unsigned long last = YWindow::getLastEnterNotifySerial();
-        if (crossing.serial != last && crossing.serial != last + 1) {
+        if ((crossing.serial != last && crossing.serial != last + 1) ||
+            (crossing.mode == NotifyNormal && crossing.detail == NotifyAncestor)) {
             MSG(("enter notify %d %d", crossing.mode, crossing.detail));
             startTimer(Show);
         }
