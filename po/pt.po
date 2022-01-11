@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2021-12-16 20:45+0100\n"
-"PO-Revision-Date: 2021-12-21 19:12+0000\n"
+"PO-Revision-Date: 2022-01-11 15:12+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -310,7 +310,7 @@ msgstr "Utilizador: "
 
 #: src/amemstatus.cc:262
 msgid "MEM"
-msgstr "MEMÓRIA"
+msgstr "MEM"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -325,7 +325,7 @@ msgstr ""
 "  Taxa atual (entrada/saída):\t%li %s/%li %s\n"
 "  Média atual (entrada/saída):\t%lli %s/%lli %s\n"
 "  Transferido (entrada/saída):\t%lli %s/%lli %s\n"
-"  Tempo de conexão:\t%ld:%02ld:%02ld%s%s"
+"  Tempo de ligação:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
@@ -333,7 +333,7 @@ msgstr "desligado"
 
 #: src/apppstatus.cc:284
 msgid "down"
-msgstr "abaixo"
+msgstr "em baixo"
 
 #: src/apppstatus.cc:705
 msgid "NET"
