@@ -33,6 +33,7 @@ MiniIcon::MiniIcon(YFrameWindow *frame):
 {
     setStyle(wsOverrideRedirect | wsBackingMapped);
     setSize(YIcon::hugeSize(), YIcon::hugeSize());
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DESKTOP);
     setTitle("MiniIcon");
     setPosition(-1, -1);
 

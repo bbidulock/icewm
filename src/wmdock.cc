@@ -85,6 +85,7 @@ bool DockApp::setup() {
     unsigned char wmClassName[] = "icedock\0IceWM";
     XChangeProperty(xapp->display(), handle(), XA_WM_CLASS, XA_STRING, 8,
                     PropModeReplace, wmClassName, sizeof(wmClassName));
+    setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DOCK);
     if (intern == None) {
         intern = xapp->atom(propertyName);
     }
