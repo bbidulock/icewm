@@ -1147,12 +1147,8 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
     case actionLayerAboveAll:
         {
             int layer = (action.ident() - actionLayerDesktop) / 2;
-            bool isFull = isFullscreen() && manager->fullscreenEnabled();
-            if (isFull)
-                manager->setFullscreenEnabled(false);
+            YFullscreenLock full;
             wmSetLayer(layer);
-            if (isFull)
-                manager->setFullscreenEnabled(true);
         }
         break;
     default:
@@ -1765,6 +1761,12 @@ void YFrameWindow::focus(bool canWarp) {
 }
 
 void YFrameWindow::activate(bool canWarp, bool curWork) {
+    YFrameWindow* focused = manager->getFocus();
+    if (focused && focused != this && focused->isFullscreen()) {
+        YFullscreenLock full;
+        focused->updateLayer();
+    }
+
     manager->lockFocus();
     if ( ! visibleNow()) {
         if (focusCurrentWorkspace && curWork)

@@ -1621,7 +1621,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
     MSG(("initial geometry 1 (%d:%d %dx%d)", cx, cy, cw, ch));
 
     YRestackLock restack;
-    setFullscreenEnabled(false);
+    YFullscreenLock full;
 
     YFrameWindow* frame = allocateFrame(client);
     if (frame == nullptr) {
@@ -1732,7 +1732,6 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
         if (switchWindowVisible())
             fSwitchWindow->createdFrame(frame);
     }
-    setFullscreenEnabled(true);
 }
 
 void YWindowManager::mapClient(Window win) {
