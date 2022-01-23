@@ -279,6 +279,11 @@ void CPUStatus::temperature(Graphics& g) {
     int filllen = min(int(sizeof(temp)), n_chars + 1);
 
     int len = getAcpiTemp(temp, filllen, false);
+
+    if (len <= 0) {
+        return;
+    }
+
     int y = (height() - tempFont->height()) / 2 + tempFont->ascent();
     int x = max(0, (int(g.rwidth()) - len * sw) / 2);
 
@@ -439,20 +444,15 @@ signed char CPUStatus::tzPriority(const char *tz_type) {
     // tz_type must be a null terminated string.
     // High numbers are preferred.
     // Negative numbers are excluded.
-    if (strstr(tz_type, "iwlwifi")) {
+    if (!strncmp(tz_type, "iwlwifi", 7)) {
         return -1;
     }
 
-    if (strstr(tz_type, "x86_pkg_temp")) {
-        return 3;
-    }
-
-    if (!strncmp(tz_type, "pch_", 4)) {
-        return 2;
-    }
-
-    if (strstr(tz_type, "acpitz")) {
-        return 1;
+    const char* tzs[] = { "x86_pkg_temp", "pch_", "acpitz" };
+    for (int i = 0; i < 3; i++) {
+        if (!strncmp(tz_type, tzs[i], strlen(tzs[i]))) {
+            return 3 - i;
+        }
     }
 
     return 0;
