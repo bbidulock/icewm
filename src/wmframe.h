@@ -160,6 +160,7 @@ public:
     void removeFrame();
     bool setAbove(YFrameWindow *aboveFrame);
     bool setBelow(YFrameWindow *belowFrame);
+    bool isBefore(YFrameWindow* afterFrame);
 
     enum FindWindowFlags {
         fwfVisible    = 1 << 0, // visible windows only

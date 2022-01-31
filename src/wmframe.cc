@@ -1760,11 +1760,23 @@ void YFrameWindow::focus(bool canWarp) {
     }
 }
 
+bool YFrameWindow::isBefore(YFrameWindow* afterFrame) {
+    YFrameWindow* p = next();
+    while (p && p != afterFrame)
+        p = p->next();
+    return p;
+}
+
 void YFrameWindow::activate(bool canWarp, bool curWork) {
     YFrameWindow* focused = manager->getFocus();
     if (focused && focused != this && focused->isFullscreen()) {
         YFullscreenLock full;
         focused->updateLayer();
+        if (focused->isBefore(this)) {
+            if (focused->setBelow(this)) {
+                focused->beneath(this);
+            }
+        }
     }
 
     manager->lockFocus();
