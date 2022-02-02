@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-02-01 19:12+0000\n"
+"PO-Revision-Date: 2022-02-02 03:11+0000\n"
 "Last-Translator: marcelo cripe <marcelocripe@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -2732,12 +2732,12 @@ msgstr "O argumento %s não é válido para %s [%d,%d]"
 #: src/ycursor.cc:110
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "O carregamento do pixmap \"%s\" falhou: %s"
+msgstr "O carregamento da imagem pixmap \"%s\" falhou: %s"
 
 #: src/ycursor.cc:135
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "O carregamento do pixmap \"%s\" falhou"
+msgstr "O carregamento da imagem pixmap \"%s\" falhou"
 
 #: src/ycursor.cc:179
 #, c-format
