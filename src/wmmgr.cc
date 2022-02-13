@@ -1753,6 +1753,13 @@ void YWindowManager::mapClient(Window win) {
             if (client->getFrame() == nullptr) {
                 delete client;
             }
+            else {
+                YFrameWindow* f = client->getFrame();
+                if (f->isFullscreen() && f == getFocus() &&
+                    f->getActiveLayer() != WinLayerFullscreen) {
+                    f->updateLayer();
+                }
+            }
         }
 
         ungrabServer();
