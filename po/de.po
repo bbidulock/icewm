@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-01-08 23:11+0000\n"
-"Last-Translator: Sarah Kriesch <ada.lovelace@gmx.de>\n"
-"Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/de/>\n"
+"PO-Revision-Date: 2022-02-16 12:12+0000\n"
+"Last-Translator: Gemineo <vistatec@gemineo.de>\n"
+"Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,14 +26,14 @@ msgid "Can't open the APM device %s"
 msgstr "Konnte APM-Gerät %s nicht öffnen"
 
 #: src/aapm.cc:74 src/aapm.cc:92
-#, c-format
+#, c-format, fuzzy
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "APM-Gerät %s kann nicht über ioctl gesteuert werden"
 
 #: src/aapm.cc:122
-#, c-format
+#, c-format, fuzzy
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Unbekanntes Format von APM-Gerät %s (%d) verwendet."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -169,26 +169,30 @@ msgid "%s was killed by signal %d."
 msgstr "%s wurde durch Signal %d getötet."
 
 #: src/akeyboard.cc:98
+#, fuzzy
 msgid "rules:"
-msgstr ""
+msgstr "Regeln:"
 
 #: src/akeyboard.cc:99
+#, fuzzy
 msgid "model:"
-msgstr ""
+msgstr "Modell:"
 
 #: src/akeyboard.cc:100
+#, fuzzy
 msgid "layout:"
-msgstr ""
+msgstr "Layout:"
 
 #: src/akeyboard.cc:101
 #, fuzzy
 #| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Schlechte Option: %s"
+msgstr "Optionen:"
 
 #: src/akeyboard.cc:151
+#, fuzzy
 msgid "Keyboard"
-msgstr ""
+msgstr "Tastatur"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -1069,22 +1073,25 @@ msgid "Index"
 msgstr "Index"
 
 #: src/icehelp.cc:1337
+#, fuzzy
 msgid "Find..."
-msgstr ""
+msgstr "Suchen..."
 
 #: src/icehelp.cc:1337
 #, fuzzy
 #| msgid "Ctrl+B"
 msgid "Ctrl+F"
-msgstr "Strg+B"
+msgstr "Strg+F"
 
 #: src/icehelp.cc:1338
+#, fuzzy
 msgid "Find next"
-msgstr ""
+msgstr "Weitersuchen"
 
 #: src/icehelp.cc:1338
+#, fuzzy
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
 msgid "Open in Browser"
@@ -2064,40 +2071,49 @@ msgid "D_esktop"
 msgstr "D_esktop"
 
 #: src/wmapp.cc:564
+#, fuzzy
 msgid "Left Half"
-msgstr ""
+msgstr "Linke Hälfte"
 
 #: src/wmapp.cc:565
+#, fuzzy
 msgid "Right Half"
-msgstr ""
+msgstr "Rechte Hälfte"
 
 #: src/wmapp.cc:566
+#, fuzzy
 msgid "Top Half"
-msgstr ""
+msgstr "Obere Hälfte"
 
 #: src/wmapp.cc:567
+#, fuzzy
 msgid "Bottom Half"
-msgstr ""
+msgstr "Untere Hälfte"
 
 #: src/wmapp.cc:569
+#, fuzzy
 msgid "Top Left"
-msgstr ""
+msgstr "Oben links"
 
 #: src/wmapp.cc:571
+#, fuzzy
 msgid "Top Right"
-msgstr ""
+msgstr "Oben rechts"
 
 #: src/wmapp.cc:573
+#, fuzzy
 msgid "Bottom Left"
-msgstr ""
+msgstr "Unten links"
 
 #: src/wmapp.cc:575
+#, fuzzy
 msgid "Bottom Right"
-msgstr ""
+msgstr "Unten rechts"
 
 #: src/wmapp.cc:577
+#, fuzzy
 msgid "Center"
-msgstr ""
+msgstr "Mitte"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2164,8 +2180,9 @@ msgid "La_yer"
 msgstr "_Ebene"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
+#, fuzzy
 msgid "Tile"
-msgstr ""
+msgstr "Anordnen"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2471,7 +2488,7 @@ msgstr "Fehler bei  %s '%s'"
 #, fuzzy, c-format
 #| msgid "Unknown keyword '%s'"
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Unbekanntes Schlüsselwort '%s'"
+msgstr "Unerwartetes Menüschlüsselwort '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2482,7 +2499,7 @@ msgstr "Fehler bei menuprog '%s'"
 #, fuzzy, c-format
 #| msgid "Error at menuprog '%s'"
 msgid "Error at menuprogreload: '%s'"
-msgstr "Fehler bei menuprog '%s'"
+msgstr "Fehler bei menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
@@ -2492,7 +2509,7 @@ msgstr "Fehlendes Dateinamen-Argument um einen Bericht hinzuzufügen"
 #, fuzzy, c-format
 #| msgid "Error at menuprog '%s'"
 msgid "Error at includeprog '%s'"
-msgstr "Fehler bei menuprog '%s'"
+msgstr "Fehler bei includeprog '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2509,9 +2526,9 @@ msgstr ""
 "Hier wurde entweder 'key' oder 'runonce' erwartet.\n"
 
 #: src/wmmenu.cc:498
-#, c-format
+#, c-format, fuzzy
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "Zeitüberschreitung bei '%s'!"
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2541,9 +2558,9 @@ msgid "Save Modifications"
 msgstr "Änderungen speichern"
 
 #: src/wmpref.cc:178
-#, c-format
+#, c-format, fuzzy
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Geben Sie einen neuen Wert für %s ein: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2725,7 +2742,7 @@ msgstr "%s: Auswahl fehlgeschlagen"
 #, fuzzy, c-format
 #| msgid "Could not load font \"%s\"."
 msgid "Could not parse color \"%s\""
-msgstr "Die Schriftart \"%s\" konnte nicht geladen werden."
+msgstr "Farbe \"%s\" konnte nicht geparst werden"
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2875,23 +2892,24 @@ msgstr ""
 #, fuzzy
 #| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Die Unterstützung für das %s-Interface wurde nicht kompiliert."
+msgstr "Unterstützung für PNG-Bilder wurde nicht aktiviert"
 
 #: src/yximage.cc:165
+#, fuzzy
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Unterstützung für JPEG-Bilder wurde nicht aktiviert"
 
 #: src/yximage.cc:171
 #, fuzzy, c-format
 #| msgid "Unsupported interface: %s."
 msgid "Unsupported file format: %s"
-msgstr "Nicht unterstütztes Interface: %s."
+msgstr "Nicht unterstütztes Dateiformat: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
 #, fuzzy, c-format
 #| msgid "Could not find image %s"
 msgid "Could not load image \"%s\""
-msgstr "Bild %s konnte nicht gefunden werden"
+msgstr "Bild \"%s\" konnte nicht geladen werden"
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "Rückgriff auf die Schriftart \"%s\" ist fehlgeschlagen."
