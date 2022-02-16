@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Chinese (China) (icewm)\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2021-03-30 04:56+0000\n"
+"PO-Revision-Date: 2022-02-16 04:11+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (China) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_CN/>\n"
@@ -12,23 +12,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open APM device %s"
+#, c-format
 msgid "Can't open the APM device %s"
 msgstr "无法打开 APM 设备 %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "无法对 APM 设备 %s 执行 ioctl"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM 设备 %s (%d) 使用了未知格式。"
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -165,25 +164,23 @@ msgstr "%s 由信号 %d 杀掉。"
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "规则："
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "型号："
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "布局："
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "错误的选项: %s"
+msgstr "选项："
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "键盘"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -246,7 +243,7 @@ msgstr "%ld 封邮件信息，%ld 封未读。"
 #: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld 封又见信息，%ld 封未读。"
+msgstr "%ld 封邮件信息，%ld 封未读。"
 
 #: src/amailbox.cc:819
 #, c-format
@@ -1065,21 +1062,19 @@ msgstr "索引"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "查找..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+F"
-msgstr "Ctrl+B"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "查找下一个"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
 msgid "Open in Browser"
@@ -1091,7 +1086,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "重载"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1110,10 +1105,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1132,10 +1125,8 @@ msgid "Manual"
 msgstr "手册"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -1404,10 +1395,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "无法打开显示：%s。 X必须正在执行且设定 $DISPLAY。"
 
 #: src/icesh.cc:3522
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "未期望的菜单关键词：'%s'"
+msgstr "非预期：`%s'。"
 
 #: src/icesh.cc:3551
 msgid "No windows found."
@@ -2037,39 +2027,39 @@ msgstr "桌面(_E)"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "左半边"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "右半边"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "上半边"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "下半边"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "左上方"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "右上方"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "左下方"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "右下方"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "置中"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2137,7 +2127,7 @@ msgstr "分层排序(_Y)"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "平铺"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2212,15 +2202,6 @@ msgstr ""
 "  --debug-z           窗口层叠时打印调试信息。\n"
 
 #: src/wmapp.cc:1540
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2232,12 +2213,13 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -a, --alpha         对半透明使用32位 visual。\n"
+"  -a, --alpha         对半透明使用 32 位视觉对象。\n"
 "  -c, --config=FILE   从 FILE 加载配置文件。\n"
 "  -t, --theme=FILE    从 FILE 加载模板。\n"
-"  -s, --splash=IMAGE  在启动时简要显示 IMAGE.\n"
+"  -s, --splash=IMAGE  在启动时简要显示 IMAGE。\n"
 "  -p, --postpreferences  处理完成后显示配置选项。\n"
-"  --trace=conf,icon   追踪用于加载配置文件的路径。\n"
+"  --rewrite-preferences  更新现有配置选项文件。\n"
+"  --trace=conf,icon   跟踪用于加载配置的路径。\n"
 
 #: src/wmapp.cc:1550
 #, c-format
@@ -2354,6 +2336,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"PID 为 %ld 的客户端 %s 无法响应。\n"
+"是否要终止此客户端？\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2435,10 +2419,9 @@ msgid "Error at %s '%s'"
 msgstr "%s 错误 '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "未知关键字：`%s'"
+msgstr "非预期的菜单关键字：\"%s\""
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2446,20 +2429,18 @@ msgid "Error at menuprog '%s'"
 msgstr "menuprog '%s' 错误"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "menuprog '%s' 错误"
+msgstr "执行 menuprogreload 时出错：\"%s\""
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "包含的声明中缺少文件名参数"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "menuprog '%s' 错误"
+msgstr "对 \"%s\" 执行 includeprog 时出错"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2478,7 +2459,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "\"%s\" 已超时！"
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2510,7 +2491,7 @@ msgstr "保存修改"
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "输入 %s 的新值： "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2689,10 +2670,9 @@ msgid "%s: select failed"
 msgstr "%s：选择失败"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "不能装载字体 “%s”。"
+msgstr "无法解析颜色 \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2832,26 +2812,22 @@ msgstr ""
 "  --sync              同步 X11 命令。\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "接口 %s 未编译支持。"
+msgstr "未启用 PNG 图像支持"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "未启用 JPEG 图像支持"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "不支持的接口：%s。"
+msgstr "不支持的文件格式：%s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "无法找到图片 %s"
+msgstr "无法加载图像 \"%s\""
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "装载备用字体“%s”失败。"
