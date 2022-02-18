@@ -2336,7 +2336,7 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
-"PID 为 %ld 的客户端 %s 无法响应。\n"
+"的客户端 %s 无法响应。PID 为 %ld。\n"
 "是否要终止此客户端？\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
