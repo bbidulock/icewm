@@ -2340,7 +2340,7 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
-"PID 為 %ld 的用戶端 %s 無法回應。\n"
+"的用戶端 %s 無法回應。PID 為 %ld。\n"
 "是否要終止此用戶端？\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
