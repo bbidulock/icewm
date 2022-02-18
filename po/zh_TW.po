@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2021-03-20 11:56+0000\n"
+"PO-Revision-Date: 2022-02-18 13:12+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
@@ -18,23 +18,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open APM device %s"
+#, c-format
 msgid "Can't open the APM device %s"
 msgstr "無法開啟 APM 裝置 %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "無法對 APM 裝置 %s 執行 ioctl"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM 裝置 %s (%d) 使用了未知的格式。"
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -171,25 +170,23 @@ msgstr "%s 被訊號 %d 強行中止。"
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "規則："
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "型號："
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "配置："
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "不當的選項：%s"
+msgstr "選項："
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "鍵盤"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -1071,21 +1068,19 @@ msgstr "索引"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "尋找..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+F"
-msgstr "Ctrl+B"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "尋找下一個"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
 msgid "Open in Browser"
@@ -1097,7 +1092,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "重新載入"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1116,10 +1111,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1138,10 +1131,8 @@ msgid "Manual"
 msgstr "手動"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -1251,14 +1242,15 @@ msgid ""
 "%s\n"
 "\n"
 msgstr ""
-"用法︰%s [選項] [ 檔案名稱 | URL ]\n"
+"用法：%s [選項] [ 檔案名稱 | URL ]\n"
 "\n"
-"IceHelp 是一個非常簡單的 HTML 瀏覽器，用於 IceWM 視窗管理程式。\n"
-"它可以用來顯示 HTML 檔案形式的文件，或者用於瀏覽網站。\n"
-"IceHelp 會在歷程中儲存造訪過的網頁，這些網頁曾經使用\n"
-"按鍵綁定或快顯功能表 (滑鼠右鍵) 進行瀏覽。\n"
-"不支援影像渲染和 JavaScript。如果不指定檔案或 URL，\n"
-"則會顯示 %s 中的 IceWM 手冊內容。\n"
+"IceHelp 是一個非常簡單的 HTML 瀏覽器，用於 IceWM\n"
+"視窗管理程式。它可以用來顯示 HTML 檔案形式的文件，\n"
+"或者用於瀏覽網站。IceHelp 會在歷程中儲存造訪過的網頁，\n"
+"這些網頁曾經使用按鍵綁定或快顯功能表 (滑鼠右鍵) 進行\n"
+"瀏覽。不支援影像渲染和 JavaScript。\n"
+"如果不指定檔案或 URL，則會顯示 %s 中的 IceWM\n"
+"手冊內容。\n"
 "\n"
 "選項：\n"
 "  -d、--display=NAME  要使用的 X 伺服器名稱。\n"
@@ -1410,10 +1402,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
 #: src/icesh.cc:3522
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "非預期的功能表關鍵字：「%s」"
+msgstr "非預期：`%s'。"
 
 #: src/icesh.cc:3551
 msgid "No windows found."
@@ -1642,10 +1633,10 @@ msgid ""
 "  3    Subsystems error (ie cannot connect to server).\n"
 "\n"
 msgstr ""
-"用法︰%s [選項]...\n"
+"用法：%s [選項]...\n"
 "\n"
 "播放由 IceWM 引發的 GUI 事件所伴隨之音效檔案。\n"
-"目前設定的聲音介面為︰%s 2。\n"
+"目前設定的聲音介面為：%s 2。\n"
 "Icesound 將選擇其中第一個可用介面。\n"
 "\n"
 "選項︰\n"
@@ -1660,6 +1651,7 @@ msgstr ""
 "\n"
 "-D、--device=DEVICE           僅限反向相容性︰預設裝置。\n"
 "                              請選擇 -A/-O/-S 選項之一。\n"
+"\n"
 "-O、--oss=DEVICE              指定 OSS 裝置 (預設值為「%s」)。\n"
 "\n"
 "-A、--alsa=DEVICE             指定 ALSA 裝置 (預設值為「%s」)。\n"
@@ -1906,8 +1898,8 @@ msgid ""
 "  -h, --help          Prints this usage screen and exits.\n"
 "\n"
 msgstr ""
-"用法︰%s [選項]\n"
-"選項︰\n"
+"用法：%s [選項]\n"
+"選項：\n"
 "%s\n"
 "  -C、--copying       列印授權資訊並離開。\n"
 "  -V、--version       列印版本資訊並離開。\n"
@@ -2039,39 +2031,39 @@ msgstr "桌面(_E)"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "左半邊"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "右半邊"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "上半邊"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "下半邊"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "左上方"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "右上方"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "左下方"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "右下方"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "中央"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2139,7 +2131,7 @@ msgstr "層次(_Y)"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "並排顯示"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2214,15 +2206,6 @@ msgstr ""
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
 #: src/wmapp.cc:1540
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2234,11 +2217,12 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -a、--alpha         使用 32 位元半透明視覺物件。\n"
-"  -c、--config=FILE   從 FILE 中載入優先設定。\n"
-"  -t、--theme=FILE    從 FILE 中載入主題。\n"
-"  -s、--splash=IMAGE  啟動時短暫顯示 IMAGE。\n"
-"  -p、--postpreferences  執行所有處理後列印優先設定。\n"
+"  -a, --alpha         使用 32 位元視覺物件實現半透明。\n"
+"  -c, --config=FILE   從 FILE 載入優先設定。\n"
+"  -t, --theme=FILE    從 FILE 載入主題。\n"
+"  -s, --splash=IMAGE  在啟動時簡要顯示 IMAGE。\n"
+"  -p, --postpreferences  所有處理完成後列印優先設定。\n"
+"  --rewrite-preferences  更新現有優先設定檔案。\n"
 "  --trace=conf,icon   追蹤用於載入組態的路徑。\n"
 
 #: src/wmapp.cc:1550
@@ -2356,6 +2340,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"PID 為 %ld 的用戶端 %s 無法回應。\n"
+"是否要終止此用戶端？\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2437,10 +2423,9 @@ msgid "Error at %s '%s'"
 msgstr "%s 錯誤「%s」"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "未知關鍵字「%s」"
+msgstr "非預期的功能表關鍵字：\"%s\""
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2448,20 +2433,18 @@ msgid "Error at menuprog '%s'"
 msgstr "menuprog「%s」出錯"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "menuprog「%s」出錯"
+msgstr "執行 menuprogreload 時發生錯誤：\"%s\""
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "包含的陳述中缺少檔案名稱引數"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "menuprog「%s」出錯"
+msgstr "對 \"%s\" 執行 includeprog 時發生錯誤"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2480,7 +2463,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "\"%s\" 已逾時！"
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2512,7 +2495,7 @@ msgstr "儲存修改"
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "輸入 %s 的新值： "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2691,10 +2674,9 @@ msgid "%s: select failed"
 msgstr "%s：選取失敗"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "無法載入字型「%s」。"
+msgstr "無法剖析色彩 \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2834,26 +2816,22 @@ msgstr ""
 "  --sync              同步 X11 指令。\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "對於 %s 介面的支援未編譯。"
+msgstr "未啟用 PNG 影像支援"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "未啟用 JPEG 影像支援"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "不支援的介面：%s。"
+msgstr "不受支援的檔案格式：%s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "找不到圖案 %s"
+msgstr "無法載入影像 \"%s\""
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "載入後備字型 \"%s\" 失敗。"
