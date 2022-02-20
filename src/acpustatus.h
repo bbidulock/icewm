@@ -36,7 +36,7 @@ public:
     void updateStatus();
     void getStatus();
     void getStatusPlatform();
-    int getAcpiTemp(char* tempbuf, int buflen);
+    int getAcpiTemp(char* tempbuf, int buflen, bool best = true);
     float getCpuFreq(int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
@@ -51,6 +51,7 @@ private:
     YColorName color[IWM_STATES];
     lazy<YTimer> fUpdateTimer;
     CPUStatusHandler *fHandler;
+    class YTemp* fTemp;
     YColorName fTempColor;
 
     bool picture();

@@ -75,6 +75,7 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     unchanged(taskBarCPUSamples),
     cpu(taskBarCPUSamples, IWM_STATES),
     fHandler(aHandler),
+    fTemp(nullptr),
     fTempColor(&clrCpuTemp)
 {
     cpu.clear();
@@ -109,10 +110,13 @@ bool CPUStatus::picture() {
 
     Graphics G(getPixmap(), width(), height(), depth());
 
+#if __linux__
     if (cpustatusShowAcpiTempInGraph) {
         change = true;
         statusUpdateCount = taskBarCPUSamples;
     }
+#endif
+
     if (change) {
         unchanged = 0;
         fill(G);
@@ -122,9 +126,13 @@ bool CPUStatus::picture() {
         draw(G);
         change = true;
     }
+
+#if __linux__
     if (cpustatusShowAcpiTempInGraph) {
         temperature(G);
     }
+#endif
+
     return change;
 }
 
@@ -251,7 +259,142 @@ void CPUStatus::draw(Graphics& g) {
     }
 }
 
+#if __linux__
+class YTemp : private YTimerListener {
+public:
+    YTemp() :
+        // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+        // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+        centigrade(_("°C"))
+    {
+        read_types();
+    }
+    bool read_temp(char* tempbuf, int buflen, bool best) {
+        tempbuf[0] = '\0';
+        int done = 0;
+        for (int k = 0; k < thermal.getCount() && done + 6 < buflen; ++k) {
+            int temp = read_data(k);
+            if (temp) {
+                int cent = temp / 1000;
+                int hund = temp % 1000 / 100;
+                snprintf(tempbuf + done, buflen - done, "%d.%d ", cent, hund);
+                done += strlen(tempbuf + done);
+                if (best) {
+                    break;
+                }
+            }
+        }
+        if (done && done + int(strlen(centigrade)) + 1 < buflen && ! best) {
+            strlcpy(tempbuf + done, centigrade, buflen - done);
+        }
+        return done > 0;
+    }
+private:
+    bool handleTimer(YTimer *timer) {
+        for (int k = 0; k < thermal.getCount(); ++k) {
+            thermal[k].temp = 0;
+        }
+        return false;
+    }
+    bool read_data(const char* name) {
+        buf[0] = '\0';
+        char path[64];
+        strlcpy(path, "/sys/class/thermal/", sizeof path);
+        strlcat(path, name, sizeof path);
+        if (strlcat(path, "/temp", sizeof path) < sizeof path) {
+            int fd = open(path, O_RDONLY);
+            if (fd > 2) {
+                read(fd, buf, sizeof buf);
+                close(fd);
+            }
+        }
+        return buf[0] != '\0';
+    }
+    int read_data(int index) {
+        int data = thermal[index].temp;
+        if (data == 0) {
+            if (read_data(thermal[index].name)) {
+                thermal[index].temp = data = atoi(buf);
+                if (data && timer.isRunning() == false) {
+                    timer.setTimer(max(1000, taskBarCPUDelay) - 1, this, true);
+                }
+            }
+        }
+        return data;
+    }
+    bool read_type(const char* name, int dirfd) {
+        buf[0] = '\0';
+        if (strlcpy(buf, name, sizeof buf) + 5 < sizeof buf) {
+            strlcat(buf, "/type", sizeof buf);
+            int fd = openat(dirfd, buf, O_RDONLY);
+            if (fd > 2) {
+                memset(buf, 0, sizeof buf);
+                read(fd, buf, sizeof buf - 1);
+                close(fd);
+                char* newl = strchr(buf, '\n');
+                if (newl) {
+                    *newl = '\0';
+                }
+            }
+        }
+        return buf[0] != '\0';
+    }
+    int prioritize(const char* name) {
+        if (strncmp(buf, "x86_pkg_temp", 12) == 0) {
+            if (read_data(name)) {
+                return 4;
+            }
+        }
+        else if (strncmp(buf, "pch_", 4) == 0) {
+            if (read_data(name)) {
+                return 3;
+            }
+        }
+        else if (strcmp(buf, "acpitz") == 0) {
+            if (read_data(name)) {
+                return 2;
+            }
+        }
+        return 0;
+    }
+    void read_types() {
+        for (cdir dir("/sys/class/thermal"); dir.next(); ) {
+            const char* name = dir.entry();
+            if (strncmp(name, "thermal", 7) == 0 && int(strlen(name)) < 24) {
+                if (read_type(name, dir.descriptor())) {
+                    int prio = prioritize(name);
+                    if (prio) {
+                        int k = 0;
+                        while (k < thermal.getCount()
+                            && prio <= thermal[k].prio) {
+                            ++k;
+                        }
+                        if (k < 6) {
+                            thermal.insert(k, priotemp(prio, name));
+                        }
+                        if (thermal.getCount() > 6) {
+                            thermal.shrink(6);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    YTimer timer;
+    char buf[24];
+    const char* centigrade;
+    struct priotemp {
+        int prio; int temp; char name[24];
+        priotemp(int p, const char* n) : prio(p), temp(0) {
+            strlcpy(name, n, sizeof name);
+        }
+    };
+    YArray<priotemp> thermal;
+};
+#endif
+
 void CPUStatus::temperature(Graphics& g) {
+#if __linux__
     if (cpustatusShowAcpiTempInGraph) {
         char temp[10];
         getAcpiTemp(temp, sizeof(temp));
@@ -267,6 +410,7 @@ void CPUStatus::temperature(Graphics& g) {
             g.drawChars(temp, 0, 3, x, y);
         }
     }
+#endif
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
@@ -311,11 +455,13 @@ void CPUStatus::updateToolTip() {
                     GBnorm(sys.totalswap), GBnorm(sys.freeswap));
             ___checkspace;
         }
+
+#if __linux__
         if (cpustatusShowAcpiTemp) {
             char *posEx = pos;
             more=snprintf(pos, rest, _("\nACPI Temp: "));
             ___checkspace;
-            more = getAcpiTemp(pos, rest);
+            more = getAcpiTemp(pos, rest, false);
             if (more)
             {
               ___checkspace;
@@ -323,6 +469,8 @@ void CPUStatus::updateToolTip() {
             else
                pos = posEx;
         }
+#endif
+
         if (cpustatusShowCpuFreq) {
             float maxf = getCpuFreq(0), minf = maxf;
             int cpus;
@@ -417,62 +565,17 @@ void CPUStatus::updateStatus() {
     repaint();
 }
 
-int CPUStatus::getAcpiTemp(char *tempbuf, int buflen) {
+int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool best) {
     int retbuflen = 0;
+
+    tempbuf[0] = '\0';
+
 #if __linux__
-    char namebuf[300];
-    char buf[64];
-
-    memset(tempbuf, 0, buflen);
-
-    cdir dir;
-    if (dir.open("/sys/class/thermal")) {
-        while (dir.next()) {
-            if (strncmp(dir.entry(), "thermal", 7))
-                continue;
-
-            snprintf(namebuf, sizeof namebuf,
-                    "/sys/class/thermal/%s/temp", dir.entry());
-            auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
-            if (len > 4) {
-                int seglen = len - 4;
-                if (retbuflen + seglen + 4 >= buflen) {
-                    break;
-                }
-                strncat(tempbuf + retbuflen, buf, seglen);
-                retbuflen += seglen;
-                tempbuf[retbuflen++] = '.';
-                tempbuf[retbuflen++] = buf[seglen];
-                tempbuf[retbuflen++] = ' ';
-                tempbuf[retbuflen] = '\0';
-            }
-        }
-        if (1 < retbuflen && retbuflen + 1 < buflen) {
-            // TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-            // TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-            const char* T = _("°C");
-            int len = int(strlen(T));
-            if (retbuflen + len + 1 < buflen) {
-                for (int i = 0; T[i]; ++i)
-                    tempbuf[retbuflen++] = T[i];
-                tempbuf[retbuflen] = '\0';
-            }
-        }
+    if (fTemp == nullptr) {
+        fTemp = new YTemp;
     }
-    else if (dir.open("/proc/acpi/thermal_zone")) {
-        while (dir.next()) {
-            const int seglen = 7;
-            snprintf(namebuf, sizeof namebuf,
-                    "/proc/acpi/thermal_zone/%s/temperature", dir.entry());
-            auto len = filereader(namebuf).read_all(BUFNSIZE(buf));
-            if (len > seglen) {
-                if (retbuflen + seglen >= buflen) {
-                    break;
-                }
-                retbuflen += seglen;
-                strncat(tempbuf, buf + len - seglen, seglen);
-            }
-        }
+    if (fTemp && fTemp->read_temp(tempbuf, buflen, best)) {
+        retbuflen += int(strlen(tempbuf));
     }
 #endif
 
