@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-02-21 10:12+0000\n"
+"PO-Revision-Date: 2022-02-21 19:12+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
@@ -26,12 +26,12 @@ msgid "Can't open the APM device %s"
 msgstr "Konnte APM-Gerät %s nicht öffnen"
 
 #: src/aapm.cc:74 src/aapm.cc:92
-#, c-format, fuzzy
+#, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "APM-Gerät %s kann nicht über ioctl gesteuert werden"
 
 #: src/aapm.cc:122
-#, c-format, fuzzy
+#, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "Unbekanntes Format von APM-Gerät %s (%d) verwendet."
 
@@ -169,28 +169,22 @@ msgid "%s was killed by signal %d."
 msgstr "%s wurde durch Signal %d getötet."
 
 #: src/akeyboard.cc:98
-#, fuzzy
 msgid "rules:"
 msgstr "Regeln:"
 
 #: src/akeyboard.cc:99
-#, fuzzy
 msgid "model:"
 msgstr "Modell:"
 
 #: src/akeyboard.cc:100
-#, fuzzy
 msgid "layout:"
 msgstr "Layout:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
 msgstr "Optionen:"
 
 #: src/akeyboard.cc:151
-#, fuzzy
 msgid "Keyboard"
 msgstr "Tastatur"
 
@@ -1073,23 +1067,18 @@ msgid "Index"
 msgstr "Index"
 
 #: src/icehelp.cc:1337
-#, fuzzy
 msgid "Find..."
 msgstr "Suchen..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+F"
 msgstr "Strg+F"
 
 #: src/icehelp.cc:1338
-#, fuzzy
 msgid "Find next"
 msgstr "Weitersuchen"
 
 #: src/icehelp.cc:1338
-#, fuzzy
 msgid "F3"
 msgstr "F3"
 
@@ -2071,47 +2060,38 @@ msgid "D_esktop"
 msgstr "D_esktop"
 
 #: src/wmapp.cc:564
-#, fuzzy
 msgid "Left Half"
 msgstr "Linke Hälfte"
 
 #: src/wmapp.cc:565
-#, fuzzy
 msgid "Right Half"
 msgstr "Rechte Hälfte"
 
 #: src/wmapp.cc:566
-#, fuzzy
 msgid "Top Half"
 msgstr "Obere Hälfte"
 
 #: src/wmapp.cc:567
-#, fuzzy
 msgid "Bottom Half"
 msgstr "Untere Hälfte"
 
 #: src/wmapp.cc:569
-#, fuzzy
 msgid "Top Left"
 msgstr "Oben links"
 
 #: src/wmapp.cc:571
-#, fuzzy
 msgid "Top Right"
 msgstr "Oben rechts"
 
 #: src/wmapp.cc:573
-#, fuzzy
 msgid "Bottom Left"
 msgstr "Unten links"
 
 #: src/wmapp.cc:575
-#, fuzzy
 msgid "Bottom Right"
 msgstr "Unten rechts"
 
 #: src/wmapp.cc:577
-#, fuzzy
 msgid "Center"
 msgstr "Mitte"
 
@@ -2180,7 +2160,6 @@ msgid "La_yer"
 msgstr "_Ebene"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
-#, fuzzy
 msgid "Tile"
 msgstr "Anordnen"
 
@@ -2484,8 +2463,7 @@ msgid "Error at %s '%s'"
 msgstr "Fehler bei %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
 msgstr "Unerwartetes Menüschlüsselwort '%s'"
 
@@ -2495,8 +2473,7 @@ msgid "Error at menuprog '%s'"
 msgstr "Fehler bei menuprog '%s'"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
 msgstr "Fehler bei menuprogreload: '%s'"
 
@@ -2505,8 +2482,7 @@ msgid "Missing filename argument to include statement"
 msgstr "Fehlendes Dateinamen-Argument um einen Bericht hinzuzufügen"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
 msgstr "Fehler bei includeprog '%s'"
 
@@ -2525,7 +2501,7 @@ msgstr ""
 "Hier wurde entweder 'key' oder 'runonce' erwartet.\n"
 
 #: src/wmmenu.cc:498
-#, c-format, fuzzy
+#, c-format
 msgid "'%s' timed out!"
 msgstr "Zeitüberschreitung bei '%s'!"
 
@@ -2557,7 +2533,7 @@ msgid "Save Modifications"
 msgstr "Änderungen speichern"
 
 #: src/wmpref.cc:178
-#, c-format, fuzzy
+#, c-format
 msgid "Enter a new value for %s: "
 msgstr "Geben Sie einen neuen Wert für %s ein: "
 
@@ -2738,8 +2714,7 @@ msgid "%s: select failed"
 msgstr "%s: Auswahl fehlgeschlagen"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
 msgstr "Farbe \"%s\" konnte nicht geparst werden"
 
@@ -2888,25 +2863,20 @@ msgstr ""
 "  --sync              Synchronisation von X11-Befehlen.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
 msgstr "Unterstützung für PNG-Bilder wurde nicht aktiviert"
 
 #: src/yximage.cc:165
-#, fuzzy
 msgid "Support for JPEG images was not enabled"
 msgstr "Unterstützung für JPEG-Bilder wurde nicht aktiviert"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
 msgstr "Nicht unterstütztes Dateiformat: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
 msgstr "Bild \"%s\" konnte nicht geladen werden"
 
