@@ -92,8 +92,6 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     color[IWM_IDLE] = &clrCpuIdle;
     color[IWM_STEAL] = &clrCpuSteal;
 
-    fUpdateTimer->setTimer(taskBarCPUDelay, this, true);
-
     setSize(taskBarCPUSamples, taskBarGraphHeight);
     getStatus();
     updateStatus();
@@ -423,8 +421,6 @@ void CPUStatus::temperature(Graphics& g) {
 }
 
 bool CPUStatus::handleTimer(YTimer *t) {
-    if (t != fUpdateTimer)
-        return false;
     if (toolTipVisible())
         updateToolTip();
     updateStatus();
@@ -758,9 +754,11 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
     iapp(iapp),
     aParent(aParent),
     fMenuCPU(-1),
+    fSamples(taskBarCPUSamples),
     fPid(0)
 {
     GetCPUStatus(cpuCombine);
+    fUpdateTimer.setTimer(taskBarCPUDelay, this, true);
 }
 
 void CPUStatusControl::GetCPUStatus(bool combine) {
@@ -783,6 +781,22 @@ void CPUStatusControl::GetCPUStatus(bool combine) {
 void CPUStatusControl::runCommandOnce(const char *resource, const char *cmdline)
 {
     smActionListener->runCommandOnce(resource, cmdline, &fPid);
+}
+
+bool CPUStatusControl::handleTimer(YTimer* timer) {
+    if (timer == &fUpdateTimer) {
+        if (fSamples != taskBarCPUSamples) {
+            fSamples = taskBarCPUSamples;
+            int cpus = fCPUStatus.getCount();
+            fCPUStatus.clear();
+            GetCPUStatus(cpus < 2);
+            iapp->relayout();
+        }
+        for (CPUStatus* status : fCPUStatus) {
+            status->handleTimer(timer);
+        }
+    }
+    return true;
 }
 
 void CPUStatusControl::handleClick(const XButtonEvent &up, int cpuid) {

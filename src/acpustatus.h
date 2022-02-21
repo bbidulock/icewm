@@ -50,7 +50,6 @@ private:
     YMulti<cpubytes> cpu;
     cpubytes last_cpu[IWM_STATES];
     YColorName color[IWM_STATES];
-    lazy<YTimer> fUpdateTimer;
     CPUStatusHandler *fHandler;
     YColorName fTempColor;
 
@@ -64,6 +63,7 @@ private:
 };
 
 class CPUStatusControl : private CPUStatusHandler, public YActionListener
+                       , private YTimerListener
 {
 public:
     typedef YObjectArray<CPUStatus> ArrayType;
@@ -78,15 +78,18 @@ private:
     void GetCPUStatus(bool combine);
 
     virtual void actionPerformed(YAction action, unsigned int modifiers);
+    virtual bool handleTimer(YTimer* timer);
     virtual void handleClick(const XButtonEvent &up, int cpu);
     virtual void runCommandOnce(const char *resource, const char *cmdline);
 
     YSMListener *smActionListener;
     IAppletContainer *iapp;
     YWindow *aParent;
+    YTimer fUpdateTimer;
     ArrayType fCPUStatus;
     osmart<YMenu> fMenu;
     int fMenuCPU;
+    int fSamples;
     long fPid;
 };
 
