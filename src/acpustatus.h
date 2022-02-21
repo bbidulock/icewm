@@ -41,6 +41,7 @@ public:
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
     static void freeFont() { tempFont = null; }
+    static void freeTemp();
 
 private:
     int fCpuID;
@@ -51,7 +52,6 @@ private:
     YColorName color[IWM_STATES];
     lazy<YTimer> fUpdateTimer;
     CPUStatusHandler *fHandler;
-    class YTemp* fTemp;
     YColorName fTempColor;
 
     bool picture();
@@ -60,6 +60,7 @@ private:
     void temperature(Graphics& g);
 
     static YFont tempFont;
+    static class YTemp* fTemp;
 };
 
 class CPUStatusControl : private CPUStatusHandler, public YActionListener
@@ -69,7 +70,7 @@ public:
     typedef ArrayType::IterType IterType;
 
     CPUStatusControl(YSMListener *smActionListener, IAppletContainer *iapp, YWindow *aParent);
-    virtual ~CPUStatusControl() { CPUStatus::freeFont(); }
+    virtual ~CPUStatusControl() { CPUStatus::freeFont(); CPUStatus::freeTemp(); }
 
     IterType getIterator() { return fCPUStatus.iterator(); }
 

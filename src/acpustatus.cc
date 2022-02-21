@@ -67,6 +67,7 @@
 extern ref<YPixmap> taskbackPixmap;
 
 YFont CPUStatus::tempFont;
+YTemp* CPUStatus::fTemp;
 
 CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     IApplet(this, aParent),
@@ -75,7 +76,6 @@ CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
     unchanged(taskBarCPUSamples),
     cpu(taskBarCPUSamples, IWM_STATES),
     fHandler(aHandler),
-    fTemp(nullptr),
     fTempColor(&clrCpuTemp)
 {
     cpu.clear();
@@ -392,6 +392,15 @@ private:
     YArray<priotemp> thermal;
 };
 #endif
+
+void CPUStatus::freeTemp() {
+#if __linux__
+    if (fTemp) {
+        delete fTemp;
+        fTemp = nullptr;
+    }
+#endif
+}
 
 void CPUStatus::temperature(Graphics& g) {
 #if __linux__
