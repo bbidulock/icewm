@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-02-16 12:12+0000\n"
+"PO-Revision-Date: 2022-02-21 10:12+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
@@ -1665,8 +1665,8 @@ msgstr ""
 " -d, --display=DISPLAY         X11 Display von IceWM verwendet (Standard: "
 "$DISPLAY).\n"
 "\n"
-" -s, --sample-dir=VERZEICHNIS  Ein Verzeichnis, das die zu spielenden\n"
-"                         Audiodateien enthält.\n"
+" -s, --sample-dir=VERZEICHNIS  Ein Verzeichnis, das die zu spielenden "
+"Audiodateien enthält.\n"
 "                         Standard ist $HOME/.config/icewm/sounds.\n"
 "\n"
 " -i, --interface=LISTE           Spezifiziert Audio-Output-Interfaces. Eins "
@@ -2048,7 +2048,7 @@ msgstr "_Menü"
 
 #: src/wmapp.cc:526
 msgid "_Above Dock"
-msgstr "_Über  Dock"
+msgstr "_Über Dock"
 
 #: src/wmapp.cc:527
 msgid "_Dock"
@@ -2456,9 +2456,8 @@ msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"WARNUNG! Alle nicht gesicherten Änderungen werden\n"
-"beim Töten der Anwendung verloren gehen!\n"
-"Wünschen Sie trotzdem fortzufahren?"
+"WARNUNG! Alle nicht gesicherten Änderungen werden beim\n"
+"Töten der Anwendung verloren gehen! Wünschen Sie trotzdem fortzufahren?"
 
 #
 #: src/wmframe.cc:1549
@@ -2472,7 +2471,7 @@ msgstr "Fehlendes Argument für Kommandozeilenparameter"
 #: src/wmmenu.cc:55
 #, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Schlechtes Argument %d  zum Befehl '%s'"
+msgstr "Schlechtes Argument %d zum Befehl '%s'"
 
 #: src/wmmenu.cc:110
 #, c-format
@@ -2482,7 +2481,7 @@ msgstr "Fehler bei Schlüsselwort '%s' für %s"
 #: src/wmmenu.cc:156
 #, c-format
 msgid "Error at %s '%s'"
-msgstr "Fehler bei  %s '%s'"
+msgstr "Fehler bei %s '%s'"
 
 #: src/wmmenu.cc:222
 #, fuzzy, c-format
@@ -2784,7 +2783,7 @@ msgstr ""
 #: src/ycursor.cc:215
 #, c-format
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\"  parsen"
+msgstr "BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\" parsen"
 
 #: src/yfontcore.cc:121 src/yfontxft.cc:117
 #, c-format
