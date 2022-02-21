@@ -8,32 +8,31 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2021-03-31 14:56+0000\n"
-"Last-Translator: Jorge Gallegos Carrasco <jcarrascochih@gmail.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2022-02-21 22:12+0000\n"
+"Last-Translator: Antonio Simón <antonio@trans-mission.com>\n"
+"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open APM device %s"
+#, c-format
 msgid "Can't open the APM device %s"
 msgstr "No se puede abrir el dispositivo APM %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "No se puede aplicar ioctl al dispositivo APM %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "El dispositivo APM %s ha usado un formato desconocido (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -170,25 +169,23 @@ msgstr "%s ha sido finalizado por la señal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "reglas:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modelo:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "diseño:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Opción errónea: %s"
+msgstr "opciones:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "Teclado"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -1070,21 +1067,19 @@ msgstr "Índice"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "Buscar..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+F"
-msgstr "Ctrl+B"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "Buscar siguiente"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
 msgid "Open in Browser"
@@ -1096,7 +1091,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "Volver a cargar"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1115,10 +1110,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+I"
-msgstr "Ctrl+B"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1137,10 +1130,8 @@ msgid "Manual"
 msgstr "Manual"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+B"
 msgid "Ctrl+M"
-msgstr "Ctrl+B"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -1414,10 +1405,9 @@ msgstr ""
 "configurado."
 
 #: src/icesh.cc:3522
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Palabra clave del menú inesperada: '%s'"
+msgstr "Resultado inesperado: %s."
 
 #: src/icesh.cc:3551
 msgid "No windows found."
@@ -1478,6 +1468,7 @@ msgstr ""
 "\n"
 "  -i, --icewm=ARCHIVO   Usar ARCHIVO como gestor de ventanas de IceWM.\n"
 "  -o, --output=ARCHIVO   Redirigir toda la salida a ARCHIVO.\n"
+"\n"
 "  -b, --nobg            No iniciar icewmbg.\n"
 "  -n, --notray          No iniciar icewmtray.\n"
 "  -s, --sound           Iniciar también icesound.\n"
@@ -2065,39 +2056,39 @@ msgstr "E_scritorio"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Mitad izquierda"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Mitad derecha"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "Mitad superior"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "Mitad inferior"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "Arriba a la izquierda"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "Arriba a la derecha"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "Abajo a la izquierda"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "Abajo a la derecha"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "Centro"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2165,7 +2156,7 @@ msgstr "_Capa"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "Mosaico"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2243,15 +2234,6 @@ msgstr ""
 "pila de ventanas.\n"
 
 #: src/wmapp.cc:1540
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2263,14 +2245,15 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -a, --alpha            Usar 32 bits de color para traslucidez.\n"
+"  -a, --alpha            Usa una imagen de 32 bits para la traslucidez.\n"
 "  -c, --config=ARCHIVO   Carga las preferencias de ARCHIVO.\n"
 "  -t, --theme=ARCHIVO    Carga el tema de ARCHIVO.\n"
 "  -s, --splash=IMAGEN      Muestra IMAGEN brevemente al iniciar.\n"
 "  -p, --postpreferences     Muestra las preferencias después de todo el "
 "procesamiento.\n"
-"  --trace=conf,icon   Rastrea las rutas usadas para cargar la "
-"configuración.\n"
+"  --rewrite-preferences  Actualiza un archivo de preferencias existente.\n"
+"  --trace=conf,icon   Rastrea las rutas usadas para cargar la configuración."
+"\n"
 
 #: src/wmapp.cc:1550
 #, c-format
@@ -2389,6 +2372,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"El cliente %s con PID %ld no responde.\n"
+"¿Desea interrumpir este cliente?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2470,10 +2455,9 @@ msgid "Error at %s '%s'"
 msgstr "Error en %s «%s»"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Palabra clave desconocida «%s»"
+msgstr "Palabra clave de menú inesperada: %s"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2481,20 +2465,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Error en menuprog «%s»"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Error en menuprog «%s»"
+msgstr "Error en menuprogreload: %s"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Falta el argumento del nombre del fichero a incluir en la sentencia"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Error en menuprog «%s»"
+msgstr "Error en includeprog %s"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2513,7 +2495,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "Se ha agotado el tiempo de %s."
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2545,7 +2527,7 @@ msgstr "Guardar las modificaciones"
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Introduzca un valor nuevo para %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2724,10 +2706,9 @@ msgid "%s: select failed"
 msgstr "%s: ha fallado la selección"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "No se ha podido cargar tipografía «%s»."
+msgstr "No se ha podido analizar el color %s"
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2876,26 +2857,22 @@ msgstr ""
 "  --sync                Sincronizar los comandos de X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "No se ha compilado el soporte para la interfaz %s."
+msgstr "No se ha habilitado la compatibilidad con las imagenes PNG"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "No se ha habilitado la compatibilidad con imágenes JPEG"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Interfaz no admitida: %s."
+msgstr "Formato de archivo no admitido: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "No se ha podido encontrar la imagen %s"
+msgstr "No se ha podido cargar la imagen %s"
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "No se ha podido cargar el tipo de letra de respaldo «%s»."
