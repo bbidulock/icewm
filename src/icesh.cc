@@ -799,7 +799,7 @@ static void changeWorkspace(long workspace) {
 }
 
 static long currentWorkspace() {
-    return *YCardinal(root, ATOM_NET_CURRENT_DESKTOP);
+    return max(*YCardinal(root, ATOM_NET_CURRENT_DESKTOP), 0L);
 }
 
 static void setWorkspace(Window window, long workspace) {
@@ -1573,7 +1573,7 @@ public:
 
     bool parseWorkspace(char const* name, long* workspace);
 
-    long count() const { return *fCount; }
+    long count() const { return max(*fCount, 1L); }
     operator bool() const { return fCount && fNames; }
     bool valid(long i) const { return inrange(i, 0L, count() - 1L); }
     const char* operator[](int i) const {
@@ -1597,6 +1597,17 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
 
     if (0 == strcmp(name, "this"))
         return *workspace = currentWorkspace(), true;
+
+    if (0 == strcmp(name, "next")) {
+        *workspace = (currentWorkspace() + 1L) % count();
+        return true;
+    }
+
+    if (0 == strcmp(name, "prev")) {
+        long w = currentWorkspace();
+        *workspace = (w > 0L) ? (w - 1L) : (count() - 1L);
+        return true;
+    }
 
     if (tolong(name, *workspace)) {
         if (valid(*workspace)) {

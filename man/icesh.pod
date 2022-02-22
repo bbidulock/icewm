@@ -491,7 +491,8 @@ Print the I<window layer> for the specified window.
 Move the specified window to another workspace.  Select the root
 window to change the current workspace. If I<WORKSPACE> is C<All>
 then the specified window becomes visible on all workspaces.
-Specify C<this> for the current workspace.
+Specify C<this> for the current workspace, C<next> for the subsequent
+workspace or C<prev> for the preceding workspace.
 
 =item B<getWorkspace>
 
@@ -613,7 +614,8 @@ Show the number and name of the current workspace.
 
 =item B<goto> I<WORKSPACE>
 
-Change the current workspace to I<WORKSPACE>.
+Change the current workspace to I<WORKSPACE>. Specify C<next> for the
+subsequent workspace or C<prev> for the preceding workspace.
 
 =item B<workspaces> [I<COUNT>]
 
