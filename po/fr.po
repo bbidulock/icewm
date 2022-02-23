@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2021-11-07 14:07+0000\n"
-"Last-Translator: wallon <franckjl@hotmail.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2022-02-23 19:12+0000\n"
+"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
 #, c-format
@@ -169,21 +169,19 @@ msgstr "%s a été terminé par le signal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "règles :"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modèle :"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "disposition :"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Option inconnue : %s"
+msgstr "options :"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
@@ -2080,39 +2078,39 @@ msgstr "Bur_eau"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Moitié gauche"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Moitié droite"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "Moitié supérieure"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "Moitié inférieure"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "Supérieur gauche"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "Supérieur droit"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "Inférieur gauche"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "Inférieur droit"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "Centre"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2180,7 +2178,7 @@ msgstr "C_ouche"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "Mosaïque"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2524,7 +2522,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "'%s' a expiré !"
 
 #: src/wmmenu.cc:509
 #, c-format
