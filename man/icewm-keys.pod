@@ -56,12 +56,14 @@ The literal string keyword.
 
 =item B<switchkey>
 
-The literal string keyword, used as alternative to C<key> to build
-menu-like quickswitch popups.
+The literal string keyword, instead of C<key>, to build popup menus.
+The output of I<program> should conform to L<icewm-menu(1)>.
 
 =item I<key_combination>
 
-A combination of modifiers and a key, separated by plus-sign (C<+>).
+A combination of modifiers and a key separated by a plus-sign (C<+>),
+like C<Ctrl+Alt+Delete>. Mouse pointer buttons can be specified by
+C<Pointer_Button1> and up.
 
 =item I<program> I<options>
 
@@ -70,8 +72,7 @@ file that will be run in response to selecting the menu item.  When used
 with the B<switchkey> keyword, the I<program> must print on standard
 output the contents of the popup like it would be used for dynamic menus.
 
-I<options> is the options and arguments passed to the I<program>
-verbatim.
+I<options> are the options and arguments passed to the I<program>.
 
 =back
 
@@ -80,10 +81,6 @@ verbatim.
 Following is the example F<keys> file that ships with L<icewm(1)>:
 
     # This is an example for IceWM's hotkey definition file.
-    #
-    # Place your variants in @CFGDIR@ or in $HOME/.icewm
-    # since modifications to this file will be discarded when
-    # you (re)install icewm.
     #
     # A list of all valid keyboard symbols can be found in
     # /usr/include/X11/keysym.h, keysymdefs.h, XF86keysym.h,
@@ -100,7 +97,7 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
 
     # "Multimedia key" bindings for XFree86. Gather the
     # keycodes of your advanced function keys by watching the
-    # output of the xev command whilest pressing those keys
+    # output of the xev command whilst pressing those keys
     # and map those symbols by using xmodmap.
 
     key "XF86AudioLowerVolume" amixer sset PCM 5%-
@@ -112,6 +109,25 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
 
     # display and select monitor setup configurations
     switchkey "Super+p" icewm-menu-xrandr
+
+Following shows how to add mouse button bindings on the root window to
+change the current workspace rolling the mouse wheel on the desktop:
+
+    key "Pointer_Button4"   icesh goto prev
+    key "Pointer_Button5"   icesh goto next
+
+These are key bindings for single window tile operations to replace the
+I<KeyWinArrange> key bindings from the F<preferences> file:
+
+    key "Ctrl+Alt+KP_7" icesh -f sizeto 49% 49% top left
+    key "Ctrl+Alt+KP_8" icesh -f sizeto 100% 49% top left
+    key "Ctrl+Alt+KP_9" icesh -f sizeto 49% 49% top right
+    key "Ctrl+Alt+KP_6" icesh -f sizeto 49% 100% top right
+    key "Ctrl+Alt+KP_3" icesh -f sizeto 49% 49% bottom right
+    key "Ctrl+Alt+KP_2" icesh -f sizeto 100% 49% bottom left
+    key "Ctrl+Alt+KP_1" icesh -f sizeto 49% 49% bottom right
+    key "Ctrl+Alt+KP_4" icesh -f sizeto 49% 100% top left
+    key "Ctrl+Alt+KP_5" icesh -f sizeto 49% 49% center
 
 =head1 FILES
 
