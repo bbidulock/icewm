@@ -8,32 +8,31 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2021-07-21 10:11+0000\n"
+"PO-Revision-Date: 2022-03-01 20:12+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/tr/>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open APM device %s"
+#, c-format
 msgid "Can't open the APM device %s"
 msgstr "APM cihazı %s açılamadı"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "%s APM cihazı ioctl yapılamıyor"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM cihazı %s tarafından kullanılan bilinmeyen biçim (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -170,25 +169,23 @@ msgstr "%s , %d sinyali ile sonlandırıldı."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "kurallar:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "örnek:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "düzen:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Kötü seçenek: %s"
+msgstr "seçenekler:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "Klavye"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -1118,11 +1115,11 @@ msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
-msgstr "Icewmbg(1)"
+msgstr "Icewmbg (1)"
 
 #: src/icehelp.cc:1352
 msgid "Icesound(1)"
-msgstr "Icesound(1)"
+msgstr "Icesound (1)"
 
 #: src/icehelp.cc:1354
 msgid "FAQ"
@@ -2053,39 +2050,39 @@ msgstr "_Masaüstü"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Sol Yarı"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Sağ Yarı"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "Üst Yarı"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "Alt Yarı"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "Üst Sol"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "Üst Sağ"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "Alt Sol"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "Alt Sağ"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "Merkez"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2153,7 +2150,7 @@ msgstr "Kat_man"
 
 #: src/wmapp.cc:625 src/wmwinlist.cc:387
 msgid "Tile"
-msgstr ""
+msgstr "Döşeme"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:389
 msgid "Move _To"
@@ -2435,48 +2432,48 @@ msgid "Missing command argument"
 msgstr "Eksik komut argümanı"
 
 #: src/wmmenu.cc:55
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Kötü Argüman: %s için %s"
+msgstr "%d argümanı '%s' komutu için hatalı"
 
 #: src/wmmenu.cc:110
-#, fuzzy, c-format
+#, c-format
 msgid "Error at keyword '%s' for %s"
-msgstr "%s anahtarında hata"
+msgstr "%s için '%s' anahtar kelimesinde hata"
 
 #: src/wmmenu.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Error at %s '%s'"
-msgstr "%s anahtarında hata"
+msgstr "%s '%s' konumunda hata"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Bilinmeyen işlem: «%s»"
+msgstr "Beklenmeyen menü anahtar kelimesi: '%s'"
 
 #: src/wmmenu.cc:276
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprog '%s'"
-msgstr "%s programında hata"
+msgstr "menuprog '%s' konumunda hata"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "%s programında hata"
+msgstr "menuprogreload'da hata: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
-msgstr ""
+msgstr "İfadeyi eklemek için dosya adı argümanı eksik"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "%s programında hata"
+msgstr "includeprog '%s' hatası"
 
 #: src/wmmenu.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown keyword '%s'"
-msgstr "Bilinmeyen işlem: «%s»"
+msgstr "Bilinmeyen anahtar kelime '%s'"
 
 #: src/wmmenu.cc:419
 #, c-format
@@ -2484,16 +2481,18 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
+"Non-container için bilinmeyen anahtar kelime: '%s'.\n"
+"Burada 'key' veya 'runonce' bekleniyor.\n"
 
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "'%s' zaman aşımına uğradı!"
 
 #: src/wmmenu.cc:509
 #, c-format
 msgid "'%s' produces no output"
-msgstr ""
+msgstr "'%s' çıktı üretmiyor"
 
 #: src/wmmgr.cc:3377
 msgid "Missing program setxkbmap"
@@ -2514,15 +2513,13 @@ msgid "Syntax error in window options on line %d of %s"
 msgstr "%d satırı %s dosyası pencere seçeneğinde söz dizimi hatası"
 
 #: src/wmpref.cc:101
-#, fuzzy
-#| msgid "Favorite applications"
 msgid "Save Modifications"
-msgstr "Favori uygulamalar"
+msgstr "Değişiklikleri Kaydet"
 
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "%s için yeni bir değer girin: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2701,10 +2698,9 @@ msgid "%s: select failed"
 msgstr "%s: seçim başarısız"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "\"%s\" fontu yüklenemedi."
+msgstr "\"%s\" rengi çözümlenemedi"
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2851,26 +2847,22 @@ msgstr ""
 "  --sync              X11 komutlarını senkronize et.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "%s arabirimi desteği derlenmedi."
+msgstr "PNG resimleri için destek etkinleştirilmedi"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "JPEG resimleri için destek etkinleştirilmedi"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Desteklenmeyen arabirim: %s."
+msgstr "Desteklenmeyen dosya biçimi: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "%s resmi bulunamadı"
+msgstr "\"%s\" resmi yüklenemedi"
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "\"%s\" fallback fontu yüklenemedi."
