@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-02-21 19:12+0000\n"
+"PO-Revision-Date: 2022-03-04 13:12+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/de/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: src/aapm.cc:66
 #, c-format
 msgid "Can't open the APM device %s"
-msgstr "Konnte APM-Gerät %s nicht öffnen"
+msgstr "Kann OSS-Gerät %s nicht öffnen"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
