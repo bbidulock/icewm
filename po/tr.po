@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-03-01 20:12+0000\n"
+"PO-Revision-Date: 2022-03-05 10:12+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/tr/>\n"
@@ -2505,7 +2505,7 @@ msgstr "Klavye geçişi için lütfen setxkbmap yükleyin."
 #: src/wmoption.cc:259
 #, c-format
 msgid "Unknown window option: %s"
-msgstr "Bilinmeyen pencere seşeneği: %s"
+msgstr "Bilinmeyen pencere seçeneği: %s"
 
 #: src/wmoption.cc:330
 #, c-format
