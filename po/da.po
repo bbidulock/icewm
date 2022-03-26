@@ -2360,7 +2360,7 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
-"Klient %s med PID %Id kunne ikke svare\n"
+"Klient %s med PID %ld kunne ikke svare\n"
 "Ønsker du at afbryde denne klient?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
