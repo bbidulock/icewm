@@ -647,17 +647,20 @@ static void init() {
 
 static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
     g_fprintf(out,
-            "USAGE: icewm-menu-fdo OPTIONS\n"
+            "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
             "OPTIONS:\n"
+            "-g, --generic\tInclude GenericName in parentheses of progs\n"
+            "-o, --output=FILE\tWrite the output to FILE\n"
             "--seps  \tPrint separators before and after contents\n"
+            "--sep-before\tPrint separator before the contents\n"
             "--sep-after\tPrint separator only after contents\n"
             "--no-sep-others\tNo separation of the 'Others' menu point\n"
             "--no-sub-cats\tNo additional subcategories, just one level of menues\n"
-            "*.desktop\tAny .desktop file to launch the application command from there\n"
-            "This program also listens to "
-                    "environment variables defined by the\nXDG Base Directory Specification:\n"
-                    "XDG_DATA_HOME=%s\n"
-                    "XDG_DATA_DIRS=%s\n", home, dirs);
+            "FILENAME\tAny .desktop file to launch its application Exec command\n"
+            "This program also listens to environment variables defined by\n"
+            "the XDG Base Directory Specification:\n"
+            "XDG_DATA_HOME=%s\n"
+            "XDG_DATA_DIRS=%s\n", home, dirs);
     exit(xit);
 }
 
