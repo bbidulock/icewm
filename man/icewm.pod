@@ -115,9 +115,9 @@ which can be modified with the help of a text editor.
 Use I<NAME> as the name of the B<icewm> theme to use.  A theme defines
 the look and feel of B<icewm>, like colors, fonts and buttons.
 
-=item B<--display>=I<DISPLAY>
+=item B<-d>, B<--display>=I<DISPLAY>
 
-I<DISPLAY> specifies the connection to the X11 server.  By default
+Connect to the X11 server on I<DISPLAY>.  By default
 the environment variable C<DISPLAY> is used.
 
 =item B<--sync>

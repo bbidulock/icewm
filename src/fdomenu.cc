@@ -38,7 +38,11 @@ typedef const char* LPCSTR;
 #include "ycollections.h"
 
 // program options
-bool add_sep_before(false), add_sep_after(false), no_sep_others(false), no_sub_cats(false);
+bool add_sep_before = false;
+bool add_sep_after = false;
+bool no_sep_others = false;
+bool no_sub_cats = false;
+bool generic_name = false;
 
 template<typename T, void TFreeFunc(T)>
 struct auto_raii {
@@ -81,10 +85,10 @@ GHashTable* meta_lookup_data;
 tListMeta* lookup_category(LPCSTR key)
 {
     tListMeta* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
-    if(ret)
+    if (ret)
     {
         // auto-translate the default title for the user's language
-        if(ret->title == nullptr)
+        if (ret->title == nullptr)
             ret->title = _(ret->key);
     }
     return ret;
@@ -100,10 +104,12 @@ struct t_menu_node {
 protected:
     // for leafs -> NULL, otherwise sub-menu contents
     GTree* store;
-    LPCSTR progCmd;
+    char* progCmd;
+    const char* generic;
 public:
     const tListMeta *meta;
-    t_menu_node(const tListMeta* desc): store(nullptr), progCmd(nullptr), meta(desc) {}
+    t_menu_node(const tListMeta* desc):
+        store(nullptr), progCmd(nullptr), generic(nullptr), meta(desc) {}
 
     struct t_print_meta {
         int count, level;
@@ -115,18 +121,19 @@ public:
     }
 
     void print(t_print_meta *ctx) {
-        if(!meta) return;
+        if (!meta) return;
         LPCSTR title = Elvis(meta->title, meta->key);
 
-        if(!store)
+        if (!store)
         {
-            if(title && progCmd) {
-                if(ctx->count == 0 && add_sep_before)
+            if (title && progCmd) {
+                if (ctx->count == 0 && add_sep_before)
                     puts("separator");
-                printf("prog \"%s\" %s %s\n",
-                        title,
-                        meta->icon,
-                        progCmd);
+                if (nonempty(generic) && strcmp(generic, title))
+                    printf("prog \"%s (%s)\" %s %s\n",
+                            title, generic, meta->icon, progCmd);
+                else
+                    printf("prog \"%s\" %s %s\n", title, meta->icon, progCmd);
             }
             ctx->count++;
             return;
@@ -150,7 +157,7 @@ public:
         }
         ctx->level++;
         g_tree_foreach(store, print_node, ctx);
-        if(ctx->level == 1 && ctx->print_separated)
+        if (ctx->level == 1 && ctx->print_separated)
         {
             puts("separator");
             no_sep_others = true;
@@ -163,7 +170,7 @@ public:
 #else
             printf("# end of menu \"%s\"\n}\n", title);
 #endif
-        if(add_sep_after && ctx->level == 0 && ctx->count > 0)
+        if (add_sep_after && ctx->level == 0 && ctx->count > 0)
             puts("separator");
 
     }
@@ -179,7 +186,7 @@ public:
     void add(t_menu_node* node) {
         if (!store)
             store = g_tree_new(cmpUtf8);
-        if(node->meta->title || node->meta->key)
+        if (node->meta->title || node->meta->key)
             g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
     }
 
@@ -252,9 +259,9 @@ public:
             if (skipping)
                 continue;
             // if not on first node, make or find submenues for the comming tokens
-            if(!pNewCatInfo)
+            if (!pNewCatInfo)
                 pNewCatInfo = lookup_category(*pSubCatName);
-            if(!pNewCatInfo)
+            if (!pNewCatInfo)
                 return; // heh? fantasy category? Let caller handle it
             pTree = pTree->get_subtree(pNewCatInfo);
         }
@@ -268,14 +275,14 @@ public:
                 continue; // empty?
             tListMeta *pResolved = lookup_category(*pCatKey);
             if (!pResolved) continue;
-            if(!pResolved->parent_sec)
+            if (!pResolved->parent_sec)
                 matched_main_cats.add(pResolved);
             else
                 matched_sub_cats.add(pResolved);
         }
         if (matched_main_cats.size == 0)
             matched_main_cats.add(lookup_category("Other"));
-        if(!no_sub_cats) {
+        if (!no_sub_cats) {
             for (tListMeta** p = matched_sub_cats.data;
                     p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
 
@@ -338,6 +345,12 @@ public:
         if (!pInfo)
             return nullptr;
         return g_app_info_get_display_name((GAppInfo*) pInfo);
+    }
+
+    LPCSTR get_generic() const {
+        if (!pInfo || !generic_name)
+            return nullptr;
+        return g_desktop_app_info_get_generic_name(pInfo);
     }
 
     char * get_icon_path() const {
@@ -432,6 +445,12 @@ struct t_menu_node_app : t_menu_node
         else
             // not simple command or needs a terminal started via launcher callback, or both
             progCmd = g_strdup_printf("%s \"%s\"", ApplicationName, dinfo.d_file);
+        if (cmdMod && cmdMod != progCmd)
+            g_free(cmdMod);
+        generic = dinfo.get_generic();
+    }
+    ~t_menu_node_app() {
+        g_free(progCmd);
     }
 };
 
@@ -460,30 +479,30 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
         return;
     LPCSTR cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name", nullptr);
     // looks like bad data
-    if(!cat_name || !*cat_name)
+    if (!cat_name || !*cat_name)
         return;
     // try a perfect match by name or file name
     tListMeta* pCat = lookup_category(cat_name);
-    if(!pCat)
+    if (!pCat)
     {
         gchar* bn(g_path_get_basename(szDesktopFile));
         auto_gfree cleanr(bn);
         char* dot = strchr(bn, '.');
-        if(dot)
+        if (dot)
         {
             *dot = 0x0;
             pCat = lookup_category(bn);
         }
     }
-    for(const tFromTo* p=SameCatMap;
+    for (const tFromTo* p = SameCatMap;
             !pCat && p < SameCatMap+ACOUNT(SameCatMap);
             ++p) {
 
-        if(0 == strcmp(cat_name, p->from))
+        if (0 == strcmp(cat_name, p->from))
             pCat = lookup_category(p->to);
     }
 
-    if(!pCat)
+    if (!pCat)
         return;
     if (pCat->load_state_icon < tListMeta::SYSTEM_ICON) {
         LPCSTR icon_name = g_key_file_get_string (kf, "Desktop Entry",
@@ -494,21 +513,19 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
         }
     }
     if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED) {
-        LPCSTR cat_title = g_key_file_get_locale_string (kf,
-                                                              "Desktop Entry",
-                                                              "Name", nullptr,
-                                                              nullptr);
+        char* cat_title = g_key_file_get_locale_string(kf, "Desktop Entry",
+                                                       "Name", nullptr, nullptr);
         if (!cat_title) return;
         pCat->title = cat_title;
-        LPCSTR cat_title_c = g_key_file_get_string (kf, "Desktop Entry",
-                                                         "Name", nullptr);
+        char* cat_title_c = g_key_file_get_string(kf, "Desktop Entry",
+                                                  "Name", nullptr);
         bool same_trans = 0 == strcmp (cat_title_c, cat_title);
         if (!same_trans) pCat->load_state_title = tListMeta::SYSTEM_TRANSLATED;
         // otherwise: not sure, keep searching for a better translation
     }
     // something special, donate the icon to similar items unless they have a better one
 
-    for(const tFromTo* p=SameIconMap; p < SameIconMap + ACOUNT(SameIconMap);
+    for (const tFromTo* p = SameIconMap; p < SameIconMap + ACOUNT(SameIconMap);
             ++p) {
 
         if (strcmp (pCat->key, p->from))
@@ -586,16 +603,16 @@ void proc_dir_rec(LPCSTR syspath, unsigned depth,
     }
 }
 
-bool launch(LPCSTR dfile, LPCSTR *argv, int argc) {
+bool launch(LPCSTR dfile, char** argv, int argc) {
     GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename(dfile);
     if (!pInfo)
         return false;
 #if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't help
-    if (argc>0)
+    if (argc > 0)
     {
-        GList* parms=NULL;
-        for (int i=0; i<argc; ++i)
-        parms=g_list_append(parms,
+        GList* parms = NULL;
+        for (int i = 0; i < argc; ++i)
+        parms = g_list_append(parms,
                 g_strdup_printf("%s%s", strstr(argv[i], "://") ? "" : "file://",
                         argv[i]));
         return g_app_info_launch ((GAppInfo *)pInfo,
@@ -606,9 +623,7 @@ bool launch(LPCSTR dfile, LPCSTR *argv, int argc) {
     (void) argv;
     (void) argc;
 #endif
-    return g_app_info_launch((GAppInfo *) pInfo,
-    nullptr,
-    nullptr, nullptr);
+    return g_app_info_launch((GAppInfo *) pInfo, nullptr, nullptr, nullptr);
 }
 
 static void init() {
@@ -623,7 +638,7 @@ static void init() {
 
     for (unsigned i = 0; i < ACOUNT(spec::menuinfo); ++i) {
         tListMeta& what = spec::menuinfo[i];
-        if(no_sub_cats && what.parent_sec)
+        if (no_sub_cats && what.parent_sec)
             continue;
         // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
         g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
@@ -677,7 +692,7 @@ void dbgPrint(const gchar *msg)
 }
 #endif
 
-int main(int argc, LPCSTR *argv) {
+int main(int argc, char** argv) {
     ApplicationName = my_basename(argv[0]);
 
 #if !GLIB_CHECK_VERSION(2,36,0)
@@ -691,7 +706,7 @@ int main(int argc, LPCSTR *argv) {
     g_set_print_handler(dbgPrint);
 #endif
 
-    LPCSTR usershare = getenv("XDG_DATA_HOME");
+    char* usershare = getenv("XDG_DATA_HOME");
     if (!usershare || !*usershare)
         usershare = g_strjoin(nullptr, getenv("HOME"), "/.local/share", NULL);
 
@@ -705,35 +720,40 @@ int main(int argc, LPCSTR *argv) {
         return EXIT_SUCCESS;
     }
 
-    for (LPCSTR *pArg = argv + 1; pArg < argv + argc; ++pArg) {
+    for (char** pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg))
             print_version_exit(VERSION);
-        if (is_copying_switch(*pArg))
+        else if (is_copying_switch(*pArg))
             print_copying_exit();
-        if (is_help_switch(*pArg))
+        else if (is_help_switch(*pArg))
             help(usershare, sysshare, stdout, EXIT_SUCCESS);
-        if (is_long_switch(*pArg, "seps")) {
+        else if (is_long_switch(*pArg, "seps"))
             add_sep_before = add_sep_after = true;
-            continue;
-        }
-        if (is_long_switch(*pArg, "sep-before")) {
+        else if (is_long_switch(*pArg, "sep-before"))
             add_sep_before = true;
-            continue;
-        }
-        if (is_long_switch(*pArg, "sep-after")) {
+        else if (is_long_switch(*pArg, "sep-after"))
             add_sep_after = true;
-            continue;
-        }
-        if (is_long_switch(*pArg, "no-sep-others")) {
+        else if (is_long_switch(*pArg, "no-sep-others"))
             no_sep_others = true;
-            continue;
-        }
-        if (is_long_switch(*pArg, "no-sub-cats")) {
+        else if (is_long_switch(*pArg, "no-sub-cats"))
             no_sub_cats = true;
-            continue;
+        else if (is_switch(*pArg, "g", "generic-name"))
+            generic_name = true;
+        else {
+            char *value = nullptr, *expand = nullptr;
+            if (GetArgument(value, "o", "output", pArg, argv + argc)) {
+                if (*value == '~')
+                    value = expand = tilde_expansion(value);
+                else if (*value == '$')
+                    value = expand = dollar_expansion(value);
+                if (nonempty(value))
+                    freopen(value, "w", stdout);
+                if (expand)
+                    delete[] expand;
+            }
+            else // unknown option
+                help(usershare, sysshare, stderr, EXIT_FAILURE);
         }
-        // unknown option?
-        help(usershare, sysshare, stderr, EXIT_FAILURE);
     }
 
     init();
@@ -747,6 +767,9 @@ int main(int argc, LPCSTR *argv) {
     process_apps(home_folders);
 
     root.print();
+
+    if (nonempty(usershare) && usershare != getenv("XDG_DATA_HOME"))
+        g_free(usershare);
 
     return EXIT_SUCCESS;
 }
