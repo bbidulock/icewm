@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-programs - icewm programs configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/programs
  $XDG_CONFIG_HOME/icewm/programs
@@ -12,14 +12,14 @@
  /etc/icewm/programs
  /usr/share/icewm/programs
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 The F<programs> file is an automatically generated menu configuration
 file of installed programs. This file should be automatically generated
 by xdg_menu, wmconfig (Redhat), menu (Debian), or icewm-menu-fdo,
 perhaps as part of the login or X startup sequence.
 
-=head1 FORMAT
+=head2 FORMAT
 
 The format of the file contains one of the following line syntax:
 
@@ -126,7 +126,7 @@ further menu items.
 
 =back
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 Following is the example F<programs> file that ships with L<icewm(1)>:
 
@@ -201,7 +201,7 @@ Following is the example F<programs> file that ships with L<icewm(1)>:
      restart sawfish2 - sawfish2
  }
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<programs> file are as follows:
 
@@ -214,17 +214,17 @@ Locations for the F<programs> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-menu(5)>,
 L<icewm-menu-fdo(1)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

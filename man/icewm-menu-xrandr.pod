@@ -1,14 +1,14 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-menu-xrandr - IceWM menu provider for multi-monitor setup shortcuts
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icewm-menu-xrandr>
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icewm-menu-xrandr> is a helper to manage multi-screen configurations
 in a semi-automated way. It is a regular icewm menu generator which dynamically
@@ -21,7 +21,7 @@ on-the-fly through a "quick-switch" style menu which pops up upon
 pressing Super-P key binding (or a manually configured key, see
 L<icewm-keys(5)> for the configuration of B<switchkey> directive).
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =over
 
@@ -36,20 +36,20 @@ quick-switch menu.
 
 =back
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<xrandr(1)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Eduard Bloch L<mailto:edi@gmx.de>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<icewm-menu-xrandr> is licensed under the Simplified BSD License.
 B<IceWM> is licensed under the GNU Library General Public License.

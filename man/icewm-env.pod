@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-env - icewm environment configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/env
  $XDG_CONFIG_HOME/icewm/env
@@ -12,20 +12,20 @@
  /etc/icewm/env
  /usr/share/icewm/env
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 L<icewm-session(1)> loads additional environment variables from the file
 F<env> before it does anything else. These variables are then propagated
 to all other processes, including L<icewm(1)>, via their environment.
 
-=head1 FORMAT
+=head2 FORMAT
 
 Each line is subjected to POSIX shell expansion by L<wordexp(3)>.
 Comment lines starting by a hash-sign (C<#>) are ignored.
 L<icewm-session(1)> will load those expanded lines which contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
  # This is a comment.
  # And another.
@@ -36,7 +36,7 @@ followed by an equals sign, followed by the value (which may be empty).
  START_DATE=`date`
  START_FROM=`pwd`
 
-=head1 FILES
+=head2 FILES
 
 L<icewm-session(1)> looks for the F<env> file in the following locations:
 
@@ -50,17 +50,17 @@ The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-session(1)>,
 L<icewm-startup(5)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

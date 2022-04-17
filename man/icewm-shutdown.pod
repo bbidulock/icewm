@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-shutdown - icewm shutdown configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/shutdown
  $XDG_CONFIG_HOME/icewm/shutdown
@@ -12,7 +12,7 @@
  /etc/icewm/shutdown
  /usr/share/icewm/shutdown
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 Contains commands to be executed on B<icewm> shutdown.  This is an
 executable script with commands to be executed in the last stage of
@@ -20,7 +20,7 @@ B<icewm> termination.  Typically they may undo some of the effects of
 the F<startup> script.  It is run by L<icewm-session(1)> when B<icewm>
 terminates.
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<shutdown> file are as follows:
 
@@ -33,16 +33,16 @@ Locations for the F<shutdown> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm-session(1)>,
 L<icewm-startup(5)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

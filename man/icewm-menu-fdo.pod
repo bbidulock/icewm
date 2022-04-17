@@ -1,21 +1,21 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-menu-fdo - menu generator for .desktop files
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icewm-menu-fdo> [I<OPTIONS>] [I<FILENAME>]
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icewm-menu-fdo> generates a menu for the B<IceWM> window manager
 from XDG menu descriptors (aka FreeDesktop.Org F<.desktop> files).
 By including this in the L<icewm-menu(1)>, the system applications
 become available in the icewm start menu.
 
-=head1 ARGUMENTS
+=head2 ARGUMENTS
 
 =over
 
@@ -27,7 +27,7 @@ line from the desktop file.
 
 =back
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =over
 
@@ -73,37 +73,37 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =back
 
-=head1 USAGE
+=head2 USAGE
 
 This utility is not normally used directly. It is used as the
 executable in a B<menuprog> entry in a L<icewm-menu(5)>.
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 The following line in a L<icewm-menu(5)> file will dynamically generate
 a comprehensive set of menus for easy access to F<.desktop> files.
 
     menuprog "Desktop Apps" folder icewm-menu-fdo
 
-=head1 ENVIRONMENT
+=head2 ENVIRONMENT
 
 B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG
 Base Directory Specification.
 
-=head1 CONFORMING TO
+=head2 CONFORMING TO
 
 B<icewm-menu-fdo> complies roughly to the XDG F<.desktop> file and menu
 specification, see L<Desktop Entry Specification>, Version 1.2alpha,
 2015-03-06 and L<Desktop Menu Specification>, Version 1.1-draft, 31
 March 2011.
 
-=head1 CAVEATS
+=head2 CAVEATS
 
 The B<icewm-menu-fdo> program is only built when the L<icewm(1)> package
 is configured with the B<--enable-menus-fdo> option, which requires the
 B<glib2-dev> package dependency.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<Desktop Entry Specification>,
 L<Desktop Menu Specification>,
@@ -112,17 +112,17 @@ L<icewm-menu(5)>,
 L<icewm-preferences(5)>,
 L<icewm-programs(5)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

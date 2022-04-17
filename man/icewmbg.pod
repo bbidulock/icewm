@@ -1,14 +1,14 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewmbg - a background settings manager for the IceWM window manager
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icewmbg> [I<OPTIONS>]
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icewmbg> can assign a colour or image to the I<X11> desktop background.
 Many image formats are supported.  Each L<icewm(1)> work space can have
@@ -33,7 +33,7 @@ path of the background image whenever it changes the desktop background.
 
 B<icewmbg> is started automatically by L<icewm-session(1)>.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =head2 SPECIFIC OPTIONS
 
@@ -150,7 +150,7 @@ Use a slower synchronous mode communication with I<X11> server.
 
 =back
 
-=head1 FILES
+=head2 FILES
 
 =head2 PREFERENCES
 
@@ -188,7 +188,7 @@ What happens for their combination is given by the following table:
   center:1 scaled:1 = Fill one dimension and preserve the aspect ratio.
   center:0 scaled:1 = Fill both dimensions and preserve the aspect ratio.
 
-=head1 SIGNALS
+=head2 SIGNALS
 
 B<icewmbg> supports the following signals:
 
@@ -209,7 +209,7 @@ update the backgrounds of all work spaces.
 
 =back
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-preferences(5)>,
@@ -218,17 +218,17 @@ L<wmsetbg(1)>,
 L<xsetbg(1)>,
 L<xwallpaper(1)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

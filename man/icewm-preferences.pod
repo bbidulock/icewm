@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-preferences - icewm preferences configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/preferences
  $XDG_CONFIG_HOME/icewm/preferences
@@ -12,7 +12,7 @@
  /etc/icewm/preferences
  /usr/share/icewm/preferences
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 Contains general settings like paths, colors and fonts, but also options
 to control the B<icewm> focus behaviour and the applets which are
@@ -20,7 +20,7 @@ started in the task bar.  The B<icewm> installation will provide a
 default F<preferences> file, which can be copied to the B<icewm> user
 configuration directory and modified.
 
-=head1 FORMAT
+=head2 FORMAT
 
 =head2 FOCUS AND BEHAVIOR
 
@@ -1770,7 +1770,7 @@ Paint the background image over all multihead monitors combined.
 
 =back
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
     Alpha=1
     Splash="IceWM.jpg"
@@ -1798,7 +1798,7 @@ Paint the background image over all multihead monitors combined.
 The above example shows how to tell B<icewm> to not bind a specific key:
 I<KeySysWinMenu> in this case.
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<preferences> file are as follows:
 
@@ -1811,16 +1811,16 @@ Locations for the F<preferences> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-prefoverride(5)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

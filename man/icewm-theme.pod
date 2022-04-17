@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-theme - icewm theme configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/theme
  $XDG_CONFIG_HOME/icewm/theme
@@ -12,7 +12,7 @@
  /etc/icewm/theme
  /usr/share/icewm/theme
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 The F<theme> file contains the name of the default theme.  On startup
 B<icewm> reads this file to obtain the theme name, unless B<icewm> was
@@ -20,7 +20,7 @@ started with the B<--theme> option.  Whenever a different theme is
 selected from the B<icewm> Menu then the theme file is overwritten with
 the name of the selected theme.
 
-=head1 FORMAT
+=head2 FORMAT
 
 This theme file contains the keyword C<Theme>, followed by an equals
 sign, followed by a double-quoted string with the theme name.  The theme
@@ -34,7 +34,7 @@ specified in their own F<.theme> file, which replaces F<default.theme>.
 If no theme file exists then B<icewm> will use the default setting of
 C<Theme="default/default.theme">.
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 Following is my current F<theme> file.  You can see from the comments
 that L<icewm(1)> keeps a history of the previous ten theme settings.
@@ -51,7 +51,7 @@ that L<icewm(1)> keeps a history of the previous ten theme settings.
     #########Theme="default/default.theme"
     ##########Theme="yellowmotif/default.theme"
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<theme> file are as follows:
 
@@ -64,17 +64,17 @@ Locations for the F<theme> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-preferences(5)>,
 L<icewm-prefoverride(5)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

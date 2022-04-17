@@ -1,14 +1,14 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icehelp - a very simple HTML browser
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icehelp> [I<OPTIONS>] I<FILENAME>
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icehelp> is a very simple HTML browser, which is used by L<icewm(1)>
 to display the L<IceWM Manual|https://ice-wm.org/manual> and the manpages.
@@ -20,7 +20,7 @@ Hit the C<F3> function key to repeat a search.
 The top right corner shows a button, which opens a menu. This menu
 can also be opened by a right mouse button click.
 
-=head1 ARGUMENTS
+=head2 ARGUMENTS
 
 =over
 
@@ -30,7 +30,7 @@ Specifies the file to browse.  It can also be the URL of a website.
 
 =back
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =head2 SPECIFIC OPTIONS
 
@@ -102,17 +102,17 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =back
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

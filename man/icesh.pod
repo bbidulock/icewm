@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icesh - control window properties and the IceWM window manager
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 =over
 
@@ -12,7 +12,7 @@
 
 =back
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icesh> provides two types of commands:
 
@@ -58,7 +58,7 @@ They are processed and evaluated one by one from left to right.
 This makes icesh a small declarative programming language.
 Have a look at some examples near the end of this document.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 B<icesh> recognizes the following options:
 
@@ -278,7 +278,7 @@ Don't complain if no matching windows could be found.
 
 =back
 
-=head1 ACTIONS
+=head2 ACTIONS
 
 B<icesh> expects one or more action arguments.  There are two kinds of
 actions: I<window actions> and I<manager actions>. The first operates on
@@ -862,7 +862,7 @@ Named symbols of the domain I<EWMH state> (numeric range:
 
 =back
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 List all workspace names:
 
@@ -917,7 +917,7 @@ which has a WM_ROLE value of C<special>, or start it with B<runonce>.
         elif -u then setWorkspace this sync activate end \
         else runonce roxterm --role=special
 
-=head1 ENVIRONMENT
+=head2 ENVIRONMENT
 
 =over
 
@@ -927,7 +927,7 @@ The default display.
 
 =back
 
-=head1 EXIT STATUS
+=head2 EXIT STATUS
 
 =over
 
@@ -953,27 +953,27 @@ The X server reports an error while processing a request.
 
 =back
 
-=head1 COMPLIANCE
+=head2 COMPLIANCE
 
 B<icesh> is largely compliant with the EWMH and ICCCM specifications.
 Some commands, like manager actions, are specific to IceWM.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>, L<wmctrl(1)>, L<xdotool(1)>, L<xprop(1)>,
 L<xwininfo(1)>, L<XParseGeometry(3)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

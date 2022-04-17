@@ -1,20 +1,20 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-session - X.Org session manager provider with IceWM
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icewm-session> [I<OPTIONS>]
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 icewm-session is an implementation of a X.Org session manager and can be
 run from a X11 session setup. It runs B<icewm> as default window manager
 and controls the life cycle of related support applications.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =head2 SPECIFIC OPTIONS
 
@@ -100,7 +100,7 @@ Gives a backtrace if icewm segfaults.
 
 =back
 
-=head1 USAGE
+=head2 USAGE
 
 On startup icewm-session executes the following steps.
 From the file F<env> in the configuration directory
@@ -125,7 +125,7 @@ attempt to popup a dialog using either F<yad>, F<xmessage>, F<kdialog>
 or F<zenity>.  This dialog presents a choice between restarting icewm,
 starting a terminal, or abort execution of icewm-session.
 
-=head1 ENVIRONMENT
+=head2 ENVIRONMENT
 
 =over
 
@@ -136,7 +136,7 @@ line invocation of F<icewm>. This can be set in the F<env> file.
 
 =back
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-env(5)>,
@@ -144,17 +144,17 @@ L<icewm-shutdown(5)>,
 L<icewm-startup(5)>,
 L<icewmbg(1)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

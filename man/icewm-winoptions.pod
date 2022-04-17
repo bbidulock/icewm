@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-winoptions - IceWM window options configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/winoptions
  $XDG_CONFIG_HOME/icewm/winoptions
@@ -12,7 +12,7 @@
  /etc/icewm/winoptions
  /usr/share/icewm/winoptions
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 Contains settings to control window appearance and behaviour. These are
 specific to applications, or to groups of applications.  Options can
@@ -24,7 +24,7 @@ Options are established when L<icewm(1)> starts.  However, they can be
 overridden later using L<icesh(1)> or L<icewmhint(1)>. The command
 C<icesh winoptions> instructs icewm to reload the winoptions file.
 
-=head1 FORMAT
+=head2 FORMAT
 
 Each line in the file must be in one of the following formats:
 
@@ -78,7 +78,7 @@ Note that it is possible that the B<WM_WINDOW_ROLE> may contain a period
 (C<.>).  When it does, the period should be escaped by a single
 backslash when specifying the I<ROLE> in the file.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 The options and values described in the format, above, consist of an
 option name, I<OPTION> followed by a semicolon (C<:>) a space (C< >) and
@@ -216,7 +216,7 @@ the application.  The following options are defined:
   startMaximizedVert:       {1|0}  start maximized vertical.
   startMinimized:           {1|0}  start minimized.
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 This example uses the WM_WINDOW_ROLE property value C<pop-up> to deny
 input focus to I<Chrome> pop-ups and asks to close them immediately.
@@ -291,7 +291,7 @@ and typically installs to F</usr/share/icewm/winoptions>.
   MainWindow.licq.layer: Below
   #MainWindow.licq.doNotCover: 1
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<winoptions> file are as follows:
 
@@ -304,7 +304,7 @@ Locations for the F<winoptions> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icesh(1)>,
@@ -312,11 +312,11 @@ L<icewmhint(1)>,
 L<setxkbmap(1)>,
 L<XParseGeometry(3)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

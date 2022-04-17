@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-prefoverride - icewm override preferences configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/prefoverride
  $XDG_CONFIG_HOME/icewm/prefoverride
@@ -12,7 +12,7 @@
  /etc/icewm/prefoverride
  /usr/share/icewm/prefoverride
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 Settings which override the settings from a theme.  Some of the B<icewm>
 configuration options from the preferences file which control the
@@ -21,7 +21,7 @@ thinks this is desirable.  However, this F<prefoverride> file will again
 override this for a few specific options of your choosing.  It is safe
 to leave this file empty initially.
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<prefoverride> file are as follows:
 
@@ -34,16 +34,16 @@ Locations for the F<prefoverride> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-preferences(5)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

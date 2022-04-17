@@ -1,14 +1,14 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icesound - play audio files when interesting GUI events happen
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 B<icesound> [I<OPTIONS>]
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 The L<icewm(1)> window manager generates so-called GUI events in
 response to interesting actions, like opening or closing of application
@@ -52,7 +52,7 @@ When multiple audio interfaces are available B<icesound> will examine
 them all until it finds one which it can connect to and then use that
 one. By default it prefers them in the order of: B<AO>, B<ALSA>, B<OSS>.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 =head2 SPECIFIC OPTIONS
 
@@ -131,7 +131,7 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =back
 
-=head1 EXIT STATUS
+=head2 EXIT STATUS
 
 =over
 
@@ -153,7 +153,7 @@ Subsystems error (i.e cannot connect to server).
 
 =back
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<libao.conf(5)>,
@@ -161,17 +161,17 @@ L<padsp(1)>,
 L<aplay(1)>,
 L<alsamixer(1)>.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewmtray - a system tray for the IceWM panel
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
 =over
 
@@ -18,12 +18,12 @@
 
 =back
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 B<icewmtray> provides a system tray for the IceWM panel.  It catches the
 system tray objects which are installed by various applications.
 
-=head1 OPTIONS
+=head2 OPTIONS
 
 B<icewmtray> recognizes the following options:
 
@@ -83,27 +83,27 @@ been compiled with debugging for this option to have an effect.
 
 =back
 
-=head1 USAGE
+=head2 USAGE
 
 B<icewmtray(1)> is typically launched and terminated by
 L<icewm-session(1)> with the appropriate options: it is usually
 unnecessary to launch it directly.
 
-=head1 CONFORMING TO
+=head2 CONFORMING TO
 
 B<icewmtray> is compliant to the XDG system tray specification.
 
-=head1 BUGS
+=head2 BUGS
 
 Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution or use the B<--copying> flag

@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-toolbar - icewm toolbar configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/toolbar
  $XDG_CONFIG_HOME/icewm/toolbar
@@ -12,7 +12,7 @@
  /etc/icewm/toolbar
  /usr/share/icewm/toolbar
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 The F<toolbar> file is responsible for configuring quick launch
 application icons that are placed on the L<icewm(1)> panel.  It
@@ -29,7 +29,7 @@ with the F<firefox> icon which launches L<firefox(1)> when clicked:
 
     prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
 
-=head1 FORMAT
+=head2 FORMAT
 
 The format of the file contains one of the following line syntax:
 
@@ -72,7 +72,7 @@ Options and arguments that are passed to I<program>.
 Lines beginning with a hash (C<#>) are comment lines.  Comment lines and
 blank lines are ignored.
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 Following is an example that places a number of toolbar buttons on the
 L<icewm(1)> panel:
@@ -86,7 +86,7 @@ L<icewm(1)> panel:
     prog "Network" gtk-network.png pcmanfm ~/Network
     prog "Logout" system-log-out.png xde-logout
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<toolbar> file are as follows:
 
@@ -99,18 +99,18 @@ Locations for the F<toolbar> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>,
 L<icewm-programs(5)>,
 L<icewm-menu(5)>,
 L<icewm-menu-fdo(1)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.

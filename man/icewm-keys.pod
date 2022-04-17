@@ -1,10 +1,10 @@
 =pod
 
-=head1 NAME
+=head2 NAME
 
  icewm-keys - icewm keys configuration file
 
-=head1 SYNOPSIS
+=head2 SYNOPSIS
 
  $ICEWM_PRIVCFG/keys
  $XDG_CONFIG_HOME/icewm/keys
@@ -12,7 +12,7 @@
  /etc/icewm/keys
  /usr/share/icewm/keys
 
-=head1 DESCRIPTION
+=head2 DESCRIPTION
 
 Global keybindings to launch applications, which need not be window
 manager related. If you are looking for ways to disable icewm's grabbing
@@ -32,7 +32,7 @@ See the output of C<xmodmap -pk> for a list of keystroke names.
 To bind the mouse use C<Pointer_Button1> for button 1, and so on.
 The command C<icesh keys> instructs icewm to reload this file.
 
-=head1 FORMAT
+=head2 FORMAT
 
 The syntax of the F<keys> file is as follows:
 
@@ -76,7 +76,7 @@ I<options> are the options and arguments passed to the I<program>.
 
 =back
 
-=head1 EXAMPLES
+=head2 EXAMPLES
 
 Following is the example F<keys> file that ships with L<icewm(1)>:
 
@@ -129,7 +129,7 @@ I<KeyWinArrange> key bindings from the F<preferences> file:
     key "Ctrl+Alt+KP_4" icesh -f sizeto 49% 100% top left
     key "Ctrl+Alt+KP_5" icesh -f sizeto 49% 49% center
 
-=head1 FILES
+=head2 FILES
 
 Locations for the F<keys> file are as follows:
 
@@ -142,15 +142,15 @@ Locations for the F<keys> file are as follows:
 The locations are searched in the order listed; the first file found is
 read and the remainder ignored.
 
-=head1 SEE ALSO
+=head2 SEE ALSO
 
 L<icewm(1)>.
 
-=head1 AUTHOR
+=head2 AUTHOR
 
 Brian Bidulock L<mailto:bidulock@openss7.org>.
 
-=head1 LICENSE
+=head2 LICENSE
 
 B<IceWM> is licensed under the GNU Library General Public License.
 See the F<COPYING> file in the distribution.
