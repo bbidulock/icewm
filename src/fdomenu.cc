@@ -43,6 +43,7 @@ bool add_sep_after = false;
 bool no_sep_others = false;
 bool no_sub_cats = false;
 bool generic_name = false;
+bool right_to_left = false;
 
 template<typename T, void TFreeFunc(T)>
 struct auto_raii {
@@ -129,9 +130,15 @@ public:
             if (title && progCmd) {
                 if (ctx->count == 0 && add_sep_before)
                     puts("separator");
-                if (nonempty(generic) && !strcasestr(title, generic))
-                    printf("prog \"%s (%s)\" %s %s\n",
-                            title, generic, meta->icon, progCmd);
+                if (nonempty(generic) && !strcasestr(title, generic)) {
+                    if (right_to_left) {
+                        printf("prog \"(%s) %s\" %s %s\n",
+                                generic, title, meta->icon, progCmd);
+                    } else {
+                        printf("prog \"%s (%s)\" %s %s\n",
+                                title, generic, meta->icon, progCmd);
+                    }
+                }
                 else
                     printf("prog \"%s\" %s %s\n", title, meta->icon, progCmd);
             }
@@ -628,7 +635,26 @@ bool launch(LPCSTR dfile, char** argv, int argc) {
 
 static void init() {
 #ifdef CONFIG_I18N
-    setlocale(LC_ALL, "");
+    const char* loc = setlocale(LC_ALL, "");
+    if (loc
+        && islower(*loc & 0xff)
+        && islower(loc[1] & 0xff)
+        && !isalpha(loc[2] & 0xff)) {
+        const char rtls[][4] = {
+            "ar",   // arabic
+            "fa",   // farsi
+            "he",   // hebrew
+            "ps",   // pashto
+            "sd",   // sindhi
+            "ur",   // urdu
+        };
+        for (const char* rtl : rtls) {
+            if (rtl[0] == loc[0] && rtl[1] == loc[1]) {
+                right_to_left = true;
+                break;
+            }
+        }
+    }
 #endif
 
     bindtextdomain(PACKAGE, LOCDIR);
