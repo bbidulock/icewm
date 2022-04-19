@@ -129,7 +129,7 @@ public:
             if (title && progCmd) {
                 if (ctx->count == 0 && add_sep_before)
                     puts("separator");
-                if (nonempty(generic) && strcmp(generic, title))
+                if (nonempty(generic) && !strcasestr(title, generic))
                     printf("prog \"%s (%s)\" %s %s\n",
                             title, generic, meta->icon, progCmd);
                 else
