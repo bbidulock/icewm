@@ -129,6 +129,18 @@ I<KeyWinArrange> key bindings from the F<preferences> file:
     key "Ctrl+Alt+KP_4" icesh -f sizeto 49% 100% top left
     key "Ctrl+Alt+KP_5" icesh -f sizeto 49% 49% center
 
+Some systems need this instead:
+
+    key "Ctrl+Alt+KP_Home"  icesh -f sizeto 49% 49% top left
+    key "Ctrl+Alt+KP_Up"    icesh -f sizeto 100% 49% top left
+    key "Ctrl+Alt+KP_Prior" icesh -f sizeto 49% 49% top right
+    key "Ctrl+Alt+KP_Right" icesh -f sizeto 49% 100% top right
+    key "Ctrl+Alt+KP_Next"  icesh -f sizeto 49% 49% bottom right
+    key "Ctrl+Alt+KP_Down"  icesh -f sizeto 100% 49% bottom left
+    key "Ctrl+Alt+KP_End"   icesh -f sizeto 49% 49% bottom left
+    key "Ctrl+Alt+KP_Left"  icesh -f sizeto 49% 100% top left
+    key "Ctrl+Alt+KP_Begin" icesh -f sizeto 49% 49% center
+
 =head2 FILES
 
 Locations for the F<keys> file are as follows:
