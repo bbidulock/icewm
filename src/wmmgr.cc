@@ -242,6 +242,8 @@ void YWindowManager::grabKeys() {
         GRAB_WMKEY(gKeyTaskBarMoveNext);
         GRAB_WMKEY(gKeyTaskBarMovePrev);
     }
+    if (configKeyboards.nonempty())
+        GRAB_WMKEY(gKeySysKeyboardNext);
 
     {
         KProgramIterType k = keyProgs.iterator();
@@ -600,6 +602,10 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm) {
     } else if (IS_WMKEY(k, vm, gKeyTaskBarMoveNext)) {
         if (taskBar)
             taskBar->moveNext();
+        return true;
+    } else if (IS_WMKEY(k, vm, gKeySysKeyboardNext)) {
+        if (configKeyboards.nonempty())
+            setKeyboard((fDefaultKeyboard + 1) % configKeyboards.getCount());
         return true;
     }
     return false;

@@ -43,6 +43,7 @@
 #define defgKeySysMenu                  XK_Escape, kfCtrl, "Ctrl+Esc"
 #define defgKeySysWindowList            XK_Escape, kfCtrl+kfAlt, "Alt+Ctrl+Esc"
 #define defgKeySysWinListMenu           0, 0, ""
+#define defgKeySysKeyboardNext          0, 0, ""
 #define defgKeySysAddressBar            ' ', kfAlt+kfCtrl, "Alt+Ctrl+Space"
 #define defgKeyWinMenu                  ' ', kfAlt, "Alt+Space"
 #define defgKeySysWorkspacePrev         XK_Left, kfAlt+kfCtrl, "Alt+Ctrl+Left"
@@ -142,6 +143,7 @@ DEF_WMKEY(gKeySysDialog);
 DEF_WMKEY(gKeySysMenu);
 DEF_WMKEY(gKeySysWindowList);
 DEF_WMKEY(gKeySysWinListMenu);
+DEF_WMKEY(gKeySysKeyboardNext);
 DEF_WMKEY(gKeySysAddressBar);
 DEF_WMKEY(gKeySysWorkspacePrev);
 DEF_WMKEY(gKeySysWorkspaceNext);

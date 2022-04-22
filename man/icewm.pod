@@ -610,8 +610,9 @@ will be shown. Otherwise the first two letters of the name of the
 layout will be shown.
 
 Click on the current keyboard layout to cycle through all the
-available keyboard layouts. Click with the right mouse button
-to open a menu of all available keyboard layouts.
+available keyboard layouts, or use the B<KeySysKeyboardNext> key.
+Click with the right mouse button to open a menu of all available
+keyboard layouts.
 
 It is also possible to configure a default keyboard layout for
 each program individually in the L<icewm-winoptions(5)> file.
@@ -955,6 +956,10 @@ left.
 =item B<KeySysWinListMenu>=C<undefined>
 
 Shows the window list menu.
+
+=item B<KeySysKeyboardNext>=C<undefined>
+
+Switch to the next keyboard layout in the KeyboardLayouts list.
 
 =item B<KeySysSwitchNext>=C<Alt+Tab>
 

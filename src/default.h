@@ -507,6 +507,7 @@ cfoption icewm_preferences[] = {
     OKV("KeySysMenu",                           gKeySysMenu,                    "Activates the IceWM root menu in the lower left corner."),
     OKV("KeySysWindowList",                     gKeySysWindowList,              "Opens the IceWM system window list in the center of the screen."),
     OKV("KeySysWinListMenu",                    gKeySysWinListMenu,             "Shows the window list menu."),
+    OKV("KeySysKeyboardNext",                   gKeySysKeyboardNext,            "Switch to the next keyboard layout in the KeyboardLayouts list."),
     OKV("KeySysAddressBar",                     gKeySysAddressBar,              "Opens the address bar in the task bar where a command can be typed."),
     OKV("KeySysWorkspacePrev",                  gKeySysWorkspacePrev,           "Goes one workspace to the left."),
     OKV("KeySysWorkspaceNext",                  gKeySysWorkspaceNext,           "Goes one workspace to the right."),
