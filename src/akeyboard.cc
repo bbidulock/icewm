@@ -19,7 +19,7 @@ KeyboardStatus::KeyboardStatus(IApp* app, IAppletContainer* tb, YWindow* parent)
     taskBar(tb),
     fKeyboard(manager->getKeyboard()),
     fFont(tempFontName),
-    fColor(&clrCpuTemp),
+    fColor(&clrClockText),
     fIndex(0),
     fInside(false)
 {
