@@ -99,6 +99,7 @@ XSV(const char *, clrActiveButton,              "rgb:E0/E0/E0")
 XSV(const char *, clrActiveButtonText,          "rgb:00/00/00")
 XSV(const char *, clrToolButton,                "")
 XSV(const char *, clrToolButtonText,            "")
+XSV(const char *, clrKeyboardLayoutText,        "")
 XSV(const char *, clrWorkspaceActiveButton,     "")
 XSV(const char *, clrWorkspaceActiveButtonText, "")
 XSV(const char *, clrWorkspaceNormalButton,     "")
@@ -289,7 +290,8 @@ cfoption icewm_themable_preferences[] = {
     OSV("ColorInputSelectionText",              &clrInputSelectionText,         "Selected text in an entry field"),
 
     OSV("ColorClock",                           &clrClock,                      "Background of non-LCD clock, leave empty to force transparency"),
-    OSV("ColorClockText",                       &clrClockText,                  "Background of non-LCD monitor"),
+    OSV("ColorClockText",                       &clrClockText,                  "Text color of non-LCD clock"),
+    OSV("ColorKeyboardLayoutText",              &clrKeyboardLayoutText,         "Color of keyboard layout indicator"),
 
     OSV("ColorApm",                             &clrApm,                        "Background of battery monitor, leave empty to force transparency"),
     OSV("ColorApmText",                         &clrApmText,                    "Text color of battery monitor"),

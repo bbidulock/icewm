@@ -1633,7 +1633,11 @@ Background of non-LCD clock, leave empty to force transparency.
 
 =item B<ColorClockText> = "rgb:00/FF/00"
 
-Background of non-LCD monitor.
+Text color of non-LCD clock.
+
+=item B<ColorKeyboardLayoutText> = ""
+
+Color of keyboard layout indicator.
 
 =item B<ColorApm> = "rgb:00/00/00"
 
