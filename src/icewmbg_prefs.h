@@ -3,7 +3,7 @@
 
 /* Synchronize with MAXWORKSPACES from wmmgr.h */
 #define MAX_WORKSPACES  20
-#define ICEBG_MAX_ARGS  5000
+#define ICEBG_MAX_ARGS  5120
 
 #include "yconfig.h"
 

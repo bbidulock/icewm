@@ -787,7 +787,7 @@ bool Background::filterEvent(const XEvent &xev) {
     else if (xev.type == ClientMessage) {
         if (xev.xclient.message_type == _XA_ICEWMBG_QUIT) {
             if (xev.xclient.data.l[0] != mypid) {
-                if (verbose) tlog("quit");
+                if (verbose) tlog("quitting");
                 this->exit(0);
             }
             return true;
@@ -968,6 +968,49 @@ static void testFlag(bool* flag, const char* value) {
     }
 }
 
+static bool sendMessage(const char* displayArg, const char* text) {
+    bool success = false;
+    Display* display = XOpenDisplay(displayArg);
+    if (display == nullptr) {
+        warn(_("Can't open display: %s. X must be running and $DISPLAY set."),
+             XDisplayName(displayArg));
+        success = true;
+    }
+    else {
+        Window root = DefaultRootWindow(display);
+        int screen = DefaultScreen(display);
+        char abuf[42];
+        snprintf(abuf, sizeof abuf, "_ICEWMBG_PID_S%d", screen);
+        Atom atom = XInternAtom(display, abuf, False);
+        Atom type = None;
+        int format = 0;
+        unsigned long count = None;
+        unsigned long after = None;
+        unsigned char* data = nullptr;
+        bool got = XGetWindowProperty(display, root, atom, 0L, 1L,
+                                      False, XA_CARDINAL, &type, &format,
+                                      &count, &after, &data);
+        if (got == Success && format == 32 && count == 1 && data) {
+            int pid = int(((long *)data)[0]);
+            XFree(data);
+            if (pid > 0 && pid != getpid() && kill(pid, 0) == 0) {
+                XClientMessageEvent xev = {};
+                xev.type = ClientMessage;
+                xev.window = root;
+                xev.message_type = XInternAtom(display, text, False);
+                xev.format = 32;
+                xev.data.l[0] = getpid();
+                XSendEvent(display, root, False, StructureNotifyMask,
+                           reinterpret_cast<XEvent*>(&xev));
+                XSync(display, False);
+                success = true;
+            }
+        }
+        XCloseDisplay(display);
+    }
+    return success;
+}
+
 int main(int argc, char **argv) {
     ApplicationName = my_basename(*argv);
 
@@ -987,12 +1030,14 @@ int main(int argc, char **argv) {
     const char* multi = nullptr;
     const char* cycle = nullptr;
     const char* shuffleArg = nullptr;
+    const char* displayArg = nullptr;
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char *value(nullptr);
             if (is_switch(*arg, "r", "restart")) {
                 sendRestart = true;
+                **arg = '\0';
             }
             else if (is_switch(*arg, "q", "quit")) {
                 sendQuit = true;
@@ -1013,6 +1058,9 @@ int main(int argc, char **argv) {
             }
             else if (is_long_switch(*arg, "verbose")) {
                 verbose = true;
+            }
+            else if (is_long_switch(*arg, "sync")) {
+                YXApplication::synchronizeX11 = true;
             }
             else if (GetArgument(value, "t", "theme", arg, argv + argc)) {
                 overrideTheme = value;
@@ -1049,12 +1097,12 @@ int main(int argc, char **argv) {
                 cycle = value;
             }
             else if (GetArgument(value, "d", "display", arg, argv + argc)) {
-                /*ignore*/;
+                displayArg = value;
             }
             else if (GetArgument(value, "C", "copying", arg, argv + argc)) {
                 /*ignore*/;
             }
-            else
+            else if (*arg)
                 warn(_("Unrecognized option '%s'."), *arg);
         }
     }
@@ -1065,17 +1113,20 @@ int main(int argc, char **argv) {
         }
     }
 
-    Background bg(&argc, &argv, verbose);
-
-    if (sendRestart) {
-        bg.sendRestart();
-        return 0;
-    }
-
     if (sendQuit) {
-        bg.sendQuit();
+        sendMessage(displayArg, "_ICEWMBG_QUIT");
         return 0;
     }
+    if (sendRestart) {
+        if (sendMessage(displayArg, "_ICEWMBG_RESTART")) {
+            return 0;
+        }
+        else if (fork()) {
+            return 0;
+        }
+    }
+
+    Background bg(&argc, &argv, verbose);
 
     if (bg.become(replace) == false) {
         if (shuffle) {
