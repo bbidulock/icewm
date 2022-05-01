@@ -145,6 +145,7 @@ void SavePrefs::applyMods(YArray<int>& mods, cfoption* options)
                     } else {
                         break;
                     }
+                    len += strlen(buf + len);
                 }
                 if (i && len && len + 1 < sizeof buf) {
                     snprintf(buf + len, sizeof buf - len, "\n");
