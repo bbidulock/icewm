@@ -15,6 +15,8 @@ enum IwmState {
 };
 
 class YSMListener;
+class YStat;
+class YTemp;
 
 typedef unsigned long long cpubytes;
 
@@ -27,7 +29,7 @@ public:
 
 class CPUStatus: public IApplet, private Picturer, private YTimerListener {
 public:
-    CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid = -1);
+    CPUStatus(YWindow* parent, CPUStatusHandler* handler, int cpuid, YStat* stat);
     virtual ~CPUStatus();
 
     virtual bool handleTimer(YTimer *t);
@@ -36,7 +38,8 @@ public:
     void updateStatus();
     void getStatus();
     void getStatusPlatform();
-    int getAcpiTemp(char* tempbuf, int buflen, bool best = true);
+    void getStatusLinux();
+    int getAcpiTemp(char* tempbuf, int buflen, bool best);
     float getCpuFreq(int cpu);
     int getCpuID() const { return fCpuID; }
     virtual void updateToolTip();
@@ -51,6 +54,7 @@ private:
     cpubytes last_cpu[IWM_STATES];
     YColorName color[IWM_STATES];
     CPUStatusHandler *fHandler;
+    YStat* fStat;
     YColorName fTempColor;
 
     bool picture();
@@ -59,7 +63,7 @@ private:
     void temperature(Graphics& g);
 
     static YFont tempFont;
-    static class YTemp* fTemp;
+    static YTemp* fTemp;
 };
 
 class CPUStatusControl : private CPUStatusHandler, public YActionListener
@@ -70,7 +74,7 @@ public:
     typedef ArrayType::IterType IterType;
 
     CPUStatusControl(YSMListener *smActionListener, IAppletContainer *iapp, YWindow *aParent);
-    virtual ~CPUStatusControl() { CPUStatus::freeFont(); CPUStatus::freeTemp(); }
+    virtual ~CPUStatusControl();
 
     IterType getIterator() { return fCPUStatus.iterator(); }
 
@@ -85,6 +89,7 @@ private:
     YSMListener *smActionListener;
     IAppletContainer *iapp;
     YWindow *aParent;
+    YStat* fStat;
     YTimer fUpdateTimer;
     ArrayType fCPUStatus;
     osmart<YMenu> fMenu;

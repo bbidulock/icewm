@@ -16,10 +16,8 @@
  *    -stibor-
  */
 #include "config.h"
-#include "ylib.h"
 #include "wmapp.h"
 #include "applet.h"
-#include "ypointer.h"
 #include "acpustatus.h"
 
 #if IWM_STATES
@@ -66,16 +64,100 @@
 
 extern ref<YPixmap> taskbackPixmap;
 
+#if __linux__
+class YStat {
+public:
+    int count() {
+        int cpus = 0;
+        if (have()) {
+            char* p = data;
+            while (p && (p = strstr(p, "\ncpu")) != nullptr) {
+                cpus += ASCII::isDigit(p[4]);
+                p = strchr(p + 4, '\n');
+            }
+        }
+        return cpus;
+    }
+    void recycle() {
+        if (data) {
+            *data = '\0';
+        }
+    }
+    char* cpustatus(int cpuid) {
+        char* status = nullptr;
+        if (have()) {
+            if (cpuid == -1) {
+                char* p = strstr(data, "cpu ");
+                if (p == data || p[-1] == '\n') {
+                    status = p + 4;
+                }
+            } else {
+                char buf[32];
+                snprintf(buf, sizeof buf, "\ncpu%d ", cpuid);
+                char* p = strstr(data, buf);
+                if (p) {
+                    status = p + strlen(buf);
+                }
+            }
+        }
+        return status;
+    }
+    YStat() : fildes(-1), data(nullptr) { }
+    ~YStat() {
+        if (fildes > 2) close(fildes);
+        if (data) delete[] data;
+    }
+private:
+    int fildes;
+    char* data;
+    const size_t size = 8192;
+    bool have() { return nonempty(data) || read(); }
+    bool read() {
+        const char path[] = "/proc/stat";
+        if (fildes >= 0 && lseek(fildes, 0, SEEK_SET) < 0) {
+            if (ONCE)
+                fail("seek %s", path);
+            close(fildes);
+            fildes = -1;
+        }
+        if (fildes < 0 && (fildes = open(path, O_RDONLY | O_CLOEXEC)) < 0) {
+            if (ONCE)
+                fail("open %s", path);
+            return false;
+        }
+        if (data == nullptr) {
+            data = new char[size];
+            *data = '\0';
+        }
+        ssize_t len = ::read(fildes, data, size - 1);
+        if (len <= 0) {
+            if (ONCE)
+                fail("read %s", path);
+            close(fildes);
+            fildes = -1;
+            delete[] data;
+            data = nullptr;
+            return false;
+        } else {
+            data[len] = '\0';
+        }
+        return true;
+    }
+};
+#endif
+
 YFont CPUStatus::tempFont;
 YTemp* CPUStatus::fTemp;
 
-CPUStatus::CPUStatus(YWindow *aParent, CPUStatusHandler *aHandler, int cpuid) :
-    IApplet(this, aParent),
+CPUStatus::CPUStatus(YWindow* parent, CPUStatusHandler* handler,
+                     int cpuid, YStat* stat) :
+    IApplet(this, parent),
     fCpuID(cpuid),
     statusUpdateCount(0),
     unchanged(taskBarCPUSamples),
     cpu(taskBarCPUSamples, IWM_STATES),
-    fHandler(aHandler),
+    fHandler(handler),
+    fStat(stat),
     fTempColor(&clrCpuTemp)
 {
     cpu.clear();
@@ -275,15 +357,19 @@ public:
             if (temp) {
                 int cent = temp / 1000;
                 int hund = temp % 1000 / 100;
-                snprintf(tempbuf + done, buflen - done, "%d.%d ", cent, hund);
+                if (best && ! hund) {
+                    snprintf(tempbuf + done, buflen - done, "%d ", cent);
+                } else {
+                    snprintf(tempbuf + done, buflen - done, "%d.%d ", cent, hund);
+                }
                 done += strlen(tempbuf + done);
                 if (best) {
                     break;
                 }
             }
         }
-        if (done && done + int(strlen(centigrade)) + 1 < buflen && ! best) {
-            strlcpy(tempbuf + done, centigrade, buflen - done);
+        if (done && done + int(strlen(centigrade)) + 1 < buflen) {
+            strlcpy(tempbuf + done - best, centigrade, buflen - done);
         }
         return done > 0;
     }
@@ -404,7 +490,7 @@ void CPUStatus::temperature(Graphics& g) {
 #if __linux__
     if (cpustatusShowAcpiTempInGraph) {
         char temp[10];
-        getAcpiTemp(temp, sizeof(temp));
+        getAcpiTemp(temp, sizeof(temp), true);
         g.setColor(fTempColor);
         if (tempFont == null)
             tempFont = tempFontName;
@@ -413,8 +499,22 @@ void CPUStatus::temperature(Graphics& g) {
             int h = height();
             int y = (h - 1 - tempFont->height()) / 2 + tempFont->ascent();
             int w = tempFont->textWidth(temp);
+            if (w > int(width())) {
+                int s = strspn(temp, "0123456789.");
+                if (s && temp[s]) {
+                    temp[s] = '\0';
+                    w = tempFont->textWidth(temp);
+                }
+                while (w > int(width()) && strchr(temp, '.') && 0 < s) {
+                    temp[--s] = '\0';
+                    if (temp[s-1] == '.') {
+                        temp[--s] = '\0';
+                    }
+                    w = tempFont->textWidth(temp);
+                }
+            }
             int x = max(0, (int(g.rwidth()) - w) / 2);
-            g.drawChars(temp, 0, 3, x, y);
+            g.drawString(x, y, temp);
         }
     }
 #endif
@@ -571,20 +671,18 @@ void CPUStatus::updateStatus() {
 }
 
 int CPUStatus::getAcpiTemp(char *tempbuf, int buflen, bool best) {
-    int retbuflen = 0;
-
     tempbuf[0] = '\0';
 
 #if __linux__
     if (fTemp == nullptr) {
         fTemp = new YTemp;
     }
-    if (fTemp && fTemp->read_temp(tempbuf, buflen, best)) {
-        retbuflen += int(strlen(tempbuf));
+    if (fTemp) {
+        fTemp->read_temp(tempbuf, buflen, best);
     }
 #endif
 
-    return retbuflen;
+    return int(strlen(tempbuf));
 }
 
 float CPUStatus::getCpuFreq(int cpu) {
@@ -621,30 +719,12 @@ float CPUStatus::getCpuFreq(int cpu) {
 }
 
 
-void CPUStatus::getStatusPlatform() {
+void CPUStatus::getStatusLinux() {
 #ifdef __linux__
-    char *p = nullptr, buf[4096], *end = nullptr;
+    char *p = fStat->cpustatus(fCpuID);
     unsigned long long cur[IWM_STATES];
     int s;
 
-    fileptr fd(fopen("/proc/stat", "r"));
-    if (fd == nullptr)
-        return;
-
-    while (fgets(buf, sizeof buf, fd) && 0 == strncmp(buf, "cpu", 3)) {
-        if (fCpuID == -1) {
-            if (ASCII::isSpaceOrTab(buf[3]))
-                p = buf + 4;
-            break;
-        }
-        if (ASCII::isDigit(buf[3]) && strtol(buf + 3, &end, 10) == fCpuID) {
-            if (end > buf && ASCII::isSpaceOrTab(*end)) {
-                p = 1 + end;
-                break;
-            }
-        }
-    }
-    fd.close();
     if (p == nullptr)
         return;
 
@@ -674,9 +754,12 @@ void CPUStatus::getStatusPlatform() {
         cpu[taskBarCPUSamples - 1][i] = cur[i] - last_cpu[i];
         last_cpu[i] = cur[i];
     }
+#endif
+}
 
-    return;
-
+void CPUStatus::getStatusPlatform() {
+#if __linux__
+    getStatusLinux();
 #elif __OpenBSD__ || __NetBSD__ || __FreeBSD__
 
 #if defined __NetBSD__
@@ -753,6 +836,7 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
     smActionListener(smActionListener),
     iapp(iapp),
     aParent(aParent),
+    fStat(nullptr),
     fMenuCPU(-1),
     fSamples(taskBarCPUSamples),
     fPid(0)
@@ -761,20 +845,26 @@ CPUStatusControl::CPUStatusControl(YSMListener *smActionListener,
     fUpdateTimer.setTimer(taskBarCPUDelay, this, true);
 }
 
+CPUStatusControl::~CPUStatusControl() {
+    CPUStatus::freeFont();
+#if __linux__
+    CPUStatus::freeTemp();
+    delete fStat;
+#endif
+}
+
 void CPUStatusControl::GetCPUStatus(bool combine) {
     int count = 0;
 #if __linux__
-    if (combine == false) {
-        fileptr fd("/proc/stat", "r");
-        if (fd) {
-            char buf[128];
-            while (fgets(buf, sizeof buf, fd) && 0 == memcmp(buf, "cpu", 3))
-                count += ASCII::isDigit(buf[3]);
-        }
+    if (fStat == nullptr) {
+        fStat = new YStat();
+    }
+    if (combine == false && fStat) {
+        count = fStat->count();
     }
 #endif
     do {
-        fCPUStatus += new CPUStatus(aParent, this, --count);
+        fCPUStatus += new CPUStatus(aParent, this, --count, fStat);
     } while (0 < count);
 }
 
@@ -792,6 +882,11 @@ bool CPUStatusControl::handleTimer(YTimer* timer) {
             GetCPUStatus(cpus < 2);
             iapp->relayout();
         }
+#if __linux__
+        if (fStat) {
+            fStat->recycle();
+        }
+#endif
         for (CPUStatus* status : fCPUStatus) {
             status->handleTimer(timer);
         }
