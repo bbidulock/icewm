@@ -1184,6 +1184,16 @@ static void showExtensions() {
 static int restartWM(const char* displayName, const char* overrideTheme) {
     Display* display = XOpenDisplay(displayName);
     if (display) {
+        char name[32];
+        snprintf(name, sizeof name, "WM_S%d", DefaultScreen(display));
+        Atom selatom = XInternAtom(display, name, False);
+        Window owner = XGetSelectionOwner(display, selatom);
+        if (owner == None) {
+            XCloseDisplay(display);
+            return -1;
+        }
+    }
+    if (display) {
         if (nonempty(overrideTheme)) {
             WMConfig::setDefaultTheme(overrideTheme);
         }
@@ -1783,8 +1793,13 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (restart_wm)
-        return restartWM(displayName, overrideTheme);
+    if (restart_wm) {
+        int r = restartWM(displayName, overrideTheme);
+        if (r >= 0)
+            return r;
+        if (fork())
+            return 0;
+    }
     if (rewrite_prefs)
         return WMConfig::rewritePrefs(wmapp_preferences, configFile);
 

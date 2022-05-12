@@ -157,7 +157,8 @@ active window manager.
 
 =item B<-r>, B<--restart>
 
-Tell B<icewm> to restart itself. This reloads the configuration from file.
+Tell B<icewm> to restart itself. This reloads the configuration from
+file. If no window manager is active, then it starts one.
 
 =item B<-s>, B<--splash>=I<IMAGE>
 

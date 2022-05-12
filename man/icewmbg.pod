@@ -64,7 +64,8 @@ L<icewm-session(1)> when L<icewm(1)> exits.
 
 Tell the running B<icewmbg> to restart itself.  This is useful when
 a background file or directory has changed, or when settings in
-preferences files have changed.
+preferences files have changed. If no icewmbg is active, then it starts
+one.
 
 =item B<-u>, B<--shuffle>
 
