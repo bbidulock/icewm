@@ -312,7 +312,7 @@ cfoption* OptionCopy::copyOptions(cfoption* options) {
 int WMConfig::rewritePrefs(cfoption* start_preferences, const char* config) {
     upath origin(YApplication::getLibDir() + "/preferences");
     upath source(nonempty(config) ? config :
-                 YApplication::getPrivConfDir() + "/preferences");
+                 getDefaultsFilePath("preferences"));
 
     if (origin == source) {
         errno = EDEADLK;

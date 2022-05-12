@@ -34,7 +34,7 @@ upath SavePrefs::preferencesPath(const char* configFile) {
             return defaultPrefs(path);
     }
 
-    upath priv(YApplication::getPrivConfDir() + "/preferences");
+    upath priv(YApplication::getPrivConfFile("preferences", true));
     if (priv.isWritable())
         return priv;
     if (!priv.fileExists() && priv.testWritable(perm))

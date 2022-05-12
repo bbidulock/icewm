@@ -512,13 +512,13 @@ const upath& YApplication::getConfigDir() {
     return dir;
 }
 
-const upath& YApplication::getPrivConfDir() {
+const upath& YApplication::getPrivConfDir(bool create) {
     static upath dir;
     if (dir.isEmpty()) {
         const char *env = getenv("ICEWM_PRIVCFG");
         if (env) {
             dir = env;
-            if ( ! dir.dirExists())
+            if (create && ! dir.dirExists())
                 dir.mkdir();
         }
         else {
@@ -531,13 +531,20 @@ const upath& YApplication::getPrivConfDir() {
             dir += "/icewm";
             if (!dir.dirExists()) {
                 dir = getHomeDir() + "/.icewm";
-                if ( ! dir.dirExists())
+                if (create && ! dir.dirExists())
                     dir.mkdir();
             }
         }
         MSG(("using %s for private configuration files", dir.string()));
     }
+    else if (create && ! dir.dirExists()) {
+        dir.mkdir();
+    }
     return dir;
+}
+
+upath YApplication::getPrivConfFile(mstring basename, bool create) {
+    return getPrivConfDir(create) + basename;
 }
 
 upath YApplication::getHomeDir() {

@@ -68,7 +68,8 @@ public:
     static upath locateConfigFile(upath relativePath);
     static const upath& getLibDir();
     static const upath& getConfigDir();
-    static const upath& getPrivConfDir();
+    static const upath& getPrivConfDir(bool create = false);
+    static upath getPrivConfFile(mstring basename, bool create = false);
     static upath getHomeDir();
 
 private:
