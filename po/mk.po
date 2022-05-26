@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-05-24 09:13+0000\n"
+"PO-Revision-Date: 2022-05-26 05:12+0000\n"
 "Last-Translator: Kristijan Fremen Velkovski <me@krisfremen.com>\n"
 "Language-Team: Macedonian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/mk/>\n"
@@ -1675,7 +1675,7 @@ msgstr ""
 #: src/icesound.cc:779
 #, c-format
 msgid "No audio for %s"
-msgstr ""
+msgstr "Нема аудио за %s"
 
 #: src/icesound.cc:856
 msgid "Could not get GUI event property"
@@ -1684,17 +1684,17 @@ msgstr ""
 #: src/icesound.cc:860
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr ""
+msgstr "Добиен невалиден графички настан %d"
 
 #: src/icesound.cc:864
 #, c-format
 msgid "Received GUI event %s"
-msgstr ""
+msgstr "Добиен графички настан %s"
 
 #: src/icesound.cc:878
 #, c-format
 msgid "Too quick; ignoring %s."
-msgstr ""
+msgstr "Пребрзо; се игнорира %s."
 
 #: src/icesound.cc:882
 #, c-format
@@ -2461,15 +2461,15 @@ msgstr ""
 
 #: src/wmprog.cc:359
 msgid "_Icewm(1)"
-msgstr ""
+msgstr "_Icewm(1)"
 
 #: src/wmprog.cc:360
 msgid "Icewm_Bg(1)"
-msgstr ""
+msgstr "Icewm_Bg(1)"
 
 #: src/wmprog.cc:361
 msgid "Ice_Sound(1)"
-msgstr ""
+msgstr "Ice_Sound(1)"
 
 #: src/wmprog.cc:410
 msgid "Programs"
