@@ -7,20 +7,19 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2020-05-07 08:52+0000\n"
-"Last-Translator: ingemar karlsson <ingemar_bengt@hotmail.com>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sv/>\n"
+"PO-Revision-Date: 2022-05-31 18:13+0000\n"
+"Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.6.1\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open APM device %s"
+#, c-format
 msgid "Can't open the APM device %s"
 msgstr "Kunde inte öppna APM-enhet %s"
 
@@ -170,25 +169,23 @@ msgstr "%s dödades med signal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "regler:"
 
 #: src/akeyboard.cc:99
 msgid "model:"
-msgstr ""
+msgstr "modell:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "layout:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Felaktig flagga: %s"
+msgstr "alternativ:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "Tangentbord"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -332,13 +329,11 @@ msgstr ""
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
-msgstr ""
+msgstr "frånkopplad"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Rulla ut"
+msgstr "ned"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -1072,37 +1067,31 @@ msgstr "Index"
 
 #: src/icehelp.cc:1337
 msgid "Find..."
-msgstr ""
+msgstr "Hitta..."
 
 #: src/icehelp.cc:1337
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+F"
-msgstr "Qtrl+Q"
+msgstr "Qtrl+F"
 
 #: src/icehelp.cc:1338
 msgid "Find next"
-msgstr ""
+msgstr "Hitta nästa"
 
 #: src/icehelp.cc:1338
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Webbläsare"
+msgstr "Öppna i Webbläsare"
 
 #: src/icehelp.cc:1340
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Qtrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1342
 msgid "Reload"
-msgstr ""
+msgstr "Ladda om"
 
 #: src/icehelp.cc:1342 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1121,10 +1110,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1348
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Qtrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1350
 msgid "Icewmbg(1)"
@@ -1143,10 +1130,8 @@ msgid "Manual"
 msgstr "Manual"
 
 #: src/icehelp.cc:1356
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Qtrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1358
 msgid "Support"
@@ -1372,10 +1357,8 @@ msgid "Motif decorations"
 msgstr "Motif-dekorationer"
 
 #: src/icesh.cc:1933
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "GNOME-fönsterläge"
+msgstr "EWMH-fönsterläge"
 
 #: src/icesh.cc:2015 src/icesh.cc:2088
 #, c-format
@@ -1419,10 +1402,9 @@ msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan inte öppna bildskärm: %s. X måste vara igång och $DISPLAY satt."
 
 #: src/icesh.cc:3522
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Oväntat menynyckelord: ’%s’"
+msgstr "Oväntat: '%s'."
 
 #: src/icesh.cc:3551
 msgid "No windows found."
@@ -1519,13 +1501,6 @@ msgid "restart %s."
 msgstr "starta om %s."
 
 #: src/icesm.cc:511
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -1538,6 +1513,7 @@ msgstr ""
 "Vill du:\n"
 "\t1: Starta om IceWM?\n"
 "\t2. Avbryta den här sessionen?\n"
+"\t3: Kör en terminal?\n"
 
 #: src/icesm.cc:517
 msgid "IceWM crash response"
@@ -1966,7 +1942,7 @@ msgstr "Språk:"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "Dubbelbuffert"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
@@ -1974,7 +1950,7 @@ msgstr ""
 
 #: src/wmabout.cc:58
 msgid "Renderer:"
-msgstr ""
+msgstr "Renderare:"
 
 #: src/wmabout.cc:66
 msgid "icewm - About"
@@ -2060,39 +2036,39 @@ msgstr "Skriv_bord"
 
 #: src/wmapp.cc:564
 msgid "Left Half"
-msgstr ""
+msgstr "Vänstra halvan"
 
 #: src/wmapp.cc:565
 msgid "Right Half"
-msgstr ""
+msgstr "Högra halvan"
 
 #: src/wmapp.cc:566
 msgid "Top Half"
-msgstr ""
+msgstr "Övre halvan"
 
 #: src/wmapp.cc:567
 msgid "Bottom Half"
-msgstr ""
+msgstr "Nedre halvan"
 
 #: src/wmapp.cc:569
 msgid "Top Left"
-msgstr ""
+msgstr "Övre vänstra"
 
 #: src/wmapp.cc:571
 msgid "Top Right"
-msgstr ""
+msgstr "Övre högra"
 
 #: src/wmapp.cc:573
 msgid "Bottom Left"
-msgstr ""
+msgstr "Nedre vänstra"
 
 #: src/wmapp.cc:575
 msgid "Bottom Right"
-msgstr ""
+msgstr "Nedre högra"
 
 #: src/wmapp.cc:577
 msgid "Center"
-msgstr ""
+msgstr "Mitten"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:579 src/wmtaskbar.cc:219 src/wmwinlist.cc:394
@@ -2205,13 +2181,15 @@ msgstr ""
 
 #: src/wmapp.cc:927
 msgid "Confirm Restart as Terminal"
-msgstr ""
+msgstr "Bekräfta Starta om som terminal"
 
 #: src/wmapp.cc:928
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
+"Avhantera alla applikationer och starta om\n"
+"som en terminal. Fortsätt?"
 
 #: src/wmapp.cc:1204 src/yxapp.cc:1036
 msgid "<none>"
@@ -2377,6 +2355,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Klient %s med PID %ld misslyckas med att svara.\n"
+"Vill du avbryta den här klienten?.\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2459,10 +2439,9 @@ msgid "Error at %s '%s'"
 msgstr "Fel vid %s '%s'"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Okänt nyckelord '%s'"
+msgstr "Oväntat menysökord: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2470,20 +2449,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Fel vid menyprogram ’%s’"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Fel vid menyprogram ’%s’"
+msgstr "Fel vid menuprogreload ’%s’"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Filnamnsargument saknas för inkluderingssats"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Fel vid menyprogram ’%s’"
+msgstr "Fel vid includeprog ’%s’"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2511,11 +2488,11 @@ msgstr "'%s' genererar inga utdata"
 
 #: src/wmmgr.cc:3377
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Saknar program setxkbmap"
 
 #: src/wmmgr.cc:3378
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "För att byta tangentbord, vänligen installera setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
@@ -2534,7 +2511,7 @@ msgstr "Spara ändringar"
 #: src/wmpref.cc:178
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Ange nytt värde för %s: "
 
 #: src/wmprog.cc:331
 msgid "_Click to focus"
@@ -2713,10 +2690,9 @@ msgid "%s: select failed"
 msgstr "%s: val misslyckades"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Kunde inte läsa in typsnitt \"%s\"."
+msgstr "Kunde inte tolka färg \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2876,10 +2852,9 @@ msgid "Unsupported file format: %s"
 msgstr "Stöder inte gränssnitt: %s."
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Kunde inte hitta bild %s"
+msgstr "Kunde inte ladda bild \"%s\""
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "Inläsning av reservfont \"%s\" misslyckades."
