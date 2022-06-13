@@ -795,7 +795,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
             setShowingDesktop(false);
         }
         else if (message.data.l[0] == True && !fShowingDesktop) {
-            YArrange arrange = getWindowsToArrange(true, true);
+            YArrange arrange = getWindowsToArrange(true, true, true);
             if (arrange) {
                 setWindows(arrange, actionMinimizeAll);
                 arrange.discard();
@@ -3223,7 +3223,7 @@ void YWindowManager::tileWindows(YArrange arrange, bool vertical) {
     }
 }
 
-YArrange YWindowManager::getWindowsToArrange(bool all, bool skipNonMinimizable)
+YArrange YWindowManager::getWindowsToArrange(bool all, bool mini, bool full)
 {
     int capacity = focusedCount() + 1;
     int indexarr = 0;
@@ -3236,7 +3236,22 @@ YArrange YWindowManager::getWindowsToArrange(bool all, bool skipNonMinimizable)
                 w->visibleNow() && // visible
                 (all || !w->isAllWorkspaces()) && // not on all workspaces
                 !w->isUnmapped() &&
-                (!skipNonMinimizable || w->canMinimize()) &&
+                ( ! mini || w->canMinimize()) &&
+                indexarr + 1 < capacity)
+            {
+                arrange[indexarr] = w;
+                indexarr++;
+            }
+        }
+        if (full && getFocus() && getFocus()->isFullscreen() &&
+            getFocus()->getActiveLayer() == WinLayerFullscreen &&
+            getFocus()->getRequestedLayer() <= WinLayerOnTop) {
+            YFrameWindow* w = getFocus();
+            if (w->owner() == nullptr && // not transient ?
+                w->visibleNow() && // visible
+                (all || !w->isAllWorkspaces()) && // not on all workspaces
+                !w->isUnmapped() &&
+                ( ! mini || w->canMinimize()) &&
                 indexarr + 1 < capacity)
             {
                 arrange[indexarr] = w;
@@ -3283,7 +3298,9 @@ void YWindowManager::undoArrange() {
             if (f && (f->getState() & WIN_STATE_ALL) != info.state) {
                 f->setState(WIN_STATE_ALL, info.state);
             }
-            if (f) {
+            if (f && f->isFullscreen()) {
+                f->updateDerivedSize(f->getState() & WinStateMaximizedBoth);
+            } else if (f) {
                 f->setNormalGeometryOuter(info.x, info.y, info.w, info.h);
             }
         }
@@ -3320,7 +3337,7 @@ void YWindowManager::actionWindows(YAction action) {
 }
 
 void YWindowManager::toggleDesktop() {
-    YArrange arrange = getWindowsToArrange(true, true);
+    YArrange arrange = getWindowsToArrange(true, true, true);
     if (arrange) {
         setWindows(arrange, actionMinimizeAll);
         setShowingDesktop(true);

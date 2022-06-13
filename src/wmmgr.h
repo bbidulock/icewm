@@ -245,7 +245,7 @@ public:
     void cascadePlace(YArrange arrange);
     void setWindows(YArrange arrange, YAction action);
 
-    YArrange getWindowsToArrange(bool sticky = false, bool skipNonMinimizable = false);
+    YArrange getWindowsToArrange(bool sticky = false, bool mini = false, bool full = false);
 
     bool saveArrange(YArrange arrange);
     void undoArrange();
