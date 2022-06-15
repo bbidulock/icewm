@@ -125,10 +125,6 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(const char* title) {
-    setWindowTitle(title);
-}
-
 void YMsgBox::setText(const char* text) {
     if (fLabel) {
         fLabel->hide();

@@ -30,7 +30,6 @@ public:
             const char* iconName = nullptr);
     virtual ~YMsgBox();
 
-    void setTitle(const char* title);
     void setText(const char* text);
     void setPixmap(ref<YPixmap> pixmap);
 
