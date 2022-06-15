@@ -28,8 +28,10 @@ public:
 
 class YTextProperty : public XTextProperty {
 public:
-    YTextProperty(const char* str);
+    YTextProperty(const char* str = nullptr);
+    YTextProperty(Window handle, Atom property);
     ~YTextProperty();
+    operator const char*() const { return (const char *) value; }
 };
 
 enum YFormat { F8 = 8, F16 = 16, F32 = 32 };

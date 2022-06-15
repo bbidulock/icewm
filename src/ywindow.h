@@ -431,6 +431,7 @@ extern Atom _XA_TARGETS;
 extern Atom _XA_XEMBED;
 extern Atom _XA_XEMBED_INFO;
 extern Atom _XA_UTF8_STRING;
+extern Atom _XA_COMPOUND_TEXT;
 
 /* Xdnd */
 extern Atom XA_XdndAware;

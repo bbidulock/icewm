@@ -1075,20 +1075,14 @@ void YFrameClient::getNameHint() {
     if (prop.net_wm_name)
         return;
 
-    XTextProperty text = { nullptr, None, 0, 0 };
-    XGetWMName(xapp->display(), handle(), &text);
-    setWindowTitle((char *)text.value);
-    XFree(text.value);
+    setWindowTitle(YTextProperty(handle(), XA_WM_NAME));
 }
 
 void YFrameClient::getNetWmName() {
     if (!prop.net_wm_name)
         return;
 
-    XTextProperty text = { nullptr, None, 0, 0 };
-    XGetTextProperty(xapp->display(), handle(), &text, _XA_NET_WM_NAME);
-    setWindowTitle((char *)text.value);
-    XFree(text.value);
+    setWindowTitle(YTextProperty(handle(), _XA_NET_WM_NAME));
 }
 
 void YFrameClient::getIconNameHint() {
@@ -1097,20 +1091,14 @@ void YFrameClient::getIconNameHint() {
     if (prop.net_wm_icon_name)
         return;
 
-    XTextProperty text = { nullptr, None, 0, 0 };
-    XGetWMIconName(xapp->display(), handle(), &text);
-    setIconTitle((char *)text.value);
-    XFree(text.value);
+    setIconTitle(YTextProperty(handle(), XA_WM_ICON_NAME));
 }
 
 void YFrameClient::getNetWmIconName() {
     if (!prop.net_wm_icon_name)
         return;
 
-    XTextProperty text = { nullptr, None, 0, 0 };
-    XGetTextProperty(xapp->display(), handle(), &text, _XA_NET_WM_ICON_NAME);
-    setIconTitle((char *)text.value);
-    XFree(text.value);
+    setIconTitle(YTextProperty(handle(), _XA_NET_WM_ICON_NAME));
 }
 
 void YFrameClient::getWMHints() {

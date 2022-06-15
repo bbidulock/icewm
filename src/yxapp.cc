@@ -66,6 +66,7 @@ Atom _XA_TARGETS;
 Atom _XA_XEMBED;
 Atom _XA_XEMBED_INFO;
 Atom _XA_UTF8_STRING;
+Atom _XA_COMPOUND_TEXT;
 
 Atom _XA_WIN_ICONS;
 Atom _XA_WIN_LAYER;
@@ -425,6 +426,7 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_XEMBED_INFO                      , "_XEMBED_INFO" },
     { &_XA_TARGETS                          , "TARGETS" },
     { &_XA_UTF8_STRING                      , "UTF8_STRING" },
+    { &_XA_COMPOUND_TEXT                    , "COMPOUND_TEXT" },
 
     { &XA_XdndActionAsk                     , "XdndActionAsk" },
     { &XA_XdndActionCopy                    , "XdndActionCopy" },
@@ -1357,13 +1359,26 @@ YAtom::operator Atom() {
 YTextProperty::YTextProperty(const char* str) {
     encoding = XA_STRING;
     format = 8;
-    if (str) {
-        nitems = strlen(str);
-        value = (unsigned char *) malloc(1 + nitems);
-        if (value) memcpy(value, str, 1 + nitems);
-    } else {
-        nitems = 0;
-        value = nullptr;
+    value = str ? (unsigned char *) strdup(str) : nullptr;
+    nitems = value ? int(strlen((char *)value)) : 0;
+}
+
+YTextProperty::YTextProperty(Window handle, Atom property) {
+    nitems = 0;
+    value = nullptr;
+    if (XGetTextProperty(xapp->display(), handle, this, property)) {
+        if (encoding == _XA_COMPOUND_TEXT || encoding == XA_STRING) {
+            char** list = nullptr;
+            int count = 0;
+            if (XmbTextPropertyToTextList(xapp->display(), this, &list, &count)
+                == Success && 0 < count) {
+                char* copy = strdup(*list);
+                XFreeStringList(list);
+                XFree(value);
+                value = (unsigned char *) copy;
+                encoding = XA_STRING;
+            }
+        }
     }
 }
 
