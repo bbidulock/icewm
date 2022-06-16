@@ -197,6 +197,7 @@ static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_WM_WINDOW_TYPE("_NET_WM_WINDOW_TYPE");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
+static NAtom ATOM_COMPOUND_TEXT("COMPOUND_TEXT");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
@@ -484,6 +485,13 @@ public:
         release();
     }
 
+    void substitute(char* data, Atom type) {
+        if (fData) XFree(fData);
+        fData = (unsigned char *) data;
+        fType = type;
+        fCount = data ? long(strlen(data)) : 0;
+    }
+
     Atom type() const { return fType; }
     int format() const { return fFormat; }
     int status() const { return fStatus; }
@@ -674,9 +682,26 @@ public:
 
 class YStringProperty : public YProperty {
 public:
-    YStringProperty(Window window, Atom property, Atom kind = XA_STRING) :
+    YStringProperty(Window window, Atom property, Atom kind = AnyPropertyType) :
         YProperty(window, property, kind, BUFSIZ)
     {
+        if (status() == Success && kind == AnyPropertyType) {
+            if (type() == XA_STRING || type() == ATOM_COMPOUND_TEXT) {
+                XTextProperty text = { data<unsigned char>(), type(),
+                                       format(), (unsigned long) count() };
+                char** list = nullptr;
+                int count = 0;
+                if (XmbTextPropertyToTextList(display, &text, &list, &count)
+                    == Success && 0 < count) {
+                    char* copy = strdup(*list);
+                    XFreeStringList(list);
+                    substitute(copy, XA_STRING);
+                }
+            }
+            if (type() != XA_STRING && type() != kind) {
+                substitute(nullptr, XA_STRING);
+            }
+        }
     }
 
     const char* operator&() const { return data<char>(); }
@@ -1777,8 +1802,8 @@ void IceSh::sizeto()
                 int ax, ay, aw, ah;
                 getArea(window, ax, ay, aw, ah);
                 extArea(window, ax, ay, aw, ah);
-                if (wper) w = aw * wlen / 100;
-                if (hper) h = ah * hlen / 100;
+                if (wper) w = min(aw * wlen / 100, 32732L);
+                if (hper) h = min(ah * hlen / 100, 32732L);
                 if (w <= 0 || h <= 0) {
                     continue;
                 }
@@ -1838,8 +1863,27 @@ void IceSh::sizeby()
                 continue;
             }
 
-            long w = gw + (wper ? wlen * gw / 100L : wlen);
-            long h = gh + (hper ? hlen * gh / 100L : hlen);
+            long w = gw, h = gh;
+            if (wper) {
+                long px = wlen * w / 100L;
+                if (px < 0) w = max(1L, w + px);
+                else if (w < 32732L) w = min(32732L, w + px);
+            }
+            else if (wlen < 0) {
+                w = max(1L, w + wlen);
+            } else if (w < 32732L) {
+                w = min(32732L, w + wlen);
+            }
+            if (hper) {
+                long py = hlen * h / 100L;
+                if (py < 0) h = max(1L, h + py);
+                else if (h < 32732L) h = min(32732L, h + py);
+            }
+            else if (hlen < 0) {
+                h = max(1L, h + hlen);
+            } else if (h < 32732L) {
+                h = min(32732L, h + hlen);
+            }
 
             xsmart<XSizeHints> sh(XAllocSizeHints());
             if (XGetWMNormalHints(display, window, sh, &supplied)) {
