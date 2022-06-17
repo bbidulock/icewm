@@ -137,7 +137,17 @@ int TaskButton::getOrder() const {
 }
 
 int TaskButton::getCount() const {
-    return grouping() ? fGroup.getCount() : bool(fActive);
+    int count = 0;
+    if (grouping()) {
+        if (taskBarShowAllWindows)
+            count = fGroup.getCount();
+        else
+            for (auto app : fGroup)
+                count += app->getShown();
+    } else {
+        count = (fActive != nullptr);
+    }
+    return count;
 }
 
 void TaskButton::addApp(TaskBarApp* tapp) {
@@ -234,6 +244,9 @@ void TaskButton::setShown(TaskBarApp* tapp, bool ashow) {
             fActive = tapp;
             gdraw = true;
         }
+        else if (getShown()) {
+            gdraw = true;
+        }
         fTaskPane->relayout();
         if (visible() && gdraw)
             repaint();
@@ -274,10 +287,7 @@ void TaskButton::configure(const YRect2& r) {
 }
 
 void TaskButton::repaint() {
-    if (width() > 1 && height() > 1) {
-        GraphicsBuffer(this).paint();
-        fRepainted = true;
-    }
+    fPaintTimer->setTimer(0L, this, true);
 }
 
 void TaskButton::handleExpose(const XExposeEvent& exp) {
@@ -542,7 +552,8 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                     x += 1;
                 }
                 g.setColor(fg);
-                g.drawStringEllipsis(textX + x, textY, str, wm);
+                g.drawStringEllipsis(textX + x, textY, str,
+                                     wm - max(0, x - 4));
             }
         }
     }
@@ -617,14 +628,17 @@ YFont TaskButton::getActiveFont() {
 void TaskButton::popupGroup() {
     fMenu->setActionListener(this);
     fMenu->removeAll();
-    IterGroup iter = fGroup.iterator();
-    while (++iter) {
-        YAction act(EAction(301 + 2 * iter.where()));
-        YMenuItem* item = fMenu->addItem(iter->getTitle(), -2, null, act);
-        if (iter == fActive) {
-            item->setChecked(true);
+    fActions.clear();
+    for (TaskBarApp* app : fGroup) {
+        if (taskBarShowAllWindows || app->getShown()) {
+            YAction act;
+            YMenuItem* item = fMenu->addItem(app->getTitle(), -2, null, act);
+            if (app == fActive) {
+                item->setChecked(true);
+            }
+            item->setIcon(app->getFrame()->getIcon());
+            fActions += PairType(act.ident(), app);
         }
-        item->setIcon(iter->getFrame()->getIcon());
     }
     int x = 0, y = taskBarAtTop * height();
     mapToGlobal(x, y);
@@ -690,16 +704,19 @@ void TaskButton::handleButton(const XButtonEvent& button) {
 }
 
 void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
-    int index((action.ident() - 301) / 2);
-    if (inrange(index, 0, getCount() - 1)) {
-        if (fActive != fGroup[index]) {
-            TaskBarApp* old = fActive;
-            fActive = fGroup[index];
-            if (old)
-                old->repaint();
-            fActive->repaint();
+    for (const PairType& iter : fActions) {
+        if (iter.left == action.ident()) {
+            if (fActive != iter.right) {
+                TaskBarApp* old = fActive;
+                fActive = iter.right;
+                if (old)
+                    old->repaint();
+                fActive->repaint();
+            }
+            if (fActive)
+                fActive->activate();
+            break;
         }
-        fActive->activate();
     }
 }
 
@@ -776,6 +793,12 @@ bool TaskButton::handleTimer(YTimer* t) {
         }
         repaint();
         return fFlashing;
+    }
+    if (t == fPaintTimer) {
+        if (width() > 1 && height() > 1 && getShown()) {
+            GraphicsBuffer(this).paint();
+            fRepainted = true;
+        }
     }
     return false;
 }

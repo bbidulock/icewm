@@ -98,11 +98,14 @@ private:
     int selected;
     lazy<YTimer> fFlashTimer;
     lazy<YTimer> fRaiseTimer;
+    lazy<YTimer> fPaintTimer;
 
     typedef YArray<TaskBarApp*> GroupType;
     typedef GroupType::IterType IterGroup;
     GroupType fGroup;
     lazy<YMenu> fMenu;
+    typedef pair<int, TaskBarApp*> PairType;
+    YArray<PairType> fActions;
 
     virtual bool handleTimer(YTimer* t);
     YFont getFont();
