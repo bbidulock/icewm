@@ -776,7 +776,7 @@ int main(int argc, char** argv) {
                 else if (*value == '$')
                     value = expand = dollar_expansion(value);
                 if (nonempty(value))
-                    freopen(value, "w", stdout);
+                    (void) freopen(value, "w", stdout);
                 if (expand)
                     delete[] expand;
             }

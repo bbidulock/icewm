@@ -388,7 +388,7 @@ private:
         if (strlcat(path, "/temp", sizeof path) < sizeof path) {
             int fd = open(path, O_RDONLY);
             if (fd > 2) {
-                read(fd, buf, sizeof buf);
+                (void) read(fd, buf, sizeof buf);
                 close(fd);
             }
         }
@@ -413,7 +413,7 @@ private:
             int fd = openat(dirfd, buf, O_RDONLY);
             if (fd > 2) {
                 memset(buf, 0, sizeof buf);
-                read(fd, buf, sizeof buf - 1);
+                (void) read(fd, buf, sizeof buf - 1);
                 close(fd);
                 char* newl = strchr(buf, '\n');
                 if (newl) {
