@@ -628,16 +628,14 @@ YFont TaskButton::getActiveFont() {
 void TaskButton::popupGroup() {
     fMenu->setActionListener(this);
     fMenu->removeAll();
-    fActions.clear();
     for (TaskBarApp* app : fGroup) {
         if (taskBarShowAllWindows || app->getShown()) {
-            YAction act;
-            YMenuItem* item = fMenu->addItem(app->getTitle(), -2, null, act);
+            YMenuItem* item = fMenu->addItem(app->getTitle(), -2,
+                                             null, app->action());
             if (app == fActive) {
                 item->setChecked(true);
             }
             item->setIcon(app->getFrame()->getIcon());
-            fActions += PairType(act.ident(), app);
         }
     }
     int x = 0, y = taskBarAtTop * height();
@@ -704,11 +702,11 @@ void TaskButton::handleButton(const XButtonEvent& button) {
 }
 
 void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
-    for (const PairType& iter : fActions) {
-        if (iter.left == action.ident()) {
-            if (fActive != iter.right) {
+    for (TaskBarApp* app : fGroup) {
+        if (action == app->action()) {
+            if (fActive != app) {
                 TaskBarApp* old = fActive;
-                fActive = iter.right;
+                fActive = app;
                 if (old)
                     old->repaint();
                 fActive->repaint();

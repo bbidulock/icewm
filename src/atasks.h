@@ -21,6 +21,7 @@ public:
     void activate() const;
     ClientData* getFrame() const { return fFrame; }
     TaskButton* button() const { return fButton; }
+    YAction action() const { return fAction; }
 
     void setShown(bool show);
     bool getShown() const;
@@ -36,6 +37,7 @@ public:
 private:
     ClientData* fFrame;
     TaskButton* fButton;
+    YAction fAction;
     bool fShown;
 };
 
@@ -104,8 +106,6 @@ private:
     typedef GroupType::IterType IterGroup;
     GroupType fGroup;
     lazy<YMenu> fMenu;
-    typedef pair<int, TaskBarApp*> PairType;
-    YArray<PairType> fActions;
 
     virtual bool handleTimer(YTimer* t);
     YFont getFont();
