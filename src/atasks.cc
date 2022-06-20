@@ -159,7 +159,24 @@ void TaskButton::addApp(TaskBarApp* tapp) {
              !fActive->getShown() ||
              !fActive->getFrame()->focused())
         {
+            if (fActive && fMenu) {
+                YMenuItem* item = fMenu->findAction(fActive->action());
+                if (item && item->isChecked()) {
+                    item->setChecked(false);
+                    fMenu->repaintItem(item);
+                }
+            }
             fActive = tapp;
+        }
+        if (fMenu && (taskBarShowAllWindows || tapp->getShown())) {
+            YMenuItem* item = fMenu->addItem(tapp->getTitle(), -2,
+                                             null, tapp->action());
+            if (tapp == fActive) {
+                item->setChecked(true);
+            }
+            item->setIcon(tapp->getFrame()->getIcon());
+            fMenu->sizePopup(int(fMenu->width()));
+            fMenu->repaintItem(item);
         }
     } else {
         fActive = tapp;
@@ -174,7 +191,15 @@ void TaskButton::addApp(TaskBarApp* tapp) {
 
 void TaskButton::remove(TaskBarApp* tapp) {
     if (grouping()) {
-        findRemove(fGroup, tapp);
+        if (findRemove(fGroup, tapp)) {
+            if (fMenu && fGroup.nonempty()) {
+                YMenuItem* item = fMenu->findAction(tapp->action());
+                if (item) {
+                    fMenu->disableCommand(tapp->action());
+                    fMenu->repaintItem(item);
+                }
+            }
+        }
     }
     if (fActive == tapp) {
         fActive = nullptr;

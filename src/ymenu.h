@@ -55,11 +55,14 @@ public:
 
     int itemCount() const { return fItems.getCount(); }
     int getSelectedItem() const { return selectedItem; }
+    int findItem(YMenuItem* item) const { return find(fItems, item); }
     bool lastIsSeparator() const;
     YMenuItem *lastItem() const;
     YMenuItem *getItem(int n) const { return fItems[n]; }
     void setItem(int n, YMenuItem *ref) { fItems[n] = ref; return; }
     void focusItem(int item);
+    void repaintItem(int item);
+    void repaintItem(YMenuItem* item);
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
@@ -108,7 +111,6 @@ private:
                    const int r, const int minY, const int maxY, const int eh,
                    const int top, const int bottom, const int pad);
 
-    void repaintItem(int item);
     void paintItems();
     int findItemPos(int item, int &x, int &y, unsigned &h);
     int findItem(int x, int y);

@@ -916,6 +916,12 @@ void YMenu::sizePopup(int hspace) {
     setSize(unsigned(width), unsigned(height));
 }
 
+void YMenu::repaintItem(YMenuItem* item) {
+    int id = find(fItems, item);
+    if (0 <= id)
+        repaintItem(id);
+}
+
 void YMenu::repaintItem(int item) {
     int x, y;
     unsigned h;
