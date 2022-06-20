@@ -1367,7 +1367,7 @@ YTextProperty::YTextProperty(Window handle, Atom property) {
     nitems = 0;
     value = nullptr;
     if (XGetTextProperty(xapp->display(), handle, this, property)) {
-        if (encoding == _XA_COMPOUND_TEXT || encoding == XA_STRING) {
+        if (encoding == _XA_COMPOUND_TEXT) {
             char** list = nullptr;
             int count = 0;
             if (XmbTextPropertyToTextList(xapp->display(), this, &list, &count)
