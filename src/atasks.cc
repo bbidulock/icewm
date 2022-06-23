@@ -68,9 +68,7 @@ void TaskBarApp::setToolTip(const mstring& tip) {
 }
 
 void TaskBarApp::repaint() {
-    if (this == fButton->getActive()) {
-        fButton->repaint();
-    }
+    fButton->repaintApp(this);
 }
 
 mstring TaskBarApp::getTitle() {
@@ -189,13 +187,39 @@ void TaskButton::addApp(TaskBarApp* tapp) {
         repaint();
 }
 
+void TaskButton::findActive() {
+    if (grouping()) {
+        TaskBarApp* focus = nullptr, *shown = nullptr;
+        for (TaskBarApp* app : fGroup) {
+            if (app->getShown()) {
+                shown = app;
+                if (app->getFrame()->focused())
+                    focus = app;
+            }
+        }
+        TaskBarApp* active = focus ? focus : shown ? shown
+                           : fGroup.nonempty() ? fGroup.last() : nullptr;
+        if (fActive != active) {
+            TaskBarApp* previous = fActive;
+            fActive = active;
+            if (fMenu) {
+                if (0 <= find(fGroup, previous))
+                    repaintApp(previous);
+                if (fActive)
+                    repaintApp(fActive);
+            }
+        }
+    }
+}
+
 void TaskButton::remove(TaskBarApp* tapp) {
     if (grouping()) {
         if (findRemove(fGroup, tapp)) {
             if (fMenu && fGroup.nonempty()) {
                 YMenuItem* item = fMenu->findAction(tapp->action());
                 if (item) {
-                    fMenu->disableCommand(tapp->action());
+                    item->setChecked(false);
+                    item->setEnabled(false);
                     fMenu->repaintItem(item);
                 }
             }
@@ -203,9 +227,7 @@ void TaskButton::remove(TaskBarApp* tapp) {
     }
     if (fActive == tapp) {
         fActive = nullptr;
-    }
-    if (fActive == nullptr && fGroup.nonempty()) {
-        fActive = fGroup[fGroup.getCount() - 1];
+        findActive();
     }
     if (fActive == nullptr) {
         fTaskPane->remove(this);
@@ -307,6 +329,21 @@ void TaskButton::configure(const YRect2& r) {
             repaint();
         } else {
             fRepainted = false;
+        }
+    }
+}
+
+void TaskButton::repaintApp(TaskBarApp* app) {
+    if (app == fActive && visible()) {
+        repaint();
+    }
+    if (fMenu) {
+        YMenuItem* item = fMenu->findAction(app->action());
+        if (item) {
+            item->setIcon(app->getFrame()->getIcon());
+            item->getName() = app->getTitle();
+            item->setChecked(app == fActive);
+            fMenu->repaintItem(item);
         }
     }
 }

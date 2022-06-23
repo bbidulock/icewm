@@ -67,9 +67,11 @@ public:
     virtual void handleExpose(const XExposeEvent& expose);
     virtual void configure(const YRect2& r);
     virtual void repaint();
+    virtual void repaintApp(TaskBarApp* app);
     virtual void actionPerformed(YAction action, unsigned modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
 
+    void findActive();
     void popupGroup();
     void activate() const;
     void addApp(TaskBarApp* app);
