@@ -686,7 +686,7 @@ public:
         YProperty(window, property, kind, BUFSIZ)
     {
         if (status() == Success && kind == AnyPropertyType) {
-            if (type() == XA_STRING || type() == ATOM_COMPOUND_TEXT) {
+            if (type() == ATOM_COMPOUND_TEXT) {
                 XTextProperty text = { data<unsigned char>(), type(),
                                        format(), (unsigned long) count() };
                 char** list = nullptr;
