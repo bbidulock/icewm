@@ -30,6 +30,27 @@ YClientContainer::~YClientContainer() {
 }
 
 void YClientContainer::handleButton(const XButtonEvent &button) {
+    bool doRaise = false;
+    bool doActivate = false;
+    bool firstClick = false;
+
+    if (!(button.state & ControlMask) &&
+        (buttonRaiseMask & (1 << (button.button - 1))) &&
+        (!useMouseWheel || (button.button != 4 && button.button != 5)))
+    {
+        if (focusOnClickClient) {
+            if (!getFrame()->isTypeDock()) {
+                doActivate = (getFrame() != manager->getFocus());
+                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
+                    firstClick = true;
+            }
+        }
+        if (raiseOnClickClient && getFrame()->canRaise()) {
+            doRaise = true;
+            firstClick = true;
+        }
+    }
+
     if (clientMouseActions) {
         unsigned int k = button.button + XK_Pointer_Button1 - 1;
         unsigned int m = KEY_MODMASK(button.state);
@@ -90,39 +111,17 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         }
     }
 
-    bool doRaise = false;
-    bool doActivate = false;
-    bool firstClick = false;
-
-    if (!(button.state & ControlMask) &&
-        (buttonRaiseMask & (1 << (button.button - 1))) &&
-        (!useMouseWheel || (button.button != 4 && button.button != 5)))
-    {
-        if (focusOnClickClient) {
-            if (!getFrame()->isTypeDock()) {
-                doActivate = (getFrame() != manager->getFocus());
-                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
-                    firstClick = true;
-            }
-        }
-        if (raiseOnClickClient && getFrame()->canRaise()) {
-            doRaise = true;
-            firstClick = true;
-        }
-    }
-
+    ///!!! do this first?
+    if (doActivate)
+        getFrame()->focus();
+    if (doRaise && (!doActivate || !raiseOnFocus))
+        getFrame()->wmRaise();
     ///!!! it might be nice if this was per-window option (app-request)
     if (!firstClick || passFirstClickToClient)
         XAllowEvents(xapp->display(), ReplayPointer, CurrentTime);
     else
         XAllowEvents(xapp->display(), AsyncPointer, CurrentTime);
     xapp->sync();
-
-    ///!!! do this first?
-    if (doActivate)
-        getFrame()->focus();
-    if (doRaise && (!doActivate || !raiseOnFocus))
-        getFrame()->wmRaise();
 }
 
 // manage button grab on frame window to capture clicks to client window
