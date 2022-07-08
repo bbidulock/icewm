@@ -166,7 +166,6 @@ XIV(int, pingTimeout,                           3)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
 XIV(int, taskBarApmGraphWidth,                  10)
-XIV(int, taskBarGraphHeight,                    20)
 XIV(int, taskBarMEMSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
@@ -422,7 +421,6 @@ cfoption icewm_preferences[] = {
     OIV("TaskBarWidthPercentage",               &taskBarWidthPercentage, 0, 100, "Task bar width as percentage of the screen width"),
     OSV("TaskBarJustify",                       &taskBarJustify, "Taskbar justify left, right or center"),
     OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of battery Monitor"),
-    OIV("TaskBarGraphHeight",                   &taskBarGraphHeight, 16, 1000,  "Height of taskbar monitoring applets"),
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama where taskbar is shown"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus (0 = forever)"),
