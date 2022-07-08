@@ -5,7 +5,7 @@
 
 // themable preferences (themes can set only these)
 
-XIV(bool, prettyClock,                          true)
+XIV(bool, prettyClock,                          false)
 XIV(bool, rolloverTitleButtons,                 false)
 
 XIV(int, taskBarGraphHeight,                    20)
