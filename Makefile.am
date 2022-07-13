@@ -111,14 +111,11 @@ DISTCLEANFILES += VERSION
 VERSION:
 	$(AM_V_GEN)echo -e "PACKAGE=$(PACKAGE)\nVERSION=$(VERSION)" >$@
 
-EXTRA_DIST += icewm.spec.in icewm.spec icewm.lsm.in icewm.lsm
+EXTRA_DIST += icewm.spec.in icewm.spec
 
-DISTCLEANFILES += icewm.spec icewm.lsm
+DISTCLEANFILES += icewm.spec
 
 icewm.spec: icewm.spec.in
-	$(AM_V_GEN)sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
-
-icewm.lsm: icewm.lsm.in
 	$(AM_V_GEN)sed -r -e 's:%%PACKAGE%%:$(PACKAGE):g;s:%%VERSION%%:$(VERSION):g;s:%%DATE%%:$(DATE):g;s:%%BRANCH%%:$(BRANCH):g' $< >$@
 
 dist_bin_SCRIPTS = \

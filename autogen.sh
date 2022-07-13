@@ -37,7 +37,6 @@ if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	       s:%%MDOCDATE%%:$MDOCDATE:g
 	       s:%%BRANCH%%:$BRANCH:g"
 	sed -r -e "$subst" icewm.spec.in >icewm.spec
-	sed -r -e "$subst" icewm.lsm.in >icewm.lsm
 	printf "PACKAGE=%s\nVERSION=%s\n" "$PACKAGE" "$VERSION" >VERSION
 else
 	sed -i.bak configure.ac -r \
