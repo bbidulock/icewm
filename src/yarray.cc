@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <errno.h>
 
 YBaseArray::YBaseArray(YBaseArray &other):
     fElementSize(other.fElementSize),
@@ -268,9 +269,18 @@ void MStringArray::sort() {
 }
 
 bool testOnce(const char* file, const int line) {
-    static YArray<unsigned long> list;
-    unsigned long hash = strhash(file) * 0x10001 ^ line;
-    return find(list, hash) < 0 ? list.append(hash), true : false;
+    int esave = errno;
+    bool once = false;
+    if (file) {
+        static YArray<unsigned long> list;
+        unsigned long hash = strhash(file) * 0x10001 ^ line;
+        if (find(list, hash) < 0) {
+            list.append(hash);
+            once = true;
+        }
+    }
+    errno = esave;
+    return once;
 }
 
 // vim: set sw=4 ts=4 et:
