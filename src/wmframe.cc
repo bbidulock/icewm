@@ -420,6 +420,15 @@ void YFrameWindow::grabKeys() {
     GRAB_WMKEY(gKeyWinArrangeW);
     GRAB_WMKEY(gKeyWinArrangeNW);
     GRAB_WMKEY(gKeyWinArrangeC);
+    GRAB_WMKEY(gKeyWinTileLeft);
+    GRAB_WMKEY(gKeyWinTileRight);
+    GRAB_WMKEY(gKeyWinTileTop);
+    GRAB_WMKEY(gKeyWinTileBottom);
+    GRAB_WMKEY(gKeyWinTileTopLeft);
+    GRAB_WMKEY(gKeyWinTileTopRight);
+    GRAB_WMKEY(gKeyWinTileBottomLeft);
+    GRAB_WMKEY(gKeyWinTileBottomRight);
+    GRAB_WMKEY(gKeyWinTileCenter);
     GRAB_WMKEY(gKeyWinSmartPlace);
 
     container()->regrabMouse();

@@ -789,6 +789,24 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canMove()) wmArrange(waTop, waLeft);
             } else if (IS_WMKEY(k, vm, gKeyWinArrangeC)) {
                 if (canMove()) wmArrange(waCenter, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileLeft)) {
+                wmTile(actionTileLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileRight)) {
+                wmTile(actionTileRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTop)) {
+                wmTile(actionTileTop);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottom)) {
+                wmTile(actionTileBottom);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTopLeft)) {
+                wmTile(actionTileTopLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTopRight)) {
+                wmTile(actionTileTopRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottomLeft)) {
+                wmTile(actionTileBottomLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottomRight)) {
+                wmTile(actionTileBottomRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileCenter)) {
+                wmTile(actionTileCenter);
             } else if (IS_WMKEY(k, vm, gKeyWinSmartPlace)) {
                 if (canMove()) {
                     int newX = x();

@@ -561,25 +561,21 @@ void TileMenu::updatePopup() {
         return;
     }
 
-    addItem(_("Left Half"),    -2, actionTileLeft, nullptr, "tileleft");
-    addItem(_("Right Half"),   -2, actionTileRight, nullptr, "tileright");
-    addItem(_("Top Half"),     -2, actionTileTop, nullptr, "tiletop");
-    addItem(_("Bottom Half"),  -2, actionTileBottom, nullptr, "tilebottom");
+    addItem(_("Left Half"),    -2, gKeyWinTileLeft.name, actionTileLeft, "tileleft");
+    addItem(_("Right Half"),   -2, gKeyWinTileRight.name, actionTileRight, "tileright");
+    addItem(_("Top Half"),     -2, gKeyWinTileTop.name, actionTileTop, "tiletop");
+    addItem(_("Bottom Half"),  -2, gKeyWinTileBottom.name, actionTileBottom, "tilebottom");
     addSeparator();
-    addItem(_("Top Left"),     -2, actionTileTopLeft, nullptr,
-            "tiletopleft");
-    addItem(_("Top Right"),    -2, actionTileTopRight, nullptr,
-            "tiletopright");
-    addItem(_("Bottom Left"),  -2, actionTileBottomLeft, nullptr,
-            "tilebottomleft");
-    addItem(_("Bottom Right"), -2, actionTileBottomRight, nullptr,
-            "tilebottomright");
-    addItem(_("Center"),       -2, actionTileCenter, nullptr, "tilecenter");
+    addItem(_("Top Left"),     -2, gKeyWinTileTopLeft.name, actionTileTopLeft, "tiletopleft");
+    addItem(_("Top Right"),    -2, gKeyWinTileTopRight.name, actionTileTopRight, "tiletopright");
+    addItem(_("Bottom Left"),  -2, gKeyWinTileBottomLeft.name, actionTileBottomLeft, "tilebottomleft");
+    addItem(_("Bottom Right"), -2, gKeyWinTileBottomRight.name, actionTileBottomRight, "tilebottomright");
+    addItem(_("Center"),       -2, gKeyWinTileCenter.name, actionTileCenter, "tilecenter");
     addSeparator();
     addItem(_("T_ile Horizontally"), -2,
-            KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+            gKeySysTileHorizontal.name, actionTileHorizontal);
     addItem(_("Tile _Vertically"), -2,
-            KEY_NAME(gKeySysTileVertical), actionTileVertical);
+            gKeySysTileVertical.name, actionTileVertical);
 }
 
 YMenu* YWMApp::getWindowMenu() {

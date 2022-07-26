@@ -744,6 +744,42 @@ Moves the active window to the middle left of the screen.
 
 Moves the active window to the center of the screen.
 
+=item B<KeyWinTileLeft>=""
+
+Let the active window occupy the left half of the screen.
+
+=item B<KeyWinTileRight>=""
+
+Let the active window occupy the right half of the screen.
+
+=item B<KeyWinTileTop>=""
+
+Let the active window occupy the top half of the screen.
+
+=item B<KeyWinTileBottom>=""
+
+Let the active window occupy the bottom half of the screen.
+
+=item B<KeyWinTileTopLeft>=""
+
+Let the active window occupy the top left quarter of the screen.
+
+=item B<KeyWinTileTopRight>=""
+
+Let the active window occupy the top right quarter of the screen.
+
+=item B<KeyWinTileBottomLeft>=""
+
+Let the active window occupy the bottom left quarter of the screen.
+
+=item B<KeyWinTileBottomRight>=""
+
+Let the active window occupy the bottom right quarter of the screen.
+
+=item B<KeyWinTileCenter>=""
+
+Let the active window occupy the center quarter of the screen.
+
 =item B<KeyWinSmartPlace>=C<Ctrl+Alt+Shift+KP_5>
 
 Smart place the active window.

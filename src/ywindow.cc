@@ -1673,50 +1673,54 @@ YDesktop::~YDesktop() {
         desktop = nullptr;
 }
 
-void YWindow::grabVKey(int key, unsigned int vm) {
-    unsigned m = 0;
+void YWindow::grabVKey(int key, unsigned vm) {
+    if (key) {
+        unsigned m = 0;
 
-    if (vm & kfShift)
-        m |= ShiftMask;
-    if (vm & kfCtrl)
-        m |= ControlMask;
-    if (vm & kfAlt)
-        m |= xapp->AltMask;
-    if (vm & kfMeta)
-        m |= xapp->MetaMask;
-    if (vm & kfSuper)
-       m |= xapp->SuperMask;
-    if (vm & kfHyper)
-       m |= xapp->HyperMask;
-    if (vm & kfAltGr)
-        m |= xapp->ModeSwitchMask;
-
-    MSG(("grabVKey %d %d %d", key, vm, m));
-    if (key != 0 && (vm == 0 || m != 0)) {
-        if ((!(vm & kfMeta) || xapp->MetaMask) &&
-            (!(vm & kfAlt) || xapp->AltMask) &&
-           (!(vm & kfSuper) || xapp->SuperMask) &&
-            (!(vm & kfHyper) || xapp->HyperMask) &&
-            (!(vm & kfAltGr) || xapp->ModeSwitchMask))
-        {
-            grabKey(key, m);
-        }
-
-        // !!! recheck this
-        if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
-            modSuperIsCtrlAlt &&
-            xapp->WinMask)
-        {
-            m = xapp->WinMask;
+        if (vm) {
             if (vm & kfShift)
                 m |= ShiftMask;
+            if (vm & kfCtrl)
+                m |= ControlMask;
+            if (vm & kfAlt)
+                m |= xapp->AltMask;
+            if (vm & kfMeta)
+                m |= xapp->MetaMask;
             if (vm & kfSuper)
-                m |= xapp->SuperMask;
+               m |= xapp->SuperMask;
             if (vm & kfHyper)
-                m |= xapp->HyperMask;
+               m |= xapp->HyperMask;
             if (vm & kfAltGr)
                 m |= xapp->ModeSwitchMask;
-            grabKey(key, m);
+        }
+
+        MSG(("grabVKey %d %d %d", key, vm, m));
+        if (m || !vm) {
+            if ((!(vm & kfMeta) || xapp->MetaMask) &&
+                (!(vm & kfAlt) || xapp->AltMask) &&
+               (!(vm & kfSuper) || xapp->SuperMask) &&
+                (!(vm & kfHyper) || xapp->HyperMask) &&
+                (!(vm & kfAltGr) || xapp->ModeSwitchMask))
+            {
+                grabKey(key, m);
+            }
+
+            // !!! recheck this
+            if (((vm & (kfAlt | kfCtrl)) == (kfAlt | kfCtrl)) &&
+                modSuperIsCtrlAlt &&
+                xapp->WinMask)
+            {
+                m = xapp->WinMask;
+                if (vm & kfShift)
+                    m |= ShiftMask;
+                if (vm & kfSuper)
+                    m |= xapp->SuperMask;
+                if (vm & kfHyper)
+                    m |= xapp->HyperMask;
+                if (vm & kfAltGr)
+                    m |= xapp->ModeSwitchMask;
+                grabKey(key, m);
+            }
         }
     }
 }
