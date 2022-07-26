@@ -9,8 +9,10 @@ doc_DATA = \
 html_documentation = \
 	icewm.html
 
-$(html_documentation): %.html: %.adoc
-	$(AM_V_GEN)$(ASCIIDOC) $(ASCIIDOC_BACKEND) -o $@ $<
+$(html_documentation): %.html: %.md %.adoc
+	$(AM_V_GEN)if test -x "`which $(MARKDOWN) 2>/dev/null`"; then \
+		$(MARKDOWN) $*.md >$@; else \
+		$(ASCIIDOC) $(ASCIIDOC_BACKEND) -o $@ $*.adoc; fi
 
 maintainer-clean-local:
 	-rm -f -- $(html_documentation)

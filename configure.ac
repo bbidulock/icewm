@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[2.7.0],
+AC_INIT([icewm],[2.9.8],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([2.7.0])
+AC_REVISION([2.9.8])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,10 +22,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2021-08-06'
+DATE='2022-07-26'
 AC_SUBST([DATE])
 
-MDOCDATE='August 6, 2021'
+MDOCDATE='July 26, 2022'
 AC_SUBST([MDOCDATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -59,7 +59,8 @@ AC_ARG_VAR([MKFONTDIR],[mkfontdir command. @<:@default=mkfontdir@:>@])
 AC_CHECK_PROGS([MKFONTDIR],[mkfontdir],[${am_missing_run}mkfontdir],[$PATH$PATH_SEPARATOR/usr/X11R6/bin])
 
 AC_ARG_VAR([MARKDOWN],[markdown command. @<:@default=markdown@:>@])
-AC_CHECK_PROGS([MARKDOWN],[markdown],[${am_missing_run}markdown],[$PATH])
+AC_CHECK_PROGS([MARKDOWN],[markdown markdown_py discount-markdown Markdown.pl],
+	       [${am_missing_run}markdown],[$PATH])
 
 AC_ARG_VAR([ASCIIDOC],[asciidoc command. @<:@default=asciidoctor@:>@])
 AC_CHECK_PROGS([ASCIIDOC],[asciidoc asciidoctor],[${am_missing_run}asciidoc],[$PATH])
@@ -69,19 +70,7 @@ if test -z "$ASCIIDOC_BACKEND"; then
 	case "$ASCIIDOC" in
 		asciidoc) ASCIIDOC_BACKEND="--backend=html4" ;;
 		asciidoctor) ASCIIDOC_BACKEND="--backend=html5" ;;
-		*) AC_MSG_WARN([ASCIIDOC $ASCIIDOC is not supported.]) ;;
-	esac
-fi
-
-AC_ARG_VAR([ASCIIMAN],[asciidoc to manpage converter. @<:@default=a2x@:>@])
-AC_CHECK_PROGS([ASCIIMAN],[a2x asciidoctor],[${am_missing_run}a2x],[$PATH])
-
-AC_ARG_VAR([ASCIIMAN_FORMAT],[asciidoc manpage option @<:@default=NONE@:>@])
-if test -z "$ASCIIMAN_FORMAT"; then
-	case "$ASCIIMAN" in
-		a2x) ASCIIMAN_FORMAT="--format=manpage" ;;
-		asciidoctor) ASCIIMAN_FORMAT="--backend=manpage" ;;
-		*) AC_MSG_WARN([ASCIIMAN $ASCIIMAN is not supported.]) ;;
+		*) AC_MSG_NOTICE([ASCIIDOC $ASCIIDOC is not supported.]) ;;
 	esac
 fi
 
