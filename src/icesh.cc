@@ -81,6 +81,14 @@ static bool tolong(const char* str, long& num, int base = 10) {
     return end && str < end && 0 == *end;
 }
 
+static bool tofloat(const char* str, float& num) {
+    char* end = nullptr;
+    if (str) {
+        num = strtof(str, &end);
+    }
+    return end && str < end && 0 == *end;
+}
+
 template<class T>
 bool contains(vector<T>& v, T t) {
     return find(v.begin(), v.end(), t) != v.end();
@@ -1793,8 +1801,13 @@ void IceSh::sizeto()
     bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
     if (wper) wstr[strlen(wstr)-1] = '\0';
     if (hper) hstr[strlen(hstr)-1] = '\0';
-    long wlen, hlen, supplied;
-    if (tolong(wstr, wlen) && tolong(hstr, hlen) && 0 < wlen && 0 < hlen) {
+    long wlen = 0, hlen = 0, supplied;
+    float wflt = 0, hflt = 0;
+    if ((wper ? tofloat(wstr, wflt) && 0 < wflt
+              : tolong(wstr, wlen) && 0 < wlen) &&
+        (hper ? tofloat(hstr, hflt) && 0 < hflt
+              : tolong(hstr, hlen) && 0 < hlen))
+    {
         FOREACH_WINDOW(window) {
             long w = wlen;
             long h = hlen;
@@ -1802,8 +1815,8 @@ void IceSh::sizeto()
                 int ax, ay, aw, ah;
                 getArea(window, ax, ay, aw, ah);
                 extArea(window, ax, ay, aw, ah);
-                if (wper) w = min(aw * wlen / 100, 32732L);
-                if (hper) h = min(ah * hlen / 100, 32732L);
+                if (wper) w = min(long(aw * wflt / 100), 32732L);
+                if (hper) h = min(long(ah * hflt / 100), 32732L);
                 if (w <= 0 || h <= 0) {
                     continue;
                 }
@@ -1855,8 +1868,13 @@ void IceSh::sizeby()
     bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
     if (wper) wstr[strlen(wstr)-1] = '\0';
     if (hper) hstr[strlen(hstr)-1] = '\0';
-    long wlen, hlen, supplied;
-    if (tolong(wstr, wlen) && tolong(hstr, hlen)) {
+    long wlen = 0, hlen = 0, supplied;
+    float wflt = 0, hflt = 0;
+    if ((wper ? tofloat(wstr, wflt) && 0 < wflt
+              : tolong(wstr, wlen) && 0 < wlen) &&
+        (hper ? tofloat(hstr, hflt) && 0 < hflt
+              : tolong(hstr, hlen) && 0 < hlen))
+    {
         FOREACH_WINDOW(window) {
             int gx, gy, gw, gh;
             if (getGeometry(window, gx, gy, gw, gh) == false) {
@@ -1865,7 +1883,7 @@ void IceSh::sizeby()
 
             long w = gw, h = gh;
             if (wper) {
-                long px = wlen * w / 100L;
+                long px = long(wflt * w / 100);
                 if (px < 0) w = max(1L, w + px);
                 else if (w < 32732L) w = min(32732L, w + px);
             }
@@ -1875,7 +1893,7 @@ void IceSh::sizeby()
                 w = min(32732L, w + wlen);
             }
             if (hper) {
-                long py = hlen * h / 100L;
+                long py = long(hflt * h / 100);
                 if (py < 0) h = max(1L, h + py);
                 else if (h < 32732L) h = min(32732L, h + py);
             }
