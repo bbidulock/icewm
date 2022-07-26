@@ -59,6 +59,9 @@ static void show(cfoption *options) {
                     " and be documented in the manpage.\n",
                 options[i].name);
         }
+        if (pattern && !strstr(options[i].name, pattern))
+            continue;
+
         const char* adddot = ASCII::isAlnum(options[i].description[deslen - 1])
             ? "." : "";
 
