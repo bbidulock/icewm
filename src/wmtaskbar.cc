@@ -1082,7 +1082,7 @@ void TaskBar::obtainFocus() {
     manager->switchFocusTo(getFrame(), true);
 }
 
-void TaskBar::setWorkspaceActive(long workspace, bool active) {
+void TaskBar::setWorkspaceActive(int workspace, bool active) {
     if (taskBarShowWorkspaces && fWorkspaces) {
         YDimension dim(fWorkspaces->dimension());
         fWorkspaces->setPressed(workspace, active);
@@ -1092,9 +1092,10 @@ void TaskBar::setWorkspaceActive(long workspace, bool active) {
     }
 }
 
-void TaskBar::workspacesRepaint() {
+void TaskBar::workspacesRepaint(int workspace) {
     if (taskBarShowWorkspaces && fWorkspaces) {
         fWorkspacesUpdate = true;
+        fWorkspaces->repaintWorkspace(workspace);
     }
 }
 

@@ -182,12 +182,12 @@ public:
 
     void initWorkspaces();
 
-    int activeWorkspace() const { return int(fActiveWorkspace); }
-    int lastWorkspace() const { return int(fLastWorkspace); }
-    void activateWorkspace(long workspace);
+    int activeWorkspace() const { return fActiveWorkspace; }
+    int lastWorkspace() const { return fLastWorkspace; }
+    void activateWorkspace(int workspace);
 
-    void appendNewWorkspaces(long extra);
-    void removeLastWorkspaces(long minus);
+    void extendWorkspaces(int target);
+    void lessenWorkspaces(int target);
     void updateWorkspaces(bool increase);
 
     void setShowingDesktop();
@@ -211,7 +211,6 @@ public:
     void setDesktopViewport();
 
     void announceWorkArea();
-    void setWorkspace(int workspace);
     void updateWorkArea();
     bool updateWorkAreaInner();
     void debugWorkArea(const char* prefix);
@@ -233,7 +232,7 @@ public:
     void popupStartMenu(YWindow *owner);
     void popupWindowListMenu(YWindow *owner);
 
-    void switchToWorkspace(long nw, bool takeCurrent);
+    void switchToWorkspace(int nw, bool takeCurrent);
     void switchToPrevWorkspace(bool takeCurrent);
     void switchToNextWorkspace(bool takeCurrent);
     void switchToLastWorkspace(bool takeCurrent);
@@ -326,7 +325,7 @@ private:
 
     YFrameClient* allocateClient(Window win, bool mapClient);
     YFrameWindow* allocateFrame(YFrameClient* client);
-    void updateArea(long workspace, int screen_number, int l, int t, int r, int b);
+    void updateArea(int workspace, int screen_number, int l, int t, int r, int b);
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm);
     void setWmState(WMState newWmState);
     void refresh();
@@ -340,11 +339,11 @@ private:
     YCreatedList fCreationOrder;  // frame creation order
     YFocusedList fFocusedOrder;   // focus order: old -> now
 
-    long fActiveWorkspace;
-    long fLastWorkspace;
+    int fActiveWorkspace;
+    int fLastWorkspace;
     YFrameWindow *fColormapWindow;
 
-    long fWorkAreaWorkspaceCount;
+    int fWorkAreaWorkspaceCount;
     int fWorkAreaScreenCount;
     struct WorkAreaRect {
         int fMinX, fMinY, fMaxX, fMaxY;

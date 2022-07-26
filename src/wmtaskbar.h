@@ -85,8 +85,8 @@ private:
 
 public:
     bool windowTrayRequestDock(Window w);
-    void setWorkspaceActive(long workspace, bool active);
-    void workspacesRepaint();
+    void setWorkspaceActive(int workspace, bool active);
+    void workspacesRepaint(int workspace);
     void workspacesUpdateButtons();
     void workspacesRelabelButtons();
     void keyboardUpdate(mstring keyboard);

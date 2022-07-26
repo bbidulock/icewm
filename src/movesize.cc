@@ -969,7 +969,7 @@ void YFrameWindow::endMoveSize() {
     sizingWindow = false;
 
     if (taskBar) {
-        taskBar->workspacesRepaint();
+        taskBar->workspacesRepaint(getWorkspace());
     }
 }
 

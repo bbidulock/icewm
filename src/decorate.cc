@@ -323,7 +323,7 @@ void YFrameWindow::configure(const YRect2& r) {
     if (r.resized()) {
         performLayout();
         if (taskBar)
-            taskBar->workspacesRepaint();
+            taskBar->workspacesRepaint(getWorkspace());
     }
     if (affectsWorkArea()) {
         manager->updateWorkArea();

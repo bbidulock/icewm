@@ -267,7 +267,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             traytoggle |= notbit(frame->frameOptions(), YFrameWindow::foIgnoreTaskBar);
             closable |= (frame->canClose());
 
-            long ws = frame->getWorkspace();
+            int ws = frame->getWorkspace();
             if (workspace == AllWorkspaces) {
                 workspace = ws;
                 sameWorkspace = true;

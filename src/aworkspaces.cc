@@ -28,6 +28,7 @@ WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     fWorkspace(ws),
     fDelta(0),
     fDownX(0),
+    fStale(true),
     fDragging(false),
     fGraphics(this, true),
     fPane(d)
@@ -455,12 +456,12 @@ void WorkspacesPane::relabel(int ws) {
     paths = null;
 }
 
-void WorkspacesPane::setPressed(long ws, bool set) {
-    if (inrange<long>(1+ws, 1, count())) {
+void WorkspacesPane::setPressed(int ws, bool set) {
+    if (inrange(ws, 0, count() - 1)) {
         WorkspaceButton* wk = index(ws);
         wk->setPressed(set);
         if (set) {
-            fActive = int(ws);
+            fActive = ws;
             if (wk->extent() > int(width())) {
                 fMoved -= wk->extent() - int(width());
                 repositionButtons();
@@ -524,8 +525,9 @@ bool WorkspacesPane::handleTimer(YTimer *t) {
         if (fRepaintSpaces) {
             fRepaintSpaces = false;
             if (pagerShowPreview) {
-                for (IterType wk = iterator(); ++wk; ) {
-                    if (wk->visible() &&
+                for (auto wk : fButtons) {
+                    if (wk->isStale() &&
+                        wk->visible() &&
                         wk->extent() > 0 &&
                         wk->x() < int(width()))
                     {
@@ -617,13 +619,26 @@ void WorkspaceButton::updateName() {
 }
 
 void WorkspacesPane::repaint() {
-    if (!pagerShowPreview) return;
+    if (pagerShowPreview) {
+        fRepaintSpaces = true;
+        fRepaintTimer->setTimer(20L, this, true);
+    }
+}
 
-    fRepaintSpaces = true;
-    fRepaintTimer->setTimer(20L, this, true);
+void WorkspacesPane::repaintWorkspace(int ws) {
+    if (pagerShowPreview) {
+        if (ws == AllWorkspaces) {
+            ws = manager->activeWorkspace();
+        }
+        if (inrange(ws, 0, count() - 1)) {
+            fButtons[ws]->setStale();
+        }
+    }
 }
 
 void WorkspaceButton::paint(Graphics &g, const YRect& r) {
+    fStale = false;
+
     if (!pagerShowPreview) {
         YButton::paint(g, r);
         return;
