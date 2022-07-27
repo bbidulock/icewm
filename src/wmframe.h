@@ -83,7 +83,6 @@ public:
     void wmPrevWindow();
     void wmMove();
     void wmSize();
-    void wmOccupyAll();
     void wmOccupyAllOrCurrent();
     void wmOccupyWorkspace(int workspace);
     void wmSetLayer(int layer);

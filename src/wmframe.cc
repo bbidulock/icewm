@@ -2056,11 +2056,6 @@ void YFrameWindow::wmOccupyAllOrCurrent() {
     }
 }
 
-void YFrameWindow::wmOccupyAll() {
-    if (!isAllWorkspaces())
-        setAllWorkspaces();
-}
-
 void YFrameWindow::wmOccupyWorkspace(int workspace) {
     PRECONDITION(workspace < workspaceCount);
     mainOwner()->setWorkspace(workspace);
