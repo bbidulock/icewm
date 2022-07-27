@@ -2,9 +2,10 @@ cmake_minimum_required(VERSION 2.6)
 PROJECT(ICEWM CXX)
 
 #
-# The list of AsciiDoc pages which need to be converted to HTML.
+# The list of files which need to be converted to HTML.
 #
-set(ADOC_NAMES icewm.adoc)
+set(MARK_FILES icewm.md)
+set(ADOC_FILES icewm.adoc)
 
 #
 # The destination directory for HTML pages.
@@ -18,40 +19,63 @@ if(NOT HTMLDIR)
 endif()
 
 #
-# Detect AsciiDoc convertor to HTML.
+# Detect input processor.
 #
-if(NOT ASCIIDOC)
-    find_program(ASCIIDOC NAMES asciidoctor asciidoc)
-endif()
-if((ASCIIDOC) AND (NOT ASCIIDOC_BACKEND))
-    if(ASCIIDOC MATCHES asciidoctor$)
-        set(ASCIIDOC_BACKEND "--backend=html5")
-    elseif(ASCIIDOC MATCHES asciidoc$)
-        set(ASCIIDOC_BACKEND "--backend=html4")
+if(NOT MARKDOWN AND NOT ASCIIDOC)
+    find_program(MARKDOWN NAMES markdown markdown_py discount-markdown Markdown.pl)
+    if (NOT MARKDOWN)
+        find_program(ASCIIDOC NAMES asciidoctor asciidoc)
     endif()
 endif()
 
 #
-# Convert AsciiDoc pages to HTML.
+# Convert Markdown pages to HTML.
 #
-if((ASCIIDOC) AND (ASCIIDOC_BACKEND))
+if(MARKDOWN)
     set(HTML_OUTPUT_FILES)
-    foreach(adoc ${ADOC_NAMES})
-        string(REGEX REPLACE "\\.adoc$" ".html" htm "${adoc}")
-        set(txt "${CMAKE_SOURCE_DIR}/doc/${adoc}")
+    foreach(mark ${MARK_FILES})
+        string(REGEX REPLACE \\.md$ .html htm ${mark})
+        set(txt "${CMAKE_SOURCE_DIR}/doc/${mark}")
         set(out "${CMAKE_BINARY_DIR}/${htm}")
         ADD_CUSTOM_COMMAND(OUTPUT "${out}"
-            COMMAND "${ASCIIDOC}" "${ASCIIDOC_BACKEND}" -o "${out}" "${txt}"
+            COMMAND ${MARKDOWN} "${txt}" > "${out}"
             DEPENDS "${txt}"
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             )
         list(APPEND HTML_OUTPUT_FILES "${out}")
     endforeach()
     ADD_CUSTOM_TARGET(build_html_docs ALL DEPENDS ${HTML_OUTPUT_FILES})
+
+#
+# Convert AsciiDoc pages to HTML.
+#
+elseif(ASCIIDOC)
+    if(NOT ASCIIDOC_BACKEND)
+        if(ASCIIDOC MATCHES asciidoctor$)
+            set(ASCIIDOC_BACKEND --backend=html5)
+        elseif(ASCIIDOC MATCHES asciidoc$)
+            set(ASCIIDOC_BACKEND --backend=html4)
+        endif()
+    endif()
+
+    set(HTML_OUTPUT_FILES)
+    foreach(adoc ${ADOC_FILES})
+        string(REGEX REPLACE \\.adoc$ .html htm ${adoc})
+        set(txt "${CMAKE_SOURCE_DIR}/doc/${adoc}")
+        set(out "${CMAKE_BINARY_DIR}/${htm}")
+        ADD_CUSTOM_COMMAND(OUTPUT "${out}"
+            COMMAND ${ASCIIDOC} ${ASCIIDOC_BACKEND} -o "${out}" "${txt}"
+            DEPENDS "${txt}"
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            )
+        list(APPEND HTML_OUTPUT_FILES "${out}")
+    endforeach()
+    ADD_CUSTOM_TARGET(build_html_docs ALL DEPENDS ${HTML_OUTPUT_FILES})
+
 else()
-    message(WARNING "asciidoctor or its backend not found.\n"
+    message(WARNING "markdown and asciidoctor not found.\n"
             "NOT regenerating HTML documentation.\n"
-            "To rebuild install asciidoctor or asciidoc.")
+            "To rebuild install markdown or asciidoctor.")
     FILE(GLOB HTML_OUTPUT_FILES *.html)
 endif()
 
