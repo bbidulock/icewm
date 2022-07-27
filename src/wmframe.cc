@@ -394,42 +394,42 @@ void YFrameWindow::createPointerWindows() {
 void YFrameWindow::grabKeys() {
     XUngrabKey(xapp->display(), AnyKey, AnyModifier, handle());
 
-    GRAB_WMKEY(gKeyWinRaise);
-    GRAB_WMKEY(gKeyWinOccupyAll);
-    GRAB_WMKEY(gKeyWinLower);
-    GRAB_WMKEY(gKeyWinClose);
-    GRAB_WMKEY(gKeyWinRestore);
-    GRAB_WMKEY(gKeyWinNext);
-    GRAB_WMKEY(gKeyWinPrev);
-    GRAB_WMKEY(gKeyWinMove);
-    GRAB_WMKEY(gKeyWinSize);
-    GRAB_WMKEY(gKeyWinMinimize);
-    GRAB_WMKEY(gKeyWinMaximize);
-    GRAB_WMKEY(gKeyWinMaximizeVert);
-    GRAB_WMKEY(gKeyWinMaximizeHoriz);
-    GRAB_WMKEY(gKeyWinHide);
-    GRAB_WMKEY(gKeyWinRollup);
-    GRAB_WMKEY(gKeyWinFullscreen);
-    GRAB_WMKEY(gKeyWinMenu);
-    GRAB_WMKEY(gKeyWinArrangeN);
-    GRAB_WMKEY(gKeyWinArrangeNE);
-    GRAB_WMKEY(gKeyWinArrangeE);
-    GRAB_WMKEY(gKeyWinArrangeSE);
-    GRAB_WMKEY(gKeyWinArrangeS);
-    GRAB_WMKEY(gKeyWinArrangeSW);
-    GRAB_WMKEY(gKeyWinArrangeW);
-    GRAB_WMKEY(gKeyWinArrangeNW);
-    GRAB_WMKEY(gKeyWinArrangeC);
-    GRAB_WMKEY(gKeyWinTileLeft);
-    GRAB_WMKEY(gKeyWinTileRight);
-    GRAB_WMKEY(gKeyWinTileTop);
-    GRAB_WMKEY(gKeyWinTileBottom);
-    GRAB_WMKEY(gKeyWinTileTopLeft);
-    GRAB_WMKEY(gKeyWinTileTopRight);
-    GRAB_WMKEY(gKeyWinTileBottomLeft);
-    GRAB_WMKEY(gKeyWinTileBottomRight);
-    GRAB_WMKEY(gKeyWinTileCenter);
-    GRAB_WMKEY(gKeyWinSmartPlace);
+    grab(gKeyWinRaise);
+    grab(gKeyWinOccupyAll);
+    grab(gKeyWinLower);
+    grab(gKeyWinClose);
+    grab(gKeyWinRestore);
+    grab(gKeyWinNext);
+    grab(gKeyWinPrev);
+    grab(gKeyWinMove);
+    grab(gKeyWinSize);
+    grab(gKeyWinMinimize);
+    grab(gKeyWinMaximize);
+    grab(gKeyWinMaximizeVert);
+    grab(gKeyWinMaximizeHoriz);
+    grab(gKeyWinHide);
+    grab(gKeyWinRollup);
+    grab(gKeyWinFullscreen);
+    grab(gKeyWinMenu);
+    grab(gKeyWinArrangeN);
+    grab(gKeyWinArrangeNE);
+    grab(gKeyWinArrangeE);
+    grab(gKeyWinArrangeSE);
+    grab(gKeyWinArrangeS);
+    grab(gKeyWinArrangeSW);
+    grab(gKeyWinArrangeW);
+    grab(gKeyWinArrangeNW);
+    grab(gKeyWinArrangeC);
+    grab(gKeyWinTileLeft);
+    grab(gKeyWinTileRight);
+    grab(gKeyWinTileTop);
+    grab(gKeyWinTileBottom);
+    grab(gKeyWinTileTopLeft);
+    grab(gKeyWinTileTopRight);
+    grab(gKeyWinTileBottomLeft);
+    grab(gKeyWinTileBottomRight);
+    grab(gKeyWinTileCenter);
+    grab(gKeyWinSmartPlace);
 
     container()->regrabMouse();
 }
@@ -2763,7 +2763,7 @@ void YFrameWindow::setWorkspace(int workspace) {
         int previous = fWinWorkspace;
         int activeWS = int(manager->activeWorkspace());
         bool otherWS = (workspace != AllWorkspaces && workspace != activeWS);
-        bool refocus = (this == manager->getFocus() && otherWS);
+        bool refocus = (focused() && otherWS);
         if (otherWS) {
             int ws = (fWinWorkspace >= 0 ? fWinWorkspace : activeWS);
             if (workspaces[ws].focused == this) {

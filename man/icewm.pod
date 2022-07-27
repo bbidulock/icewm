@@ -876,11 +876,11 @@ Goes to workspace 9.
 
 Goes to workspace 10.
 
-=item B<KeySysWorkspace11>=C<Alt+Ctrl+bracketleft>
+=item B<KeySysWorkspace11>=C<Alt+Ctrl+minus>
 
 Goes to workspace 11.
 
-=item B<KeySysWorkspace12>=C<Alt+Ctrl+bracketright>
+=item B<KeySysWorkspace12>=C<Alt+Ctrl+equal>
 
 Goes to workspace 12.
 
@@ -924,11 +924,11 @@ Takes the active window to workspace 9.
 
 Takes the active window to workspace 10.
 
-=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+bracketleft>
+=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+minus>
 
 Takes the active window to workspace 11.
 
-=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+bracketright>
+=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+equal>
 
 Takes the active window to workspace 12.
 

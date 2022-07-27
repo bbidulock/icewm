@@ -119,18 +119,6 @@ change the current workspace rolling the mouse wheel on the desktop:
 These are key bindings for single window tile operations to replace the
 I<KeyWinArrange> key bindings from the F<preferences> file:
 
-    key "Ctrl+Alt+KP_7" icesh -f sizeto 49% 49% top left
-    key "Ctrl+Alt+KP_8" icesh -f sizeto 100% 49% top left
-    key "Ctrl+Alt+KP_9" icesh -f sizeto 49% 49% top right
-    key "Ctrl+Alt+KP_6" icesh -f sizeto 49% 100% top right
-    key "Ctrl+Alt+KP_3" icesh -f sizeto 49% 49% bottom right
-    key "Ctrl+Alt+KP_2" icesh -f sizeto 100% 49% bottom left
-    key "Ctrl+Alt+KP_1" icesh -f sizeto 49% 49% bottom right
-    key "Ctrl+Alt+KP_4" icesh -f sizeto 49% 100% top left
-    key "Ctrl+Alt+KP_5" icesh -f sizeto 49% 49% center
-
-Some systems need this instead:
-
     key "Ctrl+Alt+KP_Home"  icesh -f sizeto 49% 49% top left
     key "Ctrl+Alt+KP_Up"    icesh -f sizeto 100% 49% top left
     key "Ctrl+Alt+KP_Prior" icesh -f sizeto 49% 49% top right

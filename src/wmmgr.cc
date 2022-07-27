@@ -174,76 +174,76 @@ void YWindowManager::grabKeys() {
     XUngrabKey(xapp->display(), AnyKey, AnyModifier, handle());
 
     ///if (taskBar && taskBar->addressBar())
-        GRAB_WMKEY(gKeySysAddressBar);
+        grab(gKeySysAddressBar);
     if (quickSwitch) {
-        GRAB_WMKEY(gKeySysSwitchNext);
-        GRAB_WMKEY(gKeySysSwitchLast);
-        GRAB_WMKEY(gKeySysSwitchClass);
+        grab(gKeySysSwitchNext);
+        grab(gKeySysSwitchLast);
+        grab(gKeySysSwitchClass);
     }
-    GRAB_WMKEY(gKeySysWinNext);
-    GRAB_WMKEY(gKeySysWinPrev);
-    GRAB_WMKEY(gKeySysDialog);
+    grab(gKeySysWinNext);
+    grab(gKeySysWinPrev);
+    grab(gKeySysDialog);
 
-    GRAB_WMKEY(gKeySysWorkspacePrev);
-    GRAB_WMKEY(gKeySysWorkspaceNext);
-    GRAB_WMKEY(gKeySysWorkspaceLast);
+    grab(gKeySysWorkspacePrev);
+    grab(gKeySysWorkspaceNext);
+    grab(gKeySysWorkspaceLast);
 
-    GRAB_WMKEY(gKeySysWorkspacePrevTakeWin);
-    GRAB_WMKEY(gKeySysWorkspaceNextTakeWin);
-    GRAB_WMKEY(gKeySysWorkspaceLastTakeWin);
+    grab(gKeySysWorkspacePrevTakeWin);
+    grab(gKeySysWorkspaceNextTakeWin);
+    grab(gKeySysWorkspaceLastTakeWin);
 
-    GRAB_WMKEY(gKeySysWinMenu);
-    GRAB_WMKEY(gKeySysMenu);
-    GRAB_WMKEY(gKeySysWindowList);
-    GRAB_WMKEY(gKeySysWinListMenu);
+    grab(gKeySysWinMenu);
+    grab(gKeySysMenu);
+    grab(gKeySysWindowList);
+    grab(gKeySysWinListMenu);
 
-    GRAB_WMKEY(gKeySysWorkspace1);
-    GRAB_WMKEY(gKeySysWorkspace2);
-    GRAB_WMKEY(gKeySysWorkspace3);
-    GRAB_WMKEY(gKeySysWorkspace4);
-    GRAB_WMKEY(gKeySysWorkspace5);
-    GRAB_WMKEY(gKeySysWorkspace6);
-    GRAB_WMKEY(gKeySysWorkspace7);
-    GRAB_WMKEY(gKeySysWorkspace8);
-    GRAB_WMKEY(gKeySysWorkspace9);
-    GRAB_WMKEY(gKeySysWorkspace10);
-    GRAB_WMKEY(gKeySysWorkspace11);
-    GRAB_WMKEY(gKeySysWorkspace12);
+    grab(gKeySysWorkspace1);
+    grab(gKeySysWorkspace2);
+    grab(gKeySysWorkspace3);
+    grab(gKeySysWorkspace4);
+    grab(gKeySysWorkspace5);
+    grab(gKeySysWorkspace6);
+    grab(gKeySysWorkspace7);
+    grab(gKeySysWorkspace8);
+    grab(gKeySysWorkspace9);
+    grab(gKeySysWorkspace10);
+    grab(gKeySysWorkspace11);
+    grab(gKeySysWorkspace12);
 
-    GRAB_WMKEY(gKeySysWorkspace1TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace2TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace3TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace4TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace5TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace6TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace7TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace8TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace9TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace10TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace11TakeWin);
-    GRAB_WMKEY(gKeySysWorkspace12TakeWin);
+    grab(gKeySysWorkspace1TakeWin);
+    grab(gKeySysWorkspace2TakeWin);
+    grab(gKeySysWorkspace3TakeWin);
+    grab(gKeySysWorkspace4TakeWin);
+    grab(gKeySysWorkspace5TakeWin);
+    grab(gKeySysWorkspace6TakeWin);
+    grab(gKeySysWorkspace7TakeWin);
+    grab(gKeySysWorkspace8TakeWin);
+    grab(gKeySysWorkspace9TakeWin);
+    grab(gKeySysWorkspace10TakeWin);
+    grab(gKeySysWorkspace11TakeWin);
+    grab(gKeySysWorkspace12TakeWin);
 
-    GRAB_WMKEY(gKeySysTileVertical);
-    GRAB_WMKEY(gKeySysTileHorizontal);
-    GRAB_WMKEY(gKeySysCascade);
-    GRAB_WMKEY(gKeySysArrange);
-    GRAB_WMKEY(gKeySysUndoArrange);
+    grab(gKeySysTileVertical);
+    grab(gKeySysTileHorizontal);
+    grab(gKeySysCascade);
+    grab(gKeySysArrange);
+    grab(gKeySysUndoArrange);
 
     if (minimizeToDesktop)
-    GRAB_WMKEY(gKeySysArrangeIcons);
-    GRAB_WMKEY(gKeySysMinimizeAll);
-    GRAB_WMKEY(gKeySysHideAll);
+    grab(gKeySysArrangeIcons);
+    grab(gKeySysMinimizeAll);
+    grab(gKeySysHideAll);
 
-    GRAB_WMKEY(gKeySysShowDesktop);
+    grab(gKeySysShowDesktop);
     if (taskBar || showTaskBar) {
-        GRAB_WMKEY(gKeySysCollapseTaskBar);
-        GRAB_WMKEY(gKeyTaskBarSwitchNext);
-        GRAB_WMKEY(gKeyTaskBarSwitchPrev);
-        GRAB_WMKEY(gKeyTaskBarMoveNext);
-        GRAB_WMKEY(gKeyTaskBarMovePrev);
+        grab(gKeySysCollapseTaskBar);
+        grab(gKeyTaskBarSwitchNext);
+        grab(gKeyTaskBarSwitchPrev);
+        grab(gKeyTaskBarMoveNext);
+        grab(gKeyTaskBarMovePrev);
     }
     if (configKeyboards.nonempty())
-        GRAB_WMKEY(gKeySysKeyboardNext);
+        grab(gKeySysKeyboardNext);
 
     {
         KProgramIterType k = keyProgs.iterator();
@@ -3109,7 +3109,7 @@ void YWindowManager::switchToWorkspace(int nw, bool takeCurrent) {
             workspaces[nw].focused = frame;
             lockWorkArea();
             lockFocus();
-            frame->wmOccupyAll();
+            frame->setAllWorkspaces();
             frame->wmRaise();
             activateWorkspace(nw);
             frame->wmOccupyWorkspace(nw);

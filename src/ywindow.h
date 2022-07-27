@@ -139,9 +139,10 @@ public:
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
     void setPointer(Cursor pointer);
-    void grabKeyM(int key, unsigned modifiers);
-    void grabKey(int key, unsigned modifiers);
-    void grabVKey(int key, unsigned vmodifiers);
+    void grabKeyM(unsigned key, unsigned modifiers);
+    void grabKey(unsigned key, unsigned modifiers);
+    void grabVKey(unsigned key, unsigned modifiers);
+    void grab(const struct WMKey& wmkey);
     unsigned VMod(unsigned modifiers);
     void grabButtonM(int button, unsigned modifiers);
     void grabButton(int button, unsigned modifiers);

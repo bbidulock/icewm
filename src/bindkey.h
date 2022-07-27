@@ -37,7 +37,7 @@
 #define defgKeyWinTileBottomLeft        0, 0, ""
 #define defgKeyWinTileBottomRight       0, 0, ""
 #define defgKeyWinTileCenter            0, 0, ""
-#define defgKeyWinSmartPlace            XK_KP_Begin, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_5"
+#define defgKeyWinSmartPlace            XK_KP_Begin, kfCtrl+kfAlt+kfShift, "Ctrl+Alt+Shift+KP_Begin"
 #define defgKeySysSwitchNext            XK_Tab, kfAlt, "Alt+Tab"
 #define defgKeySysSwitchLast            XK_Tab, kfAlt+kfShift, "Alt+Shift+Tab"
 #define defgKeySysSwitchClass           XK_grave, kfAlt, "Alt+grave"
@@ -71,8 +71,8 @@
 #define defgKeySysWorkspace8            '8', kfAlt+kfCtrl, "Alt+Ctrl+8"
 #define defgKeySysWorkspace9            '9', kfAlt+kfCtrl, "Alt+Ctrl+9"
 #define defgKeySysWorkspace10           '0', kfAlt+kfCtrl, "Alt+Ctrl+0"
-#define defgKeySysWorkspace11           '-', kfAlt+kfCtrl, "Alt+Ctrl+bracketleft"
-#define defgKeySysWorkspace12           '=', kfAlt+kfCtrl, "Alt+Ctrl+bracketright"
+#define defgKeySysWorkspace11           '-', kfAlt+kfCtrl, "Alt+Ctrl+minus"
+#define defgKeySysWorkspace12           '=', kfAlt+kfCtrl, "Alt+Ctrl+equal"
 #define defgKeySysWorkspace1TakeWin     '1', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+1"
 #define defgKeySysWorkspace2TakeWin     '2', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+2"
 #define defgKeySysWorkspace3TakeWin     '3', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+3"
@@ -83,8 +83,8 @@
 #define defgKeySysWorkspace8TakeWin     '8', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+8"
 #define defgKeySysWorkspace9TakeWin     '9', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+9"
 #define defgKeySysWorkspace10TakeWin    '0', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+0"
-#define defgKeySysWorkspace11TakeWin    '-', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+bracketleft"
-#define defgKeySysWorkspace12TakeWin    '=', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+bracketright"
+#define defgKeySysWorkspace11TakeWin    '-', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+minus"
+#define defgKeySysWorkspace12TakeWin    '=', kfAlt+kfCtrl+kfShift, "Alt+Ctrl+Shift+equal"
 #define defgKeySysTileVertical          XK_F2, kfAlt+kfShift, "Alt+Shift+F2"
 #define defgKeySysTileHorizontal        XK_F3, kfAlt+kfShift, "Alt+Shift+F3"
 #define defgKeySysCascade               XK_F4, kfAlt+kfShift, "Alt+Shift+F4"
@@ -102,7 +102,6 @@
 
 #define DEF_WMKEY(k) extern WMKey k
 #define IS_WMKEY(k,m,b) b.eq(k,m)
-#define GRAB_WMKEY(k)   grabVKey(k.key, k.mod)
 #define KEY_NAME(k)     k.name
 #endif
 
