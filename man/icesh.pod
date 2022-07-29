@@ -576,6 +576,11 @@ Print all properties and their values.
 
 Print the identifier of the window frame.
 
+=item B<extents>
+
+Print the window identifier and the frame border sizes: left, right,
+top and bottom.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,
@@ -640,6 +645,11 @@ Create a new workspace with name I<NAME>.
 If I<SHOWING> is C<1> then set C<showing the desktop> mode.
 If I<SHOWING> is C<0> then turn off C<showing the desktop>.
 Print the current mode if I<SHOWING> is not given.
+
+=item B<workarea>
+
+Print the dimensions of the work area for the current workspace.
+This is the desktop, but minus space occupied by dock and panel windows.
 
 =item B<randr>
 
@@ -898,7 +908,7 @@ workspace and activate Firefox.
 
 Resize the focused window to occupy the right half of the desktop area.
 
-    icesh -f sizeto 49% 100% sync top sync right sync raise activate
+    icesh -f sizeto 49% 100% sync top sync right sync raise
 
 Toggle the frame border of the focused window.
 
