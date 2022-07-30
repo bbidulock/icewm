@@ -758,12 +758,12 @@ void YWindowManager::handleMapRequest(const XMapRequestEvent &mapRequest) {
 
 void YWindowManager::handleUnmapNotify(const XUnmapEvent &unmap) {
     if (unmap.send_event) {
-        YFrameWindow* frame = findFrame(unmap.window);
-        if (frame) {
-            if (frame->client()->visible()) {
-                frame->actionPerformed(actionHide);
+        YFrameClient* client = findClient(unmap.window);
+        if (client) {
+            if (client->visible() && client->getFrame()) {
+                client->getFrame()->actionPerformed(actionHide);
             } else {
-                frame->client()->handleUnmapNotify(unmap);
+                client->handleUnmapNotify(unmap);
             }
         }
     }
@@ -866,9 +866,9 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
     }
     if (message.message_type == _XA_WM_PROTOCOLS &&
         message.data.l[0] == (long) _XA_NET_WM_PING) {
-        YFrameWindow* frame = findFrame(message.data.l[2]);
-        if (frame) {
-            frame->client()->recvPing(message);
+        YFrameClient* client = findClient(message.data.l[2]);
+        if (client) {
+            client->recvPing(message);
         }
         return;
     }
