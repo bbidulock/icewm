@@ -30,7 +30,6 @@
 #include "ywordexp.h"
 
 YContext<YFrameClient> clientContext("clientContext", false);
-YContext<YFrameWindow> frameContext("framesContext", false);
 
 YAction layerActionSet[WinLayerCount] = {
     actionLayerDesktop,
@@ -974,7 +973,8 @@ bool YWindowManager::matchWindow(Window win, char const* resource) {
 }
 
 YFrameWindow *YWindowManager::findFrame(Window win) {
-    return frameContext.find(win);
+    YFrameClient* client = clientContext.find(win);
+    return client ? client->getFrame() : nullptr;
 }
 
 YFrameClient *YWindowManager::findClient(Window win) {
@@ -1131,6 +1131,7 @@ void YWindowManager::setColormapWindow(YFrameWindow *frame) {
 
 void YWindowManager::manageClients() {
     YWindow sheet(this);
+    sheet.setStyle(wsOverrideRedirect);
     sheet.lower();
     sheet.setGeometry(geometry());
     sheet.show();
@@ -1147,10 +1148,21 @@ void YWindowManager::manageClients() {
     unsigned count = 0;
     xsmart<Window> clients;
     if (xapp->children(handle(), &clients, &count)) {
-        Window ignore = sheet.handle();
+        const int igsize = 5;
+        Window ignore[igsize] = {
+            fTopWin ? fTopWin->handle() : None,
+            fBottom ? fBottom->handle() : None,
+            rootProxy ? rootProxy->handle() : None,
+            fDockApp ? fDockApp->handle() : None,
+            sheet.handle()
+        };
         for (unsigned i = 0; i < count; i++) {
-            if (clients[i] != ignore && findClient(clients[i]) == nullptr) {
-                YFrameClient* client = allocateClient(clients[i], false);
+            const Window win = clients[i];
+            int k = 0;
+            while (k < igsize && ignore[k] != win)
+                ++k;
+            if (k == igsize && findClient(win) == nullptr) {
+                YFrameClient* client = allocateClient(win, false);
                 if (client) {
                     manageClient(client);
                     if (client->getFrame() == nullptr) {
@@ -1583,28 +1595,25 @@ setGeo:
 }
 
 YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
-    YFrameClient* client = findClient(win);
-    if (client == nullptr) {
-        XWindowAttributes attributes;
-
-        if (XGetWindowAttributes(xapp->display(), win, &attributes) &&
-            attributes.override_redirect == false &&
-            (mapClient || attributes.map_state > IsUnmapped))
-        {
-            client = new YFrameClient(nullptr, nullptr, win,
-                                      attributes.depth,
-                                      attributes.visual,
-                                      attributes.colormap);
-            if (client && client->isKdeTrayWindow()) {
-                if (taskBar && taskBar->windowTrayRequestDock(win)) {
-                    delete client; client = nullptr;
-                }
+    YFrameClient* client = nullptr;
+    XWindowAttributes attributes;
+    if (XGetWindowAttributes(xapp->display(), win, &attributes) &&
+        attributes.override_redirect == false &&
+        (mapClient || attributes.map_state > IsUnmapped))
+    {
+        client = new YFrameClient(nullptr, nullptr, win,
+                                  attributes.depth,
+                                  attributes.visual,
+                                  attributes.colormap);
+        if (client && client->isKdeTrayWindow()) {
+            if (taskBar && taskBar->windowTrayRequestDock(win)) {
+                delete client; client = nullptr;
             }
-            if (client && attributes.border_width)
-                client->setBorder(attributes.border_width);
-            if (client && fDockApp && fDockApp->dock(client))
-                client = nullptr;
         }
+        if (client && attributes.border_width)
+            client->setBorder(attributes.border_width);
+        if (client && fDockApp && fDockApp->dock(client))
+            client = nullptr;
     }
     return client;
 }
@@ -1623,7 +1632,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
     bool requestFocus = true;
 
     MSG(("manage client 0x%lX", client->handle()));
-    PRECONDITION(findFrame(client->handle()) == nullptr);
+    PRECONDITION(client->getFrame() == nullptr);
 
     int cx = client->x();
     int cy = client->y();
@@ -1747,7 +1756,8 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
 
 void YWindowManager::mapClient(Window win) {
     MSG(("mapping window 0x%lX", win));
-    YFrameWindow* frame = findFrame(win);
+    YFrameClient* client = findClient(win);
+    YFrameWindow* frame = client ? client->getFrame() : nullptr;
     if (frame) {
         if (frame->isUnmapped())
             frame->makeMapped();
@@ -1758,7 +1768,9 @@ void YWindowManager::mapClient(Window win) {
         grabServer();
         lockWorkArea();
 
-        YFrameClient* client = allocateClient(win, true);
+        if (client == nullptr) {
+            client = allocateClient(win, true);
+        }
         if (client) {
             manageClient(client, true);
             if (client->getFrame() == nullptr) {
@@ -1792,21 +1804,21 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
 }
 
 void YWindowManager::destroyedClient(Window win) {
-    YFrameWindow *frame = findFrame(win);
-
-    if (frame) {
-        frame->hide();
-        delete frame;
-    }
-    else {
-        YFrameClient* client = findClient(win);
-        if (client && client->isDocked() && fDockApp) {
+    YFrameClient* client = findClient(win);
+    if (client) {
+        YFrameWindow *frame = client->getFrame();
+        if (frame) {
+            frame->hide();
+            delete frame;
+            return;
+        }
+        else if (client->isDocked() && fDockApp) {
             fDockApp->undock(client);
             delete client;
             return;
         }
-        MSG(("destroyed: unknown window: 0x%lX", win));
     }
+    MSG(("destroyed: unknown window: 0x%lX", win));
 }
 
 void YWindowManager::focusTopWindow() {

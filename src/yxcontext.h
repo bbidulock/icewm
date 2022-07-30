@@ -113,11 +113,9 @@ public:
 };
 
 class YFrameClient;
-class YFrameWindow;
 class YWindow;
 
 extern YContext<YFrameClient> clientContext;
-extern YContext<YFrameWindow> frameContext;
 extern YContext<YWindow> windowContext;
 
 #endif

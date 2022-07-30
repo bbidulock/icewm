@@ -74,34 +74,36 @@ static bool post_preferences;
 static bool show_extensions;
 
 static Window registerProtocols1(char **argv, int argc) {
-    long timestamp = CurrentTime;
+    const long timestamp = CurrentTime;
+    const Window xroot = xapp->root();
     YAtom wmSx("WM_S", true);
-
-    Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
-
-    if (current_wm != None) {
-        if (!replace_wm)
-            die(1, _("A window manager is already running, use --replace to replace it"));
-      XSetWindowAttributes attrs;
-      attrs.event_mask = StructureNotifyMask;
-      XChangeWindowAttributes (
-          xapp->display(), current_wm,
-          CWEventMask, &attrs);
+    const Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
+    if (current_wm) {
+        if (replace_wm) {
+            XSetWindowAttributes attr;
+            attr.event_mask = StructureNotifyMask;
+            XChangeWindowAttributes(xapp->display(), current_wm,
+                                    CWEventMask, &attr);
+        } else {
+            die(1, _("A window manager is already running, "
+                     "use --replace to replace it"));
+        }
     }
 
-    Window xroot = xapp->root();
-    Window xid =
-        XCreateSimpleWindow(xapp->display(), xroot,
-            0, 0, 1, 1, 0,
-            xapp->black(),
-            xapp->black());
+    XSetWindowAttributes attr = {};
+    attr.background_pixel =
+    attr.border_pixel = xapp->black();
+    attr.override_redirect = True;
+    unsigned long mask = CWBackPixel | CWBorderPixel | CWOverrideRedirect;
+    Window xid = XCreateWindow(xapp->display(), xroot, -1, -1, 1, 1, 0, 0,
+                               InputOutput, CopyFromParent, mask, &attr);
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid)
         die(1, _("Failed to become the owner of the %s selection"), wmSx.str());
 
-    if (current_wm != None) {
+    if (current_wm) {
         XEvent event;
         msg(_("Waiting to replace the old window manager"));
         do {

@@ -19,7 +19,7 @@
 YXApplication *xapp = nullptr;
 
 YDesktop *desktop = nullptr;
-YContext<YWindow> windowContext;
+YContext<YWindow> windowContext("windowContext", false);
 
 bool YXApplication::synchronizeX11;
 bool YXApplication::alphaBlending;

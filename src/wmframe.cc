@@ -148,7 +148,6 @@ YFrameWindow::~YFrameWindow() {
         if (client()) {
             if (!client()->destroyed() && client()->adopted())
                 XRemoveFromSaveSet(xapp->display(), client()->handle());
-            frameContext.remove(client()->handle());
         }
         if (fUserTimeWindow != None) {
             windowContext.remove(fUserTimeWindow);

@@ -94,21 +94,11 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
 #endif
     }
 
-    if (getFrame()) {
-        frameContext.save(handle(), getFrame());
-    }
-    else {
-        clientContext.save(handle(), this);
-    }
+    clientContext.save(handle(), this);
 }
 
 YFrameClient::~YFrameClient() {
-    if (getFrame()) {
-        frameContext.remove(handle());
-    }
-    else {
-        clientContext.remove(handle());
-    }
+    clientContext.remove(handle());
 
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
@@ -433,22 +423,7 @@ void YFrameClient::recvPing(const XClientMessageEvent &message) {
 }
 
 void YFrameClient::setFrame(YFrameWindow *newFrame) {
-    if (newFrame != getFrame()) {
-        if (getFrame()) {
-            frameContext.remove(handle());
-        }
-        else {
-            clientContext.remove(handle());
-        }
-
-        fFrame = newFrame;
-        if (getFrame()) {
-            frameContext.save(handle(), getFrame());
-        }
-        else {
-            clientContext.save(handle(), this);
-        }
-    }
+    fFrame = newFrame;
 }
 
 void YFrameClient::setFrameState(FrameState state) {
@@ -851,7 +826,6 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             }
         }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
-        //printf("active window w=0x%lX\n", message.window);
         YFrameWindow* f = getFrame();
         if (f && !f->ignoreActivation()) {
             f->activate();
@@ -862,7 +836,6 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_NET_WM_MOVERESIZE &&
                message.format == 32)
     {
-        ///YFrameWindow *frame(findFrame(message.window));
         if (getFrame())
             getFrame()->startMoveSize(message.data.l[0], message.data.l[1],
                                       message.data.l[2]);
