@@ -27,14 +27,32 @@ L<icewm-keys(5)> for the configuration of B<switchkey> directive).
 
 =item B<--max>
 
-Instead of using the preferred mode and refresh rate of each monitor
-(xrandr's C<--auto> option), identify and use the modes with the highest
-bandwidth usage (i.e. usually the ones with the highest resolution and
-refresh rate). This behaviour is also enabled by creating the file
-C<$HOME/.cache/xrandrmenu.max> which would also effect the monitor
-quick-switch menu.
+Obsolete and ineffective option. Used to select the xrandr mode with the
+highest detected refresh rate. However, the maximum rate might cause
+problems, therefore the explicit configuration in the INI file should be
+used now, see I<CONFIGURATION>.
+
+=item B<--auto-number [ init value ]>
+
+Adding a auto-incremented numbered prefix to each display name,
+optionally started at the specified value. This mostly useful for menu
+creation.
+
+=item B<--xrandr command>
+
+Replacement for I<xrandr> which should deliver equivalent data.
 
 =back
+
+=head2 CONFIGURATION
+
+Optionally, a local configuration can specify command line options to
+xrandr calls, and further commands to run after mode switching.
+
+Refer to configuration examples (I<xrandr_menu>) in I<icewm>
+documentation for the syntax and rules of that file. It can be placed
+into I<$HOME/.config/icewm> or into I<$HOME/.icewm> or wherever
+I<$XDG_CONFIG_HOME/.config/icewm> might resolve to.
 
 =head2 SEE ALSO
 
