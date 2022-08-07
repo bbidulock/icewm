@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-05-31 18:13+0000\n"
+"PO-Revision-Date: 2022-08-07 16:26+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
@@ -31,7 +31,7 @@ msgstr ""
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Okänt format som används av APM-enhet %s (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -1440,19 +1440,6 @@ msgid "Socket error: %d"
 msgstr "Socket-fel: %d"
 
 #: src/icesm.cc:69
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -b, --nobg          Do not start icewmbg.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -1476,6 +1463,7 @@ msgstr ""
 "  --sync               Synkronisera kommunikation med X11-servern.\n"
 "\n"
 "  -i, --icewm=FILE    Använd FILE som fönsterhanterare i IceWM.\n"
+"  -o, --output=FIL Omdirigera all utdata till FIL\n"
 "  -b, --nobg           Starta inte icewmbg.\n"
 "  -n, --notray        Starta inte icewmtray.\n"
 "  -s, --sound          Starta även icesound.\n"
@@ -2213,15 +2201,6 @@ msgstr ""
 "  --debug-z           Skriv ut felsökningsmeddelanden om fönsterstackning.\n"
 
 #: src/wmapp.cc:1540
-#, fuzzy
-#| msgid ""
-#| "\n"
-#| "  -a, --alpha         Use a 32-bit visual for translucency.\n"
-#| "  -c, --config=FILE   Load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Load theme from FILE.\n"
-#| "  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-#| "  -p, --postpreferences  Print preferences after all processing.\n"
-#| "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2238,6 +2217,7 @@ msgstr ""
 "  -t, --theme=FILE    Ladda tema från FILE.\n"
 "  -s, --splash=BILD Visa BILD vid start.\n"
 "  -p, --postpreferences   Skriv ut inställningar efter all bearbetning.\n"
+"  --rewrite-preferences Uppdatera en befintlig inställningsfil\n"
 "  --trace=conf, icon Sökvägar som används för att ladda konfiguration.\n"
 
 #: src/wmapp.cc:1550
@@ -2836,20 +2816,17 @@ msgstr ""
 "  --sync              Synkronisera X11-kommandon.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Stöd för %s-gränssnittet är ej inbyggt."
+msgstr "Stöd för PNG-bilder är ej inbyggt."
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Stöd för JPEG-bilder är ej inbyggt"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Stöder inte gränssnitt: %s."
+msgstr "Filformat som inte stöds: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
 #, c-format
