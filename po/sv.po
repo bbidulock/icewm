@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-08-07 16:26+0000\n"
+"PO-Revision-Date: 2022-08-12 09:13+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
@@ -2336,7 +2336,7 @@ msgid ""
 "Do you wish to terminate this client?\n"
 msgstr ""
 "Klient %s med PID %ld misslyckas med att svara.\n"
-"Vill du avbryta den här klienten?.\n"
+"Vill du avbryta den här klienten?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2472,7 +2472,7 @@ msgstr "Saknar program setxkbmap"
 
 #: src/wmmgr.cc:3378
 msgid "For keyboard switching, please install setxkbmap."
-msgstr "För att byta tangentbord, vänligen installera setxkbmap."
+msgstr "För att byta tangentbordslayout, vänligen installera setxkbmap."
 
 #: src/wmoption.cc:259
 #, c-format
