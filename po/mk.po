@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-01-20 02:33+0100\n"
-"PO-Revision-Date: 2022-05-26 05:12+0000\n"
+"PO-Revision-Date: 2022-08-16 06:13+0000\n"
 "Last-Translator: Kristijan Fremen Velkovski <me@krisfremen.com>\n"
 "Language-Team: Macedonian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/mk/>\n"
@@ -21,14 +21,14 @@ msgstr ""
 "X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Не можев да ја најдам пиксел-мапата %s"
+msgstr "Не можеше да се отвори APM уредот %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Не можеше да се ioctl APM уредот %s"
 
 #: src/aapm.cc:122
 #, c-format
