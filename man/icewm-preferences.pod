@@ -1756,6 +1756,10 @@ Desktop background color(s).
 
 Desktop background image(s).
 
+=item B<ShuffleBackgroundImages>=0  0/1
+
+Choose a random selection from the list of background images.
+
 =item B<SupportSemitransparency>=1  0/1
 
 Support for semitransparent terminals like Eterm or gnome-terminal.
@@ -1771,6 +1775,10 @@ Image(s) to announce for semitransparent windows.
 =item B<DesktopBackgroundMultihead>=0  0/1
 
 Paint the background image over all multihead monitors combined.
+
+=item B<CycleBackgroundsPeriod>=0
+
+Seconds between cycling over all background images, default zero is off.
 
 =back
 

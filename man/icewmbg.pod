@@ -85,6 +85,8 @@ Load the theme named I<THEME>.
 
 Load background images from each I<FILE>.
 This overrules the C<DesktopBackgroundImage> preference.
+When more than one image is given, they are assigned
+to each workspace in the given order.
 
 =item B<-k>, B<--color>=I<COLOR>[,I<COLOR>]*
 
@@ -170,12 +172,23 @@ settings read are:
   DesktopBackgroundMultihead - One background over all monitors
   CycleBackgroundsPeriod     - Seconds between cycling over backgrounds
 
-First these settings are read from the F<preferences> file.  Then the
-theme file from the current theme is read, which may overrule the
-F<preferences> settings.  Lastly the F<prefoverride> file is read, which
-overrides again.  Therefore, if you want to allow the theme to set the
-background use F<preferences> for your settings, otherwise use
-F<prefoverride>.  See L<icewm-prefoverride(5)>.
+If these settings are set in the F<preferences> file, then they can
+be overridden by the theme in the theme defaults file. Most themes
+don't mess with desktop background settings. To prevent this, set
+these preferences in the F<prefoverride> file instead.
+See L<icewm-prefoverride(5)>.
+
+Each work space can have its own image. Specify multiple images to
+B<DesktopBackgroundImage> separated by comma's.  Or give at least one
+directory with images. The images are assigned to each work space in
+the order given. When icewm changes work space, the running icewmbg
+will adapt the desktop background to the assigned image.
+
+If you specify more images then there are work spaces, then
+B<CycleBackgroundsPeriod> can set a period. When the period expires,
+icewmbg will switch to the next set of images. If you give less images
+than there are work spaces, then icewmbg will reuse previous images
+for the remaining work spaces.
 
 =head2 IMAGE SCALING
 
@@ -188,6 +201,18 @@ What happens for their combination is given by the following table:
   center:1 scaled:0 = The background is centered, but not scaled.
   center:1 scaled:1 = Fill one dimension and preserve the aspect ratio.
   center:0 scaled:1 = Fill both dimensions and preserve the aspect ratio.
+
+=head2 EXAMPLES
+
+    # For four unique desktop backgrounds for four work spaces do:
+
+    icewmbg -p -i image0,image1,image2,image3 &
+
+    # Or create a directory with the four images and do:
+
+    icewmbg -p -i /path/to/directory &
+
+    # The images should have proper image filename extensions.
 
 =head2 SIGNALS
 
