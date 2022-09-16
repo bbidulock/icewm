@@ -1,6 +1,6 @@
 /*
  *  FDOmenu - Menu code generator for icewm
- *  Copyright (C) 2015-2018 Eduard Bloch
+ *  Copyright (C) 2015-2022 Eduard Bloch
  *
  *  Inspired by icewm-menu-gnome2 and Freedesktop.org specifications
  *  Using pure glib/gio code and a built-in menu structure instead
@@ -750,8 +750,13 @@ int main(int argc, char** argv) {
     }
 
     for (char** pArg = argv + 1; pArg < argv + argc; ++pArg) {
-        if (is_version_switch(*pArg))
-            print_version_exit(VERSION);
+        if (is_version_switch(*pArg)) {
+            g_fprintf(stdout,
+                    "icewm-menu-fdo "
+                    VERSION
+                    ", Copyright 2015-2022 Eduard Bloch, 2017-2022 Bert Gijsbers.\n");
+            exit(0);
+        }
         else if (is_copying_switch(*pArg))
             print_copying_exit();
         else if (is_help_switch(*pArg))

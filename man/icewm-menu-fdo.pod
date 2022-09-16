@@ -118,7 +118,7 @@ Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
 
 =head2 AUTHOR
 
-Brian Bidulock L<mailto:bidulock@openss7.org>.
+Eduard Bloch L<mailto:edi@gmx.de>.
 
 See B<--copying> for full copyright notice and copying permissions.
 
