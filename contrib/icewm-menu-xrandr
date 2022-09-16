@@ -11,7 +11,6 @@ use strict;
 use warnings;
 
 use Getopt::Long qw(:config no_ignore_case bundling auto_help);
-#use Digest::MD5 qw(md5 md5_hex);
 
 #print("# WHAT: ".join(" ", @ARGV));
 
@@ -24,7 +23,7 @@ my @postcmd;
 # development switches. Debug value of 1 is creating output with
 # commented hints, 2 and above dump unformatted extra stuff into output
 my $debug=0;
-# Testing the --apply option without actually executing it
+# Testing the --activate option without actually executing it
 my $dry_run;
 
 my $xrandr = "xrandr";
@@ -35,10 +34,8 @@ my %realname;
 # main calculation collection
 my @actionMap;
 
-my $apply;
+my $activate;
 my $auto_num = 0;
-# don't use the callback scheme by default
-my $hide_parms = 0;
 
 sub parse_arguments
 {
@@ -46,7 +43,7 @@ sub parse_arguments
     GetOptions("xrandr=s" => \$xrandr,
             "max"   => \$bad_max,
             "debug:i"  => \$debug,
-            "apply=s" => \$apply,
+            "activate=s" => \$activate,
             "dry-run" => \$dry_run,
             "auto-number" => \$auto_num)
         or die("Error in command line arguments\n");
@@ -74,9 +71,6 @@ print "Running $0\n" if $debug > 1;
 my @cfiledata;
 
 $xrandr.=" --verbose";
-
-# see code; evaluate by raw estimation what the best mode might be
-# my %maxmodes;
 
 # Input: blob, start of the string data
 sub strip_tfield
@@ -120,7 +114,7 @@ sub load_ini
                     my %cfg=();
                     push(@cfiledata, \%cfg);
                     $cfg{sectype} = $1;
-                    $cfg{name} = $3 if $3;
+                    $cfg{"match-name"} = $3 if $3;
                 }
                 elsif(/^(\w\S+)\s*=\s*(\S.*)/)
                 {
@@ -170,27 +164,11 @@ sub parse_edid
     }
     if ($name)
     {
+        $name.="%PRIMFLAG";
         $realname{$curmon} = $name.'~'.$curmon;
         print "Found: $name\n" if $debug > 2;
     }
 }
-
-# This is the assisted selection of modes with maximum refresh rate.
-# Currently unused because unreliable in practice. User can select mode
-# and refrate through the INI config.
-##sub add_mode
-##{
-##    my $curmon = shift;
-##    my ($curmon, $x, $y, $nhz) = @_;
-### take the performance index from the raw bandwidth
-##    my $val = $x * $y * $nhz;
-##    print "# $val = $x x $y @ $nhz @ $curmon, old: @{$maxmodes{$curmon}}[0]\n" if $debug;
-##    if(!$maxmodes{$curmon} || $val > @{$maxmodes{$curmon}}[0])
-##    {
-##        my @entry = ($val, "--mode ${x}x$y -r $nhz");
-##        $maxmodes{$curmon} = \@entry;
-##    }
-##}
 
 sub match_output
 {
@@ -243,6 +221,10 @@ sub pick_for_output
     return $ret;
 }
 
+#
+# Select a specified assignment for all combos which match the specified
+# label.
+#
 sub pick_for_combo
 {
     my $combo = shift;
@@ -336,6 +318,8 @@ sub relabel_outputs
         my $newLabel = pick_for_output($output, "label");
         next unless $newLabel;
         $newLabel=~s/%OUTPUT/$output/g;
+        my $oldLabel = $realname{$output};
+        $newLabel=~s/%LABEL/$oldLabel/g if defined($oldLabel);
         $realname{$output} = $newLabel;
     }
 }
@@ -431,7 +415,7 @@ sub add_conf
     }
 
     push(@actionMap, [
-        #$hide_parms ? md5_hex($cmd) :
+        #reserved
         undef,
         $showname, $icon, $cmd ]);
 }
@@ -494,17 +478,17 @@ sub run
 
     print Dumper(@actionMap) if $debug > 1;
 
-    if ($apply)
+    if ($activate)
     {
         for my $p (@actionMap)
         {
             my @el = @{$p};
-            next if $apply ne $el[0];
+            next if $activate ne $el[1];
             my $cmd = "$xrandr $el[3]";
             print "# Would run: $cmd\n" if $dry_run;
             exit($dry_run ? 0 : system("sh", "-c", $cmd));
         }
-        print STDERR "Unknown selection: $apply\n";
+        print STDERR "Unknown selection: $activate\n";
         exit(42);
     }
     else
@@ -515,15 +499,7 @@ sub run
             my $name = $el[1];
             my $icon = $el[2];
             $name = $auto_num++ .": ".$name if $auto_num;
-            if ($hide_parms)
-            {
-                print "# $el[3]\n" if $debug;
-                print "prog '$name' $icon '$0' --apply $el[0]\n";
-            }
-            else
-            {
-                print "prog '$name' $icon $el[3]\n";
-            }
+            print "prog '$name' $icon $el[3]\n";
         }
     }
 }

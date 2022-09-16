@@ -25,13 +25,17 @@ restart-on-primary-change = 1
 [output]
 # Select this section for devices whose output matches this name.
 # If surrounded by slashes, the name is evaluated as a regular expression.
-        match-name = /DP-3/
+match-name = /DP-3/
+
 # Alternatively, match by label of this device.
 #        match-label = LG.*2730
 # Custom label can be assigned. However, this influences further filtering!
-# Optionally, output interface name can be substituted from %OUTPUT and an
-# asterisk character on new primary screen from %PRIMFLAG.
-label=BigScreen@%OUTPUT%PRIMFLAG
+# Optionally, some patterns can be automatically substituted:
+# - output interface name via %OUTPUT
+# - original auto-determined label via %LABEL
+# - an asterix mark on the output which becomes the new primary via %PRIMFLAG
+label=BigScreen(%LABEL)@%OUTPUT%PRIMFLAG
+
 # 
 # List of any xrandr options added as prefix of this output configuration
 # Typically, one might use this to set the mode and refresh rate
