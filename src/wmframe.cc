@@ -2756,6 +2756,8 @@ void YFrameWindow::setWorkspace(int workspace) {
     if (workspace != fWinWorkspace) {
         int previous = fWinWorkspace;
         int activeWS = int(manager->activeWorkspace());
+        int oldState = fWinState;
+        bool isShown = (previous == AllWorkspaces || previous == activeWS);
         bool otherWS = (workspace != AllWorkspaces && workspace != activeWS);
         bool refocus = (focused() && otherWS);
         if (otherWS) {
@@ -2769,10 +2771,11 @@ void YFrameWindow::setWorkspace(int workspace) {
         if (isAllWorkspaces()) {
             if (notState(WinStateSticky)) {
                 fWinState |= WinStateSticky;
-                updateState();
             }
         } else if (hasState(WinStateSticky)) {
             fWinState &= ~WinStateSticky;
+        }
+        if (isShown == otherWS || oldState != fWinState) {
             updateState();
         }
         if (refocus)
