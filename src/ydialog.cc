@@ -25,6 +25,14 @@ YDialog::YDialog():
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
 }
 
+YDialog::~YDialog() {
+    YFrameWindow* frame = getFrame();
+    if (frame) {
+        frame->unmanage();
+        delete frame;
+    }
+}
+
 void YDialog::center() {
     YRect r(desktop->getScreenGeometry());
     if (getFrame()) {

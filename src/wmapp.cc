@@ -64,6 +64,7 @@ YCursor YWMApp::scrollDownPointer;
 
 lazy<MoveMenu> moveMenu;
 lazy<TileMenu> tileMenu;
+lazy<TabsMenu> tabsMenu;
 lazy<LayerMenu> layerMenu;
 lazily<SharedWindowList> windowListMenu;
 lazy<LogoutMenu> logoutMenu;
@@ -557,6 +558,27 @@ void MoveMenu::updatePopup() {
     }
 }
 
+void TabsMenu::updatePopup() {
+    removeAll();
+    YFrameWindow* frame = dynamic_cast<YFrameWindow*>(getActionListener());
+    if (frame) {
+        for (YFrameClient* tab : frame->clients()) {
+            YAction action(EAction(int(tab->handle())));
+            YMenuItem* item = new YMenuItem(tab->windowTitle(), -1,
+                                            null, action, nullptr);
+            if (item) {
+                ref<YIcon> icon = tab->getIcon();
+                if (icon != null) {
+                    item->setIcon(icon);
+                }
+            }
+            add(item);
+        }
+        addSeparator();
+        addItem(_("Move to New _Window"),    -2, null, actionUntab);
+    }
+}
+
 void TileMenu::updatePopup() {
     if (itemCount()) {
         enableCommand(actionNull);
@@ -918,9 +940,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             restartClient(nullptr, nullptr);
     }
     else if (action == actionRestartXterm) {
-        if (fRestartMsgBox) {
-            fRestartMsgBox->unmanage();
-        }
+        delete fRestartMsgBox;
         fRestartMsgBox = new YMsgBox(YMsgBox::mbBoth,
                                      _("Confirm Restart as Terminal"),
                                      _("Unmanage all applications and restart\n"
@@ -953,7 +973,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     }
     else if (action == actionAboutClose) {
         if (aboutDlg) {
-            manager->unmanageClient(aboutDlg);
+            delete aboutDlg;
             aboutDlg = nullptr;
         }
     }
@@ -995,7 +1015,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         keyProgs.clear();
         MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), nullptr);
         if (manager && !initializing) {
-            if (manager->wmState() == YWindowManager::wmRUNNING) {
+            if (manager->isRunning()) {
                 manager->grabKeys();
             }
         }
@@ -1352,15 +1372,15 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
 YWMApp::~YWMApp() {
     if (fLogoutMsgBox) {
-        fLogoutMsgBox->unmanage();
+        delete fLogoutMsgBox;
         fLogoutMsgBox = nullptr;
     }
     if (fRestartMsgBox) {
-        fRestartMsgBox->unmanage();
+        delete fRestartMsgBox;
         fRestartMsgBox = nullptr;
     }
     if (aboutDlg) {
-        manager->unmanageClient(aboutDlg);
+        delete aboutDlg;
         aboutDlg = nullptr;
     }
 
@@ -1395,6 +1415,7 @@ YWMApp::~YWMApp() {
     layerMenu = null;
     moveMenu = null;
     tileMenu = null;
+    tabsMenu = null;
 
     keyProgs.clear();
     workspaces.reset();
@@ -1835,9 +1856,7 @@ void YWMApp::doLogout(RebootShutdown reboot) {
     if (!confirmLogout)
         logout();
     else {
-        if (fLogoutMsgBox) {
-            fLogoutMsgBox->unmanage();
-        }
+        delete fLogoutMsgBox;
         fLogoutMsgBox = new YMsgBox(YMsgBox::mbBoth,
                             _("Confirm Logout"),
                             _("Logout will close all active applications.\n"
@@ -1885,14 +1904,14 @@ void YWMApp::cancelLogout() {
 
 void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fLogoutMsgBox) {
-        msgbox->unmanage();
+        delete fLogoutMsgBox;
         fLogoutMsgBox = nullptr;
         if (operation == YMsgBox::mbOK) {
             logout();
         }
     }
     if (msgbox == fRestartMsgBox) {
-        msgbox->unmanage();
+        delete fRestartMsgBox;
         fRestartMsgBox = nullptr;
         if (operation == YMsgBox::mbOK) {
             restartClient(TERM, nullptr);

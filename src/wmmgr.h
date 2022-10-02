@@ -96,6 +96,7 @@ public:
     virtual void handleConfigure(const XConfigureEvent &configure);
     virtual void handleConfigureRequest(const XConfigureRequestEvent &configureRequest);
     virtual void handleMapRequest(const XMapRequestEvent &mapRequest);
+    virtual void handleMapNotify(const XMapEvent& map);
     virtual void handleUnmapNotify(const XUnmapEvent &unmap);
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
@@ -125,7 +126,8 @@ public:
     void mapClient(Window win);
 
     void setFocus(YFrameWindow *f, bool canWarp = false, bool reorder = true);
-    YFrameWindow *getFocus() { return fFocusWin; }
+    YFrameWindow* getFocus() const { return fFocusWin; }
+    ClientData* getFocused() const;
 
     void installColormap(Colormap cmap);
     void setColormapWindow(YFrameWindow *frame);
@@ -145,14 +147,14 @@ public:
     void getNewPosition(YFrameWindow *frame, int &x, int &y, int w, int h, int xiscreen);
     void placeWindow(YFrameWindow *frame, int x, int y, int cw, int ch, bool newClient, bool &canActivate);
 
-    YFrameWindow *top(long layer) const;
-    void setTop(long layer, YFrameWindow *top);
-    YFrameWindow *bottom(long layer) const;
-    void setBottom(long layer, YFrameWindow *bottom);
+    YFrameWindow* top(int layer) const;
+    void setTop(int layer, YFrameWindow *top);
+    YFrameWindow* bottom(int layer) const;
+    void setBottom(int layer, YFrameWindow *bottom);
     YWindow* bottomWindow() const { return fBottom; }
 
-    YFrameWindow *topLayer(long layer = WinLayerCount - 1);
-    YFrameWindow *bottomLayer(long layer = 0);
+    YFrameWindow* topLayer(int layer = WinLayerCount - 1);
+    YFrameWindow* bottomLayer(int layer = 0);
 
     bool setAbove(YFrameWindow* frame, YFrameWindow* above);
     bool setBelow(YFrameWindow* frame, YFrameWindow* below);
@@ -220,7 +222,7 @@ public:
     void getIconPosition(MiniIcon* iw, int *iconX, int *iconY);
 
     void wmCloseSession();
-    void exitAfterLastClient(bool shuttingDown);
+    void exitAfterLastClient(bool exitWhenDone);
     void checkLogout();
 
     virtual void resetColormap(bool active);
@@ -295,6 +297,8 @@ public:
     bool isStartup() const { return fWmState == wmSTARTUP; }
     bool isRunning() const { return fWmState == wmRUNNING; }
     bool notRunning() const { return fWmState != wmRUNNING; }
+    bool notShutting() const { return fWmState != wmSHUTDOWN; }
+    bool shuttingDown() const { return fWmState == wmSHUTDOWN; }
     bool fullscreenEnabled() { return fFullscreenEnabled; }
     void setFullscreenEnabled(bool enable) { fFullscreenEnabled = enable; }
     const UserTime& lastUserTime() const { return fLastUserTime; }
@@ -323,6 +327,7 @@ private:
         YFrameWindow *frame;
     };
 
+    bool ignoreOverride(Window win, const XWindowAttributes& attr, int* layer);
     YFrameClient* allocateClient(Window win, bool mapClient);
     YFrameWindow* allocateFrame(YFrameClient* client);
     void updateArea(int workspace, int screen_number, int l, int t, int r, int b);
@@ -369,7 +374,7 @@ private:
     } **fWorkArea;
 
     YObjectArray<EdgeSwitch> edges;
-    bool fShuttingDown;
+    bool fExitWhenDone;
     int fArrangeCount;
     WindowPosState *fArrangeInfo;
     YProxyWindow *rootProxy;

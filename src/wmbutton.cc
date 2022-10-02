@@ -250,7 +250,7 @@ void YFrameButton::paint(Graphics &g, const YRect &/*r*/) {
 
     int iconSize = YIcon::smallSize();
     ref<YIcon> icon = (getAction() == actionNull)
-                    ? getFrame()->clientIcon() : null;
+                    ? getFrame()->getIcon() : null;
 
     ref<YPixmap> pixmap = getPixmap(pn);
     if (pixmap == null && pn) {

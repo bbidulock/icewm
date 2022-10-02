@@ -56,7 +56,6 @@ public:
 
     void showFocused();
     void autoSize();
-    void unmanage();
 
 private:
     YLabel* fLabel;

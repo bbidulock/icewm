@@ -62,8 +62,8 @@ public:
     TrayPane(IAppletContainer *taskBar, YWindow *parent);
     ~TrayPane();
 
-    TrayApp *addApp(YFrameWindow *frame);
-    TrayApp *findApp(YFrameWindow *frame);
+    TrayApp *addApp(ClientData *frame);
+    TrayApp *findApp(ClientData *frame);
     TrayApp *getActive();
     TrayApp *predecessor(TrayApp *tapp);
     TrayApp *successor(TrayApp *tapp);

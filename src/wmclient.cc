@@ -7,16 +7,17 @@
 #include "yfull.h"
 #include "wmclient.h"
 #include "prefs.h"
-
 #include "yrect.h"
 #include "wmframe.h"
 #include "wmmgr.h"
-#include "wmapp.h"
+#include "yxapp.h"
 #include "sysdep.h"
 #include "yxcontext.h"
 #include "workspaces.h"
 #include "wmminiicon.h"
 #include "intl.h"
+
+extern ref<YIcon> newClientIcon(int count, int reclen, long * elem);
 
 bool operator==(const XSizeHints& a, const XSizeHints& b) {
     long mask = PMinSize | PMaxSize | PResizeInc |
@@ -42,6 +43,8 @@ bool operator!=(const XSizeHints& a, const XSizeHints& b) {
     return !(a == b);
 }
 
+YArray<YFrameClient::transience> YFrameClient::fTransients;
+
 YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                            int depth, Visual *visual, Colormap colormap):
     YDndWindow(parent, win, depth, visual, colormap),
@@ -56,6 +59,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fDocked = false;
     fShaped = false;
     fTimedOut = false;
+    fIconize = true;
     fPinging = false;
     fPingTime = 0;
     fHints = nullptr;
@@ -99,7 +103,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
 
 YFrameClient::~YFrameClient() {
     clientContext.remove(handle());
-
+    if (fTransientFor) setTransient(None);
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
 }
@@ -178,12 +182,18 @@ void YFrameClient::getClassHint() {
     if (!prop.wm_class)
         return;
 
-    fClassHint.reset();
-    XGetClassHint(xapp->display(), handle(), &fClassHint);
+    fClassHint.get(handle());
+}
+
+void YFrameClient::setDocked(bool docked) {
+    fDocked = docked;
+    if (fDocked && fTransientFor) {
+        setTransient(None);
+    }
 }
 
 void YFrameClient::getTransient() {
-    if (!prop.wm_transient_for)
+    if (!prop.wm_transient_for || isDocked())
         return;
 
     Window newTransientFor = None;
@@ -195,19 +205,100 @@ void YFrameClient::getTransient() {
     }
 
     if (newTransientFor != fTransientFor) {
-        if (fTransientFor)
-            if (getFrame())
-                getFrame()->removeAsTransient();
-        fTransientFor = newTransientFor;
+        setTransient(newTransientFor);
         if (fTransientFor)
             if (getFrame())
                 getFrame()->addAsTransient();
     }
 }
 
+int YFrameClient::findTransient(Window handle) {
+    for (int i = 0; i < fTransients.getCount(); ++i)
+        if (handle == fTransients[i].trans)
+            return i;
+    return -1;
+}
+
+YFrameClient* YFrameClient::firstTransient() {
+    YFrameClient* trans = nullptr;
+    const Window h = handle();
+    for (int i = 0; i < fTransients.getCount(); ++i)
+        if (h == fTransients[i].owner &&
+            (trans = clientContext.find(fTransients[i].trans)) != nullptr)
+            break;
+    return trans;
+}
+
+bool YFrameClient::hasTransient() {
+    const Window h = handle();
+    for (int i = 0; i < fTransients.getCount(); ++i)
+        if (h == fTransients[i].owner)
+            return true;
+    return false;
+}
+
+YFrameClient* YFrameClient::getOwner() const {
+    return fTransientFor ? clientContext.find(fTransientFor) : nullptr;
+}
+
+YFrameClient* YFrameClient::nextTransient() {
+    YFrameClient* trans = nullptr;
+    if (fTransientFor) {
+        int i = findTransient(handle());
+        while (0 < ++i && i < fTransients.getCount()) {
+            if (fTransientFor == fTransients[i].owner) {
+                trans = clientContext.find(fTransients[i].trans);
+                if (trans)
+                    break;
+            }
+        }
+    }
+    return trans;
+}
+
+void YFrameClient::setTransient(Window owner) {
+    if (owner == None) {
+        int i = findTransient(handle());
+        if (0 <= i)
+            fTransients.remove(i);
+        fTransientFor = None;
+    }
+    else {
+        YArray<Window> cycle;
+        cycle.append(handle());
+        cycle.append(owner);
+        Window up = owner;
+        for (int i = findTransient(up); 0 <= i; i = findTransient(up)) {
+            up = fTransients[i].owner;
+            if (0 <= find(cycle, up))
+                return;
+            cycle.append(up);
+        }
+
+        int i = findTransient(handle());
+        if (0 <= i)
+            fTransients[i].owner = owner;
+        else
+            fTransients.append(transience(handle(), owner));
+        fTransientFor = owner;
+    }
+}
+
+bool YFrameClient::isTransientFor(Window owner) {
+    if (fTransientFor == None)
+        return false;
+    if (fTransientFor == owner)
+        return true;
+    YFrameClient* client = clientContext.find(fTransientFor);
+    if (client == nullptr)
+        return false;
+    return client->isTransientFor(owner);
+}
+
 void YFrameClient::constrainSize(int &w, int &h, int flags)
 {
-    if (fSizeHints && (considerSizeHintsMaximized || !getFrame()->isMaximized())) {
+    if (fSizeHints && (considerSizeHintsMaximized ||
+                       !getFrame() || !getFrame()->isMaximized())) {
         int const wMin(fSizeHints->min_width);
         int const hMin(fSizeHints->min_height);
         int const wMax(fSizeHints->max_width);
@@ -337,8 +428,10 @@ bool YFrameClient::handleTimer(YTimer* timer) {
         fPingTimer = null;
         fPinging = false;
         fTimedOut = true;
-        if (fPid == 0 && !getNetWMPid(&fPid) && fFrame && fFrame->owner()) {
-            fFrame->owner()->client()->getNetWMPid(&fPid);
+        if (fPid == 0 && !getNetWMPid(&fPid) && isTransient()) {
+            YFrameClient* owner = getOwner();
+            if (owner)
+                owner->getNetWMPid(&fPid);
         }
         if ( !destroyed()) {
             if (fFrame == nullptr) {
@@ -348,7 +441,7 @@ bool YFrameClient::handleTimer(YTimer* timer) {
             }
             else if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
                 if (killPid() == false) {
-                    fFrame->wmKill();
+                    XKillClient(xapp->display(), handle());
                 }
             }
             else if (fPid > 0) {
@@ -428,7 +521,7 @@ void YFrameClient::setFrame(YFrameWindow *newFrame) {
 
 void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
-        if (manager->wmState() != YWindowManager::wmSHUTDOWN) {
+        if (manager->notShutting()) {
             MSG(("deleting window properties id=%lX", handle()));
             Atom atoms[] = {
                 _XA_NET_FRAME_EXTENTS, _XA_NET_WM_ALLOWED_ACTIONS,
@@ -517,12 +610,11 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             ClassHint old(fClassHint);
             getClassHint();
             if (fClassHint.nonempty() && fClassHint != old) {
-                YFrameWindow* frame = getFrame();
-                if (frame){
-                    frame->getFrameHints();
+                if (fFrame) {
+                    fFrame->getFrameHints();
                     if (taskBarTaskGrouping) {
-                        frame->removeAppStatus();
-                        frame->updateAppStatus();
+                        fFrame->removeAppStatus();
+                        fFrame->updateAppStatus();
                     }
                 }
             }
@@ -537,8 +629,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             bool oldUrge = urgencyHint();
             getWMHints();
             if (oldPix != iconPixmapHint() || oldMask != iconMaskHint()) {
-                if (getFrame())
-                    getFrame()->updateIcon();
+                refreshIcon();
             }
             if (oldUrge != urgencyHint()) {
                 if (getFrame())
@@ -575,13 +666,13 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
             prop.wm_state = new_prop;
         } else if (property.atom == _XA_KWM_WIN_ICON) {
             if (new_prop) prop.kwm_win_icon = true;
-            if (getFrame() && !prop.net_wm_icon && !prop.win_icons)
-                getFrame()->updateIcon();
+            if ( !prop.net_wm_icon && !prop.win_icons)
+                refreshIcon();
             prop.kwm_win_icon = new_prop;
         } else if (property.atom == _XA_WIN_ICONS) {
             if (new_prop) prop.win_icons = true;
-            if (getFrame() && !prop.net_wm_icon)
-                getFrame()->updateIcon();
+            if ( !prop.net_wm_icon)
+                refreshIcon();
             prop.win_icons = new_prop;
         } else if (property.atom == _XA_NET_WM_NAME) {
             if (new_prop) prop.net_wm_name = true;
@@ -626,8 +717,7 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
         } else if (property.atom == _XA_NET_WM_ICON) {
             MSG(("change: net wm icon"));
             if (new_prop) prop.net_wm_icon = true;
-            if (getFrame())
-                getFrame()->updateIcon();
+            refreshIcon();
             prop.net_wm_icon = new_prop;
         } else if (property.atom == _XA_WIN_TRAY) {
             prop.win_tray = new_prop;
@@ -700,7 +790,8 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
                 getFrame()->setShape();
             if (fShaped && !newShaped) {
                 fShaped = newShaped;
-                getFrame()->updateMwmHints(fSizeHints);
+                if (getFrame())
+                    getFrame()->updateMwmHints(fSizeHints);
             }
         }
     }
@@ -717,8 +808,7 @@ void YFrameClient::setWindowTitle(const char *title) {
                     (const unsigned char *) title,
                     strlen(title));
         } else {
-            XDeleteProperty(xapp->display(), handle(),
-                    _XA_NET_WM_VISIBLE_NAME);
+            deleteProperty(_XA_NET_WM_VISIBLE_NAME);
         }
         if (getFrame())
             getFrame()->updateTitle();
@@ -729,14 +819,9 @@ void YFrameClient::setIconTitle(const char *title) {
     if (fIconTitle != title) {
         fIconTitle = title;
         if (title) {
-            XChangeProperty(xapp->display(), handle(),
-                    _XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING,
-                    8, PropModeReplace,
-                    (const unsigned char *) title,
-                    strlen(title));
+            setProperty(_XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING, title);
         } else {
-            XDeleteProperty(xapp->display(), handle(),
-                    _XA_NET_WM_VISIBLE_ICON_NAME);
+            deleteProperty(_XA_NET_WM_VISIBLE_ICON_NAME);
         }
         if (getFrame())
             getFrame()->updateIconTitle();
@@ -827,6 +912,14 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         YFrameWindow* f = getFrame();
+        if (f == nullptr) {
+            YWindow* up = parent();
+            if (up) {
+                f = dynamic_cast<YFrameWindow*>(up->parent());
+                if (f && f->client() != this)
+                    f->selectTab(this);
+            }
+        }
         if (f && !f->ignoreActivation()) {
             f->activate();
             f->wmRaise();
@@ -881,7 +974,7 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             setWorkspaceHint(message.data.l[0]);
     } else if (message.message_type == _XA_WIN_LAYER) {
         long layer = message.data.l[0];
-        if (inrange(layer, WinLayerDesktop, WinLayerAboveAll)) {
+        if (validLayer(layer)) {
             if (getFrame())
                 getFrame()->actionPerformed(layerActionSet[layer]);
             else
@@ -1239,6 +1332,142 @@ long YFrameClient::mwmDecors() {
     return decors;
 }
 
+void YFrameClient::refreshIcon() {
+    if (fIconize == false) {
+        fIconize = true;
+    }
+    if (fFrame) {
+        fFrame->updateIcon();
+    }
+}
+
+ref<YIcon> YFrameClient::getIcon() {
+    if (fIconize) {
+        fIconize = false;
+        obtainIcon();
+    }
+    return fIcon;
+}
+
+void YFrameClient::obtainIcon() {
+    long count;
+    long* elem;
+    Pixmap* pixmap;
+    Atom type;
+
+    ref<YIcon> oldIcon = fIcon;
+
+    if (getNetWMIcon(&count, &elem)) {
+        ref<YImage> icons[3], largestIcon;
+        const long sizes[3] = {
+            long(YIcon::smallSize()),
+            long(YIcon::largeSize()),
+            long(YIcon::hugeSize())
+        };
+        long* largestOffset = nullptr;
+        long largestSize = 0;
+
+        // Find icons that match Small-/Large-/HugeIconSize and search
+        // for the largest icon from NET_WM_ICON set.
+        for (long *e = elem;
+             e + 2 < elem + count && e[0] > 0 && e[1] > 0;
+             e += 2 + e[0] * e[1]) {
+            long w = e[0], h = e[1], *d = e + 2;
+            if (w == h && d + w*h <= elem + count) {
+                // Maybe huge=large=small, so examine all sizes[].
+                for (int i = 0; i < 3; i++) {
+                    if (w == sizes[i] && icons[i] == null) {
+                        if (i >= 1 && sizes[i - 1] == sizes[i]) {
+                            icons[i] = icons[i - 1];
+                        } else {
+                            icons[i] = YImage::createFromIconProperty(d, w, h);
+                            if (w > largestSize) {
+                                largestOffset = d;
+                                largestSize = w;
+                                largestIcon = icons[i];
+                            }
+                        }
+                    }
+                }
+                if ((w > largestSize && largestSize < sizes[2]) ||
+                    (w > sizes[2] && w < largestSize))
+                {
+                    largestOffset = d;
+                    largestSize = w;
+                }
+            }
+        }
+
+        // Create missing icons by scaling the largest icon.
+        for (int i = 0; i < 3; i++) {
+            if (icons[i] == null) {
+                // create the largest icon
+                if (largestIcon == null && largestOffset && largestSize) {
+                    largestIcon =
+                        YImage::createFromIconProperty(largestOffset,
+                                                       largestSize,
+                                                       largestSize);
+                }
+                if (largestIcon != null) {
+                    icons[i] = largestIcon->scale(sizes[i], sizes[i]);
+                }
+            }
+        }
+        fIcon.init(new YIcon(icons[0], icons[1], icons[2]));
+        XFree(elem);
+    }
+    else if (getWinIcons(&type, &count, &elem)) {
+        if (type == _XA_WIN_ICONS)
+            fIcon = newClientIcon(elem[0], elem[1], elem + 2);
+        else // compatibility
+            fIcon = newClientIcon(count/2, 2, elem);
+        XFree(elem);
+    }
+    else if (getKwmIcon(&count, &pixmap) && count == 2) {
+        long pix[4] = {
+            long(pixmap[0]),
+            long(pixmap[1]),
+            long(iconPixmapHint()),
+            long(iconMaskHint()),
+        };
+        XFree(pixmap);
+        fIcon = newClientIcon(1 + (pix[2] != None), 2, pix);
+    }
+    else if (iconPixmapHint()) {
+        long pix[2] = {
+            long(iconPixmapHint()),
+            long(iconMaskHint()),
+        };
+        fIcon = newClientIcon(1, 2, pix);
+    }
+
+    if (fIcon == null) {
+        const char* name = classHint()->res_name;
+        if (nonempty(name)) {
+            fIcon = YIcon::getIcon(name);
+        }
+    }
+    if (fIcon == null && adopted() == false) {
+        fIcon = YIcon::getIcon("icewm");
+    }
+    if (fIcon == null && fFrame) {
+        WindowOption wo(fFrame->getWindowOption());
+        if (wo.icon.nonempty()) {
+            fIcon = YIcon::getIcon(wo.icon);
+        }
+    }
+
+    if (fIcon != null) {
+        if (fIcon->small() == null && fIcon->large() == null) {
+            fIcon = null;
+        }
+    }
+
+    if (fIcon == null) {
+        fIcon = oldIcon;
+    }
+}
+
 bool YFrameClient::getKwmIcon(long* count, Pixmap** pixmap) {
     *count = 0;
     *pixmap = None;
@@ -1307,8 +1536,8 @@ bool YFrameClient::getLayerHint(int* layer) {
         return false;
 
     YProperty prop(this, _XA_WIN_LAYER, F32, 1, XA_CARDINAL);
-    if (prop && inrange(*prop, 0L, WinLayerCount - 1L)) {
-        *layer = *prop;
+    if (prop && validLayer(*prop)) {
+        *layer = int(*prop);
         return true;
     }
     return false;
@@ -1382,7 +1611,7 @@ bool YFrameClient::getNetWMStateHint(int* mask, int* state) {
     for (Atom atom : prop) {
         flags |= getMask(atom);
     }
-    if (manager->wmState() != YWindowManager::wmSTARTUP) {
+    if (manager->isStartup() == false) {
         flags &= ~WinStateFocused;
     }
     *mask = flags;
@@ -1667,6 +1896,12 @@ bool ClassHint::match(const char* resource) const {
 char* ClassHint::resource() const {
     mstring str(res_name, ".", res_class);
     return str == "." ? nullptr : strdup(str);
+}
+
+bool ClassHint::get(Window win) {
+    reset();
+    YProperty::fRequest = XA_WM_CLASS;
+    return XGetClassHint(xapp->display(), win, this);
 }
 
 // vim: set sw=4 ts=4 et:

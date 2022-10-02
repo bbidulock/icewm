@@ -8,6 +8,7 @@
 struct WindowOption {
     WindowOption(mstring n_class_instance = null);
     void combine(const WindowOption& n);
+    bool hasOption(unsigned bit) const { return bit & options & option_mask; }
 
     mstring w_class_instance;
     mstring keyboard;
@@ -37,9 +38,11 @@ public:
     int getCount() const { return fWinOptions.getCount(); }
     bool nonempty() const { return fWinOptions.nonempty(); }
     bool isEmpty() const { return fWinOptions.isEmpty(); }
+    static bool anyOption(unsigned bit) { return hasbit(allOptions, bit); }
 
 private:
     YObjectArray<WindowOption> fWinOptions;
+    static unsigned allOptions;
 
     bool findOption(mstring a_class_instance, int *index);
 

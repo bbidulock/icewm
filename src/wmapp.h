@@ -203,6 +203,12 @@ public:
 };
 extern lazy<TileMenu> tileMenu;
 
+class TabsMenu : public SharedMenu {
+public:
+    void updatePopup();
+};
+extern lazy<TabsMenu> tabsMenu;
+
 class KProgram;
 typedef YObjectArray<KProgram> KProgramArrayType;
 typedef KProgramArrayType::IterType KProgramIterType;

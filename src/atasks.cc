@@ -6,7 +6,7 @@
 #include "default.h"
 #include "wmapp.h"
 #include "wmmgr.h"
-#include "wmframe.h"
+#include "wmclient.h"
 #include "wpixmaps.h"
 #include "ymenuitem.h"
 
@@ -725,7 +725,7 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             if (fMenu) {
             }
             else if (getFrame()->focused() && getFrame()->visibleNow() &&
-                (!getFrame()->canRaise() || (button.state & ControlMask)))
+                (!getFrame()->canRaise(true) || (button.state & ControlMask)))
             {
                 getFrame()->wmMinimize();
             }
@@ -739,8 +739,8 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             if (hasbit(button.state, xapp->AltMask)) {
                 if (getFrame()) {
                     activate();
-                    if (manager->getFocus()) {
-                        manager->getFocus()->wmClose();
+                    if (manager->getFocused()) {
+                        manager->getFocused()->wmClose();
                         return;
                     }
                 }
@@ -956,7 +956,7 @@ TaskBarApp* TaskPane::findApp(ClientData* frame) {
 }
 
 TaskBarApp* TaskPane::getActiveApp() {
-    return findApp(manager->getFocus());
+    return findApp(manager->getFocused());
 }
 
 TaskButton* TaskPane::getActiveButton() {

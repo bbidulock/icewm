@@ -9,12 +9,11 @@
 #include "wmbutton.h"
 #include "wmwinlist.h"
 #include "wmapp.h"
+#include "wmmgr.h"
 #include "wpixmaps.h"
 #include "yprefs.h"
 #include "prefs.h"
 #include "intl.h"
-
-#define ISMASK(w,e,n) (((w) & ~(n)) == (e))
 
 static YFont titleFont;
 bool YFrameTitleBar::swapTitleButtons;
@@ -67,11 +66,16 @@ YColor YFrameTitleBar::background(bool active) {
     return titleBarBackground[active];
 }
 
-YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
-    YWindow(parent),
+YFrameTitleBar::YFrameTitleBar(YFrameWindow *frame):
+    YWindow(frame),
     fFrame(frame),
+    fPartner(nullptr),
+    fDragX(0),
+    fDragY(0),
+    fRoom(0),
     wasCanRaise(false),
-    fVisible(false)
+    fVisible(false),
+    fToggle(false)
 {
     initTitleColorsFonts();
     addStyle(wsNoExpose);
@@ -87,19 +91,39 @@ YFrameTitleBar::YFrameTitleBar(YWindow *parent, YFrameWindow *frame):
 YFrameTitleBar::~YFrameTitleBar() {
     for (auto b : fButtons)
         delete b;
+    if (fPartner) {
+        fPartner->fPartner = nullptr;
+    }
 }
 
-bool YFrameTitleBar::isRight(char c) {
-    const char* distant = swapTitleButtons ? titleButtonsLeft : titleButtonsRight;
-    return (strchr(distant, c) != nullptr);
+void YFrameTitleBar::setPartner(YFrameTitleBar* partner) {
+    if (fPartner != partner) {
+        if (fPartner) {
+            fPartner->fPartner = nullptr;
+        }
+        fPartner = partner;
+        if (partner) {
+            if (fTimer == nullptr || fTimer->isRunning() == false) {
+                fTimer->setTimer(0, this, true);
+                fToggle = true;
+            }
+            if (partner->fPartner != this)
+                partner->setPartner(this);
+        }
+    }
 }
 
 bool YFrameTitleBar::isRight(const YFrameButton* b) {
     return isRight(b->getKind());
 }
 
+bool YFrameTitleBar::isRight(char c) {
+    const char* str = swapTitleButtons ? titleButtonsLeft : titleButtonsRight;
+    return strchr(str, c);
+}
+
 bool YFrameTitleBar::supported(char c) {
-    return (strchr(titleButtonsSupported, c) != nullptr);
+    return strchr(titleButtonsSupported, c);
 }
 
 YFrameButton *YFrameTitleBar::getButton(char c) {
@@ -148,33 +172,33 @@ void YFrameTitleBar::handleButton(const XButtonEvent &button) {
     YWindow::handleButton(button);
 }
 
+bool YFrameTitleBar::hasMask(unsigned state, unsigned bits, unsigned ignore) {
+    return (KEY_MODMASK(state) & ~ignore) == bits;
+}
+
 void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     YAction action(actionNull);
     if (count >= 2 && (count % 2 == 0)) {
-        if (up.button == titleMaximizeButton &&
-            ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
+        if (up.button == titleMaximizeButton && hasMask(up.state, 0))
         {
             action = actionMaximize;
         }
-        else if (up.button == titleMaximizeButton &&
-             ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
+        else if (up.button == titleMaximizeButton && hasMask(up.state, ShiftMask))
         {
             action = actionMaximizeVert;
         }
         else if (up.button == titleMaximizeButton && xapp->AltMask &&
-             ISMASK(KEY_MODMASK(up.state), xapp->AltMask + ShiftMask, ControlMask))
+                 hasMask(up.state, xapp->AltMask + ShiftMask))
         {
             action = actionMaximizeHoriz;
         }
-        else if (up.button == titleRollupButton &&
-             up.button <= Button3 &&
-             ISMASK(KEY_MODMASK(up.state), 0, ControlMask))
+        else if (up.button == titleRollupButton && up.button <= Button3 &&
+                 hasMask(up.state, 0))
         {
             action = actionRollup;
         }
-        else if (up.button == titleRollupButton &&
-             up.button <= Button3 &&
-             ISMASK(KEY_MODMASK(up.state), ShiftMask, ControlMask))
+        else if (up.button == titleRollupButton && up.button <= Button3 &&
+                 hasMask(up.state, ShiftMask))
         {
             action = actionMaximizeHoriz;
         }
@@ -228,12 +252,89 @@ bool YFrameTitleBar::handleBeginDrag(
         return getFrame()->handleBeginDrag(down, motion);
     }
     else if (getFrame()->canMove()) {
-        getFrame()->startMoveSize(true, true,
-                                  0, 0,
-                                  down.x + x(), down.y + y());
+        if (getClickButton() == Button2) {
+            fDragX = down.x_root;
+            fDragY = down.y_root;
+            setPointer(YWMApp::movePointer);
+            handleDrag(down, motion);
+        } else {
+            getFrame()->startMoveSize(true, true,
+                                      0, 0,
+                                      down.x + x(), down.y + y());
+        }
         return true;
     }
     return false;
+}
+
+bool YFrameTitleBar::isPartner(YFrameTitleBar* other) {
+    if (other->hasRoom() && other->getClient()->adopted()) {
+        YRect geo(other->geometry());
+        geo.xx += other->parent()->x();
+        geo.yy += other->parent()->y();
+        return geo.contains(fDragX, fDragY);
+    }
+    return false;
+}
+
+YFrameTitleBar* YFrameTitleBar::findPartner() {
+    YFrameTitleBar* partner = nullptr;
+    bool one = false;
+    for (YFrameWindow* f = manager->topLayer(); f; f = f->nextLayer()) {
+        if (f->visible()) {
+            if (f == getFrame()) {
+                one = true;
+            }
+            else if (one && f->hasTitleBar() && isPartner(f->titlebar())) {
+                partner = f->titlebar();
+                break;
+            }
+            else {
+                YRect geo(f->geometry());
+                geo.yy += topSideVerticalOffset;
+                geo.hh -= topSideVerticalOffset;
+                if (geo.contains(fDragX, fDragY)) {
+                    break;
+                }
+            }
+        }
+    }
+    return partner;
+}
+
+void YFrameTitleBar::handleDrag(const XButtonEvent& down,
+                                const XMotionEvent& motion)
+{
+    if (getClickButton() == Button2) {
+        int dx = motion.x_root - fDragX;
+        int dy = motion.y_root - fDragY;
+        if (dx | dy) {
+            getFrame()->setCurrentPositionOuter(getFrame()->x() + dx,
+                                                getFrame()->y() + dy);
+            fDragX = motion.x_root;
+            fDragY = motion.y_root;
+
+            if (getClient() && getClient()->adopted()) {
+                setPartner((motion.state & ShiftMask)
+                            ? findPartner() : nullptr);
+            }
+        }
+    }
+}
+
+void YFrameTitleBar::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u) {
+    if (u.button == Button2) {
+        setPointer(None);
+        if (fPartner) {
+            if (fPartner == findPartner()) {
+                YFrameWindow* frame = getFrame();
+                frame->moveTabs(fPartner->getFrame());
+                delete frame;
+            } else {
+                setPartner(nullptr);
+            }
+        }
+    }
 }
 
 void YFrameTitleBar::activate() {
@@ -254,6 +355,7 @@ void YFrameTitleBar::layoutButtons() {
     int left(titleJ[pi] != null ? int(titleJ[pi]->width()) : 0);
     int right(int(getFrame()->width()) - 2 * getFrame()->borderX() -
               (titleQ[pi] != null ? int(titleQ[pi]->width()) : 0));
+    bool hid = false;
 
     const char* nearby = swapTitleButtons ? titleButtonsRight : titleButtonsLeft;
     if (nearby) {
@@ -265,6 +367,7 @@ void YFrameTitleBar::layoutButtons() {
                 if (b && isRight(b) == false) {
                     if (left + int(b->width()) >= right) {
                         b->hide();
+                        hid = true;
                     } else {
                         b->setPosition(left, 0);
                         left += b->width();
@@ -285,6 +388,7 @@ void YFrameTitleBar::layoutButtons() {
                 if (b && isRight(b)) {
                     if (right - int(b->width()) <= left) {
                         b->hide();
+                        hid = true;
                     } else {
                         right -= b->width();
                         b->setPosition(right, 0);
@@ -294,6 +398,8 @@ void YFrameTitleBar::layoutButtons() {
             }
         }
     }
+
+    fRoom = (hid || right < left) ? 0 : (right - left);
 }
 
 void YFrameTitleBar::deactivate() {
@@ -308,9 +414,27 @@ void YFrameTitleBar::refresh() {
 }
 
 void YFrameTitleBar::repaint() {
-    if (fVisible && width() > 1 && height() > 1) {
+    if (fVisible && width() > 1 && height() > 1 && getFrame()->tabCount()) {
         GraphicsBuffer(this).paint();
     }
+}
+
+bool YFrameTitleBar::handleTimer(YTimer* timer) {
+    if (timer == fTimer) {
+        if (fPartner == nullptr) {
+            if (fToggle)
+                fToggle = false;
+            else
+                repaint();
+            return false;
+        } else {
+            repaint();
+            fToggle ^= true;
+            timer->setInterval(150);
+            return true;
+        }
+    }
+    return false;
 }
 
 void YFrameTitleBar::handleVisibility(const XVisibilityEvent& visib) {
@@ -339,17 +463,18 @@ void YFrameTitleBar::relayout() {
 }
 
 void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
-    if (getFrame()->client() == nullptr || visible() == false)
+    if (getClient() == nullptr || visible() == false)
         return;
 
-    YColor bg = titleBarBackground[focused()];
-    YColor fg = titleBarForeground[focused()];
+    bool foci = focused() ^ (fToggle && fPartner);
+    YColor bg = titleBarBackground[foci];
+    YColor fg = titleBarForeground[foci];
 
     int onLeft(0);
     int onRight((int) width());
 
-    if (titleQ[focused()] != null)
-        onRight -= int(titleQ[focused()]->width());
+    if (titleQ[foci] != null)
+        onRight -= int(titleQ[foci]->width());
 
     const char* nearby = swapTitleButtons ? titleButtonsRight : titleButtonsLeft;
     if (nearby) {
@@ -377,20 +502,17 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         }
     }
 
-    if (titleFont) {
-        g.setFont(titleFont);
-    }
-
     mstring title = getFrame()->getTitle();
     int const fontHeight = titleFont ? titleFont->height() : 8;
     int const fontAscent = titleFont ? titleFont->ascent() : 6;
     int const yPos(int(height() - fontHeight) / 2 +
                    fontAscent + titleBarVertOffset);
     int tlen = title != null && titleFont ? titleFont->textWidth(title) : 0;
+    int stringOffset(onLeft + (onRight - onLeft - tlen) * titleBarJustify / 100);
 
-    int stringOffset(onLeft + (onRight - onLeft - tlen)
-                     * (int) titleBarJustify / 100);
     g.setColor(bg);
+    g.setFont(titleFont);
+
     switch (wmLook) {
     case lookWin95:
     case lookNice:
@@ -402,7 +524,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             int y2 = int(height()) - 1;
 
             g.fillRect(0, y, width(), height() - 1);
-            g.setColor(focused() ? fg.darker() : bg.darker());
+            g.setColor(foci ? fg.darker() : bg.darker());
             g.drawLine(0, y2, width(), y2);
         }
         break;
@@ -412,7 +534,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
         else if (titleBarJustify == 100)
             stringOffset--;
 
-        if (focused()) {
+        if (foci) {
             g.fillRect(1, 1, width() - 2, height() - 2);
             g.setColor(titleBarBackground[false]);
             g.draw3DRect(onLeft, 0, onRight - 1, height() - 1, false);
@@ -433,7 +555,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     case lookMetal:
     case lookFlat:
     case lookGtk: {
-        bool const pi(focused());
+        bool const pi(foci);
 
         // !!! we really need a fallback mechanism for small windows
         if (titleL[pi] != null) {
@@ -450,8 +572,7 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
             lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
 
         tlen = clamp(lRight - lLeft, 0, tlen);
-        stringOffset = lLeft + (lRight - lLeft - tlen)
-            * (int) titleBarJustify / 100;
+        stringOffset = lLeft + (lRight - lLeft - tlen) * titleBarJustify / 100;
 
         lLeft = stringOffset;
         lRight = stringOffset + tlen;
@@ -524,8 +645,8 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     if (title != null && tlen && onLeft + 16 < onRight) {
         stringOffset += titleBarHorzOffset;
 
-        if (titleBarShadowText[focused()]) {
-            g.setColor(titleBarShadowText[focused()]);
+        if (titleBarShadowText[foci]) {
+            g.setColor(titleBarShadowText[foci]);
             g.drawStringEllipsis(stringOffset + 1, yPos + 1, title, tlen);
         }
 
@@ -609,8 +730,7 @@ void YFrameTitleBar::renderShape(Graphics& g) {
             lRight(onRight - (titleM[pi] != null ? (int)titleM[pi]->width() : 0));
 
         tlen = clamp(lRight - lLeft, 0, tlen);
-        int stringOffset = lLeft + (lRight - lLeft - tlen)
-                                 * (int) titleBarJustify / 100;
+        int stringOffset = lLeft + (lRight - lLeft - tlen) * titleBarJustify / 100;
 
         lLeft = stringOffset;
         lRight = stringOffset + tlen;

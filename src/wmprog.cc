@@ -123,6 +123,9 @@ public:
     virtual int getCount() override {
         return menu->itemCount();
     }
+    virtual bool isEmpty() override {
+        return menu->itemCount() == 0;
+    }
     virtual bool isKey(KeySym k, unsigned int mod) override {
         return k == this->key && mod == this->mod;
     }

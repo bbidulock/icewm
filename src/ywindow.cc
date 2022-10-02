@@ -108,12 +108,12 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fDepth(depth ? unsigned(depth) : xapp->depth()),
     fVisual(visual ? visual : xapp->visual()),
     fColormap(colormap),
-    fParentWindow(parent),
+    fParent(parent),
     fFocusedWindow(nullptr),
     fHandle(win), flags(0), fStyle(0),
     fX(0), fY(0), fWidth(1), fHeight(1),
     unmapCount(0),
-    fPointer(),
+    fPointer(0),
     fGraphics(nullptr),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
@@ -125,9 +125,9 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
         flags |= wfAdopted;
         adopt();
     }
-    else if (fParentWindow == nullptr) {
+    else if (fParent == nullptr) {
         PRECONDITION(desktop);
-        fParentWindow = desktop;
+        fParent = desktop;
     }
     insertWindow();
 }
@@ -159,11 +159,11 @@ YWindow::~YWindow() {
 
 Colormap YWindow::colormap() {
     if (fColormap == None) {
-        if (fParentWindow
-            && (fVisual == CopyFromParent || fVisual == fParentWindow->fVisual)
-            && (fDepth == CopyFromParent || fDepth == fParentWindow->fDepth))
+        if (fParent
+            && (fVisual == CopyFromParent || fVisual == fParent->fVisual)
+            && (fDepth == CopyFromParent || fDepth == fParent->fDepth))
         {
-            fColormap = fParentWindow->colormap();
+            fColormap = fParent->colormap();
         }
         if (fVisual && fColormap == None) {
             fColormap = xapp->colormapForVisual(fVisual);
@@ -313,7 +313,7 @@ Window YWindow::create() {
     if (fStyle & wsPointerMotion)
         fEventMask |= PointerMotionMask;
 
-    if (fParentWindow == desktop && !(fStyle & wsOverrideRedirect))
+    if (fParent == desktop && !(fStyle & wsOverrideRedirect))
         fEventMask |= StructureNotifyMask | SubstructureRedirectMask;
     if (fStyle & wsManager)
         fEventMask |= SubstructureRedirectMask | SubstructureNotifyMask;
@@ -434,7 +434,7 @@ void YWindow::destroy() {
         if (!(flags & wfDestroyed)) {
             setDestroyed();
             if (!(flags & wfAdopted)) {
-                MSG(("----------------------destroy %lX", fHandle));
+                MSG(("----------------------destroy 0x%lX", fHandle));
                 XDestroyWindow(xapp->display(), fHandle);
                 removeAllIgnoreUnmap();
             } else {
@@ -446,16 +446,17 @@ void YWindow::destroy() {
         flags &= unsigned(~wfCreated);
     }
 }
+
 void YWindow::removeWindow() {
-    if (fParentWindow) {
-        fParentWindow->remove(this);
-        fParentWindow = nullptr;
+    if (fParent) {
+        fParent->remove(this);
+        fParent = nullptr;
     }
 }
 
 void YWindow::insertWindow() {
-    if (fParentWindow) {
-        fParentWindow->prepend(this);
+    if (fParent) {
+        fParent->prepend(this);
     }
 }
 
@@ -467,12 +468,12 @@ void YWindow::reparent(YWindow *parent, int x, int y) {
     }
 
     removeWindow();
-    fParentWindow = parent;
+    fParent = parent;
     insertWindow();
 
     if (notbit(flags, wfDestroyed)) {
-        MSG(("--- reparent %lX to %lX", handle(), parent->handle()));
-        XReparentWindow(xapp->display(), handle(), parent->handle(), x, y);
+        MSG(("--- reparent %lX to %lX", fHandle, parent->handle()));
+        XReparentWindow(xapp->display(), fHandle, parent->handle(), x, y);
     }
     fX = x;
     fY = y;
@@ -516,7 +517,7 @@ void YWindow::setWinGravity(int gravity) {
         attributes.win_gravity = gravity;
         fWinGravity = gravity;
 
-        XChangeWindowAttributes(xapp->display(), handle(), eventmask, &attributes);
+        XChangeWindowAttributes(xapp->display(), fHandle, eventmask, &attributes);
     } else {
         fWinGravity = gravity;
     }
@@ -529,7 +530,7 @@ void YWindow::setBitGravity(int gravity) {
         attributes.bit_gravity = gravity;
         fBitGravity = gravity;
 
-        XChangeWindowAttributes(xapp->display(), handle(), eventmask, &attributes);
+        XChangeWindowAttributes(xapp->display(), fHandle, eventmask, &attributes);
     } else {
         fBitGravity = gravity;
     }
@@ -886,22 +887,21 @@ void YWindow::handleButton(const XButtonEvent &button) {
     }
 }
 
+inline int sqr(int x) { return x * x; }
+
 void YWindow::handleMotion(const XMotionEvent &motion) {
     if (fClickButtonDown) {
         if (fClickDrag) {
             handleDrag(fClickEvent, motion);
-        } else {
-            int const dx(abs(motion.x_root - fClickEvent.x_root));
-            int const dy(abs(motion.y_root - fClickEvent.y_root));
-            int const motionDelta(max(dx, dy));
-            if (motion.time > fClickTime + ClickMotionDelay ||
-                motionDelta >= ClickMotionDistance)
+        }
+        else if ((motion.state & xapp->ButtonMask) / Button1Mask
+                  == fClickButton) {
+            if (motion.time >= fClickTime + ClickMotionDelay ||
+                sqr(motion.x_root - fClickEvent.x_root) +
+                sqr(motion.y_root - fClickEvent.y_root) >=
+                sqr(ClickMotionDistance))
             {
-                if ((motion.state & xapp->ButtonMask) / Button1Mask
-                    == fClickButton)
-                {
-                    fClickDrag = handleBeginDrag(fClickEvent, motion);
-                }
+                fClickDrag = handleBeginDrag(fClickEvent, motion);
             }
         }
     }
@@ -1033,20 +1033,20 @@ void YWindow::paint(Graphics &g, const YRect &r) {
 }
 
 bool YWindow::nullGeometry() {
-    bool zero = (fWidth == 0 || fHeight == 0);
-
-    if (zero && !(flags & wfNullSize)) {
+    if (fWidth && fHeight) {
+        if (nullsize()) {
+            flags &= unsigned(~wfNullSize);
+            if (visible())
+                XMapWindow(xapp->display(), handle());
+        }
+    } else if ( !nullsize()) {
         flags |= wfNullSize;
-        if (flags & wfVisible) {
+        if (visible()) {
             addIgnoreUnmap();
             XUnmapWindow(xapp->display(), handle());
         }
-    } else if ((flags & wfNullSize) && !zero) {
-        flags &= unsigned(~wfNullSize);
-        if (flags & wfVisible)
-            XMapWindow(xapp->display(), handle());
     }
-    return zero;
+    return nullsize();
 }
 
 void YWindow::setGeometry(const YRect &r) {
@@ -1138,6 +1138,18 @@ void YWindow::mapToLocal(int& x, int& y) {
                           &x, &y, &child);
 }
 
+Region YWindow::region() {
+    YRect geo = geometry();
+    for (YWindow* p = parent(); p && p != desktop; p = p->parent()) {
+        geo.xx += p->x();
+        geo.yy += p->y();
+    }
+    XRectangle xre(geo);
+    Region reg = XCreateRegion();
+    XUnionRectWithRegion(&xre, reg, reg);
+    return reg;
+}
+
 void YWindow::configure(const YRect &/*r*/)
 {
 }
@@ -1148,13 +1160,14 @@ void YWindow::configure(const YRect2& r2)
 }
 
 void YWindow::setPointer(Cursor pointer) {
-    fPointer = pointer;
-
-    if (flags & wfCreated) {
-        XSetWindowAttributes attributes;
-        attributes.cursor = fPointer;
-        XChangeWindowAttributes(xapp->display(), handle(),
-                                CWCursor, &attributes);
+    if (fPointer != pointer) {
+        fPointer = pointer;
+        if (created() && !destroyed()) {
+            if (pointer)
+                XDefineCursor(xapp->display(), fHandle, pointer);
+            else
+                XUndefineCursor(xapp->display(), fHandle);
+        }
     }
 }
 
@@ -1239,7 +1252,7 @@ void YWindow::requestFocus(bool requestUserFocus) {
 
 
 YWindow *YWindow::toplevel() {
-    for (YWindow *w = this; w; w = w->fParentWindow) {
+    for (YWindow *w = this; w; w = w->fParent) {
         if (w->isToplevel())
             return w;
     }
@@ -1367,7 +1380,7 @@ void YWindow::lostFocus() {
 void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (isToplevel() || fParentWindow == nullptr) {
+    if (isToplevel() || fParent == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1397,7 +1410,7 @@ void YWindow::installAccelerator(unsigned int key, unsigned int mod, YWindow *wi
 void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win) {
     if (key < 128)
         key = ASCII::toUpper(char(key));
-    if (isToplevel() || fParentWindow == nullptr) {
+    if (isToplevel() || fParent == nullptr) {
         YAccelerator **pa = &accel, *a;
 
         while (*pa) {
@@ -1415,7 +1428,13 @@ void YWindow::removeAccelerator(unsigned int key, unsigned int mod, YWindow *win
 }
 
 void YWindow::deleteProperty(Atom property) {
-    XDeleteProperty(xapp->display(), handle(), property);
+    if (created() && !destroyed())
+        XDeleteProperty(xapp->display(), fHandle, property);
+}
+
+void YWindow::setProperty(Atom prop, Atom type, const char* string) {
+    XChangeProperty(xapp->display(), handle(), prop, type, 8, PropModeReplace,
+                    (const unsigned char *) string, int(strlen(string)));
 }
 
 void YWindow::setProperty(Atom prop, Atom type, const Atom* values, int count) {

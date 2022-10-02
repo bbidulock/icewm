@@ -206,6 +206,7 @@ the application.  The following options are defined:
   ignoreUrgentHint:         {1|0}  ignore urgent hints.
   ignoreWinList:            {1|0}  not on window list.
   ignoreActivationMessages: {1|0}  only user can focus window.
+  ignoreOverrideRedirect:   {1|0}  ignore override redirect.
   noFocusOnAppRaise:        {1|0}  no focus on raise.
   noFocusOnMap:             {1|0}  do not focus when mapped.
   noIgnoreTaskBar:          {1|0}  on task bar.

@@ -18,6 +18,14 @@ struct ZItem {
     int prio;
     int index;
     YFrameWindow* frame;
+    YFrameClient* client;
+
+    ZItem(int p, int i, YFrameWindow* f, YFrameClient* c)
+        : prio(p), index(i), frame(f), client(c) { }
+
+    void reset() { prio = 0; frame = nullptr; client = nullptr; }
+
+    operator bool() const { return frame && client; }
 
     static int compare(const void* p1, const void* p2) {
         const ZItem* z1 = static_cast<const ZItem*>(p1);
@@ -49,37 +57,50 @@ struct ZItem {
 class WindowItemsCtrlr : public ISwitchItems
 {
     int zTarget;
-    YArray<YFrameWindow*> zList;
-    YFrameWindow *fActiveWindow;
-    YFrameWindow *fLastWindow;
-    char *fWMClass;
+    YArray<ZItem> zList;
+    ZItem fActiveItem;
+    ZItem fLastItem;
+    char* fWMClass;
 
     void freeList() {
         zList.clear();
     }
 
-    void changeFocusTo(YFrameWindow *frame)  {
+    void changeFocusTo(ZItem to)  {
         YRestackLock restack;
-        if (frame->visible())
-            manager->setFocus(frame, false, false);
+        if (to.frame->visible()) {
+            if (to.client != to.frame->client())
+                to.frame->selectTab(to.client);
+            manager->setFocus(to.frame, false, false);
+        }
         if (quickSwitchRaiseCandidate)
             manager->restackWindows();
     }
 
 public:
 
-    virtual int getCount() override
+    int getCount() override
     {
         return zList.getCount();
     }
 
-    virtual ref<YIcon> getIcon(int itemIdx) override
+    bool isEmpty() override
     {
-        if (inrange(itemIdx, 0, getCount() - 1)) {
-            YFrameWindow* winItem = zList[itemIdx];
-            if (winItem) return winItem->getIcon();
+        return zList.isEmpty();
+    }
+
+    ref<YIcon> getIcon(int idx) override
+    {
+        ref<YIcon> icon;
+        if (inrange(idx, 0, getCount() - 1)) {
+            ZItem act = zList[idx];
+            if (act.frame->hasTab(act.client)) {
+                icon = act.client->getIcon();
+                if (icon == null)
+                    icon = act.frame->getIcon();
+            }
         }
-        return null;
+        return icon;
     }
 
     void moveTarget(bool zdown) override {
@@ -87,19 +108,19 @@ public:
         setTarget(cnt < 2 ? 0 : (zTarget + cnt + (zdown ? 1 : -1)) % cnt);
     }
 
-    virtual void setTarget(int zPosition) override
+    void setTarget(int zPosition) override
     {
         zTarget = zPosition;
         if (inrange(zTarget, 0, getCount() - 1))
-            fActiveWindow = zList[zTarget];
+            fActiveItem = zList[zTarget];
         else
-            fActiveWindow = nullptr;
+            fActiveItem.reset();
     }
 
     WindowItemsCtrlr() :
         zTarget(0),
-        fActiveWindow(nullptr),
-        fLastWindow(nullptr),
+        fActiveItem(0, 0, nullptr, nullptr),
+        fLastItem(0, 0, nullptr, nullptr),
         fWMClass(nullptr)
     {
     }
@@ -110,38 +131,179 @@ public:
             free(fWMClass);
     }
 
-    virtual int getActiveItem() override
+    int getActiveItem() override
     {
         return zTarget;
     }
 
-    virtual mstring getTitle(int idx) override
+    mstring getTitle(int idx) override
     {
-        if (inrange(idx, 0, getCount() - 1))
-            return zList[idx]->client()->windowTitle();
+        if (inrange(idx, 0, getCount() - 1)) {
+            ZItem act = zList[idx];
+            if (act.frame->hasTab(act.client)) {
+                return act.client->windowTitle();
+            }
+        }
         return null;
     }
 
-    virtual void setWMClass(char* wmclass) override {
+    void setWMClass(char* wmclass) override {
         if (fWMClass)
             free(fWMClass);
         fWMClass = wmclass;
     }
 
-    virtual char* getWMClass() override {
+    char* getWMClass() override {
         return fWMClass;
     }
 
-    virtual void updateList() override {
-        YFrameWindow* const focused = manager->getFocus();
-        int const current = manager->activeWorkspace();
-        int const count = manager->focusedCount();
-        ZItem items[count];
-        int index = 0;
+    void updateList() override;
 
-        for (YFrameIter iter(manager->focusedReverseIterator()); ++iter; ) {
+    void displayFocusChange() override {
+        if (inrange(zTarget, 0, getCount() - 1))
+            changeFocusTo(zList[zTarget]);
+    }
+
+    void begin(bool zdown) override
+    {
+        YFrameWindow* focus = manager->getFocus();
+        updateList();
+        int i = lookupFrame(focus);
+        if (i < 0) {
+            fActiveItem.reset();
+            fLastItem.reset();
+        } else {
+            fActiveItem = zList[i];
+            fLastItem = zList[i];
+        }
+        zTarget = 0;
+        moveTarget(zdown);
+    }
+
+    void cancel() override {
+        ZItem last = fLastItem;
+        ZItem act = fActiveItem;
+        fLastItem.reset();
+        fActiveItem.reset();
+        freeList();
+        if (last) {
+            changeFocusTo(last);
+        }
+        else if (act) {
+            if (act.client != act.frame->client())
+                act.frame->selectTab(act.client);
+            act.frame->activateWindow(true, false);
+        }
+    }
+
+    void accept() override {
+        ZItem active = fActiveItem;
+        if (active) {
+            fLastItem.reset();
+            fActiveItem.reset();
+            freeList();
+            active.frame->activateWindow(true, false);
+        } else {
+            cancel();
+        }
+    }
+
+    void destroyTarget() override {
+        const int idx = getActiveItem();
+        if (inrange(idx, 0, getCount() - 1)) {
+            bool confirm = false;
+            ZItem act = zList[idx];
+            if (act.frame->hasTab(act.client)) {
+                act.frame->wmCloseClient(act.client, &confirm);
+            }
+        }
+    }
+
+    bool destroyedItem(YFrameWindow* item) override
+    {
+        bool removed = false;
+        ZItem previous = fActiveItem;
+
+        for (int i = getCount(); 0 <= --i; ) {
+            if (zList[i].frame == item) {
+                zList.remove(i);
+                removed = true;
+                if (i <= zTarget && 0 < zTarget)
+                    --zTarget;
+            }
+        }
+
+        if (fLastItem.frame == item)
+            fLastItem.reset();
+        if (fActiveItem.frame == item)
+            fActiveItem.reset();
+
+        setTarget(zTarget);
+        if (fLastItem == false)
+            fLastItem = fActiveItem;
+        if (fActiveItem && fActiveItem != previous)
+            changeFocusTo(fActiveItem);
+
+        return removed;
+    }
+
+    bool createdItem(YFrameWindow* frame) override
+    {
+        YFrameClient* client = frame->client();
+        if (notbit(client->winHints(), WinHintsSkipFocus) &&
+            (client->adopted() || frame->visible()) &&
+            (frame->isUrgent() || quickSwitchToAllWorkspaces ||
+             frame->visibleOn(manager->activeWorkspace())) &&
+            (::isEmpty(fWMClass) || client->classHint()->match(fWMClass)) &&
+            !frame->frameOption(YFrameWindow::foIgnoreQSwitch) &&
+            (!frame->isHidden() || quickSwitchToHidden) &&
+            (!frame->isMinimized() || quickSwitchToMinimized))
+        {
+            zList += ZItem(5, zList.getCount(), frame, frame->client());
+            return true;
+        }
+        return false;
+    }
+
+    YFrameWindow* current() const override {
+        return fActiveItem.frame;
+    }
+
+    bool isKey(KeySym k, unsigned vm) override {
+        return gKeySysSwitchNext.eq(k, vm) || (fWMClass &&
+               gKeySysSwitchClass.eq(k, vm));
+    }
+
+    unsigned modifiers() override {
+        return gKeySysSwitchNext.mod
+             | gKeySysSwitchLast.mod
+             | gKeySysSwitchClass.mod;
+    }
+
+    int lookupFrame(YFrameWindow* frame) {
+        for (int i = 0; i < zList.getCount(); ++i)
+            if (frame == zList[i].frame)
+                return i;
+        return -1;
+    }
+
+    int lookupClient(YFrameClient* client) {
+        for (int i = 0; i < zList.getCount(); ++i)
+            if (client == zList[i].client)
+                return i;
+        return -1;
+    }
+};
+
+void WindowItemsCtrlr::updateList() {
+    YFrameWindow* const focused = manager->getFocus();
+    int const current = manager->activeWorkspace();
+    int index = 0;
+
+    zList.clear();
+    for (YFrameIter iter(manager->focusedReverseIterator()); ++iter; ) {
+        for (YFrameClient* client : iter->clients()) {
             YFrameWindow* frame = iter;
-            YFrameClient* client = frame->client();
 
             if (hasbit(client->winHints(), WinHintsSkipFocus))
                 continue;
@@ -149,21 +311,23 @@ public:
             if (!client->adopted() && !frame->visible())
                 continue;
 
-            if (!frame->isUrgent()) {
-                if (!quickSwitchToAllWorkspaces && !frame->visibleOn(current))
-                    continue;
-            }
-
-            if (nonempty(fWMClass)) {
-                if (client->classHint()->match(fWMClass) == false)
+            if (!quickSwitchToAllWorkspaces) {
+                if (!frame->hasState(WinStateUrgent) &&
+                    !client->urgencyHint() &&
+                    !frame->visibleOn(current))
                     continue;
             }
 
             if (frame->frameOption(YFrameWindow::foIgnoreQSwitch))
                 continue;
 
+            if (nonempty(fWMClass)) {
+                if (client->classHint()->match(fWMClass) == false)
+                    continue;
+            }
+
             int prio = 0;
-            if (frame->isUrgent()) {
+            if (!frame->hasState(WinStateUrgent) && !client->urgencyHint()) {
                 prio = 1 + !quickSwitchToUrgent;
             }
             else if (frame == focused) {
@@ -183,129 +347,29 @@ public:
             else {
                 prio = 2;
             }
-            if (prio && index < count) {
-                items[index].prio = prio;
-                items[index].index = index;
-                items[index].frame = frame;
+            if (prio) {
+                zList += ZItem(prio, index, frame, client);
                 index += 1;
             }
         }
-
-        qsort(items, size_t(index), sizeof(ZItem), ZItem::compare);
-
-        zList.clear();
-        for (int i = 0; i < index; ++i) {
-            zList += items[i].frame;
-        }
-
-        if (fActiveWindow) {
-            int act = find(zList, fActiveWindow);
-            if (act < 0) {
-                fActiveWindow = nullptr;
-            } else if (act) {
-                zList.remove(act);
-                zList.insert(0, fActiveWindow);
-            }
-        }
-        if (fLastWindow && find(zList, fLastWindow) < 0)
-            fLastWindow = nullptr;
     }
 
-    void displayFocusChange() override {
-        if (inrange(zTarget, 0, getCount() - 1))
-            changeFocusTo(zList[zTarget]);
-    }
+    qsort(&*zList, size_t(index), sizeof(ZItem), ZItem::compare);
 
-    virtual void begin(bool zdown) override
-    {
-        fLastWindow = fActiveWindow = manager->getFocus();
-        updateList();
-        zTarget = 0;
-        moveTarget(zdown);
-    }
-
-    virtual void cancel() override {
-        YFrameWindow* last = fLastWindow;
-        YFrameWindow* act = fActiveWindow;
-        fLastWindow = fActiveWindow = nullptr;
-        freeList();
-        if (last) {
-            changeFocusTo(last);
+    if (fActiveItem) {
+        int act = lookupClient(fActiveItem.client);
+        if (act < 0) {
+            fActiveItem.reset();
         }
         else if (act) {
-            act->activateWindow(true, false);
+            fActiveItem = zList[act];
+            zList.remove(act);
+            zList.insert(0, fActiveItem);
         }
     }
-
-    virtual void accept() override {
-        YFrameWindow* active = fActiveWindow;
-        if (active) {
-            fLastWindow = fActiveWindow = nullptr;
-            freeList();
-            active->activateWindow(true, false);
-        } else {
-            cancel();
-        }
-    }
-
-    virtual void destroyTarget() override {
-        if (inrange(getActiveItem(), 0, getCount() - 1))
-            zList[getActiveItem()]->wmClose();
-    }
-
-    virtual bool destroyedItem(YFrameWindow* item) override
-    {
-        int pos = find(zList, item);
-        if (pos >= 0) {
-            YFrameWindow* previous = fActiveWindow;
-            zList.remove(pos);
-            if (fLastWindow == item)
-                fLastWindow = nullptr;
-            if (fActiveWindow == item)
-                fActiveWindow = nullptr;
-            pos = clamp(zTarget - (zTarget > pos), 0, getCount() - 1);
-            setTarget(pos);
-            if (fLastWindow == nullptr)
-                fLastWindow = fActiveWindow;
-            if (fActiveWindow && fActiveWindow != previous)
-                changeFocusTo(fActiveWindow);
-        }
-        return pos >= 0;
-    }
-
-    virtual bool createdItem(YFrameWindow* frame) override
-    {
-        YFrameClient* client = frame->client();
-        if (notbit(client->winHints(), WinHintsSkipFocus) &&
-            (client->adopted() || frame->visible()) &&
-            (frame->isUrgent() || quickSwitchToAllWorkspaces ||
-             frame->visibleOn(manager->activeWorkspace())) &&
-            (isEmpty(fWMClass) || client->classHint()->match(fWMClass)) &&
-            !frame->frameOption(YFrameWindow::foIgnoreQSwitch) &&
-            (!frame->isHidden() || quickSwitchToHidden) &&
-            (!frame->isMinimized() || quickSwitchToMinimized))
-        {
-            zList += frame;
-            return true;
-        }
-        return false;
-    }
-
-    virtual YFrameWindow* current() const override {
-        return fActiveWindow;
-    }
-
-    virtual bool isKey(KeySym k, unsigned vm) override {
-        return gKeySysSwitchNext.eq(k, vm) || (fWMClass &&
-               gKeySysSwitchClass.eq(k, vm));
-    }
-
-    unsigned modifiers() override {
-        return gKeySysSwitchNext.mod
-             | gKeySysSwitchLast.mod
-             | gKeySysSwitchClass.mod;
-    }
-};
+    if (fLastItem && lookupClient(fLastItem.client) < 0)
+        fLastItem.reset();
+}
 
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
@@ -576,7 +640,9 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                 if (i >= off && i < end) {
                     ref<YIcon> icon = zItems->getIcon(i);
                     if (icon != null) {
-                        if (i == m_hlItemFromMotion && i != zItems->getActiveItem()) {
+                        if (i == m_hlItemFromMotion &&
+                            i != zItems->getActiveItem())
+                        {
                             g.setColor(frameColor.darker());
                             g.drawRect(x - quickSwitchIBorder,
                                     y - quickSwitchIBorder - ds / 2,
@@ -743,9 +809,9 @@ void SwitchWindow::displayFocus() {
 }
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
-    bool active = zItems->getActiveItem();
+    int active = zItems->getActiveItem();
     if (zItems->destroyedItem(frame)) {
-        if (zItems->getCount() == 0) {
+        if (zItems->isEmpty()) {
             cancel();
         }
         else if (visible()) {

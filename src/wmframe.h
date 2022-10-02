@@ -35,8 +35,16 @@ public:
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
     void afterManage();
     void manage();
-    void unmanage(bool reparent = true);
+    void unmanage();
     void sendConfigure();
+
+    void untab(YFrameClient* dest);
+    bool hasTab(YFrameClient* dest);
+    void moveTabs(YFrameWindow* dest);
+    void closeTab(YFrameClient* client);
+    void removeTab(YFrameClient* client);
+    void selectTab(YFrameClient* client);
+    void independer(YFrameClient* client);
 
     Window createPointerWindow(Cursor cursor, int gravity);
     void createPointerWindows();
@@ -77,6 +85,7 @@ public:
     void wmRaise();
     void doRaise();
     void wmClose();
+    void wmCloseClient(YFrameClient* client, bool* confirm);
     void wmConfirmKill(const char* message = nullptr);
     void wmKill();
     void wmNextWindow();
@@ -150,7 +159,7 @@ public:
     bool canShow() const;
     bool canHide() const { return hasbit(frameFunctions(), ffHide); }
     bool canLower() const;
-    bool canRaise() const;
+    bool canRaise(bool ignoreTaskBar = false) const;
     bool canFullscreen() const;
     bool overlaps(bool below);
     unsigned overlap(YFrameWindow *other);
@@ -247,6 +256,7 @@ public:
         foNoFocusOnMap             = (1 << 19),
         foNoIgnoreTaskBar          = (1 << 20),
         foClose                    = (1 << 22),
+        foIgnoreOverrideRedirect   = (1 << 23),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }
@@ -274,6 +284,7 @@ public:
     bool isMapped() const { return notState(WinStateUnmapped); }
     void makeMapped() { return setState(WinStateUnmapped, None); }
     bool hasBorders() const;
+    bool hasTitleBar() const { return fTitleBar; }
     int borderXN() const;
     int borderYN() const;
     int titleYN() const;
@@ -293,20 +304,12 @@ public:
     void setWinListItem(WindowListItem *i) { fWinListItem = i; }
 
     bool addAsTransient();
-    void removeAsTransient();
     void addTransients();
-    void removeTransients();
+    void removeFromGroupModals();
 
-    void setTransient(YFrameWindow *transient) { fTransient = transient; }
-    void setNextTransient(YFrameWindow *nextTransient) { fNextTransient = nextTransient; }
-    void setOwner(YFrameWindow *owner) { fOwner = owner; }
-    YFrameWindow *transient() const { return fTransient; }
-    YFrameWindow *nextTransient() const { return fNextTransient; }
-    YFrameWindow *owner() const { return fOwner; }
-    YFrameWindow *mainOwner();
-
-    ref<YIcon> getClientIcon() const { return fFrameIcon; }
-    ref<YIcon> clientIcon() const;
+    YFrameClient* transient() const;
+    YFrameWindow* owner() const;
+    YFrameWindow* mainOwner();
 
     void getNormalGeometryInner(int *x, int *y, int *w, int *h) const;
     void setNormalGeometryOuter(int x, int y, int w, int h);
@@ -385,11 +388,9 @@ public:
 
     bool inWorkArea() const;
     bool affectsWorkArea() const;
-
     bool doNotCover() const { return frameOption(foDoNotCover); }
 
-    virtual ref<YIcon> getIcon() const { return clientIcon(); }
-
+    virtual ref<YIcon> getIcon() const;
     virtual mstring getTitle() const { return client()->windowTitle(); }
     virtual mstring getIconTitle() const { return client()->iconTitle(); }
 
@@ -415,6 +416,8 @@ public:
     void refresh();
 
     int windowTypeLayer() const;
+    int tabCount() const { return fTabs.getCount(); }
+    bool isEmpty() const { return fTabs.isEmpty(); }
 
     bool hasIndicators() const { return indicatorsCreated; }
     Window topSideIndicator() const { return topSide; }
@@ -466,11 +469,14 @@ private:
     ref<YIcon> fFrameIcon;
     lazy<WindowOption> fHintOption;
     lazy<YTimer> fFocusEventTimer;
+    YArray<YFrameClient*> fTabs;
+public:
+    typedef YArray<YFrameClient*>::IterType IterType;
+    IterType iterator() { return fTabs.iterator(); }
+    YArray<YFrameClient*>& clients() { return fTabs; }
+private:
 
     YMsgBox *fKillMsgBox;
-    YFrameWindow *fOwner;
-    YFrameWindow *fTransient;
-    YFrameWindow *fNextTransient;
     YActionListener *wmActionListener;
 
     static lazy<YTimer> fAutoRaiseTimer;

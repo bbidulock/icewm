@@ -139,7 +139,8 @@ void PrefsMenu::actionPerformed(YAction action, unsigned int modifiers) {
 
 void PrefsMenu::query(cfoption* opt, const char* old) {
     if (message) {
-        message->unmanage();
+        delete message;
+        message = nullptr;
     }
 
     csmart retrieved(SavePrefs::retrieveComment(opt));
@@ -216,7 +217,7 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
         if (operation == YMsgBox::mbOK && msgbox->input()) {
             input = msgbox->input()->getText();
         }
-        message->unmanage();
+        delete message;
         message = nullptr;
         if (operation == YMsgBox::mbOK && modify) {
             if (modify->type == cfoption::CF_KEY && modify->key()) {

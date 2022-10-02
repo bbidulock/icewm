@@ -657,6 +657,20 @@ YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu
     return add(new YMenuItem(name, hotCharPos, null, actionNull, submenu));
 }
 
+YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos,
+                             YMenu *submenu, YMenuItem* after)
+{
+    YMenuItem* item = nullptr;
+    int index = find(fItems, after);
+    if (index >= 0) {
+        item = new YMenuItem(name, hotCharPos, null, actionNull, submenu);
+        if (item) {
+            fItems.insert(index + 1, item);
+        }
+    }
+    return item;
+}
+
 void YMenu::addSeparator() {
     int n = itemCount();
     if (n > 0 && !fItems[n - 1]->isSeparator()) {
@@ -676,6 +690,21 @@ bool YMenu::lastIsSeparator() const {
 YMenuItem* YMenu::lastItem() const {
     int n = itemCount();
     return n > 0 ? fItems[n - 1] : nullptr;
+}
+
+bool YMenu::removeSubmenu(YMenu* menu) {
+    bool done = false;
+    YMenuItem* item = findSubmenu(menu);
+    if (item) {
+        hideSubmenu();
+        int index = find(fItems, item);
+        if (index >= 0) {
+            fItems[index]->setSubmenu(nullptr);
+            fItems.remove(index);
+        }
+        done = true;
+    }
+    return done;
 }
 
 void YMenu::removeAll() {

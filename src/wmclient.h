@@ -11,6 +11,7 @@
 #define InvalidFrameState   (-1)
 
 class YFrameWindow;
+class YClientContainer;
 class WindowListItem;
 class YIcon;
 
@@ -69,6 +70,7 @@ public:
     bool nonempty() {
         return ::nonempty(res_name) || ::nonempty(res_class);
     }
+    bool get(Window win);
 };
 
 /*
@@ -136,9 +138,10 @@ public:
     virtual bool canLower() const = 0;
     virtual bool canMinimize() const = 0;
     virtual bool canMaximize() const = 0;
-    virtual bool canRaise() const = 0;
+    virtual bool canRaise(bool ignoreTaskBar = false) const = 0;
     virtual bool canRestore() const = 0;
     virtual bool canRollup() const = 0;
+    virtual void wmClose() = 0;
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
@@ -188,6 +191,7 @@ public:
     void setBorder(unsigned int border) { fBorder = border; }
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };
+    YClientContainer* getContainer() const;
 
     enum WindowProtocols {
         wpDeleteWindow = 1 << 0,
@@ -232,7 +236,7 @@ public:
     bool isDockAppIcon() const;
     bool isDockAppWindow() const;
     bool isDocked() const { return fDocked; }
-    void setDocked(bool docked) { fDocked = docked; }
+    void setDocked(bool docked);
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
@@ -242,8 +246,15 @@ public:
 
     void getProtocols(bool force);
 
+    void setTransient(Window owner);
     void getTransient();
+    bool hasTransient();
+    bool isTransient() const { return fTransientFor != None; }
+    bool isTransientFor(Window owner);
     Window ownerWindow() const { return fTransientFor; }
+    YFrameClient* getOwner() const;
+    YFrameClient* nextTransient();
+    YFrameClient* firstTransient();
 
     void getClassHint();
     ClassHint* classHint() { return &fClassHint; }
@@ -254,8 +265,11 @@ public:
     void getNetWmIconName();
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
-    mstring windowTitle() { return fWindowTitle; }
-    mstring iconTitle() { return fIconTitle; }
+    mstring windowTitle() const { return fWindowTitle; }
+    mstring iconTitle() const { return fIconTitle; }
+    void refreshIcon();
+    void obtainIcon();
+    ref<YIcon> getIcon();
 
     void setWorkspaceHint(int workspace);
     bool getWinWorkspaceHint(int* workspace);
@@ -317,15 +331,15 @@ public:
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 
-    bool isEmbed() { return prop.xembed_info; }
+    bool isEmbed() const { return prop.xembed_info; }
 
 private:
     YFrameWindow *fFrame;
     int fProtocols;
-    int haveButtonGrab;
-    unsigned int fBorder;
+    unsigned fBorder;
     FrameState fSavedFrameState;
     int fWinStateHint;
+    int fWinHints;
     XSizeHints *fSizeHints;
     ClassHint fClassHint;
     XWMHints *fHints;
@@ -333,11 +347,12 @@ private:
     bool fDocked;
     bool fShaped;
     bool fTimedOut;
+    bool fIconize;
     bool fPinging;
     long fPingTime;
-    lazy<YTimer> fPingTimer;
-    int fWinHints;
     long fPid;
+    lazy<YTimer> fPingTimer;
+    ref<YIcon> fIcon;
 
     mstring fWindowTitle;
     mstring fIconTitle;
@@ -348,7 +363,13 @@ private:
 
     lazy<MwmHints> fMwmHints;
 
+    struct transience {
+        Window trans, owner;
+        transience(Window t, Window o) : trans(t), owner(o) { }
+    };
+    static YArray<transience> fTransients;
     Window fTransientFor;
+    int findTransient(Window handle);
 
     Pixmap *kwmIcons;
     struct {

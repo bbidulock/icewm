@@ -41,8 +41,11 @@ public:
     YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action);
     YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu);
     YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu);
+    YMenuItem *addSubmenu(const mstring &name, int hotCharPos,
+                          YMenu *submenu, YMenuItem* after);
     void addSeparator();
     YMenuItem *addLabel(const mstring &name);
+    bool removeSubmenu(YMenu* menu);
     void removeAll();
     YMenuItem *findAction(YAction action);
     YMenuItem *findSubmenu(const YMenu *sub);

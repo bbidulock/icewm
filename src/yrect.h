@@ -24,6 +24,8 @@ public:
     operator XRectangle() const {
         return { short(xx), short(yy), (unsigned short)ww, (unsigned short)hh };
     }
+    YRect(const XWindowAttributes& a) : xx(a.x), yy(a.y),
+                                        ww(a.width), hh(a.height) { }
 
     int x() const { return xx; }
     int y() const { return yy; }

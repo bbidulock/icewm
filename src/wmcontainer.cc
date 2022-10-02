@@ -10,14 +10,13 @@
 #include "wmapp.h"
 #include "prefs.h"
 
-YClientContainer::YClientContainer(YWindow *parent, YFrameWindow *frame,
-                                   int depth, Visual *visual, Colormap cmap)
-    : YWindow(parent, None, depth, visual, cmap)
+YClientContainer::YClientContainer(YFrameWindow *frame, int depth,
+                                   Visual *visual, Colormap cmap)
+    : YWindow(frame, None, depth, visual, cmap)
+    , fFrame(frame)
+    , fHaveGrab(false)
+    , fHaveActionGrab(false)
 {
-    fFrame = frame;
-    fHaveGrab = false;
-    fHaveActionGrab = false;
-
     setStyle(wsManager | wsNoExpose);
     setPointer(YWMApp::leftPointer);
     setTitle("Container");
@@ -187,8 +186,7 @@ void YClientContainer::grabActions() {
 void YClientContainer::handleConfigureRequest(const XConfigureRequestEvent &configureRequest) {
     MSG(("configure request in frame"));
 
-    if (getFrame() &&
-        configureRequest.window == getFrame()->client()->handle())
+    if (configureRequest.window == getFrame()->client()->handle())
     {
         getFrame()->configureClient(configureRequest);
     }
@@ -212,7 +210,7 @@ void YClientContainer::handleMapRequest(const XMapRequestEvent &mapRequest) {
 }
 
 void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
-    if (getFrame() && pointerColormap) {
+    if (pointerColormap) {
         if (crossing.type == EnterNotify)
             manager->setColormapWindow(getFrame());
         else if (crossing.type == LeaveNotify &&
@@ -224,6 +222,5 @@ void YClientContainer::handleCrossing(const XCrossingEvent &crossing) {
         }
     }
 }
-
 
 // vim: set sw=4 ts=4 et:

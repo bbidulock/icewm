@@ -705,7 +705,7 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                     if (pagerShowWindowIcons &&
                         ww > 1 + int(smallIconSize) &&
                         wh > 1 + int(smallIconSize) &&
-                        (icon = yfw->clientIcon()) != null &&
+                        (icon = yfw->getIcon()) != null &&
                         icon->small() != null)
                     {
                         g.drawImage(icon->small(),

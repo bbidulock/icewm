@@ -11,6 +11,7 @@ class ISwitchItems
 public:
     virtual void updateList() = 0;
     virtual int getCount() = 0;
+    virtual bool isEmpty() = 0;
     virtual ~ISwitchItems() {}
 
     // move the focused target up or down and return the new focused element

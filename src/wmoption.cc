@@ -12,6 +12,7 @@
 
 lazy<WindowOptions> defOptions;
 lazy<WindowOptions> hintOptions;
+unsigned WindowOptions::allOptions;
 
 WindowOption::WindowOption(mstring n_class_instance):
     w_class_instance(n_class_instance),
@@ -134,16 +135,14 @@ void WindowOptions::setWinOption(mstring n_class_instance,
         op->gh = 0;
         op->gflags = XParseGeometry(arg, &op->gx, &op->gy, &op->gw, &op->gh);
     } else if (strcmp(opt, "layer") == 0) {
-        char *endptr;
-        long l = strtol(arg, &endptr, 10);
-
         op->layer = WinLayerInvalid;
-
-        if (arg[0] && !endptr[0]) {
-            if (inrange(l, 0L, WinLayerCount - 1L))
-                op->layer = (int) l;
+        if (ASCII::isDigit(arg[0])) {
+            char* end = nullptr;
+            long num = strtol(arg, &end, 10);
+            if (end && arg < end && 0 == *end && validLayer(num))
+                op->layer = int(num);
         }
-        else {
+        else if (ASCII::isUpper(arg[0])) {
             static const struct {
                 const char name[12];
                 int layer;
@@ -159,7 +158,7 @@ void WindowOptions::setWinOption(mstring n_class_instance,
                 { "Fullscreen", WinLayerFullscreen },
                 { "AboveAll",   WinLayerAboveAll },
             };
-            for (unsigned int i = 0; i < ACOUNT(layers); i++)
+            for (int i = 0; i < int ACOUNT(layers); ++i)
                 if (strcmp(layers[i].name, arg) == 0) {
                     op->layer = layers[i].layer;
                     return;
@@ -223,6 +222,7 @@ void WindowOptions::setWinOption(mstring n_class_instance,
             { "fullKeys",                 YFrameWindow::foFullKeys },
             { "ignoreActivationMessages", YFrameWindow::foIgnoreActivationMessages },
             { "ignoreNoFocusHint",        YFrameWindow::foIgnoreNoFocusHint },
+            { "ignoreOverrideRedirect",   YFrameWindow::foIgnoreOverrideRedirect },
             { "ignorePagerPreview",       YFrameWindow::foIgnorePagerPreview },
             { "ignorePositionHint",       YFrameWindow::foIgnorePosition },
             { "ignoreQuickSwitch",        YFrameWindow::foIgnoreQSwitch },
@@ -275,6 +275,7 @@ void WindowOptions::setWinOption(mstring n_class_instance,
             else {
                 op->options = ((op->options | set) & ~clr);
                 op->option_mask |= bit;
+                allOptions |= set;
             }
         }
     }

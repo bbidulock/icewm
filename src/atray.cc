@@ -18,7 +18,8 @@
 #include "yprefs.h"
 #include "yxapp.h"
 #include "default.h"
-#include "wmframe.h"
+#include "yicon.h"
+#include "wmclient.h"
 #include "wmmgr.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
@@ -305,17 +306,17 @@ TrayApp* TrayPane::successor(TrayApp *tapp) {
     return nullptr;
 }
 
-TrayApp* TrayPane::findApp(YFrameWindow *frame) {
+TrayApp* TrayPane::findApp(ClientData* frame) {
     IterType iter = fApps.iterator();
     while (++iter && iter->getFrame() != frame);
     return iter ? *iter : 0;
 }
 
 TrayApp* TrayPane::getActive() {
-    return findApp(manager->getFocus());
+    return findApp(manager->getFocused());
 }
 
-TrayApp *TrayPane::addApp(YFrameWindow *frame) {
+TrayApp *TrayPane::addApp(ClientData* frame) {
     TrayApp *tapp = new TrayApp(frame, this, this);
 
     if (tapp != nullptr) {

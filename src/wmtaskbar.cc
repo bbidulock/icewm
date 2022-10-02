@@ -201,8 +201,6 @@ TaskBar::~TaskBar() {
     delete fShowDesktop; fShowDesktop = nullptr;
     xapp->dropClipboard();
     taskBar = nullptr;
-    if (getFrame())
-        getFrame()->unmanage(false);
     MSG(("taskBar delete"));
 }
 
@@ -765,9 +763,9 @@ void TaskBar::updateWMHints() {
 }
 
 void TaskBar::updateWinLayer() {
-    long layer = (taskBarAutoHide || fFullscreen) ? WinLayerAboveAll
-               : fIsCollapsed ? WinLayerAboveDock
-               : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
+    int layer = (taskBarAutoHide || fFullscreen) ? WinLayerAboveAll
+              : fIsCollapsed ? WinLayerAboveDock
+              : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
     if (getFrame()) {
         getFrame()->wmSetLayer(layer);
     } else {
@@ -986,6 +984,16 @@ void TaskBar::showBar() {
     }
 }
 
+void TaskBar::handleClientMessage(const XClientMessageEvent& message) {
+    if (message == _XA_WM_CHANGE_STATE) {
+        const long state = message.data.l[0];
+        if (fIsCollapsed ? (state == NormalState) :
+            (state == IconicState || state == WithdrawnState))
+            handleCollapseButton();
+    }
+    else YFrameClient::handleClientMessage(message);
+}
+
 void TaskBar::actionPerformed(YAction action, unsigned int modifiers) {
     wmActionListener->actionPerformed(action, modifiers);
 }
@@ -1012,6 +1020,7 @@ void TaskBar::handleCollapseButton() {
     updateLocation();
     if (fIsCollapsed == false)
         updateWinLayer();
+    setFrameState(fIsCollapsed ? IconicState : NormalState);
     xapp->sync();
 }
 

@@ -115,8 +115,9 @@ void WindowListMenu::updatePopup() {
                     YMenuItem* item = new YMenuItem(frame->getTitle(), -1,
                                                     null, action, nullptr);
                     if (item) {
-                        if (frame->clientIcon() != null) {
-                            item->setIcon(frame->clientIcon());
+                        ref<YIcon> icon = frame->getIcon();
+                        if (icon != null) {
+                            item->setIcon(icon);
                         }
                         if (0 < k && 0 < addTo->itemCount()) {
                             if (entries[k - 1] < entries[k]) {
