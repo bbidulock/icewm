@@ -581,6 +581,16 @@ Print the identifier of the window frame.
 Print the window identifier and the frame border sizes: left, right,
 top and bottom.
 
+=item B<focusmodel>
+
+Print the ICCCM focus model as advertised by the client window.
+This is either Locally, Passive, Globally or NoInput.
+
+=item B<override> [I<0|1>]
+
+Print the override redirect status for the window, or if either 0 or 1
+is given, then disable or enable the override redirect status.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,

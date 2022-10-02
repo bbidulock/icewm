@@ -178,6 +178,7 @@ static NAtom ATOM_WM_STATE("WM_STATE");
 static NAtom ATOM_WM_CHANGE_STATE("WM_CHANGE_STATE");
 static NAtom ATOM_WM_CLIENT_LEADER("WM_CLIENT_LEADER");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
+static NAtom ATOM_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
 static NAtom ATOM_NET_WM_NAME("_NET_WM_NAME");
@@ -3228,7 +3229,7 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             const char* name(atomName(atom));
             printf("%s%s", prefix, (char *) name);
             if (f & InputHint) {
-                printf(" Input");
+                printf(" Input(%d)", h->input & True);
             }
             if (f & StateHint) {
                 printf(" %s",
@@ -4692,6 +4693,42 @@ void IceSh::parseAction()
         else if (isAction("unhide", 0)) {
             changeState(NormalState);
         }
+        else if (isAction("xmap", 0)) {
+            FOREACH_WINDOW(window)
+                XMapWindow(display, window);
+        }
+        else if (isAction("xunmap", 0)) {
+            FOREACH_WINDOW(window)
+                XUnmapWindow(display, window);
+        }
+        else if (isAction("xmove", 2)) {
+            const char* xs = getArg();
+            const char* ys = getArg();
+            long lx, ly;
+            if (tolong(xs, lx) && tolong(ys, ly)) {
+                FOREACH_WINDOW(window) {
+                    use(window);
+                    XMoveWindow(display, window, int(lx), int(ly));
+                    modified(window);
+                }
+            } else {
+                invalidArgument("xmove parameters");
+            }
+        }
+        else if (isAction("xsize", 2)) {
+            const char* xs = getArg();
+            const char* ys = getArg();
+            long lx, ly;
+            if (tolong(xs, lx) && tolong(ys, ly)) {
+                FOREACH_WINDOW(window) {
+                    use(window);
+                    XResizeWindow(display, window, unsigned(lx), unsigned(ly));
+                    modified(window);
+                }
+            } else {
+                invalidArgument("xsize parameters");
+            }
+        }
         else if (isAction("skip", 0)) {
             FOREACH_WINDOW(window)
                 YNetState(window) += NetSkipPager | NetSkipTaskbar;
@@ -4725,6 +4762,54 @@ void IceSh::parseAction()
             }
             FOREACH_WINDOW(window)
                 opacity(window, opaq);
+        }
+        else if (isAction("override", 0)) {
+            char* flag = nullptr;
+            bool enable = false;
+            if (haveArg() && isDigit(**argp)) {
+                flag = getArg();
+                if (strcmp(flag, "1") == 0) {
+                    enable = true;
+                } else if (strcmp(flag, "0")) {
+                    msg(_("Invalid argument: `%s'"), flag);
+                    throw 1;
+                }
+            }
+            FOREACH_WINDOW(window) {
+                if (flag) {
+                    unsigned long mask = CWOverrideRedirect;
+                    XSetWindowAttributes attr;
+                    attr.override_redirect = enable;
+                    XChangeWindowAttributes(display, window, mask, &attr);
+                } else {
+                    XWindowAttributes attr;
+                    if (XGetWindowAttributes(display, window, &attr)) {
+                        printf("0x%-8lx override %d\n",
+                                *window, attr.override_redirect);
+                    }
+                }
+            }
+        }
+        else if (isAction("focusmodel", 0)) {
+            FOREACH_WINDOW(window) {
+                xsmart<XWMHints> h(XGetWMHints(display, window));
+                if (h) {
+                    bool input = (h->flags & InputHint) && (h->input & True);
+                    Atom* prot = nullptr;
+                    int count = 0;
+                    bool take = false;
+                    if (XGetWMProtocols(display, window, &prot, &count)) {
+                        for (int i = 0; i < count; ++i) {
+                            if (prot[i] == ATOM_WM_TAKE_FOCUS) {
+                                take = true;
+                            }
+                        }
+                    }
+                    printf("0x%-8lx focusmodel %s\n", *window,
+                            input ? take ? "Locally" : "Passive"
+                                : take ? "Globally" : "NoInput");
+                }
+            }
         }
         else if (isAction("motif", 0)) {
             char** args = argp;
