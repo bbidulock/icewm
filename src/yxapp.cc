@@ -1274,11 +1274,17 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
     if (rc == Success)
         return rc;
 
-    XDBG if (xev->resourceid != ignorable) {
+#if defined(DEBUG) || defined(PRECON)
+    if (xev->resourceid != ignorable) {
         char message[80], req[80], number[80];
 
-        snprintf(number, sizeof number, "%d", xev->request_code);
-        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (xev->request_code == X_GetProperty)
+            snprintf(req, sizeof req, "X_GetProperty(%s)",
+                     atomName(YProperty::fRequest));
+        else {
+            snprintf(number, sizeof number, "%d", xev->request_code);
+            XGetErrorDatabaseText(display, "XRequest", number, "", req, 80);
+        }
         if (req[0] == 0)
             snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
 
@@ -1290,7 +1296,6 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
              long(NextRequest(display)) - long(xev->serial),
              long(LastKnownRequestProcessed(display)) - long(xev->serial));
 
-#if defined(DEBUG) || defined(PRECON)
         if (xapp->synchronized()) {
             switch (xev->request_code) {
                 case X_GetWindowAttributes:
@@ -1307,8 +1312,8 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
         else if (ONCE) {
             TLOG(("unsynchronized"));
         }
-#endif
     }
+#endif
 
     if (rc == BadImplementation)
         xapp->exit(rc);
@@ -1395,9 +1400,12 @@ void YProperty::discard() {
     }
 }
 
+Atom YProperty::fRequest;
+
 const YProperty& YProperty::update() {
     discard();
     int fmt = 0;
+    fRequest = fProp;
     if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, fDelete,
                            fKind, &fType, &fmt, &fSize, &fMore, &fData) ==
         Success && fData && fSize && fmt == fBits && (fKind == fType || !fKind))

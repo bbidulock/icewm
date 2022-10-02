@@ -75,6 +75,8 @@ public:
     Atom* begin() const { return data<Atom>(); }
     Atom* end() const { return begin() + fSize; }
 
+    static Atom fRequest;
+
 private:
     Window fWind;
     unsigned char* fData;
