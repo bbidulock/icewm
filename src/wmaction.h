@@ -114,6 +114,7 @@ enum EAction {
     actionTileBottomLeft     = 251,
     actionTileBottomRight    = 252,
     actionTileCenter         = 253,
+    actionUntab              = 255,
 };
 
 bool canShutdown(RebootShutdown reboot);
