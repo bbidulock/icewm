@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
-"PO-Revision-Date: 2022-01-11 15:12+0000\n"
+"PO-Revision-Date: 2022-10-03 23:13+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -345,7 +345,7 @@ msgstr "Área de trabalho: "
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "Separadores"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2048,7 +2048,7 @@ msgstr "Ambi_ente de trabalho"
 
 #: src/wmapp.cc:578
 msgid "Move to New _Window"
-msgstr ""
+msgstr "Mover para Nova _janela"
 
 #: src/wmapp.cc:588
 msgid "Left Half"
