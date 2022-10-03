@@ -3179,13 +3179,15 @@ void YFrameWindow::updateNormalSize() {
     if (cw) {
         normalW = posW - 2 * borderXN();
         if (sh) {
-            normalW = (normalW - sh->base_width) / max(1, sh->width_inc);
+            int inc = max(1, sh->width_inc);
+            normalW = (normalW - sh->base_width + (inc / 2)) / inc;
         }
     }
     if (ch) {
         normalH = posH - (2 * borderYN() + titleYN());
         if (sh) {
-            normalH = (normalH - sh->base_height) / max(1, sh->height_inc);
+            int inc = max(1, sh->height_inc);
+            normalH = (normalH - sh->base_height + (inc / 2)) / inc;
         }
     }
     MSG(("updateNormalSize> %d %d %d %d", normalX, normalY, normalW, normalH));
