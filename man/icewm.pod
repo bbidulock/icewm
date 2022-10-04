@@ -420,7 +420,7 @@ a shift key, onto the title bar of another frame. The two title bars
 will start to flash to indicate that they can merge. Release the
 mouse button to merge the client of the upper window to the lower frame.
 Now the lower frame will have multiple clients, called tabs. Use the
-C<KeyWinNext=Alt+F6> and C<KeySysWinPrev=Alt+Shift+Esc> keys to select
+C<KeyWinNext=Alt+F6> and C<KeyWinPrev=Alt+Shift+F6> keys to select
 a tab, or use the QuickSwitch or use a submenu in the window menu.
 
 =head2 WORKSPACES
