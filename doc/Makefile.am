@@ -11,7 +11,6 @@ doc_DATA = $(html_documentation)
 mark_input = $(srcdir)/icewm.md
 adoc_input = $(srcdir)/icewm.adoc
 
-.PHONY: $(html_documentation)
 $(html_documentation):
 	$(AM_V_GEN)if test -x "`which $(MARKDOWN) 2>/dev/null`"; then \
 		if test $(mark_input) -nt $(html_documentation); then \
