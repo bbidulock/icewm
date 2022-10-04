@@ -815,50 +815,15 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         if (attributes.override_redirect)
             return;
 
-        YFrameClient* client = new YFrameClient(desktop, nullptr);
-        XSelectInput(xapp->display(), client->handle(), None);
-        client->setSize(attributes.width, attributes.height);
-        client->setPosition(attributes.x, attributes.y);
-        client->setBorder(attributes.border_width);
-        int count(0);
-        Atom* atoms = XListProperties(xapp->display(), win, &count);
-        for (int i = 0; i < count; ++i) {
-            Atom type(None);
-            int format(0);
-            unsigned long nitems(0);
-            unsigned long after(0);
-            unsigned char* prop(nullptr);
-            int p = XGetWindowProperty(xapp->display(), win, atoms[i],
-                                       0, 100*1000, False, AnyPropertyType,
-                                       &type, &format, &nitems,
-                                       &after, &prop);
-            if (p == Success && type && format && nitems) {
-                XChangeProperty(xapp->display(), client->handle(),
-                                atoms[i], type, format, PropModeReplace,
-                                prop, nitems);
-            }
-            if (prop && p == Success)
-                XFree(prop);
-        }
-        if (atoms)
-            XFree(atoms);
-
-        YFrameWindow* frame = new YFrameWindow(wmActionListener);
-        XSelectInput(xapp->display(), frame->handle(), None);
-        bool activate = false;
-        bool focus = false;
-        frame->doManage(client, activate, focus);
-        long bx = frame->borderX();
-        long by = frame->borderY();
-        long ty = frame->titleY();
-        delete frame;
+        long bx = wsBorderX;
+        long by = wsBorderY;
+        long ty = wsTitleBar;
 
         long extents[] = { bx, bx, by + ty, by, };
         XChangeProperty(xapp->display(), win,
                         _XA_NET_FRAME_EXTENTS, XA_CARDINAL,
                         32, PropModeReplace,
-                        (unsigned char *) extents, int ACOUNT(extents));
-
+                        (unsigned char *) extents, 4);
         return;
     }
     if (message.message_type == _XA_WM_PROTOCOLS &&
