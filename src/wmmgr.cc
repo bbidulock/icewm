@@ -815,8 +815,108 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         if (attributes.override_redirect)
             return;
 
-        long bx = wsBorderX;
-        long by = wsBorderY;
+        bool border = true;
+        bool dialog = false;
+
+        XSizeHints* sh = XAllocSizeHints();
+        if (sh) {
+            long supplied = None;
+            if (XGetWMNormalHints(xapp->display(), win, sh, &supplied)) {
+                if (hasbits(sh->flags, PMinSize | PMaxSize) &&
+                    sh->min_width == sh->max_width &&
+                    sh->min_height == sh->max_height) {
+                    dialog = true;
+                }
+            }
+            XFree(sh);
+        }
+
+        MwmHints mwm;
+        Atom type = None;
+        int format = None;
+        unsigned long count = None;
+        unsigned long after = None;
+        long* data = nullptr;
+        if (XGetWindowProperty(xapp->display(), win,
+                               _XATOM_MWM_HINTS, None,
+                               PROP_MWM_HINTS_ELEMENTS, False,
+                               _XATOM_MWM_HINTS, &type,
+                               &format, &count, &after,
+                               (unsigned char **) &data) == Success) {
+            if (count == PROP_MWM_HINTS_ELEMENTS &&
+                type == _XATOM_MWM_HINTS &&
+                format == F32) {
+                memcpy((void *) &mwm, (void *) data, sizeof mwm);
+                if (mwm.hasFuncs()) {
+                    dialog = hasbit(mwm.funcs(), MWM_FUNC_RESIZE);
+                }
+                if (mwm.hasDecor()) {
+                    dialog = notbit(mwm.decor(), MWM_DECOR_RESIZEH);
+                    border = hasbit(mwm.decor(), MWM_DECOR_BORDER);
+                }
+            }
+            XFree(data);
+            data = nullptr;
+            count = None;
+            format = None;
+        }
+
+        if (XGetWindowProperty(xapp->display(), win,
+                               _XA_NET_WM_WINDOW_TYPE, None,
+                               16, False,
+                               AnyPropertyType, &type,
+                               &format, &count, &after,
+                               (unsigned char **) &data) == Success) {
+            WindowType wt = wtNormal;
+            struct { Atom atom; WindowType wt; } types[] = {
+                { _XA_NET_WM_WINDOW_TYPE_COMBO,         wtCombo },
+                { _XA_NET_WM_WINDOW_TYPE_DESKTOP,       wtDesktop },
+                { _XA_NET_WM_WINDOW_TYPE_DIALOG,        wtDialog },
+                { _XA_NET_WM_WINDOW_TYPE_DND,           wtDND },
+                { _XA_NET_WM_WINDOW_TYPE_DOCK,          wtDock },
+                { _XA_NET_WM_WINDOW_TYPE_DROPDOWN_MENU, wtDropdownMenu },
+                { _XA_NET_WM_WINDOW_TYPE_MENU,          wtMenu },
+                { _XA_NET_WM_WINDOW_TYPE_NORMAL,        wtNormal },
+                { _XA_NET_WM_WINDOW_TYPE_NOTIFICATION,  wtNotification },
+                { _XA_NET_WM_WINDOW_TYPE_POPUP_MENU,    wtPopupMenu },
+                { _XA_NET_WM_WINDOW_TYPE_SPLASH,        wtSplash },
+                { _XA_NET_WM_WINDOW_TYPE_TOOLBAR,       wtToolbar },
+                { _XA_NET_WM_WINDOW_TYPE_TOOLTIP,       wtTooltip, },
+                { _XA_NET_WM_WINDOW_TYPE_UTILITY,       wtUtility },
+            };
+            for (int i = 0; i < int(count) && format == F32; ++i) {
+                for (auto type : types) {
+                    if (type.atom == Atom(data[i])) {
+                        wt = type.wt;
+                        i = count;
+                        break;
+                    }
+                }
+            }
+            switch (wt) {
+                case wtCombo:
+                case wtDesktop:
+                case wtDND:
+                case wtDock:
+                case wtDropdownMenu:
+                case wtMenu:
+                case wtNotification:
+                case wtPopupMenu:
+                case wtSplash:
+                case wtTooltip:
+                    border = dialog = false;
+                    break;
+                case wtDialog:
+                case wtNormal:
+                case wtToolbar:
+                case wtUtility:
+                    break;
+            }
+            XFree(data);
+        }
+
+        long bx = border ? dialog ? wsDlgBorderX : wsBorderX : 0;
+        long by = border ? dialog ? wsDlgBorderY : wsBorderY : 0;
         long ty = wsTitleBar;
 
         long extents[] = { bx, bx, by + ty, by, };
