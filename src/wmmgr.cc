@@ -848,7 +848,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
                 format == F32) {
                 memcpy((void *) &mwm, (void *) data, sizeof mwm);
                 if (mwm.hasFuncs()) {
-                    dialog = hasbit(mwm.funcs(), MWM_FUNC_RESIZE);
+                    dialog = notbit(mwm.funcs(), MWM_FUNC_RESIZE);
                 }
                 if (mwm.hasDecor()) {
                     dialog = notbit(mwm.decor(), MWM_DECOR_RESIZEH);
