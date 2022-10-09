@@ -19,6 +19,7 @@ public:
     virtual int getWidth();
     virtual mstring getText() { return null; }
     virtual ref<YIcon> getIcon() { return null; }
+    virtual void activate() { }
 private:
     bool fSelected;
 };

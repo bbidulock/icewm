@@ -53,8 +53,9 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fWindowRole()
 {
     fFrame = frame;
-    fBorder = 0;
+    fClientItem = nullptr;
     fProtocols = 0;
+    fBorder = 0;
     fColormap = colormap;
     fDocked = false;
     fShaped = false;
@@ -106,6 +107,7 @@ YFrameClient::~YFrameClient() {
     if (fTransientFor) setTransient(None);
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
+    if (fClientItem) { fClientItem->goodbye(); fClientItem = nullptr; }
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -519,6 +521,10 @@ void YFrameClient::setFrame(YFrameWindow *newFrame) {
     fFrame = newFrame;
 }
 
+YFrameWindow* YFrameClient::obtainFrame() const {
+    return fFrame ? fFrame : dynamic_cast<YFrameWindow*>(parent()->parent());
+}
+
 void YFrameClient::setFrameState(FrameState state) {
     if (state == WithdrawnState) {
         if (manager->notShutting()) {
@@ -911,15 +917,9 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
             }
         }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
-        YFrameWindow* f = getFrame();
-        if (f == nullptr) {
-            YWindow* up = parent();
-            if (up) {
-                f = dynamic_cast<YFrameWindow*>(up->parent());
-                if (f && f->client() != this)
-                    f->selectTab(this);
-            }
-        }
+        YFrameWindow* f = obtainFrame();
+        if (f && f->client() != this)
+            f->selectTab(this);
         if (f && !f->ignoreActivation()) {
             f->activate();
             f->wmRaise();

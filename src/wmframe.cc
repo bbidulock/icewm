@@ -66,7 +66,6 @@ YFrameWindow::YFrameWindow(
     fTaskBarApp(nullptr),
     fTrayApp(nullptr),
     fMiniIcon(nullptr),
-    fWinListItem(nullptr),
     fFrameIcon(null),
     fTabs(1),
     fKillMsgBox(nullptr),
@@ -127,7 +126,6 @@ YFrameWindow::~YFrameWindow() {
     if (fPopupActive)
         fPopupActive->cancelPopup();
     removeAppStatus();
-    removeFromWindowList();
     if (fMiniIcon) {
         delete fMiniIcon;
         fMiniIcon = nullptr;
@@ -290,18 +288,12 @@ void YFrameWindow::untab(YFrameClient* client) {
 }
 
 void YFrameWindow::addToWindowList() {
-    if (fWinListItem == nullptr && client()->adopted() &&
-        windowList && notbit(frameOptions(), foIgnoreWinList))
-    {
-        fWinListItem = windowList->addWindowListApp(this);
-    }
-}
-
-void YFrameWindow::removeFromWindowList() {
-    if (fWinListItem) {
-        if (windowList)
-            windowList->removeWindowListApp(fWinListItem);
-        delete fWinListItem; fWinListItem = nullptr;
+    if (windowList && notbit(frameOptions(), foIgnoreWinList)) {
+        for (YFrameClient* cli : fTabs) {
+            if (cli->adopted() && !cli->getClientItem()) {
+                windowList->addWindowListApp(cli);
+            }
+        }
     }
 }
 
@@ -2207,8 +2199,8 @@ void YFrameWindow::updateTitle() {
     layoutShape();
     if (fTitleBar)
         fTitleBar->repaint();
-    if (fWinListItem && windowList)
-        windowList->repaintItem(fWinListItem);
+    if (windowList && client()->getClientItem())
+        client()->getClientItem()->repaint();
     if (fTaskBarApp) {
         fTaskBarApp->setToolTip(getTitle());
         fTaskBarApp->repaint();
@@ -2591,8 +2583,8 @@ void YFrameWindow::updateIcon() {
         fTrayApp->repaint();
     if (fTaskBarApp)
         fTaskBarApp->repaint();
-    if (windowList && fWinListItem && windowList->visible())
-        windowList->repaintItem(fWinListItem);
+    if (windowList && windowList->visible() && client()->getClientItem())
+        client()->getClientItem()->repaint();
     if (taskBar)
         taskBar->workspacesRepaint(getWorkspace());
 }
@@ -2783,8 +2775,11 @@ void YFrameWindow::setWorkspace(int workspace) {
         if (refocus)
             manager->focusLastWindow();
         updateTaskBar();
-        if (windowList && fWinListItem)
-            windowList->updateWindowListApp(fWinListItem);
+        if (windowList) {
+            for (YFrameClient* cli : fTabs)
+                if (cli->getClientItem())
+                    cli->getClientItem()->update();
+        }
         for (YFrameClient* t = transient(); t; t = t->nextTransient()) {
             if (t->getFrame())
                 t->getFrame()->setWorkspace(workspace);

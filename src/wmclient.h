@@ -115,7 +115,6 @@ public:
 
 class ClientData {
 public:
-    virtual void setWinListItem(WindowListItem *i) = 0;
     virtual YFrameWindow *owner() const = 0;
     virtual ref<YIcon> getIcon() const = 0;
     virtual mstring getTitle() const = 0;
@@ -168,6 +167,13 @@ protected:
     virtual ~ClientData() {}
 };
 
+class YClientItem {
+public:
+    virtual void goodbye() = 0;
+    virtual void update() = 0;
+    virtual void repaint() = 0;
+};
+
 class YFrameClient: public YDndWindow
                   , public YTimerListener
 {
@@ -191,7 +197,10 @@ public:
     void setBorder(unsigned int border) { fBorder = border; }
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };
+    YFrameWindow* obtainFrame() const;
     YClientContainer* getContainer() const;
+    void setClientItem(YClientItem* item) { fClientItem = item; }
+    YClientItem* getClientItem() const { return fClientItem; }
 
     enum WindowProtocols {
         wpDeleteWindow = 1 << 0,
@@ -272,7 +281,6 @@ public:
     ref<YIcon> getIcon();
 
     void setWorkspaceHint(int workspace);
-    bool getWinWorkspaceHint(int* workspace);
 
     void setLayerHint(int layer);
     bool getLayerHint(int* layer);
@@ -335,6 +343,7 @@ public:
 
 private:
     YFrameWindow *fFrame;
+    YClientItem* fClientItem;
     int fProtocols;
     unsigned fBorder;
     FrameState fSavedFrameState;

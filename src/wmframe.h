@@ -300,8 +300,6 @@ public:
 
     YFrameWindow *nextLayer();
     YFrameWindow *prevLayer();
-    WindowListItem *winListItem() const { return fWinListItem; }
-    void setWinListItem(WindowListItem *i) { fWinListItem = i; }
 
     bool addAsTransient();
     void addTransients();

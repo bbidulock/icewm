@@ -7,26 +7,41 @@
 #include "yarray.h"
 #include "ypointer.h"
 
-class WindowListItem;
 class WindowListBox;
 class YMenu;
 class YActionListener;
 class YArrange;
 
-class WindowListItem: public YListItem {
+class ClientListItem: public YListItem, public YClientItem {
 public:
-    WindowListItem(ClientData *frame, int workspace);
-    virtual ~WindowListItem();
+    ClientListItem(YFrameClient* client) : fClient(client) { }
+    virtual void goodbye();
+    virtual void update();
+    virtual void repaint();
 
     virtual int getOffset();
+    virtual mstring getText() { return fClient->windowTitle(); }
+    virtual ref<YIcon> getIcon() { return fClient->getIcon(); }
+    int getWorkspace() const;
+    virtual void activate();
+    YFrameClient* getClient() { return fClient; }
 
-    virtual mstring getText();
-    virtual ref<YIcon> getIcon();
-    ClientData *getFrame() const { return fFrame; }
-    int getWorkspace() const { return fWorkspace; }
 private:
-    ClientData *fFrame;
-    int fWorkspace;
+    YFrameClient* fClient;
+};
+
+class DesktopListItem: public YListItem {
+public:
+    DesktopListItem(int desktop) : fDesktop(desktop) { }
+
+    virtual int getOffset() { return -20; }
+    virtual mstring getText();
+    virtual ref<YIcon> getIcon() { return null; }
+    int getWorkspace() const { return fDesktop; }
+    virtual void activate();
+
+private:
+    int fDesktop;
 };
 
 class WindowListBox: public YListBox, public YActionListener {
@@ -68,28 +83,28 @@ public:
     virtual void configure(const YRect2 &r);
     void relayout();
 
-    WindowListItem *addWindowListApp(YFrameWindow *frame);
-    void removeWindowListApp(WindowListItem *item);
-    void updateWindowListApp(WindowListItem *item);
+    void addWindowListApp(YFrameClient* client);
+    void removeWindowListApp(ClientListItem* item);
+    void updateWindowListApp(ClientListItem* item);
     void updateWindowListApps();
 
-    void repaintItem(WindowListItem *item);
+    void repaintItem(ClientListItem* item);
     void showFocused(int x, int y);
 
     YMenu* getWindowListPopup();
     YMenu* getWindowListAllPopup();
 
 private:
-    WindowListItem* allWorkspacesItem;
+    DesktopListItem* allWorkspacesItem;
     osmart<WindowListPopup> windowListPopup;
     osmart<WindowListAllPopup> windowListAllPopup;
     osmart<YScrollView> scroll;
     osmart<WindowListBox> list;
-    YObjectArray<WindowListItem> workspaceItem;
+    YObjectArray<DesktopListItem> workspaceItem;
     YTimer focusTimer;
 
     void setupClient();
-    void insertApp(WindowListItem *item);
+    void insertApp(ClientListItem* item);
 };
 
 extern class WindowListProxy {
