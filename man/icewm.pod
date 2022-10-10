@@ -1052,6 +1052,12 @@ Lowers the window under the mouse.
 If this is equal to C<MouseWinRaise> and the window can be raised
 then C<MouseWinRaise> takes preference over C<MouseWinLower>.
 
+=item B<MouseWinTabbing>="Shift+Pointer_Button2"
+
+Mouse binding to create tabs.
+Drag the title bar with this button over another title bar.
+When they start to flash, release the button to merge the frame tabs.
+
 =back
 
 The title frame of a window also listens for mouse clicks.  Left double

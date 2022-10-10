@@ -238,6 +238,14 @@ void YFrameTitleBar::handleClick(const XButtonEvent &up, int count) {
     }
 }
 
+int YFrameTitleBar::isTabbingButton(unsigned button) {
+    return button + XK_Pointer_Button1 - 1 == gMouseWinTabbing.key;
+}
+
+int YFrameTitleBar::isTabbingModifier(unsigned state) {
+    return VMod(KEY_MODMASK(state)) == gMouseWinTabbing.mod;
+}
+
 bool YFrameTitleBar::handleBeginDrag(
         const XButtonEvent &down,
         const XMotionEvent &motion)
@@ -252,7 +260,7 @@ bool YFrameTitleBar::handleBeginDrag(
         return getFrame()->handleBeginDrag(down, motion);
     }
     else if (getFrame()->canMove()) {
-        if (getClickButton() == Button2) {
+        if (isTabbingButton(getClickButton())) {
             fDragX = down.x_root;
             fDragY = down.y_root;
             setPointer(YWMApp::movePointer);
@@ -305,7 +313,7 @@ YFrameTitleBar* YFrameTitleBar::findPartner() {
 void YFrameTitleBar::handleDrag(const XButtonEvent& down,
                                 const XMotionEvent& motion)
 {
-    if (getClickButton() == Button2) {
+    if (isTabbingButton(getClickButton())) {
         int dx = motion.x_root - fDragX;
         int dy = motion.y_root - fDragY;
         if (dx | dy) {
@@ -315,7 +323,7 @@ void YFrameTitleBar::handleDrag(const XButtonEvent& down,
             fDragY = motion.y_root;
 
             if (getClient() && getClient()->adopted()) {
-                setPartner((motion.state & ShiftMask)
+                setPartner(isTabbingModifier(motion.state)
                             ? findPartner() : nullptr);
             }
         }

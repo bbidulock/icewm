@@ -464,6 +464,7 @@ cfoption icewm_preferences[] = {
     OKV("MouseWinSize",                         gMouseWinSize,                  "Mouse binding for window resize"),
     OKV("MouseWinRaise",                        gMouseWinRaise,                 "Mouse binding to raise window"),
     OKV("MouseWinLower",                        gMouseWinLower,                 "Mouse binding to lower window"),
+    OKV("MouseWinTabbing",                      gMouseWinTabbing,               "Mouse binding to create tabs"),
     OKV("KeyWinRaise",                          gKeyWinRaise,                   "Raises the window which currently has input focus."),
     OKV("KeyWinOccupyAll",                      gKeyWinOccupyAll,               "Makes the active window occupy all work spaces."),
     OKV("KeyWinLower",                          gKeyWinLower,                   "Lowers the window which currently has input focus."),

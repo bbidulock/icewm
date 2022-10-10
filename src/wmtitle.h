@@ -64,6 +64,8 @@ private:
     bool hasRoom() const { return 50 < fRoom && visible(); }
     bool isPartner(YFrameTitleBar* other);
     void setPartner(YFrameTitleBar* partner);
+    int isTabbingButton(unsigned button);
+    int isTabbingModifier(unsigned state);
 
     YFrameWindow* fFrame;
     YFrameTitleBar* fPartner;
