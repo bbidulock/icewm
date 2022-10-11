@@ -167,15 +167,9 @@ public:
     void begin(bool zdown) override
     {
         YFrameWindow* focus = manager->getFocus();
+        fActiveItem = ZItem(0, 0, focus, focus ? focus->client() : nullptr);
+        fLastItem = fActiveItem;
         updateList();
-        int i = lookupFrame(focus);
-        if (i < 0) {
-            fActiveItem.reset();
-            fLastItem.reset();
-        } else {
-            fActiveItem = zList[i];
-            fLastItem = zList[i];
-        }
         zTarget = 0;
         moveTarget(zdown);
     }
@@ -219,13 +213,13 @@ public:
         }
     }
 
-    bool destroyedItem(YFrameWindow* item) override
+    bool destroyedItem(YFrameWindow* item, YFrameClient* tab) override
     {
         bool removed = false;
         ZItem previous = fActiveItem;
 
         for (int i = getCount(); 0 <= --i; ) {
-            if (zList[i].frame == item) {
+            if (zList[i].frame == item || zList[i].client == tab) {
                 zList.remove(i);
                 removed = true;
                 if (i <= zTarget && 0 < zTarget)
@@ -280,13 +274,6 @@ public:
              | gKeySysSwitchClass.mod;
     }
 
-    int lookupFrame(YFrameWindow* frame) {
-        for (int i = 0; i < zList.getCount(); ++i)
-            if (frame == zList[i].frame)
-                return i;
-        return -1;
-    }
-
     int lookupClient(YFrameClient* client) {
         for (int i = 0; i < zList.getCount(); ++i)
             if (client == zList[i].client)
@@ -297,6 +284,7 @@ public:
 
 void WindowItemsCtrlr::updateList() {
     YFrameWindow* const focused = manager->getFocus();
+    YFrameClient* const fclient = focused ? focused->client() : nullptr;
     int const current = manager->activeWorkspace();
     int index = 0;
 
@@ -331,7 +319,10 @@ void WindowItemsCtrlr::updateList() {
                 prio = 1 + !quickSwitchToUrgent;
             }
             else if (frame == focused) {
-                prio = 2;
+                if (client == fclient)
+                    prio = 2;
+                else
+                    prio = 3;
             }
             else if (frame->avoidFocus()) {
                 prio = 5;
@@ -810,7 +801,20 @@ void SwitchWindow::displayFocus() {
 
 void SwitchWindow::destroyedFrame(YFrameWindow *frame) {
     int active = zItems->getActiveItem();
-    if (zItems->destroyedItem(frame)) {
+    if (zItems->destroyedItem(frame, nullptr)) {
+        if (zItems->isEmpty()) {
+            cancel();
+        }
+        else if (visible()) {
+            resize(getScreen(), active > zItems->getActiveItem());
+            repaint();
+        }
+    }
+}
+
+void SwitchWindow::destroyedClient(YFrameClient* client) {
+    int active = zItems->getActiveItem();
+    if (zItems->destroyedItem(nullptr, client)) {
         if (zItems->isEmpty()) {
             cancel();
         }

@@ -33,7 +33,8 @@ public:
     virtual ref<YIcon> getIcon(int idx) = 0;
 
     // Manager notification about windows disappearing under the fingers
-    virtual bool destroyedItem(YFrameWindow* frame) { return false; }
+    virtual bool destroyedItem(YFrameWindow* frame, YFrameClient* client) {
+                    return false; }
     virtual bool createdItem(YFrameWindow* frame) { return false; }
 
     virtual bool isKey(KeySym k, unsigned mod) = 0;
@@ -63,6 +64,7 @@ public:
     virtual bool handleKey(const XKeyEvent& key) override;
     virtual void handleButton(const XButtonEvent& button) override;
     virtual void handleMotion(const XMotionEvent& motion) override;
+    void destroyedClient(YFrameClient* client);
     void destroyedFrame(YFrameWindow* frame);
     void createdFrame(YFrameWindow* frame);
     YFrameWindow* current();

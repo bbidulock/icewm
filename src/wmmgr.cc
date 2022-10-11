@@ -1914,6 +1914,8 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
         if (conter) {
             frame = conter->getFrame();
             frame->removeTab(client);
+            if (switchWindowVisible())
+                fSwitchWindow->destroyedClient(client);
         }
     }
     delete client;
