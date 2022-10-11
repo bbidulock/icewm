@@ -276,13 +276,14 @@ bool YFrameTitleBar::handleBeginDrag(
 }
 
 bool YFrameTitleBar::isPartner(YFrameTitleBar* other) {
+    bool partner = false;
     if (other->hasRoom() && other->getClient()->adopted()) {
         YRect geo(other->geometry());
         geo.xx += other->parent()->x();
         geo.yy += other->parent()->y();
-        return geo.contains(fDragX, fDragY);
+        partner = geo.contains(fDragX, fDragY);
     }
-    return false;
+    return partner;
 }
 
 YFrameTitleBar* YFrameTitleBar::findPartner() {
@@ -331,7 +332,7 @@ void YFrameTitleBar::handleDrag(const XButtonEvent& down,
 }
 
 void YFrameTitleBar::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u) {
-    if (u.button == Button2) {
+    if (isTabbingButton(u.button)) {
         setPointer(None);
         if (fPartner) {
             if (fPartner == findPartner()) {
