@@ -247,6 +247,7 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     updateIcon();
     if (focus) {
         fWinState |= WinStateFocused;
+        fDelayFocusTimer->setTimer(0, this, true);
     }
     client()->setStateHint();
     if (visible()) {
