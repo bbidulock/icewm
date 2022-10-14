@@ -538,11 +538,13 @@ void WindowList::insertApp(ClientListItem* item) {
     Window ownerWindow = item->getClient()->ownerWindow();
     if (ownerWindow) {
         YFrameClient* owner = clientContext.find(ownerWindow);
-        ClientListItem* other =
-            dynamic_cast<ClientListItem*>(owner->getClientItem());
-        if (other) {
-            list->addAfter(other, item);
-            inserted = true;
+        if (owner) {
+            ClientListItem* other =
+                dynamic_cast<ClientListItem*>(owner->getClientItem());
+            if (other) {
+                list->addAfter(other, item);
+                inserted = true;
+            }
         }
     }
     if (inserted == false) {
