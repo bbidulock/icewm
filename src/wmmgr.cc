@@ -1207,6 +1207,42 @@ void YWindowManager::manageClients() {
         fDockApp = new DockApp;
     }
 
+    struct restore {
+        YFrameWindow* frame;
+        int count;
+        long* tabs;
+        restore(long n) : frame(nullptr), count(n), tabs(new long[n]) { }
+        ~restore() { delete tabs; }
+        long find(Window window) {
+            for (int i = 0; i < count; ++i)
+                if (Window(tabs[i]) == window)
+                    return i;
+            return -1;
+        }
+    };
+    YObjectArray<restore> restoreTabs;
+    YContext<restore> tabbing;
+    YProperty tabs(this, _XA_ICEWM_TABS, F32, 8192, XA_CARDINAL, True);
+    if (tabs) {
+        for (int i = 0; i + 3 < int(tabs.size()); ) {
+            if (tabs[i])
+                break;
+            int count = int(tabs[i + 1]);
+            if (2 <= count && count <= int(tabs.size()) - i - 2) {
+                restore* res = new restore(count);
+                for (int k = 0; k < count; ++k) {
+                    long cli = tabs[i + 2 + k];
+                    res->tabs[k] = cli;
+                    tabbing.save(cli, res);
+                }
+                restoreTabs += res;
+                i += 2 + count;
+            } else {
+                break;
+            }
+        }
+    }
+
     unsigned count = 0;
     xsmart<Window> clients;
     if (xapp->children(handle(), &clients, &count)) {
@@ -1226,9 +1262,27 @@ void YWindowManager::manageClients() {
             if (k == igsize && findClient(win) == nullptr) {
                 YFrameClient* client = allocateClient(win, false);
                 if (client) {
-                    manageClient(client);
-                    if (client->getFrame() == nullptr) {
-                        delete client;
+                    restore* res = tabbing.find(client->handle());
+                    if (res && res->frame) {
+                        int orig = res->find(client->handle());
+                        int pos = 0;
+                        int num = 0;
+                        for (YFrameClient* cli : res->frame->clients()) {
+                            Window w = cli->handle();
+                            int fd = res->find(w);
+                            if (0 <= fd && fd < orig)
+                                pos = num + 1;
+                            ++num;
+                        }
+                        res->frame->createTab(client, pos);
+                    } else {
+                        manageClient(client);
+                        if (client->getFrame() == nullptr) {
+                            delete client;
+                        }
+                        else if (res) {
+                            res->frame = client->getFrame();
+                        }
                     }
                 }
             }
@@ -1259,6 +1313,12 @@ void YWindowManager::manageClients() {
             icon->show();
         }
     }
+
+    for (restore* res : restoreTabs) {
+        for (int i = 0; i < res->count; ++i) {
+            tabbing.remove(res->tabs[i]);
+        }
+    }
 }
 
 void YWindowManager::unmanageClients() {
@@ -1267,6 +1327,19 @@ void YWindowManager::unmanageClients() {
     if (taskBar)
         taskBar->detachDesktopTray();
     setFocus(nullptr);
+
+    YArray<Atom> tabbed;
+    for (YFrameWindow* frame : YFrameWindow::tabbing()) {
+        tabbed += None;
+        tabbed += frame->tabCount();
+        for (YFrameClient* client : frame->clients()) {
+            tabbed += client->handle();
+        }
+    }
+    if (tabbed.nonempty()) {
+        setProperty(_XA_ICEWM_TABS, XA_CARDINAL, &*tabbed, tabbed.getCount());
+    }
+
     grabServer();
 
     for (int l = 0; l < WinLayerCount; l++) {

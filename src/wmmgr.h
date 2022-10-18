@@ -436,6 +436,7 @@ extern Atom _XA_ICEWM_ACTION;
 extern Atom _XA_ICEWM_GUIEVENT;
 extern Atom _XA_ICEWM_HINT;
 extern Atom _XA_ICEWM_FONT_PATH;
+extern Atom _XA_ICEWM_TABS;
 extern Atom _XA_XROOTPMAP_ID;
 extern Atom _XA_XROOTCOLOR_PIXEL;
 

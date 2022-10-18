@@ -56,6 +56,7 @@ Atom _XA_ICEWM_ACTION;
 Atom _XA_ICEWM_GUIEVENT;
 Atom _XA_ICEWM_HINT;
 Atom _XA_ICEWM_FONT_PATH;
+Atom _XA_ICEWM_TABS;
 Atom _XA_ICEWMBG_IMAGE;
 Atom _XA_XROOTPMAP_ID;
 Atom _XA_XROOTCOLOR_PIXEL;
@@ -306,6 +307,7 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_ICEWM_GUIEVENT                   , XA_GUI_EVENT_NAME },
     { &_XA_ICEWM_HINT                       , "_ICEWM_WINOPTHINT" },
     { &_XA_ICEWM_FONT_PATH                  , "ICEWM_FONT_PATH" },
+    { &_XA_ICEWM_TABS                       , "_ICEWM_TABS" },
     { &_XA_ICEWMBG_IMAGE                    , "_ICEWMBG_IMAGE" },
     { &_XA_XROOTPMAP_ID                     , "_XROOTPMAP_ID" },
     { &_XA_XROOTCOLOR_PIXEL                 , "_XROOTCOLOR_PIXEL" },

@@ -32,9 +32,10 @@ public:
                  Colormap clmap = CopyFromParent);
     virtual ~YFrameWindow();
 
+    YClientContainer* allocateContainer(YFrameClient* client);
     void doManage(YFrameClient *client, bool &doActivate, bool &requestFocus);
     void afterManage();
-    void manage();
+    void manage(YFrameClient* client, YClientContainer* conter);
     void unmanage();
     void sendConfigure();
 
@@ -44,6 +45,7 @@ public:
     void closeTab(YFrameClient* client);
     void removeTab(YFrameClient* client);
     void selectTab(YFrameClient* client);
+    void createTab(YFrameClient* client, int place = -1);
     void independer(YFrameClient* client);
 
     Window createPointerWindow(Cursor cursor, int gravity);
@@ -468,10 +470,12 @@ private:
     lazy<WindowOption> fHintOption;
     lazy<YTimer> fFocusEventTimer;
     YArray<YFrameClient*> fTabs;
+    static YArray<YFrameWindow*> tabbedFrames;
 public:
     typedef YArray<YFrameClient*>::IterType IterType;
     IterType iterator() { return fTabs.iterator(); }
     YArray<YFrameClient*>& clients() { return fTabs; }
+    static YArray<YFrameWindow*>& tabbing() { return tabbedFrames; }
 private:
 
     YMsgBox *fKillMsgBox;

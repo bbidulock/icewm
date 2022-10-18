@@ -31,6 +31,7 @@ static YColorName inactiveBorderBg(&clrInactiveBorder);
 lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 YArray<YFrameWindow::GroupModal> YFrameWindow::groupModals;
+YArray<YFrameWindow*> YFrameWindow::tabbedFrames;
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
@@ -143,6 +144,8 @@ YFrameWindow::~YFrameWindow() {
         manager->removeCreatedFrame(this);
         removeFrame();
         manager->removeClientFrame(this);
+        if (1 < tabCount())
+            findRemove(tabbedFrames, this);
         if (client()) {
             findRemove(fTabs, client());
             if (client()->adopted() && !client()->destroyed())
@@ -184,6 +187,8 @@ void YFrameWindow::moveTabs(YFrameWindow* dest) {
     bool focus = focused();
     if (focus)
         manager->switchFocusFrom(this);
+    if (1 < tabCount())
+        findRemove(tabbedFrames, this);
     for (YFrameClient* client : fTabs) {
         client->setFrame(nullptr);
         client->hide();
@@ -193,9 +198,13 @@ void YFrameWindow::moveTabs(YFrameWindow* dest) {
         conter->reparent(dest, dest->container()->x(),
                                dest->container()->y());
         conter->lower();
+        int was = dest->tabCount();
         dest->fTabs.append(client);
         if (dest->fTitleBar)
             dest->fTitleBar->repaint();
+        if (was < 2 && 1 < dest->tabCount()) {
+            tabbedFrames.append(dest);
+        }
     }
     fTabs.clear();
     fClient = nullptr;
@@ -258,6 +267,17 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     }
 }
 
+void YFrameWindow::createTab(YFrameClient* client, int place) {
+    YClientContainer* conter = allocateContainer(client);
+    manage(client, conter);
+    if (0 <= place && place <= tabCount())
+        fTabs.insert(place, client);
+    else
+        fTabs.append(client);
+    if (tabCount() == 2)
+        tabbedFrames.append(this);
+}
+
 void YFrameWindow::removeTab(YFrameClient* client) {
     bool found = findRemove(fTabs, client);
     PRECONDITION(found);
@@ -267,6 +287,8 @@ void YFrameWindow::removeTab(YFrameClient* client) {
         delete conter;
         if (fTitleBar && manager->notShutting())
             fTitleBar->repaint();
+        if (tabCount() < 2)
+            findRemove(tabbedFrames, this);
     }
 }
 
@@ -284,6 +306,8 @@ void YFrameWindow::untab(YFrameClient* client) {
             independer(client);
             delete conter;
             manager->manageClient(client);
+            if (tabCount() < 2)
+                findRemove(tabbedFrames, this);
         }
     }
 }
@@ -313,6 +337,14 @@ YFrameTitleBar* YFrameWindow::titlebar() {
     return fTitleBar;
 }
 
+YClientContainer* YFrameWindow::allocateContainer(YFrameClient* clientw) {
+    unsigned depth = Elvis(clientw->depth(), xapp->depth());
+    bool sameDepth = (depth == xapp->depth());
+    Visual* visual = (sameDepth ? xapp->visual() : clientw->visual());
+    Colormap clmap = (sameDepth ? xapp->colormap() : clientw->colormap());
+    return new YClientContainer(this, depth, visual, clmap);
+}
+
 void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &requestFocus) {
     PRECONDITION(clientw != 0 && !fContainer && !fClient);
 
@@ -320,14 +352,11 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         return;
     }
 
-    unsigned depth = Elvis(clientw->depth(), xapp->depth());
-    bool sameDepth = (depth == xapp->depth());
-    Visual* visual = (sameDepth ? xapp->visual() : clientw->visual());
-    Colormap clmap = (sameDepth ? xapp->colormap() : clientw->colormap());
-    fContainer = new YClientContainer(this, depth, visual, clmap);
-
     fClient = clientw;
+    fClient->setFrame(this);
     fTabs.append(clientw);
+    fContainer = allocateContainer(clientw);
+
     if (hintOptions && hintOptions->nonempty()) {
         getWindowOptions(hintOptions, getHintOption(), true);
     }
@@ -361,13 +390,13 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
         getNormalGeometryInner(&posX, &posY, &posW, &posH);
     }
 
-    updateIcon();
-    manage();
+    manage(fClient, fContainer);
     manager->appendCreatedFrame(this);
     bool isRunning = manager->isRunning();
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
+    updateIcon();
     if (client()->getNetWMWindowType(&fWindowType)) {
         if (fWindowType == wtDesktop || fWindowType == wtDock) {
             setAllWorkspaces();
@@ -552,19 +581,18 @@ void YFrameWindow::grabKeys() {
     container()->regrabMouse();
 }
 
-void YFrameWindow::manage() {
-    PRECONDITION(client());
+void YFrameWindow::manage(YFrameClient* client, YClientContainer* conter) {
+    PRECONDITION(client);
 
-    if (client()->getBorder()) {
-        client()->setBorderWidth(0U);
+    if (client->getBorder()) {
+        client->setBorderWidth(0U);
     }
-    if (client()->adopted())
-        XAddToSaveSet(xapp->display(), client()->handle());
+    if (client->adopted())
+        XAddToSaveSet(xapp->display(), client->handle());
     else
-        client()->getPropertiesList();
+        client->getPropertiesList();
 
-    client()->reparent(container(), 0, 0);
-    client()->setFrame(this);
+    client->reparent(conter, 0, 0);
 }
 
 void YFrameWindow::unmanage() {
