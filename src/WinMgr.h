@@ -230,11 +230,11 @@
  */
 
 #define WinTrayOptionCount      3
-#define WinTrayInvalid          -1L
+#define WinTrayInvalid          -1
 
-#define WinTrayIgnore           0L
-#define WinTrayMinimized        1L
-#define WinTrayExclusive        2L
+#define WinTrayIgnore           0
+#define WinTrayMinimized        1
+#define WinTrayExclusive        2
 
 /* state */
 #define XA_WIN_STATE           "_WIN_STATE"

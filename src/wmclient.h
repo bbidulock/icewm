@@ -8,11 +8,8 @@
 #include <X11/Xutil.h>
 #endif
 
-#define InvalidFrameState   (-1)
-
 class YFrameWindow;
 class YClientContainer;
-class WindowListItem;
 class YIcon;
 
 typedef int FrameState;
@@ -179,7 +176,7 @@ class YFrameClient: public YDndWindow
 {
     typedef YDndWindow super;
 public:
-    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
+    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                  int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
     virtual ~YFrameClient();
 
@@ -207,6 +204,7 @@ public:
         wpTakeFocus    = 1 << 1,
         wpPing         = 1 << 2,
     };
+    enum { InvalidFrameState = -1 };
 
     bool protocol(WindowProtocols wp) const { return bool(fProtocols & wp); }
     void sendMessage(Atom msg, Time ts, long p2 = 0L, long p3 = 0L, long p4 = 0L);

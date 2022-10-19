@@ -371,7 +371,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
 }
 
 WindowList::WindowList(YWindow *aParent):
-    YFrameClient(aParent, nullptr),
+    YFrameClient(aParent, nullptr, None),
     allWorkspacesItem(nullptr),
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))

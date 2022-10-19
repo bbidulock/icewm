@@ -1123,8 +1123,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 
     if (f) {
-        WindowOption wo(f->getWindowOption());
-        if (wo.keyboard != null) {
+        WindowOption wo;
+        f->getWindowOption(wo);
+        if (nonempty(wo.keyboard)) {
             setKeyboard(wo.keyboard);
         } else {
             setKeyboard(fDefaultKeyboard);
@@ -1667,7 +1668,8 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     else
 #endif
     if (newClient) {
-        WindowOption wo(frame->getWindowOption());
+        WindowOption wo;
+        frame->getWindowOption(wo);
 
         if (frame->frameOption(YFrameWindow::foClose)) {
             frame->wmClose();

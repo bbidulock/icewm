@@ -183,35 +183,34 @@ bool YFrameWindow::hasTab(YFrameClient* client) {
     return 0 <= find(fTabs, client);
 }
 
-void YFrameWindow::moveTabs(YFrameWindow* dest) {
-    bool focus = focused();
+void YFrameWindow::mergeTabs(YFrameWindow* source) {
+    bool focus = source->focused();
     if (focus)
-        manager->switchFocusFrom(this);
-    if (1 < tabCount())
-        findRemove(tabbedFrames, this);
-    for (YFrameClient* client : fTabs) {
+        manager->switchFocusFrom(source);
+    if (1 < source->tabCount())
+        findRemove(tabbedFrames, source);
+    for (YFrameClient* client : source->fTabs) {
         client->setFrame(nullptr);
         client->hide();
         YClientContainer* conter = client->getContainer();
-        conter->setFrame(dest);
+        conter->setFrame(this);
         conter->hide();
-        conter->reparent(dest, dest->container()->x(),
-                               dest->container()->y());
+        conter->reparent(this, container()->x(),
+                               container()->y());
         conter->lower();
-        int was = dest->tabCount();
-        dest->fTabs.append(client);
-        if (dest->fTitleBar)
-            dest->fTitleBar->repaint();
-        if (was < 2 && 1 < dest->tabCount()) {
-            tabbedFrames.append(dest);
-        }
+        fTabs.append(client);
+        if (tabCount() == 2)
+            tabbedFrames.append(this);
+        if (fTitleBar)
+            fTitleBar->repaint();
     }
-    fTabs.clear();
-    fClient = nullptr;
-    fContainer = nullptr;
-    delete fTitleBar; fTitleBar = nullptr;
+    source->fTabs.clear();
+    source->fClient = nullptr;
+    source->fContainer = nullptr;
+    delete source->fTitleBar; source->fTitleBar = nullptr;
+    delete source;
     if (focus)
-        manager->switchFocusTo(dest, false);
+        manager->switchFocusTo(this, false);
 }
 
 void YFrameWindow::closeTab(YFrameClient* client) {
@@ -358,7 +357,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     fContainer = allocateContainer(clientw);
 
     if (hintOptions && hintOptions->nonempty()) {
-        getWindowOptions(hintOptions, getHintOption(), true);
+        getWindowOptions(hintOptions, *fHintOption, true);
     }
 
     {
@@ -396,7 +395,6 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     insertFrame(!isRunning);
     manager->insertFocusFrame(this, !isRunning);
 
-    updateIcon();
     if (client()->getNetWMWindowType(&fWindowType)) {
         if (fWindowType == wtDesktop || fWindowType == wtDock) {
             setAllWorkspaces();
@@ -416,6 +414,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     getFrameHints();
 
     getDefaultOptions(requestFocus);
+    updateIcon();
     updateNetWMStrut(); /// ? here
     updateNetWMStrutPartial();
     updateNetStartupId();
@@ -1432,6 +1431,7 @@ void YFrameWindow::wmToggleTray() {
     } else {
         setTrayOption(WinTrayIgnore);
     }
+    client()->setWinTrayHint(fWinTrayOption);
 }
 
 void YFrameWindow::wmMove() {
@@ -2413,7 +2413,8 @@ void YFrameWindow::getFrameHints() {
     if (client()->shaped())
         fFrameDecors &= ~(fdTitleBar | fdBorder);
 
-    WindowOption wo(getWindowOption());
+    WindowOption wo;
+    getWindowOption(wo);
 
     /*msg("decor: %lX %lX %lX %lX %lX %lX",
             wo.function_mask, wo.functions,
@@ -2433,15 +2434,13 @@ void YFrameWindow::getFrameHints() {
     }
 }
 
-WindowOption YFrameWindow::getWindowOption() {
-    WindowOption wo;
-    if (haveHintOption()) {
-        wo = getHintOption();
+void YFrameWindow::getWindowOption(WindowOption& wo) {
+    if (fHintOption) {
+        wo = *fHintOption;
     }
     if (defOptions) {
         getWindowOptions(defOptions, wo, false);
     }
-    return wo;
 }
 
 void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
@@ -2475,13 +2474,9 @@ void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
 }
 
 void YFrameWindow::getDefaultOptions(bool &requestFocus) {
-    WindowOption wo(getWindowOption());
+    WindowOption wo;
+    getWindowOption(wo);
 
-    if (wo.icon.nonempty()) {
-        ref<YIcon> icon = YIcon::getIcon(wo.icon);
-        if (icon != null)
-            fFrameIcon = icon;
-    }
     if (inrange(wo.workspace, 0, workspaceCount - 1)) {
         setWorkspace(wo.workspace);
         if (wo.workspace != manager->activeWorkspace())
@@ -2963,9 +2958,7 @@ void YFrameWindow::updateLayer(bool restack) {
 }
 
 void YFrameWindow::setTrayOption(int option) {
-    if (option >= WinTrayOptionCount || option < 0)
-        return ;
-    if (option != fWinTrayOption) {
+    if (option != fWinTrayOption && inrange(option, 0, 2)) {
         fWinTrayOption = option;
         updateTaskBar();
     }

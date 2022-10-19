@@ -1451,10 +1451,10 @@ void YFrameClient::obtainIcon() {
         fIcon = YIcon::getIcon("icewm");
     }
     if (fIcon == null && fFrame) {
-        WindowOption wo(fFrame->getWindowOption());
-        if (wo.icon.nonempty()) {
+        WindowOption wo;
+        fFrame->getWindowOption(wo);
+        if (nonempty(wo.icon))
             fIcon = YIcon::getIcon(wo.icon);
-        }
     }
 
     if (fIcon != null) {

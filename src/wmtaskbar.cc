@@ -109,7 +109,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
-    YFrameClient(aParent, nullptr),
+    YFrameClient(aParent, nullptr, None),
     fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
     fTasks(nullptr),
     fCollapseButton(nullptr),

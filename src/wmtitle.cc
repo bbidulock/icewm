@@ -336,9 +336,7 @@ void YFrameTitleBar::handleEndDrag(const XButtonEvent& d, const XButtonEvent& u)
         setPointer(None);
         if (fPartner) {
             if (fPartner == findPartner()) {
-                YFrameWindow* frame = getFrame();
-                frame->moveTabs(fPartner->getFrame());
-                delete frame;
+                fPartner->getFrame()->mergeTabs(getFrame());
             } else {
                 setPartner(nullptr);
             }

@@ -16,6 +16,7 @@ unsigned WindowOptions::allOptions;
 
 WindowOption::WindowOption(mstring n_class_instance):
     w_class_instance(n_class_instance),
+    keyboard(nullptr), icon(nullptr),
     functions(0), function_mask(0),
     decors(0), decor_mask(0),
     options(0), option_mask(0),
@@ -27,11 +28,17 @@ WindowOption::WindowOption(mstring n_class_instance):
 {
 }
 
+WindowOption::~WindowOption()
+{
+    delete keyboard;
+    delete icon;
+}
+
 void WindowOption::combine(const WindowOption& n) {
-    if (n.icon.nonempty() && icon.isEmpty())
-        icon = n.icon;
-    if (n.keyboard.nonempty() && keyboard.isEmpty())
-        keyboard = n.keyboard;
+    if (nonempty(n.icon) && isEmpty(icon))
+        icon = strdup(n.icon);
+    if (nonempty(n.keyboard) && isEmpty(keyboard))
+        keyboard = strdup(n.keyboard);
     if (n.function_mask) {
         functions |= n.functions & ~function_mask;
         function_mask |= n.function_mask;
@@ -116,9 +123,13 @@ void WindowOptions::setWinOption(mstring n_class_instance,
     WindowOption *op = getOption(n_class_instance);
 
     if (strcmp(opt, "icon") == 0) {
-        op->icon = arg;
+        if (op->icon)
+            free(op->icon);
+        op->icon = strdup(arg);
     } else if (strcmp(opt, "keyboard") == 0) {
-        op->keyboard = arg;
+        if (op->keyboard)
+            free(op->keyboard);
+        op->keyboard = strdup(arg);
     } else if (strcmp(opt, "workspace") == 0) {
         int workspace = atoi(arg);
         op->workspace = max(workspace, int(WinWorkspaceInvalid));
@@ -345,6 +356,7 @@ static char *parseWinOptions(char *data, const char* filename) {
                 ++scan;
             *dest++ = *scan;
         }
+        *dest = '\0';
 
         mstring class_instance(word, dest - word);
 

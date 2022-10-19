@@ -17,7 +17,7 @@
 static YColorName dialogBg(&clrDialog);
 
 YDialog::YDialog():
-    YFrameClient(nullptr, nullptr),
+    YFrameClient(nullptr, nullptr, None),
     fGradient(dialogbackPixbuf),
     fSurface(dialogBg, dialogbackPixmap, getGradient())
 {

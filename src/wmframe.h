@@ -41,11 +41,11 @@ public:
 
     void untab(YFrameClient* dest);
     bool hasTab(YFrameClient* dest);
-    void moveTabs(YFrameWindow* dest);
     void closeTab(YFrameClient* client);
     void removeTab(YFrameClient* client);
     void selectTab(YFrameClient* client);
     void createTab(YFrameClient* client, int place = -1);
+    void mergeTabs(YFrameWindow* source);
     void independer(YFrameClient* client);
 
     Window createPointerWindow(Cursor cursor, int gravity);
@@ -267,9 +267,8 @@ public:
     bool frameOption(YFrameOptions o) const { return hasbit(fFrameOptions, o); }
     void updateAllowed();
     void getFrameHints();
-    bool haveHintOption() const { return fHintOption; }
     WindowOption& getHintOption() { return *fHintOption; }
-    WindowOption getWindowOption();
+    void getWindowOption(WindowOption& wo);
     void getWindowOptions(WindowOptions* list, WindowOption& opt, bool remove);
 
     YMenu *windowMenu();
@@ -431,14 +430,6 @@ public:
     void removeFromWindowList();
 
 private:
-    /*typedef enum {
-        fsMinimized       = 1 << 0,
-        fsMaximized       = 1 << 1,
-        fsRolledup        = 1 << 2,
-        fsHidden          = 1 << 3,
-        fsWorkspaceHidden = 1 << 4
-    } FrameStateFlags;*/
-
     bool fManaged;
     bool fFocused;
     unsigned fFrameFunctions;
@@ -465,7 +456,6 @@ private:
     TaskBarApp *fTaskBarApp;
     TrayApp *fTrayApp;
     MiniIcon *fMiniIcon;
-    WindowListItem *fWinListItem;
     ref<YIcon> fFrameIcon;
     lazy<WindowOption> fHintOption;
     lazy<YTimer> fFocusEventTimer;

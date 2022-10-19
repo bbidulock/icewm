@@ -7,12 +7,13 @@
 
 struct WindowOption {
     WindowOption(mstring n_class_instance = null);
+    ~WindowOption();
     void combine(const WindowOption& n);
     bool hasOption(unsigned bit) const { return bit & options & option_mask; }
 
     mstring w_class_instance;
-    mstring keyboard;
-    mstring icon;
+    char* keyboard;
+    char* icon;
     unsigned functions, function_mask;
     unsigned decors, decor_mask;
     unsigned options, option_mask;
@@ -24,6 +25,9 @@ struct WindowOption {
     int gflags;
     int gx, gy;
     unsigned gw, gh;
+
+private:
+    WindowOption(const WindowOption&) = delete;
 };
 
 class WindowOptions {
