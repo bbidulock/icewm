@@ -4,6 +4,7 @@
 #include "ywindow.h"
 #include "ymenu.h"
 #include "MwmUtil.h"
+#include "wmoption.h"
 #ifndef InputHint
 #include <X11/Xutil.h>
 #endif
@@ -339,6 +340,8 @@ public:
 
     bool isEmbed() const { return prop.xembed_info; }
 
+    const WindowOption* getWindowOption();
+
 private:
     YFrameWindow *fFrame;
     YClientItem* fClientItem;
@@ -369,6 +372,8 @@ private:
     mstring fWindowRole;
 
     lazy<MwmHints> fMwmHints;
+    lazy<WindowOption> fWindowOption;
+    void loadWindowOptions(WindowOptions* list, bool remove);
 
     struct transience {
         Window trans, owner;

@@ -10,6 +10,7 @@ struct WindowOption {
     ~WindowOption();
     void combine(const WindowOption& n);
     bool hasOption(unsigned bit) const { return bit & options & option_mask; }
+    bool outdated() const;
 
     mstring w_class_instance;
     char* keyboard;
@@ -25,6 +26,7 @@ struct WindowOption {
     int gflags;
     int gx, gy;
     unsigned gw, gh;
+    unsigned serial;
 
 private:
     WindowOption(const WindowOption&) = delete;
@@ -43,6 +45,7 @@ public:
     bool nonempty() const { return fWinOptions.nonempty(); }
     bool isEmpty() const { return fWinOptions.isEmpty(); }
     static bool anyOption(unsigned bit) { return hasbit(allOptions, bit); }
+    static unsigned serial;
 
 private:
     YObjectArray<WindowOption> fWinOptions;

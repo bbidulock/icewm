@@ -2,7 +2,6 @@
 #define WMFRAME_H
 
 #include "ymsgbox.h"
-#include "wmoption.h"
 #include "yicon.h"
 #include "ylist.h"
 #include "WinMgr.h"
@@ -267,10 +266,6 @@ public:
     bool frameOption(YFrameOptions o) const { return hasbit(fFrameOptions, o); }
     void updateAllowed();
     void getFrameHints();
-    WindowOption& getHintOption() { return *fHintOption; }
-    void getWindowOption(WindowOption& wo);
-    void getWindowOptions(WindowOptions* list, WindowOption& opt, bool remove);
-
     YMenu *windowMenu();
 
     int getState() const { return fWinState; }
@@ -457,7 +452,6 @@ private:
     TrayApp *fTrayApp;
     MiniIcon *fMiniIcon;
     ref<YIcon> fFrameIcon;
-    lazy<WindowOption> fHintOption;
     lazy<YTimer> fFocusEventTimer;
     YArray<YFrameClient*> fTabs;
     static YArray<YFrameWindow*> tabbedFrames;

@@ -356,10 +356,6 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     fTabs.append(clientw);
     fContainer = allocateContainer(clientw);
 
-    if (hintOptions && hintOptions->nonempty()) {
-        getWindowOptions(hintOptions, *fHintOption, true);
-    }
-
     {
         int x = client()->x();
         int y = client()->y();
@@ -2413,20 +2409,15 @@ void YFrameWindow::getFrameHints() {
     if (client()->shaped())
         fFrameDecors &= ~(fdTitleBar | fdBorder);
 
-    WindowOption wo;
-    getWindowOption(wo);
-
-    /*msg("decor: %lX %lX %lX %lX %lX %lX",
-            wo.function_mask, wo.functions,
-            wo.decor_mask, wo.decors,
-            wo.option_mask, wo.options);*/
-
-    fFrameFunctions &= ~wo.function_mask;
-    fFrameFunctions |= wo.functions;
-    fFrameDecors &= ~wo.decor_mask;
-    fFrameDecors |= wo.decors;
-    fFrameOptions &= ~(wo.option_mask & fWinOptionMask);
-    fFrameOptions |= (wo.options & fWinOptionMask);
+    const WindowOption* wo = client()->getWindowOption();
+    if (wo) {
+        fFrameFunctions &= ~wo->function_mask;
+        fFrameFunctions |= wo->functions;
+        fFrameDecors &= ~wo->decor_mask;
+        fFrameDecors |= wo->decors;
+        fFrameOptions &= ~(wo->option_mask & fWinOptionMask);
+        fFrameOptions |= (wo->options & fWinOptionMask);
+    }
 
     if (hasbit((fFrameFunctions | fFrameDecors) ^ (old_functions | old_decors), 63))
     {
@@ -2434,59 +2425,20 @@ void YFrameWindow::getFrameHints() {
     }
 }
 
-void YFrameWindow::getWindowOption(WindowOption& wo) {
-    if (fHintOption) {
-        wo = *fHintOption;
-    }
-    if (defOptions) {
-        getWindowOptions(defOptions, wo, false);
-    }
-}
-
-void YFrameWindow::getWindowOptions(WindowOptions *list, WindowOption &opt,
-                                    bool remove)
-{
-    const ClassHint* h = client()->classHint();
-    mstring klass(h->res_class);
-    mstring name(h->res_name);
-    mstring role(client()->windowRole());
-
-    if (klass != null) {
-        if (name != null) {
-            mstring klass_instance(h->res_class, ".", h->res_name);
-            list->mergeWindowOption(opt, klass_instance, remove);
-
-            mstring name_klass(h->res_name, ".", h->res_class);
-            list->mergeWindowOption(opt, name_klass, remove);
-        }
-        list->mergeWindowOption(opt, klass, remove);
-    }
-    if (name != null) {
-        if (role != null) {
-            mstring name_role = name.append(".").append(role);
-            list->mergeWindowOption(opt, name_role, remove);
-        }
-        list->mergeWindowOption(opt, name, remove);
-    }
-    if (role != null)
-        list->mergeWindowOption(opt, role, remove);
-    list->mergeWindowOption(opt, null, remove);
-}
-
 void YFrameWindow::getDefaultOptions(bool &requestFocus) {
-    WindowOption wo;
-    getWindowOption(wo);
-
-    if (inrange(wo.workspace, 0, workspaceCount - 1)) {
-        setWorkspace(wo.workspace);
-        if (wo.workspace != manager->activeWorkspace())
-            requestFocus = false;
+    const WindowOption* wo = client()->getWindowOption();
+    if (wo) {
+        if (inrange(wo->workspace, 0, workspaceCount - 1)) {
+            setWorkspace(wo->workspace);
+            if (wo->workspace != manager->activeWorkspace())
+                requestFocus = false;
+        }
+        if (validLayer(wo->layer))
+            setRequestedLayer(wo->layer);
+        if (inrange(wo->tray, 0, WinTrayOptionCount - 1))
+            setTrayOption(wo->tray);
+        fTrayOrder = wo->order;
     }
-    if (validLayer(wo.layer))
-        setRequestedLayer(wo.layer);
-    if (inrange(wo.tray, 0, WinTrayOptionCount - 1))
-        setTrayOption(wo.tray);
-    fTrayOrder = wo.order;
 }
 
 ref<YIcon> newClientIcon(int count, int reclen, long * elem) {

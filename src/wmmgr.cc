@@ -1123,10 +1123,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 
     if (f) {
-        WindowOption wo;
-        f->getWindowOption(wo);
-        if (nonempty(wo.keyboard)) {
-            setKeyboard(wo.keyboard);
+        const WindowOption* wo = f->client()->getWindowOption();
+        if (wo && nonempty(wo->keyboard)) {
+            setKeyboard(wo->keyboard);
         } else {
             setKeyboard(fDefaultKeyboard);
         }
@@ -1668,35 +1667,33 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     else
 #endif
     if (newClient) {
-        WindowOption wo;
-        frame->getWindowOption(wo);
-
         if (frame->frameOption(YFrameWindow::foClose)) {
             frame->wmClose();
             doActivate = false;
         }
 
-        if (wo.opacity && inrange(wo.opacity, 1, 100)) {
-            Atom omax = 0xFFFFFFFF;
-            Atom oper = omax / 100;
-            Atom orem = omax - oper * 100;
-            Atom opaq = wo.opacity * oper + wo.opacity * orem / 100;
-            frame->setNetOpacity(opaq);
-        }
-
-        if (hasbits(wo.gflags, WidthValue | HeightValue) && wo.gh && wo.gw) {
-            posWidth = wo.gw + frameWidth;
-            posHeight = wo.gh + frameHeight;
-        }
-
-        if (hasbits(wo.gflags, XValue | YValue)) {
-            posX = wo.gx;
-            posY = wo.gy;
-            if (wo.gflags & XNegative)
-                posX += desktop->width() - posWidth;
-            if (wo.gflags & YNegative)
-                posY += desktop->height() - posHeight;
-            goto setGeo; /// FIX
+        const WindowOption* wo = client->getWindowOption();
+        if (wo) {
+            if (wo->opacity && inrange(wo->opacity, 1, 100)) {
+                Atom omax = 0xFFFFFFFF;
+                Atom oper = omax / 100;
+                Atom orem = omax - oper * 100;
+                Atom opaq = wo->opacity * oper + wo->opacity * orem / 100;
+                frame->setNetOpacity(opaq);
+            }
+            if (hasbits(wo->gflags, WidthValue | HeightValue) && wo->gh && wo->gw) {
+                posWidth = wo->gw + frameWidth;
+                posHeight = wo->gh + frameHeight;
+            }
+            if (hasbits(wo->gflags, XValue | YValue)) {
+                posX = wo->gx;
+                posY = wo->gy;
+                if (wo->gflags & XNegative)
+                    posX += desktop->width() - posWidth;
+                if (wo->gflags & YNegative)
+                    posY += desktop->height() - posHeight;
+                goto setGeo; /// FIX
+            }
         }
     }
 

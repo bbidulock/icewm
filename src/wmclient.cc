@@ -97,9 +97,13 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
             queryShape();
         }
 #endif
+        if (fClassHint.nonempty()) {
+            if (hintOptions && hintOptions->nonempty())
+                loadWindowOptions(hintOptions, true);
+            loadWindowOptions(defOptions, false);
+        }
+        clientContext.save(handle(), this);
     }
-
-    clientContext.save(handle(), this);
 }
 
 YFrameClient::~YFrameClient() {
@@ -1343,8 +1347,17 @@ void YFrameClient::refreshIcon() {
 
 ref<YIcon> YFrameClient::getIcon() {
     if (fIconize) {
-        fIconize = false;
-        obtainIcon();
+        const WindowOption* wo = getWindowOption();
+        if (wo && nonempty(wo->icon)) {
+            if (fIcon == null)
+                fIcon = YIcon::getIcon(wo->icon);
+            if (fIcon != null)
+                fIconize = false;
+        }
+        if (fIconize) {
+            fIconize = false;
+            obtainIcon();
+        }
     }
     return fIcon;
 }
@@ -1449,12 +1462,6 @@ void YFrameClient::obtainIcon() {
     }
     if (fIcon == null && adopted() == false) {
         fIcon = YIcon::getIcon("icewm");
-    }
-    if (fIcon == null && fFrame) {
-        WindowOption wo;
-        fFrame->getWindowOption(wo);
-        if (nonempty(wo.icon))
-            fIcon = YIcon::getIcon(wo.icon);
     }
 
     if (fIcon != null) {
@@ -1873,6 +1880,41 @@ void YFrameClient::handleGravityNotify(const XGravityEvent &gravity) {
                     ox, oy, gravity.x, gravity.y, nx, ny));
         XMoveWindow(xapp->display(), handle(), nx, ny);
     }
+}
+
+const WindowOption* YFrameClient::getWindowOption() {
+    if (fWindowOption && fWindowOption->outdated()) {
+        fWindowOption = null;
+        loadWindowOptions(defOptions, false);
+    }
+    return fWindowOption._ptr();
+}
+
+void YFrameClient::loadWindowOptions(WindowOptions* list, bool remove) {
+    const char* klass = fClassHint.res_class;
+    const char* cname = fClassHint.res_name;
+    WindowOption& wo = *fWindowOption;
+
+    if (nonempty(klass)) {
+        if (nonempty(cname)) {
+            mstring klass_instance(klass, ".", cname);
+            list->mergeWindowOption(wo, klass_instance, remove);
+
+            mstring name_klass(cname, ".", klass);
+            list->mergeWindowOption(wo, name_klass, remove);
+        }
+        list->mergeWindowOption(wo, klass, remove);
+    }
+    if (nonempty(cname)) {
+        if (fWindowRole != null) {
+            mstring name_role(cname, ".", fWindowRole);
+            list->mergeWindowOption(wo, name_role, remove);
+        }
+        list->mergeWindowOption(wo, cname, remove);
+    }
+    if (fWindowRole != null)
+        list->mergeWindowOption(wo, fWindowRole, remove);
+    list->mergeWindowOption(wo, null, remove);
 }
 
 bool ClassHint::match(const char* resource) const {

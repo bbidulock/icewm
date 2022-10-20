@@ -13,6 +13,7 @@
 lazy<WindowOptions> defOptions;
 lazy<WindowOptions> hintOptions;
 unsigned WindowOptions::allOptions;
+unsigned WindowOptions::serial;
 
 WindowOption::WindowOption(mstring n_class_instance):
     w_class_instance(n_class_instance),
@@ -24,14 +25,17 @@ WindowOption::WindowOption(mstring n_class_instance):
     layer(WinLayerInvalid),
     tray(WinTrayInvalid),
     order(0), opacity(0),
-    gflags(0), gx(0), gy(0), gw(0), gh(0)
+    gflags(0), gx(0), gy(0), gw(0), gh(0),
+    serial(WindowOptions::serial)
 {
 }
 
 WindowOption::~WindowOption()
 {
-    delete keyboard;
-    delete icon;
+    if (keyboard)
+        free(keyboard);
+    if (icon)
+        free(icon);
 }
 
 void WindowOption::combine(const WindowOption& n) {
@@ -85,6 +89,12 @@ void WindowOption::combine(const WindowOption& n) {
         gh = n.gh;
         gflags |= HeightValue;
     }
+    if (serial < n.serial)
+        serial = n.serial;
+}
+
+bool WindowOption::outdated() const {
+    return serial < WindowOptions::serial;
 }
 
 bool WindowOptions::findOption(mstring a_class_instance, int *index) {
@@ -391,6 +401,7 @@ void loadWinOptions(upath optFile) {
         auto buf(optFile.loadText());
         if (buf) {
             defOptions = null;
+            WindowOptions::serial += 1;
             parseWinOptions(buf, optFile.string());
         }
     }
