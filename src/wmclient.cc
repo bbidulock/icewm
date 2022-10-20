@@ -102,8 +102,8 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                 loadWindowOptions(hintOptions, true);
             loadWindowOptions(defOptions, false);
         }
-        clientContext.save(handle(), this);
     }
+    clientContext.save(handle(), this);
 }
 
 YFrameClient::~YFrameClient() {
