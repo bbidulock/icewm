@@ -1,6 +1,12 @@
 #ifndef CPUSTATUS_H
 #define CPUSTATUS_H
 
+#include "ywindow.h"
+#include "applet.h"
+#include "ytimer.h"
+#include "yaction.h"
+#include "ymenu.h"
+
 #define IWM_STATES  8
 
 enum IwmState {

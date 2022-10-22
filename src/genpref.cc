@@ -2,6 +2,7 @@
 #include "base.h"
 #include "ascii.h"
 #include "appnames.h"
+#include <cstddef>
 
 char const *ApplicationName;
 

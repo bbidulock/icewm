@@ -1,6 +1,8 @@
 #ifndef __YLIST_H
 #define __YLIST_H
 
+#include "debug.h"
+
 template <class Node>
 class YListNode {
 public:

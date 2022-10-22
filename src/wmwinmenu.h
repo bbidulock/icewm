@@ -1,6 +1,9 @@
 #ifndef WMWINMENU_H
 #define WMWINMENU_H
 
+#include "ymenu.h"
+#include "yaction.h"
+
 class WindowListMenu:
     public YMenu,
     private YActionListener

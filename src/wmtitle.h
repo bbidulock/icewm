@@ -1,9 +1,13 @@
 #ifndef WMTITLE_H
 #define WMTITLE_H
 
+#include "wmframe.h"
+
 class YFrameButton;
 class YFrameWindow;
 class YFrameClient;
+class Graphics;
+class YRect;
 
 class YFrameTitleBar: public YWindow, private YTimerListener {
 public:

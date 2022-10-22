@@ -3,7 +3,6 @@
 
 #include "upath.h"
 #include "yarray.h"
-#include "ypointer.h"
 
 struct WindowOption {
     WindowOption(mstring n_class_instance = null);

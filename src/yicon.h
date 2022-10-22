@@ -1,6 +1,9 @@
 #ifndef YICON_H
 #define YICON_H
 
+#include "upath.h"
+#include "yimage.h"
+
 class YIcon: public refcounted {
 public:
     YIcon(upath fileName);

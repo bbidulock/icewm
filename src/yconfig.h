@@ -1,3 +1,4 @@
+#include <cstddef>
 
 #undef XSV
 #undef XFV

@@ -1,6 +1,10 @@
 #ifndef __YRECT_H
 #define __YRECT_H
 
+#include "debug.h"
+#include "ypaint.h"
+#include "base.h"
+
 #ifndef INT_MAX
 #include <limits.h>
 #endif

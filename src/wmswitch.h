@@ -1,9 +1,12 @@
 #ifndef SWITCH_H
 #define SWITCH_H
 
+#include "ypopup.h"
+
 class YFrameWindow;
 class YWindowManager;
 class YIcon;
+class YFrameClient;
 
 // data model, default implementation is list of windows
 class ISwitchItems
