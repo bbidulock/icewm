@@ -234,6 +234,7 @@ void YFrameWindow::layoutShape() {
         fShapeTitleY != titleY() ||
         fShapeBorderX != borderX() ||
         fShapeBorderY != borderY() ||
+        fShapeTabCount != tabCount() ||
         fShapeDecors != frameDecors() ||
         fShapeTitle != getTitle())
     {
@@ -242,6 +243,7 @@ void YFrameWindow::layoutShape() {
         fShapeTitleY = titleY();
         fShapeBorderX = borderX();
         fShapeBorderY = borderY();
+        fShapeTabCount = tabCount();
         fShapeDecors = frameDecors();
         fShapeTitle = getTitle();
 

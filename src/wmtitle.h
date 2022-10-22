@@ -72,6 +72,8 @@ private:
     lazy<YTimer> fTimer;
     int fDragX, fDragY;
     int fRoom;
+    int fLeftTabX, fLeftTabLen;
+    int fRightTabX, fRightTabLen;
     bool wasCanRaise;
     bool fVisible;
     bool fToggle;
@@ -79,6 +81,8 @@ private:
     enum { Count = 8, };
     YFrameButton* fButtons[Count];
     static bool swapTitleButtons;
+    enum Locate { Nearby, Distant };
+    static const char* titleButtons(Locate locate);
 };
 
 #endif

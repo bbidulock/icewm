@@ -43,6 +43,7 @@ public:
     void closeTab(YFrameClient* client);
     void removeTab(YFrameClient* client);
     void selectTab(YFrameClient* client);
+    void changeTab(int delta);
     void createTab(YFrameClient* client, int place = -1);
     void mergeTabs(YFrameWindow* source);
     void independer(YFrameClient* client);
@@ -497,6 +498,7 @@ private:
     int fShapeTitleY;
     int fShapeBorderX;
     int fShapeBorderY;
+    int fShapeTabCount;
     unsigned fShapeDecors;
     mstring fShapeTitle;
 

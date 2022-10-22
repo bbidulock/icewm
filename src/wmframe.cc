@@ -93,6 +93,7 @@ YFrameWindow::YFrameWindow(
     fShapeTitleY(-1),
     fShapeBorderX(-1),
     fShapeBorderY(-1),
+    fShapeTabCount(0),
     fShapeDecors(0),
     fHaveStruts(false),
     indicatorsCreated(false),
@@ -201,16 +202,18 @@ void YFrameWindow::mergeTabs(YFrameWindow* source) {
         fTabs.append(client);
         if (tabCount() == 2)
             tabbedFrames.append(this);
-        if (fTitleBar)
-            fTitleBar->repaint();
     }
     source->fTabs.clear();
     source->fClient = nullptr;
     source->fContainer = nullptr;
     delete source->fTitleBar; source->fTitleBar = nullptr;
     delete source;
+    if (fTitleBar)
+        layoutShape();
     if (focus)
         manager->switchFocusTo(this, false);
+    else if (fTitleBar)
+        fTitleBar->repaint();
 }
 
 void YFrameWindow::closeTab(YFrameClient* client) {
@@ -229,6 +232,12 @@ void YFrameWindow::closeTab(YFrameClient* client) {
             removeTab(fTabs[i]);
         }
     }
+}
+
+void YFrameWindow::changeTab(int delta) {
+    int i = find(fTabs, fClient);
+    if (0 <= i && inrange(i + delta, 0, tabCount() - 1))
+        selectTab(fTabs[i + delta]);
 }
 
 void YFrameWindow::selectTab(YFrameClient* tab) {
@@ -275,6 +284,10 @@ void YFrameWindow::createTab(YFrameClient* client, int place) {
         fTabs.append(client);
     if (tabCount() == 2)
         tabbedFrames.append(this);
+    if (fTitleBar) {
+        layoutShape();
+        fTitleBar->repaint();
+    }
 }
 
 void YFrameWindow::removeTab(YFrameClient* client) {
