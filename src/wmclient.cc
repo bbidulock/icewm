@@ -1139,6 +1139,49 @@ void YFrameClient::actionPerformed(YAction action) {
     }
 }
 
+bool YFrameClient::activateOnMap() {
+    bool yes = true;
+    if (getFrame())
+        yes &= getFrame()->isMapped() && getFrame()->visibleNow();
+    const WindowOption* wo = getWindowOption();
+    if (wo && yes) {
+        if (wo->hasOption(YFrameWindow::foDoNotFocus))
+            yes = false;
+        if ( !wo->hasOption(YFrameWindow::foIgnoreNoFocusHint)
+            && wmHint(InputHint) && !(fHints->input & True))
+            yes = false;
+        if (wo->hasOption(YFrameWindow::foDoNotFocus))
+            yes = false;
+        if (wo->hasOption(YFrameWindow::foNoFocusOnMap))
+            yes = false;
+    }
+    if (yes && getOwner()) {
+        YFrameClient* owner = getOwner();
+        while (owner && !owner->getFrame() && !owner->getFrame()->focused())
+            owner = owner->getOwner();
+        bool focus = (owner != nullptr);
+        if (focus == false) {
+            for (int i = 0; i < fTransients.getCount(); ++i) {
+                if (fTransients[i].owner == fTransientFor) {
+                    Window window = fTransients[i].trans;
+                    YFrameClient* trans = clientContext.find(window);
+                    if (trans && trans->getFrame() &&
+                        trans->getFrame()->focused()) {
+                        focus = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (focus ? !focusOnMapTransientActive : !focusOnMapTransient)
+            yes = false;
+    }
+    else if (yes) {
+        yes = focusOnMap;
+    }
+    return yes;
+}
+
 void YFrameClient::getNameHint() {
     if (!prop.wm_name)
         return;

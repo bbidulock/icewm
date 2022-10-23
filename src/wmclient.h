@@ -341,6 +341,7 @@ public:
     bool isEmbed() const { return prop.xembed_info; }
 
     const WindowOption* getWindowOption();
+    bool activateOnMap();
 
 private:
     YFrameWindow *fFrame;

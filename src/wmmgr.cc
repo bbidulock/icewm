@@ -1208,12 +1208,15 @@ void YWindowManager::manageClients() {
     }
 
     struct restore {
+        unsigned name;
         YFrameWindow* frame;
         int count;
         long* tabs;
-        restore(long n) : frame(nullptr), count(n), tabs(new long[n]) { }
+        restore(unsigned n, int k) :
+            name(n), frame(nullptr), count(k), tabs(new long[k])
+        { }
         ~restore() { delete tabs; }
-        long find(Window window) {
+        int find(Window window) {
             for (int i = 0; i < count; ++i)
                 if (Window(tabs[i]) == window)
                     return i;
@@ -1225,11 +1228,10 @@ void YWindowManager::manageClients() {
     YProperty tabs(this, _XA_ICEWM_TABS, F32, 8192, XA_CARDINAL, True);
     if (tabs) {
         for (int i = 0; i + 3 < int(tabs.size()); ) {
-            if (tabs[i])
-                break;
+            unsigned name = unsigned(tabs[i]);
             int count = int(tabs[i + 1]);
             if (2 <= count && count <= int(tabs.size()) - i - 2) {
-                restore* res = new restore(count);
+                restore* res = new restore(name, count);
                 for (int k = 0; k < count; ++k) {
                     long cli = tabs[i + 2 + k];
                     res->tabs[k] = cli;
@@ -1282,6 +1284,8 @@ void YWindowManager::manageClients() {
                         }
                         else if (res) {
                             res->frame = client->getFrame();
+                            if (res->name && !res->frame->getFrameName())
+                                res->frame->setFrameName(res->name);
                         }
                     }
                 }
@@ -1330,7 +1334,7 @@ void YWindowManager::unmanageClients() {
 
     YArray<Atom> tabbed;
     for (YFrameWindow* frame : YFrameWindow::tabbing()) {
-        tabbed += None;
+        tabbed += frame->getFrameName();
         tabbed += frame->tabCount();
         for (YFrameClient* client : frame->clients()) {
             tabbed += client->handle();
@@ -1950,6 +1954,21 @@ void YWindowManager::mapClient(Window win) {
 
         if (client == nullptr) {
             client = allocateClient(win, true);
+        }
+        if (client) {
+            const WindowOption* wo = client->getWindowOption();
+            if (wo && wo->frame) {
+                for (YFrameWindow* frame : YFrameWindow::fnaming()) {
+                    if (frame->getFrameName() == wo->frame) {
+                        int place = frame->tabCount();
+                        frame->createTab(client, place);
+                        if (client->activateOnMap())
+                            frame->selectTab(client);
+                        client = nullptr;
+                        break;
+                    }
+                }
+            }
         }
         if (client) {
             manageClient(client, true);

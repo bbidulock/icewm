@@ -32,6 +32,7 @@ lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
 YArray<YFrameWindow::GroupModal> YFrameWindow::groupModals;
 YArray<YFrameWindow*> YFrameWindow::tabbedFrames;
+YArray<YFrameWindow*> YFrameWindow::namedFrames;
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
@@ -78,6 +79,7 @@ YFrameWindow::YFrameWindow(
     fWinState(0),
     fWinOptionMask(~0),
     fTrayOrder(0),
+    fFrameName(0),
     fFullscreenMonitorsTop(-1),
     fFullscreenMonitorsBottom(-1),
     fFullscreenMonitorsLeft(-1),
@@ -147,6 +149,8 @@ YFrameWindow::~YFrameWindow() {
         manager->removeClientFrame(this);
         if (1 < tabCount())
             findRemove(tabbedFrames, this);
+        if (fFrameName)
+            findRemove(namedFrames, this);
         if (client()) {
             findRemove(fTabs, client());
             if (client()->adopted() && !client()->destroyed())
@@ -2451,7 +2455,18 @@ void YFrameWindow::getDefaultOptions(bool &requestFocus) {
         if (inrange(wo->tray, 0, WinTrayOptionCount - 1))
             setTrayOption(wo->tray);
         fTrayOrder = wo->order;
+        if (wo->frame)
+            setFrameName(wo->frame);
     }
+}
+
+void YFrameWindow::setFrameName(unsigned name) {
+    PRECONDITION(fFrameName == 0);
+    for (YFrameWindow* f : namedFrames)
+        if (f->getFrameName() == name)
+            return;
+    fFrameName = name;
+    namedFrames += this;
 }
 
 ref<YIcon> newClientIcon(int count, int reclen, long * elem) {

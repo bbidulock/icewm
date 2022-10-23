@@ -344,6 +344,8 @@ public:
     int getTrayOption() const { return fWinTrayOption; }
     void setTrayOption(int option);
     void setDoNotCover(bool flag);
+    unsigned getFrameName() const { return fFrameName; }
+    void setFrameName(unsigned name);
     bool isMaximized() const { return hasState(WinStateMaximizedBoth); }
     bool isMaximizedVert() const { return hasState(WinStateMaximizedVert); }
     bool isMaximizedHoriz() const { return hasState(WinStateMaximizedHoriz); }
@@ -456,11 +458,13 @@ private:
     lazy<YTimer> fFocusEventTimer;
     YArray<YFrameClient*> fTabs;
     static YArray<YFrameWindow*> tabbedFrames;
+    static YArray<YFrameWindow*> namedFrames;
 public:
     typedef YArray<YFrameClient*>::IterType IterType;
     IterType iterator() { return fTabs.iterator(); }
     YArray<YFrameClient*>& clients() { return fTabs; }
     static YArray<YFrameWindow*>& tabbing() { return tabbedFrames; }
+    static YArray<YFrameWindow*>& fnaming() { return namedFrames; }
 private:
 
     YMsgBox *fKillMsgBox;
@@ -476,6 +480,7 @@ private:
     int fWinState;
     int fWinOptionMask;
     int fTrayOrder;
+    unsigned fFrameName;
 
     int fFullscreenMonitorsTop;
     int fFullscreenMonitorsBottom;
@@ -521,9 +526,6 @@ private:
     int getBottomCoord(int My, YFrameWindow **w, int count);
     int getLeftCoord(int mx, YFrameWindow **w, int count);
     int getRightCoord(int Mx, YFrameWindow **w, int count);
-
-    // only focus if mouse moves
-    //static int fMouseFocusX, fMouseFocusY;
 
     void repaint();
     void setGeometry(const YRect &) = delete;

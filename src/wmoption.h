@@ -26,6 +26,7 @@ struct WindowOption {
     int gflags;
     int gx, gy;
     unsigned gw, gh;
+    unsigned frame;
     unsigned serial;
 
 private:

@@ -26,7 +26,7 @@ WindowOption::WindowOption(mstring n_class_instance):
     tray(WinTrayInvalid),
     order(0), opacity(0),
     gflags(0), gx(0), gy(0), gw(0), gh(0),
-    serial(WindowOptions::serial)
+    frame(0), serial(WindowOptions::serial)
 {
 }
 
@@ -89,6 +89,8 @@ void WindowOption::combine(const WindowOption& n) {
         gh = n.gh;
         gflags |= HeightValue;
     }
+    if (frame == 0 && n.frame)
+        frame = n.frame;
     if (serial < n.serial)
         serial = n.serial;
 }
@@ -149,6 +151,8 @@ void WindowOptions::setWinOption(mstring n_class_instance,
         int opaq = atoi(arg);
         if (inrange(opaq, 0, 100))
             op->opacity = opaq;
+    } else if (strcmp(opt, "frame") == 0) {
+        op->frame = unsigned(strhash(arg));
     } else if (strcmp(opt, "geometry") == 0) {
         op->gx = 0;
         op->gy = 0;

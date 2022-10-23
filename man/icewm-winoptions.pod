@@ -153,6 +153,10 @@ B<setxkbmap> program. Please note that B<setxkbmap>
 must be installed for this to work. Also define
 a default keyboard layout in F<preferences>.
 
+=item B<frame>: I<label> (default: none)
+
+All windows with the same frame label become tabs in a single frame.
+
 =back
 
 =head2 FUNCTION OPTIONS
