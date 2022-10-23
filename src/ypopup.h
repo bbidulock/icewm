@@ -43,7 +43,7 @@ public:
 
     virtual void updatePopup();
     void finishPopup();
-    void cancelPopup();
+    void cancelPopup(bool collapseAll);
 
     virtual bool handleKey(const XKeyEvent &key);
     virtual void handleButton(const XButtonEvent &button);

@@ -16,7 +16,7 @@ public:
     virtual void sizePopup(int hspace);
     virtual void activatePopup(int flags);
     virtual void deactivatePopup();
-    virtual void donePopup(YPopupWindow *popup);
+    virtual void donePopup(YPopupWindow *popup, bool propagate);
 
     virtual void paint(Graphics &g, const YRect &r);
 

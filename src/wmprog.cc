@@ -314,7 +314,7 @@ bool StartMenu::handleKey(const XKeyEvent &key) {
              k == XK_Multi_key ||
              k == xapp->Win_R) && m == 0)
         {
-            cancelPopup();
+            cancelPopup(false);
             return true;
         }
     }

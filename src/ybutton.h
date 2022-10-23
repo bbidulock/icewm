@@ -34,7 +34,7 @@ public:
     virtual bool isFocusTraversable();
 
     void updateSize();
-    virtual void donePopup(YPopupWindow *popup);
+    virtual void donePopup(YPopupWindow *popup, bool /* propagate */);
 
     virtual void popupMenu();
     virtual void updatePopup();

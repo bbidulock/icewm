@@ -231,16 +231,16 @@ void YPopupWindow::popdown() {
     }
 }
 
-void YPopupWindow::cancelPopup() { // !!! rethink these two (cancel,finish)
+void YPopupWindow::cancelPopup(bool collapseAll) { // !!! rethink these two (cancel,finish)
     if (fForWindow)
-        fForWindow->donePopup(this);
+        fForWindow->donePopup(this, collapseAll);
     else
         popdown();
 }
 
 void YPopupWindow::finishPopup() {
     while (xapp->popup())
-        xapp->popup()->cancelPopup();
+        xapp->popup()->cancelPopup(false);
 }
 
 bool YPopupWindow::handleKey(const XKeyEvent& key) {

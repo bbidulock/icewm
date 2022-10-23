@@ -438,7 +438,7 @@ void YButton::setPopup(YMenu *popup) {
     fPopup = popup;
 }
 
-void YButton::donePopup(YPopupWindow *popup) {
+void YButton::donePopup(YPopupWindow *popup, bool /* propagate */) {
     if (popup != fPopup) {
         MSG(("popup different?"));
         return ;

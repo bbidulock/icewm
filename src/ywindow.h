@@ -181,7 +181,7 @@ public:
     void setDestroyed();
     bool testDestroyed();
 
-    virtual void donePopup(YPopupWindow * /*command*/);
+    virtual void donePopup(YPopupWindow * /*command*/, bool propagate);
 
     enum WindowStyle {
         wsOverrideRedirect = 1 << 0,

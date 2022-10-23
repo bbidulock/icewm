@@ -1218,7 +1218,7 @@ void YWindow::releaseEvents() {
     xapp->releaseGrabEvents(this);
 }
 
-void YWindow::donePopup(YPopupWindow * /*command*/) {
+void YWindow::donePopup(YPopupWindow * /*command*/, bool propagate) {
 }
 
 void YWindow::handleClose() {

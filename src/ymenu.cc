@@ -120,7 +120,7 @@ void YMenu::deactivatePopup() {
         fMenuTimer->disableTimerListener(this);
 }
 
-void YMenu::donePopup(YPopupWindow *popup) {
+void YMenu::donePopup(YPopupWindow *popup, bool propagate) {
     PRECONDITION(popup != 0);
     PRECONDITION(fPopup != 0);
     if (fPointedMenu == this)
@@ -130,6 +130,13 @@ void YMenu::donePopup(YPopupWindow *popup) {
         if (selectedItem != -1)
             if (getItem(selectedItem)->getSubmenu() == popup)
                 paintItems();
+    }
+    if (propagate) {
+        if (fForWindow)
+            fForWindow->donePopup(this, propagate);
+        if (fOwner)
+            fOwner->donePopup(this, propagate);
+        popdown();
     }
 }
 
@@ -320,10 +327,18 @@ bool YMenu::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         if ((m & ~ShiftMask) == 0) {
             if (k == XK_Escape) {
-                cancelPopup();
-            } else if (k == XK_Left || k == XK_KP_Left) {
+                cancelPopup(false);
+            }
+            else if ((k == xapp->Win_L ||
+                 k == XK_Multi_key ||
+                 k == xapp->Win_R) && m == 0) {
+                // meta keys shall collaps the whole menu
+                cancelPopup(true);
+                return true;
+            }
+            else if (k == XK_Left || k == XK_KP_Left) {
                 if (prevPopup())
-                    cancelPopup();
+                    cancelPopup(false);
             } else if (itemCount() > 0) {
                 if (k == XK_Up || k == XK_KP_Up)
                     focusItem(findActiveItem(selectedItem, -1));

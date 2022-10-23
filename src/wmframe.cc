@@ -126,7 +126,7 @@ YFrameWindow::~YFrameWindow() {
     if (movingWindow || sizingWindow)
         endMoveSize();
     if (fPopupActive)
-        fPopupActive->cancelPopup();
+        fPopupActive->cancelPopup(false);
     removeAppStatus();
     if (fMiniIcon) {
         delete fMiniIcon;

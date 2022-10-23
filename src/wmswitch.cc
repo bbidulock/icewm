@@ -395,7 +395,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
 
 bool SwitchWindow::close() {
     if (visible()) {
-        cancelPopup();
+        cancelPopup(false);
         return true;
     }
     return false;
