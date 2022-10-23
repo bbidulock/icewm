@@ -1215,7 +1215,7 @@ void YWindowManager::manageClients() {
         restore(unsigned n, int k) :
             name(n), frame(nullptr), count(k), tabs(new long[k])
         { }
-        ~restore() { delete tabs; }
+        ~restore() { delete[] tabs; }
         int find(Window window) {
             for (int i = 0; i < count; ++i)
                 if (Window(tabs[i]) == window)
