@@ -1,8 +1,6 @@
 #ifndef __BROWSE_H
 #define __BROWSE_H
 
-#include "objmenu.h"
-
 class YSMListener;
 
 class BrowseMenu: public ObjectMenu {

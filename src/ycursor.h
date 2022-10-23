@@ -1,8 +1,6 @@
 #ifndef YCURSOR_H
 #define YCURSOR_H
 
-#include <X11/X.h>
-
 class YCursor {
 public:
     void init(const char* p, unsigned g) { cursor = 0; glyph = g; path = p; }

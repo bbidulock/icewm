@@ -1,8 +1,6 @@
 #ifndef OBJBAR_H
 #define OBJBAR_H
 
-#include "objmenu.h"
-
 class ObjectButton;
 
 class ObjectBar: public YWindow, public ObjectContainer {

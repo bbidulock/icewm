@@ -1,14 +1,9 @@
 #ifndef __YXCONTEXT_H
 #define __YXCONTEXT_H
 
-#include <X11/Xutil.h>
-
 #ifndef NULLQUARK
 #include <X11/Xresource.h>
 #endif
-
-#include "base.h"
-#include "yxapp.h"
 
 class YAnyContext {
 protected:

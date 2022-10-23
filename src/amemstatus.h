@@ -3,10 +3,6 @@
 
 #if defined(__linux__)
 
-#include "applet.h"
-#include "ytimer.h"
-#include "yaction.h"
-#include "ymenu.h"
 #include "ypointer.h"
 
 // graphed from the bottom up:

@@ -1,7 +1,6 @@
 #ifndef THEAMABLE_H
 #define THEAMABLE_H
 
-#include "yconfig.h"
 #include "fontmacro.h"
 
 // themable preferences (themes can set only these)

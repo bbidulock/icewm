@@ -1,8 +1,6 @@
 #ifndef AAPM_H
 #define AAPM_H
 
-#include "applet.h"
-
 #ifndef __sun__
 
 #include "ytimer.h"

@@ -3,11 +3,7 @@
 
 #ifdef CONFIG_SESSION
 
-#include "mstring.h"
-#include "yarray.h"
-
 class YFrameWindow;
-class upath;
 
 class SMWindowKey {
 public:

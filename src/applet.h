@@ -1,8 +1,6 @@
 #ifndef __APPLET_H
 #define __APPLET_H
 
-#include "ywindow.h"
-
 class TrayPane;
 
 class IAppletContainer {
@@ -48,5 +46,3 @@ private:
 extern YColorName taskBarBg;
 
 #endif
-
-// vim: set sw=4 ts=4 et:

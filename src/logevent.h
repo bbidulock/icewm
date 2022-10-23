@@ -1,8 +1,6 @@
 #ifndef LOGEVENT_H
 #define LOGEVENT_H
 
-#include <X11/Xlib.h>
-
 #if !LOGEVENTS && DEBUG
 #define LOGEVENTS 1
 #endif
