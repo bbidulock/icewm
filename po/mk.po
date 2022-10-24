@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
-"PO-Revision-Date: 2022-08-16 06:13+0000\n"
+"PO-Revision-Date: 2022-10-24 10:13+0000\n"
 "Last-Translator: Kristijan Fremen Velkovski <me@krisfremen.com>\n"
 "Language-Team: Macedonian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/mk/>\n"
@@ -172,10 +172,8 @@ msgid "layout:"
 msgstr ""
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Лоша опција: %s"
+msgstr "опции:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
@@ -235,9 +233,9 @@ msgid "Error checking mailbox."
 msgstr "Грешка при проверката на пошт. сандаче."
 
 #: src/amailbox.cc:812
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld е-пошт. порака."
+msgstr "%ld имејли, %ld непрочитани."
 
 #: src/amailbox.cc:813
 #, c-format
@@ -1176,9 +1174,8 @@ msgid "Support"
 msgstr ""
 
 #: src/icehelp.cc:1382
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Автор на темата:"
+msgstr "Инструкции за Темата"
 
 #: src/icehelp.cc:1382 src/iceview.cc:60
 msgid "Ctrl+T"
@@ -1396,10 +1393,9 @@ msgid "Invalid Xinerama: `%s'."
 msgstr "Невалиден аргумент: „%s“."
 
 #: src/icesh.cc:3540 src/icesh.cc:3590 src/icesh.cc:4774
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Невалиден аргумент: „%s“."
+msgstr "Невалиден аргумент: `%s'"
 
 #: src/icesh.cc:3556
 #, c-format
@@ -1420,13 +1416,13 @@ msgstr ""
 "поставено."
 
 #: src/icesh.cc:3692
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Неочекуван клучен збор: %s"
+msgstr "Неочекуванo: `%s'."
 
 #: src/icesh.cc:3721
 msgid "No windows found."
-msgstr ""
+msgstr "Не се најдоа прозорци."
 
 #: src/icesh.cc:3737
 msgid "No actions specified."
@@ -1438,10 +1434,9 @@ msgid "Invalid window identifier: `%s'"
 msgstr "Невалиден ид. на прозорец: „%s“"
 
 #: src/icesh.cc:3901
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Невалиден аргумент: „%s“."
+msgstr "Невалиден PID: `%s'"
 
 #: src/icesh.cc:3937
 #, fuzzy, c-format
