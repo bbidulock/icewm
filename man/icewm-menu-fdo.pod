@@ -59,6 +59,34 @@ Don't nest subcategories in submenus.
 
 Write the output to I<FILE>.
 
+=item B<--flat>
+
+Display apps from all categories in one level with the title containing
+the category information as prefix.
+
+=item B<-F sep>, B<--flat-sep=sep>
+
+When used with C<--flat>, the specified character sequence is used as
+separator between the section titles.
+
+=item B<-m filter>, B<--match=filter>
+
+Specifies a filter to show only apps which contain this as substring
+within their title.
+
+=item B<-M filter>, B<--imatch=filter>
+
+Like C<--match> but applied with any letter case.
+
+=item B<--match-sec>
+
+Apply the filter from C<--match> or C<--imatch> to both, apps and
+section titles.
+
+=item B<--match-osec>
+
+Apply the filter from C<--match> or C<--imatch> to only to section titles.
+
 =item B<-h>, B<--help>
 
 Print a brief usage statement to F<stdout> and exit.
@@ -70,8 +98,6 @@ Print the program version to F<stdout> and exit.
 =item B<-C>, B<--copying>
 
 Print copying permissions to F<stdout> for the program and exit.
-
-=back
 
 =head2 USAGE
 

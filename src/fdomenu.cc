@@ -15,6 +15,10 @@
  *  - overhauled program design and menu construction code, added sub-category handling
  */
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include "config.h"
 #include "base.h"
 #include "sysdep.h"
@@ -22,6 +26,11 @@
 #include "appnames.h"
 #include <ctype.h>
 #include "debug.h"
+
+#include "stdlib.h"
+
+#include <stack>
+#include <string>
 
 char const *ApplicationName(nullptr);
 
@@ -44,6 +53,13 @@ bool no_sep_others = false;
 bool no_sub_cats = false;
 bool generic_name = false;
 bool right_to_left = false;
+bool flat_output = false;
+bool match_in_section = false;
+bool match_in_section_only = false;
+
+auto substr_filter = "";
+auto substr_filter_nocase = "";
+auto flat_sep = " / ";
 
 template<typename T, void TFreeFunc(T)>
 struct auto_raii {
@@ -95,7 +111,56 @@ tListMeta* lookup_category(LPCSTR key)
     return ret;
 }
 
+std::stack<std::string> flat_pfxes;
 
+const char* flat_pfx()
+{
+    if (!flat_output || flat_pfxes.empty())
+        return "";
+    return flat_pfxes.top().c_str();
+}
+
+void flat_add_level(const char *name)
+{
+    if (!flat_output)
+        return;
+    if (flat_pfxes.empty())
+        flat_pfxes.push(std::string(name) + flat_sep);
+    else
+        flat_pfxes.push(flat_pfxes.top() + name + flat_sep);
+}
+
+void flat_drop_level()
+{
+    flat_pfxes.pop();
+}
+
+bool filter_matched(const char* title, const char* section_prefix)
+{
+    if (!match_in_section)
+        section_prefix = nullptr;
+    if (match_in_section_only)
+        title = nullptr;
+
+    bool hasFilter(substr_filter && *substr_filter),
+            hasIfilter (substr_filter_nocase && *substr_filter_nocase);
+
+    if (hasFilter) {
+         if(title && strstr(title, substr_filter))
+             return true;
+         if(section_prefix && strstr(section_prefix, substr_filter))
+             return true;
+    }
+#ifdef __GNU_LIBRARY__
+    if (hasIfilter) {
+        if(title && strcasestr(title, substr_filter_nocase))
+            return true;
+        if(section_prefix && strcasestr(section_prefix, substr_filter_nocase))
+            return true;
+    }
+#endif
+    return ! (hasFilter || hasIfilter);
+}
 
 struct t_menu_node;
 extern t_menu_node root;
@@ -116,7 +181,7 @@ public:
         int count, level;
         t_menu_node* print_separated;
     };
-    static gboolean print_node(gpointer key, gpointer value, gpointer pr_meta) {
+    static gboolean print_node(gpointer /*key*/, gpointer value, gpointer pr_meta) {
         ((t_menu_node*) value)->print((t_print_meta*) pr_meta);
         return FALSE;
     }
@@ -127,20 +192,23 @@ public:
 
         if (!store)
         {
-            if (title && progCmd) {
+            if (title && progCmd &&
+                    filter_matched(title, flat_pfxes.empty()
+                                   ? nullptr : flat_pfxes.top().c_str()))
+            {
                 if (ctx->count == 0 && add_sep_before)
                     puts("separator");
                 if (nonempty(generic) && !strcasestr(title, generic)) {
                     if (right_to_left) {
-                        printf("prog \"(%s) %s\" %s %s\n",
-                                generic, title, meta->icon, progCmd);
+                        printf("prog \"(%s) %s%s\" %s %s\n",
+                                generic, flat_pfx(), title, meta->icon, progCmd);
                     } else {
-                        printf("prog \"%s (%s)\" %s %s\n",
-                                title, generic, meta->icon, progCmd);
+                        printf("prog \"%s%s (%s)\" %s %s\n",
+                                flat_pfx(), title, generic, meta->icon, progCmd);
                     }
                 }
                 else
-                    printf("prog \"%s\" %s %s\n", title, meta->icon, progCmd);
+                    printf("prog \"%s%s\" %s %s\n", flat_pfx(), title, meta->icon, progCmd);
             }
             ctx->count++;
             return;
@@ -160,23 +228,32 @@ public:
             if (ctx->count == 0 && add_sep_before)
                 puts("separator");
             ctx->count++;
-            printf("menu \"%s\" %s {\n", title, meta->icon);
+            if (flat_output)
+                flat_add_level(title);
+            else
+                printf("menu \"%s\" %s {\n", title, meta->icon);
         }
         ctx->level++;
         g_tree_foreach(store, print_node, ctx);
         if (ctx->level == 1 && ctx->print_separated)
         {
+            fflush(stdout);
             puts("separator");
             no_sep_others = true;
             ctx->print_separated->print(ctx);
         }
         ctx->level--;
-        if (ctx->level > 0)
+        if (ctx->level > 0) {
+            if (flat_output)
+                flat_drop_level();
+            else {
 #ifndef DEBUG
-            puts("}");
+                puts("}");
 #else
-            printf("# end of menu \"%s\"\n}\n", title);
+                printf("# end of menu \"%s\"\n}\n", title);
 #endif
+            }
+        }
         if (add_sep_after && ctx->level == 0 && ctx->count > 0)
             puts("separator");
 
@@ -682,6 +759,12 @@ static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
             "--sep-after\tPrint separator only after contents\n"
             "--no-sep-others\tNo separation of the 'Others' menu point\n"
             "--no-sub-cats\tNo additional subcategories, just one level of menues\n"
+            "--flat\tDisplay all apps in one layer with category hints\n"
+            "--flat-sep STR\tCategory separator string used in flat mode (default: ' / ')\n"
+            "--match PAT\tDisplay only apps with title containing PAT\n"
+            "--imatch PAT\tLike --match but ignores the letter case\n"
+            "--match-sec\tApply --match or --imatch to apps AND sections\n"
+            "--match-osec\tApply --match or --imatch only to sections\n"
             "FILENAME\tAny .desktop file to launch its application Exec command\n"
             "This program also listens to environment variables defined by\n"
             "the XDG Base Directory Specification:\n"
@@ -771,6 +854,12 @@ int main(int argc, char** argv) {
             no_sep_others = true;
         else if (is_long_switch(*pArg, "no-sub-cats"))
             no_sub_cats = true;
+        else if (is_long_switch(*pArg, "flat"))
+            flat_output = no_sep_others = true;
+        else if (is_long_switch(*pArg, "match-sec"))
+            match_in_section = true;
+        else if (is_long_switch(*pArg, "match-osec"))
+            match_in_section = match_in_section_only = true;
         else if (is_switch(*pArg, "g", "generic-name"))
             generic_name = true;
         else {
@@ -788,6 +877,12 @@ int main(int argc, char** argv) {
                 if (expand)
                     delete[] expand;
             }
+            else if (GetArgument(value, "m", "match", pArg, argv + argc))
+                substr_filter = value;
+            else if (GetArgument(value, "M", "imatch", pArg, argv + argc))
+                substr_filter_nocase = value;
+            else if (GetArgument(value, "F", "flat-sep", pArg, argv + argc))
+                flat_sep = value;
             else // unknown option
                 help(usershare, sysshare, stderr, EXIT_FAILURE);
         }
