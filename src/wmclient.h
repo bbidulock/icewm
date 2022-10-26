@@ -287,7 +287,7 @@ public:
     void setWinTrayHint(int tray_opt);
     bool getWinTrayHint(int* tray_opt);
 
-    void setStateHint();
+    void setStateHint(int state);
     void setWinHintsHint(int hints);
     int winHints() const { return fWinHints; }
 

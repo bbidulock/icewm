@@ -546,7 +546,8 @@ void YFrameClient::setFrameState(FrameState state) {
         }
     }
     else if (state != fSavedFrameState) {
-        Atom iconic = (state == IconicState && getFrame()->isMinimized()
+        Atom iconic = (state == IconicState && getFrame()
+                       && getFrame()->isMinimized()
                        && getFrame()->getMiniIcon())
                     ? getFrame()->getMiniIcon()->iconWindow() : None;
         Atom arg[2] = { Atom(state), iconic };
@@ -1609,8 +1610,7 @@ bool YFrameClient::getWinTrayHint(int* tray_opt) {
     return false;
 }
 
-void YFrameClient::setStateHint() {
-    int state = getFrame()->getState();
+void YFrameClient::setStateHint(int state) {
     MSG(("set state 0x%8X, saved 0x%8X, win 0x%lx",
           state, fWinStateHint, handle()));
 

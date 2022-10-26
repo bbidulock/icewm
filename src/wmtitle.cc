@@ -537,10 +537,8 @@ void YFrameTitleBar::paint(Graphics &g, const YRect &/*r*/) {
     int rlen = 0;
     if (1 < getFrame()->tabCount()) {
         YFrameWindow* frame = getFrame();
-        YFrameClient* client = frame->client();
-        lstr = 0 < find(frame->clients(), client) ? "... | " : nullptr;
-        rstr = find(frame->clients(), client) < frame->tabCount() - 1
-             ? " | ..." : nullptr;
+        lstr = frame->lessTabs() ? "... | " : nullptr;
+        rstr = frame->moreTabs() ? " | ..." : nullptr;
         llen = lstr && titleFont ? titleFont->textWidth(lstr) : 0;
         rlen = rstr && titleFont ? titleFont->textWidth(rstr) : 0;
         if (onRight - onLeft <= 3 * max(llen, rlen)) {
@@ -798,10 +796,8 @@ void YFrameTitleBar::renderShape(Graphics& g) {
         int rlen = 0;
         if (1 < getFrame()->tabCount()) {
             YFrameWindow* frame = getFrame();
-            YFrameClient* client = frame->client();
-            lstr = 0 < find(frame->clients(), client) ? "... | " : nullptr;
-            rstr = find(frame->clients(), client) < frame->tabCount() - 1
-                 ? " | ..." : nullptr;
+            lstr = frame->lessTabs() ? "... | " : nullptr;
+            rstr = frame->moreTabs() ? " | ..." : nullptr;
             llen = lstr && titleFont ? titleFont->textWidth(lstr) : 0;
             rlen = rstr && titleFont ? titleFont->textWidth(rstr) : 0;
             if (onRight - onLeft <= 3 * max(llen, rlen)) {

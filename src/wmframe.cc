@@ -97,6 +97,8 @@ YFrameWindow::YFrameWindow(
     fShapeBorderY(-1),
     fShapeTabCount(0),
     fShapeDecors(0),
+    fShapeLessTabs(false),
+    fShapeMoreTabs(false),
     fHaveStruts(false),
     indicatorsCreated(false),
     fWindowType(wtNormal)
@@ -188,6 +190,14 @@ bool YFrameWindow::hasTab(YFrameClient* client) {
     return 0 <= find(fTabs, client);
 }
 
+bool YFrameWindow::lessTabs() {
+    return fClient && fClient != fTabs[0];
+}
+
+bool YFrameWindow::moreTabs() {
+    return fClient && fClient != fTabs.last();
+}
+
 void YFrameWindow::mergeTabs(YFrameWindow* source) {
     bool focus = source->focused();
     if (focus)
@@ -251,7 +261,7 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     bool focus = hasState(WinStateFocused);
     if (focus) {
         fWinState &= ~WinStateFocused;
-        client()->setStateHint();
+        client()->setStateHint(getState());
     }
     if (container())
         container()->hide();
@@ -263,6 +273,7 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     fClient->setFrame(this);
     fContainer = tab->getContainer();
     fContainer->raise();
+    getFrameHints();
     updateNormalSize();
     layoutClient();
     updateIcon();
@@ -270,18 +281,22 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
         fWinState |= WinStateFocused;
         fDelayFocusTimer->setTimer(0, this, true);
     }
-    client()->setStateHint();
+    client()->setStateHint(getState());
     if (visible()) {
         client()->show();
         container()->show();
-        if (fTitleBar && manager->notShutting())
+        container()->regrabMouse();
+        if (fTitleBar && manager->notShutting()) {
+            layoutShape();
             fTitleBar->repaint();
+        }
     }
 }
 
 void YFrameWindow::createTab(YFrameClient* client, int place) {
     YClientContainer* conter = allocateContainer(client);
     manage(client, conter);
+    updateProperties(client);
     if (0 <= place && place <= tabCount())
         fTabs.insert(place, client);
     else
@@ -292,6 +307,8 @@ void YFrameWindow::createTab(YFrameClient* client, int place) {
         layoutShape();
         fTitleBar->repaint();
     }
+    manager->updateClientList();
+    addToWindowList();
 }
 
 void YFrameWindow::removeTab(YFrameClient* client) {
@@ -301,10 +318,14 @@ void YFrameWindow::removeTab(YFrameClient* client) {
         YClientContainer* conter = client->getContainer();
         independer(client);
         delete conter;
-        if (fTitleBar && manager->notShutting())
+        if (fTitleBar && manager->notShutting()) {
+            layoutShape();
             fTitleBar->repaint();
+        }
         if (tabCount() < 2)
             findRemove(tabbedFrames, this);
+        if (manager->notShutting())
+            manager->updateClientList();
     }
 }
 
@@ -324,6 +345,10 @@ void YFrameWindow::untab(YFrameClient* client) {
             manager->manageClient(client);
             if (tabCount() < 2)
                 findRemove(tabbedFrames, this);
+            if (fTitleBar) {
+                layoutShape();
+                fTitleBar->repaint();
+            }
         }
     }
 }
@@ -1411,7 +1436,7 @@ void YFrameWindow::wmSetLayer(int layer) {
     int previous = fWinState;
     setRequestedLayer(layer);
     if (hasbit(previous ^ fWinState, WinStateAbove | WinStateBelow)) {
-        client()->setStateHint();
+        client()->setStateHint(getState());
     }
 }
 
@@ -2948,7 +2973,7 @@ void YFrameWindow::updateState() {
     if (!isManaged() || !client() || client()->destroyed())
         return ;
 
-    client()->setStateHint();
+    client()->setStateHint(getState());
 
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
@@ -3449,10 +3474,12 @@ ref<YIcon> YFrameWindow::getIcon() const {
     return wmapp->getDefaultAppIcon();
 }
 
-void YFrameWindow::updateProperties() {
-    client()->setWorkspaceHint(fWinWorkspace);
-    client()->setLayerHint(fWinActiveLayer);
-    client()->setStateHint();
+void YFrameWindow::updateProperties(YFrameClient* client) {
+    if (client || (client = fClient) != nullptr) {
+        client->setWorkspaceHint(fWinWorkspace);
+        client->setLayerHint(fWinActiveLayer);
+        client->setStateHint(getState());
+    }
 }
 
 void YFrameWindow::updateTaskBar() {
@@ -3644,7 +3671,7 @@ void YFrameWindow::setWmUrgency(bool wmUrgency) {
     if ( !frameOption(foIgnoreUrgent)) {
         if (wmUrgency != hasState(WinStateUrgent)) {
             fWinState ^= WinStateUrgent;
-            client()->setStateHint();
+            client()->setStateHint(getState());
             updateTaskBar();
         }
     }

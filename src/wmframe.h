@@ -40,6 +40,8 @@ public:
 
     void untab(YFrameClient* dest);
     bool hasTab(YFrameClient* dest);
+    bool lessTabs();
+    bool moreTabs();
     void closeTab(YFrameClient* client);
     void removeTab(YFrameClient* client);
     void selectTab(YFrameClient* client);
@@ -327,7 +329,7 @@ public:
     void performLayout();
 
     void updateMwmHints(XSizeHints* sh);
-    void updateProperties();
+    void updateProperties(YFrameClient* client = nullptr);
     void updateTaskBar();
     void updateAppStatus();
     void removeAppStatus();
@@ -506,6 +508,8 @@ private:
     int fShapeTabCount;
     unsigned fShapeDecors;
     mstring fShapeTitle;
+    bool fShapeLessTabs;
+    bool fShapeMoreTabs;
 
     bool fHaveStruts;
     bool indicatorsCreated;

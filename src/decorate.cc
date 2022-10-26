@@ -236,7 +236,9 @@ void YFrameWindow::layoutShape() {
         fShapeBorderY != borderY() ||
         fShapeTabCount != tabCount() ||
         fShapeDecors != frameDecors() ||
-        fShapeTitle != getTitle())
+        fShapeTitle != getTitle() ||
+        fShapeLessTabs != lessTabs() ||
+        fShapeMoreTabs != moreTabs())
     {
         fShapeWidth = width();
         fShapeHeight = height();
@@ -246,6 +248,8 @@ void YFrameWindow::layoutShape() {
         fShapeTabCount = tabCount();
         fShapeDecors = frameDecors();
         fShapeTitle = getTitle();
+        fShapeLessTabs = lessTabs();
+        fShapeMoreTabs = moreTabs();
 
         if (shapes.supported &&
             (frameDecors() & fdBorder) &&
