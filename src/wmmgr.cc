@@ -1276,6 +1276,7 @@ void YWindowManager::manageClients() {
                                 pos = num + 1;
                             ++num;
                         }
+                        fCreatedUpdated = fLayeredUpdated = true;
                         res->frame->createTab(client, pos);
                     } else {
                         manageClient(client);
@@ -1955,12 +1956,13 @@ void YWindowManager::mapClient(Window win) {
         if (client == nullptr) {
             client = allocateClient(win, true);
         }
-        if (client) {
+        if (client && client->adopted()) {
             const WindowOption* wo = client->getWindowOption();
             if (wo && wo->frame) {
                 for (YFrameWindow* frame : YFrameWindow::fnaming()) {
                     if (frame->getFrameName() == wo->frame) {
                         int place = frame->tabCount();
+                        fCreatedUpdated = fLayeredUpdated = true;
                         frame->createTab(client, place);
                         if (client->activateOnMap())
                             frame->selectTab(client);
@@ -2004,6 +2006,7 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
         YClientContainer* conter = client->getContainer();
         if (conter) {
             frame = conter->getFrame();
+            fCreatedUpdated = fLayeredUpdated = true;
             frame->removeTab(client);
             if (switchWindowVisible())
                 fSwitchWindow->destroyedClient(client);
@@ -3148,7 +3151,8 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
                     s[k] = i + (const char *) propdata;
                     while (i < nitems && propdata[i++]);
                 }
-                if (s[0] && s[1] && s[2] && propdata[i - 1] == 0) {
+                if (s[0] && *s[0] && s[1] && *s[1] && s[2] && *s[2] &&
+                    propdata[i - 1] == 0) {
                     hintOptions->setWinOption(s[0], s[1], s[2]);
                 }
             }
