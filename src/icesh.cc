@@ -282,6 +282,11 @@ static Time serverTime()
     return now;
 }
 
+static void sendEvent(void* event) {
+    XSendEvent(display, root, False, SubstructureNotifyMask,
+               reinterpret_cast<XEvent *>(event));
+}
+
 static void send(NAtom& typ, Window win, long l0, long l1,
                  long l2 = 0L, long l3 = 0L, long l4 = 0L)
 {
@@ -298,8 +303,7 @@ static void send(NAtom& typ, Window win, long l0, long l1,
     xev.data.l[3] = l3;
     xev.data.l[4] = l4;
 
-    XSendEvent(display, root, False, SubstructureNotifyMask,
-               reinterpret_cast<XEvent *>(&xev));
+    sendEvent(&xev);
 }
 
 /******************************************************************************/
@@ -948,7 +952,7 @@ public:
             : (fChildren.push_back(window), true);
     }
 
-    void query(Window window) {
+    bool query(Window window) {
         release();
         if (window) {
             Window rootw;
@@ -959,6 +963,7 @@ public:
                 XFree(data);
             }
         }
+        return bool(fParent);
     }
 
     void getWindowList(NAtom& property) {
@@ -1393,12 +1398,14 @@ private:
     bool setWorkspaceNames();
     void changeState(const char* arg);
     void changeState(int state);
+    void changeState(int state, Window window);
     bool colormaps();
     bool workarea();
     bool current();
     bool runonce();
     void click();
     bool delay();
+    void tabTo(const char* arg);
     void monitors();
     bool desktops();
     bool desktop();
@@ -2416,9 +2423,9 @@ void IceSh::doSync()
 {
     YProperty winp(root, ATOM_WIN_PROTOCOLS, XA_ATOM, 20);
     if (winp) {
-        unsigned char data[3] = { 0, 0, 0, };
         YProperty wopt(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT, 20);
         if (wopt == false) {
+            unsigned char data[3] = { 0, 0, 0, };
             wopt.append(data, 3, 8);
         }
         for (int i = 1; i <= 5 && winp && wopt; ++i) {
@@ -2490,9 +2497,14 @@ void IceSh::changeState(const char* arg)
     }
 }
 
+void IceSh::changeState(int state, Window window) {
+    use(window);
+    send(ATOM_WM_CHANGE_STATE, window, state, None);
+}
+
 void IceSh::changeState(int state) {
     FOREACH_WINDOW(window) {
-        send(ATOM_WM_CHANGE_STATE, window, state, None);
+        changeState(state, window);
     }
 }
 
@@ -3381,6 +3393,74 @@ void IceSh::flush()
 {
     if (fflush(stdout) || ferror(stdout))
         throw 1;
+}
+
+void IceSh::tabTo(const char* label)
+{
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+    FOREACH_WINDOW(window) {
+        XClassHint h = { nullptr, nullptr };
+        bool xgot = (XGetClassHint(display, window, &h) == True);
+        YStringProperty role(window, ATOM_WM_WINDOW_ROLE);
+        const char* str1 = nullptr, *str2 = nullptr;
+        if (xgot && h.res_class)
+            str1 = h.res_class, str2 = h.res_name;
+        else if (xgot && h.res_name)
+            str1 = h.res_name, str2 = role ? &role : nullptr;
+        else if (role)
+            str1 = &role;
+        size_t length = (str1 ? strlen(str1) : 0)
+                      + (str2 ? strlen(str2) : 0);
+        XWindowAttributes attr = {};
+        if (length && XGetWindowAttributes(display, window, &attr)) {
+            size_t size = length + 10 + strlen(label);
+            char* buf = new char[size];
+            if (buf) {
+                int len;
+                if (str2) {
+                    len = snprintf(buf, size, "%s.%s%cframe%c%s",
+                                   str1, str2, '\0', '\0', label);
+                } else {
+                    len = snprintf(buf, size, "%s%cframe%c%s",
+                                   str1, '\0', '\0', label);
+                }
+                XUnmapWindow(display, window);
+                XUnmapEvent unmap = {
+                    UnmapNotify, None, True, display, root, window, False
+                };
+                sendEvent(&unmap);
+                for (;;) {
+                    YWindowTree tree;
+                    tree.getClientList();
+                    if (tree.have(window) == false)
+                        break;
+                    if ( !tree.query(window) || tree.parent() == root)
+                        break;
+                }
+                YProperty wopt(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT, 0);
+                wopt.append((unsigned char *) buf, len + 1, 8);
+                doSync();
+                XMapWindow(display, window);
+                for (;;) {
+                    YWindowTree tree;
+                    tree.getClientList();
+                    if (tree.have(window))
+                        break;
+                    if ( !tree.query(window) || tree.parent() != root)
+                        break;
+                }
+                delete[] buf;
+            }
+        }
+        XFree(h.res_name);
+        XFree(h.res_class);
+    }
 }
 
 void IceSh::extendClass()
@@ -4875,6 +4955,9 @@ void IceSh::parseAction()
         }
         else if (isAction("monitors", 4)) {
             monitors();
+        }
+        else if (isAction("tabto", 1)) {
+            tabTo(getArg());
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
