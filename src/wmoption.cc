@@ -281,7 +281,7 @@ void WindowOptions::setWinOption(mstring n_class_instance,
             }
         }
         if (count <= least) {
-            msg(_("Unknown window option: %s"), opt);
+            tlog(_("Unknown window option: %s"), opt);
         }
         else {
             unsigned bit = options[least].flag;
