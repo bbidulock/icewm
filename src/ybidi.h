@@ -1,6 +1,8 @@
 #ifndef YBIDI_H
 #define YBIDI_H
 
+#include <cstddef>
+
 #ifdef CONFIG_FRIBIDI
 #ifdef CONFIG_I18N
         // remove deprecated warnings for now...

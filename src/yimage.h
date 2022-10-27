@@ -2,7 +2,8 @@
 #define YIMAGE_H
 
 #include "ref.h"
-#include "ypaint.h"
+#include "upath.h"
+#include "ypixmap.h"
 
 class YPixmap;
 class Graphics;

@@ -8,9 +8,16 @@
 #ifndef NETSTATUS_H
 #define NETSTATUS_H
 
+#include "applet.h"
+#include "ytimer.h"
+#include "yaction.h"
+#include "ymenu.h"
+
 class IAppletContainer;
 class NetStatusControl;
 class NetDevice;
+class YSMListener;
+class IApp;
 
 typedef unsigned long long netbytes;
 
