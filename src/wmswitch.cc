@@ -26,6 +26,8 @@ struct ZItem {
     void reset() { prio = 0; frame = nullptr; client = nullptr; }
 
     operator bool() const { return frame && client; }
+    bool operator==(YFrameWindow* f) const { return f == frame && f; }
+    bool operator==(YFrameClient* c) const { return c == client && c; }
 
     static int compare(const void* p1, const void* p2) {
         const ZItem* z1 = static_cast<const ZItem*>(p1);
@@ -219,7 +221,7 @@ public:
         ZItem previous = fActiveItem;
 
         for (int i = getCount(); 0 <= --i; ) {
-            if (zList[i].frame == item || zList[i].client == tab) {
+            if (zList[i] == item || zList[i] == tab) {
                 zList.remove(i);
                 removed = true;
                 if (i <= zTarget && 0 < zTarget)
@@ -227,9 +229,9 @@ public:
             }
         }
 
-        if (fLastItem.frame == item)
+        if (fLastItem == item || fLastItem == tab)
             fLastItem.reset();
-        if (fActiveItem.frame == item)
+        if (fActiveItem == item || fActiveItem == tab)
             fActiveItem.reset();
 
         setTarget(zTarget);

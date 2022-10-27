@@ -324,8 +324,7 @@ void YFrameWindow::removeTab(YFrameClient* client) {
         }
         if (tabCount() < 2)
             findRemove(tabbedFrames, this);
-        if (manager->notShutting())
-            manager->updateClientList();
+        manager->clientDestroyed(client);
     }
 }
 

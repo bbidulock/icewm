@@ -2006,13 +2006,18 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
         YClientContainer* conter = client->getContainer();
         if (conter) {
             frame = conter->getFrame();
-            fCreatedUpdated = fLayeredUpdated = true;
             frame->removeTab(client);
-            if (switchWindowVisible())
-                fSwitchWindow->destroyedClient(client);
         }
     }
     delete client;
+}
+
+void YWindowManager::clientDestroyed(YFrameClient* client) {
+    fCreatedUpdated = fLayeredUpdated = true;
+    if (notShutting())
+        updateClientList();
+    if (switchWindowVisible())
+        getSwitchWindow()->destroyedClient(client);
 }
 
 void YWindowManager::destroyedClient(Window win) {
