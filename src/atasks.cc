@@ -566,12 +566,12 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
         for (int dn = 0; dn < count; dn++) {
             if (wmLook != lookFlat) {
-                g.fillArc(x + dn * crumbStep, y - crumbSize,
+                g.fillArc(x + p + dn * crumbStep, y + p - crumbSize,
                           crumbSize, crumbSize, 0, 360 * 64);
             }
             else {
                 // flat people are know to avoid circles
-                g.fillRect(x + dn * crumbStep, y - crumbSize,
+                g.fillRect(x + p + dn * crumbStep, y + p - crumbSize,
                            crumbSize, crumbSize);
             }
         }
@@ -803,7 +803,7 @@ void TaskButton::handleCrossing(const XCrossingEvent& crossing) {
     YWindow::handleCrossing(crossing);
 }
 
-void TaskButton::handleClick(const XButtonEvent& up, int /*count*/) {
+void TaskButton::handleClick(const XButtonEvent& up, int count) {
     if (up.button == Button3 && fActive) {
         getFrame()->popupSystemMenu(this, up.x_root, up.y_root,
                                     YPopupWindow::pfCanFlipVertical |
@@ -817,7 +817,11 @@ void TaskButton::handleClick(const XButtonEvent& up, int /*count*/) {
         fTaskPane->switchToNext();
     }
     else if (up.button == Button1 && getCount() > 1) {
-        popupGroup();
+        if (count == 1 && KEY_MODMASK(up.state) == 0) {
+            popupGroup();
+        } else {
+            fMenu = null;
+        }
     }
 }
 
