@@ -258,6 +258,10 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     if (hasTab(tab) == false || tab == fClient)
         return;
 
+    XSizeHints *sh = client()->sizeHints();
+    int nw = sh ? sh->base_width + normalW * sh->width_inc : normalW;
+    int nh = sh ? sh->base_height + normalH * sh->height_inc : normalH;
+
     bool focus = hasState(WinStateFocused);
     if (focus) {
         fWinState &= ~WinStateFocused;
@@ -274,7 +278,15 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     fContainer = tab->getContainer();
     fContainer->raise();
     getFrameHints();
-    updateNormalSize();
+
+    sh = client()->sizeHints();
+    normalW = sh
+            ? (nw - sh->base_width + (sh->width_inc / 2)) / sh->width_inc
+            : nw;
+    normalH = sh
+            ? (nh - sh->base_height + (sh->height_inc / 2)) / sh->height_inc
+            : nh;
+
     layoutClient();
     updateIcon();
     if (focus) {
