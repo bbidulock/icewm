@@ -342,6 +342,7 @@ void YFrameTitleBar::handleDrag(const XButtonEvent& down,
                 setPartner(isTabbingModifier(motion.state)
                             ? findPartner() : nullptr);
             }
+            getFrame()->checkEdgeSwitch(fDragX, fDragY);
         }
     }
 }

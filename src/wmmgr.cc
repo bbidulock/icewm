@@ -3650,6 +3650,13 @@ void YWindowManager::handleMsgBox(YMsgBox *msgbox, int operation) {
     delete msgbox;
 }
 
+int YWindowManager::edgeWorkspace(int x, int y) {
+    for (auto edge : edges)
+        if (edge->visible() && edge->geometry().contains(x, y))
+            return edge->destination();
+    return -1;
+}
+
 EdgeSwitch::EdgeSwitch(YWindowManager *manager, int delta, bool vertical):
     YDndWindow(desktop),
     fManager(manager),
@@ -3702,10 +3709,7 @@ void EdgeSwitch::handleDNDLeave() {
     }
 }
 
-bool EdgeSwitch::handleTimer(YTimer *t) {
-    if (t != fEdgeSwitchTimer)
-        return false;
-
+int EdgeSwitch::destination() {
     int worksps = workspaceCount;
     int orient  = fManager->layout().orient;
     int columns = min(fManager->layout().columns, worksps);
@@ -3744,7 +3748,8 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
     do {
         if (0 == --end) {
             tlog("inflp");
-            goto end;
+            wsp = -1;
+            break;
         }
 
         col = (col + dx + columns) % columns;
@@ -3752,21 +3757,24 @@ bool EdgeSwitch::handleTimer(YTimer *t) {
         wsp = col + row * columns;
     } while (wsp >= worksps);
 
-    fManager->switchToWorkspace(wsp, false);
+    return wsp;
+}
 
-    if (warpPointerOnEdgeSwitch) {
-        int dest_x = -fDelta * !fVert * (desktop->width() - 5);
-        int dest_y = -fDelta * fVert * (desktop->height() - 5);
-        XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0,
-                     dest_x, dest_y);
+bool EdgeSwitch::handleTimer(YTimer *t) {
+    if (t == fEdgeSwitchTimer) {
+        int ws = destination();
+        if (0 <= ws) {
+            fManager->switchToWorkspace(ws, false);
+            if (warpPointerOnEdgeSwitch) {
+                int dx = -fDelta * !fVert * (desktop->width() - 5);
+                int dy = -fDelta * fVert * (desktop->height() - 5);
+                XWarpPointer(xapp->display(), None, None, 0, 0, 0, 0, dx, dy);
+            }
+            if (edgeContWorkspaceSwitching)
+                return true;
+        }
+        setPointer(YWMApp::leftPointer);
     }
-
-    if (edgeContWorkspaceSwitching) {
-        return true;
-    }
-
-end:
-    setPointer(YWMApp::leftPointer);
     return false;
 }
 

@@ -117,6 +117,7 @@ public:
     void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) const;
     Window parent(Window child) const;
     bool children(Window win, Window** data, unsigned* num) const;
+    void queryMouse(int* x, int* y);
 
     bool hasColormap() const { return fHasColormaps; }
     bool synchronized() const { return synchronizeX11; }

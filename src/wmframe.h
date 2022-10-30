@@ -144,7 +144,7 @@ public:
     void handleMoveMouse(const XMotionEvent &motion, int &newX, int &newY);
     void handleResizeMouse(const XMotionEvent &motion,
                            int &newX, int &newY, int &newWidth, int &newHeight);
-
+    void checkEdgeSwitch(int mouseX, int mouseY);
     void outlineMove();
     void outlineResize();
 
@@ -474,6 +474,7 @@ private:
 
     static lazy<YTimer> fAutoRaiseTimer;
     static lazy<YTimer> fDelayFocusTimer;
+    static lazy<YTimer> fEdgeSwitchTimer;
 
     int fWinWorkspace;
     int fWinRequestedLayer;

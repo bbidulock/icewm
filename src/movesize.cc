@@ -378,6 +378,20 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     }
     newX -= borderX();
     newY -= borderY();
+
+    if (movingWindow && opaqueMove)
+        checkEdgeSwitch(mouseX, mouseY);
+}
+
+void YFrameWindow::checkEdgeSwitch(int mouseX, int mouseY) {
+    if (0 <= manager->edgeWorkspace(mouseX, mouseY)) {
+        if (fEdgeSwitchTimer == nullptr ||
+            fEdgeSwitchTimer->isRunning() == false ||
+            fEdgeSwitchTimer->getTimerListener() != this)
+            fEdgeSwitchTimer->setTimer(edgeSwitchDelay, this, true);
+    }
+    else if (fEdgeSwitchTimer)
+        fEdgeSwitchTimer = null;
 }
 
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
@@ -978,10 +992,6 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
 void YFrameWindow::endMoveSize() {
     xapp->releaseEvents();
     statusMoveSize->end();
-
-    if ((movingWindow && opaqueMove) ||
-        (sizingWindow && opaqueResize))
-        drawMoveSizeFX(x(), y(), width(), height());
 
     movingWindow = false;
     sizingWindow = false;

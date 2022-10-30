@@ -29,6 +29,7 @@ public:
     virtual void handleDNDEnter();
     virtual void handleDNDLeave();
     void setGeometry();
+    int destination();
 private:
     YWindowManager *fManager;
     Cursor fCursor;
@@ -320,6 +321,7 @@ public:
     bool switchWindowVisible() const;
     SwitchWindow* getSwitchWindow();
     Window netActiveWindow() const { return fActiveWindow; }
+    int edgeWorkspace(int x, int y);
 
 private:
     struct WindowPosState {

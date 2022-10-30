@@ -30,6 +30,7 @@ static YColorName inactiveBorderBg(&clrInactiveBorder);
 
 lazy<YTimer> YFrameWindow::fAutoRaiseTimer;
 lazy<YTimer> YFrameWindow::fDelayFocusTimer;
+lazy<YTimer> YFrameWindow::fEdgeSwitchTimer;
 YArray<YFrameWindow::GroupModal> YFrameWindow::groupModals;
 YArray<YFrameWindow*> YFrameWindow::tabbedFrames;
 YArray<YFrameWindow*> YFrameWindow::namedFrames;
@@ -127,6 +128,8 @@ YFrameWindow::~YFrameWindow() {
         fDelayFocusTimer->disableTimerListener(this);
     if (fAutoRaiseTimer)
         fAutoRaiseTimer->disableTimerListener(this);
+    if (fEdgeSwitchTimer)
+        fEdgeSwitchTimer->disableTimerListener(this);
     if (movingWindow || sizingWindow)
         endMoveSize();
     if (fPopupActive)
@@ -1122,6 +1125,23 @@ bool YFrameWindow::handleTimer(YTimer *t) {
                 if (win == client()->handle()) {
                     manager->switchFocusTo(this);
                 }
+            }
+        }
+        else if (t == fEdgeSwitchTimer) {
+            int rx, ry;
+            xapp->queryMouse(&rx, &ry);
+            int ws = manager->edgeWorkspace(rx, ry);
+            if (0 <= ws) {
+                if (this == manager->getFocus())
+                    manager->switchToWorkspace(ws, true);
+                else if (isAllWorkspaces())
+                    manager->switchToWorkspace(ws, false);
+                else {
+                    setWorkspace(AllWorkspaces);
+                    manager->switchToWorkspace(ws, false);
+                    setWorkspace(ws);
+                }
+                return edgeContWorkspaceSwitching;
             }
         }
     }
