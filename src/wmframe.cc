@@ -259,50 +259,61 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
         return;
 
     XSizeHints *sh = client()->sizeHints();
-    int nw = sh ? sh->base_width + normalW * sh->width_inc : normalW;
-    int nh = sh ? sh->base_height + normalH * sh->height_inc : normalH;
+    int nw = sh ? sh->base_width + normalW * max(1, sh->width_inc) : normalW;
+    int nh = sh ? sh->base_height + normalH * max(1, sh->height_inc) : normalH;
 
     bool focus = hasState(WinStateFocused);
     if (focus) {
         fWinState &= ~WinStateFocused;
         client()->setStateHint(getState());
     }
-    if (container())
-        container()->hide();
-    if (client()) {
-        client()->hide();
-        client()->setFrame(nullptr);
-    }
+    YClientContainer* formerConter = container();
+    formerConter->lower();
+    YFrameClient* formerClient = client();
+    formerClient->setFrame(nullptr);
+
     fClient = tab;
     fClient->setFrame(this);
     fContainer = tab->getContainer();
     fContainer->raise();
+
+    if (client()->getNetWMWindowType(&fWindowType) == false)
+        fWindowType = client()->isTransient() ? wtDialog : wtNormal;
     getFrameHints();
 
+    client()->constrainSize(nw, nh, YFrameClient::csRound);
     sh = client()->sizeHints();
-    normalW = sh
-            ? (nw - sh->base_width + (sh->width_inc / 2)) / sh->width_inc
-            : nw;
-    normalH = sh
-            ? (nh - sh->base_height + (sh->height_inc / 2)) / sh->height_inc
-            : nh;
+    if (sh && sh->base_width && sh->base_height && !isResizable()) {
+        normalW = normalH = 0;
+    } else if (sh) {
+        int winc = max(1, sh->width_inc);
+        int hinc = max(1, sh->height_inc);
+        normalW = max(0, (nw - sh->base_width + (winc / 2)) / winc);
+        normalH = max(0, (nh - sh->base_height + (hinc / 2)) / hinc);
+    } else {
+        normalW = nw;
+        normalH = nh;
+    }
 
-    layoutClient();
-    updateIcon();
+    updateDerivedSize(getState() & WinStateMaximizedBoth);
+    updateLayout();
     if (focus) {
         fWinState |= WinStateFocused;
         fDelayFocusTimer->setTimer(0, this, true);
     }
-    client()->setStateHint(getState());
+    performLayout();
+    updateIcon();
     if (visible()) {
         client()->show();
         container()->show();
         container()->regrabMouse();
-        if (fTitleBar && manager->notShutting()) {
-            layoutShape();
+        if (fTitleBar)
             fTitleBar->repaint();
-        }
     }
+    client()->setStateHint(getState());
+
+    formerConter->hide();
+    formerClient->hide();
 }
 
 void YFrameWindow::createTab(YFrameClient* client, int place) {
