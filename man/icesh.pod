@@ -615,6 +615,14 @@ focus, visibility, position, size and all window properties.
 To monitor all of the protocol request messages that client applications
 may send to icewm, also spy on the root window.
 
+=item B<stacking>
+
+Sort the list of windows from topmost to bottom-most.
+
+=item B<reverse>
+
+Reverse the order of the list of windows.
+
 =back
 
 =head2 MANAGER ACTIONS
