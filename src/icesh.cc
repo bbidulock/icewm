@@ -198,6 +198,7 @@ static NAtom ATOM_ICE_DOCKAPPS("_ICEWM_DOCKAPPS");
 static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
 static NAtom ATOM_MOTIF_HINTS(_XA_MOTIF_WM_HINTS);
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
+static NAtom ATOM_NET_CLIENT_LIST_STACKING("_NET_CLIENT_LIST_STACKING");
 static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
@@ -1301,6 +1302,25 @@ public:
                 fChildren.push_back(w);
             }
         }
+    }
+
+    void stacking() {
+        YWindowTree stack;
+        stack.getWindowList(ATOM_NET_CLIENT_LIST_STACKING);
+        if (stack) {
+            std::sort(fChildren.begin(), fChildren.end(),
+                      [&stack](Window &a, Window &b){
+                return
+                    std::find(stack.fChildren.begin(),
+                              stack.fChildren.end(), a) >
+                    std::find(stack.fChildren.begin(),
+                              stack.fChildren.end(), b);
+            });
+        }
+    }
+
+    void reverse() {
+        std::reverse(fChildren.begin(), fChildren.end());
     }
 
 private:
@@ -4958,6 +4978,12 @@ void IceSh::parseAction()
         }
         else if (isAction("tabto", 1)) {
             tabTo(getArg());
+        }
+        else if (isAction("stacking", 0)) {
+            windowList.stacking();
+        }
+        else if (isAction("reverse", 0)) {
+            windowList.reverse();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
