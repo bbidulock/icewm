@@ -1340,6 +1340,19 @@ See L<icewm-shutdown(5)>.
 
 =over
 
+=item F<cursors>
+
+May contain cursor icons in the XPM image format. These overrule cursors
+provided by a theme. There are 3 direction cursors: F<left.xpm>,
+F<right.xpm>, F<move.xpm>, 8 resize cursors: F<sizeR.xpm>, F<sizeTR.xpm>,
+F<sizeT.xpm>, F<sizeTL.xpm>, F<sizeL.xpm>, F<sizeBL.xpm>, F<sizeB.xpm>,
+F<sizeBR.xpm>, and 4 scroll cursors: F<scrollL.xpm>, F<scrollR.xpm>,
+F<scrollU.xpm>, and F<scrollD.xpm>.
+By default an XPM header defines four dimensions: width, height, colors
+and chars-per-pixel. For cursors this must be extended to six. The last
+two are the I<x-hotspot> and the I<y-hotspot>. These define which point
+in the XPM image is the sensitive point for the mouse pointer.
+
 =item F<icons>
 
 Contains icons which are used to identify applications.  Usually these
