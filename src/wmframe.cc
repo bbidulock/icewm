@@ -201,13 +201,13 @@ bool YFrameWindow::moreTabs() {
     return fClient && fClient != fTabs.last();
 }
 
-void YFrameWindow::mergeTabs(YFrameWindow* source) {
-    bool focus = source->focused();
+void YFrameWindow::mergeTabs(YFrameWindow* frame) {
+    bool focus = frame->focused();
     if (focus)
-        manager->switchFocusFrom(source);
-    if (1 < source->tabCount())
-        findRemove(tabbedFrames, source);
-    for (YFrameClient* client : source->fTabs) {
+        manager->switchFocusFrom(frame);
+    if (1 < frame->tabCount())
+        findRemove(tabbedFrames, frame);
+    for (YFrameClient* client : frame->fTabs) {
         client->setFrame(nullptr);
         client->hide();
         YClientContainer* conter = client->getContainer();
@@ -219,12 +219,13 @@ void YFrameWindow::mergeTabs(YFrameWindow* source) {
         fTabs.append(client);
         if (tabCount() == 2)
             tabbedFrames.append(this);
+        manager->clientTransfered(client, this);
     }
-    source->fTabs.clear();
-    source->fClient = nullptr;
-    source->fContainer = nullptr;
-    delete source->fTitleBar; source->fTitleBar = nullptr;
-    delete source;
+    frame->fTabs.clear();
+    frame->fClient = nullptr;
+    frame->fContainer = nullptr;
+    delete frame->fTitleBar; frame->fTitleBar = nullptr;
+    delete frame;
     if (fTitleBar)
         layoutShape();
     if (focus)

@@ -35,7 +35,9 @@ public:
     // Manager notification about windows disappearing under the fingers
     virtual bool destroyedItem(YFrameWindow* frame, YFrameClient* client) {
                     return false; }
-    virtual bool createdItem(YFrameWindow* frame) { return false; }
+    virtual bool createdItem(YFrameWindow* frame, YFrameClient* client) {
+                    return false; }
+    virtual void transfer(YFrameClient* client, YFrameWindow* frame) { }
 
     virtual bool isKey(KeySym k, unsigned mod) = 0;
     virtual unsigned modifiers() = 0;
@@ -45,6 +47,7 @@ public:
     virtual char* getWMClass() = 0;
 
     virtual YFrameWindow* current() const { return nullptr; }
+    virtual void sort() { }
 };
 
 class SwitchWindow: public YPopupWindow {
@@ -67,6 +70,8 @@ public:
     void destroyedClient(YFrameClient* client);
     void destroyedFrame(YFrameWindow* frame);
     void createdFrame(YFrameWindow* frame);
+    void createdClient(YFrameWindow* frame, YFrameClient* client);
+    void transfer(YFrameClient* client, YFrameWindow* frame);
     YFrameWindow* current();
 
 private:
@@ -79,6 +84,7 @@ private:
     // hints for fast identification of the entry under the cursor
     int m_hintAreaStart, m_hintAreaStep;
 
+    int fWorkspace;
     ref<YImage> fGradient;
 
     YColorName switchFg;
@@ -99,7 +105,7 @@ private:
     unsigned modifiers();
 
     void cancel();
-    bool close();
+    void close();
     void accept();
     void displayFocus();
     YFrameWindow* nextWindow(bool zdown);

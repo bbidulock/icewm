@@ -47,7 +47,7 @@ public:
     void selectTab(YFrameClient* client);
     void changeTab(int delta);
     void createTab(YFrameClient* client, int place = -1);
-    void mergeTabs(YFrameWindow* source);
+    void mergeTabs(YFrameWindow* frame);
     void independer(YFrameClient* client);
 
     Window createPointerWindow(Cursor cursor, int gravity);

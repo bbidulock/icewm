@@ -1343,6 +1343,12 @@ bool YXApplication::children(Window win, Window** data, unsigned* num) const {
     return XQueryTree(display(), win, &rootw, &paren, data, num);
 }
 
+bool YXApplication::queryMask(Window w, unsigned* mask) {
+    Window root, child;
+    int rx, ry, wx, wy;
+    return XQueryPointer(display(), w, &root, &child, &rx, &ry, &wx, &wy, mask);
+}
+
 void YXApplication::queryMouse(int* x, int* y) {
     Window root, child;
     int wx, wy;

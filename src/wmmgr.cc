@@ -315,7 +315,7 @@ bool YWindowManager::handleTimer(YTimer* timer) {
 
 void YWindowManager::handlePopDown(YPopupWindow* popup) {
     if (popup == fSwitchWindow) {
-        fSwitchDownTimer->setTimer(3000, this, true);
+        fSwitchDownTimer->setTimer(30000, this, true);
     }
 }
 
@@ -1278,6 +1278,8 @@ void YWindowManager::manageClients() {
                         }
                         fCreatedUpdated = fLayeredUpdated = true;
                         res->frame->createTab(client, pos);
+                        if (fSwitchWindow)
+                            fSwitchWindow->createdClient(res->frame, client);
                     } else {
                         manageClient(client);
                         if (client->getFrame() == nullptr) {
@@ -1917,7 +1919,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
             if (requestFocus && frame->avoidFocus() == false)
                 frame->setWmUrgency(true);
         }
-        if (switchWindowVisible())
+        if (fSwitchWindow)
             fSwitchWindow->createdFrame(frame);
     }
 }
@@ -1966,6 +1968,8 @@ void YWindowManager::mapClient(Window win) {
                         frame->createTab(client, place);
                         if (client->activateOnMap())
                             frame->selectTab(client);
+                        if (fSwitchWindow)
+                            fSwitchWindow->createdClient(frame, client);
                         client = nullptr;
                         break;
                     }
@@ -2016,8 +2020,14 @@ void YWindowManager::clientDestroyed(YFrameClient* client) {
     fCreatedUpdated = fLayeredUpdated = true;
     if (notShutting())
         updateClientList();
-    if (switchWindowVisible())
-        getSwitchWindow()->destroyedClient(client);
+    if (fSwitchWindow)
+        fSwitchWindow->destroyedClient(client);
+}
+
+void YWindowManager::clientTransfered(YFrameClient* client, YFrameWindow* frame) {
+    fLayeredUpdated = true;
+    if (fSwitchWindow)
+        fSwitchWindow->transfer(client, frame);
 }
 
 void YWindowManager::destroyedClient(Window win) {
@@ -3256,7 +3266,7 @@ void YWindowManager::removeClientFrame(YFrameWindow *frame) {
             setColormapWindow(getFocus());
         if (frame->affectsWorkArea())
             updateWorkArea();
-        if (switchWindowVisible())
+        if (fSwitchWindow)
             fSwitchWindow->destroyedFrame(frame);
     }
 }

@@ -124,6 +124,7 @@ public:
     void manageClient(YFrameClient* client, bool mapClient = false);
     void unmanageClient(YFrameClient *client);
     void clientDestroyed(YFrameClient* client);
+    void clientTransfered(YFrameClient* client, YFrameWindow* frame);
     void destroyedClient(Window win);
     void mapClient(Window win);
 
