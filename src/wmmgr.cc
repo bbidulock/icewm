@@ -1062,7 +1062,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
         else
             w = f->handle();
 
-        if (f->getInputFocusHint())
+        if (f->getInputFocusHint() || (f->isRollup() && !f->avoidFocus()))
             switchFocusTo(f, reorder);
 
         f->setWmUrgency(false);
