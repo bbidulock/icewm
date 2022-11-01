@@ -530,7 +530,7 @@ void YFrameWindow::doManage(YFrameClient *clientw, bool &doActivate, bool &reque
     if (mo)
         setWorkspace(mo->getWorkspace());
 
-    if (isHidden() || isMinimized() || client() == taskBar) {
+    if (isUnmapped() || client() == taskBar) {
         doActivate = false;
         requestFocus = false;
     }
@@ -1208,6 +1208,8 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             goto next;
         if ((flags & fwfWorkspace) && !p->visibleNow())
             goto next;
+        if (p == this && !(flags & fwfSame))
+            goto next;
         if (!p->client()->adopted() || p->client()->destroyed())
             goto next;
 
@@ -1222,9 +1224,13 @@ YFrameWindow *YFrameWindow::findWindow(int flags) {
             if (!(flags & fwfCycle))
                 return nullptr;
             else if (flags & fwfBackward)
-                p = (flags & fwfLayers) ? manager->bottomLayer() : manager->bottom(getActiveLayer());
+                p = (flags & fwfLayers)
+                  ? manager->bottomLayer()
+                  : manager->bottom(getActiveLayer());
             else
-                p = (flags & fwfLayers) ? manager->topLayer() : manager->top(getActiveLayer());
+                p = (flags & fwfLayers)
+                  ? manager->topLayer()
+                  : manager->top(getActiveLayer());
         }
     } while (p != this);
 
@@ -1827,7 +1833,10 @@ void YFrameWindow::wmKill() {
 }
 
 void YFrameWindow::wmPrevWindow() {
-    if (1 < tabCount()) {
+    if (this != manager->getFocus() && manager->getFocus())
+        return manager->getFocus()->wmPrevWindow();
+
+    if (1 < tabCount() && isMapped() && visible()) {
         int i = find(fTabs, client());
         if (0 < i) {
             selectTab(fTabs[i - 1]);
@@ -1845,7 +1854,10 @@ void YFrameWindow::wmPrevWindow() {
 }
 
 void YFrameWindow::wmNextWindow() {
-    if (1 < tabCount()) {
+    if (this != manager->getFocus() && manager->getFocus())
+        return manager->getFocus()->wmNextWindow();
+
+    if (1 < tabCount() && isMapped() && visible()) {
         int i = find(fTabs, client());
         if (0 <= i && i + 1 < tabCount()) {
             selectTab(fTabs[i + 1]);
@@ -3711,7 +3723,7 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
 }
 
 void YFrameWindow::setWmUrgency(bool wmUrgency) {
-    if ( !frameOption(foIgnoreUrgent)) {
+    if ( !frameOption(foIgnoreUrgent) || !wmUrgency) {
         if (wmUrgency != hasState(WinStateUrgent)) {
             fWinState ^= WinStateUrgent;
             client()->setStateHint(getState());
