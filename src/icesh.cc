@@ -1432,7 +1432,7 @@ private:
     bool runonce();
     void click();
     bool delay();
-    void tabTo(const char* arg);
+    void tabTo(char* arg);
     void monitors();
     bool desktops();
     bool desktop();
@@ -1726,6 +1726,19 @@ static Window getFrameWindow(Window window)
         window = parent;
     }
     return None;
+}
+
+static int countTabs(Window frame) {
+    YWindowTree windowList(frame);
+    int count = 0;
+    FOREACH_WINDOW(window)
+        if (window->wmName() == "Container")
+            ++count;
+    return count;
+}
+
+static bool isTabbed(Window client) {
+    return countTabs(getFrameWindow(client)) > 1;
 }
 
 static Window getGroupLeader(Window window) {
@@ -3424,7 +3437,33 @@ void IceSh::flush()
         throw 1;
 }
 
-void IceSh::tabTo(const char* label)
+static void randomSetup() {
+    static unsigned seed;
+    if (seed == 0) {
+        timeval now = walltime();
+        seed = unsigned((getpid() * now.tv_usec) ^ now.tv_sec);
+        srand(seed);
+    }
+}
+
+static char* randomLabel() {
+    static const char data[] =
+        "abcdefghijklmnopqrstuvwxyz-12345"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ_67890";
+    const int length = 7;
+    static char label[length + 1];
+    randomSetup();
+    for (int i = 0, r = 0; i < length; ++i) {
+        if (r < 32)
+            r = rand();
+        label[i] = data[r & 63];
+        r >>= 6;
+    }
+    label[length] = '\0';
+    return label;
+}
+
+void IceSh::tabTo(char* defaultLabel)
 {
     if ( ! windowList && ! selecting) {
         Window pick = pickWindow();
@@ -3434,6 +3473,9 @@ void IceSh::tabTo(const char* label)
         selecting = true;
     }
     CHANGES_WINDOW(window) {
+        if (defaultLabel == nullptr && isTabbed(window) == false)
+            continue;
+
         XClassHint h = { nullptr, nullptr };
         bool xgot = (XGetClassHint(display, window, &h) == True);
         YStringProperty role(window, ATOM_WM_WINDOW_ROLE);
@@ -3448,6 +3490,7 @@ void IceSh::tabTo(const char* label)
                       + (str2 ? strlen(str2) : 0);
         XWindowAttributes attr = {};
         if (length && XGetWindowAttributes(display, window, &attr)) {
+            char* label = defaultLabel ? defaultLabel : randomLabel();
             size_t size = length + 10 + strlen(label);
             char* buf = new char[size];
             if (buf) {
@@ -4992,6 +5035,9 @@ void IceSh::parseAction()
         }
         else if (isAction("tabto", 1)) {
             tabTo(getArg());
+        }
+        else if (isAction("untab", 0)) {
+            tabTo(nullptr);
         }
         else if (isAction("stacking", 0)) {
             windowList.stacking();

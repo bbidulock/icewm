@@ -596,6 +596,10 @@ is given, then disable or enable the override redirect status.
 Move the windows as tabs to a frame which has C<frame> label I<label>.
 Such a frame is created if needed.
 
+=item B<untab>
+
+Move each window to its own frame, if it is currently tabbed.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,
@@ -949,6 +953,11 @@ which has a WM_ROLE value of C<special>, or start it with B<runonce>.
         if -v then hide \
         elif -u then setWorkspace this sync activate end \
         else runonce roxterm --role=special
+
+Collect all urxvt terminals from the fourth workspace in a single frame
+on the current workspace.
+
+    icesh -W 3 -c urxvt tabto myfunnyname
 
 =head2 ENVIRONMENT
 
