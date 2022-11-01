@@ -1083,7 +1083,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 #endif
 
-    bool focusUnset(fFocusWin == nullptr || fFocusWin->visible() == false);
+    bool focusUnset(fFocusWin == nullptr ||
+                    fFocusWin->visible() == false ||
+                    fFocusWin->isRollup());
     if (w != None) {
         if (f->getInputFocusHint()) {
             XSetInputFocus(xapp->display(), w, RevertToNone,
