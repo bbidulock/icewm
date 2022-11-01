@@ -322,28 +322,28 @@ void WindowItemsCtrlr::updateList() {
             }
 
             int prio = 0;
-            if (!frame->hasState(WinStateUrgent) && !client->urgencyHint()) {
-                prio = 1 + !quickSwitchToUrgent;
-            }
-            else if (frame == focused) {
+            if (frame == focused) {
                 if (client == fclient)
-                    prio = 2;
+                    prio = 1;
                 else
-                    prio = 3;
+                    prio = 2;
             }
-            else if (frame->avoidFocus()) {
-                prio = 5;
-            }
-            else if (frame->isHidden()) {
-                if (quickSwitchToHidden)
-                    prio = 4;
+            else if (quickSwitchToUrgent && frame->isUrgent()) {
+                prio = 3;
             }
             else if (frame->isMinimized()) {
                 if (quickSwitchToMinimized)
-                    prio = 3;
+                    prio = 6;
+            }
+            else if (frame->isHidden()) {
+                if (quickSwitchToHidden)
+                    prio = 7;
+            }
+            else if (frame->avoidFocus()) {
+                prio = 8;
             }
             else {
-                prio = 2;
+                prio = 4;
             }
             if (prio) {
                 zList += ZItem(prio, index, frame, client);
@@ -365,8 +365,6 @@ void WindowItemsCtrlr::sort() {
         }
         else if (act) {
             fActiveItem = zList[act];
-            zList.remove(act);
-            zList.insert(0, fActiveItem);
             zTarget = act;
         }
     }
