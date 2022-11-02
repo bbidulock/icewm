@@ -258,7 +258,7 @@ public:
         return false;
     }
 
-    void transfer(YFrameClient* client, YFrameWindow* frame) {
+    void transfer(YFrameClient* client, YFrameWindow* frame) override {
         for (int i = 0; i < zList.getCount(); i++) {
             if (zList[i].client == client) {
                 zList[i].frame = frame;
