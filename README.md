@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2022-07-27]: #
+[icewm -- read me first file.  2022-11-02]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -19,7 +19,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the `icewm-2.9.8` package, released 2022-07-18.  This release, and
+This is the `icewm-3.2.0` package, released 2022-11-02.  This release, and
 the latest version, can be obtained from [GitHub][1], using a command such as:
 
     $> git clone https://github.com/bbidulock/icewm.git
