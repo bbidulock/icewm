@@ -1800,9 +1800,14 @@ void YFrameWindow::wmClose() {
 
     manager->grabServer();
     bool confirm = false;
-    for (IterType client = fTabs.reverseIterator(); ++client; ) {
-        wmCloseClient(*client, &confirm);
+    if (1 < tabCount()) {
+        for (IterType client = fTabs.reverseIterator(); ++client; ) {
+            if (*client != fClient)
+                wmCloseClient(*client, &confirm);
+        }
+        xapp->sync();
     }
+    wmCloseClient(fClient, &confirm);
     if (confirm)
         wmConfirmKill();
     manager->ungrabServer();
