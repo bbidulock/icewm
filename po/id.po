@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
-"PO-Revision-Date: 2022-01-12 07:11+0000\n"
+"PO-Revision-Date: 2022-11-04 06:13+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -347,7 +347,7 @@ msgstr "Ruang kerja: "
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "Tab"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2047,7 +2047,7 @@ msgstr "D_estop"
 
 #: src/wmapp.cc:578
 msgid "Move to New _Window"
-msgstr ""
+msgstr "Pindah ke _Jendela Baru"
 
 #: src/wmapp.cc:588
 msgid "Left Half"
