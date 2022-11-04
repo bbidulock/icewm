@@ -149,10 +149,13 @@ public:
         return null;
     }
 
-    void setWMClass(char* wmclass) override {
+    bool setWMClass(char* wmclass) override {
+        char nil[] = { '\0' };
+        bool change = strcmp(Elvis(wmclass, nil), Elvis(fWMClass, nil));
         if (fWMClass)
             free(fWMClass);
         fWMClass = wmclass;
+        return change;
     }
 
     char* getWMClass() override {
@@ -768,13 +771,12 @@ void SwitchWindow::paintVertical(Graphics &g) {
 }
 
 void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
+    bool change = zItems->setWMClass(wmclass);
     modsDown = KEY_MODMASK(mods);
-    zItems->setWMClass(wmclass);
-
     m_oldMenuMouseTracking = menuMouseTracking;
     menuMouseTracking = true;
 
-    if (zItems->getCount() == 0 ||
+    if (zItems->isEmpty() || change ||
         (fWorkspace != manager->activeWorkspace() &&
          !quickSwitchToAllWorkspaces)) {
         zItems->begin(zdown);

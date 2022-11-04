@@ -132,8 +132,9 @@ public:
     unsigned modifiers() override {
         return mod;
     }
-    virtual void setWMClass(char* wmclass) override {
+    virtual bool setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
+        return false;
     }
     virtual char* getWMClass() override {
         return nullptr;

@@ -43,7 +43,7 @@ public:
     virtual unsigned modifiers() = 0;
 
     // Filter items by WM_CLASS
-    virtual void setWMClass(char* wmclass) = 0;
+    virtual bool setWMClass(char* wmclass) = 0;
     virtual char* getWMClass() = 0;
 
     virtual YFrameWindow* current() const { return nullptr; }
