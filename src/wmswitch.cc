@@ -358,7 +358,8 @@ void WindowItemsCtrlr::updateList() {
 }
 
 void WindowItemsCtrlr::sort() {
-    qsort(&*zList, size_t(zList.getCount()), sizeof(ZItem), ZItem::compare);
+    if (1 < zList.getCount())
+        qsort(&*zList, size_t(zList.getCount()), sizeof(ZItem), ZItem::compare);
 
     zTarget = 0;
     if (fActiveItem) {
@@ -890,7 +891,13 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             accept();
         }
         else if (manager->handleSwitchWorkspaceKey(key, k, vm)) {
-            zItems->sort();
+            bool change = (fWorkspace != manager->activeWorkspace());
+            fWorkspace = manager->activeWorkspace();
+            if (change && !quickSwitchToAllWorkspaces) {
+                zItems->updateList();
+            } else {
+                zItems->sort();
+            }
             if (zItems->getCount()) {
                 resize(getScreen(), true);
                 repaint();
