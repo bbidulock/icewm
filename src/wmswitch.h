@@ -31,6 +31,7 @@ public:
     virtual int getActiveItem() = 0;
     virtual mstring getTitle(int idx) = 0;
     virtual ref<YIcon> getIcon(int idx) = 0;
+    virtual int getWorkspace(int idx) { return 0; }
 
     // Manager notification about windows disappearing under the fingers
     virtual bool destroyedItem(YFrameWindow* frame, YFrameClient* client) {
