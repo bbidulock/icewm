@@ -315,7 +315,8 @@ bool YWindowManager::handleTimer(YTimer* timer) {
 
 void YWindowManager::handlePopDown(YPopupWindow* popup) {
     if (popup == fSwitchWindow) {
-        fSwitchDownTimer->setTimer(30000, this, true);
+        long delay = quickSwitchPersistence * 1000L;
+        fSwitchDownTimer->setTimer(delay, this, true);
     }
 }
 

@@ -334,6 +334,10 @@ Include windows from all workspaces in Alt+Tab.
 
 Group windows by workspace together in Alt+Tab.
 
+=item B<QuickSwitchPersistence>=0
+
+Time in seconds to remember the state of Alt+Tab.
+
 =item B<QuickSwitchRaiseCandidate>=0
 
 Raise a selected window while Alt+Tabbing in the QuickSwitch.

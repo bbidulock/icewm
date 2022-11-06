@@ -793,7 +793,7 @@ void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
     m_oldMenuMouseTracking = menuMouseTracking;
     menuMouseTracking = true;
 
-    if (zItems->isEmpty() || change ||
+    if (zItems->isEmpty() || change || !quickSwitchPersistence ||
         (fWorkspace != manager->activeWorkspace() &&
          !quickSwitchToAllWorkspaces)) {
         zItems->begin(zdown);
@@ -909,7 +909,8 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         else if (manager->handleSwitchWorkspaceKey(key, k, vm)) {
             bool change = (fWorkspace != manager->activeWorkspace());
             fWorkspace = manager->activeWorkspace();
-            if (change && !quickSwitchToAllWorkspaces) {
+            if ((change && !quickSwitchToAllWorkspaces) ||
+                !quickSwitchPersistence) {
                 zItems->updateList();
             } else {
                 zItems->sort();
