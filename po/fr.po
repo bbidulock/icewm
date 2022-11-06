@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
-"PO-Revision-Date: 2022-10-16 18:13+0000\n"
+"PO-Revision-Date: 2022-11-06 18:37+0000\n"
 "Last-Translator: Stéphane LASSALVY <stephane.lassalvy@laposte.net>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fr/>\n"
@@ -27,7 +27,7 @@ msgstr "Impossible d'ouvrir le dispositif APM %s"
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr "Impossible d'ouvrir l'input-ouput-control du dispositif APM %s"
+msgstr "Impossible d'ouvrir l'input-ouput-control du périphérique APM %s"
 
 #: src/aapm.cc:122
 #, c-format
@@ -36,7 +36,7 @@ msgstr "Format inconnu utilisé par le dispositif APM %s (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
-msgstr " - Courant"
+msgstr " - Alimentation"
 
 #: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
@@ -253,7 +253,7 @@ msgstr "%ld messages électroniques, %ld non lu(s)."
 #: src/amailbox.cc:819
 #, c-format
 msgid "%ld mail message."
-msgstr "%ld message."
+msgstr "%ld courriel."
 
 #: src/amailbox.cc:820
 #, c-format
@@ -370,7 +370,7 @@ msgstr "Accessoires"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:53
 msgid "ActionGame"
-msgstr "Jeu d'action"
+msgstr "Jeux d'action"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
@@ -380,7 +380,7 @@ msgstr "Adulte"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
 msgid "AdventureGame"
-msgstr "Jeu d'aventure"
+msgstr "Jeux d'aventure"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:59
@@ -390,7 +390,7 @@ msgstr "Distraction"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
 msgid "ArcadeGame"
-msgstr "Jeu d'arcade"
+msgstr "Jeux d'arcade"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
@@ -425,7 +425,7 @@ msgstr "Audio vidéo"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:75
 msgid "AudioVideoEditing"
-msgstr "Édition audio vidéo"
+msgstr "Édition audio/vidéo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:77
@@ -435,12 +435,12 @@ msgstr "Biologie"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:79
 msgid "BlocksGame"
-msgstr "Jeu de blocs"
+msgstr "Jeux de blocs"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:81
 msgid "BoardGame"
-msgstr "Jeu de plateau"
+msgstr "Jeux de plateau"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:83
@@ -460,7 +460,7 @@ msgstr "Calendrier"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:89
 msgid "CardGame"
-msgstr "Jeu de cartes"
+msgstr "Jeux de cartes"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:91
@@ -605,7 +605,7 @@ msgstr "Gestionnaire de fichiers"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
 #: src/fdospecgen.h:147
 msgid "FileTools"
-msgstr "Outils de fichier"
+msgstr "Outils de fichiers"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:149
@@ -715,7 +715,7 @@ msgstr "Littérature"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:191
 msgid "LogicGame"
-msgstr "Jeu de logique"
+msgstr "Jeux de logique"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:193
@@ -1071,7 +1071,7 @@ msgstr "Index"
 
 #: src/icehelp.cc:1359
 msgid "Find..."
-msgstr "Trouver..."
+msgstr "Chercher..."
 
 #: src/icehelp.cc:1359
 msgid "Ctrl+F"
@@ -1095,7 +1095,7 @@ msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1364
 msgid "Reload"
-msgstr "Rechargez"
+msgstr "Recharger"
 
 #: src/icehelp.cc:1364 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1293,11 +1293,11 @@ msgstr "Option '%s' ignorée"
 
 #: src/icelist.cc:60
 msgid "List View"
-msgstr "Liste"
+msgstr "Vue en mode liste"
 
 #: src/icelist.cc:61
 msgid "Icon View"
-msgstr "Icônes"
+msgstr "Vue en mode icônes"
 
 #: src/icelist.cc:65
 msgid "Open"
@@ -1758,7 +1758,7 @@ msgstr "Échec de la connexion aux interfaces audio %s."
 #: src/icesound.cc:940
 #, c-format
 msgid "Received signal %s: Terminating..."
-msgstr "Réception du signal %s : terminaison..."
+msgstr "Réception du signal %s : arrêt..."
 
 #: src/icetray.cc:220
 msgid ""
@@ -1916,7 +1916,7 @@ msgstr "Option non reconnue '%s'."
 #: src/icewmbg.cc:1139
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
-"Impossible de démarrer, parce qu'une autre instance d'icewmbg est en cours "
+"Impossible de démarrer car une autre instance d'icewmbg est en cours "
 "d'exécution."
 
 #: src/icewmhint.cc:20
@@ -1926,7 +1926,7 @@ msgstr "Syntaxe : icewmhint class.instance option arg\n"
 #: src/icewmhint.cc:57
 #, c-format
 msgid "Out of memory (len=%d)."
-msgstr "Plus de mémoire (len=%d)."
+msgstr "Mémoire saturée (len=%d)."
 
 #: src/misc.cc:70 src/misc.cc:82
 msgid "Warning: "
@@ -2016,7 +2016,7 @@ msgstr "En attente du remplacement de l'ancien gestionnaire de fenêtres"
 
 #: src/wmapp.cc:114
 msgid "done."
-msgstr "fait."
+msgstr "terminé."
 
 # OS/2 is dead, but... ;-)
 #: src/wmapp.cc:498
@@ -2154,11 +2154,11 @@ msgstr "Ma_ximiser"
 
 #: src/wmapp.cc:622 src/wmwinlist.cc:378
 msgid "Maximize_Vert"
-msgstr "Maximiser_vert"
+msgstr "Maximiser _vert"
 
 #: src/wmapp.cc:623 src/wmwinlist.cc:379
 msgid "MaximizeHori_z"
-msgstr "Maximiserhori_z"
+msgstr "Maximiser hori_z"
 
 #: src/wmapp.cc:626 src/wmwinlist.cc:380
 msgid "_Fullscreen"
@@ -2250,7 +2250,7 @@ msgstr "<aucun>"
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
-"  --client-id=ID      ID de client à utiliser lors du contact du "
+"  --client-id=ID      ID de client à utiliser lors du contact avec le  "
 "gestionnaire de session.\n"
 
 #: src/wmapp.cc:1561
@@ -2260,9 +2260,9 @@ msgid ""
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 "\n"
-"  --debug             Imprime les messages de débogage génériques.\n"
-"  --debug-z           Imprime les messages de débogage concernant la pile de "
-"fenêtres.\n"
+"  --debug             Imprimer les messages de débogage génériques.\n"
+"  --debug-z           Imprimer les messages de débogage concernant la pile "
+"de fenêtres.\n"
 
 #: src/wmapp.cc:1569
 msgid ""
@@ -2368,13 +2368,13 @@ msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"La déconnexion va terminer toutes les applications ouvertes.\n"
+"La déconnexion va clore toutes les applications ouvertes.\n"
 "Êtes-vous sûr de vouloir vous déconnecter ?"
 
 #
 #: src/wmbutton.cc:81
 msgid "Raise/Lower"
-msgstr "Premier/Dernier plan"
+msgstr "Avant plan/Arrière plan"
 
 #: src/wmbutton.cc:86
 msgid "Hide"
@@ -2463,7 +2463,7 @@ msgid ""
 "this client is killed. Do you wish to proceed?"
 msgstr ""
 "ATTENTION ! Tous les changements non sauvegardés seront\n"
-"perdus quand ce client sera tué. Souhaitez-vous continuer ?"
+"perdus quand ce processus sera clos. Souhaitez-vous continuer ?"
 
 #
 #: src/wmframe.cc:1710
@@ -2492,21 +2492,21 @@ msgstr "Erreur à %s '%s'"
 #: src/wmmenu.cc:222
 #, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Mot-clé inconnu : '%s'"
+msgstr "Mot-clé menu inconnu : '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
 msgid "Error at menuprog '%s'"
-msgstr "Erreur dans la programmation de menu '%s'"
+msgstr "Erreur dans la programmation du menu '%s'"
 
 #: src/wmmenu.cc:320
 #, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Erreur dans la programmation de menu : '%s'"
+msgstr "Erreur dans la programmation du menu : '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
-msgstr "Un argument de nom de fichier à inclure dans l'énoncé est manquant"
+msgstr "Ligne présentant un nom de fichier manquant"
 
 #: src/wmmenu.cc:365
 #, c-format
@@ -2524,8 +2524,8 @@ msgid ""
 "Unknown keyword for a non-container: '%s'.\n"
 "Expected either 'key' or 'runonce' here.\n"
 msgstr ""
-"Mot-clé inconnu pour un non-contenur : '%s'.\n"
-"Valeur attendue ici : 'key' ou 'runonce'.\n"
+"Mot-clé inconnu pour un non-conteneur : '%s'.\n"
+"Valeur attendue : 'key' ou 'runonce'.\n"
 
 #: src/wmmenu.cc:498
 #, c-format
@@ -2566,7 +2566,7 @@ msgstr "Saisissez une nouvelle valeur pour %s : "
 
 #: src/wmprog.cc:334
 msgid "_Click to focus"
-msgstr "_Cliquer pour prendre le focus"
+msgstr "_Cliquer pour donner le focus"
 
 #: src/wmprog.cc:335
 msgid "_Explicit focus"
@@ -2743,7 +2743,7 @@ msgstr "%s : la sélection a échoué"
 #: src/ycolor.cc:229 src/ycolor.cc:240
 #, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Impossible de charger la police \"%s\""
+msgstr "Impossible de charger la couleur \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2753,7 +2753,7 @@ msgstr "Nom de touche inconnu : %s dans %s"
 #: src/yconfig.cc:128 src/yconfig.cc:139 src/yconfig.cc:151
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Paramètre inconnu : %s pour %s [%d, %d]"
+msgstr "Paramètre invalide : %s pour %s [%d, %d]"
 
 #: src/ycursor.cc:110
 #, c-format
@@ -2763,22 +2763,22 @@ msgstr "Échec de chargement de l'image %s : %s"
 #: src/ycursor.cc:135
 #, c-format
 msgid "Loading of pixmap \"%s\" failed"
-msgstr "Échec de chargement du pixmap \"%s\""
+msgstr "Échec du chargement du pixmap \"%s\""
 
 #: src/ycursor.cc:179
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BOGUE ? Imlib a pu lire \"%s\""
+msgstr "BOGUE ? Imlib a lu \"%s\""
 
 #: src/ycursor.cc:204
 #, c-format
 msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "BOGUE ? Entête XPM mal formé mais Imlib a pu lire \"%s\""
+msgstr "BOGUE ? Entête XPM invalide mais Imlib a pu lire \"%s\""
 
 #: src/ycursor.cc:212
 #, c-format
 msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr "BOGUE ? Fin prématurée de fichier XPM mais Imlib a pu lire \"%s\""
+msgstr "BOGUE ? Fin prématurée du fichier XPM mais Imlib a pu lire \"%s\""
 
 #: src/ycursor.cc:215
 #, c-format
@@ -2842,8 +2842,8 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Échec lors de la détection de l'encodage des caractères courants. Par défaut "
-"ISO-8859-1.\n"
+"Échec lors de la détection de l'encodage des caractères régionaux courants. "
+"Par défaut ISO-8859-1.\n"
 
 #: src/ylocale.cc:128 src/ylocale.cc:136
 #, c-format
