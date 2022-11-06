@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
 "PO-Revision-Date: 2022-11-06 18:37+0000\n"
-"Last-Translator: Stéphane LASSALVY <stephane.lassalvy@laposte.net>\n"
+"Last-Translator: Wallon <franckjl@hotmail.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
@@ -32,7 +32,7 @@ msgstr "Impossible d'ouvrir l'input-ouput-control du périphérique APM %s"
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr "Format inconnu utilisé par le dispositif APM %s (%d)."
+msgstr "Format utilisé par le dispositif APM %s (%d) inconnu ."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -142,7 +142,7 @@ msgid ""
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Mémoire (utilisateur) : %5.3f (%.3f) G"
+"Mémoire vive (utilisateur) : %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:908
 #, c-format
@@ -165,7 +165,7 @@ msgstr "%s s'est terminé avec le statut %d."
 #: src/akeyboard.cc:86 src/icesm.cc:472 src/icesm.cc:626
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr "%s a été terminé par le signal %d."
+msgstr "%s a été arrêté par le signal %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
@@ -195,7 +195,7 @@ msgstr "Protocole de boîte à lettre incorrect : \"%s\""
 #: src/amailbox.cc:66
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr "Chemin de boîte à lettre incorrect : %s"
+msgstr "Chemin de la boîte aux lettres incorrect : \"%s\""
 
 #: src/amailbox.cc:140
 #, c-format
@@ -248,7 +248,7 @@ msgstr "%ld message(s) électronique(s), %ld non lu(s)."
 #: src/amailbox.cc:813
 #, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld messages électroniques, %ld non lu(s)."
+msgstr "%ld messages électroniques, %ld non lus."
 
 #: src/amailbox.cc:819
 #, c-format
@@ -258,7 +258,7 @@ msgstr "%ld courriel."
 #: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld messages."
+msgstr "%ld messages email."
 
 #: src/amailbox.cc:961
 msgid "MAIL"
@@ -660,7 +660,7 @@ msgstr "Graphiques"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
 #: src/fdospecgen.h:169
 msgid "HamRadio"
-msgstr "Radio hamateur"
+msgstr "Radio amateur - HamRadio"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:171
@@ -675,7 +675,7 @@ msgstr "Histoire"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:175
 msgid "Humanities"
-msgstr "Humanités"
+msgstr "Sciences humaines"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:177
@@ -810,7 +810,7 @@ msgstr "Gestionnaire de paquets"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
 #: src/fdospecgen.h:229
 msgid "ParallelComputing"
-msgstr "Informatique parallèle"
+msgstr "Calculs en parallèle"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:231
@@ -855,7 +855,7 @@ msgstr "Publication"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:247
 msgid "RasterGraphics"
-msgstr "Graphique à trame"
+msgstr "Mode matriciel Raster"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:249
@@ -880,7 +880,7 @@ msgstr "Robotique"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:257
 msgid "RolePlaying"
-msgstr "Jeu de rôle"
+msgstr "Jeux de rôle"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:259
@@ -915,7 +915,7 @@ msgstr "Paramètres"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:271
 msgid "Shooter"
-msgstr "Jeu de tir"
+msgstr "Jeux de tir"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:273
@@ -935,7 +935,7 @@ msgstr "Sports"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:279
 msgid "SportsGame"
-msgstr "Jeu de sport"
+msgstr "Jeux de sport"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:281
@@ -945,7 +945,7 @@ msgstr "Tableur"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:283
 msgid "StrategyGame"
-msgstr "Jeu de stratégie"
+msgstr "Jeux de stratégie"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:285
@@ -1000,7 +1000,7 @@ msgstr "Utilitaire"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:305
 msgid "VectorGraphics"
-msgstr "Graphique vectoriel"
+msgstr "Graphiques vectoriels adaptables SVG"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:307
@@ -1047,7 +1047,7 @@ msgstr "Alt+Gauche"
 
 #: src/icehelp.cc:1350
 msgid "Forward"
-msgstr "En avant"
+msgstr "Devant"
 
 #: src/icehelp.cc:1350
 msgid "Alt+Right"
@@ -1184,7 +1184,7 @@ msgstr "Le chemin ne fait pas référence à un fichier."
 
 #: src/icehelp.cc:2312
 msgid "Failed to open file for reading."
-msgstr "Échec de l'ouverture du fichier en lecture."
+msgstr "Fichier illisible."
 
 #: src/icehelp.cc:2341
 msgid "Failed to create a temporary file"
@@ -1356,7 +1356,7 @@ msgstr "Option du \"tray\" IceWM"
 
 #: src/icesh.cc:2079
 msgid "Gravity symbols"
-msgstr "symboles de gravité"
+msgstr "Symboles de gravité"
 
 #: src/icesh.cc:2080
 msgid "Motif functions"
@@ -1364,7 +1364,7 @@ msgstr "Fonctions Motif"
 
 #: src/icesh.cc:2081
 msgid "Motif decorations"
-msgstr "Décorations Motif"
+msgstr "Motifs de décoration"
 
 #: src/icesh.cc:2082
 msgid "EWMH window state"
@@ -1420,11 +1420,11 @@ msgstr "Inattendu : `%s'."
 
 #: src/icesh.cc:3721
 msgid "No windows found."
-msgstr "Aucune fenêtre trouvée."
+msgstr "Pas de fenêtre trouvée."
 
 #: src/icesh.cc:3737
 msgid "No actions specified."
-msgstr "Aucune action spécifiée."
+msgstr "Pas d'action spécifiée."
 
 #: src/icesh.cc:3884
 #, c-format
@@ -1787,7 +1787,7 @@ msgstr "Ctrl+H"
 
 #: src/iceview.cc:60
 msgid "Expand Tabs"
-msgstr "Développer les tabulations"
+msgstr "Ouvrir les onglets"
 
 #: src/iceview.cc:61
 msgid "Wrap Lines"
@@ -1956,7 +1956,8 @@ msgstr ""
 #: src/movesize.cc:890
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
-msgstr "Direction inconnue dans la requête de déplacement/dimensionnement : %d"
+msgstr ""
+"Direction inconnue dans la demande de déplacement/redimensionnement : %d"
 
 #: src/wmabout.cc:29 src/wmabout.cc:30
 msgid "(C)"
@@ -1976,7 +1977,7 @@ msgstr "Auteur du thème :"
 
 #: src/wmabout.cc:51
 msgid "CodeSet:"
-msgstr "Ensemble de code :"
+msgstr "Ensemble de codes :"
 
 #: src/wmabout.cc:52
 msgid "Language:"
@@ -2008,11 +2009,11 @@ msgstr ""
 #: src/wmapp.cc:105
 #, c-format
 msgid "Failed to become the owner of the %s selection"
-msgstr "Échec de la définition en tant que propriétaire de la sélection %s"
+msgstr "Impossible de devenir le propriétaire de la sélection %s"
 
 #: src/wmapp.cc:109
 msgid "Waiting to replace the old window manager"
-msgstr "En attente du remplacement de l'ancien gestionnaire de fenêtres"
+msgstr "En attente du remplacement du gestionnaire de fenêtres précédent"
 
 #: src/wmapp.cc:114
 msgid "done."
@@ -2162,7 +2163,7 @@ msgstr "Maximiser hori_z"
 
 #: src/wmapp.cc:626 src/wmwinlist.cc:380
 msgid "_Fullscreen"
-msgstr "Plein écran"
+msgstr "_Plein écran"
 
 #: src/wmapp.cc:629 src/wmwinlist.cc:382
 msgid "_Hide"
@@ -2210,7 +2211,7 @@ msgstr "_Fermer"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:408
 msgid "_Kill Client"
-msgstr "Tuer le client X"
+msgstr "Fermer le client X"
 
 #: src/wmapp.cc:670 src/wmdialog.cc:72 src/wmwinmenu.cc:134
 msgid "_Window list"
@@ -2219,7 +2220,7 @@ msgstr "_Liste des fenêtres"
 #
 #: src/wmapp.cc:709
 msgid "Another window manager already running, exiting..."
-msgstr "Un gestionnaire de fenêtre tourne déjà. Terminaison ..."
+msgstr "Un gestionnaire de fenêtre est déjà en cours. Fermeture ..."
 
 #: src/wmapp.cc:784
 #, c-format
@@ -2468,7 +2469,7 @@ msgstr ""
 #
 #: src/wmframe.cc:1710
 msgid "Kill Client: "
-msgstr "Tuer le client : "
+msgstr "Fermer le client : "
 
 #: src/wmmenu.cc:37
 msgid "Missing command argument"
@@ -2635,7 +2636,7 @@ msgstr "_Thèmes"
 
 #: src/wmprog.cc:451
 msgid "Se_ttings"
-msgstr "_Réglages"
+msgstr "Paramè_tres"
 
 #: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
 #, c-format
