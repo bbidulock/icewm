@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-10-03 05:53+0200\n"
-"PO-Revision-Date: 2022-11-06 18:37+0000\n"
-"Last-Translator: Wallon <franckjl@hotmail.com>\n"
+"PO-Revision-Date: 2022-11-06 21:13+0000\n"
+"Last-Translator: Stéphane LASSALVY <stephane.lassalvy@laposte.net>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
@@ -2862,7 +2862,7 @@ msgstr "_Valider"
 
 #: src/ysmapp.cc:98
 msgid "$USER or $LOGNAME not set?"
-msgstr "Variables d'environnement $USER/$LOGNAME non initialisées ?"
+msgstr "Variables d'environnement $USER ou $LOGNAME non initialisées ?"
 
 #: src/yurl.cc:145
 #, c-format
@@ -2891,11 +2891,11 @@ msgstr ""
 
 #: src/yximage.cc:157
 msgid "Support for PNG images was not enabled"
-msgstr "Le support des images PNG n'était pas activé"
+msgstr "Le support des images PNG n'est pas activé"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr "Le support des images JPEG n'était pas activé"
+msgstr "Le support des images JPEG n'est pas activé"
 
 #: src/yximage.cc:171
 #, c-format
