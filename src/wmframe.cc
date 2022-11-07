@@ -368,7 +368,7 @@ void YFrameWindow::untab(YFrameClient* client) {
             YClientContainer* conter = client->getContainer();
             independer(client);
             delete conter;
-            manager->manageClient(client);
+            manager->manageClient(client, true);
             if (tabCount() < 2)
                 findRemove(tabbedFrames, this);
             if (fTitleBar) {
