@@ -2792,14 +2792,11 @@ bool YFrameWindow::hasModal() {
 }
 
 bool YFrameWindow::canFocus() {
-    if (hasModal())
-        return false;
-
-    return true;
+    return !hasModal() && !avoidFocus();
 }
 
 bool YFrameWindow::canFocusByMouse() {
-    return canFocus() && !avoidFocus();
+    return canFocus();
 }
 
 bool YFrameWindow::avoidFocus() {
