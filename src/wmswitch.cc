@@ -28,6 +28,8 @@ struct ZItem {
     operator bool() const { return frame && client; }
     bool operator==(YFrameWindow* f) const { return f == frame && f; }
     bool operator==(YFrameClient* c) const { return c == client && c; }
+    bool operator==(bool b) const { return bool(*this) == b; }
+    bool operator!() const { return bool(*this) == false; }
 
     static int compare(const void* p1, const void* p2) {
         const ZItem* z1 = static_cast<const ZItem*>(p1);
@@ -51,8 +53,36 @@ struct ZItem {
         }
         if (z1->prio != z2->prio)
             return z1->prio - z2->prio;
-        else
-            return z1->index - z2->index;
+
+        const char* c1 = z1->client->classHint()->res_class;
+        const char* c2 = z2->client->classHint()->res_class;
+        if (nonempty(c1)) {
+            if (nonempty(c2)) {
+                int sc = strcmp(c1, c2);
+                if (sc)
+                    return sc;
+            } else {
+                return -1;
+            }
+        } else if (nonempty(c2)) {
+            return +1;
+        }
+
+        const char* n1 = z1->client->classHint()->res_name;
+        const char* n2 = z2->client->classHint()->res_name;
+        if (nonempty(n1)) {
+            if (nonempty(n2)) {
+                int sc = strcmp(n1, n2);
+                if (sc)
+                    return sc;
+            } else {
+                return -1;
+            }
+        } else if (nonempty(n2)) {
+            return +1;
+        }
+
+        return z1->index - z2->index;
     }
 };
 
@@ -246,7 +276,7 @@ public:
             fActiveItem.reset();
 
         setTarget(zTarget);
-        if (fLastItem == false)
+        if ( !fLastItem)
             fLastItem = fActiveItem;
         if (fActiveItem && fActiveItem != previous)
             changeFocusTo(fActiveItem);
@@ -373,13 +403,21 @@ void WindowItemsCtrlr::sort() {
 
     zTarget = 0;
     if (fActiveItem) {
-        int act = lookupClient(fActiveItem.client);
+        int act = fActiveItem.frame->visible()
+                ? lookupClient(fActiveItem.client) : -1;
         if (act < 0) {
             fActiveItem.reset();
         }
         else if (act) {
             fActiveItem = zList[act];
-            zTarget = act;
+            if (quickSwitchPersistence)
+                zTarget = act;
+            else if (act == 1)
+                zList.swap(0, 1);
+            else {
+                zList.remove(act);
+                zList.insert(0, fActiveItem);
+            }
         }
     }
     if (fLastItem && lookupClient(fLastItem.client) < 0)
