@@ -556,9 +556,7 @@ void DockApp::handleEndDrag(const XButtonEvent& down, const XButtonEvent& up) {
             XMoveWindow(xapp->display(), docks[d].window,
                         (attr.x / 64) * 64 + dragxpos % 64,
                         (attr.y / 64) * 64 + dragypos % 64);
-            docking copy(docks[d]);
-            docks.remove(d);
-            docks.insert(a, copy);
+            docks.moveto(d, a);
             proper();
             retime();
         }

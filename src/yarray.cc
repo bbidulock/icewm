@@ -122,6 +122,22 @@ void YBaseArray::extend(const SizeType extendedCount) {
     }
 }
 
+void YBaseArray::moveto(const SizeType index, const SizeType place) {
+    PRECONDITION(index < fCount);
+    PRECONDITION(place < fCount);
+    unsigned char copy[fElementSize];
+    memcpy(copy, getElement(index), fElementSize);
+    if (index < place) {
+        memmove(getElement(index), getElement(index + 1),
+                (place - index) * fElementSize);
+    }
+    else if (index > place) {
+        memmove(getElement(place + 1), getElement(place),
+                (index - place) * fElementSize);
+    }
+    memcpy(getElement(place), copy, fElementSize);
+}
+
 void YBaseArray::remove(const SizeType index) {
     PRECONDITION(index < getCount());
     if (0 <= index) {

@@ -42,6 +42,7 @@ public:
 
     void append(const void *item);
     void insert(const SizeType index, const void *item);
+    void moveto(const SizeType index, const SizeType place);
     virtual void remove(const SizeType index);
     virtual void clear();
     virtual void shrink(const SizeType reducedCount);

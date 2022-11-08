@@ -414,10 +414,8 @@ void WindowItemsCtrlr::sort() {
                 zTarget = act;
             else if (act == 1)
                 zList.swap(0, 1);
-            else {
-                zList.remove(act);
-                zList.insert(0, fActiveItem);
-            }
+            else
+                zList.moveto(act, 0);
         }
     }
     if (fLastItem && lookupClient(fLastItem.client) < 0)
