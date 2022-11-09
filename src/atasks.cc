@@ -1034,7 +1034,7 @@ void TaskPane::remove(TaskButton* button) {
 void TaskPane::relayout(bool force) {
     if (force)
         fForceImmediate = true;
-    if (fNeedRelayout == false) {
+    if (fNeedRelayout == false || !fRelayoutTimer) {
         fNeedRelayout = true;
         fRelayoutTimer->setTimer(15L, this, true);
     }
@@ -1042,12 +1042,12 @@ void TaskPane::relayout(bool force) {
 
 bool TaskPane::handleTimer(YTimer* t) {
     if (t == fRelayoutTimer) {
+        unsigned mask = 0;
+        if (xapp->queryMask(handle(), &mask) && hasbit(mask, xapp->AltMask))
+            return true;
+
         fRelayoutTimer = null;
-        fNeedRelayout = true;
-        if (fForceImmediate) {
-            fForceImmediate = false;
-            relayoutNow();
-        }
+        relayoutNow();
     }
     return false;
 }
