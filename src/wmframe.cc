@@ -375,6 +375,8 @@ void YFrameWindow::untab(YFrameClient* client) {
                 layoutShape();
                 fTitleBar->repaint();
             }
+            if (client->getClientItem())
+                client->getClientItem()->update();
         }
     }
 }
@@ -674,6 +676,13 @@ void YFrameWindow::independer(YFrameClient* client) {
     if (client->destroyed())
         client->unmanageWindow();
     else {
+        if (client == fClient && (isMaximized() || isFullscreen())) {
+            int x, y, w, h;
+            getNormalGeometryInner(&x, &y, &w, &h);
+            if (w < int(client->width()) || h < int(client->height()))
+                client->setSize(w, h);
+        }
+
         int gx, gy;
         client->gravityOffsets(gx, gy);
         client->setBorderWidth(client->getBorder());
@@ -1107,33 +1116,34 @@ bool YFrameWindow::handleTimer(YTimer *t) {
             focus(false);
         }
         else if (t == fFocusEventTimer) {
-            if (manager->getFocus() != this && client()->visible()) {
+            if (focused() == false && client()->visible()) {
                 Window win = 0; int rev = 0;
-                XGetInputFocus(xapp->display(), &win, &rev);
-                while (win != client()->handle()) {
-                    YWindow* found = windowContext.find(win);
-                    if (found) {
-                        break;
-                    } else {
-                        Window par = xapp->parent(win);
-                        if (par == None || par == xapp->root()) {
-                            break;
-                        } else {
-                            win = par;
-                        }
-                    }
-                }
-                if (win == client()->handle()) {
-                    manager->switchFocusTo(this);
+                if (XGetInputFocus(xapp->display(), &win, &rev) && 1 < win) {
+                    Window ch = client()->handle();
+                    while (ch != win && 1 < win && win != xapp->root())
+                        win = xapp->parent(win);
+                    if (win == ch)
+                        manager->switchFocusTo(this);
                 }
             }
+            else if (focused() && client()->visible()) {
+                Window win = None; int rev = 0;
+                if (XGetInputFocus(xapp->display(), &win, &rev) && !win) {
+                    if (getInputFocusHint()) {
+                        XSetInputFocus(xapp->display(), client()->handle(),
+                                       RevertToNone,
+                                       xapp->getEventTime("setFocus"));
+                    }
+                }
+            }
+            fFocusEventTimer = null;
         }
         else if (t == fEdgeSwitchTimer) {
             int rx, ry;
             xapp->queryMouse(&rx, &ry);
             int ws = manager->edgeWorkspace(rx, ry);
             if (0 <= ws) {
-                if (this == manager->getFocus())
+                if (focused())
                     manager->switchToWorkspace(ws, true);
                 else if (isAllWorkspaces())
                     manager->switchToWorkspace(ws, false);
@@ -1788,9 +1798,9 @@ void YFrameWindow::wmCloseClient(YFrameClient* client, bool* confirm) {
     client->sendPing();
     if (client->protocol(YFrameClient::wpDeleteWindow))
         client->sendDelete();
-    else if (frameOption(foForcedClose))
+    else if (frameOption(foForcedClose) && client->adopted())
         XKillClient(xapp->display(), client->handle());
-    else
+    else if (client->adopted())
         *confirm = true;
 }
 
@@ -3415,7 +3425,7 @@ void YFrameWindow::setState(int mask, int state) {
     }
     if ((deltaState & WinStateRollup) &&
         (clickFocus || !strongPointerFocus) &&
-        this == manager->getFocus()) {
+        focused()) {
         manager->setFocus(this);
     }
     if (deltaState & fNewState & WinStateFullscreen) {
@@ -3425,7 +3435,7 @@ void YFrameWindow::setState(int mask, int state) {
         }
     }
     if (deltaState & fNewState & WinStateFocused) {
-        if (this != manager->getFocus())
+        if (focused() == false)
             manager->setFocus(this);
     }
 
