@@ -54,6 +54,12 @@ struct ZItem {
         if (z1->prio != z2->prio)
             return z1->prio - z2->prio;
 
+        const WindowOption* wo1 = z1->client->getWindowOption();
+        const WindowOption* wo2 = z1->client->getWindowOption();
+        int order = (wo1 ? wo1->order : 0) - (wo2 ? wo2->order : 0);
+        if (order)
+            return order;
+
         const char* c1 = z1->client->classHint()->res_class;
         const char* c2 = z2->client->classHint()->res_class;
         if (nonempty(c1)) {
