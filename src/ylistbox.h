@@ -64,7 +64,9 @@ public:
     int getItemCount() const { return fItems.getCount(); }
     YListItem *getItem(int item);
     int findItemByPoint(int x, int y);
-    int findItem(YListItem *item) const { return find(fItems, item); }
+    int findItem(const YListItem* item, int from = 0) {
+        return findItem(item, from, getItemCount()); }
+    int findItem(const YListItem* item, int from, int stop);
     int getLineHeight();
 
     int maxWidth();
@@ -123,6 +125,7 @@ private:
 protected:
     typedef ArrayType::IterType IterType;
     IterType getIterator() { return fItems.iterator(); }
+    IterType getReverseIterator() { return fItems.reverseIterator(); }
 };
 
 #endif
