@@ -712,15 +712,20 @@ YArrayIterator<DataType> YArray<DataType>::reverseIterator() {
 
 template<class DataType>
 int find(YArray<DataType>& array, DataType& data) {
-    for (YBaseArray::SizeType i = 0, n = array.getCount(); i < n; ++i)
-        if (array[i] == data) return i;
+    const YBaseArray::SizeType num = array.getCount();
+    if (num) {
+        for (DataType* ar = &*array, *pt = ar, *end = ar + num; pt < end; ++pt)
+            if (*pt == data)
+                return pt - ar;
+    }
     return -1;
 }
 
 template<class DataType>
 int find(const YArray<DataType>& array, const DataType& data) {
-    for (YBaseArray::SizeType i = 0, n = array.getCount(); i < n; ++i)
-        if (array[i] == data) return i;
+    for (const DataType& ref : array)
+        if (ref == data)
+            return &ref - array.begin();
     return -1;
 }
 
