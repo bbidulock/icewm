@@ -175,14 +175,15 @@ public:
 
     void restackWindows();
     void focusTopWindow();
-    YFrameWindow *getFrameUnderMouse(long workspace = AllWorkspaces);
-    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false, long workspace = AllWorkspaces);
+    YFrameWindow *getFrameUnderMouse(int workspace = AllWorkspaces);
+    YFrameWindow *getLastFocus(bool skipAllWorkspaces = false,
+                               int workspace = AllWorkspaces);
     void focusLastWindow();
     bool focusTop(YFrameWindow *f);
     void updateClientList();
     void updateUserTime(const UserTime& userTime);
 
-    int windowCount(long workspace);
+    int windowCount(int workspace);
     void popupWindowListMenu(YWindow *owner, int x, int y);
 
     void initWorkspaces();
@@ -201,16 +202,15 @@ public:
     void updateTaskBarNames();
     void updateMoveMenu();
 
-    bool readCurrentDesktop(long &workspace);
+    bool readCurrentDesktop(int &workspace);
     void setDesktopGeometry();
     bool compareDesktopNames(const YStringList& list);
     bool readDesktopLayout();
     void readDesktopNames(bool init, bool net);
     bool readNetDesktopNames(YStringList& list);
     bool readWinDesktopNames(YStringList& list);
-    void setWinDesktopNames(long count);
-    void setNetDesktopNames(long count);
-    void setDesktopNames(long count);
+    void setNetDesktopNames(int count);
+    void setDesktopNames(int count);
     void setDesktopNames();
     void setDesktopCount();
     void setDesktopViewport();
@@ -332,6 +332,7 @@ private:
     };
 
     bool ignoreOverride(Window win, const XWindowAttributes& attr, int* layer);
+    bool tabbingClient(YFrameClient* client);
     YFrameClient* allocateClient(Window win, bool mapClient);
     YFrameWindow* allocateFrame(YFrameClient* client);
     void updateArea(int workspace, int screen_number, int l, int t, int r, int b);

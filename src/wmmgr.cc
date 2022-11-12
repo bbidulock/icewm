@@ -1285,7 +1285,8 @@ void YWindowManager::manageClients() {
                         res->frame->createTab(client, pos);
                         if (fSwitchWindow)
                             fSwitchWindow->createdClient(res->frame, client);
-                    } else {
+                    }
+                    else if (tabbingClient(client) == false) {
                         manageClient(client);
                         if (client->getFrame() == nullptr) {
                             delete client;
@@ -1765,6 +1766,28 @@ bool YWindowManager::ignoreOverride(Window win, const XWindowAttributes& attr,
     return ignoring;
 }
 
+bool YWindowManager::tabbingClient(YFrameClient* client) {
+    bool tabbed = false;
+    if (client && client->adopted()) {
+        const WindowOption* wo = client->getWindowOption();
+        if (wo && wo->frame) {
+            for (YFrameWindow* frame : YFrameWindow::fnaming()) {
+                if (wo->frame == frame->getFrameName()) {
+                    fCreatedUpdated = fLayeredUpdated = true;
+                    frame->createTab(client, frame->tabCount());
+                    if (client->activateOnMap() && isRunning())
+                        frame->selectTab(client);
+                    if (fSwitchWindow)
+                        fSwitchWindow->createdClient(frame, client);
+                    tabbed = true;
+                    break;
+                }
+            }
+        }
+    }
+    return tabbed;
+}
+
 YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
     YFrameClient* client = nullptr;
     XWindowAttributes attributes;
@@ -1963,23 +1986,8 @@ void YWindowManager::mapClient(Window win) {
         if (client == nullptr) {
             client = allocateClient(win, true);
         }
-        if (client && client->adopted()) {
-            const WindowOption* wo = client->getWindowOption();
-            if (wo && wo->frame) {
-                for (YFrameWindow* frame : YFrameWindow::fnaming()) {
-                    if (frame->getFrameName() == wo->frame) {
-                        int place = frame->tabCount();
-                        fCreatedUpdated = fLayeredUpdated = true;
-                        frame->createTab(client, place);
-                        if (client->activateOnMap())
-                            frame->selectTab(client);
-                        if (fSwitchWindow)
-                            fSwitchWindow->createdClient(frame, client);
-                        client = nullptr;
-                        break;
-                    }
-                }
-            }
+        if (client && tabbingClient(client)) {
+            client = nullptr;
         }
         if (client) {
             manageClient(client, true);
@@ -2072,7 +2080,7 @@ bool YWindowManager::focusTop(YFrameWindow *f) {
     return f;
 }
 
-YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
+YFrameWindow *YWindowManager::getFrameUnderMouse(int workspace) {
     YFrameWindow* frame;
     Window root, xwin = None;
     YWindow* ywin;
@@ -2096,7 +2104,7 @@ YFrameWindow *YWindowManager::getFrameUnderMouse(long workspace) {
     return nullptr;
 }
 
-YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, long workspace) {
+YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace) {
     if (workspace == AllWorkspaces)
         workspace = activeWorkspace();
 
@@ -2442,7 +2450,7 @@ bool YWindowManager::updateWorkAreaInner() {
     if (oldWorkArea == nullptr)
         return false;
     else {
-        long areaCount = ::workspaceCount * getScreenCount();
+        int areaCount = ::workspaceCount * getScreenCount();
         oldWorkArea[0] = new WorkAreaRect[areaCount];
         if (oldWorkArea[0] == nullptr) {
             delete[] oldWorkArea;
@@ -2708,7 +2716,7 @@ void YWindowManager::arrangeIcons() {
 }
 
 void YWindowManager::initWorkspaces() {
-    long initialWorkspace = 0;
+    int initialWorkspace = 0;
 
     readDesktopNames(true, true);
     setDesktopCount();
@@ -2842,10 +2850,10 @@ void YWindowManager::updateWorkspaces(bool increase) {
     updateMoveMenu();
 }
 
-bool YWindowManager::readCurrentDesktop(long &workspace) {
+bool YWindowManager::readCurrentDesktop(int &workspace) {
     YProperty netp(this, _XA_NET_CURRENT_DESKTOP, F32, 1L, XA_CARDINAL);
     if (netp) {
-        workspace = clamp(*netp, 0L, workspaceCount - 1L);
+        workspace = int(clamp(*netp, 0L, workspaceCount - 1L));
         return true;
     }
     return false;
@@ -2980,7 +2988,7 @@ bool YWindowManager::readNetDesktopNames(YStringList& list) {
     return success;
 }
 
-void YWindowManager::setNetDesktopNames(long count) {
+void YWindowManager::setNetDesktopNames(int count) {
     MSG(("setting: _NET_DESKTOP_NAMES"));
     static char terminator[] = { '\0' };
     asmart<char *> strings(new char *[count + 1]);
@@ -2999,7 +3007,7 @@ void YWindowManager::setNetDesktopNames(long count) {
     }
 }
 
-void YWindowManager::setDesktopNames(long count) {
+void YWindowManager::setDesktopNames(int count) {
     MSG(("setting: %ld desktop names", count));
     setNetDesktopNames(count);
 }
@@ -3132,7 +3140,7 @@ void YWindowManager::getIconPosition(MiniIcon* iw, int *iconX, int *iconY) {
     }
 }
 
-int YWindowManager::windowCount(long workspace) {
+int YWindowManager::windowCount(int workspace) {
     int count = 0;
 
     for (int layer = 0 ; layer < WinLayerCount; layer++) {
