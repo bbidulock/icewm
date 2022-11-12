@@ -53,6 +53,11 @@ int ClientListItem::getOffset() {
     return ofs;
 }
 
+int ClientListItem::getOrder() const {
+    const WindowOption* wo = fClient->getWindowOption();
+    return wo ? wo->order : 0;
+}
+
 int ClientListItem::getWorkspace() const {
     YFrameWindow* f = fClient->obtainFrame();
     if (f)
@@ -104,7 +109,7 @@ void WindowListBox::activateItem(YListItem *item) {
 YArrange WindowListBox::getSelectedWindows() {
     YArray<YFrameWindow*> frames;
     for (IterType iter(getIterator()); ++iter; ) {
-        if (isSelected(iter.where())) {
+        if (isSelected(*iter)) {
             ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
             if (item) {
                 YFrameWindow* frame = item->getClient()->obtainFrame();
@@ -141,12 +146,22 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
     else if (action == actionArrange) {
         manager->smartPlace(arrange);
     }
+    else if (action == actionClose || action == actionKill
+          || action == actionUntab) {
+        for (IterType iter(getReverseIterator()); ++iter; ) {
+            if (isSelected(*iter)) {
+                ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
+                if (item)
+                    item->getClient()->actionPerformed(action);
+            }
+        }
+    }
     else {
         if (arrange.size() == 1 && 1 < arrange.begin()[0]->tabCount()) {
             int count = 0;
             YFrameClient* client = nullptr;
             for (IterType iter(getIterator()); ++iter; ) {
-                if (isSelected(iter.where())) {
+                if (isSelected(*iter)) {
                     ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
                     if (item) {
                         client = item->getClient();
@@ -256,7 +271,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
     bool ishidden = true;
     bool rolledup = true;
     bool trayicon = true;
-    long workspace = AllWorkspaces;
+    int workspace = AllWorkspaces;
     bool sameWorkspace = false;
     bool restores = false;
     bool minifies = false;
@@ -268,13 +283,14 @@ void WindowListBox::enableCommands(YMenu *popup) {
     bool lowerable = false;
     bool traytoggle = false;
     bool closable = false;
+    bool hastabs = false;
 
     // enable minimize,hide if appropriate
     // enable workspace selections if appropriate
 
     popup->enableCommand(actionNull);
     for (IterType iter(getIterator()); ++iter; ) {
-        if (isSelected(iter.where())) {
+        if (isSelected(*iter)) {
             ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
             if (!item)
                 continue;
@@ -303,6 +319,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
             lowerable |= (frame->canLower());
             traytoggle |= notbit(frame->frameOptions(), YFrameWindow::foIgnoreTaskBar);
             closable |= (frame->canClose());
+            hastabs |= (1 < frame->tabCount());
 
             int ws = frame->getWorkspace();
             if (workspace == AllWorkspaces) {
@@ -350,6 +367,18 @@ void WindowListBox::enableCommands(YMenu *popup) {
         popup->disableCommand(actionToggleTray);
     if (!closable)
         popup->disableCommand(actionClose);
+    if (hastabs != popup->haveCommand(actionUntab)) {
+        if (hastabs) {
+            YMenuItem* after = popup->findSubmenu(moveMenu);
+            if (after) {
+                YMenuItem* item = new YMenuItem(_("Move to New _Window"), -2,
+                                                null, actionUntab, nullptr);
+                popup->add(item, after);
+            }
+        } else {
+            popup->removeCommand(actionUntab);
+        }
+    }
 
     moveMenu->enableCommand(actionNull);
     if (sameWorkspace && workspace != AllWorkspaces) {
@@ -534,74 +563,136 @@ void WindowList::addWindowListApp(YFrameClient* client) {
 }
 
 void WindowList::insertApp(ClientListItem* item) {
-    bool inserted = false;
-    Window ownerWindow = item->getClient()->ownerWindow();
-    if (ownerWindow) {
+    const int work = item->getWorkspace();
+    const bool valid = inrange(work, 0, workspaceItem.getCount() - 2);
+    const int start = valid ? list->findItem(workspaceItem[work])
+                            : list->findItem(allWorkspacesItem);
+    const int stop = valid ? list->findItem(workspaceItem[work + 1], start + 1)
+                           : list->getItemCount();
+    const Window ownerWindow = item->getClient()->ownerWindow();
+    const Window leader = item->getClient()->clientLeader();
+    bool inserted = !(0 <= start && start < stop);
+
+    if (inserted == false && leader == item->getClient()->handle()) {
+        YFrameClient* trans = item->getClient()->firstTransient();
+        if (trans) {
+            int best = stop;
+            for (; trans; trans = trans->nextTransient()) {
+                YClientItem* ci = trans->getClientItem();
+                if (ci) {
+                    ClientListItem* li = dynamic_cast<ClientListItem*>(ci);
+                    if (li) {
+                        int i = list->findItem(li, start + 1, stop);
+                        if (i < best && start < i)
+                            best = i;
+                    }
+                }
+            }
+            if (best < stop && start < best) {
+                list->insertAt(best, item);
+                inserted = true;
+            }
+        }
+    }
+    if (inserted == false && ownerWindow) {
         YFrameClient* owner = clientContext.find(ownerWindow);
         if (owner) {
             ClientListItem* other =
                 dynamic_cast<ClientListItem*>(owner->getClientItem());
             if (other) {
-                list->addAfter(other, item);
-                inserted = true;
+                int index = list->findItem(other, start + 1, stop);
+                if (start < index && index < stop) {
+                    list->insertAt(index + 1, item);
+                    inserted = true;
+                }
             }
         }
     }
-    if (inserted == false) {
-        int ws = item->getWorkspace();
-        Window lead = item->getClient()->clientLeader();
-        ClassHint* hint = item->getClient()->classHint();
-        int start = (0 <= ws && ws + 1 < workspaceItem.getCount())
-                    ? list->findItem(workspaceItem[ws])
-                    : list->findItem(allWorkspacesItem);
-        int stop = (0 <= ws && ws + 1 < workspaceItem.getCount())
-                    ? list->findItem(workspaceItem[ws + 1])
-                    : list->getItemCount();
-        if (0 <= start && start < stop) {
-            int best = 1 + start;
-            if (lead) {
-                int have = 0;
-                for (int i = best; i < stop; ++i) {
-                    ClientListItem* test =
-                        dynamic_cast<ClientListItem*>(list->getItem(i));
-                    if (test && lead == test->getClient()->clientLeader()) {
-                        have = i + 1;
-                    }
-                }
-                if (have) {
-                    list->insertAt(have, item);
-                    return;
-                }
-            }
-            int have = stop;
-            for (int i = best; i < stop; ++i) {
-                ClientListItem* test =
-                    dynamic_cast<ClientListItem*>(list->getItem(i));
-                if (test) {
-                    ClassHint* klas = test->getClient()->classHint();
-                    int cmp =
-                        hint == nullptr ? +1 :
-                        klas == nullptr ? -1 :
-                        nonempty(hint->res_class) ?
-                        isEmpty(klas->res_class) ? -1 :
-                        strcmp(hint->res_class, klas->res_class) :
-                        nonempty(hint->res_name) ?
-                        isEmpty(klas->res_name) ? -1 :
-                        strcmp(hint->res_name, klas->res_name) : +1;
-                    if (cmp < 0) {
-                        list->insertAt(i, item);
-                        return;
-                    }
-                    if (cmp == 0) {
-                        have = i + 1;
+    if (inserted == false && ownerWindow) {
+        YFrameClient* trans = YFrameClient::firstTransient(ownerWindow);
+        for (; trans; trans = trans->nextTransient()) {
+            if (trans != item->getClient()) {
+                ClientListItem* other =
+                    dynamic_cast<ClientListItem*>(trans->getClientItem());
+                if (other) {
+                    int index = list->findItem(other, start + 1, stop);
+                    if (start < index && index < stop) {
+                        list->insertAt(index, item);
+                        inserted = true;
+                        break;
                     }
                 }
             }
+        }
+    }
+    if (inserted == false && leader) {
+        int have = 0;
+        for (int i = 1 + start; i < stop; ++i) {
+            ClientListItem* test =
+                dynamic_cast<ClientListItem*>(list->getItem(i));
+            if (test && leader == test->getClient()->clientLeader()) {
+                have = i + 1;
+            }
+            if (leader == item->getClient()->handle()) {
+                have = i;
+                break;
+            }
+        }
+        if (have) {
             list->insertAt(have, item);
+            inserted = true;
         }
-        else {
-            list->addItem(item);
+    }
+    if (inserted == false) {
+        ClassHint* hint = item->getClient()->classHint();
+        const int order = item->getOrder();
+        int best = 1 + start;
+        for (int i = best; i < stop && inserted == false; ++i) {
+            ClientListItem* test =
+                dynamic_cast<ClientListItem*>(list->getItem(i));
+            if (test) {
+                ClassHint* klas = test->getClient()->classHint();
+                int value = test->getOrder();
+                int cmp = order - value;
+                if (cmp == 0 && hint != klas) {
+                    if (hint == nullptr)
+                        cmp = +1;
+                    else if (klas == nullptr)
+                        cmp = -1;
+                    else if (nonempty(hint->res_class)) {
+                        if (isEmpty(klas->res_class))
+                            cmp = -1;
+                        else
+                            cmp = strcmp(hint->res_class,
+                                         klas->res_class);
+                    }
+                    else if (nonempty(klas->res_class))
+                        cmp = +1;
+                    if (cmp == 0) {
+                        if (nonempty(hint->res_name)) {
+                            if (isEmpty(klas->res_name))
+                                cmp = -1;
+                            else
+                                cmp = strcmp(hint->res_name,
+                                             klas->res_name);
+                        }
+                        else if (nonempty(klas->res_name))
+                            cmp = +1;
+                    }
+                }
+                if (cmp < 0) {
+                    list->insertAt(i, item);
+                    inserted = true;
+                }
+            }
         }
+        if (inserted == false) {
+            list->insertAt(stop, item);
+            inserted = true;
+        }
+    }
+    if (inserted == false) {
+        list->addItem(item);
     }
 }
 

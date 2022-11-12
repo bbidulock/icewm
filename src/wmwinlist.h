@@ -22,6 +22,7 @@ public:
     virtual int getOffset();
     virtual mstring getText() { return fClient->windowTitle(); }
     virtual ref<YIcon> getIcon() { return fClient->getIcon(); }
+    int getOrder() const;
     int getWorkspace() const;
     virtual void activate();
     YFrameClient* getClient() { return fClient; }
