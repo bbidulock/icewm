@@ -226,13 +226,16 @@ int YFrameClient::findTransient(Window handle) {
 }
 
 YFrameClient* YFrameClient::firstTransient() {
-    YFrameClient* trans = nullptr;
-    const Window h = handle();
-    for (int i = 0; i < fTransients.getCount(); ++i)
-        if (h == fTransients[i].owner &&
-            (trans = clientContext.find(fTransients[i].trans)) != nullptr)
-            break;
-    return trans;
+    return firstTransient(handle());
+}
+
+YFrameClient* YFrameClient::firstTransient(Window handle) {
+    YFrameClient* client = nullptr;
+    for (const transience& trans : fTransients)
+        if (trans.owner == handle)
+            if ((client = clientContext.find(trans.trans)) != nullptr)
+                break;
+    return client;
 }
 
 bool YFrameClient::hasTransient() {
@@ -1137,6 +1140,20 @@ void YFrameClient::actionPerformed(YAction action) {
             setDestroyed();
             xapp->sync();
         }
+    }
+    else if (action == actionClose) {
+        bool confirm = false;
+        YFrameWindow* frame = obtainFrame();
+        if (frame)
+            frame->wmCloseClient(this, &confirm);
+    }
+    else if (action == actionKill && adopted()) {
+        XKillClient(xapp->display(), handle());
+    }
+    else if (action == actionUntab) {
+        YFrameWindow* frame = obtainFrame();
+        if (frame)
+            frame->untab(this);
     }
 }
 

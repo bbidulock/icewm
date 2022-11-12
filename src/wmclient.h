@@ -263,6 +263,7 @@ public:
     YFrameClient* getOwner() const;
     YFrameClient* nextTransient();
     YFrameClient* firstTransient();
+    static YFrameClient* firstTransient(Window handle);
 
     void getClassHint();
     ClassHint* classHint() { return &fClassHint; }
