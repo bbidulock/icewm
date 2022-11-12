@@ -660,15 +660,8 @@ YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu
 YMenuItem *YMenu::addSubmenu(const mstring &name, int hotCharPos,
                              YMenu *submenu, YMenuItem* after)
 {
-    YMenuItem* item = nullptr;
-    int index = find(fItems, after);
-    if (index >= 0) {
-        item = new YMenuItem(name, hotCharPos, null, actionNull, submenu);
-        if (item) {
-            fItems.insert(index + 1, item);
-        }
-    }
-    return item;
+    YMenuItem* item = new YMenuItem(name, hotCharPos, null, actionNull, submenu);
+    return add(item, after);
 }
 
 void YMenu::addSeparator() {
@@ -722,6 +715,17 @@ YMenuItem * YMenu::add(YMenuItem *item) {
     return item;
 }
 
+YMenuItem * YMenu::add(YMenuItem* item, YMenuItem* after) {
+    if (item) {
+        int i = find(fItems, after);
+        if (i >= 0)
+            fItems.insert(i + 1, item);
+        else
+            fItems.append(item);
+    }
+    return item;
+}
+
 YMenuItem * YMenu::add(YMenuItem *item, const char *icons) {
     if (item) {
         ref<YIcon> icon(YIcon::getIcon(icons));
@@ -754,6 +758,10 @@ YMenuItem * YMenu::addSorted(YMenuItem *item, bool duplicates, bool ignoreCase) 
         fItems.append(item);
     }
     return item;
+}
+
+bool YMenu::haveCommand(YAction action) {
+    return findAction(action) != nullptr;
 }
 
 YMenuItem *YMenu::findAction(YAction action) {
@@ -811,6 +819,13 @@ void YMenu::checkCommand(YAction action, bool check) {
     for (YMenuItem* item : fItems)
         if (action == actionNull || action == item->getAction())
             item->setChecked(check);
+}
+
+void YMenu::removeCommand(YAction action) {
+    int i = -1;
+    for (YMenuItem* item : fItems)
+        if (++i, action == item->getAction())
+            return fItems.remove(i);
 }
 
 void YMenu::getOffsets(int &left, int &top, int &right, int &bottom) {

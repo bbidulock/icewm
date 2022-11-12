@@ -37,6 +37,7 @@ public:
     YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu, const char *icons);
 
     YMenuItem *add(YMenuItem *item);
+    YMenuItem *add(YMenuItem* item, YMenuItem* after);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
     YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action);
     YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu);
@@ -54,7 +55,9 @@ public:
 
     void enableCommand(YAction action); // 0 == All
     void disableCommand(YAction action); // 0 == All
+    void removeCommand(YAction action);
     void checkCommand(YAction action, bool check); // 0 == All
+    bool haveCommand(YAction action);
 
     int itemCount() const { return fItems.getCount(); }
     int getSelectedItem() const { return selectedItem; }
