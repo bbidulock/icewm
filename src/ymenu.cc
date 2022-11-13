@@ -320,7 +320,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         if ((m & ~ShiftMask) == 0) {
             if (k == XK_Escape) {
-                cancelPopup();
+                YPopupWindow::finishPopup();
             } else if (k == XK_Left || k == XK_KP_Left) {
                 if (prevPopup())
                     cancelPopup();
