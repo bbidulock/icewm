@@ -59,7 +59,6 @@ doc/icesound*.html
 doc/Makefile
 doc/Makefile.in
 icewm-1.*/
-icewm.lsm
 icewm.spec
 lib/keys
 lib/keys
