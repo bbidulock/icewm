@@ -1314,7 +1314,7 @@ public:
         stack.getWindowList(ATOM_NET_CLIENT_LIST_STACKING);
         if (stack) {
             std::sort(fChildren.begin(), fChildren.end(),
-                      [&stack](Window &a, Window &b){
+                      [&stack](const Window &a, const Window &b){
                 return
                     std::find(stack.fChildren.begin(),
                               stack.fChildren.end(), a) >
