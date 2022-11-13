@@ -54,38 +54,40 @@ struct ZItem {
         if (z1->prio != z2->prio)
             return z1->prio - z2->prio;
 
-        const WindowOption* wo1 = z1->client->getWindowOption();
-        const WindowOption* wo2 = z1->client->getWindowOption();
-        int order = (wo1 ? wo1->order : 0) - (wo2 ? wo2->order : 0);
-        if (order)
-            return order;
+        if (quickSwitchPersistence) {
+            const WindowOption* wo1 = z1->client->getWindowOption();
+            const WindowOption* wo2 = z1->client->getWindowOption();
+            int order = (wo1 ? wo1->order : 0) - (wo2 ? wo2->order : 0);
+            if (order)
+                return order;
 
-        const char* c1 = z1->client->classHint()->res_class;
-        const char* c2 = z2->client->classHint()->res_class;
-        if (nonempty(c1)) {
-            if (nonempty(c2)) {
-                int sc = strcmp(c1, c2);
-                if (sc)
-                    return sc;
-            } else {
-                return -1;
+            const char* c1 = z1->client->classHint()->res_class;
+            const char* c2 = z2->client->classHint()->res_class;
+            if (nonempty(c1)) {
+                if (nonempty(c2)) {
+                    int sc = strcmp(c1, c2);
+                    if (sc)
+                        return sc;
+                } else {
+                    return -1;
+                }
+            } else if (nonempty(c2)) {
+                return +1;
             }
-        } else if (nonempty(c2)) {
-            return +1;
-        }
 
-        const char* n1 = z1->client->classHint()->res_name;
-        const char* n2 = z2->client->classHint()->res_name;
-        if (nonempty(n1)) {
-            if (nonempty(n2)) {
-                int sc = strcmp(n1, n2);
-                if (sc)
-                    return sc;
-            } else {
-                return -1;
+            const char* n1 = z1->client->classHint()->res_name;
+            const char* n2 = z2->client->classHint()->res_name;
+            if (nonempty(n1)) {
+                if (nonempty(n2)) {
+                    int sc = strcmp(n1, n2);
+                    if (sc)
+                        return sc;
+                } else {
+                    return -1;
+                }
+            } else if (nonempty(n2)) {
+                return +1;
             }
-        } else if (nonempty(n2)) {
-            return +1;
         }
 
         return z1->index - z2->index;
