@@ -444,14 +444,10 @@ bool YFrameClient::handleTimer(YTimer* timer) {
         }
         if ( !destroyed()) {
             if (fFrame == nullptr) {
-                if (isDocked() && killPid() == false) {
-                    XKillClient(xapp->display(), handle());
-                }
+                forceClose();
             }
             else if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
-                if (killPid() == false) {
-                    XKillClient(xapp->display(), handle());
-                }
+                forceClose();
             }
             else if (fPid > 0) {
                 char* res = classHint()->resource();
@@ -471,6 +467,11 @@ bool YFrameClient::handleTimer(YTimer* timer) {
 
     return false;
 }
+
+bool YFrameClient::forceClose() {
+    return adopted() && killPid() && XKillClient(xapp->display(), handle());
+}
+
 
 bool YFrameClient::killPid() {
     return fPid > 0 && 0 == kill(fPid, SIGTERM);
@@ -1126,10 +1127,7 @@ void YFrameClient::netStateRequest(int action, int mask) {
 }
 
 void YFrameClient::actionPerformed(YAction action) {
-    if (getFrame()) {
-        getFrame()->actionPerformed(action, 0U);
-    }
-    else if (isDocked()) {
+    if (isDocked()) {
         if (action == actionClose) {
             Window icon = iconWindowHint();
             sendDelete();
@@ -1147,13 +1145,16 @@ void YFrameClient::actionPerformed(YAction action) {
         if (frame)
             frame->wmCloseClient(this, &confirm);
     }
-    else if (action == actionKill && adopted()) {
-        XKillClient(xapp->display(), handle());
+    else if (action == actionKill) {
+        forceClose();
     }
     else if (action == actionUntab) {
         YFrameWindow* frame = obtainFrame();
         if (frame)
             frame->untab(this);
+    }
+    else if (getFrame()) {
+        getFrame()->actionPerformed(action, 0U);
     }
 }
 

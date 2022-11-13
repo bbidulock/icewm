@@ -213,6 +213,7 @@ public:
     void sendDelete();
     void sendPing();
     void recvPing(const XClientMessageEvent &message);
+    bool forceClose();
     bool killPid();
     bool timedOut() const { return fTimedOut; }
 

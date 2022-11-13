@@ -1798,8 +1798,8 @@ void YFrameWindow::wmCloseClient(YFrameClient* client, bool* confirm) {
     client->sendPing();
     if (client->protocol(YFrameClient::wpDeleteWindow))
         client->sendDelete();
-    else if (frameOption(foForcedClose) && client->adopted())
-        XKillClient(xapp->display(), client->handle());
+    else if (frameOption(foForcedClose))
+        client->forceClose();
     else if (client->adopted())
         *confirm = true;
 }
@@ -1843,8 +1843,7 @@ void YFrameWindow::wmKill() {
         msg("No WM_DELETE_WINDOW protocol");
 #endif
     for (YFrameClient* cli : fTabs)
-        if (cli->adopted())
-            XKillClient(xapp->display(), cli->handle());
+        cli->forceClose();
 }
 
 void YFrameWindow::wmPrevWindow() {
@@ -3626,7 +3625,7 @@ void YFrameWindow::handleMsgBox(YMsgBox* msgbox, int operation) {
         delete fKillMsgBox;
         fKillMsgBox = nullptr;
         if (operation == YMsgBox::mbOK && !client()->destroyed()) {
-            if ( !client()->timedOut() || !client()->killPid()) {
+            if ( !client()->timedOut()) {
                 wmKill();
             }
         }
