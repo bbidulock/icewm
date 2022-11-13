@@ -1064,9 +1064,9 @@ Command to run for address bar entries.
 
 =over
 
-=item B<WinMenuItems>="rmsnxfhualyticw"
+=item B<WinMenuItems>="rmsnxfhualytiecw"
 
-Items supported in menu window (rmsnxfhualytickw)
+Items supported in menu window (rmsnxfhualytieckw)
 
 =item B<RolloverButtonsSupported>=0
 

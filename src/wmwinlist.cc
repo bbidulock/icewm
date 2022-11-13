@@ -455,6 +455,7 @@ WindowListPopup::WindowListPopup() {
     addSubmenu(_("Move _To"), -2, moveMenu);
     addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     addItem(_("Tray _icon"), -2, null, actionToggleTray);
+    addItem(_("R_ename title"), -2, null, actionRename);
     addSeparator();
     addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
     addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);

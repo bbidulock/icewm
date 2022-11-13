@@ -60,6 +60,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fDocked = false;
     fShaped = false;
     fTimedOut = false;
+    fFixedTitle = false;
     fIconize = true;
     fPinging = false;
     fPingTime = 0;
@@ -814,14 +815,10 @@ void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
 #endif
 
 void YFrameClient::setWindowTitle(const char *title) {
-    if (fWindowTitle != title) {
+    if (fWindowTitle != title && fFixedTitle == false) {
         fWindowTitle = title;
         if (title) {
-            XChangeProperty(xapp->display(), handle(),
-                    _XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING,
-                    8, PropModeReplace,
-                    (const unsigned char *) title,
-                    strlen(title));
+            setProperty(_XA_NET_WM_VISIBLE_NAME, _XA_UTF8_STRING, title);
         } else {
             deleteProperty(_XA_NET_WM_VISIBLE_NAME);
         }
@@ -831,7 +828,7 @@ void YFrameClient::setWindowTitle(const char *title) {
 }
 
 void YFrameClient::setIconTitle(const char *title) {
-    if (fIconTitle != title) {
+    if (fIconTitle != title && fFixedTitle == false) {
         fIconTitle = title;
         if (title) {
             setProperty(_XA_NET_WM_VISIBLE_ICON_NAME, _XA_UTF8_STRING, title);

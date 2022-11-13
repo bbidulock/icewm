@@ -470,6 +470,7 @@ public:
 private:
 
     YMsgBox *fKillMsgBox;
+    YMsgBox *fNameMsgBox;
     YActionListener *wmActionListener;
 
     static lazy<YTimer> fAutoRaiseTimer;

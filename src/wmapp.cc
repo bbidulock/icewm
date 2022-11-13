@@ -658,6 +658,8 @@ YMenu* YWMApp::getWindowMenu() {
 
     if (strchr(winMenuItems, 'i') && taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
+    if (strchr(winMenuItems, 'e'))
+        windowMenu->addItem(_("R_ename title"), -2, null, actionRename);
 
     if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
         windowMenu->addSeparator();

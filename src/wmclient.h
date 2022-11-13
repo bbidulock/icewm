@@ -273,6 +273,7 @@ public:
     void getNetWmName();
     void getIconNameHint();
     void getNetWmIconName();
+    void fixWindowTitle(bool fixed) { fFixedTitle = fixed; }
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
     mstring windowTitle() const { return fWindowTitle; }
@@ -360,6 +361,7 @@ private:
     bool fDocked;
     bool fShaped;
     bool fTimedOut;
+    bool fFixedTitle;
     bool fIconize;
     bool fPinging;
     long fPingTime;

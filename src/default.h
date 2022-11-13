@@ -32,7 +32,7 @@ XIV(bool, warpPointerOnEdgeSwitch,              false)
 XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
 XIV(bool, hideTitleBarWhenMaximized,            false)
-XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
+XSV(const char *, winMenuItems,                 "rmsnxfhualytiecw")
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
 XIV(bool, taskBarKeepBelow,                     false)
@@ -562,7 +562,7 @@ cfoption icewm_preferences[] = {
 
     OKF("WorkspaceNames",                       addWorkspace, "Add a workspace"),
     OKF("KeyboardLayouts",                      addKeyboard, "Add a keyboard layout"),
-    OSV("WinMenuItems",                         &winMenuItems,                  "The list of items to be supported in the menu window (rmsnxfhualytickw)"),
+    OSV("WinMenuItems",                         &winMenuItems,                  "The list of items to be supported in the menu window (rmsnxfhualytieckw)"),
     OK0()
 };
 

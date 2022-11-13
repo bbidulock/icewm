@@ -72,6 +72,7 @@ YFrameWindow::YFrameWindow(
     fFrameIcon(null),
     fTabs(1),
     fKillMsgBox(nullptr),
+    fNameMsgBox(nullptr),
     wmActionListener(wmActionListener),
     fWinWorkspace(manager->activeWorkspace()),
     fWinRequestedLayer(WinLayerNormal),
@@ -119,6 +120,10 @@ YFrameWindow::~YFrameWindow() {
     if (fKillMsgBox) {
         delete fKillMsgBox;
         fKillMsgBox = nullptr;
+    }
+    if (fNameMsgBox) {
+        delete fNameMsgBox;
+        fNameMsgBox = nullptr;
     }
     if (fWindowType == wtDialog)
         wmapp->signalGuiEvent(geDialogClosed);
@@ -1364,6 +1369,14 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
         break;
     case actionToggleTray:
         wmToggleTray();
+        break;
+    case actionRename:
+        delete fNameMsgBox;
+        fNameMsgBox = new YMsgBox(YMsgBox::mbAll,
+                                  _("Rename"),
+                                  _("Rename the window title"),
+                                  this,
+                                  "rename");
         break;
     case actionUntab:
         untab(fClient);
@@ -3629,6 +3642,18 @@ void YFrameWindow::handleMsgBox(YMsgBox* msgbox, int operation) {
                 wmKill();
             }
         }
+    }
+    else if (msgbox == fNameMsgBox) {
+        mstring input;
+        if (operation == YMsgBox::mbOK && msgbox->input())
+            input = msgbox->input()->getText();
+        if (input.nonempty()) {
+            client()->fixWindowTitle(false);
+            client()->setWindowTitle(input);
+            client()->setIconTitle(input);
+            client()->fixWindowTitle(true);
+        }
+        delete fNameMsgBox; fNameMsgBox = nullptr;
     }
 }
 
