@@ -19,8 +19,12 @@ foreach(_src keys menu programs toolbar winoptions IceWM.jpg)
     endif()
 endforeach()
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icewm.desktop" DESTINATION "${DATADIR}/xsessions/")
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/icewm-session.desktop" DESTINATION "${DATADIR}/xsessions/")
+foreach (dtop icewm.desktop icewm-session.desktop)
+    FILE(READ ${CMAKE_CURRENT_SOURCE_DIR}/${dtop} text)
+    STRING(REGEX REPLACE "Exec=/[a-z/]*/" "Exec=${BINDIR}/" text "${text}")
+    FILE(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${dtop} "${text}")
+    INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/${dtop} DESTINATION "${DATADIR}/xsessions/")
+endforeach()
 
 install(DIRECTORY mailbox taskbar icons ledclock
         DESTINATION "${LIBDIR}"
