@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-11-14 22:14+0000\n"
+"PO-Revision-Date: 2022-11-15 01:13+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
 "Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/ja/>\n"
@@ -2438,7 +2438,7 @@ msgstr "名前変更"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "ウインドウタイトルの名前変更"
 
 #: src/wmframe.cc:1841
 msgid ""
