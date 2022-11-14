@@ -6,7 +6,7 @@ dist_xsession_DATA = \
 	icewm-session.desktop
 
 install-data-hook:
-	sed -i 's|Exec=/.*/|Exec=$(bindir)/|' \
+	$(AM_V_GEN)sed -i 's|Exec=/.*/|Exec=$(bindir)/|' \
 	    $(DESTDIR)$(xsessiondir)/icewm.desktop \
 	    $(DESTDIR)$(xsessiondir)/icewm-session.desktop
 
