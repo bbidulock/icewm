@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2022-10-03 05:53+0200\n"
+"POT-Creation-Date: 2022-11-14 13:32+0100\n"
 "PO-Revision-Date: 2022-03-05 16:12+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1327,116 +1327,116 @@ msgstr "Aynı Oyunu"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Yardım için lütfen icesh(1) man sayfasına bakın.\n"
 
-#: src/icesh.cc:1588
+#: src/icesh.cc:1622
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "'%s' alan adının adlandırılmış sembolleri (numerik aralık: %ld-%ld):\n"
 
-#: src/icesh.cc:1657
+#: src/icesh.cc:1691
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Çalışma alanı limit dışında: %ld"
 
-#: src/icesh.cc:1678
+#: src/icesh.cc:1712
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Hatalı çalışma alanı adı: '%s'"
 
-#: src/icesh.cc:2077
+#: src/icesh.cc:2125
 msgid "GNOME window layer"
 msgstr "GNOME pencere katmanı"
 
-#: src/icesh.cc:2078
+#: src/icesh.cc:2126
 msgid "IceWM tray option"
 msgstr "IceWM tepsi seçeneği"
 
-#: src/icesh.cc:2079
+#: src/icesh.cc:2127
 msgid "Gravity symbols"
 msgstr "Yerçekimi sembolleri"
 
-#: src/icesh.cc:2080
+#: src/icesh.cc:2128
 msgid "Motif functions"
 msgstr "Motif fonksiyonları"
 
-#: src/icesh.cc:2081
+#: src/icesh.cc:2129
 msgid "Motif decorations"
 msgstr "Motif dekorasyonları"
 
-#: src/icesh.cc:2082
+#: src/icesh.cc:2130
 msgid "EWMH window state"
 msgstr "EWMH pencere durumu"
 
-#: src/icesh.cc:2164 src/icesh.cc:2237
+#: src/icesh.cc:2212 src/icesh.cc:2285
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: '%s'\n"
 
-#: src/icesh.cc:2488 src/icesh.cc:3967 src/icesh.cc:4463
+#: src/icesh.cc:2536 src/icesh.cc:4119 src/icesh.cc:4617
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Geçersiz durum: '%s'."
 
-#: src/icesh.cc:3350
+#: src/icesh.cc:3404
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "0x%lx penceresinin geometrisi alınamıyor"
 
-#: src/icesh.cc:3375
+#: src/icesh.cc:3429
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Hatalı Xinerama: '%s'."
 
-#: src/icesh.cc:3540 src/icesh.cc:3590 src/icesh.cc:4774
+#: src/icesh.cc:3692 src/icesh.cc:3742 src/icesh.cc:4931
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Geçersiz argüman: '%s'"
 
-#: src/icesh.cc:3556
+#: src/icesh.cc:3708
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "'%s' eylemi en az %d değişken gerektiriyor."
 
-#: src/icesh.cc:3565
+#: src/icesh.cc:3717
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Hatalı ifade: «%s»"
 
-#: src/icesh.cc:3576 src/icesound.cc:794 src/icewmbg.cc:978 src/icewmhint.cc:37
-#: src/wmapp.cc:1231 src/yxapp.cc:1037
+#: src/icesh.cc:3728 src/icesound.cc:794 src/icewmbg.cc:978 src/icewmhint.cc:37
+#: src/wmapp.cc:1233 src/yxapp.cc:1039
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Ekran açılamıyor: %s. X çalışır durumda ve $DISPLAY ayarlanmış olmalıdır."
 
-#: src/icesh.cc:3692
+#: src/icesh.cc:3844
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Beklenmeyen: '%s'."
 
-#: src/icesh.cc:3721
+#: src/icesh.cc:3873
 msgid "No windows found."
 msgstr "Pencere bulunamadı."
 
-#: src/icesh.cc:3737
+#: src/icesh.cc:3889
 msgid "No actions specified."
 msgstr "Eylem belirtilmedi."
 
-#: src/icesh.cc:3884
+#: src/icesh.cc:4036
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: '%s'"
 
-#: src/icesh.cc:3901
+#: src/icesh.cc:4053
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Geçersiz PID: '%s'"
 
-#: src/icesh.cc:3937
+#: src/icesh.cc:4089
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Geçersiz katman: '%s'."
 
-#: src/icesh.cc:4880
+#: src/icesh.cc:5049
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Bilinmeyen eylem: '%s'"
@@ -1887,7 +1887,7 @@ msgstr ""
 " center:0 scaled:1 = her iki boyutu da doldur ve en boy oranını koru\n"
 "\n"
 
-#: src/icewmbg.cc:1109 src/wmapp.cc:1811
+#: src/icewmbg.cc:1109 src/wmapp.cc:1813
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tanınmayan seçenek ' %s'."
@@ -1928,7 +1928,7 @@ msgstr ""
 "  -h, --help         Kullanım ekranını yazdırır ve çıkar.\n"
 "\n"
 
-#: src/movesize.cc:890
+#: src/movesize.cc:904
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Taşıma/boyutlandırma isteğinde bilinmeyen yön: %d"
@@ -2052,7 +2052,7 @@ msgstr "_Altta"
 msgid "D_esktop"
 msgstr "_Masaüstü"
 
-#: src/wmapp.cc:578
+#: src/wmapp.cc:578 src/wmwinlist.cc:374
 msgid "Move to New _Window"
 msgstr ""
 
@@ -2093,18 +2093,18 @@ msgid "Center"
 msgstr "Merkez"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:599 src/wmtaskbar.cc:217 src/wmwinlist.cc:394
-#: src/wmwinlist.cc:427
+#: src/wmapp.cc:599 src/wmtaskbar.cc:217 src/wmwinlist.cc:461
+#: src/wmwinlist.cc:494
 msgid "T_ile Horizontally"
 msgstr "_Yatay Döşe"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:601 src/wmtaskbar.cc:215 src/wmwinlist.cc:393
-#: src/wmwinlist.cc:426
+#: src/wmapp.cc:601 src/wmtaskbar.cc:215 src/wmwinlist.cc:460
+#: src/wmwinlist.cc:493
 msgid "Tile _Vertically"
 msgstr "D_ikey Döşe"
 
-#: src/wmapp.cc:613 src/wmwinlist.cc:375
+#: src/wmapp.cc:613 src/wmwinlist.cc:441
 msgid "_Restore"
 msgstr "_Eski haline"
 
@@ -2116,31 +2116,31 @@ msgstr "_Taşı"
 msgid "_Size"
 msgstr "B_oyutlandır"
 
-#: src/wmapp.cc:619 src/wmwinlist.cc:376
+#: src/wmapp.cc:619 src/wmwinlist.cc:442
 msgid "Mi_nimize"
 msgstr "_Küçült"
 
-#: src/wmapp.cc:621 src/wmwinlist.cc:377
+#: src/wmapp.cc:621 src/wmwinlist.cc:443
 msgid "Ma_ximize"
 msgstr "_Büyüt"
 
-#: src/wmapp.cc:622 src/wmwinlist.cc:378
+#: src/wmapp.cc:622 src/wmwinlist.cc:444
 msgid "Maximize_Vert"
 msgstr "_Dikey Büyüt"
 
-#: src/wmapp.cc:623 src/wmwinlist.cc:379
+#: src/wmapp.cc:623 src/wmwinlist.cc:445
 msgid "MaximizeHori_z"
 msgstr "_Yatay Büyüt"
 
-#: src/wmapp.cc:626 src/wmwinlist.cc:380
+#: src/wmapp.cc:626 src/wmwinlist.cc:446
 msgid "_Fullscreen"
 msgstr "Tam ek_ran"
 
-#: src/wmapp.cc:629 src/wmwinlist.cc:382
+#: src/wmapp.cc:629 src/wmwinlist.cc:448
 msgid "_Hide"
 msgstr "G_izle"
 
-#: src/wmapp.cc:631 src/wmwinlist.cc:383
+#: src/wmapp.cc:631 src/wmwinlist.cc:449
 msgid "Roll_up"
 msgstr "_Sar"
 
@@ -2148,23 +2148,23 @@ msgstr "_Sar"
 msgid "R_aise"
 msgstr "Y_ukarı Kaldır"
 
-#: src/wmapp.cc:640 src/wmwinlist.cc:385
+#: src/wmapp.cc:640 src/wmwinlist.cc:451
 msgid "_Lower"
 msgstr "_Aşağı İndir"
 
-#: src/wmapp.cc:642 src/wmwinlist.cc:386
+#: src/wmapp.cc:642 src/wmwinlist.cc:452
 msgid "La_yer"
 msgstr "Kat_man"
 
-#: src/wmapp.cc:645 src/wmwinlist.cc:387
+#: src/wmapp.cc:645 src/wmwinlist.cc:453
 msgid "Tile"
 msgstr "Döşeme"
 
-#: src/wmapp.cc:649 src/wmwinlist.cc:389
+#: src/wmapp.cc:649 src/wmwinlist.cc:455
 msgid "Move _To"
 msgstr "_Taşı"
 
-#: src/wmapp.cc:650 src/wmwinlist.cc:390
+#: src/wmapp.cc:650 src/wmwinlist.cc:456
 msgid "Occupy _All"
 msgstr "_Hepsini Kapla"
 
@@ -2172,27 +2172,31 @@ msgstr "_Hepsini Kapla"
 msgid "Limit _Workarea"
 msgstr "Çalışma alanını kısıtla"
 
-#: src/wmapp.cc:660 src/wmwinlist.cc:391
+#: src/wmapp.cc:660 src/wmwinlist.cc:457
 msgid "Tray _icon"
 msgstr "_Tepsiye küçült"
 
-#: src/wmapp.cc:665 src/wmwinlist.cc:406 src/wmwinlist.cc:414
+#: src/wmapp.cc:662 src/wmwinlist.cc:458
+msgid "R_ename title"
+msgstr ""
+
+#: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
 msgstr "Ka_pat"
 
-#: src/wmapp.cc:667 src/wmwinlist.cc:408
+#: src/wmapp.cc:669 src/wmwinlist.cc:475
 msgid "_Kill Client"
 msgstr "_Istemciyi Öldür"
 
-#: src/wmapp.cc:670 src/wmdialog.cc:72 src/wmwinmenu.cc:134
+#: src/wmapp.cc:672 src/wmdialog.cc:72 src/wmwinmenu.cc:134
 msgid "_Window list"
 msgstr "Pen_cere listesi"
 
-#: src/wmapp.cc:709
+#: src/wmapp.cc:711
 msgid "Another window manager already running, exiting..."
 msgstr "Başka bir pencere yöneticisi çalışıyor..."
 
-#: src/wmapp.cc:784
+#: src/wmapp.cc:786
 #, c-format
 msgid ""
 "Could not restart: %s\n"
@@ -2201,11 +2205,11 @@ msgstr ""
 "Yeniden başlatılamıyor: %s\n"
 "$PATH, %s'i içeriyor mu?"
 
-#: src/wmapp.cc:945
+#: src/wmapp.cc:947
 msgid "Confirm Restart as Terminal"
 msgstr "Uçbirim Olarak Yeniden Başlatmayı Onaylayın"
 
-#: src/wmapp.cc:946
+#: src/wmapp.cc:948
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2213,18 +2217,18 @@ msgstr ""
 "Tüm uygulamaları bırakın ve terminal \n"
 " olarak yeniden başlatın. Devam?"
 
-#: src/wmapp.cc:1232 src/yxapp.cc:1038
+#: src/wmapp.cc:1234 src/yxapp.cc:1040
 msgid "<none>"
 msgstr "<yok>"
 
-#: src/wmapp.cc:1555
+#: src/wmapp.cc:1557
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Oturum yöneticisiyle iletişim kurarken kullanılacak "
 "istemci kimliği.\n"
 
-#: src/wmapp.cc:1561
+#: src/wmapp.cc:1563
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2235,7 +2239,7 @@ msgstr ""
 "  --debug-z           Pencere yığınlaması ile ilgili hata ayıklama "
 "mesajlarını yazdırın.\n"
 
-#: src/wmapp.cc:1569
+#: src/wmapp.cc:1571
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2256,7 +2260,7 @@ msgstr ""
 "  --trace=conf,icon   Yapılandırmayı yüklemek için kullanılan yolları "
 "izleyin.\n"
 
-#: src/wmapp.cc:1579
+#: src/wmapp.cc:1581
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2316,21 +2320,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1645
+#: src/wmapp.cc:1647
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s yapılandırma dizinleri:\n"
 
-#: src/wmapp.cc:1727
+#: src/wmapp.cc:1729
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s yapılandırılmış seçenekler:%s\n"
 
-#: src/wmapp.cc:1861
+#: src/wmapp.cc:1863
 msgid "Confirm Logout"
 msgstr "Oturum Kapatma Onayı"
 
-#: src/wmapp.cc:1862
+#: src/wmapp.cc:1864
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2366,7 +2370,7 @@ msgstr "Açtır"
 msgid "Rollup"
 msgstr "Topla"
 
-#: src/wmclient.cc:451
+#: src/wmclient.cc:457
 #, c-format
 msgid ""
 "Client %s with PID %ld fails to respond.\n"
@@ -2409,7 +2413,7 @@ msgid "_Cancel"
 msgstr "_Vazgeç"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:69 src/wmprog.cc:459 src/wmprog.cc:461 src/wmtaskbar.cc:243
+#: src/wmdialog.cc:69 src/wmprog.cc:460 src/wmprog.cc:462 src/wmtaskbar.cc:243
 #: src/wmtaskbar.cc:245
 msgid "_Logout..."
 msgstr "_Oturumu Kapat..."
@@ -2419,11 +2423,19 @@ msgid "_Restart icewm"
 msgstr "I_ceVM'i Yeniden Başlat"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:74 src/wmprog.cc:427 src/wmtaskbar.cc:238
+#: src/wmdialog.cc:74 src/wmprog.cc:428 src/wmtaskbar.cc:238
 msgid "_About"
 msgstr "_Hakkında"
 
-#: src/wmframe.cc:1705
+#: src/wmframe.cc:1376
+msgid "Rename"
+msgstr ""
+
+#: src/wmframe.cc:1377
+msgid "Rename the window title"
+msgstr ""
+
+#: src/wmframe.cc:1841
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2431,7 +2443,7 @@ msgstr ""
 "DİKKAT!! Bu istemci kapatıldığında tüm kaydedilmemiş\n"
 "değişiklikler kaybedilecektir. Emin misiniz?"
 
-#: src/wmframe.cc:1710
+#: src/wmframe.cc:1846
 msgid "Kill Client: "
 msgstr "İstemciyi öldür: "
 
@@ -2502,20 +2514,20 @@ msgstr "'%s' zaman aşımına uğradı!"
 msgid "'%s' produces no output"
 msgstr "'%s' çıktı üretmiyor"
 
-#: src/wmmgr.cc:3463
+#: src/wmmgr.cc:3653
 msgid "Missing program setxkbmap"
 msgstr "setxkbmap programı eksik"
 
-#: src/wmmgr.cc:3464
+#: src/wmmgr.cc:3654
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Klavye geçişi için lütfen setxkbmap yükleyin."
 
-#: src/wmoption.cc:259
+#: src/wmoption.cc:284
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Bilinmeyen pencere seçeneği: %s"
 
-#: src/wmoption.cc:331
+#: src/wmoption.cc:356
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d satırı %s dosyası pencere seçeneğinde söz dizimi hatası"
@@ -2529,76 +2541,76 @@ msgstr "Değişiklikleri Kaydet"
 msgid "Enter a new value for %s: "
 msgstr "%s için yeni bir değer girin: "
 
-#: src/wmprog.cc:334
+#: src/wmprog.cc:335
 msgid "_Click to focus"
 msgstr "Oda_klama için tıklayın"
 
-#: src/wmprog.cc:335
+#: src/wmprog.cc:336
 msgid "_Explicit focus"
 msgstr "_Açık odak"
 
-#: src/wmprog.cc:336
+#: src/wmprog.cc:337
 msgid "_Sloppy mouse focus"
 msgstr "Özensiz _fare odağı"
 
-#: src/wmprog.cc:337
+#: src/wmprog.cc:338
 msgid "S_trict mouse focus"
 msgstr "Sıkı f_are odağı"
 
-#: src/wmprog.cc:338
+#: src/wmprog.cc:339
 msgid "_Quiet sloppy focus"
 msgstr "_Sessiz özensiz odak"
 
-#: src/wmprog.cc:339
+#: src/wmprog.cc:340
 msgid "Custo_m"
 msgstr "Ö_zel"
 
-#: src/wmprog.cc:361
+#: src/wmprog.cc:362
 msgid "_Manual"
 msgstr "Kıla_vuz"
 
-#: src/wmprog.cc:362
+#: src/wmprog.cc:363
 msgid "_Icewm(1)"
 msgstr "_Icewm(1)"
 
-#: src/wmprog.cc:363
+#: src/wmprog.cc:364
 msgid "Icewm_Bg(1)"
 msgstr "Icewm_Bg(1)"
 
-#: src/wmprog.cc:364
+#: src/wmprog.cc:365
 msgid "Ice_Sound(1)"
 msgstr "Ice_Ses(1)"
 
-#: src/wmprog.cc:413
+#: src/wmprog.cc:414
 msgid "Programs"
 msgstr "Programlar"
 
-#: src/wmprog.cc:417
+#: src/wmprog.cc:418
 msgid "_Run..."
 msgstr "Çalıştı_r..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:421 src/wmtaskbar.cc:233
+#: src/wmprog.cc:422 src/wmtaskbar.cc:233
 msgid "_Windows"
 msgstr "P_encereler"
 
-#: src/wmprog.cc:432
+#: src/wmprog.cc:433
 msgid "_Help"
 msgstr "_Yardım"
 
-#: src/wmprog.cc:437
+#: src/wmprog.cc:438
 msgid "_Focus"
 msgstr "_Odak"
 
-#: src/wmprog.cc:442
+#: src/wmprog.cc:443
 msgid "_Preferences"
 msgstr "_Tercihler"
 
-#: src/wmprog.cc:447
+#: src/wmprog.cc:448
 msgid "_Themes"
 msgstr "_Temalar"
 
-#: src/wmprog.cc:451
+#: src/wmprog.cc:452
 msgid "Se_ttings"
 msgstr "A_yarlar"
 
@@ -2608,27 +2620,27 @@ msgid "Session Manager: Unknown line %s"
 msgstr "Oturum Yöneticisi: Bilinmeyen satır %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:395 src/wmwinlist.cc:428
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:462 src/wmwinlist.cc:495
 msgid "Ca_scade"
 msgstr "_Basamakla"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:396 src/wmwinlist.cc:429
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:463 src/wmwinlist.cc:496
 msgid "_Arrange"
 msgstr "_Düzenle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:398 src/wmwinlist.cc:430
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:465 src/wmwinlist.cc:497
 msgid "_Minimize All"
 msgstr "_Hepsini Küçült"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:399 src/wmwinlist.cc:431
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:466 src/wmwinlist.cc:498
 msgid "_Hide All"
 msgstr "H_epsini gizle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:400 src/wmwinlist.cc:432
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:467 src/wmwinlist.cc:499
 msgid "_Undo"
 msgstr "Ge_rial"
 
@@ -2662,31 +2674,31 @@ msgstr "Masaüstünü Göster"
 msgid "Show Taskbar"
 msgstr "Görev Çubuğunu Göster"
 
-#: src/wmwinlist.cc:47
+#: src/wmwinlist.cc:83
 msgid "All Workspaces"
 msgstr "Tüm Çalışma Alanları"
 
-#: src/wmwinlist.cc:381
+#: src/wmwinlist.cc:447
 msgid "_Show"
 msgstr "_Göster"
 
-#: src/wmwinlist.cc:384
+#: src/wmwinlist.cc:450
 msgid "_Raise"
 msgstr "_Yükselt"
 
-#: src/wmwinlist.cc:406
+#: src/wmwinlist.cc:473
 msgid "Del"
 msgstr "Sil"
 
-#: src/wmwinlist.cc:410
+#: src/wmwinlist.cc:477
 msgid "_Terminate Process"
 msgstr "_İşlemi Sonlandır"
 
-#: src/wmwinlist.cc:411
+#: src/wmwinlist.cc:478
 msgid "Kill _Process"
 msgstr "İşlemi _Öldür"
 
-#: src/wmwinlist.cc:446 src/wmwinlist.cc:447
+#: src/wmwinlist.cc:513 src/wmwinlist.cc:514
 msgid "Window list"
 msgstr "Pencere Listesi"
 
@@ -2846,7 +2858,7 @@ msgstr "URL'de %d konumunda eksik hex escape karakteri."
 msgid "Invalid hex escape in URL at position %d."
 msgstr "URL'de %d konumunda geçersiz hex escape karakteri."
 
-#: src/yxapp.cc:996
+#: src/yxapp.cc:998
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
