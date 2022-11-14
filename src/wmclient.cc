@@ -470,7 +470,7 @@ bool YFrameClient::handleTimer(YTimer* timer) {
 }
 
 bool YFrameClient::forceClose() {
-    return adopted() && killPid() && XKillClient(xapp->display(), handle());
+    return adopted() && (killPid() || XKillClient(xapp->display(), handle()));
 }
 
 
