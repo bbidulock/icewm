@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-10-03 23:13+0000\n"
+"PO-Revision-Date: 2022-11-17 01:13+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -2172,7 +2172,7 @@ msgstr "Ícone da área de _notificação"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "R_enomear título"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2422,11 +2422,11 @@ msgstr "_Acerca"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Renomear"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Renomear o título da janela"
 
 #: src/wmframe.cc:1841
 msgid ""
