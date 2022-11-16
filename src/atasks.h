@@ -174,6 +174,7 @@ private:
 
     bool fNeedRelayout;
     bool fForceImmediate;
+    int fRemoveAtWorkspace;
     int fTaskGrouping;
 };
 
