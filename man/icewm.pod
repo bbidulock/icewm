@@ -415,14 +415,16 @@ windows in lower layers.
 
 =head2 TABBED WINDOWS
 
-A window frame may contain multiple client windows. To realize this,
-drag the title bar with the middle mouse button, while holding down
-a shift key, onto the title bar of another frame. The two title bars
-will start to flash to indicate that they can merge. Release the
-mouse button to merge the client of the upper window to the lower frame.
-Now the lower frame will have multiple clients, called tabs. The title
-bar will show a vertical bar with triple dots to indicate this.
-To change the current tab:
+A window frame may contain multiple client windows. Only one client can
+be visible, while the others are hidden. This is called tabbing.  This
+can be helpful to reduce the number of visible windows. To create a tab,
+drag the title bar with the middle mouse button, while holding down a
+shift key, onto the title bar of another frame. The two title bars will
+start to flash to indicate that they can merge. Release the mouse button
+to merge the client of the upper window to the lower frame.  Now the
+lower frame will have multiple clients, called tabs. The title bar will
+show a vertical bar with triple dots to indicate this.
+To change the current tab either:
 
 =over
 
@@ -432,8 +434,11 @@ Click on the triple dots next to the vertical bar.
 
 =item
 
-Use C<KeyWinNext=Alt+F6> and C<KeyWinPrev=Alt+Shift+F6> keys to select
-the next or previous tab.
+Use C<KeyWinNext=Alt+F6> to select the next tab.
+
+=item
+
+Use C<KeyWinPrev=Alt+Shift+F6> for the previous tab.
 
 =item
 
@@ -441,17 +446,25 @@ Use the QuickSwitch.
 
 =item
 
-Use a submenu in the window menu.
+Use the window list window.
 
 =item
 
-Use the window list window.
+Use a submenu in the window menu.
 
 =back
 
 To change the mouse binding for creating tabs, modify
 B<MouseWinTabbing>=C<Shift+Pointer_Button2>.  Another
 useful setting is B<MouseWinTabbing>=C<Pointer_Button1>.
+
+C<Alt+F4> closes all tabs. To close just the active tab add to C<keys>:
+
+    key "Ctrl+Shift+F4"     icesh -f close
+
+To move the active tab to its own window frame by key, add to C<keys>:
+
+    key "Alt+u"             icesh -f untab
 
 =head2 WORKSPACES
 
