@@ -585,23 +585,16 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
     MSG(("UnmapWindow"));
     xapp->ignorable = handle();
 
-    bool unmanage = true;
-    bool destroy = false;
-    do {
-        XEvent ev;
-        if (XCheckTypedWindowEvent(xapp->display(), unmap.window,
-                                   DestroyNotify, &ev)) {
-            YWindow::handleDestroyWindow(ev.xdestroywindow);
-            manager->destroyedClient(unmap.window);
-            unmanage = false;
-        }
-        else {
-            destroy = (adopted() && destroyed() == false && testDestroyed());
-        }
-    } while (unmanage && destroy);
-    if (unmanage && isDocked() == false) {
-        manager->unmanageClient(this);
+    XEvent event;
+    event.type = 0;
+    while (XCheckTypedWindowEvent(xapp->display(), unmap.window,
+                                  DestroyNotify, &event) == False
+        && adopted() && destroyed() == false && testDestroyed()) {
     }
+    if (event.type == DestroyNotify)
+        YWindow::handleDestroyWindow(event.xdestroywindow);
+    if (event.type == DestroyNotify || isDocked() == false)
+        manager->unmanageClient(this);
 }
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {
@@ -789,7 +782,7 @@ void YFrameClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow)
     YWindow::handleDestroyWindow(destroyWindow);
 
     if (destroyed())
-        manager->destroyedClient(destroyWindow.window);
+        manager->unmanageClient(this);
 }
 
 #ifdef CONFIG_SHAPE

@@ -2043,15 +2043,6 @@ void YWindowManager::clientTransfered(YFrameClient* client, YFrameWindow* frame)
         fSwitchWindow->transfer(client, frame);
 }
 
-void YWindowManager::destroyedClient(Window win) {
-    YFrameClient* client = findClient(win);
-    if (client) {
-        unmanageClient(client);
-    } else {
-        MSG(("destroyed: unknown window: 0x%lX", win));
-    }
-}
-
 void YWindowManager::focusTopWindow() {
     if (notRunning() || focusLocked())
         return ;

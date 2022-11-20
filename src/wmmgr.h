@@ -125,7 +125,6 @@ public:
     void unmanageClient(YFrameClient *client);
     void clientDestroyed(YFrameClient* client);
     void clientTransfered(YFrameClient* client, YFrameWindow* frame);
-    void destroyedClient(Window win);
     void mapClient(Window win);
 
     void setFocus(YFrameWindow *f, bool canWarp = false, bool reorder = true);
