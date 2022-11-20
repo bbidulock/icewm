@@ -2365,6 +2365,10 @@ void YFrameWindow::updateIconTitle() {
         fMiniIcon->repaint();
 }
 
+void YFrameWindow::wmOccupyCurrent() {
+    wmOccupyWorkspace(manager->activeWorkspace());
+}
+
 void YFrameWindow::wmOccupyAllOrCurrent() {
     if (isAllWorkspaces()) {
         wmOccupyWorkspace(manager->activeWorkspace());

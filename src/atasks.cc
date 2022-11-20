@@ -731,7 +731,7 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             }
             else {
                 if (button.state & ShiftMask)
-                    getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                    getFrame()->wmOccupyCurrent();
                 activate();
             }
         }
@@ -752,7 +752,7 @@ void TaskButton::handleButton(const XButtonEvent& button) {
             }
             else {
                 if (button.state & ShiftMask)
-                    getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                    getFrame()->wmOccupyCurrent();
                 activate();
             }
         }

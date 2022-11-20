@@ -188,7 +188,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                         getFrame()->wmMinimize();
                     else {
                         if (button.state & ShiftMask)
-                            getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                            getFrame()->wmOccupyCurrent();
                         activate();
                     }
                 } else if (button.button == 2) {
@@ -197,7 +197,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                         getFrame()->wmLower();
                     else {
                         if (button.state & ShiftMask)
-                            getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                            getFrame()->wmOccupyCurrent();
                         activate();
                     }
                 }

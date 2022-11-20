@@ -113,51 +113,23 @@ public:
 
 class ClientData {
 public:
-    virtual YFrameWindow *owner() const = 0;
     virtual ref<YIcon> getIcon() const = 0;
     virtual mstring getTitle() const = 0;
     virtual mstring getIconTitle() const = 0;
     virtual void activateWindow(bool raise, bool curWork) = 0;
-    virtual bool isHidden() const = 0;
-    virtual bool isMaximized() const = 0;
-    virtual bool isMaximizedVert() const = 0;
-    virtual bool isMaximizedHoriz() const = 0;
-    virtual bool isMaximizedFully() const = 0;
     virtual bool isMinimized() const = 0;
-    virtual bool isFullscreen() const = 0;
-    virtual bool isRollup() const = 0;
-    virtual void actionPerformed(YAction action, unsigned int modifiers = 0) = 0;
     virtual bool focused() const = 0;
     virtual bool visibleNow() const = 0;
-    virtual bool canClose() const = 0;
-    virtual bool canShow() const = 0;
-    virtual bool canHide() const = 0;
-    virtual bool canLower() const = 0;
-    virtual bool canMinimize() const = 0;
-    virtual bool canMaximize() const = 0;
     virtual bool canRaise(bool ignoreTaskBar = false) const = 0;
-    virtual bool canRestore() const = 0;
-    virtual bool canRollup() const = 0;
     virtual void wmClose() = 0;
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
-    virtual int getWorkspace() const = 0;
     virtual int getTrayOrder() const = 0;
-    virtual int getTrayOption() const = 0;
-    virtual unsigned frameOptions() const = 0;
-    virtual bool isSticky() const = 0;
-    virtual bool isAllWorkspaces() const = 0;
-    virtual bool startMinimized() const = 0;
-    virtual void wmOccupyWorkspace(int workspace) = 0;
-    virtual void popupSystemMenu(YWindow *owner) = 0;
-    virtual void popupSystemMenu(YWindow *owner, int x, int y,
-                         unsigned int flags,
-                         YWindow *forWindow = nullptr) = 0;
-    virtual void updateSubmenus() = 0;
-    virtual Time since() const = 0;
+    virtual void wmOccupyCurrent() = 0;
+    virtual void popupSystemMenu(YWindow *owner, int x, int y, unsigned flags,
+                                 YWindow *forWindow = nullptr) = 0;
     virtual ClassHint* classHint() const = 0;
-    virtual Window clientLeader() const = 0;
     virtual bool isUrgent() const = 0;
     virtual void updateAppStatus() = 0;
     virtual void removeAppStatus() = 0;
