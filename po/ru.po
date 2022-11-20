@@ -15,10 +15,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-10-05 17:13+0000\n"
-"Last-Translator: Alexey Yaryshev <clarkez344@gmail.com>\n"
-"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ru/>\n"
+"PO-Revision-Date: 2022-11-20 10:13+0000\n"
+"Last-Translator: Dmitriy Khanzhin <jinn@altlinux.org>\n"
+"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -67,7 +67,7 @@ msgstr " - Полный"
 #: src/aapm.cc:944
 #, c-format
 msgid "power:\t%s"
-msgstr "мощность:\t%s"
+msgstr "питание:\t%s"
 
 #: src/aclock.cc:192
 msgid "CLOCK"
@@ -161,7 +161,7 @@ msgstr "CPU%d"
 
 #: src/acpustatus.cc:914
 msgid "_Combine"
-msgstr "_Скомбинировать"
+msgstr "_Объединить"
 
 #: src/acpustatus.cc:916
 msgid "_Separate"
@@ -292,7 +292,7 @@ msgstr "МБ"
 
 #: src/amemstatus.cc:152
 msgid "kB"
-msgstr "КБ"
+msgstr "кБ"
 
 #: src/amemstatus.cc:156
 msgid "bytes"
@@ -1198,7 +1198,7 @@ msgstr "Не удалось открыть файл для чтения."
 
 #: src/icehelp.cc:2341
 msgid "Failed to create a temporary file"
-msgstr "Ошибка создания временного файла: %s"
+msgstr "Ошибка создания временного файла"
 
 #: src/icehelp.cc:2434
 #, c-format
@@ -1301,7 +1301,7 @@ msgstr "Показать список"
 
 #: src/icelist.cc:61
 msgid "Icon View"
-msgstr "Показать иконки"
+msgstr "Показать значки"
 
 #: src/icelist.cc:65
 msgid "Open"
@@ -2180,11 +2180,11 @@ msgstr "Ограничить _рабочее место"
 
 #: src/wmapp.cc:660 src/wmwinlist.cc:457
 msgid "Tray _icon"
-msgstr "Пиктограмма _системного лотка"
+msgstr "Значок _системного лотка"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "Пе_реименовать заголовок"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2201,7 +2201,7 @@ msgstr "_Список Окон"
 #
 #: src/wmapp.cc:711
 msgid "Another window manager already running, exiting..."
-msgstr "Оконный менеджер уже запущен. Выхожу..."
+msgstr "Оконный менеджер уже запущен, выходим..."
 
 #: src/wmapp.cc:786
 #, c-format
@@ -2308,11 +2308,12 @@ msgstr ""
 "  -h, --help          Показать эту справку и выйти.\n"
 "%s\n"
 "  --replace           Заместить существующий оконный менеджер.\n"
-"  -r, --restart       Tell the running icewm to restart itself.\n"
+"  -r, --restart       Приказать работающему icewm перезапустить себя.\n"
 "\n"
-"  --configured        Print the compile time configuration.\n"
-"  --directories       Print the configuration directories.\n"
-"  -l, --list-themes   Print a list of all available themes.\n"
+"  --configured        Напечатать конфигурацию, которая была во время "
+"компиляции.\n"
+"  --directories       Напечатать каталоги конфигурации.\n"
+"  -l, --list-themes   Напечатать список всех доступных тем.\n"
 "\n"
 "Переменные окружения:\n"
 "  ICEWM_PRIVCFG=ПУТЬ  Каталог, используемый для пользовательских\n"
@@ -2437,11 +2438,11 @@ msgstr "_О программе"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Переименовать"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Переименовать заголовок окна"
 
 #: src/wmframe.cc:1841
 msgid ""
@@ -2613,7 +2614,7 @@ msgstr "_Фокус"
 
 #: src/wmprog.cc:443
 msgid "_Preferences"
-msgstr "_Предпочтения"
+msgstr "_Предустановки"
 
 #: src/wmprog.cc:448
 msgid "_Themes"
@@ -2656,7 +2657,7 @@ msgstr "_Отмена"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:230
 msgid "Arrange _Icons"
-msgstr "Упорядочить _Иконки"
+msgstr "Упорядочить _Значки"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
@@ -2677,7 +2678,7 @@ msgstr "Список Окон в Меню"
 
 #: src/wmtaskbar.cc:371
 msgid "Show Desktop"
-msgstr "Показать Десктоп"
+msgstr "Показать Рабочий стол"
 
 #: src/wmtaskbar.cc:1007
 msgid "Show Taskbar"
