@@ -447,7 +447,7 @@ bool YFrameClient::handleTimer(YTimer* timer) {
             if (fFrame == nullptr) {
                 forceClose();
             }
-            else if (fFrame->frameOption(YFrameWindow::foForcedClose)) {
+            else if (isCloseForced()) {
                 forceClose();
             }
             else if (fPid > 0) {
@@ -467,6 +467,11 @@ bool YFrameClient::handleTimer(YTimer* timer) {
     }
 
     return false;
+}
+
+bool YFrameClient::isCloseForced() {
+    const WindowOption* wo = getWindowOption();
+    return wo && wo->hasOption(YFrameWindow::foForcedClose);
 }
 
 bool YFrameClient::forceClose() {

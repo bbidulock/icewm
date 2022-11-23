@@ -1811,7 +1811,7 @@ void YFrameWindow::wmCloseClient(YFrameClient* client, bool* confirm) {
     client->sendPing();
     if (client->protocol(YFrameClient::wpDeleteWindow))
         client->sendDelete();
-    else if (frameOption(foForcedClose))
+    else if (client->isCloseForced())
         client->forceClose();
     else if (client->adopted())
         *confirm = true;
