@@ -466,6 +466,10 @@ To move the active tab to its own window frame by key, add to C<keys>:
 
     key "Alt+u"             icesh -f untab
 
+To open all chrome windows in the same frame add this to C<winoptions>:
+
+    google-chrome.frame:    chrome
+
 =head2 WORKSPACES
 
 B<icewm> supports multiple virtual desktops called workspaces.  A
