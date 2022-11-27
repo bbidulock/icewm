@@ -187,6 +187,7 @@ public:
     void recvPing(const XClientMessageEvent &message);
     bool forceClose();
     bool isCloseForced();
+    bool frameOption(int option);
     bool killPid();
     bool timedOut() const { return fTimedOut; }
 

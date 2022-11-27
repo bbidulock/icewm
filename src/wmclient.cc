@@ -470,8 +470,12 @@ bool YFrameClient::handleTimer(YTimer* timer) {
 }
 
 bool YFrameClient::isCloseForced() {
+    return frameOption(YFrameWindow::foForcedClose);
+}
+
+bool YFrameClient::frameOption(int option) {
     const WindowOption* wo = getWindowOption();
-    return wo && wo->hasOption(YFrameWindow::foForcedClose);
+    return wo && wo->hasOption(option);
 }
 
 bool YFrameClient::forceClose() {
@@ -922,9 +926,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
         }
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         YFrameWindow* f = obtainFrame();
-        if (f && f->client() != this)
+        if (f && !frameOption(YFrameWindow::foIgnoreActivationMessages)) {
             f->selectTab(this);
-        if (f && !f->ignoreActivation()) {
             f->activate();
             f->wmRaise();
         }

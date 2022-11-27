@@ -390,7 +390,8 @@ void YFrameWindow::addToWindowList() {
     if (windowList && notbit(frameOptions(), foIgnoreWinList)) {
         for (YFrameClient* cli : fTabs) {
             if (cli->adopted() && !cli->getClientItem()) {
-                windowList->addWindowListApp(cli);
+                if ( !cli->frameOption(foIgnoreWinList))
+                    windowList->addWindowListApp(cli);
             }
         }
     }

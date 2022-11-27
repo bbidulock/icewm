@@ -300,6 +300,7 @@ public:
              frame->visibleOn(manager->activeWorkspace())) &&
             (::isEmpty(fWMClass) || client->classHint()->match(fWMClass)) &&
             !frame->frameOption(YFrameWindow::foIgnoreQSwitch) &&
+            !client->frameOption(YFrameWindow::foIgnoreQSwitch) &&
             (!frame->isHidden() || quickSwitchToHidden) &&
             (!frame->isMinimized() || quickSwitchToMinimized))
         {
@@ -364,7 +365,8 @@ void WindowItemsCtrlr::updateList() {
                     continue;
             }
 
-            if (frame->frameOption(YFrameWindow::foIgnoreQSwitch))
+            if (frame->frameOption(YFrameWindow::foIgnoreQSwitch) ||
+                client->frameOption(YFrameWindow::foIgnoreQSwitch))
                 continue;
 
             if (nonempty(fWMClass)) {
