@@ -3131,24 +3131,6 @@ void YWindowManager::getIconPosition(MiniIcon* iw, int *iconX, int *iconY) {
     }
 }
 
-int YWindowManager::windowCount(int workspace) {
-    int count = 0;
-
-    for (int layer = 0 ; layer < WinLayerCount; layer++) {
-        for (YFrameWindow *frame = top(layer); frame; frame = frame->next()) {
-            if (!frame->visibleOn(workspace))
-                continue;
-            if (frame->frameOption(YFrameWindow::foIgnoreWinList))
-                continue;
-            if (workspace != activeWorkspace() &&
-                frame->visibleNow())
-                continue;
-            count++;
-        }
-    }
-    return count;
-}
-
 void YWindowManager::resetColormap(bool active) {
     if (active) {
         if (colormapWindow() && colormapWindow()->client())

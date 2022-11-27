@@ -181,8 +181,6 @@ public:
     bool focusTop(YFrameWindow *f);
     void updateClientList();
     void updateUserTime(const UserTime& userTime);
-
-    int windowCount(int workspace);
     void popupWindowListMenu(YWindow *owner, int x, int y);
 
     void initWorkspaces();
