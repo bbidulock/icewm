@@ -336,6 +336,8 @@ void TaskButton::configure(const YRect2& r) {
 void TaskButton::repaintApp(TaskBarApp* app) {
     if (app == fActive && visible()) {
         repaint();
+    } else {
+        fRepainted = false;
     }
     if (fMenu) {
         YMenuItem* item = fMenu->findAction(app->action());
