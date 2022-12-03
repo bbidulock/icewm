@@ -13,6 +13,7 @@
 #include "sysdep.h"
 #include "yprefs.h"
 #include "yrect.h"
+#include "yicon.h"
 #include "ascii.h"
 
 #include "ytimer.h"
@@ -911,16 +912,20 @@ bool YWindow::handleBeginDrag(const XButtonEvent &, const XMotionEvent &) {
     return false;
 }
 
-void YWindow::setToolTip(const mstring& tip) {
+void YWindow::setToolTip(mstring tip) {
+    setToolTip(tip, null);
+}
+
+void YWindow::setToolTip(mstring tip, ref<YIcon> icon) {
     if (tip == null) {
         fToolTip = null;
     } else {
-        fToolTip->setText(tip);
+        fToolTip->setText(tip, icon);
     }
 }
 
-mstring YWindow::getToolTip() {
-    return fToolTip ? fToolTip->getText() : null;
+bool YWindow::hasToolTip() const {
+    return fToolTip._ptr() != nullptr && fToolTip._ptr()->nonempty();
 }
 
 bool YWindow::toolTipVisible() {

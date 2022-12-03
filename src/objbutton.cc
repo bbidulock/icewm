@@ -83,10 +83,14 @@ void ObjectButton::handleButton(const XButtonEvent& up) {
 }
 
 void ObjectButton::updateToolTip() {
-    if (getToolTip() == null) {
-        xsmart<char> name;
-        if (fetchTitle(&name)) {
-            setToolTip(mstring(name));
+    if (hasToolTip() == false) {
+        if (fObject) {
+            setToolTip(fObject->getName(), fObject->getIcon());
+        } else {
+            xsmart<char> name;
+            if (fetchTitle(&name)) {
+                setToolTip(mstring(name), getIcon());
+            }
         }
     }
 }

@@ -10,6 +10,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "yrect.h"
+#include "yicon.h"
 
 #include <string.h>
 
@@ -49,26 +50,46 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
         g.setColor(toolTipFg);
         g.drawStringMultiline(fText, TTXMargin, y, width() - 2 * TTXMargin);
     }
-}
-
-void YToolTipWindow::setText(const mstring& tip) {
-    fText = tip;
-    if (toolTipFont) {
-        YDimension size(toolTipFont->multilineAlloc(fText));
-        setSize(size.w + 2 * TTXMargin, size.h + 3 + 2 * TTYMargin);
+    if (fIcon != null) {
+        int y = int(height() - hugeIconSize) - TTYMargin;
+        int x = int(width() - hugeIconSize) / 2;
+        fIcon->draw(g, x, y, hugeIconSize);
     }
 }
 
-void YToolTip::setText(const mstring& tip) {
+void YToolTipWindow::setText(mstring tip, ref<YIcon> icon) {
     fText = tip;
+    fIcon = icon;
+    unsigned w = 0, h = 0;
+    if (toolTipFont) {
+        YDimension size(toolTipFont->multilineAlloc(fText));
+        w += size.w;
+        h += size.h + 3;
+    }
+    if (fIcon != null) {
+        h += hugeIconSize;
+        w = max(w, hugeIconSize);
+    }
+    if (w && h) {
+        setSize(w + 2 * TTXMargin, h + 2 * TTYMargin);
+    }
+}
+
+void YToolTip::setText(mstring tip, ref<YIcon> icon) {
+    fText = tip;
+    fIcon = icon;
     if (fWindow) {
-        fWindow->setText(tip);
+        fWindow->setText(tip, icon);
         fWindow->locate(fLocate);
         fWindow->repaint();
     }
 }
 
-bool YToolTip::visible() {
+bool YToolTip::nonempty() const {
+    return fText != null || fIcon != null;
+}
+
+bool YToolTip::visible() const {
     return fWindow;
 }
 
@@ -78,7 +99,7 @@ bool YToolTip::handleTimer(YTimer *timer) {
             fWindow = null;
         }
         else {
-            fWindow->setText(fText);
+            fWindow->setText(fText, fIcon);
             fWindow->locate(fLocate);
             fWindow->repaint();
             fWindow->show();

@@ -13,6 +13,7 @@ class YTimer;
 class YAutoScroll;
 class YRect;
 class YRect2;
+class YIcon;
 
 struct DesktopScreenInfo {
     int screen_number;
@@ -216,8 +217,9 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
-    mstring getToolTip();
-    void setToolTip(const mstring &tip);
+    bool hasToolTip() const;
+    void setToolTip(mstring tip);
+    void setToolTip(mstring tip, ref<YIcon> icon);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);

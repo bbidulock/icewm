@@ -33,11 +33,6 @@ XIV(unsigned, topSideVerticalOffset,            0)
 XIV(unsigned, scrollBarWidth,                   16)
 XIV(unsigned, scrollBarHeight,                  16)
 
-XIV(unsigned, menuIconSize,                     16)
-XIV(unsigned, smallIconSize,                    16)
-XIV(unsigned, largeIconSize,                    32)
-XIV(unsigned, hugeIconSize,                     48)
-
 XIV(unsigned, quickSwitchHMargin,               3)      // !!!
 XIV(unsigned, quickSwitchVMargin,               3)      // !!!
 XIV(unsigned, quickSwitchIMargin,               4)      // !!!

@@ -13,11 +13,12 @@ public:
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void repaint();
 
-    void setText(const mstring& tip);
+    void setText(mstring tip, ref<YIcon> icon);
     void locate(YWindow* w);
 
 private:
     mstring fText;
+    ref<YIcon> fIcon;
 
     YColorName toolTipBg;
     YColorName toolTipFg;
@@ -30,11 +31,11 @@ public:
 
     virtual bool handleTimer(YTimer *t);
 
-    mstring getText() { return fText; }
-    void setText(const mstring& tip);
+    void setText(mstring tip, ref<YIcon> icon);
     void enter(YWindow* w);
     void leave();
-    bool visible();
+    bool visible() const;
+    bool nonempty() const;
 
 private:
     void expose();
@@ -42,6 +43,7 @@ private:
 
     mstring fText;
     YWindow* fLocate;
+    ref<YIcon> fIcon;
     lazy<YToolTipWindow> fWindow;
     lazy<YTimer> fTimer;
 };
