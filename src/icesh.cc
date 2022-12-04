@@ -22,6 +22,9 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/stat.h>
 #include <vector>
 #include <algorithm>
 
@@ -182,6 +185,7 @@ static NAtom ATOM_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
 static NAtom ATOM_NET_WM_NAME("_NET_WM_NAME");
+static NAtom ATOM_NET_WM_ICON("_NET_WM_ICON");
 static NAtom ATOM_NET_WM_ICON_NAME("_NET_WM_ICON_NAME");
 static NAtom ATOM_NET_WM_DESKTOP("_NET_WM_DESKTOP");
 static NAtom ATOM_NET_DESKTOP_NAMES("_NET_DESKTOP_NAMES");
@@ -424,6 +428,12 @@ static void setAtom(Window window, Atom property, Atom newValue)
 {
     XChangeProperty(display, window, property, XA_ATOM, 32, PropModeReplace,
                     reinterpret_cast<unsigned char *>(&newValue), 1);
+}
+
+static void setProp(Window win, Atom prop, Atom type, Atom* values, int count)
+{
+    XChangeProperty(display, win, prop, type, 32, PropModeReplace,
+                    reinterpret_cast<unsigned char *>(values), count);
 }
 
 class YProperty {
@@ -1445,6 +1455,8 @@ private:
     void xerror(XErrorEvent* evt);
     void getGeometry(Window window);
     void setGeometry(Window window, const char* geometry);
+    void saveIcon(Window window, char* file);
+    void loadIcon(Window window, char* file);
 
     const char* atomName(Atom atom) {
         return NAtom::lookup(atom);
@@ -3463,6 +3475,106 @@ static char* randomLabel() {
     return label;
 }
 
+void IceSh::loadIcon(Window window, char* file)
+{
+    int fd = open(file, O_RDONLY);
+    if (0 <= fd) {
+        char head[128];
+        int width = 0, height = 0, depth = 0, maxval = 0, length = 0;
+        if (read(fd, head, sizeof head) == ssize_t(sizeof head) &&
+            strncmp(head, "P7\nWIDTH ", 9) == 0 &&
+            sscanf(head,
+                   "P7\nWIDTH %d\nHEIGHT %d\nDEPTH %d\n"
+                   "MAXVAL %d\nTUPLTYPE RGB_ALPHA\nENDHDR\n%n",
+                   &width, &height, &depth, &maxval, &length) == 4 &&
+            0 < width && width <= 256 &&
+            0 < height && height <= 256 &&
+            depth == 4 && maxval == 255 && 64 <= length)
+        {
+            unsigned* data = new unsigned[width * height];
+            size_t size = sizeof(unsigned) * width * height;
+            memset(data, 0, size);
+            if (lseek(fd, off_t(length), SEEK_SET) >= 0 &&
+                read(fd, data, size) == ssize_t(size)) {
+                Atom* card = new Atom[2 + width * height];
+                for (int i = 0; i < width * height; ++i) {
+                    card[i + 2] = data[i];
+                }
+                card[0] = width;
+                card[1] = height;
+                setProp(window, ATOM_NET_WM_ICON, XA_CARDINAL,
+                        card, 2 + width * height);
+                delete[] card;
+            }
+            delete[] data;
+        }
+        close(fd);
+    }
+}
+
+void IceSh::saveIcon(Window window, char* file)
+{
+    const int limit = 1234 * 1234;
+    YCardinal icon(window, ATOM_NET_WM_ICON, limit);
+    if (icon) {
+        int bestI = 0, bestW = 0, bestH = 0, bestB = 0;
+        for (int i = 0; i + 2 < icon.count(); ) {
+            long w = icon[i], h = icon[i + 1];
+            if (0 < w && w < limit && 0 < h && h <= limit / w &&
+                i + 2 + w * h <= limit)
+            {
+                int b = 0;
+                while ((1 << b) < w * h)
+                    ++b;
+                if (abs(14 - b) < abs(14 - bestB)) {
+                    bestI = i;
+                    bestW = w;
+                    bestH = h;
+                    bestB = b;
+                }
+                i += 2 + w * h;
+            } else {
+                break;
+            }
+        }
+        if (bestW && bestH) {
+            for (int i = 0; i <= 100; ++i) {
+                const int flags = O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW;
+                const int fd = open(file, flags, 0600);
+                if (fd == -1 && errno == EEXIST) {
+                    int k = int(strlen(file)) - 1;
+                    while (k >= 0 && file[k] != '/' &&
+                            (file[k] < '0' || '8' < file[k]))
+                        --k;
+                    if (k < 0 || file[k] < '0' || '8' < file[k])
+                        break;
+                    ++file[k];
+                    while (file[k + 1] == '9')
+                        file[++k] = '0';
+                }
+                else if (fd == -1)
+                    break;
+                else {
+                    char buf[128];
+                    snprintf(buf, sizeof buf,
+                             "P7\nWIDTH %d\nHEIGHT %d\nDEPTH 4\nMAXVAL 255\n"
+                             "TUPLTYPE RGB_ALPHA\nENDHDR\n", bestW, bestH);
+                    write(fd, buf, strlen(buf));
+                    const int size = bestW * bestH;
+                    unsigned* data = new unsigned[size];
+                    for (int i = 0; i < size; ++i) {
+                        data[i] = unsigned(icon[bestI + 2 + i]);
+                    }
+                    write(fd, data, size * sizeof(unsigned));
+                    close(fd);
+                    delete[] data;
+                    break;
+                }
+            }
+        }
+    }
+}
+
 void IceSh::tabTo(char* defaultLabel)
 {
     if ( ! windowList && ! selecting) {
@@ -5017,6 +5129,16 @@ void IceSh::parseAction()
                     showProperty(window, prop, buf);
                 }
             }
+        }
+        else if (isAction("loadicon", 1)) {
+            char* file = getArg();
+            FOREACH_WINDOW(window)
+                loadIcon(window, file);
+        }
+        else if (isAction("saveicon", 1)) {
+            char* file = getArg();
+            FOREACH_WINDOW(window)
+                saveIcon(window, file);
         }
         else if (isAction("click", 3)) {
             click();

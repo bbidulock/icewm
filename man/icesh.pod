@@ -600,6 +600,16 @@ Such a frame is created if needed.
 
 Move each window to its own frame, if it is currently tabbed.
 
+=item B<loadicon> F<image.pam>
+
+Load an icon from file, which must be in the PAM image format,
+with dimensions at most 256, a depth of 4, and type I<RGB_ALPHA>.
+
+=item B<saveicon> F<file000.pam>
+
+Save an icon to a new file in the PAM image format. Digits are
+increased to generate a unique new filename for each window.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,
