@@ -406,7 +406,7 @@ SET(ICE_COMMON_SRCS udir.cc upath.cc yapp.cc yxapp.cc ytimer.cc yprefs.cc
                     ypipereader.cc yxembed.cc yconfig.cc yfont.cc ysvg.cc
                     ypixmap.cc yimage2.cc yimage_gdk.cc yximage.cc ycolor.cc
                     ytooltip.cc ylocale.cc yarray.cc yfileio.cc ytime.cc
-                    yicon.cc ystring.cc mstring.cc ref.cc logevent.cc misc.cc)
+                    ystring.cc mstring.cc ref.cc logevent.cc misc.cc)
 
 if(CONFIG_XFREETYPE)
     list(APPEND ICE_COMMON_SRCS yfontxft.cc)
@@ -424,7 +424,7 @@ target_include_directories(ice PUBLIC ${Intl_INCLUDE_DIRS})
 
 SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc
              yscrollbar.cc ybutton.cc ylistbox.cc yinputline.cc
-             globit.cc wmconfig.cc wmsave.cc wpixres.cc)
+             globit.cc yicon.cc wmconfig.cc wmsave.cc wpixres.cc)
 
 do_auto_inc_headers(ITK_SRCS)
 add_library(itk STATIC ${ITK_SRCS})

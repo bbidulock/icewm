@@ -25,17 +25,17 @@ private:
     YFont toolTipFont;
 };
 
-class YToolTip: public YTimerListener {
+class YToolTip: public AToolTip, private YTimerListener {
 public:
     YToolTip();
 
-    virtual bool handleTimer(YTimer *t);
+    bool handleTimer(YTimer *t) override;
 
-    void setText(mstring tip, ref<YIcon> icon);
-    void enter(YWindow* w);
-    void leave();
-    bool visible() const;
-    bool nonempty() const;
+    void setText(mstring tip, ref<YIcon> icon) override;
+    void enter(YWindow* w) override;
+    void leave() override;
+    bool visible() const override;
+    bool nonempty() const override;
 
 private:
     void expose();

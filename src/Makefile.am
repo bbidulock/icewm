@@ -132,8 +132,6 @@ libice_la_SOURCES = \
 	yfontname.h \
 	yfontxft.cc \
 	yfull.h \
-	yicon.cc \
-	yicon.h \
 	yimage.h \
 	yimage2.cc \
 	yimage2.h \
@@ -223,6 +221,8 @@ libitk_la_SOURCES = \
 	yconfig.h \
 	ycursor.h \
 	yfull.h \
+	yicon.cc \
+	yicon.h \
 	yimage.h \
 	yinputline.cc \
 	yinputline.h \

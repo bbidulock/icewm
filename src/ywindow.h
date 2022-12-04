@@ -46,6 +46,17 @@ struct DesktopScreenInfo {
     }
 };
 
+class AToolTip {
+public:
+    virtual ~AToolTip() { }
+
+    virtual void setText(mstring tip, ref<YIcon> icon) { }
+    virtual void enter(YWindow* w) { }
+    virtual void leave() { }
+    virtual bool visible() const { return false; }
+    virtual bool nonempty() const { return false; }
+};
+
 class YWindow : protected YWindowList, private YWindowNode {
 public:
     YWindow(YWindow *aParent = nullptr,
@@ -316,7 +327,7 @@ private:
     };
 
     YAccelerator *accel;
-    lazy<YToolTip> fToolTip;
+    AToolTip* fToolTip;
 
     static XButtonEvent fClickEvent;
     static YWindow *fClickWindow;

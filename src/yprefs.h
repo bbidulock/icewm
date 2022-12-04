@@ -33,11 +33,6 @@ XIV(int, ToolTipTime,                           0)
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)
 
-XIV(unsigned, menuIconSize,                     16)
-XIV(unsigned, smallIconSize,                    16)
-XIV(unsigned, largeIconSize,                    32)
-XIV(unsigned, hugeIconSize,                     48)
-
 XSV(const char *, iconPath,
                                                 "/usr/local/share/icons:"
                                                 "/usr/local/share/pixmaps:"

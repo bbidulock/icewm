@@ -119,7 +119,8 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
-    accel(nullptr)
+    accel(nullptr),
+    fToolTip(nullptr)
 {
     if (fHandle != None) {
         MSG(("adopting window %lX", fHandle));
@@ -134,6 +135,7 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
 }
 
 YWindow::~YWindow() {
+    delete fToolTip;
     if (fAutoScroll &&
         fAutoScroll->getWindow() == this)
     {
@@ -918,14 +920,17 @@ void YWindow::setToolTip(mstring tip) {
 
 void YWindow::setToolTip(mstring tip, ref<YIcon> icon) {
     if (tip == null) {
-        fToolTip = null;
+        delete fToolTip;
+        fToolTip = nullptr;
     } else {
+        if (fToolTip == nullptr)
+            fToolTip = xapp->newToolTip();
         fToolTip->setText(tip, icon);
     }
 }
 
 bool YWindow::hasToolTip() const {
-    return fToolTip._ptr() != nullptr && fToolTip._ptr()->nonempty();
+    return fToolTip && fToolTip->nonempty();
 }
 
 bool YWindow::toolTipVisible() {
@@ -933,24 +938,31 @@ bool YWindow::toolTipVisible() {
 }
 
 void YWindow::toolTipVisibility(bool visible) {
-    visible ? fToolTip->enter(this) : fToolTip->leave();
+    if (visible) {
+        if (fToolTip == nullptr)
+            fToolTip = xapp->newToolTip();
+        fToolTip->enter(this);
+    } else if (fToolTip)
+        fToolTip->leave();
 }
 
 void YWindow::updateToolTip() {
 }
 
 void YWindow::handleCrossing(const XCrossingEvent& crossing) {
-    if (fToolTip || fStyle & wsToolTipping) {
-        if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
+    if (crossing.type == EnterNotify && crossing.mode == NotifyNormal) {
+        if (fToolTip == nullptr && fStyle & wsToolTipping)
+            fToolTip = xapp->newToolTip();
+        if (fToolTip) {
             updateToolTip();
             if (fToolTip) {
                 fToolTip->enter(this);
             }
         }
-        else if (crossing.type == LeaveNotify) {
-            if (fToolTip) {
-                fToolTip->leave();
-            }
+    }
+    else if (crossing.type == LeaveNotify) {
+        if (fToolTip) {
+            fToolTip->leave();
         }
     }
 }

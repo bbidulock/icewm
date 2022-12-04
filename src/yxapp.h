@@ -155,6 +155,7 @@ public:
     void popdown(YPopupWindow *popdown);
 
     YWindow *grabWindow() const { return fGrabWindow; }
+    virtual AToolTip* newToolTip() { return new AToolTip; }
 
     void alert();
 

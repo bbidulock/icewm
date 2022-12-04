@@ -30,6 +30,7 @@
 #include "ascii.h"
 #include "ycursor.h"
 #include "yxcontext.h"
+#include "ytooltip.h"
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
 #include <X11/Xft/Xft.h>
@@ -349,6 +350,10 @@ CtrlAltDelete* YWMApp::getCtrlAltDelete() {
         ctrlAltDelete = new CtrlAltDelete(this, desktop);
     }
     return ctrlAltDelete;
+}
+
+AToolTip* YWMApp::newToolTip() {
+    return new YToolTip;
 }
 
 void YWMApp::subdirs(const char* subdir, bool themeOnly, MStringArray& paths) {
