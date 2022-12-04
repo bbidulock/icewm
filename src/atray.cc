@@ -90,12 +90,12 @@ void TrayApp::repaint() {
 
 void TrayApp::setToolTip(const mstring& tip) {
     if (toolTipVisible()) {
-        YWindow::setToolTip(tip);
+        YWindow::setToolTip(tip, getFrame()->getIcon());
     }
 }
 
 void TrayApp::updateToolTip() {
-    YWindow::setToolTip(fFrame->getTitle());
+    YWindow::setToolTip(fFrame->getTitle(), getFrame()->getIcon());
 }
 
 void TrayApp::handleExpose(const XExposeEvent& expose) {
