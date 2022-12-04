@@ -24,6 +24,7 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     void setKind(char kind);
     virtual void updatePopup();
+    virtual void updateToolTip();
 
     ref<YPixmap> getPixmap(int pn) const;
     YFrameWindow *getFrame() const;

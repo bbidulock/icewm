@@ -28,7 +28,7 @@ YFrameButton::YFrameButton(YFrameTitleBar* parent, char kind) :
     if (parent->isRight(kind))
         setWinGravity(NorthEastGravity);
 
-    addStyle(wsNoExpose);
+    addStyle(wsNoExpose | wsToolTipping);
     addEventMask(VisibilityChangeMask);
     setParentRelative();
 
@@ -78,37 +78,30 @@ void YFrameButton::setKind(char kind) {
     switch (kind) {
     case YFrameTitleBar::Depth:
         setAction(actionDepth);
-        setToolTip(_("Raise/Lower"));
         setTitle("Lower");
         break;
     case YFrameTitleBar::Hide:
         setAction(actionHide);
-        setToolTip(_("Hide"));
         setTitle("Hide");
         break;
     case YFrameTitleBar::Maxi:
         if (getFrame()->isMaximized()) {
             setAction(actionRestore);
-            setToolTip(_("Restore"));
             setTitle("Restore");
         } else {
             setAction(actionMaximize);
-            setToolTip(_("Maximize"));
             setTitle("Maximize");
         }
         break;
     case YFrameTitleBar::Mini:
         setAction(actionMinimize);
-        setToolTip(_("Minimize"));
         setTitle("Minimize");
         break;
     case YFrameTitleBar::Roll:
         setAction(actionRollup);
         if (getFrame()->isRollup()) {
-            setToolTip(_("Rolldown"));
             setTitle("Rolldown");
         } else {
-            setToolTip(_("Rollup"));
             setTitle("Rollup");
         }
         break;
@@ -120,8 +113,40 @@ void YFrameButton::setKind(char kind) {
         break;
     case YFrameTitleBar::Close:
         setAction(actionClose);
-        setToolTip(_("Close"));
         setTitle("Close");
+        break;
+    }
+}
+
+void YFrameButton::updateToolTip() {
+    switch (fKind) {
+    case YFrameTitleBar::Depth:
+        setToolTip(_("Raise/Lower"));
+        break;
+    case YFrameTitleBar::Hide:
+        setToolTip(_("Hide"));
+        break;
+    case YFrameTitleBar::Maxi:
+        if (getFrame()->isMaximized()) {
+            setToolTip(_("Restore"));
+        } else {
+            setToolTip(_("Maximize"));
+        }
+        break;
+    case YFrameTitleBar::Mini:
+        setToolTip(_("Minimize"));
+        break;
+    case YFrameTitleBar::Roll:
+        if (getFrame()->isRollup()) {
+            setToolTip(_("Rolldown"));
+        } else {
+            setToolTip(_("Rollup"));
+        }
+        break;
+    case YFrameTitleBar::Close:
+        setToolTip(_("Close"));
+        break;
+    default:
         break;
     }
 }
