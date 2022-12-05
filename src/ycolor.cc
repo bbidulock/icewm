@@ -277,7 +277,7 @@ XftColor* YPixel::allocXft() {
 }
 
 XftColor* YColor::xftColor() {
-    return fPixel->xftColor();
+    return fPixel ? fPixel->xftColor() : cache.black()->xftColor();
 }
 #endif
 
