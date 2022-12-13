@@ -1455,6 +1455,8 @@ private:
     void xerror(XErrorEvent* evt);
     void getGeometry(Window window);
     void setGeometry(Window window, const char* geometry);
+    void getClass(Window window);
+    void setClass(Window window, const char* title);
     void saveIcon(Window window, char* file);
     void loadIcon(Window window, char* file);
 
@@ -2857,6 +2859,34 @@ void IceSh::setGeometry(Window window, const char* geometry) {
     moveResize(window, StaticGravity, x, y, width, height,
                (status & AllValues));
     modified(window);
+}
+
+void IceSh::getClass(Window window) {
+    XClassHint hint;
+    if (XGetClassHint(display, window, &hint)) {
+        printf("0x%07lx %s.%s\n", window, hint.res_name, hint.res_class);
+        XFree(hint.res_name);
+        XFree(hint.res_class);
+    }
+}
+
+void IceSh::setClass(Window window, const char* title) {
+    char nil = '\0';
+    char* name = strdup(title);
+    char* dot = strchr(name, '.');
+    char* klas = dot ? dot + 1 : &nil;
+    if (dot) *dot = '\0';
+    XClassHint hint = { nullptr, nullptr };
+    bool have = strchr(title, '%') && XGetClassHint(display, window, &hint);
+    XClassHint repl;
+    repl.res_name = strcmp(name, "%") ? name : have ? hint.res_name : &nil;
+    repl.res_class = strcmp(klas, "%") ? klas : have ? hint.res_class : &nil;
+    XSetClassHint(display, window, &repl);
+    if (have) {
+        XFree(hint.res_name);
+        XFree(hint.res_class);
+    }
+    free(name);
 }
 
 /******************************************************************************/
@@ -4564,6 +4594,15 @@ void IceSh::parseAction()
                 use(window);
                 getGeometry(window);
             }
+        }
+        else if (isAction("setClass", 1)) {
+            char* title = getArg();
+            FOREACH_WINDOW(window)
+                setClass(window, title);
+        }
+        else if (isAction("getClass", 0)) {
+            FOREACH_WINDOW(window)
+                getClass(window);
         }
         else if (isAction("resize", 2)) {
             const char* ws = getArg();

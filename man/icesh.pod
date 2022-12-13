@@ -465,6 +465,16 @@ the screen.  Use C<+-> for a truly negative position.
 
 Print the window geometry.
 
+=item B<setClass> I<CLASS>
+
+Set the resource name and class to I<CLASS>, which should be a resource
+name and a resource class connected by a dot. To preserve either the
+existing name or class, use a percentage sign for that part.
+
+=item B<getClass>
+
+Print the resource name and class.
+
 =item B<netState> I<[STATE]>
 
 If I<STATE> is omitted then it shows the I<EWMH window state>.
