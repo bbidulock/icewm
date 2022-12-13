@@ -3362,6 +3362,14 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
                     puts(gui_event_names[gev]);
                 }
             }
+            else if (prop.property() == XA_WM_COMMAND) {
+                char* s = prop.data<char>();
+                int num = int(prop.count());
+                for (int i = 0; i < num; ++i)
+                    if (s[i] == '\0')
+                        s[i] = ' ';
+                printf("%*.*s\n", num, num, s);
+            }
             else {
                 for (int i = 0; i < prop.count(); ++i) {
                     unsigned char ch = prop.data<unsigned char>(i);
