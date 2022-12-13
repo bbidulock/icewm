@@ -21,7 +21,7 @@ public:
     void activate() const;
     ClientData* getFrame() const { return fFrame; }
     TaskButton* button() const { return fButton; }
-    YAction action() const { return fAction; }
+    YAction action() const;
 
     void setShown(bool show);
     bool getShown() const;
@@ -37,7 +37,6 @@ public:
 private:
     ClientData* fFrame;
     TaskButton* fButton;
-    YAction fAction;
     bool fShown;
 };
 

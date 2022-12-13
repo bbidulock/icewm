@@ -41,6 +41,10 @@ void TaskBarApp::activate() const {
     fFrame->activateWindow(raise, flash);
 }
 
+YAction TaskBarApp::action() const {
+    return fFrame->current()->action();
+}
+
 void TaskBarApp::setShown(bool show) {
     if (fShown != show || (show && fFrame->focused())) {
         fShown = show;
@@ -134,14 +138,29 @@ int TaskButton::getOrder() const {
     return fActive ? fActive->getOrder() : 0;
 }
 
+static bool similar(ClassHint* left, ClassHint* right) {
+    bool match = false;
+    if (nonempty(left->res_class)) {
+        if (right->res_class)
+            match = !strcmp(right->res_class, left->res_class);
+    }
+    else if (left->res_name && right->res_name && isEmpty(right->res_class))
+        match = !strcmp(right->res_name, left->res_name);
+    return match;
+}
+
 int TaskButton::getCount() const {
     int count = 0;
     if (grouping()) {
-        if (taskBarShowAllWindows)
-            count = fGroup.getCount();
-        else
-            for (auto app : fGroup)
-                count += app->getShown();
+        for (TaskBarApp* app : fGroup) {
+            if (taskBarShowAllWindows || app->getShown()) {
+                ClassHint* hint = app->getFrame()->classHint();
+                for (YFrameClient* tab : app->getFrame()->clients()) {
+                    if (similar(hint, tab->classHint()))
+                        count += 1;
+                }
+            }
+        }
     } else {
         count = (fActive != nullptr);
     }
@@ -694,12 +713,17 @@ void TaskButton::popupGroup() {
     fMenu->removeAll();
     for (TaskBarApp* app : fGroup) {
         if (taskBarShowAllWindows || app->getShown()) {
-            YMenuItem* item = fMenu->addItem(app->getTitle(), -2,
-                                             null, app->action());
-            if (app == fActive) {
-                item->setChecked(true);
+            ClassHint* hint = app->getFrame()->classHint();
+            for (YFrameClient* tab : app->getFrame()->clients()) {
+                if (similar(hint, tab->classHint())) {
+                    YMenuItem* item = fMenu->addItem(tab->windowTitle(), -2,
+                                                     null, tab->action());
+                    if (app == fActive && tab == app->getFrame()->current()) {
+                        item->setChecked(true);
+                    }
+                    item->setIcon(tab->getIcon());
+                }
             }
-            item->setIcon(app->getFrame()->getIcon());
         }
     }
     int x = 0, y = taskBarAtTop * height();
@@ -767,17 +791,23 @@ void TaskButton::handleButton(const XButtonEvent& button) {
 
 void TaskButton::actionPerformed(YAction action, unsigned modifiers) {
     for (TaskBarApp* app : fGroup) {
-        if (action == app->action()) {
-            if (fActive != app) {
-                TaskBarApp* old = fActive;
-                fActive = app;
-                if (old)
-                    old->repaint();
-                fActive->repaint();
+        for (YFrameClient* tab : app->getFrame()->clients()) {
+            if (action == tab->action()) {
+                if (fActive != app) {
+                    TaskBarApp* old = fActive;
+                    fActive = app;
+                    if (old)
+                        old->repaint();
+                    fActive->repaint();
+                }
+                if (fActive) {
+                    if (fActive->getFrame()->current() != tab)
+                        fActive->getFrame()->selectTab(tab);
+                    if (fActive->getFrame()->current() == tab)
+                        fActive->activate();
+                }
+                break;
             }
-            if (fActive)
-                fActive->activate();
-            break;
         }
     }
 }

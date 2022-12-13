@@ -192,6 +192,10 @@ void YFrameClient::getClassHint() {
     fClassHint.get(handle());
 }
 
+YAction YFrameClient::action() {
+    return YAction(EAction(int(handle())));
+}
+
 void YFrameClient::setDocked(bool docked) {
     fDocked = docked;
     if (fDocked && fTransientFor) {
@@ -1174,7 +1178,7 @@ bool YFrameClient::activateOnMap() {
     }
     if (yes && getOwner()) {
         YFrameClient* owner = getOwner();
-        while (owner && !owner->getFrame() && !owner->getFrame()->focused())
+        while (owner && owner->getFrame() && !owner->getFrame()->focused())
             owner = owner->getOwner();
         bool focus = (owner != nullptr);
         if (focus == false) {

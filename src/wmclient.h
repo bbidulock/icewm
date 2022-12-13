@@ -133,6 +133,11 @@ public:
     virtual bool isUrgent() const = 0;
     virtual void updateAppStatus() = 0;
     virtual void removeAppStatus() = 0;
+
+    typedef YArray<class YFrameClient*> ClientList;
+    virtual ClientList& clients() = 0;
+    virtual YFrameClient* current() = 0;
+    virtual void selectTab(YFrameClient* client) = 0;
 protected:
     virtual ~ClientData() {}
 };
@@ -319,6 +324,7 @@ public:
 
     const WindowOption* getWindowOption();
     bool activateOnMap();
+    YAction action();
 
 private:
     YFrameWindow *fFrame;

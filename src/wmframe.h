@@ -466,6 +466,7 @@ public:
     typedef YArray<YFrameClient*>::IterType IterType;
     IterType iterator() { return fTabs.iterator(); }
     YArray<YFrameClient*>& clients() { return fTabs; }
+    YFrameClient* current() { return fClient; }
     static YArray<YFrameWindow*>& tabbing() { return tabbedFrames; }
     static YArray<YFrameWindow*>& fnaming() { return namedFrames; }
 private:
