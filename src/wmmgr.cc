@@ -2106,8 +2106,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace
     }
 
     if (toFocus != nullptr) {
-        if (toFocus->isMinimized() ||
-            toFocus->isHidden() ||
+        if (toFocus->isUnmapped() ||
             !toFocus->visibleOn(workspace) ||
             toFocus->client()->destroyed() ||
             toFocus->client() == taskBar ||
@@ -2130,9 +2129,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace
             while (++w) {
                 if (!w->client()->adopted())
                     continue;
-                if (w->isMinimized())
-                    continue;
-                if (w->isHidden())
+                if (w->isUnmapped())
                     continue;
                 if (!w->visibleOn(workspace))
                     continue;
