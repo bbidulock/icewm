@@ -1046,7 +1046,7 @@ YFrameClient *YWindowManager::findClient(Window win) {
 
 void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     YFrameClient* c = nullptr;
-    Window w = None;
+    YWindow* w = nullptr;
 
     if (focusLocked())
         return;
@@ -1059,9 +1059,9 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     if (f && f->visible()) {
         c = f->client();
         if (c && c->visible() && f->isMapped())
-            w = c->handle();
+            w = c;
         else
-            w = f->handle();
+            w = f;
 
         if (f->getInputFocusHint() ||
                 ((f->isRollup() || f->isFullscreen())
@@ -1071,34 +1071,32 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
         f->setWmUrgency(false);
     }
 #ifdef DEBUG
-    if (w == desktop->handle()) {
+    if (w == desktop) {
         MSG(("%lX Focus 0x%lX desktop",
-             xapp->getEventTime("focus1"), w));
-    } else if (f && w == f->handle()) {
+             xapp->getEventTime("focus1"), w->handle()));
+    } else if (f && w == f) {
         MSG(("%lX Focus 0x%lX frame %s",
-             xapp->getEventTime("focus1"), w, f->getTitle().c_str()));
-    } else if (f && c && w == c->handle()) {
+             xapp->getEventTime("focus1"), w->handle(), f->getTitle().c_str()));
+    } else if (f && c && w == c) {
         MSG(("%lX Focus 0x%lX client %s",
-             xapp->getEventTime("focus1"), w, f->getTitle().c_str()));
+             xapp->getEventTime("focus1"), w->handle(), f->getTitle().c_str()));
     } else {
         MSG(("%lX Focus 0x%lX",
-             xapp->getEventTime("focus1"), w));
+             xapp->getEventTime("focus1"), w->handle()));
     }
 #endif
 
     bool focusUnset(fFocusWin == nullptr ||
                     fFocusWin->visible() == false ||
                     fFocusWin->isRollup());
-    if (w != None) {
+    if (w) {
         if (f->getInputFocusHint()) {
-            XSetInputFocus(xapp->display(), w, RevertToNone,
-                           xapp->getEventTime("setFocus"));
+            w->setWindowFocus();
             focusUnset = false;
         }
     }
-    if (w == None || focusUnset) {
-        XSetInputFocus(xapp->display(), fTopWin->handle(), RevertToNone,
-                       xapp->getEventTime("setFocus"));
+    if (w == nullptr || focusUnset) {
+        fTopWin->setWindowFocus();
         notifyActive(nullptr);
         fTopWin->setFrame(f);
     } else {
@@ -1106,7 +1104,7 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     }
 
     if (c &&
-        w == c->handle() &&
+        w == c &&
         (c->protocol(YFrameClient::wpTakeFocus) ||
          f->frameOption(YFrameWindow::foAppTakesFocus)))
     {
