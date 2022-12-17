@@ -2127,7 +2127,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace
             while (++w) {
                 if (!w->client()->adopted())
                     continue;
-                if (w->isUnmapped())
+                if (w->isUnmapped() && (pass < 2 || !w->isRollup()))
                     continue;
                 if (!w->visibleOn(workspace))
                     continue;
