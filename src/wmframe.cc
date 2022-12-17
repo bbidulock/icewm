@@ -1136,9 +1136,7 @@ bool YFrameWindow::handleTimer(YTimer *t) {
                 Window win = None; int rev = 0;
                 if (XGetInputFocus(xapp->display(), &win, &rev) && !win) {
                     if (getInputFocusHint()) {
-                        XSetInputFocus(xapp->display(), client()->handle(),
-                                       RevertToNone,
-                                       xapp->getEventTime("setFocus"));
+                        client()->setWindowFocus();
                     }
                 }
             }
