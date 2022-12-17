@@ -931,9 +931,12 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
     } else if (message.message_type == _XA_NET_ACTIVE_WINDOW) {
         YFrameWindow* f = obtainFrame();
         if (f && !frameOption(YFrameWindow::foIgnoreActivationMessages)) {
-            f->selectTab(this);
-            f->activate();
-            f->wmRaise();
+            if (f->client() != this)
+                f->selectTab(this);
+            if (f != manager->getFocus())
+                f->activate();
+            if (f->canRaise())
+                f->wmRaise();
         }
     } else if (message.message_type == _XA_NET_CLOSE_WINDOW) {
         actionPerformed(actionClose);
