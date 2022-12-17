@@ -2182,7 +2182,8 @@ void YWindowManager::focusLastWindow() {
     } else {
         if (raiseOnFocus)
             toFocus->wmRaise();
-        setFocus(toFocus);
+        if (toFocus != fFocusWin)
+            setFocus(toFocus);
     }
 }
 
