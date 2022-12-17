@@ -1972,10 +1972,12 @@ void YWindowManager::mapClient(Window win) {
     YFrameClient* client = findClient(win);
     YFrameWindow* frame = client ? client->getFrame() : nullptr;
     if (frame) {
-        if (frame->isUnmapped())
-            frame->makeMapped();
-        if (clickFocus || !strongPointerFocus)
-            frame->activate(true);/// !!! is this ok
+        if (frame != fFocusWin) {
+            if (frame->isUnmapped())
+                frame->makeMapped();
+            if (clickFocus || !strongPointerFocus)
+                frame->activate(true);/// !!! is this ok
+        }
     }
     else {
         grabServer();
