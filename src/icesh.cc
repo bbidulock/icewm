@@ -1390,6 +1390,8 @@ private:
     void flags();
     void flag(char* arg);
     bool plus(char* arg);
+    void pickingWindow();
+    void selectWindows();
     void xinit();
     void motif(Window window, char** args, int count);
     void setBorderTitle(int border, int title);
@@ -3095,6 +3097,23 @@ static void opacity(Window window, char* opaq) {
     }
 }
 
+void IceSh::pickingWindow() {
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+}
+
+void IceSh::selectWindows() {
+    if ( ! windowList && ! selecting) {
+        windowList.getClientList();
+        selecting = true;
+    }
+}
+
 void IceSh::motif(Window window, char** args, int count) {
     YMotifHints hints(window);
 
@@ -3615,13 +3634,7 @@ void IceSh::saveIcon(Window window, char* file)
 
 void IceSh::tabTo(char* defaultLabel)
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     CHANGES_WINDOW(window) {
         if (defaultLabel == nullptr && isTabbed(window) == false)
             continue;
@@ -3687,13 +3700,7 @@ void IceSh::tabTo(char* defaultLabel)
 
 void IceSh::extendClass()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         vector<XClassHint> classes;
         FOREACH_WINDOW(window) {
@@ -3742,13 +3749,7 @@ void IceSh::extendClass()
 
 void IceSh::extendGroup()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         YWindowTree leaders;
         FOREACH_WINDOW(window) {
@@ -3774,13 +3775,7 @@ void IceSh::extendGroup()
 
 void IceSh::extendPid()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         vector<long> pidset;
         FOREACH_WINDOW(window) {
@@ -4119,25 +4114,19 @@ void IceSh::flag(char* arg)
         return;
     }
     if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterLast();
         MSG(("last window selected"));
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-unmapped", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMapState(IsUnmapped);
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-viewable", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMapState(IsViewable);
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-T", "")) {
@@ -4193,8 +4182,7 @@ void IceSh::flag(char* arg)
     else if (isOptArg(arg, "-pid", val)) {
         long pid;
         if (tolong(val, pid)) {
-            if ( ! windowList)
-                windowList.getClientList();
+            selectWindows();
             windowList.filterByPid(pid);
             MSG(("pid window selected"));
             filtering = true;
@@ -4205,16 +4193,14 @@ void IceSh::flag(char* arg)
         }
     }
     else if (isOptArg(arg, "-machine", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMachine(val);
 
         MSG(("machine windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-name", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByName(val);
 
         MSG(("name windows selected"));
@@ -4226,8 +4212,7 @@ void IceSh::flag(char* arg)
         if ( ! WorkspaceInfo().parseWorkspace(val + inverse, &ws))
             throw 1;
 
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByWorkspace(ws, inverse);
         MSG(("workspace windows selected"));
         filtering = true;
@@ -4239,8 +4224,7 @@ void IceSh::flag(char* arg)
             msg(_("Invalid layer: `%s'."), val);
             throw 1;
         }
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
         filtering = true;
@@ -4248,16 +4232,14 @@ void IceSh::flag(char* arg)
     else if (isOptArg(arg, "-Property", val)) {
         bool inverse(*val == '!');
         char* prop = val + inverse;
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByProperty(prop, inverse);
         filtering = true;
     }
     else if (isOptArg(arg, "-Role", val)) {
         bool inverse(*val == '!');
         char* role = val + inverse;
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByRole(role, inverse);
         filtering = true;
     }
@@ -4269,8 +4251,7 @@ void IceSh::flag(char* arg)
             msg(_("Invalid state: `%s'."), val + inverse + question);
             throw 1;
         }
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByNetState(flags, inverse, question);
         MSG(("netstate windows selected"));
         filtering = true;
@@ -4279,15 +4260,13 @@ void IceSh::flag(char* arg)
         bool inverse(*val == '!');
         long gravity(gravities.parseExpression(val + inverse));
         check(gravities, gravity, val + inverse);
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByGravity(gravity, inverse);
         MSG(("gravity windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         confine(val);
         windowList.filterByScreen();
         MSG(("xinerama %s selected", val));
@@ -4319,8 +4298,7 @@ void IceSh::flag(char* arg)
         MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
 
         if (*arg == '-') {
-            if ( ! windowList)
-                windowList.getClientList();
+            selectWindows();
             windowList.filterByClass(wmname, wmclass);
             filtering = true;
         }
