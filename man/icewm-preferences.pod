@@ -821,6 +821,10 @@ Delay before activating menu items.
 
 Delay before activating menu submenus.
 
+=item B<ToolTipIcon>=1
+
+Show an application icon in toolbar and tray tooltips.
+
 =item B<ToolTipDelay>=1000  [0-5000]
 
 Delay before tooltip window is displayed.

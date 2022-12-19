@@ -50,7 +50,7 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
         g.setColor(toolTipFg);
         g.drawStringMultiline(fText, TTXMargin, y, width() - 2 * TTXMargin);
     }
-    if (fIcon != null) {
+    if (ToolTipIcon && fIcon != null) {
         int y = int(height() - hugeIconSize) - TTYMargin;
         int x = int(width() - hugeIconSize) / 2;
         fIcon->draw(g, x, y, hugeIconSize);
@@ -59,14 +59,15 @@ void YToolTipWindow::paint(Graphics& g, const YRect& /*r*/) {
 
 void YToolTipWindow::setText(mstring tip, ref<YIcon> icon) {
     fText = tip;
-    fIcon = icon;
+    if (ToolTipIcon)
+        fIcon = icon;
     unsigned w = 0, h = 0;
     if (toolTipFont) {
         YDimension size(toolTipFont->multilineAlloc(fText));
         w += size.w;
         h += size.h + 3;
     }
-    if (fIcon != null) {
+    if (ToolTipIcon && fIcon != null) {
         h += hugeIconSize;
         w = max(w, hugeIconSize);
     }
@@ -77,7 +78,8 @@ void YToolTipWindow::setText(mstring tip, ref<YIcon> icon) {
 
 void YToolTip::setText(mstring tip, ref<YIcon> icon) {
     fText = tip;
-    fIcon = icon;
+    if (ToolTipIcon)
+        fIcon = icon;
     if (fWindow) {
         fWindow->setText(tip, icon);
         fWindow->locate(fLocate);

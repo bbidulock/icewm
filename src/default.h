@@ -389,6 +389,7 @@ cfoption icewm_preferences[] = {
     OIV("MenuActivateDelay",                    &MenuActivateDelay, 0, 5000,    "Delay in ms before activating menu items"),
     OIV("SubmenuMenuActivateDelay",             &SubmenuActivateDelay, 0, 5000, "Delay in ms before activating menu submenus"),
     OIV("MenuMaximalWidth",                     &MenuMaximalWidth, 0, 16384,    "Maximal width of popup menus,  2/3 of the screen's width if set to zero"),
+    OBV("ToolTipIcon",                          &ToolTipIcon,                   "Show an application icon in toolbar and tray tooltips"),
     OIV("ToolTipDelay",                         &ToolTipDelay, 0, 5000,         "Delay in ms before tooltip window is displayed"),
     OIV("ToolTipTime",                          &ToolTipTime, 0, 60000,         "Time in ms before tooltip window is hidden (0 means never)"),
     OIV("AutoHideDelay",                        &autoHideDelay, 0, 5000,        "Delay in ms before task bar is hidden"),
