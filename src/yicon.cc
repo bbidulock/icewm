@@ -42,7 +42,7 @@ YIcon::~YIcon() {
 static const char iconExts[][5] = {
     ".png",
     ".xpm",
-#ifdef CONFIG_LIBRSVG
+#ifdef ICE_SUPPORT_SVG
     ".svg",
 #endif
 };
@@ -76,7 +76,7 @@ public:
             + 64
             + 32
 
-#ifdef CONFIG_LIBRSVG
+#ifdef ICE_SUPPORT_SVG
             + SCALABLE
 #endif
             ;
@@ -213,7 +213,7 @@ private:
         for (const char* entry : entries) {
             // try the scalable version if it can handle SVG
             if (strcmp(entry, "scalable") == 0) {
-#ifdef CONFIG_LIBRSVG
+#ifdef ICE_SUPPORT_SVG
                 auto& scaleCat = pools[fromResources].getCat(SCALABLE);
                 for (auto contentDir : subcats) {
                     mstring path(iconPathToken, "/scalable", contentDir);
@@ -501,7 +501,7 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
             mstring cs(loadPath.path());
             YTraceIcon trace(cs);
 
-#ifdef CONFIG_LIBRSVG
+#ifdef ICE_SUPPORT_SVG
             mstring ext(loadPath.getExtension().lower());
             if (ext == ".svg")
                 icon = YImage::loadsvg(cs);

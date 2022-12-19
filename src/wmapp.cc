@@ -1706,6 +1706,9 @@ static void print_configured(const char *argv0) {
 #ifdef LOGEVENTS
     " logevents"
 #endif
+#ifdef CONFIG_NANOSVG
+    " nanosvg"
+#endif
 #ifdef ENABLE_NLS
     " nls"
 #endif

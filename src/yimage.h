@@ -1,6 +1,10 @@
 #ifndef YIMAGE_H
 #define YIMAGE_H
 
+#if defined(CONFIG_LIBRSVG) || (defined(CONFIG_NANOSVG) && defined(CONFIG_IMLIB2))
+#define ICE_SUPPORT_SVG 1
+#endif
+
 #include "ref.h"
 #include "ypaint.h"
 
@@ -10,7 +14,7 @@ class Graphics;
 class YImage: public refcounted {
 public:
     static ref<YImage> load(upath filename);
-#ifdef CONFIG_LIBRSVG
+#if ICE_SUPPORT_SVG
     static ref<YImage> loadsvg(upath filename);
 #endif
     static ref<YImage> createFromPixmap(ref<YPixmap> image);
