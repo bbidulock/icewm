@@ -22,6 +22,9 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/stat.h>
 #include <vector>
 #include <algorithm>
 
@@ -77,6 +80,14 @@ static bool tolong(const char* str, long& num, int base = 10) {
     char* end = nullptr;
     if (str) {
         num = strtol(str, &end, base);
+    }
+    return end && str < end && 0 == *end;
+}
+
+static bool tofloat(const char* str, float& num) {
+    char* end = nullptr;
+    if (str) {
+        num = strtof(str, &end);
     }
     return end && str < end && 0 == *end;
 }
@@ -170,9 +181,11 @@ static NAtom ATOM_WM_STATE("WM_STATE");
 static NAtom ATOM_WM_CHANGE_STATE("WM_CHANGE_STATE");
 static NAtom ATOM_WM_CLIENT_LEADER("WM_CLIENT_LEADER");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
+static NAtom ATOM_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
 static NAtom ATOM_NET_WM_NAME("_NET_WM_NAME");
+static NAtom ATOM_NET_WM_ICON("_NET_WM_ICON");
 static NAtom ATOM_NET_WM_ICON_NAME("_NET_WM_ICON_NAME");
 static NAtom ATOM_NET_WM_DESKTOP("_NET_WM_DESKTOP");
 static NAtom ATOM_NET_DESKTOP_NAMES("_NET_DESKTOP_NAMES");
@@ -189,6 +202,7 @@ static NAtom ATOM_ICE_DOCKAPPS("_ICEWM_DOCKAPPS");
 static NAtom ATOM_ICE_WINOPT("_ICEWM_WINOPTHINT");
 static NAtom ATOM_MOTIF_HINTS(_XA_MOTIF_WM_HINTS);
 static NAtom ATOM_NET_CLIENT_LIST("_NET_CLIENT_LIST");
+static NAtom ATOM_NET_CLIENT_LIST_STACKING("_NET_CLIENT_LIST_STACKING");
 static NAtom ATOM_NET_CLOSE_WINDOW("_NET_CLOSE_WINDOW");
 static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
@@ -197,6 +211,7 @@ static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_WM_WINDOW_TYPE("_NET_WM_WINDOW_TYPE");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
+static NAtom ATOM_COMPOUND_TEXT("COMPOUND_TEXT");
 static NAtom ATOM_UTF8_STRING("UTF8_STRING");
 static NAtom ATOM_XEMBED_INFO("_XEMBED_INFO");
 static NAtom ATOM_NET_WORKAREA("_NET_WORKAREA");
@@ -272,6 +287,11 @@ static Time serverTime()
     return now;
 }
 
+static void sendEvent(void* event) {
+    XSendEvent(display, root, False, SubstructureNotifyMask,
+               reinterpret_cast<XEvent *>(event));
+}
+
 static void send(NAtom& typ, Window win, long l0, long l1,
                  long l2 = 0L, long l3 = 0L, long l4 = 0L)
 {
@@ -288,8 +308,7 @@ static void send(NAtom& typ, Window win, long l0, long l1,
     xev.data.l[3] = l3;
     xev.data.l[4] = l4;
 
-    XSendEvent(display, root, False, SubstructureNotifyMask,
-               reinterpret_cast<XEvent *>(&xev));
+    sendEvent(&xev);
 }
 
 /******************************************************************************/
@@ -411,6 +430,12 @@ static void setAtom(Window window, Atom property, Atom newValue)
                     reinterpret_cast<unsigned char *>(&newValue), 1);
 }
 
+static void setProp(Window win, Atom prop, Atom type, Atom* values, int count)
+{
+    XChangeProperty(display, win, prop, type, 32, PropModeReplace,
+                    reinterpret_cast<unsigned char *>(values), count);
+}
+
 class YProperty {
 public:
     YProperty(Window window, Atom property, Atom type, long length = 1):
@@ -482,6 +507,13 @@ public:
     void remove() {
         XDeleteProperty(display, fWindow, fProp);
         release();
+    }
+
+    void substitute(char* data, Atom type) {
+        if (fData) XFree(fData);
+        fData = (unsigned char *) data;
+        fType = type;
+        fCount = data ? long(strlen(data)) : 0;
     }
 
     Atom type() const { return fType; }
@@ -674,9 +706,26 @@ public:
 
 class YStringProperty : public YProperty {
 public:
-    YStringProperty(Window window, Atom property, Atom kind = XA_STRING) :
+    YStringProperty(Window window, Atom property, Atom kind = AnyPropertyType) :
         YProperty(window, property, kind, BUFSIZ)
     {
+        if (status() == Success && kind == AnyPropertyType) {
+            if (type() == ATOM_COMPOUND_TEXT) {
+                XTextProperty text = { data<unsigned char>(), type(),
+                                       format(), (unsigned long) count() };
+                char** list = nullptr;
+                int count = 0;
+                if (XmbTextPropertyToTextList(display, &text, &list, &count)
+                    == Success && 0 < count) {
+                    char* copy = strdup(*list);
+                    XFreeStringList(list);
+                    substitute(copy, XA_STRING);
+                }
+            }
+            if (type() != XA_STRING && type() != kind) {
+                substitute(nullptr, XA_STRING);
+            }
+        }
     }
 
     const char* operator&() const { return data<char>(); }
@@ -914,7 +963,7 @@ public:
             : (fChildren.push_back(window), true);
     }
 
-    void query(Window window) {
+    bool query(Window window) {
         release();
         if (window) {
             Window rootw;
@@ -925,6 +974,7 @@ public:
                 XFree(data);
             }
         }
+        return bool(fParent);
     }
 
     void getWindowList(NAtom& property) {
@@ -1078,8 +1128,13 @@ public:
                     }
                 }
                 else if (prop.type() == XA_ATOM) {
-                    if (propertyValue && propertyValue == Atom(*prop)) {
-                        match = true;
+                    if (propertyValue) {
+                        for (long i = 0; i < prop.count(); ++i) {
+                            if (propertyValue == Atom(prop[i])) {
+                                match = true;
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -1264,6 +1319,25 @@ public:
         }
     }
 
+    void stacking() {
+        YWindowTree stack;
+        stack.getWindowList(ATOM_NET_CLIENT_LIST_STACKING);
+        if (stack) {
+            std::sort(fChildren.begin(), fChildren.end(),
+                      [&stack](const Window &a, const Window &b){
+                return
+                    std::find(stack.fChildren.begin(),
+                              stack.fChildren.end(), a) >
+                    std::find(stack.fChildren.begin(),
+                              stack.fChildren.end(), b);
+            });
+        }
+    }
+
+    void reverse() {
+        std::reverse(fChildren.begin(), fChildren.end());
+    }
+
 private:
     Confine fConfine;
     Window fParent;
@@ -1278,6 +1352,8 @@ YTreeLeaf* YTreeIter::operator->() { return fTree.leaf(fIndex); }
 
 #define FOREACH_WINDOW(W) \
     for (YTreeIter W(windowList); W; ++W)
+#define CHANGES_WINDOW(W) \
+    for (YTreeIter W(windowList); use(W); modified(W), ++W)
 
 /******************************************************************************/
 
@@ -1303,7 +1379,10 @@ private:
     vector<IfTE> ifs;
     IfTE ifte();
     vector<YWindowTree> trees;
+    vector<Window> modifications;
 
+    bool use(Window w);
+    void modified(Window w);
     void spy();
     void spyEvent(const XEvent& event);
     void spyClient(const XClientMessageEvent& event, const char* head);
@@ -1311,12 +1390,15 @@ private:
     void flags();
     void flag(char* arg);
     bool plus(char* arg);
+    void pickingWindow();
+    void selectWindows();
     void xinit();
     void motif(Window window, char** args, int count);
     void setBorderTitle(int border, int title);
     void sizeto();
     void sizeby();
     void detail();
+    void extents();
     void details(Window window);
     void setWindow(Window window);
     void addWindow(Window window);
@@ -1355,11 +1437,14 @@ private:
     bool setWorkspaceNames();
     void changeState(const char* arg);
     void changeState(int state);
+    void changeState(int state, Window window);
     bool colormaps();
+    bool workarea();
     bool current();
     bool runonce();
     void click();
     bool delay();
+    void tabTo(char* arg);
     void monitors();
     bool desktops();
     bool desktop();
@@ -1370,6 +1455,12 @@ private:
     bool check(const struct SymbolTable& symtab, long code, const char* str);
     unsigned count() const;
     void xerror(XErrorEvent* evt);
+    void getGeometry(Window window);
+    void setGeometry(Window window, const char* geometry);
+    void getClass(Window window);
+    void setClass(Window window, const char* title);
+    void saveIcon(Window window, char* file);
+    void loadIcon(Window window, char* file);
 
     const char* atomName(Atom atom) {
         return NAtom::lookup(atom);
@@ -1653,6 +1744,19 @@ static Window getFrameWindow(Window window)
     return None;
 }
 
+static int countTabs(Window frame) {
+    YWindowTree windowList(frame);
+    int count = 0;
+    FOREACH_WINDOW(window)
+        if (window->wmName() == "Container")
+            ++count;
+    return count;
+}
+
+static bool isTabbed(Window client) {
+    return countTabs(getFrameWindow(client)) > 1;
+}
+
 static Window getGroupLeader(Window window) {
     Window lead = None;
     YClient prop(window, ATOM_WM_CLIENT_LEADER);
@@ -1691,7 +1795,13 @@ static void getArea(Window window, int& x, int& y, int& w, int& h) {
     long hmin = 0;
     long wmax = displayWidth();
     long hmax = displayHeight();
-    long ws = max(0L, getWorkspace(window));
+    long ws = Sticky;
+    if (window && window != root) {
+        ws = getWorkspace(window);
+    }
+    if (ws < 0 || ws == Sticky) {
+        ws = currentWorkspace();
+    }
     YCardinal net(root, ATOM_NET_WORKAREA, 5000);
     if (net && ws < net.count() / 4) {
         wmin = net[ws * 4 + 0];
@@ -1705,13 +1815,27 @@ static void getArea(Window window, int& x, int& y, int& w, int& h) {
     h = int(hmax);
 }
 
-static void extArea(Window window, int& x, int& y, int& w, int& h) {
+static bool getExtents(Window window, int& l, int& r, int& t, int& b) {
     YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
     if (exts && exts.count() == 4) {
-        x += int(exts[0]);
-        y += int(exts[2]);
-        w = max(1, w - int(exts[0] + exts[1]));
-        h = max(1, h - int(exts[2] + exts[3]));
+        l = int(exts[0]);
+        r = int(exts[1]);
+        t = int(exts[2]);
+        b = int(exts[3]);
+        return true;
+    } else {
+        l = r = t = b = 0;
+        return false;
+    }
+}
+
+static void extArea(Window window, int& x, int& y, int& w, int& h) {
+    int l, r, t, b;
+    if (getExtents(window, l, r, t, b)) {
+        x += l;
+        y += t;
+        w = max(1, w - (l + r));
+        h = max(1, h - (t + b));
     }
 }
 
@@ -1720,6 +1844,32 @@ bool IceSh::running;
 void IceSh::catcher(int)
 {
     running = false;
+}
+
+bool IceSh::use(Window window)
+{
+    if (window && contains(modifications, window)) {
+        sync();
+        fsleep(0.1);
+        modifications.clear();
+    }
+    return window;
+}
+
+void IceSh::modified(Window window)
+{
+    if (contains(modifications, window) == false) {
+        modifications.push_back(window);
+    }
+}
+
+void IceSh::getGeometry(Window window)
+{
+    use(window);
+    int x = 0, y = 0, width = 0, height = 0;
+    if (::getGeometry(window, x, y, width, height)) {
+        printf("%dx%d+%d+%d\n", width, height, x, y);
+    }
 }
 
 void IceSh::details(Window w)
@@ -1743,7 +1893,7 @@ void IceSh::details(Window w)
     snprintf(wmtitle, sizeof wmtitle, "(%.*s)", 50, wmname);
 
     int x = 0, y = 0, width = 0, height = 0;
-    getGeometry(w, x, y, width, height);
+    ::getGeometry(w, x, y, width, height);
 
     long pid = *YCardinal(w, ATOM_NET_WM_PID);
     long work = getWorkspace(w);
@@ -1756,7 +1906,19 @@ void IceSh::details(Window w)
 void IceSh::detail()
 {
     FOREACH_WINDOW(window) {
+        use(window);
         details(window);
+    }
+}
+
+void IceSh::extents()
+{
+    FOREACH_WINDOW(window) {
+        use(window);
+        int l, t, r, b;
+        if (getExtents(*window, l, r, t, b)) {
+            printf("0x%-8lx %d %d %d %d\n", *window, l, r, t, b);
+        }
     }
 }
 
@@ -1768,17 +1930,29 @@ void IceSh::sizeto()
     bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
     if (wper) wstr[strlen(wstr)-1] = '\0';
     if (hper) hstr[strlen(hstr)-1] = '\0';
-    long wlen, hlen, supplied;
-    if (tolong(wstr, wlen) && tolong(hstr, hlen) && 0 < wlen && 0 < hlen) {
+    long wlen = 0, hlen = 0, supplied;
+    float wflt = 0, hflt = 0;
+    if ((wper ? tofloat(wstr, wflt) && 0 < wflt
+              : tolong(wstr, wlen) && 0 < wlen) &&
+        (hper ? tofloat(hstr, hflt) && 0 < hflt
+              : tolong(hstr, hlen) && 0 < hlen))
+    {
         FOREACH_WINDOW(window) {
+            use(window);
+
             long w = wlen;
             long h = hlen;
             if (wper | hper) {
                 int ax, ay, aw, ah;
+                int l, r, t, b;
                 getArea(window, ax, ay, aw, ah);
-                extArea(window, ax, ay, aw, ah);
-                if (wper) w = aw * wlen / 100;
-                if (hper) h = ah * hlen / 100;
+                getExtents(window, l, r, t, b);
+                if (wper) {
+                    w = min(long(aw * wflt / 100 - l - r), 32732L);
+                }
+                if (hper) {
+                    h = min(long(ah * hflt / 100 - t - b), 32732L);
+                }
                 if (w <= 0 || h <= 0) {
                     continue;
                 }
@@ -1814,6 +1988,7 @@ void IceSh::sizeto()
             if (0 < w && 0 < h) {
                 moveResize(window, NorthWestGravity,
                            None, None, w, h, CWWidth | CWHeight);
+                modified(window);
             }
         }
     }
@@ -1830,16 +2005,42 @@ void IceSh::sizeby()
     bool hper = *hstr && hstr[strlen(hstr)-1] == '%';
     if (wper) wstr[strlen(wstr)-1] = '\0';
     if (hper) hstr[strlen(hstr)-1] = '\0';
-    long wlen, hlen, supplied;
-    if (tolong(wstr, wlen) && tolong(hstr, hlen)) {
+    long wlen = 0, hlen = 0, supplied;
+    float wflt = 0, hflt = 0;
+    if ((wper ? tofloat(wstr, wflt)
+              : tolong(wstr, wlen)) &&
+        (hper ? tofloat(hstr, hflt)
+              : tolong(hstr, hlen)))
+    {
         FOREACH_WINDOW(window) {
+            use(window);
+
             int gx, gy, gw, gh;
-            if (getGeometry(window, gx, gy, gw, gh) == false) {
+            if (::getGeometry(window, gx, gy, gw, gh) == false) {
                 continue;
             }
 
-            long w = gw + (wper ? wlen * gw / 100L : wlen);
-            long h = gh + (hper ? hlen * gh / 100L : hlen);
+            long w = gw, h = gh;
+            if (wper) {
+                long px = long(wflt * w / 100);
+                if (px < 0) w = max(1L, w + px);
+                else if (w < 32732L) w = min(32732L, w + px);
+            }
+            else if (wlen < 0) {
+                w = max(1L, w + wlen);
+            } else if (w < 32732L) {
+                w = min(32732L, w + wlen);
+            }
+            if (hper) {
+                long py = long(hflt * h / 100);
+                if (py < 0) h = max(1L, h + py);
+                else if (h < 32732L) h = min(32732L, h + py);
+            }
+            else if (hlen < 0) {
+                h = max(1L, h + hlen);
+            } else if (h < 32732L) {
+                h = min(32732L, h + hlen);
+            }
 
             xsmart<XSizeHints> sh(XAllocSizeHints());
             if (XGetWMNormalHints(display, window, sh, &supplied)) {
@@ -1871,6 +2072,7 @@ void IceSh::sizeby()
             if (0 < w && 0 < h) {
                 XResizeWindow(display, window,
                               unsigned(w), unsigned(h));
+                modified(window);
             }
         }
     }
@@ -2079,7 +2281,7 @@ void IceSh::setWindowType(const char* arg)
                 char buf[99] = "_NET_WM_WINDOW_TYPE_";
                 strlcat(buf, types[i], sizeof buf);
                 NAtom atom(buf);
-                FOREACH_WINDOW(window) {
+                CHANGES_WINDOW(window) {
                     setAtom(window, ATOM_NET_WM_WINDOW_TYPE, atom);
                 }
                 break;
@@ -2267,6 +2469,10 @@ bool IceSh::sync()
         return false;
 
     doSync();
+
+    if (haveArg() && 0 == strcmp(*argp, "delay"))
+        modifications.clear();
+
     return true;
 }
 
@@ -2274,9 +2480,9 @@ void IceSh::doSync()
 {
     YProperty winp(root, ATOM_WIN_PROTOCOLS, XA_ATOM, 20);
     if (winp) {
-        unsigned char data[3] = { 0, 0, 0, };
         YProperty wopt(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT, 20);
         if (wopt == false) {
+            unsigned char data[3] = { 0, 0, 0, };
             wopt.append(data, 3, 8);
         }
         for (int i = 1; i <= 5 && winp && wopt; ++i) {
@@ -2322,6 +2528,18 @@ bool IceSh::colormaps()
     return true;
 }
 
+bool IceSh::workarea()
+{
+    if ( !isAction("workarea", 0))
+        return false;
+
+    int ax, ay, aw, ah;
+    getArea(root, ax, ay, aw, ah);
+    printf("%d %d %d %d\n", ax, ay, aw, ah);
+
+    return true;
+}
+
 void IceSh::changeState(const char* arg)
 {
     if (!strncmp(arg, "NormalState", strlen(arg)))
@@ -2336,9 +2554,15 @@ void IceSh::changeState(const char* arg)
     }
 }
 
+void IceSh::changeState(int state, Window window) {
+    use(window);
+    send(ATOM_WM_CHANGE_STATE, window, state, None);
+    modified(window);
+}
+
 void IceSh::changeState(int state) {
     FOREACH_WINDOW(window) {
-        send(ATOM_WM_CHANGE_STATE, window, state, None);
+        changeState(state, window);
     }
 }
 
@@ -2354,8 +2578,10 @@ void IceSh::click()
         inrange<long>(lb, Button1, Button5 + 4))
     {
         FOREACH_WINDOW(window) {
+            use(window);
+
             int gx, gy, gw, gh;
-            if (getGeometry(window, gx, gy, gw, gh)) {
+            if (::getGeometry(window, gx, gy, gw, gh)) {
                 if (lx < 0)
                     lx += gw;
                 if (ly < 0)
@@ -2409,6 +2635,10 @@ bool IceSh::delay()
         }
     }
     fsleep(delay);
+
+    if (haveArg() && 0 == strcmp(*argp, "sync"))
+        modifications.clear();
+
     return true;
 }
 
@@ -2497,6 +2727,7 @@ bool IceSh::icewmAction()
         || listXembed()
         || listShown()
         || colormaps()
+        || workarea()
         || delay()
         || desktops()
         || desktop()
@@ -2576,13 +2807,15 @@ static void printNormalGravity(Window window) {
 
 /******************************************************************************/
 
-static void setGeometry(Window window, const char* geometry) {
+void IceSh::setGeometry(Window window, const char* geometry) {
     int geom_x, geom_y;
     unsigned geom_width, geom_height;
     int status(XParseGeometry(geometry, &geom_x, &geom_y,
                               &geom_width, &geom_height));
     if (status == NoValue)
         return;
+
+    use(window);
 
     XSizeHints normal;
     long supplied;
@@ -2627,13 +2860,35 @@ static void setGeometry(Window window, const char* geometry) {
 
     moveResize(window, StaticGravity, x, y, width, height,
                (status & AllValues));
+    modified(window);
 }
 
-static void getGeometry(Window window) {
-    int x = 0, y = 0, width = 0, height = 0;
-    if (getGeometry(window, x, y, width, height)) {
-        printf("%dx%d+%d+%d\n", width, height, x, y);
+void IceSh::getClass(Window window) {
+    XClassHint hint;
+    if (XGetClassHint(display, window, &hint)) {
+        printf("0x%07lx %s.%s\n", window, hint.res_name, hint.res_class);
+        XFree(hint.res_name);
+        XFree(hint.res_class);
     }
+}
+
+void IceSh::setClass(Window window, const char* title) {
+    char nil = '\0';
+    char* name = strdup(title);
+    char* dot = strchr(name, '.');
+    char* klas = dot ? dot + 1 : &nil;
+    if (dot) *dot = '\0';
+    XClassHint hint = { nullptr, nullptr };
+    bool have = strchr(title, '%') && XGetClassHint(display, window, &hint);
+    XClassHint repl;
+    repl.res_name = strcmp(name, "%") ? name : have ? hint.res_name : &nil;
+    repl.res_class = strcmp(klas, "%") ? klas : have ? hint.res_class : &nil;
+    XSetClassHint(display, window, &repl);
+    if (have) {
+        XFree(hint.res_name);
+        XFree(hint.res_class);
+    }
+    free(name);
 }
 
 /******************************************************************************/
@@ -2842,6 +3097,23 @@ static void opacity(Window window, char* opaq) {
     }
 }
 
+void IceSh::pickingWindow() {
+    if ( ! windowList && ! selecting) {
+        Window pick = pickWindow();
+        if (pick <= root)
+            throw 1;
+        setWindow(pick);
+        selecting = true;
+    }
+}
+
+void IceSh::selectWindows() {
+    if ( ! windowList && ! selecting) {
+        windowList.getClientList();
+        selecting = true;
+    }
+}
+
 void IceSh::motif(Window window, char** args, int count) {
     YMotifHints hints(window);
 
@@ -2951,14 +3223,16 @@ void IceSh::motif(Window window, char** args, int count) {
 
     if (mwm.hasFlags()) {
         hints.replace(mwm);
+        modified(window);
     }
     else if (removing && hints) {
         hints.remove();
+        modified(window);
     }
 }
 
 void IceSh::setBorderTitle(int border, int title) {
-    FOREACH_WINDOW(window) {
+    CHANGES_WINDOW(window) {
         YMotifHints hints(window);
         MwmHints mwm;
         if (hints) {
@@ -3070,7 +3344,7 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             const char* name(atomName(atom));
             printf("%s%s", prefix, (char *) name);
             if (f & InputHint) {
-                printf(" Input");
+                printf(" Input(%d)", h->input & True);
             }
             if (f & StateHint) {
                 printf(" %s",
@@ -3106,6 +3380,14 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
                 if (inrange(1 + gev, 1, NUM_GUI_EVENTS)) {
                     puts(gui_event_names[gev]);
                 }
+            }
+            else if (prop.property() == XA_WM_COMMAND) {
+                char* s = prop.data<char>();
+                int num = int(prop.count());
+                for (int i = 0; i < num; ++i)
+                    if (s[i] == '\0')
+                        s[i] = ' ';
+                printf("%*.*s\n", num, num, s);
             }
             else {
                 for (int i = 0; i < prop.count(); ++i) {
@@ -3175,7 +3457,7 @@ void IceSh::confine(const char* val) {
         Window active = getActive();
         if (active) {
             int x, y, w, h, most = 0;
-            if (getGeometry(active, x, y, w, h)) {
+            if (::getGeometry(active, x, y, w, h)) {
                 YRect area(x, y, w, h);
                 Confine& c = windowList.xine();
                 for (int i = 0; i < c.count(); ++i) {
@@ -3224,15 +3506,201 @@ void IceSh::flush()
         throw 1;
 }
 
+static void randomSetup() {
+    static unsigned seed;
+    if (seed == 0) {
+        timeval now = walltime();
+        seed = unsigned((getpid() * now.tv_usec) ^ now.tv_sec);
+        srand(seed);
+    }
+}
+
+static char* randomLabel() {
+    static const char data[] =
+        "abcdefghijklmnopqrstuvwxyz-12345"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ_67890";
+    const int length = 7;
+    static char label[length + 1];
+    randomSetup();
+    for (int i = 0, r = 0; i < length; ++i) {
+        if (r < 32)
+            r = rand();
+        label[i] = data[r & 63];
+        r >>= 6;
+    }
+    label[length] = '\0';
+    return label;
+}
+
+void IceSh::loadIcon(Window window, char* file)
+{
+    int fd = open(file, O_RDONLY);
+    if (0 <= fd) {
+        char head[128];
+        int width = 0, height = 0, depth = 0, maxval = 0, length = 0;
+        if (read(fd, head, sizeof head) == ssize_t(sizeof head) &&
+            strncmp(head, "P7\nWIDTH ", 9) == 0 &&
+            sscanf(head,
+                   "P7\nWIDTH %d\nHEIGHT %d\nDEPTH %d\n"
+                   "MAXVAL %d\nTUPLTYPE RGB_ALPHA\nENDHDR\n%n",
+                   &width, &height, &depth, &maxval, &length) == 4 &&
+            0 < width && width <= 256 &&
+            0 < height && height <= 256 &&
+            depth == 4 && maxval == 255 && 64 <= length)
+        {
+            unsigned* data = new unsigned[width * height];
+            size_t size = sizeof(unsigned) * width * height;
+            memset(data, 0, size);
+            if (lseek(fd, off_t(length), SEEK_SET) >= 0 &&
+                read(fd, data, size) == ssize_t(size)) {
+                Atom* card = new Atom[2 + width * height];
+                for (int i = 0; i < width * height; ++i) {
+                    card[i + 2] = data[i];
+                }
+                card[0] = width;
+                card[1] = height;
+                setProp(window, ATOM_NET_WM_ICON, XA_CARDINAL,
+                        card, 2 + width * height);
+                delete[] card;
+            }
+            delete[] data;
+        }
+        close(fd);
+    }
+}
+
+void IceSh::saveIcon(Window window, char* file)
+{
+    const int limit = 1234 * 1234;
+    YCardinal icon(window, ATOM_NET_WM_ICON, limit);
+    if (icon) {
+        int bestI = 0, bestW = 0, bestH = 0, bestB = 0;
+        for (int i = 0; i + 2 < icon.count(); ) {
+            long w = icon[i], h = icon[i + 1];
+            if (0 < w && w < limit && 0 < h && h <= limit / w &&
+                i + 2 + w * h <= limit)
+            {
+                int b = 0;
+                while ((1 << b) < w * h)
+                    ++b;
+                if (abs(14 - b) < abs(14 - bestB)) {
+                    bestI = i;
+                    bestW = w;
+                    bestH = h;
+                    bestB = b;
+                }
+                i += 2 + w * h;
+            } else {
+                break;
+            }
+        }
+        if (bestW && bestH) {
+            for (int i = 0; i <= 100; ++i) {
+                const int flags = O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW;
+                const int fd = open(file, flags, 0600);
+                if (fd == -1 && errno == EEXIST) {
+                    int k = int(strlen(file)) - 1;
+                    while (k >= 0 && file[k] != '/' &&
+                            (file[k] < '0' || '8' < file[k]))
+                        --k;
+                    if (k < 0 || file[k] < '0' || '8' < file[k])
+                        break;
+                    ++file[k];
+                    while (file[k + 1] == '9')
+                        file[++k] = '0';
+                }
+                else if (fd == -1)
+                    break;
+                else {
+                    char buf[128];
+                    snprintf(buf, sizeof buf,
+                             "P7\nWIDTH %d\nHEIGHT %d\nDEPTH 4\nMAXVAL 255\n"
+                             "TUPLTYPE RGB_ALPHA\nENDHDR\n", bestW, bestH);
+                    write(fd, buf, strlen(buf));
+                    const int size = bestW * bestH;
+                    unsigned* data = new unsigned[size];
+                    for (int i = 0; i < size; ++i) {
+                        data[i] = unsigned(icon[bestI + 2 + i]);
+                    }
+                    write(fd, data, size * sizeof(unsigned));
+                    close(fd);
+                    delete[] data;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+void IceSh::tabTo(char* defaultLabel)
+{
+    pickingWindow();
+    CHANGES_WINDOW(window) {
+        if (defaultLabel == nullptr && isTabbed(window) == false)
+            continue;
+
+        XClassHint h = { nullptr, nullptr };
+        bool xgot = (XGetClassHint(display, window, &h) == True);
+        YStringProperty role(window, ATOM_WM_WINDOW_ROLE);
+        const char* str1 = nullptr, *str2 = nullptr;
+        if (xgot && h.res_class)
+            str1 = h.res_class, str2 = h.res_name;
+        else if (xgot && h.res_name)
+            str1 = h.res_name, str2 = role ? &role : nullptr;
+        else if (role)
+            str1 = &role;
+        size_t length = (str1 ? strlen(str1) : 0)
+                      + (str2 ? strlen(str2) : 0);
+        XWindowAttributes attr = {};
+        if (length && XGetWindowAttributes(display, window, &attr)) {
+            char* label = defaultLabel ? defaultLabel : randomLabel();
+            size_t size = length + 10 + strlen(label);
+            char* buf = new char[size];
+            if (buf) {
+                int len;
+                if (str2) {
+                    len = snprintf(buf, size, "%s.%s%cframe%c%s",
+                                   str1, str2, '\0', '\0', label);
+                } else {
+                    len = snprintf(buf, size, "%s%cframe%c%s",
+                                   str1, '\0', '\0', label);
+                }
+                XUnmapWindow(display, window);
+                XUnmapEvent unmap = {
+                    UnmapNotify, None, True, display, root, window, False
+                };
+                sendEvent(&unmap);
+                for (;;) {
+                    YWindowTree tree;
+                    tree.getClientList();
+                    if (tree.have(window) == false)
+                        break;
+                    if ( !tree.query(window) || tree.parent() == root)
+                        break;
+                }
+                YProperty wopt(root, ATOM_ICE_WINOPT, ATOM_ICE_WINOPT, 0);
+                wopt.append((unsigned char *) buf, len + 1, 8);
+                doSync();
+                XMapWindow(display, window);
+                for (;;) {
+                    YWindowTree tree;
+                    tree.getClientList();
+                    if (tree.have(window))
+                        break;
+                    if ( !tree.query(window) || tree.parent() != root)
+                        break;
+                }
+                delete[] buf;
+            }
+        }
+        XFree(h.res_name);
+        XFree(h.res_class);
+    }
+}
+
 void IceSh::extendClass()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         vector<XClassHint> classes;
         FOREACH_WINDOW(window) {
@@ -3281,13 +3749,7 @@ void IceSh::extendClass()
 
 void IceSh::extendGroup()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         YWindowTree leaders;
         FOREACH_WINDOW(window) {
@@ -3313,13 +3775,7 @@ void IceSh::extendGroup()
 
 void IceSh::extendPid()
 {
-    if ( ! windowList && ! selecting) {
-        Window pick = pickWindow();
-        if (pick <= root)
-            throw 1;
-        setWindow(pick);
-        selecting = true;
-    }
+    pickingWindow();
     if (windowList) {
         vector<long> pidset;
         FOREACH_WINDOW(window) {
@@ -3658,25 +4114,19 @@ void IceSh::flag(char* arg)
         return;
     }
     if (isOptArg(arg, "-last", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterLast();
         MSG(("last window selected"));
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-unmapped", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMapState(IsUnmapped);
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-viewable", "")) {
-        if ( ! windowList && ! selecting)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMapState(IsViewable);
-        selecting = true;
         return;
     }
     if (isOptArg(arg, "-T", "")) {
@@ -3732,8 +4182,7 @@ void IceSh::flag(char* arg)
     else if (isOptArg(arg, "-pid", val)) {
         long pid;
         if (tolong(val, pid)) {
-            if ( ! windowList)
-                windowList.getClientList();
+            selectWindows();
             windowList.filterByPid(pid);
             MSG(("pid window selected"));
             filtering = true;
@@ -3744,16 +4193,14 @@ void IceSh::flag(char* arg)
         }
     }
     else if (isOptArg(arg, "-machine", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByMachine(val);
 
         MSG(("machine windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-name", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByName(val);
 
         MSG(("name windows selected"));
@@ -3765,8 +4212,7 @@ void IceSh::flag(char* arg)
         if ( ! WorkspaceInfo().parseWorkspace(val + inverse, &ws))
             throw 1;
 
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByWorkspace(ws, inverse);
         MSG(("workspace windows selected"));
         filtering = true;
@@ -3778,8 +4224,7 @@ void IceSh::flag(char* arg)
             msg(_("Invalid layer: `%s'."), val);
             throw 1;
         }
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByLayer(layer, inverse);
         MSG(("layer windows selected"));
         filtering = true;
@@ -3787,16 +4232,14 @@ void IceSh::flag(char* arg)
     else if (isOptArg(arg, "-Property", val)) {
         bool inverse(*val == '!');
         char* prop = val + inverse;
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByProperty(prop, inverse);
         filtering = true;
     }
     else if (isOptArg(arg, "-Role", val)) {
         bool inverse(*val == '!');
         char* role = val + inverse;
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByRole(role, inverse);
         filtering = true;
     }
@@ -3808,8 +4251,7 @@ void IceSh::flag(char* arg)
             msg(_("Invalid state: `%s'."), val + inverse + question);
             throw 1;
         }
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByNetState(flags, inverse, question);
         MSG(("netstate windows selected"));
         filtering = true;
@@ -3818,15 +4260,13 @@ void IceSh::flag(char* arg)
         bool inverse(*val == '!');
         long gravity(gravities.parseExpression(val + inverse));
         check(gravities, gravity, val + inverse);
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         windowList.filterByGravity(gravity, inverse);
         MSG(("gravity windows selected"));
         filtering = true;
     }
     else if (isOptArg(arg, "-Xinerama", val)) {
-        if ( ! windowList)
-            windowList.getClientList();
+        selectWindows();
         confine(val);
         windowList.filterByScreen();
         MSG(("xinerama %s selected", val));
@@ -3858,8 +4298,7 @@ void IceSh::flag(char* arg)
         MSG(("wmname: `%s'; wmclass: `%s'", wmname, wmclass));
 
         if (*arg == '-') {
-            if ( ! windowList)
-                windowList.getClientList();
+            selectWindows();
             windowList.filterByClass(wmname, wmclass);
             filtering = true;
         }
@@ -4137,8 +4576,19 @@ void IceSh::parseAction()
                 setGeometry(window, geometry);
         }
         else if (isAction("getGeometry", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 getGeometry(window);
+            }
+        }
+        else if (isAction("setClass", 1)) {
+            char* title = getArg();
+            FOREACH_WINDOW(window)
+                setClass(window, title);
+        }
+        else if (isAction("getClass", 0)) {
+            FOREACH_WINDOW(window)
+                getClass(window);
         }
         else if (isAction("resize", 2)) {
             const char* ws = getArg();
@@ -4168,10 +4618,11 @@ void IceSh::parseAction()
             long lx, ly;
             if (tolong(xs, lx) && tolong(ys, ly)) {
                 FOREACH_WINDOW(window) {
+                    use(window);
                     Window frame = getFrameWindow(window);
                     if (frame) {
                         int x, y, w, h;
-                        if (getGeometry(frame, x, y, w, h)) {
+                        if (::getGeometry(frame, x, y, w, h)) {
                             int tx, ty;
                             if (xa < xs && *xa == '-') {
                                 tx = displayWidth() - w + lx;
@@ -4185,6 +4636,7 @@ void IceSh::parseAction()
                             }
                             moveResize(window, NorthWestGravity,
                                        tx, ty, None, None, CWX | CWY);
+                            modified(window);
                         }
                     }
                 }
@@ -4199,13 +4651,15 @@ void IceSh::parseAction()
             long lx, ly;
             if (tolong(xs, lx) && tolong(ys, ly)) {
                 FOREACH_WINDOW(window) {
+                    use(window);
                     Window frame = getFrameWindow(window);
                     if (frame) {
                         int x, y, w, h;
-                        if (getGeometry(frame, x, y, w, h)) {
+                        if (::getGeometry(frame, x, y, w, h)) {
                             int tx = int(x + lx), ty = int(y + ly);
                             moveResize(window, NorthWestGravity,
                                        tx, ty, None, None, CWX | CWY);
+                            modified(window);
                         }
                     }
                 }
@@ -4216,8 +4670,9 @@ void IceSh::parseAction()
         }
         else if (isAction("centre", 0) || isAction("center", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 int x, y, w, h;
-                if (getGeometry(window, x, y, w, h)) {
+                if (::getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
                     int ax, ay, aw, ah;
                     getArea(window, ax, ay, aw, ah);
@@ -4225,59 +4680,68 @@ void IceSh::parseAction()
                     c.x = (aw - w) / 2;
                     c.y = (ah - h) / 2;
                     XConfigureWindow(display, window, CWX | CWY, &c);
+                    modified(window);
                 }
             }
         }
         else if (isAction("left", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 int x, y, w, h;
-                if (getGeometry(window, x, y, w, h)) {
+                if (::getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
                     int ax, ay, aw, ah;
                     getArea(window, ax, ay, aw, ah);
                     c.x = max(0, ax);
                     XConfigureWindow(display, window, CWX, &c);
+                    modified(window);
                 }
             }
         }
         else if (isAction("right", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
                 if (exts) {
                     int x, y, w, h;
-                    if (getGeometry(window, x, y, w, h)) {
+                    if (::getGeometry(window, x, y, w, h)) {
                         int ax, ay, aw, ah;
                         getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
                         c.x = ax + aw - w - exts[0] - exts[1];
                         XConfigureWindow(display, window, CWX, &c);
+                        modified(window);
                     }
                 }
             }
         }
         else if (isAction("top", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 int x, y, w, h;
-                if (getGeometry(window, x, y, w, h)) {
+                if (::getGeometry(window, x, y, w, h)) {
                     XWindowChanges c;
                     int ax, ay, aw, ah;
                     getArea(window, ax, ay, aw, ah);
                     c.y = max(0, ay);
                     XConfigureWindow(display, window, CWY, &c);
+                    modified(window);
                 }
             }
         }
         else if (isAction("bottom", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 YCardinal exts(window, ATOM_NET_FRAME_EXTENTS, 4);
                 if (exts) {
                     int x, y, w, h;
-                    if (getGeometry(window, x, y, w, h)) {
+                    if (::getGeometry(window, x, y, w, h)) {
                         int ax, ay, aw, ah;
                         getArea(window, ax, ay, aw, ah);
                         XWindowChanges c;
                         c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
+                        modified(window);
                     }
                 }
             }
@@ -4291,6 +4755,7 @@ void IceSh::parseAction()
                 }
                 else {
                     FOREACH_WINDOW(window) {
+                        use(window);
                         YNetState prop(window);
                         if (*arg == '+')
                             prop += state;
@@ -4305,6 +4770,7 @@ void IceSh::parseAction()
             }
             else {
                 FOREACH_WINDOW(window) {
+                    use(window);
                     printf("0x%07lx = ", *window);
                     long state = YNetState(window).state();
                     int n = 0;
@@ -4327,27 +4793,36 @@ void IceSh::parseAction()
             if (windowList.isRoot())
                 changeWorkspace(workspace);
             else
-                FOREACH_WINDOW(window)
+                FOREACH_WINDOW(window) {
+                    use(window);
                     setWorkspace(window, workspace);
+                    modified(window);
+                }
         }
         else if (isAction("getWorkspace", 0)) {
             WorkspaceInfo info;
             FOREACH_WINDOW(window) {
+                use(window);
                 int ws = int(getWorkspace(window));
                 const char* name = info ? info[ws] : "";
                 printf("0x%-7lx %d \"%s\"\n", Window(window), ws, name);
             }
         }
         else if (isAction("sticky", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 setWorkspace(window, Sticky);
+                modified(window);
+            }
         }
         else if (isAction("unsticky", 0)) {
             long current = currentWorkspace();
             FOREACH_WINDOW(window) {
+                use(window);
                 long ws = getWorkspace(window);
                 if (hasbits(ws, Sticky)) {
                     setWorkspace(window, current);
+                    modified(window);
                 }
             }
         }
@@ -4362,7 +4837,7 @@ void IceSh::parseAction()
             check(layers, layer, argp[-1]);
 
             MSG(("setLayer: %d", layer));
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 setLayer(window, layer);
         }
         else if (isAction("getLayer", 0)) {
@@ -4422,8 +4897,10 @@ void IceSh::parseAction()
                 printf("0x%07lx\n", Window(window));
         }
         else if (isAction("frame", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 printf("0x%07lx\n", getFrameWindow(window));
+            }
         }
         else if (isAction("pid", 0)) {
             FOREACH_WINDOW(window) {
@@ -4436,59 +4913,68 @@ void IceSh::parseAction()
         else if (isAction("list", 0)) {
             detail();
         }
+        else if (isAction("extents", 0)) {
+            extents();
+        }
         else if (isAction("spy", 0)) {
             spy();
         }
         else if (isAction("close", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 closeWindow(window);
         }
         else if (isAction("kill", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 XKillClient(display, window);
         }
         else if (isAction("activate", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 activateWindow(window);
         }
         else if (isAction("raise", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 raiseWindow(window);
         }
         else if (isAction("lower", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 lowerWindow(window);
         }
         else if (isAction("fullscreen", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 YNetState(window) += NetFullscreen;
+                modified(window);
+            }
         }
         else if (isAction("maximize", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 YNetState(window) += NetHorizontal | NetVertical;
+                modified(window);
+            }
         }
         else if (isAction("minimize", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetHidden;
         }
         else if (isAction("vertical", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetVertical;
         }
         else if (isAction("horizontal", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetHorizontal;
         }
         else if (isAction("rollup", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetShaded;
         }
         else if (isAction("above", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetAbove;
         }
         else if (isAction("below", 0)) {
-            FOREACH_WINDOW(window)
+            CHANGES_WINDOW(window)
                 YNetState(window) += NetBelow;
         }
         else if (isAction("urgent", 0)) {
@@ -4500,6 +4986,42 @@ void IceSh::parseAction()
         }
         else if (isAction("unhide", 0)) {
             changeState(NormalState);
+        }
+        else if (isAction("xmap", 0)) {
+            CHANGES_WINDOW(window)
+                XMapWindow(display, window);
+        }
+        else if (isAction("xunmap", 0)) {
+            CHANGES_WINDOW(window)
+                XUnmapWindow(display, window);
+        }
+        else if (isAction("xmove", 2)) {
+            const char* xs = getArg();
+            const char* ys = getArg();
+            long lx, ly;
+            if (tolong(xs, lx) && tolong(ys, ly)) {
+                FOREACH_WINDOW(window) {
+                    use(window);
+                    XMoveWindow(display, window, int(lx), int(ly));
+                    modified(window);
+                }
+            } else {
+                invalidArgument("xmove parameters");
+            }
+        }
+        else if (isAction("xsize", 2)) {
+            const char* xs = getArg();
+            const char* ys = getArg();
+            long lx, ly;
+            if (tolong(xs, lx) && tolong(ys, ly)) {
+                FOREACH_WINDOW(window) {
+                    use(window);
+                    XResizeWindow(display, window, unsigned(lx), unsigned(ly));
+                    modified(window);
+                }
+            } else {
+                invalidArgument("xsize parameters");
+            }
         }
         else if (isAction("skip", 0)) {
             FOREACH_WINDOW(window)
@@ -4516,8 +5038,11 @@ void IceSh::parseAction()
             changeState(NormalState);
         }
         else if (isAction("denormal", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
+                use(window);
                 XDeleteProperty(display, window, XA_WM_NORMAL_HINTS);
+                modified(window);
+            }
         }
         else if (isAction("opacity", 0)) {
             char* opaq = nullptr;
@@ -4531,6 +5056,54 @@ void IceSh::parseAction()
             }
             FOREACH_WINDOW(window)
                 opacity(window, opaq);
+        }
+        else if (isAction("override", 0)) {
+            char* flag = nullptr;
+            bool enable = false;
+            if (haveArg() && isDigit(**argp)) {
+                flag = getArg();
+                if (strcmp(flag, "1") == 0) {
+                    enable = true;
+                } else if (strcmp(flag, "0")) {
+                    msg(_("Invalid argument: `%s'"), flag);
+                    throw 1;
+                }
+            }
+            FOREACH_WINDOW(window) {
+                if (flag) {
+                    unsigned long mask = CWOverrideRedirect;
+                    XSetWindowAttributes attr;
+                    attr.override_redirect = enable;
+                    XChangeWindowAttributes(display, window, mask, &attr);
+                } else {
+                    XWindowAttributes attr;
+                    if (XGetWindowAttributes(display, window, &attr)) {
+                        printf("0x%-8lx override %d\n",
+                                *window, attr.override_redirect);
+                    }
+                }
+            }
+        }
+        else if (isAction("focusmodel", 0)) {
+            FOREACH_WINDOW(window) {
+                xsmart<XWMHints> h(XGetWMHints(display, window));
+                if (h) {
+                    bool input = (h->flags & InputHint) && (h->input & True);
+                    Atom* prot = nullptr;
+                    int count = 0;
+                    bool take = false;
+                    if (XGetWMProtocols(display, window, &prot, &count)) {
+                        for (int i = 0; i < count; ++i) {
+                            if (prot[i] == ATOM_WM_TAKE_FOCUS) {
+                                take = true;
+                            }
+                        }
+                    }
+                    printf("0x%-8lx focusmodel %s\n", *window,
+                            input ? take ? "Locally" : "Passive"
+                                : take ? "Globally" : "NoInput");
+                }
+            }
         }
         else if (isAction("motif", 0)) {
             char** args = argp;
@@ -4551,12 +5124,14 @@ void IceSh::parseAction()
                 }
             }
             FOREACH_WINDOW(window) {
+                use(window);
                 motif(window, args, count);
             }
             argp = args + count;
         }
         else if (isAction("properties", 0)) {
             FOREACH_WINDOW(window) {
+                use(window);
                 int count = 0;
                 Atom* atoms = XListProperties(display, window, &count);
                 if (count && atoms) {
@@ -4573,11 +5148,22 @@ void IceSh::parseAction()
             NAtom prop(getArg(), true);
             if (prop) {
                 FOREACH_WINDOW(window) {
+                    use(window);
                     char buf[32];
                     snprintf(buf, sizeof buf, "0x%07lx ", Window(window));
                     showProperty(window, prop, buf);
                 }
             }
+        }
+        else if (isAction("loadicon", 1)) {
+            char* file = getArg();
+            FOREACH_WINDOW(window)
+                loadIcon(window, file);
+        }
+        else if (isAction("saveicon", 1)) {
+            char* file = getArg();
+            FOREACH_WINDOW(window)
+                saveIcon(window, file);
         }
         else if (isAction("click", 3)) {
             click();
@@ -4593,6 +5179,18 @@ void IceSh::parseAction()
         }
         else if (isAction("monitors", 4)) {
             monitors();
+        }
+        else if (isAction("tabto", 1)) {
+            tabTo(getArg());
+        }
+        else if (isAction("untab", 0)) {
+            tabTo(nullptr);
+        }
+        else if (isAction("stacking", 0)) {
+            windowList.stacking();
+        }
+        else if (isAction("reverse", 0)) {
+            windowList.reverse();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

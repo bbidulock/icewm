@@ -15,6 +15,7 @@
 #include "ymenuitem.h"
 #include "yrect.h"
 #include "prefs.h"
+#include "intl.h"
 
 void YFrameWindow::updateMenu() {
     YMenu *windowMenu = this->windowMenu();
@@ -119,6 +120,27 @@ void YFrameWindow::updateSubmenus() {
         }
     }
 
+    if (tabCount() > 1 && (TabsMenu *) tabsMenu != nullptr) {
+        if (windowMenu()->findSubmenu(tabsMenu) == nullptr) {
+            YMenu* menus[] = {
+                moveMenu._ptr(), tileMenu._ptr(), layerMenu._ptr()
+            };
+            for (YMenu* menu : menus) {
+                if (menu) {
+                    YMenuItem* item = windowMenu()->findSubmenu(menu);
+                    if (item) {
+                        windowMenu()->addSubmenu(_("Tabs"), -2, tabsMenu, item);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else if (tabsMenu) {
+        windowMenu()->removeSubmenu(tabsMenu);
+        tabsMenu = null;
+    }
+
     YMenuItem* item = windowMenu()->findAction(actionToggleTray);
     if (item) {
         bool checked = (getTrayOption() != WinTrayIgnore);
@@ -212,16 +234,22 @@ void YFrameWindow::layoutShape() {
         fShapeTitleY != titleY() ||
         fShapeBorderX != borderX() ||
         fShapeBorderY != borderY() ||
+        fShapeTabCount != tabCount() ||
         fShapeDecors != frameDecors() ||
-        fShapeTitle != getTitle())
+        fShapeTitle != getTitle() ||
+        fShapeLessTabs != lessTabs() ||
+        fShapeMoreTabs != moreTabs())
     {
         fShapeWidth = width();
         fShapeHeight = height();
         fShapeTitleY = titleY();
         fShapeBorderX = borderX();
         fShapeBorderY = borderY();
+        fShapeTabCount = tabCount();
         fShapeDecors = frameDecors();
         fShapeTitle = getTitle();
+        fShapeLessTabs = lessTabs();
+        fShapeMoreTabs = moreTabs();
 
         if (shapes.supported &&
             (frameDecors() & fdBorder) &&
@@ -323,7 +351,7 @@ void YFrameWindow::configure(const YRect2& r) {
     if (r.resized()) {
         performLayout();
         if (taskBar)
-            taskBar->workspacesRepaint();
+            taskBar->workspacesRepaint(getWorkspace());
     }
     if (affectsWorkArea()) {
         manager->updateWorkArea();
@@ -345,7 +373,7 @@ void YFrameWindow::layoutTitleBar() {
         if (fTitleBar) {
             fTitleBar->relayout();
         } else {
-            fTitleBar = new YFrameTitleBar(this, this);
+            fTitleBar = new YFrameTitleBar(this);
         }
     }
     else if (fTitleBar) {
@@ -426,7 +454,7 @@ void YFrameWindow::layoutClient() {
 
 bool YFrameWindow::isGroupModalFor(const YFrameWindow* other) const {
     bool have = false;
-    if (hasState(WinStateModal) && owner() == nullptr) {
+    if (hasState(WinStateModal) && !client()->isTransient()) {
         Window leader = client()->clientLeader();
         if (leader && leader == other->client()->clientLeader()) {
             bool self = false, that = false;
@@ -445,11 +473,8 @@ bool YFrameWindow::isGroupModalFor(const YFrameWindow* other) const {
 }
 
 bool YFrameWindow::isTransientFor(const YFrameWindow* other) const {
-    YFrameWindow* o = owner();
-    while (o && o != other) {
-        o = o->owner();
-    }
-    return o == other;
+    return client() && other->client()
+        && client()->isTransientFor(other->client()->handle());
 }
 
 bool YFrameWindow::canLower() const {
@@ -461,12 +486,14 @@ bool YFrameWindow::canLower() const {
     return false;
 }
 
-bool YFrameWindow::canRaise() const {
+bool YFrameWindow::canRaise(bool ignoreTaskBar) const {
     for (YFrameWindow *w = prev(); w; w = w->prev()) {
         if (w->visibleNow() || w->visibleOn(getWorkspace())) {
             if (w->isTransientFor(this) == false &&
-                w->isGroupModalFor(this) == false)
+                w->isGroupModalFor(this) == false &&
+                (ignoreTaskBar == false || w->client() != taskBar)) {
                 return true;
+            }
         }
     }
     return false;

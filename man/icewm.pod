@@ -371,8 +371,8 @@ in the centre of the screen with a list of windows to choose from.
 A narrow band indicates a selection: the candidate window that will
 be activated to receive input focus when the Alt key is released.
 
-The selection can be changed.  By repeatedly pressing the Tab key, one
-can cycle over all windows.  If a Shift key is down, the direction of
+The selection can be changed by repeatedly pressing the Tab key, while
+keeping the Alt key down. If a Shift key is also down, the direction of
 traversal is reversed. Or use the scroll wheel of the mouse.  Or use
 one of the digit keys to select the corresponding window from the list.
 Arrow keys are also supported, as well as the Home and End key.
@@ -387,7 +387,8 @@ workspace with the usual workspace hotkeys.
 
 The QuickSwitch has two distinct modes: vertical and horizontal.
 The window list can include all windows or be limited to the current
-workspace. See the many preferences available for the QuickSwitch.
+workspace. There is an option to raise the selected candidate.
+See the many preferences available for the QuickSwitch.
 
 =head2 WINDOW PLACEMENT
 
@@ -411,6 +412,63 @@ menu.  Click with the right mouse button on the window frame and select
 I<Layer>.  From there choose one of seven window layers.  These are
 ordered from higher to lower.  Windows in higher layers appear over
 windows in lower layers.
+
+=head2 TABBED WINDOWS
+
+A window frame may contain multiple client windows. Only one client can
+be visible, while the others are hidden. This is called tabbing.  This
+can be helpful to reduce the number of visible windows. To create a tab,
+drag the title bar with the middle mouse button, while holding down a
+shift key, onto the title bar of another frame. The two title bars will
+start to flash to indicate that they can merge. Release the mouse button
+to merge the client of the upper window to the lower frame.  Now the
+lower frame will have multiple clients, called tabs. The title bar will
+show a vertical bar with triple dots to indicate this.
+To change the current tab either:
+
+=over
+
+=item
+
+Click on the triple dots next to the vertical bar.
+
+=item
+
+Use C<KeyWinNext=Alt+F6> to select the next tab.
+
+=item
+
+Use C<KeyWinPrev=Alt+Shift+F6> for the previous tab.
+
+=item
+
+Use the QuickSwitch.
+
+=item
+
+Use the window list window.
+
+=item
+
+Use a submenu in the window menu.
+
+=back
+
+To change the mouse binding for creating tabs, modify
+B<MouseWinTabbing>=C<Shift+Pointer_Button2>.  Another
+useful setting is B<MouseWinTabbing>=C<Pointer_Button1>.
+
+C<Alt+F4> closes all tabs. To close just the active tab add to C<keys>:
+
+    key "Ctrl+Shift+F4"     icesh -f close
+
+To move the active tab to its own window frame by key, add to C<keys>:
+
+    key "Alt+u"             icesh -f untab
+
+To open all chrome windows in the same frame add this to C<winoptions>:
+
+    google-chrome.frame:    chrome
 
 =head2 WORKSPACES
 
@@ -744,6 +802,42 @@ Moves the active window to the middle left of the screen.
 
 Moves the active window to the center of the screen.
 
+=item B<KeyWinTileLeft>=""
+
+Let the active window occupy the left half of the screen.
+
+=item B<KeyWinTileRight>=""
+
+Let the active window occupy the right half of the screen.
+
+=item B<KeyWinTileTop>=""
+
+Let the active window occupy the top half of the screen.
+
+=item B<KeyWinTileBottom>=""
+
+Let the active window occupy the bottom half of the screen.
+
+=item B<KeyWinTileTopLeft>=""
+
+Let the active window occupy the top left quarter of the screen.
+
+=item B<KeyWinTileTopRight>=""
+
+Let the active window occupy the top right quarter of the screen.
+
+=item B<KeyWinTileBottomLeft>=""
+
+Let the active window occupy the bottom left quarter of the screen.
+
+=item B<KeyWinTileBottomRight>=""
+
+Let the active window occupy the bottom right quarter of the screen.
+
+=item B<KeyWinTileCenter>=""
+
+Let the active window occupy the center quarter of the screen.
+
 =item B<KeyWinSmartPlace>=C<Ctrl+Alt+Shift+KP_5>
 
 Smart place the active window.
@@ -840,11 +934,11 @@ Goes to workspace 9.
 
 Goes to workspace 10.
 
-=item B<KeySysWorkspace11>=C<Alt+Ctrl+bracketleft>
+=item B<KeySysWorkspace11>=C<Alt+Ctrl+minus>
 
 Goes to workspace 11.
 
-=item B<KeySysWorkspace12>=C<Alt+Ctrl+bracketright>
+=item B<KeySysWorkspace12>=C<Alt+Ctrl+equal>
 
 Goes to workspace 12.
 
@@ -888,11 +982,11 @@ Takes the active window to workspace 9.
 
 Takes the active window to workspace 10.
 
-=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+bracketleft>
+=item B<KeySysWorkspace11TakeWin>=C<Alt+Ctrl+Shift+minus>
 
 Takes the active window to workspace 11.
 
-=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+bracketright>
+=item B<KeySysWorkspace12TakeWin>=C<Alt+Ctrl+Shift+equal>
 
 Takes the active window to workspace 12.
 
@@ -1004,6 +1098,12 @@ Raises the window under the mouse.
 Lowers the window under the mouse.
 If this is equal to C<MouseWinRaise> and the window can be raised
 then C<MouseWinRaise> takes preference over C<MouseWinLower>.
+
+=item B<MouseWinTabbing>="Shift+Pointer_Button2"
+
+Mouse binding to create tabs.
+Drag the title bar with this button over another title bar.
+When they start to flash, release the button to merge the frame tabs.
 
 =back
 
@@ -1258,6 +1358,19 @@ See L<icewm-shutdown(5)>.
 
 =over
 
+=item F<cursors>
+
+May contain cursor icons in the XPM image format. These overrule cursors
+provided by a theme. There are 3 direction cursors: F<left.xpm>,
+F<right.xpm>, F<move.xpm>, 8 resize cursors: F<sizeR.xpm>, F<sizeTR.xpm>,
+F<sizeT.xpm>, F<sizeTL.xpm>, F<sizeL.xpm>, F<sizeBL.xpm>, F<sizeB.xpm>,
+F<sizeBR.xpm>, and 4 scroll cursors: F<scrollL.xpm>, F<scrollR.xpm>,
+F<scrollU.xpm>, and F<scrollD.xpm>.
+By default an XPM header defines four dimensions: width, height, colors
+and chars-per-pixel. For cursors this must be extended to six. The last
+two are the I<x-hotspot> and the I<y-hotspot>. These define which point
+in the XPM image is the sensitive point for the mouse pointer.
+
 =item F<icons>
 
 Contains icons which are used to identify applications.  Usually these
@@ -1309,6 +1422,12 @@ additional files which have a F<.theme> file name extension and which
 contain tweaks of the F<default.theme> file.
 How to create a theme is explained in the
 L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
+
+=item F<workspace>
+
+If C<PagerShowPreview> is disabled, icewm looks in the C<workspace>
+directory for images to draw on a workspace button. The image filename
+should have the name of the workspace. The image extension is optional.
 
 =back
 

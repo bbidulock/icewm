@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2020-12-14]: #
+[icewm -- read me first file.  2022-11-02]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -19,7 +19,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the `icewm-2.0.0` package, released 2020-12-14.  This release, and
+This is the `icewm-3.2.0` package, released 2022-11-02.  This release, and
 the latest version, can be obtained from [GitHub][1], using a command such as:
 
     $> git clone https://github.com/bbidulock/icewm.git
@@ -74,16 +74,20 @@ Prerequisites
 Building from tarball requires:
 
  - gcc or clang
+ - imlib2
+ - libxcomposite
+ - libxdamage
+ - libxfixes
  - libxft
  - libxinerama
  - libxpm
- - libjpeg
  - libxrandr
+ - libxrender
 
 Building from git also requires:
 
  - complete autoconf or cmake toolchain
- - asciidoctor or asciidoc
+ - either markdown or asciidoctor
 
 
 Configuring IceWM
@@ -100,6 +104,7 @@ Included Utilities
 
 Currently, the only included utilities are:
 
+ - [__icesh__(1)][25] (_a versatile window manipulation tool_),
  - [__icewmbg__(1)][22] (_a background setting program_),
  - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
@@ -184,6 +189,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [22]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmbg.pod
 [23]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewmhint.pod
 [24]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-menu-fdo.pod
+[25]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icesh.pod
 [26]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm.pod
 [27]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/man/icewm-session.pod
 

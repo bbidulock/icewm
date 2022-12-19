@@ -1,5 +1,5 @@
-#ifndef __WMCONTAINER_H
-#define __WMCONTAINER_H
+#ifndef WMCONTAINER_H
+#define WMCONTAINER_H
 
 #include "ywindow.h"
 
@@ -7,8 +7,8 @@ class YFrameWindow;
 
 class YClientContainer: public YWindow {
 public:
-    YClientContainer(YWindow *parent, YFrameWindow *frame,
-                     int depth, Visual *visual, Colormap colormap);
+    YClientContainer(YFrameWindow* frame, int depth,
+                     Visual* visual, Colormap colormap);
     virtual ~YClientContainer();
 
     virtual void handleButton(const XButtonEvent &button);
@@ -22,9 +22,11 @@ public:
     void grabActions();
     void regrabMouse();
 
-    YFrameWindow *getFrame() const { return fFrame; };
+    YFrameWindow* getFrame() const { return fFrame; }
+    void setFrame(YFrameWindow* frame) { fFrame = frame; }
+
 private:
-    YFrameWindow *fFrame;
+    YFrameWindow* fFrame;
     bool fHaveGrab;
     bool fHaveActionGrab;
 };

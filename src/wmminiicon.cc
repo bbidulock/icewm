@@ -108,7 +108,7 @@ void MiniIcon::repaint() {
 
 void MiniIcon::paint(Graphics &g, const YRect &r) {
     if (fIconWindow == None) {
-        ref<YIcon> icon(fFrame->clientIcon());
+        ref<YIcon> icon(fFrame->getIcon());
         if (icon != null && icon->huge() != null) {
             int x = (YIcon::hugeSize() - icon->huge()->width()) / 2;
             int y = (YIcon::hugeSize() - icon->huge()->height()) / 2;
@@ -127,7 +127,7 @@ void MiniIcon::updateIcon() {
     if (fIconWindow)
         return;
 #ifdef CONFIG_SHAPE
-    ref<YIcon> icon(fFrame->clientIcon());
+    ref<YIcon> icon(fFrame->getIcon());
     if (icon != null && icon->huge() != null) {
         ref<YImage> image = icon->huge();
         ref<YPixmap> pixmap = image->renderToPixmap(depth());

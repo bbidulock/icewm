@@ -334,6 +334,10 @@ Include windows from all workspaces in Alt+Tab.
 
 Group windows by workspace together in Alt+Tab.
 
+=item B<QuickSwitchPersistence>=0
+
+Time in seconds to remember the state of Alt+Tab.
+
 =item B<QuickSwitchRaiseCandidate>=0
 
 Raise a selected window while Alt+Tabbing in the QuickSwitch.
@@ -566,13 +570,6 @@ desktop width. By default a C<B> suffix is assumed for number of buttons.
 
 Enable mouse wheel cycling over workspaces and task buttons in taskbar.
 
-=item B<TaskBarClockLeds>=0 # 0/1
-
-Task bar clock/battery monitor uses nice pixmap LCD display (but then it
-doesn't display correctly in many languages anymore, e.g., for
-Japanese and Korean it works only when a real font is used and not
-the LCD pixmaps.
-
 =item B<PagerShowPreview>=1
 
 Show a mini desktop preview on each workspace button.
@@ -717,29 +714,9 @@ Taskbar justify left, right or center.
 
 Width of battery Monitor.
 
-=item B<TaskBarGraphHeight>=20  [16-1000]
-
-Height of taskbar monitoring applets.
-
 =item B<XineramaPrimaryScreen>=0  [0-63]
 
 Primary screen for xinerama (taskbar, ...).
-
-=item B<TaskbuttonIconOffset>=0 # [0-16]
-
-Width of taskbutton side icons.
-
-=item B<TrayIconMaxWidth>=32 # [16-128]
-
-Maximum scaled width of tray icons.
-
-=item B<TrayIconMaxHeight>=24 # [16-128]
-
-Maximum scaled height of tray icons.
-
-=item B<TrayDrawBevel>=0 # 0/1
-
-Surround the tray with plastic border.
 
 =item B<KeyboardLayouts>=""
 
@@ -1087,9 +1064,9 @@ Command to run for address bar entries.
 
 =over
 
-=item B<WinMenuItems>="rmsnxfhualyticw"
+=item B<WinMenuItems>="rmsnxfhualytiecw"
 
-Items supported in menu window (rmsnxfhualytickw)
+Items supported in menu window (rmsnxfhualytieckw)
 
 =item B<RolloverButtonsSupported>=0
 
@@ -1248,6 +1225,33 @@ Join title*S and title*T.
 =item B<TitleBarJoinRight>=0 # 0/1
 
 Join title*T and title*B.
+
+=item B<TaskBarClockLeds>=0 # 0/1
+
+Task bar clock/battery monitor uses nice pixmap LCD display (but then it
+doesn't display correctly in many languages anymore, e.g., for
+Japanese and Korean it works only when a real font is used and not
+the LCD pixmaps.
+
+=item B<TaskBarGraphHeight>=20  [16-1000]
+
+Height of taskbar monitoring applets.
+
+=item B<TaskbuttonIconOffset>=0 # [0-16]
+
+Width of taskbutton side icons.
+
+=item B<TrayIconMaxWidth>=32 # [16-128]
+
+Maximum scaled width of tray icons.
+
+=item B<TrayIconMaxHeight>=24 # [16-128]
+
+Maximum scaled height of tray icons.
+
+=item B<TrayDrawBevel>=0 # 0/1
+
+Surround the tray with plastic border.
 
 =back
 
@@ -1756,6 +1760,10 @@ Desktop background color(s).
 
 Desktop background image(s).
 
+=item B<ShuffleBackgroundImages>=0  0/1
+
+Choose a random selection from the list of background images.
+
 =item B<SupportSemitransparency>=1  0/1
 
 Support for semitransparent terminals like Eterm or gnome-terminal.
@@ -1771,6 +1779,10 @@ Image(s) to announce for semitransparent windows.
 =item B<DesktopBackgroundMultihead>=0  0/1
 
 Paint the background image over all multihead monitors combined.
+
+=item B<CycleBackgroundsPeriod>=0
+
+Seconds between cycling over all background images, default zero is off.
 
 =back
 

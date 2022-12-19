@@ -29,6 +29,7 @@ void addBgImage(const char *, const char *, bool) {}
 static const char workspaceNames[] =
     "\" 1 \", \" 2 \", \" 3 \", \" 4 \"";
 static bool sorted, internal, themable;
+static const char* pattern;
 
 static int count(cfoption* options) {
     for (int i = 0; ; ++i)
@@ -58,6 +59,9 @@ static void show(cfoption *options) {
                     " and be documented in the manpage.\n",
                 options[i].name);
         }
+        if (pattern && !strstr(options[i].name, pattern))
+            continue;
+
         const char* adddot = ASCII::isAlnum(options[i].description[deslen - 1])
             ? "." : "";
 
@@ -116,6 +120,9 @@ static void ppod(cfoption *options) {
         sort(options);
 
     for (unsigned int i = 0; options[i].type != cfoption::CF_NONE; i++) {
+        if (pattern && !strstr(options[i].name, pattern))
+            continue;
+
         switch (options[i].type) {
         case cfoption::CF_BOOL:
             printf("=item B<%s>=%d\n",
@@ -230,8 +237,9 @@ static void podpref()
 static const char* help_text()
 {
     return
+        "  -e string           Print only preferences containing 'string'.\n"
         "  -n                  Print only non-themable preferences.\n"
-        "  -o, --output=FILE   Write preferences to FILE.\n"
+        "  -o, --output=FILE   Write all output to FILE.\n"
         "  -p                  Use perlpod output format.\n"
         "  -s                  Sort preferences by name.\n"
         "  -t                  Print only themable preferences.\n"
@@ -250,6 +258,9 @@ int main(int argc, char **argv)
             char *value(nullptr);
             if (GetArgument(value, "o", "output", arg, argv + argc)) {
                 output = value;
+            }
+            else if (GetShortArgument(value, "e", arg, argv + argc)) {
+                pattern = value;
             }
             else if (is_short_switch(*arg, "n")) {
                 internal = true;

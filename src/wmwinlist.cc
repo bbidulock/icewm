@@ -14,49 +14,85 @@
 #include "wmapp.h"
 #include "workspaces.h"
 #include "wpixmaps.h"
+#include "yxcontext.h"
 #include <assert.h>
 #include "intl.h"
 
 WindowListProxy windowList;
 
-WindowListItem::WindowListItem(ClientData *frame, int workspace):
-    fFrame(frame),
-    fWorkspace(workspace)
-{
+void ClientListItem::goodbye() {
+    if (windowList)
+        windowList->removeWindowListApp(this);
 }
 
-WindowListItem::~WindowListItem() {
-    if (fFrame) {
-        fFrame->setWinListItem(nullptr);
-        fFrame = nullptr;
-    }
+void ClientListItem::update() {
+    if (windowList)
+        windowList->updateWindowListApp(this);
 }
 
-int WindowListItem::getOffset() {
-    int ofs = -20;
-    for (ClientData *w = getFrame(); w; w = w->owner()) {
-        ofs = max(20, ofs + 20);
+void ClientListItem::repaint() {
+    if (windowList)
+        windowList->repaintItem(this);
+}
+
+int ClientListItem::getOffset() {
+    int ofs = 20;
+    Window own = fClient->ownerWindow();
+    if (own) {
+        YArray<Window> arr;
+        YFrameClient* cli = fClient;
+        arr.append(cli->handle());
+        while (cli && (own = cli->ownerWindow()) != None) {
+            if (find(arr, own) >= 0)
+                break;
+            arr.append(own);
+            ofs += 20;
+            cli = clientContext.find(own);
+        }
     }
     return ofs;
 }
 
-mstring WindowListItem::getText() {
-    if (fFrame)
-        return getFrame()->getTitle();
-    else if (fWorkspace < 0)
+int ClientListItem::getOrder() const {
+    const WindowOption* wo = fClient->getWindowOption();
+    return wo ? wo->order : 0;
+}
+
+int ClientListItem::getWorkspace() const {
+    YFrameWindow* f = fClient->obtainFrame();
+    if (f)
+        return f->getWorkspace();
+    int ws = 0;
+    if (fClient->getNetWMDesktopHint(&ws) && 0 <= ws && ws < workspaceCount)
+        return ws;
+    return 0;
+}
+
+void ClientListItem::activate() {
+    YFrameWindow* f = fClient->obtainFrame();
+    if (f && fClient != f->client())
+        f->selectTab(fClient);
+    if (f) {
+        f->activateWindow(true, false);
+        windowList->handleClose();
+    }
+}
+
+mstring DesktopListItem::getText() {
+    if (getWorkspace() < 0)
         return _("All Workspaces");
-    else if (fWorkspace < workspaceCount)
-        return workspaceNames[fWorkspace];
+    else if (getWorkspace() < workspaceCount)
+        return workspaceNames[fDesktop];
     else
         return null;
 }
 
-ref<YIcon> WindowListItem::getIcon() {
-    if (fFrame)
-        return getFrame()->getIcon();
-    return null;
+void DesktopListItem::activate() {
+    if (fDesktop >= 0) {
+        manager->activateWorkspace(fDesktop);
+        windowList->handleClose();
+    }
 }
-
 
 WindowListBox::WindowListBox(YScrollView *view, YWindow *aParent):
     YListBox(view, aParent)
@@ -67,42 +103,28 @@ WindowListBox::~WindowListBox() {
 }
 
 void WindowListBox::activateItem(YListItem *item) {
-    WindowListItem *i = (WindowListItem *)item;
-    ClientData *f = i->getFrame();
-    if (f) {
-        f->activateWindow(true, false);
-        windowList->handleClose();
-    } else {
-        int w = i->getWorkspace();
-        if (w >= 0) {
-            manager->activateWorkspace(w);
-            windowList->handleClose();
-        }
-    }
+    item->activate();
 }
 
 YArrange WindowListBox::getSelectedWindows() {
-    YFrameWindow** frames = nullptr;
-    int count = 0;
-    if (hasSelection()) {
-        for (IterType iter(getIterator()); ++iter; ) {
-            count += isSelected(iter.where());
-        }
-    }
-    if (count) {
-        frames = new YFrameWindow*[count];
-        int k = 0;
-        for (IterType iter(getIterator()); ++iter; ) {
-            if (isSelected(iter.where())) {
-                WindowListItem *item = static_cast<WindowListItem *>(*iter);
-                ClientData *frame = item->getFrame();
-                if (frame && k < count) {
-                    frames[k++] = static_cast<YFrameWindow *>(frame);
+    YArray<YFrameWindow*> frames;
+    for (IterType iter(getIterator()); ++iter; ) {
+        if (isSelected(*iter)) {
+            ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
+            if (item) {
+                YFrameWindow* frame = item->getClient()->obtainFrame();
+                if (frame && find(frames, frame) < 0) {
+                    frames += frame;
                 }
             }
         }
     }
-    return YArrange(frames, count);
+    const int count = frames.getCount();
+    YFrameWindow** copy = new YFrameWindow*[count];
+    if (count)
+        memcpy(copy, &*frames, count * sizeof(YFrameWindow*));
+
+    return YArrange(copy, count);
 }
 
 void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
@@ -124,7 +146,35 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
     else if (action == actionArrange) {
         manager->smartPlace(arrange);
     }
+    else if (action == actionClose || action == actionKill
+          || action == actionUntab) {
+        for (IterType iter(getReverseIterator()); ++iter; ) {
+            if (isSelected(*iter)) {
+                ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
+                if (item)
+                    item->getClient()->actionPerformed(action);
+            }
+        }
+    }
     else {
+        if (arrange.size() == 1 && 1 < arrange.begin()[0]->tabCount()) {
+            int count = 0;
+            YFrameClient* client = nullptr;
+            for (IterType iter(getIterator()); ++iter; ) {
+                if (isSelected(*iter)) {
+                    ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
+                    if (item) {
+                        client = item->getClient();
+                        count++;
+                    }
+                }
+            }
+            if (count == 1 && client->getFrame() == nullptr) {
+                YFrameWindow* frame = client->obtainFrame();
+                if (frame)
+                    frame->selectTab(client);
+            }
+        }
         for (YFrameWindow* frame : arrange) {
             if ((action != actionHide || !frame->isHidden()) &&
                 (action != actionMinimize || !frame->isMinimized())) {
@@ -221,27 +271,30 @@ void WindowListBox::enableCommands(YMenu *popup) {
     bool ishidden = true;
     bool rolledup = true;
     bool trayicon = true;
-    long workspace = AllWorkspaces;
+    int workspace = AllWorkspaces;
     bool sameWorkspace = false;
     bool restores = false;
     bool minifies = false;
     bool maxifies = false;
-    bool showable = false;
+    bool showable = true;
     bool hidable = false;
     bool rollable = false;
     bool raiseable = false;
     bool lowerable = false;
     bool traytoggle = false;
     bool closable = false;
+    bool hastabs = false;
 
     // enable minimize,hide if appropriate
     // enable workspace selections if appropriate
 
     popup->enableCommand(actionNull);
     for (IterType iter(getIterator()); ++iter; ) {
-        if (isSelected(iter.where())) {
-            WindowListItem *item = static_cast<WindowListItem *>(*iter);
-            ClientData* frame = item->getFrame();
+        if (isSelected(*iter)) {
+            ClientListItem* item = dynamic_cast<ClientListItem*>(*iter);
+            if (!item)
+                continue;
+            YFrameWindow* frame = item->getClient()->obtainFrame();
             if (!frame) {
                 continue;
             }
@@ -266,8 +319,9 @@ void WindowListBox::enableCommands(YMenu *popup) {
             lowerable |= (frame->canLower());
             traytoggle |= notbit(frame->frameOptions(), YFrameWindow::foIgnoreTaskBar);
             closable |= (frame->canClose());
+            hastabs |= (1 < frame->tabCount());
 
-            long ws = frame->getWorkspace();
+            int ws = frame->getWorkspace();
             if (workspace == AllWorkspaces) {
                 workspace = ws;
                 sameWorkspace = true;
@@ -313,6 +367,18 @@ void WindowListBox::enableCommands(YMenu *popup) {
         popup->disableCommand(actionToggleTray);
     if (!closable)
         popup->disableCommand(actionClose);
+    if (hastabs != popup->haveCommand(actionUntab)) {
+        if (hastabs) {
+            YMenuItem* after = popup->findSubmenu(moveMenu);
+            if (after) {
+                YMenuItem* item = new YMenuItem(_("Move to New _Window"), -2,
+                                                null, actionUntab, nullptr);
+                popup->add(item, after);
+            }
+        } else {
+            popup->removeCommand(actionUntab);
+        }
+    }
 
     moveMenu->enableCommand(actionNull);
     if (sameWorkspace && workspace != AllWorkspaces) {
@@ -334,7 +400,7 @@ void WindowListBox::enableCommands(YMenu *popup) {
 }
 
 WindowList::WindowList(YWindow *aParent):
-    YFrameClient(aParent, nullptr),
+    YFrameClient(aParent, nullptr, None),
     allWorkspacesItem(nullptr),
     scroll(new YScrollView(this)),
     list(new WindowListBox(scroll, scroll))
@@ -389,6 +455,7 @@ WindowListPopup::WindowListPopup() {
     addSubmenu(_("Move _To"), -2, moveMenu);
     addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
     addItem(_("Tray _icon"), -2, null, actionToggleTray);
+    addItem(_("R_ename title"), -2, null, actionRename);
     addSeparator();
     addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
     addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
@@ -459,12 +526,12 @@ WindowList::~WindowList() {
 
 void WindowList::updateWorkspaces() {
     if (workspaceItem.isEmpty()) {
-        allWorkspacesItem = new WindowListItem(nullptr, AllWorkspaces);
+        allWorkspacesItem = new DesktopListItem(AllWorkspaces);
         workspaceItem.append(allWorkspacesItem);
         list->addItem(allWorkspacesItem);
     }
     for (int ws = workspaceItem.getCount() - 1; ws < workspaceCount; ++ws) {
-        workspaceItem.insert(ws, new WindowListItem(nullptr, ws));
+        workspaceItem.insert(ws, new DesktopListItem(ws));
         list->addBefore(allWorkspacesItem, workspaceItem[ws]);
     }
     for (int ws = workspaceItem.getCount() - 1; ws > workspaceCount; --ws) {
@@ -486,96 +553,168 @@ void WindowList::relayout() {
     list->repaint();
 }
 
-WindowListItem *WindowList::addWindowListApp(YFrameWindow *frame) {
-    WindowListItem *item = new WindowListItem(frame, frame->getWorkspace());
-    if (item) {
-        insertApp(item);
+void WindowList::addWindowListApp(YFrameClient* client) {
+    if (client && !client->getClientItem()) {
+        ClientListItem* item = new ClientListItem(client);
+        if (item) {
+            client->setClientItem(item);
+            insertApp(item);
+        }
     }
-    return item;
 }
 
-void WindowList::insertApp(WindowListItem *item) {
-    ClientData *frame = item->getFrame();
-    if (frame->owner() &&
-        frame->owner()->winListItem())
-    {
-        list->addAfter(frame->owner()->winListItem(), item);
+void WindowList::insertApp(ClientListItem* item) {
+    const int work = item->getWorkspace();
+    const bool valid = inrange(work, 0, workspaceItem.getCount() - 2);
+    const int start = valid ? list->findItem(workspaceItem[work])
+                            : list->findItem(allWorkspacesItem);
+    const int stop = valid ? list->findItem(workspaceItem[work + 1], start + 1)
+                           : list->getItemCount();
+    const Window ownerWindow = item->getClient()->ownerWindow();
+    const Window leader = item->getClient()->clientLeader();
+    bool inserted = !(0 <= start && start < stop);
+
+    if (inserted == false && leader == item->getClient()->handle()) {
+        YFrameClient* trans = item->getClient()->firstTransient();
+        if (trans) {
+            int best = stop;
+            for (; trans; trans = trans->nextTransient()) {
+                YClientItem* ci = trans->getClientItem();
+                if (ci) {
+                    ClientListItem* li = dynamic_cast<ClientListItem*>(ci);
+                    if (li) {
+                        int i = list->findItem(li, start + 1, stop);
+                        if (i < best && start < i)
+                            best = i;
+                    }
+                }
+            }
+            if (best < stop && start < best) {
+                list->insertAt(best, item);
+                inserted = true;
+            }
+        }
     }
-    else {
-        int ws = frame->getWorkspace();
-        Window lead = frame->clientLeader();
-        ClassHint* hint = frame->classHint();
-        int start = (0 <= ws && ws + 1 < workspaceItem.getCount())
-                    ? list->findItem(workspaceItem[ws])
-                    : list->findItem(allWorkspacesItem);
-        int stop = (0 <= ws && ws + 1 < workspaceItem.getCount())
-                    ? list->findItem(workspaceItem[ws + 1])
-                    : list->getItemCount();
-        if (0 <= start && start < stop) {
-            int best = 1 + start;
-            if (lead) {
-                int have = 0;
-                for (int i = best; i < stop; ++i) {
-                    WindowListItem* test =
-                        dynamic_cast<WindowListItem*>(list->getItem(i));
-                    if (test && test->getFrame() &&
-                        lead == test->getFrame()->clientLeader()) {
-                        have = i + 1;
-                    }
-                }
-                if (have) {
-                    list->insertAt(have, item);
-                    return;
+    if (inserted == false && ownerWindow) {
+        YFrameClient* owner = clientContext.find(ownerWindow);
+        if (owner) {
+            ClientListItem* other =
+                dynamic_cast<ClientListItem*>(owner->getClientItem());
+            if (other) {
+                int index = list->findItem(other, start + 1, stop);
+                if (start < index && index < stop) {
+                    list->insertAt(index + 1, item);
+                    inserted = true;
                 }
             }
-            int have = stop;
-            for (int i = best; i < stop; ++i) {
-                WindowListItem* test =
-                    dynamic_cast<WindowListItem*>(list->getItem(i));
-                if (test && test->getFrame()) {
-                    ClassHint* klas = test->getFrame()->classHint();
-                    int cmp =
-                        hint == nullptr ? +1 :
-                        klas == nullptr ? -1 :
-                        nonempty(hint->res_class) ?
-                        isEmpty(klas->res_class) ? -1 :
-                        strcmp(hint->res_class, klas->res_class) :
-                        nonempty(hint->res_name) ?
-                        isEmpty(klas->res_name) ? -1 :
-                        strcmp(hint->res_name, klas->res_name) : +1;
-                    if (cmp < 0) {
-                        list->insertAt(i, item);
-                        return;
-                    }
-                    if (cmp == 0) {
-                        have = i + 1;
+        }
+    }
+    if (inserted == false && ownerWindow) {
+        YFrameClient* trans = YFrameClient::firstTransient(ownerWindow);
+        for (; trans; trans = trans->nextTransient()) {
+            if (trans != item->getClient()) {
+                ClientListItem* other =
+                    dynamic_cast<ClientListItem*>(trans->getClientItem());
+                if (other) {
+                    int index = list->findItem(other, start + 1, stop);
+                    if (start < index && index < stop) {
+                        list->insertAt(index, item);
+                        inserted = true;
+                        break;
                     }
                 }
             }
+        }
+    }
+    if (inserted == false && leader) {
+        int have = 0;
+        for (int i = 1 + start; i < stop; ++i) {
+            ClientListItem* test =
+                dynamic_cast<ClientListItem*>(list->getItem(i));
+            if (test && leader == test->getClient()->clientLeader()) {
+                have = i + 1;
+            }
+            if (leader == item->getClient()->handle()) {
+                have = i;
+                break;
+            }
+        }
+        if (have) {
             list->insertAt(have, item);
+            inserted = true;
         }
-        else {
-            list->addItem(item);
+    }
+    if (inserted == false) {
+        ClassHint* hint = item->getClient()->classHint();
+        const int order = item->getOrder();
+        int best = 1 + start;
+        for (int i = best; i < stop && inserted == false; ++i) {
+            ClientListItem* test =
+                dynamic_cast<ClientListItem*>(list->getItem(i));
+            if (test) {
+                ClassHint* klas = test->getClient()->classHint();
+                int value = test->getOrder();
+                int cmp = order - value;
+                if (cmp == 0 && hint != klas) {
+                    if (hint == nullptr)
+                        cmp = +1;
+                    else if (klas == nullptr)
+                        cmp = -1;
+                    else if (nonempty(hint->res_class)) {
+                        if (isEmpty(klas->res_class))
+                            cmp = -1;
+                        else
+                            cmp = strcmp(hint->res_class,
+                                         klas->res_class);
+                    }
+                    else if (nonempty(klas->res_class))
+                        cmp = +1;
+                    if (cmp == 0) {
+                        if (nonempty(hint->res_name)) {
+                            if (isEmpty(klas->res_name))
+                                cmp = -1;
+                            else
+                                cmp = strcmp(hint->res_name,
+                                             klas->res_name);
+                        }
+                        else if (nonempty(klas->res_name))
+                            cmp = +1;
+                    }
+                }
+                if (cmp < 0) {
+                    list->insertAt(i, item);
+                    inserted = true;
+                }
+            }
         }
+        if (inserted == false) {
+            list->insertAt(stop, item);
+            inserted = true;
+        }
+    }
+    if (inserted == false) {
+        list->addItem(item);
     }
 }
 
-void WindowList::removeWindowListApp(WindowListItem *item) {
+void WindowList::removeWindowListApp(ClientListItem* item) {
     if (item) {
         list->removeItem(item);
         delete item;
     }
 }
 
-void WindowList::updateWindowListApp(WindowListItem *item) {
+void WindowList::updateWindowListApp(ClientListItem* item) {
     if (item) {
         list->removeItem(item);
         insertApp(item);
     }
 }
 
-void WindowList::repaintItem(WindowListItem *item) {
-    list->repaintItem(item);
+void WindowList::repaintItem(ClientListItem* item) {
+    if (item) {
+        list->repaintItem(item);
+    }
 }
 
 void WindowList::configure(const YRect2& r) {
@@ -592,8 +731,13 @@ void WindowList::handleClose() {
 void WindowList::showFocused(int x, int y) {
     const YFrameWindow *focus = manager->getFocus();
     if (focus != getFrame() || focus == nullptr) {
-        WindowListItem* item = focus ? focus->winListItem()
-                             : workspaceItem[manager->activeWorkspace()];
+        YListItem* item = nullptr;
+        if (focus && focus->client()->getClientItem()) {
+            item = dynamic_cast<YListItem*>(focus->client()->getClientItem());
+        }
+        if (item == nullptr) {
+            item = workspaceItem[manager->activeWorkspace()];
+        }
         list->focusSelectItem(list->findItem(item));
     }
     if (getFrame() == nullptr) {

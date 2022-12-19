@@ -28,8 +28,10 @@ public:
 
 class YTextProperty : public XTextProperty {
 public:
-    YTextProperty(const char* str);
+    YTextProperty(const char* str = nullptr);
+    YTextProperty(Window handle, Atom property);
     ~YTextProperty();
+    operator const char*() const { return (const char *) value; }
 };
 
 enum YFormat { F8 = 8, F16 = 16, F32 = 32 };
@@ -73,6 +75,8 @@ public:
     Atom* begin() const { return data<Atom>(); }
     Atom* end() const { return begin() + fSize; }
 
+    static Atom fRequest;
+
 private:
     Window fWind;
     unsigned char* fData;
@@ -113,6 +117,8 @@ public:
     void send(XClientMessageEvent& ev, Window win, long mask = NoEventMask) const;
     Window parent(Window child) const;
     bool children(Window win, Window** data, unsigned* num) const;
+    bool queryMask(Window w, unsigned* mask);
+    void queryMouse(int* x, int* y);
 
     bool hasColormap() const { return fHasColormaps; }
     bool synchronized() const { return synchronizeX11; }
@@ -149,6 +155,7 @@ public:
     void popdown(YPopupWindow *popdown);
 
     YWindow *grabWindow() const { return fGrabWindow; }
+    virtual AToolTip* newToolTip() { return new AToolTip; }
 
     void alert();
 

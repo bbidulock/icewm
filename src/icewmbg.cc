@@ -341,6 +341,9 @@ void Background::addImage(Strings& images, const char* name, bool append) {
             else if (xist && path.fileExists()) {
                 images.append(path);
             }
+            else if (testOnce(path.string(), __LINE__)) {
+                tlog(_("Failed to load image '%s'."), path.string());
+            }
         }
     }
 }

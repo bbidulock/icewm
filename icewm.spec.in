@@ -73,7 +73,6 @@ GNOME 1.0 menu support for icewm (using gnome 2.x).
 %files
 %defattr(-,root,root)
 %doc README COPYING AUTHORS CHANGES BUGS doc/*.html doc/icewm.sgml
-%doc icewm.lsm
 
 %config %{pkgdata}/keys
 %config %{pkgdata}/menu

@@ -465,6 +465,16 @@ the screen.  Use C<+-> for a truly negative position.
 
 Print the window geometry.
 
+=item B<setClass> I<CLASS>
+
+Set the resource name and class to I<CLASS>, which should be a resource
+name and a resource class connected by a dot. To preserve either the
+existing name or class, use a percentage sign for that part.
+
+=item B<getClass>
+
+Print the resource name and class.
+
 =item B<netState> I<[STATE]>
 
 If I<STATE> is omitted then it shows the I<EWMH window state>.
@@ -576,6 +586,40 @@ Print all properties and their values.
 
 Print the identifier of the window frame.
 
+=item B<extents>
+
+Print the window identifier and the frame border sizes: left, right,
+top and bottom.
+
+=item B<focusmodel>
+
+Print the ICCCM focus model as advertised by the client window.
+This is either Locally, Passive, Globally or NoInput.
+
+=item B<override> [I<0|1>]
+
+Print the override redirect status for the window, or if either 0 or 1
+is given, then disable or enable the override redirect status.
+
+=item B<tabto> I<label>
+
+Move the windows as tabs to a frame which has C<frame> label I<label>.
+Such a frame is created if needed.
+
+=item B<untab>
+
+Move each window to its own frame, if it is currently tabbed.
+
+=item B<loadicon> F<image.pam>
+
+Load an icon from file, which must be in the PAM image format,
+with dimensions at most 256, a depth of 4, and type I<RGB_ALPHA>.
+
+=item B<saveicon> F<file000.pam>
+
+Save an icon to a new file in the PAM image format. Digits are
+increased to generate a unique new filename for each window.
+
 =item B<click> I<window-x> I<window-y> I<button>
 
 Send a button press and release event at position (I<window-x>,
@@ -594,6 +638,14 @@ Observe the selected windows and report any changes. This includes
 focus, visibility, position, size and all window properties.
 To monitor all of the protocol request messages that client applications
 may send to icewm, also spy on the root window.
+
+=item B<stacking>
+
+Sort the list of windows from topmost to bottom-most.
+
+=item B<reverse>
+
+Reverse the order of the list of windows.
 
 =back
 
@@ -640,6 +692,11 @@ Create a new workspace with name I<NAME>.
 If I<SHOWING> is C<1> then set C<showing the desktop> mode.
 If I<SHOWING> is C<0> then turn off C<showing the desktop>.
 Print the current mode if I<SHOWING> is not given.
+
+=item B<workarea>
+
+Print the dimensions of the work area for the current workspace.
+This is the desktop, but minus space occupied by dock and panel windows.
 
 =item B<randr>
 
@@ -898,7 +955,7 @@ workspace and activate Firefox.
 
 Resize the focused window to occupy the right half of the desktop area.
 
-    icesh -f sizeto 49% 100% sync top sync right sync raise activate
+    icesh -f sizeto 49% 100% sync top sync right sync raise
 
 Toggle the frame border of the focused window.
 
@@ -916,6 +973,11 @@ which has a WM_ROLE value of C<special>, or start it with B<runonce>.
         if -v then hide \
         elif -u then setWorkspace this sync activate end \
         else runonce roxterm --role=special
+
+Collect all urxvt terminals from the fourth workspace in a single frame
+on the current workspace.
+
+    icesh -W 3 -c urxvt tabto myfunnyname
 
 =head2 ENVIRONMENT
 

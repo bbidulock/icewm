@@ -189,17 +189,19 @@
  */
 
 #define WinLayerCount          16
-#define WinLayerInvalid        -1L
+#define WinLayerInvalid        (-1)
 
-#define WinLayerDesktop        0L
-#define WinLayerBelow          2L
-#define WinLayerNormal         4L
-#define WinLayerOnTop          6L
-#define WinLayerDock           8L
-#define WinLayerAboveDock      10L
-#define WinLayerMenu           12L
-#define WinLayerFullscreen     14L // hack, for now
-#define WinLayerAboveAll       15L // for taskbar auto hide
+#define WinLayerDesktop        0
+#define WinLayerBelow          2
+#define WinLayerNormal         4
+#define WinLayerOnTop          6
+#define WinLayerDock           8
+#define WinLayerAboveDock      10
+#define WinLayerMenu           12
+#define WinLayerFullscreen     14
+#define WinLayerAboveAll       15
+
+#define validLayer(l)          (0 <= (l) && (l) < WinLayerCount)
 
 /* task bar tray */
 #define XA_WIN_TRAY             "_ICEWM_TRAY"
@@ -228,11 +230,11 @@
  */
 
 #define WinTrayOptionCount      3
-#define WinTrayInvalid          -1L
+#define WinTrayInvalid          -1
 
-#define WinTrayIgnore           0L
-#define WinTrayMinimized        1L
-#define WinTrayExclusive        2L
+#define WinTrayIgnore           0
+#define WinTrayMinimized        1
+#define WinTrayExclusive        2
 
 /* state */
 #define XA_WIN_STATE           "_WIN_STATE"

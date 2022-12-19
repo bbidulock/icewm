@@ -1,13 +1,11 @@
-cmake_minimum_required(VERSION 3.2)
+
+# to use target_link_options
+cmake_minimum_required(VERSION 3.13)
 
 PROJECT(ICEWM CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
-# TODO: drop this warning around xmas 2020 and raise cmake_minimum_required instead; Debian Jessie EOLs around 2020-06
-if(${CMAKE_VERSION} VERSION_LESS "3.1")
-    message(WARNING "!! Ancient cmake version detected, please pass flags for C++11 enabling manually through CXXFLAGS environment variable or override CMAKE_CXX_FLAGS")
-endif()
 
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
@@ -22,7 +20,46 @@ INCLUDE(CheckCXXCompilerFlag)
 SET(CXXFLAGS_COMMON -pthread -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -D_FILE_OFFSET_BITS=64 -D_GNU_SOURCE -DHAVE_CONFIG_H -include "${CMAKE_BINARY_DIR}/config.h")
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(icewm_libs "")
+unset(icewm_libs)
+unset(Intl_INCLUDE_DIRS)
+
+macro(concat_dedup _result_var)
+    set(${_result_var} ${ARGN})
+    list(REMOVE_DUPLICATES ${_result_var})
+endmacro()
+
+option(AUTO_INC_HEADERS "Guess related headers and include in the build config (developer comfort feature)" off)
+macro(do_auto_inc_headers _in_out_var)
+    if(AUTO_INC_HEADERS)
+        set(auto_inc_headers_tmp)
+        foreach(src ${${_in_out_var}})
+            list(APPEND auto_inc_headers_tmp ${src})
+            cmake_path(REPLACE_EXTENSION src .h OUTPUT_VARIABLE h_cand)
+            message("Looking for ${h_cand}")
+            if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${h_cand}")
+                list(APPEND auto_inc_headers_tmp "${h_cand}")
+            endif()
+        endforeach()
+        list(REMOVE_DUPLICATES auto_inc_headers_tmp)
+        set(${_in_out_var} ${auto_inc_headers_tmp})
+    endif()
+endmacro()
+
+macro(pkg_check_or_fail _prefix _what)
+    clear_pkg_config(${_prefix})
+    pkg_check_modules(${_prefix} ${_what})
+    if(NOT ${_prefix}_FOUND)
+        message(FATAL_ERROR ${ARGN})
+    endif()
+endmacro()
+
+# drop remainings variables of pkg_config's work from the current scope
+macro(clear_pkg_config _prefix)
+    foreach(_i "_LIBRARIES" "_LINK_LIBRARIES" "_LIBRARY_DIRS" "_LDFLAGS" "_LDFLAGS_OTHER" "_INCLUDE_DIRS" "_CFLAGS" "_CFLAGS_OTHER")
+        unset("${_prefix}${_i}")
+    endforeach()
+endmacro()
+
 # optimize for release if not defined explicitly, can be overriden with CMAKE_BUILD_TYPE "None"
 if("${CMAKE_BUILD_TYPE}" STREQUAL "" AND ("" STREQUAL "${CMAKE_CXX_FLAGS}"))
     SET(CMAKE_BUILD_TYPE Release)
@@ -55,11 +92,6 @@ else()
     endif()
 endif()
 
-#CHECK_CXX_COMPILER_FLAG(-Wl,-fuse-ld=gold CXX_LINKER_GOLD)
-#if(CXX_LINKER_GOLD)
-#    list(APPEND icewm_libs -Wl,-fuse-ld=gold)
-#endif()
-
 option(CONFIG_IMLIB2 "Imlib2 image loader" on)
 option(CONFIG_LIBPNG "PNGLIB image loader" off)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" off)
@@ -86,24 +118,27 @@ ELSE()
 ENDIF()
 SET(XTERMCMD xterm CACHE STRING "Default terminal emulator for X11")
 
-# TODO: find some common helper to handle that variables
 if(ENABLE_NLS OR CONFIG_I18N)
     find_library(CONFIG_LIBICONV iconv)
     if(CONFIG_LIBICONV)
         LIST(APPEND nls_LIBS iconv)
     endif()
-    INCLUDE(FindIntl)
+# XXX: once cmake 3.20 became standard, replace this block with dependency on
+# Intl::Intl interface target.
+    include(FindIntl)
     if(Intl_FOUND)
-        LIST(APPEND nls_LIBS ${Intl_LIBRARIES})
-        if(${Intl_INCLUDE_DIRS})
-            LIST(APPEND nls_CFLAGS -I${Intl_INCLUDE_DIRS})
-        endif()
+        list(APPEND nls_LIBS ${Intl_LIBRARIES})
     endif()
 endif()
 
 if(ENABLE_LTO AND ${CMAKE_HOST_SYSTEM_NAME} MATCHES "Linux")
-    list(APPEND CXXFLAGS_COMMON -flto)
-    list(APPEND EXTRA_LIBS -flto)
+    # https://stackoverflow.com/questions/72218980/gcc-v12-1-warning-about-serial-compilation
+    check_cxx_compiler_flag(-flto=auto USE_LTOAUTO)
+    if(USE_LTOAUTO)
+        list(APPEND CXXFLAGS_COMMON -flto=auto)
+    else()
+        list(APPEND CXXFLAGS_COMMON -flto)
+    endif()
 endif()
 
 # the only used ones...
@@ -163,12 +198,12 @@ set(HINT_IMG_LOADERS
 if(CONFIG_IMLIB2)
     #ok
     if (NOT CONFIG_LIBRSVG)
-        message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
+        message(WARNING "-DCONFIG_LIBRSVG=on is recommended for SVG image support")
     endif()
 elseif(CONFIG_GDK_PIXBUF_XLIB)
     #ok
     if (NOT CONFIG_LIBRSVG)
-        message(WARNING "CONFIG_LIBRSVG is recommended for SVG image support")
+        message(WARNING "-DCONFIG_LIBRSVG=on is recommended for SVG image support")
     endif()
 elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     #ok
@@ -181,11 +216,7 @@ else()
 endif()
 
 if(CONFIG_IMLIB2)
-    pkg_check_modules(libimlib2 imlib2)
-    if(NOT libimlib2_FOUND)
-        message(FATAL_ERROR "IMLIB2 selected but Imlib2 dev files not found."
-                ${HINT_IMG_LOADERS})
-    endif()
+    pkg_check_or_fail(libimlib2 imlib2 "IMLIB2 selected but Imlib2 dev files not found.")
     set(CONFIG_GDK_PIXBUF_XLIB off)
     set(CONFIG_LIBPNG off)
     set(CONFIG_LIBJPEG off)
@@ -193,11 +224,9 @@ if(CONFIG_IMLIB2)
 endif()
 
 if(CONFIG_GDK_PIXBUF_XLIB)
-    pkg_check_modules(pixbuf gdk-pixbuf-xlib-2.0)
-    if(NOT pixbuf_FOUND)
-        message(FATAL_ERROR "GDX-PIXBUF image loader selected but its dev files were not found."
-${HINT_IMG_LOADERS})
-    endif()
+    pkg_check_or_fail(pixbuf gdk-pixbuf-xlib-2.0
+        "GDX-PIXBUF image loader selected but its dev files were not found."
+        ${HINT_IMG_LOADERS})
     set(CONFIG_LIBPNG off)
     set(CONFIG_LIBJPEG off)
     LIST(APPEND icewm_img_libs ${pixbuf_LDFLAGS})
@@ -226,39 +255,26 @@ else()
 endif()
 
 if(CONFIG_XPM)
-    pkg_check_modules(libxpm xpm)
-    if(NOT libxpm_FOUND)
-        message(FATAL_ERROR
-                "XPM image loader selected but libXpm dev files not found."
-                ${HINT_IMG_LOADERS})
-    endif()
+    pkg_check_or_fail(libxpm xpm "XPM image loader selected but libXpm dev files not found."
+        ${HINT_IMG_LOADERS})
     LIST(APPEND icewm_img_libs ${libxpm_LDFLAGS})
 endif()
 
 if(CONFIG_LIBPNG)
-    pkg_check_modules(libpng libpng)
-    if(NOT libpng_FOUND)
-        message(FATAL_ERROR
-                "PNG image loader selected but libpng dev files not found."
-                ${HINT_IMG_LOADERS})
-    endif()
+    pkg_check_or_fail(libpng libpng "PNG image loader selected but libpng dev files not found."
+        ${HINT_IMG_LOADERS})
     LIST(APPEND icewm_img_libs ${libpng_LDFLAGS})
 endif()
 
 if(CONFIG_LIBJPEG)
-    pkg_check_modules(libjpeg libjpeg)
-    if(NOT libjpeg_FOUND)
-        message(FATAL_ERROR
-                "JPEG image loader selected but libjpeg dev files not found."
-                "Please install libjpeg-dev (or similar)."
-                "Otherwise use -DCONFIG_LIBJPEG=off.")
-    endif()
+    pkg_check_or_fail(libjpeg libjpeg "JPEG image loader selected but libjpeg dev files not found."
+        "Please install libjpeg-dev (or similar)."
+        "Otherwise use -DCONFIG_LIBJPEG=off.")
     LIST(APPEND icewm_img_libs ${libjpeg_LDFLAGS})
 endif()
 
 IF(CONFIG_SESSION)
-    LIST(APPEND sm_LIBS SM)
-    LIST(APPEND sm_LIBS ICE)
+    LIST(APPEND sm_LIBS SM ICE)
 ENDIF()
 
 option(CONFIG_SHAPE "Define to enable transparent frame	decoration (titlebar borders), requests X shape extension." on)
@@ -293,46 +309,33 @@ endif()
 
 set(ICESOUND "ALSA,AO,OSS,ESound" CACHE STRING "List of supported audio subsystems")
 string(TOLOWER ${ICESOUND} ICESOUND)
-message(STATUS "Checking audio subsystems from ICESOUND: ${ICESOUND}")
+message(STATUS "Checking audio subsystems for ICESOUND: ${ICESOUND}")
 
-#clear cache
+# clear cache, just in case that user has set them as command line options
 set(ENABLE_ALSA off)
 set(ENABLE_AO off)
 set(ENABLE_OSS off)
-set(audio_libs )
-set(audio_flags )
-# Triggers some cmake bug, use copy-pasta for now
-#macro(_addsnd varname flagname)
-#        set("${FLAGNAME}" "${${varname}_FOUND}")
-#        if("${${varname}_FOUND}" EQUAL 1)
-#                list(APPEND audio_libs "${${varname}_LDFLAGS}" "${${varname}_LIBS}")
-#                list(APPEND audio_flags "${${varname}_CFLAGS}")
-#        endif()
-#endmacro()
 
 pkg_check_modules(sndfile sndfile)
 if(sndfile_FOUND)
     if(sndfile_FOUND)
-        list(APPEND audio_flags "${sndfile_CFLAGS}")
-        list(APPEND audio_libs ${sndfile_LDFLAGS})
-        list(APPEND audio_libs ${sndfile_LIBS})
+        list(APPEND audio_flags ${sndfile_CFLAGS})
+        list(APPEND audio_libs ${sndfile_LDFLAGS} ${sndfile_LIBS})
     endif()
     if("${ICESOUND}" MATCHES "alsa")
         pkg_check_modules(alsa alsa)
-        set(ENABLE_ALSA "${alsa_FOUND}")
+        set(ENABLE_ALSA ${alsa_FOUND})
         if(alsa_FOUND)
-            list(APPEND audio_flags "${alsa_CFLAGS}")
-            list(APPEND audio_libs ${alsa_LDFLAGS})
-            list(APPEND audio_libs ${alsa_LIBS})
+            list(APPEND audio_flags ${alsa_CFLAGS})
+            list(APPEND audio_libs ${alsa_LDFLAGS} ${alsa_LIBS})
         endif()
     endif()
     if("${ICESOUND}" MATCHES "ao")
         pkg_check_modules(ao ao)
         set(ENABLE_AO "${ao_FOUND}")
         if(ao_FOUND)
-            list(APPEND audio_flags "${ao_CFLAGS}")
-            list(APPEND audio_libs ${ao_LDFLAGS})
-            list(APPEND audio_libs ${ao_LIBS})
+            list(APPEND audio_flags ${ao_CFLAGS})
+            list(APPEND audio_libs ${ao_LDFLAGS} ${ao_LIBS})
         endif()
     endif()
     if("${ICESOUND}" MATCHES "oss")
@@ -358,14 +361,11 @@ if(CONFIG_FRIBIDI)
         set(CONFIG_FRIBIDI off)
     endif()
 endif()
-
 option(CONFIG_FDO_MENUS "Define to support freedesktop.org style menus" on)
 if(CONFIG_FDO_MENUS)
-    pkg_check_modules(gio gio-2.0 gio-unix-2.0)
-    if(NOT gio_FOUND)
-        set(CONFIG_FDO_MENUS off)
-        message(WARNING "Freedesktop style menus not supported (libglib2.0-dev or similar package required)")
-    endif()
+    set(hint "Freedesktop style menus enabled (-DCONFIG_FDO_MENUS=on) but libglib2.0-dev or similar package not found")
+    pkg_check_or_fail(gio gio-2.0 gio-unix-2.0 ${hint})
+    pkg_check_or_fail(gio_unix gio-unix-2.0 ${hint})
 endif()
 
 option(DEBUG "Define if you want to debug IceWM" off)
@@ -376,12 +376,10 @@ option(PRECON "Define to enable assertions in IceWM" off)
 #######################################
 
 IF(${CMAKE_HOST_SYSTEM_NAME} MATCHES "Linux")
-    SET(LDFLAGS_ORIG ${CMAKE_EXE_LINKER_FLAGS})
-    SET(CMAKE_EXE_LINKER_FLAGS "${LDFLAGS_ORIG} -Wl,--as-needed ")
-    CHECK_CXX_SOURCE_COMPILES("int main() {return 0;}" USE_WLASNEEDED)
-    IF(NOT USE_WLASNEEDED)
-        SET(CMAKE_EXE_LINKER_FLAGS ${LDFLAGS_ORIG})
-    ENDIF()
+    check_cxx_compiler_flag(-Wl,--as-needed USE_WLASNEEDED)
+    if(USE_WLASNEEDED)
+        list(APPEND EXTRA_LINKER_FLAGS -Wl,--as-needed)
+    endif()
 ENDIF()
 IF(${CMAKE_HOST_SYSTEM_NAME} MATCHES "SunOS")
     list(APPEND EXTRA_LIBS -lsocket)
@@ -417,13 +415,18 @@ if(CONFIG_COREFONTS)
     list(APPEND ICE_COMMON_SRCS yfontcore.cc)
 endif()
 
+list(REMOVE_DUPLICATES icewm_pc_flags)
+
+do_auto_inc_headers(ICE_COMMON_SRCS)
 add_library(ice STATIC ${ICE_COMMON_SRCS})
 target_compile_options(ice PUBLIC ${icewm_pc_flags})
+target_include_directories(ice PUBLIC ${Intl_INCLUDE_DIRS})
 
 SET(ITK_SRCS ymenu.cc ylabel.cc yscrollview.cc ymenuitem.cc
              yscrollbar.cc ybutton.cc ylistbox.cc yinputline.cc
              globit.cc yicon.cc wmconfig.cc wmsave.cc wpixres.cc)
 
+do_auto_inc_headers(ITK_SRCS)
 add_library(itk STATIC ${ITK_SRCS})
 target_compile_options(itk PUBLIC ${icewm_pc_flags})
 
@@ -440,15 +443,16 @@ SET(ICEWM_SRCS
     applet.cc apppstatus.cc aaddressbar.cc
     akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
+do_auto_inc_headers(ICEWM_SRCS)
+concat_dedup(icewm_libs itk ice ${sm_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS}
+                       ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                       ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${icewm_img_libs})
 
 ADD_EXECUTABLE(icewm${EXEEXT} ${ICEWM_SRCS})
-set(icewm_libs itk ice ${sm_LIBS} ${fontconfig_LDFLAGS} ${fribidi_LDFLAGS}
-                       ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
-                       ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
-TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs} ${icewm_img_libs} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(icewm${EXEEXT} ${icewm_libs})
 
 ADD_EXECUTABLE(genpref${EXEEXT} genpref.cc)
-TARGET_LINK_LIBRARIES(genpref${EXEEXT} ice ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+TARGET_LINK_LIBRARIES(genpref${EXEEXT} ice ${x11_LDFLAGS} ${nls_LIBS})
 
 if(BUILD_TESTING)
     ADD_EXECUTABLE(strtest strtest.cc)
@@ -467,49 +471,65 @@ endif()
 
 IF(CONFIG_FDO_MENUS)
     ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ycollections.cc)
-    target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_CFLAGS})
+    target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_CFLAGS_OTHER} ${gio_unix_CFLAGS_OTHER})
+    target_include_directories(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_INCLUDE_DIRS} ${gio_unix_INCLUDE_DIRS})
     TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ice ${x11_LDFLAGS}
-                          ${gio_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+                          ${gio_LDFLAGS} ${nls_LIBS})
     INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-ADD_EXECUTABLE(icewm-session${EXEEXT} icesm.cc)
-TARGET_LINK_LIBRARIES(icewm-session${EXEEXT} ice ${nls_LIBS} ${x11_LDFLAGS}
-                      ${EXTRA_LIBS})
+add_executable(icewm-session${EXEEXT} icesm.cc)
+target_link_libraries(icewm-session${EXEEXT} ice ${nls_LIBS} ${x11_LDFLAGS})
 
-ADD_EXECUTABLE(icewmhint${EXEEXT} icewmhint.cc)
-TARGET_LINK_LIBRARIES(icewmhint${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS}
-                      ${nls_LIBS} ${EXTRA_LIBS})
+add_executable(icewmhint${EXEEXT} icewmhint.cc)
+target_link_libraries(icewmhint${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS}
+                      ${nls_LIBS})
 
 ADD_EXECUTABLE(icesh${EXEEXT} icesh.cc)
-TARGET_LINK_LIBRARIES(icesh${EXEEXT} ice ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
-                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+concat_dedup(icesh_libs ice ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
+TARGET_LINK_LIBRARIES(icesh${EXEEXT} ${icesh_libs})
 
 ADD_EXECUTABLE(icewmbg${EXEEXT} icewmbg.cc)
-TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ice ${icewm_img_libs} ${xft_LDFLAGS}
+concat_dedup(icewmbg_libs ice ${icewm_img_libs} ${xft_LDFLAGS}
                       ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
-                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
+TARGET_LINK_LIBRARIES(icewmbg${EXEEXT} ${icewmbg_libs})
 
 IF(ENABLE_ALSA OR ENABLE_AO OR ENABLE_OSS)
-    ADD_EXECUTABLE(icesound${EXEEXT} icesound.cc)
+    add_executable(icesound${EXEEXT} icesound.cc)
     target_compile_options(icesound${EXEEXT} PUBLIC ${audio_flags})
-    TARGET_LINK_LIBRARIES(icesound${EXEEXT} ice ${xext_LDFLAGS} ${x11_LDFLAGS}
-                          ${nls_LIBS} ${audio_libs} ${EXTRA_LIBS})
+    concat_dedup(icesound_libs ice ${xext_LDFLAGS} ${x11_LDFLAGS}
+                          ${nls_LIBS} ${audio_libs})
+    TARGET_LINK_LIBRARIES(icesound${EXEEXT} ${icesound_libs})
     INSTALL(TARGETS icesound${EXEEXT} DESTINATION ${BINDIR})
 ENDIF()
 
-ADD_EXECUTABLE(icehelp${EXEEXT} icehelp.cc)
-TARGET_LINK_LIBRARIES(icehelp${EXEEXT} itk ice ${icewm_img_libs} ${xft_LDFLAGS}
+add_executable(icehelp${EXEEXT} icehelp.cc)
+concat_dedup(icehelp_libs itk ice ${icewm_img_libs} ${xft_LDFLAGS}
                       ${fribidi_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
-                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+                      ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
+TARGET_LINK_LIBRARIES(icehelp${EXEEXT} ${icehelp_libs})
 INSTALL(TARGETS icehelp${EXEEXT} DESTINATION ${BINDIR})
 
 IF(CONFIG_EXTERNAL_TRAY)
-    ADD_EXECUTABLE(icewmtray${EXEEXT} icetray.cc)
-    TARGET_LINK_LIBRARIES(icewmtray${EXEEXT} itk ice ${icewm_img_libs}
+    add_executable(icewmtray${EXEEXT} icetray.cc)
+    concat_dedup(icewmtray_libs itk ice ${icewm_img_libs}
                           ${xft_LDFLAGS} ${xrandr_LDFLAGS} ${xinerama_LDFLAGS}
-                          ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS} ${EXTRA_LIBS})
+                          ${xext_LDFLAGS} ${x11_LDFLAGS} ${nls_LIBS})
+    target_link_libraries(icewmtray${EXEEXT} ${icewmtray_libs})
 ENDIF()
+
+get_directory_property(tgts DIRECTORY . BUILDSYSTEM_TARGETS)
+foreach(tgt ${tgts})
+    if(EXTRA_LINKER_FLAGS)
+        target_link_options(${tgt} PRIVATE ${EXTRA_LINKER_FLAGS})
+    endif()
+    if(EXTRA_LIBS)
+        target_link_libraries(${tgt} ${EXTRA_LIBS})
+    endif()
+endforeach()
+
 
 INSTALL(TARGETS icewm${EXEEXT} icesh${EXEEXT} icewm-session${EXEEXT}
                 icewmhint${EXEEXT} icewmbg${EXEEXT} DESTINATION ${BINDIR})

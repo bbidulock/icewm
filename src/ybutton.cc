@@ -388,6 +388,10 @@ void YButton::setIcon(ref<YIcon> icon, int iconSize) {
     }
 }
 
+ref<YIcon> YButton::getIcon() {
+    return fIcon;
+}
+
 void YButton::setImage(ref<YImage> image) {
     if (image != fImage || fIcon != null || fIconSize != 0) {
         fImage = image;

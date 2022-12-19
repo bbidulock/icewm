@@ -5,6 +5,11 @@ dist_xsession_DATA = \
 	icewm.desktop \
 	icewm-session.desktop
 
+install-data-hook:
+	$(AM_V_GEN)sed -i 's|Exec=/.*/|Exec=$(bindir)/|' \
+	    $(DESTDIR)$(xsessiondir)/icewm.desktop \
+	    $(DESTDIR)$(xsessiondir)/icewm-session.desktop
+
 dist_pkgdata_DATA = \
 	IceWM.jpg
 

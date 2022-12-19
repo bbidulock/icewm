@@ -5,13 +5,10 @@
 
 // themable preferences (themes can set only these)
 
-#if defined(CONFIG_I18N) || 1 // maybe not such a good idea
 XIV(bool, prettyClock,                          false)
-#else
-XIV(bool, prettyClock,                          true)
-#endif
 XIV(bool, rolloverTitleButtons,                 false)
 
+XIV(int, taskBarGraphHeight,                    20)
 XIV(unsigned, taskbuttonIconOffset,             0)
 XIV(unsigned, trayIconMaxWidth,                 32)
 XIV(unsigned, trayIconMaxHeight,                24)
@@ -158,6 +155,7 @@ cfoption icewm_themable_preferences[] = {
     OBV("RolloverButtonsSupported",             &rolloverTitleButtons,          "Does it support the 'O' title bar button images (for mouse rollover)"),
     OBV("TaskBarClockLeds",                     &prettyClock,                   "Task bar clock/battery monitor uses nice pixmap LCD display (but then it doesn't display correctly in many languages anymore, e.g., for Japanese and Korean it works only when a real font is used and not the LCD pixmaps"),
 
+    OIV("TaskBarGraphHeight",                   &taskBarGraphHeight, 16, 1000,  "Height of taskbar monitoring applets"),
     OUV("TaskbuttonIconOffset",                 &taskbuttonIconOffset, 0, 16,   "Width of taskbutton side icons"),
     OUV("TrayIconMaxWidth",                     &trayIconMaxWidth, 16, 128,     "Maximum scaled width of tray icons"),
     OUV("TrayIconMaxHeight",                    &trayIconMaxHeight, 16, 128,    "Maximum scaled height of tray icons"),

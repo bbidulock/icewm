@@ -1,0 +1,74 @@
+#
+# Configuration file for xrandr command execution used by icewm's "Win-P" menu background script.
+#
+# Save this as ~/.config/icewm/xrandr_menu or ~/.icewm/xrandr_menu
+# and adjust the monitor specific options.
+#
+# Config is processed sequentially before or after apply xrandr commands.
+# Multiple sections refering to the same output or combo are allowed, the
+# options and commands will be merged and/or replaced by later matches.
+# Identical "postcmd" strings will be deduplicated.
+#
+# The sections ("output" for options of an individual signal output, "combo"
+# for the context of the whole composition) can be enabled (selected) by
+# selectors, either as a name of this section (see below) or selection hint in
+# the section.
+#
+# For detailed options passed to xrandr, see its manpage.
+#
+
+# Common setting. When the primary screen changes, force a quick restart of
+# icewm. This might be required because the positioning of the Icewm taskbar or
+# features of certain windows gets confused.
+restart-on-primary-change = 1
+
+[output]
+# Select this section for devices whose output matches this name.
+# If surrounded by slashes, the name is evaluated as a regular expression.
+match-name = /DP-3/
+
+# Alternatively, match by label of this device.
+#        match-label = LG.*2730
+# Custom label can be assigned. However, this influences further filtering!
+# Optionally, some patterns can be automatically substituted:
+# - output interface name via %OUTPUT
+# - original auto-determined label via %LABEL
+# - an asterix mark on the output which becomes the new primary via %PRIMFLAG
+label=BigScreen(%LABEL)@%OUTPUT%PRIMFLAG
+
+# 
+# List of any xrandr options added as prefix of this output configuration
+# Typically, one might use this to set the mode and refresh rate
+# For possible values, see "xrandr" output.
+# NOTE: using --auto or omiting resolution while specifying refresh rate might
+# turn the refresh rate hint ineffective. So specify both!
+# This option does not replace position parameters, see below for posopt if
+# this is wanted.
+#
+# Default: --auto
+#
+# options = --mode 1920x1080 -r 120
+# 
+# Postcmd is passed directly into a shell command, be warned about all
+# implications, see "-c" option description of your /bin/sh executable.
+#        postcmd = xrandr --output %OUTPUT --set "Broadcast RGB" "Full"
+
+# Naming a section is equivalent to specifying match-name=...
+#[output "eDP1"]
+#options = -r 48
+#
+# Replace auto-generated options for left/right positioning choice. Use THIS
+# options instead to manually position the viewport where we want it. Further
+# xrandr options like --rotate ... can be added here.
+#
+# Example: always position an 1080p monitor (matched here) on the right of a 1440p screen but aligned at the bottom, thus shifting down by 360 lines.
+#posopt = --pos 2560x360
+
+[combo]
+        label-match = /LEN.F27u-12.*eDP1.*LG.Display/
+# Restarting icewm might be useful in this case because sometimes a bug
+# prevents proper repositioning of maximized windows
+# postcmd = icesh restart
+#
+
+# vim: filetype=gitconfig

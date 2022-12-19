@@ -123,14 +123,18 @@ public:
     virtual int getCount() override {
         return menu->itemCount();
     }
+    virtual bool isEmpty() override {
+        return menu->itemCount() == 0;
+    }
     virtual bool isKey(KeySym k, unsigned int mod) override {
         return k == this->key && mod == this->mod;
     }
     unsigned modifiers() override {
         return mod;
     }
-    virtual void setWMClass(char* wmclass) override {
+    virtual bool setWMClass(char* wmclass) override {
         if (wmclass) free(wmclass); // unimplemented
+        return false;
     }
     virtual char* getWMClass() override {
         return nullptr;

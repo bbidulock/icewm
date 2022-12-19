@@ -28,6 +28,8 @@ public:
     void updateName();
     mstring baseName();
     void setPosition(int x, int y);
+    void setStale() { fStale = true; }
+    bool isStale() const { return fStale; }
     int extent() const { return x() + int(width()); }
     virtual void repaint();
     static void freeFonts() { normalButtonFont = null; activeButtonFont = null; }
@@ -62,6 +64,7 @@ private:
     int fWorkspace;
     int fDelta;
     int fDownX;
+    bool fStale;
     bool fDragging;
     GraphicsBuffer fGraphics;
     lazy<YTimer> fRaiseTimer;
@@ -95,9 +98,10 @@ public:
     }
     virtual ~AWorkspaces() {}
 
+    virtual void repaintWorkspace(int ws) {}
     virtual void repaint() {}
     virtual void relabelButtons() {}
-    virtual void setPressed(long ws, bool set) {}
+    virtual void setPressed(int ws, bool set) {}
     virtual void updateButtons() {}
 };
 
@@ -113,8 +117,9 @@ public:
     ~WorkspacesPane() { WorkspaceButton::freeFonts(); }
 
     virtual void repaint();
+    virtual void repaintWorkspace(int ws);
     virtual void relabelButtons();
-    virtual void setPressed(long ws, bool set);
+    virtual void setPressed(int ws, bool set);
     virtual void updateButtons();
     virtual unsigned width() const { return YWindow::width(); }
 

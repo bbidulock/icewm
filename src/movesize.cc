@@ -378,6 +378,20 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
     }
     newX -= borderX();
     newY -= borderY();
+
+    if (movingWindow && opaqueMove)
+        checkEdgeSwitch(mouseX, mouseY);
+}
+
+void YFrameWindow::checkEdgeSwitch(int mouseX, int mouseY) {
+    if (0 <= manager->edgeWorkspace(mouseX, mouseY)) {
+        if (fEdgeSwitchTimer == nullptr ||
+            fEdgeSwitchTimer->isRunning() == false ||
+            fEdgeSwitchTimer->getTimerListener() != this)
+            fEdgeSwitchTimer->setTimer(edgeSwitchDelay, this, true);
+    }
+    else if (fEdgeSwitchTimer)
+        fEdgeSwitchTimer = null;
 }
 
 void YFrameWindow::handleResizeMouse(const XMotionEvent &motion,
@@ -789,6 +803,24 @@ bool YFrameWindow::handleKey(const XKeyEvent &key) {
                 if (canMove()) wmArrange(waTop, waLeft);
             } else if (IS_WMKEY(k, vm, gKeyWinArrangeC)) {
                 if (canMove()) wmArrange(waCenter, waCenter);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileLeft)) {
+                wmTile(actionTileLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileRight)) {
+                wmTile(actionTileRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTop)) {
+                wmTile(actionTileTop);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottom)) {
+                wmTile(actionTileBottom);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTopLeft)) {
+                wmTile(actionTileTopLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileTopRight)) {
+                wmTile(actionTileTopRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottomLeft)) {
+                wmTile(actionTileBottomLeft);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileBottomRight)) {
+                wmTile(actionTileBottomRight);
+            } else if (IS_WMKEY(k, vm, gKeyWinTileCenter)) {
+                wmTile(actionTileCenter);
             } else if (IS_WMKEY(k, vm, gKeyWinSmartPlace)) {
                 if (canMove()) {
                     int newX = x();
@@ -961,15 +993,11 @@ void YFrameWindow::endMoveSize() {
     xapp->releaseEvents();
     statusMoveSize->end();
 
-    if ((movingWindow && opaqueMove) ||
-        (sizingWindow && opaqueResize))
-        drawMoveSizeFX(x(), y(), width(), height());
-
     movingWindow = false;
     sizingWindow = false;
 
     if (taskBar) {
-        taskBar->workspacesRepaint();
+        taskBar->workspacesRepaint(getWorkspace());
     }
 }
 

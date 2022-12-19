@@ -19,7 +19,7 @@
 YXApplication *xapp = nullptr;
 
 YDesktop *desktop = nullptr;
-YContext<YWindow> windowContext;
+YContext<YWindow> windowContext("windowContext", false);
 
 bool YXApplication::synchronizeX11;
 bool YXApplication::alphaBlending;
@@ -56,6 +56,7 @@ Atom _XA_ICEWM_ACTION;
 Atom _XA_ICEWM_GUIEVENT;
 Atom _XA_ICEWM_HINT;
 Atom _XA_ICEWM_FONT_PATH;
+Atom _XA_ICEWM_TABS;
 Atom _XA_ICEWMBG_IMAGE;
 Atom _XA_XROOTPMAP_ID;
 Atom _XA_XROOTCOLOR_PIXEL;
@@ -66,6 +67,7 @@ Atom _XA_TARGETS;
 Atom _XA_XEMBED;
 Atom _XA_XEMBED_INFO;
 Atom _XA_UTF8_STRING;
+Atom _XA_COMPOUND_TEXT;
 
 Atom _XA_WIN_ICONS;
 Atom _XA_WIN_LAYER;
@@ -305,6 +307,7 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_ICEWM_GUIEVENT                   , XA_GUI_EVENT_NAME },
     { &_XA_ICEWM_HINT                       , "_ICEWM_WINOPTHINT" },
     { &_XA_ICEWM_FONT_PATH                  , "ICEWM_FONT_PATH" },
+    { &_XA_ICEWM_TABS                       , "_ICEWM_TABS" },
     { &_XA_ICEWMBG_IMAGE                    , "_ICEWMBG_IMAGE" },
     { &_XA_XROOTPMAP_ID                     , "_XROOTPMAP_ID" },
     { &_XA_XROOTCOLOR_PIXEL                 , "_XROOTCOLOR_PIXEL" },
@@ -425,6 +428,7 @@ YAtomName YXApplication::atom_info[] = {
     { &_XA_XEMBED_INFO                      , "_XEMBED_INFO" },
     { &_XA_TARGETS                          , "TARGETS" },
     { &_XA_UTF8_STRING                      , "UTF8_STRING" },
+    { &_XA_COMPOUND_TEXT                    , "COMPOUND_TEXT" },
 
     { &XA_XdndActionAsk                     , "XdndActionAsk" },
     { &XA_XdndActionCopy                    , "XdndActionCopy" },
@@ -1272,11 +1276,17 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
     if (rc == Success)
         return rc;
 
-    XDBG if (xev->resourceid != ignorable) {
+#if defined(DEBUG) || defined(PRECON)
+    if (xev->resourceid != ignorable) {
         char message[80], req[80], number[80];
 
-        snprintf(number, sizeof number, "%d", xev->request_code);
-        XGetErrorDatabaseText(display, "XRequest", number, "", req, sizeof req);
+        if (xev->request_code == X_GetProperty)
+            snprintf(req, sizeof req, "X_GetProperty(%s)",
+                     atomName(YProperty::fRequest));
+        else {
+            snprintf(number, sizeof number, "%d", xev->request_code);
+            XGetErrorDatabaseText(display, "XRequest", number, "", req, 80);
+        }
         if (req[0] == 0)
             snprintf(req, sizeof req, "[request_code=%d]", xev->request_code);
 
@@ -1288,7 +1298,6 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
              long(NextRequest(display)) - long(xev->serial),
              long(LastKnownRequestProcessed(display)) - long(xev->serial));
 
-#if defined(DEBUG) || defined(PRECON)
         if (xapp->synchronized()) {
             switch (xev->request_code) {
                 case X_GetWindowAttributes:
@@ -1305,8 +1314,8 @@ int YXApplication::errorHandler(Display* display, XErrorEvent* xev) {
         else if (ONCE) {
             TLOG(("unsynchronized"));
         }
-#endif
     }
+#endif
 
     if (rc == BadImplementation)
         xapp->exit(rc);
@@ -1334,6 +1343,21 @@ bool YXApplication::children(Window win, Window** data, unsigned* num) const {
     return XQueryTree(display(), win, &rootw, &paren, data, num);
 }
 
+bool YXApplication::queryMask(Window w, unsigned* mask) {
+    Window root, child;
+    int rx, ry, wx, wy;
+    return XQueryPointer(display(), w, &root, &child, &rx, &ry, &wx, &wy, mask);
+}
+
+void YXApplication::queryMouse(int* x, int* y) {
+    Window root, child;
+    int wx, wy;
+    unsigned mask;
+    if (XQueryPointer(display(), desktop->handle(),
+                      &root, &child, x, y, &wx, &wy, &mask) == False)
+        *x = *y = 0;
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
@@ -1357,13 +1381,26 @@ YAtom::operator Atom() {
 YTextProperty::YTextProperty(const char* str) {
     encoding = XA_STRING;
     format = 8;
-    if (str) {
-        nitems = strlen(str);
-        value = (unsigned char *) malloc(1 + nitems);
-        if (value) memcpy(value, str, 1 + nitems);
-    } else {
-        nitems = 0;
-        value = nullptr;
+    value = str ? (unsigned char *) strdup(str) : nullptr;
+    nitems = value ? int(strlen((char *)value)) : 0;
+}
+
+YTextProperty::YTextProperty(Window handle, Atom property) {
+    nitems = 0;
+    value = nullptr;
+    if (XGetTextProperty(xapp->display(), handle, this, property)) {
+        if (encoding == _XA_COMPOUND_TEXT) {
+            char** list = nullptr;
+            int count = 0;
+            if (XmbTextPropertyToTextList(xapp->display(), this, &list, &count)
+                == Success && 0 < count) {
+                char* copy = strdup(*list);
+                XFreeStringList(list);
+                XFree(value);
+                value = (unsigned char *) copy;
+                encoding = XA_STRING;
+            }
+        }
     }
 }
 
@@ -1380,9 +1417,12 @@ void YProperty::discard() {
     }
 }
 
+Atom YProperty::fRequest;
+
 const YProperty& YProperty::update() {
     discard();
     int fmt = 0;
+    fRequest = fProp;
     if (XGetWindowProperty(xapp->display(), fWind, fProp, 0L, fLimit, fDelete,
                            fKind, &fType, &fmt, &fSize, &fMore, &fData) ==
         Success && fData && fSize && fmt == fBits && (fKind == fType || !fKind))

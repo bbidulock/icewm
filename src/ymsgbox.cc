@@ -125,10 +125,6 @@ void YMsgBox::autoSize() {
     setSize(w, h);
 }
 
-void YMsgBox::setTitle(const char* title) {
-    setWindowTitle(title);
-}
-
 void YMsgBox::setText(const char* text) {
     if (fLabel) {
         fLabel->hide();
@@ -169,7 +165,7 @@ void YMsgBox::handleClose() {
     if (fListener)
         fListener->handleMsgBox(this, mbClose);
     else
-        unmanage();
+        delete this;
 }
 
 void YMsgBox::handleFocus(const XFocusChangeEvent& focus) {
@@ -191,10 +187,6 @@ void YMsgBox::showFocused() {
 
     center();
     become();
-}
-
-void YMsgBox::unmanage() {
-    manager->unmanageClient(this);
 }
 
 void YMsgBox::inputReturn(YInputLine* input) {

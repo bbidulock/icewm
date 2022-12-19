@@ -21,20 +21,58 @@ on-the-fly through a "quick-switch" style menu which pops up upon
 pressing Super-P key binding (or a manually configured key, see
 L<icewm-keys(5)> for the configuration of B<switchkey> directive).
 
+The tool does not examine the exact monitor resolutions, refresh rates
+or screen orientation. For this matters it uses auto selected mode by
+default. However, it is possible to replace the custom option selection
+for each output using I<xrandr> options in a custom configuration file
+(see I<CONFIGURATION> below). Also tuning specific options like
+--brightness and --gamma is possible there.
+
+The displayed name of the monitors is constructed using the output name
+and the monitor information from its EDID data (either from its "Display
+Name" field or from the "Unspecified ASCII text" fields (concatenated).
+
 =head2 OPTIONS
 
 =over
 
 =item B<--max>
 
-Instead of using the preferred mode and refresh rate of each monitor
-(xrandr's C<--auto> option), identify and use the modes with the highest
-bandwidth usage (i.e. usually the ones with the highest resolution and
-refresh rate). This behaviour is also enabled by creating the file
-C<$HOME/.cache/xrandrmenu.max> which would also effect the monitor
-quick-switch menu.
+Obsolete and ineffective option. Used to select the I<xrandr> mode with the
+highest detected refresh rate. However, the maximum rate might cause
+problems, therefore the explicit configuration in the I<INI file> should be
+used now, see I<CONFIGURATION>.
+
+=item B<--auto-number [ init value ]>
+
+Adding a auto-incremented numbered prefix to each display name,
+optionally started at the specified value. This mostly useful for menu
+creation.
+
+=item B<--xrandr command>
+
+Replacement for I<xrandr> command which should deliver equivalent data
+and accept the same options as I<xrandr>.
+
+=item B<--activate combo-name>
+
+A shortcut to run the activation command of the specified combo, just
+like I<IceWM> would run the commmand when selected from the menu or
+quick-switch dialog. The I<combo-name> parameter needs to match the
+displayed name exactly.
 
 =back
+
+=head2 CONFIGURATION
+
+Optionally, a local configuration can specify command line options to
+I<xrandr> calls, and further commands to run after mode switching.
+
+Refer to configuration examples (I<xrandr_menu>) in I<icewm>
+documentation or its contrib folder for the syntax and rules of that
+file. It can be placed into I<$HOME/.config/icewm> or into
+I<$HOME/.icewm> or wherever I<$XDG_CONFIG_HOME/.config/icewm> might
+resolve to.
 
 =head2 SEE ALSO
 

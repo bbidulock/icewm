@@ -10,7 +10,7 @@ class Sizeable;
 class AboutDlg: public YDialog {
 public:
     AboutDlg(YActionListener* al = nullptr);
-    ~AboutDlg();
+    virtual ~AboutDlg();
 
     void showFocused();
     virtual void handleClose();

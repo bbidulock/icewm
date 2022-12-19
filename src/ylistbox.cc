@@ -152,6 +152,14 @@ int YListBox::findItemByPoint(int /*pX*/, int pY) {
     return (0 <= no && no < getItemCount()) ? no : -1;
 }
 
+int YListBox::findItem(const YListItem *item, int from, int stop) {
+    YListItem** ptr = &*fItems;
+    for (int i = from; i < stop; ++i)
+        if (ptr[i] == item)
+            return i;
+    return -1;
+}
+
 YListItem *YListBox::getItem(int no) {
     return (0 <= no && no < getItemCount()) ? fItems[no] : nullptr;
 }

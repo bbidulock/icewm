@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.2)
 PROJECT(ICEWM CXX)
 
 # yes, FindGettext.cmake exists but it's not really handy :-(

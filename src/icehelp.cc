@@ -716,10 +716,26 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                         ungetc(c, fp);
                     if (strcmp(entity, "&amp") == 0)
                         c = '&';
-                    else if (strcmp(entity, "&lt") == 0)
+                    else if (strcmp(entity, "&lt") == 0
+                          || strcmp(entity, "&#062") == 0)
                         c = '<';
-                    else if (strcmp(entity, "&gt") == 0)
+                    else if (strcmp(entity, "&gt") == 0
+                          || strcmp(entity, "&#060") == 0)
                         c = '>';
+                    else if (strcmp(entity, "&le") == 0
+                          || strcmp(entity, "&#8804") == 0) {
+                        buf += "<=";
+                        continue;
+                    }
+                    else if (strcmp(entity, "&ge") == 0
+                          || strcmp(entity, "&#8805") == 0) {
+                        buf += ">=";
+                        continue;
+                    }
+                    else if (strcmp(entity, "&ne") == 0) {
+                        buf += "!=";
+                        continue;
+                    }
                     else if (strcmp(entity, "&quot") == 0)
                         c = '"';
                     else if (strcmp(entity, "&nbsp") == 0)
@@ -734,13 +750,19 @@ static node *parse(FILE *fp, int flags, node *parent, node *&nextsub, node::node
                     else if (strcmp(entity, "&#8212") == 0
                           || strcmp(entity, "&mdash") == 0)
                         c = '-';    // em dash
-                    else if (strcmp(entity, "&#8217") == 0)
+                    else if (strcmp(entity, "&#8216") == 0
+                          || strcmp(entity, "&lsquo") == 0)
+                        c = '`';   // left single quote
+                    else if (strcmp(entity, "&#8217") == 0
+                          || strcmp(entity, "&rsquo") == 0)
                         c = '\'';   // right single quote
-                    else if (strcmp(entity, "&#8220") == 0) {
+                    else if (strcmp(entity, "&#8220") == 0
+                          || strcmp(entity, "&ldquo") == 0) {
                         buf += "``"; // left double quotes
                         continue;
                     }
-                    else if (strcmp(entity, "&#8221") == 0) {
+                    else if (strcmp(entity, "&#8221") == 0
+                          || strcmp(entity, "&rdquo") == 0) {
                         buf += "''"; // right double quotes
                         continue;
                     }

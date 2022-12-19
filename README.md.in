@@ -74,16 +74,20 @@ Prerequisites
 Building from tarball requires:
 
  - gcc or clang
+ - imlib2
+ - libxcomposite
+ - libxdamage
+ - libxfixes
  - libxft
  - libxinerama
  - libxpm
- - libjpeg
  - libxrandr
+ - libxrender
 
 Building from git also requires:
 
  - complete autoconf or cmake toolchain
- - asciidoctor or asciidoc
+ - either markdown or asciidoctor
 
 
 Configuring IceWM
@@ -100,6 +104,7 @@ Included Utilities
 
 Currently, the only included utilities are:
 
+ - [__icesh__(1)][25] (_a versatile window manipulation tool_),
  - [__icewmbg__(1)][22] (_a background setting program_),
  - [__icewm-session__(1)][27] (_a program to launch the window manager, icewmbg and
    icewmtray in an orderly fashion_),
@@ -153,9 +158,9 @@ pull requests that get accepted, I will just give to push access to save time.
 Translations
 ------------
 
-You can provide translations by patching `.po` files and issuing pull requests,
-or you can use the [openSUSE weblate tool][11].  There are two XDG files,
-[icewm.desktop][17] and [icewm-session.desktop][18] than may need manual
+You can provide translations by using the [openSUSE weblate tool][11].
+There are two XDG files,
+[icewm.desktop][17] and [icewm-session.desktop][18] which may need manual
 translations.  If you have difficulties using the tools, just send me the updated
 `.po` file or a patch to apply.
 
@@ -170,7 +175,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [8]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/BUGS
 [9]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/COPYING
 [10]: https://github.com/
-[11]: https://l10n.opensuse.org/
+[11]: https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
@@ -184,6 +189,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
 [23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
 [24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
+[25]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesh.pod
 [26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
 [27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
 

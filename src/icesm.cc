@@ -380,21 +380,19 @@ public:
                 notify = false;
             }
             args[count++] = icewmExe;
-            if (notify && startup_phase == 0) {
+            if (notify) {
                 args[count++] = "--notify";
             }
             args[count] = nullptr;
             appendOptions(args, count, size);
             char* copy = nullptr;
-            if (wmoptions.length()) {
+            if (wmoptions.nonempty()) {
                 copy = strdup(wmoptions);
                 if (nonempty(copy)) {
                     int count = 0;
                     while (count < size && args[count])
                         count++;
-                    for (char* tok = strtok(copy, " ");
-                        tok; tok = strtok(nullptr, " "))
-                    {
+                    for (tokens tok(copy, " \t"); tok; ++tok) {
                         if (count + 1 < size) {
                             args[count++] = tok;
                             args[count] = nullptr;
@@ -770,9 +768,9 @@ int main(int argc, char **argv) {
 
     xapp.loadEnv("env");
 
-    xapp.runIcewmbg();
-    xapp.runIcesound();
     xapp.runWM();
+    xapp.runIcesound();
+    xapp.runIcewmbg();
 
     int status = xapp.mainLoop();
 

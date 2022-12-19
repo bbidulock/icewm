@@ -17,12 +17,20 @@
 static YColorName dialogBg(&clrDialog);
 
 YDialog::YDialog():
-    YFrameClient(nullptr, nullptr),
+    YFrameClient(nullptr, nullptr, None),
     fGradient(dialogbackPixbuf),
     fSurface(dialogBg, dialogbackPixmap, getGradient())
 {
     addStyle(wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
+}
+
+YDialog::~YDialog() {
+    YFrameWindow* frame = getFrame();
+    if (frame) {
+        frame->unmanage();
+        delete frame;
+    }
 }
 
 void YDialog::center() {

@@ -166,6 +166,23 @@ static void test_int() {
     a.insert(0, 6); dump("Array<int>: inserted 6@0", a);
     assert(a.getCount() == 6);
     assert(a[5] == 2);
+    assert(a[4] == 3);
+    assert(a[3] == 1);
+    assert(a[2] == 4);
+    assert(a[1] == 5);
+    assert(a[0] == 6);
+
+    a.moveto(0, 5);
+    a.moveto(2, 1);
+    a.moveto(4, 2);
+    a.moveto(4, 3);
+    a.moveto(0, 4);
+    assert(a[5] == 6);
+    assert(a[4] == 5);
+    assert(a[3] == 4);
+    assert(a[2] == 3);
+    assert(a[1] == 2);
+    assert(a[0] == 1);
 
     report(__func__);
 }

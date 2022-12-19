@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <errno.h>
 
 YBaseArray::YBaseArray(YBaseArray &other):
     fElementSize(other.fElementSize),
@@ -119,6 +120,22 @@ void YBaseArray::extend(const SizeType extendedCount) {
                unsigned(extendedCount - fCount) * fElementSize);
         fCount = extendedCount;
     }
+}
+
+void YBaseArray::moveto(const SizeType index, const SizeType place) {
+    PRECONDITION(index < fCount);
+    PRECONDITION(place < fCount);
+    unsigned char copy[fElementSize];
+    memcpy(copy, getElement(index), fElementSize);
+    if (index < place) {
+        memmove(getElement(index), getElement(index + 1),
+                (place - index) * fElementSize);
+    }
+    else if (index > place) {
+        memmove(getElement(place + 1), getElement(place),
+                (index - place) * fElementSize);
+    }
+    memcpy(getElement(place), copy, fElementSize);
 }
 
 void YBaseArray::remove(const SizeType index) {
@@ -268,9 +285,18 @@ void MStringArray::sort() {
 }
 
 bool testOnce(const char* file, const int line) {
-    static YArray<unsigned long> list;
-    unsigned long hash = strhash(file) * 0x10001 ^ line;
-    return find(list, hash) < 0 ? list.append(hash), true : false;
+    int esave = errno;
+    bool once = false;
+    if (file) {
+        static YArray<unsigned long> list;
+        unsigned long hash = strhash(file) * 0x10001 ^ line;
+        if (find(list, hash) < 0) {
+            list.append(hash);
+            once = true;
+        }
+    }
+    errno = esave;
+    return once;
 }
 
 // vim: set sw=4 ts=4 et:

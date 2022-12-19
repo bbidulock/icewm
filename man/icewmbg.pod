@@ -11,17 +11,16 @@ B<icewmbg> [I<OPTIONS>]
 =head2 DESCRIPTION
 
 B<icewmbg> can assign a colour or image to the I<X11> desktop background.
-Many image formats are supported.  Each L<icewm(1)> work space can have
+Common image formats are supported.  Each L<icewm(1)> work space can have
 its own background.
 
-When the background image has changed, then B<icewmbg> can be notified to
+When the background image has changed, B<icewmbg> can be notified to
 update the background.  When switching work spaces, it checks the image
-file modification time.  If the file has changed, then it reloads the
-background image from file.
+file modification time.  If the file has changed, it reloads the
+image from file.
 
 B<icewmbg> supports semi-transparency.  Semitransparent background
-images and colours can be configured.  If these are not specified then
-the default background is used.
+images and colours can be configured.
 
 It uses RandR or Xinerama to support backgrounds on all connected
 monitors.  When monitors appear/disappear, or change their resolution,
@@ -38,15 +37,13 @@ B<icewmbg> is started automatically by L<icewm-session(1)>.
 =head2 SPECIFIC OPTIONS
 
 Where multiple values can be given for images
-or colours, they are separated by commas.
+or colours, they are separated by comma's.
 Each such value may be enclosed in double quotes.
-When I<FILE> is a directory then all images
+If I<FILE> is a directory, all images
 from that directory are used in sorted order.
-If the value starts with an exclamation mark,
-as in I<!FILE>, then the images from the
-directory I<FILE> are permuted randomly.
-Image file names or directory names may have wildcards,
-which will be expanded according to L<glob(7)>.
+If the value starts with an exclamation mark, as in I<!FILE>,
+the images from the directory I<FILE> are permuted randomly.
+Image file names or directory names may have L<glob(7)> wildcards,
 
 =over
 
@@ -63,9 +60,7 @@ L<icewm-session(1)> when L<icewm(1)> exits.
 =item B<-r>, B<--restart>
 
 Tell the running B<icewmbg> to restart itself.  This is useful when
-a background file or directory has changed, or when settings in
-preferences files have changed. If no icewmbg is active, then it starts
-one.
+settings in have changed. If no icewmbg is active, it starts one.
 
 =item B<-u>, B<--shuffle>
 
@@ -79,12 +74,14 @@ Load preferences from I<FILE>.
 
 =item B<-t>, B<--theme>=I<THEME>
 
-Load the theme named I<THEME>.
+Use the theme named I<THEME>.
 
 =item B<-i>, B<--image>=I<FILE>[,I<FILE>]*
 
 Load background images from each I<FILE>.
 This overrules the C<DesktopBackgroundImage> preference.
+When more than one image is given, they are assigned
+to each workspace in the given order.
 
 =item B<-k>, B<--color>=I<COLOR>[,I<COLOR>]*
 
@@ -155,9 +152,9 @@ Use a slower synchronous mode communication with I<X11> server.
 
 =head2 PREFERENCES
 
-By default B<icewmbg> will load the background settings from the
-L<icewm(1)> preferences files (see L<icewm-preferences(5)>).  The
-settings read are:
+By default B<icewmbg> loads settings from the L<icewm(1)>
+preferences file. See L<icewm-preferences(5)> for details.
+The settings read are:
 
   DesktopBackgroundCenter    - Display desktop background centered
   DesktopBackgroundScaled    - Display desktop background scaled
@@ -170,12 +167,24 @@ settings read are:
   DesktopBackgroundMultihead - One background over all monitors
   CycleBackgroundsPeriod     - Seconds between cycling over backgrounds
 
-First these settings are read from the F<preferences> file.  Then the
-theme file from the current theme is read, which may overrule the
-F<preferences> settings.  Lastly the F<prefoverride> file is read, which
-overrides again.  Therefore, if you want to allow the theme to set the
-background use F<preferences> for your settings, otherwise use
-F<prefoverride>.  See L<icewm-prefoverride(5)>.
+If these settings are set in the F<preferences> file, they can
+be overridden by the theme in the theme defaults file.
+To prevent this, set these preferences in F<prefoverride> instead.
+See L<icewm-prefoverride(5)>.
+
+=head2 WORK SPACES
+
+Each work space can have a unique image. Specify multiple images to
+B<DesktopBackgroundImage> separated by comma's.  Or give at least one
+directory with images. The images are assigned to each work space in
+the order given. When icewm changes work space, the running icewmbg
+will adapt the desktop background to the assigned image.
+
+If you specify more images then there are work spaces, then
+B<CycleBackgroundsPeriod> can set a period. When the period expires,
+icewmbg will switch to the next set of images. If you give less images
+than there are work spaces, then icewmbg will reuse previous images
+for the remaining work spaces.
 
 =head2 IMAGE SCALING
 
@@ -188,6 +197,18 @@ What happens for their combination is given by the following table:
   center:1 scaled:0 = The background is centered, but not scaled.
   center:1 scaled:1 = Fill one dimension and preserve the aspect ratio.
   center:0 scaled:1 = Fill both dimensions and preserve the aspect ratio.
+
+=head2 EXAMPLES
+
+    # For four unique desktop backgrounds for four work spaces do:
+
+    icewmbg -p -i image0,image1,image2,image3 &
+
+    # Or create a directory with the four images and do:
+
+    icewmbg -p -i /path/to/directory &
+
+    # The images should have proper image filename extensions.
 
 =head2 SIGNALS
 

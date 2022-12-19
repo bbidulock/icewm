@@ -109,7 +109,7 @@ bool EdgeTrigger::handleTimer(YTimer *t) {
 }
 
 TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener, YSMListener *smActionListener):
-    YFrameClient(aParent, nullptr),
+    YFrameClient(aParent, nullptr, None),
     fSurface(taskBarBg, taskbackPixmap, taskbackPixbuf),
     fTasks(nullptr),
     fCollapseButton(nullptr),
@@ -201,8 +201,6 @@ TaskBar::~TaskBar() {
     delete fShowDesktop; fShowDesktop = nullptr;
     xapp->dropClipboard();
     taskBar = nullptr;
-    if (getFrame())
-        getFrame()->unmanage(false);
     MSG(("taskBar delete"));
 }
 
@@ -645,7 +643,7 @@ void TaskBar::relayoutNow() {
         updateLocation();
     }
     if (taskPane())
-        taskPane()->relayoutNow();
+        taskPane()->relayout();
     if (fButtonUpdate) {
         fButtonUpdate = false;
         buttonUpdate();
@@ -765,9 +763,9 @@ void TaskBar::updateWMHints() {
 }
 
 void TaskBar::updateWinLayer() {
-    long layer = (taskBarAutoHide || fFullscreen) ? WinLayerAboveAll
-               : fIsCollapsed ? WinLayerAboveDock
-               : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
+    int layer = (taskBarAutoHide || fFullscreen) ? WinLayerAboveAll
+              : fIsCollapsed ? WinLayerAboveDock
+              : taskBarKeepBelow ? WinLayerBelow : WinLayerDock;
     if (getFrame()) {
         getFrame()->wmSetLayer(layer);
     } else {
@@ -986,6 +984,16 @@ void TaskBar::showBar() {
     }
 }
 
+void TaskBar::handleClientMessage(const XClientMessageEvent& message) {
+    if (message == _XA_WM_CHANGE_STATE) {
+        const long state = message.data.l[0];
+        if (fIsCollapsed ? (state == NormalState) :
+            (state == IconicState || state == WithdrawnState))
+            handleCollapseButton();
+    }
+    else YFrameClient::handleClientMessage(message);
+}
+
 void TaskBar::actionPerformed(YAction action, unsigned int modifiers) {
     wmActionListener->actionPerformed(action, modifiers);
 }
@@ -1012,6 +1020,7 @@ void TaskBar::handleCollapseButton() {
     updateLocation();
     if (fIsCollapsed == false)
         updateWinLayer();
+    setFrameState(fIsCollapsed ? IconicState : NormalState);
     xapp->sync();
 }
 
@@ -1082,7 +1091,7 @@ void TaskBar::obtainFocus() {
     manager->switchFocusTo(getFrame(), true);
 }
 
-void TaskBar::setWorkspaceActive(long workspace, bool active) {
+void TaskBar::setWorkspaceActive(int workspace, bool active) {
     if (taskBarShowWorkspaces && fWorkspaces) {
         YDimension dim(fWorkspaces->dimension());
         fWorkspaces->setPressed(workspace, active);
@@ -1092,9 +1101,10 @@ void TaskBar::setWorkspaceActive(long workspace, bool active) {
     }
 }
 
-void TaskBar::workspacesRepaint() {
+void TaskBar::workspacesRepaint(int workspace) {
     if (taskBarShowWorkspaces && fWorkspaces) {
         fWorkspacesUpdate = true;
+        fWorkspaces->repaintWorkspace(workspace);
     }
 }
 

@@ -43,8 +43,8 @@
 
 struct WMKey {
     KeySym key;
-    unsigned int mod;
-    const char *name;
+    unsigned mod;
+    const char* name;
     bool initial;
 
     bool eq(KeySym k, unsigned m) const { return key == k && mod == m; }

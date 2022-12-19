@@ -18,7 +18,8 @@
 #include "yprefs.h"
 #include "yxapp.h"
 #include "default.h"
-#include "wmframe.h"
+#include "yicon.h"
+#include "wmclient.h"
 #include "wmmgr.h"
 #include "wmwinlist.h"
 #include "wpixmaps.h"
@@ -89,12 +90,12 @@ void TrayApp::repaint() {
 
 void TrayApp::setToolTip(const mstring& tip) {
     if (toolTipVisible()) {
-        YWindow::setToolTip(tip);
+        YWindow::setToolTip(tip, getFrame()->getIcon());
     }
 }
 
 void TrayApp::updateToolTip() {
-    YWindow::setToolTip(fFrame->getTitle());
+    YWindow::setToolTip(fFrame->getTitle(), getFrame()->getIcon());
 }
 
 void TrayApp::handleExpose(const XExposeEvent& expose) {
@@ -187,7 +188,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                         getFrame()->wmMinimize();
                     else {
                         if (button.state & ShiftMask)
-                            getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                            getFrame()->wmOccupyCurrent();
                         activate();
                     }
                 } else if (button.button == 2) {
@@ -196,7 +197,7 @@ void TrayApp::handleButton(const XButtonEvent &button) {
                         getFrame()->wmLower();
                     else {
                         if (button.state & ShiftMask)
-                            getFrame()->wmOccupyWorkspace(manager->activeWorkspace());
+                            getFrame()->wmOccupyCurrent();
                         activate();
                     }
                 }
@@ -305,17 +306,17 @@ TrayApp* TrayPane::successor(TrayApp *tapp) {
     return nullptr;
 }
 
-TrayApp* TrayPane::findApp(YFrameWindow *frame) {
+TrayApp* TrayPane::findApp(ClientData* frame) {
     IterType iter = fApps.iterator();
     while (++iter && iter->getFrame() != frame);
     return iter ? *iter : 0;
 }
 
 TrayApp* TrayPane::getActive() {
-    return findApp(manager->getFocus());
+    return findApp(manager->getFocused());
 }
 
-TrayApp *TrayPane::addApp(YFrameWindow *frame) {
+TrayApp *TrayPane::addApp(ClientData* frame) {
     TrayApp *tapp = new TrayApp(frame, this, this);
 
     if (tapp != nullptr) {

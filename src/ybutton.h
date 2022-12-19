@@ -23,6 +23,7 @@ public:
     void setAction(YAction action);
     void setPopup(YMenu * popup);
     void setIcon(ref<YIcon> image, int size);
+    ref<YIcon> getIcon();
     void setImage(ref<YImage> image);
     void setText(const mstring &str, int hot = -1);
     mstring getText() const { return fText; }

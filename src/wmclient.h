@@ -4,14 +4,13 @@
 #include "ywindow.h"
 #include "ymenu.h"
 #include "MwmUtil.h"
+#include "wmoption.h"
 #ifndef InputHint
 #include <X11/Xutil.h>
 #endif
 
-#define InvalidFrameState   (-1)
-
 class YFrameWindow;
-class WindowListItem;
+class YClientContainer;
 class YIcon;
 
 typedef int FrameState;
@@ -69,6 +68,7 @@ public:
     bool nonempty() {
         return ::nonempty(res_name) || ::nonempty(res_class);
     }
+    bool get(Window win);
 };
 
 /*
@@ -113,56 +113,40 @@ public:
 
 class ClientData {
 public:
-    virtual void setWinListItem(WindowListItem *i) = 0;
-    virtual YFrameWindow *owner() const = 0;
     virtual ref<YIcon> getIcon() const = 0;
     virtual mstring getTitle() const = 0;
     virtual mstring getIconTitle() const = 0;
     virtual void activateWindow(bool raise, bool curWork) = 0;
-    virtual bool isHidden() const = 0;
-    virtual bool isMaximized() const = 0;
-    virtual bool isMaximizedVert() const = 0;
-    virtual bool isMaximizedHoriz() const = 0;
-    virtual bool isMaximizedFully() const = 0;
     virtual bool isMinimized() const = 0;
-    virtual bool isFullscreen() const = 0;
-    virtual bool isRollup() const = 0;
-    virtual void actionPerformed(YAction action, unsigned int modifiers = 0) = 0;
     virtual bool focused() const = 0;
     virtual bool visibleNow() const = 0;
-    virtual bool canClose() const = 0;
-    virtual bool canShow() const = 0;
-    virtual bool canHide() const = 0;
-    virtual bool canLower() const = 0;
-    virtual bool canMinimize() const = 0;
-    virtual bool canMaximize() const = 0;
-    virtual bool canRaise() const = 0;
-    virtual bool canRestore() const = 0;
-    virtual bool canRollup() const = 0;
+    virtual bool canRaise(bool ignoreTaskBar = false) const = 0;
+    virtual void wmClose() = 0;
     virtual void wmRaise() = 0;
     virtual void wmLower() = 0;
     virtual void wmMinimize() = 0;
-    virtual int getWorkspace() const = 0;
     virtual int getTrayOrder() const = 0;
-    virtual int getTrayOption() const = 0;
-    virtual unsigned frameOptions() const = 0;
-    virtual bool isSticky() const = 0;
-    virtual bool isAllWorkspaces() const = 0;
-    virtual bool startMinimized() const = 0;
-    virtual void wmOccupyWorkspace(int workspace) = 0;
-    virtual void popupSystemMenu(YWindow *owner) = 0;
-    virtual void popupSystemMenu(YWindow *owner, int x, int y,
-                         unsigned int flags,
-                         YWindow *forWindow = nullptr) = 0;
-    virtual void updateSubmenus() = 0;
-    virtual Time since() const = 0;
+    virtual void wmOccupyCurrent() = 0;
+    virtual void popupSystemMenu(YWindow *owner, int x, int y, unsigned flags,
+                                 YWindow *forWindow = nullptr) = 0;
     virtual ClassHint* classHint() const = 0;
-    virtual Window clientLeader() const = 0;
     virtual bool isUrgent() const = 0;
     virtual void updateAppStatus() = 0;
     virtual void removeAppStatus() = 0;
+
+    typedef YArray<class YFrameClient*> ClientList;
+    virtual ClientList& clients() = 0;
+    virtual YFrameClient* current() = 0;
+    virtual void selectTab(YFrameClient* client) = 0;
 protected:
     virtual ~ClientData() {}
+};
+
+class YClientItem {
+public:
+    virtual void goodbye() = 0;
+    virtual void update() = 0;
+    virtual void repaint() = 0;
 };
 
 class YFrameClient: public YDndWindow
@@ -170,7 +154,7 @@ class YFrameClient: public YDndWindow
 {
     typedef YDndWindow super;
 public:
-    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win = 0,
+    YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
                  int depth = 0, Visual *visual = nullptr, Colormap cmap = 0);
     virtual ~YFrameClient();
 
@@ -188,12 +172,17 @@ public:
     void setBorder(unsigned int border) { fBorder = border; }
     void setFrame(YFrameWindow *newFrame);
     YFrameWindow *getFrame() const { return fFrame; };
+    YFrameWindow* obtainFrame() const;
+    YClientContainer* getContainer() const;
+    void setClientItem(YClientItem* item) { fClientItem = item; }
+    YClientItem* getClientItem() const { return fClientItem; }
 
     enum WindowProtocols {
         wpDeleteWindow = 1 << 0,
         wpTakeFocus    = 1 << 1,
         wpPing         = 1 << 2,
     };
+    enum { InvalidFrameState = -1 };
 
     bool protocol(WindowProtocols wp) const { return bool(fProtocols & wp); }
     void sendMessage(Atom msg, Time ts, long p2 = 0L, long p3 = 0L, long p4 = 0L);
@@ -201,6 +190,9 @@ public:
     void sendDelete();
     void sendPing();
     void recvPing(const XClientMessageEvent &message);
+    bool forceClose();
+    bool isCloseForced();
+    bool frameOption(int option);
     bool killPid();
     bool timedOut() const { return fTimedOut; }
 
@@ -232,7 +224,7 @@ public:
     bool isDockAppIcon() const;
     bool isDockAppWindow() const;
     bool isDocked() const { return fDocked; }
-    void setDocked(bool docked) { fDocked = docked; }
+    void setDocked(bool docked);
 
     void getSizeHints();
     XSizeHints *sizeHints() const { return fSizeHints; }
@@ -242,8 +234,16 @@ public:
 
     void getProtocols(bool force);
 
+    void setTransient(Window owner);
     void getTransient();
+    bool hasTransient();
+    bool isTransient() const { return fTransientFor != None; }
+    bool isTransientFor(Window owner);
     Window ownerWindow() const { return fTransientFor; }
+    YFrameClient* getOwner() const;
+    YFrameClient* nextTransient();
+    YFrameClient* firstTransient();
+    static YFrameClient* firstTransient(Window handle);
 
     void getClassHint();
     ClassHint* classHint() { return &fClassHint; }
@@ -252,13 +252,16 @@ public:
     void getNetWmName();
     void getIconNameHint();
     void getNetWmIconName();
+    void fixWindowTitle(bool fixed) { fFixedTitle = fixed; }
     void setWindowTitle(const char *title);
     void setIconTitle(const char *title);
-    mstring windowTitle() { return fWindowTitle; }
-    mstring iconTitle() { return fIconTitle; }
+    mstring windowTitle() const { return fWindowTitle; }
+    mstring iconTitle() const { return fIconTitle; }
+    void refreshIcon();
+    void obtainIcon();
+    ref<YIcon> getIcon();
 
     void setWorkspaceHint(int workspace);
-    bool getWinWorkspaceHint(int* workspace);
 
     void setLayerHint(int layer);
     bool getLayerHint(int* layer);
@@ -266,7 +269,7 @@ public:
     void setWinTrayHint(int tray_opt);
     bool getWinTrayHint(int* tray_opt);
 
-    void setStateHint();
+    void setStateHint(int state);
     void setWinHintsHint(int hints);
     int winHints() const { return fWinHints; }
 
@@ -317,15 +320,20 @@ public:
 
     bool isKdeTrayWindow() { return prop.kde_net_wm_system_tray_window_for; }
 
-    bool isEmbed() { return prop.xembed_info; }
+    bool isEmbed() const { return prop.xembed_info; }
+
+    const WindowOption* getWindowOption();
+    bool activateOnMap();
+    YAction action();
 
 private:
     YFrameWindow *fFrame;
+    YClientItem* fClientItem;
     int fProtocols;
-    int haveButtonGrab;
-    unsigned int fBorder;
+    unsigned fBorder;
     FrameState fSavedFrameState;
     int fWinStateHint;
+    int fWinHints;
     XSizeHints *fSizeHints;
     ClassHint fClassHint;
     XWMHints *fHints;
@@ -333,11 +341,13 @@ private:
     bool fDocked;
     bool fShaped;
     bool fTimedOut;
+    bool fFixedTitle;
+    bool fIconize;
     bool fPinging;
     long fPingTime;
-    lazy<YTimer> fPingTimer;
-    int fWinHints;
     long fPid;
+    lazy<YTimer> fPingTimer;
+    ref<YIcon> fIcon;
 
     mstring fWindowTitle;
     mstring fIconTitle;
@@ -347,8 +357,16 @@ private:
     mstring fWindowRole;
 
     lazy<MwmHints> fMwmHints;
+    lazy<WindowOption> fWindowOption;
+    void loadWindowOptions(WindowOptions* list, bool remove);
 
+    struct transience {
+        Window trans, owner;
+        transience(Window t, Window o) : trans(t), owner(o) { }
+    };
+    static YArray<transience> fTransients;
     Window fTransientFor;
+    int findTransient(Window handle);
 
     Pixmap *kwmIcons;
     struct {

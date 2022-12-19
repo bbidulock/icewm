@@ -104,6 +104,8 @@ public:
     CtrlAltDelete* getCtrlAltDelete();
     const char* getConfigFile() const { return configFile; }
     FocusModel getFocusMode() const { return focusMode; }
+
+    AToolTip* newToolTip();
     YMenu* getWindowMenu();
     void subdirs(const char* subdir, bool themeOnly, MStringArray& paths);
     void unregisterProtocols();
@@ -202,6 +204,12 @@ public:
     void updatePopup();
 };
 extern lazy<TileMenu> tileMenu;
+
+class TabsMenu : public SharedMenu {
+public:
+    void updatePopup();
+};
+extern lazy<TabsMenu> tabsMenu;
 
 class KProgram;
 typedef YObjectArray<KProgram> KProgramArrayType;

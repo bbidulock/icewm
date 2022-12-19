@@ -32,7 +32,7 @@ XIV(bool, warpPointerOnEdgeSwitch,              false)
 XIV(bool, opaqueMove,                           true)
 XIV(bool, opaqueResize,                         true)
 XIV(bool, hideTitleBarWhenMaximized,            false)
-XSV(const char *, winMenuItems,                 "rmsnxfhualyticw")
+XSV(const char *, winMenuItems,                 "rmsnxfhualytiecw")
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
 XIV(bool, taskBarKeepBelow,                     false)
@@ -99,6 +99,7 @@ XIV(bool, quickSwitchToHidden,                  true)
 XIV(bool, quickSwitchToUrgent,                  true)
 XIV(bool, quickSwitchToAllWorkspaces,           false)
 XIV(bool, quickSwitchGroupWorkspaces,           true)
+XIV(int,  quickSwitchPersistence,               0)
 XIV(bool, quickSwitchRaiseCandidate,            false)
 XIV(bool, quickSwitchAllIcons,                  true)
 XIV(bool, quickSwitchTextFirst,                 false)
@@ -166,7 +167,6 @@ XIV(int, pingTimeout,                           3)
 XIV(int, mailCheckDelay,                        30)
 XIV(int, taskBarCPUSamples,                     20)
 XIV(int, taskBarApmGraphWidth,                  10)
-XIV(int, taskBarGraphHeight,                    20)
 XIV(int, taskBarMEMSamples,                     20)
 XIV(int, focusRequestFlashTime,                 0)
 XIV(int, focusRequestFlashInterval,             250)
@@ -291,6 +291,7 @@ cfoption icewm_preferences[] = {
     OBV("QuickSwitchToUrgent",                  &quickSwitchToUrgent,           "Prioritize Alt+Tab to urgent windows"),
     OBV("QuickSwitchToAllWorkspaces",           &quickSwitchToAllWorkspaces,    "Include windows from all workspaces in Alt+Tab"),
     OBV("QuickSwitchGroupWorkspaces",           &quickSwitchGroupWorkspaces,    "Group windows by workspace together in Alt+Tab"),
+    OIV("QuickSwitchPersistence",               &quickSwitchPersistence, 0, 86400, "Time in seconds to remember the state of Alt+Tab"),
     OBV("QuickSwitchRaiseCandidate",            &quickSwitchRaiseCandidate,     "Raise a selected window while Alt+Tabbing in the QuickSwitch"),
     OBV("QuickSwitchAllIcons",                  &quickSwitchAllIcons,           "Show all reachable icons when quick switching"),
     OBV("QuickSwitchTextFirst",                 &quickSwitchTextFirst,          "Show the window title above (all reachable) icons"),
@@ -422,7 +423,6 @@ cfoption icewm_preferences[] = {
     OIV("TaskBarWidthPercentage",               &taskBarWidthPercentage, 0, 100, "Task bar width as percentage of the screen width"),
     OSV("TaskBarJustify",                       &taskBarJustify, "Taskbar justify left, right or center"),
     OIV("TaskBarApmGraphWidth",                 &taskBarApmGraphWidth, 1, 1000,  "Width of battery Monitor"),
-    OIV("TaskBarGraphHeight",                   &taskBarGraphHeight, 16, 1000,  "Height of taskbar monitoring applets"),
 
     OIV("XineramaPrimaryScreen",                &xineramaPrimaryScreen, 0, 63, "Primary screen for xinerama where taskbar is shown"),
     OIV("FocusRequestFlashTime",                &focusRequestFlashTime, 0, (3600 * 24), "Number of seconds the taskbar app will blink when requesting focus (0 = forever)"),
@@ -466,6 +466,7 @@ cfoption icewm_preferences[] = {
     OKV("MouseWinSize",                         gMouseWinSize,                  "Mouse binding for window resize"),
     OKV("MouseWinRaise",                        gMouseWinRaise,                 "Mouse binding to raise window"),
     OKV("MouseWinLower",                        gMouseWinLower,                 "Mouse binding to lower window"),
+    OKV("MouseWinTabbing",                      gMouseWinTabbing,               "Mouse binding to create tabs"),
     OKV("KeyWinRaise",                          gKeyWinRaise,                   "Raises the window which currently has input focus."),
     OKV("KeyWinOccupyAll",                      gKeyWinOccupyAll,               "Makes the active window occupy all work spaces."),
     OKV("KeyWinLower",                          gKeyWinLower,                   "Lowers the window which currently has input focus."),
@@ -492,6 +493,15 @@ cfoption icewm_preferences[] = {
     OKV("KeyWinArrangeW",                       gKeyWinArrangeW,                "Moves the active window to the middle left of the screen."),
     OKV("KeyWinArrangeNW",                      gKeyWinArrangeNW,               "Moves the active window to the top left corner of the screen."),
     OKV("KeyWinArrangeC",                       gKeyWinArrangeC,                "Moves the active window to the top middle of the screen."),
+    OKV("KeyWinTileLeft",                       gKeyWinTileLeft,                "Let the active window occupy the left half of the screen"),
+    OKV("KeyWinTileRight",                      gKeyWinTileRight,               "Let the active window occupy the right half of the screen"),
+    OKV("KeyWinTileTop",                        gKeyWinTileTop,                 "Let the active window occupy the top half of the screen"),
+    OKV("KeyWinTileBottom",                     gKeyWinTileBottom,              "Let the active window occupy the bottom half of the screen"),
+    OKV("KeyWinTileTopLeft",                    gKeyWinTileTopLeft,             "Let the active window occupy the top left quarter of the screen"),
+    OKV("KeyWinTileTopRight",                   gKeyWinTileTopRight,            "Let the active window occupy the top right quarter of the screen"),
+    OKV("KeyWinTileBottomLeft",                 gKeyWinTileBottomLeft,          "Let the active window occupy the bottom left quarter of the screen"),
+    OKV("KeyWinTileBottomRight",                gKeyWinTileBottomRight,         "Let the active window occupy the bottom right quarter of the screen"),
+    OKV("KeyWinTileCenter",                     gKeyWinTileCenter,              "Let the active window occupy the center quarter of the screen"),
     OKV("KeyWinSmartPlace",                     gKeyWinSmartPlace,              "Smart place the active window."),
     OKV("KeySysSwitchNext",                     gKeySysSwitchNext,              "Opens the QuickSwitch popup and/or moves the selector in the QuickSwitch popup"),
     OKV("KeySysSwitchLast",                     gKeySysSwitchLast,              "Works like KeySysSwitchNext but moving in the opposite direction."),
@@ -552,7 +562,7 @@ cfoption icewm_preferences[] = {
 
     OKF("WorkspaceNames",                       addWorkspace, "Add a workspace"),
     OKF("KeyboardLayouts",                      addKeyboard, "Add a keyboard layout"),
-    OSV("WinMenuItems",                         &winMenuItems,                  "The list of items to be supported in the menu window (rmsnxfhualytickw)"),
+    OSV("WinMenuItems",                         &winMenuItems,                  "The list of items to be supported in the menu window (rmsnxfhualytieckw)"),
     OK0()
 };
 

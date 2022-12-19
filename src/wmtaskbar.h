@@ -73,7 +73,7 @@ private:
     virtual void handleFocus(const XFocusChangeEvent& focus);
     virtual void handleCrossing(const XCrossingEvent &crossing);
     virtual void handleExpose(const XExposeEvent &expose) {}
-
+    virtual void handleClientMessage(const XClientMessageEvent& message);
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void handlePopDown(YPopupWindow *popup);
 
@@ -85,8 +85,8 @@ private:
 
 public:
     bool windowTrayRequestDock(Window w);
-    void setWorkspaceActive(long workspace, bool active);
-    void workspacesRepaint();
+    void setWorkspaceActive(int workspace, bool active);
+    void workspacesRepaint(int workspace);
     void workspacesUpdateButtons();
     void workspacesRelabelButtons();
     void keyboardUpdate(mstring keyboard);

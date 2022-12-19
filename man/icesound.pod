@@ -71,7 +71,7 @@ and F<LIBDIR/sounds>.  See the output of C<icewm --directories>.
 =item B<-i>, B<--interface>={B<AO>|B<ALSA>|B<OSS>}[,{B<AO>|B<ALSA>|B<OSS>}]*
 
 Specifies the audio output interfaces. One or more of: B<AO>,
-B<ALSA>, B<OSS> separated by commas (C<,>).
+B<ALSA>, B<OSS> separated by comma's (C<,>).
 
 =item B<-D>, B<--device>=I<DEVICE>
 

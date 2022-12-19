@@ -12,7 +12,7 @@
 
 * [x] add support for icon_pixmap and icon_window field of WM_HINTS property.
 
-* [ ] add support for WindowMaker dock apps (add a dock).
+* [x] add support for WindowMaker dock apps (add a dock).
 
 * [x] add support for _NET_REQUEST_FRAME_EXTENTS.
 

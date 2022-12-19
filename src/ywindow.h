@@ -13,6 +13,7 @@ class YTimer;
 class YAutoScroll;
 class YRect;
 class YRect2;
+class YIcon;
 
 struct DesktopScreenInfo {
     int screen_number;
@@ -43,6 +44,17 @@ struct DesktopScreenInfo {
         return (1L + horizontalCoverage(x, w))
              * (1L + verticalCoverage(y, h));
     }
+};
+
+class AToolTip {
+public:
+    virtual ~AToolTip() { }
+
+    virtual void setText(mstring tip, ref<YIcon> icon) { }
+    virtual void enter(YWindow* w) { }
+    virtual void leave() { }
+    virtual bool visible() const { return false; }
+    virtual bool nonempty() const { return false; }
 };
 
 class YWindow : protected YWindowList, private YWindowNode {
@@ -139,9 +151,10 @@ public:
     void beginAutoScroll(bool autoScroll, const XMotionEvent *motion);
 
     void setPointer(Cursor pointer);
-    void grabKeyM(int key, unsigned modifiers);
-    void grabKey(int key, unsigned modifiers);
-    void grabVKey(int key, unsigned vmodifiers);
+    void grabKeyM(unsigned key, unsigned modifiers);
+    void grabKey(unsigned key, unsigned modifiers);
+    void grabVKey(unsigned key, unsigned modifiers);
+    void grab(const struct WMKey& wmkey);
     unsigned VMod(unsigned modifiers);
     void grabButtonM(int button, unsigned modifiers);
     void grabButton(int button, unsigned modifiers);
@@ -151,7 +164,7 @@ public:
     void releaseEvents();
 
     Window handle() { return (flags & wfCreated) ? fHandle : create(); }
-    YWindow *parent() const { return fParentWindow; }
+    YWindow *parent() const { return fParent; }
     YWindow *window() { return this; }
 
     void paintExpose(int ex, int ey, int ew, int eh);
@@ -167,6 +180,7 @@ public:
     unsigned depth() const { return fDepth; }
     Visual *visual() const { return fVisual; }
     Colormap colormap();
+    Region region();
     YRect geometry() const { return YRect(fX, fY, fWidth, fHeight); }
     YDimension dimension() const { return YDimension(fWidth, fHeight); }
 
@@ -174,6 +188,7 @@ public:
     bool created() const { return (flags & wfCreated); }
     bool adopted() const { return (flags & wfAdopted); }
     bool focused() const { return (flags & wfFocused); }
+    bool nullsize() const { return (flags & wfNullSize); }
     bool destroyed() const { return (flags & wfDestroyed); }
     void setDestroyed();
     bool testDestroyed();
@@ -213,8 +228,9 @@ public:
     void installAccelerator(unsigned key, unsigned mod, YWindow *win);
     void removeAccelerator(unsigned key, unsigned mod, YWindow *win);
 
-    mstring getToolTip();
-    void setToolTip(const mstring &tip);
+    bool hasToolTip() const;
+    void setToolTip(mstring tip);
+    void setToolTip(mstring tip, ref<YIcon> icon);
 
     void mapToGlobal(int &x, int &y);
     void mapToLocal(int &x, int &y);
@@ -223,6 +239,7 @@ public:
     void setBitGravity(int gravity);
 
     void deleteProperty(Atom property);
+    void setProperty(Atom prop, Atom type, const char* string);
     void setProperty(Atom prop, Atom type, const Atom* values, int count);
     void setProperty(Atom property, Atom propType, Atom value);
     void setNetName(const char* name);
@@ -236,7 +253,10 @@ public:
 
     bool getCharFromEvent(const XKeyEvent &key, char *s, int maxLen);
     bool dragging() const { return fClickDrag && fClickWindow == this; }
-    int getClickCount() { return fClickCount; }
+    int getClickButton() const { return fClickButton; }
+    int getClickCount() const { return fClickCount; }
+    int getClickX() const { return fClickEvent.x_root; }
+    int getClickY() const { return fClickEvent.y_root; }
     int getScreen();
 
     void scrollWindow(int dx, int dy);
@@ -285,7 +305,7 @@ private:
     Visual *fVisual;
     Colormap fColormap;
 
-    YWindow *fParentWindow;
+    YWindow *fParent;
     YWindow *fFocusedWindow;
 
     Window fHandle;
@@ -307,7 +327,7 @@ private:
     };
 
     YAccelerator *accel;
-    lazy<YToolTip> fToolTip;
+    AToolTip* fToolTip;
 
     static XButtonEvent fClickEvent;
     static YWindow *fClickWindow;
@@ -431,6 +451,7 @@ extern Atom _XA_TARGETS;
 extern Atom _XA_XEMBED;
 extern Atom _XA_XEMBED_INFO;
 extern Atom _XA_UTF8_STRING;
+extern Atom _XA_COMPOUND_TEXT;
 
 /* Xdnd */
 extern Atom XA_XdndAware;
@@ -470,6 +491,10 @@ extern Atom _XA_NET_WM_WINDOW_TYPE_SPLASH;          // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLBAR;         // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_TOOLTIP;         // OK
 extern Atom _XA_NET_WM_WINDOW_TYPE_UTILITY;         // OK
+
+inline bool operator==(const XClientMessageEvent& message, const Atom& prop) {
+    return message.message_type == prop;
+}
 
 #endif
 

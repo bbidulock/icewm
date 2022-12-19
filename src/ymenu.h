@@ -37,12 +37,16 @@ public:
     YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu, const char *icons);
 
     YMenuItem *add(YMenuItem *item);
+    YMenuItem *add(YMenuItem* item, YMenuItem* after);
     YMenuItem *addSorted(YMenuItem *item, bool duplicates, bool ignoreCase = false);
     YMenuItem *addItem(const mstring &name, int hotCharPos, const mstring &param, YAction action);
     YMenuItem *addItem(const mstring &name, int hotCharPos, YAction action, YMenu *submenu);
     YMenuItem *addSubmenu(const mstring &name, int hotCharPos, YMenu *submenu);
+    YMenuItem *addSubmenu(const mstring &name, int hotCharPos,
+                          YMenu *submenu, YMenuItem* after);
     void addSeparator();
     YMenuItem *addLabel(const mstring &name);
+    bool removeSubmenu(YMenu* menu);
     void removeAll();
     YMenuItem *findAction(YAction action);
     YMenuItem *findSubmenu(const YMenu *sub);
@@ -51,15 +55,20 @@ public:
 
     void enableCommand(YAction action); // 0 == All
     void disableCommand(YAction action); // 0 == All
+    void removeCommand(YAction action);
     void checkCommand(YAction action, bool check); // 0 == All
+    bool haveCommand(YAction action);
 
     int itemCount() const { return fItems.getCount(); }
     int getSelectedItem() const { return selectedItem; }
+    int findItem(YMenuItem* item) const { return find(fItems, item); }
     bool lastIsSeparator() const;
     YMenuItem *lastItem() const;
     YMenuItem *getItem(int n) const { return fItems[n]; }
     void setItem(int n, YMenuItem *ref) { fItems[n] = ref; return; }
     void focusItem(int item);
+    void repaintItem(int item);
+    void repaintItem(YMenuItem* item);
 
     bool isShared() const { return fShared; }
     void setShared(bool shared) { fShared = shared; }
@@ -108,7 +117,6 @@ private:
                    const int r, const int minY, const int maxY, const int eh,
                    const int top, const int bottom, const int pad);
 
-    void repaintItem(int item);
     void paintItems();
     int findItemPos(int item, int &x, int &y, unsigned &h);
     int findItem(int x, int y);

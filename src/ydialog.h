@@ -6,6 +6,7 @@
 class YDialog: public YFrameClient {
 public:
     YDialog();
+    virtual ~YDialog();
 
     void center();
     void become();

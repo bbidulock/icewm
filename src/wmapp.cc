@@ -30,6 +30,7 @@
 #include "ascii.h"
 #include "ycursor.h"
 #include "yxcontext.h"
+#include "ytooltip.h"
 #ifdef CONFIG_XFREETYPE
 #include <ft2build.h>
 #include <X11/Xft/Xft.h>
@@ -64,6 +65,7 @@ YCursor YWMApp::scrollDownPointer;
 
 lazy<MoveMenu> moveMenu;
 lazy<TileMenu> tileMenu;
+lazy<TabsMenu> tabsMenu;
 lazy<LayerMenu> layerMenu;
 lazily<SharedWindowList> windowListMenu;
 lazy<LogoutMenu> logoutMenu;
@@ -74,34 +76,36 @@ static bool post_preferences;
 static bool show_extensions;
 
 static Window registerProtocols1(char **argv, int argc) {
-    long timestamp = CurrentTime;
+    const long timestamp = CurrentTime;
+    const Window xroot = xapp->root();
     YAtom wmSx("WM_S", true);
-
-    Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
-
-    if (current_wm != None) {
-        if (!replace_wm)
-            die(1, _("A window manager is already running, use --replace to replace it"));
-      XSetWindowAttributes attrs;
-      attrs.event_mask = StructureNotifyMask;
-      XChangeWindowAttributes (
-          xapp->display(), current_wm,
-          CWEventMask, &attrs);
+    const Window current_wm = XGetSelectionOwner(xapp->display(), wmSx);
+    if (current_wm) {
+        if (replace_wm) {
+            XSetWindowAttributes attr;
+            attr.event_mask = StructureNotifyMask;
+            XChangeWindowAttributes(xapp->display(), current_wm,
+                                    CWEventMask, &attr);
+        } else {
+            die(1, _("A window manager is already running, "
+                     "use --replace to replace it"));
+        }
     }
 
-    Window xroot = xapp->root();
-    Window xid =
-        XCreateSimpleWindow(xapp->display(), xroot,
-            0, 0, 1, 1, 0,
-            xapp->black(),
-            xapp->black());
+    XSetWindowAttributes attr = {};
+    attr.background_pixel =
+    attr.border_pixel = xapp->black();
+    attr.override_redirect = True;
+    unsigned long mask = CWBackPixel | CWBorderPixel | CWOverrideRedirect;
+    Window xid = XCreateWindow(xapp->display(), xroot, -1, -1, 1, 1, 0, 0,
+                               InputOutput, CopyFromParent, mask, &attr);
 
     XSetSelectionOwner(xapp->display(), wmSx, xid, timestamp);
 
     if (XGetSelectionOwner(xapp->display(), wmSx) != xid)
         die(1, _("Failed to become the owner of the %s selection"), wmSx.str());
 
-    if (current_wm != None) {
+    if (current_wm) {
         XEvent event;
         msg(_("Waiting to replace the old window manager"));
         do {
@@ -348,6 +352,10 @@ CtrlAltDelete* YWMApp::getCtrlAltDelete() {
     return ctrlAltDelete;
 }
 
+AToolTip* YWMApp::newToolTip() {
+    return new YToolTip;
+}
+
 void YWMApp::subdirs(const char* subdir, bool themeOnly, MStringArray& paths) {
     if (resourcePaths.isEmpty()) {
         upath privDir(YApplication::getPrivConfDir());
@@ -555,31 +563,48 @@ void MoveMenu::updatePopup() {
     }
 }
 
+void TabsMenu::updatePopup() {
+    removeAll();
+    YFrameWindow* frame = dynamic_cast<YFrameWindow*>(getActionListener());
+    if (frame) {
+        for (YFrameClient* tab : frame->clients()) {
+            YAction action(EAction(int(tab->handle())));
+            YMenuItem* item = new YMenuItem(tab->windowTitle(), -1,
+                                            null, action, nullptr);
+            if (item) {
+                ref<YIcon> icon = tab->getIcon();
+                if (icon != null) {
+                    item->setIcon(icon);
+                }
+            }
+            add(item);
+        }
+        addSeparator();
+        addItem(_("Move to New _Window"),    -2, null, actionUntab);
+    }
+}
+
 void TileMenu::updatePopup() {
     if (itemCount()) {
         enableCommand(actionNull);
         return;
     }
 
-    addItem(_("Left Half"),    -2, actionTileLeft, nullptr, "tileleft");
-    addItem(_("Right Half"),   -2, actionTileRight, nullptr, "tileright");
-    addItem(_("Top Half"),     -2, actionTileTop, nullptr, "tiletop");
-    addItem(_("Bottom Half"),  -2, actionTileBottom, nullptr, "tilebottom");
+    addItem(_("Left Half"),    -2, gKeyWinTileLeft.name, actionTileLeft, "tileleft");
+    addItem(_("Right Half"),   -2, gKeyWinTileRight.name, actionTileRight, "tileright");
+    addItem(_("Top Half"),     -2, gKeyWinTileTop.name, actionTileTop, "tiletop");
+    addItem(_("Bottom Half"),  -2, gKeyWinTileBottom.name, actionTileBottom, "tilebottom");
     addSeparator();
-    addItem(_("Top Left"),     -2, actionTileTopLeft, nullptr,
-            "tiletopleft");
-    addItem(_("Top Right"),    -2, actionTileTopRight, nullptr,
-            "tiletopright");
-    addItem(_("Bottom Left"),  -2, actionTileBottomLeft, nullptr,
-            "tilebottomleft");
-    addItem(_("Bottom Right"), -2, actionTileBottomRight, nullptr,
-            "tilebottomright");
-    addItem(_("Center"),       -2, actionTileCenter, nullptr, "tilecenter");
+    addItem(_("Top Left"),     -2, gKeyWinTileTopLeft.name, actionTileTopLeft, "tiletopleft");
+    addItem(_("Top Right"),    -2, gKeyWinTileTopRight.name, actionTileTopRight, "tiletopright");
+    addItem(_("Bottom Left"),  -2, gKeyWinTileBottomLeft.name, actionTileBottomLeft, "tilebottomleft");
+    addItem(_("Bottom Right"), -2, gKeyWinTileBottomRight.name, actionTileBottomRight, "tilebottomright");
+    addItem(_("Center"),       -2, gKeyWinTileCenter.name, actionTileCenter, "tilecenter");
     addSeparator();
     addItem(_("T_ile Horizontally"), -2,
-            KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
+            gKeySysTileHorizontal.name, actionTileHorizontal);
     addItem(_("Tile _Vertically"), -2,
-            KEY_NAME(gKeySysTileVertical), actionTileVertical);
+            gKeySysTileVertical.name, actionTileVertical);
 }
 
 YMenu* YWMApp::getWindowMenu() {
@@ -638,6 +663,8 @@ YMenu* YWMApp::getWindowMenu() {
 
     if (strchr(winMenuItems, 'i') && taskBarShowTray)
         windowMenu->addItem(_("Tray _icon"), -2, null, actionToggleTray);
+    if (strchr(winMenuItems, 'e'))
+        windowMenu->addItem(_("R_ename title"), -2, null, actionRename);
 
     if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
         windowMenu->addSeparator();
@@ -920,9 +947,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
             restartClient(nullptr, nullptr);
     }
     else if (action == actionRestartXterm) {
-        if (fRestartMsgBox) {
-            fRestartMsgBox->unmanage();
-        }
+        delete fRestartMsgBox;
         fRestartMsgBox = new YMsgBox(YMsgBox::mbBoth,
                                      _("Confirm Restart as Terminal"),
                                      _("Unmanage all applications and restart\n"
@@ -955,7 +980,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     }
     else if (action == actionAboutClose) {
         if (aboutDlg) {
-            manager->unmanageClient(aboutDlg);
+            delete aboutDlg;
             aboutDlg = nullptr;
         }
     }
@@ -997,7 +1022,7 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         keyProgs.clear();
         MenuLoader(this, this, this).loadMenus(findConfigFile("keys"), nullptr);
         if (manager && !initializing) {
-            if (manager->wmState() == YWindowManager::wmRUNNING) {
+            if (manager->isRunning()) {
                 manager->grabKeys();
             }
         }
@@ -1354,15 +1379,15 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
 
 YWMApp::~YWMApp() {
     if (fLogoutMsgBox) {
-        fLogoutMsgBox->unmanage();
+        delete fLogoutMsgBox;
         fLogoutMsgBox = nullptr;
     }
     if (fRestartMsgBox) {
-        fRestartMsgBox->unmanage();
+        delete fRestartMsgBox;
         fRestartMsgBox = nullptr;
     }
     if (aboutDlg) {
-        manager->unmanageClient(aboutDlg);
+        delete aboutDlg;
         aboutDlg = nullptr;
     }
 
@@ -1397,6 +1422,7 @@ YWMApp::~YWMApp() {
     layerMenu = null;
     moveMenu = null;
     tileMenu = null;
+    tabsMenu = null;
 
     keyProgs.clear();
     workspaces.reset();
@@ -1837,9 +1863,7 @@ void YWMApp::doLogout(RebootShutdown reboot) {
     if (!confirmLogout)
         logout();
     else {
-        if (fLogoutMsgBox) {
-            fLogoutMsgBox->unmanage();
-        }
+        delete fLogoutMsgBox;
         fLogoutMsgBox = new YMsgBox(YMsgBox::mbBoth,
                             _("Confirm Logout"),
                             _("Logout will close all active applications.\n"
@@ -1887,14 +1911,14 @@ void YWMApp::cancelLogout() {
 
 void YWMApp::handleMsgBox(YMsgBox *msgbox, int operation) {
     if (msgbox == fLogoutMsgBox) {
-        msgbox->unmanage();
+        delete fLogoutMsgBox;
         fLogoutMsgBox = nullptr;
         if (operation == YMsgBox::mbOK) {
             logout();
         }
     }
     if (msgbox == fRestartMsgBox) {
-        msgbox->unmanage();
+        delete fRestartMsgBox;
         fRestartMsgBox = nullptr;
         if (operation == YMsgBox::mbOK) {
             restartClient(TERM, nullptr);
