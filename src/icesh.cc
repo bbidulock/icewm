@@ -54,7 +54,6 @@
 #include "yrect.h"
 #define GUI_EVENT_NAMES
 #include "guievent.h"
-#include "logevent.h"
 
 #ifndef __GLIBC__
 typedef void (*sighandler_t)(int);
@@ -3809,7 +3808,6 @@ IceSh::IceSh(int ac, char **av) :
     filtering(false)
 {
     singleton = this;
-    setAtomName(NAtom::lookup);
     try {
         xinit();
         flags();
