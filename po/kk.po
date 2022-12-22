@@ -8,48 +8,51 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-12-22 17:13+0000\n"
+"Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
+"Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/kk/>\n"
 "Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
 #, c-format
 msgid "Can't open the APM device %s"
-msgstr ""
+msgstr "%s APM құрылғысын ашу мүмкін емес"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "%s APM құрылғысы үшін ioctl орындау мүмкін емес"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM құрылғысы %s (%d) белгісіз пішімді пайдаланады."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
-msgstr ""
+msgstr " - Эл. қорегі"
 
 #: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
 msgid "P"
-msgstr ""
+msgstr "Э"
 
 #: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
-msgstr ""
+msgstr " - Зарядталуда"
 
 #: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
-msgstr ""
+msgstr "З"
 
 #: src/aapm.cc:407
 msgid " - Full"
-msgstr ""
+msgstr " - Толық"
 
 #: src/aapm.cc:944
 #, c-format
@@ -742,42 +745,42 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
 #: src/fdospecgen.h:209
 msgid "Music"
-msgstr ""
+msgstr "Музыка"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:211
 msgid "Network"
-msgstr ""
+msgstr "Желі"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:213
 msgid "News"
-msgstr ""
+msgstr "Жаңалықтар"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
 #: src/fdospecgen.h:215
 msgid "NumericalAnalysis"
-msgstr ""
+msgstr "Сандық анализ"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
 #: src/fdospecgen.h:217
 msgid "OCR"
-msgstr ""
+msgstr "Тану"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:219
 msgid "Office"
-msgstr ""
+msgstr "Кеңсе"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:221
 msgid "Other"
-msgstr ""
+msgstr "Басқа"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:223
 msgid "P2P"
-msgstr ""
+msgstr "P2P"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:225
