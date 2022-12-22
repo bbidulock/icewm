@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-11-06 21:13+0000\n"
-"Last-Translator: Stéphane LASSALVY <stephane.lassalvy@laposte.net>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2022-12-22 14:13+0000\n"
+"Last-Translator: Vincent Legoll <vincent.legoll@gmail.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2224,7 +2224,7 @@ msgstr "_Liste des fenêtres"
 #
 #: src/wmapp.cc:711
 msgid "Another window manager already running, exiting..."
-msgstr "Un gestionnaire de fenêtre est déjà en cours. Fermeture ..."
+msgstr "Un autre gestionnaire de fenêtre est déjà en cours. Fermeture ..."
 
 #: src/wmapp.cc:786
 #, c-format
@@ -2464,11 +2464,11 @@ msgstr "À _propos"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Renommer"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Renommer le titre de la fenêtre"
 
 #: src/wmframe.cc:1841
 msgid ""
