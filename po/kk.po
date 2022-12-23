@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-12-22 17:13+0000\n"
+"PO-Revision-Date: 2022-12-23 14:54+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/kk/>\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: src/aclock.cc:192
 msgid "CLOCK"
-msgstr ""
+msgstr "САҒАТ"
 
 #: src/aclock.cc:198
 msgid "Date"
@@ -1064,55 +1064,55 @@ msgstr ""
 
 #: src/icehelp.cc:1360
 msgid "Find next"
-msgstr ""
+msgstr "Келесіні табу"
 
 #: src/icehelp.cc:1360
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1362
 msgid "Open in Browser"
-msgstr ""
+msgstr "Веб-браузерде ашу"
 
 #: src/icehelp.cc:1362
 msgid "Ctrl+B"
-msgstr ""
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1364
 msgid "Reload"
-msgstr ""
+msgstr "Қайта жүктеу"
 
 #: src/icehelp.cc:1364 src/icesame.cc:60
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:123
 msgid "Close"
-msgstr ""
+msgstr "Жабу"
 
 #: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1370
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1370
 msgid "Ctrl+I"
-msgstr ""
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1372
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1374
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1376
 msgid "FAQ"
-msgstr ""
+msgstr "Жиі қойылатын сұрақтар"
 
 #: src/icehelp.cc:1378
 msgid "Manual"
