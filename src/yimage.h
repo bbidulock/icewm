@@ -1,7 +1,7 @@
 #ifndef YIMAGE_H
 #define YIMAGE_H
 
-#if defined(CONFIG_LIBRSVG) || (defined(CONFIG_NANOSVG) && defined(CONFIG_IMLIB2))
+#if defined(CONFIG_LIBRSVG) || defined(CONFIG_NANOSVG)
 #define ICE_SUPPORT_SVG 1
 #endif
 
