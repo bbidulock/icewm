@@ -267,6 +267,7 @@ AC_ARG_WITH([icesound],
     AS_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound. @<:@default: ALSA,AO,OSS@:>@]),[],
     [with_icesound='ALSA,AO,OSS'])
 
+audio_support=
 for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
     case $iface in
     (ALSA|alsa)
@@ -274,7 +275,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
             AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
-            CONFIG_ALSA=yes; break],
+            CONFIG_ALSA=yes; audio_support=$iface; break],
             [AC_MSG_WARN([ALSA is not supported])])
         ;;
     (AO|ao)
@@ -282,7 +283,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
             AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
-            CONFIG_AO=yes; break],
+            CONFIG_AO=yes; audio_support=$iface; break],
             [AC_MSG_WARN([AO is not supported])])
         ;;
     (OSS|oss)
@@ -290,7 +291,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
             AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-            CONFIG_OSS=yes; break],
+            CONFIG_OSS=yes; audio_support=$iface; break],
             [AC_MSG_WARN([OSS is not supported])])
         ;;
     (*)
