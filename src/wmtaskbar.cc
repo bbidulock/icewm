@@ -770,6 +770,8 @@ void TaskBar::updateWinLayer() {
         getFrame()->wmSetLayer(layer);
     } else {
         setLayerHint(layer);
+        if (layer == WinLayerDock && limitByDockLayer)
+            setWinHintsHint(winHints() | WinHintsDoNotCover);
     }
 }
 
