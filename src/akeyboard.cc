@@ -128,6 +128,9 @@ void KeyboardStatus::updateToolTip() {
 void KeyboardStatus::actionPerformed(YAction action, unsigned int modifiers) {
     int index = (action.ident() - actionShow) / 2;
     if (inrange(index, 0, configKeyboards.getCount() - 1)) {
+        if (fIndex == index && fKeyboard != configKeyboards[fIndex]) {
+            manager->reflectKeyboard(0, null);
+        }
         fIndex = index;
         manager->setKeyboard(fIndex);
     }
@@ -141,6 +144,9 @@ void KeyboardStatus::handleClick(const XButtonEvent& up, int count) {
         if (++fIndex >= configKeyboards.getCount()) {
             fIndex = 0;
         }
+        if (configKeyboards.getCount() == 1 && fKeyboard != *configKeyboards) {
+            manager->reflectKeyboard(0, null);
+        }
         if (configKeyboards.nonempty()) {
             manager->updateKeyboard(fIndex);
         }
@@ -153,7 +159,8 @@ void KeyboardStatus::handleClick(const XButtonEvent& up, int count) {
         for (int i = 0; i < configKeyboards.getCount(); ++i) {
             fMenu->addItem(configKeyboards[i], -2, null,
                            EAction(actionShow + 2 * i))
-                            ->setChecked(i == fIndex);
+                            ->setChecked(i == fIndex &&
+                                         configKeyboards[i] == fKeyboard);
         }
         fMenu->popup(nullptr, nullptr, nullptr, up.x_root, up.y_root,
                      YPopupWindow::pfCanFlipVertical |
