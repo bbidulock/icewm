@@ -54,6 +54,15 @@ TrayApp::TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent):
 TrayApp::~TrayApp() {
 }
 
+void TrayApp::freeGradients() {
+    if (taskMinimizedGradient != null)
+        taskMinimizedGradient = null;
+    if (taskActiveGradient != null)
+        taskActiveGradient = null;
+    if (taskNormalGradient != null)
+        taskNormalGradient = null;
+}
+
 void TrayApp::activate() const {
     getFrame()->activateWindow(true, false);
 }
@@ -276,6 +285,7 @@ TrayPane::TrayPane(IAppletContainer *taskBar, YWindow *parent):
 }
 
 TrayPane::~TrayPane() {
+    TrayApp::freeGradients();
 }
 
 TrayApp* TrayPane::predecessor(TrayApp *tapp) {
@@ -335,6 +345,8 @@ TrayApp *TrayPane::addApp(ClientData* frame) {
 void TrayPane::remove(TrayApp* tapp) {
     tapp->setShown(false);
     findRemove(fApps, tapp);
+    if (fApps.isEmpty())
+        TrayApp::freeGradients();
 }
 
 unsigned TrayPane::countShownApps() const {
