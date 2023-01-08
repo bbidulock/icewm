@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 
     YXApplication app(&argc, &argv);
 
-    YClock clock(nullptr, nullptr, nullptr);
+    YClock clock(nullptr, nullptr, nullptr, nullptr, nullptr, "%X");
     clock.show();
 
     return app.mainLoop();
