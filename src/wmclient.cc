@@ -145,22 +145,28 @@ void YFrameClient::getSizeHints() {
             !XGetWMNormalHints(xapp->display(), handle(), fSizeHints, &supplied))
             fSizeHints->flags = 0;
 
-        if (notbit(fSizeHints->flags, PResizeInc)) {
+        if (notbit(fSizeHints->flags, PResizeInc) ||
+            fSizeHints->width_inc < 1 || fSizeHints->height_inc < 1) {
             fSizeHints->width_inc = fSizeHints->height_inc = 1;
         }
 
-        if (!(fSizeHints->flags & PBaseSize)) {
+        if (notbit(fSizeHints->flags, PBaseSize)) {
             if (fSizeHints->flags & PMinSize) {
                 fSizeHints->base_width = fSizeHints->min_width;
                 fSizeHints->base_height = fSizeHints->min_height;
             } else
                 fSizeHints->base_width = fSizeHints->base_height = 0;
         }
-        if (!(fSizeHints->flags & PMinSize)) {
+        if (notbit(fSizeHints->flags, PMinSize)) {
             fSizeHints->min_width = fSizeHints->base_width;
             fSizeHints->min_height = fSizeHints->base_height;
         }
-        if (!(fSizeHints->flags & PMaxSize)) {
+        if (fSizeHints->min_height < 1)
+            fSizeHints->min_height = 1;
+        if (fSizeHints->min_width < 1)
+            fSizeHints->min_width = 1;
+
+        if (notbit(fSizeHints->flags, PMaxSize)) {
             fSizeHints->max_width = 32767;
             fSizeHints->max_height = 32767;
         }
@@ -168,11 +174,6 @@ void YFrameClient::getSizeHints() {
             fSizeHints->max_width = 32767;
         if (fSizeHints->max_height < fSizeHints->min_height)
             fSizeHints->max_height = 32767;
-
-        if (fSizeHints->min_height <= 0)
-            fSizeHints->min_height = 1;
-        if (fSizeHints->min_width <= 0)
-            fSizeHints->min_width = 1;
 
         if (notbit(fSizeHints->flags, PWinGravity)) {
             fSizeHints->win_gravity = NorthWestGravity;
