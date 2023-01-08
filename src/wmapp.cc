@@ -1427,10 +1427,12 @@ YWMApp::~YWMApp() {
     keyProgs.clear();
     workspaces.reset();
     WPixRes::freePixmaps();
+    delete manager; manager = nullptr;
 
     extern void clearFontCache();
     clearFontCache();
 
+    configKeyboards.clear();
     YConfig::freeConfig(wmapp_preferences);
 
     XFlush(display());
