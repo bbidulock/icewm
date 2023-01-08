@@ -1015,10 +1015,12 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
         int posX, posY, posW, posH;
         getNormalGeometryInner(&posX, &posY, &posW, &posH);
 
-        if (isMaximizedVert() || isRollup()) {
+        if (isMaximizedVert()) {
             cy = posY;
             cheight = posH;
         }
+        if (isRollup())
+            cheight = posH;
         if (isMaximizedHoriz()) {
             cx = posX;
             cwidth = posW;
