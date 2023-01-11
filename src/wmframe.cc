@@ -3553,11 +3553,18 @@ void YFrameWindow::updateMwmHints(XSizeHints* sh) {
             sh->min_height < h && h < sh->max_height &&
             ((xs->flags & PAspect) == 0 ||
              (xs->min_aspect.x * h <= xs->min_aspect.y * w &&
-              xs->max_aspect.x * h >= xs->max_aspect.y * w))) {
-            int onw = normalW * max(1, sh->width_inc) + sh->base_width;
-            int onh = normalH * max(1, sh->height_inc) + sh->base_height;
-            normalW = (onw - xs->base_width) / max(1, xs->width_inc);
-            normalH = (onh - xs->base_height) / max(1, xs->height_inc);
+              xs->max_aspect.x * h >= xs->max_aspect.y * w)))
+        {
+            if (xs->width_inc != sh->width_inc ||
+                xs->height_inc != sh->height_inc ||
+                xs->base_width != sh->base_width ||
+                xs->base_height != sh->base_height)
+            {
+                int onw = posW - 2 * borderXN();
+                int onh = posH - (2 * borderYN() + titleYN());
+                normalW = (onw - xs->base_width) / max(1, xs->width_inc);
+                normalH = (onh - xs->base_height) / max(1, xs->height_inc);
+            }
             return;
         }
     }
