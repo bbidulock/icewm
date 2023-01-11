@@ -1711,10 +1711,8 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     }
 
     if (newClient && client->adopted() && client->sizeHints() &&
-        (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
-         ((client->sizeHints()->flags & PPosition)
-          && frame->frameOption(YFrameWindow::foIgnorePosition)
-         )))
+        (notbit(client->sizeHints()->flags, USPosition | PPosition) ||
+         frame->frameOption(YFrameWindow::foIgnorePosition)))
     {
         int xiscreen = (fFocusWin ? fFocusWin->getScreen() :
                         frame->owner() ? frame->owner()->getScreen() :
