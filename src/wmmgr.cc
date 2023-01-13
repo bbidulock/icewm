@@ -3820,12 +3820,16 @@ void YWindowManager::updateScreenSize(XEvent *event) {
         Atom data[2] = { nw, nh };
         setProperty(_XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL, data, 2);
         setSize(nw, nh);
+
+        if (taskBar) {
+            taskBar->updateLocation();
+        }
         updateWorkArea();
+
         if (taskBar && pagerShowPreview) {
             taskBar->workspacesUpdateButtons();
         }
         if (taskBar) {
-            taskBar->relayout();
             taskBar->relayoutNow();
         }
         for (int i = 0; i < edges.getCount(); ++i)
