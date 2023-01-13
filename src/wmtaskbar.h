@@ -78,7 +78,6 @@ private:
     virtual void handlePopDown(YPopupWindow *popup);
 
     void updateWMHints();
-    void updateLocation();
     void updateWinLayer();
     virtual void configure(const YRect2 &r);
     virtual void repaint();
@@ -109,6 +108,7 @@ public:
 
     void relayout() { fNeedRelayout = true; }
     void relayoutNow();
+    void updateLocation();
 
     void detachDesktopTray();
     bool isCollapsed() const { return fIsCollapsed; }
