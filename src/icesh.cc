@@ -1380,10 +1380,15 @@ private:
     vector<YWindowTree> trees;
     vector<Window> modifications;
 
+#ifdef CONFIG_XRANDR
+    int randrbase;
+#endif
+
     bool use(Window w);
     void modified(Window w);
     void spy();
     void spyEvent(const XEvent& event);
+    bool spyRandR(const XEvent& event, const char* head);
     void spyClient(const XClientMessageEvent& event, const char* head);
     void flush();
     void flags();
@@ -3807,6 +3812,9 @@ IceSh::IceSh(int ac, char **av) :
     selecting(false),
     filtering(false)
 {
+#ifdef CONFIG_XRANDR
+    randrbase = 0;
+#endif
     singleton = this;
     try {
         xinit();
@@ -4329,6 +4337,22 @@ void IceSh::spy()
     FOREACH_WINDOW(window) {
         XSelectInput(display, window, selectMask +
                 SubstructureNotifyMask * (window == root));
+#ifdef CONFIG_XRANDR
+        if (window == root) {
+            int ev, er, ma, mi;
+            if (XRRQueryExtension(display, &ev, &er) &&
+                XRRQueryVersion(display, &ma, &mi) &&
+                (12 <= 10 * ma + mi))
+            {
+                randrbase = ev;
+                XRRSelectInput(display, root,
+                               RRScreenChangeNotifyMask |
+                               RRCrtcChangeNotifyMask |
+                               RROutputChangeNotifyMask |
+                               RROutputPropertyNotifyMask);
+            }
+        }
+#endif
     }
     while (windowList) {
         XEvent event;
@@ -4485,9 +4509,102 @@ void IceSh::spyEvent(const XEvent& event)
         spyClient(event.xclient, head);
         break;
     default:
+        if (spyRandR(event, head))
+            break;
         printf("%sUnknown event type %d\n", head, event.type);
         break;
     }
+}
+
+#ifdef CONFIG_XRANDR
+int rotation(int rot) {
+    return rot == RR_Rotate_0 ? 0
+         : rot == RR_Rotate_90 ? 90
+         : rot == RR_Rotate_180 ? 180
+         : rot == RR_Rotate_270 ? 270 : -1;
+}
+#endif
+
+bool IceSh::spyRandR(const XEvent& event, const char* head)
+{
+#ifdef CONFIG_XRANDR
+    if (randrbase && randrbase + RRScreenChangeNotify == event.type) {
+        const XRRScreenChangeNotifyEvent& evt =
+            (const XRRScreenChangeNotifyEvent &)event;
+        printf("%s%s %u order=%u rotation=%d "
+               "width=%dpx(%dmm) height=%dpx(%dmm)\n",
+                head, "RRScreenChange",
+                evt.size_index, evt.subpixel_order, rotation(evt.rotation),
+                evt.width, evt.mwidth, evt.height, evt.mheight
+           );
+        return true;
+    }
+    else if (randrbase && randrbase + RRNotify == event.type) {
+        const XRRNotifyEvent& nev = (const XRRNotifyEvent &)event;
+        if (nev.subtype == RRNotify_CrtcChange) {
+            const XRRCrtcChangeNotifyEvent& e =
+                (const XRRCrtcChangeNotifyEvent &) event;
+            printf("%s%s crtc=%lu mode=%lu rotation=%d %ux%u+%d+%d\n",
+                head, "RRCrtcChange",
+                e.crtc, e.mode, rotation(e.rotation),
+                e.width, e.height, e.x, e.y);
+        }
+        else if (nev.subtype == RRNotify_OutputChange) {
+            const XRROutputChangeNotifyEvent& e =
+                (const XRROutputChangeNotifyEvent &) event;
+            printf("%s%s output=%lu crtc=%lu mode=%lu "
+                "rotation=%d connection=%s subpixel=%u\n",
+                head, "RROutputChange",
+                e.output, e.crtc, e.mode, rotation(e.rotation),
+                e.connection == RR_Connected ? "RR_Connected" :
+                e.connection == RR_Disconnected ? "RR_Disconnected" :
+                e.connection == RR_UnknownConnection ? "RR_UnknownConnection" :
+                "unknown", e.subpixel_order
+               );
+        }
+        else if (nev.subtype == RRNotify_OutputProperty) {
+            const XRROutputPropertyNotifyEvent& e =
+                (const XRROutputPropertyNotifyEvent &) event;
+            printf("%s%s output=%lu property=%lu state=%s\n",
+                head, "RROutputProperty",
+                e.output, e.property,
+                e.state == PropertyNewValue ? "NewValue" :
+                e.state == PropertyDelete ? "Deleted" :
+                "unknown"
+               );
+        }
+#ifdef RRNotify_ProviderChange
+        else if (nev.subtype == RRNotify_ProviderChange) {
+            const XRRProviderChangeNotifyEvent& e =
+                (const XRRProviderChangeNotifyEvent &) event;
+            printf("%s%s provider=%lu current_role=%u\n",
+                head, "RRProviderChange",
+                e.provider, e.current_role
+               );
+        }
+#endif
+#ifdef RRNotify_ProviderProperty
+        else if (nev.subtype == RRNotify_ProviderProperty) {
+            const XRRProviderPropertyNotifyEvent& e =
+                (const XRRProviderPropertyNotifyEvent &) event;
+            printf("%s%s provider=%lu property=%lu state=%s\n",
+                head, "RRProviderProperty",
+                e.provider, e.property,
+                e.state == PropertyNewValue ? "NewValue" :
+                e.state == PropertyDelete ? "Deleted" :
+                "unknown"
+               );
+        }
+#endif
+#ifdef RRNotify_ResourceChange
+        else if (nev.subtype == RRNotify_ResourceChange) {
+            printf("%s%s\n", head, "RRResourceChange");
+        }
+#endif
+        return true;
+    }
+#endif
+    return false;
 }
 
 void IceSh::spyClient(const XClientMessageEvent& event, const char* head) {
