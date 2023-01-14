@@ -1086,7 +1086,8 @@ void YFrameWindow::moveWindow(int newX, int newY) {
 void YFrameWindow::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (button.button == 1 && !(button.state & ControlMask)) {
-            activate();
+            if (isMapped() && ! focused())
+                activate();
             if (raiseOnClickFrame)
                 wmRaise();
         }
