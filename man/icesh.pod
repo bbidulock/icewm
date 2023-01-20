@@ -955,7 +955,7 @@ workspace and activate Firefox.
 
 Resize the focused window to occupy the right half of the desktop area.
 
-    icesh -f sizeto 49% 100% sync top sync right sync raise
+    icesh -f sizeto 49% 100% top right raise
 
 Toggle the frame border of the focused window.
 
@@ -969,9 +969,9 @@ Here is a different solution using conditionals.
 Here is a conditional to either toggle the visibility of a roxterm,
 which has a WM_ROLE value of C<special>, or start it with B<runonce>.
 
-    icesh sync if -c roxterm.Roxterm -R special then \
+    icesh if -c roxterm.Roxterm -R special then \
         if -v then hide \
-        elif -u then setWorkspace this sync activate end \
+        elif -u then setWorkspace this activate end \
         else runonce roxterm --role=special
 
 Collect all urxvt terminals from the fourth workspace in a single frame
