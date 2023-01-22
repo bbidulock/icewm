@@ -1810,6 +1810,12 @@ YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
             client = nullptr;
         if (client && attributes.override_redirect && validLayer(layer))
             client->setLayerHint(layer);
+        if (client && attributes.override_redirect) {
+            unsigned long mask = CWOverrideRedirect;
+            XSetWindowAttributes attr;
+            attr.override_redirect = False;
+            XChangeWindowAttributes(xapp->display(), win, mask, &attr);
+        }
     }
     return client;
 }
