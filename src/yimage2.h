@@ -13,10 +13,12 @@ typedef Imlib_Image Image;
 class YImage2: public YImage {
 public:
     YImage2(unsigned width, unsigned height, Image image):
-        YImage(width, height), fImage(image) { }
+        YImage(width, height), fImage(image) { ++instances; }
     virtual ~YImage2() {
         context();
         imlib_free_image();
+        if (--instances == 0)
+            freegcs();
     }
     virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
     virtual ref<YImage> scale(unsigned width, unsigned height);
@@ -38,6 +40,10 @@ private:
     void context() const {
         imlib_context_set_image(fImage);
     }
+    static GC gcs[3];
+    static GC gc(Drawable draw, unsigned depth);
+    static void freegcs();
+    static unsigned instances;
 };
 
 #endif

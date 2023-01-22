@@ -5,6 +5,31 @@
 #include "yimage2.h"
 #include "yxapp.h"
 
+unsigned YImage2::instances;
+GC YImage2::gcs[3];
+
+GC YImage2::gc(Drawable draw, unsigned depth) {
+    int i;
+    switch (depth) {
+        case 1 : i = 0; break;
+        case 24: i = 1; break;
+        case 32: i = 2; break;
+        default: return None;
+    }
+    if (gcs[i] == None)
+        gcs[i] = XCreateGC(xapp->display(), draw, None, None);
+    return gcs[i];
+}
+
+void YImage2::freegcs() {
+    for (int i = 0; i < 3; ++i)
+        if (gcs[i]) {
+            if (xapp)
+                XFreeGC(xapp->display(), gcs[i]);
+            gcs[i] = None;
+        }
+}
+
 const char* YImage::renderName() {
     return "Imlib2";
 }
@@ -223,17 +248,13 @@ ref<YPixmap> YImage2::renderToPixmap(unsigned depth, bool premult) {
 
             pixmap = XCreatePixmap(xapp->display(), xapp->root(),
                                    width, height, depth);
-            GC gc = XCreateGC(xapp->display(), pixmap, None, None);
-            XPutImage(xapp->display(), pixmap, gc, image,
+            XPutImage(xapp->display(), pixmap, gc(pixmap, depth), image,
                       0, 0, 0, 0, width, height);
-            XFreeGC(xapp->display(), gc);
 
             mask = XCreatePixmap(xapp->display(), xapp->root(),
                                  width, height, 1);
-            gc = XCreateGC(xapp->display(), mask, None, None);
-            XPutImage(xapp->display(), mask, gc, imask,
+            XPutImage(xapp->display(), mask, gc(mask, 1), imask,
                       0, 0, 0, 0, width, height);
-            XFreeGC(xapp->display(), gc);
 
             XDestroyImage(image);
             XDestroyImage(imask);
