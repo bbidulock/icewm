@@ -253,7 +253,8 @@ public:
         }
     }
 
-    virtual int runProgram(const char *file, const char *const *args) {
+    virtual int runProgram(const char *file, const char *const *args,
+                           int fd = -1) {
         upath path;
         if (strchr(file, '/') == nullptr && strchr(argv0, '/') != nullptr) {
             path = upath(argv0).parent() + file;
@@ -263,7 +264,7 @@ public:
                     *(const char**)args = file;
             }
         }
-        return YApplication::runProgram(file, args);
+        return YApplication::runProgram(file, args, fd);
     }
 
     void runScript(const char *scriptName) {
