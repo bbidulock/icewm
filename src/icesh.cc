@@ -3620,15 +3620,19 @@ void IceSh::saveIcon(Window window, char* file)
                     snprintf(buf, sizeof buf,
                              "P7\nWIDTH %d\nHEIGHT %d\nDEPTH 4\nMAXVAL 255\n"
                              "TUPLTYPE RGB_ALPHA\nENDHDR\n", bestW, bestH);
-                    write(fd, buf, strlen(buf));
-                    const int size = bestW * bestH;
-                    unsigned* data = new unsigned[size];
-                    for (int i = 0; i < size; ++i) {
-                        data[i] = unsigned(icon[bestI + 2 + i]);
+                    if (write(fd, buf, strlen(buf)) == -1)
+                        warn(_("Unable to write to %s"), file);
+                    else {
+                        const int size = bestW * bestH;
+                        unsigned* data = new unsigned[size];
+                        for (int i = 0; i < size; ++i) {
+                            data[i] = unsigned(icon[bestI + 2 + i]);
+                        }
+                        if (write(fd, data, size * sizeof(unsigned)) == -1)
+                            warn(_("Unable to write to %s"), file);
+                        delete[] data;
                     }
-                    write(fd, data, size * sizeof(unsigned));
                     close(fd);
-                    delete[] data;
                     break;
                 }
             }
