@@ -136,6 +136,7 @@ libice_la_SOURCES = \
 	yimage2.cc \
 	yimage2.h \
 	yimage_gdk.cc \
+	yimage_gdk.h \
 	ykey.h \
 	ylayout.h \
 	ylib.h \
