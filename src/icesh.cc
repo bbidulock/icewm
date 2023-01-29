@@ -1446,6 +1446,7 @@ private:
     bool workarea();
     bool current();
     bool runonce();
+    void loop();
     void click();
     bool delay();
     void tabTo(char* arg);
@@ -1485,6 +1486,8 @@ static const Symbol layerIdentifiers[] = {
     { "Dock",       WinLayerDock        },
     { "AboveDock",  WinLayerAboveDock   },
     { "Menu",       WinLayerMenu        },
+    { "Fullscreen", WinLayerFullscreen  },
+    { "AboveAll",   WinLayerAboveAll    },
     { nullptr,      0                   }
 };
 
@@ -2567,6 +2570,26 @@ void IceSh::changeState(int state, Window window) {
 void IceSh::changeState(int state) {
     FOREACH_WINDOW(window) {
         changeState(state, window);
+    }
+}
+
+void IceSh::loop() {
+    long n = 1;
+    if (haveArg() && isDigit(**argp)) {
+        if (tolong(*argp, n)) {
+            if (0 < n) {
+                snprintf(*argp, 1 + strlen(*argp), "%ld", n - 1);
+            }
+            ++argp;
+        } else {
+            msg(_("Invalid argument: `%s'"), *argp);
+            throw 1;
+        }
+    }
+    if (0 < n) {
+        argp = argv + 1;
+        windowList.release();
+        selecting = filtering = false;
     }
 }
 
@@ -5310,6 +5333,14 @@ void IceSh::parseAction()
         }
         else if (isAction("reverse", 0)) {
             windowList.reverse();
+        }
+        else if (isAction("loop", 0)) {
+            loop();
+        }
+        else if (isAction("pick", 0)) {
+            windowList.release();
+            selecting = false;
+            pickingWindow();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);
