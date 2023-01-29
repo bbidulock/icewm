@@ -95,6 +95,7 @@ AC_ARG_ENABLE([i18n],
 if test x$enable_i18n != xno; then
     AC_DEFINE([CONFIG_I18N], [1], [Define to enable internationalization.])
     features="$features i18n"
+    AM_ICONV
 fi
 
 AC_ARG_WITH([unicode-set],
