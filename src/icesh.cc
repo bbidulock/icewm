@@ -1212,7 +1212,7 @@ public:
 
         vector<Window> keep;
         for (YTreeIter client(*this); client; ++client) {
-            asmart<char> title(newstr(&client->netName()));
+            csmart title(newstr(&client->netName()));
             if (isEmpty(title))
                 title = newstr(&client->wmName());
             if (nonempty(title)) {
@@ -1446,7 +1446,6 @@ private:
     bool workarea();
     bool current();
     bool runonce();
-    void loop();
     void click();
     bool delay();
     void tabTo(char* arg);
@@ -1455,6 +1454,8 @@ private:
     bool desktop();
     bool wmcheck();
     bool change();
+    bool loop();
+    bool pick();
     bool sync();
     void doSync();
     bool check(const struct SymbolTable& symtab, long code, const char* str);
@@ -1882,7 +1883,7 @@ void IceSh::getGeometry(Window window)
 void IceSh::details(Window w)
 {
     YTreeLeaf leaf(w);
-    asmart<char> name(newstr(&leaf.netName()));
+    csmart name(newstr(&leaf.netName()));
     if (isEmpty(name))
         name = newstr(Elvis(&leaf.wmName(), ""));
 
@@ -2573,7 +2574,10 @@ void IceSh::changeState(int state) {
     }
 }
 
-void IceSh::loop() {
+bool IceSh::loop() {
+    if ( !isAction("loop", 0))
+        return false;
+
     long n = 1;
     if (haveArg() && isDigit(**argp)) {
         if (tolong(*argp, n)) {
@@ -2590,7 +2594,22 @@ void IceSh::loop() {
         argp = argv + 1;
         windowList.release();
         selecting = filtering = false;
+        trees.clear();
+        ifs.clear();
     }
+
+    return true;
+}
+
+bool IceSh::pick() {
+    if ( !isAction("pick", 0))
+        return false;
+
+    windowList.release();
+    selecting = false;
+    pickingWindow();
+
+    return true;
 }
 
 void IceSh::click()
@@ -2762,6 +2781,8 @@ bool IceSh::icewmAction()
         || runonce()
         || wmcheck()
         || change()
+        || loop()
+        || pick()
         || sync()
         ;
 }
@@ -4030,6 +4051,7 @@ void IceSh::flags()
     while (haveArg()) {
         if (conditional()) {
             /*ignore*/;
+            act = true;
         }
         else if (argp[0][0] == '-') {
             char* arg = getArg();
@@ -4306,10 +4328,11 @@ void IceSh::flag(char* arg)
         filtering = true;
     }
     else if (isOptArg(arg, "-class", val) || isOptArg(arg, "+class", val)) {
-        char *wmname = val;
+        csmart copy(newstr(val));
+        char *wmname = copy;
         char *wmclass = nullptr;
-        char *p = val;
-        char *d = val;
+        char *p = copy;
+        char *d = copy;
         while (*p) {
             if (*p == '\\') {
                 p++;
@@ -5333,14 +5356,6 @@ void IceSh::parseAction()
         }
         else if (isAction("reverse", 0)) {
             windowList.reverse();
-        }
-        else if (isAction("loop", 0)) {
-            loop();
-        }
-        else if (isAction("pick", 0)) {
-            windowList.release();
-            selecting = false;
-            pickingWindow();
         }
         else {
             msg(_("Unknown action: `%s'"), *argp);

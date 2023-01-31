@@ -647,15 +647,6 @@ Sort the list of windows from topmost to bottom-most.
 
 Reverse the order of the list of windows.
 
-=item B<loop> [I<count>]
-
-Loop back to the beginning of the command and repeat. The optional
-I<count> limits the number of repetitions.
-
-=item B<pick>
-
-Choose a window by a mouse button click.
-
 =back
 
 =head2 MANAGER ACTIONS
@@ -795,6 +786,15 @@ Stop execution for I<time> or 0.1 seconds.
 This action is meant to be used together with the B<-class> option.
 Only if no window is matched by I<WM_CLASS> then
 I<program> [I<arguments...>] is executed.
+
+=item B<loop> [I<count>]
+
+Loop back to the beginning of the command and repeat. The optional
+I<count> limits the number of repetitions.
+
+=item B<pick>
+
+Choose a window by a mouse button click.
 
 =item B<sync>
 
