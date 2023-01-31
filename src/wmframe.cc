@@ -37,7 +37,7 @@ YArray<YFrameWindow*> YFrameWindow::namedFrames;
 
 YFrameWindow::YFrameWindow(
     YActionListener *wmActionListener, unsigned dep, Visual* vis, Colormap col)
-    : YWindow(nullptr, None, dep ? dep : xapp->depth(),
+    : YWindow(desktop, None, dep ? dep : xapp->depth(),
               vis ? vis : xapp->visual(), col ? col : xapp->colormap()),
     fManaged(false),
     fFocused(false),

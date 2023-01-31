@@ -386,9 +386,9 @@ Window YWindow::create() {
     }
     fDepth = unsigned(wa.depth);
     fVisual = wa.visual;
-    if (parent() == desktop && !(flags & (wsManager | wsOverrideRedirect))) {
+    if (parent() == desktop && !(fStyle & (wsManager | wsOverrideRedirect))) {
         Atom prot[] = { _XA_WM_DELETE_WINDOW, _XA_WM_TAKE_FOCUS };
-        const int n = 1 + hasbit(flags, wsTakeFocus);
+        const int n = 1 + hasbit(fStyle, wsTakeFocus);
         XSetWMProtocols(xapp->display(), fHandle, prot, n);
     }
 
