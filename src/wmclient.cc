@@ -630,11 +630,17 @@ void YFrameClient::handleProperty(const XPropertyEvent &property) {
     case XA_WM_CLASS:
         prop.wm_class = new_prop;
         if (prop.wm_class) {
-            ClassHint old(fClassHint);
+            ClassHint previous(fClassHint);
             getClassHint();
-            if (fClassHint.nonempty() && fClassHint != old) {
+            if (fClassHint.nonempty() && fClassHint != previous) {
+                int old = fWindowOption ? fWindowOption->layer : WinLayerInvalid;
+                fWindowOption = null;
                 if (fFrame) {
                     fFrame->getFrameHints();
+                    if (fWindowOption && validLayer(fWindowOption->layer))
+                        fFrame->setRequestedLayer(fWindowOption->layer);
+                    else if (validLayer(old))
+                        fFrame->setRequestedLayer(WinLayerNormal);
                     if (taskBarTaskGrouping) {
                         fFrame->removeAppStatus();
                         fFrame->updateAppStatus();
