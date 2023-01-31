@@ -31,6 +31,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xatom.h>
 #include <X11/Xutil.h>
+#include <X11/Xproto.h>
 #include <X11/cursorfont.h>
 #include <X11/keysym.h>
 #ifdef CONFIG_XRANDR
@@ -865,23 +866,11 @@ static void setWindowGravity(Window window, long gravity) {
     XChangeWindowAttributes(display, window, mask, &attr);
 }
 
-static int getWindowGravity(Window window) {
-    XWindowAttributes attr = {};
-    XGetWindowAttributes(display, window, &attr);
-    return attr.win_gravity;
-}
-
 static void setBitGravity(Window window, long gravity) {
     unsigned long mask = CWBitGravity;
     XSetWindowAttributes attr = {};
     attr.bit_gravity = int(gravity);
     XChangeWindowAttributes(display, window, mask, &attr);
-}
-
-static int getBitGravity(Window window) {
-    XWindowAttributes attr = {};
-    XGetWindowAttributes(display, window, &attr);
-    return attr.bit_gravity;
 }
 
 static void setNormalGravity(Window window, long gravity) {
@@ -937,6 +926,7 @@ public:
     Window operator*() const { return Window(*this); }
     void operator++() { ++fIndex; }
     YTreeLeaf* operator->();
+    void discard();
 
 private:
     YWindowTree& fTree;
@@ -1054,6 +1044,8 @@ public:
                     if (s.overlap(r)) {
                         keep.push_back(client);
                     }
+                } else {
+                    client.discard();
                 }
             }
             fChildren = keep;
@@ -1346,6 +1338,7 @@ private:
 
 YTreeIter::operator Window() const { return fTree[fIndex]; }
 YTreeLeaf* YTreeIter::operator->() { return fTree.leaf(fIndex); }
+void YTreeIter::discard() { fTree.remove(fIndex); --fIndex; }
 
 /******************************************************************************/
 
@@ -1461,12 +1454,15 @@ private:
     bool check(const struct SymbolTable& symtab, long code, const char* str);
     unsigned count() const;
     void xerror(XErrorEvent* evt);
-    void getGeometry(Window window);
     void setGeometry(Window window, const char* geometry);
     void getClass(Window window);
     void setClass(Window window, const char* title);
     void saveIcon(Window window, char* file);
     void loadIcon(Window window, char* file);
+    void printGeometry();
+    void printBitGravity();
+    void printNormalGravity();
+    void printWindowGravity();
 
     const char* atomName(Atom atom) {
         return NAtom::lookup(atom);
@@ -1738,7 +1734,11 @@ bool WorkspaceInfo::parseWorkspace(char const* name, long* workspace) {
 }
 
 static Window getParent(Window window) {
-    return YWindowTree(window).parent();
+    Window parent = None, rootw, *data = nullptr;
+    unsigned num;
+    if (XQueryTree(display, window, &rootw, &parent, &data, &num))
+        XFree(data);
+    return parent;
 }
 
 static Window getFrameWindow(Window window)
@@ -1868,15 +1868,6 @@ void IceSh::modified(Window window)
 {
     if (contains(modifications, window) == false) {
         modifications.push_back(window);
-    }
-}
-
-void IceSh::getGeometry(Window window)
-{
-    use(window);
-    int x = 0, y = 0, width = 0, height = 0;
-    if (::getGeometry(window, x, y, width, height)) {
-        printf("%dx%d+%d+%d\n", width, height, x, y);
     }
 }
 
@@ -2025,6 +2016,7 @@ void IceSh::sizeby()
 
             int gx, gy, gw, gh;
             if (::getGeometry(window, gx, gy, gw, gh) == false) {
+                window.discard();
                 continue;
             }
 
@@ -2633,6 +2625,7 @@ void IceSh::click()
                 if (ly < 0)
                     ly += gh;
             } else {
+                window.discard();
                 continue;
             }
             int dx = 0, dy = 0;
@@ -2660,6 +2653,8 @@ void IceSh::click()
                 be.time = serverTime();
                 ev.xbutton = be;
                 XSendEvent(display, child, True, None, &ev);
+            } else {
+                window.discard();
             }
         }
     }
@@ -2826,31 +2821,59 @@ static void getTrayOption(Window window) {
     }
 }
 
-static void printWindowGravity(Window window) {
-    long grav = getWindowGravity(window);
-    const char* name = nullptr;
-    if (gravities.lookup(grav, &name))
-        printf("0x%-7lx %s\n", window, name);
-    else
-        printf("0x%-7lx %ld\n", window, grav);
+void IceSh::printGeometry() {
+    FOREACH_WINDOW(window) {
+        use(window);
+        int x = 0, y = 0, width = 0, height = 0;
+        if (::getGeometry(window, x, y, width, height)) {
+            printf("%dx%d+%d+%d\n", width, height, x, y);
+        } else {
+            window.discard();
+        }
+    }
 }
 
-static void printBitGravity(Window window) {
-    long grav = getBitGravity(window);
-    const char* name = nullptr;
-    if (gravities.lookup(grav, &name))
-        printf("0x%-7lx %s\n", window, name);
-    else
-        printf("0x%-7lx %ld\n", window, grav);
+void IceSh::printWindowGravity() {
+    FOREACH_WINDOW(window) {
+        XWindowAttributes attr = {};
+        if (XGetWindowAttributes(display, window, &attr)) {
+            long grav = attr.win_gravity;
+            const char* name = nullptr;
+            if (gravities.lookup(grav, &name))
+                printf("0x%-7lx %s\n", *window, name);
+            else
+                printf("0x%-7lx %ld\n", *window, grav);
+        } else {
+            window.discard();
+        }
+    }
 }
 
-static void printNormalGravity(Window window) {
-    long grav = getNormalGravity(window);
-    const char* name = nullptr;
-    if (gravities.lookup(grav, &name))
-        printf("0x%-7lx %s\n", window, name);
-    else
-        printf("0x%-7lx %ld\n", window, grav);
+void IceSh::printBitGravity() {
+    FOREACH_WINDOW(window) {
+        XWindowAttributes attr = {};
+        if (XGetWindowAttributes(display, window, &attr)) {
+            long grav = attr.bit_gravity;
+            const char* name = nullptr;
+            if (gravities.lookup(grav, &name))
+                printf("0x%-7lx %s\n", *window, name);
+            else
+                printf("0x%-7lx %ld\n", *window, grav);
+        } else {
+            window.discard();
+        }
+    }
+}
+
+void IceSh::printNormalGravity() {
+    FOREACH_WINDOW(window) {
+        long grav = getNormalGravity(window);
+        const char* name = nullptr;
+        if (gravities.lookup(grav, &name))
+            printf("0x%-7lx %s\n", *window, name);
+        else
+            printf("0x%-7lx %ld\n", *window, grav);
+    }
 }
 
 /******************************************************************************/
@@ -4693,6 +4716,9 @@ int IceSh::xerrors(Display* dpy, XErrorEvent* evt) {
 void IceSh::xerror(XErrorEvent* evt) {
     char message[80], req[80], number[80];
 
+    if (evt->request_code == X_GetWindowAttributes)
+        return;
+
     snprintf(number, 80, "%d", evt->request_code);
     XGetErrorDatabaseText(display, "XRequest",
                           number, "",
@@ -4741,10 +4767,7 @@ void IceSh::parseAction()
                 setGeometry(window, geometry);
         }
         else if (isAction("getGeometry", 0)) {
-            FOREACH_WINDOW(window) {
-                use(window);
-                getGeometry(window);
-            }
+            printGeometry();
         }
         else if (isAction("setClass", 1)) {
             char* title = getArg();
@@ -4802,6 +4825,8 @@ void IceSh::parseAction()
                             moveResize(window, NorthWestGravity,
                                        tx, ty, None, None, CWX | CWY);
                             modified(window);
+                        } else {
+                            window.discard();
                         }
                     }
                 }
@@ -4825,6 +4850,8 @@ void IceSh::parseAction()
                             moveResize(window, NorthWestGravity,
                                        tx, ty, None, None, CWX | CWY);
                             modified(window);
+                        } else {
+                            window.discard();
                         }
                     }
                 }
@@ -4846,6 +4873,8 @@ void IceSh::parseAction()
                     c.y = (ah - h) / 2;
                     XConfigureWindow(display, window, CWX | CWY, &c);
                     modified(window);
+                } else {
+                    window.discard();
                 }
             }
         }
@@ -4860,6 +4889,8 @@ void IceSh::parseAction()
                     c.x = max(0, ax);
                     XConfigureWindow(display, window, CWX, &c);
                     modified(window);
+                } else {
+                    window.discard();
                 }
             }
         }
@@ -4876,6 +4907,8 @@ void IceSh::parseAction()
                         c.x = ax + aw - w - exts[0] - exts[1];
                         XConfigureWindow(display, window, CWX, &c);
                         modified(window);
+                    } else {
+                        window.discard();
                     }
                 }
             }
@@ -4891,6 +4924,8 @@ void IceSh::parseAction()
                     c.y = max(0, ay);
                     XConfigureWindow(display, window, CWY, &c);
                     modified(window);
+                } else {
+                    window.discard();
                 }
             }
         }
@@ -4907,6 +4942,8 @@ void IceSh::parseAction()
                         c.y = ay + ah - h - exts[2] - exts[3];
                         XConfigureWindow(display, window, CWY, &c);
                         modified(window);
+                    } else {
+                        window.discard();
                     }
                 }
             }
@@ -5034,8 +5071,7 @@ void IceSh::parseAction()
                 setWindowGravity(window, grav);
         }
         else if (isAction("getWindowGravity", 0)) {
-            FOREACH_WINDOW(window)
-                printWindowGravity(window);
+            printWindowGravity();
         }
         else if (isAction("setBitGravity", 1)) {
             long grav(gravities.parseExpression(getArg()));
@@ -5044,8 +5080,7 @@ void IceSh::parseAction()
                 setBitGravity(window, grav);
         }
         else if (isAction("getBitGravity", 0)) {
-            FOREACH_WINDOW(window)
-                printBitGravity(window);
+            printBitGravity();
         }
         else if (isAction("setNormalGravity", 1)) {
             long grav(gravities.parseExpression(getArg()));
@@ -5054,8 +5089,7 @@ void IceSh::parseAction()
                 setNormalGravity(window, grav);
         }
         else if (isAction("getNormalGravity", 0)) {
-            FOREACH_WINDOW(window)
-                printNormalGravity(window);
+            printNormalGravity();
         }
         else if (isAction("id", 0)) {
             FOREACH_WINDOW(window)
@@ -5245,6 +5279,8 @@ void IceSh::parseAction()
                     if (XGetWindowAttributes(display, window, &attr)) {
                         printf("0x%-8lx override %d\n",
                                 *window, attr.override_redirect);
+                    } else {
+                        window.discard();
                     }
                 }
             }
