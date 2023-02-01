@@ -192,7 +192,9 @@ static NAtom ATOM_NET_DESKTOP_NAMES("_NET_DESKTOP_NAMES");
 static NAtom ATOM_NET_CURRENT_DESKTOP("_NET_CURRENT_DESKTOP");
 static NAtom ATOM_NET_SHOWING_DESKTOP("_NET_SHOWING_DESKTOP");
 static NAtom ATOM_NET_NUMBER_OF_DESKTOPS("_NET_NUMBER_OF_DESKTOPS");
+static NAtom ATOM_NET_REQUEST_FRAME_EXTENTS("_NET_REQUEST_FRAME_EXTENTS");
 static NAtom ATOM_NET_SUPPORTING_WM_CHECK("_NET_SUPPORTING_WM_CHECK");
+static NAtom ATOM_NET_SUPPORTED("_NET_SUPPORTED");
 static NAtom ATOM_WIN_LAYER(XA_WIN_LAYER);
 static NAtom ATOM_WIN_TRAY(XA_WIN_TRAY);
 static NAtom ATOM_WIN_PROTOCOLS(XA_WIN_PROTOCOLS);
@@ -532,6 +534,13 @@ public:
     }
     template <class T>
     T* extract() { T* t(data<T>()); fData = nullptr; fCount = 0; return t; }
+    template <class T>
+    bool have(T t) {
+        for (unsigned long i = 0; i < fCount; ++i)
+            if (t == data<T>()[i])
+                return true;
+        return false;
+    }
 
     operator bool() const { return !fStatus && fData && fType && fCount; }
 
@@ -1450,6 +1459,7 @@ private:
     bool loop();
     bool pick();
     bool sync();
+    void slow();
     void doSync();
     bool check(const struct SymbolTable& symtab, long code, const char* str);
     unsigned count() const;
@@ -1854,11 +1864,33 @@ void IceSh::catcher(int)
     running = false;
 }
 
+void IceSh::slow()
+{
+    YProperty supp(root, ATOM_NET_SUPPORTED, XA_ATOM, 123);
+    if (supp && supp.have<Atom>(ATOM_NET_REQUEST_FRAME_EXTENTS)) {
+        Window window = XCreateSimpleWindow(display, root, -1, -1,
+                                            1, 1, 0, 0, 0);
+        long mask = StructureNotifyMask | PropertyChangeMask;
+        XSelectInput(display, window, mask);
+        send(ATOM_NET_REQUEST_FRAME_EXTENTS, window, None, None);
+        XEvent event;
+        do {
+            XWindowEvent(display, window, mask, &event);
+        } while (event.type != PropertyNotify);
+        XDestroyWindow(display, window);
+        do {
+            XWindowEvent(display, window, mask, &event);
+        } while (event.type != DestroyNotify);
+    } else {
+        sync();
+        fsleep(0.1);
+    }
+}
+
 bool IceSh::use(Window window)
 {
     if (window && contains(modifications, window)) {
-        sync();
-        fsleep(0.1);
+        slow();
         modifications.clear();
     }
     return window;
@@ -4580,6 +4612,8 @@ void IceSh::spyEvent(const XEvent& event)
         break;
     case ClientMessage:
         spyClient(event.xclient, head);
+        break;
+    case ColormapNotify:
         break;
     default:
         if (spyRandR(event, head))
