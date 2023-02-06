@@ -183,6 +183,8 @@ static NAtom ATOM_WM_CLIENT_LEADER("WM_CLIENT_LEADER");
 static NAtom ATOM_WM_LOCALE_NAME("WM_LOCALE_NAME");
 static NAtom ATOM_WM_TAKE_FOCUS("WM_TAKE_FOCUS");
 static NAtom ATOM_WM_WINDOW_ROLE("WM_WINDOW_ROLE");
+static NAtom ATOM_NET_WM_ALLOWED_ACTIONS("_NET_WM_ALLOWED_ACTIONS");
+static NAtom ATOM_NET_WM_ACTION_RESIZE("_NET_WM_ACTION_RESIZE");
 static NAtom ATOM_NET_WM_PID("_NET_WM_PID");
 static NAtom ATOM_NET_WM_NAME("_NET_WM_NAME");
 static NAtom ATOM_NET_WM_ICON("_NET_WM_ICON");
@@ -1347,7 +1349,7 @@ private:
 
 YTreeIter::operator Window() const { return fTree[fIndex]; }
 YTreeLeaf* YTreeIter::operator->() { return fTree.leaf(fIndex); }
-void YTreeIter::discard() { fTree.remove(fIndex); --fIndex; }
+void YTreeIter::discard() { fTree.remove(fTree[fIndex]); --fIndex; }
 
 /******************************************************************************/
 
@@ -1479,8 +1481,10 @@ private:
     }
     static int xerrors(Display* dpy, XErrorEvent* evt);
     static void catcher(int);
+    static void alarmed(int);
     static bool running;
     static IceSh* singleton;
+    static Window slowWindow;
 };
 
 /******************************************************************************/
@@ -1858,10 +1862,19 @@ static void extArea(Window window, int& x, int& y, int& w, int& h) {
 }
 
 bool IceSh::running;
+Window IceSh::slowWindow;
 
 void IceSh::catcher(int)
 {
     running = false;
+}
+
+void IceSh::alarmed(int)
+{
+    if (slowWindow) {
+        XDestroyWindow(display, slowWindow);
+        slowWindow = None;
+    }
 }
 
 void IceSh::slow()
@@ -1873,17 +1886,24 @@ void IceSh::slow()
         long mask = StructureNotifyMask | PropertyChangeMask;
         XSelectInput(display, window, mask);
         send(ATOM_NET_REQUEST_FRAME_EXTENTS, window, None, None);
-        XEvent event;
+        slowWindow = window;
+        sighandler_t previous = signal(SIGALRM, alarmed);
+        alarm(1);
+        XEvent event = { 0 };
         do {
             XWindowEvent(display, window, mask, &event);
-        } while (event.type != PropertyNotify);
-        XDestroyWindow(display, window);
-        do {
-            XWindowEvent(display, window, mask, &event);
+            if (event.type == PropertyNotify &&
+                event.xproperty.atom == ATOM_NET_FRAME_EXTENTS) {
+                if (slowWindow == window) {
+                    slowWindow = None;
+                    XDestroyWindow(display, window);
+                }
+            }
         } while (event.type != DestroyNotify);
+        alarm(0);
+        signal(SIGALRM, previous);
     } else {
-        sync();
-        fsleep(0.1);
+        doSync();
     }
 }
 
@@ -2500,7 +2520,7 @@ bool IceSh::sync()
     if ( !isAction("sync", 0))
         return false;
 
-    doSync();
+    slow();
 
     if (haveArg() && 0 == strcmp(*argp, "delay"))
         modifications.clear();
@@ -3070,25 +3090,39 @@ static void lowerWindow(Window window) {
     send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Below);
 }
 
-static Window getClientWindow(Window window)
+static Window getClientWindow(Window frame, int xpos, int ypos)
 {
-    if (YWmState(window))
-        return window;
-
-    YWindowTree windowList(window);
-    if (windowList == false)
+    YWindowTree clist;
+    clist.getClientList();
+    if (clist == false)
         return None;
 
-    FOREACH_WINDOW(client)
-        if (YWmState(client))
-            return client;
+    if (clist.have(frame))
+        return frame;
 
-    FOREACH_WINDOW(client) {
-        YWindowTree windowList(client);
-        if (windowList) {
-            FOREACH_WINDOW(subwin)
-                if (YWmState(subwin))
-                    return subwin;
+    YWindowTree conts(frame);
+    if (conts == false)
+        return None;
+
+    for (unsigned i = conts.count(); 0 < i--; ) {
+        Window cont = conts[i];
+        XWindowAttributes attr;
+        if (XGetWindowAttributes(display, cont, &attr) && 0 < attr.map_state) {
+            int cx = xpos - attr.x, cy = ypos - attr.y;
+            if (cx >= 0 && cy >= 0 && cx < attr.width && cy < attr.height) {
+                YWindowTree subs(cont);
+                for (unsigned k = subs.count(); 0 < k--; ) {
+                    Window subw = subs[k];
+                    if (XGetWindowAttributes(display, subw, &attr) &&
+                        0 < attr.map_state) {
+                        int sx = cx - attr.x, sy = cy - attr.y;
+                        if (sx >= 0 && sx < attr.width &&
+                            sy >= 0 && sy < attr.height) {
+                            return subw;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -3099,7 +3133,7 @@ static Window pickWindow() {
     Cursor cursor = XCreateFontCursor(display, XC_crosshair);
     bool running(true);
     Window target(None);
-    int count(0);
+    int count(0), xpos(0), ypos(0);
     KeyCode escape = XKeysymToKeycode(display, XK_Escape);
 
     // this is broken
@@ -3121,10 +3155,13 @@ static Window pickWindow() {
         case ButtonPress:
             ++count;
 
-            if (target == None)
+            if (target == None) {
                 target = event.xbutton.subwindow == None
                     ? event.xbutton.window
                     : event.xbutton.subwindow;
+                xpos = event.xbutton.x;
+                ypos = event.xbutton.y;
+            }
             break;
 
         case ButtonRelease:
@@ -3138,7 +3175,7 @@ static Window pickWindow() {
     XUngrabKey(display, escape, 0, root);
 
     if (target && target != root)
-        target = getClientWindow(target);
+        target = getClientWindow(target, xpos, ypos);
 
     return target;
 }
@@ -3341,12 +3378,22 @@ void IceSh::setBorderTitle(int border, int title) {
         if (hints) {
             mwm = *hints;
         }
+
+        unsigned long resizeh = 0;
+        if (mwm.funcs() & MWM_FUNC_RESIZE)
+            resizeh = MWM_DECOR_RESIZEH;
+        else {
+            YProperty allow(root, ATOM_NET_WM_ALLOWED_ACTIONS, XA_ATOM, 32);
+            if (allow && allow.have<Atom>(ATOM_NET_WM_ACTION_RESIZE))
+                resizeh = MWM_DECOR_RESIZEH;
+        }
+
         if (mwm.hasDecor() == false) {
             mwm.decorations = (MWM_DECOR_MASK & ~MWM_DECOR_ALL);
             if (border == false)
-                mwm.decorations &= ~MWM_DECOR_BORDER;
+                mwm.decorations &= ~(MWM_DECOR_BORDER | MWM_DECOR_RESIZEH);
             if (border == true)
-                mwm.decorations |= MWM_DECOR_BORDER;
+                mwm.decorations |= (MWM_DECOR_BORDER | resizeh);
             if (title == false)
                 mwm.decorations &= ~MWM_DECOR_TITLE;
             if (title == true)
@@ -3354,18 +3401,18 @@ void IceSh::setBorderTitle(int border, int title) {
         }
         else if (mwm.decorAll()) {
             if (border == true)
-                mwm.decorations &= ~MWM_DECOR_BORDER;
+                mwm.decorations &= ~(MWM_DECOR_BORDER | resizeh);
             if (border == false)
-                mwm.decorations |= MWM_DECOR_BORDER;
+                mwm.decorations |= (MWM_DECOR_BORDER | MWM_DECOR_RESIZEH);
             if (title == true)
                 mwm.decorations &= ~MWM_DECOR_TITLE;
             if (title == false)
                 mwm.decorations |= MWM_DECOR_TITLE;
         } else {
             if (border == false)
-                mwm.decorations &= ~MWM_DECOR_BORDER;
+                mwm.decorations &= ~(MWM_DECOR_BORDER | MWM_DECOR_RESIZEH);
             if (border == true)
-                mwm.decorations |= MWM_DECOR_BORDER;
+                mwm.decorations |= (MWM_DECOR_BORDER | resizeh);
             if (title == false)
                 mwm.decorations &= ~MWM_DECOR_TITLE;
             if (title == true)
