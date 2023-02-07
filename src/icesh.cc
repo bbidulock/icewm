@@ -741,6 +741,7 @@ public:
 
     const char* operator&() const { return data<char>(); }
     bool operator==(const char* str) { return *this && !strcmp(&*this, str); }
+    bool operator!=(const char* str) { return !operator==(str); }
 
     char operator[](int index) const { return data<char>()[index]; }
 
@@ -749,12 +750,22 @@ public:
     }
 };
 
+class WmName : public YStringProperty {
+public:
+    WmName(Window window) : YStringProperty(window, XA_WM_NAME) { }
+};
+
 class YUtf8Property : public YStringProperty {
 public:
     YUtf8Property(Window window, Atom property) :
         YStringProperty(window, property, ATOM_UTF8_STRING)
     {
     }
+};
+
+class NetName : public YUtf8Property {
+public:
+    NetName(Window window) : YUtf8Property(window, XA_WM_NAME) { }
 };
 
 enum YTextKind {
@@ -924,8 +935,8 @@ public:
     operator Window() const { return leaf; }
     YTreeLeaf& operator=(Window win) { leaf = win; return *this; }
 
-    YStringProperty wmName() { return YStringProperty(leaf, XA_WM_NAME); }
-    YUtf8Property netName() { return YUtf8Property(leaf, ATOM_NET_WM_NAME); }
+    WmName wmName() { return WmName(leaf); }
+    NetName netName() { return NetName(leaf); }
     YStringProperty wmRole() { return YStringProperty(leaf, ATOM_WM_WINDOW_ROLE); }
 };
 
@@ -2419,8 +2430,8 @@ bool IceSh::wmcheck()
 
     YClient check(root, ATOM_NET_SUPPORTING_WM_CHECK);
     if (check) {
-        YUtf8Property netName(*check, ATOM_NET_WM_NAME);
-        YStringProperty name(*check, XA_WM_NAME);
+        NetName netName(*check);
+        WmName name(*check);
         if (netName || name) {
             printf("Name: %s\n", netName ? &netName : &name);
         }
@@ -3090,14 +3101,11 @@ static void lowerWindow(Window window) {
     send(ATOM_NET_RESTACK_WINDOW, window, SourceIndication, None, Below);
 }
 
-static Window getClientWindow(Window frame, int xpos, int ypos)
+static Window getClientWindow(Window frame)
 {
     YWindowTree clist;
     clist.getClientList();
-    if (clist == false)
-        return None;
-
-    if (clist.have(frame))
+    if (clist && clist.have(frame))
         return frame;
 
     YWindowTree conts(frame);
@@ -3108,19 +3116,15 @@ static Window getClientWindow(Window frame, int xpos, int ypos)
         Window cont = conts[i];
         XWindowAttributes attr;
         if (XGetWindowAttributes(display, cont, &attr) && 0 < attr.map_state) {
-            int cx = xpos - attr.x, cy = ypos - attr.y;
-            if (cx >= 0 && cy >= 0 && cx < attr.width && cy < attr.height) {
-                YWindowTree subs(cont);
-                for (unsigned k = subs.count(); 0 < k--; ) {
-                    Window subw = subs[k];
-                    if (XGetWindowAttributes(display, subw, &attr) &&
-                        0 < attr.map_state) {
-                        int sx = cx - attr.x, sy = cy - attr.y;
-                        if (sx >= 0 && sx < attr.width &&
-                            sy >= 0 && sy < attr.height) {
-                            return subw;
-                        }
-                    }
+            if (clist && clist.have(cont))
+                return cont;
+            YWindowTree subs(cont);
+            for (unsigned k = subs.count(); 0 < k--; ) {
+                Window subw = subs[k];
+                if (XGetWindowAttributes(display, subw, &attr) &&
+                    0 < attr.map_state) {
+                    if (clist ? clist.have(subw) : WmName(cont) == "Container")
+                        return subw;
                 }
             }
         }
@@ -3131,9 +3135,9 @@ static Window getClientWindow(Window frame, int xpos, int ypos)
 
 static Window pickWindow() {
     Cursor cursor = XCreateFontCursor(display, XC_crosshair);
-    bool running(true);
-    Window target(None);
-    int count(0), xpos(0), ypos(0);
+    bool running = true;
+    Window target = None;
+    int count = 0;
     KeyCode escape = XKeysymToKeycode(display, XK_Escape);
 
     // this is broken
@@ -3159,8 +3163,6 @@ static Window pickWindow() {
                 target = event.xbutton.subwindow == None
                     ? event.xbutton.window
                     : event.xbutton.subwindow;
-                xpos = event.xbutton.x;
-                ypos = event.xbutton.y;
             }
             break;
 
@@ -3175,7 +3177,7 @@ static Window pickWindow() {
     XUngrabKey(display, escape, 0, root);
 
     if (target && target != root)
-        target = getClientWindow(target, xpos, ypos);
+        target = getClientWindow(target);
 
     return target;
 }
@@ -3380,10 +3382,11 @@ void IceSh::setBorderTitle(int border, int title) {
         }
 
         unsigned long resizeh = 0;
-        if (mwm.funcs() & MWM_FUNC_RESIZE)
+        if (mwm.funcs() & MWM_FUNC_RESIZE) {
             resizeh = MWM_DECOR_RESIZEH;
+        }
         else {
-            YProperty allow(root, ATOM_NET_WM_ALLOWED_ACTIONS, XA_ATOM, 32);
+            YProperty allow(*window, ATOM_NET_WM_ALLOWED_ACTIONS, XA_ATOM, 32);
             if (allow && allow.have<Atom>(ATOM_NET_WM_ACTION_RESIZE))
                 resizeh = MWM_DECOR_RESIZEH;
         }
