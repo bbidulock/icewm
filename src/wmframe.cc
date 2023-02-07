@@ -312,6 +312,7 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
     }
     performLayout();
     updateIcon();
+    updateAllowed();
     if (visible()) {
         client()->show();
         container()->show();
