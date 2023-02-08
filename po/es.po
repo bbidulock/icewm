@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-11-03 19:13+0000\n"
-"Last-Translator: Victor hck <correohck@gmail.com>\n"
-"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/es/>\n"
+"PO-Revision-Date: 2023-02-08 22:14+0000\n"
+"Last-Translator: Antonio Simón <antonio@trans-mission.com>\n"
+"Language-Team: Spanish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2184,11 +2184,11 @@ msgstr "_Icono en la bandeja"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "R_enombrar título"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
-msgstr "Ce_rrar"
+msgstr "_Cerrar"
 
 #: src/wmapp.cc:669 src/wmwinlist.cc:475
 msgid "_Kill Client"
@@ -2437,11 +2437,11 @@ msgstr "_Acerca de"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Renombrar"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Renombrar el título de la ventana"
 
 #: src/wmframe.cc:1841
 msgid ""
