@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-02-18 13:12+0000\n"
+"PO-Revision-Date: 2023-02-08 09:14+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/zh_TW/>\n"
@@ -346,7 +346,7 @@ msgstr "工作區："
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "索引標籤"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -2035,7 +2035,7 @@ msgstr "桌面(_E)"
 
 #: src/wmapp.cc:578 src/wmwinlist.cc:374
 msgid "Move to New _Window"
-msgstr ""
+msgstr "移到新視窗(_W)"
 
 #: src/wmapp.cc:588
 msgid "Left Half"
@@ -2159,7 +2159,7 @@ msgstr "系統列圖示(_I)"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "重新命名標題(_E)"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2405,11 +2405,11 @@ msgstr "關於(_A)"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "重新命名"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "重新命名視窗標題"
 
 #: src/wmframe.cc:1841
 msgid ""
