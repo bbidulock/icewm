@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-12-22 14:13+0000\n"
-"Last-Translator: Vincent Legoll <vincent.legoll@gmail.com>\n"
+"PO-Revision-Date: 2023-02-09 15:14+0000\n"
+"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
@@ -660,7 +660,7 @@ msgstr "Graphiques"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
 #: src/fdospecgen.h:169
 msgid "HamRadio"
-msgstr "Radio amateur - HamRadio"
+msgstr "Radio amateur"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:171
@@ -810,7 +810,7 @@ msgstr "Gestionnaire de paquets"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
 #: src/fdospecgen.h:229
 msgid "ParallelComputing"
-msgstr "Calculs en parallèle"
+msgstr "Informatique parallèle"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:231
@@ -855,7 +855,7 @@ msgstr "Publication"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:247
 msgid "RasterGraphics"
-msgstr "Mode matriciel Raster"
+msgstr "Infographie par quadrillage"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:249
@@ -1000,7 +1000,7 @@ msgstr "Utilitaire"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:305
 msgid "VectorGraphics"
-msgstr "Graphiques vectoriels adaptables SVG"
+msgstr "Graphisme vectoriel"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:307
@@ -1047,7 +1047,7 @@ msgstr "Alt+Gauche"
 
 #: src/icehelp.cc:1350
 msgid "Forward"
-msgstr "Devant"
+msgstr "Avancer"
 
 #: src/icehelp.cc:1350
 msgid "Alt+Right"
@@ -1339,7 +1339,7 @@ msgstr "Symboles nommés du domaine `%s' (intervalle numérique : %ld-%ld) :\n"
 #: src/icesh.cc:1691
 #, c-format
 msgid "Workspace out of range: %ld"
-msgstr "Bureau hors limites : %ld"
+msgstr "Espace de travail hors limites : %ld"
 
 #: src/icesh.cc:1712
 #, c-format
@@ -1410,8 +1410,8 @@ msgstr "Expression incorrecte : \"%s\""
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Impossible d'ouvrir le display %s. X doit être lancé et $DISPLAY doit être "
-"défini."
+"Impossible d'ouvrir l'affichage : %s. X doit être en cours d'exécution et $"
+"DISPLAY doit être défini."
 
 #: src/icesh.cc:3844
 #, c-format
@@ -1985,7 +1985,7 @@ msgstr "Langue :"
 
 #: src/wmabout.cc:56
 msgid "DoubleBuffer"
-msgstr "DoubleBuffer"
+msgstr "Double tampon"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
@@ -2003,7 +2003,7 @@ msgstr "IceWM - À propos"
 #: src/wmapp.cc:89
 msgid "A window manager is already running, use --replace to replace it"
 msgstr ""
-"Un gestionnaire de fenêtres est déjà en cours d'exécution, utilisez --"
+"Un gestionnaire de fenêtres est déjà en cours d'exécution. Utilisez --"
 "replace pour le remplacer"
 
 #: src/wmapp.cc:105
@@ -2207,7 +2207,7 @@ msgstr "Icône de barre de tâche"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "R_enommer le titre"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2224,7 +2224,8 @@ msgstr "_Liste des fenêtres"
 #
 #: src/wmapp.cc:711
 msgid "Another window manager already running, exiting..."
-msgstr "Un autre gestionnaire de fenêtre est déjà en cours. Fermeture ..."
+msgstr ""
+"Un autre gestionnaire de fenêtres est déjà en cours d'exécution. Fermeture..."
 
 #: src/wmapp.cc:786
 #, c-format
