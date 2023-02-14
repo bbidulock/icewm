@@ -988,6 +988,11 @@ on the current workspace.
 
     icesh -W 3 -c urxvt tabto myfunnyname
 
+Use the loop construct conditionally to wait for a certain window to
+appear.
+
+    icesh -t if -n Tooltip then list else delay 0.05 loop end
+
 =head2 ENVIRONMENT
 
 =over
