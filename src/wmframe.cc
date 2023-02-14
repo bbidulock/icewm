@@ -1048,19 +1048,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
         (strongPointerFocus ||
          (crossing.serial != YWindow::getLastEnterNotifySerial() &&
           crossing.serial != YWindow::getLastEnterNotifySerial() + 1))
-#if false
-        &&
-        (strongPointerFocus ||
-         fMouseFocusX != crossing.x_root ||
-         fMouseFocusY != crossing.y_root)
-#endif
        )
     {
-        //msg("xf: %d %d", fMouseFocusX, crossing.x_root, fMouseFocusY, crossing.y_root);
-
-//        fMouseFocusX = crossing.x_root;
-//        fMouseFocusY = crossing.y_root;
-
         if (!clickFocus && visible() && canFocusByMouse()) {
             if (!delayPointerFocus)
                 focus(false);
@@ -1080,9 +1069,6 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                focusRootWindow &&
                crossing.window == handle())
     {
-//        fMouseFocusX = crossing.x_root;
-//        fMouseFocusY = crossing.y_root;
-
         if (crossing.detail != NotifyInferior &&
             crossing.mode == NotifyNormal)
         {
@@ -1097,6 +1083,13 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                crossing.detail == NotifyNonlinearVirtual) {
         if (fDelayFocusTimer)
             fDelayFocusTimer->disableTimerListener(this);
+    } else if (crossing.type == EnterNotify &&
+               crossing.mode == NotifyNormal &&
+               crossing.detail == NotifyNonlinearVirtual) {
+        if (fDelayFocusTimer &&
+            fDelayFocusTimer->getTimerListener() == this &&
+            fDelayFocusTimer->isRunning() == false)
+            fDelayFocusTimer->setTimer(pointerFocusDelay, this, true);
     }
 }
 
