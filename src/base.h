@@ -94,6 +94,7 @@ public:
     operator char*() const { return tok; }
     char* token() const { return tok; }
     char* operator++();
+    bool operator==(const char* str) const;
 };
 
 /*** String Functions *********************************************************/
@@ -153,7 +154,6 @@ void show_backtrace(const int limit = 0);
 #define BUFNSIZE(x) x, sizeof(x)
 
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
-char const * strnxt(const char *str, const char *delim = " \t");
 const char* errno_string();
 const char *my_basename(const char *filename);
 

@@ -279,12 +279,6 @@ int strpcmp(char const * str, char const * pfx, char const * delim) {
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
 }
 
-char const * strnxt(const char * str, const char * delim) {
-    str+= strcspn(str, delim);
-    str+= strspn(str, delim);
-    return str;
-}
-
 #ifndef HAVE_MEMRCHR
 void* memrchr(const void* ptr, char chr, size_t num) {
     char* str = (char *) ptr;
@@ -303,6 +297,10 @@ tokens::tokens(char* data, const char* sep)
 
 char* tokens::operator++() {
     return tok = strtok_r(nullptr, sep, &save);
+}
+
+bool tokens::operator==(const char* str) const {
+    return strcmp(tok, str) == 0;
 }
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)

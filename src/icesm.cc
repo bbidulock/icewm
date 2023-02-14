@@ -240,6 +240,14 @@ public:
                         *ceq = 0;
                         setenv(trim(scratch), trim(ceq + 1), 1);
                     }
+                    else if (strncmp(scratch, "unset", 5) == 0) {
+                        tokens tok(scratch, " \t");
+                        if (tok == "unset") {
+                            while (++tok) {
+                                unsetenv(tok);
+                            }
+                        }
+                    }
                 }
             }
             fclose(ef);
