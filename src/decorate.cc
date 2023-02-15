@@ -252,9 +252,8 @@ void YFrameWindow::layoutShape() {
         fShapeMoreTabs = moreTabs();
 
         if (shapes.supported &&
-            (frameDecors() & fdBorder) &&
-            !isIconic() &&
-            !isFullscreen())
+            hasBorders() &&
+            !isIconic())
         {
             int const a(focused());
             int const t((frameDecors() & fdResize) ? 0 : 1);
