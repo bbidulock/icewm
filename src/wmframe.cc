@@ -1088,7 +1088,8 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
                crossing.detail == NotifyNonlinearVirtual) {
         if (fDelayFocusTimer &&
             fDelayFocusTimer->getTimerListener() == this &&
-            fDelayFocusTimer->isRunning() == false)
+            fDelayFocusTimer->isRunning() == false &&
+            delayPointerFocus && !clickFocus && !focused())
             fDelayFocusTimer->setTimer(pointerFocusDelay, this, true);
     }
 }
