@@ -1641,12 +1641,12 @@ bool YFrameClient::getWinTrayHint(int* tray_opt) {
 }
 
 void YFrameClient::setStateHint(int state) {
-    MSG(("set state 0x%8X, saved 0x%8X, win 0x%lx",
-          state, fWinStateHint, handle()));
-
     if (((fWinStateHint ^ state) & WIN_STATE_NET) == 0 || destroyed()) {
         return;
     } else {
+        MSG(("0x%07lx: set state 0x%8X, saved 0x%8X", handle(),
+              state & WIN_STATE_NET, fWinStateHint == InvalidFrameState ?
+              InvalidFrameState : fWinStateHint & WIN_STATE_NET));
         fWinStateHint = state;
     }
 

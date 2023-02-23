@@ -1571,8 +1571,11 @@ bool YFrameWindow::canRestore() const {
 
 void YFrameWindow::wmRestore() {
     if (canRestore()) {
+        bool unmapped = isUnmapped();
         wmapp->signalGuiEvent(geWindowRestore);
         setState(WinStateUnmapped | WinStateMaximizedBoth, 0);
+        if (unmapped)
+            maybeFocus();
     }
 }
 
@@ -1649,7 +1652,8 @@ void YFrameWindow::restoreHiddenTransients() {
 }
 
 void YFrameWindow::doMaximize(int flags) {
-    if (isUnmapped()) {
+    bool unmapped = isUnmapped();
+    if (unmapped) {
         makeMapped();
         xapp->sync();
     }
@@ -1660,6 +1664,8 @@ void YFrameWindow::doMaximize(int flags) {
         wmapp->signalGuiEvent(geWindowMax);
         setState(WinStateMaximizedBoth, flags);
     }
+    if (unmapped)
+        maybeFocus();
 }
 
 void YFrameWindow::wmMaximize() {
@@ -1678,12 +1684,13 @@ void YFrameWindow::wmRollup() {
     if (isRollup()) {
         wmapp->signalGuiEvent(geWindowRestore);
         makeMapped();
+        maybeFocus();
     } else {
         //if (!canRollup())
         //    return ;
         wmapp->signalGuiEvent(geWindowRollup);
         setState(WinStateUnmapped, WinStateRollup);
-        if (focused())
+        if (focused() && !clickFocus && !strongPointerFocus)
             manager->focusLastWindow();
     }
 }
@@ -1692,10 +1699,11 @@ void YFrameWindow::wmHide() {
     if (isHidden()) {
         wmapp->signalGuiEvent(geWindowRestore);
         makeMapped();
+        maybeFocus();
     } else {
         wmapp->signalGuiEvent(geWindowHide);
         setState(WinStateUnmapped, WinStateHidden);
-        if (focused())
+        if (focused() && !clickFocus && !strongPointerFocus)
             manager->focusLastWindow();
     }
 }
@@ -2064,6 +2072,21 @@ void YFrameWindow::wmShow() {
     limitOuterPosition();
     if (isUnmapped()) {
         makeMapped();
+        maybeFocus();
+    }
+}
+
+void YFrameWindow::maybeFocus() {
+    if (manager->netActiveWindow() == None &&
+        manager->focusLocked() == false &&
+        strongPointerFocus == false &&
+        clickFocus == false &&
+        visible())
+    {
+        bool fom = true;
+        updateFocusOnMap(fom);
+        if (fom)
+            focus();
     }
 }
 
