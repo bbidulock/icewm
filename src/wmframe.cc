@@ -1050,7 +1050,7 @@ void YFrameWindow::handleCrossing(const XCrossingEvent &crossing) {
           crossing.serial != YWindow::getLastEnterNotifySerial() + 1))
        )
     {
-        if (!clickFocus && visible() && canFocusByMouse()) {
+        if (!clickFocus && visible() && canFocus()) {
             if (!delayPointerFocus)
                 focus(false);
             else {
@@ -1315,10 +1315,10 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
             wmRaise();
         break;
     case actionDepth:
-        if (overlaps(bool(Below)) && canRaise()){
+        if (overlapped() && canRaise()) {
             wmRaise();
             manager->setFocus(this, true);
-        } else if (overlaps(bool(Above)) && canLower())
+        } else if (overlapping() && canLower())
             wmLower();
         break;
     case actionRollup:
@@ -1663,6 +1663,8 @@ void YFrameWindow::doMaximize(int flags) {
     } else {
         wmapp->signalGuiEvent(geWindowMax);
         setState(WinStateMaximizedBoth, flags);
+        if (container()->buttoned() == false && overlapped())
+            container()->grabButtons();
     }
     if (unmapped)
         maybeFocus();
@@ -1919,10 +1921,7 @@ void YFrameWindow::loseWinFocus() {
         } else {
             updateLayer();
         }
-        if (true || !clientMouseActions)
-            if (focusOnClickClient || raiseOnClickClient)
-                if (container())
-                    container()->grabButtons();
+        container()->grabButtons();
         if (isIconic())
             fMiniIcon->repaint();
         else {
@@ -1953,10 +1952,8 @@ void YFrameWindow::setWinFocus() {
         }
         updateTaskBar();
 
-        if (true || !clientMouseActions) {
-            if (!raiseOnClickClient || !canRaise() || !overlaps(bool(Below)))
-                container()->releaseButtons();
-        }
+        if (!raiseOnClickClient || !canRaise() || !overlapped())
+            container()->releaseButtons();
         if (taskBar) {
             taskBar->workspacesRepaint(getWorkspace());
         }
@@ -2842,10 +2839,6 @@ bool YFrameWindow::hasModal() {
 
 bool YFrameWindow::canFocus() {
     return !hasModal() && !avoidFocus();
-}
-
-bool YFrameWindow::canFocusByMouse() {
-    return canFocus();
 }
 
 bool YFrameWindow::avoidFocus() {

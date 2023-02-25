@@ -715,7 +715,8 @@ void show_backtrace(const int limit) {
             int lineCount = 0;
             while (fgets(line, linesize, fp)) {
                 ++lineCount;
-                if (strncmp(line, "?? ??:0", 7)) {
+                if (strncmp(line, "?? ??:0", 7) &&
+                    strncmp(line, "show_backtrace(", 15)) {
                     fputs(line, stderr);
                 }
             }

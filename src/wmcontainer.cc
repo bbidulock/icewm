@@ -40,7 +40,7 @@ void YClientContainer::handleButton(const XButtonEvent &button) {
         if (focusOnClickClient) {
             if (!getFrame()->isTypeDock()) {
                 doActivate = (getFrame() != manager->getFocus());
-                if (getFrame()->canFocusByMouse() && !getFrame()->focused())
+                if (getFrame()->canFocus() && !getFrame()->focused())
                     firstClick = true;
             }
         }

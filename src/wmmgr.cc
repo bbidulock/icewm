@@ -1148,19 +1148,13 @@ YFrameWindow *YWindowManager::top(int layer) const {
 }
 
 void YWindowManager::setTop(int layer, YFrameWindow *top) {
-    if (true || !clientMouseActions) // some programs are buggy
-        if (fLayers[layer]) {
-            if (raiseOnClickClient)
-                fLayers[layer].front()->container()->grabButtons();
-        }
     fLayers[layer].prepend(top);
     fLayeredUpdated = true;
-    if (true || !clientMouseActions) // some programs are buggy
-        if (fLayers[layer]) {
-            if (raiseOnClickClient &&
-                !(focusOnClickClient && !fLayers[layer].front()->focused()))
-                fLayers[layer].front()->container()->releaseButtons();
-        }
+    if (top->container()->buttoned() && top->focused())
+        top->container()->releaseButtons();
+    if (top->next() && top->next()->container()->buttoned() == false)
+        if (top->next()->overlapped())
+            top->next()->container()->grabButtons();
 }
 
 YFrameWindow *YWindowManager::bottom(int layer) const {
