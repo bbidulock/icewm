@@ -2076,8 +2076,7 @@ void YFrameWindow::wmShow() {
 void YFrameWindow::maybeFocus() {
     if (manager->netActiveWindow() == None &&
         manager->focusLocked() == false &&
-        strongPointerFocus == false &&
-        clickFocus == false &&
+        (clickFocus || !strongPointerFocus) &&
         visible())
     {
         bool fom = true;
@@ -2805,9 +2804,8 @@ bool YFrameWindow::isModal() {
         return true;
 
     MwmHints *mwmHints = client()->mwmHints();
-    if (mwmHints && (mwmHints->flags & MWM_HINTS_INPUT_MODE))
-        if (mwmHints->input_mode != MWM_INPUT_MODELESS)
-            return true;
+    if (mwmHints && mwmHints->inputModal())
+        return true;
 
     if (hasModal())
         return true;
