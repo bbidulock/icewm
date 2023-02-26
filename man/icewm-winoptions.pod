@@ -102,10 +102,10 @@ F<xterm.png>, a full path, or a prefix of a path without sizes or suffix.
 Specifies the default workspace for the window.  I<WORKSPACE> is the
 workspace number counting from zero (0).
 
-=item B<layer>: {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>} (default: 4)
+=item B<layer>: {I<LAYER>|I<NUMBER>} (default: Normal)
 
 Specifies the default layer for the window.  Layer can be one of the
-following strings or a number from zero (0) to fifteen (15):
+following names or a number from zero (0) to fifteen (15):
 
   Desktop     (0)  Desktop window.
   Below       (2)  Below the default layer.
@@ -113,7 +113,9 @@ following strings or a number from zero (0) to fifteen (15):
   OnTop       (6)  Above the default layer.
   Dock        (8)  Docked windows at edge of screen.
   AboveDock  (10)  Windows above the dock.
-  Menu       (12)  Windows above the dock.
+  Menu       (12)  The layer for menu's.
+  Fullscreen (14)  When fullscreen and focused.
+  AboveAll   (15)  Always above anything.
 
 =item B<geometry> I<geometry> (default: WM_SIZE_HINTS)
 

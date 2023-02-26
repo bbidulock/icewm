@@ -857,6 +857,8 @@ Named symbols of the domain I<Window layer> (numeric range: 0-15):
     Dock                   (8)
     AboveDock             (10)
     Menu                  (12)
+    Fullscreen            (14)
+    AboveAll              (15)
 
 These symbols are used with the I<LAYER> argument to the C<setLayer>
 action.

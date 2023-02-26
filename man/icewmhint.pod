@@ -122,24 +122,22 @@ pane, the tray pane and the system tray.
 Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
 1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
 
-=item B<layer> {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>}
-
-The layer is a similar concept to the layer specified by I<GNOME/WMH> and
-implied by I<NetWM/EWMH>.  It is in this case however specific to
-L<icewm(1)>.
+=item B<layer> {I<LAYER>|I<NUMBER>}
 
 This command option specifies the layer to be associated with a
 I<CLASS>B<.>I<INSTANCE>.  The default is the C<Normal> layer.  I<VALUE>
 is either a layer number or a symbolic layer name.  Symbolic
 layer names are:
 
-    Desktop    (0)  desktop window layer.
-    Below      (2)  below normal windows.
-    Normal     (4)  default window layer.
-    OnTop      (6)  above normal windows.
-    Dock       (8)  docks (panels and edge displays).
-    AboveDock (10)  above docks.
-    Menu      (12)  above everything else.
+    Desktop     (0)  Desktop window.
+    Below       (2)  Below the default layer.
+    Normal      (4)  Default layer for windows.
+    OnTop       (6)  Above the default layer.
+    Dock        (8)  Docked windows at edge of screen.
+    AboveDock  (10)  Windows above the dock.
+    Menu       (12)  The layer for menu's.
+    Fullscreen (14)  When fullscreen and focused.
+    AboveAll   (15)  Always above anything.
 
 =item B<tray> {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>}
 
