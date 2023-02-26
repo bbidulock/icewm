@@ -238,7 +238,7 @@ cfoption icewm_preferences[] = {
     OBV("ClickToFocus",                         &clickFocus,                    "Focus windows by clicking"),
     OBV("FocusOnAppRaise",                      &focusOnAppRaise,               "Focus windows when application requests to raise"),
     OBV("RequestFocusOnAppRaise",               &requestFocusOnAppRaise,        "Request focus (flashing in taskbar) when application requests raise"),
-    OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise windows when focused"),
+    OBV("RaiseOnFocus",                         &raiseOnFocus,                  "Raise window when it receives focus"),
     OBV("FocusOnClickClient",                   &focusOnClickClient,            "Focus window when client area clicked"),
     OBV("RaiseOnClickClient",                   &raiseOnClickClient,            "Raise window when client area clicked"),
     OBV("RaiseOnClickTitleBar",                 &raiseOnClickTitleBar,          "Raise window when title bar is clicked"),
