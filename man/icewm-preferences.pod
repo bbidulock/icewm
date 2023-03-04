@@ -189,7 +189,7 @@ Place new mini-icons from bottom to top.
 
 =item B<StrongPointerFocus>=0
 
-Always maintain focus under mouse window (makes some keyboard support
+Always maintain focus under mouse window. Makes some keyboard support
 non-functional or unreliable.
 
 =item B<OpaqueMove>=1
@@ -268,7 +268,7 @@ Send the clicks outside menus to target window.
 
 =item B<ClientWindowMouseActions>=1
 
-Allow mouse actions on client windows (buggy with some programs).
+Allow mouse actions on client windows. This is buggy with some programs.
 
 =item B<GrabRootWindow>=1
 
@@ -531,7 +531,7 @@ Show CPU frequency in CPU status tool tip.
 
 =item B<NetStatusShowOnlyRunning>=0
 
-Show network status only for connected devices, such as an active ethernet link
+Show network status only for connected devices, such as an active Ethernet link
 or associated wireless interface. If false, any network interface that has been
 brought up will be displayed.
 
@@ -831,7 +831,7 @@ Delay before tooltip window is displayed.
 
 =item B<ToolTipTime>=0  [0-60000]
 
-Time before tooltip window is hidden (0 means never.
+Time before tooltip window is hidden (0 means never).
 
 =item B<AutoHideDelay>=300  [0-5000]
 
@@ -1235,7 +1235,7 @@ Join title*T and title*B.
 Task bar clock/battery monitor uses nice pixmap LCD display (but then it
 doesn't display correctly in many languages anymore, e.g., for
 Japanese and Korean it works only when a real font is used and not
-the LCD pixmaps.
+the LCD pixmaps.)
 
 =item B<TaskBarGraphHeight>=20  [16-1000]
 
