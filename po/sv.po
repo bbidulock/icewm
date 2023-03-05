@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-08-12 09:13+0000\n"
+"PO-Revision-Date: 2023-03-05 16:14+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sv/>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Kunde inte öppna APM-enhet %s"
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Kan inte anropa ioctl på APM-enhet %s"
 
 #: src/aapm.cc:122
 #, c-format
@@ -345,7 +345,7 @@ msgstr "Arbetsyta: "
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "Flikar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -1481,6 +1481,13 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Felsökningsalternativ:\n"
+"  -v, --valgrind      Låter \"/usr/bin/valgrind\" köra icewm.\n"
+"                      Undersöker noggrant startandet av icewm.\n"
+"  -g, --catchsegv     Låter \"/usr/bin/catchsegv\" köra icewm.\n"
+"                      Ger en bakåtspårning om icewm får ett segmenteringsfel."
+"\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1938,7 +1945,7 @@ msgstr "Dubbelbuffert"
 
 #: src/wmabout.cc:57
 msgid "AlphaBlending"
-msgstr ""
+msgstr "Alfablending"
 
 #: src/wmabout.cc:58
 msgid "Renderer:"
@@ -2028,7 +2035,7 @@ msgstr "Skriv_bord"
 
 #: src/wmapp.cc:578 src/wmwinlist.cc:374
 msgid "Move to New _Window"
-msgstr ""
+msgstr "Flytta till nytt _fönster"
 
 #: src/wmapp.cc:588
 msgid "Left Half"
@@ -2132,7 +2139,7 @@ msgstr "_Lager"
 
 #: src/wmapp.cc:645 src/wmwinlist.cc:453
 msgid "Tile"
-msgstr ""
+msgstr "Kakla"
 
 #: src/wmapp.cc:649 src/wmwinlist.cc:455
 msgid "Move _To"
@@ -2152,7 +2159,7 @@ msgstr "_Programpanelsikon"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "B_yt namn på titel"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2400,11 +2407,11 @@ msgstr "_Om"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Byt namn"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Byt namn på fönster titel"
 
 #: src/wmframe.cc:1841
 msgid ""
@@ -2479,7 +2486,7 @@ msgstr ""
 #: src/wmmenu.cc:498
 #, c-format
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "'%s' tog en timeout!"
 
 #: src/wmmenu.cc:509
 #, c-format
