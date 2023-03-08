@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2021-12-30 22:12+0000\n"
-"Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
+"PO-Revision-Date: 2023-03-09 02:14+0000\n"
+"Last-Translator: Moo oo <nazaq@protonmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/lt/>\n"
 "Language: lt\n"
@@ -21,19 +21,19 @@ msgstr ""
 "X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Nepavyksta rasti paveikslėlio %s"
+msgstr "Nepavyksta atverti APM įrenginio %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Nepavyko paleisti ioctl, kuri skirta APM įrenginiui %s"
 
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM įrenginys %s (%d) naudoja nežinomą formatą."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
