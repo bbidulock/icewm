@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2023-03-05 16:14+0000\n"
+"PO-Revision-Date: 2023-03-08 16:14+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
@@ -2530,7 +2530,7 @@ msgstr "_Explicit fokus"
 
 #: src/wmprog.cc:337
 msgid "_Sloppy mouse focus"
-msgstr "_Slarvig musfokus"
+msgstr "_Slarvigt musfokus"
 
 #: src/wmprog.cc:338
 msgid "S_trict mouse focus"
@@ -2538,7 +2538,7 @@ msgstr "S_trikt musfokus"
 
 #: src/wmprog.cc:339
 msgid "_Quiet sloppy focus"
-msgstr "_Lugn slarvig fokus"
+msgstr "_Lugnt slarvigt fokus"
 
 #: src/wmprog.cc:340
 msgid "Custo_m"
@@ -2546,7 +2546,7 @@ msgstr "Ege_n"
 
 #: src/wmprog.cc:362
 msgid "_Manual"
-msgstr "_Manuell"
+msgstr "_Manual"
 
 #: src/wmprog.cc:363
 msgid "_Icewm(1)"
