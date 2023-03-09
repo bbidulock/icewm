@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2023-03-09 02:14+0000\n"
+"PO-Revision-Date: 2023-03-09 14:14+0000\n"
 "Last-Translator: Moo oo <nazaq@protonmail.com>\n"
 "Language-Team: Lithuanian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/lt/>\n"
@@ -36,16 +36,18 @@ msgid "Unknown format used by APM device %s (%d)."
 msgstr "APM įrenginys %s (%d) naudoja nežinomą formatą."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#, fuzzy
 msgid " - Power"
 msgstr " - Energija"
 
 #: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#, fuzzy
 msgid "P"
 msgstr "E"
 
 #: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
 msgid " - Charging"
-msgstr " - Kraunu"
+msgstr " - Įkrovimas"
 
 #: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
 msgid "C"
@@ -53,10 +55,10 @@ msgstr "K"
 
 #: src/aapm.cc:407
 msgid " - Full"
-msgstr " - Pakrauta"
+msgstr " - Įkrauta"
 
 #: src/aapm.cc:944
-#, c-format
+#, c-format, fuzzy
 msgid "power:\t%s"
 msgstr "maitinimas:\t%s"
 
@@ -70,12 +72,12 @@ msgstr "Data"
 
 #: src/aclock.cc:199 src/themes.cc:80
 msgid "Default"
-msgstr "Numatyta"
+msgstr "Numatytasis"
 
 #: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
-msgstr "_Uždrausti"
+msgstr "_Išjungti"
 
 #: src/aclock.cc:201
 msgid "_UTC"
@@ -90,19 +92,16 @@ msgstr "°C"
 #: src/acpustatus.cc:552
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "%s procesoriaus apkrovimas: %3.2f %3.2f %3.2f, %u"
+msgstr "Procesoriaus %s apkrova: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:558
-#, fuzzy, c-format
-#| msgid ""
-#| "\n"
-#| "Ram (free): %5.2f (%.2f) M"
+#, c-format
 msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (laisva): %5.2f (%.2f) M"
+"OA (laisva): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:563
 #, c-format
@@ -111,7 +110,7 @@ msgid ""
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Swap (laisva): %.3f (%.3f) G"
+"Mainų sritis (laisva): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -120,7 +119,7 @@ msgid ""
 "ACPI Temp: "
 msgstr ""
 "\n"
-"ACPI temp: "
+"ACPI temperatūra: "
 
 #: src/acpustatus.cc:592 src/acpustatus.cc:630
 #, c-format
@@ -129,7 +128,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"CPU dažnis: %.3fGHz"
+"Procesoriaus dažnis: %.3fGHz"
 
 #: src/acpustatus.cc:607 src/acpustatus.cc:907
 msgid "CPU"
@@ -146,12 +145,12 @@ msgid ""
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
 "\n"
-"Ram (laisva): %5.3f (%.3f) G"
+"OA (naudotojas): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:908
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "Procesorius%d"
 
 #: src/acpustatus.cc:914
 msgid "_Combine"
@@ -164,12 +163,12 @@ msgstr "_Atskirti"
 #: src/akeyboard.cc:83 src/icesm.cc:466 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s išėjo su būsena %d."
 
 #: src/akeyboard.cc:86 src/icesm.cc:472 src/icesm.cc:626
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s buvo nutraukta signalo %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
@@ -194,7 +193,7 @@ msgstr "Klaviatūra"
 #: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Netinkamas pašto protokolas: „%s“"
+msgstr "Netinkamas pašto dėžutės protokolas: „%s“"
 
 #: src/amailbox.cc:66
 #, c-format
@@ -204,32 +203,32 @@ msgstr "Neteisingas kelias iki pašto dėžutės: „%s“"
 #: src/amailbox.cc:140
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "Nepavyko atlikti DNS vardų paieškos, skirtos %s"
 
 #: src/amailbox.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Neteisingas kelias iki pašto dėžutės: „%s“"
+msgstr "Neteisingas pašto dėžutės prievadas: „%s“"
 
 #: src/amailbox.cc:314
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Negaliu prisijungti prie YIFF serverio: %s"
+msgstr "Nepavyko prisijungti prie %s: %s"
 
 #: src/amailbox.cc:334
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Nepavyko įrašyti istorijos bylos %s: %s"
+msgstr "Nepavyko rasti komandos %s"
 
 #: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Nepavyko įrašyti istorijos bylos %s: %s"
+msgstr "Nepavyko įvykdyti %s"
 
 #: src/amailbox.cc:447
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Nepavyko rašyti į lizdą: %s"
 
 #: src/amailbox.cc:694
 #, c-format
@@ -238,21 +237,21 @@ msgstr "Naudojama pašto dėžutė: „%s“\n"
 
 #: src/amailbox.cc:801
 msgid "Suspended"
-msgstr ""
+msgstr "Pristabdyta"
 
 #: src/amailbox.cc:805
 msgid "Error checking mailbox."
 msgstr "Klaida tikrinant pašto dėžutę."
 
 #: src/amailbox.cc:812
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld laiškas."
+msgstr "Laiškų: %ld; Neskaitytų: %ld."
 
 #: src/amailbox.cc:813
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld laiškai."
+msgstr "Laiškų: %ld; Neskaitytų: %ld."
 
 #: src/amailbox.cc:819
 #, c-format
@@ -262,60 +261,59 @@ msgstr "%ld laiškas."
 #: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages."
-msgstr "%ld laiškai."
+msgstr "Laiškų: %ld."
 
 #: src/amailbox.cc:961
 msgid "MAIL"
-msgstr ""
+msgstr "PAŠTAS"
 
 #: src/amailbox.cc:963
 msgid "_Check"
-msgstr ""
+msgstr "_Tikrinti"
 
 #: src/amailbox.cc:965
 msgid "_Suspend"
-msgstr ""
+msgstr "Pri_stabdyti"
 
 #: src/amemstatus.cc:144
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:148
-#, fuzzy
 msgid "MB"
-msgstr "P"
+msgstr "MB"
 
 #: src/amemstatus.cc:152
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:156
 msgid "bytes"
-msgstr ""
+msgstr "baitų"
 
 #: src/amemstatus.cc:176
 msgid "Memory Total: "
-msgstr ""
+msgstr "Iš viso atminties: "
 
 #: src/amemstatus.cc:177
 msgid "Free: "
-msgstr ""
+msgstr "Laisva: "
 
 #: src/amemstatus.cc:178
 msgid "Cached: "
-msgstr ""
+msgstr "Podėlyje: "
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
-msgstr ""
+msgstr "Buferiai: "
 
 #: src/amemstatus.cc:180
 msgid "User: "
-msgstr ""
+msgstr "Naudotojas: "
 
 #: src/amemstatus.cc:262
 msgid "MEM"
-msgstr ""
+msgstr "ATMINTIS"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -327,51 +325,45 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Sąsaja %s:\n"
-"  Esamas greitis (į/iš):\t%li %s/%li %s\n"
-"  Vidutinis greitis (į/iš):\t%lli %s/%lli %s\n"
+"  Dabartinis greitis (į/iš):\t%li %s/%li %s\n"
+"  Dabartinis vidurkis (į/iš):\t%lli %s/%lli %s\n"
 "  Persiųsta (į/iš):\t%lli %s/%lli %s\n"
-"  Praėjęs laikas:\t%ld:%02ld:%02ld%s%s"
+"  Laikas tinkle:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
 msgid "disconnected"
-msgstr ""
+msgstr "atsijungta"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Atvynioti"
+msgstr "neveikia"
 
 #: src/apppstatus.cc:705
 msgid "NET"
-msgstr ""
+msgstr "TINKLAS"
 
 #: src/aworkspaces.cc:612 src/wmstatus.cc:208
 msgid "Workspace: "
-msgstr "Darbalaukis: "
+msgstr "Darbo sritis: "
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "Kortelės"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
-#, fuzzy
-#| msgid "Graphics"
 msgid "2DGraphics"
-msgstr "Grafika"
+msgstr "2D grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:45
-#, fuzzy
-#| msgid "Graphics"
 msgid "3DGraphics"
-msgstr "Grafika"
+msgstr "3D grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
 #: src/fdospecgen.h:47 src/fdospecgen.h:49
 msgid "Accessibility"
-msgstr ""
+msgstr "Prieinamumas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:51
@@ -380,123 +372,113 @@ msgstr "Reikmenys"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:53
-#, fuzzy
-#| msgid "Same Game"
 msgid "ActionGame"
-msgstr "Tas pats žaidimas"
+msgstr "Veiksmo žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
 msgid "Adult"
-msgstr ""
+msgstr "Suaugusiems"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
-#, fuzzy
-#| msgid "Same Game"
 msgid "AdventureGame"
-msgstr "Tas pats žaidimas"
+msgstr "Nuotykių žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:59
 msgid "Amusement"
-msgstr ""
+msgstr "Linksminimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
-#, fuzzy
-#| msgid "Same Game"
 msgid "ArcadeGame"
-msgstr "Tas pats žaidimas"
+msgstr "Arkados žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
 msgid "Archiving"
-msgstr ""
+msgstr "Archyvavimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:65
 msgid "Art"
-msgstr ""
+msgstr "Menas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:67
 msgid "ArtificialIntelligence"
-msgstr ""
+msgstr "Dirbtinis intelektas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:69
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:71
 msgid "Audio"
-msgstr ""
+msgstr "Garsas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:73
 msgid "AudioVideo"
-msgstr ""
+msgstr "Garsas ir vaizdas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:75
 msgid "AudioVideoEditing"
-msgstr ""
+msgstr "Garso ir vaizdo montavimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:77
 msgid "Biology"
-msgstr ""
+msgstr "Biologija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:79
 msgid "BlocksGame"
-msgstr ""
+msgstr "Blokų žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:81
-#, fuzzy
-#| msgid "Games"
 msgid "BoardGame"
-msgstr "Žaidimai"
+msgstr "Stalo žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:83
 msgid "Building"
-msgstr ""
+msgstr "Dėliojimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:85
 msgid "Calculator"
-msgstr ""
+msgstr "Skaičiuotuvas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:87
 msgid "Calendar"
-msgstr ""
+msgstr "Kalendorius"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:89
-#, fuzzy
-#| msgid "Games"
 msgid "CardGame"
-msgstr "Žaidimai"
+msgstr "Kortų žaidimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:91
 msgid "Chart"
-msgstr ""
+msgstr "Diagrama"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:93
 msgid "Chat"
-msgstr ""
+msgstr "Pokalbis"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:95
 msgid "Chemistry"
-msgstr ""
+msgstr "Chemija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:97
@@ -506,17 +488,17 @@ msgstr "Laikrodis"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
 #: src/fdospecgen.h:99
 msgid "Compression"
-msgstr ""
+msgstr "Glaudinimas"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:101
 msgid "ComputerScience"
-msgstr ""
+msgstr "Informatika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:103
 msgid "Construction"
-msgstr ""
+msgstr "Statybos"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:105
