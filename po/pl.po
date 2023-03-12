@@ -6,23 +6,22 @@ msgstr ""
 "Project-Id-Version: 1.2.15\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2019-02-07 06:32+0000\n"
-"Last-Translator: Ewelina Michalowska <ewelina.michalowska@stgambit.com>\n"
-"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/pl/>\n"
+"PO-Revision-Date: 2023-03-12 23:14+0000\n"
+"Last-Translator: neome <neome@posteo.me>\n"
+"Language-Team: Polish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 3.3\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:66
-#, fuzzy, c-format
-#| msgid "Could not open OSS device %s"
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Nie udało się otworzyć urządzenia OS %s"
+msgstr "Nie udało się otworzyć urządzenia APM %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
@@ -32,7 +31,7 @@ msgstr ""
 #: src/aapm.cc:122
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "Nieznany format używany przez urządzenie APM %s (%d)."
 
 #: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
 msgid " - Power"
@@ -169,25 +168,24 @@ msgstr "Działanie programu %s zostało przerwane przez sygnał %d."
 
 #: src/akeyboard.cc:98
 msgid "rules:"
-msgstr ""
+msgstr "zasady:"
 
 #: src/akeyboard.cc:99
+#, fuzzy
 msgid "model:"
-msgstr ""
+msgstr "model:"
 
 #: src/akeyboard.cc:100
 msgid "layout:"
-msgstr ""
+msgstr "układ:"
 
 #: src/akeyboard.cc:101
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Nieprawidłowa opcja: %s"
+msgstr "opcje:"
 
 #: src/akeyboard.cc:151
 msgid "Keyboard"
-msgstr ""
+msgstr "Klawiatura"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -330,16 +328,14 @@ msgstr ""
 "  Czas połączenia:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "oczekiwano nazwy ikony"
+msgstr "rozłączono"
 
 #: src/apppstatus.cc:284
 #, fuzzy
 #| msgid "Rolldown"
 msgid "down"
-msgstr "Zwiń"
+msgstr "w dół"
 
 #: src/apppstatus.cc:705
 msgid "NET"
@@ -350,8 +346,9 @@ msgid "Workspace: "
 msgstr "Obszar roboczy: "
 
 #: src/decorate.cc:132
+#, fuzzy
 msgid "Tabs"
-msgstr ""
+msgstr "Karty"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
@@ -1077,37 +1074,32 @@ msgstr "Indeks"
 
 #: src/icehelp.cc:1359
 msgid "Find..."
-msgstr ""
+msgstr "Znajdź..."
 
 #: src/icehelp.cc:1359
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+F"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1360
 msgid "Find next"
-msgstr ""
+msgstr "Znajdź następny"
 
 #: src/icehelp.cc:1360
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1362
-#, fuzzy
-#| msgid "WebBrowser"
 msgid "Open in Browser"
-msgstr "Przeglądarka internetowa"
+msgstr "Otwórz w przeglądarce"
 
 #: src/icehelp.cc:1362
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1364
+#, fuzzy
 msgid "Reload"
-msgstr ""
+msgstr "Przeładuj"
 
 #: src/icehelp.cc:1364 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1126,10 +1118,8 @@ msgid "Icewm(1)"
 msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1370
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1372
 msgid "Icewmbg(1)"
@@ -1148,10 +1138,8 @@ msgid "Manual"
 msgstr "Podręcznik"
 
 #: src/icehelp.cc:1378
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1380
 msgid "Support"
@@ -1344,7 +1332,7 @@ msgstr "To samo"
 
 #: src/icesh.cc:73
 msgid "For help please consult the man page icesh(1).\n"
-msgstr ""
+msgstr "Aby uzyskać pomoc, odwiedź stronę podręcznika icesh (1).\n"
 
 #: src/icesh.cc:1622
 #, c-format
@@ -1370,26 +1358,21 @@ msgid "IceWM tray option"
 msgstr "Opcje zasobnika IceWM"
 
 #: src/icesh.cc:2127
+#, fuzzy
 msgid "Gravity symbols"
-msgstr ""
+msgstr "Symbole grawitacyjne"
 
 #: src/icesh.cc:2128
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif functions"
-msgstr "Zapisz modyfikacje"
+msgstr "Funkcje Motif"
 
 #: src/icesh.cc:2129
-#, fuzzy
-#| msgid "Save Modifications"
 msgid "Motif decorations"
-msgstr "Zapisz modyfikacje"
+msgstr "Dekoracje Motif"
 
 #: src/icesh.cc:2130
-#, fuzzy
-#| msgid "GNOME window state"
 msgid "EWMH window state"
-msgstr "Stan okna GNOME"
+msgstr "Stan okna EWMH"
 
 #: src/icesh.cc:2212 src/icesh.cc:2285
 #, c-format
@@ -1397,27 +1380,24 @@ msgid "workspace #%d: `%s'\n"
 msgstr "obszar roboczy #%d: \"%s\"\n"
 
 #: src/icesh.cc:2536 src/icesh.cc:4119 src/icesh.cc:4617
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid state: `%s'."
-msgstr "Nieprawidłowy argument: \"%s\"."
+msgstr "Nieprawidłowy stan: \"%s\"."
 
 #: src/icesh.cc:3404
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr ""
+msgstr "Nie można uzyskać geometrii okna 0x%lx"
 
 #: src/icesh.cc:3429
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid Xinerama: `%s'."
-msgstr "Nieprawidłowy argument: \"%s\"."
+msgstr "Nieprawidłowy Xinerama: `%s'."
 
 #: src/icesh.cc:3692 src/icesh.cc:3742 src/icesh.cc:4931
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid argument: `%s'"
-msgstr "Nieprawidłowy argument: \"%s\"."
+msgstr "Nieprawidłowy argument: `%s'"
 
 #: src/icesh.cc:3708
 #, c-format
@@ -1438,14 +1418,13 @@ msgstr ""
 "ustawiona zmienna $DISPLAY."
 
 #: src/icesh.cc:3844
-#, fuzzy, c-format
-#| msgid "Unexepected menu keyword: '%s'"
+#, c-format
 msgid "Unexpected: `%s'."
-msgstr "Nieoczekiwane słowo kluczowe menu: %s"
+msgstr "Nieoczekiwane: `%s'."
 
 #: src/icesh.cc:3873
 msgid "No windows found."
-msgstr ""
+msgstr "Nie znaleziono okien."
 
 #: src/icesh.cc:3889
 msgid "No actions specified."
@@ -1457,16 +1436,14 @@ msgid "Invalid window identifier: `%s'"
 msgstr "Nieprawidłowy identyfikator okna: \"%s\""
 
 #: src/icesh.cc:4053
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid PID: `%s'"
-msgstr "Nieprawidłowy argument: \"%s\"."
+msgstr "Nieprawidłowy PID: `%s'"
 
 #: src/icesh.cc:4089
-#, fuzzy, c-format
-#| msgid "Invalid argument: `%s'."
+#, c-format
 msgid "Invalid layer: `%s'."
-msgstr "Nieprawidłowy argument: \"%s\"."
+msgstr "Nieprawidłowa warstwa: `%s'."
 
 #: src/icesh.cc:5049
 #, c-format
@@ -1479,17 +1456,6 @@ msgid "Socket error: %d"
 msgstr "Błąd gniazdka: %d"
 
 #: src/icesm.cc:69
-#, fuzzy
-#| msgid ""
-#| "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-#| "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-#| "\n"
-#| "  -d, --display=NAME  Use NAME to connect to the X server.\n"
-#| "  --sync              Synchronize communication with X11 server.\n"
-#| "\n"
-#| "  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-#| "  -n, --notray        Do not start icewmtray.\n"
-#| "  -s, --sound         Also start icesound.\n"
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -1505,19 +1471,22 @@ msgid ""
 "  -n, --notray        Do not start icewmtray.\n"
 "  -s, --sound         Also start icesound.\n"
 msgstr ""
-"  -c, --config=PLIK   Umożliwienie menedżerowi IceWM wczytania preferencji z "
-"PLIKU.\n"
-"  -t, --theme=PLIK    Umożliwienie menedżerowi IceWM wczytania motywu z "
-"PLIKU.\n"
+"  -c, --config=PLIK   Pozwól IceWM wczytać preferencje z PLIKU.\n"
+"  -t, --theme=PLIK    Pozwól IceWM wczytać motyw z PLIKU.\n"
 "\n"
-"  -d, --display=NAZWA  NAZWA używana przy łączeniu z serwerem X.\n"
-"  --sync              Synchronizacja komunikacji z serwerem X11.\n"
+"  -d, --display=NAZWA  Użyj NAZWY aby połączyć się z serwerem X.\n"
+"  -a, --alpha         Użyj 32-bitowej wizualizacji dla przezroczystości.\n"
+"  --sync              Synchronizuj komunikację z serwerem X11.\n"
 "\n"
-"  -i, --icewm=PLIK    Użycie PLIKU jako menedżera okien IceWM.\n"
-"  -n, --notray        Wyłączenie uruchamiania programu icewmtray.\n"
-"  -s, --sound         Uruchomienie programu icesound.\n"
+"  -i, --icewm=PLIK    Użyj PLIKU jako menedżera okien IceWM.\n"
+"  -o, --output=PLIK   Przekieruj wszystkie dane wyjściowe do PLIKU.\n"
+"\n"
+"  -b, --nobg          Nie uruchamiaj icewmbg.\n"
+"  -n, --notray        Nie uruchamiaj icewmtray.\n"
+"  -s, --sound         Uruchom również icesound.\n"
 
 #: src/icesm.cc:85
+#, fuzzy
 msgid ""
 "\n"
 "Debugging options:\n"
@@ -1526,6 +1495,12 @@ msgid ""
 "  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
 "                      Gives a backtrace if icewm segfaults.\n"
 msgstr ""
+"\n"
+"Opcje debugowania:\n"
+"  -v, --valgrind      Pozwól \"/usr/bin/valgrind\" uruchomić icewm.\n"
+"                      Dokładnie bada uruchomienie icewm.\n"
+"  -g, --catchsegv     Pozwól \"/usr/bin/catchsegv\" uruchomić icewm.\n"
+"                      Zwraca backtrace jeśli icewm ulegnie awarii.\n"
 
 #: src/icesm.cc:188
 #, c-format
@@ -1533,19 +1508,11 @@ msgid "Unknown option '%s'"
 msgstr "Nieznana opcja: %s"
 
 #: src/icesm.cc:460 src/icesm.cc:620
-#, fuzzy, c-format
-#| msgid "Restart"
+#, c-format
 msgid "restart %s."
-msgstr "Zrestartuj"
+msgstr "uruchom ponownie %s."
 
 #: src/icesm.cc:511
-#, fuzzy
-#| msgid ""
-#| " IceWM crashed for the second time in 10 seconds. \n"
-#| " Do you wish to:\n"
-#| "\n"
-#| "\t1: Restart IceWM?\n"
-#| "\t2: Abort this session?\n"
 msgid ""
 " IceWM crashed for the second time in 10 seconds. \n"
 " Do you wish to:\n"
@@ -1559,6 +1526,7 @@ msgstr ""
 "\n"
 "\t1: Ponownie uruchomić IceWM?\n"
 "\t2: Anulować tę sesję?\n"
+"\t3. Uruchomić terminal?\n"
 
 #: src/icesm.cc:517
 msgid "IceWM crash response"
@@ -1632,63 +1600,7 @@ msgid "Unrecognized argument: %s\n"
 msgstr "Nierozpoznany argument: %s\n"
 
 #: src/icesound.cc:688
-#, fuzzy, c-format
-#| msgid ""
-#| "Usage: %s [OPTION]...\n"
-#| "\n"
-#| "Plays audio files on GUI events raised by IceWM.\n"
-#| "The currently configured sound interfaces are: %s.\n"
-#| "Icesound will choose the first of these which is usable.\n"
-#| "\n"
-#| "Options:\n"
-#| "\n"
-#| " -d, --display=DISPLAY   X11 display used by IceWM (default: $DISPLAY).\n"
-#| "\n"
-#| " -s, --sample-dir=DIR    Specifies a directory with sound files.\n"
-#| "                         Default is $HOME/.config/icewm/sounds.\n"
-#| "\n"
-#| " -i, --interface=LIST    Specifies audio output interfaces. One or more "
-#| "of:\n"
-#| "                         %s separated by commas.\n"
-#| "\n"
-#| " -D, --device=DEVICE     Backwards compatibility only: the default "
-#| "device. \n"
-#| "                         Please prefer one of the -A/-O/-S options.\n"
-#| "\n"
-#| " -O, --oss=DEVICE        Specifies the OSS device (default: \"%s\").\n"
-#| "\n"
-#| " -A, --alsa=DEVICE       Specifies the ALSA device (default: \"%s\").\n"
-#| "\n"
-#| " -S, --server=ADDR:PORT  Specifies the ESD server address and port "
-#| "number.\n"
-#| "                         For ESD the default is \"localhost:16001\".\n"
-#| "\n"
-#| " -z, --snooze=millisecs  Specifies the snooze interval between sound "
-#| "events\n"
-#| "                         in milliseconds. Default is 500 milliseconds.\n"
-#| "\n"
-#| " -p, --play=sound        Plays the given sound (name or number) and "
-#| "exits.\n"
-#| "\n"
-#| " -l, --list-files        Lists the available sound file paths and exits.\n"
-#| "\n"
-#| "     --list-sounds       Lists the supported sound filenames and exits.\n"
-#| "\n"
-#| "     --list-interfaces   Lists the supported audio interfaces and exits.\n"
-#| "\n"
-#| " -v, --verbose           Be verbose and print out each sound event.\n"
-#| "\n"
-#| " -V, --version           Prints version information and exits.\n"
-#| "\n"
-#| " -h, --help              Prints this help screen and exits.\n"
-#| "\n"
-#| "Return values:\n"
-#| "\n"
-#| "  0    Success.\n"
-#| "  1    General error.\n"
-#| "  2    Command line error.\n"
-#| "  3    Subsystems error (ie cannot connect to server).\n"
-#| "\n"
+#, c-format
 msgid ""
 "Usage: %s [OPTION]...\n"
 "\n"
@@ -1763,10 +1675,6 @@ msgstr ""
 " -O, --oss=URZĄDZENIE        Określa urządzenie OSS (domyślnie: %s).↵ \n"
 "↵\n"
 "  -A, --alsa=URZĄDZENIE       Określa urządzenie ALSA (domyślnie: %s).↵\n"
-"↵\n"
-" -S, --server=ADRES:PORT        Określa adres i numer portu serwera ESD.↵\n"
-"                              Ustawienie domyślne w przypadku serwera ESD: "
-"localhost:16001.↵\n"
 "↵\n"
 " -z, --snooze=milisekundy  Określa interwał przerwy między zdarzeniami "
 "dźwiękowymi↵\n"
@@ -2164,39 +2072,39 @@ msgstr ""
 
 #: src/wmapp.cc:588
 msgid "Left Half"
-msgstr ""
+msgstr "Lewa Połowa"
 
 #: src/wmapp.cc:589
 msgid "Right Half"
-msgstr ""
+msgstr "Prawa Połowa"
 
 #: src/wmapp.cc:590
 msgid "Top Half"
-msgstr ""
+msgstr "Górna Połowa"
 
 #: src/wmapp.cc:591
 msgid "Bottom Half"
-msgstr ""
+msgstr "Dolna Połowa"
 
 #: src/wmapp.cc:593
 msgid "Top Left"
-msgstr ""
+msgstr "Lewy Górny"
 
 #: src/wmapp.cc:594
 msgid "Top Right"
-msgstr ""
+msgstr "Prawy Górny"
 
 #: src/wmapp.cc:595
 msgid "Bottom Left"
-msgstr ""
+msgstr "Lewy Dolny"
 
 #: src/wmapp.cc:596
 msgid "Bottom Right"
-msgstr ""
+msgstr "Prawy Dolny"
 
 #: src/wmapp.cc:597
 msgid "Center"
-msgstr ""
+msgstr "Centrum"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:599 src/wmtaskbar.cc:217 src/wmwinlist.cc:461
@@ -2263,8 +2171,9 @@ msgid "La_yer"
 msgstr "Warstwa"
 
 #: src/wmapp.cc:645 src/wmwinlist.cc:453
+#, fuzzy
 msgid "Tile"
-msgstr ""
+msgstr "Płytka"
 
 #: src/wmapp.cc:649 src/wmwinlist.cc:455
 msgid "Move _To"
@@ -2284,7 +2193,7 @@ msgstr "Ikona zasobnika"
 
 #: src/wmapp.cc:662 src/wmwinlist.cc:458
 msgid "R_ename title"
-msgstr ""
+msgstr "Zmi_eń tytuł"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:473 src/wmwinlist.cc:481
 msgid "_Close"
@@ -2361,10 +2270,13 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"  -c, --config=PLIK   Wczytanie preferencji z PLIKU.\n"
-"  -t, --theme=PLIK    Wczytanie motywu z PLIKU.\n"
-"  --postpreferences   Wyświetlenie preferencji po zakończeniu "
-"przetwarzania.\n"
+"  -a, --alpha         Użyj 32-bitowej wizualizacji dla przezroczystości.\n"
+"  -c, --config=PLIK   Wczytaj preferencje z PLIKU.\n"
+"  -t, --theme=PLIK    Wczytaj motyw z PLIKU.\n"
+"  -s, --splash=OBRAZ  Pokaż OBRAZ podczas uruchamiania.\n"
+"  -p, --postpreferences  Wypisz preferencje po zakończeniu przetwarzania.\n"
+"  --rewrite-preferences  Zaktualizuj istniejący plik preferencji.\n"
+"  --trace=conf,icon   Śledź ścieżki używane do ładowania konfiguracji.\n"
 
 #: src/wmapp.cc:1581
 #, c-format
@@ -2482,6 +2394,8 @@ msgid ""
 "Client %s with PID %ld fails to respond.\n"
 "Do you wish to terminate this client?\n"
 msgstr ""
+"Klient %s z PID %ld nie odpowiada.\n"
+"Czy chcesz zamknąć tego klienta?\n"
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
 #, c-format
@@ -2533,11 +2447,11 @@ msgstr "Inform_acje"
 
 #: src/wmframe.cc:1376
 msgid "Rename"
-msgstr ""
+msgstr "Zmień nazwę"
 
 #: src/wmframe.cc:1377
 msgid "Rename the window title"
-msgstr ""
+msgstr "Zmień nazwę tytułu okna"
 
 #: src/wmframe.cc:1841
 msgid ""
@@ -2571,10 +2485,9 @@ msgid "Error at %s '%s'"
 msgstr "Błąd w %s %s"
 
 #: src/wmmenu.cc:222
-#, fuzzy, c-format
-#| msgid "Unknown keyword '%s'"
+#, c-format
 msgid "Unexepected menu keyword: '%s'"
-msgstr "Nieznane słowo kluczowe: %s"
+msgstr "Nieoczekiwane słowo kluczowe menu: '%s'"
 
 #: src/wmmenu.cc:276
 #, c-format
@@ -2582,20 +2495,18 @@ msgid "Error at menuprog '%s'"
 msgstr "Błąd w menuprog %s"
 
 #: src/wmmenu.cc:320
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at menuprogreload: '%s'"
-msgstr "Błąd w menuprog %s"
+msgstr "Błąd w menuprogreload: '%s'"
 
 #: src/wmmenu.cc:347
 msgid "Missing filename argument to include statement"
 msgstr "Brak argumentu filename w celu uwzględnienia instrukcji"
 
 #: src/wmmenu.cc:365
-#, fuzzy, c-format
-#| msgid "Error at menuprog '%s'"
+#, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Błąd w menuprog %s"
+msgstr "Błąd w includeprog '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2612,9 +2523,9 @@ msgstr ""
 "Oczekiwano key lub runonce.\n"
 
 #: src/wmmenu.cc:498
-#, c-format
+#, c-format, fuzzy
 msgid "'%s' timed out!"
-msgstr ""
+msgstr "'%s' przekroczył limit czasu!"
 
 #: src/wmmenu.cc:509
 #, c-format
@@ -2623,11 +2534,11 @@ msgstr "%s nie generuje wyniku"
 
 #: src/wmmgr.cc:3653
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "Brak programu setxkbmap"
 
 #: src/wmmgr.cc:3654
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Aby przełączać klawiaturę, zainstaluj setxkbmap."
 
 #: src/wmoption.cc:284
 #, c-format
@@ -2646,7 +2557,7 @@ msgstr "Zapisz modyfikacje"
 #: src/wmpref.cc:179
 #, c-format
 msgid "Enter a new value for %s: "
-msgstr ""
+msgstr "Wprowadź nową wartość dla %s: "
 
 #: src/wmprog.cc:335
 msgid "_Click to focus"
@@ -2825,10 +2736,9 @@ msgid "%s: select failed"
 msgstr "%s: wybór nieudany"
 
 #: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
+#, c-format
 msgid "Could not parse color \"%s\""
-msgstr "Błąd ładowania fontu \"%s\"."
+msgstr "Nie udało się przetworzyć koloru \"%s\""
 
 #: src/yconfig.cc:113
 #, c-format
@@ -2973,26 +2883,22 @@ msgstr ""
 "  --sync              Synchronizacja poleceń X11.\n"
 
 #: src/yximage.cc:157
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
-msgstr "Obsługa interfejsu %s nie została wkompilowana."
+msgstr "Obsługa obrazów PNG nie została włączona"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr ""
+msgstr "Obsługa obrazów JPEG nie została włączona"
 
 #: src/yximage.cc:171
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
+#, c-format
 msgid "Unsupported file format: %s"
-msgstr "Nieobsługiwany interfejs: %s."
+msgstr "Nieobsługiwany format pliku: %s"
 
 #: src/yximage.cc:175 src/yximage.cc:198
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
+#, c-format
 msgid "Could not load image \"%s\""
-msgstr "Nie udało się znaleźć obrazu %s"
+msgstr "Nie udało się załadować obrazu \"%s\""
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "Ładowanie fontu \"%s\" nie powiodło się."
