@@ -85,9 +85,6 @@ Multiple hints can be given.
 
 =head2 GENERAL OPTION ARGUMENTS
 
-General option arguments are normally associated with I<GNOME WinWM/WMH>
-hints (except for the tray option argument).
-
 =over
 
 =item B<icon> I<NAME>
@@ -151,6 +148,10 @@ or a symbolic name as follows:
     Minimized  (1)  icon in tray, task list unminimized.
     Exclusive  (2)  only in tray, not in task list.
 
+=item B<frame> I<label> (default: none)
+
+All windows with the same frame label become tabs in a single frame.
+
 =back
 
 =head2 FUNCTION OPTION ARGUMENTS
@@ -206,9 +207,12 @@ advanced features are as follows:
     ignoreTaskBar             not on task bar.
     ignoreUrgentHint          ignore urgent hints.
     ignoreWinList             not on window list.
+    ignoreActivationMessages  only user can focus window.
+    ignoreOverrideRedirect    ignore the override redirect flag.
     noFocusOnAppRaise         no focus on raise.
     noFocusOnMap              do not focus when mapped.
     noIgnoreTaskBar           on task bar.
+    startClose                close the window immediately.
     startFullscreen           start full screen.
     startMaximized            start maximized.
     startMaximizedHorz        start maximized horizontal.

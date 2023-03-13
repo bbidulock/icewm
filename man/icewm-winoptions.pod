@@ -16,8 +16,8 @@
 
 The IceWM F<winoptions> file contains settings to control
 I<application specific> window appearance and behavior.
-For instance, they can control the window border, placement and size,
-the window layer, its work space, its visibility on the task bar
+For instance, they control the window border, placement and size,
+the window layer, its workspace, its visibility on the task bar
 and its focus behavior.
 
 The winoptions are established when L<icewm(1)> starts.  However,
@@ -52,14 +52,14 @@ Each line in the file must be in one of the following formats:
 
 =back
 
-Here I<NAME> and I<CLASS> are from the B<WM_CLASS> property for the
+Here I<NAME> and I<CLASS> are from the B<WM_CLASS> property of the
 window. This can be found in the output of C<icesh -a getClass>.
 
-While I<ROLE> refers to the B<WM_WINDOW_ROLE> property for the window,
+While I<ROLE> refers to the B<WM_WINDOW_ROLE> property of the window,
 which is the application instance specific name. Only a minority of
 windows have it. See the output of C<icesh -a list prop WM_WINDOW_ROLE>.
 
-In some rare cases a name, class or role contains a period. If it does,
+In rare cases, a name, class or role may contain a period. If it does,
 the period should be escaped by a single backslash.
 
 Lastly, the I<OPTION: VALUE> pair refer to the options and values
@@ -70,12 +70,12 @@ pair, applies to all windows.
 
 =head2 OPTIONS
 
-There are four categories of options: I<general>, I<function>, I<decor>
-and I<feature>.
+There are four categories: I<general>, I<function>, I<decor> and
+I<feature>.
 
 =head2 GENERAL OPTIONS
 
-The following option control general characteristics of windows:
+These control general characteristics of windows:
 
 =over
 
@@ -93,7 +93,7 @@ workspace number counting from zero (0).
 =item B<layer>: {I<LAYER>|I<NUMBER>} (default: Normal)
 
 Specifies the default layer for the window.  Layer can be one of the
-following names or a number from zero (0) to fifteen (15):
+following names or a number from zero to fifteen:
 
   Desktop     (0)  Desktop window.
   Below       (2)  Below the default layer.
@@ -112,13 +112,17 @@ in a format that can be parsed by L<XParseGeometry(3)>:
 
  [=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]
 
+The default geometry is taken from the WM_SIZE_HINTS property of the
+window or else from the initial window geometry. This option overrides
+the default.
+
 =item B<tray>: {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>} (default: 0)
 
 The default tray option for the window.  This affects both the tray and
-the task pane.  Tray can be one of the following strings or a number
+the task pane.  Tray can be one of the following three strings or a number
 from zero (0) to two (2):
 
-  Ignore     (0)  No icon added to tray.
+  Ignore     (0)  No icon is added to the tray.
   Minimized  (1)  Add to tray, no task when minimized.
   Exclusive  (2)  Add to tray, no task button.
 
@@ -189,20 +193,20 @@ the application:
   appTakesFocus:            {1|0}  let application take focus.
   doNotCover:               {1|0}  limits workspace if sticky.
   doNotFocus:               {1|0}  do not focus.
-  forcedClose:              {1|0}  no close dialog.
-  fullKeys:                 {1|0}  provided more keys.
+  forcedClose:              {1|0}  no close confirmation dialog.
+  fullKeys:                 {1|0}  don't install icewm key bindings.
   ignoreNoFocusHint:        {1|0}  focus even when no-input is set.
   ignorePagerPreview:       {1|0}  do not show in pager preview.
-  ignorePositionHint:       {1|0}  always smart place automatically.
+  ignorePositionHint:       {1|0}  always let icewm place the window.
   ignoreQuickSwitch:        {1|0}  not on quick switch.
   ignoreTaskBar:            {1|0}  not on task bar.
   ignoreUrgentHint:         {1|0}  ignore urgent hints.
   ignoreWinList:            {1|0}  not on window list.
   ignoreActivationMessages: {1|0}  only user can focus window.
-  ignoreOverrideRedirect:   {1|0}  ignore override redirect.
+  ignoreOverrideRedirect:   {1|0}  ignore the override redirect flag.
   noFocusOnAppRaise:        {1|0}  no automatic focus on raise.
   noFocusOnMap:             {1|0}  do not focus when mapped.
-  noIgnoreTaskBar:          {1|0}  on task bar.
+  noIgnoreTaskBar:          {1|0}  always show on task bar.
   startClose:               {1|0}  close the window immediately.
   startFullscreen:          {1|0}  start full screen.
   startMaximized:           {1|0}  start maximized.
@@ -253,7 +257,6 @@ without titlebar and minimal functionality.
   xeyes.dClose: 0
   xeyes.dMinimize: 0
   xeyes.dMaximize: 0
-  xeyes.ignoreNoFocusHint: 0
 
 =head2 FILES
 
