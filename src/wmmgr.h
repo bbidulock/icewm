@@ -336,6 +336,7 @@ private:
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm);
     void setWmState(WMState newWmState);
     void refresh();
+    void focusOverlap();
 
     IApp *app;
     YActionListener *wmActionListener;

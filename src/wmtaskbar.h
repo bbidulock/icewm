@@ -188,6 +188,7 @@ private:
                 || top != s.top || bottom != s.bottom;
         }
         const Atom* operator&() const { return &left; }
+        bool operator*() const { return left | right | top | bottom; }
     } fStrut;
 };
 

@@ -758,7 +758,10 @@ void TaskBar::updateWMHints() {
     if (fStrut != strut) {
         fStrut = strut;
         MSG(("SET NET WM STRUT"));
-        setProperty(_XA_NET_WM_STRUT, XA_CARDINAL, &strut, 4);
+        if (*strut)
+            setProperty(_XA_NET_WM_STRUT, XA_CARDINAL, &strut, 4);
+        else
+            deleteProperty(_XA_NET_WM_STRUT);
     }
 }
 

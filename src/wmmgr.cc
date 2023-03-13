@@ -1152,9 +1152,8 @@ void YWindowManager::setTop(int layer, YFrameWindow *top) {
     fLayeredUpdated = true;
     if (top->container()->buttoned() && top->focused())
         top->container()->releaseButtons();
-    if (top->next() && top->next()->container()->buttoned() == false)
-        if (top->next()->overlapped())
-            top->next()->container()->grabButtons();
+    else
+        focusOverlap();
 }
 
 YFrameWindow *YWindowManager::bottom(int layer) const {
@@ -1947,7 +1946,14 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
         }
         if (fSwitchWindow)
             fSwitchWindow->createdFrame(frame);
+        focusOverlap();
     }
+}
+
+void YWindowManager::focusOverlap() {
+    YFrameWindow* focus = getFocus();
+    if (focus && focus->container()->buttoned() == false && focus->overlapped())
+        focus->container()->grabButtons();
 }
 
 void YWindowManager::handleMapNotify(const XMapEvent& map) {
@@ -2489,8 +2495,9 @@ bool YWindowManager::updateWorkAreaInner() {
             updateArea(ws, s, l, t, r, b);
         }
 
-        if (w->doNotCover() ||
+        if ((w->doNotCover() ||
             (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
+            && (w->client() != taskBar || taskBar->hidden() == false))
         {
             int ws = w->getWorkspace();
             int s = w->getScreen();
