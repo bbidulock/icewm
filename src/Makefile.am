@@ -385,7 +385,7 @@ icewm_SOURCES = \
 	yxcontext.h \
 	yxtray.cc \
 	yxtray.h
-icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS)
+icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 icesh_SOURCES = \
 	intl.h \
