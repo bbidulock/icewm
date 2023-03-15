@@ -630,7 +630,7 @@ char* path_lookup(const char* name) {
         if (length < bufsize) {
             char filebuf[bufsize];
             snprintf(filebuf, bufsize, "%s/%s",
-                     dirlen ? directory : ".", name);
+                     dirlen ? directory.token() : ".", name);
             if (isExeFile(filebuf)) {
                 return newstr(filebuf);
             }
