@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2023-03-18 23:14+0000\n"
+"PO-Revision-Date: 2023-03-19 12:14+0000\n"
 "Last-Translator: Kempelen <lion@cmsbazar.hu>\n"
 "Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/hu/>\n"
@@ -280,7 +280,7 @@ msgstr "%ld üzenet."
 
 #: src/amailbox.cc:961
 msgid "MAIL"
-msgstr "POSTA"
+msgstr "E-MAIL"
 
 #: src/amailbox.cc:963
 msgid "_Check"
