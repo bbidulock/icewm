@@ -617,20 +617,25 @@ char* path_lookup(const char* name) {
         return isExeFile(name) ? newstr(name) : nullptr;
     }
 
-    strp env = newstr(getenv("PATH"));
+    char* env = getenv("PATH");
     if (env == nullptr)
         return nullptr;
 
     const size_t namlen = strlen(name);
 
-    for (tokens directory(env, ":"); directory; ++directory) {
-        size_t dirlen = strlen(directory);
+    for (char* str = env, *end; *str; str = (end + (*end == ':'))) {
+        for (end = str; *end != ':' && *++end; );
+        size_t dirlen = end - str;
         size_t length = dirlen + namlen + 3;
         const size_t bufsize = 1234;
         if (length < bufsize) {
             char filebuf[bufsize];
-            snprintf(filebuf, bufsize, "%s/%s",
-                     dirlen ? directory.token() : ".", name);
+            if (dirlen) {
+                memcpy(filebuf, str, dirlen);
+                if (filebuf[dirlen - 1] != '/')
+                    filebuf[dirlen++] = '/';
+            }
+            memcpy(filebuf + dirlen, name, namlen + 1);
             if (isExeFile(filebuf)) {
                 return newstr(filebuf);
             }
