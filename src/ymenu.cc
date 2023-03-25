@@ -319,9 +319,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
 
     if (key.type == KeyPress) {
         if ((m & ~ShiftMask) == 0) {
-            if (k == XK_Escape) {
-                YPopupWindow::finishPopup();
-            } else if (k == XK_Left || k == XK_KP_Left) {
+            if (k == XK_Left || k == XK_KP_Left) {
                 if (prevPopup())
                     cancelPopup();
             } else if (itemCount() > 0) {
@@ -375,6 +373,12 @@ bool YMenu::handleKey(const XKeyEvent &key) {
                     return true;
                 }
             }
+        }
+    }
+    else if (key.type == KeyRelease) {
+        if (k == XK_Escape && notbit(m, ShiftMask)) {
+            YPopupWindow::finishPopup();
+            return true;
         }
     }
     return YPopupWindow::handleKey(key);
