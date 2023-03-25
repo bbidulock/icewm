@@ -218,8 +218,15 @@ size_t strlcat(char *dest, const char *from, size_t dest_size)
 }
 #endif
 
-char *newstr(char const *str) {
-    return (str != nullptr ? newstr(str, strlen(str)) : nullptr);
+char* newstr(const char* str) {
+    char* s = nullptr;
+    if (str) {
+        size_t len = strlen(str);
+        s = new char[len + 1];
+        if (s)
+            memcpy(s, str, len + 1);
+    }
+    return s;
 }
 
 char *newstr(char const *str, char const *delim) {
