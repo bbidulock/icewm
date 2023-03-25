@@ -68,8 +68,6 @@ YButton::~YButton() {
 
 void YButton::paint(Graphics &g, int const d, const YRect &r) {
     int x = r.x(), y = r.y(), w = r.width(), h = r.height();
-    YSurface surface(getSurface());
-    g.drawSurface(surface, x, y, w, h);
 
     if (fIcon != null) {
         fIcon->draw(g,
@@ -112,6 +110,7 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
 
     if (w > 1 && h > 1) {
         YSurface surface(getSurface());
+        g.drawSurface(surface, 0, 0, width(), height());
         g.setColor(surface.color);
 
         if (wmLook == lookMetal) {
@@ -168,7 +167,7 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
             paint(g, 0, YRect(dp, dp, width() - ds, height() - ds));
         else
             paint(g, d, YRect(dp - 1, dp - 1, width() - ds + 1, height() - ds + 1));
-        g.setClipMask(None);
+        g.resetClip();
     }
 }
 
