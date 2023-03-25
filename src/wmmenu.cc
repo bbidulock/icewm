@@ -499,8 +499,11 @@ void MenuLoader::progMenus(
             kill(pid, SIGKILL);
         }
         int status = app->waitProgram(pid);
-        if (status) {
-            tlog(_("%s exited with status %d."), command, status);
+        if (WIFEXITED(status) && WEXITSTATUS(status)) {
+            tlog(_("%s exited with status %d."), command, WEXITSTATUS(status));
+        }
+        else if (WIFSIGNALED(status)) {
+            tlog(_("%s was killed by signal %d."), command, WTERMSIG(status));
         }
         else if (nonempty(buf)) {
             parseMenus(buf, container);
