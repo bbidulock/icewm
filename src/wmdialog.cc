@@ -49,13 +49,16 @@ bool canShutdown(RebootShutdown reboot) {
     return true;
 }
 
-CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
-    this->app = app;
+CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
+    : YWindow(parent)
+    , app(app)
+{
     unsigned w = 140, h = 22;
 
     setStyle(wsOverrideRedirect);
     setPointer(YWMApp::leftPointer);
     setToplevel(true);
+    addEventMask(VisibilityChangeMask);
 
     /* Create the following buttons in an ordered sequence,
      * such that tabbing through them is in reading order
@@ -84,12 +87,6 @@ CtrlAltDelete::CtrlAltDelete(IApp *app, YWindow *parent): YWindow(parent) {
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + h + MIDV + h + MIDV + h + VERT);
-
-    int dx, dy;
-    unsigned dw, dh;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh);
-    setPosition(dx + (dw - width()) / 2,
-                dy + (dh - height()) / 2);
 
     lockButton->setGeometry(YRect(HORZ, VERT, w, h));
     suspendButton->setGeometry(YRect(HORZ + w + MIDH, VERT, w, h));
@@ -138,7 +135,7 @@ void CtrlAltDelete::paint(Graphics &g, const YRect &/*r*/) {
 void CtrlAltDelete::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     deactivate();
     if (action == *lockButton) {
-        if (lockCommand && lockCommand[0])
+        if (nonempty(lockCommand))
             app->runCommand(lockCommand);
     } else if (action == *logoutButton) {
         manager->doWMAction(ICEWM_ACTION_LOGOUT);
@@ -165,10 +162,6 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {
-        if (k == XK_Escape && m == 0) {
-            deactivate();
-            return true;
-        }
         if ((k == XK_Left || k == XK_KP_Left) && m == 0) {
             prevFocus();
             return true;
@@ -194,10 +187,19 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
             return true;
         }
     }
+    else if (key.type == KeyRelease) {
+        if (k == XK_Escape && m == 0) {
+            deactivate();
+            return true;
+        }
+    }
     return YWindow::handleKey(key);
 }
 
 void CtrlAltDelete::activate() {
+    YRect geo(desktop->getScreenGeometry());
+    setPosition(geo.xx + (geo.ww - width()) / 2,
+                geo.yy + (geo.hh - height()) / 2);
     raise();
     show();
     if (!xapp->grabEvents(this, None,
@@ -208,6 +210,8 @@ void CtrlAltDelete::activate() {
                          LeaveWindowMask, 1, 1, 1))
         hide();
     else {
+        manager->switchFocusFrom(manager->getFocus());
+        manager->lockFocus();
         lockButton->requestFocus(true);
     }
 }
@@ -215,16 +219,25 @@ void CtrlAltDelete::activate() {
 void CtrlAltDelete::deactivate() {
     xapp->releaseEvents();
     hide();
-    XSync(xapp->display(), False);
-    //manager->setFocus(manager->getFocus());
+    xapp->sync();
+    if (manager->focusLocked())
+        manager->unlockFocus();
+    manager->focusLastWindow();
 }
 
 YActionButton* CtrlAltDelete::addButton(const mstring& str, unsigned& maxW, unsigned& maxH)
 {
     YActionButton* b = new YActionButton(this, str, -2, this);
     maxW = max(maxW, b->width());
-    maxH = max(maxH, b->height());
+    maxH = max(maxH, b->height() + 2);
     return b;
+}
+
+void CtrlAltDelete::handleVisibility(const XVisibilityEvent& vis) {
+    if (vis.state > VisibilityUnobscured) {
+        raise();
+        xapp->sync();
+    }
 }
 
 YActionButton::YActionButton(YWindow* parent, const mstring& text, int hotkey,

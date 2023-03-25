@@ -460,9 +460,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm) {
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        if (wmapp->getCtrlAltDelete()) {
-            wmapp->getCtrlAltDelete()->activate();
-        }
+        wmActionListener->actionPerformed(actionSysDialog);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);

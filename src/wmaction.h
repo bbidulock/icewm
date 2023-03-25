@@ -116,6 +116,7 @@ enum EAction {
     actionTileCenter         = 253,
     actionUntab              = 255,
     actionRename             = 257,
+    actionSysDialog          = 259,
 };
 
 bool canShutdown(RebootShutdown reboot);
