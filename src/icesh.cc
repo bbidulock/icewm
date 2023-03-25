@@ -3150,7 +3150,6 @@ static Window pickWindow() {
         XNextEvent (display, &event);
 
         switch (event.type) {
-        case KeyPress:
         case KeyRelease:
             if (event.xkey.keycode == escape)
                 running = false;
@@ -5269,6 +5268,10 @@ void IceSh::parseAction()
         }
         else if (isAction("unhide", 0)) {
             changeState(NormalState);
+        }
+        else if (isAction("xlower", 0)) {
+            CHANGES_WINDOW(window)
+                XLowerWindow(display, window);
         }
         else if (isAction("xmap", 0)) {
             CHANGES_WINDOW(window)
