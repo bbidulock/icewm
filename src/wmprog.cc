@@ -38,7 +38,7 @@ DProgram::DProgram(
     ref<YIcon> icon,
     const bool restart,
     const char *wmclass,
-    upath exe,
+    const char *exe,
     YStringArray &args)
     : DObject(app, name, icon),
     fRestart(restart),
@@ -53,16 +53,17 @@ DProgram::DProgram(
 }
 
 DProgram::~DProgram() {
+    delete[] fCmd;
     delete[] fRes;
 }
 
 void DProgram::open() {
     if (fRestart)
-        smActionListener->restartClient(fCmd.string(), fArgs.getCArray());
+        smActionListener->restartClient(fCmd, fArgs.getCArray());
     else if (fRes)
-        smActionListener->runOnce(fRes, &fPid, fCmd.string(), fArgs.getCArray());
+        smActionListener->runOnce(fRes, &fPid, fCmd, fArgs.getCArray());
     else
-        app()->runProgram(fCmd.string(), fArgs.getCArray());
+        app()->runProgram(fCmd, fArgs.getCArray());
 }
 
 DProgram *DProgram::newProgram(
@@ -72,17 +73,16 @@ DProgram *DProgram::newProgram(
     ref<YIcon> icon,
     const bool restart,
     const char *wmclass,
-    upath exe,
+    const char *exestr,
     YStringArray &args)
 {
     DProgram* program = nullptr;
-    if (exe != null) {
-        const char* exestr = exe.string();
+    if (nonempty(exestr)) {
         MSG(("LOOKING FOR: %s\n", exestr));
-        csmart path(path_lookup(exestr));
+        char* path = path_lookup(exestr);
         if (path) {
             program = new DProgram(app, smActionListener, name, icon,
-                                   restart, wmclass, upath(path), args);
+                                   restart, wmclass, path, args);
         } else {
             MSG(("Program %s (%s) not found.", name, exestr));
         }
@@ -114,7 +114,7 @@ public:
     MenuProgSwitchItems(DProgram* prog, KeySym key, unsigned keymod) :
         ISwitchItems(), zTarget(0), key(key), mod(keymod) {
         menu = new MenuProgMenu(wmapp, wmapp, nullptr /* no wmaction handling*/,
-                "switch popup internal menu", prog->fCmd, prog->fArgs);
+                "switch popup internal menu", prog->cmd(), prog->args());
     }
     virtual void updateList() override {
         menu->refresh();
@@ -260,7 +260,7 @@ MenuProgMenu::MenuProgMenu(
     YSMListener *smActionListener,
     YActionListener *wmActionListener,
     mstring name,
-    upath command,
+    const char* command,
     YStringArray &args,
     long timeout,
     YWindow *parent)
@@ -268,7 +268,7 @@ MenuProgMenu::MenuProgMenu(
     ObjectMenu(wmActionListener, parent),
     MenuLoader(app, smActionListener, wmActionListener),
     fName(name),
-    fCommand(command),
+    fCommand(newstr(command)),
     fArgs(args),
     fModTime(0),
     fTimeout(timeout)
@@ -276,6 +276,7 @@ MenuProgMenu::MenuProgMenu(
 }
 
 MenuProgMenu::~MenuProgMenu() {
+    delete[] fCommand;
 }
 
 void MenuProgMenu::updatePopup() {
@@ -289,8 +290,8 @@ void MenuProgMenu::updatePopup() {
 void MenuProgMenu::refresh()
 {
     removeAll();
-    if (fCommand != null)
-        progMenus(fCommand.string(), fArgs.getCArray(), this);
+    if (nonempty(fCommand))
+        progMenus(fCommand, fArgs.getCArray(), this);
 }
 
 StartMenu::StartMenu(
