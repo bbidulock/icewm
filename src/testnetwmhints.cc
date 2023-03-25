@@ -560,6 +560,16 @@ static void test_run(char* progname, bool pinging) {
              client.window, client.data.l[0]);
     } break;
 
+    case KeyRelease: {
+        unsigned k = XkbKeycodeToKeysym(display, key.keycode, 0,
+                                        (key.state & ShiftMask) != 0);
+        unsigned m = KEY_MODMASK(key.state);
+        if (m == ControlMask && k < '~' && isalpha(k))
+            k = CTRL(k);
+        if (k == 'q' || (k == XK_Escape && m == 0))
+            return;
+    } break;
+
     case KeyPress: {
         unsigned k = XkbKeycodeToKeysym(display, key.keycode, 0,
                                         (key.state & ShiftMask) != 0);
@@ -567,9 +577,7 @@ static void test_run(char* progname, bool pinging) {
         if (m == ControlMask && k < '~' && isalpha(k))
             k = CTRL(k);
 
-        if (k == 'q' || k == XK_Escape)
-            return;
-        else if (k == '?' || k == 'h') {
+        if (k == '?' || k == 'h') {
             printf("0 : layer desktop\n"
                    "1 : layer below\n"
                    "2 : layer normal\n"
