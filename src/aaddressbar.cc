@@ -24,16 +24,11 @@ AddressBar::~AddressBar() {
 }
 
 bool AddressBar::handleKey(const XKeyEvent &key) {
+    KeySym k = keyCodeToKeySym(key.keycode);
     if (key.type == KeyPress) {
-        KeySym k = keyCodeToKeySym(key.keycode);
-
         if (k == XK_KP_Enter || k == XK_Return) {
             hideNow();
             return handleReturn(KEY_MODMASK(key.state));
-        }
-        else if (k == XK_Escape) {
-            hideNow();
-            return true;
         }
         else if (k == XK_Up ||
                 (k == XK_KP_Up && !(key.state & xapp->NumLockMask)))
@@ -44,6 +39,12 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
                 (k == XK_KP_Down && !(key.state & xapp->NumLockMask)))
         {
             return changeLocation(location + 1), true;
+        }
+    }
+    else if (key.type == KeyRelease) {
+        if (k == XK_Escape) {
+            hideNow();
+            return true;
         }
     }
     return YInputLine::handleKey(key);
