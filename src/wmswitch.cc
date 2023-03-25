@@ -946,10 +946,6 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         else if (gKeySysSwitchLast.eq(k, vm)) {
             target(-1);
         }
-        else if (k == XK_Escape) {
-            zItems->setTarget(-1);
-            cancel();
-        }
         else if (gKeyWinClose.eq(k, vm)) {
             zItems->destroyTarget();
         }
@@ -1007,6 +1003,10 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
     else if (key.type == KeyRelease) {
         if ((isKey(k, vm) && !modDown(m)) || isModKey(key.keycode)) {
             accept();
+        }
+        else if (k == XK_Escape) {
+            zItems->setTarget(-1);
+            cancel();
         }
     }
     return true;
