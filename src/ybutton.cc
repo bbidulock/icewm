@@ -128,7 +128,7 @@ void YButton::paint(Graphics &g, const YRect &/*r*/) {
 
         paint(g, d, YRect(x, y, w, h));
 
-        if (wmLook != lookFlat) {
+        if (wmLook != lookFlat || isFocused()) {
             paintFocus(g, YRect(x, y, w, h));
         }
         if (surface.gradient != null) {
@@ -145,7 +145,7 @@ void YButton::paintFocus(Graphics &g, const YRect &/*r*/) {
     if (isFocused()) {
         g.setPenStyle(true);
         g.setFunction(GXxor);
-        g.setColor(YColor::white);
+        g.setColorPixel(0x01FFFFFF);
         g.drawRect(dp, dp, width() - ds - 1, height() - ds - 1);
         g.setFunction(GXcopy);
         g.setPenStyle(false);
