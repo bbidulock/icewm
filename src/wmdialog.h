@@ -22,17 +22,9 @@ public:
     void activate();
     void deactivate();
 private:
-    YActionButton *lockButton;
-    YActionButton *suspendButton;
-    YActionButton *logoutButton;
-    YActionButton *restartButton;
-    YActionButton *cancelButton;
-    YActionButton *rebootButton;
-    YActionButton *shutdownButton;
-    YActionButton *aboutButton;
-    YActionButton *windowListButton;
     IApp *app;
-    YActionButton *addButton(const mstring& str, unsigned& maxW, unsigned& maxH);
+    enum { Count = 9, };
+    YActionButton* buttons[Count];
 };
 
 #endif

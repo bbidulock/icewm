@@ -505,7 +505,7 @@ void LogoutMenu::updatePopup() {
                 addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
             if (canShutdown(Shutdown))
                 addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
-            if (couldRunCommand(suspendCommand))
+            if (canSuspend())
                 addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
 
             if (itemCount() != oldItemCount)

@@ -4,6 +4,7 @@
 class YAction;
 
 enum WMAction {
+    ICEWM_ACTION_LOCK = 1,
     ICEWM_ACTION_LOGOUT = 2,
     ICEWM_ACTION_CANCEL_LOGOUT = 3,
     ICEWM_ACTION_REBOOT = 4,
@@ -120,6 +121,7 @@ enum EAction {
 };
 
 bool canShutdown(RebootShutdown reboot);
+bool canSuspend();
 bool canLock();
 /**
  * Basic check whether a shell command could possibly be run.
