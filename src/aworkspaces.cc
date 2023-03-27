@@ -221,6 +221,7 @@ WorkspacesPane::WorkspacesPane(YWindow *parent):
     fRepositioning(false),
     fReconfiguring(false),
     fRepaintSpaces(false),
+    fDesktop(desktop->dimension()),
     fButtons(workspaceCount)
 {
     addStyle(wsNoExpose);
@@ -378,6 +379,23 @@ void WorkspacesPane::updateButtons() {
         fButtons.remove(rightToLeft ? 0 : count() - 1);
     }
 
+    if (fDesktop != desktop->dimension()) {
+        fDesktop = desktop->dimension();
+        if (pagerShowPreview) {
+            fMoved = 0;
+            for (auto wk : fButtons) {
+                scale(wk, height());
+            }
+            repositionButtons();
+            for (auto wk : fButtons) {
+                if (wk->x() < int(width()))
+                    wk->show();
+                else
+                    break;
+            }
+        }
+    }
+
     int width = extent() - fMoved;
     for (int i = count(), n = workspaceCount; i < n; ++i) {
         WorkspaceButton* wk = create(i, height());
@@ -386,6 +404,7 @@ void WorkspacesPane::updateButtons() {
         if (wk->extent() > 0 && wk->x() < max(width, int(this->width())))
             wk->show();
     }
+
     resize(width, height());
     int limit = int(this->width());
     if (fMoved + width < limit) {
@@ -396,14 +415,18 @@ void WorkspacesPane::updateButtons() {
     paths = null;
 }
 
+void WorkspacesPane::scale(WorkspaceButton* button, unsigned height) {
+    unsigned dw = desktop->width();
+    unsigned dh = desktop->height();
+    unsigned scaled = (height * dw + (dh / 2)) / dh;
+    button->setSize(scaled, height);
+}
+
 WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
     WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
     fButtons.insert(rightToLeft ? 0 : count(), wk);
     if (pagerShowPreview) {
-        unsigned dw = desktop->width();
-        unsigned dh = desktop->height();
-        unsigned scaled = (height * dw + (dh / 2)) / dh;
-        wk->setSize(scaled, height);
+        scale(wk, height);
         wk->updateName();
     } else {
         label(wk);

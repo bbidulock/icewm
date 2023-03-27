@@ -139,7 +139,9 @@ private:
     lazy<YTimer> fDragTimer;
     lazy<YTimer> fRepaintTimer;
     lazy<WorkspaceIcons> paths;
+    YDimension fDesktop;
     ArrayType fButtons;
+
     WorkspaceButton* index(int ws) const {
         extern bool rightToLeft;
         return fButtons[rightToLeft ? count() - ws - 1 : ws];
@@ -151,6 +153,7 @@ private:
     bool limited() const;
 
     WorkspaceButton* create(int workspace, unsigned height);
+    void scale(WorkspaceButton* button, unsigned height);
     void label(WorkspaceButton* wk);
     void createButtons();
     void repositionButtons();
