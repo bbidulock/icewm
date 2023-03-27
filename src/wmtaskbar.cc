@@ -536,8 +536,9 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         }
     }
 
-    unsigned w = (desktop->getScreenGeometry().width()
-                  * unsigned(taskBarWidthPercentage)) / 100U;
+    const unsigned dw = desktop->getScreenGeometry().width();
+    const unsigned tw = (dw * unsigned(taskBarWidthPercentage)) / 100U;
+    unsigned w = tw;
 
     if (taskBarAtTop) { // !!! for now
         y[1] = 0;
@@ -610,8 +611,10 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     }
     if (fAddressBar) {
         int row = taskBarDoubleHeight;
-        YRect r(left[row], y[row] + 2,
-                max(1U, unsigned(right[row] - left[row])), h[row] - 4);
+        int wid = right[row] - left[row];
+        if (wid < 1)
+            wid = max(1, int(tw) - left[row]);
+        YRect r(left[row], y[row] + 2, unsigned(wid), h[row] - 4);
         if (rightToLeft) {
             r.xx = w - r.xx - r.ww;
         }
