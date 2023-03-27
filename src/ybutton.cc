@@ -481,7 +481,7 @@ void YButton::popdown() {
 }
 
 bool YButton::isFocusTraversable() {
-    return true;
+    return fEnabled;
 }
 
 void YButton::setAction(YAction action) {
