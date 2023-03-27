@@ -89,7 +89,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         { _("_About"), actionAbout, ICEWM_ACTION_ABOUT },
         { _("Reload win_options"), actionWinOptions, ICEWM_ACTION_WINOPTIONS },
         { _("Reload ke_ys"), actionReloadKeys, ICEWM_ACTION_RELOADKEYS },
-        { _("Clos_e"), actionReloadKeys, ICEWM_ACTION_RELOADKEYS },
+        { _("Clos_e"), actionReloadKeys, ICEWM_ACTION_NOP },
     };
     for (int i = 0; i < Count; ++i) {
         buttons[i] = new YActionButton(this, data[i].text, -2,
