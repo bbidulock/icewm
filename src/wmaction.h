@@ -4,6 +4,7 @@
 class YAction;
 
 enum WMAction {
+    ICEWM_ACTION_NOP = 0,
     ICEWM_ACTION_LOCK = 1,
     ICEWM_ACTION_LOGOUT = 2,
     ICEWM_ACTION_CANCEL_LOGOUT = 3,

@@ -87,6 +87,9 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         { _("_Window list"), actionWindowList, ICEWM_ACTION_WINDOWLIST },
         { _("_Restart icewm"), actionRestart, ICEWM_ACTION_RESTARTWM },
         { _("_About"), actionAbout, ICEWM_ACTION_ABOUT },
+        { _("Reload win_options"), actionWinOptions, ICEWM_ACTION_WINOPTIONS },
+        { _("Reload ke_ys"), actionReloadKeys, ICEWM_ACTION_RELOADKEYS },
+        { _("Clos_e"), actionReloadKeys, ICEWM_ACTION_RELOADKEYS },
     };
     for (int i = 0; i < Count; ++i) {
         buttons[i] = new YActionButton(this, data[i].text, -2,
@@ -107,7 +110,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         buttons[5]->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
-            VERT + h + MIDV + h + MIDV + h + VERT);
+            VERT + (h + MIDV) * (Count / 3) - MIDV + VERT);
 
     for (int i = 0; i < Count; ++i) {
         int x = HORZ + (i % 3) * (w + MIDH);
@@ -146,12 +149,11 @@ void CtrlAltDelete::actionPerformed(YAction action, unsigned int /*modifiers*/) 
     deactivate();
     for (int i = 0; i < Count; ++i) {
         if (action == *buttons[i]) {
-            if (inrange<int>(buttons[i]->wmAction, 2, 9)) {
+            if (inrange<int>(buttons[i]->wmAction, 2, 11))
                 manager->doWMAction(buttons[i]->wmAction);
-                break;
-            }
-            else if (action == actionLock && nonempty(lockCommand))
+            else if (action == actionLock && canLock())
                 app->runCommand(lockCommand);
+            break;
         }
     }
 }
@@ -276,6 +278,21 @@ YDimension YActionButton::getTextSize() {
     return YDimension(
             max(72, font ? font->textWidth(getText()) + 12 : 0),
             max(18, font ? font->height() : 0));
+}
+
+YSurface YActionButton::getSurface() {
+    YSurface surf(normalButtonBg, buttonIPixmap, buttonIPixbuf);
+    if (surf.gradient == null && surf.pixmap != null) {
+        unsigned h = surf.pixmap->height();
+        unsigned w = surf.pixmap->width();
+        if (h >= 19 && h < height()) {
+            h = height();
+            if (w >= 100 && w < width())
+                w = width();
+            surf.pixmap = surf.pixmap->scale(w, h);
+        }
+    }
+    return surf;
 }
 
 // vim: set sw=4 ts=4 et:

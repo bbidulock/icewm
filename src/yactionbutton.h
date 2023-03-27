@@ -14,6 +14,7 @@ public:
     virtual void configure(const YRect2& r);
     virtual void repaint();
     virtual YDimension getTextSize();
+    virtual YSurface getSurface();
 
     const WMAction wmAction;
 };

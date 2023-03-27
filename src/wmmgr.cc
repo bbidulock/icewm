@@ -939,6 +939,9 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         MSG(("ClientMessage: _ICEWM_ACTION => %ld", message.data.l[1]));
         WMAction action = WMAction(message.data.l[1]);
         switch (action) {
+        case ICEWM_ACTION_NOP:
+        case ICEWM_ACTION_LOCK:
+            break;
         case ICEWM_ACTION_LOGOUT:
         case ICEWM_ACTION_CANCEL_LOGOUT:
         case ICEWM_ACTION_SHUTDOWN:

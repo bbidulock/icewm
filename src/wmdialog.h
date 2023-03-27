@@ -21,9 +21,10 @@ public:
 
     void activate();
     void deactivate();
+
 private:
     IApp *app;
-    enum { Count = 9, };
+    enum { Count = 12, };
     YActionButton* buttons[Count];
 };
 
