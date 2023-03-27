@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2022-11-14 13:32+0100\n"
-"PO-Revision-Date: 2022-12-03 12:14+0000\n"
+"PO-Revision-Date: 2023-03-27 07:14+0000\n"
 "Last-Translator: Kristijan Fremen Velkovski <me@krisfremen.com>\n"
 "Language-Team: Macedonian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/mk/>\n"
@@ -2232,9 +2232,9 @@ msgid "%s configuration directories:\n"
 msgstr ""
 
 #: src/wmapp.cc:1729
-#, fuzzy, c-format
+#, c-format
 msgid "%s configured options:%s\n"
-msgstr "Непрепознаена опција: %s\n"
+msgstr "%s подесени опции: %s\n"
 
 #: src/wmapp.cc:1863
 msgid "Confirm Logout"
@@ -2284,14 +2284,14 @@ msgid ""
 msgstr ""
 
 #: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load theme %s"
-msgstr "Не успеав да отворам %s: %s"
+msgstr "Не успеа да се вчита темата %s"
 
 #: src/wmconfig.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Непознато дејство: „%s“"
+msgstr "Непозната вредност '%s' за опција '%s'."
 
 #: src/wmconfig.cc:121
 #, fuzzy, c-format
@@ -2357,9 +2357,9 @@ msgid "Missing command argument"
 msgstr "Недостасува аргумент за наредба"
 
 #: src/wmmenu.cc:55
-#, fuzzy, c-format
+#, c-format
 msgid "Bad argument %d to command '%s'"
-msgstr "Лош аргумент: %s за %s"
+msgstr "Лош аргумент %d на команда '%s'"
 
 #: src/wmmenu.cc:110
 #, fuzzy, c-format
