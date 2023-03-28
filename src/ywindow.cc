@@ -1988,7 +1988,8 @@ int YWindow::getScreen() {
 }
 
 bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
-    xiInfo.clear();
+    int infos = 0;
+    bool change = false;
 
 #ifdef CONFIG_XRANDR
     if (xrandr.supported && !xrrDisable) {
@@ -2002,7 +2003,15 @@ bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
             if (ci->width && ci->height) {
                 DesktopScreenInfo si(int(xrrsr->crtcs[i]),
                                      ci->x, ci->y, ci->width, ci->height);
-                xiInfo.append(si);
+                if (infos == xiInfo.getCount()) {
+                    xiInfo.append(si);
+                    change = true;
+                }
+                else if (si != xiInfo[infos]) {
+                    xiInfo[infos] = si;
+                    change = true;
+                }
+                infos++;
             }
             XRRFreeCrtcInfo(ci);
         }
@@ -2046,18 +2055,31 @@ bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
                 DesktopScreenInfo si(i, xine.x_org, xine.y_org,
                                      unsigned(xine.width),
                                      unsigned(xine.height));
-                xiInfo.append(si);
+                if (infos == xiInfo.getCount()) {
+                    xiInfo.append(si);
+                    change = true;
+                }
+                else if (si != xiInfo[infos]) {
+                    xiInfo[infos] = si;
+                    change = true;
+                }
+                infos++;
             }
         }
     }
 #endif
 
-    if (xiInfo.isEmpty()) {
+    if (infos == 0) {
         DesktopScreenInfo si(0, 0, 0,
                              unsigned(xapp->displayWidth()),
                              unsigned(xapp->displayHeight()));
+        xiInfo.clear();
         xiInfo.append(si);
+        change = true;
+        infos++;
     }
+    if (infos < xiInfo.getCount())
+        xiInfo.shrink(infos);
 
     unsigned w = 0;
     unsigned h = 0;
@@ -2071,7 +2093,7 @@ bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
     swap(w, horizontal);
     swap(h, vertical);
     MSG(("desktop screen area: %u %u -> %u %u", w, h, horizontal, vertical));
-    return w != horizontal || h != vertical;
+    return change || w != horizontal || h != vertical;
 }
 
 const DesktopScreenInfo& YDesktop::getScreenInfo(int screen_no) {

@@ -44,6 +44,11 @@ struct DesktopScreenInfo {
         return (1L + horizontalCoverage(x, w))
              * (1L + verticalCoverage(y, h));
     }
+    bool operator!=(const DesktopScreenInfo& o) {
+        return screen_number != o.screen_number
+            || x_org != o.x_org || y_org != o.y_org
+            || width != o.width || height != o.height;
+    }
 };
 
 class AToolTip {
@@ -371,7 +376,7 @@ private:
 
 class YDesktop: public YWindow {
 public:
-    YDesktop(YWindow *aParent = nullptr, Window win = 0);
+    YDesktop(YWindow *aParent, Window win);
     virtual ~YDesktop();
 
     bool updateXineramaInfo(unsigned& horizontal, unsigned& vertical);
