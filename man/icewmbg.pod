@@ -14,7 +14,7 @@ B<icewmbg> can assign a colour or image to the I<X11> desktop background.
 Common image formats are supported.  Each L<icewm(1)> work space can have
 its own background.
 
-When the background image has changed, B<icewmbg> can be notified to
+When the background image changes, B<icewmbg> can be notified to
 update the background.  When switching work spaces, it checks the image
 file modification time.  If the file has changed, it reloads the
 image from file.
@@ -127,8 +127,7 @@ This overrules the C<CycleBackgroundsPeriod> preference.
 =item B<-d>, B<--display>=I<DISPLAY>
 
 Use I<DISPLAY> to connect to the X server.
-If this option is missing then I<DISPLAY>
-is read from the environment variable C<DISPLAY>.
+Otherwise use DISPLAY from the environment.
 
 =item B<-h>, B<--help>
 
@@ -144,7 +143,11 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =item B<--sync>
 
-Use a slower synchronous mode communication with I<X11> server.
+Use a slow synchronous mode to communicate with the I<X11> server.
+
+=item B<--verbose>
+
+Report on some of the activities.
 
 =back
 
