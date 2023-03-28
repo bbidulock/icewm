@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2022-11-14 21:13+0000\n"
+"PO-Revision-Date: 2023-03-28 10:14+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
-"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/nl/>\n"
+"Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2430,19 +2430,15 @@ msgstr "_Over"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "Win_opties opnieuw laden"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Opnieuw laden"
+msgstr "Sleutel_s opnieuw laden"
 
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Sluiten"
+msgstr "Sluit_en"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
