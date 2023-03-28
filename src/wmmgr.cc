@@ -3825,9 +3825,8 @@ void YWindowManager::updateScreenSize(XEvent *event) {
 
     if (updateXineramaInfo(nw, nh)) {
         MSG(("xrandr: %d %d", nw, nh));
-        Atom data[2] = { nw, nh };
-        setProperty(_XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL, data, 2);
         setSize(nw, nh);
+        setDesktopGeometry();
 
         if (taskBar) {
             taskBar->updateLocation();
@@ -3847,6 +3846,7 @@ void YWindowManager::updateScreenSize(XEvent *event) {
         if (arrangeWindowsOnScreenSizeChange) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }
+        manager->arrangeIcons();
     }
 
     refresh();
