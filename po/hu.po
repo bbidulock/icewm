@@ -10,10 +10,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.7\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2023-03-19 12:14+0000\n"
+"PO-Revision-Date: 2023-03-28 22:14+0000\n"
 "Last-Translator: Kempelen <lion@cmsbazar.hu>\n"
-"Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/hu/>\n"
+"Language-Team: Hungarian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2581,21 +2581,17 @@ msgstr "N_évjegy"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "_Ablakbeállítások újratöltése"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Újratöltés"
+msgstr "_Billentyűk újratöltése"
 
 # ../src/icehelp.cc:548 ../src/icesame.cc:59 ../src/iceview.cc:69
 # ../src/wmframe.cc:127
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Bezárás"
+msgstr "Be_zárás"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
