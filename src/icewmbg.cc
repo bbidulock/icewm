@@ -138,6 +138,7 @@ private:
     YArray<int> sequence;
     lazy<YTimer> cycleTimer;
     lazy<YTimer> checkTimer;
+    lazy<YTimer> randrTimer;
 
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
@@ -194,6 +195,11 @@ Background::Background(int *argc, char ***argv, bool verb):
     catchSignal(SIGQUIT);
     catchSignal(SIGUSR1);
     catchSignal(SIGUSR2);
+
+#ifdef CONFIG_XRANDR
+    if (xrandr.supported)
+        XRRSelectInput(xapp->display(), root(), RRScreenChangeNotifyMask);
+#endif
 }
 
 upath Background::getThemeDir() {
@@ -415,6 +421,13 @@ bool Background::handleTimer(YTimer* timer) {
         if (checkWM())
             syncWM();
         update(true);
+    }
+    else if (timer == randrTimer) {
+        if (desktop->updateXineramaInfo(desktopWidth, desktopHeight)) {
+            if (verbose) tlog("desktop change by RandR event: %ux%u",
+                              desktopWidth, desktopHeight);
+            update(true);
+        }
     }
     return false;
 }
@@ -769,12 +782,18 @@ bool Background::filterEvent(const XEvent &xev) {
         else if (xev.xproperty.atom == _XA_NET_DESKTOP_GEOMETRY) {
             unsigned w = desktopWidth, h = desktopHeight;
             getDesktopGeometry();
-            update(w != desktopWidth || h != desktopHeight);
+            if (w != desktopWidth || h != desktopHeight) {
+                if (verbose) tlog("desktop change by geometry property: %ux%u",
+                                  desktopWidth, desktopHeight);
+                checkTimer->setTimer(100L, this, true);
+            }
         }
         else if (xev.xproperty.atom == _XA_NET_WORKAREA) {
-            unsigned w = desktopWidth, h = desktopHeight;
-            desktop->updateXineramaInfo(desktopWidth, desktopHeight);
-            update(w != desktopWidth || h != desktopHeight);
+            if (desktop->updateXineramaInfo(desktopWidth, desktopHeight)) {
+                if (verbose) tlog("desktop change by workarea property: %ux%u",
+                                  desktopWidth, desktopHeight);
+                checkTimer->setTimer(100L, this, true);
+            }
         }
         else if (xev.xproperty.atom == _XA_ICEWMBG_PID) {
             int pid = getBgPid();
@@ -804,6 +823,12 @@ bool Background::filterEvent(const XEvent &xev) {
             return true;
         }
     }
+#ifdef CONFIG_XRANDR
+    else if (xrandr.isEvent(xev.type, RRScreenChangeNotify)) {
+        randrTimer->setTimer(0L, this, true);
+        return true;
+    }
+#endif
 
     return YXApplication::filterEvent(xev);
 }
