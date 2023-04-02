@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2022-12-09 16:13+0000\n"
+"PO-Revision-Date: 2023-04-03 00:14+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/tr/>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2429,19 +2429,15 @@ msgstr "_Hakkında"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "Yenile win_options"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Yeniden yükle"
+msgstr "_Tuşları yükle"
 
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Kapat"
+msgstr "_Kapat"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
