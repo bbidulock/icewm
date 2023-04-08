@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2023-02-09 15:14+0000\n"
-"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2023-04-08 18:14+0000\n"
+"Last-Translator: Wallon <franckjl@hotmail.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,12 +22,12 @@ msgstr ""
 #: src/aapm.cc:66
 #, c-format
 msgid "Can't open the APM device %s"
-msgstr "Impossible d'ouvrir le dispositif APM %s"
+msgstr "Impossible d’ouvrir le dispositif APM %s"
 
 #: src/aapm.cc:74 src/aapm.cc:92
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr "Impossible d'ouvrir l'input-ouput-control du périphérique APM %s"
+msgstr "Impossible d’ouvrir l'input-ouput-control du périphérique APM %s"
 
 #: src/aapm.cc:122
 #, c-format
@@ -160,7 +160,7 @@ msgstr "_Séparer"
 #: src/akeyboard.cc:83 src/icesm.cc:475 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
-msgstr "%s s'est terminé avec le statut %d."
+msgstr "%s s’est terminé avec le statut %d."
 
 #: src/akeyboard.cc:86 src/icesm.cc:481 src/icesm.cc:635 src/wmmenu.cc:506
 #, c-format
@@ -190,7 +190,7 @@ msgstr "Clavier"
 #: src/amailbox.cc:64
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocole de boîte à lettre incorrect : \"%s\""
+msgstr "Protocole de la boîte aux lettres incorrect : \"%s\""
 
 #: src/amailbox.cc:66
 #, c-format
@@ -220,12 +220,12 @@ msgstr "Commande %s introuvable"
 #: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
-msgstr "Échec de l'exécution de %s"
+msgstr "Échec de l’exécution de %s"
 
 #: src/amailbox.cc:447
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr "Échec de l'écriture dans le socket : %s"
+msgstr "Échec de l’écriture dans le socket : %s"
 
 #: src/amailbox.cc:694
 #, c-format
@@ -370,7 +370,7 @@ msgstr "Accessoires"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:53
 msgid "ActionGame"
-msgstr "Jeux d'action"
+msgstr "Jeux d’action"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
@@ -380,7 +380,7 @@ msgstr "Adulte"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
 msgid "AdventureGame"
-msgstr "Jeux d'aventure"
+msgstr "Jeux d’aventure"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:59
@@ -390,7 +390,7 @@ msgstr "Distraction"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
 msgid "ArcadeGame"
-msgstr "Jeux d'arcade"
+msgstr "Jeux d’arcade"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
@@ -690,7 +690,7 @@ msgstr "Client IRC"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:181
 msgid "ImageProcessing"
-msgstr "Traitement de l'image"
+msgstr "Traitement de l’image"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:183
@@ -895,7 +895,7 @@ msgstr "Sciences"
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:263
 msgid "Screensavers"
-msgstr "Économiseurs d'écran"
+msgstr "Économiseurs d’écran"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
 #: src/fdospecgen.h:265
@@ -1188,12 +1188,12 @@ msgstr "Fichier illisible."
 
 #: src/icehelp.cc:2341
 msgid "Failed to create a temporary file"
-msgstr "Échec de la création d'une fichier temporaire"
+msgstr "Échec de la création d’un fichier temporaire"
 
 #: src/icehelp.cc:2434
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr "Échec de l'exécution du système (%s) (%d)"
+msgstr "Échec de l’exécution du système (%s) (%d)"
 
 #: src/icehelp.cc:2457
 #, c-format
@@ -1249,12 +1249,12 @@ msgstr ""
 "\n"
 "IceHelp est un navigateur HTML très simple pour le gestionnaire de fenêtres "
 "IceWM.\n"
-"Il peut afficher un document HTML à partir d'un fichier ou parcourir un site "
+"Il peut afficher un document HTML à partir d’un fichier ou parcourir un site "
 "Web.\n"
 "Il consigne les pages visitées dans un historique qui peut être parcouru\n"
-"à l'aide de combinaisons de touches et d'un menu contextuel (clic avec le "
+"à l’aide de combinaisons de touches et d’un menu contextuel (clic avec le "
 "bouton droit).\n"
-"Il ne prend pas en charge le rendu d'images ni JavaScript.\n"
+"Il ne prend pas en charge le rendu d’images ni JavaScript.\n"
 "Si aucun fichier ni aucune URL ne sont spécifiés, il affiche le manuel "
 "IceWM\n"
 "à partir de %s.\n"
@@ -1264,8 +1264,8 @@ msgstr ""
 "  --sync              Synchronise les commandes X11.\n"
 "\n"
 "  -B                  Affiche la page de manuel icewmbg de IceWM.\n"
-"  -b, --bugs          Affiche les rapports de bogue de IceWM "
-"(initialement).\n"
+"  -b, --bugs          Affiche les rapports de bogue de IceWM (initialement)."
+"\n"
 "  -f, --faq           Affiche la FAQ et les procédures IceWM.\n"
 "  -g                  Affiche le site Web Github de IceWM.\n"
 "  -i, --icewm         Affiche la page de manuel icewm de IceWM.\n"
@@ -1278,7 +1278,7 @@ msgstr ""
 "fenêtre.\n"
 "  -h, --help          Imprime cet écran de syntaxe et ferme la fenêtre.\n"
 "\n"
-"Variables d'environnement :\n"
+"Variables d’environnement :\n"
 "  DISPLAY=NAME        Nom du serveur X à utiliser.\n"
 "\n"
 "Pour signaler des bogues, des demandes de support ou des commentaires, "
@@ -1329,7 +1329,7 @@ msgstr "Même jeu"
 
 #: src/icesh.cc:76
 msgid "For help please consult the man page icesh(1).\n"
-msgstr "Pour obtenir de l'aide, consultez la page de manuel icesh(1).\n"
+msgstr "Pour obtenir de l’aide, consultez la page de manuel icesh(1).\n"
 
 #: src/icesh.cc:1667
 #, c-format
@@ -1388,7 +1388,7 @@ msgstr "Argument non valide : `%s'"
 #: src/icesh.cc:3625
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
-msgstr "Impossible d'obtenir la géométrie de la fenêtre 0x%lx"
+msgstr "Impossible d’obtenir la géométrie de la fenêtre 0x%lx"
 
 #: src/icesh.cc:3650
 #, c-format
@@ -1399,12 +1399,12 @@ msgstr "Xinerama non valide : `%s'."
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
-msgstr "Impossible d'écrire dans %s"
+msgstr "Impossible d’écrire dans %s"
 
 #: src/icesh.cc:4011
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr "L'action \"%s\" nécessite au moins %d paramètre(s)."
+msgstr "L’action \"%s\" nécessite au moins %d paramètre(s)."
 
 #: src/icesh.cc:4020
 #, c-format
@@ -1430,7 +1430,7 @@ msgstr "Pas de fenêtre trouvée."
 
 #: src/icesh.cc:4193
 msgid "No actions specified."
-msgstr "Pas d'action spécifiée."
+msgstr "Pas d’action spécifiée."
 
 #: src/icesh.cc:4334
 #, c-format
@@ -1532,7 +1532,7 @@ msgstr ""
 
 #: src/icesm.cc:526
 msgid "IceWM crash response"
-msgstr "Réponse en cas d'arrêt brutal d'IceWM"
+msgstr "Réponse en cas d’arrêt brutal d’IceWM"
 
 #: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
@@ -1568,7 +1568,7 @@ msgstr "Impossible de publier OSS"
 #: src/icesound.cc:397
 #, c-format
 msgid "Could not open OSS device %s"
-msgstr "Impossible d'ouvrir le périphérique OSS %s"
+msgstr "Impossible d’ouvrir le périphérique OSS %s"
 
 #: src/icesound.cc:402
 msgid "Could not set OSS stereo"
@@ -1720,21 +1720,21 @@ msgstr ""
 #: src/icesound.cc:779
 #, c-format
 msgid "No audio for %s"
-msgstr "Pas d'audio pour %s"
+msgstr "Pas d’audio pour %s"
 
 #: src/icesound.cc:856
 msgid "Could not get GUI event property"
-msgstr "Impossible d'obtenir la propriété d'événement GUI"
+msgstr "Impossible d’obtenir la propriété d’événement GUI"
 
 #: src/icesound.cc:860
 #, c-format
 msgid "Received invalid GUI event %d"
-msgstr "Réception d'un événement GUI non valide %d"
+msgstr "Réception d’un événement GUI non valide %d"
 
 #: src/icesound.cc:864
 #, c-format
 msgid "Received GUI event %s"
-msgstr "Réception d'un événement GUI %s"
+msgstr "Réception d’un événement GUI %s"
 
 #: src/icesound.cc:878
 #, c-format
@@ -1744,7 +1744,7 @@ msgstr "Trop rapide ; %s sera ignoré."
 #: src/icesound.cc:882
 #, c-format
 msgid "Support for the %s interface not compiled."
-msgstr "Support pour l'interface %s non compilé."
+msgstr "Support pour l’interface %s non compilé."
 
 #: src/icesound.cc:915
 #, c-format
@@ -1754,7 +1754,7 @@ msgstr "Interface %s non supportée."
 #: src/icesound.cc:924
 #, c-format
 msgid "Using %s audio."
-msgstr "Utilisation de l'audio %s."
+msgstr "Utilisation de l’audio %s."
 
 #: src/icesound.cc:928
 #, c-format
@@ -1802,7 +1802,7 @@ msgstr "Retour à la ligne automatique"
 #: src/icewmbg.cc:34 src/icewmbg.cc:345
 #, c-format
 msgid "Failed to load image '%s'."
-msgstr "Échec du chargement de l'image '%s'."
+msgstr "Échec du chargement de l’image '%s'."
 
 #: src/icewmbg.cc:873
 msgid ""
@@ -1855,38 +1855,38 @@ msgid ""
 "\n"
 msgstr ""
 "Syntaxe : icewmbg [OPTIONS]\n"
-"Plusieurs valeurs peuvent être spécifiées pour autant qu'elles soient "
+"Plusieurs valeurs peuvent être spécifiées pour autant qu’elles soient "
 "séparée par des virgules.\n"
-"Lorsque l'image correspond à un répertoire, toutes les images que celui-ci "
+"Lorsque l’image correspond à un répertoire, toutes les images que celui-ci "
 "contient sont utilisées.\n"
 "\n"
 "Options :\n"
 "  -p, --replace        Remplace une instance icewmbg existante.\n"
-"  -q, --quit           Indique à l'instance icewmbg en cours d'exécution de "
+"  -q, --quit           Indique à l’instance icewmbg en cours d’exécution de "
 "se fermer.\n"
-"  -r, --restart        Indique à l'instance icewmbg en cours d'exécution de "
+"  -r, --restart        Indique à l’instance icewmbg en cours d’exécution de "
 "redémarrer.\n"
-"  -u, --shuffle        Mélange/réordonne la liste des images d'arrière-"
-"plan.\n"
+"  -u, --shuffle        Mélange/réordonne la liste des images d’arrière-plan."
+"\n"
 "\n"
 "  -c, --config=FILE    Charge les préférences à partir de FILE.\n"
 "  -t, --theme=NAME     Charge le thème nommé NAME.\n"
 "\n"
-"  -i, --image=FILE(S)  Charge les images d'arrière-plan à partir de "
-"FILE(S).\n"
-"  -k, --color=NAME(S)  Utilise les couleurs d'arrière-plan de NAME(S).\n"
+"  -i, --image=FILE(S)  Charge les images d’arrière-plan à partir de FILE(S)."
 "\n"
-"  -s, --semis=FILE(S)  Charge les images de transparence à partir de "
-"FILE(S).\n"
+"  -k, --color=NAME(S)  Utilise les couleurs d’arrière-plan de NAME(S).\n"
+"\n"
+"  -s, --semis=FILE(S)  Charge les images de transparence à partir de FILE(S)."
+"\n"
 "  -x, --trans=NAME(S)  Utilise les couleurs de transparence à partir de "
 "NAME(S).\n"
 "\n"
-"  -e, --center=0/1     Désactive/active le centrage de l'arrière-plan.\n"
-"  -a, --scaled=0/1     Désactive/active la mise à l'échelle de l'arrière-"
+"  -e, --center=0/1     Désactive/active le centrage de l’arrière-plan.\n"
+"  -a, --scaled=0/1     Désactive/active la mise à l’échelle de l’arrière-"
 "plan.\n"
-"  -m, --multi=0/1      Désactive/active l'arrière-plan multitête.\n"
-"  -y, --cycle=SECONDS  Faire un cycle des arrières-plans toutes les "
-"SECONDS.\n"
+"  -m, --multi=0/1      Désactive/active l’arrière-plan multitête.\n"
+"  -y, --cycle=SECONDS  Faire un cycle des arrières-plans toutes les SECONDS."
+"\n"
 "\n"
 "  --display=NAME       Utilise NAME pour se connecter au serveur X.\n"
 "  --sync               Synchronise la communication avec le serveur X11.\n"
@@ -1895,18 +1895,18 @@ msgstr ""
 "  -V, --version        Imprime les informations sur la version et ferme la "
 "fenêtre.\n"
 "\n"
-"Charge l'arrière-plan de bureau en fonction du fichier de préférences :\n"
-" DesktopBackgroundCenter  - Affiche l'arrière-plan de bureau centré\n"
-" DesktopBackgroundScaled  - Affiche l'arrière-plan de bureau mis à "
-"l'échelle\n"
-" DesktopBackgroundColor   - Couleur(s) de l'arrière-plan de bureau\n"
-" DesktopBackgroundImage   - Image(s) de l'arrière-plan de bureau\n"
-" ShuffleBackgroundImages  - Mélanger la liste des images d'arrière-plan\n"
+"Charge l’arrière-plan de bureau en fonction du fichier de préférences :\n"
+" DesktopBackgroundCenter  - Affiche l’arrière-plan de bureau centré\n"
+" DesktopBackgroundScaled  - Affiche l’arrière-plan de bureau mis à l’"
+"échelle\n"
+" DesktopBackgroundColor   - Couleur(s) de l’arrière-plan de bureau\n"
+" DesktopBackgroundImage   - Image(s) de l’arrière-plan de bureau\n"
+" ShuffleBackgroundImages  - Mélanger la liste des images d’arrière-plan\n"
 " SupportSemitransparency  - Prise en charge des terminaux translucides\n"
-" DesktopTransparencyColor - Couleur(s) d'arrière-plan translucides\n"
-" DesktopTransparencyImage - Image(s) d'arrière-plan translucides\n"
+" DesktopTransparencyColor - Couleur(s) d’arrière-plan translucides\n"
+" DesktopTransparencyImage - Image(s) d’arrière-plan translucides\n"
 " DesktopBackgroundMultihead - Arrière-plan unique sur tous les moniteurs\n"
-"CycleBackgroundsPeriod   - Secondes entre chaque cycle d'arrière-plan\n"
+"CycleBackgroundsPeriod   - Secondes entre chaque cycle d’arrière-plan\n"
 "\n"
 " center:0 scaled:0 = mosaïque\n"
 " center:1 scaled:0 = centré\n"
@@ -2036,15 +2036,15 @@ msgstr "_Annuler la déconnexion"
 
 #: src/wmapp.cc:503
 msgid "Lock _Workstation"
-msgstr "_Verrouiller l'écran"
+msgstr "_Verrouiller l’écran"
 
 #: src/wmapp.cc:505 src/wmdialog.cc:85
 msgid "Re_boot"
-msgstr "Re_démarrer l'ordinateur"
+msgstr "Re_démarrer l’ordinateur"
 
 #: src/wmapp.cc:507 src/wmdialog.cc:86
 msgid "Shut_down"
-msgstr "_Arrêter l'ordinateur"
+msgstr "_Arrêter l’ordinateur"
 
 #: src/wmapp.cc:509 src/wmdialog.cc:82
 msgid "_Sleep mode"
@@ -2204,7 +2204,7 @@ msgstr "Occuper tous les bure_aux"
 
 #: src/wmapp.cc:654
 msgid "Limit _Workarea"
-msgstr "_Limiter l'aire de travail"
+msgstr "_Limiter l’aire de travail"
 
 #: src/wmapp.cc:658 src/wmwinlist.cc:462
 msgid "Tray _icon"
@@ -2340,17 +2340,17 @@ msgstr ""
 "  -h, --help          Imprime cet écran de syntaxe et ferme la fenêtre.\n"
 "%s\n"
 "  --replace           Remplace un gestionnaire de fenêtres existant.\n"
-"  -r, --restart       Indique à l'instance icewm de redémarrer.\n"
+"  -r, --restart       Indique à l’instance icewm de redémarrer.\n"
 "\n"
-"  --configured        Imprime la configuration de l'heure de la "
-"compilation.\n"
+"  --configured        Imprime la configuration de l’heure de la compilation."
+"\n"
 "  --directories       Imprime les répertoires de configuration.\n"
 "  -l, --list-themes   Imprime une liste de tous les thèmes disponibles.\n"
 "\n"
-"Variables d'environnement :\n"
+"Variables d’environnement :\n"
 "  ICEWM_PRIVCFG=PATH  Répertoire pour les fichiers de configuration des "
 "utilisateurs,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" s'il existe ou\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" s’il existe ou\n"
 "                      \"$HOME/.icewm\" par défaut.\n"
 "  DISPLAY=NAME        Nom du serveur X à utiliser.\n"
 "  MAIL=URL            Emplacement de votre boîte aux lettres.\n"
@@ -2428,7 +2428,7 @@ msgstr "Échec de chargement du thème %s"
 #: src/wmconfig.cc:113
 #, c-format
 msgid "Unknown value '%s' for option '%s'."
-msgstr "Valeur inconnue '%s' pour l'option '%s'."
+msgstr "Valeur inconnue '%s' pour l’option '%s'."
 
 #: src/wmconfig.cc:121
 #, c-format
@@ -2442,7 +2442,7 @@ msgstr "Impossible de renommer %s en %s"
 
 #: src/wmdialog.cc:81
 msgid "Loc_k Workstation"
-msgstr "_Verrouiller l'écran"
+msgstr "_Verrouiller l’écran"
 
 #: src/wmdialog.cc:83 src/ymsgbox.cc:51
 msgid "_Cancel"
@@ -2465,13 +2465,11 @@ msgstr "À _propos"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "Recharger win_options"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Recharger"
+msgstr "Recharger ke_ys"
 
 #: src/wmdialog.cc:92
 #, fuzzy
@@ -2541,7 +2539,7 @@ msgstr "Ligne présentant un nom de fichier manquant"
 #: src/wmmenu.cc:365
 #, c-format
 msgid "Error at includeprog '%s'"
-msgstr "Erreur au niveau de l'inclusion du programme '%s'"
+msgstr "Erreur au niveau de l’inclusion du programme '%s'"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2709,7 +2707,7 @@ msgstr "_Rafraîchir"
 
 #: src/wmtaskbar.cc:314 src/wmtaskbar.cc:1015
 msgid "Hide Taskbar"
-msgstr "Masquer la barre de tâche"
+msgstr "Masquer la barre des tâches"
 
 #: src/wmtaskbar.cc:337
 msgid "Favorite Applications"
@@ -2725,7 +2723,7 @@ msgstr "Montrer le bureau"
 
 #: src/wmtaskbar.cc:1015
 msgid "Show Taskbar"
-msgstr "Afficher la barre de tâche"
+msgstr "Afficher la barre des tâches"
 
 #: src/wmwinlist.cc:83
 msgid "All Workspaces"
@@ -2788,7 +2786,7 @@ msgstr "Paramètre invalide : %s pour %s [%d, %d]"
 #: src/ycursor.cc:110
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Échec de chargement de l'image %s : %s"
+msgstr "Échec de chargement de l’image %s : %s"
 
 #: src/ycursor.cc:135
 #, c-format
@@ -2872,7 +2870,7 @@ msgstr ""
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
-"Échec lors de la détection de l'encodage des caractères régionaux courants. "
+"Échec lors de la détection de l’encodage des caractères régionaux courants. "
 "Par défaut ISO-8859-1.\n"
 
 #: src/ylocale.cc:128 src/ylocale.cc:136
@@ -2896,19 +2894,19 @@ msgstr "Variables d'environnement $USER ou $LOGNAME non initialisées ?"
 #: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "Échec de l'analyse de l'URL %s."
+msgstr "Échec de l’analyse de l’URL %s."
 
 #: src/yurl.cc:161
 #, c-format
 msgid "Incomplete hex escape in URL at position %d."
 msgstr ""
-"Séquence d'échappement hexadécimale incomplète dans l'URL à la position %d."
+"Séquence d’échappement hexadécimale incomplète dans l’URL à la position %d."
 
 #: src/yurl.cc:168
 #, c-format
 msgid "Invalid hex escape in URL at position %d."
 msgstr ""
-"Séquence d'échappement hexadécimale non valide dans l'URL à la position %d."
+"Séquence d’échappement hexadécimale non valide dans l’URL à la position %d."
 
 #: src/yxapp.cc:998
 msgid ""
@@ -2920,11 +2918,11 @@ msgstr ""
 
 #: src/yximage.cc:157
 msgid "Support for PNG images was not enabled"
-msgstr "Le support des images PNG n'est pas activé"
+msgstr "Le support des images PNG n’est pas activé"
 
 #: src/yximage.cc:165
 msgid "Support for JPEG images was not enabled"
-msgstr "Le support des images JPEG n'est pas activé"
+msgstr "Le support des images JPEG n’est pas activé"
 
 #: src/yximage.cc:171
 #, c-format
@@ -2934,7 +2932,7 @@ msgstr "Format de fichier non pris en charge : %s"
 #: src/yximage.cc:175 src/yximage.cc:198
 #, c-format
 msgid "Could not load image \"%s\""
-msgstr "Impossible de charger l'image \"%s\""
+msgstr "Impossible de charger l’image \"%s\""
 
 #~ msgid "Loading of fallback font \"%s\" failed."
 #~ msgstr "Échec de chargement de la police par défaut \"%s\"."
