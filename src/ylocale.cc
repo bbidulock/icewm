@@ -259,7 +259,7 @@ wchar_t* YLocale::wideCharString(const char* str, size_t len, size_t& out) {
     wchar_t* text = new wchar_t[len + 1];
     size_t count = 0;
     mbtowc(nullptr, nullptr, size_t(0));
-    for (size_t i = 0; i < len; ++i) {
+    for (size_t i = 0; i < len; ) {
         int k = mbtowc(&text[count], str + i, len - i);
         if (k < 1) {
             i++;
