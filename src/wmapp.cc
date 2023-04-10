@@ -1264,6 +1264,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     if (focusMode != FocusCustom)
         initFocusMode();
 
+    DEPRECATE(xrrDisable == true);
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
     DEPRECATE(replayMenuCancelClick == true);
