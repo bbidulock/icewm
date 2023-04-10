@@ -176,6 +176,10 @@ ref<YImage> YImage::load(upath filename)
     return image;
 }
 
+ref<YImage> YImage::loadsvg(upath) {
+    return null;
+}
+
 mstring YXImage::detectImageType(upath filename) {
      const int xpm = 9, png = 8, jpg = 4, len = max(xpm, png);
      char buf[len+1];
