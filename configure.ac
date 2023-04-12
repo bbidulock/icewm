@@ -96,6 +96,8 @@ if test x$enable_i18n != xno; then
     AC_DEFINE([CONFIG_I18N], [1], [Define to enable internationalization.])
     features="$features i18n"
     AM_ICONV
+else
+    unset LIBICONV LTLIBICONV
 fi
 
 AC_ARG_WITH([unicode-set],
