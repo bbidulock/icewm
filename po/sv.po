@@ -1,6 +1,7 @@
 # Swedish translation of Icewm.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Per Larsson <tucker@algonet.se>, 2001.
+# Luna Jernberg <droidbittin@gmail.com>, 2020, 2022, 2023.
 #
 msgid ""
 msgstr ""
