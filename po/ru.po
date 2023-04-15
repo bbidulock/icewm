@@ -15,10 +15,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2022-11-20 10:13+0000\n"
+"PO-Revision-Date: 2023-04-15 18:14+0000\n"
 "Last-Translator: Dmitriy Khanzhin <jinn@altlinux.org>\n"
-"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ru/>\n"
+"Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1257,27 +1257,27 @@ msgid ""
 msgstr ""
 "Использование: %s [ПАРАМЕТР] [ FILENAME | URL ]\n"
 "\n"
-"IceHelp это упрощенный HTML браузер для оконного окружения IceWM.\n"
+"IceHelp это упрощенный HTML браузер для диспетчера окон IceWM.\n"
 "Он может показывать HTML файлы, или WEB-сайты.\n"
 "Посещенные страницы запоминаются в списке истории, которая доступна\n"
 "через горячие клавиши и через контекстное меню (правая кнопка мыши).\n"
 "Показ изображений и JavaScript не поддерживается.\n"
-"Если не указан файл или URL - будет показана Справка IceWM\n"
+"Если не указан файл или URL - будет показано Руководство по IceWM\n"
 "из %s.\n"
 "\n"
 "Параметры:\n"
 "  -d, --display=NAME  Имя 'NAME' используемого X сервера.\n"
 "  --sync              Синхронизировать команды X11.\n"
 "\n"
-"  -B                  Показать IceWM icewmbg man-страницу.\n"
+"  -B                  Показать IceWM man-страницу icewmbg.\n"
 "  -b, --bugs          Показать IceWM сообщения об ошибках (упрощенно).\n"
 "  -f, --faq           Показать IceWM Часто Задаваемые Вопросы и Инструкцию.\n"
 "  -g                  Показать IceWM Вебсайт на Github.\n"
-"  -i, --icewm         Показать IceWM icewm man-страницу.\n"
-"  -m, --manual        Показать IceWM Руководство (по умолчанию).\n"
-"  -s                  Показать IceWM icesound man-страницу.\n"
+"  -i, --icewm         Показать IceWM man-страницу icewm.\n"
+"  -m, --manual        Показать Руководство по IceWM (по умолчанию).\n"
+"  -s                  Показать IceWM man-страницу icesound.\n"
 "  -t, --theme         Показать IceWM Инструкцию по созданию тем.\n"
-"  -w, --website       Показать IceWM Вебсайт.\n"
+"  -w, --website       Показать Вебсайт IceWM.\n"
 "\n"
 "  -V, --version       Показать информацию о версии и выйти.\n"
 "  -h, --help          Показать эту справку и выйти.\n"
@@ -1333,7 +1333,7 @@ msgstr "Игра IceSame"
 
 #: src/icesh.cc:76
 msgid "For help please consult the man page icesh(1).\n"
-msgstr "За справкой обратитесь к странице руководства icesh(1).\n"
+msgstr "За справкой обратитесь к man-странице icesh(1).\n"
 
 #: src/icesh.cc:1667
 #, c-format
@@ -1420,8 +1420,8 @@ msgstr "Неправильное выражение: `%s'"
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
-"Не могу открыть дисплей: %s. X-сервер должен быть загружен и переменная "
-"$DISPLAY установлена."
+"Не могу открыть дисплей: %s. X-сервер должен быть запущен и переменная $"
+"DISPLAY установлена."
 
 #: src/icesh.cc:4147
 #, c-format
@@ -1484,7 +1484,7 @@ msgstr ""
 "  -a, --alpha         Использовать 32-битное представление прозрачности. \n"
 "  --sync              Синхронизация обмена данными с сервером X11.\n"
 "\n"
-"  -i, --icewm=FILE    Использовать FILE в качестве менеджера окон IceWM.\n"
+"  -i, --icewm=FILE    Использовать FILE в качестве диспетчера окон IceWM.\n"
 "  -o, --output=FILE   Перенаправить вывод в FILE.\n"
 "\n"
 "  -b, --nobg          Не запускать icewmbg.\n"
@@ -1667,20 +1667,20 @@ msgstr ""
 " -d, --display=ДИСПЛЕЙ   Использовать данный дисплей X11 (по умолчанию: "
 "$DISPLAY).\n"
 "\n"
-" -s, --sample-dir=КАТ    Каталог со звуковыми файлами.\n"
+" -s, --sample-dir=КАТАЛОГ    Каталог со звуковыми файлами.\n"
 "                         По умолчанию $HOME/.config/icewm/sounds.\n"
 "\n"
 " -i, --interface=СПИСОК    Указывает звуковые интерфейсы. Одно или "
 "несколько\n"
 "                         значений: %s, разделенных запятыми.\n"
 "\n"
-" -D, --device=УСТР-ВО     Только для совместимости: устройство по "
+" -D, --device=УСТРОЙСТВО     Только для совместимости: устройство по "
 "умолчанию. \n"
 "                         Вместо него используйте параметры -O или -A.\n"
 "\n"
-" -O, --oss=УСТ-ВО        Устройство OSS (по умолчанию: \"%s\").\n"
+" -O, --oss=УСТРОЙСТВО        Устройство OSS (по умолчанию: \"%s\").\n"
 "\n"
-" -A, --alsa=УСТ-ВО       Устройство ALSA (по умолчанию: \"%s\").\n"
+" -A, --alsa=УСТРОЙСТВО       Устройство ALSA (по умолчанию: \"%s\").\n"
 "\n"
 " -z, --snooze=мс  Пауза между звуковыми событиями, в мс.\n"
 "                         По умолчанию 500 миллисекунд.\n"
@@ -1986,8 +1986,7 @@ msgstr "Об IceWM"
 #
 #: src/wmapp.cc:90
 msgid "A window manager is already running, use --replace to replace it"
-msgstr ""
-"Оконный менеджер уже запущен; чтобы заменить его, используйте --replace"
+msgstr "Диспетчер окон уже запущен, чтобы заменить его, используйте --replace"
 
 #: src/wmapp.cc:106
 #, c-format
@@ -1996,7 +1995,7 @@ msgstr "Не удалось стать владельцем выбранного
 
 #: src/wmapp.cc:110
 msgid "Waiting to replace the old window manager"
-msgstr "Ожидание замены старого оконного менеджера"
+msgstr "Ожидание замены старого диспетчера окон"
 
 #: src/wmapp.cc:115
 msgid "done."
@@ -2201,12 +2200,12 @@ msgstr "_Убить"
 
 #: src/wmapp.cc:670 src/wmdialog.cc:87 src/wmwinmenu.cc:134
 msgid "_Window list"
-msgstr "_Список Окон"
+msgstr "_Список окон"
 
 #
 #: src/wmapp.cc:709
 msgid "Another window manager already running, exiting..."
-msgstr "Оконный менеджер уже запущен, выходим..."
+msgstr "Другой диспетчер окон уже запущен, выходим..."
 
 #: src/wmapp.cc:784
 #, c-format
@@ -2219,7 +2218,7 @@ msgstr ""
 
 #: src/wmapp.cc:945
 msgid "Confirm Restart as Terminal"
-msgstr "Подтвердите перезагрузку как терминал"
+msgstr "Подтвердите перезапуск как терминал"
 
 #: src/wmapp.cc:946
 msgid ""
@@ -2266,7 +2265,7 @@ msgstr ""
 "  -c, --config=FILE   Загрузка настроек из файла FILE.\n"
 "  -t, --theme=FILE    Загрузка темы из файла FILE.\n"
 "  -s, --splash=IMAGE  Кратковременно показать файл IMAGE во время запуска.\n"
-"  --postpreferences   Вывод настроек после завершения обработки.\n"
+"  -p, --postpreferences   Вывод настроек после завершения обработки.\n"
 "  --rewrite-preferences  Перезаписать существующий файл настроек.\n"
 "  --trace=conf,icon   Отслеживание путей, используемых для загрузки "
 "конфигурации.\n"
@@ -2303,7 +2302,7 @@ msgid ""
 "\n"
 msgstr ""
 "Применение: %s [ПАРАМЕТРЫ]\n"
-"Запускает оконный менеджер IceWM.\n"
+"Запускает диспетчер окон IceWM.\n"
 "\n"
 "Параметры:\n"
 "  --display=ИМЯ       Имя используемого X-сервера.\n"
@@ -2312,8 +2311,8 @@ msgstr ""
 "  -V, --version       Показать информацию о версии и выйти.\n"
 "  -h, --help          Показать эту справку и выйти.\n"
 "%s\n"
-"  --replace           Заместить существующий оконный менеджер.\n"
-"  -r, --restart       Приказать работающему icewm перезапустить себя.\n"
+"  --replace           Заместить существующий диспетчер окон.\n"
+"  -r, --restart       Дать указание работающему icewm перезапустить себя.\n"
 "\n"
 "  --configured        Напечатать конфигурацию, которая была во время "
 "компиляции.\n"
@@ -2438,19 +2437,15 @@ msgstr "_О программе"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "Перечитать win_options"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Перезагрузить"
+msgstr "Перечитать ke_ys"
 
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Закрыть"
+msgstr "За_крыть"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
@@ -2560,7 +2555,7 @@ msgstr "Синтаксическая ошибка в параметрах окн
 
 #: src/wmpref.cc:101
 msgid "Save Modifications"
-msgstr "Сохранить Изменения"
+msgstr "Сохранить изменения"
 
 #: src/wmpref.cc:179
 #, c-format
@@ -2630,7 +2625,7 @@ msgstr "_Фокус"
 
 #: src/wmprog.cc:444
 msgid "_Preferences"
-msgstr "_Предустановки"
+msgstr "_Предпочтения"
 
 #: src/wmprog.cc:449
 msgid "_Themes"
@@ -2643,7 +2638,7 @@ msgstr "Нас_тройки"
 #: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Session Manager: Неизвестная линия %s"
+msgstr "Session Manager: Неизвестная строка %s"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:219 src/wmwinlist.cc:467 src/wmwinlist.cc:500
@@ -2673,7 +2668,7 @@ msgstr "_Отмена"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:230
 msgid "Arrange _Icons"
-msgstr "Упорядочить _Значки"
+msgstr "Упорядочить _значки"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
@@ -2690,7 +2685,7 @@ msgstr "Любимые Приложения"
 
 #: src/wmtaskbar.cc:362
 msgid "Window List Menu"
-msgstr "Список Окон в Меню"
+msgstr "Меню Списка окон"
 
 #: src/wmtaskbar.cc:371
 msgid "Show Desktop"
