@@ -23,6 +23,8 @@ public:
     void deactivate();
 
 private:
+    int indexFocus();
+
     IApp *app;
     enum { Count = 12, };
     YActionButton* buttons[Count];

@@ -158,6 +158,13 @@ void CtrlAltDelete::actionPerformed(YAction action, unsigned int /*modifiers*/) 
     }
 }
 
+int CtrlAltDelete::indexFocus() {
+    YWindow* w = getFocusWindow();
+    int i = Count;
+    while (i-- > 0 && w != buttons[i]);
+    return i;
+}
+
 bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
     int m = KEY_MODMASK(key.state);
@@ -172,11 +179,27 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
             return true;
         }
         if ((k == XK_Down || k == XK_KP_Down) && m == 0) {
-            nextFocus(); nextFocus(); nextFocus();
+            int i = indexFocus();
+            if (i >= 0) {
+                for (int k = 3; k < Count; k += 3) {
+                    if (buttons[(i + k) % Count]->isFocusTraversable()) {
+                        setFocus(buttons[(i + k) % Count]);
+                        break;
+                    }
+                }
+            }
             return true;
         }
         if ((k == XK_Up || k == XK_KP_Up) && m == 0) {
-            prevFocus(); prevFocus(); prevFocus();
+            int i = indexFocus();
+            if (i >= 0) {
+                for (int k = Count - 3; 0 < k; k -= 3) {
+                    if (buttons[(i + k) % Count]->isFocusTraversable()) {
+                        setFocus(buttons[(i + k) % Count]);
+                        break;
+                    }
+                }
+            }
             return true;
         }
         if ((k == XK_End || k == XK_KP_End) && m == 0) {
@@ -188,20 +211,16 @@ bool CtrlAltDelete::handleKey(const XKeyEvent &key) {
             return true;
         }
         if ((k == XK_Prior || k == XK_KP_Prior) && m == 0) {
-            YWindow* w = getFocusWindow();
-            for (int i = 0; i < Count; ++i) {
-                if (w == buttons[i] && 3 <= i) {
-                    setFocus(buttons[i % 3]);
-                }
+            int i = indexFocus();
+            if (i >= 3) {
+                setFocus(buttons[i % 3]);
             }
             return true;
         }
         if ((k == XK_Next || k == XK_KP_Next) && m == 0) {
-            YWindow* w = getFocusWindow();
-            for (int i = 0; i < Count; ++i) {
-                if (w == buttons[i] && i < Count - 3) {
-                    setFocus(buttons[Count - 3 + i % 3]);
-                }
+            int i = indexFocus();
+            if (0 <= i && i < Count - 3) {
+                setFocus(buttons[Count - 3 + i % 3]);
             }
             return true;
         }
