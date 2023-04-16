@@ -76,11 +76,11 @@ $xrandr.=" --verbose";
 sub strip_tfield
 {
     my $name = substr($_[0], $_[1], 13);
-    print "heh: $name\n" if $debug > 4;
+    print "# Raw name: $name\n" if $debug > 4;
     $name=~s/^\W.*//;
     $name=~s/(\r|\n|\0).*//;
     $name=~s/\W$//;
-    print "Decoded: $name\n" if $debug > 2;
+    print "# Decoded: $name\n" if $debug > 2;
     return $name;
 }
 
@@ -94,13 +94,14 @@ sub load_ini
         next if ! -r $_;
         my $fd;
         my %cfg;
+
+        {
+            my %cfg=( "sectype" => "main");
+            push(@cfiledata, \%cfg);
+        }
+
         if (open($fd, "<$_"))
         {
-            {
-                my %cfg=( "sectype" => "main");
-                push(@cfiledata, \%cfg);
-            }
-
             for (<$fd>)
             {
                 s/^\s+//;
@@ -174,9 +175,19 @@ sub match_output
 {
     my $output = shift;
     my @ret = ();
+    #print Dumper("# cfiledata:", @cfiledata) if $debug > 4;
+
+    if (! scalar @cfiledata)
+    {
+        return @ret;
+    }
+
     for my $xr (@cfiledata)
     {
-        next unless ($$xr{"sectype"} eq "main" || $$xr{"sectype"} eq "output");
+        #print "# What is this?".Dumper("# $xr -> ", $xr) if $debug > 5;
+        my $st = $$xr{"sectype"};
+        next if !defined($st);
+        next unless ($st eq "main" || $st eq "output");
 
         my $fil = $$xr{"match-name"};
         if (defined($fil))
@@ -232,7 +243,9 @@ sub pick_for_combo
     my $val;
     for my $xr (@cfiledata)
     {
-        next unless ($$xr{"sectype"} eq "main" || $$xr{"sectype"} eq "combo");
+        my $st = $$xr{"sectype"};
+        next if ! defined($st);
+        next unless ($st eq "main" || $st eq "combo");
         my $fil = ($$xr{"match-name"} or $$xr{"match-label"});
         if (defined($fil))
         {
@@ -271,20 +284,23 @@ sub read_xrandr
     {
         print "# DBG: $_" if $debug > 4;
         my $resFound =/(\d+x\d+\++\d)/;
+        # compressed, non-verbose output
         if(/^(\w\S*)\s+(connected|disconnected)\s+(primary)?/)
         {
 # parse state helper var
             $curmon = $1;
             $prim = $curmon if $3;
-# print "# heh? $1 - $2 - $3 - $4\n";
+            print "# curmon hit? $1 - $2 - ".(defined($3) ? $3 : "")."\n" if $debug > 4;
 # disconnected and also no active resolution set!
             $disabled = ($2 eq "disconnected") && !$resFound;
             if($disabled)
             {
+                print "# marked as disabled: $curmon\n" if $debug > 4;
 #$turnRestOff.=" --display $curmon --off";
             }
             else
             {
+                print "# add as connected: $curmon" if $debug > 4;
                 push(@connected, $curmon);
             }
         }
@@ -292,18 +308,22 @@ sub read_xrandr
         # consider active only when there is a flag in the resolution list...
         $active{$curmon} = (/^\s.*\*current/ && !$disabled) if $curmon;
 
-        if (defined($currentEdid)) {
+        # print "# consider: $curmon" if $debug > 4;
+        if (defined($currentEdid))
+        {
             if (/:/) # now analyze and stop merging
             {
                 parse_edid($currentEdid, $curmon);
                 undef $currentEdid;
             }
-            else {
+            else
+            {
                 /(\w+)/;
                 $currentEdid .= $1;
             }
         }
-        elsif (/EDID:/) {
+        elsif (/EDID:/)
+        {
             $currentEdid = "";
         }
     }
@@ -392,6 +412,9 @@ sub add_conf
     my $newPrim = $cmdHints[0];
     my %dedup;
     my @xcmds;
+
+    print "add_conf: $showname, $icon, $cmd, $postCmdHint" if $debug > 4;
+
     for my $involved (@cmdHints)
     {
         print "# affected: $involved\n" if $debug;
@@ -450,7 +473,7 @@ sub run
             [$prim, $sec]
         );
         add_conf(nameOf($sec)." + ".nameOf($prim, 1), "setscreen21",
-            ajoin(fmtOutputMode($sec), loc($sec), fmtOutputMode($prim), $priFlag, loc($prim, $lof, $sec), $killRest),
+            ajoin(fmtOutputMode($sec), loc($sec), fmtOutputMode($prim), $priFlag, loc($prim, $rof, $sec), $killRest),
             [$prim, $sec]);
         add_conf(nameOf($prim)." + ".nameOf($sec, 1), "setscreen12x",
             ajoin(fmtOutputMode($prim), loc($prim), fmtOutputMode($sec), $priFlag, loc($sec, $rof, $prim), $killRest),
