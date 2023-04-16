@@ -101,14 +101,81 @@ void YImage2::save(upath filename) {
     imlib_save_image(filename.replaceExtension(".png").string());
 }
 
+ref<YImage2> YImage2::twoHigh(unsigned h) {
+    context();
+    unsigned char* top = (unsigned char *) imlib_image_get_data();
+    unsigned char* bot = top + (4 * width());
+    Image image = imlib_create_image(int(width()), int(h));
+    if (image) {
+        context(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
+        imlib_image_set_has_alpha(1);
+        unsigned char* dst = (unsigned char *) imlib_image_get_data();
+        for (unsigned i = 0; i < width(); ++i) {
+            for (int j = 0; j < 4; ++j) {
+                unsigned char* ptr = dst + (4 * i) + j;
+                unsigned t = *top++;
+                unsigned b = *bot++;
+                for (unsigned k = 0; k < h; ++k) {
+                    *ptr = (t * (h - 1 - k) + b * k) / (h - 1);
+                    ptr += 4 * width();
+                }
+            }
+        }
+        imlib_image_put_back_data((DATA32 *) dst);
+        return ref<YImage2>(new YImage2(width(), h, image));
+    }
+    return null;
+}
+
+ref<YImage2> YImage2::twoWide(unsigned w) {
+    context();
+    unsigned char* src = (unsigned char *) imlib_image_get_data();
+    Image image = imlib_create_image(int(w), int(height()));
+    if (image) {
+        context(image);
+        imlib_context_set_mask_alpha_threshold(ATH);
+        imlib_image_set_has_alpha(1);
+        unsigned char* dst = (unsigned char *) imlib_image_get_data();
+        for (unsigned i = 0; i < height(); ++i) {
+            for (unsigned k = 0; k < w; ++k) {
+                unsigned char* ptr = dst + (4 * (i * w + k));
+                for (int j = 0; j < 4; ++j) {
+                    unsigned l = src[j];
+                    unsigned r = src[j + 4];
+                    *ptr++ = (l * (w - 1 - k) + r * k) / (w - 1);
+                }
+            }
+            src += 8;
+        }
+        imlib_image_put_back_data((DATA32 *) dst);
+        return ref<YImage2>(new YImage2(w, height(), image));
+    }
+    return null;
+}
+
 ref<YImage> YImage2::scale(unsigned w, unsigned h) {
     if (w == width() && h == height())
         return ref<YImage>(this);
 
-    context();
+    ref<YImage2> im(this);
+    if (height() == 2 && 2 < h) {
+        im = im->twoHigh(h);
+        if (im == null)
+            return null;
+    }
+    if (width() == 2 && 2 < w) {
+        im = im->twoWide(w);
+        if (im == null)
+            return null;
+    }
+    if (w == im->width() && h == im->height())
+        return ref<YImage>(im);
+
+    im->context();
     imlib_context_set_anti_alias(1);
     Image image = imlib_create_cropped_scaled_image(0, 0,
-                   int(width()), int(height()), int(w), int(h));
+                   int(im->width()), int(im->height()), int(w), int(h));
     if (image) {
         imlib_context_set_image(image);
         imlib_context_set_mask_alpha_threshold(ATH);

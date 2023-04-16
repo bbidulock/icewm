@@ -167,17 +167,13 @@ public:
 
     void drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h,
                      int sx, int sy, unsigned sw, unsigned sh);
-    void drawSurface(YSurface const & surface, int x, int y, unsigned w, unsigned h) {
-        drawSurface(surface, x, y, w, h, 0, 0, w, h);
-    }
+    void drawSurface(const YSurface& surf, int x, int y, unsigned w, unsigned h);
 
     void drawGradient(ref<YImage> gradient,
                       int x, int y, const unsigned w, const unsigned h,
                       int gx, int gy, unsigned gw, unsigned gh);
     void drawGradient(ref<YImage> gradient,
-                      int x, int y, unsigned w, unsigned h) {
-        drawGradient(gradient, x, y, w, h, 0, 0, w, h);
-    }
+                      int x, int y, unsigned w, unsigned h);
 
     void repHorz(ref<YPixmap> p, int x, int y, unsigned w);
     void repVert(ref<YPixmap> p, int x, int y, unsigned h);

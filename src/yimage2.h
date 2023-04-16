@@ -37,9 +37,11 @@ public:
 private:
     Image fImage;
 
-    void context() const {
-        imlib_context_set_image(fImage);
-    }
+    void context(Image image) const { imlib_context_set_image(image); }
+    void context() const { imlib_context_set_image(fImage); }
+    ref<YImage2> twoHigh(unsigned height);
+    ref<YImage2> twoWide(unsigned width);
+
     static GC gcs[3];
     static GC gc(Drawable draw, unsigned depth);
     static void freegcs();
