@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2023-04-15 18:14+0000\n"
+"PO-Revision-Date: 2023-04-19 07:14+0000\n"
 "Last-Translator: Dmitriy Khanzhin <jinn@altlinux.org>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/ru/>\n"
@@ -2064,7 +2064,7 @@ msgstr "Д_есктоп"
 
 #: src/wmapp.cc:576 src/wmwinlist.cc:379
 msgid "Move to New _Window"
-msgstr "Перейти к новому_окну"
+msgstr "Переместить в новое _окно"
 
 #: src/wmapp.cc:586
 msgid "Left Half"
