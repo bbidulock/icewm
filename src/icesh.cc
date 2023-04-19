@@ -3123,10 +3123,24 @@ static Window getClientWindow(Window frame)
                 Window subw = subs[k];
                 if (XGetWindowAttributes(display, subw, &attr) &&
                     0 < attr.map_state) {
-                    if (clist ? clist.have(subw) : WmName(cont) == "Container")
+                    if (clist && clist.have(subw))
                         return subw;
+                    if (subs.count() == 1) {
+                        WmName name(cont);
+                        if (name == "Container" || name == "TaskBarFrame")
+                            return subw;
+                    }
                 }
             }
+        }
+    }
+
+    if (WmName(frame) != "Frame") {
+        XWindowAttributes attr;
+        if (XGetWindowAttributes(display, frame, &attr) &&
+            0 < attr.map_state &&
+            attr.override_redirect == True) {
+            return frame;
         }
     }
 
