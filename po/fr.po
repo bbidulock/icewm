@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2023-04-08 18:14+0000\n"
+"PO-Revision-Date: 2023-04-21 11:14+0000\n"
 "Last-Translator: Wallon <franckjl@hotmail.com>\n"
 "Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/fr/>\n"
@@ -1103,7 +1103,7 @@ msgstr "Ctrl+R"
 
 #: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
 msgid "Close"
-msgstr "Fermer"
+msgstr "Quitter"
 
 #: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
 msgid "Ctrl+Q"
@@ -2216,7 +2216,7 @@ msgstr "R_enommer le titre"
 
 #: src/wmapp.cc:665 src/wmwinlist.cc:478 src/wmwinlist.cc:486
 msgid "_Close"
-msgstr "_Fermer"
+msgstr "_Quitter"
 
 #: src/wmapp.cc:667 src/wmwinlist.cc:480
 msgid "_Kill Client"
@@ -2379,7 +2379,7 @@ msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
 msgstr ""
-"La déconnexion va clore toutes les applications ouvertes.\n"
+"La déconnexion va fermer toutes les applications ouvertes.\n"
 "Êtes-vous sûr de vouloir vous déconnecter ?"
 
 #
@@ -2472,10 +2472,8 @@ msgid "Reload ke_ys"
 msgstr "Recharger ke_ys"
 
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Fermer"
+msgstr "Quitt_er"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
