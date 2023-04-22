@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2023-04-21 11:14+0000\n"
+"PO-Revision-Date: 2023-04-22 08:14+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
 "Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/tr/>\n"
@@ -2500,7 +2500,7 @@ msgstr "İfadeyi eklemek için dosya adı argümanı eksik"
 #: src/wmmenu.cc:365
 #, c-format
 msgid "Error at includeprog '%s'"
-msgstr "includeprog '%s' hatası"
+msgstr "includeprog '%s' konumunda hata"
 
 #: src/wmmenu.cc:408
 #, c-format
@@ -2542,7 +2542,7 @@ msgstr "Bilinmeyen pencere seçeneği: %s"
 #: src/wmoption.cc:356
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
-msgstr "%d satırı %s dosyası pencere seçeneğinde söz dizimi hatası"
+msgstr "Pencere seçeneklerinde%d satırı %s dosyasında söz dizimi hatası"
 
 #: src/wmpref.cc:101
 msgid "Save Modifications"
@@ -2555,7 +2555,7 @@ msgstr "%s için yeni bir değer girin: "
 
 #: src/wmprog.cc:336
 msgid "_Click to focus"
-msgstr "Oda_klama için tıklayın"
+msgstr "_Odaklama için tıklayın"
 
 #: src/wmprog.cc:337
 msgid "_Explicit focus"
@@ -2595,7 +2595,7 @@ msgstr "Ice_Ses(1)"
 
 #: src/wmprog.cc:415
 msgid "Programs"
-msgstr "Programlar"
+msgstr "Uygulamalar"
 
 #: src/wmprog.cc:419
 msgid "_Run..."
@@ -2634,7 +2634,7 @@ msgstr "Oturum Yöneticisi: Bilinmeyen satır %s"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:219 src/wmwinlist.cc:467 src/wmwinlist.cc:500
 msgid "Ca_scade"
-msgstr "_Basamakla"
+msgstr "Ba_samakla"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:221 src/wmwinlist.cc:468 src/wmwinlist.cc:501
@@ -2649,7 +2649,7 @@ msgstr "_Hepsini Küçült"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:225 src/wmwinlist.cc:471 src/wmwinlist.cc:503
 msgid "_Hide All"
-msgstr "H_epsini gizle"
+msgstr "_Hepsini gizle"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:227 src/wmwinlist.cc:472 src/wmwinlist.cc:504
@@ -2692,7 +2692,7 @@ msgstr "Tüm Çalışma Alanları"
 
 #: src/wmwinlist.cc:452
 msgid "_Show"
-msgstr "_Göster"
+msgstr "Gö_ster"
 
 #: src/wmwinlist.cc:455
 msgid "_Raise"
@@ -2722,7 +2722,7 @@ msgstr "%lu. Çalışma Alanı %-.32s"
 #: src/wpixres.cc:93 src/wpixres.cc:100
 #, c-format
 msgid "Image not readable: %s"
-msgstr "Resim okunamıyor: %s"
+msgstr "Resim okunamaz: %s"
 
 #: src/yapp.cc:296
 #, c-format
@@ -2737,17 +2737,17 @@ msgstr "\"%s\" rengi çözümlenemedi"
 #: src/yconfig.cc:113
 #, c-format
 msgid "Unknown key name %s in %s"
-msgstr "%s'te bilimeyen anahtar adı %s"
+msgstr "Bilimeyen anahtar adı %s %s içinde"
 
 #: src/yconfig.cc:128 src/yconfig.cc:139 src/yconfig.cc:151
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Kötü argüman: %s için %s [%d,%d]"
+msgstr "Kötü argüman: %s , %s için [%d,%d]"
 
 #: src/ycursor.cc:110
 #, c-format
 msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "\"%s\" pixmapi yüklenirken hata oluştu: %s"
+msgstr "Pixmap \"%s\" yüklenirken hata oluştu: %s"
 
 #: src/ycursor.cc:135
 #, c-format
@@ -2757,7 +2757,7 @@ msgstr "\"%s\" pixmap'i yüklenemedi"
 #: src/ycursor.cc:179
 #, c-format
 msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUG? Imlib \"%s\" i okuyamıyor"
+msgstr "HATA? Imlib \"%s\" i okuyamıyor"
 
 #: src/ycursor.cc:204
 #, c-format
@@ -2781,7 +2781,7 @@ msgstr "HATA? Beklenmeyen karakter ama Imlib \"%s\" dosyasını işlemeyi başar
 #: src/yfontcore.cc:121 src/yfontxft.cc:117
 #, c-format
 msgid "Could not load font \"%s\"."
-msgstr "\"%s\" fontu yüklenemedi."
+msgstr "\"%s\" yazı tipi yüklenemedi."
 
 #: src/yfontcore.cc:233
 #, c-format
@@ -2795,7 +2795,7 @@ msgstr "\"%s\" font kümesi yüklenemedi."
 
 #: src/yinputline.cc:18
 msgid "_Copy"
-msgstr "K_opyala"
+msgstr "_Kopyala"
 
 #: src/yinputline.cc:18
 msgid "Ctrl+C"
@@ -2803,7 +2803,7 @@ msgstr "Ctrl+C"
 
 #: src/yinputline.cc:19
 msgid "Cu_t"
-msgstr "_Kes"
+msgstr "Ke_s"
 
 #: src/yinputline.cc:20
 msgid "_Paste"
@@ -2811,7 +2811,7 @@ msgstr "_Yapıştır"
 
 #: src/yinputline.cc:21
 msgid "Paste _Selection"
-msgstr "_Seçimi Yapıştır"
+msgstr "Seçi_mi Yapıştır"
 
 #: src/yinputline.cc:21
 msgid "Ctrl+P"
@@ -2828,8 +2828,8 @@ msgstr "Ctrl+A"
 #: src/ylocale.cc:60
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
-"C kütüphanesi yada XLib yerelleştirmeyi desteklemiyor. Varsayılan 'C' "
-"locale'ye dönüldü."
+"Yerelleştirme C kütüphanesi yada XLib tarafından desteklenmiyor. Varsayılan "
+"'C' locale'ye dönüldü."
 
 #: src/ylocale.cc:95
 msgid ""
@@ -2858,7 +2858,7 @@ msgstr "$USER ya da $LOGNAME ayarlanmamış?"
 #: src/yurl.cc:145
 #, c-format
 msgid "Failed to parse URL \"%s\"."
-msgstr "\"%s\" URL ayrıştırılamadı."
+msgstr "\"%s\" URL çözümlenemedi."
 
 #: src/yurl.cc:161
 #, c-format
