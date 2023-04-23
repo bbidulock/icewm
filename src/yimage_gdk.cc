@@ -66,20 +66,88 @@ void YImageGDK::save(upath filename) {
     }
 }
 
+ref<YImageGDK> YImageGDK::twoHigh(unsigned h) {
+    if (gdk_pixbuf_get_has_alpha(fPixbuf) == false) {
+        GdkPixbuf* copy = gdk_pixbuf_add_alpha(fPixbuf, FALSE, 0, 0, 0);
+        if (copy == nullptr)
+            return null;
+        dispose();
+        fPixbuf = copy;
+    }
+    guchar* top = gdk_pixbuf_get_pixels(fPixbuf);
+    guchar* bot = top + gdk_pixbuf_get_rowstride(fPixbuf);
+    GdkPixbuf* pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+                                       width(), h);
+    if (pixbuf) {
+        guchar* pixels = gdk_pixbuf_get_pixels(pixbuf);
+        unsigned stride = gdk_pixbuf_get_rowstride(pixbuf);
+        for (unsigned i = 0; i < width(); ++i) {
+            for (int j = 0; j < 4; ++j) {
+                guchar* ptr = pixels + (4 * i) + j;
+                unsigned t = *top++;
+                unsigned b = *bot++;
+                for (unsigned k = 0; k < h; ++k) {
+                    *ptr = (t * (h - 1 - k) + b * k) / (h - 1);
+                    ptr += stride;
+                }
+            }
+        }
+        return ref<YImageGDK>(new YImageGDK(width(), h, pixbuf));
+    }
+    return null;
+}
+
+ref<YImageGDK> YImageGDK::twoWide(unsigned w) {
+    if (gdk_pixbuf_get_has_alpha(fPixbuf) == false) {
+        GdkPixbuf* copy = gdk_pixbuf_add_alpha(fPixbuf, FALSE, 0, 0, 0);
+        if (copy == nullptr)
+            return null;
+        dispose();
+        fPixbuf = copy;
+    }
+    guchar* src = (guchar *) gdk_pixbuf_get_pixels(fPixbuf);
+    GdkPixbuf* pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
+                                       w, height());
+    if (pixbuf) {
+        guchar* pixels = gdk_pixbuf_get_pixels(pixbuf);
+        unsigned stride = gdk_pixbuf_get_rowstride(pixbuf);
+        for (unsigned i = 0; i < height(); ++i) {
+            for (unsigned k = 0; k < w; ++k) {
+                guchar* ptr = pixels + i * stride + 4 * k;
+                for (int j = 0; j < 4; ++j) {
+                    unsigned l = src[j];
+                    unsigned r = src[j + 4];
+                    *ptr++ = (l * (w - 1 - k) + r * k) / (w - 1);
+                }
+            }
+            src += gdk_pixbuf_get_rowstride(fPixbuf);
+        }
+        return ref<YImageGDK>(new YImageGDK(w, height(), pixbuf));
+    }
+    return null;
+}
+
 ref<YImage> YImageGDK::scale(unsigned w, unsigned h) {
     if (w == width() && h == height())
         return ref<YImage>(this);
 
-    ref<YImage> image;
-    GdkPixbuf *pixbuf;
-    pixbuf = gdk_pixbuf_scale_simple(fPixbuf,
-                                     w, h,
-                                     GDK_INTERP_BILINEAR);
-    if (pixbuf != nullptr) {
-        image.init(new YImageGDK(w, h, pixbuf));
+    ref<YImageGDK> im(this);
+    if (height() == 2 && 2 < h) {
+        im = im->twoHigh(h);
+        if (im == null)
+            return null;
     }
+    if (width() == 2 && 2 < w) {
+        im = im->twoWide(w);
+        if (im == null)
+            return null;
+    }
+    if (w == im->width() && h == im->height())
+        return ref<YImage>(im);
 
-    return image;
+    GdkPixbuf* pixbuf = gdk_pixbuf_scale_simple(im->fPixbuf, w, h,
+                                                GDK_INTERP_BILINEAR);
+    return pixbuf ? ref<YImageGDK>(new YImageGDK(w, h, pixbuf)) : null;
 }
 
 ref<YImage> YImageGDK::subimage(int x, int y, unsigned w, unsigned h) {

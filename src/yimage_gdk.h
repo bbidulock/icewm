@@ -11,13 +11,8 @@
 class YImageGDK: public YImage {
 public:
     YImageGDK(unsigned width, unsigned height, GdkPixbuf *pixbuf):
-        YImage(width, height)
-    {
-        fPixbuf = pixbuf;
-    }
-    virtual ~YImageGDK() {
-        g_object_unref(G_OBJECT(fPixbuf));
-    }
+        YImage(width, height), fPixbuf(pixbuf) { }
+    virtual ~YImageGDK() { dispose(); }
     virtual ref<YPixmap> renderToPixmap(unsigned depth, bool premult);
     virtual ref<YImage> scale(unsigned width, unsigned height);
     virtual void draw(Graphics &g, int dx, int dy);
@@ -33,6 +28,10 @@ public:
 
 private:
     GdkPixbuf *fPixbuf;
+
+    ref<YImageGDK> twoHigh(unsigned height);
+    ref<YImageGDK> twoWide(unsigned width);
+    void dispose() { g_object_unref(G_OBJECT(fPixbuf)); }
 };
 
 #endif
