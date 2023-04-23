@@ -23,6 +23,16 @@ YColorName WorkspaceButton::activeButtonFg(&clrWorkspaceActiveButtonText);
 YFont WorkspaceButton::normalButtonFont;
 YFont WorkspaceButton::activeButtonFont;
 
+ref<YImage> WorkspaceButton::normalGradient;
+ref<YImage> WorkspaceButton::activeGradient;
+
+void WorkspaceButton::freeFonts() {
+    normalButtonFont = null;
+    activeButtonFont = null;
+    normalGradient = null;
+    activeGradient = null;
+}
+
 WorkspaceButton::WorkspaceButton(int ws, YWindow *parent, WorkspaceDragger* d):
     super(parent, YAction()),
     fWorkspace(ws),
@@ -603,14 +613,33 @@ YColor WorkspaceButton::getColor() {
         : normalButtonFg ? normalButtonFg : YButton::getColor();
 }
 
+ref<YImage> WorkspaceButton::getGradient() {
+    if (isPressed()) {
+        if (activeGradient == null ||
+            (activeGradient != null &&
+             (activeGradient->width() != width() ||
+              activeGradient->height() != height())))
+            activeGradient =
+                workspacebuttonactivePixbuf->scale(width(), height());
+        return activeGradient;
+    } else {
+        if (normalGradient == null ||
+            (normalGradient != null &&
+             (normalGradient->width() != width() ||
+              normalGradient->height() != height())))
+            normalGradient = workspacebuttonPixbuf->scale(width(), height());
+        return normalGradient;
+    }
+}
+
 YSurface WorkspaceButton::getSurface() {
     return (isPressed()
             ? YSurface(activeButtonBg ? activeButtonBg : activeBackupBg,
                                    workspacebuttonactivePixmap,
-                                   workspacebuttonactivePixbuf)
+                                   getGradient())
             : YSurface(normalButtonBg ? normalButtonBg : normalBackupBg,
                        workspacebuttonPixmap,
-                       workspacebuttonPixbuf));
+                       getGradient()));
 }
 
 YDimension WorkspaceButton::getTextSize() {

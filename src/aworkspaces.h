@@ -32,7 +32,7 @@ public:
     bool isStale() const { return fStale; }
     int extent() const { return x() + int(width()); }
     virtual void repaint();
-    static void freeFonts() { normalButtonFont = null; activeButtonFont = null; }
+    static void freeFonts();
 
 private:
     virtual void handleButton(const XButtonEvent &button);
@@ -54,6 +54,7 @@ private:
     virtual YColor   getColor();
     virtual YSurface getSurface();
     virtual YDimension getTextSize();
+    ref<YImage> getGradient();
 
     virtual void inputReturn(YInputLine* input);
     virtual void inputEscape(YInputLine* input);
@@ -81,6 +82,9 @@ private:
 
     static YFont normalButtonFont;
     static YFont activeButtonFont;
+
+    static ref<YImage> normalGradient;
+    static ref<YImage> activeGradient;
 };
 
 class WorkspaceIcons {
