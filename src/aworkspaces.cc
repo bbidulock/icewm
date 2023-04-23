@@ -615,18 +615,18 @@ YColor WorkspaceButton::getColor() {
 
 ref<YImage> WorkspaceButton::getGradient() {
     if (isPressed()) {
-        if (activeGradient == null ||
-            (activeGradient != null &&
-             (activeGradient->width() != width() ||
-              activeGradient->height() != height())))
+        if (activeGradient == null ?
+            workspacebuttonactivePixbuf != null :
+            (activeGradient->width() != width() ||
+             activeGradient->height() != height()))
             activeGradient =
                 workspacebuttonactivePixbuf->scale(width(), height());
         return activeGradient;
     } else {
-        if (normalGradient == null ||
-            (normalGradient != null &&
-             (normalGradient->width() != width() ||
-              normalGradient->height() != height())))
+        if (normalGradient == null ?
+            workspacebuttonPixbuf != null :
+            (normalGradient->width() != width() ||
+             normalGradient->height() != height()))
             normalGradient = workspacebuttonPixbuf->scale(width(), height());
         return normalGradient;
     }
