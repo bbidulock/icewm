@@ -13,16 +13,17 @@ class YMenu;
 class ObjectButton: public YButton {
 public:
     ObjectButton(YWindow *parent, DObject *object):
-        YButton(parent, actionNull), fObject(object) { obinit(); }
+        YButton(parent, actionNull), fObject(object), fRealized(false)
+        { obinit(); }
 
     ObjectButton(YWindow *parent, YMenu *popup):
-        YButton(parent, actionNull, popup) { obinit(); }
+        YButton(parent, actionNull, popup), fRealized(false) { obinit(); }
 
     ObjectButton(YWindow *parent, LazyMenu *menu):
-        YButton(parent, actionNull), fMenu(menu) { obinit(); }
+        YButton(parent, actionNull), fMenu(menu), fRealized(false) { obinit(); }
 
     ObjectButton(YWindow *parent, YAction action):
-        YButton(parent, action) { obinit(); }
+        YButton(parent, action), fRealized(false) { obinit(); }
 
     virtual ~ObjectButton() {}
 
@@ -39,17 +40,21 @@ public:
     virtual YFont getFont();
     virtual YColor   getColor();
     virtual YSurface getSurface();
-    static void freeFont() { font = null; }
+    static void freeFont();
+    void realize() { fRealized = true; repaint(); show(); }
+    bool realized() const { return fRealized; }
 
 private:
     void obinit() { addStyle(wsNoExpose | wsToolTipping); setParentRelative(); }
 
     osmart<DObject> fObject;
     osmart<LazyMenu> fMenu;
+    bool fRealized;
 
     static YFont font;
     static YColorName bgColor;
     static YColorName fgColor;
+    static ref<YImage> gradients[4];
 };
 
 #endif

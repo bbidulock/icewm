@@ -336,6 +336,7 @@ void TaskBar::initApplets() {
         fApplications->setImage(taskbarStartImage);
         fApplications->setToolTip(_("Favorite Applications"));
         fApplications->setTitle("TaskBarMenu");
+        fApplications->realize();
     } else
         fApplications = nullptr;
 
@@ -361,6 +362,7 @@ void TaskBar::initApplets() {
         fWinList->setActionListener(this);
         fWinList->setToolTip(_("Window List Menu"));
         fWinList->setTitle("ShowWindowList");
+        fWinList->realize();
     } else
         fWinList = nullptr;
     if (taskBarShowShowDesktopButton) {
@@ -370,6 +372,7 @@ void TaskBar::initApplets() {
         fShowDesktop->setActionListener(wmActionListener);
         fShowDesktop->setToolTip(_("Show Desktop"));
         fShowDesktop->setTitle("ShowDesktop");
+        fShowDesktop->realize();
     }
 
     fWorkspaces = taskBarShowWorkspaces
@@ -413,6 +416,7 @@ void TaskBar::initApplets() {
     }
 
     if (fCollapseButton) {
+        fCollapseButton->realize();
         fCollapseButton->raise();
     }
 }
@@ -1019,7 +1023,7 @@ void TaskBar::handleCollapseButton() {
             fCollapseButton->setText(text);
         }
         fCollapseButton->setToolTip(ttip);
-        fCollapseButton->repaint();
+        fCollapseButton->realize();
     }
 
     if (fIsCollapsed)
