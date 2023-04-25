@@ -14,6 +14,13 @@
 YFont ObjectButton::font;
 YColorName ObjectButton::bgColor(&clrToolButton);
 YColorName ObjectButton::fgColor(&clrToolButtonText);
+ref<YImage> ObjectButton::gradients[4];
+
+void ObjectButton::freeFont() {
+    font = null;
+    for (int i = 0; i < 4; ++i)
+        gradients[i] = null;
+}
 
 YFont ObjectButton::getFont() {
     if (font == null) {
@@ -32,8 +39,25 @@ YColor ObjectButton::getColor() {
 }
 
 YSurface ObjectButton::getSurface() {
+    ref<YImage> grad;
+    if (toolbuttonPixbuf != null) {
+        int i = 0;
+        for (; i < 4; ++i)
+            if (gradients[i] == null ||
+                (gradients[i]->width() == width() &&
+                 gradients[i]->height() == height()))
+                break;
+        if (i == 4 || gradients[i] == null)
+            grad = toolbuttonPixbuf->scale(width(), height());
+        else
+            grad = gradients[i];
+        for (; 0 < i; --i)
+            if (i < 4)
+                gradients[i] = gradients[i - 1];
+        gradients[0] = grad;
+    }
     return YSurface(bgColor ? bgColor : YButton::normalButtonBg,
-                    toolbuttonPixmap, toolbuttonPixbuf);
+                    toolbuttonPixmap, grad);
 }
 
 void ObjectButton::actionPerformed(YAction action, unsigned modifiers) {
@@ -57,7 +81,9 @@ void ObjectButton::paint(Graphics &g, const YRect &r) {
 }
 
 void ObjectButton::repaint() {
-    GraphicsBuffer(this).paint();
+    if (fRealized) {
+        GraphicsBuffer(this).paint();
+    }
 }
 
 void ObjectButton::requestFocus(bool requestUserFocus) {

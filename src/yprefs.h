@@ -29,6 +29,7 @@ XIV(int, autoScrollStartDelay,                  500)
 XIV(int, autoScrollDelay,                       60)
 XIV(int, ToolTipDelay,                          500)
 XIV(int, ToolTipTime,                           0)
+XIV(bool, ToolTipIcon,                          true)
 
 ///#warning "move this one back to WM"
 XIV(bool, grabRootWindow,                       true)

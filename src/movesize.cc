@@ -5,6 +5,7 @@
  */
 #include "config.h"
 #include "wmframe.h"
+#include "wmcontainer.h"
 #include "wmmgr.h"
 #include "wmstatus.h"
 #include "wmapp.h"
@@ -996,6 +997,14 @@ void YFrameWindow::endMoveSize() {
     movingWindow = false;
     sizingWindow = false;
 
+    if (container()->buttoned() == false) {
+        if (overlapped())
+            container()->grabButtons();
+    } else if (focused()) {
+        if (!raiseOnClickClient || !canRaise() || !overlapped())
+            container()->releaseButtons();
+    }
+
     if (taskBar) {
         taskBar->workspacesRepaint(getWorkspace());
     }
@@ -1086,7 +1095,8 @@ void YFrameWindow::moveWindow(int newX, int newY) {
 void YFrameWindow::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress) {
         if (button.button == 1 && !(button.state & ControlMask)) {
-            activate();
+            if (isMapped() && ! focused())
+                activate();
             if (raiseOnClickFrame)
                 wmRaise();
         }

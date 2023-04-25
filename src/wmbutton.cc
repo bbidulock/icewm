@@ -157,7 +157,8 @@ void YFrameButton::handleButton(const XButtonEvent &button) {
         (buttonRaiseMask & (1 << (button.button - Button1))))
     {
         if (!(button.state & ControlMask) && raiseOnClickButton) {
-            getFrame()->activate();
+            if (focused() == false || getFrame()->isRollup())
+                getFrame()->activate();
             if (raiseOnClickButton && getAction() != actionDepth)
                 getFrame()->wmRaise();
         }

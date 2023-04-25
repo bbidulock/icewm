@@ -252,9 +252,8 @@ void YFrameWindow::layoutShape() {
         fShapeMoreTabs = moreTabs();
 
         if (shapes.supported &&
-            (frameDecors() & fdBorder) &&
-            !isIconic() &&
-            !isFullscreen())
+            hasBorders() &&
+            !isIconic())
         {
             int const a(focused());
             int const t((frameDecors() & fdResize) ? 0 : 1);
@@ -509,10 +508,26 @@ unsigned YFrameWindow::overlap(YFrameWindow* f) {
     return 0;
 }
 
-bool YFrameWindow::overlaps(bool isAbove) {
-    YFrameWindow* f = isAbove ? prev() : next();
-    for (; f; f = isAbove ? f->prev() : f->next())
-        if (overlap(f))
+bool YFrameWindow::overlaps(YFrameWindow* f) {
+    return f->visible() &&
+            (x() < f->x()
+                 ? f->x() < x() + int(width())
+                 : x() < f->x() + int(f->width())) &&
+            (y() < f->y()
+                 ? f->y() < y() + int(height())
+                 : y() < f->y() + int(f->height()));
+}
+
+bool YFrameWindow::overlapping() {
+    for (YFrameWindow* f = next(); f; f = f->next())
+        if (overlaps(f))
+            return true;
+    return false;
+}
+
+bool YFrameWindow::overlapped() {
+    for (YFrameWindow* f = prev(); f; f = f->prev())
+        if (overlaps(f) && client()->getOwner() != f->client())
             return true;
     return false;
 }

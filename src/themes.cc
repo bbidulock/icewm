@@ -48,10 +48,12 @@ void DTheme::open() {
     smActionListener->handleSMAction(ICEWM_ACTION_RESTARTWM);
 }
 
-ThemesMenu::ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent): ObjectMenu(wmActionListener, parent) {
-    themeCount = 0;
-    this->app = app;
-    this->smActionListener = smActionListener;
+ThemesMenu::ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent)
+    : ObjectMenu(wmActionListener, parent)
+    , themeCount(0)
+    , smActionListener(smActionListener)
+    , app(app)
+{
 }
 
 void ThemesMenu::updatePopup() {

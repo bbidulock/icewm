@@ -581,6 +581,15 @@ C<Home> selects the first entry and C<End> the last. C<PageUp> and
 C<PageDown> move up or down by ten entries. Combine this with the
 C<Shift> key to extend a selection over the range of motion.
 
+=head2 SYSTEM DIALOG
+
+The system dialog offers quick access to a set of general controls.
+It can lock the screen, suspend the system, logout or cancel a pending
+logout, reboot the system, shutdown the system, show the window list,
+restart icewm, show the about dialog, reload the winoptions file or
+the keys file. It is activated by B<KeySysDialog>=C<Ctrl+Alt+Del>.
+To cancel it, hit the Escape key.
+
 =head2 MAILBOX MONITORING
 
 The task bar can show one or more icons to reflect the status of a
@@ -854,7 +863,7 @@ Give focus to the next window and raise it.
 
 Give focus to the previous window and raise it.
 
-=item B<KeySysDialog>=C<Alt+Ctrl+Del>
+=item B<KeySysDialog>=C<Ctrl+Alt+Del>
 
 Opens the IceWM system dialog in the center of the screen.
 

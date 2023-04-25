@@ -1,21 +1,71 @@
 #include "config.h"
 
-#ifdef CONFIG_LIBRSVG
+#if defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_LIBRSVG)
 
-#ifdef CONFIG_IMLIB2
+#include "yimage.h"
+
+ref<YImage> YImage::loadsvg(upath filename) {
+    return load(filename);
+}
+
+#elif defined(CONFIG_GDK_PIXBUF_XLIB) && defined(CONFIG_NANOSVG)
+
+#define NANOSVG_IMPLEMENTATION
+#include "nanosvg.h"
+#define NANOSVGRAST_IMPLEMENTATION
+#include "nanosvgrast.h"
+#include "yimage_gdk.h"
+#include <stdlib.h>
+#include "base.h"
+
+static void ucfree(unsigned char* data, void* aux) {
+    free(data);
+}
+
+ref<YImage> YImage::loadsvg(upath filename) {
+    ref<YImage> icon;
+    errno = 0;
+    NSVGimage* nano = nsvgParseFromFile(filename.string(), "px", 96.0f);
+    NSVGrasterizer* rast = nsvgCreateRasterizer();
+    if (nano && rast) {
+        const int w = int(nano->width);
+        const int h = int(nano->height);
+        const int m = min(w, h);
+        unsigned char* pixels = (unsigned char *) malloc(m * m * 4);
+        if (pixels) {
+            nsvgRasterize(rast, nano,
+                          (w - m) / 2, (h - m) / 2, 1,
+                          pixels, m, m, m * 4);
+            GdkPixbuf* pixbuf = gdk_pixbuf_new_from_data(
+                                    pixels, GDK_COLORSPACE_RGB, TRUE, 8,
+                                    m, m, m * 4, ucfree, pixels);
+            if (pixbuf) {
+                icon.init(new YImageGDK(m, m, pixbuf));
+                // TLOG(("SVG %s success %dx%d", filename.string(), w, h));
+            }
+        }
+    }
+    nsvgDeleteRasterizer(rast);
+    nsvgDelete(nano);
+
+    if (icon == null) {
+        TLOG(("SVG %s error: %s", filename.string(), errno_string()));
+    }
+
+    return icon;
+}
+
+#elif defined(CONFIG_IMLIB2) && defined(CONFIG_LIBRSVG)
+
 #include "yimage2.h"
 #include <librsvg/rsvg.h>
 #include <string.h>
 #include "yfileio.h"
 #include "base.h"
-#else
-#include "yimage.h"
-#endif
 
 ref<YImage> YImage::loadsvg(upath filename) {
     ref<YImage> icon;
 
-#ifdef CONFIG_IMLIB2
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpragmas"
 #pragma GCC diagnostic ignored "-Wunknown-pragmas"
@@ -79,13 +129,75 @@ ref<YImage> YImage::loadsvg(upath filename) {
     }
 
 #pragma GCC diagnostic pop
-#endif
-#ifdef CONFIG_GDK_PIXBUF_XLIB
-    icon = load(filename);
-#endif
 
     return icon;
 }
+
+#elif defined(CONFIG_NANOSVG) && defined(CONFIG_IMLIB2)
+
+#define NANOSVG_IMPLEMENTATION
+#include "nanosvg.h"
+#define NANOSVGRAST_IMPLEMENTATION
+#include "nanosvgrast.h"
+#include "yimage2.h"
+#include "yimage.h"
+#include <errno.h>
+#include "base.h"
+
+ref<YImage> YImage::loadsvg(upath filename) {
+    ref<YImage> icon;
+
+    errno = 0;
+    NSVGimage* nano = nsvgParseFromFile(filename.string(), "px", 96.0f);
+    NSVGrasterizer* rast = nsvgCreateRasterizer();
+    if (nano && rast) {
+        int w = int(nano->width);
+        int h = int(nano->height);
+        int m = min(w, h);
+        unsigned char* pixels = (unsigned char *) malloc(m * m * 4);
+        if (pixels) {
+            nsvgRasterize(rast, nano,
+                          (w - m) / 2, (h - m) / 2, 1,
+                          pixels, m, m, m * 4);
+            Imlib_Image image = imlib_create_image(m, m);
+            if (image) {
+                imlib_context_set_image(image);
+                imlib_image_set_has_alpha(1);
+                imlib_context_set_mask_alpha_threshold(ATH);
+                imlib_context_set_anti_alias(1);
+                DATA32* data = imlib_image_get_data();
+                DATA32* argb = data;
+                for (int row = 0; row < m; row++) {
+                    const unsigned char* rowpix = pixels + row * m * 4;
+                    for (int col = 0; col < m; col++, rowpix += 4) {
+                        const unsigned char red = rowpix[0];
+                        const unsigned char grn = rowpix[1];
+                        const unsigned char blu = rowpix[2];
+                        const unsigned char alp = rowpix[3];
+                        if (alp < ATH)
+                            *argb++ = 0;
+                        else
+                            *argb++ = red << 16 | grn << 8 | blu | alp << 24;
+                    }
+                }
+                imlib_image_put_back_data(data);
+                icon.init(new YImage2(m, m, image));
+                // TLOG(("SVG %s success %dx%d", filename.string(), w, h));
+            }
+
+            free(pixels);
+        }
+    }
+    nsvgDeleteRasterizer(rast);
+    nsvgDelete(nano);
+
+    if (icon == null) {
+        TLOG(("SVG %s error: %s", filename.string(), errno_string()));
+    }
+
+    return icon;
+}
+
 #endif
 
 // vim: set sw=4 ts=4 et:

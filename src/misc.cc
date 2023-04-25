@@ -218,8 +218,15 @@ size_t strlcat(char *dest, const char *from, size_t dest_size)
 }
 #endif
 
-char *newstr(char const *str) {
-    return (str != nullptr ? newstr(str, strlen(str)) : nullptr);
+char* newstr(const char* str) {
+    char* s = nullptr;
+    if (str) {
+        size_t len = strlen(str);
+        s = new char[len + 1];
+        if (s)
+            memcpy(s, str, len + 1);
+    }
+    return s;
 }
 
 char *newstr(char const *str, char const *delim) {
@@ -279,12 +286,6 @@ int strpcmp(char const * str, char const * pfx, char const * delim) {
     return (*pfx == '\0' && strchr(delim, *str) ? 0 : *str - *pfx);
 }
 
-char const * strnxt(const char * str, const char * delim) {
-    str+= strcspn(str, delim);
-    str+= strspn(str, delim);
-    return str;
-}
-
 #ifndef HAVE_MEMRCHR
 void* memrchr(const void* ptr, char chr, size_t num) {
     char* str = (char *) ptr;
@@ -303,6 +304,10 @@ tokens::tokens(char* data, const char* sep)
 
 char* tokens::operator++() {
     return tok = strtok_r(nullptr, sep, &save);
+}
+
+bool tokens::operator==(const char* str) const {
+    return strcmp(tok, str) == 0;
 }
 
 bool GetShortArgument(char* &ret, const char *name, char** &argpp, char **endpp)
@@ -619,20 +624,25 @@ char* path_lookup(const char* name) {
         return isExeFile(name) ? newstr(name) : nullptr;
     }
 
-    strp env = newstr(getenv("PATH"));
+    char* env = getenv("PATH");
     if (env == nullptr)
         return nullptr;
 
     const size_t namlen = strlen(name);
 
-    for (tokens directory(env, ":"); directory; ++directory) {
-        size_t dirlen = strlen(directory);
+    for (char* str = env, *end; *str; str = (end + (*end == ':'))) {
+        for (end = str; *end != ':' && *++end; );
+        size_t dirlen = end - str;
         size_t length = dirlen + namlen + 3;
         const size_t bufsize = 1234;
         if (length < bufsize) {
             char filebuf[bufsize];
-            snprintf(filebuf, bufsize, "%s/%s",
-                     dirlen ? directory : ".", name);
+            if (dirlen) {
+                memcpy(filebuf, str, dirlen);
+                if (filebuf[dirlen - 1] != '/')
+                    filebuf[dirlen++] = '/';
+            }
+            memcpy(filebuf + dirlen, name, namlen + 1);
             if (isExeFile(filebuf)) {
                 return newstr(filebuf);
             }
@@ -717,7 +727,8 @@ void show_backtrace(const int limit) {
             int lineCount = 0;
             while (fgets(line, linesize, fp)) {
                 ++lineCount;
-                if (strncmp(line, "?? ??:0", 7)) {
+                if (strncmp(line, "?? ??:0", 7) &&
+                    strncmp(line, "show_backtrace(", 15)) {
                     fputs(line, stderr);
                 }
             }

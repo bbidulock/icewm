@@ -1,6 +1,9 @@
 #ifndef DEBUG_H
 #define DEBUG_H
 
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
 #ifdef DEBUG
 extern bool debug;
 extern bool debug_z;

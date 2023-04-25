@@ -8,34 +8,37 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.12.56\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2016-07-09 21:33-0600\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-03-04 15:14+0000\n"
+"Last-Translator: Mohammad Rezaei Seresht <m.networking@gmail.com>\n"
+"Language-Team: Persian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fa/>\n"
 "Language: fa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:191 src/aapm.cc:524 src/aapm.cc:754 src/aapm.cc:875
 msgid " - Power"
-msgstr ""
+msgstr " - Power"
 
 #: src/aapm.cc:193 src/aapm.cc:527 src/aapm.cc:757
 msgid "P"
-msgstr ""
+msgstr "P"
 
 #: src/aapm.cc:197 src/aapm.cc:498 src/aapm.cc:734 src/aapm.cc:846
 #, c-format
 msgid " - Charging"
-msgstr ""
+msgstr " - Charging"
 
 #: src/aapm.cc:199 src/aapm.cc:500 src/aapm.cc:736
 msgid "C"
-msgstr ""
+msgstr "C"
 
 #: src/aapm.cc:502
 msgid " - Full"
-msgstr ""
+msgstr " - Full"
 
 #: src/acpustatus.cc:234
 #, c-format
@@ -62,6 +65,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI Temp: "
 
 #: src/acpustatus.cc:261
 #, c-format
@@ -69,6 +74,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU Freq: %.3fGHz"
 
 #: src/acpustatus.cc:274
 msgid "CPU Load: "
@@ -77,31 +84,31 @@ msgstr ""
 #: src/amailbox.cc:77
 #, c-format
 msgid "Invalid mailbox protocol: \"%s\""
-msgstr ""
+msgstr "پروتکل صندوق پستی نامعتبر: \"%s\""
 
 #: src/amailbox.cc:79
 #, c-format
 msgid "Invalid mailbox path: \"%s\""
-msgstr ""
+msgstr "مسیر صندوق پست نامعتبر: \"%s\""
 
 #: src/amailbox.cc:343
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr ""
+msgstr "استفاده از صندوق پستی \"%s\"\n"
 
 #: src/amailbox.cc:451
 msgid "Error checking mailbox."
-msgstr ""
+msgstr "خطا در بررسی صندوق پست."
 
 #: src/amailbox.cc:457
 #, c-format
 msgid "%ld mail message."
-msgstr ""
+msgstr "%ld پیام ایمیل."
 
 #: src/amailbox.cc:458
 #, c-format
 msgid "%ld mail messages."
-msgstr ""
+msgstr "%ld پیام های پستی."
 
 #: src/apppstatus.cc:204
 #, c-format
@@ -112,6 +119,11 @@ msgid ""
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
+"رابط %s:\n"
+"   نرخ فعلی (در/خروج): %li %s/%li %s\n"
+"   میانگین فعلی (در/خارج): %lli %s/%lli %s\n"
+"   منتقل شده (در/خارج): %lli %s/%lli %s\n"
+"   زمان آنلاین: %ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:216
 msgid ""
@@ -122,7 +134,7 @@ msgstr ""
 #: src/aworkspaces.cc:155 src/aworkspaces.cc:220 src/aworkspaces.cc:276
 #: src/wmstatus.cc:178
 msgid "Workspace: "
-msgstr ""
+msgstr "فضای کاری: "
 
 #: src/fdomenu.cc:74
 msgid "Settings"
@@ -182,43 +194,43 @@ msgstr ""
 
 #: src/icehelp.cc:715
 msgid "Back"
-msgstr ""
+msgstr "قبلی"
 
 #: src/icehelp.cc:715
 msgid "Alt+Left"
-msgstr ""
+msgstr "Alt+Left"
 
 #: src/icehelp.cc:716
 msgid "Forward"
-msgstr ""
+msgstr "جلو"
 
 #: src/icehelp.cc:716
 msgid "Alt+Right"
-msgstr ""
+msgstr "Alt+Right"
 
 #: src/icehelp.cc:718
 msgid "Previous"
-msgstr ""
+msgstr "قبلی"
 
 #: src/icehelp.cc:719
 msgid "Next"
-msgstr ""
+msgstr "بعدی"
 
 #: src/icehelp.cc:721
 msgid "Contents"
-msgstr ""
+msgstr "محتویات"
 
 #: src/icehelp.cc:722
 msgid "Index"
-msgstr ""
+msgstr "فهرست"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76 src/wmframe.cc:187
 msgid "Close"
-msgstr ""
+msgstr "بستن"
 
 #: src/icehelp.cc:724 src/icesame.cc:63 src/iceview.cc:76
 msgid "Ctrl+Q"
-msgstr ""
+msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1327
 #, c-format
@@ -232,7 +244,7 @@ msgstr ""
 #: src/icehelp.cc:1337
 #, c-format
 msgid "Invalid path: %s\n"
-msgstr ""
+msgstr "مسیر اشتباه: %s\n"
 
 #: src/icehelp.cc:1342
 msgid "Invalid path: "
@@ -240,48 +252,48 @@ msgstr ""
 
 #: src/icelist.cc:84
 msgid "List View"
-msgstr ""
+msgstr "نمایش لیست"
 
 #: src/icelist.cc:85
 msgid "Icon View"
-msgstr ""
+msgstr "نمایش آیکون"
 
 #: src/icelist.cc:89
 msgid "Open"
-msgstr ""
+msgstr "بازکردن"
 
 #: src/icesame.cc:58
 msgid "Undo"
-msgstr ""
+msgstr "واگرد"
 
 #: src/icesame.cc:58
 msgid "Ctrl+Z"
-msgstr ""
+msgstr "Ctrl+Z"
 
 #: src/icesame.cc:60
 msgid "New"
-msgstr ""
+msgstr "جدید"
 
 #: src/icesame.cc:60
 msgid "Ctrl+N"
-msgstr ""
+msgstr "Ctrl+N"
 
 #: src/icesame.cc:61
 msgid "Restart"
-msgstr ""
+msgstr "شروع دوباره"
 
 #: src/icesame.cc:61
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: src/icesame.cc:66
 msgid "Same Game"
-msgstr ""
+msgstr "بازی مشابه"
 
 #: src/icesh.cc:187
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
-msgstr ""
+msgstr "عمل `%s` به حداقل %d آرگومان نیاز دارد."
 
 #: src/icesh.cc:194
 #, c-format

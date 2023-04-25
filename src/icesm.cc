@@ -240,6 +240,14 @@ public:
                         *ceq = 0;
                         setenv(trim(scratch), trim(ceq + 1), 1);
                     }
+                    else if (strncmp(scratch, "unset", 5) == 0) {
+                        tokens tok(scratch, " \t");
+                        if (tok == "unset") {
+                            while (++tok) {
+                                unsetenv(tok);
+                            }
+                        }
+                    }
                 }
             }
             fclose(ef);
@@ -253,7 +261,8 @@ public:
         }
     }
 
-    virtual int runProgram(const char *file, const char *const *args) {
+    virtual int runProgram(const char *file, const char *const *args,
+                           int fd = -1) {
         upath path;
         if (strchr(file, '/') == nullptr && strchr(argv0, '/') != nullptr) {
             path = upath(argv0).parent() + file;
@@ -263,7 +272,7 @@ public:
                     *(const char**)args = file;
             }
         }
-        return YApplication::runProgram(file, args);
+        return YApplication::runProgram(file, args, fd);
     }
 
     void runScript(const char *scriptName) {

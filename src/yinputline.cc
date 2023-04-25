@@ -317,11 +317,6 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 fListener->inputReturn(this);
                 return true;
             }
-            else if (fListener && (k == XK_Escape && m == 0))
-            {
-                fListener->inputEscape(this);
-                return true;
-            }
             else
             {
                 char s[16];
@@ -331,6 +326,14 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                     return true;
                 }
             }
+        }
+    }
+    else if (key.type == KeyRelease && fListener) {
+        KeySym k = keyCodeToKeySym(key.keycode);
+        int m = KEY_MODMASK(key.state);
+        if (k == XK_Escape && m == 0) {
+            fListener->inputEscape(this);
+            return true;
         }
     }
     return YWindow::handleKey(key);

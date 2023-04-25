@@ -47,6 +47,7 @@
 #cmakedefine CONFIG_LIBJPEG  1
 #cmakedefine CONFIG_GDK_PIXBUF_XLIB 1
 #cmakedefine CONFIG_LIBRSVG 1
+#cmakedefine CONFIG_NANOSVG 1
 #cmakedefine CONFIG_I18N 1
 #cmakedefine ENABLE_NLS 1
 #cmakedefine CONFIG_SESSION 1

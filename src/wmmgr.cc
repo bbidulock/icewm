@@ -150,6 +150,8 @@ YWindowManager::~YWindowManager() {
     delete rootProxy;
     delete fSwitchWindow;
     delete fDockApp;
+    if (manager == this)
+        manager = nullptr;
 }
 
 void YWindowManager::setWmState(WMState newWmState) {
@@ -458,9 +460,7 @@ bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm) {
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysDialog)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
-        if (wmapp->getCtrlAltDelete()) {
-            wmapp->getCtrlAltDelete()->activate();
-        }
+        wmActionListener->actionPerformed(actionSysDialog);
         return true;
     } else if (IS_WMKEY(k, vm, gKeySysWinListMenu)) {
         XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
@@ -939,6 +939,9 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         MSG(("ClientMessage: _ICEWM_ACTION => %ld", message.data.l[1]));
         WMAction action = WMAction(message.data.l[1]);
         switch (action) {
+        case ICEWM_ACTION_NOP:
+        case ICEWM_ACTION_LOCK:
+            break;
         case ICEWM_ACTION_LOGOUT:
         case ICEWM_ACTION_CANCEL_LOGOUT:
         case ICEWM_ACTION_SHUTDOWN:
@@ -1146,19 +1149,12 @@ YFrameWindow *YWindowManager::top(int layer) const {
 }
 
 void YWindowManager::setTop(int layer, YFrameWindow *top) {
-    if (true || !clientMouseActions) // some programs are buggy
-        if (fLayers[layer]) {
-            if (raiseOnClickClient)
-                fLayers[layer].front()->container()->grabButtons();
-        }
     fLayers[layer].prepend(top);
     fLayeredUpdated = true;
-    if (true || !clientMouseActions) // some programs are buggy
-        if (fLayers[layer]) {
-            if (raiseOnClickClient &&
-                !(focusOnClickClient && !fLayers[layer].front()->focused()))
-                fLayers[layer].front()->container()->releaseButtons();
-        }
+    if (top->container()->buttoned() && top->focused())
+        top->container()->releaseButtons();
+    else
+        focusOverlap();
 }
 
 YFrameWindow *YWindowManager::bottom(int layer) const {
@@ -1709,10 +1705,8 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
     }
 
     if (newClient && client->adopted() && client->sizeHints() &&
-        (!(client->sizeHints()->flags & (USPosition | PPosition)) ||
-         ((client->sizeHints()->flags & PPosition)
-          && frame->frameOption(YFrameWindow::foIgnorePosition)
-         )))
+        (notbit(client->sizeHints()->flags, USPosition | PPosition) ||
+         frame->frameOption(YFrameWindow::foIgnorePosition)))
     {
         int xiscreen = (fFocusWin ? fFocusWin->getScreen() :
                         frame->owner() ? frame->owner()->getScreen() :
@@ -1810,6 +1804,12 @@ YFrameClient* YWindowManager::allocateClient(Window win, bool mapClient) {
             client = nullptr;
         if (client && attributes.override_redirect && validLayer(layer))
             client->setLayerHint(layer);
+        if (client && attributes.override_redirect) {
+            unsigned long mask = CWOverrideRedirect;
+            XSetWindowAttributes attr;
+            attr.override_redirect = False;
+            XChangeWindowAttributes(xapp->display(), win, mask, &attr);
+        }
     }
     return client;
 }
@@ -1947,7 +1947,14 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
         }
         if (fSwitchWindow)
             fSwitchWindow->createdFrame(frame);
+        focusOverlap();
     }
+}
+
+void YWindowManager::focusOverlap() {
+    YFrameWindow* focus = getFocus();
+    if (focus && focus->container()->buttoned() == false && focus->overlapped())
+        focus->container()->grabButtons();
 }
 
 void YWindowManager::handleMapNotify(const XMapEvent& map) {
@@ -2489,8 +2496,9 @@ bool YWindowManager::updateWorkAreaInner() {
             updateArea(ws, s, l, t, r, b);
         }
 
-        if (w->doNotCover() ||
+        if ((w->doNotCover() ||
             (limitByDockLayer && w->getActiveLayer() == WinLayerDock))
+            && (w->client() != taskBar || taskBar->hidden() == false))
         {
             int ws = w->getWorkspace();
             int s = w->getScreen();
@@ -3605,14 +3613,15 @@ void YWindowManager::setKeyboard(int configIndex) {
 void YWindowManager::setKeyboard(mstring keyboard) {
     if (keyboard != null && keyboard != fCurrentKeyboard) {
         fCurrentKeyboard = keyboard;
-        auto program = "setxkbmap";
+        char program[] = "setxkbmap";
         csmart path(path_lookup(program));
         if (path) {
             wordexp_t exp = {};
             exp.we_offs = 1;
             if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
-                exp.we_wordv[0] = strdup(program);
+                exp.we_wordv[0] = program;
                 wmapp->runProgram(program, exp.we_wordv);
+                exp.we_wordv[0] = nullptr;
                 wordfree(&exp);
             }
             if (taskBar) {
@@ -3816,15 +3825,18 @@ void YWindowManager::updateScreenSize(XEvent *event) {
 
     if (updateXineramaInfo(nw, nh)) {
         MSG(("xrandr: %d %d", nw, nh));
-        Atom data[2] = { nw, nh };
-        setProperty(_XA_NET_DESKTOP_GEOMETRY, XA_CARDINAL, data, 2);
         setSize(nw, nh);
+        setDesktopGeometry();
+
+        if (taskBar) {
+            taskBar->updateLocation();
+        }
         updateWorkArea();
+
         if (taskBar && pagerShowPreview) {
             taskBar->workspacesUpdateButtons();
         }
         if (taskBar) {
-            taskBar->relayout();
             taskBar->relayoutNow();
         }
         for (int i = 0; i < edges.getCount(); ++i)
@@ -3834,6 +3846,7 @@ void YWindowManager::updateScreenSize(XEvent *event) {
         if (arrangeWindowsOnScreenSizeChange) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }
+        manager->arrangeIcons();
     }
 
     refresh();

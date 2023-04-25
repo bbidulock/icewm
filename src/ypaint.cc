@@ -959,6 +959,18 @@ void Graphics::drawSurface(YSurface const & surface, int x, int y, unsigned w, u
     }
 }
 
+void Graphics::drawSurface(const YSurface& surf, int x, int y, unsigned w, unsigned h)
+{
+    if (surf.gradient != null)
+        drawGradient(surf.gradient, x, y, w, h);
+    else if (surf.pixmap != null)
+        fillPixmap(surf.pixmap, x, y, w, h);
+    else if (surf.color) {
+        setColor(surf.color);
+        fillRect(x, y, w, h);
+    }
+}
+
 void Graphics::drawGradient(ref<YImage> gradient,
                             int x, int y, unsigned w, unsigned h,
                             int gx, int gy, unsigned gw, unsigned gh)
@@ -966,6 +978,14 @@ void Graphics::drawGradient(ref<YImage> gradient,
     ref<YImage> scaled = gradient->scale(gw, gh);
     if (scaled != null)
         scaled->draw(*this, gx, gy, w, h, x, y);
+}
+
+void Graphics::drawGradient(ref<YImage> gradient,
+                            int x, int y, unsigned w, unsigned h)
+{
+    ref<YImage> scaled = gradient->scale(w, h);
+    if (scaled != null)
+        scaled->draw(*this, 0, 0, w, h, x, y);
 }
 
 /******************************************************************************/

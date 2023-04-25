@@ -6,13 +6,17 @@
 class YActionButton: public YButton {
 public:
     YActionButton(YWindow* parent, const mstring& str, int hotkey,
-                  YActionListener* listener);
+                  YActionListener* listener, EAction action = actionNull,
+                  WMAction wmAction = WMAction(0));
     operator YAction() const { return getAction(); }
 
     virtual void handleExpose(const XExposeEvent& expose) {}
     virtual void configure(const YRect2& r);
     virtual void repaint();
     virtual YDimension getTextSize();
+    virtual YSurface getSurface();
+
+    const WMAction wmAction;
 };
 
 #endif

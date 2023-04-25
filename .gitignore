@@ -120,6 +120,8 @@ src/icewmbg
 src/icewmhint
 src/icewmsound
 src/icewmtray
+src/nanosvg.h
+src/nanosvgrast.h
 src/preferences
 src/strtest
 src/testarray

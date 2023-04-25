@@ -42,6 +42,8 @@ public:
     bool getShown() const { return fShown; }
     int getOrder() const;
 
+    static void freeGradients();
+
 private:
     ClientData *fFrame;
     TrayPane *fTrayPane;

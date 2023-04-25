@@ -32,7 +32,7 @@ public:
     bool isStale() const { return fStale; }
     int extent() const { return x() + int(width()); }
     virtual void repaint();
-    static void freeFonts() { normalButtonFont = null; activeButtonFont = null; }
+    static void freeFonts();
 
 private:
     virtual void handleButton(const XButtonEvent &button);
@@ -54,6 +54,7 @@ private:
     virtual YColor   getColor();
     virtual YSurface getSurface();
     virtual YDimension getTextSize();
+    ref<YImage> getGradient();
 
     virtual void inputReturn(YInputLine* input);
     virtual void inputEscape(YInputLine* input);
@@ -81,6 +82,9 @@ private:
 
     static YFont normalButtonFont;
     static YFont activeButtonFont;
+
+    static ref<YImage> normalGradient;
+    static ref<YImage> activeGradient;
 };
 
 class WorkspaceIcons {
@@ -139,7 +143,9 @@ private:
     lazy<YTimer> fDragTimer;
     lazy<YTimer> fRepaintTimer;
     lazy<WorkspaceIcons> paths;
+    YDimension fDesktop;
     ArrayType fButtons;
+
     WorkspaceButton* index(int ws) const {
         extern bool rightToLeft;
         return fButtons[rightToLeft ? count() - ws - 1 : ws];
@@ -151,6 +157,7 @@ private:
     bool limited() const;
 
     WorkspaceButton* create(int workspace, unsigned height);
+    void scale(WorkspaceButton* button, unsigned height);
     void label(WorkspaceButton* wk);
     void createButtons();
     void repositionButtons();

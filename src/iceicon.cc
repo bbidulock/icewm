@@ -330,10 +330,10 @@ bool YIconView::handleKey(const XKeyEvent& key) {
     if (fVerticalScroll->handleScrollKeys(key) == true) {
         return true;
     }
-    if (key.type == KeyPress) {
+    if (key.type == KeyRelease) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
-        if (k == XK_Escape) {
+        if (k == XK_Escape && m == 0) {
             xapp->exit(0);
             return true;
         }

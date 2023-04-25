@@ -489,10 +489,10 @@ public:
         if (fHorizontalScroll->handleScrollKeys(key)) {
             return true;
         }
-        if (key.type == KeyPress) {
+        if (key.type == KeyRelease) {
             KeySym k = keyCodeToKeySym(key.keycode);
             int m = KEY_MODMASK(key.state);
-            if (k == XK_Escape) {
+            if (k == XK_Escape && m == 0) {
                 actionPerformed(actionClose, m);
                 return true;
             }

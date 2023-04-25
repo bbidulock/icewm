@@ -85,9 +85,6 @@ Multiple hints can be given.
 
 =head2 GENERAL OPTION ARGUMENTS
 
-General option arguments are normally associated with I<GNOME WinWM/WMH>
-hints (except for the tray option argument).
-
 =over
 
 =item B<icon> I<NAME>
@@ -122,24 +119,22 @@ pane, the tray pane and the system tray.
 Set the _NET_WM_WINDOW_OPACITY property if I<NUMBER> is a value between
 1 and 100. I<NUMBER> is interpreted as percentage of maximum opaqueness.
 
-=item B<layer> {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>}
-
-The layer is a similar concept to the layer specified by I<GNOME/WMH> and
-implied by I<NetWM/EWMH>.  It is in this case however specific to
-L<icewm(1)>.
+=item B<layer> {I<LAYER>|I<NUMBER>}
 
 This command option specifies the layer to be associated with a
 I<CLASS>B<.>I<INSTANCE>.  The default is the C<Normal> layer.  I<VALUE>
 is either a layer number or a symbolic layer name.  Symbolic
 layer names are:
 
-    Desktop    (0)  desktop window layer.
-    Below      (2)  below normal windows.
-    Normal     (4)  default window layer.
-    OnTop      (6)  above normal windows.
-    Dock       (8)  docks (panels and edge displays).
-    AboveDock (10)  above docks.
-    Menu      (12)  above everything else.
+    Desktop     (0)  Desktop window.
+    Below       (2)  Below the default layer.
+    Normal      (4)  Default layer for windows.
+    OnTop       (6)  Above the default layer.
+    Dock        (8)  Docked windows at edge of screen.
+    AboveDock  (10)  Windows above the dock.
+    Menu       (12)  The layer for menu's.
+    Fullscreen (14)  When fullscreen and focused.
+    AboveAll   (15)  Always above anything.
 
 =item B<tray> {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>}
 
@@ -152,6 +147,10 @@ or a symbolic name as follows:
     Ignore     (0)  only in task list.
     Minimized  (1)  icon in tray, task list unminimized.
     Exclusive  (2)  only in tray, not in task list.
+
+=item B<frame> I<label> (default: none)
+
+All windows with the same frame label become tabs in a single frame.
 
 =back
 
@@ -208,9 +207,12 @@ advanced features are as follows:
     ignoreTaskBar             not on task bar.
     ignoreUrgentHint          ignore urgent hints.
     ignoreWinList             not on window list.
+    ignoreActivationMessages  only user can focus window.
+    ignoreOverrideRedirect    ignore the override redirect flag.
     noFocusOnAppRaise         no focus on raise.
     noFocusOnMap              do not focus when mapped.
     noIgnoreTaskBar           on task bar.
+    startClose                close the window immediately.
     startFullscreen           start full screen.
     startMaximized            start maximized.
     startMaximizedHorz        start maximized horizontal.

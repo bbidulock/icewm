@@ -22,7 +22,7 @@ ObjectBar::~ObjectBar() {
 void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
     if (icon != null) {
         button->setIcon(icon, YIcon::smallSize());
-        button->setSize(button->width() + 4,
+        button->setSize(max(button->width() + 4, height()),
                         max(button->width() + 4, height()));
     } else {
         button->setText(name);
@@ -30,8 +30,6 @@ void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
             button->setSize(button->width(), height());
     }
 
-    IterType iter(objects.reverseIterator());
-    while (++iter && !*iter);
     objects.append(button);
 
     unsigned w = 0;
@@ -40,7 +38,8 @@ void ObjectBar::addButton(mstring name, ref<YIcon> icon, ObjectButton *button) {
     }
     setSize(w, height());
 
-    button->show();
+    button->setTitle(name);
+    button->realize();
 }
 
 void ObjectBar::paint(Graphics &g, const YRect& r) {
@@ -52,7 +51,6 @@ void ObjectBar::paint(Graphics &g, const YRect& r) {
 
 void ObjectBar::addObject(DObject *object) {
     ObjectButton *button = new ObjectButton(this, object);
-    button->setTitle(object->getName().c_str());
     addButton(object->getName(), object->getIcon(), button);
 }
 
@@ -64,7 +62,6 @@ void ObjectBar::addSeparator() {
 void ObjectBar::addContainer(mstring name, ref<YIcon> icon, ObjectMenu *container) {
     if (container) {
         ObjectButton *button = new ObjectButton(this, container);
-        button->setTitle(name.c_str());
         addButton(name, icon, button);
     }
 }

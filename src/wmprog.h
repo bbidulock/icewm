@@ -41,7 +41,6 @@ private:
 };
 
 class DProgram: public DObject {
-    friend class MenuProgSwitchItems;
 public:
     virtual ~DProgram();
 
@@ -55,8 +54,11 @@ public:
         ref<YIcon> icon,
         const bool restart,
         const char *wmclass,
-        upath exe,
+        const char *exe,
         YStringArray &args);
+
+    const char* cmd() const { return fCmd; }
+    YStringArray& args() { return fArgs; }
 
 protected:
     DProgram(
@@ -66,14 +68,14 @@ protected:
         ref<YIcon> icon,
         const bool restart,
         const char *wmclass,
-        upath exe,
+        const char *exe,
         YStringArray &args);
 
 private:
     const bool fRestart;
     const char *fRes;
     long fPid;
-    upath fCmd;
+    const char* fCmd;
     YStringArray fArgs;
     YSMListener *smActionListener;
 };
@@ -114,7 +116,7 @@ public:
         YSMListener *smActionListener,
         YActionListener *wmActionListener,
         mstring name,
-        upath command,
+        const char* command,
         YStringArray &args,
         long timeout = 60L,
         YWindow *parent = nullptr);
@@ -125,7 +127,7 @@ public:
 
 private:
     mstring fName;
-    upath fCommand;
+    const char* fCommand;
     YStringArray fArgs;
     time_t fModTime;
     long fTimeout;

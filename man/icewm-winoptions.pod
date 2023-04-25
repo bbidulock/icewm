@@ -14,15 +14,17 @@
 
 =head2 DESCRIPTION
 
-Contains settings to control window appearance and behaviour. These are
-specific to applications, or to groups of applications.  Options can
-control the window border, whether the application appears on the task
-bar, the window list, the system tray and the work spaces.
-Also its layer, geometry, whether it can be moved, resized and closed.
+The IceWM F<winoptions> file contains settings to control
+I<application specific> window appearance and behavior.
+For instance, they control the window border, placement and size,
+the window layer, its workspace, its visibility on the task bar
+and its focus behavior.
 
-Options are established when L<icewm(1)> starts.  However, they can be
-overridden later using L<icesh(1)> or L<icewmhint(1)>. The command
-C<icesh winoptions> instructs icewm to reload the winoptions file.
+The winoptions are established when L<icewm(1)> starts.  However,
+they can be overridden later using L<icesh(1)> or L<icewmhint(1)>.
+The command C<icesh winoptions> instructs icewm to reload the
+F<winoptions> file, while F<icewmhint> tunes a specific application
+instance when it starts.
 
 =head2 FORMAT
 
@@ -50,62 +52,48 @@ Each line in the file must be in one of the following formats:
 
 =back
 
-Where the fields are defined as follows:
+Here I<NAME> and I<CLASS> are from the B<WM_CLASS> property of the
+window. This can be found in the output of C<icesh -a getClass>.
 
-=over
+While I<ROLE> refers to the B<WM_WINDOW_ROLE> property of the window,
+which is the application instance specific name. Only a minority of
+windows have it. See the output of C<icesh -a list prop WM_WINDOW_ROLE>.
 
-=item I<CLASS>
+In rare cases, a name, class or role may contain a period. If it does,
+the period should be escaped by a single backslash.
 
-The resource class portion of the ICCCM B<WM_CLASS> property for the
-window.
-
-=item I<NAME>
-
-The resource instance portion of the ICCCM B<WM_CLASS> property for the
-window.
-
-=item I<ROLE>
-
-The ICCCM B<WM_WINDOW_ROLE> property for the window.
-
-=item I<OPTION>: I<VALUE>
-
-One of the options and values described below under L</OPTIONS>.
+Lastly, the I<OPTION: VALUE> pair refer to the options and values
+described below. A line with just a dot, followed by an option/value
+pair, applies to all windows.
 
 =back
 
-Note that it is possible that the B<WM_WINDOW_ROLE> may contain a period
-(C<.>).  When it does, the period should be escaped by a single
-backslash when specifying the I<ROLE> in the file.
-
 =head2 OPTIONS
 
-The options and values described in the format, above, consist of an
-option name, I<OPTION> followed by a semicolon (C<:>) a space (C< >) and
-an allowable value for the option, I<VALUE>.  The available options are
-as follows:
+There are four categories: I<general>, I<function>, I<decor> and
+I<feature>.
 
 =head2 GENERAL OPTIONS
 
-The following option control general characteristics of windows:
+These control general characteristics of windows:
 
 =over
 
 =item B<icon>: I<NAME> (default: none)
 
-Specifies the icon name for the window.  I<NAME> is the name of the
-icon, like F<utilities-terminal>. It can also be a file, like
-F<xterm.png>, a full path, or a prefix of a path without sizes or suffix.
+Specifies the icon name for the window.  I<NAME> is the icon name, like
+F<utilities-terminal>. It can also be a file, like F<xterm.png>, a full
+path, or a prefix of a path without sizes or suffix.
 
 =item B<workspace>: I<WORKSPACE> (default: current)
 
 Specifies the default workspace for the window.  I<WORKSPACE> is the
 workspace number counting from zero (0).
 
-=item B<layer>: {B<Desktop>|B<Below>|B<Normal>|B<OnTop>|B<Dock>|B<AboveDock>|B<Menu>|I<NUMBER>} (default: 4)
+=item B<layer>: {I<LAYER>|I<NUMBER>} (default: Normal)
 
 Specifies the default layer for the window.  Layer can be one of the
-following strings or a number from zero (0) to fifteen (15):
+following names or a number from zero to fifteen:
 
   Desktop     (0)  Desktop window.
   Below       (2)  Below the default layer.
@@ -113,31 +101,36 @@ following strings or a number from zero (0) to fifteen (15):
   OnTop       (6)  Above the default layer.
   Dock        (8)  Docked windows at edge of screen.
   AboveDock  (10)  Windows above the dock.
-  Menu       (12)  Windows above the dock.
+  Menu       (12)  The layer for menu's.
+  Fullscreen (14)  When fullscreen and focused.
+  AboveAll   (15)  Always above anything.
 
-=item B<geometry> I<geometry> (default: WM_SIZE_HINTS)
+=item B<geometry> I<geometry> (default: WM_SIZE_HINTS property)
 
 The default geometry for the window.  This geometry should be specified
 in a format that can be parsed by L<XParseGeometry(3)>:
 
  [=][<width>{xX}<height>][{+-}<xoffset>{+-}<yoffset>]
 
+The default geometry is taken from the WM_SIZE_HINTS property of the
+window or else from the initial window geometry. This option overrides
+the default.
+
 =item B<tray>: {B<Ignore>|B<Minimized>|B<Exclusive>|I<NUMBER>} (default: 0)
 
 The default tray option for the window.  This affects both the tray and
-the task pane.  Tray can be one of the following strings or a number
+the task pane.  Tray can be one of the following three strings or a number
 from zero (0) to two (2):
 
-  Ignore     (0)  No icon added to tray.
+  Ignore     (0)  No icon is added to the tray.
   Minimized  (1)  Add to tray, no task when minimized.
   Exclusive  (2)  Add to tray, no task button.
 
 =item B<order>: I<NUMBER> (default: 0)
 
-The sorting order of task buttons and tray icons. The default value is
-zero. Increasing positive values go farther right, while decreasing
-negative values go farther left. The order option applies to the task
-pane, the tray pane and the system tray.
+The sorting order for task buttons, tray icons, quick switch and window
+list. The default value is zero. Increasing positive values go right,
+while decreasing negative values go left.
 
 =item B<opacity>: I<NUMBER> (default: 0)
 
@@ -163,7 +156,7 @@ All windows with the same frame label become tabs in a single frame.
 
 Function options enable/disable (1/0) the ability to take an action on
 the window.  The normal default for all options is enabled (1) unless
-overridden by the application.  The following options are defined:
+overridden by the application:
 
   fClose:    {0|1}  can be closed.        (default: 1)
   fHide:     {0|1}  can be hidden.        (default: 1)
@@ -177,7 +170,7 @@ overridden by the application.  The following options are defined:
 
 Decor options enable/disable (1/0) decorations on the window.  The
 normal default for all options is enabled (1) unless overridden by the
-application.  The following options are defined:
+application or the theme:
 
   dBorder:   {0|1}  has border.           (default: 1)
   dClose:    {0|1}  has close button.     (default: 1)
@@ -194,26 +187,26 @@ application.  The following options are defined:
 
 Feature options enable/disable (1/0) additional features of the window.
 The normal default for all options is disabled (0) unless overridden by
-the application.  The following options are defined:
+the application:
 
   allWorkspaces:            {1|0}  on all workspaces.
   appTakesFocus:            {1|0}  let application take focus.
   doNotCover:               {1|0}  limits workspace if sticky.
   doNotFocus:               {1|0}  do not focus.
-  forcedClose:              {1|0}  no close dialog.
-  fullKeys:                 {1|0}  provided more keys.
-  ignoreNoFocusHint:        {1|0}  focus even no-input.
+  forcedClose:              {1|0}  no close confirmation dialog.
+  fullKeys:                 {1|0}  don't install icewm key bindings.
+  ignoreNoFocusHint:        {1|0}  focus even when no-input is set.
   ignorePagerPreview:       {1|0}  do not show in pager preview.
-  ignorePositionHint:       {1|0}  place automatically.
+  ignorePositionHint:       {1|0}  always let icewm place the window.
   ignoreQuickSwitch:        {1|0}  not on quick switch.
   ignoreTaskBar:            {1|0}  not on task bar.
   ignoreUrgentHint:         {1|0}  ignore urgent hints.
   ignoreWinList:            {1|0}  not on window list.
   ignoreActivationMessages: {1|0}  only user can focus window.
-  ignoreOverrideRedirect:   {1|0}  ignore override redirect.
-  noFocusOnAppRaise:        {1|0}  no focus on raise.
+  ignoreOverrideRedirect:   {1|0}  ignore the override redirect flag.
+  noFocusOnAppRaise:        {1|0}  no automatic focus on raise.
   noFocusOnMap:             {1|0}  do not focus when mapped.
-  noIgnoreTaskBar:          {1|0}  on task bar.
+  noIgnoreTaskBar:          {1|0}  always show on task bar.
   startClose:               {1|0}  close the window immediately.
   startFullscreen:          {1|0}  start full screen.
   startMaximized:           {1|0}  start maximized.
@@ -250,21 +243,10 @@ no decorations, and always be visible in a fixed location.
   wmtime.wmtime.dBorder: 1
   wmtime.wmtime.geometry: 64x64-74-100
 
-Following is the example window options file that ships with L<icewm(1)>
-and typically installs to F</usr/share/icewm/winoptions>.
+Following shows how a shaped output-only application is shown
+without titlebar and minimal functionality.
 
-  # This is an example for IceWM's window options file.
-  #
-  # Place your variants in @CFGDIR@ or in $HOME/.icewm
-  # since modifications to this file will be discarded when you
-  # (re)install icewm.
-
-  xterm.icon: xterm
-  rxvt.icon: xterm
-  nxterm.icon: xterm
-  fte.icon: fte
-  emacs.Emacs.icon: emacs
-  AWTapp.icon: java
+  xeyes.tray: Exclusive
   xeyes.ignoreWinList: 0
   xeyes.ignoreTaskBar: 1
   xeyes.allWorkspaces: 1
@@ -275,26 +257,6 @@ and typically installs to F</usr/share/icewm/winoptions>.
   xeyes.dClose: 0
   xeyes.dMinimize: 0
   xeyes.dMaximize: 0
-  xeyes.ignoreNoFocusHint: 1
-
-  XClock.ignoreNoFocusHint: 1
-  Vim.icon: vim
-
-  applix.ignoreNoFocusHint: 1
-  XDdts.noFocusOnAppRaise: 1
-  Wingz.noFocusOnAppRaise: 1
-  WingzPro.noFocusOnAppRaise: 1
-
-  gkrellm.Gkrellm.allWorkspaces: 1
-  gkrellm.Gkrellm.ignoreTaskBar: 1
-  gkrellm.Gkrellm.layer: Below
-  #gkrellm.Gkrellm.doNotCover: 1
-
-  MainWindow.licq.allWorkspaces: 1
-  MainWindow.licq.ignoreQuickSwitch: 1
-  MainWindow.licq.ignoreWinList: 1
-  MainWindow.licq.layer: Below
-  #MainWindow.licq.doNotCover: 1
 
 =head2 FILES
 

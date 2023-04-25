@@ -24,6 +24,7 @@ public:
 
     YFrameWindow* getFrame() const { return fFrame; }
     void setFrame(YFrameWindow* frame) { fFrame = frame; }
+    bool buttoned() const { return fHaveGrab; }
 
 private:
     YFrameWindow* fFrame;

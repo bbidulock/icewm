@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[3.2.0],
+AC_INIT([icewm],[3.3.0],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([3.2.0])
+AC_REVISION([3.3.0])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,10 +22,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2022-11-02'
+DATE='2022-12-20'
 AC_SUBST([DATE])
 
-MDOCDATE='November 02, 2022'
+MDOCDATE='December 20, 2022'
 AC_SUBST([MDOCDATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -95,6 +95,9 @@ AC_ARG_ENABLE([i18n],
 if test x$enable_i18n != xno; then
     AC_DEFINE([CONFIG_I18N], [1], [Define to enable internationalization.])
     features="$features i18n"
+    AM_ICONV
+else
+    unset LIBICONV LTLIBICONV
 fi
 
 AC_ARG_WITH([unicode-set],
@@ -267,6 +270,7 @@ AC_ARG_WITH([icesound],
     AS_HELP_STRING([--with-icesound=INTERFACES],[List of audio interfaces for icesound. @<:@default: ALSA,AO,OSS@:>@]),[],
     [with_icesound='ALSA,AO,OSS'])
 
+audio_support=
 for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
     case $iface in
     (ALSA|alsa)
@@ -274,7 +278,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $ALSA_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $ALSA_LIBS"
             AC_DEFINE([ENABLE_ALSA],[1],[Define to enable ALSA support.])
-            CONFIG_ALSA=yes; break],
+            CONFIG_ALSA=yes; audio_support=$iface; break],
             [AC_MSG_WARN([ALSA is not supported])])
         ;;
     (AO|ao)
@@ -282,7 +286,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $AO_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $AO_LIBS"
             AC_DEFINE([ENABLE_AO],[1],[Define to enable AO support.])
-            CONFIG_AO=yes; break],
+            CONFIG_AO=yes; audio_support=$iface; break],
             [AC_MSG_WARN([AO is not supported])])
         ;;
     (OSS|oss)
@@ -290,7 +294,7 @@ for iface in `echo "$with_icesound"|sed 's|,| |g'` ; do
             AUDIO_CFLAGS="$AUDIO_CFLAGS $OSS_CFLAGS"
             AUDIO_LIBS="$AUDIO_LIBS $OSS_LIBS"
             AC_DEFINE([ENABLE_OSS],[1],[Define to enable OSS support.])
-            CONFIG_OSS=yes; break],
+            CONFIG_OSS=yes; audio_support=$iface; break],
             [AC_MSG_WARN([OSS is not supported])])
         ;;
     (*)
@@ -350,31 +354,23 @@ AC_ARG_ENABLE([rsvg],
 AC_ARG_ENABLE([imlib2],
     AS_HELP_STRING([--disable-imlib2],[Disable imlib2 rendering.
         @<:@default=enabled@:>@]))
+AC_ARG_ENABLE([nanosvg],
+    AS_HELP_STRING([--enable-nanosvg],[Enable SVG using nanosvg.]))
 AC_ARG_ENABLE([gdk-pixbuf],
     AS_HELP_STRING([--enable-gdk-pixbuf],[Enable gdk-pixbuf rendering.
 	@<:@default=disabled@:>@]))
+
+image_library=
 if test "x$enable_gdk_pixbuf" = xyes
 then
     PKG_CHECK_MODULES([PIXBUF],[gdk-pixbuf-xlib-2.0],[
 	IMAGE_CFLAGS="$PIXBUF_CFLAGS"
 	IMAGE_LIBS="$PIXBUF_LIBS"
-	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],[Define to enable gdk-pixbuf rendering.])
-	image_library=gdk-pixbuf-xlib-2.0])
-    if test x$enable_rsvg != xno; then
-        PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
-            IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
-            IMAG_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
-            AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
-            image_library="$image_library librsvg-2.0"],
-            [AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
-    fi
-    PKG_CHECK_MODULES([XPM],[xpm],[
-	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
-	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
-	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
-	image_library="$image_library libxpm"],
-	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
+	AC_DEFINE([CONFIG_GDK_PIXBUF_XLIB],[1],
+                  [Define to enable gdk-pixbuf rendering.])
+	image_library="gdk-pixbuf-xlib-2.0"])
 fi
+
 if test "x$enable_gdk_pixbuf" != xyes &&
    test "x$enable_imlib2" != xno
 then
@@ -382,22 +378,60 @@ then
 	IMAGE_CFLAGS="$IMLIB2_CFLAGS"
 	IMAGE_LIBS="$IMLIB2_LIBS"
 	AC_DEFINE([CONFIG_IMLIB2],[1],[Define to enable imlib2 rendering.])
-	image_library=imlib2])
+	image_library="imlib2"])
+fi
+
+if test "x$image_library" = "xgdk-pixbuf-xlib-2.0" ||
+   test "x$image_library" = "ximlib2"
+then
+    if test "x$enable_nanosvg" = xyes
+    then
+        if ! test -f src/nanosvg.h ||
+           ! test -s src/nanosvg.h ||
+           ! test -f src/nanosvgrast.h ||
+           ! test -s src/nanosvgrast.h
+        then
+            hub=https://raw.githubusercontent.com/memononen/nanosvg/master/src/
+            if command -v wget >/dev/null
+            then
+                AC_MSG_NOTICE([downloading nanosvg using wget])
+                if ! wget -q --timeout=3 -e robots=off -e noclobber=off \
+                    -P src $hub/nanosvg.h $hub/nanosvgrast.h
+                then
+                    AC_MSG_WARN([Download of nanosvg failed.])
+                fi
+            fi
+        fi
+        if test -f src/nanosvg.h &&
+           test -s src/nanosvg.h &&
+           test -f src/nanosvgrast.h &&
+           test -s src/nanosvgrast.h
+        then
+            AC_DEFINE([CONFIG_NANOSVG],[1],[Define to enable nanosvg rendering.])
+        else
+            AC_MSG_WARN([Nanosvg includes are missing. SVG is not supported.])
+        fi
+    fi
+
+    if test "x$enable_nanosvg" != xyes &&
+       test "x$enable_rsvg" != xno
+    then
+        PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
+            IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
+            IMAGE_LIBS="$LIBRSVG_LIBS $IMAGE_LIBS"
+            AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
+            image_library="$image_library librsvg-2.0"],
+            [AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
+    fi
+
     PKG_CHECK_MODULES([XPM],[xpm],[
 	IMAGE_CFLAGS="$IMAGE_CFLAGS $XPM_CFLAGS"
 	IMAGE_LIBS="$IMAGE_LIBS $XPM_LIBS"
 	AC_DEFINE([CONFIG_XPM],[1],[Define to enable libxpm rendering.])
 	image_library="$image_library libxpm"],
 	[AC_MSG_ERROR([Package libXpm is required for themable cursors.])])
-    if test x$enable_rsvg != xno; then
-        PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
-            IMAGE_CFLAGS="$IMAGE_CFLAGS $LIBRSVG_CFLAGS"
-            IMAGE_LIBS="$IMAGE_LIBS $LIBRSVG_LIBS"
-            AC_DEFINE([CONFIG_LIBRSVG],[1],[Define to enable librsvg rendering.])
-            image_library="$image_library librsvg-2.0"],
-            [AC_MSG_WARN([Package librsvg is missing. SVG is not supported.])])
-    fi
 fi
+
 if test "x$enable_gdk_pixbuf" != xyes &&
    test "x$enable_imlib2" = xno
 then

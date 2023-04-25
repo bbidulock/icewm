@@ -25,6 +25,9 @@ Comment lines starting by a hash-sign (C<#>) are ignored.
 L<icewm-session(1)> will load those expanded lines which contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
+The word B<unset> begins a line with names to be removed from the
+environment.
+
 =head2 EXAMPLES
 
  # This is a comment.

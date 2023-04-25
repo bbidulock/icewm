@@ -192,9 +192,6 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
         int m = KEY_MODMASK(key.state);
 
         switch (k) {
-        case XK_Escape:
-            windowList->handleClose();
-            return true;
         case XK_F10:
         case XK_Menu:
             if (k != XK_F10 || m == ShiftMask) {
@@ -224,6 +221,14 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
                     actionPerformed(actionClose, key.state);
             }
             break;
+        }
+    }
+    else if (key.type == KeyRelease) {
+        KeySym k = keyCodeToKeySym(key.keycode);
+        int m = KEY_MODMASK(key.state);
+        if (k == XK_Escape && m == 0) {
+            windowList->handleClose();
+            return true;
         }
     }
     return YListBox::handleKey(key);

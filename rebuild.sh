@@ -9,7 +9,9 @@ Options:
     -d : dependencies check
     -g : prefer GdkPixbuf rendering
     -i : prefer Imlib2 rendering
+    -n : prefer SVG by nanosvg
     -r : CMake release build
+    -s : prefer SVG by librsvg
     -t : test configure options
     -j# : number of gmake procs
     --prefix=... : install prefix
@@ -23,6 +25,8 @@ prefix=/usr
 xterm=urxvt
 GDK=ON
 IM2=OFF
+RSV=ON
+NSV=OFF
 
 if ! command -v gmake >/dev/null ; then
     function gmake () {
@@ -42,6 +46,8 @@ do
         (-j*) jobs=$x ;; # number of gmake procs
         (-i) IM2=ON ; GDK=OFF ;; # enable Imlib2
         (-g) GDK=ON ; IM2=OFF ;; # enable gdkpixbuf
+        (-n) NSV=ON ; RSV=OFF ;; # enable nanosvg
+        (-s) RSV=ON ; NSV=OFF ;; # enable librsvg
         (--prefix=*) prefix=${x#*=} ;; # install prefix
         (--with-xterm=*) xterm=${x#*=} ;; # set terminal
         (-h|--help|-?) usage ;;
@@ -91,7 +97,8 @@ if [[ -v DBGCM ]]; then
     cmake .. \
         -DCONFIG_GDK_PIXBUF_XLIB=$GDK \
         -DCONFIG_IMLIB2=$IM2 \
-        -DCONFIG_LIBRSVG=ON \
+        -DCONFIG_LIBRSVG=$RSV \
+        -DCONFIG_NANOSVG=$NSV \
         -DCONFIG_XRANDR=ON \
         -DCONFIG_XPM=ON \
         -DCMAKE_CXX_COMPILER_ID=clang \
@@ -118,7 +125,8 @@ if [[ -v RELCM ]]; then
         -DCMAKE_INSTALL_PREFIX="$prefix" \
         -DCONFIG_GDK_PIXBUF_XLIB=$GDK \
         -DCONFIG_IMLIB2=$IM2 \
-        -DCONFIG_LIBRSVG=ON \
+        -DCONFIG_LIBRSVG=$RSV \
+        -DCONFIG_NANOSVG=$NSV \
         -DCONFIG_XPM=ON \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
         -DCONFIG_XRANDR=ON \

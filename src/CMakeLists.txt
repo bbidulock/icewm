@@ -96,7 +96,8 @@ option(CONFIG_IMLIB2 "Imlib2 image loader" on)
 option(CONFIG_LIBPNG "PNGLIB image loader" off)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" off)
 option(CONFIG_GDK_PIXBUF_XLIB "GDK-PIXBUF image loader" off)
-option(CONFIG_LIBRSVG "Support SVG format icons" off)
+option(CONFIG_LIBRSVG "Support SVG icons using librsvg" off)
+option(CONFIG_NANOSVG "Support SVG icons using nanosvg" off)
 option(CONFIG_XPM "XPM image loader" on)
 option(CONFIG_I18N "Define to enable internationalization" on)
 option(CONFIG_XRANDR "Define to enable XRANDR extension" on)
@@ -191,26 +192,20 @@ set(HINT_IMG_LOADERS
  or 'imlib2' must be enabled by -DCONFIG_IMLIB2=on,
  or else 'yximage' must be enabled by -DCONFIG_LIBPNG=on.
  The latter requires -DCONFIG_XPM=on, while -DCONFIG_LIBJPEG=on is recommended.
- Support SVG format for Imlib2 or GdkPixbuf with -DCONFIG_LIBRSVG=on.
+ Support SVG icons with either -DCONFIG_LIBRSVG=on or -DCONFIG_NANOSVG=on.
  ]=] ${HINT_CURSORS})
 
 # image configuration error check
-if(CONFIG_IMLIB2)
-    #ok
-    if (NOT CONFIG_LIBRSVG)
-        message(WARNING "-DCONFIG_LIBRSVG=on is recommended for SVG image support")
-    endif()
-elseif(CONFIG_GDK_PIXBUF_XLIB)
-    #ok
-    if (NOT CONFIG_LIBRSVG)
-        message(WARNING "-DCONFIG_LIBRSVG=on is recommended for SVG image support")
+if(CONFIG_IMLIB2 OR CONFIG_GDK_PIXBUF_XLIB)
+    if (NOT CONFIG_LIBRSVG AND NOT CONFIG_NANOSVG)
+        message(WARNING "Support for SVG icons was not enabled")
     endif()
 elseif(CONFIG_XPM AND CONFIG_LIBPNG)
-    #ok
     if (NOT CONFIG_LIBJPEG)
         message(WARNING "LIBJPEG is advisable for backgrounds in icewmbg")
     endif()
     set(CONFIG_LIBRSVG off)
+    set(CONFIG_NANOSVG off)
 else()
     MESSAGE(FATAL_ERROR ${HINT_IMG_LOADERS})
 endif()
@@ -242,7 +237,27 @@ if (CONFIG_LIBRSVG)
         set(CONFIG_LIBRSVG off)
     else()
         LIST(APPEND icewm_img_libs ${librsvg_LDFLAGS})
+        set(CONFIG_NANOSVG off)
     endif()
+endif()
+
+if (CONFIG_NANOSVG)
+    set(hub https://raw.githubusercontent.com/memononen/nanosvg/master/src)
+    foreach(nano nanosvg.h nanosvgrast.h)
+        message(STATUS "Checking for src/${nano}")
+        set(src ${CMAKE_SOURCE_DIR}/src/${nano})
+        if (NOT EXISTS ${src})
+            set(url ${hub}/${nano})
+            file(DOWNLOAD ${url} ${src} INACTIVITY_TIMEOUT 3 STATUS down)
+            list(GET down 0 stat)
+            list(GET down 1 mesg)
+            if(NOT ${stat} EQUAL 0 OR NOT EXISTS ${src})
+                message(WARNING "Cannot download ${url} to ${src}: ${mesg}")
+                set(CONFIG_NANOSVG off)
+                break()
+            endif()
+        endif()
+    endforeach()
 endif()
 
 # cursor configuration error check

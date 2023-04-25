@@ -345,13 +345,6 @@ ref<YIcon> YWMApp::getDefaultAppIcon() {
     return defaultAppIcon;
 }
 
-CtrlAltDelete* YWMApp::getCtrlAltDelete() {
-    if (ctrlAltDelete == nullptr) {
-        ctrlAltDelete = new CtrlAltDelete(this, desktop);
-    }
-    return ctrlAltDelete;
-}
-
 AToolTip* YWMApp::newToolTip() {
     return new YToolTip;
 }
@@ -512,7 +505,7 @@ void LogoutMenu::updatePopup() {
                 addItem(_("Re_boot"), -2, null, actionReboot, "reboot");
             if (canShutdown(Shutdown))
                 addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
-            if (couldRunCommand(suspendCommand))
+            if (canSuspend())
                 addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
 
             if (itemCount() != oldItemCount)
@@ -1011,6 +1004,12 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
     else if (action == actionUndoArrange) {
         manager->undoArrange();
     }
+    else if (action == actionSysDialog) {
+        if (ctrlAltDelete == nullptr)
+            ctrlAltDelete = new CtrlAltDelete(this, desktop);
+        if (ctrlAltDelete && ctrlAltDelete->visible() == false)
+            ctrlAltDelete->activate();
+    }
     else if (action == actionWindowList) {
         if (windowList->visible())
             windowList->handleClose();
@@ -1065,7 +1064,6 @@ void YWMApp::initFocusMode() {
 
     case FocusClick: /* click to focus */
         clickFocus = true;
-        // focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = true;
         raiseOnClickClient = true;
@@ -1078,7 +1076,6 @@ void YWMApp::initFocusMode() {
 
     case FocusSloppy:  /* sloppy mouse focus */
         clickFocus = false;
-        // focusOnAppRaise = false;
         requestFocusOnAppRaise = true;
         raiseOnFocus = false;
         raiseOnClickClient = true;
@@ -1091,7 +1088,6 @@ void YWMApp::initFocusMode() {
 
     case FocusExplicit: /* explicit focus */
         clickFocus = true;
-        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = false;
         raiseOnClickClient = false;
@@ -1104,7 +1100,6 @@ void YWMApp::initFocusMode() {
 
     case FocusStrict:  /* strict mouse focus */
         clickFocus = false;
-        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = true;
         raiseOnClickClient = true;
@@ -1117,7 +1112,6 @@ void YWMApp::initFocusMode() {
 
     case FocusQuiet:  /* quiet sloppy focus */
         clickFocus = false;
-        // focusOnAppRaise = false;
         requestFocusOnAppRaise = false;
         raiseOnFocus = false;
         raiseOnClickClient = true;
@@ -1270,6 +1264,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     if (focusMode != FocusCustom)
         initFocusMode();
 
+    DEPRECATE(xrrDisable == true);
     DEPRECATE(warpPointer == true);
     DEPRECATE(focusRootWindow == true);
     DEPRECATE(replayMenuCancelClick == true);
@@ -1427,10 +1422,12 @@ YWMApp::~YWMApp() {
     keyProgs.clear();
     workspaces.reset();
     WPixRes::freePixmaps();
+    delete manager; manager = nullptr;
 
     extern void clearFontCache();
     clearFontCache();
 
+    configKeyboards.clear();
     YConfig::freeConfig(wmapp_preferences);
 
     XFlush(display());
@@ -1705,6 +1702,9 @@ static void print_configured(const char *argv0) {
 #endif
 #ifdef LOGEVENTS
     " logevents"
+#endif
+#ifdef CONFIG_NANOSVG
+    " nanosvg"
 #endif
 #ifdef ENABLE_NLS
     " nls"

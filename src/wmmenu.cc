@@ -13,7 +13,7 @@
 #include "argument.h"
 #include "intl.h"
 
-#define TIMEOUT_MS 1400
+#define TIMEOUT_MS 2000
 
 static char* getWord(char* word, size_t wordsize, char* start) {
     char *p = start;
@@ -499,8 +499,11 @@ void MenuLoader::progMenus(
             kill(pid, SIGKILL);
         }
         int status = app->waitProgram(pid);
-        if (status) {
-            tlog(_("%s exited with status %d."), command, status);
+        if (WIFEXITED(status) && WEXITSTATUS(status)) {
+            tlog(_("%s exited with status %d."), command, WEXITSTATUS(status));
+        }
+        else if (WIFSIGNALED(status)) {
+            tlog(_("%s was killed by signal %d."), command, WTERMSIG(status));
         }
         else if (nonempty(buf)) {
             parseMenus(buf, container);

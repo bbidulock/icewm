@@ -82,12 +82,8 @@ void YWindowManagerStatus::paint(Graphics &g, const YRect &/*r*/) {
     g.drawBorderW(0, 0, width() - 1, height() - 1, true);
     int x = 1, y = 1, w = int(width()) - 3, h = int(height()) - 3;
     if (0 < w && 0 < h) {
-        if (switchbackPixbuf != null)
-            g.drawGradient(switchbackPixbuf, x, y, w, h, 0, 0, w, h);
-        else if (switchbackPixmap != null)
-            g.fillPixmap(switchbackPixmap, x, y, w, h);
-        else
-            g.fillRect(x, y, w, h);
+        YSurface surf(statusBg, switchbackPixmap, switchbackPixbuf);
+        g.drawSurface(surf, x, y, w, h);
     }
     if (statusFont) {
         mstring status(getStatus());

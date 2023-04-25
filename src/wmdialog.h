@@ -17,21 +17,17 @@ public:
     virtual void actionPerformed(YAction action, unsigned int modifiers);
     virtual void configure(const YRect2& rect);
     virtual void repaint();
+    virtual void handleVisibility(const XVisibilityEvent&);
 
     void activate();
     void deactivate();
+
 private:
-    YActionButton *lockButton;
-    YActionButton *suspendButton;
-    YActionButton *logoutButton;
-    YActionButton *restartButton;
-    YActionButton *cancelButton;
-    YActionButton *rebootButton;
-    YActionButton *shutdownButton;
-    YActionButton *aboutButton;
-    YActionButton *windowListButton;
+    int indexFocus();
+
     IApp *app;
-    YActionButton *addButton(const mstring& str, unsigned& maxW, unsigned& maxH);
+    enum { Count = 12, };
+    YActionButton* buttons[Count];
 };
 
 #endif

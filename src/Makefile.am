@@ -136,6 +136,7 @@ libice_la_SOURCES = \
 	yimage2.cc \
 	yimage2.h \
 	yimage_gdk.cc \
+	yimage_gdk.h \
 	ykey.h \
 	ylayout.h \
 	ylib.h \
@@ -271,7 +272,7 @@ genpref_SOURCES = \
 	themable.h \
 	icewmbg_prefs.h \
 	genpref.cc
-genpref_LDADD = libice.la @LIBINTL@
+genpref_LDADD = libice.la @LIBINTL@ @LIBICONV@
 
 icewm_SOURCES = \
 	intl.h \
@@ -384,7 +385,7 @@ icewm_SOURCES = \
 	yxcontext.h \
 	yxtray.cc \
 	yxtray.h
-icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS)
+icewm_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(XSM_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 icesh_SOURCES = \
 	intl.h \
@@ -400,7 +401,7 @@ icesh_SOURCES = \
 	ytime.h \
 	yrect.h \
 	icesh.cc
-icesh_LDADD = libice.la $(X_LIBS) $(RANDR_LIBS) $(XINERAMA_LIBS) -lX11 @LIBINTL@
+icesh_LDADD = libice.la $(X_LIBS) $(RANDR_LIBS) $(XINERAMA_LIBS) -lX11 @LIBINTL@ @LIBICONV@
 
 icewm_session_SOURCES = \
 	appnames.h \
@@ -412,14 +413,14 @@ icewm_session_SOURCES = \
 	ytime.h \
 	ytimer.h \
 	icesm.cc
-icewm_session_LDADD = libice.la $(X_LIBS) -lX11 @LIBINTL@
+icewm_session_LDADD = libice.la $(X_LIBS) -lX11 @LIBINTL@ @LIBICONV@
 
 icewmhint_SOURCES = \
 	intl.h \
 	debug.h \
 	base.h \
 	icewmhint.cc
-icewmhint_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
+icewmhint_LDADD = libice.la $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 icewmbg_SOURCES = \
 	intl.h \
@@ -431,7 +432,7 @@ icewmbg_SOURCES = \
 	yprefs.h \
 	icewmbg.cc \
 	icewmbg_prefs.h
-icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
+icewmbg_LDADD = libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 icesound_SOURCES = \
 	base.h \
@@ -443,7 +444,7 @@ icesound_SOURCES = \
 	ytime.h \
 	ytimer.h \
 	icesound.cc
-icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS) @LIBINTL@
+icesound_LDADD = libice.la $(AUDIO_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 icewm_menu_fdo_SOURCES = \
 	appnames.h \
@@ -473,7 +474,7 @@ icehelp_SOURCES = \
 	ylib.h \
 	yrect.h \
 	icehelp.cc
-icehelp_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
+icehelp_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 iceclock_SOURCES = \
 	intl.h \
@@ -489,7 +490,7 @@ iceclock_SOURCES = \
 	applet.h \
 	aclock.cc \
 	aclock.h
-iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@
+iceclock_LDADD = libitk.la libice.la $(IMAGE_LIBS) $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 strtest_SOURCES = \
 	base.h \
@@ -647,7 +648,7 @@ testlocale_SOURCES = \
 	base.h \
 	ylib.h \
 	testlocale.cc
-testlocale_LDADD = libice.la $(CORE_LIBS) @LIBINTL@
+testlocale_LDADD = libice.la $(CORE_LIBS) @LIBINTL@ @LIBICONV@
 
 testarray_SOURCES = \
 	mstring.h \
@@ -655,7 +656,7 @@ testarray_SOURCES = \
 	base.h \
 	ypointer.h \
 	testarray.cc
-testarray_LDADD = libice.la @LIBINTL@
+testarray_LDADD = libice.la @LIBINTL@ @LIBICONV@
 
 testpointer_SOURCES = \
 	ypointer.h \

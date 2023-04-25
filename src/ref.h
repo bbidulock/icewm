@@ -35,7 +35,7 @@ public:
     explicit ref(T *r) : ptr(r) { if (ptr) __ref(); }
     ref(const ref<T> &p): ptr(p.ptr) { if (ptr) __ref(); }
     template<class T2>
-    ref(const ref<T2> &p): ptr(static_cast<T *>(p._ptr())) { if (ptr) __ref(); }
+    ref(const ref<T2> &p): ptr(p._ptr()) { if (ptr) __ref(); }
     ~ref() { if (ptr) { __unref(); ptr = nullptr; } }
 
     const T& operator*() const { return *ptr; }

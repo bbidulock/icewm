@@ -54,6 +54,7 @@ public:
     void createPointerWindows();
     void grabKeys();
 
+    void maybeFocus();
     void focus(bool canWarp = false);
     void activate(bool canWarp = false, bool curWork = true);
     void activateWindow(bool raise, bool curWork = true);
@@ -166,7 +167,9 @@ public:
     bool canLower() const;
     bool canRaise(bool ignoreTaskBar = false) const;
     bool canFullscreen() const;
-    bool overlaps(bool below);
+    bool overlapping();
+    bool overlapped();
+    bool overlaps(YFrameWindow *other);
     unsigned overlap(YFrameWindow *other);
 
     void insertFrame(bool top);
@@ -382,7 +385,6 @@ public:
     bool isModal();
     bool hasModal();
     bool canFocus();
-    bool canFocusByMouse();
     bool avoidFocus();
     bool getInputFocusHint();
 

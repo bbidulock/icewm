@@ -101,7 +101,7 @@ public:
     ref<YIcon> getDefaultAppIcon();
 
     bool hasCtrlAltDelete() const { return ctrlAltDelete != nullptr; }
-    CtrlAltDelete* getCtrlAltDelete();
+    CtrlAltDelete* getCtrlAltDelete() const { return ctrlAltDelete; }
     const char* getConfigFile() const { return configFile; }
     FocusModel getFocusMode() const { return focusMode; }
 
