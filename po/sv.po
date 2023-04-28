@@ -1,7 +1,7 @@
 # Swedish translation of Icewm.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Per Larsson <tucker@algonet.se>, 2001.
-# Luna Jernberg <droidbittin@gmail.com>, 2020, 2022, 2023.
+# Luna Jernberg <bittin@opensuse.org>, 2020, 2022, 2023.
 #
 msgid ""
 msgstr ""
@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
 "PO-Revision-Date: 2023-04-10 07:14+0000\n"
-"Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
+"Last-Translator: Luna Jernberg <bittin@opensuse.org>\n"
 "Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
