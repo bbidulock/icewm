@@ -3536,7 +3536,7 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
         return;
     }
 
-    YProperty prop(window, atom, AnyPropertyType, 64);
+    YProperty prop(window, atom, AnyPropertyType, 256);
     if (prop.status() == Success && prop.data<void>()) {
         if (prop.format() == 8) {
             const char* name(atomName(atom));
