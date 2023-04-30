@@ -5388,23 +5388,24 @@ void IceSh::parseAction()
         }
         else if (isAction("focusmodel", 0)) {
             FOREACH_WINDOW(window) {
+                bool input = true;
                 xsmart<XWMHints> h(XGetWMHints(display, window));
-                if (h) {
-                    bool input = (h->flags & InputHint) && (h->input & True);
-                    Atom* prot = nullptr;
-                    int count = 0;
-                    bool take = false;
-                    if (XGetWMProtocols(display, window, &prot, &count)) {
-                        for (int i = 0; i < count; ++i) {
-                            if (prot[i] == ATOM_WM_TAKE_FOCUS) {
-                                take = true;
-                            }
+                if (h && hasbit(h->flags, InputHint)) {
+                    input = (h->input & True);
+                }
+                Atom* prot = nullptr;
+                int count = 0;
+                bool take = false;
+                if (XGetWMProtocols(display, window, &prot, &count)) {
+                    for (int i = 0; i < count; ++i) {
+                        if (prot[i] == ATOM_WM_TAKE_FOCUS) {
+                            take = true;
                         }
                     }
-                    printf("0x%-8lx focusmodel %s\n", *window,
-                            input ? take ? "Locally" : "Passive"
-                                : take ? "Globally" : "NoInput");
                 }
+                printf("0x%-8lx focusmodel %s\n", *window,
+                        input ? take ? "Locally" : "Passive"
+                            : take ? "Globally" : "NoInput");
             }
         }
         else if (isAction("motif", 0)) {
