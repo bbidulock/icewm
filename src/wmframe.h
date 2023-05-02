@@ -373,8 +373,8 @@ public:
     Window clientLeader() const { return client()->clientLeader(); }
 
     bool isManaged() const { return fManaged; }
-    void setManaged(bool isManaged) { fManaged = isManaged; }
-
+    void setManaged(bool isManaged) { fManaged = isManaged;
+                                      if (fManaged) sendConfigure(); }
     void setAllWorkspaces();
 
     bool visibleOn(int workspace) const {

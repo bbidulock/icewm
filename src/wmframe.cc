@@ -1261,6 +1261,9 @@ void YFrameWindow::handleConfigure(const XConfigureEvent &/*configure*/) {
 }
 
 void YFrameWindow::sendConfigure() {
+    if (isManaged() == false)
+        return;
+
     XConfigureEvent notify = {
         .type              = ConfigureNotify,
         .serial            = CurrentTime,
@@ -3400,8 +3403,12 @@ void YFrameWindow::updateLayout() {
         }
     }
     else {
-        MSG(("updateLayout %d %d %d %d", posX, posY, posW, posH));
+        bool move = (posX != x() || posY != y());
+        MSG(("updateLayout %d %d %d %d (%d)", posX, posY, posW, posH, move));
         setWindowGeometry(YRect(posX, posY, posW, posH));
+        if (move && isManaged()) {
+            sendConfigure();
+        }
     }
     if (affectsWorkArea())
         manager->updateWorkArea();

@@ -445,7 +445,8 @@ void YFrameWindow::layoutClient() {
         client()->setGeometry(YRect(0, 0, w, h));
 
         if (moved) {
-            sendConfigure();
+            if (isManaged())
+                sendConfigure();
             client()->setNetFrameExtents(x, x, y + title, y);
         }
     }
