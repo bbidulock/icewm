@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-03-27 21:00+0200\n"
-"PO-Revision-Date: 2022-11-17 01:13+0000\n"
+"PO-Revision-Date: 2023-05-03 22:14+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -2422,19 +2422,15 @@ msgstr "_Acerca"
 
 #: src/wmdialog.cc:90
 msgid "Reload win_options"
-msgstr ""
+msgstr "Recarregar win_options"
 
 #: src/wmdialog.cc:91
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Recarregar"
+msgstr "Recarregar tec_las"
 
 #: src/wmdialog.cc:92
-#, fuzzy
-#| msgid "Close"
 msgid "Clos_e"
-msgstr "Fechar"
+msgstr "Fe_char"
 
 #: src/wmframe.cc:1372
 msgid "Rename"
