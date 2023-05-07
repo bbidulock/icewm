@@ -5,14 +5,13 @@
  */
 #include "config.h"
 #include "ykey.h"
-#include "ypaint.h"
+#include "yimage.h"
 #include "ymenuitem.h"
 #include "ymenu.h"
 #include "yaction.h"
 
 #include "yapp.h"
 #include "yprefs.h"
-#include "prefs.h"
 #include "yicon.h"
 
 #include <string.h>

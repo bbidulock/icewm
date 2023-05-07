@@ -12,6 +12,7 @@
 #include "ypointer.h"
 #include "ywordexp.h"
 #include "ascii.h"
+#include <algorithm>
 #include <fnmatch.h>
 #include <dirent.h>
 #include "intl.h"
@@ -48,8 +49,10 @@ static const char iconExts[][5] = {
 };
 
 static const char subcats[][12] = {
-    "/apps", "/categories", "/places", "/devices", "/status",
-    "/actions",
+    "actions", "apps", "categories",
+    "devices", "emblems", "emotes",
+    "mimetypes", "places", "status",
+    "ui", "intl", "legacy"
 };
 
 static bool hasImageExtension(const upath& base) {
@@ -215,8 +218,8 @@ private:
             if (strcmp(entry, "scalable") == 0) {
 #ifdef ICE_SUPPORT_SVG
                 auto& scaleCat = pools[fromResources].getCat(SCALABLE);
-                for (auto contentDir : subcats) {
-                    mstring path(iconPathToken, "/scalable", contentDir);
+                for (const char* sub : subcats) {
+                    mstring path(iconPathToken, "/scalable/", sub);
                     if (upath(path).dirExists()) {
                         ret += addPath(path, scaleCat);
                     }
@@ -253,20 +256,15 @@ private:
                     IconCategory& cat(pools[fromResources].getCat(size1));
                     mstring testPath(iconPathToken, "/", entry);
                     for (const char* sub : subcats) {
-                        mstring subPath(testPath + sub);
+                        mstring subPath(testPath, "/", sub);
                         if (upath(subPath).dirExists()) {
                             ret += addPath(subPath, cat);
                         }
                     }
                 }
             }
-            else if (*entry == 'a' ? strcmp(entry, "apps") == 0 ||
-                                     strcmp(entry, "actions") == 0 :
-                     *entry == 'c' ? strcmp(entry, "categories") == 0 :
-                     *entry == 'd' ? strcmp(entry, "devices") == 0 :
-                     *entry == 'p' ? strcmp(entry, "places") == 0 :
-                     *entry == 's' ? strcmp(entry, "status") == 0 :
-                     false)
+            else if (std::find_if(subcats, subcats + ACOUNT(subcats),
+                     [entry](const char* p) { return strcmp(entry, p) == 0; }))
             {
                 mstring subcatPath(iconPathToken, "/", entry);
                 IconDirectory subDir(subcatPath);
