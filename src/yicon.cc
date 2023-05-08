@@ -507,8 +507,8 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
 #endif
                 icon = YImage::load(cs);
         }
-        else {
-            TLOG(("Icon not found: %s %ux%u", fPath.string(), size, size));
+        else if (XDBG || YTrace::traces("icon")) {
+            tlog("icon not found: %s %ux%u", fPath.string(), size, size);
         }
 
     }

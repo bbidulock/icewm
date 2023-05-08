@@ -71,7 +71,7 @@ private:
 };
 
 static int handler(Display *display, XErrorEvent *xev) {
-    XDBG {
+    if (XDBG) {
         char message[80], req[80], number[80];
 
         snprintf(number, sizeof number, "%d", xev->request_code);
