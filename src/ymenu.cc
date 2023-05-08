@@ -70,6 +70,7 @@ YMenu::YMenu(YWindow *parent):
     fTimerX = 0;
     fTimerY = 0;
     fTimerSubmenuItem = -1;
+    fKeyPressed = 0;
     addStyle(wsNoExpose);
 
     if (menuFont == null)
@@ -318,6 +319,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
     int m = KEY_MODMASK(key.state);
 
     if (key.type == KeyPress) {
+        fKeyPressed = k;
         if ((m & ~ShiftMask) == 0) {
             if (k == XK_Left || k == XK_KP_Left) {
                 if (prevPopup())
@@ -376,7 +378,7 @@ bool YMenu::handleKey(const XKeyEvent &key) {
         }
     }
     else if (key.type == KeyRelease) {
-        if (k == XK_Escape && notbit(m, ShiftMask)) {
+        if (k == XK_Escape && k == fKeyPressed && m == 0) {
             YPopupWindow::finishPopup();
             return true;
         }

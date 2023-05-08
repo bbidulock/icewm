@@ -39,6 +39,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     fCursorVisible(true),
     fSelecting(false),
     fBlinkTime(333),
+    fKeyPressed(0),
     fListener(listener),
     inputFont(inputFontName),
     inputBg(&clrInput),
@@ -149,6 +150,7 @@ void YInputLine::paint(Graphics &g, const YRect &/*r*/) {
 bool YInputLine::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);
+        fKeyPressed = k;
 
         switch (k) {
         case XK_KP_Home:
@@ -331,7 +333,7 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
     else if (key.type == KeyRelease && fListener) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
-        if (k == XK_Escape && m == 0) {
+        if (k == XK_Escape && k == fKeyPressed && m == 0) {
             fListener->inputEscape(this);
             return true;
         }

@@ -16,6 +16,7 @@
 AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent),
     app(app),
+    keyPressed(0),
     location(0)
 {
 }
@@ -26,6 +27,7 @@ AddressBar::~AddressBar() {
 bool AddressBar::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
     if (key.type == KeyPress) {
+        keyPressed = k;
         if (k == XK_KP_Enter || k == XK_Return) {
             hideNow();
             return handleReturn(KEY_MODMASK(key.state));
@@ -42,7 +44,7 @@ bool AddressBar::handleKey(const XKeyEvent &key) {
         }
     }
     else if (key.type == KeyRelease) {
-        if (k == XK_Escape) {
+        if (k == XK_Escape && k == keyPressed) {
             hideNow();
             return true;
         }

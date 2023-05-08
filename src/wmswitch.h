@@ -95,6 +95,7 @@ private:
     YColorName switchMfg;
     YFont switchFont;
 
+    unsigned keyPressed;
     unsigned modsDown;
 
     bool modDown(unsigned m);

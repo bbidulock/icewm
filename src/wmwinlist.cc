@@ -95,7 +95,8 @@ void DesktopListItem::activate() {
 }
 
 WindowListBox::WindowListBox(YScrollView *view, YWindow *aParent):
-    YListBox(view, aParent)
+    YListBox(view, aParent),
+    fKeyPressed(0)
 {
 }
 
@@ -190,6 +191,7 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
+        fKeyPressed = k;
 
         switch (k) {
         case XK_F10:
@@ -226,7 +228,7 @@ bool WindowListBox::handleKey(const XKeyEvent &key) {
     else if (key.type == KeyRelease) {
         KeySym k = keyCodeToKeySym(key.keycode);
         int m = KEY_MODMASK(key.state);
-        if (k == XK_Escape && m == 0) {
+        if (k == XK_Escape && k == fKeyPressed && m == 0) {
             windowList->handleClose();
             return true;
         }

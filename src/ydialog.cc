@@ -19,7 +19,8 @@ static YColorName dialogBg(&clrDialog);
 YDialog::YDialog():
     YFrameClient(nullptr, nullptr, None),
     fGradient(dialogbackPixbuf),
-    fSurface(dialogBg, dialogbackPixmap, getGradient())
+    fSurface(dialogBg, dialogbackPixmap, getGradient()),
+    fKeyPressed(0)
 {
     addStyle(wsNoExpose);
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DIALOG);
@@ -114,10 +115,13 @@ void YDialog::repaint() {
 }
 
 bool YDialog::handleKey(const XKeyEvent &key) {
-    if (key.type == KeyRelease) {
-        KeySym k = keyCodeToKeySym(key.keycode);
+    KeySym k = keyCodeToKeySym(key.keycode);
+    if (key.type == KeyPress) {
+        fKeyPressed = k;
+    }
+    else if (key.type == KeyRelease) {
         int m = KEY_MODMASK(key.state);
-        if (k == XK_Escape && m == 0) {
+        if (k == XK_Escape && k == fKeyPressed && m == 0) {
             handleClose();
             return true;
         }

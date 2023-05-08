@@ -101,6 +101,7 @@ private:
     static lazy<YTimer> fMenuTimer;
     int fTimerX, fTimerY;
     int fTimerSubmenuItem;
+    unsigned fKeyPressed;
     static int fAutoScrollDeltaX, fAutoScrollDeltaY;
     static int fAutoScrollMouseX, fAutoScrollMouseY;
     static int fMenuObjectCount;

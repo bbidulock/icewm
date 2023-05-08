@@ -87,6 +87,7 @@ private:
     bool fCursorVisible;
     bool fSelecting;
     const short fBlinkTime;
+    unsigned fKeyPressed;
     YInputListener* fListener;
 
     YFont inputFont;

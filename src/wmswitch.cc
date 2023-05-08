@@ -450,6 +450,7 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     switchHl(&clrQuickSwitchActive),
     switchMfg(&clrActiveTitleBarText),
     switchFont(switchFontName),
+    keyPressed(0),
     modsDown(0)
 {
     // I prefer clrNormalMenu but some themes use inverted settings where
@@ -940,6 +941,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
     unsigned vm = VMod(m);
 
     if (key.type == KeyPress) {
+        keyPressed = k;
         if (isKey(k, vm)) {
             target(+1);
         }
@@ -1004,7 +1006,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         if ((isKey(k, vm) && !modDown(m)) || isModKey(key.keycode)) {
             accept();
         }
-        else if (k == XK_Escape) {
+        else if (k == XK_Escape && k == keyPressed) {
             zItems->setTarget(-1);
             cancel();
         }

@@ -58,6 +58,9 @@ public:
 
     void enableCommands(YMenu *popup);
     YArrange getSelectedWindows();
+
+private:
+    unsigned fKeyPressed;
 };
 
 class WindowListPopup : public YMenu {

@@ -23,6 +23,7 @@ private:
 
     IApp *app;
     MStringArray history;
+    unsigned keyPressed;
     int location;
 };
 

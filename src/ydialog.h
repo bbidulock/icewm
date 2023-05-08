@@ -23,6 +23,7 @@ private:
     ref<YImage> fGradient;
     YSurface fSurface;
     YTimer focusTimer;
+    unsigned fKeyPressed;
 
     const YSurface& getSurface();
 };
