@@ -377,7 +377,24 @@ void WorkspacesPane::relabelButtons() {
 
 void WorkspacesPane::configure(const YRect2& r) {
     if ((fReconfiguring | fRepositioning) == false && r.resized()) {
-        repositionButtons();
+        if (pagerShowPreview && r.hh != r.old.hh && 1 < r.old.hh) {
+            rescaleButtons();
+        } else {
+            repositionButtons();
+        }
+    }
+}
+
+void WorkspacesPane::rescaleButtons() {
+    for (auto wk : fButtons) {
+        scale(wk, height());
+    }
+    repositionButtons();
+    for (auto wk : fButtons) {
+        if (wk->x() < int(width()))
+            wk->show();
+        else
+            break;
     }
 }
 
@@ -393,16 +410,7 @@ void WorkspacesPane::updateButtons() {
         fDesktop = desktop->dimension();
         if (pagerShowPreview) {
             fMoved = 0;
-            for (auto wk : fButtons) {
-                scale(wk, height());
-            }
-            repositionButtons();
-            for (auto wk : fButtons) {
-                if (wk->x() < int(width()))
-                    wk->show();
-                else
-                    break;
-            }
+            rescaleButtons();
         }
     }
 
