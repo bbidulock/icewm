@@ -1013,6 +1013,7 @@ void TaskBar::actionPerformed(YAction action, unsigned int modifiers) {
 void TaskBar::handleCollapseButton() {
     fIsCollapsed = !fIsCollapsed;
     if (fCollapseButton) {
+        fCollapseButton->hide();
         ref<YImage> image = (leftToRight == fIsCollapsed)
                           ? taskbarExpandImage : taskbarCollapseImage;
         const char* text = (leftToRight == fIsCollapsed) ? "<" : ">";
