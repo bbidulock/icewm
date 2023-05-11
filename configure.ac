@@ -116,7 +116,7 @@ case "${target_os}" in
         AC_CHECK_LIB(nsl, gethostbyname)
         ;;
     *openbsd*)
-        test x$enable_i18n = xyes -a -z "$EXTRA_LIBS" && EXTRA_LIBS=-liconv
+        test x$enable_i18n != xno -a -z "$EXTRA_LIBS" && EXTRA_LIBS=-liconv
         ;;
     *)
         :
