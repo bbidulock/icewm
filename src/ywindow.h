@@ -171,6 +171,7 @@ public:
     Window handle() { return (flags & wfCreated) ? fHandle : create(); }
     YWindow *parent() const { return fParent; }
     YWindow *window() { return this; }
+    YWindow *nextSibling() { return nextWindow(); }
 
     void paintExpose(int ex, int ey, int ew, int eh);
 

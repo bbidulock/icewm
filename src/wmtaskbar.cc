@@ -375,8 +375,11 @@ void TaskBar::initApplets() {
         fShowDesktop->realize();
     }
 
+    unsigned tall = 1;
+    for (YWindow* w = firstWindow(); w; w = w->nextSibling())
+        tall = max(tall, w->height());
     fWorkspaces = taskBarShowWorkspaces
-                ? new WorkspacesPane(this)
+                ? new WorkspacesPane(this, tall)
                 : new AWorkspaces(this);
     fWorkspaces->setTitle("Workspaces");
 
