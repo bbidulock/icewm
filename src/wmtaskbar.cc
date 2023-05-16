@@ -376,8 +376,10 @@ void TaskBar::initApplets() {
     }
 
     unsigned tall = 1;
-    for (YWindow* w = firstWindow(); w; w = w->nextSibling())
-        tall = max(tall, w->height());
+    if (taskBarDoubleHeight == false) {
+        for (YWindow* w = firstWindow(); w; w = w->nextSibling())
+            tall = max(tall, w->height());
+    }
     fWorkspaces = taskBarShowWorkspaces
                 ? new WorkspacesPane(this, tall)
                 : new AWorkspaces(this);
