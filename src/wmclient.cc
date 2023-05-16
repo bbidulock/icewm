@@ -113,6 +113,7 @@ YFrameClient::~YFrameClient() {
     if (fSizeHints) { XFree(fSizeHints); fSizeHints = nullptr; }
     if (fHints) { XFree(fHints); fHints = nullptr; }
     if (fClientItem) { fClientItem->goodbye(); fClientItem = nullptr; }
+    if (fPinging) { fPingTimer = null; }
 }
 
 void YFrameClient::getProtocols(bool force) {
@@ -457,11 +458,18 @@ bool YFrameClient::handleTimer(YTimer* timer) {
             }
             else if (fPid > 0) {
                 char* res = classHint()->resource();
+                if (res && strlen(res) > 47L) {
+                    char* dot = strchr(res, '.');
+                    if (dot && inrange<long>(dot - res, 8L, 48L))
+                        *dot = '\0';
+                    else
+                        res[47] = '\0';
+                }
                 char buf[234];
                 snprintf(buf, sizeof buf,
                          _("Client %s with PID %ld fails to respond.\n"
                            "Do you wish to terminate this client?\n"),
-                         res, fPid);
+                         res ? res : "''", fPid);
                 fFrame->wmConfirmKill(buf);
                 free(res);
             }
