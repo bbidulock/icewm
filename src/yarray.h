@@ -67,6 +67,8 @@ protected:
 
     const void* begin() const { return fElements; }
     const void* end() const { return getElement(getCount()); }
+    void* begin() { return fElements; }
+    void* end() { return getElement(getCount()); }
 
     void release();
     void swap(YBaseArray& other);
@@ -169,6 +171,8 @@ public:
     const DataType* end() const {
         return (const DataType*) YBaseArray::end();
     }
+    DataType* begin() { return (DataType *) YBaseArray::begin(); }
+    DataType* end() { return (DataType *) YBaseArray::end(); }
     IterType iterator();
     IterType reverseIterator();
 };

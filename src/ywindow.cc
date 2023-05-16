@@ -1987,14 +1987,48 @@ int YWindow::getScreen() {
     return desktop->getScreenForRect(dx, dy, width(), height());
 }
 
+bool YDesktop::addScreen(DesktopScreenInfo& info) {
+    for (DesktopScreenInfo& xi : xiInfo) {
+        if (xi == info) {
+            xi.usage += 1;
+            if (xi.usage == 1)
+                xi.screen_number = info.screen_number;
+            return true;
+        }
+    }
+    info.usage = 1;
+    xiInfo += info;
+    return false;
+}
+
 bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
-    int infos = 0;
     bool change = false;
+
+    for (DesktopScreenInfo& xi : xiInfo) {
+        xi.usage = 0;
+    }
 
 #ifdef CONFIG_XRANDR
     if (xrandr.supported && !xrrDisable) {
         XRRScreenResources *xrrsr =
             XRRGetScreenResources(xapp->display(), handle());
+        RRCrtc primaryCRT = RRCrtc(-1);
+        DesktopScreenInfo primaryInfo(0, 0, 0, 0, 0);
+
+        if (nonempty(xineramaPrimaryScreenName)) {
+            const char* name = xineramaPrimaryScreenName;
+            for (int i = 0; xrrsr && i < xrrsr->noutput; i++) {
+                XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr,
+                                                        xrrsr->outputs[i]);
+                MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
+                if (oinfo->name && strcmp(oinfo->name, name) == 0) {
+                    primaryCRT = oinfo->crtc;
+                    break;
+                }
+                XRRFreeOutputInfo(oinfo);
+            }
+        }
+
         for (int i = 0; xrrsr && i < xrrsr->ncrtc; i++) {
             XRRCrtcInfo *ci = XRRGetCrtcInfo(xapp->display(), xrrsr,
                                              xrrsr->crtcs[i]);
@@ -2003,51 +2037,48 @@ bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
             if (ci->width && ci->height) {
                 DesktopScreenInfo si(int(xrrsr->crtcs[i]),
                                      ci->x, ci->y, ci->width, ci->height);
-                if (infos == xiInfo.getCount()) {
-                    xiInfo.append(si);
-                    change = true;
-                }
-                else if (si != xiInfo[infos]) {
-                    xiInfo[infos] = si;
-                    change = true;
-                }
-                infos++;
+                change |= addScreen(si);
+                if (primaryCRT == xrrsr->crtcs[i])
+                    primaryInfo = si;
             }
             XRRFreeCrtcInfo(ci);
         }
-
-        if (xineramaPrimaryScreenName) {
-            const char* name = xineramaPrimaryScreenName;
-            MSG(("xinerama primary screen name: %s", name));
-            for (int o = 0; xrrsr && o < xrrsr->noutput; o++) {
-                XRROutputInfo *oinfo = XRRGetOutputInfo(xapp->display(), xrrsr,
-                                                        xrrsr->outputs[o]);
-                MSG(("output: %s -> %lu", oinfo->name, oinfo->crtc));
-                if (oinfo->name && strcmp(oinfo->name, name) == 0) {
-                    for (int k = 0; k < xiInfo.getCount(); k++) {
-                         if (xiInfo[k].screen_number == int(oinfo->crtc)) {
-                             xineramaPrimaryScreen = o;
-                             MSG(("xinerama primary screen: %s -> %d",
-                                         oinfo->name, o));
-                         }
-                    }
-                }
-                XRRFreeOutputInfo(oinfo);
+        for (int i = getScreenCount(); --i >= 0; ) {
+            if (xiInfo[i].usage == 0) {
+                xiInfo.remove(i);
+                change = true;
             }
         }
+
+        if (primaryInfo.width && primaryInfo.height) {
+            for (int i = 0; i < xiInfo.getCount(); ++i) {
+                if (xiInfo[i] == primaryInfo) {
+                     xineramaPrimaryScreen = i;
+                     MSG(("xinerama primary screen: %s -> %d",
+                           xineramaPrimaryScreenName, i));
+                     break;
+                }
+            }
+        }
+
         XRRFreeScreenResources(xrrsr);
     }
 #endif
 
 #ifdef XINERAMA
-    if (xiInfo.getCount() < 2 && xinerama.supported) {
+    for (int i = xiInfo.getCount(); --i >= 0; ) {
+        if (xiInfo[i].usage == 0) {
+            xiInfo.remove(i);
+            change = true;
+        }
+    }
+    if (xiInfo.isEmpty() && xinerama.supported) {
         // use xinerama if no XRANDR screens (nvidia hack)
         int count = 0;
         xsmart<XineramaScreenInfo> screens(
                XineramaQueryScreens(xapp->display(), &count));
         MSG(("xinerama: heads=%d", count));
-        if (screens && count > xiInfo.getCount()) {
-            xiInfo.clear();
+        if (screens) {
             for (int i = 0; i < count; i++) {
                 const XineramaScreenInfo& xine(screens[i]);
                 MSG(("xinerama: %d +%d+%d %dx%d", xine.screen_number,
@@ -2055,31 +2086,18 @@ bool YDesktop::updateXineramaInfo(unsigned& horizontal, unsigned& vertical) {
                 DesktopScreenInfo si(i, xine.x_org, xine.y_org,
                                      unsigned(xine.width),
                                      unsigned(xine.height));
-                if (infos == xiInfo.getCount()) {
-                    xiInfo.append(si);
-                    change = true;
-                }
-                else if (si != xiInfo[infos]) {
-                    xiInfo[infos] = si;
-                    change = true;
-                }
-                infos++;
+                change |= addScreen(si);
             }
         }
     }
 #endif
 
-    if (infos == 0) {
+    if (xiInfo.isEmpty()) {
         DesktopScreenInfo si(0, 0, 0,
                              unsigned(xapp->displayWidth()),
                              unsigned(xapp->displayHeight()));
-        xiInfo.clear();
-        xiInfo.append(si);
-        change = true;
-        infos++;
+        change |= addScreen(si);
     }
-    if (infos < xiInfo.getCount())
-        xiInfo.shrink(infos);
 
     unsigned w = 0;
     unsigned h = 0;

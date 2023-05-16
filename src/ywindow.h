@@ -21,9 +21,10 @@ struct DesktopScreenInfo {
     int y_org;
     unsigned width;
     unsigned height;
+    unsigned usage;
 
     DesktopScreenInfo(int i, int x, int y, unsigned w, unsigned h) :
-        screen_number(i), x_org(x), y_org(y), width(w), height(h)
+        screen_number(i), x_org(x), y_org(y), width(w), height(h), usage(0)
     { }
     operator YRect() const {
         return YRect(x_org, y_org, width, height);
@@ -44,9 +45,12 @@ struct DesktopScreenInfo {
         return (1L + horizontalCoverage(x, w))
              * (1L + verticalCoverage(y, h));
     }
+    bool operator==(const DesktopScreenInfo& o) {
+        return x_org == o.x_org && y_org == o.y_org
+            && width == o.width && height == o.height;
+    }
     bool operator!=(const DesktopScreenInfo& o) {
-        return screen_number != o.screen_number
-            || x_org != o.x_org || y_org != o.y_org
+        return x_org != o.x_org || y_org != o.y_org
             || width != o.width || height != o.height;
     }
 };
@@ -396,6 +400,9 @@ public:
 
 protected:
     YArray<DesktopScreenInfo> xiInfo;
+
+private:
+    bool addScreen(DesktopScreenInfo& info);
 };
 
 extern YDesktop *desktop;

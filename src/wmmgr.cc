@@ -3824,16 +3824,19 @@ void YWindowManager::updateScreenSize(XEvent *event) {
     XRRUpdateConfiguration(event);
 
     if (updateXineramaInfo(nw, nh)) {
+        bool resize = (nw != width() || nh != height());
         MSG(("xrandr: %d %d", nw, nh));
-        setSize(nw, nh);
-        setDesktopGeometry();
+        if (resize) {
+            setSize(nw, nh);
+            setDesktopGeometry();
+        }
 
         if (taskBar) {
             taskBar->updateLocation();
         }
         updateWorkArea();
 
-        if (taskBar && pagerShowPreview) {
+        if (taskBar && pagerShowPreview && resize) {
             taskBar->workspacesUpdateButtons();
         }
         if (taskBar) {
@@ -3843,10 +3846,11 @@ void YWindowManager::updateScreenSize(XEvent *event) {
             edges[i]->setGeometry();
 
         /// TODO #warning "make something better"
-        if (arrangeWindowsOnScreenSizeChange) {
+        if (arrangeWindowsOnScreenSizeChange && resize) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }
-        manager->arrangeIcons();
+        if (resize)
+            manager->arrangeIcons();
     }
 
     refresh();
