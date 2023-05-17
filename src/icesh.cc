@@ -4165,8 +4165,10 @@ void IceSh::unexpected()
 void IceSh::flags()
 {
     bool act = false;
+    bool man = false;
 
     while (haveArg()) {
+        man = false;
         if (conditional()) {
             /*ignore*/;
             act = true;
@@ -4183,7 +4185,7 @@ void IceSh::flags()
         else {
             act = true;
             if (icewmAction())
-                ;
+                man = true;
             else if (windowList)
                 parseAction();
             else if (selecting | filtering) {
@@ -4206,6 +4208,10 @@ void IceSh::flags()
     if (act == false) {
         msg(_("No actions specified."));
         throw 1;
+    }
+    if (man == true && windowList == false) {
+        // make windowList non-empty.
+        windowList += root;
     }
 }
 
