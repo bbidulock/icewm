@@ -1695,7 +1695,7 @@ void YFrameWindow::wmRollup() {
         //    return ;
         wmapp->signalGuiEvent(geWindowRollup);
         setState(WinStateUnmapped, WinStateRollup);
-        if (focused() && !clickFocus && !strongPointerFocus)
+        if (focused() && (clickFocus || !strongPointerFocus))
             manager->focusLastWindow();
     }
 }
@@ -1708,7 +1708,7 @@ void YFrameWindow::wmHide() {
     } else {
         wmapp->signalGuiEvent(geWindowHide);
         setState(WinStateUnmapped, WinStateHidden);
-        if (focused() && !clickFocus && !strongPointerFocus)
+        if (focused() && (clickFocus || !strongPointerFocus))
             manager->focusLastWindow();
     }
 }
