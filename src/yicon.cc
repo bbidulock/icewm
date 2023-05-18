@@ -50,9 +50,15 @@ static const char iconExts[][5] = {
 
 static const char subcats[][12] = {
     "actions", "apps", "categories",
-    "devices", "emblems", "emotes",
-    "mimetypes", "places", "status",
-    "ui", "intl", "legacy"
+    "devices",
+    // "emblems",
+    // "emotes",
+    // "mimetypes",
+    "places",
+    "status",
+    // "ui",
+    // "intl",
+    "legacy",
 };
 
 static bool hasImageExtension(const upath& base) {
