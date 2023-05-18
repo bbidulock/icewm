@@ -108,7 +108,13 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
             *key = button + XK_Pointer_Button1 - 1;
         }
     }
-
+    if (*key == NoSymbol && *arg && arg[1] == 0) {
+        unsigned char literal = (unsigned char) *arg;
+        if (inrange<unsigned char>(literal, 0xa0, 0xff))
+            *key = literal;
+        else if (inrange<unsigned char>(literal, ' ', '~'))
+            *key = literal;
+    }
     if (*key == NoSymbol && *arg) {
         msg(_("Unknown key name %s in %s"), arg, orig_arg);
         return false;
