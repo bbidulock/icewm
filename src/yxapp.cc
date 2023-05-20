@@ -1379,9 +1379,7 @@ bool YXApplication::parseKey(const char* arg, KeySym* key, unsigned* mod) {
 
 void YXApplication::unshift(KeySym* ksym, unsigned* mod) {
     const unsigned key = unsigned(*ksym);
-    if (((' ' < key && key < 'a') || ('z' < key && key <= 0xff))
-        && notbit(*mod, ShiftMask))
-    {
+    if ((' ' < key && key < 'a') || ('z' < key && key <= 0xff)) {
         if (fKeycodeMap == nullptr) {
             XDisplayKeycodes(xapp->display(), &fKeycodeMin, &fKeycodeMax);
             fKeycodeMap = XGetKeyboardMapping(xapp->display(), fKeycodeMin,

@@ -114,6 +114,13 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         else if (inrange<unsigned char>(literal, ' ', '~'))
             *key = literal;
     }
+    if (*key == NoSymbol && *arg && arg[1] && arg[2] == 0) {
+        if ((*arg & 0xe0) == 0xc0 && (arg[1] & 0xc0) == 0x80) {
+            unsigned u = ((*arg & 0x1f) << 6) | (arg[1] & 0x3f);
+            if (inrange<unsigned>(u, 0xa0, 0xff))
+                *key = u;
+        }
+    }
     if (*key == NoSymbol && *arg) {
         msg(_("Unknown key name %s in %s"), arg, orig_arg);
         return false;
