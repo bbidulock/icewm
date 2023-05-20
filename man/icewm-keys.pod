@@ -14,21 +14,28 @@
 
 =head2 DESCRIPTION
 
-Global keybindings to launch applications, which need not be window
-manager related. If you are looking for ways to disable icewm's grabbing
-of default key combinations, please read L<icewm-preferences(5)>
-instead.
+The C<keys> file defines global keybindings to launch applications.
+A keybinding has three parts. The word B<key>, a double-quoted string
+with an X11 key combination, and a program with its arguments.
+These are separated by one or more spaces. Empty lines are allowed.
+Comment lines start with a hash.
 
-Each non-empty line starts with the word C<key>.
-After one or more spaces follows a double-quoted string of the bound X11
-key combination like C<Alt+Ctrl+Shift+X>.  Then after at least one space
-follows a command line which will be executed by B<icewm> whenever
-this key combination is pressed.  For example, the following line
-creates a hotkey to reload the B<icewm> configuration:
+For example, the following defines a hotkey to restart B<icewm>:
 
     key "Ctrl+Shift+r"      icesh restart
 
-See the output of C<xmodmap -pk> for a list of keystroke names.
+See the output of C<xmodmap -pk> for a list of the many keystroke names
+you can use in icewm key definitions. Since IceWM version 3.4.0,
+bindings can not only be defined by their keystroke name, but also by
+their key label. In addition, the shifted key is available as well.
+For example, the key with + and = can be bound in either of the
+following four ways, which here are identical:
+
+    key "Ctrl+Shift+equal"  xterm
+    key "Ctrl+Shift+="      xterm
+    key "Ctrl+plus"         xterm
+    key "Ctrl++"            xterm
+
 To bind the mouse use C<Pointer_Button1> for button 1, and so on.
 The command C<icesh keys> instructs icewm to reload this file.
 
@@ -52,27 +59,26 @@ Where,
 
 =item B<key>
 
-The literal string keyword.
-
-=item B<switchkey>
-
-The literal string keyword, instead of C<key>, to build popup menus.
-The output of I<program> should conform to L<icewm-menu(1)>.
+The word B<key> begins the definition of a keybinding.
 
 =item I<key_combination>
 
-A combination of modifiers and a key separated by a plus-sign (C<+>),
-like C<Ctrl+Alt+Delete>. Mouse pointer buttons can be specified by
+A combination of modifiers and a key. These are separated by a plus-sign,
+like in C<Ctrl+Alt+Delete>. The key is either a keystroke name or a key
+label. Instead of a key, mouse pointer buttons can be specified by
 C<Pointer_Button1> and up.
 
 =item I<program> I<options>
 
-I<program> is the name of the executable or full path to the executable
-file that will be run in response to selecting the menu item.  When used
-with the B<switchkey> keyword, the I<program> must print on standard
-output the contents of the popup like it would be used for dynamic menus.
+I<program> is the name of the executable or its full path.
+The path may start with $HOME or a tilde, which will be expanded.
+The I<options> are passed as arguments to the I<program>.
 
-I<options> are the options and arguments passed to the I<program>.
+=item B<switchkey>
+
+Is an alternative to B<key>. In this case the I<program> must print on
+standard output the definition of a dynamic L<icewm-menu(1)>.
+This menu will presented as a popup menu.
 
 =back
 
