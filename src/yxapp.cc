@@ -6,6 +6,7 @@
 #include "MwmUtil.h"
 #include "ypointer.h"
 #include "yxcontext.h"
+#include "yconfig.h"
 #include "guievent.h"
 #include "intl.h"
 #undef override
@@ -600,6 +601,11 @@ void YXApplication::initModifiers() {
          AltMask, MetaMask, SuperMask, HyperMask, WinMask, ModeSwitchMask,
          NumLockMask, ScrollLockMask));
 
+    fKeycodeMin = fKeycodeMax = fKeysymsPer = 0;
+    if (fKeycodeMap) {
+        XFree(fKeycodeMap);
+        fKeycodeMap = nullptr;
+    }
 }
 
 bool YXApplication::hasControlAlt(unsigned state) const {
@@ -1074,6 +1080,10 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     xfd(this),
     fXGrabWindow(nullptr),
     fGrabWindow(nullptr),
+    fKeycodeMap(nullptr),
+    fKeycodeMin(0),
+    fKeycodeMax(0),
+    fKeysymsPer(0),
     fGrabTree(false),
     fGrabMouse(false),
     fReplayEvent(false)
@@ -1128,6 +1138,8 @@ void YXApplication::initExtensions(Display* dpy) {
 YXApplication::~YXApplication() {
     if (fColormap32)
         XFreeColormap(display(), fColormap32);
+    if (fKeycodeMap)
+        XFree(fKeycodeMap);
 
     xfd.unregisterPoll();
     XCloseDisplay(display());
@@ -1356,6 +1368,41 @@ void YXApplication::queryMouse(int* x, int* y) {
     if (XQueryPointer(display(), desktop->handle(),
                       &root, &child, x, y, &wx, &wy, &mask) == False)
         *x = *y = 0;
+}
+
+bool YXApplication::parseKey(const char* arg, KeySym* key, unsigned* mod) {
+    bool yes = YConfig::parseKey(arg, key, mod);
+    if (yes)
+        unshift(key, mod);
+    return yes;
+}
+
+void YXApplication::unshift(KeySym* ksym, unsigned* mod) {
+    const unsigned key = unsigned(*ksym);
+    if (((' ' < key && key < 'a') || ('z' < key && key <= 0xff))
+        && notbit(*mod, ShiftMask))
+    {
+        if (fKeycodeMap == nullptr) {
+            XDisplayKeycodes(xapp->display(), &fKeycodeMin, &fKeycodeMax);
+            fKeycodeMap = XGetKeyboardMapping(xapp->display(), fKeycodeMin,
+                                              fKeycodeMax - fKeycodeMin + 1,
+                                              &fKeysymsPer);
+        }
+        if (fKeycodeMap && 1 < fKeycodeMax && 1 < fKeysymsPer) {
+            const int lo = fKeycodeMin;
+            int un = 0, sh = 0;
+            for (int i = lo; i <= fKeycodeMax; ++i) {
+                if (fKeycodeMap[(i - lo) * fKeysymsPer] == key && un == 0)
+                    un = i;
+                if (fKeycodeMap[(i - lo) * fKeysymsPer + 1] == key && sh == 0)
+                    sh = i;
+            }
+            if (sh && un == 0 && fKeycodeMap[(sh - lo) * fKeysymsPer]) {
+                *ksym = fKeycodeMap[(sh - lo) * fKeysymsPer];
+                *mod |= ShiftMask;
+            }
+        }
+    }
 }
 
 void YXPoll::notifyRead() {

@@ -3620,7 +3620,7 @@ void YWindowManager::setKeyboard(mstring keyboard) {
             exp.we_offs = 1;
             if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
                 exp.we_wordv[0] = program;
-                wmapp->runProgram(program, exp.we_wordv);
+                wmapp->runProgram(path, exp.we_wordv);
                 exp.we_wordv[0] = nullptr;
                 wordfree(&exp);
             }

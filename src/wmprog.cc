@@ -99,7 +99,7 @@ KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg) :
     fProg(prog),
     pSwitchWindow(nullptr)
 {
-    YConfig::parseKey(key, &fKey, &fMod);
+    xapp->parseKey(key, &fKey, &fMod);
     keyProgs.append(this);
 }
 

@@ -3,7 +3,6 @@
 #include "upath.h"
 #include "ykey.h"
 #include "yconfig.h"
-#include "ypaint.h"
 #include "yprefs.h"
 #include "sysdep.h"
 #include "binascii.h"

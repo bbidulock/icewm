@@ -152,6 +152,7 @@ private:
     void initPointers();
     void initIcons();
     void initIconSize();
+    void fixupPreferences();
 };
 
 extern YWMApp * wmapp;

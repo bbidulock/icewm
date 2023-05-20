@@ -190,6 +190,8 @@ public:
     bool isButton(unsigned state, unsigned mask) const {
         return mask == buttonModMask(state);
     }
+    bool parseKey(const char* arg, KeySym* key, unsigned* mod);
+    void unshift(KeySym* key, unsigned* mod);
 
     static const char* getHelpText();
 
@@ -228,6 +230,10 @@ private:
     lazy<class YClipboard> fClip;
     YWindow *fXGrabWindow;
     YWindow *fGrabWindow;
+    KeySym* fKeycodeMap;
+    int fKeycodeMin;
+    int fKeycodeMax;
+    int fKeysymsPer;
 
     bool fGrabTree;
     bool fGrabMouse;

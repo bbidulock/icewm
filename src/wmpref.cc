@@ -223,7 +223,7 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
             if (modify->type == cfoption::CF_KEY && modify->key()) {
                 WMKey *wk = modify->key();
                 if (input.isEmpty() ? (wk->key = wk->mod = 0, true) :
-                    YConfig::parseKey(input, &wk->key, &wk->mod))
+                    wmapp->parseKey(input, &wk->key, &wk->mod))
                 {
                     if (!wk->initial)
                         delete[] const_cast<char *>(wk->name);
