@@ -198,6 +198,7 @@ public:
 protected:
     virtual int handleError(XErrorEvent* xev);
     virtual Cursor getRightPointer() const { return None; }
+    virtual void keyboardRemap() { }
 
 private:
     XRenderPictFormat* findFormat(int depth) const;

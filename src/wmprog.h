@@ -169,8 +169,9 @@ private:
 class KProgram {
 public:
     KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg);
-    ~KProgram() { delete fProg; }
+    ~KProgram() { delete fProg; delete[] fDef; }
 
+    void parse();
     bool isKey(KeySym key, unsigned int mod) {
         return (key == fKey && mod == fMod);
     }
@@ -179,6 +180,7 @@ public:
     unsigned int modifiers() { return fMod; }
 
 private:
+    const char* fDef;
     KeySym fKey;
     unsigned int fMod;
     // not a program starter but custom switch menu

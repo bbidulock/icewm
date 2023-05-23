@@ -486,6 +486,13 @@ void YWMApp::initPointers() {
     }
 }
 
+void YWMApp::keyboardRemap() {
+    fixupPreferences();
+    for (KProgramIterType p = keyProgs.iterator(); ++p; ) {
+        p->parse();
+    }
+}
+
 void YWMApp::fixupPreferences() {
     extern cfoption icewm_preferences[];
     for (cfoption* op = icewm_preferences; op->type; ++op) {

@@ -139,6 +139,7 @@ private:
     virtual Cursor getRightPointer() const { return rightPointer; }
     virtual bool handleTimer(YTimer *timer);
     virtual int handleError(XErrorEvent *xev);
+    virtual void keyboardRemap();
     void runRestart(const char *path, char *const *args);
 
     FocusModel focusMode;

@@ -93,14 +93,19 @@ DProgram *DProgram::newProgram(
 KProgramArrayType keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg) :
+    fDef(newstr(key)),
     fKey(NoSymbol),
     fMod(0),
     bIsDynSwitchMenu(bIsDynSwitchMenuProg),
     fProg(prog),
     pSwitchWindow(nullptr)
 {
-    xapp->parseKey(key, &fKey, &fMod);
+    parse();
     keyProgs.append(this);
+}
+
+void KProgram::parse() {
+    xapp->parseKey(fDef, &fKey, &fMod);
 }
 
 class MenuProgSwitchItems: public ISwitchItems {

@@ -816,6 +816,7 @@ bool YXApplication::filterEvent(const XEvent &xev) {
         }
 
         initModifiers();
+        keyboardRemap();
 
         desktop->grabKeys();
         desktop->kbLayout();
