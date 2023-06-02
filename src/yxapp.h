@@ -204,6 +204,7 @@ private:
     XRenderPictFormat* findFormat(int depth) const;
     Visual* findVisual(int depth) const;
     Colormap getColormap(int depth) const;
+    bool windowExists(Window handle) const;
 
     Display* const fDisplay;
     int const fScreen;

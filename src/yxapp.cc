@@ -1247,12 +1247,18 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                     xev.xmaprequest.parent));
                 desktop->handleEvent(xev);
             }
+            else if (windowExists(xev.xmaprequest.window)) {
+                desktop->handleEvent(xev);
+            }
         } else if (xev.type == ConfigureRequest) {
             if (xev.xconfigurerequest.window != ignorable) {
                 TLOG(("APP BUG? configureRequest for window %lX "
                       "sent to destroyed frame %lX!",
                     xev.xconfigurerequest.window,
                     xev.xconfigurerequest.parent));
+                desktop->handleEvent(xev);
+            }
+            else if (windowExists(xev.xmaprequest.window)) {
                 desktop->handleEvent(xev);
             }
         }
@@ -1402,6 +1408,11 @@ void YXApplication::unshift(KeySym* ksym, unsigned* mod) {
             }
         }
     }
+}
+
+bool YXApplication::windowExists(Window handle) const {
+    XWindowAttributes attributes;
+    return XGetWindowAttributes(display(), handle, &attributes);
 }
 
 void YXPoll::notifyRead() {
