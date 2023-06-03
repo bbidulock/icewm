@@ -1258,7 +1258,7 @@ void YXApplication::handleWindowEvent(Window xwindow, XEvent &xev) {
                     xev.xconfigurerequest.parent));
                 desktop->handleEvent(xev);
             }
-            else if (windowExists(xev.xmaprequest.window)) {
+            else if (windowExists(xev.xconfigurerequest.window)) {
                 desktop->handleEvent(xev);
             }
         }
