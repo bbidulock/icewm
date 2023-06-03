@@ -63,10 +63,12 @@ The word B<key> begins the definition of a keybinding.
 
 =item I<key_combination>
 
-A combination of modifiers and a key. These are separated by a plus-sign,
-like in C<Ctrl+Alt+Delete>. The key is either a keystroke name or a key
-label. Instead of a key, mouse pointer buttons can be specified by
-C<Pointer_Button1> and up.
+A combination of modifiers and a key, like C<Ctrl+Alt+Delete>.
+Valid modifiers are Alt, AltGr, Ctrl, Hyper, Meta, Shift, Super.
+Each modifier must be followed by a single plus-sign.
+The key is either a keystroke name or a key label.
+Instead of a key, mouse pointer buttons can be specified by
+C<Pointer_Button1> and up, like C<Shift+Pointer_Button3>.
 
 =item I<program> I<options>
 
@@ -89,10 +91,9 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
     # This is an example for IceWM's hotkey definition file.
     #
     # A list of all valid keyboard symbols can be found in
-    # /usr/include/X11/keysym.h, keysymdefs.h, XF86keysym.h,
-    # ...  You'll have to omit XK_ prefixs and to replace
-    # XF86XK_ prefixes by XF86. Valid modifiers are Alt,
-    # Ctrl, Shift, Meta, Super and Hyper.
+    # /usr/include/X11/keysymdef.h, XF86keysym.h, ...
+    # Omit the XK_ prefixs and replace XF86XK_ prefixes by XF86.
+    # Valid modifiers are Alt, AltGr, Ctrl, Shift, Meta, Super, Hyper.
     #
     key "Alt+Ctrl+t" xterm
     key "Alt+Ctrl+b" xdg-open about:blank
@@ -104,7 +105,7 @@ Following is the example F<keys> file that ships with L<icewm(1)>:
     # "Multimedia key" bindings for XFree86. Gather the
     # keycodes of your advanced function keys by watching the
     # output of the xev command whilst pressing those keys
-    # and map those symbols by using xmodmap.
+    # and map those symbols using xmodmap.
 
     key "XF86AudioLowerVolume" amixer sset PCM 5%-
     key "XF86AudioRaiseVolume" amixer sset PCM 5%+
