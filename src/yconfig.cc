@@ -49,7 +49,7 @@ char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
 
 // FIXME: P1 - parse keys later, not when loading
 bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
-    const char *orig_arg = arg;
+    const char *const orig_arg = arg;
     static const struct {
         const char key[7];
         unsigned char flag;
@@ -62,7 +62,6 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         { "Shift+", kfShift },
         { "Super+", kfSuper },
     };
-    *key = NoSymbol;
     *mod = 0;
     for (int k = 0; k < (int) ACOUNT(mods); ++k) {
         for (int i = 0; arg[i] == mods[k].key[i]; ++i) {
@@ -80,52 +79,73 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
         *mod |= kfAlt | kfCtrl;
     }
 
-    if (*arg == 0)
-        *key = NoSymbol;
-    else if (strcmp(arg, "Esc") == 0)
-        *key = XK_Escape;
-    else if (strcmp(arg, "Enter") == 0)
-        *key = XK_Return;
-    else if (strcmp(arg, "Space") == 0)
-        *key = ' ';
-    else if (strcmp(arg, "BackSp") == 0)
-        *key = XK_BackSpace;
-    else if (strcmp(arg, "Del") == 0)
-        *key = XK_Delete;
-    else if (ASCII::isUpper(arg[0]) && arg[1] == 0) {
-        char s[2];
-        s[0] = ASCII::toLower(arg[0]);
-        s[1] = 0;
-        *key = XStringToKeysym(s);
-    } else {
-        *key = XStringToKeysym(arg);
-    }
-
-    if (*key == NoSymbol && !strncmp(arg, "Pointer_Button", 14)) {
-        int button = 0;
-        if (sscanf(arg + 14, "%d", &button) == 1 && button > 0) {
-            *key = button + XK_Pointer_Button1 - 1;
-        }
-    }
-    if (*key == NoSymbol && *arg && arg[1] == 0) {
-        unsigned char literal = (unsigned char) *arg;
-        if (inrange<unsigned char>(literal, 0xa0, 0xff))
-            *key = literal;
-        else if (inrange<unsigned char>(literal, ' ', '~'))
-            *key = literal;
-    }
-    if (*key == NoSymbol && *arg && arg[1] && arg[2] == 0) {
-        if ((*arg & 0xe0) == 0xc0 && (arg[1] & 0xc0) == 0x80) {
-            unsigned u = ((*arg & 0x1f) << 6) | (arg[1] & 0x3f);
-            if (inrange<unsigned>(u, 0xa0, 0xff))
-                *key = u;
-        }
-    }
-    if (*key == NoSymbol && *arg) {
-        msg(_("Unknown key name %s in %s"), arg, orig_arg);
+    *key = parseKeySym(arg);
+    if (*key == NoSymbol) {
+        msg(_("Unknown key name %s in %s"), *arg ? arg : "''", orig_arg);
         return false;
     }
     return true;
+}
+
+KeySym YConfig::parseKeySym(const char* arg) {
+    if (*arg == 0)
+        return NoSymbol;
+    if (strcmp(arg, "Esc") == 0)
+        return XK_Escape;
+    if (strcmp(arg, "Enter") == 0)
+        return XK_Return;
+    if (strcmp(arg, "Space") == 0)
+        return ' ';
+    if (strcmp(arg, "BackSp") == 0)
+        return XK_BackSpace;
+    if (strcmp(arg, "Del") == 0)
+        return XK_Delete;
+    if (arg[1] == 0) {
+        int ch = (*arg & 0xff);
+        if (ASCII::isUpper(ch))
+            return ASCII::toLower(ch);
+        if (inrange(ch, 0xa0, 0xff))
+            return ch;
+        if (inrange<int>(ch, ' ', '~'))
+            return ch;
+        return NoSymbol;
+    } else {
+        int ch = 0;
+        if (arg[2] == 0) {
+            if ((*arg & 0xe0) == 0xc0 && (arg[1] & 0xc0) == 0x80)
+                ch = ((*arg & 0x1f) << 6) | (arg[1] & 0x3f);
+        } else if (arg[3] == 0) {
+            if ((*arg & 0xf0) == 0xe0 && (arg[1] & 0xc0) == 0x80 &&
+                (arg[2] & 0xc0) == 0x80)
+                ch = ((*arg & 0xf) << 12) | (arg[1] & 0x3f) << 6 |
+                         (arg[2] & 0x3f);
+        } else if (arg[4] == 0) {
+            if ((*arg & 0xf8) == 0xf0 && (arg[1] & 0xc0) == 0x80 &&
+                (arg[2] & 0xc0) == 0x80 && (arg[3] & 0xc0) == 0x80)
+                ch = ((*arg & 0x7) << 18) | (arg[1] & 0x3f) << 12 |
+                         (arg[2] & 0x3f) << 6 | (arg[3] & 0x3f);
+        }
+        if (ch) {
+            if (inrange(ch, 0xa0, 0xff))
+                return ch;
+            if (ch < 0x100)
+                return NoSymbol;
+            return ch | 0x01000000;
+        }
+    }
+
+    KeySym ks = XStringToKeysym(arg);
+    if (ks)
+        return ks;
+
+    if (strncmp(arg, "Pointer_Button", 14) == 0) {
+        int button = 0;
+        if (sscanf(arg + 14, "%d", &button) == 1 && 0 < button)
+            return button + XK_Pointer_Button1 - 1;
+        return NoSymbol;
+    }
+
+    return NoSymbol;
 }
 
 void YConfig::setOption(char* arg, bool append, cfoption* opt) {
