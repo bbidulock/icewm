@@ -80,8 +80,8 @@ bool YConfig::parseKey(const char *arg, KeySym *key, unsigned int *mod) {
     }
 
     *key = parseKeySym(arg);
-    if (*key == NoSymbol) {
-        msg(_("Unknown key name %s in %s"), *arg ? arg : "''", orig_arg);
+    if (*key == NoSymbol && *arg) {
+        msg(_("Unknown key name %s in %s"), arg, orig_arg);
         return false;
     }
     return true;
