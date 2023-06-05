@@ -96,6 +96,9 @@ src/yscrollbar.cc
 src/yscrollview.cc
 src/ysmapp.cc
 src/ysocket.cc
+src/ystring.cc
+src/ysvg.cc
+src/ytime.cc
 src/ytimer.cc
 src/ytooltip.cc
 src/yurl.cc
