@@ -31,6 +31,10 @@ It will update the C<_ICEWMBG_IMAGE> property of the root window to the
 path of the background image whenever it changes the desktop background.
 
 B<icewmbg> is started automatically by L<icewm-session(1)>.
+If there is just a single background for all workspaces, icewmbg may
+conclude that it can safely exit after setting the desktop background,
+to free its system memory.  If the screen size changes, icewm will then
+attempt to restart icewmbg, preferably via icewm-session.
 
 =head2 OPTIONS
 

@@ -224,6 +224,7 @@ public:
         catchSignal(SIGTERM);
         catchSignal(SIGINT);
         catchSignal(SIGUSR1);
+        catchSignal(SIGUSR2);
     }
 
     void loadEnv(const char *scriptName) {
@@ -461,6 +462,10 @@ private:
         }
         else if (sig == SIGUSR1)
             notified();
+        else if (sig == SIGUSR2 && nobgArg == false) {
+            if (bg_pid == -1)
+                runIcewmbg();
+        }
     }
 
     void checkWMExitStatus(int status) {

@@ -2809,6 +2809,7 @@ bool IceSh::icewmAction()
         { "suspend",    ICEWM_ACTION_SUSPEND },
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
         { "keys",       ICEWM_ACTION_RELOADKEYS },
+        { "icewmbg",    ICEWM_ACTION_ICEWMBG },
     };
     for (Symbol sym : sa) {
         if (0 == strcmp(*argp, sym.name)) {

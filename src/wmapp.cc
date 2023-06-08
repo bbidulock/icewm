@@ -956,6 +956,15 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
 #endif
             restartClient(nullptr, nullptr);
     }
+    else if (action == actionIcewmbg) {
+        if (notifyParent && notifiedParent && kill(notifiedParent, SIGUSR2) == 0)
+            ;
+        else {
+            const char* bg[] = { ICEWMBGEXE, "-r", nullptr };
+            int pid = runProgram(bg[0], bg);
+            waitProgram(pid);
+        }
+    }
     else if (action == actionRestartXterm) {
         delete fRestartMsgBox;
         fRestartMsgBox = new YMsgBox(YMsgBox::mbBoth,
@@ -1956,6 +1965,7 @@ void YWMApp::handleSMAction(WMAction message) {
         { ICEWM_ACTION_SUSPEND,       actionSuspend },
         { ICEWM_ACTION_WINOPTIONS,    actionWinOptions },
         { ICEWM_ACTION_RELOADKEYS,    actionReloadKeys },
+        { ICEWM_ACTION_ICEWMBG,       actionIcewmbg },
     };
     for (auto p : pairs)
         if (message == p.left)

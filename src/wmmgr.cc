@@ -952,6 +952,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_ABOUT:
         case ICEWM_ACTION_WINOPTIONS:
         case ICEWM_ACTION_RELOADKEYS:
+        case ICEWM_ACTION_ICEWMBG:
             smActionListener->handleSMAction(action);
             break;
         }
@@ -3849,8 +3850,10 @@ void YWindowManager::updateScreenSize(XEvent *event) {
         if (arrangeWindowsOnScreenSizeChange && resize) {
             wmActionListener->actionPerformed(actionArrange, 0);
         }
-        if (resize)
-            manager->arrangeIcons();
+        if (resize) {
+            arrangeIcons();
+            smActionListener->handleSMAction(ICEWM_ACTION_ICEWMBG);
+        }
     }
 
     refresh();
