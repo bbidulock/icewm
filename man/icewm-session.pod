@@ -35,6 +35,7 @@ Use I<FILE> as the IceWM window manager.
 =item B<-o>, B<--output=FILE>
 
 Redirect all output to I<FILE>.
+A leading tilde or environment variable is expanded.
 
 =item B<-a>, B<--alpha>
 

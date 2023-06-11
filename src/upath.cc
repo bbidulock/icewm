@@ -261,4 +261,30 @@ bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
     return okay;
 }
 
+void upath::redirectOutput(const char* outputFile) {
+    if (::nonempty(outputFile)) {
+        upath path(upath(outputFile).expand());
+        int fd = path.open(O_WRONLY | O_APPEND | O_CREAT | O_NOCTTY, 0600);
+        if (fd == -1) {
+            fail("open %s", path.string());
+        } else {
+            struct stat st;
+            if (fstat(fd, &st) == -1)
+                fail("fstat %s", path.string());
+            else if (S_ISREG(st.st_mode)) {
+                struct flock fl = { 0, 0, 0, 0, 0 };
+                fl.l_type = F_WRLCK;
+                if (fcntl(fd, F_SETLK, &fl) == 0) {
+                    if (st.st_size > 5*1024 && ftruncate(fd, 0L) == -1)
+                        fail("ftruncate %s", path.string());
+                }
+            }
+            dup2(fd, 1);
+            dup2(fd, 2);
+            if (fd > 2)
+                close(fd);
+        }
+    }
+}
+
 // vim: set sw=4 ts=4 et:

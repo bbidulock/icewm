@@ -41,6 +41,12 @@ Synchronize X11 for debugging (slow)
 
 Enable event logging for debugging
 
+=item B<OutputFile>=""
+
+Redirect all output to I<FILE>.
+A leading tilde or environment variable is expanded.
+This file is truncated on startup if it exceeds 5 KB.
+
 =item B<Splash>=""
 
 Splash image on startup (IceWM.jpg)

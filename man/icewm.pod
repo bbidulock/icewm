@@ -120,6 +120,11 @@ the look and feel of B<icewm>, like colors, fonts and buttons.
 Connect to the X11 server on I<DISPLAY>.  By default
 the environment variable C<DISPLAY> is used.
 
+=item B<-o>, B<--output=FILE>
+
+Redirect all output to I<FILE>.
+A leading tilde or environment variable is expanded.
+
 =item B<--sync>
 
 This option specifies to use a slower synchronous communication mode

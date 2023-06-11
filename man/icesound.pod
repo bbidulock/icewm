@@ -12,7 +12,7 @@ B<icesound> [I<OPTIONS>]
 
 The L<icewm(1)> window manager generates so-called GUI events in
 response to interesting actions, like opening or closing of application
-windows, switching of work space, etc.  GUI events are a property of the
+windows, switching of workspace, etc.  GUI events are a property of the
 X root window.  L<icewm(1)> changes this property whenever a new GUI
 event occurs.  Interested applications can listen for changes to this
 property.  There are nearly twenty GUI events defined.
@@ -106,6 +106,11 @@ Lists the supported sound file names and exits.
 =item B<--list-interfaces>
 
 Lists the supported audio interfaces and exits.
+
+=item B<-o>, B<--output=FILE>
+
+Redirect all output to I<FILE>.
+A leading tilde or environment variable is expanded.
 
 =item B<-v>, B<--verbose>
 

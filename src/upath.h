@@ -89,6 +89,8 @@ public:
         return glob(path(), list, opt);
     }
 
+    static void redirectOutput(const char* outputFile);
+
 private:
     mstring fPath;
 

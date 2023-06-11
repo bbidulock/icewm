@@ -1059,6 +1059,7 @@ int main(int argc, char **argv) {
     const char* cycle = nullptr;
     const char* shuffleArg = nullptr;
     const char* displayArg = nullptr;
+    const char* outputArg = nullptr;
 
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
@@ -1127,6 +1128,9 @@ int main(int argc, char **argv) {
             else if (GetArgument(value, "d", "display", arg, argv + argc)) {
                 displayArg = value;
             }
+            else if (GetArgument(value, "o", "output", arg, argv + argc)) {
+                outputArg = value;
+            }
             else if (GetArgument(value, "C", "copying", arg, argv + argc)) {
                 /*ignore*/;
             }
@@ -1140,6 +1144,8 @@ int main(int argc, char **argv) {
             /*ignore*/;
         }
     }
+    if (outputArg)
+        upath::redirectOutput(outputArg);
 
     if (sendQuit) {
         sendMessage(displayArg, "_ICEWMBG_QUIT");

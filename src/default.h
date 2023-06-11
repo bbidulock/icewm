@@ -573,6 +573,7 @@ cfoption icewm_preferences[] = {
 
 static bool alphaBlending;
 static bool synchronizeX11;
+static const char* outputFile;
 static const char* splashFile(ICESPLASH);
 static const char* tracingModules;
 extern bool loggingEvents;
@@ -581,6 +582,7 @@ cfoption wmapp_preferences[] = {
     OBV("Alpha",        &alphaBlending,  "Use a 32-bit visual for alpha blending"),
     OBV("Synchronize",  &synchronizeX11, "Synchronize X11 for debugging (slow)"),
     OBV("LogEvents",    &loggingEvents,  "Enable event logging for debugging"),
+    OSV("OutputFile",   &outputFile,     "Redirect all icewm output to FILE"),
     OSV("Splash",       &splashFile,     "Splash image on startup (IceWM.jpg)"),
     OSV("Trace",        &tracingModules, "Enable tracing for the given modules"),
     OSV("Theme",        &themeName,      "The name of the theme"),

@@ -73,7 +73,8 @@ C<Pointer_Button1> and up, like C<Shift+Pointer_Button3>.
 =item I<program> I<options>
 
 I<program> is the name of the executable or its full path.
-The path may start with $HOME or a tilde, which will be expanded.
+The path may start with a tilde or an environment variable,
+which will be expanded.
 The I<options> are passed as arguments to the I<program>.
 
 =item B<switchkey>

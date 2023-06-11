@@ -606,6 +606,7 @@ IceSound::IceSound() :
 
 void IceSound::parseArgs(int argc, char** argv)
 {
+    const char* outputArg = nullptr;
     for (char **arg = argv + 1; arg < argv + argc; ++arg) {
         if (**arg == '-') {
             char* value(nullptr);
@@ -672,6 +673,9 @@ void IceSound::parseArgs(int argc, char** argv)
                 playOnce(value);
                 ::exit(0);
             }
+            else if (GetArgument(value, "o", "output", arg, argv + argc)) {
+                outputArg = value;
+            }
             else {
                 warn(_("Unrecognized option: %s\n"), *arg);
             }
@@ -679,6 +683,8 @@ void IceSound::parseArgs(int argc, char** argv)
             warn(_("Unrecognized argument: %s\n"), *arg);
         }
     }
+    if (outputArg)
+        upath::redirectOutput(outputArg);
 }
 
 /**
