@@ -585,24 +585,29 @@ void SwitchWindow::repaint() {
 }
 
 void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
+    int b1 = (wmLook != lookFlat);
+    int b2 = b1 * 2;
+    int b3 = b2 + 1;
+
     if (switchbackPixbuf != null &&
         (fGradient == null ||
-         fGradient->width() != width() - 2 ||
-         fGradient->height() != height() - 2))
+         fGradient->width() != width() - b2 ||
+         fGradient->height() != height() - b2))
     {
-        fGradient = switchbackPixbuf->scale(width() - 2, height() - 2);
+        fGradient = switchbackPixbuf->scale(width() - b2, height() - b2);
     }
 
     g.setColor(switchBg);
-    g.drawBorderW(0, 0, width() - 1, height() - 1, true);
+    if (b1)
+        g.drawBorderW(0, 0, width() - 1, height() - 1, true);
 
     if (fGradient != null)
-        g.drawImage(fGradient, 1, 1, width() - 2, height() - 2, 1, 1);
+        g.drawImage(fGradient, b1, b1, width() - b2, height() - b2, b1, b1);
     else
     if (switchbackPixmap != null)
-        g.fillPixmap(switchbackPixmap, 1, 1, width() - 3, height() - 3);
+        g.fillPixmap(switchbackPixmap, b1, b1, width() - b3, height() - b3);
     else
-        g.fillRect(1, 1, width() - 3, height() - 3);
+        g.fillRect(b1, b1, width() - b3, height() - b3);
 
     m_verticalStyle ? paintVertical(g) : paintHorizontal(g);
 }
