@@ -1376,6 +1376,9 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
                                   _("Rename the window title"),
                                   this,
                                   "rename");
+        if (fNameMsgBox) {
+            fNameMsgBox->input()->setText(getTitle(), false);
+        }
         break;
     case actionUntab:
         untab(fClient);
