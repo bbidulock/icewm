@@ -953,6 +953,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_WINOPTIONS:
         case ICEWM_ACTION_RELOADKEYS:
         case ICEWM_ACTION_ICEWMBG:
+        case ICEWM_ACTION_REFRESH:
             smActionListener->handleSMAction(action);
             break;
         }

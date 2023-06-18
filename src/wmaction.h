@@ -17,6 +17,7 @@ enum WMAction {
     ICEWM_ACTION_WINOPTIONS = 10,
     ICEWM_ACTION_RELOADKEYS = 11,
     ICEWM_ACTION_ICEWMBG = 12,
+    ICEWM_ACTION_REFRESH = 13,
 };
 
 enum RebootShutdown {

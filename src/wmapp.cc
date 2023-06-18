@@ -1475,6 +1475,8 @@ int YWMApp::mainLoop() {
             notifyParent = false;
             fail("notify parent");
         }
+        else
+            kill(notifiedParent, SIGUSR2);
     }
 
     int rc = super::mainLoop();
@@ -1977,6 +1979,7 @@ void YWMApp::handleSMAction(WMAction message) {
         { ICEWM_ACTION_WINOPTIONS,    actionWinOptions },
         { ICEWM_ACTION_RELOADKEYS,    actionReloadKeys },
         { ICEWM_ACTION_ICEWMBG,       actionIcewmbg },
+        { ICEWM_ACTION_REFRESH,       actionRefresh },
     };
     for (auto p : pairs)
         if (message == p.left)

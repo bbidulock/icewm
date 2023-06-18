@@ -2810,6 +2810,7 @@ bool IceSh::icewmAction()
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
         { "keys",       ICEWM_ACTION_RELOADKEYS },
         { "icewmbg",    ICEWM_ACTION_ICEWMBG },
+        { "refresh",    ICEWM_ACTION_REFRESH },
     };
     for (Symbol sym : sa) {
         if (0 == strcmp(*argp, sym.name)) {

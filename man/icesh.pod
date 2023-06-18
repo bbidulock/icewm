@@ -773,6 +773,10 @@ Let icewm reload the C<winoptions>.
 
 Let icewm reload the C<keys> file.
 
+=item B<refresh>
+
+Let icewm refresh the desktop background.
+
 =item B<guievents>
 
 Monitor the B<ICEWM_GUI_EVENT> property and report all changes.
