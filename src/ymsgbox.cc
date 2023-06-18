@@ -90,7 +90,8 @@ void YMsgBox::autoSize() {
     unsigned ph = (fPixmap != null) ? fPixmap->height() : 0;
     unsigned lw = fLabel ? fLabel->width() : 0;
     unsigned lh = fLabel ? fLabel->height() : 0;
-    unsigned w = clamp(lw + pw + 2*margin, 240U, desktop->width());
+    unsigned mw = fInput ? 300U : 240U;
+    unsigned w = clamp(lw + pw + 2*margin, mw, desktop->width());
     unsigned h = margin;
 
     if (fLabel) {
