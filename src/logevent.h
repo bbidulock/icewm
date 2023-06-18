@@ -33,7 +33,7 @@ void logVisibility(const XVisibilityEvent& xev);
 const char* getAtomName(unsigned long atom);
 void setLogEvent(int evtype, bool enable);
 
-void logEvent(const XEvent& xev);
+void logEvent(const XEvent& xev, bool force = false);
 #ifdef CONFIG_SHAPE
 void logShape(const XEvent& xev);
 #endif

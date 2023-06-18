@@ -438,7 +438,7 @@ const char* eventName(int eventType) {
 #pragma GCC diagnostic ignored "-Wcast-function-type"
 #endif
 
-void logEvent(const XEvent& xev) {
+void logEvent(const XEvent& xev, bool force) {
 #if LOGEVENTS
     typedef void (*fun)(const XEvent&);
     static void (*const loggers[])(const XEvent&) = {
@@ -479,8 +479,8 @@ void logEvent(const XEvent& xev) {
         (fun) logMapping,           // 34 MappingNotify
         (fun) logAny,               // 35 GenericEvent
     };
-    if (loggingEvents && size_t(xev.type) < sizeof loggedEvents &&
-        (loggedEventsInited || initLogEvents()) && loggedEvents[xev.type])
+    if (inrange(xev.type, 2, 35) && (force || (loggingEvents &&
+        (loggedEventsInited || initLogEvents()) && loggedEvents[xev.type])))
     {
         loggers[xev.type](xev);
     }
