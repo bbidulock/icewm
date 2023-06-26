@@ -734,6 +734,9 @@ void Background::changeBackground(bool force) {
                            (unsigned char *) &tPixmap);
             changeProperty(_XA_XROOTCOLOR_PIXEL, XA_CARDINAL,
                            (unsigned char *) &tPixel);
+
+            if (currentTransparencyPixmap == null && tPixmap == bPixmap)
+                currentTransparencyPixmap = back;
         }
     }
     XClearWindow(display(), window());
