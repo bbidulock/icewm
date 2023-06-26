@@ -1738,19 +1738,11 @@ Incoming load on the network monitor.
 
 Idle (non) load on the network monitor, leave empty to force transparency.
 
-=item B<DesktopBackgroundColor>=""
-
-Desktop background color(s).
-
-=item B<DesktopTransparencyColor>=""
-
-Color(s) to announce for semitransparent windows.
-
 =back
 
 =head3 DESKTOP BACKGROUND
 
-The following preferences are read by L<icewmbg(1)>:
+The following themeable preferences are read by L<icewmbg(1)>:
 
 =over
 
@@ -1764,11 +1756,13 @@ Resize desktop background to full screen.
 
 =item B<DesktopBackgroundColor>=""
 
-Desktop background color(s).
+A comma-separated list of zero or more desktop background colors.
 
 =item B<DesktopBackgroundImage>=""
 
-Desktop background image(s).
+A comma-separated list of zero or more desktop background images.
+Each image may be a path with a L<glob(7)> pattern, or start with a
+tilde or environment variable.
 
 =item B<ShuffleBackgroundImages>=0  0/1
 
@@ -1785,6 +1779,7 @@ Color(s) to announce for semitransparent windows.
 =item B<DesktopTransparencyImage>=""
 
 Image(s) to announce for semitransparent windows.
+This is a list similar to B<DesktopBackgroundImage>.
 
 =item B<DesktopBackgroundMultihead>=0  0/1
 

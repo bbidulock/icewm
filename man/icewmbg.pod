@@ -19,7 +19,7 @@ update the background.  When switching workspaces, it checks the image
 file modification time.  If the file has changed, it reloads the
 image from file.
 
-B<icewmbg> supports semi-transparency.  Semitransparent background
+B<icewmbg> supports semitransparency.  Semitransparent background
 images and colours can be configured.
 
 It uses RandR or Xinerama to support backgrounds on all connected
@@ -48,6 +48,7 @@ from that directory are used in sorted order.
 If the value starts with an exclamation mark, as in I<!FILE>,
 the images from the directory I<FILE> are permuted randomly.
 Image file names or directory names may have L<glob(7)> wildcards,
+or they may start with a tilde or environment variable.
 
 =over
 
