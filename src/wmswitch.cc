@@ -476,6 +476,10 @@ void SwitchWindow::close() {
 void SwitchWindow::cancel() {
     close();
     zItems->cancel();
+
+    YFrameWindow* f = manager->getFocus();
+    if (f && f->isFullscreen() && f->getActiveLayer() != WinLayerFullscreen)
+        f->updateLayer();
 }
 
 void SwitchWindow::accept() {
