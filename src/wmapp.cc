@@ -1289,6 +1289,12 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     WMConfig::loadConfiguration("prefoverride");
     if (focusMode != FocusCustom)
         initFocusMode();
+
+    if (post_preferences)
+        WMConfig::printPrefs(focusMode, wmapp_preferences);
+    if (show_extensions)
+        showExtensions();
+
     fixupPreferences();
 
     DEPRECATE(xrrDisable == true);
@@ -1316,11 +1322,6 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     actionPerformed(actionReloadKeys, 0);
 
     initPointers();
-
-    if (post_preferences)
-        WMConfig::printPrefs(focusMode, wmapp_preferences);
-    if (show_extensions)
-        showExtensions();
 
     delete desktop;
 
@@ -1778,7 +1779,10 @@ static void loadStartup(const char* configFile, const char* outputArg)
     leftToRight = !rightToLeft;
 
     YConfig(wmapp_preferences).load(configFile);
-    upath::redirectOutput(Elvis(outputArg, outputFile));
+    if (nonempty(outputArg))
+        upath::redirectOutput(outputArg);
+    else if (nonempty(outputFile) && !(post_preferences | show_extensions))
+        upath::redirectOutput(outputFile);
 
     YXApplication::alphaBlending |= alphaBlending;
     YXApplication::synchronizeX11 |= synchronizeX11;
