@@ -524,7 +524,8 @@ void LogoutMenu::updatePopup() {
                 addItem(_("Shut_down"), -2, null, actionShutdown, "shutdown");
             if (canSuspend())
                 addItem(_("_Sleep mode"), -2, null, actionSuspend, "suspend");
-
+            if (canHibernate())
+                addItem(_("_Hibernate"), -2, null, actionHibernate, "hibernate");
             if (itemCount() != oldItemCount)
                 addSeparator();
 
@@ -945,6 +946,8 @@ void YWMApp::actionPerformed(YAction action, unsigned int /*modifiers*/) {
         doLogout(Shutdown);
     } else if (action == actionSuspend) {
         runCommand(suspendCommand);
+    } else if (action == actionHibernate) {
+        runCommand(hibernateCommand);
     } else if (action == actionReboot) {
         doLogout(Reboot);
     } else if (action == actionRestart) {
@@ -1980,6 +1983,7 @@ void YWMApp::handleSMAction(WMAction message) {
         { ICEWM_ACTION_WINDOWLIST,    actionWindowList },
         { ICEWM_ACTION_RESTARTWM,     actionRestart },
         { ICEWM_ACTION_SUSPEND,       actionSuspend },
+        { ICEWM_ACTION_HIBERNATE,     actionHibernate },
         { ICEWM_ACTION_WINOPTIONS,    actionWinOptions },
         { ICEWM_ACTION_RELOADKEYS,    actionReloadKeys },
         { ICEWM_ACTION_ICEWMBG,       actionIcewmbg },

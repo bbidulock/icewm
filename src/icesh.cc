@@ -2807,6 +2807,7 @@ bool IceSh::icewmAction()
         { "windowlist", ICEWM_ACTION_WINDOWLIST },
         { "restart",    ICEWM_ACTION_RESTARTWM },
         { "suspend",    ICEWM_ACTION_SUSPEND },
+        { "hibernate",  ICEWM_ACTION_HIBERNATE },
         { "winoptions", ICEWM_ACTION_WINOPTIONS },
         { "keys",       ICEWM_ACTION_RELOADKEYS },
         { "icewmbg",    ICEWM_ACTION_ICEWMBG },
@@ -2851,7 +2852,7 @@ unsigned IceSh::count() const
 {
     return windowList.count();
 }
-
+ 
 /******************************************************************************/
 
 static void setLayer(Window window, long layer) {

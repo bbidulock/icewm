@@ -14,10 +14,11 @@ enum WMAction {
     ICEWM_ACTION_WINDOWLIST = 7,
     ICEWM_ACTION_RESTARTWM = 8,
     ICEWM_ACTION_SUSPEND = 9,
-    ICEWM_ACTION_WINOPTIONS = 10,
-    ICEWM_ACTION_RELOADKEYS = 11,
-    ICEWM_ACTION_ICEWMBG = 12,
-    ICEWM_ACTION_REFRESH = 13,
+    ICEWM_ACTION_HIBERNATE = 10,
+    ICEWM_ACTION_WINOPTIONS = 11,
+    ICEWM_ACTION_RELOADKEYS = 12,
+    ICEWM_ACTION_ICEWMBG = 13,
+    ICEWM_ACTION_REFRESH = 14,
 };
 
 enum RebootShutdown {
@@ -70,6 +71,7 @@ enum EAction {
     actionRestartXterm       = 169,
     actionShutdown           = 171,
     actionSuspend            = 173,
+    actionHibernate          = 174,
     actionRefresh            = 175,
     actionAbout              = 177,
     actionRun                = 179,
@@ -126,6 +128,7 @@ enum EAction {
 
 bool canShutdown(RebootShutdown reboot);
 bool canSuspend();
+bool canHibernate();
 bool canLock();
 /**
  * Basic check whether a shell command could possibly be run.

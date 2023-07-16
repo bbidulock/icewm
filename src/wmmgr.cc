@@ -946,6 +946,7 @@ void YWindowManager::handleClientMessage(const XClientMessageEvent &message) {
         case ICEWM_ACTION_CANCEL_LOGOUT:
         case ICEWM_ACTION_SHUTDOWN:
         case ICEWM_ACTION_SUSPEND:
+        case ICEWM_ACTION_HIBERNATE:
         case ICEWM_ACTION_REBOOT:
         case ICEWM_ACTION_RESTARTWM:
         case ICEWM_ACTION_WINDOWLIST:

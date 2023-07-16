@@ -188,13 +188,15 @@ XSV(const char *, terminalCommand,              TERM " -hold")
 XSV(const char *, logoutCommand,                0)
 XSV(const char *, logoutCancelCommand,          0)
 #if __linux__
-XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff")
-XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot")
-XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend")
+XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff || loginctl poweroff")
+XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot || loginctl reboot")
+XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend || loginctl suspend")
+XSV(const char *, hibernateCommand,             "test -e /run/systemd/system && systemctl hibernate || loginctl suspend")
 #else
 XSV(const char *, shutdownCommand,              0)
 XSV(const char *, rebootCommand,                0)
 XSV(const char *, suspendCommand,               0)
+XSV(const char *, hibernateCommand,             0)
 #endif
 XIV(int, taskBarCPUDelay,                       500)
 XIV(int, taskBarMEMDelay,                       500)
@@ -449,6 +451,7 @@ cfoption icewm_preferences[] = {
     OSV("ShutdownCommand",                      &shutdownCommand,               "Command to shutdown the system"),
     OSV("RebootCommand",                        &rebootCommand,                 "Command to reboot the system"),
     OSV("SuspendCommand",                       &suspendCommand,                "Command to send the system to standby mode"),
+    OSV("HibernateCommand",                     &hibernateCommand,              "Command to hibernate the system"),
     OSV("CPUStatusCommand",                     &cpuCommand,                    "Command to run on CPU status"),
     OSV("CPUStatusClassHint",                   &cpuClassHint,                  "WM_CLASS to allow runonce for CPUStatusCommand"),
     OBV("CPUStatusCombine",                     &cpuCombine,                    "Combine all CPUs to one"),
