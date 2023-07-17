@@ -94,7 +94,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         { _("_About"), actionAbout, ICEWM_ACTION_ABOUT },
         { _("Reload win_options"), actionWinOptions, ICEWM_ACTION_WINOPTIONS },
         { _("Reload ke_ys"), actionReloadKeys, ICEWM_ACTION_RELOADKEYS },
-        { _("Clos_e"), actionClose, ICEWM_ACTION_NOP },
+        // { _("Clos_e"), actionClose, ICEWM_ACTION_NOP },
     };
     for (int i = 0; i < Count; ++i) {
         buttons[i] = new YActionButton(this, data[i].text, -2,
@@ -117,7 +117,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         buttons[6]->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
-            VERT + (h + MIDV) * (Count / 3) - MIDV + VERT);
+            VERT + (h + MIDV) * ((Count + 2) / 3) - MIDV + VERT);
 
     for (int i = 0; i < Count; ++i) {
         int x = HORZ + (i % 3) * (w + MIDH);
@@ -156,7 +156,7 @@ void CtrlAltDelete::actionPerformed(YAction action, unsigned int /*modifiers*/) 
     deactivate();
     for (int i = 0; i < Count; ++i) {
         if (action == *buttons[i]) {
-            if (inrange<int>(buttons[i]->wmAction, 2, 11))
+            if (inrange<int>(buttons[i]->wmAction, 2, 14))
                 manager->doWMAction(buttons[i]->wmAction);
             else if (action == actionLock && canLock())
                 app->runCommand(lockCommand);

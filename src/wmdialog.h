@@ -26,7 +26,7 @@ private:
     int indexFocus();
 
     IApp *app;
-    enum { Count = 13, };
+    enum { Count = 12, };
     YActionButton* buttons[Count];
 };
 
