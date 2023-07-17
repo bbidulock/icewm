@@ -2852,7 +2852,7 @@ unsigned IceSh::count() const
 {
     return windowList.count();
 }
- 
+
 /******************************************************************************/
 
 static void setLayer(Window window, long layer) {

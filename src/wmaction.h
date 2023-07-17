@@ -71,7 +71,6 @@ enum EAction {
     actionRestartXterm       = 169,
     actionShutdown           = 171,
     actionSuspend            = 173,
-    actionHibernate          = 174,
     actionRefresh            = 175,
     actionAbout              = 177,
     actionRun                = 179,
