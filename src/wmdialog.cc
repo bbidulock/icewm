@@ -48,6 +48,10 @@ bool canSuspend() {
     return couldRunCommand(suspendCommand);
 }
 
+bool canHibernate() {
+    return couldRunCommand(hibernateCommand);
+}
+
 bool canShutdown(RebootShutdown reboot) {
     if (reboot == Shutdown && isEmpty(shutdownCommand))
         return false;
@@ -84,6 +88,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         { _("_Logout..."), actionLogout, ICEWM_ACTION_LOGOUT },
         { _("Re_boot"), actionReboot, ICEWM_ACTION_REBOOT },
         { _("Shut_down"), actionShutdown, ICEWM_ACTION_SHUTDOWN },
+        { _("Hibernate"), actionHibernate, ICEWM_ACTION_HIBERNATE },
         { _("_Window list"), actionWindowList, ICEWM_ACTION_WINDOWLIST },
         { _("_Restart icewm"), actionRestart, ICEWM_ACTION_RESTARTWM },
         { _("_About"), actionAbout, ICEWM_ACTION_ABOUT },
@@ -108,6 +113,8 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         buttons[4]->setEnabled(false);
     if (!canShutdown(Shutdown))
         buttons[5]->setEnabled(false);
+    if (!canHibernate())
+        buttons[6]->setEnabled(false);
 
     setSize(HORZ + w + MIDH + w + MIDH + w + HORZ,
             VERT + (h + MIDV) * (Count / 3) - MIDV + VERT);
