@@ -765,6 +765,10 @@ Let icewm restart itself.
 
 Let icewm execute the C<SuspendCommand>.
 
+=item B<hibernate>
+
+Let icewm execute the C<HibernateCommand>.
+
 =item B<winoptions>
 
 Let icewm reload the C<winoptions>.

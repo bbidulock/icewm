@@ -88,7 +88,7 @@ CtrlAltDelete::CtrlAltDelete(IApp* app, YWindow* parent)
         { _("_Logout..."), actionLogout, ICEWM_ACTION_LOGOUT },
         { _("Re_boot"), actionReboot, ICEWM_ACTION_REBOOT },
         { _("Shut_down"), actionShutdown, ICEWM_ACTION_SHUTDOWN },
-        { _("Hibernate"), actionHibernate, ICEWM_ACTION_HIBERNATE },
+        { _("_Hibernate"), actionHibernate, ICEWM_ACTION_HIBERNATE },
         { _("_Window list"), actionWindowList, ICEWM_ACTION_WINDOWLIST },
         { _("_Restart icewm"), actionRestart, ICEWM_ACTION_RESTARTWM },
         { _("_About"), actionAbout, ICEWM_ACTION_ABOUT },
@@ -274,6 +274,15 @@ void CtrlAltDelete::handleVisibility(const XVisibilityEvent& vis) {
     if (vis.state > VisibilityUnobscured) {
         raise();
         xapp->sync();
+    }
+}
+
+void CtrlAltDelete::handleButton(const XButtonEvent &button) {
+    if (button.type == ButtonPress &&
+        button.button == Button1 &&
+        xapp->grabWindow() == this &&
+        geometry().contains(button.x, button.y) == false) {
+        deactivate();
     }
 }
 
