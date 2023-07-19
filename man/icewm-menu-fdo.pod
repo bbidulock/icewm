@@ -99,6 +99,8 @@ Print the program version to F<stdout> and exit.
 
 Print copying permissions to F<stdout> for the program and exit.
 
+=back
+
 =head2 USAGE
 
 This utility is not normally used directly. It is used as the

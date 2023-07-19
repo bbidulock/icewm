@@ -66,8 +66,6 @@ Lastly, the I<OPTION: VALUE> pair refer to the options and values
 described below. A line with just a dot, followed by an option/value
 pair, applies to all windows.
 
-=back
-
 =head2 OPTIONS
 
 There are four categories: I<general>, I<function>, I<decor> and
