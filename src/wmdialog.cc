@@ -281,7 +281,7 @@ void CtrlAltDelete::handleButton(const XButtonEvent &button) {
     if (button.type == ButtonPress &&
         button.button == Button1 &&
         xapp->grabWindow() == this &&
-        geometry().contains(button.x, button.y) == false) {
+        YRect(0, 0, width(), height()).contains(button.x, button.y) == false) {
         deactivate();
     }
 }
