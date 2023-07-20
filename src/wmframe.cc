@@ -3575,9 +3575,7 @@ void YFrameWindow::updateMwmHints(XSizeHints* sh) {
               xs->max_aspect.x * h >= xs->max_aspect.y * w)))
         {
             if (xs->width_inc != sh->width_inc ||
-                xs->height_inc != sh->height_inc ||
-                xs->base_width != sh->base_width ||
-                xs->base_height != sh->base_height)
+                xs->height_inc != sh->height_inc)
             {
                 int onw = posW - 2 * borderXN();
                 int onh = posH - (2 * borderYN() + titleYN());
