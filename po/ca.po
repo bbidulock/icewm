@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-03-28 16:14+0000\n"
+"PO-Revision-Date: 2023-07-21 10:15+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
-"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ca/>\n"
+"Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2018,7 +2018,7 @@ msgstr "Mode de _suspensió"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Hiberna"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2266,7 +2266,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FITXER Redirigeix tota la sortida al FITXER.\n"
 
 #: src/wmapp.cc:1622
 #, c-format
