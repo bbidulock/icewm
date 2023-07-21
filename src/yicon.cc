@@ -3,6 +3,7 @@
  *
  * Copyright (C) 1997-2001 Marko Macek
  */
+#include <algorithm>
 #include "config.h"
 #include "ypaint.h"
 #include "yicon.h"
@@ -12,7 +13,6 @@
 #include "ypointer.h"
 #include "ywordexp.h"
 #include "ascii.h"
-#include <algorithm>
 #include <fnmatch.h>
 #include <dirent.h>
 #include "intl.h"
