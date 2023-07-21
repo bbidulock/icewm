@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-03-28 00:14+0000\n"
+"PO-Revision-Date: 2023-07-21 10:15+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2029,7 +2029,7 @@ msgstr "スリープモード (_S)"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "ハイバネート (_H)"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2276,7 +2276,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FILE   全ての出力を FILE で指定したファイルに転送します。\n"
 
 #: src/wmapp.cc:1622
 #, c-format
