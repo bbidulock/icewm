@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-03-28 16:14+0000\n"
+"PO-Revision-Date: 2023-07-21 17:15+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2014,7 +2014,7 @@ msgstr "_Režim spánku"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Hibernovať"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2260,7 +2260,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=SÚBOR   Presmerovanie celého výstupu do SÚBORu.\n"
 
 #: src/wmapp.cc:1622
 #, c-format
