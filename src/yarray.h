@@ -218,11 +218,17 @@ public:
         BaseType::append(item); return *this;
     }
 
-    DataType** begin() const {
-        return (DataType**) YBaseArray::begin();
+    DataType* const* begin() const {
+        return (DataType* const*) BaseType::begin();
     }
-    DataType** end() const {
-        return (DataType**) YBaseArray::end();
+    DataType* const* end() const {
+        return (DataType* const*) BaseType::end();
+    }
+    DataType* const* begin() {
+        return (DataType* const*) BaseType::begin();
+    }
+    DataType* const* end() {
+        return (DataType* const*) BaseType::end();
     }
 
 private:

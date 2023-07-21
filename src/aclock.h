@@ -83,8 +83,8 @@ class ClockSet {
 public:
     ClockSet(YSMListener* sml, IAppletContainer* iapp, YWindow* parent);
     ~ClockSet();
-    YClock** begin() const { return clocks.begin(); }
-    YClock** end() const { return clocks.end(); }
+    YClock* const* begin() const { return clocks.begin(); }
+    YClock* const* end() const { return clocks.end(); }
     int count() const { return clocks.getCount(); }
     YClock* operator[](int index) const { return clocks[index]; }
 private:
