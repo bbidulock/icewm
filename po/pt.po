@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-05-03 22:14+0000\n"
+"PO-Revision-Date: 2023-07-23 12:15+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -2017,7 +2017,7 @@ msgstr "S_uspender"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Hibernar"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2264,7 +2264,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FILE   Redirecionar todos os resultados para FILE.\n"
 
 #: src/wmapp.cc:1622
 #, c-format
