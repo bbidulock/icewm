@@ -65,12 +65,25 @@ IceRun::IceRun(int* argc, char*** argv) :
     YXApplication(argc, argv),
     input(new InputRun(nullptr, this))
 {
+    bool redirect = false;
+    for (char** arg = *argv + 1; arg < *argv + *argc; ++arg) {
+        if (**arg == '-') {
+            if (is_short_switch(*arg, "r"))
+                redirect = true;
+        }
+    }
+
+    if (redirect)
+        input->addStyle(YWindow::wsOverrideRedirect);
+
     int textWidth = input->getFont()->textWidth("M");
     int inputWidth = max(300, textWidth * 80);
     int textHeight = input->getFont()->height();
     int inputHeight = max(20, textHeight + 5);
+    int xpos = (xapp->displayWidth() - inputWidth) / 2;
+    int ypos = (xapp->displayHeight() - inputHeight) / 2;
 
-    input->setSize(inputWidth, inputHeight);
+    input->setGeometry(YRect(xpos, ypos, inputWidth, inputHeight));
     if (nonempty(terminalCommand)) {
         cmdPrefix = mstring(terminalCommand, " -e ");
     }
@@ -84,9 +97,10 @@ IceRun::IceRun(int* argc, char*** argv) :
     }
 
     static char wm_clas[] = "IceWM";
-    static char wm_name[] = "icehint";
+    static char wm_name[] = "icerun";
     XClassHint class_hint = { wm_name, wm_clas };
-    XSizeHints size_hints = { PSize, 0, 0, inputWidth, inputHeight, };
+    XSizeHints size_hints = { PPosition | PSize, xpos, ypos,
+                              inputWidth, inputHeight, };
     XWMHints wmhints = {
         InputHint | StateHint,
         True,
@@ -105,79 +119,9 @@ IceRun::IceRun(int* argc, char*** argv) :
 
     input->setNetPid();
     input->show();
+    if (redirect)
+        XSetInputFocus(xapp->display(), input->handle(),
+                       RevertToNone, CurrentTime);
 }
-
-#if 0
-    //YLabel *label = new YLabel("this is a string\na second line\n\nlast after empty");
-    //label->show();
-
-    {
-        YButton *a = new YButton(0);
-        a->setText("A");
-        a->setSize(800, 600);
-
-        YButton *b = new YButton(a);
-        b->setText("B");
-        b->setGeometry(50, 50, 150, 150);
-        b->show();
-
-
-        YButton *c = new YButton(a);
-        c->setText("C");
-        c->setGeometry(50, 300, 150, 150);
-        c->show();
-
-        YButton *d = new YButton(c);
-        d->setText("D");
-        d->setGeometry(50, 50, 50, 50);
-        d->show();
-
-        YButton *dd = new YButton(d);
-        dd->setText("D");
-        dd->setGeometry(20, 20, 20, 20);
-        dd->show();
-
-        YButton *e = new YButton(a);
-        e->setText("C");
-        e->setGeometry(300, 300, 250, 150);
-        e->show();
-
-        YButton *f = new YButton(e);
-        f->setText("D");
-        f->setGeometry(50, 50, 50, 50);
-        f->show();
-
-        YButton *g = new YButton(e);
-        g->setText("D");
-        g->setGeometry(120, 50, 50, 50);
-        g->show();
-
-        a->show();
-        a->setToplevel(true);
-    }
-    {
-        YButton *a = new YButton(0);
-        a->setText("A");
-        a->setSize(700, 700);
-
-        YButton *c = new YButton(a);
-        c->setText("C");
-        c->setGeometry(50, 50, 250, 250);
-        c->show();
-
-        YButton *d = new YButton(c);
-        d->setText("D");
-        d->setGeometry(5, 5, 100, 100);
-        d->show();
-
-        YButton *dd = new YButton(d);
-        dd->setText("E");
-        dd->setGeometry(10, 10, 20, 20);
-        dd->show();
-
-        a->show();
-        a->setToplevel(true);
-    }
-#endif
 
 // vim: set sw=4 ts=4 et:
