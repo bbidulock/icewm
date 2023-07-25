@@ -3581,8 +3581,11 @@ void YFrameWindow::updateMwmHints(XSizeHints* sh) {
                 int onh = posH - (2 * borderYN() + titleYN());
                 normalW = (onw - xs->base_width) / max(1, xs->width_inc);
                 normalH = (onh - xs->base_height) / max(1, xs->height_inc);
+                return;
             }
-            return;
+            else if (xs->base_width == sh->base_width &&
+                     xs->base_height == sh->base_height)
+                return;
         }
     }
 
