@@ -659,7 +659,7 @@ const char* getprogname() {
 
 // get path of executable.
 char* progpath() {
-#ifdef __linux__
+#if defined(__linux__) && defined(_GNU_SOURCE) && !defined(__ANDROID__)
     char* path = program_invocation_name;
     bool fail = (isEmpty(path) || !isExeFile(path));
     if (fail) {
