@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-05-31 16:15+0000\n"
+"PO-Revision-Date: 2023-08-08 15:15+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/id/>\n"
@@ -2016,7 +2016,7 @@ msgstr "Mode _Tidur"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Hibernasi"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2262,7 +2262,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=BERKAS   Alihkan semua keluaran ke BERKAS.\n"
 
 #: src/wmapp.cc:1622
 #, c-format
