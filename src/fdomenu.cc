@@ -25,14 +25,11 @@
 #include "intl.h"
 #include "appnames.h"
 #include <ctype.h>
-#include "debug.h"
-
-#include "stdlib.h"
 
 #include <stack>
 #include <string>
 
-char const *ApplicationName(nullptr);
+char const* ApplicationName;
 
 #ifndef LPCSTR // mind the MFC
 // easier to read...
@@ -60,6 +57,8 @@ bool match_in_section_only = false;
 auto substr_filter = "";
 auto substr_filter_nocase = "";
 auto flat_sep = " / ";
+char* terminal_command;
+char* terminal_option;
 
 template<typename T, void TFreeFunc(T)>
 struct auto_raii {
@@ -522,10 +521,8 @@ struct t_menu_node_app : t_menu_node
 
         if (bUseSimplifiedCmd && !bForTerminal) // best case
             progCmd = cmdMod;
-    #ifdef XTERMCMD
-        else if (bForTerminal && bUseSimplifiedCmd)
-            progCmd = g_strjoin(" ", QUOTE(XTERMCMD), "-e", cmdMod, NULL);
-    #endif
+        else if (bForTerminal && nonempty(terminal_command))
+            progCmd = g_strjoin(" ", terminal_command, "-e", cmdMod, NULL);
         else
             // not simple command or needs a terminal started via launcher callback, or both
             progCmd = g_strdup_printf("%s \"%s\"", ApplicationName, dinfo.d_file);
@@ -746,6 +743,12 @@ static void init() {
         // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
         g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
     }
+
+    const char* terminals[] = { terminal_option, getenv("TERMINAL"), TERM,
+                                "urxvt", "alacritty", "roxterm", "xterm" };
+    for (auto term : terminals)
+        if (term && (terminal_command = path_lookup(term)) != nullptr)
+            break;
 }
 
 static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
@@ -754,6 +757,7 @@ static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
             "OPTIONS:\n"
             "-g, --generic\tInclude GenericName in parentheses of progs\n"
             "-o, --output=FILE\tWrite the output to FILE\n"
+            "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
             "--seps  \tPrint separators before and after contents\n"
             "--sep-before\tPrint separator before the contents\n"
             "--sep-after\tPrint separator only after contents\n"
@@ -883,6 +887,8 @@ int main(int argc, char** argv) {
                 substr_filter_nocase = value;
             else if (GetArgument(value, "F", "flat-sep", pArg, argv + argc))
                 flat_sep = value;
+            else if (GetArgument(value, "t", "terminal", pArg, argv + argc))
+                terminal_option = value;
             else // unknown option
                 help(usershare, sysshare, stderr, EXIT_FAILURE);
         }
@@ -902,6 +908,7 @@ int main(int argc, char** argv) {
 
     if (nonempty(usershare) && usershare != getenv("XDG_DATA_HOME"))
         g_free(usershare);
+    delete[] terminal_command;
 
     return EXIT_SUCCESS;
 }

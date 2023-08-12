@@ -59,6 +59,10 @@ Don't nest subcategories in submenus.
 
 Write the output to I<FILE>.
 
+=item B<-t>, B<--terminal=NAME>
+
+Use I<NAME> to start a terminal emulator which supports the '-e' option.
+
 =item B<--flat>
 
 Display apps from all categories in one level with the title containing
@@ -117,6 +121,8 @@ a comprehensive set of menus for easy access to F<.desktop> files.
 
 B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG
 Base Directory Specification.
+
+B<TERMINAL> may define a terminal emulator which supports the '-e' option.
 
 =head2 CONFORMING TO
 
