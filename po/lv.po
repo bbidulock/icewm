@@ -9,13 +9,17 @@ msgstr ""
 "Project-Id-Version: IceWM\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2005-06-12 12:59+0300\n"
-"Last-Translator: Kristaps Kaupe <kristaps.kaupe@inbox.lv>\n"
-"Language-Team: Latvian\n"
+"PO-Revision-Date: 2023-08-18 14:15+0000\n"
+"Last-Translator: Gustavs Kivlenieks <kivlenieksgustavs@proton.me>\n"
+"Language-Team: Latvian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/lv/>\n"
 "Language: lv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= "
+"19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
+"X-Generator: Weblate 4.9.1\n"
 "X-Poedit-Language: Latvian\n"
 "X-Poedit-Country: LATVIA\n"
 
@@ -52,7 +56,7 @@ msgstr "L"
 
 #: src/aapm.cc:407
 msgid " - Full"
-msgstr ""
+msgstr " - Pilns"
 
 #: src/aapm.cc:944
 #, c-format
@@ -65,7 +69,7 @@ msgstr ""
 
 #: src/aclock.cc:198
 msgid "Date"
-msgstr ""
+msgstr "Datums"
 
 #: src/aclock.cc:199 src/themes.cc:82
 msgid "Default"
