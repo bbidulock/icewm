@@ -61,7 +61,7 @@ Write the output to I<FILE>.
 
 =item B<-t>, B<--terminal=NAME>
 
-Use I<NAME> to start a terminal emulator which supports the '-e' option.
+Use I<NAME> to start a terminal emulator that supports the '-e' option.
 
 =item B<--flat>
 
@@ -75,7 +75,7 @@ separator between the section titles.
 
 =item B<-m filter>, B<--match=filter>
 
-Specifies a filter to show only apps which contain this as substring
+Specifies a filter to show only apps that contain this as substring
 within their title.
 
 =item B<-M filter>, B<--imatch=filter>
@@ -122,7 +122,7 @@ a comprehensive set of menus for easy access to F<.desktop> files.
 B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG
 Base Directory Specification.
 
-B<TERMINAL> may define a terminal emulator which supports the '-e' option.
+B<TERMINAL> may define a terminal emulator that supports the '-e' option.
 
 =head2 CONFORMING TO
 
