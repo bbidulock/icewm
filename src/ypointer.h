@@ -74,7 +74,7 @@ protected:
     DataType** operator&() { return &fData; }
 };
 
-// For pointers to objects which were allocated with 'new'.
+// For pointers to objects that were allocated with 'new'.
 template <class DataType>
 class osmart : public ysmart<DataType, osmart<DataType> > {
     typedef ysmart<DataType, osmart<DataType> > super;
@@ -87,7 +87,7 @@ public:
     using super::operator=;
 };
 
-// For arrays which were allocated with 'new[]'.
+// For arrays that were allocated with 'new[]'.
 template <class DataType>
 class asmart : public ysmart<DataType, asmart<DataType> > {
 protected:

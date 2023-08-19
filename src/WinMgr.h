@@ -296,7 +296,7 @@
 
 #define WIN_STATE_ALL (WinStateSticky | WinStateUnmapped |\
                        WinStateMaximizedBoth | WinStateFullscreen)
-/* Win state flags which are also in _NET_WM_STATE: */
+/* Win state flags that are also in _NET_WM_STATE: */
 #define WIN_STATE_NET (WIN_STATE_ALL | WinStateModal | WinStateUrgent |\
                        WinStateSkipPager | WinStateSkipTaskBar |\
                        WinStateBelow | WinStateAbove | WinStateFocused)

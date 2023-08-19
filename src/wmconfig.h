@@ -17,7 +17,7 @@ public:
     static int rewritePrefs(cfoption* startup, const char* config);
 };
 
-// functions which are used in preferences options:
+// functions that are used in preferences options:
 
 void addWorkspace(const char *name, const char *value, bool append);
 void addKeyboard(const char *name, const char *value, bool append);

@@ -164,7 +164,7 @@ private:
 };
 
 /**
- * Management item which wraps DProgram and holds the trigger key information.
+ * Management item that wraps DProgram and holds the trigger key information.
  */
 class KProgram {
 public:

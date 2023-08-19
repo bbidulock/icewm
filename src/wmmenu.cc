@@ -77,7 +77,7 @@ static mstring guessIconNameFromExe(const char* exe)
     }
     if (path) {
         char* base = const_cast<char*>(my_basename(path));
-        // scripts may have a suffix which is not part of the icon name
+        // scripts may have a suffix that is not part of the icon name
         char* dot = strchr(base, '.');
         if (dot) *dot = '\0';
         return base;

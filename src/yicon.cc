@@ -392,7 +392,7 @@ public:
 
         // for compaction reasons, the lambdas return true on success,
         // but the success is only found in _this_ lambda only,
-        // and this is the only one which touches `result`!
+        // and this is the only one that touches `result`!
         auto checkFile = [&](upath path) {
             return path.fileExists() ? (res = path, true) : false;
         };
@@ -518,7 +518,7 @@ ref<YImage> YIcon::loadIcon(unsigned size) {
         }
 
     }
-    // if the image data which was found in the expected file does not really
+    // if the image data that was found in the expected file does not really
     // match the filename, scale the data to fit
     if (icon != null) {
         if (size != icon->width() || size != icon->height()) {

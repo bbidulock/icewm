@@ -766,7 +766,7 @@ void YXTray::backgroundChanged() {
     relayout(true);
     repaint();
     for (IterType ec = fDocked.iterator(); ++ec; ) {
-        /* something is not clearing which background changes */
+        /* something is not clearing the background */
         XClearArea(xapp->display(), ec->client_handle(), 0, 0, 0, 0, True);
         ec->repaint();
     }

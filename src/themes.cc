@@ -161,7 +161,7 @@ void ThemesMenu::findThemes(const upath& path, ObjectMenu* container) {
             else
             {
                 // ok, have the position of the related entry
-                // which needs to be moved to submenu
+                // that needs to be moved to submenu
                 YMenuItem *relatedItem = container->getItem(relatedItemPos);
                 MSG(("Moving %s to submenu to prepare for %s",
                                 relatedItem->getName().c_str(),

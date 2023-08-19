@@ -163,7 +163,7 @@ public:
     }
 };
 
-// singly linked list of nodes which have a 'next' pointer.
+// singly linked list of nodes that have a 'next' pointer.
 template <class T>
 class flist {
     flist(const flist&);

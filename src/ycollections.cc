@@ -3,7 +3,7 @@
  * License: WTFPL
  *
  * Collection of various data structures used to support certain IceWM functionality.
- * All of them are made for simple data structures which must be trivially copyable and mem-movable!
+ * All of them are made for simple data structures that must be trivially copyable and mem-movable!
  */
 
 #include "config.h"

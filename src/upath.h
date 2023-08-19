@@ -40,6 +40,7 @@ public:
     bool isReadable();
     bool isWritable();
     bool isExecutable();
+    bool isSearchable();
     bool isHttp() const;
     bool hasProtocol() const;
     int access(int mode = 0);

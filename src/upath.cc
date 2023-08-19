@@ -150,6 +150,10 @@ bool upath::isExecutable() {
     return access(X_OK) == 0;
 }
 
+bool upath::isSearchable() {
+    return access(R_OK | X_OK) == 0;
+}
+
 int upath::mkdir(int mode) {
     return ::mkdir(string(), mode_t(mode));
 }
