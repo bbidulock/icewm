@@ -11,7 +11,7 @@ B<icewm-menu-xrandr>
 =head2 DESCRIPTION
 
 B<icewm-menu-xrandr> is a helper to manage multi-screen configurations
-in a semi-automated way. It is a regular icewm menu generator which dynamically
+in a semi-automated way. It is a regular icewm menu generator that
 detects the available xrandr screens (i.e. connected monitors) and
 creates menu entries that call the xrandr command to setup this
 configuration.
@@ -51,7 +51,7 @@ creation.
 
 =item B<--xrandr command>
 
-Replacement for I<xrandr> command which should deliver equivalent data
+Replacement for I<xrandr> command that should deliver equivalent data
 and accept the same options as I<xrandr>.
 
 =item B<--activate combo-name>

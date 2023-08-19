@@ -22,7 +22,7 @@ to all other processes, including L<icewm(1)>, via their environment.
 
 Each line is subjected to POSIX shell expansion by L<wordexp(3)>.
 Comment lines starting by a hash-sign (C<#>) are ignored.
-L<icewm-session(1)> will load those expanded lines which contain a name,
+L<icewm-session(1)> will load those expanded lines that contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
 The word B<unset> begins a line with names to be removed from the

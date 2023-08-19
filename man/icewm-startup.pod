@@ -17,7 +17,7 @@
 
 The F<startup> file contains commands to be executed on B<icewm> startup.
 This is an executable script. Typically the commands tweak X11 settings
-and launch some applications which always need to be active.
+and launch some applications that always need to be active.
 It is run by L<icewm-session(1)> when B<icewm> starts.
 
 =head2 EXAMPLES

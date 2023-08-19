@@ -41,7 +41,7 @@ The actual window manager. It positions application windows on screen
 and decorates them with borders. It gives input focus to the current
 active application. B<icewm> supports different focus modes, which are
 explained below. It draws a small task bar at the bottom of the screen,
-which gives easy access to programs, to virtual desktops, to active
+that gives easy access to programs, to virtual desktops, to active
 applications, and to a small set of monitoring applets.
 
 =item L<icewmbg(1)>
@@ -71,18 +71,18 @@ window manager. It is typically used in shell scripts. See L<icesh(1)>.
 
 =item L<icehelp(1)>
 
-A small document browser, which is used by B<icewm> to display the
+A small document browser that is used by B<icewm> to display the
 'IceWM manual' and some man pages.
 
 =item L<icewmhint(1)>
 
 A utility for passing IceWM-specific window options to B<icewm>.
-The options are used to configure the first application which is started
+The options are used to configure the first application that is started
 subsequently.  See L<icewmhint(1)>.
 
 =item L<icesound(1)>
 
-Plays audio files on GUI events which are raised by B<icewm>.
+Plays audio files on GUI events that are raised by B<icewm>.
 It supports ALSA, AO and OSS.  See the L<icesound(1)> man page.
 
 =item L<icewm-menu-fdo(1)>
@@ -108,7 +108,7 @@ Each of the IceWM executables supports the following options:
 
 Use I<FILE> as the source of configuration options.  By default B<icewm>
 looks for a file named F<preferences>.  This is a readable text file
-which can be modified with the help of a text editor.
+that can be modified with the help of a text editor.
 
 =item B<-t>, B<--theme>=I<NAME>
 
@@ -172,7 +172,7 @@ This can also be set in the preferences file as Splash=C<image.jpg>.
 
 =item B<--configured>
 
-Shows a list of configuration options which were enabled when B<icewm>
+Shows a list of configuration options that were enabled when B<icewm>
 was compiled from source code.  This can be helpful if one suspects some
 functionality may be missing.
 
@@ -205,7 +205,7 @@ Give a list of the current X extensions, their versions and status.
 
 =item B<--trace>=I<conf>,I<font>,I<icon>,I<prog>,I<systray>
 
-Enable tracing of the paths which are used to load configuration,
+Enable tracing of the paths that are used to load configuration,
 fonts, icons, executed programs, and/or system tray applets.
 
 =back
@@ -228,7 +228,7 @@ The I<Window List Menu> button gives access to a menu with a list of
 active windows for the current workspace and a list of workspaces
 with sub-menus for their active application windows.
 
-The I<Toolbar> is a list of icons for applications which are defined in
+The I<Toolbar> is a list of icons for applications that are defined in
 the toolbar configuration file.
 
 The I<Workspace Pane> shows one button for each workspace.  The current
@@ -246,10 +246,10 @@ Firefox tab to a workspace button changes the current workspace.
 Then releasing it moves that tab to a new window in that workspace.
 
 The I<Task Pane> consists of a list of wide buttons for each application
-which is running on the current workspace, or all workspaces if
+that is running on the current workspace, or all workspaces if
 C<TaskBarShowAllWindows=1>.  Each task button shows the
 application icon and the application title.  The active application is
-indicated by a pressed button.  This is the application which has input
+indicated by a pressed button.  This is the application that has input
 focus.  Pressing another button activates that application: it is
 brought to the foreground and receives input focus.  Other mouse
 controlled activities on the window buttons are: dragging window buttons
@@ -289,8 +289,8 @@ appearance is also controlled by options in the F<preferences> file.
 =head2 INPUT FOCUS
 
 Of all visible windows only one can be the active window.  This is the
-window which has input focus.  It is the primary receiver of keyboard
-and mouse events and hence one can interact with the application which
+window that has input focus.  It is the primary receiver of keyboard
+and mouse events and hence one can interact with the application that
 created that window.  A primary task of a window manager is to allow the
 user to switch input focus between different windows.  The primary means
 to do this is the mouse pointer.  By moving the mouse pointer over the
@@ -320,7 +320,7 @@ is called sloppy, because if the mouse then leaves the window and moves
 to the desktop background the input focus remains with the last active
 window.  When a window receives focus it is raised.  When an application
 requests focus its task pane button flashes.  A new application or an
-application which raises to the front automatically receives focus.
+application that raises to the front automatically receives focus.
 
 =item B<3. Explicit-focus>
 
@@ -343,9 +343,7 @@ application requests focus.
 
 =item B<6. Custom-mode>
 
-A focus mode which is defined in detail by ten options in the
-F<preferences> file.
-These are:
+A focus mode that is defined by the following ten options:
 C<ClickToFocus>,
 C<FocusOnAppRaise>,
 C<RequestFocusOnAppRaise>,
@@ -487,7 +485,7 @@ with the names 1, 2, 3 and 4 thus:
 
  WorkspaceNames=" 1 ", " 2 ", " 3 ", " 4 "
 
-This syntax is typical for B<icewm> options which receive multiple
+This syntax is typical for B<icewm> options that receive multiple
 values.  It is a list of comma-separated values each of which can be
 quoted.
 
@@ -526,7 +524,7 @@ Pressing C<Enter> will execute the command.
 B<AddressBarCommand>=C</bin/sh> will be used to execute the command.
 On C<Control+Enter> the command is executed in a terminal
 as given by B<TerminalCommand>.
-The address bar maintains a history which is navigable by the I<Up>
+The address bar maintains a history that is navigable by the I<Up>
 and I<Down> keys.
 It supports command completion using C<Tab> or C<Ctrl+I>.
 A rich set of editing operations is supported,
@@ -535,7 +533,7 @@ including cut-/copy-/paste-operations.
 =head2 WINDOW LIST
 
 The window list window shows a list of all workspaces. For each
-workspace it shows the window titles of the windows which are mapped
+workspace it shows the window titles of the windows that are mapped
 on it. The bottom entry reads C<All Workspaces>. It holds the sticky
 windows. These windows are mapped in all workspaces.
 
@@ -620,7 +618,7 @@ The POP3S and IMAPS schemes use C<openssl> for TLS/SSL encryption.
 Note that for IceWM to access Gmail you must first configure
 your Gmail account to enable POP3 or IMAP access.
 Make sure you have secure file permissions on your IceWM
-preferences file and the directory which contains it.
+preferences file and the directory that contains it.
 
 Reserved characters in the password, like I<slash>, I<at> and I<colon>
 can be specified using escape sequences with a hexadecimal encoding
@@ -714,7 +712,7 @@ for Ctrl+Alt.
 
 =item B<KeyWinRaise>=C<Alt+F1>
 
-Raises the window which currently has input focus.
+Raises the window that currently has input focus.
 
 =item B<KeyWinOccupyAll>=C<Alt+F2>
 
@@ -722,7 +720,7 @@ Makes the active window occupy all workspaces.
 
 =item B<KeyWinLower>=C<Alt+F3>
 
-Lowers the window which currently has input focus.
+Lowers the window that currently has input focus.
 
 =item B<KeyWinClose>=C<Alt+F4>
 
@@ -1237,7 +1235,7 @@ Default local installation settings.
 L<icewm-session(1)> loads additional environment variables from the file
 F<env>.  Each line is subjected to POSIX shell expansion by
 L<wordexp(3)>.  Comment lines starting by a hash-sign (C<#>) are ignored.
-L<icewm-session(1)> will load those expanded lines which contain a name,
+L<icewm-session(1)> will load those expanded lines that contain a name,
 followed by an equals sign, followed by the value (which may be empty).
 
 See L<icewm-env(5)>.
@@ -1256,7 +1254,7 @@ Global keybindings to launch applications, which need not be window
 manager related.  Each non-empty line starts with the word C<key>.
 After one or more spaces follows a double-quoted string of the bound X11
 key combination like C<Alt+Ctrl+Shift+X>.  Then after at least one space
-follows a shell command-line which will be executed by B<icewm> whenever
+follows a shell command-line that will be executed by B<icewm> whenever
 this key combination is pressed.  For example, the following line
 creates a hotkey to reload the B<icewm> configuration:
 
@@ -1276,7 +1274,7 @@ See L<icewm-menu(5)>.
 =item F<preferences>
 
 Contains general settings like paths, colors and fonts, but also options
-to control the B<icewm> focus behaviour and the applets which are
+to control the B<icewm> focus behaviour and the applets that are
 started in the task bar.  The B<icewm> installation will provide a
 default F<preferences> file, which can be copied to the B<icewm> user
 configuration directory and modified.
@@ -1286,7 +1284,7 @@ See L<icewm-preferences(5)>.
 =item F<prefoverride>
 
 Settings which override the settings from a theme.  Some of the B<icewm>
-configuration options from the preferences file which control the
+configuration options from the preferences file that control the
 look-and-feel may be overridden by the theme, if the theme designer
 thinks this is desirable.  However, this F<prefoverride> file will again
 override this for a few specific options of your choosing.  It is safe
@@ -1298,7 +1296,7 @@ See L<icewm-prefoverride(5)>.
 
 An automatically generated menu of applications.  This could be used by
 L<wmconfig(1)>, menu or similar programs to give easy access to all the
-desktop applications which are installed on the system.
+desktop applications that are installed on the system.
 
 See L<icewm-programs(5)>.
 
@@ -1328,10 +1326,10 @@ After one or more spaces follows a name, which is displayed in a tool
 tip whenever the mouse cursor hovers over the toolbar icon.  This name
 may be a double quoted string.  Then follows the bare name of the icon
 to use without extensions.  This icon will be shown in the toolbar.  The
-last component is a shell command-line which will be executed whenever
+last component is a shell command-line that will be executed whenever
 the user presses the icon in the toolbar.  For example, the following
 line in toolbar will create a button with tool tip C<Mozilla Firefox>
-with the F<firefox> icon which launches L<firefox(1)> when clicked:
+with the F<firefox> icon that launches L<firefox(1)> when clicked:
 
  prog  "Mozilla Firefox"  firefox  /usr/bin/firefox --private-window
 
@@ -1339,7 +1337,7 @@ See L<icewm-toolbar(5)>.
 
 =item F<winoptions>
 
-Contains settings to control window appearance and behaviour which are
+Contains settings to control window appearance and behaviour that are
 specific to applications or groups of applications.  Options can control
 the border, whether it appears on the task bar, the window list, the
 system tray and the workspaces.  Also its layer, geometry, whether it
@@ -1351,7 +1349,7 @@ See L<icewm-winoptions(5)>.
 
 Contains commands to be executed on B<icewm> startup.  This is an
 executable script with commands to tweak X11 settings and launch some
-applications which need to be active whenever B<icewm> is started.
+applications that need to be active whenever B<icewm> is started.
 It is run by L<icewm-session(1)> when B<icewm> starts.
 
 See L<icewm-startup(5)>.
@@ -1387,7 +1385,7 @@ in the XPM image is the sensitive point for the mouse pointer.
 
 =item F<icons>
 
-Contains icons which are used to identify applications.  Usually these
+Contains icons that are used to identify applications.  Usually these
 files are in the XPM format, but the PNG and SVG image formats are also
 supported.  The names of icon files may follow a specific naming
 pattern, like F<app_32x32.xpm>.  They start with a base name, usually
@@ -1405,14 +1403,14 @@ C<TaskBarShowClock> and C<TaskBarClockLeds> options are both set to 1.
 
 =item F<mailbox>
 
-Icons which are used to display different states of the mailbox applet
+Icons that are used to display different states of the mailbox applet
 in the task bar.  There are five states and each has its own icon:
 F<mail.xpm>, F<newmail.xpm>, F<unreadmail.xpm>, F<nomail.xpm>,
 F<errmail.xpm>.
 
 =item F<sounds>
 
-Audio files which are played by L<icesound(1)> on GUI events.  These
+Audio files that are played by L<icesound(1)> on GUI events.  These
 are: F<startup.wav>, F<shutdown.wav>, F<restart.wav>, F<launchApp.wav>,
 F<workspaceChange.wav>, F<windowOpen.wav>, F<windowClose.wav>,
 F<dialogOpen.wav>, F<dialogClose.wav>, F<windowMax.wav>,
@@ -1432,7 +1430,7 @@ F<workspacebuttonactive.xpm>, F<workspacebuttonbg.xpm>.
 A directory to store themes.  Each theme is stored in its own
 sub-directory in the F<themes> directory. A theme contains at least a
 F<default.theme> file, and optionally theme alternatives which are
-additional files which have a F<.theme> file name extension and which
+additional files that have a F<.theme> file name extension and that
 contain tweaks of the F<default.theme> file.
 How to create a theme is explained in the
 L<IceWM Theme Creation Howto|https://ice-wm.org/themes>.
@@ -1456,7 +1454,7 @@ where the compositor will read it and adjust the opacity accordingly.
 The opacity can also be set in the L<icewm-winoptions(5)> file.
 L<icesh(1)> can control the opacity level of running applications.
 
-The _NET_WM_WINDOW_TYPE properties which B<icewm> sets on its windows
+The _NET_WM_WINDOW_TYPE properties that B<icewm> sets on its windows
 are I<DIALOG>, I<NOTIFICATION>, I<POPUP_MENU> and I<TOOLTIP>. The output
 of C<icesh windows> shows their WM_CLASS values. These can be helpful
 to configure compton.

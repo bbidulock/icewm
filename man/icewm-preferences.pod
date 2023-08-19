@@ -15,9 +15,9 @@
 =head2 DESCRIPTION
 
 Contains general settings like paths, colors and fonts, but also options
-to control the B<icewm> focus behaviour and the applets which are
+to control the B<icewm> focus behaviour and the applets that are
 started in the task bar.  The B<icewm> installation will provide a
-default F<preferences> file, which can be copied to the B<icewm> user
+default F<preferences> file, that can be copied to the B<icewm> user
 configuration directory and modified.
 
 =head2 FORMAT
@@ -54,7 +54,7 @@ Splash image on startup (IceWM.jpg)
 =item B<Trace>=""
 
 Enable tracing for the given list of modules.
-Modules which are traceable include B<conf, font, icon, prog, systray>.
+Modules that are traceable include B<conf, font, icon, prog, systray>.
 
 =item B<ClickToFocus>=1
 
@@ -159,7 +159,7 @@ Turning this off allows the titlebar to cover the width of the screen.
 
 =item B<CenterMaximizedWindows>=0
 
-Center maximized windows which can't fit the screen (like terminals).
+Center maximized windows that can't fit the screen (like terminals).
 
 =item B<HideBordersMaximized>=0
 
@@ -567,7 +567,7 @@ Place workspace pager on top row when using dual-height taskbar.
 
 =item B<TaskBarWorkspacesLimit>=""
 
-Limit the number of taskbar workspaces buttons which are shown on the
+Limit the number of taskbar workspaces buttons that are shown on the
 workspaces pane of the taskbar. If the numeric value has a C<p> suffix
 then the limitation is in pixels. A C<%> suffix limits by percentage of
 desktop width. By default a C<B> suffix is assumed for number of buttons.
@@ -659,7 +659,7 @@ or C<%40> for the at sign.  For example:
 
 =item B<NetworkStatusDevice>="eth0 wlan0"
 
-Network device for which to show status.
+Network devices for which to show status.
 
 =item B<TimeFormat>="%X"
 
@@ -667,7 +667,7 @@ The clock time format. See the strftime manpage for the meaning of all
 the percent options. It is possible to define multiple clocks for
 different time zones in a single I<TimeFormat>.  A new clock is defined
 by the beginning of the string, and by each time zone specification
-which starts with C<TZ=...>, followed by a space. For example,
+that starts with C<TZ=...>, followed by a space. For example,
 B<TimeFormat>=C<%X TZ=Asia/Aden %T TZ=Asia/Baku %T> defines 3 clocks.
 
 =item B<TimeFormatAlt>=""
@@ -729,7 +729,7 @@ Primary screen for xinerama (taskbar, ...).
 A comma-separated list of keyboard layouts.
 A layout may be enclosed in double quotes.
 Each layout is a name with optional arguments,
-which is to be parsed by the C<setxkbmap> program.
+that is to be parsed by the C<setxkbmap> program.
 To support changing keyboard layouts, the
 C<setxkbmap> program must be installed.
 The first in the list is the default layout.

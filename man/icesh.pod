@@ -23,10 +23,10 @@ B<icesh> provides two types of commands:
 These are listed in the section "MANAGER ACTIONS" below.
 They are easy to use, because they don't require to select one
 or more windows. For example, C<icesh restart> will restart
-icewm and C<icesh clients> lists the applications which
+icewm and C<icesh clients> lists the applications that
 are managed by icewm.
 
-=item 2. Commands which operate on a selection of windows:
+=item 2. Commands that operate on a selection of windows:
 
 See the section C<WINDOW ACTIONS> below. For example, C<icesh close>
 is a request to close a window, but which window? Now icesh
@@ -47,13 +47,13 @@ This selection of windows can be reduced by C<FILTER OPTIONS>.
 These remove unwanted windows from the current selection.
 Multiple filter options can be given. For example,
 C<icesh -c xterm -W this close> will close only those xterms
-which are shown on the current workspace. The xterms on other
+that are shown on the current workspace. The xterms on other
 workspaces are filtered out by the C<-W this> filter option.
 
 =back
 
 There is no limit to the number of commands, selections, filters
-and actions which you can give to a single icesh command.
+and actions that you can give to a single icesh command.
 They are processed and evaluated one by one from left to right.
 This makes icesh a small declarative programming language.
 Have a look at some examples near the end of this document.
@@ -80,14 +80,14 @@ Selects all client windows of the window manager.
 
 =item B<-f>, B<-focus>, B<+f>, B<+focus>
 
-Selects the application window which is currently focused.
+Selects the application window that is currently focused.
 The option with minus sign replaces the existing selection with
 the focused window. With a plus sign the focused window is added to
 an existing selection.
 
 =item B<+g>, B<+group>
 
-Extend the current selection with client windows which
+Extend the current selection with client windows that
 belong to the same application window group.
 
 =item B<-r>, B<-root>, B<+r>, B<+root>
@@ -99,12 +99,12 @@ an existing selection.
 
 =item B<-s>, B<-shown>
 
-Selects all client windows which are on the current workspace.
+Selects all client windows that are on the current workspace.
 
 =item B<-t>, B<-top>
 
 Selects all toplevel windows from the display unconditionally.
-This includes windows which have never been mapped and windows
+This includes windows that have never been mapped and windows
 with the override redirect bit set to evade management.
 
 =item B<-w>, B<-window>, B<+w>, B<+window> I<WINDOW_ID>
@@ -117,7 +117,7 @@ With a plus sign the window is added to an existing selection.
 
 =item B<-x>, B<-xembed>
 
-Selects all windows which are embedded using the I<XEMBED> protocol.
+Selects all windows that are embedded using the I<XEMBED> protocol.
 
 =item B<+c>, B<+class> I<CLASS>
 
@@ -136,7 +136,7 @@ selected set of windows.
 
 =item B<-D>, B<-Dockapps>
 
-Selects all Dockapp applications which are managed by icewm.
+Selects all Dockapp applications that are managed by icewm.
 
 =item B<+P>, B<+Pid>
 
@@ -188,12 +188,12 @@ to I<PID> are selected.
 
 =item B<-u>, B<-unmapped>
 
-Filter clients and keep those which are currently not viewable.
+Filter clients and keep those that are currently not viewable.
 These are hidden, minimized, rolled-up, or on another workspace.
 
 =item B<-v>, B<-viewable>
 
-Filter clients and keep only those which are currently viewable.
+Filter clients and keep only those that are currently viewable.
 These clients are mapped on the current workspace.
 
 =item B<-G>, B<-Gravity> I<GRAVITY>
@@ -211,7 +211,7 @@ an exclamation mark then the filtering is inverted.
 
 =item B<-N>, B<-Netstate> I<STATE>
 
-Filters clients by I<EWMH window state>. Clients which have at
+Filters clients by I<EWMH window state>. Clients that have at
 least an EWMH window state of I<STATE> are selected.  This state
 refers to details like B<MINIZED> or B<MAXIMIZED>. See EXPRESSIONS
 below. If I<STATE> starts with an exclamation mark then the filtering
@@ -220,7 +220,7 @@ in I<STATE>.
 
 =item B<-P>, B<-Property> I<PROP[=value]>
 
-Filters clients by property. Clients which have a property I<PROP>
+Filters clients by property. Clients that have a property I<PROP>
 are selected. If the optional I<value> is given, the match succeeds
 only if I<PROP> is a string, window, cardinal, or atom, with a value
 equal to I<value>.  The filtering is inverted if I<PROP> starts with
@@ -228,7 +228,7 @@ an exclamation mark.
 
 =item B<-R>, B<-Role> I<ROLE>
 
-Filters clients by WM_WINDOW_ROLE. Clients which have a WM_WINDOW_ROLE
+Filters clients by WM_WINDOW_ROLE. Clients that have a WM_WINDOW_ROLE
 property value equal to I<ROLE> are selected.  The filtering is inverted
 if I<ROLE> starts with an exclamation mark.
 
@@ -243,7 +243,7 @@ inverted.
 =item B<-X>, B<-Xinerama> I<MONITOR>
 
 Limit clients by I<RandR>/I<Xinerama> monitor. Only operate on
-clients which are displayed on I<MONITOR>, where I<MONITOR> can
+clients that are displayed on I<MONITOR>, where I<MONITOR> can
 be C<All> for all monitors, C<this> for the monitor where the
 active window is displayed, or a monitor number starting from zero.
 See the output of C<randr> or C<xinerama> below.
@@ -603,7 +603,7 @@ is given, then disable or enable the override redirect status.
 
 =item B<tabto> I<label>
 
-Move the windows as tabs to a frame which has C<frame> label I<label>.
+Move the windows as tabs to a frame that has C<frame> label I<label>.
 Such a frame is created if needed.
 
 =item B<untab>
@@ -726,11 +726,11 @@ List all toplevel windows, their titles and geometries.
 
 =item B<systray>
 
-List applications which are managed by the IceWM system tray.
+List applications that are managed by the IceWM system tray.
 
 =item B<xembed>
 
-List application windows which are embedded using the I<XEMBED> protocol.
+List application windows that are embedded using the I<XEMBED> protocol.
 This is another way to discover system tray applications.
 
 =item B<logout>
@@ -985,8 +985,8 @@ Here is a different solution using conditionals.
 
     icesh -f if -P _NET_FRAME_EXTENTS=0 then bordered else borderless
 
-Here is a conditional to either toggle the visibility of a roxterm,
-which has a WM_ROLE value of C<special>, or start it with B<runonce>.
+Here is a conditional to either toggle the visibility of a roxterm
+that has a WM_ROLE value of C<special> or start it with B<runonce>.
 
     icesh if -c roxterm.Roxterm -R special then \
         if -v then hide \

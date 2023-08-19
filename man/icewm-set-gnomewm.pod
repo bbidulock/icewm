@@ -10,7 +10,7 @@ B<icewm-set-gnomewm> [I<OPTIONS>]
 
 =head2 DESCRIPTION
 
-B<icewm-set-gnomewm> is a helper script which instruments GNOME to
+B<icewm-set-gnomewm> is a helper script that instruments GNOME to
 replace its own WM with icewm.
 
 =head2 OPTIONS

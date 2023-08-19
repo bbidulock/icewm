@@ -132,7 +132,7 @@ starting a terminal, or abort execution of icewm-session.
 
 =item B<ICEWM_OPTIONS>
 
-A space separated list of options which will be added to the command
+A space separated list of options that will be added to the command
 line invocation of F<icewm>. This can be set in the F<env> file.
 
 =back

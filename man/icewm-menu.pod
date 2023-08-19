@@ -92,7 +92,7 @@ These are literal string keywords.
 
 =item [B<">]I<title>[B<">]
 
-This is the I<title> string associated with the menu item which is
+This is the I<title> string associated with the menu item that is
 displayed in the menu.  When the I<title> contains spaces, the title
 must be surrounded by double quotes (C<>).
 
