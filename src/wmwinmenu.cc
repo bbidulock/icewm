@@ -132,6 +132,7 @@ void WindowListMenu::updatePopup() {
     }
     addSeparator();
     addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+    setActionListener(this);
 }
 
 void WindowListMenu::activatePopup(int flags) {
