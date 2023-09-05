@@ -13,14 +13,18 @@
 #include "intl.h"
 
 void WindowListMenu::actionPerformed(YAction action, unsigned modifiers) {
-    for (YFrameWindow *f = manager->topLayer(); f; f = f->nextLayer()) {
-        if (int(f->handle()) == action.ident()) {
+    YFrameClient* tab = manager->findClient(Window(action.ident()));
+    if (tab) {
+        YFrameWindow* f = tab->obtainFrame();
+        if (f) {
+            f->selectTab(tab);
             if (modifiers & ShiftMask)
                 f->wmOccupyWorkspace(manager->activeWorkspace());
             f->activateWindow(true, false);
-            return ;
         }
+        return ;
     }
+
     for (int w = 0; w < workspaceCount; w++) {
         if (workspaceActionActivate[w] == action) {
             manager->activateWorkspace(w);
@@ -110,21 +114,24 @@ void WindowListMenu::updatePopup() {
             }
             for (; k < entries.getCount() && entries[k].space <= space; ++k) {
                 if (entries[k].space == space && addTo) {
-                    YFrameWindow *frame = entries[k].frame;
-                    YAction action(EAction(int(frame->handle())));
-                    YMenuItem* item = new YMenuItem(frame->getTitle(), -1,
-                                                    null, action, nullptr);
-                    if (item) {
-                        ref<YIcon> icon = frame->getIcon();
-                        if (icon != null) {
-                            item->setIcon(icon);
+                    if (0 < k && 0 < addTo->itemCount()) {
+                        if (entries[k - 1] < entries[k])
+                            addTo->addSeparator();
+                    }
+                    YFrameWindow* frame = entries[k].frame;
+                    for (YFrameClient* tab : frame->clients()) {
+                        YAction action(EAction(int(tab->handle())));
+                        mstring title(tab->windowTitle());
+                        YMenuItem* item = new YMenuItem(title, -1, null,
+                                                        action, nullptr);
+                        if (item) {
+                            ref<YIcon> icon = tab->getIcon();
+                            if (icon == null)
+                                icon = frame->getIcon();
+                            if (icon != null)
+                                item->setIcon(icon);
+                            addTo->add(item);
                         }
-                        if (0 < k && 0 < addTo->itemCount()) {
-                            if (entries[k - 1] < entries[k]) {
-                                addTo->addSeparator();
-                            }
-                        }
-                        addTo->add(item);
                     }
                 }
             }
