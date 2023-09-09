@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-07-21 01:44+0200\n"
-"PO-Revision-Date: 2023-04-10 07:14+0000\n"
+"PO-Revision-Date: 2023-09-09 05:15+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sv/>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2005,7 +2005,7 @@ msgstr "_Viloläge"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Viloläge"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2251,7 +2251,7 @@ msgstr ""
 
 #: src/wmapp.cc:1617
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FIL   Omdirigera all utdata till FIL.\n"
 
 #: src/wmapp.cc:1622
 #, c-format
