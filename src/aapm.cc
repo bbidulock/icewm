@@ -471,6 +471,7 @@ void YApm::SysStr(char *s, bool Tool) {
         long BATcapacity_full = -1;
         long BATcapacity_design = -1;
         long BATcapacity_remain = -1;
+        long BATcapacity = -1;
         long BATrate = -1;
         long BATtime_remain = -1;
 
@@ -524,6 +525,21 @@ void YApm::SysStr(char *s, bool Tool) {
                 }
             }
             fclose(fd);
+        }
+        // some battery does'nt have information about energy_full or charge_full
+        // but has capacity as percentual. We can use it.
+        if (BATcapacity_full == -1) {
+            fd = open3("/sys/class/power_supply/", BATname, "/capacity");
+            if (fd != nullptr) {
+                if (fgets(buf, sizeof(buf), fd)) {
+                    //in case it contains non-numeric value
+                    if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
+                        BATcapacity = -1;
+                    }
+                }
+            }
+            BATcapacity_full=100;
+            BATcapacity_remain=BATcapacity;
         }
 
         fd = open3("/sys/class/power_supply/", BATname, "/present");
@@ -790,7 +806,8 @@ YApm::YApm(YWindow *aParent, bool autodetect):
         while (dir.next()) {
             if (mode == SYSFS) {
                 mstring str("/sys/class/power_supply/", dir.entry(), "/online");
-                if (upath(str).isReadable()) {
+                mstring strb("/sys/class/power_supply/", dir.entry(), "/capacity");
+                if (upath(str).isReadable() && ! upath(strb).isReadable()) {
                     if (acpiACName == nullptr)
                         acpiACName = newstr(dir.entry());
                     continue;
