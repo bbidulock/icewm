@@ -526,9 +526,8 @@ void YApm::SysStr(char *s, bool Tool) {
             }
             fclose(fd);
         }
-        // some battery does'nt have information about energy_full or charge_full
-        // but has capacity as percentual. We can use it.
-        if (BATcapacity_full == -1) {
+        // if there is no energy_full or charge_full use capacity
+        if (BATcapacity_remain == -1) {
             fd = open3("/sys/class/power_supply/", BATname, "/capacity");
             if (fd != nullptr) {
                 if (fgets(buf, sizeof(buf), fd)) {
@@ -538,8 +537,8 @@ void YApm::SysStr(char *s, bool Tool) {
                     }
                 }
             }
-            BATcapacity_full=100;
-            BATcapacity_remain=BATcapacity;
+            BATcapacity_full = 100;
+            BATcapacity_remain = BATcapacity;
         }
 
         fd = open3("/sys/class/power_supply/", BATname, "/present");
@@ -585,6 +584,21 @@ void YApm::SysStr(char *s, bool Tool) {
                     }
                     fclose(fd);
                 }
+                // if there is no energy_full or charge_full use capacity
+                if (BATcapacity_full == -1) {
+                    fd = open3("/sys/class/power_supply/", BATname, "/capacity");
+                    if (fd != nullptr) {
+                        if (fgets(buf, sizeof(buf), fd)) {
+                            //in case it contains non-numeric value
+                            if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
+                                BATcapacity = -1;
+                            }
+                        }
+                    }
+                    BATcapacity_full = 100;
+                    BATcapacity_remain = BATcapacity;
+                }
+
                 if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
                     BATcapacity_full = BATcapacity_design;
                 acpiBatteries[i]->capacity_full = BATcapacity_full;
