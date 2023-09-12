@@ -52,6 +52,53 @@ extern YColorName taskBarBg;
 #define SYS_STR_SIZE    64
 #define APM_LINE_LEN    80
 
+SysFS::SysFS(const char* topdir, const char* subdir)
+    : dirfd(-1)
+{
+    char buf[256];
+    snprintf(buf, sizeof buf, "%s%s", topdir, subdir);
+    dirfd = open(buf, O_DIRECTORY | O_RDONLY);
+}
+
+SysFS::~SysFS() {
+    if (0 <= dirfd)
+        close(dirfd);
+}
+
+bool SysFS::readable(const char* name) {
+    return 0 <= dirfd && faccessat(dirfd, name, R_OK, 0) == 0;
+}
+
+bool SysFS::read(const char* name, char* buf) {
+    bool got = false;
+    const size_t bufsize = 256;
+    if (0 <= dirfd) {
+        int fd = openat(dirfd, name, O_RDONLY);
+        if (0 <= fd) {
+            int n = ::read(fd, buf, bufsize - 1);
+            if (0 < n) {
+                buf[n] = '\0';
+                got = true;
+            }
+            close(fd);
+        }
+    }
+    return got;
+}
+
+bool SysFS::read(const char* name, long* num) {
+    bool got = false;
+    const size_t bufsize = 256;
+    char buf[bufsize];
+    if (read(name, buf)) {
+        if (sscanf(buf, "%ld", num) <= 0)
+            *num = -1;
+        else
+            got = true;
+    }
+    return got;
+}
+
 void YApm::ApmStr(char *s, bool Tool) {
     char apmver[16];
     char units[16];
@@ -181,9 +228,9 @@ bool YApm::ignore_directory_ac_entry(const char* name) {
 }
 
 void YApm::AcpiStr(char *s, bool Tool) {
-    char buf[255], bat_info[250];
+    char buf[256], bat_info[250];
 
-    *s='\0';
+    *s = '\0';
 
     //assign some default values, in case
     //the file in /proc/acpi will contain unexpected values
@@ -433,28 +480,18 @@ void YApm::AcpiStr(char *s, bool Tool) {
 }
 
 void YApm::SysStr(char *s, bool Tool) {
-    char buf[255], bat_info[250];
+    char buf[256], bat_info[250];
 
-    *s='\0';
+    *s = '\0';
 
-    //assign some default values, in case
-    //the file in /sys/class/power_supply will contain unexpected values
-    int ACstatus = -1;
+    AC_Status ACstatus = AC_UNKNOWN;
     if (nonempty(acpiACName)) {
-        FILE* fd = open3("/sys/class/power_supply/", acpiACName, "/online");
-        if (fd != nullptr) {
-            while (fgets(buf, sizeof(buf), fd)) {
-                if (*buf == '1') {
-                    ACstatus = AC_ONLINE;
-                }
-                else if (*buf == '0') {
-                    ACstatus = AC_OFFLINE;
-                }
-                else {
-                    ACstatus = AC_UNKNOWN;
-                }
-            }
-            fclose(fd);
+        SysFS fs("/sys/class/power_supply/", acpiACName);
+        if (fs && fs.read("online", buf)) {
+            if (*buf == '1')
+                ACstatus = AC_ONLINE;
+            else if (*buf == '0')
+                ACstatus = AC_OFFLINE;
         }
     }
 
@@ -464,8 +501,6 @@ void YApm::SysStr(char *s, bool Tool) {
     int n = 0;
     for (int i = 0; i < batteryNum; i++) {
         const char* BATname = acpiBatteries[i]->name;
-        //assign some default values, in case
-        //the files in /sys/class/power_supply will contain unexpected values
         BAT_Present BATpresent = BAT_ABSENT;
         BAT_Status BATstatus = BAT_UNKNOWN;
         long BATcapacity_full = -1;
@@ -474,133 +509,63 @@ void YApm::SysStr(char *s, bool Tool) {
         long BATcapacity = -1;
         long BATrate = -1;
         long BATtime_remain = -1;
+        SysFS fs("/sys/class/power_supply/", BATname);
 
-        FILE* fd = open3("/sys/class/power_supply/", BATname, "/status");
-        if (fd == nullptr) {
-            fd = open3("/sys/class/power_supply/", BATname, "/power_now");
-        }
-        if (fd != nullptr) {
-            if (fgets(buf, sizeof(buf), fd)) {
-                if (strncasecmp(buf, "charging", 8) == 0) {
-                    BATstatus = BAT_CHARGING;
-                }
-                else if (strncasecmp(buf, "discharging", 11) == 0) {
-                    BATstatus = BAT_DISCHARGING;
-                }
-                else if (strncasecmp(buf, "full", 4) == 0) {
-                    BATstatus = BAT_FULL;
-                }
-                else {
-                    BATstatus = BAT_UNKNOWN;
-                }
+        if (fs.read("status", buf) || fs.read("power_now", buf)) {
+            if (strncasecmp(buf, "charging", 8) == 0) {
+                BATstatus = BAT_CHARGING;
             }
-            fclose(fd);
+            else if (strncasecmp(buf, "discharging", 11) == 0) {
+                BATstatus = BAT_DISCHARGING;
+            }
+            else if (strncasecmp(buf, "full", 4) == 0) {
+                BATstatus = BAT_FULL;
+            }
+            else {
+                BATstatus = BAT_UNKNOWN;
+            }
         }
 
         // XXX: investigate, if current_now is missing, can we
         // stop polling it? For all or just for this battery?
-        fd = open3("/sys/class/power_supply/", BATname, "/current_now");
-        if (fd == nullptr) {
-            fd = open3("/sys/class/power_supply/", BATname, "/power_now");
-        }
-        if (fd != nullptr) {
-            if (fgets(buf, sizeof(buf), fd)) {
-                //In case it contains non-numeric value
-                if (sscanf(buf, "%ld", &BATrate) <= 0) {
-                    BATrate = -1;
-                }
-            }
-            fclose(fd);
-        }
+        if (fs.read("current_now", &BATrate) == false)
+            fs.read("power_now", &BATrate);
 
-        fd = open3("/sys/class/power_supply/", BATname, "/energy_now");
-        if (fd == nullptr) {
-            fd = open3("/sys/class/power_supply/", BATname, "/charge_now");
-        }
-        if (fd != nullptr) {
-            if (fgets(buf, sizeof(buf), fd)) {
-                //In case it contains non-numeric value
-                if (sscanf(buf, "%ld", &BATcapacity_remain) <= 0) {
-                    BATcapacity_remain = -1;
-                }
-            }
-            fclose(fd);
-        }
+        if (fs.read("energy_now", &BATcapacity_remain) == false)
+            fs.read("charge_now", &BATcapacity_remain);
+
         // if there is no energy_full or charge_full use capacity
         if (BATcapacity_remain == -1) {
-            fd = open3("/sys/class/power_supply/", BATname, "/capacity");
-            if (fd != nullptr) {
-                if (fgets(buf, sizeof(buf), fd)) {
-                    //in case it contains non-numeric value
-                    if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
-                        BATcapacity = -1;
-                    }
-                }
+            if (fs.read("capacity", &BATcapacity)) {
+                BATcapacity_full = 100;
+                BATcapacity_remain = BATcapacity;
             }
-            BATcapacity_full = 100;
-            BATcapacity_remain = BATcapacity;
         }
 
-        fd = open3("/sys/class/power_supply/", BATname, "/present");
-        if (fd != nullptr) {
-            if (fgets(buf, sizeof(buf), fd)) {
-                if (*buf == '1') {
-                    BATpresent = BAT_PRESENT;
-                }
-                else {
-                    BATpresent = BAT_ABSENT;
-                }
-            }
-            fclose(fd);
-        }
+        if (fs.read("present", buf) && *buf == '1')
+            BATpresent = BAT_PRESENT;
 
-        if (BATpresent == BAT_PRESENT) { //battery is present now
+        if (BATpresent == BAT_PRESENT) { // battery is present now
             if (acpiBatteries[i]->present == BAT_ABSENT) {
-                //and previously was absent
-                //read full-capacity value
-                fd = open3("/sys/class/power_supply/", BATname, "/energy_full_design");
-                if (fd == nullptr) {
-                    fd = open3("/sys/class/power_supply/", BATname, "/charge_full_design");
-                }
-                if (fd != nullptr) {
-                    if (fgets(buf, sizeof(buf), fd)) {
-                        //in case it contains non-numeric value
-                        if (sscanf(buf, "%ld", &BATcapacity_design) <= 0) {
-                            BATcapacity_design = -1;
-                        }
-                    }
-                    fclose(fd);
-                }
-                fd = open3("/sys/class/power_supply/", BATname, "/energy_full");
-                if (fd == nullptr) {
-                    fd = open3("/sys/class/power_supply/", BATname, "/charge_full");
-                }
-                if (fd != nullptr) {
-                    if (fgets(buf, sizeof(buf), fd)) {
-                        //in case it contains non-numeric value
-                        if (sscanf(buf, "%ld", &BATcapacity_full) <= 0) {
-                            BATcapacity_full = -1;
-                        }
-                    }
-                    fclose(fd);
-                }
+                // and previously was absent
+                // read full-capacity value
+                if (fs.read("energy_full_design", &BATcapacity_design) == false)
+                    fs.read("charge_full_design", &BATcapacity_design);
+
+                if (fs.read("energy_full", &BATcapacity_full) == false)
+                    fs.read("charge_full", &BATcapacity_full);
+
                 // if there is no energy_full or charge_full use capacity
                 if (BATcapacity_full == -1) {
-                    fd = open3("/sys/class/power_supply/", BATname, "/capacity");
-                    if (fd != nullptr) {
-                        if (fgets(buf, sizeof(buf), fd)) {
-                            //in case it contains non-numeric value
-                            if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
-                                BATcapacity = -1;
-                            }
-                        }
-                    }
+                    fs.read("capacity", &BATcapacity);
                     BATcapacity_full = 100;
                     BATcapacity_remain = BATcapacity;
                 }
 
-                if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
+                if (BATcapacity_remain > BATcapacity_full &&
+                    BATcapacity_design > 0)
                     BATcapacity_full = BATcapacity_design;
+
                 acpiBatteries[i]->capacity_full = BATcapacity_full;
             }
             else {
@@ -610,7 +575,8 @@ void YApm::SysStr(char *s, bool Tool) {
         acpiBatteries[i]->present = BATpresent;
 
         // the code above caches BATcapacity_full when battery is installed;
-        // however, this value and _remain can increase slightly while the battery is charging,
+        // however, this value and _remain can increase slightly
+        // while the battery is charging,
         // so set a limit to not display resulting value over 100% to the user
         if (BATcapacity_remain > BATcapacity_full)
             BATcapacity_remain = BATcapacity_full;
@@ -819,9 +785,8 @@ YApm::YApm(YWindow *aParent, bool autodetect):
         //scan for batteries
         while (dir.next()) {
             if (mode == SYSFS) {
-                mstring str("/sys/class/power_supply/", dir.entry(), "/online");
-                mstring strb("/sys/class/power_supply/", dir.entry(), "/capacity");
-                if (upath(str).isReadable() && ! upath(strb).isReadable()) {
+                SysFS fs("/sys/class/power_supply/", dir.entry());
+                if (fs.readable("online") && ! fs.readable("capacity")) {
                     if (acpiACName == nullptr)
                         acpiACName = newstr(dir.entry());
                     continue;

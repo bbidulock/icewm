@@ -26,6 +26,17 @@ struct Battery {
             present(false), capacity_full(-1) { }
 };
 
+class SysFS {
+private:
+    int dirfd;
+public:
+    SysFS(const char* topdir, const char* subdir);
+    ~SysFS();
+    bool readable(const char* name);
+    operator bool() { return 0 <= dirfd; }
+    bool read(const char* name, char* buf);
+    bool read(const char* name, long* num);
+};
 
 class YApm:
     public IApplet,
