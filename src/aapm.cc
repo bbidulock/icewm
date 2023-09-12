@@ -471,6 +471,7 @@ void YApm::SysStr(char *s, bool Tool) {
         long BATcapacity_full = -1;
         long BATcapacity_design = -1;
         long BATcapacity_remain = -1;
+        long BATcapacity = -1;
         long BATrate = -1;
         long BATtime_remain = -1;
 
@@ -525,6 +526,20 @@ void YApm::SysStr(char *s, bool Tool) {
             }
             fclose(fd);
         }
+        // if there is no energy_full or charge_full use capacity
+        if (BATcapacity_remain == -1) {
+            fd = open3("/sys/class/power_supply/", BATname, "/capacity");
+            if (fd != nullptr) {
+                if (fgets(buf, sizeof(buf), fd)) {
+                    //in case it contains non-numeric value
+                    if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
+                        BATcapacity = -1;
+                    }
+                }
+            }
+            BATcapacity_full = 100;
+            BATcapacity_remain = BATcapacity;
+        }
 
         fd = open3("/sys/class/power_supply/", BATname, "/present");
         if (fd != nullptr) {
@@ -569,6 +584,21 @@ void YApm::SysStr(char *s, bool Tool) {
                     }
                     fclose(fd);
                 }
+                // if there is no energy_full or charge_full use capacity
+                if (BATcapacity_full == -1) {
+                    fd = open3("/sys/class/power_supply/", BATname, "/capacity");
+                    if (fd != nullptr) {
+                        if (fgets(buf, sizeof(buf), fd)) {
+                            //in case it contains non-numeric value
+                            if (sscanf(buf, "%ld", &BATcapacity) <= 0) {
+                                BATcapacity = -1;
+                            }
+                        }
+                    }
+                    BATcapacity_full = 100;
+                    BATcapacity_remain = BATcapacity;
+                }
+
                 if (BATcapacity_remain > BATcapacity_full && BATcapacity_design > 0)
                     BATcapacity_full = BATcapacity_design;
                 acpiBatteries[i]->capacity_full = BATcapacity_full;
@@ -790,7 +820,8 @@ YApm::YApm(YWindow *aParent, bool autodetect):
         while (dir.next()) {
             if (mode == SYSFS) {
                 mstring str("/sys/class/power_supply/", dir.entry(), "/online");
-                if (upath(str).isReadable()) {
+                mstring strb("/sys/class/power_supply/", dir.entry(), "/capacity");
+                if (upath(str).isReadable() && ! upath(strb).isReadable()) {
                     if (acpiACName == nullptr)
                         acpiACName = newstr(dir.entry());
                     continue;
