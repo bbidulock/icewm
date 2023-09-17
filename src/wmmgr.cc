@@ -1573,8 +1573,8 @@ void YWindowManager::getCascadePlace(YFrameWindow *frame, int &lastX, int &lastY
     y = lastY;
     y -= min(frame->borderYN(), int(topSideVerticalOffset));
 
-    lastX += wsTitleBar;
-    lastY += wsTitleBar;
+    lastX += wsTitleBar + frame->borderXN();
+    lastY += wsTitleBar + frame->borderYN();
     if (int(y + h) >= My) {
         y = my;
         lastY = wsTitleBar;
