@@ -600,7 +600,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
 
     int textX = 0;
     int textY = 0;
-    mstring str(fActive ? fActive->getIconTitle() : null);
+    mstring str(fActive && taskBarShowWindowTitles ? fActive->getIconTitle() : null);
     if (str != null) {
         YFont font = getFont();
         if (font != null) {
@@ -666,7 +666,7 @@ int TaskButton::estimate() {
         p += YIcon::smallSize();
     }
 
-    mstring str(fActive ? fActive->getIconTitle() : null);
+    mstring str(fActive && taskBarShowWindowTitles ? fActive->getIconTitle() : null);
     if (str != null) {
         YFont font = getFont();
         if (font != null) {
@@ -1140,7 +1140,9 @@ void TaskPane::relayoutNow(bool force) {
 
     for (TaskButton* task : fTasks) {
         if (task->getShown()) {
-            const int w1 = wid + (lc < rem);
+            const int w1 = taskBarShowWindowTitles
+                         ? wid + (lc < rem)
+                         : task->estimate();
             if (task != dragging()) {
                 YRect r(x, 0, unsigned(w1), height());
                 if (rightToLeft) {

@@ -57,6 +57,7 @@ XIV(bool, trayShowAllWindows,                   true)
 XIV(bool, taskBarShowTransientWindows,          true)
 XIV(bool, taskBarShowAllWindows,                false)
 XIV(bool, taskBarShowWindowIcons,               true)
+XIV(bool, taskBarShowWindowTitles,              true)
 XIV(bool, taskBarAutoHide,                      false)
 XIV(bool, taskBarFullscreenAutoShow,            true)
 XIV(bool, taskBarDoubleHeight,                  false)
@@ -332,7 +333,8 @@ cfoption icewm_preferences[] = {
     OBV("TrayShowAllWindows",                   &trayShowAllWindows,            "Show windows from all workspaces on tray"),
     OBV("TaskBarShowTransientWindows",          &taskBarShowTransientWindows,   "Show transient (dialogs, ...) windows on task bar"),
     OBV("TaskBarShowAllWindows",                &taskBarShowAllWindows,         "Show windows from all workspaces on task bar"),
-    OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on the task bar"),
+    OBV("TaskBarShowWindowIcons",               &taskBarShowWindowIcons,        "Show icons of windows on task buttons of the task bar"),
+    OBV("TaskBarShowWindowTitles",              &taskBarShowWindowTitles,       "Show titles of windows on task buttons of the task bar"),
     OBV("TaskBarShowStartMenu",                 &taskBarShowStartMenu,          "Show 'Start' menu on task bar"),
     OBV("TaskBarShowWindowListMenu",            &taskBarShowWindowListMenu,     "Show 'window list' menu on task bar"),
     OBV("TaskBarShowCPUStatus",                 &taskBarShowCPUStatus,          "Show CPU status on task bar"),
