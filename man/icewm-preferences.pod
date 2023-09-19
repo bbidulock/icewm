@@ -501,7 +501,11 @@ Show windows from all workspaces on task bar.
 
 =item B<TaskBarShowWindowIcons>=1
 
-Show icons of windows on the task bar.
+Show icons of windows on task buttons of the task bar.
+
+=item B<TaskBarShowWindowTitles>=1
+
+Show titles of windows on task buttons of the task bar.
 
 =item B<TaskBarShowStartMenu>=1
 
