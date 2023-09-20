@@ -198,6 +198,7 @@ advanced features are as follows:
     appTakesFocus             let application take focus.
     doNotCover                limits workspace if sticky.
     doNotFocus                do not focus.
+    doNotManage               do not manage.
     forcedClose               no close dialog.
     fullKeys                  provided more keys.
     ignoreNoFocusHint         focus even no-input.

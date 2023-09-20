@@ -265,6 +265,7 @@ public:
         foNoIgnoreTaskBar          = (1 << 20),
         foClose                    = (1 << 22),
         foIgnoreOverrideRedirect   = (1 << 23),
+        foDoNotManage              = (1 << 24),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }

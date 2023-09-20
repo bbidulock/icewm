@@ -329,6 +329,7 @@ private:
     };
 
     bool ignoreOverride(Window win, const XWindowAttributes& attr, int* layer);
+    bool isManageable(Window win, bool mapClient);
     bool tabbingClient(YFrameClient* client);
     YFrameClient* allocateClient(Window win, bool mapClient);
     YFrameWindow* allocateFrame(YFrameClient* client);

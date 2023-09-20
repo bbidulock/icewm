@@ -191,6 +191,7 @@ the application:
   appTakesFocus:            {1|0}  let application take focus.
   doNotCover:               {1|0}  limits workspace if sticky.
   doNotFocus:               {1|0}  do not focus.
+  doNotManage:              {1|0}  do not manage.
   forcedClose:              {1|0}  no close confirmation dialog.
   fullKeys:                 {1|0}  don't install icewm key bindings.
   ignoreNoFocusHint:        {1|0}  focus even when no-input is set.
