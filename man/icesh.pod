@@ -784,6 +784,7 @@ Let icewm refresh the desktop background.
 =item B<guievents>
 
 Monitor the B<ICEWM_GUI_EVENT> property and report all changes.
+Hit C<Ctrl+C> to abort this and continue with the next command.
 
 =item B<delay> [I<time>]
 

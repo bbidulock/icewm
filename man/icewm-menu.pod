@@ -24,7 +24,7 @@ L<xde-menu(1)>, L<xdgmenumaker(1)>.
 
 =head2 FORMAT
 
-The format of the file contains one of the following line syntax:
+The file contains lines with the following syntax:
 
 =over
 
@@ -58,8 +58,8 @@ them at this point in the menu.
 
 =item B<menuprog> [B<">]I<title>[B<">] I<icon> I<program> I<options>
 
-Specifies a program that will print sub-menu items on standard output
-and will be collected and placed in the sub-menu at this point.
+Specifies a program that will print sub-menu items on standard output,
+which will be collected and placed in the sub-menu at this point.
 
 =item B<menuprogreload> [B<">]I<title>[B<">] I<icon> I<timeout>
 I<program> I<options>
@@ -116,7 +116,7 @@ file that will be run in response to selecting the menu item.
 When used with the B<menuprog> keyword, the I<program> must print on
 standard output the contents of the menu and is used for dynamic menus.
 
-I<options> is the options and arguments passed to the I<program>
+I<options> are the options and arguments passed to the I<program>
 verbatim.
 
 =item I<filename>

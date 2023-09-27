@@ -6,7 +6,7 @@
 
 =head2 SYNOPSIS
 
-B<icewmbg> [I<OPTIONS>]
+B<icewmbg> [I<OPTIONS>] [I<ARGUMENTS>]
 
 =head2 DESCRIPTION
 
@@ -36,7 +36,7 @@ conclude that it can safely exit after setting the desktop background,
 to free its system memory.  If the screen size changes, icewm will then
 attempt to restart icewmbg, preferably via icewm-session.
 
-=head2 OPTIONS
+=head2 ARGUMENTS
 
 =head2 SPECIFIC OPTIONS
 
@@ -51,6 +51,10 @@ Image file names or directory names may have L<glob(7)> wildcards,
 or they may start with a tilde or environment variable.
 
 =over
+
+=item B<-f>, B<--fork>
+
+Fork into the background and detach from the terminal.
 
 =item B<-p>, B<--replace>
 
@@ -128,6 +132,10 @@ This overrules the C<CycleBackgroundsPeriod> preference.
 Redirect all output to I<FILE>.
 A leading tilde or environment variable is expanded.
 
+=item B<--postpreferences>
+
+Print a list of all preference values that B<icewmbg> will use.
+
 =back
 
 =head2 GENERAL OPTIONS
@@ -159,9 +167,12 @@ Use a slow synchronous mode to communicate with the I<X11> server.
 
 Report on some of the activities.
 
-=back
-
 =head2 FILES
+
+Additional arguments, which either are a path or which have an image
+extension, are assumed to be background image files or directories.
+
+=back
 
 =head2 PREFERENCES
 
@@ -215,11 +226,11 @@ What happens for their combination is given by the following table:
 
     # For four unique desktop backgrounds for four workspaces do:
 
-    icewmbg -p -i image0,image1,image2,image3 &
+    icewmbg -f -p -i image0,image1,image2,image3
 
     # Or create a directory with the four images and do:
 
-    icewmbg -p -i /path/to/directory &
+    icewmbg -f -p -i /path/to/directory
 
     # The images should have proper image filename extensions.
 
