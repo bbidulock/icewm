@@ -2,8 +2,6 @@
 
 #include <unistd.h>
 #include <signal.h>
-#include <time.h>
-#include <sys/stat.h>
 #include <sys/resource.h>
 #include <stdlib.h>
 #include <X11/Xatom.h>
@@ -1292,8 +1290,12 @@ int main(int argc, char **argv) {
     if (trans.nonempty())
         trans.clear();
 
-    if (daemonize)
-        daemon(1, 0);
+    if (daemonize) {
+        if (daemon(1, 0) == -1)
+            fail("daemon");
+        if (nonempty(outputArg))
+            upath::redirectOutput(outputArg);
+    }
 
     return bg.mainLoop();
 }
