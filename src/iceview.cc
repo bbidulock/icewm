@@ -639,7 +639,7 @@ public:
     void loadFile() {
         mstring ext(path.getExtension().lower());
         if (ext == ".xpm" || ext == ".png" || ext == ".svg" ||
-            ext == ".jpg" || ext == ".jpeg")
+            ext == ".jpg" || ext == ".jpeg" || ext == ".webp")
         {
             ref<YImage> image = YImage::load(path);
             if (image != null) {
@@ -651,15 +651,16 @@ public:
                             max(height(), image->height()));
                 }
             }
+            else printf("Cannot load %s.\n", path.string());
         }
         else
         {
-            char* buf = path.loadText();
+            fcsmart buf(path.loadText());
             if (buf) {
                 int len = strlen(buf);
                 setSize(max(width(), 80 * unsigned(view->getFontWidth())),
                         max(height(), 30 * unsigned(view->getFontHeight())));
-                view->setData(buf, len);
+                view->setData(buf.release(), len);
             }
         }
     }
