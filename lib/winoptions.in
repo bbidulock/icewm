@@ -6,9 +6,10 @@
 xterm.XTerm.icon: xterm
 rxvt.icon: xterm
 nxterm.icon: xterm
-fte.icon: fte
 emacs.Emacs.icon: emacs
-AWTapp.icon: java
+
+# plank with picom
+#plank.doNotManage: 1
 
 # make Evince resizable
 evince.dBorder: 1
@@ -27,11 +28,6 @@ xeyes.ignoreNoFocusHint: 1
 
 XClock.ignoreNoFocusHint: 1
 Vim.icon: vim
-
-applix.ignoreNoFocusHint: 1
-XDdts.noFocusOnAppRaise: 1
-Wingz.noFocusOnAppRaise: 1
-WingzPro.noFocusOnAppRaise: 1
 
 gkrellm.Gkrellm.allWorkspaces: 1
 gkrellm.Gkrellm.ignoreTaskBar: 1
