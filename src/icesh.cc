@@ -3705,18 +3705,28 @@ void IceSh::loadIcon(Window window, char* file)
 {
     int fd = open(file, O_RDONLY);
     if (0 <= fd) {
-        char head[128];
-        int width = 0, height = 0, depth = 0, maxval = 0, length = 0;
-        if (read(fd, head, sizeof head) == ssize_t(sizeof head) &&
-            strncmp(head, "P7\nWIDTH ", 9) == 0 &&
-            sscanf(head,
-                   "P7\nWIDTH %d\nHEIGHT %d\nDEPTH %d\n"
-                   "MAXVAL %d\nTUPLTYPE RGB_ALPHA\nENDHDR\n%n",
-                   &width, &height, &depth, &maxval, &length) == 4 &&
-            0 < width && width <= 256 &&
-            0 < height && height <= 256 &&
-            depth == 4 && maxval == 255 && 64 <= length)
+        const int headlen = 512;
+        char head[headlen + 2], *ptr;
+        int width = 0, height = 0, depth = 0, maxval = 0;
+        const size_t len = read(fd, head, headlen);
+        if (len > 3 && strncmp(head, "P7\n", 3) == 0 &&
+            (head[len] = '\0') == '\0' &&
+            (ptr = strstr(head, "\nWIDTH ")) != nullptr &&
+            sscanf(ptr + 7, "%d", &width) == 1 &&
+            (ptr = strstr(head, "\nHEIGHT ")) != nullptr &&
+            sscanf(ptr + 8, "%d", &height) == 1 &&
+            (ptr = strstr(head, "\nDEPTH ")) != nullptr &&
+            sscanf(ptr + 7, "%d", &depth) == 1 &&
+            (ptr = strstr(head, "\nMAXVAL ")) != nullptr &&
+            sscanf(ptr + 8, "%d", &maxval) == 1 &&
+            (ptr = strstr(head, "\nTUPLTYPE ")) != nullptr &&
+            strncmp(ptr + 10, "RGB_ALPHA\n", 10) == 0 &&
+            (ptr = strstr(head, "\nENDHDR\n")) != nullptr &&
+            inrange(width, 1, 256) &&
+            inrange(height, 1, 256) &&
+            depth == 4 && maxval == 255)
         {
+            ssize_t length = (ptr + 8 - head);
             unsigned* data = new unsigned[width * height];
             size_t size = sizeof(unsigned) * width * height;
             memset(data, 0, size);
