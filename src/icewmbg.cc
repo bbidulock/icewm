@@ -273,7 +273,9 @@ static bool hasImageExt(const char* name) {
     }
     else if (len >= 6 && name[len - 5] == '.') {
         const char* ext = &name[len - 4];
-        if (0 == strcasecmp(ext, "jpeg"))
+        if (0 == strcasecmp(ext, "jpeg") ||
+            0 == strcasecmp(ext, "tiff") ||
+            0 == strcasecmp(ext, "webp"))
             return true;
     }
     return false;
