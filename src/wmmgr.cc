@@ -3030,7 +3030,7 @@ void YWindowManager::setNetDesktopNames(int count) {
 }
 
 void YWindowManager::setDesktopNames(int count) {
-    MSG(("setting: %ld desktop names", count));
+    MSG(("setting: %d desktop names", count));
     setNetDesktopNames(count);
 }
 
