@@ -38,6 +38,34 @@ bool YImage::supportsDepth(unsigned depth) {
     return depth == xapp->depth() || depth == 32;
 }
 
+#ifdef IMLIB2_VERSION
+extern "C" {
+    typedef struct _ImlibLoader ImlibLoader;
+#if IMLIB2_VERSION >= 10801
+    ImlibLoader* __imlib_FindBestLoader
+                (const char *file, const char *format, int for_save);
+#else
+    ImlibLoader* __imlib_FindBestLoaderForFormat
+                (const char *format, int for_save);
+#endif
+}
+#endif
+
+bool YImage::supportsFormat(const char* format) {
+    if ( !strcmp(format, "xpm") ||
+         !strcmp(format, "png") ||
+         !strcmp(format, "jpg") )
+         return true;
+#ifdef IMLIB2_VERSION
+#if IMLIB2_VERSION >= 10801
+    return __imlib_FindBestLoader(nullptr, format, 0) != nullptr;
+#else
+    return __imlib_FindBestLoaderForFormat(format, 0) != nullptr;
+#endif
+#endif
+    return false;
+}
+
 bool YImage2::hasAlpha() const {
     context();
     return imlib_image_has_alpha();

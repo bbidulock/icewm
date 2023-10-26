@@ -26,6 +26,7 @@ public:
     static ref<YImage> createFromIconProperty(long *pixels,
                                               unsigned width, unsigned height);
     static bool supportsDepth(unsigned depth);
+    static bool supportsFormat(const char* format);
     static const char* renderName();
 
     unsigned width() const { return fWidth; }

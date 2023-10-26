@@ -14,6 +14,27 @@ bool YImage::supportsDepth(unsigned depth) {
     return depth == unsigned(xlib_rgb_get_depth());
 }
 
+bool YImage::supportsFormat(const char* format) {
+    if ( !strcmp(format, "xpm") ||
+         !strcmp(format, "png") ||
+         !strcmp(format, "jpg") )
+         return true;
+
+    bool supports = false;
+    GSList* formats = gdk_pixbuf_get_formats();
+    int length = g_slist_length(formats);
+    for (int i = 0; i < length && supports == false; i++) {
+        GdkPixbufFormat* info = (GdkPixbufFormat *) g_slist_nth_data(formats, i);
+        gchar** exts = gdk_pixbuf_format_get_extensions(info);
+        for (gchar** p = exts; *p && supports == false; ++p) {
+            supports = (strcmp(*p, format) == 0);
+        }
+        g_strfreev(exts);
+    }
+    g_slist_free(formats);
+    return supports;
+}
+
 bool YImageGDK::hasAlpha() const {
     return gdk_pixbuf_get_has_alpha(fPixbuf);
 }
