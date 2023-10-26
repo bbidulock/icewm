@@ -353,7 +353,7 @@ AC_SUBST([GIO_CFLAGS])
 AC_SUBST([GIO_LIBS])
 
 AC_ARG_ENABLE([rsvg],
-    AS_HELP_STRING([--disable-rsvg],[Disable SVG using librsvg.]))
+    AS_HELP_STRING([--disable-librsvg],[Disable SVG using librsvg.]))
 AC_ARG_ENABLE([imlib2],
     AS_HELP_STRING([--disable-imlib2],[Disable imlib2 rendering.
         @<:@default=enabled@:>@]))
@@ -417,7 +417,7 @@ then
     fi
 
     if test "x$enable_nanosvg" != xyes &&
-       test "x$enable_rsvg" != xno
+       test "x$enable_librsvg" != xno
     then
         PKG_CHECK_MODULES([LIBRSVG],[librsvg-2.0],[
             IMAGE_CFLAGS="$LIBRSVG_CFLAGS $IMAGE_CFLAGS"
