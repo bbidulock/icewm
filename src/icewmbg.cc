@@ -9,6 +9,7 @@
 #include "yprefs.h"
 #include "ytimer.h"
 #include "udir.h"
+#include "ascii.h"
 #include "intl.h"
 #include "appnames.h"
 
@@ -261,22 +262,34 @@ Atom Background::atom(const char* name) const {
 }
 
 static bool hasImageExt(const char* name) {
-    size_t len = strlen(name);
-    if (len >= 5 && name[len - 4] == '.') {
-        const char* ext = &name[len - 3];
-        if (3 == strspn(ext, "jpngxmJPNGXM"))
-            return true;
-/* #ifdef CONFIG_LIBRSVG
-        if (0 == strcasecmp(ext, "svg"))
-            return true;
-* #endif */
-    }
-    else if (len >= 6 && name[len - 5] == '.') {
-        const char* ext = &name[len - 4];
-        if (0 == strcasecmp(ext, "jpeg") ||
-            0 == strcasecmp(ext, "tiff") ||
-            0 == strcasecmp(ext, "webp"))
-            return true;
+    const char* dot = strrchr(name, '.');
+    if (dot) {
+        const char* ext = dot + 1;
+        size_t len = strlen(ext);
+        if (len > 2 && len < 5) {
+            char low[8];
+            for (int i = 0; i < int(len); ++i)
+                low[i] = ASCII::toLower(ext[i]);
+            low[int(len)] = '\0';
+            if (len == 3) {
+                if (strcmp(low, "xpm") == 0 ||
+                    strcmp(low, "png") == 0 ||
+                    strcmp(low, "jpg") == 0 ||
+                    (strcmp(low, "jxl") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "jp2") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "raw") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "svg") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "tga") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "tif") == 0 && YImage::supportsFormat(low)))
+                    return true;
+            }
+            if (len == 4) {
+                if (strcmp(low, "jpeg") == 0 ||
+                    (strcmp(low, "tiff") == 0 && YImage::supportsFormat(low)) ||
+                    (strcmp(low, "webp") == 0 && YImage::supportsFormat(low)))
+                    return true;
+            }
+        }
     }
     return false;
 }
