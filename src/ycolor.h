@@ -18,6 +18,7 @@ public:
     YColor darker();
     YColor brighter();
     YColor& reverse();
+    bool isDark();
 
     bool operator==(YColor& c);
     bool operator!=(YColor& c);

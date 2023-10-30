@@ -416,4 +416,17 @@ unsigned char YColor::green() { return fPixel->green() >> 8; }
 unsigned char YColor::blue()  { return fPixel->blue()  >> 8; }
 unsigned char YColor::alpha() { return fPixel->alpha() >> 8; }
 
+bool YColor::isDark() {
+    float ys = 0;
+    if (fPixel) {
+        float r = float(fPixel->red()) / 65535.0f;
+        float g = float(fPixel->green()) / 65535.0f;
+        float b = float(fPixel->blue()) / 65535.0f;
+        ys += r * r * 0.2126f;
+        ys += g * g * 0.7152f;
+        ys += b * b * 0.0722f;
+    }
+    return ys < 0.3948f;
+}
+
 // vim: set sw=4 ts=4 et:
