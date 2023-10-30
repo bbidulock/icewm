@@ -717,13 +717,14 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
         }
 
         ref<YIcon> icon;
+        const bool dark = surface.color.isDark();
         YColor colors[] = {
             surface.color,
-            surface.color.brighter(),
-            surface.color.darker(),
+            dark ? surface.color.darker() : surface.color.brighter(),
+            dark ? surface.color.brighter() : surface.color.darker(),
             getColor(),
             YColor(), // getColor().brighter(),
-            getColor().darker()
+            dark ? getColor().brighter() : getColor().darker()
         };
 
         for (YFrameWindow *yfw = manager->bottomLayer(WinLayerBelow);
