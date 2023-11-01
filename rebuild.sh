@@ -101,8 +101,6 @@ if [[ -v DBGCM ]]; then
         -DCONFIG_NANOSVG=$NSV \
         -DCONFIG_XRANDR=ON \
         -DCONFIG_XPM=ON \
-        -DCMAKE_CXX_COMPILER_ID=clang \
-        -DCMAKE_CXX_COMPILER=clang++ \
         -DCMAKE_INSTALL_PREFIX="$prefix" \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DICEHELPIDX="$prefix/share/doc/icewm-common/html/icewm.html" \
