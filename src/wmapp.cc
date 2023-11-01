@@ -892,21 +892,37 @@ bool YWMApp::mapClientByPid(const char* resource, long pid) {
     if (isEmpty(resource))
         return false;
 
-    bool found = false;
+    YFrameWindow* bestFrame = nullptr;
+    YFrameClient* bestTab = nullptr;
+    const int active = manager->activeWorkspace();
+    long tmp = 0;
 
     for (YFrameIter frame = manager->focusedIterator(); ++frame; ) {
-        long tmp = 0;
-        if (frame->client()->getNetWMPid(&tmp) && tmp == pid) {
-            if (frame->client()->classHint()->match(resource)) {
-                frame->setWorkspace(manager->activeWorkspace());
-                frame->activateWindow(true);
-                found = true;
-                break;
+        for (YFrameClient* tab : frame->clients()) {
+            if (tab->getNetWMPid(&tmp) && tmp == pid &&
+                tab->classHint()->match(resource)) {
+                if (bestFrame == nullptr ||
+                    (abs(frame->getWorkspace() - active) <
+                     abs(bestFrame->getWorkspace() - active))) {
+                    bestFrame = frame;
+                    bestTab = tab;
+                }
+                else if (frame == bestFrame && tab == frame->client())
+                    bestTab = tab;
             }
         }
+        if (bestFrame && bestFrame->getWorkspace() == active)
+            break;
+    }
+    if (bestFrame && bestTab) {
+        if (bestFrame->client() != bestTab)
+            bestFrame->selectTab(bestTab);
+        bestFrame->setWorkspace(active);
+        bestFrame->activateWindow(true);
+        return true;
     }
 
-    return found;
+    return false;
 }
 
 bool YWMApp::mapClientByResource(const char* resource, long *pid) {
