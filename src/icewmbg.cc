@@ -1207,13 +1207,13 @@ int main(int argc, char **argv) {
                 warn(_("Unrecognized option '%s'."), *arg);
         }
         else if (hasImageExt(*arg)) {
-            image += *arg;
+            appendFile(image, *arg);
         }
         else {
             upath path(*arg + (**arg == '!'));
             path = path.expand();
             if (path.dirExists() && path.isSearchable())
-                image += *arg;
+                appendFile(image, *arg);
         }
     }
 
