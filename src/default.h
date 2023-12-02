@@ -192,7 +192,7 @@ XSV(const char *, logoutCancelCommand,          0)
 XSV(const char *, shutdownCommand,              "test -e /run/systemd/system && systemctl poweroff || loginctl poweroff")
 XSV(const char *, rebootCommand,                "test -e /run/systemd/system && systemctl reboot || loginctl reboot")
 XSV(const char *, suspendCommand,               "test -e /run/systemd/system && systemctl suspend || loginctl suspend")
-XSV(const char *, hibernateCommand,             "test -e /run/systemd/system && systemctl hibernate || loginctl suspend")
+XSV(const char *, hibernateCommand,             "test -e /run/systemd/system && systemctl hibernate || loginctl hibernate")
 #else
 XSV(const char *, shutdownCommand,              0)
 XSV(const char *, rebootCommand,                0)

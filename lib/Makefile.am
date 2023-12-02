@@ -55,6 +55,8 @@ nobase_dist_pkgdata_DATA = \
 	icons/gnome_16x16.xpm \
 	icons/help_16x16.xpm \
 	icons/help_32x32.xpm \
+	icons/hibernate_16x16.xpm \
+	icons/hibernate_32x32.xpm \
 	icons/icewm_16x16.png \
 	icons/icewm_32x32.png \
 	icons/java_16x16.xpm \
