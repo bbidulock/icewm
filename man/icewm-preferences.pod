@@ -1036,21 +1036,21 @@ Command to start logout.
 
 Command to cancel logout.
 
-=item B<ShutdownCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl poweroff || loginctl poweroff; } ||:""
+=item B<ShutdownCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl poweroff || loginctl poweroff; }""
 
 Command to shutdown the system.
 
-=item B<RebootCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl reboot || loginctl reboot; } ||:""
+=item B<RebootCommand>="/bin/sh -c "{ test -e /run/systemd/system && systemctl reboot || loginctl reboot; }""
 
 Command to reboot the system.
 
 =item B<SuspendCommand>="test -e /run/systemd/system && systemctl suspend || loginctl suspend"
 
-Command to hibernate the system.
-
-=item B<SuspendCommand>="test -e /run/systemd/system && systemctl suspend || loginctl suspend"
-
 Command to send the system to standby mode
+
+=item B<SuspendCommand>="test -e /run/systemd/system && systemctl hibernate || loginctl hibernate"
+
+Command to hibernate the system.
 
 =item B<CPUStatusCommand>="xterm -name top -title Process\ Status -e top"
 
