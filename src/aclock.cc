@@ -89,7 +89,8 @@ void YClock::autoSize() {
     bool restore = timezone();
     char str[TimeSize];
     time_t newTime = seconds();
-    struct tm t = *localtime(&newTime);
+    struct tm tmbuf = {};
+    struct tm t = *localtime_r(&newTime, &tmbuf);
     int maxMonth = -1;
     int maxWidth = -1;
 
@@ -145,7 +146,9 @@ void YClock::updateToolTip() {
     bool restore = timezone();
     char str[DateSize];
     time_t newTime = seconds();
-    struct tm *t = toolTipUTC ? gmtime(&newTime) : localtime(&newTime);
+    struct tm tmbuf = {};
+    struct tm *t = toolTipUTC ? gmtime_r(&newTime, &tmbuf)
+                              : localtime_r(&newTime, &tmbuf);
     strftime(str, DateSize, fmtDate, t);
     setToolTip(str);
     timezone(restore);
@@ -277,7 +280,9 @@ bool YClock::draw(Graphics& g) {
 
     clockTimer->setTimer(nextChime, this, true);
 
-    auto t = clockUTC ? gmtime(&newTime) : localtime(&newTime);
+    struct tm tmbuf = {};
+    auto t = clockUTC ? gmtime_r(&newTime, &tmbuf)
+                      : localtime_r(&newTime, &tmbuf);
 
     char str[TimeSize];
     int len =
@@ -496,6 +501,7 @@ bool YClock::hasTransparency() {
 }
 
 ClockSet::ClockSet(YSMListener* sml, IAppletContainer* iapp, YWindow* parent) {
+    tzset();
     const char* tz = strstr(fmtTime, "TZ=");
     if (tz) {
         if (tz - fmtTime > 1) {

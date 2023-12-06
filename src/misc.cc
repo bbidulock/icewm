@@ -102,7 +102,8 @@ void msg(char const *msg, ...) {
 void tlog(char const *msg, ...) {
     timeval now;
     gettimeofday(&now, nullptr);
-    struct tm *loc = localtime(&now.tv_sec);
+    struct tm tmbuf = {};
+    struct tm *loc = localtime_r(&now.tv_sec, &tmbuf);
 
     fprintf(stderr, "%02d:%02d:%02d.%03u: %s: ", loc->tm_hour,
             loc->tm_min, loc->tm_sec,
@@ -705,7 +706,7 @@ void show_backtrace(const int limit) {
     timeval now;
     gettimeofday(&now, nullptr);
     struct tm *loc = localtime(&now.tv_sec);
-    unsigned msec = (unsigned)(now.tv_usec / 1000);
+    unsigned msec = unsigned(now.tv_usec / 1000);
 
     fprintf(stderr, "%02d:%02d:%02d.%03u: %s:\n", loc->tm_hour, loc->tm_min,
             loc->tm_sec, msec, "backtrace"); fflush(stderr);

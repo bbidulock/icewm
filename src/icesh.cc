@@ -4541,6 +4541,7 @@ void IceSh::spy()
         }
 #endif
     }
+    tzset();
     while (windowList) {
         XEvent event;
         XNextEvent(display, &event);
@@ -4555,7 +4556,8 @@ void IceSh::spyEvent(const XEvent& event)
 {
     Window window = event.xany.window;
     timeval now(walltime());
-    struct tm* local = localtime(&now.tv_sec);
+    struct tm tmbuf = {};
+    struct tm* local = localtime_r(&now.tv_sec, &tmbuf);
     int secs = local->tm_sec;
     int mins = local->tm_min;
     int mils = int(now.tv_usec / 1000L);
