@@ -56,6 +56,11 @@ public:
     YFrameWindow** end() const { return win + count; }
     YFrameWindow* operator[](int index) const { return win[index]; }
     operator bool() const { return win && count; }
+    void drop(int index) {
+        size_t bytes = (--count - index) * sizeof(YFrameWindow *);
+        memmove(win + index, win + index + 1, bytes);
+        win[count] = nullptr;
+    }
 private:
     YFrameWindow** win;
     int count;

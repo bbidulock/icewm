@@ -3565,7 +3565,16 @@ void YWindowManager::undoArrange() {
 void YWindowManager::tileWindows(bool vertical) {
     YArrange arrange = getWindowsToArrange();
     if (arrange) {
-        tileWindows(arrange, vertical);
+        if (getScreenCount() > 1) {
+            int x = 0, y = 0;
+            xapp->queryMouse(&x, &y);
+            int s = getScreenForRect(x, y, 1, 1);
+            for (int i = arrange.size(); --i >= 0; )
+                if (s != arrange[i]->getScreen())
+                    arrange.drop(i);
+        }
+        if (arrange)
+            tileWindows(arrange, vertical);
         arrange.discard();
     }
 }
