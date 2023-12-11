@@ -87,7 +87,8 @@ mstring KeyboardStatus::detectLayout() {
                             program, WTERMSIG(status));
                 }
                 lseek(tmp, 0L, SEEK_SET);
-                fcsmart data(filereader(tmp).read_all());
+                char data[2048] = {};
+                filereader(tmp).read_all(data, sizeof(data));
                 // rules: model: layout: options:
                 for (tokens lines(data, "\n"); lines; ++lines) {
                     tokens words(lines, " \t");

@@ -2348,10 +2348,6 @@ public:
     int fildes() const { return fileno(fp); }
     FILE *filep() const { return fp; }
     const char *path() const { return cbuf; }
-    int size() const {
-        struct stat b;
-        return fstat(fildes(), &b) >= 0 ? (int) b.st_size : 0;
-    }
     void rewind() const { ::rewind(fp); }
 };
 
@@ -2423,9 +2419,10 @@ public:
         return true;
     }
     static bool is_compressed(int fd) {
-        char b[3];
-        return filereader(fd, false).read_all(BUFNSIZE(b)) >= 2
-            && b[0] == '\x1F' && b[1] == '\x8B';
+        char buf[4] = "";
+        ssize_t num = read(fd, buf, 3);
+        lseek(fd, 0L, SEEK_SET);
+        return num >= 2 && buf[0] == '\x1F' && buf[1] == '\x8B';
     }
     static bool command(mstring mcmd) {
         const char *cmd = mcmd;
@@ -2434,7 +2431,6 @@ public:
             tlog(_("Failed to execute system(%s) (%d)"), cmd, xit);
             return false;
         }
-        // tlog("Executed system(%s) OK!", cmd);
         return true;
     }
     bool decompress(const temp_file& local) {

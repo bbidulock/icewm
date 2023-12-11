@@ -183,7 +183,7 @@ int upath::fnMatch(const char* pattern, int flags) {
 }
 
 fcsmart upath::loadText() {
-    return filereader(expand()).read_all();
+    return filereader::read_path(expand());
 }
 
 bool upath::copyFrom(upath from, int mode) {
@@ -273,8 +273,8 @@ void upath::redirectOutput(const char* outputFile) {
             fail("open %s", path.string());
         } else {
             struct stat st;
-            if (fstat(fd, &st) == -1)
-                fail("fstat %s", path.string());
+            if (path.stat(&st) == -1)
+                fail("stat %s", path.string());
             else if (S_ISREG(st.st_mode)) {
                 struct flock fl = { 0, 0, 0, 0, 0 };
                 fl.l_type = F_WRLCK;
