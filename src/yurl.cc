@@ -12,7 +12,7 @@
 #include "yurl.h"
 #include "base.h"
 #include "intl.h"
-#include "binascii.h"
+#include "ascii.h"
 #include "ypointer.h"
 #include <sys/types.h>
 #include <regex.h>
@@ -162,8 +162,8 @@ mstring YURL::unescape(mstring str) {
                             int(i + str.offset()));
                     return null;
                 }
-                int a = BinAscii::unhex(str.charAt(i + 1));
-                int b = BinAscii::unhex(str.charAt(i + 2));
+                int a = ASCII::hexDigit(str.charAt(i + 1));
+                int b = ASCII::hexDigit(str.charAt(i + 2));
                 if (a == -1 || b == -1) {
                     warn(_("Invalid hex escape in URL at position %d."),
                             int(i + str.offset()));

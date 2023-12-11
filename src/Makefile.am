@@ -85,7 +85,6 @@ libice_la_SOURCES = \
 	argument.h \
 	ascii.h \
 	base.h \
-	binascii.h \
 	bindkey.h \
 	debug.h \
 	default.h \
@@ -297,7 +296,6 @@ icewm_SOURCES = \
 	ymsgbox.h \
 	ydialog.cc \
 	ydialog.h \
-	binascii.h \
 	yurl.cc \
 	yurl.h \
 	yrect.h \
