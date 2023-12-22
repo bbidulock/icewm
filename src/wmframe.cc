@@ -1958,7 +1958,7 @@ void YFrameWindow::setWinFocus() {
         }
         updateTaskBar();
 
-        if (!raiseOnClickClient || !canRaise() || !overlapped())
+        if (!raiseOnClickClient || raiseOnFocus || !canRaise() || !overlapped())
             container()->releaseButtons();
         if (taskBar) {
             taskBar->workspacesRepaint(getWorkspace());
