@@ -434,7 +434,13 @@ void YInputLine::handleSelection(const XSelectionEvent &selection) {
         YProperty prop(selection.requestor, selection.property,
                        F8, 32 * 1024, selection.target, True);
         if (prop) {
-            replaceSelection(prop.data<char>(), prop.size());
+            char* data = prop.data<char>();
+            int size = int(prop.size());
+            for (int i = size; 0 < i--; ) {
+                if (data[i] == '\n')
+                    data[i] = ' ';
+            }
+            replaceSelection(data, size);
         }
     }
 }
