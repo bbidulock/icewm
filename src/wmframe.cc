@@ -1765,6 +1765,8 @@ void YFrameWindow::wmRaise() {
     if (canRaise()) {
         doRaise();
         manager->restackWindows();
+        if (focused() && container()->buttoned())
+            container()->releaseButtons();
     }
 }
 
