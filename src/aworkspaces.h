@@ -154,7 +154,9 @@ private:
     int count() const { return fButtons.getCount(); }
     IterType iterator() { return fButtons.iterator(); }
     WorkspaceButton* last() const { return fButtons[count()-1]; }
-    int extent() const { return 0 < count() ? last()->extent() : 0; }
+    WorkspaceButton* first() const { return fButtons[0]; }
+    int extent() const;
+    int lowest() const;
     bool limited() const;
 
     WorkspaceButton* create(int workspace, unsigned height);

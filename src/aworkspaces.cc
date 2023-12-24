@@ -255,6 +255,7 @@ void WorkspacesPane::createButtons() {
 void WorkspacesPane::resize(unsigned width, unsigned height) {
     bool save(fReconfiguring);
     fReconfiguring = true;
+    setSize(width, height);
     long limit = limitWidth(width);
     setSize(unsigned(limit), height);
     fReconfiguring = save;
@@ -264,6 +265,8 @@ void WorkspacesPane::resize(unsigned width, unsigned height) {
         fMoved = min(0, fMoved + excess);
         repositionButtons();
     }
+    else if (rightToLeft && (fReconfiguring | fRepositioning) == false)
+        repositionButtons();
 }
 
 long WorkspacesPane::limitWidth(long paneWidth) {
@@ -418,7 +421,8 @@ void WorkspacesPane::updateButtons() {
     int width = extent() - fMoved;
     for (int i = count(), n = workspaceCount; i < n; ++i) {
         WorkspaceButton* wk = create(i, height());
-        wk->setPosition(width + fMoved, 0);
+        int x = rightToLeft ? fButtons[0]->x() - wk->width() : width;
+        wk->setPosition(x + fMoved, 0);
         width += wk->width();
         if (wk->extent() > 0 && wk->x() < max(width, int(this->width())))
             wk->show();
@@ -426,7 +430,7 @@ void WorkspacesPane::updateButtons() {
 
     resize(width, height());
     int limit = int(this->width());
-    if (fMoved + width < limit) {
+    if (fMoved + width < limit || rightToLeft) {
         fMoved = limit - width;
         repositionButtons();
     }
@@ -516,8 +520,16 @@ void WorkspacesPane::setPressed(int ws, bool set) {
     }
 }
 
+int WorkspacesPane::extent() const {
+    return 0 < count() ?  max(last()->extent(), first()->extent()) : 0;
+}
+
+int WorkspacesPane::lowest() const {
+    return 0 < count() ?  min(last()->x(), first()->x()) : 0;
+}
+
 bool WorkspacesPane::limited() const {
-    return 0 < count() && (last()->extent() - fButtons[0]->x()) > int(width());
+    return extent() - lowest() > int(width());
 }
 
 void WorkspacesPane::drag(int ws, int dx, bool start, bool end) {
@@ -692,7 +704,7 @@ void WorkspacesPane::repaintWorkspace(int ws) {
             ws = manager->activeWorkspace();
         }
         if (inrange(ws, 0, count() - 1)) {
-            fButtons[ws]->setStale();
+            index(ws)->setStale();
         }
     }
 }
