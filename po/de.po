@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.26\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2023-02-09 15:14+0000\n"
 "Last-Translator: Gemineo <vistatec@gemineo.de>\n"
 "Language-Team: German <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,64 +20,64 @@ msgstr ""
 "X-Language: de_DE\n"
 "X-Source-Language: C\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, c-format
 msgid "Can't open the APM device %s"
 msgstr "Kann OSS-Gerät %s nicht öffnen"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "APM-Gerät %s kann nicht über ioctl gesteuert werden"
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "Unbekanntes Format von APM-Gerät %s (%d) verwendet."
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Energie"
 
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Laden"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - Voll"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "Energie:\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "UHR"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "Datum"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "Standard"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Deaktivieren"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -168,23 +168,23 @@ msgstr "%s endete mit Status %d."
 msgid "%s was killed by signal %d."
 msgstr "%s wurde durch Signal %d getötet."
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr "Regeln:"
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr "Modell:"
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr "Layout:"
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 msgid "options:"
 msgstr "Optionen:"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "Tastatur"
 
@@ -340,7 +340,7 @@ msgstr "abwärts"
 msgid "NET"
 msgstr "NETZ"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Arbeitsbereich: "
 
@@ -1191,25 +1191,25 @@ msgstr "Konnte nicht zum lesen geöffnet werden."
 msgid "Failed to create a temporary file"
 msgstr "Erstellung einer temporären Datei ist fehlgeschlagen"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Ausführung vom system(%s) ist fehlgeschlagen (%d)"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Konnte %s nicht entpacken"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "curl oder wget konnten in PATH nicht gefunden werden"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Unsichere Zeichen in der URL"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1285,7 +1285,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Option '%s' wird ignoriert"
@@ -1374,12 +1374,12 @@ msgstr "EWMH-Fensterzustand"
 msgid "workspace #%d: `%s'\n"
 msgstr "Arbeitsbereich #%d: `%s`\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ungültiger Status: `%s'."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ungültiges Argument: `%s'"
@@ -1394,59 +1394,59 @@ msgstr "Geometrie von Fenster 0x%lx kann nicht abgerufen werden"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ungültiges Xinemara: `%s'."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Kann nicht in %s schreiben"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aktion `%s` benötigt mindestens %d Argumente."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ungültiger Ausdruck: `%s`"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Das Display kann nicht geöffnet werden: %s. Der X muss laufen und $DISPLAY "
 "gesetzt sein."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Unerwartet: '%s'."
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "Keine Fenster gefunden."
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Keine Aktionen angegeben."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ungültiger Fensterbezeichner: `%s`"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ungültige PID: `%s'"
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ungültige Schicht: `%s'."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Unbekannte Aktion: `%s`"
@@ -1794,12 +1794,12 @@ msgstr "Tabs erweitern"
 msgid "Wrap Lines"
 msgstr "Lange Zeilen umbrechen"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Konnte Bild '%s' nicht laden."
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1903,12 +1903,12 @@ msgstr ""
 "beibehalten\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Unbekannte Option: '%s'."
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Kann nicht starten, weil ein anderes icewmbg schon läuft."
 
@@ -1925,7 +1925,7 @@ msgstr "Speichermangel (len=%d)."
 msgid "Warning: "
 msgstr "Warnung: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1949,43 +1949,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Unbekannte Richtung in Verschieben/Vergrößern-Anfrage: %d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "©"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Theme:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Theme-Beschreibung:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Autor des Themes:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "Kodierung:"
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "Sprache:"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr "DoubleBuffer"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr "AlphaBlending"
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr "Renderer:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "IceWM - Über"
 
@@ -2208,7 +2208,7 @@ msgstr "_Schließen"
 msgid "_Kill Client"
 msgstr "Anwendung _töten"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "_Fensterliste"
 
@@ -2226,11 +2226,11 @@ msgstr ""
 "Neustart fehlgeschlagen: %s\n"
 "Verweist die Variable $PATH auf das Programm %s?"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr "Neustart als Terminal bestätigen"
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2238,18 +2238,18 @@ msgstr ""
 "Verwaltung aller Anwendungen aufheben und\n"
 "als Terminal neu starten. Fortfahren?"
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<keines>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      zu verwendende Client-ID, wenn der Sitzungs-Manager "
 "kontaktiert wird.\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2260,7 +2260,7 @@ msgstr ""
 "  --debug-z           Gibt Debug-Nachrichten mit dem Blick auf window "
 "stacking aus.\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2282,11 +2282,11 @@ msgstr ""
 " --trace=conf,icon  Pfade zeichnen, die zum Laden der Konfiguration "
 "verwendet werden.\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr ""
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2347,21 +2347,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s Konfigurationsverzeichnisse:\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurierte Optionen: %s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Abmelden bestätigen"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2468,7 +2468,7 @@ msgstr "Umbenennen"
 msgid "Rename the window title"
 msgstr "Fenstertitel umbenennen"
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2477,7 +2477,7 @@ msgstr ""
 "Töten der Anwendung verloren gehen! Wünschen Sie trotzdem fortzufahren?"
 
 #
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "Client töten: "
 
@@ -2548,20 +2548,20 @@ msgstr "Zeitüberschreitung bei '%s'!"
 msgid "'%s' produces no output"
 msgstr "'%s' produziert keine Ausgabe"
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "Fehlendes Program: 'setxkbmap'"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Um die Tastatur zu ändern, installieren Sie bitte setxkbmap."
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Unbekannte Fensteroption: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfehler in Fensteroptionen in Zeile %d von %s"
@@ -2736,7 +2736,7 @@ msgstr "Prozess _töten"
 msgid "Window list"
 msgstr "Fensterliste"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Arbeitsbereich %-.32s"
@@ -2756,12 +2756,12 @@ msgstr "%s: Auswahl fehlgeschlagen"
 msgid "Could not parse color \"%s\""
 msgstr "Farbe \"%s\" konnte nicht geparst werden"
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Unbekanntes Tastensymbol %s in %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Schlechtes Argument: %s für %s [%d,%d]"
@@ -2798,7 +2798,7 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "BUG? Unerwartetes Zeichen, aber Imlib konnte die Datei \"%s\" parsen"
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Die Schriftart \"%s\" konnte nicht geladen werden."
@@ -2900,20 +2900,20 @@ msgstr ""
 "  -d, --display=NAME      NAME des zu verwendenden  X-Servers.\n"
 "  --sync              Synchronisation von X11-Befehlen.\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 msgid "Support for PNG images was not enabled"
 msgstr "Unterstützung für PNG-Bilder wurde nicht aktiviert"
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr "Unterstützung für JPEG-Bilder wurde nicht aktiviert"
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, c-format
 msgid "Unsupported file format: %s"
 msgstr "Nicht unterstütztes Dateiformat: %s"
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, c-format
 msgid "Could not load image \"%s\""
 msgstr "Bild \"%s\" konnte nicht geladen werden"

@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Icewm 1.2.0-beta1\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2023-09-09 05:15+0000\n"
 "Last-Translator: Luna  Jernberg <bittin@opensuse.org>\n"
-"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/sv/>\n"
+"Language-Team: Swedish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,65 +19,65 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, c-format
 msgid "Can't open the APM device %s"
 msgstr "Kunde inte öppna APM-enhet %s"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "Kan inte anropa ioctl på APM-enhet %s"
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "Okänt format som används av APM-enhet %s (%d)."
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Ström"
 
 # Hm. "P" och "M" står tydligen för "Power" och "Mobile".
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "S"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Laddar"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - Full"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "ström:\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "KLOCKA"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "Datum"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "Standard"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Inaktivera"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -168,23 +168,23 @@ msgstr "%s avslutade med status %d."
 msgid "%s was killed by signal %d."
 msgstr "%s dödades med signal %d."
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr "regler:"
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr "modell:"
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr "layout:"
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 msgid "options:"
 msgstr "alternativ:"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "Tangentbord"
 
@@ -340,7 +340,7 @@ msgstr "ned"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Arbetsyta: "
 
@@ -1191,25 +1191,25 @@ msgstr "Kunde inte öppna fil för läsning."
 msgid "Failed to create a temporary file"
 msgstr "Kunde inte skapa temporär fil"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Kunde inte starta system (%s) (%d)"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Kunde inte packa upp %s"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "Kunde inte hitta curl eller wget i PATH"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Osäkra tecken i URL"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1281,7 +1281,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Ignorerar alternativ ’%s’"
@@ -1370,12 +1370,12 @@ msgstr "EWMH-fönsterläge"
 msgid "workspace #%d: `%s'\n"
 msgstr "arbetsyta #%d: `%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Felaktigt tillstånd: `%s'."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ogiltigt argument: `%s'"
@@ -1390,57 +1390,57 @@ msgstr "Kan inte hämta geometrin för fönster 0x%lx"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Felaktig Xinerama: `%s'."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Kan inte skriva till %s"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Åtgärden `%s' kräver minst %d argument."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Felaktigt uttryck: `%s'"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Kan inte öppna bildskärm: %s. X måste vara igång och $DISPLAY satt."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Oväntat: '%s'."
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "Inga fönster funna."
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Ingen åtgärd angiven."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Felaktig fönsteridentifierare: `%s'"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Felaktig PID: `%s'"
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Felaktigt lager: `%s'."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Okänd åtgärd: `%s'"
@@ -1773,12 +1773,12 @@ msgstr "Ersätt tabulatortecken med mellanslag"
 msgid "Wrap Lines"
 msgstr "Ombryt rader"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Kunde inte ladda bild ’%s’."
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1876,12 +1876,12 @@ msgstr ""
 " center:0 scaled:1 = fyll båda dimensioner och bevara bildformat\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Okänd väljare '%s'."
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Kan inte starta eftersom en annan icewmbg fortfarande körs."
 
@@ -1898,7 +1898,7 @@ msgstr "Slut på minne (len=%d)."
 msgid "Warning: "
 msgstr "Varning: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1922,43 +1922,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Okänd riktning i flytt/förändring: %d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Temabeskrivning:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Temaförfattare:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "Kodning:"
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "Språk:"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr "Dubbelbuffert"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr "Alfablending"
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr "Renderare:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - Om"
 
@@ -2179,7 +2179,7 @@ msgstr "St_äng"
 msgid "_Kill Client"
 msgstr "_Döda klient"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "F_önsterlista"
 
@@ -2196,11 +2196,11 @@ msgstr ""
 "Kunde inte starta om: %s\n"
 "Finns %s i $PATH?"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr "Bekräfta Starta om som terminal"
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2208,18 +2208,18 @@ msgstr ""
 "Avhantera alla applikationer och starta om\n"
 "som en terminal. Fortsätt?"
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<ingen>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klient-ID som ska användas vid kontakt med "
 "sessionshanteraren.\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2229,7 +2229,7 @@ msgstr ""
 "  --debug             Skriv ut allmänna felsökningsmeddelanden.\n"
 "  --debug-z           Skriv ut felsökningsmeddelanden om fönsterstackning.\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2249,11 +2249,11 @@ msgstr ""
 "  --rewrite-preferences Uppdatera en befintlig inställningsfil\n"
 "  --trace=conf, icon Sökvägar som används för att ladda konfiguration.\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr "  -o, --output=FIL   Omdirigera all utdata till FIL.\n"
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2312,21 +2312,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s konfigureringskataloger:\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s konfigurerade väljare:%s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Bekräfta utloggning"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2430,7 +2430,7 @@ msgstr "Byt namn"
 msgid "Rename the window title"
 msgstr "Byt namn på fönster titel"
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2439,7 +2439,7 @@ msgstr ""
 "att gå förlorade när den här klienten dödas.\n"
 "Vill du fortsätta?"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "Döda klient: "
 
@@ -2510,20 +2510,20 @@ msgstr "'%s' tog en timeout!"
 msgid "'%s' produces no output"
 msgstr "'%s' genererar inga utdata"
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "Saknar program setxkbmap"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "För att byta tangentbordslayout, vänligen installera setxkbmap."
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Okänd fönsterflagga: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxfel i fönsteralternativ på rad %d av %s"
@@ -2698,7 +2698,7 @@ msgstr "_Döda process"
 msgid "Window list"
 msgstr "Fönsterlista"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Arbetsyta %-.32s"
@@ -2718,12 +2718,12 @@ msgstr "%s: val misslyckades"
 msgid "Could not parse color \"%s\""
 msgstr "Kunde inte tolka färg \"%s\""
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Felaktigt nyckelnamn %s i %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Felaktigt argument: %s för %s [%d,%d]"
@@ -2758,7 +2758,7 @@ msgstr "FEL? Oväntat slut på XPM-fil men Imlib kunde ändå tolka \"%s\""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "FEL? Oväntat tecken men Imlib kunde ändå tolka \"%s\""
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Kunde inte läsa in typsnitt \"%s\"."
@@ -2859,20 +2859,20 @@ msgstr ""
 "  -d, --display=NAME  NAMN på den X-server som ska användas.\n"
 "  --sync              Synkronisera X11-kommandon.\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 msgid "Support for PNG images was not enabled"
 msgstr "Stöd för PNG-bilder var inte aktiverat"
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr "Stöd för JPEG-bilder är ej inbyggt"
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, c-format
 msgid "Unsupported file format: %s"
 msgstr "Filformat som inte stöds: %s"
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, c-format
 msgid "Could not load image \"%s\""
 msgstr "Kunde inte ladda bild \"%s\""

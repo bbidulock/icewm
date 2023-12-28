@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.2.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2003-01-27 22:26+0300\n"
 "Last-Translator: Hleb Valoska <el_globus@tut.by>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
@@ -14,65 +14,65 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, fuzzy, c-format
 msgid "Can't open the APM device %s"
 msgstr "Немагчыма знайсьці мапу піксаляў %s"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr ""
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr ""
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Сілкаваньне"
 
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Зарад"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr ""
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr ""
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr ""
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr ""
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 #, fuzzy
 msgid "Default"
 msgstr "Выдаліць"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr ""
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr ""
 
@@ -153,26 +153,26 @@ msgstr ""
 msgid "%s was killed by signal %d."
 msgstr ""
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr ""
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr ""
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr ""
 
 # fixme
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 #, fuzzy
 #| msgid "Bad option: %s"
 msgid "options:"
 msgstr "Кепская опцыя: %s"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr "Раскруціць"
 msgid "NET"
 msgstr ""
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Працоўнае поле: "
 
@@ -1225,25 +1225,25 @@ msgstr "Няўдалы выбар вакна, якое ўтрымлівае фо
 msgid "Failed to create a temporary file"
 msgstr "Няўдалае стварэньне ананімнага каналу: %s"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr ""
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, fuzzy, c-format
 msgid "Failed to decompress %s"
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr ""
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr ""
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1281,7 +1281,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, fuzzy, c-format
 msgid "Ignoring option '%s'"
 msgstr "Невядомае дзеяньне: `%s'"
@@ -1377,13 +1377,13 @@ msgstr "Стан вакна GNOME'а"
 msgid "workspace #%d: `%s'\n"
 msgstr "Працоўнае поле #%d: `%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid state: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid argument: `%s'"
@@ -1400,60 +1400,60 @@ msgstr ""
 msgid "Invalid Xinerama: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Дзеяньне `%s' патрабуе прынамсі %d парамэтраў."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Няправільны выраз: `%s'"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Немагчыма адкрыць дысплей: %s. Патрэбна запусьціць X і ўстанавіць $DISPLAY."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "Нечаканае ключавое слова: %s"
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Ня вызначана дзеяньняў."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Дрэнны вызначнік вакна: `%s'"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid PID: `%s'"
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, fuzzy, c-format
 #| msgid "Invalid argument: `%s'."
 msgid "Invalid layer: `%s'."
 msgstr "Дрэнны парамэтар: `%s'."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Невядомае дзеяньне: `%s'"
@@ -1751,12 +1751,12 @@ msgstr "Раскрываць табуляцыі"
 msgid "Wrap Lines"
 msgstr "Пераносіць радкі"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, fuzzy, c-format
 msgid "Failed to load image '%s'."
 msgstr "Няўдалае адкрыцьцё %s: %s"
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1808,12 +1808,12 @@ msgid ""
 msgstr ""
 
 # fixme
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, fuzzy, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr ""
 
@@ -1831,7 +1831,7 @@ msgstr "Не стае памяці (даўжыня=%d)."
 msgid "Warning: "
 msgstr "Увага: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1848,43 +1848,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr ""
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Тэма: "
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Апісаньне тэмы:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Аўтар тэмы:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr ""
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr ""
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr ""
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr ""
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - Пра"
 
@@ -2112,7 +2112,7 @@ msgstr "За_крыць"
 msgid "_Kill Client"
 msgstr "Заб_іць кліент"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "_Сьпіс вакон"
 
@@ -2129,33 +2129,33 @@ msgstr ""
 "Немагчыма перазапусьціца: %s\n"
 "Ці спасылаецца $PATH на %s?"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<няма>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
 "  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2167,11 +2167,11 @@ msgid ""
 "  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr ""
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, fuzzy, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2228,22 +2228,22 @@ msgstr ""
 "Наведай https://ice-wm.org/ каб паведаміць пра памылкі, запатрабаваць\n"
 "падтрымкі, ці проста выказацца пра IceWM...\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr ""
 
 # fixme
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, fuzzy, c-format
 msgid "%s configured options:%s\n"
 msgstr "Нераспазнаная опцыя: %s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Пацьвердзі выйсьце"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2347,7 +2347,7 @@ msgstr ""
 msgid "Rename the window title"
 msgstr ""
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2355,7 +2355,7 @@ msgstr ""
 "УВАГА! Усе незахаваныя зьмены будуць згубленыя,\n"
 "калі забіць гэты кліент. Працягваць?"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "Забіць кліент: "
 
@@ -2426,20 +2426,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Невядомая опцыя вакна: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Сынтаксычная памылка ў опцыях вакна"
@@ -2629,7 +2629,7 @@ msgstr "Забіць _працэс"
 msgid "Window list"
 msgstr "Сьпіс вакон"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Варштат %-.32s"
@@ -2650,12 +2650,12 @@ msgstr ""
 msgid "Could not parse color \"%s\""
 msgstr "Немагчыма загрузіць шрыфт \"%s\"."
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Невядомая імя ключа %s у %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, fuzzy, c-format
 #| msgid "Bad argument: %s for %s"
 msgid "Bad argument: %s for %s [%d,%d]"
@@ -2692,7 +2692,7 @@ msgstr "ХІБА? Нечаканы канец файла XPM, але Imlib бы�
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "ХІБА? Нечаканы знак, але Imlib быў здольны разабраць \"%s\""
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Немагчыма загрузіць шрыфт \"%s\"."
@@ -2791,23 +2791,23 @@ msgid ""
 "  --sync              Synchronize X11 commands.\n"
 msgstr ""
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 #, fuzzy
 #| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
 msgstr "Падтрымка для інтэрфэйсу %s ня ўлучаная."
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr ""
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, fuzzy, c-format
 #| msgid "Unsupported interface: %s."
 msgid "Unsupported file format: %s"
 msgstr "Інтэрфэйс %s не падтрымліваецца."
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, fuzzy, c-format
 msgid "Could not load image \"%s\""
 msgstr "Немагчыма знайсьці мапу піксаляў %s"

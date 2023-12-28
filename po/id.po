@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2023-08-08 15:15+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -19,66 +19,66 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, c-format
 msgid "Can't open the APM device %s"
 msgstr "Tidak bisa membuka perangkat APM %s"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "Tidak bisa ioctl perangkat APM %s"
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "Format tidak dikenal yang digunakan oleh perangkat APM %s (%d)."
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Daya"
 
 # P: Power
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "D"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Mengisi"
 
 # C; Charging
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "I"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - Penuh"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "daya:\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "JAM"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "Tanggal"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "Bawaan"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Nonaktif"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -169,23 +169,23 @@ msgstr "%s keluar dengan status %d."
 msgid "%s was killed by signal %d."
 msgstr "%s dibunuh oleh sinyal %d."
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr "aturan:"
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr "model:"
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr "tata letak:"
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 msgid "options:"
 msgstr "opsi:"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "Papan Tik"
 
@@ -341,7 +341,7 @@ msgstr "turun"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Ruang kerja: "
 
@@ -1192,25 +1192,25 @@ msgstr "Gagal membuka berkas untuk membaca."
 msgid "Failed to create a temporary file"
 msgstr "Gagal membuat berkas sementara"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Gagal mengeksekusi sistem(%s) (%d)"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Gagal untuk dekompresi %s"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "Tidak dapat menemukan curl atau wget di PATH"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Karakter yang tidak aman di URL"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1282,7 +1282,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Mengabaikan opsi '%s'"
@@ -1371,12 +1371,12 @@ msgstr "Keadaan jendela EWMH"
 msgid "workspace #%d: `%s'\n"
 msgstr "ruang kerja #%d: `%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Keadaan tidak valid: '%s'."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argumen tidak valid: '%s'"
@@ -1391,57 +1391,57 @@ msgstr "Tidak dapat mendapatkan geometri jendela 0x%lx"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Xinerama tidak valid: `%s'."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Tidak dapat menulis ke %s"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Aksi '%s' memerlukan setidaknya argumen %d."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ekspresi tidak valid: '%s'"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Tidak dapat membuka tampilan: %s. X harus berjalan dan atur $DISPLAY."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Tak diharapkan: `%s'."
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "Tidak ada jendela yang ditemukan."
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Tidak ada aksi yang ditentukan."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Pengidentifikasi jendela tidak valid: '%s'"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "PID tidak valid: '%s'"
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Lapisan tidak valid: `%s'."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Aksi tidak diketahui: '%s'"
@@ -1780,12 +1780,12 @@ msgstr "Perluas Tab"
 msgid "Wrap Lines"
 msgstr "Lipat Baris"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Gagal memuat berkas gambar '%s'."
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1885,12 +1885,12 @@ msgstr ""
 " center:0 scaled:1 = isi kedua dimensi dan pertahankan rasio aspek\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Opsi yang tidak dikenali '%s'."
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Tidak dapat memulai, karena icewmbg lain masih berjalan."
 
@@ -1909,7 +1909,7 @@ msgstr "Kehabisan memori (len=%d)."
 msgid "Warning: "
 msgstr "Peringatan: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1933,43 +1933,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Arah tidak dikenal dalam memindahkan/mengubah  permintaan: %d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Deskripsi Tema:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Penulis Tema:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "SetKode:"
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "Bahasa:"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr "Buffer Ganda"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr "Alfa Blending"
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr "Perender:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - Tentang"
 
@@ -2190,7 +2190,7 @@ msgstr "_Tutup"
 msgid "_Kill Client"
 msgstr "Bunuh _Klien"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "Daftar _jendela"
 
@@ -2207,11 +2207,11 @@ msgstr ""
 "Tidak dapat memulai ulang: %s\n"
 "Apakah $PATH menuju ke %s?"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr "Konfirmasi Mulai Ulang sebagai Terminal"
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2219,18 +2219,18 @@ msgstr ""
 "Lepaskan semua aplikasi dan mulai ulang\n"
 "sebagai terminal. Melanjutkan?"
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<NIHIL>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Klien id yang digunakan saat menghubungi pengelola "
 "sesi.\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2240,7 +2240,7 @@ msgstr ""
 "  --debug             Cetak pesan awakutu umum.\n"
 "  --debug-z           Cetak pesan awakutu tentang penumpukan jendela.\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2260,11 +2260,11 @@ msgstr ""
 "  --rewrite-preferences  Mutakhirkan berkas preferensi yang ada.\n"
 "  --trace=conf,icon   Path jejak yang digunakan untuk memuat konfigurasi.\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr "  -o, --output=BERKAS   Alihkan semua keluaran ke BERKAS.\n"
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2324,21 +2324,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "Direktori konfigurasi %s:\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "Opsi %s yang dikonfigurasi: %s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Konfirmasi Log Keluar"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2442,7 +2442,7 @@ msgstr "Ganti nama"
 msgid "Rename the window title"
 msgstr "Ganti nama judul jendela"
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2450,7 +2450,7 @@ msgstr ""
 "PERINGATAN! Semua perubahan yang belum disimpan akan hilang saat\n"
 "klien ini terbunuh. Apakah Anda ingin melanjutkan?"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "Bunuh Klien: "
 
@@ -2521,20 +2521,20 @@ msgstr "'%s' waktunya habis!"
 msgid "'%s' produces no output"
 msgstr "'%s' tidak menghasilkan keluaran"
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "Tak ada program setxkbmap"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Untuk mengubah papan tik, silakan instal setxkbmap."
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opsi jendela tidak dikenal: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Kesalahan sintaks dalam opsi jendela pada baris %d dari %s"
@@ -2709,7 +2709,7 @@ msgstr "Bunuh _Process"
 msgid "Window list"
 msgstr "Daftar jendela"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Ruang kerja %-.32s"
@@ -2729,12 +2729,12 @@ msgstr "%s: pilih gagal"
 msgid "Could not parse color \"%s\""
 msgstr "Tidak dapat mengurai warna '%s'"
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Nama kunci %s tidak dikenal dalam %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Argumen buruk: %s untuk %s [%d,%d]"
@@ -2771,7 +2771,7 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "KUTU? Karakter tidak terduga tetapi Imlib dapat menguraikan \"%s\""
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Tidak dapat memuat fonta \"%s\"."
@@ -2869,20 +2869,20 @@ msgstr ""
 "  -d, --display=NAME  NAME dari peladen X yang akan digunakan..\n"
 "  --sync              Sinkronisasi perintah X11.\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 msgid "Support for PNG images was not enabled"
 msgstr "Dukungan untuk gambar PNG tidak diaktifkan"
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr "Dukungan untuk gambar JPEG tidak diaktifkan"
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, c-format
 msgid "Unsupported file format: %s"
 msgstr "Format berkas yang tidak didukung: %s"
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, c-format
 msgid "Could not load image \"%s\""
 msgstr "Tidak dapat memuat gambar “%s”."

@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2023-07-25 09:15+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
-"icewm-1-4-branch/tr/>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
+"branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,64 +19,64 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, c-format
 msgid "Can't open the APM device %s"
 msgstr "APM cihazı %s açılamadı"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "%s APM cihazı ioctl yapılamıyor"
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "APM cihazı %s tarafından kullanılan bilinmeyen biçim (%d)."
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Güç"
 
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "G"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Şarj oluyor"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "Ş"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - Dolu"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "güç:\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "SAAT"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "Tarih"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "Varsayılan"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Devre dışı"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -167,23 +167,23 @@ msgstr "%s, %d durumuyla çıktı."
 msgid "%s was killed by signal %d."
 msgstr "%s , %d sinyali ile sonlandırıldı."
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr "kurallar:"
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr "örnek:"
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr "düzen:"
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 msgid "options:"
 msgstr "seçenekler:"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "Tuş takımı"
 
@@ -339,7 +339,7 @@ msgstr "inen"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Çalışma Alanı: "
 
@@ -1190,25 +1190,25 @@ msgstr "Dosya okunmak için açılamadı."
 msgid "Failed to create a temporary file"
 msgstr "Geçici bir dosya oluşturulamadı"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Sistem yürütülemedi (%s) (%d)"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Sıkıştırma açılamadı %s"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "PATH konumlarında curl veya wget bulunamadı"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "URLde güvensiz karakter"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1282,7 +1282,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "'%s' seçeneği yoksayılıyor"
@@ -1371,12 +1371,12 @@ msgstr "EWMH pencere durumu"
 msgid "workspace #%d: `%s'\n"
 msgstr "çalışma alanı #%d: '%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Geçersiz durum: '%s'."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Geçersiz argüman: '%s'"
@@ -1391,58 +1391,58 @@ msgstr "0x%lx penceresinin geometrisi alınamıyor"
 msgid "Invalid Xinerama: `%s'."
 msgstr "Hatalı Xinerama: '%s'."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "%s konumuna yazılamadı"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "'%s' eylemi en az %d değişken gerektiriyor."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Hatalı ifade: '%s'"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Ekran açılamıyor: %s. X çalışır durumda ve $DISPLAY ayarlanmış olmalıdır."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Beklenmeyen: '%s'."
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "Pencere bulunamadı."
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Eylem belirtilmedi."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Hatalı pencere belirteci: '%s'"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Geçersiz PID: '%s'"
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Geçersiz katman: '%s'."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Bilinmeyen eylem: '%s'"
@@ -1783,12 +1783,12 @@ msgstr "Sekmeleri Genişlet"
 msgid "Wrap Lines"
 msgstr "Satır Kaydır"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "'%s' resmi yüklemesi başarısız oldu."
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1893,12 +1893,12 @@ msgstr ""
 " center:0 scaled:1 = her iki boyutu da doldur ve en boy oranını koru\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Tanınmayan seçenek ' %s'."
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Başlatılamıyor, çünkü başka icewmbg hala çalışıyor."
 
@@ -1915,7 +1915,7 @@ msgstr "Yetersiz bellek (len=%d)."
 msgid "Warning: "
 msgstr "Uyarı: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1939,43 +1939,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Taşıma/boyutlandırma isteğinde bilinmeyen yön: %d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Tema:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Tema Açıklaması:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Tema Yazarı:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "KodSeti:"
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "Dil:"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr "ÇiftTampon"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr "AlfaHarmanlama"
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr "Derleyici:"
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - Hakkında"
 
@@ -2197,7 +2197,7 @@ msgstr "Ka_pat"
 msgid "_Kill Client"
 msgstr "_Istemciyi Öldür"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "Pen_cere listesi"
 
@@ -2214,11 +2214,11 @@ msgstr ""
 "Yeniden başlatılamıyor: %s\n"
 "$PATH, %s'i içeriyor mu?"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr "Uçbirim Olarak Yeniden Başlatmayı Onaylayın"
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2226,18 +2226,18 @@ msgstr ""
 "Tüm uygulamaları bırakın ve terminal \n"
 " olarak yeniden başlatın. Devam?"
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<yok>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ID      Oturum yöneticisiyle iletişim kurarken kullanılacak "
 "istemci kimliği.\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2248,7 +2248,7 @@ msgstr ""
 "  --debug-z           Pencere yığınlaması ile ilgili hata ayıklama "
 "mesajlarını yazdırın.\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2269,11 +2269,11 @@ msgstr ""
 "  --trace=conf,icon   Yapılandırmayı yüklemek için kullanılan yolları "
 "izleyin.\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr "  -o, --output=DOSYA   Tüm çıktıları DOSYA'ya yönlendir.\n"
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2333,21 +2333,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s yapılandırma dizinleri:\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s yapılandırılmış seçenekler:%s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Oturum Kapatma Onayı"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2451,7 +2451,7 @@ msgstr "Yeniden adlandır"
 msgid "Rename the window title"
 msgstr "Pencere başlığını yeniden adlandır"
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2459,7 +2459,7 @@ msgstr ""
 "DİKKAT!! Bu istemci kapatıldığında tüm kaydedilmemiş\n"
 "değişiklikler kaybedilecektir. Emin misiniz?"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "İstemciyi öldür: "
 
@@ -2530,20 +2530,20 @@ msgstr "'%s' zaman aşımına uğradı!"
 msgid "'%s' produces no output"
 msgstr "'%s' çıktı üretmiyor"
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "setxkbmap programı eksik"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Klavye geçişi için lütfen setxkbmap yükleyin."
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Bilinmeyen pencere seçeneği: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Pencere seçeneklerinde%d satırı %s dosyasında söz dizimi hatası"
@@ -2718,7 +2718,7 @@ msgstr "İşlemi _Öldür"
 msgid "Window list"
 msgstr "Pencere Listesi"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Çalışma Alanı %-.32s"
@@ -2738,12 +2738,12 @@ msgstr "%s: seçim başarısız"
 msgid "Could not parse color \"%s\""
 msgstr "\"%s\" rengi çözümlenemedi"
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Bilimeyen anahtar adı %s %s içinde"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Kötü argüman: %s , %s için [%d,%d]"
@@ -2782,7 +2782,7 @@ msgstr ""
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "HATA? Beklenmeyen karakter ama Imlib \"%s\" dosyasını işlemeyi başardı"
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "\"%s\" yazı tipi yüklenemedi."
@@ -2882,20 +2882,20 @@ msgstr ""
 "  -d, --display=İSİM\tKullanılacak X sunucusunun İSMİ.\n"
 "  --sync\t\tX11 komutlarını senkronize et.\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 msgid "Support for PNG images was not enabled"
 msgstr "PNG resim desteği etkinleştirilmedi"
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr "JPEG resim desteği etkinleştirilmedi"
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, c-format
 msgid "Unsupported file format: %s"
 msgstr "Desteklenmeyen dosya biçimi: %s"
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, c-format
 msgid "Could not load image \"%s\""
 msgstr "\"%s\" resmi yüklenemedi"

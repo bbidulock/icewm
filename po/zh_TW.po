@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.30\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2023-02-08 09:14+0000\n"
 "Last-Translator: Grace Yu <grace.yu@excel-gits.com>\n"
 "Language-Team: Chinese (Taiwan) <https://l10n.opensuse.org/projects/icewm/"
@@ -20,64 +20,64 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, c-format
 msgid "Can't open the APM device %s"
 msgstr "無法開啟 APM 裝置 %s"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr "無法對 APM 裝置 %s 執行 ioctl"
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr "APM 裝置 %s (%d) 使用了未知的格式。"
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - 供電中"
 
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - 充電中"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - 電池已滿"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "電量︰\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "時鐘"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "日期"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "預設"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "停用(_D)"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "UTC(_U)"
 
@@ -168,23 +168,23 @@ msgstr "%s 已離開，狀態為 %d。"
 msgid "%s was killed by signal %d."
 msgstr "%s 被訊號 %d 強行中止。"
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr "規則："
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr "型號："
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr "配置："
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 msgid "options:"
 msgstr "選項："
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "鍵盤"
 
@@ -340,7 +340,7 @@ msgstr "關閉"
 msgid "NET"
 msgstr "NET"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "工作區："
 
@@ -1191,25 +1191,25 @@ msgstr "無法開啟要閱讀的檔案。"
 msgid "Failed to create a temporary file"
 msgstr "建立臨時檔案失敗"
 
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "執行系統 (%s) (%d) 失敗"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "解壓縮 %s 失敗"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "在 PATH 中找不到 curl 或 wget"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "URL 中存在不安全的字元"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1280,7 +1280,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "正在忽略選項「%s」"
@@ -1369,12 +1369,12 @@ msgstr "EWMH 視窗狀態"
 msgid "workspace #%d: `%s'\n"
 msgstr "工作區 #%d：「%s」\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "無效狀態：`%s'。"
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "引數無效：「%s」"
@@ -1389,57 +1389,57 @@ msgstr "無法獲取視窗 0x%lx 的記憶體"
 msgid "Invalid Xinerama: `%s'."
 msgstr "無效 Xinerama：`%s'。"
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "無法寫入 %s"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "動作「%s」需要至少 %d 個引數。"
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "表示式無效：「%s」"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "無法開啟顯示：%s。X 必須正在執行且需設定 $DISPLAY。"
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "非預期：`%s'。"
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "找不到視窗。"
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "未指定動作。"
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "無效的視窗識別碼：「%s」"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "無效 PID：`%s'"
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "無效層：`%s'。"
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "未知動作：「%s」"
@@ -1772,12 +1772,12 @@ msgstr "展開 Tab"
 msgid "Wrap Lines"
 msgstr "換列"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "載入影像「%s」失敗。"
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1875,12 +1875,12 @@ msgstr ""
 " center:1 scaled:1 = 沿兩個方向填充並保持長寬比率\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "無法識別選項「%s」。"
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "無法啟動，因為另一個 icewmbg 仍在執行中。"
 
@@ -1897,7 +1897,7 @@ msgstr "記憶體不足（長度＝%d）。"
 msgid "Warning: "
 msgstr "警告："
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -1921,43 +1921,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "在要求移動/改變大小時方向未知：%d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "©"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "佈景主題："
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "佈景主題描述："
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "佈景主題作者："
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "字碼集："
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "語言："
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr "DoubleBuffer"
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr "AlphaBlending"
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr "轉譯器："
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - 關於"
 
@@ -2178,7 +2178,7 @@ msgstr "關閉(_C)"
 msgid "_Kill Client"
 msgstr "砍掉客戶端(_K)"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "視窗清單(_W)"
 
@@ -2195,11 +2195,11 @@ msgstr ""
 "無法重新啟動：%s\n"
 "$PATH 是否指向 %s？"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr "確認做為終端機重新啟動"
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
@@ -2207,16 +2207,16 @@ msgstr ""
 "取消管理所有應用程式并做為\n"
 "終端機重新啟動。是否繼續？"
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<無>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr "  --client-id=ID      聯絡工作階段管理程式時要使用的用戶端 ID。\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2226,7 +2226,7 @@ msgstr ""
 "  --debug             列印一般除錯訊息。\n"
 "  --debug-z           列印有關視窗堆疊的除錯訊息。\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 msgid ""
 "\n"
 "  -a, --alpha         Use a 32-bit visual for translucency.\n"
@@ -2246,11 +2246,11 @@ msgstr ""
 "  --rewrite-preferences  更新現有優先設定檔案。\n"
 "  --trace=conf,icon   追蹤用於載入組態的路徑。\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr ""
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2309,21 +2309,21 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s 組態目錄︰\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s 設定的選項：%s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "確定登出"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2429,7 +2429,7 @@ msgstr "重新命名"
 msgid "Rename the window title"
 msgstr "重新命名視窗標題"
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2437,7 +2437,7 @@ msgstr ""
 "【警告】！當這個客戶端程式被砍掉時，將會失去所有未儲存的變更。\n"
 "您希望繼續進行嗎？"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "砍掉客戶端："
 
@@ -2508,20 +2508,20 @@ msgstr "\"%s\" 已逾時！"
 msgid "'%s' produces no output"
 msgstr "「%s」未產生任何輸出"
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "缺少程式 setxkbmap"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "若要進行鍵盤切換，請安裝 setxkbmap。"
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "未知視窗選項：%s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "第 %d 行 (%s) 中的視窗選項語法有誤"
@@ -2696,7 +2696,7 @@ msgstr "砍掉行程(_P)"
 msgid "Window list"
 msgstr "視窗清單"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu。工作區 %-.32s"
@@ -2716,12 +2716,12 @@ msgstr "%s：選取失敗"
 msgid "Could not parse color \"%s\""
 msgstr "無法剖析色彩 \"%s\""
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "未知的按鍵名稱 %s / %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "不當的引數：%s 對於 %s [%d,%d]"
@@ -2756,7 +2756,7 @@ msgstr "程式臭蟲？XPM 檔案非預期結束，但是 Imlib 之前可以解�
 msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
 msgstr "程式臭蟲？非預期字元，但是 Imlib 之前可以解析「%s」"
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "無法載入字型「%s」。"
@@ -2853,20 +2853,20 @@ msgstr ""
 "  -d、--display=NAME  要使用的 X 伺服器名稱。\n"
 "  --sync              同步 X11 指令。\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 msgid "Support for PNG images was not enabled"
 msgstr "未啟用 PNG 影像支援"
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr "未啟用 JPEG 影像支援"
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, c-format
 msgid "Unsupported file format: %s"
 msgstr "不受支援的檔案格式：%s"
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, c-format
 msgid "Could not load image \"%s\""
 msgstr "無法載入影像 \"%s\""

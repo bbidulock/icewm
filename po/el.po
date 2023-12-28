@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2023-07-21 01:44+0200\n"
+"POT-Creation-Date: 2023-12-28 19:22+0100\n"
 "PO-Revision-Date: 2021-09-21 08:11+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,65 +20,65 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.7.1\n"
 
-#: src/aapm.cc:66
+#: src/aapm.cc:113
 #, fuzzy, c-format
 #| msgid "Could not open APM device %s"
 msgid "Can't open the APM device %s"
 msgstr "Αδυναμία ανοίγματος της συσκευής APM %s"
 
-#: src/aapm.cc:74 src/aapm.cc:92
+#: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
 msgstr ""
 
-#: src/aapm.cc:122
+#: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
 msgstr ""
 
-#: src/aapm.cc:154 src/aapm.cc:426 src/aapm.cc:636 src/aapm.cc:762
+#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
 msgstr " - Τροφοδοσία"
 
-#: src/aapm.cc:156 src/aapm.cc:429 src/aapm.cc:639
+#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
 msgstr "P"
 
-#: src/aapm.cc:160 src/aapm.cc:403 src/aapm.cc:619 src/aapm.cc:730
+#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
 msgstr " - Φόρτιση"
 
-#: src/aapm.cc:162 src/aapm.cc:405 src/aapm.cc:621
+#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
 msgstr "C"
 
-#: src/aapm.cc:407
+#: src/aapm.cc:454
 msgid " - Full"
 msgstr " - Πλήρης"
 
-#: src/aapm.cc:944
+#: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
 msgstr "ενέργεια:\t%s"
 
-#: src/aclock.cc:192
+#: src/aclock.cc:195
 msgid "CLOCK"
 msgstr "ΡΟΛΟΙ"
 
-#: src/aclock.cc:198
+#: src/aclock.cc:201
 msgid "Date"
 msgstr "Ημερομηνία"
 
-#: src/aclock.cc:199 src/themes.cc:82
+#: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
 msgstr "Εξ ορισμού"
 
-#: src/aclock.cc:200 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
 msgstr "_Απενεργοποίηση"
 
-#: src/aclock.cc:201
+#: src/aclock.cc:204
 msgid "_UTC"
 msgstr "_UTC"
 
@@ -169,25 +169,25 @@ msgstr "Το %s εξήχθη με αναφορά κατάστασης %d."
 msgid "%s was killed by signal %d."
 msgstr "Το %s σκοτώθηκε από το σήμα %d."
 
-#: src/akeyboard.cc:98
+#: src/akeyboard.cc:99
 msgid "rules:"
 msgstr ""
 
-#: src/akeyboard.cc:99
+#: src/akeyboard.cc:100
 msgid "model:"
 msgstr ""
 
-#: src/akeyboard.cc:100
+#: src/akeyboard.cc:101
 msgid "layout:"
 msgstr ""
 
-#: src/akeyboard.cc:101
+#: src/akeyboard.cc:102
 #, fuzzy
 #| msgid "Bad option: %s"
 msgid "options:"
 msgstr "Λάθος επιλογή: %s"
 
-#: src/akeyboard.cc:157
+#: src/akeyboard.cc:158
 msgid "Keyboard"
 msgstr "Πληκτρολόγιο"
 
@@ -345,7 +345,7 @@ msgstr "Ξεδίπλωμα"
 msgid "NET"
 msgstr "ΔΙΚΤ"
 
-#: src/aworkspaces.cc:673 src/wmstatus.cc:204
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
 msgstr "Επιφάνεια εργασίας: "
 
@@ -1197,25 +1197,25 @@ msgid "Failed to create a temporary file"
 msgstr "Αδυναμία δημιουργίας προσωρινού αρχείου"
 
 # ?
-#: src/icehelp.cc:2434
+#: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
 msgstr "Αδυναμία εκτέλεσης του συστημικού (%s) (%d)"
 
-#: src/icehelp.cc:2457
+#: src/icehelp.cc:2453
 #, c-format
 msgid "Failed to decompress %s"
 msgstr "Αδυναμία αποσυμπίεσης %s"
 
-#: src/icehelp.cc:2465
+#: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
 msgstr "Αδυναμία εντοπισμού του curl ή του wget στη διαδρομή (PATH)"
 
-#: src/icehelp.cc:2469
+#: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Μη ασφαλείς χαρακτήρες στη διεύθυνση URL"
 
-#: src/icehelp.cc:2506
+#: src/icehelp.cc:2502
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS] [ FILENAME | URL ]\n"
@@ -1289,7 +1289,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: src/icehelp.cc:2596
+#: src/icehelp.cc:2592
 #, c-format
 msgid "Ignoring option '%s'"
 msgstr "Παραβλέπεται η επιλογή '%s'"
@@ -1380,12 +1380,12 @@ msgstr "GNOME, κατάσταση παράθυρου"
 msgid "workspace #%d: `%s'\n"
 msgstr "επιφάνεια εργασίας #%d: `%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4433 src/icesh.cc:5062
+#: src/icesh.cc:2615 src/icesh.cc:4443 src/icesh.cc:5074
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Μη έγκυρη κατάσταση: `%s' ."
 
-#: src/icesh.cc:2644 src/icesh.cc:4012 src/icesh.cc:4062 src/icesh.cc:5377
+#: src/icesh.cc:2644 src/icesh.cc:4022 src/icesh.cc:4072 src/icesh.cc:5389
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Μη έγκυρο όρισμα: `%s' ."
@@ -1400,59 +1400,59 @@ msgstr "Αδυναμία λήψης γεωμετρίας παραθύρου 0x%l
 msgid "Invalid Xinerama: `%s'."
 msgstr "Μη έγκυρο Xinerama: `%s' ."
 
-#: src/icesh.cc:3789 src/icesh.cc:3797 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3799 src/icesh.cc:3807 src/wmconfig.cc:148 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Αδυναμία εγγραφής στο %s"
 
-#: src/icesh.cc:4028
+#: src/icesh.cc:4038
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορίσματα."
 
-#: src/icesh.cc:4037
+#: src/icesh.cc:4047
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:4048 src/icesound.cc:800 src/icewmbg.cc:1006
-#: src/icewmhint.cc:37 src/wmapp.cc:1261 src/yxapp.cc:1046
+#: src/icesh.cc:4058 src/icesound.cc:800 src/icewmbg.cc:1046
+#: src/icewmhint.cc:37 src/wmapp.cc:1277 src/yxapp.cc:1046
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Δεν μπορώ να ανοίξω την προβολή: %s . Ο X θα πρέπει να τρέχει, και η "
 "μεταβλητή $DISPLAY να έχει οριστεί."
 
-#: src/icesh.cc:4164
+#: src/icesh.cc:4174
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "Μη αναμενόμενη λέξη κλειδί: %s"
 
-#: src/icesh.cc:4196
+#: src/icesh.cc:4206
 msgid "No windows found."
 msgstr "Δεν βρέθηκαν παράθυρα."
 
-#: src/icesh.cc:4212
+#: src/icesh.cc:4222
 msgid "No actions specified."
 msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
-#: src/icesh.cc:4357
+#: src/icesh.cc:4367
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Μη έγκυρο αναγνωριστικό παράθυρου: `%s'"
 
-#: src/icesh.cc:4373
+#: src/icesh.cc:4383
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Μη έγκυρο PID: `%s' ."
 
-#: src/icesh.cc:4406
+#: src/icesh.cc:4416
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Μη έγκυρο στρώμα: `%s' ."
 
-#: src/icesh.cc:5508
+#: src/icesh.cc:5520
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Άγνωστη ενέργεια: `%s'"
@@ -1820,12 +1820,12 @@ msgstr "Επέκταση των καρτελών"
 msgid "Wrap Lines"
 msgstr "Αναδίπλωση των γραμμών"
 
-#: src/icewmbg.cc:34 src/icewmbg.cc:351
+#: src/icewmbg.cc:33 src/icewmbg.cc:365
 #, c-format
 msgid "Failed to load image '%s'."
 msgstr "Αδυναμία ανοίγματος της εικόνας '%s'."
 
-#: src/icewmbg.cc:901
+#: src/icewmbg.cc:941
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
 "Where multiple values can be given they are separated by commas.\n"
@@ -1951,12 +1951,12 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/icewmbg.cc:1141 src/wmapp.cc:1865
+#: src/icewmbg.cc:1207 src/wmapp.cc:1881
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
 
-#: src/icewmbg.cc:1173
+#: src/icewmbg.cc:1294
 msgid "Cannot start, because another icewmbg is still running."
 msgstr "Αδυναμία εκκίνησης, επειδή, ήδη, τρέχει ένα άλλο icewmbg ."
 
@@ -1973,7 +1973,7 @@ msgstr "Υπερπλήρωση μνήμης (μέγεθος=%d)."
 msgid "Warning: "
 msgstr "Προειδοποίηση: "
 
-#: src/misc.cc:392
+#: src/misc.cc:393
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2000,43 +2000,43 @@ msgstr ""
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Άγνωστη κατεύθυνση στην αίτηση μετακίνησης/αλλαγής-σχήματος: %d"
 
-#: src/wmabout.cc:29 src/wmabout.cc:30
+#: src/wmabout.cc:29
 msgid "(C)"
 msgstr "(C)"
 
-#: src/wmabout.cc:40
+#: src/wmabout.cc:45
 msgid "Theme:"
 msgstr "Θέμα:"
 
-#: src/wmabout.cc:41
+#: src/wmabout.cc:46
 msgid "Theme Description:"
 msgstr "Περιγραφή θέματος:"
 
-#: src/wmabout.cc:42
+#: src/wmabout.cc:47
 msgid "Theme Author:"
 msgstr "Συγγραφέας θέματος:"
 
-#: src/wmabout.cc:51
+#: src/wmabout.cc:56
 msgid "CodeSet:"
 msgstr "ΟμάδαΚώδικα:"
 
-#: src/wmabout.cc:52
+#: src/wmabout.cc:57
 msgid "Language:"
 msgstr "Γλώσσα:"
 
-#: src/wmabout.cc:56
+#: src/wmabout.cc:61
 msgid "DoubleBuffer"
 msgstr ""
 
-#: src/wmabout.cc:57
+#: src/wmabout.cc:62
 msgid "AlphaBlending"
 msgstr ""
 
-#: src/wmabout.cc:58
+#: src/wmabout.cc:63
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:66
+#: src/wmabout.cc:71
 msgid "icewm - About"
 msgstr "icewm - Περί"
 
@@ -2259,7 +2259,7 @@ msgstr "_Κλείσιμο"
 msgid "_Kill Client"
 msgstr "_Σκότωμα του Πελάτη"
 
-#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:134
+#: src/wmapp.cc:688 src/wmdialog.cc:92 src/wmwinmenu.cc:141
 msgid "_Window list"
 msgstr "Λίαστα _παράθυρων"
 
@@ -2276,28 +2276,28 @@ msgstr ""
 "Αδύνατη η επανεκκίνηση: %s\n"
 "Όντως οδηγεί το $PATH στο %s ;"
 
-#: src/wmapp.cc:974
+#: src/wmapp.cc:990
 msgid "Confirm Restart as Terminal"
 msgstr ""
 
-#: src/wmapp.cc:975
+#: src/wmapp.cc:991
 msgid ""
 "Unmanage all applications and restart\n"
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1262 src/yxapp.cc:1047
+#: src/wmapp.cc:1278 src/yxapp.cc:1047
 msgid "<none>"
 msgstr "<κανένα>"
 
-#: src/wmapp.cc:1592
+#: src/wmapp.cc:1608
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
 "γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1598
+#: src/wmapp.cc:1614
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2308,7 +2308,7 @@ msgstr ""
 "  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
 "στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1606
+#: src/wmapp.cc:1622
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2338,11 +2338,11 @@ msgstr ""
 "  --trace=conf,icon   Ίχνη διαδρομών που χρησιμοποιούνται για τη φόρτωση "
 "ρυθμίσεων.\n"
 
-#: src/wmapp.cc:1617
+#: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr ""
 
-#: src/wmapp.cc:1622
+#: src/wmapp.cc:1638
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2409,21 +2409,21 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/wmapp.cc:1689
+#: src/wmapp.cc:1705
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s κατάλογοι ρυθμίσεων:\n"
 
-#: src/wmapp.cc:1774
+#: src/wmapp.cc:1790
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s ρυθμισμένες επιλογές:%s\n"
 
-#: src/wmapp.cc:1915
+#: src/wmapp.cc:1931
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση αποσύνδεσης"
 
-#: src/wmapp.cc:1916
+#: src/wmapp.cc:1932
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2528,7 +2528,7 @@ msgstr ""
 msgid "Rename the window title"
 msgstr ""
 
-#: src/wmframe.cc:1857
+#: src/wmframe.cc:1868
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2538,7 +2538,7 @@ msgstr ""
 "\n"
 "Επιθυμείς να συνεχίσεις;"
 
-#: src/wmframe.cc:1862
+#: src/wmframe.cc:1873
 msgid "Kill Client: "
 msgstr "Σκότωμα του Πελάτη: "
 
@@ -2607,20 +2607,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3636
+#: src/wmmgr.cc:3667
 msgid "Missing program setxkbmap"
 msgstr "Λείπει το πρόγραμμα setxkbmap"
 
-#: src/wmmgr.cc:3637
+#: src/wmmgr.cc:3668
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:284
+#: src/wmoption.cc:285
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Άγνωστη παράμετρος παράθυρου: %s"
 
-#: src/wmoption.cc:356
+#: src/wmoption.cc:357
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Σφάλμα σύνταξης στις παραμέτρους των παράθυρων, στη γραμμή %d του %s"
@@ -2795,7 +2795,7 @@ msgstr "Διακοπή _Διεργασίας"
 msgid "Window list"
 msgstr "Λίστα παραθύρων"
 
-#: src/wmwinmenu.cc:96
+#: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
 msgstr "%lu. Επιφάνεια εργασίας %-.32s"
@@ -2816,12 +2816,12 @@ msgstr "%s: επέτυχε η επιλογή"
 msgid "Could not parse color \"%s\""
 msgstr "Δεν ήταν δυνατή η φόρτωση της γραμματοσειράς \"%s\"."
 
-#: src/yconfig.cc:84
+#: src/yconfig.cc:83
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Άγνωστο όνομα κλειδιού %s στο %s"
 
-#: src/yconfig.cc:160 src/yconfig.cc:171 src/yconfig.cc:183
+#: src/yconfig.cc:159 src/yconfig.cc:170 src/yconfig.cc:182
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Λάθος όρισμα: %s για %s [%d,%d]"
@@ -2862,7 +2862,7 @@ msgstr ""
 "ΣΦΑΛΜΑ; Αναπάντεχοι χαρακτήρες, αλλά το Imlib ήταν σε θέση να αναλύσει το "
 "\"%s\""
 
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
+#: src/yfontcore.cc:121 src/yfontxft.cc:143
 #, c-format
 msgid "Could not load font \"%s\"."
 msgstr "Δεν ήταν δυνατή η φόρτωση της γραμματοσειράς \"%s\"."
@@ -2963,23 +2963,23 @@ msgstr ""
 "  -d, --display=ΟΝΟΜΑ   Το ΟΝΟΜΑ του εξυπηρετητή X , που θα χρησιμοποιηθεί.\n"
 "  --sync                Συγχρονισμός των εντολών X11.\n"
 
-#: src/yximage.cc:157
+#: src/yximage.cc:173
 #, fuzzy
 #| msgid "Support for the %s interface not compiled."
 msgid "Support for PNG images was not enabled"
 msgstr "Η υποστήριξη για την διεπαφή %s δεν έχει συντεθεί στον κώδικα."
 
-#: src/yximage.cc:165
+#: src/yximage.cc:181
 msgid "Support for JPEG images was not enabled"
 msgstr ""
 
-#: src/yximage.cc:171
+#: src/yximage.cc:187
 #, fuzzy, c-format
 #| msgid "Unsupported interface: %s."
 msgid "Unsupported file format: %s"
 msgstr "Μη υποστηριζόμενη διεπαφή: %s ."
 
-#: src/yximage.cc:175 src/yximage.cc:198
+#: src/yximage.cc:191 src/yximage.cc:214
 #, fuzzy, c-format
 #| msgid "Could not find image %s"
 msgid "Could not load image \"%s\""
