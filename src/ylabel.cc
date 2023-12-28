@@ -18,6 +18,7 @@ int YLabel::labelObjectCount;
 YLabel::YLabel(const mstring &label, YWindow *parent):
     YWindow(parent),
     fLabel(label),
+    fMultied(false),
     fPainted(false)
 {
     setParentRelative();
@@ -74,9 +75,13 @@ void YLabel::paint(Graphics &g, const YRect &/*r*/) {
         g.setColor(labelFg);
         g.setFont(labelFont);
 
-        for (s = fLabel; s.splitall('\n', &s, &r); s = r) {
-            g.drawChars(s, x, y);
-            y += h;
+        if (fMultied) {
+            g.drawStringMultiline(fLabel, x, y, width());
+        } else {
+            for (s = fLabel; s.splitall('\n', &s, &r); s = r) {
+                g.drawChars(s, x, y);
+                y += h;
+            }
         }
     }
 }

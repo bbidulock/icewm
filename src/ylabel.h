@@ -14,9 +14,11 @@ public:
     virtual void repaint();
 
     void setText(const char* label);
+    void multiline(bool enable) { fMultied = enable; }
 
 private:
     mstring fLabel;
+    bool fMultied;
     bool fPainted;
 
     void autoSize();

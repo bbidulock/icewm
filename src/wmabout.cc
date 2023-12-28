@@ -25,13 +25,18 @@ AboutDlg::AboutDlg(YActionListener* al):
     fListener(al)
 {
     const char version[] = "IceWM " VERSION " (" HOSTOS "/" HOSTCPU ")";
-    mstring copyright = mstring("Copyright ")
-                      + _("(C)") + " 1997-2012 Marko Macek, "
-                      + _("(C)") + " 2001 Mathias Hasselmann";
+    mstring copyhead = mstring("Copyright\t");
+    mstring copysymb = mstring(_("(C)"));
+    mstring copyright = copyhead
+                      + copysymb + " 1997-2012 Marko Macek, "
+                      + copysymb + " 2001 Mathias Hasselmann,  \n\t"
+                      + copysymb + " 2016-2023 Bert Gijsbers. \n";
 
     Ladder* ladder = new Ladder();
     *ladder += label(version);
-    *ladder += label(copyright);
+    YLabel* copylabel = label(copyright);
+    copylabel->multiline(true);
+    *ladder += copylabel;
     *ladder += new Spacer(1, 20);
 
     Table* table = new Table();
