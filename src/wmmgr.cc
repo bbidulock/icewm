@@ -1086,6 +1086,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
     } else if (f && c && w == c) {
         MSG(("%lX Focus 0x%lX client %s",
              xapp->getEventTime("focus1"), w->handle(), f->getTitle().c_str()));
+    } else if (!w) {
+        MSG(("%lX Focus WARNING: invalid handle!", xapp->getEventTime("focus1")));
     } else {
         MSG(("%lX Focus 0x%lX",
              xapp->getEventTime("focus1"), w->handle()));
