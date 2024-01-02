@@ -322,6 +322,15 @@ char* YLocale::narrowString(const wchar_t* uStr, size_t uLen, size_t& lLen) {
     return dest;
 }
 
+const char *YLocale::getLcType()
+{
+    auto cur_lctype = setlocale(LC_CTYPE, NULL);
+    if (cur_lctype == NULL) {
+        return "C";
+    }
+    return cur_lctype;
+}
+
 const char *YLocale::getLocaleName() {
 #ifdef CONFIG_I18N
     return instance->converter->localeName();
