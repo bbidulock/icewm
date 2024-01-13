@@ -24,10 +24,11 @@
 #include "sysdep.h"
 #include "intl.h"
 #include "appnames.h"
-#include <ctype.h>
+#include "ylocale.h"
 
 #include <stack>
 #include <string>
+#include <algorithm>
 
 char const* ApplicationName;
 
@@ -81,8 +82,15 @@ static int cmpUtf8(const void *p1, const void *p2) {
 class tDesktopInfo;
 typedef YVec<const gchar*> tCharVec;
 tCharVec sys_folders, home_folders;
-tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, nullptr };
-tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, nullptr };
+tCharVec* sys_home_folders[] = { &sys_folders, &home_folders };
+const char* rtls[] = {
+    "ar",   // arabic
+    "fa",   // farsi
+    "he",   // hebrew
+    "ps",   // pashto
+    "sd",   // sindhi
+    "ur",   // urdu
+};
 
 struct tListMeta {
     LPCSTR title, key, icon;
@@ -100,13 +108,13 @@ struct tListMeta {
 GHashTable* meta_lookup_data;
 tListMeta* lookup_category(LPCSTR key)
 {
-    tListMeta* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
-    if (ret)
-    {
+    auto* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
+#ifdef CONFIG_I18N
         // auto-translate the default title for the user's language
-        if (ret->title == nullptr)
-            ret->title = _(ret->key);
-    }
+    if (ret && !ret->title)
+        ret->title = gettext(ret->key);
+    //printf("Got title? %s -> %s\n", ret->key, ret->title);
+#endif
     return ret;
 }
 
@@ -709,30 +717,19 @@ bool launch(LPCSTR dfile, char** argv, int argc) {
 
 static void init() {
 #ifdef CONFIG_I18N
-    const char* loc = setlocale(LC_ALL, "");
-    if (loc
-        && islower(*loc & 0xff)
-        && islower(loc[1] & 0xff)
-        && !isalpha(loc[2] & 0xff)) {
-        const char rtls[][4] = {
-            "ar",   // arabic
-            "fa",   // farsi
-            "he",   // hebrew
-            "ps",   // pashto
-            "sd",   // sindhi
-            "ur",   // urdu
-        };
-        for (const char* rtl : rtls) {
-            if (rtl[0] == loc[0] && rtl[1] == loc[1]) {
-                right_to_left = true;
-                break;
-            }
+    setlocale(LC_ALL, "");
+
+    auto loc = YLocale::getCheckedExplicitLocale(false);
+    right_to_left = loc && std::any_of(rtls, rtls + ACOUNT(rtls),
+        [&](const char* rtl) {
+            return rtl[0] == loc[0] && rtl[1] == loc[1];
         }
-    }
-#endif
+    );
 
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
+
+#endif
 
     meta_lookup_data = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -745,7 +742,8 @@ static void init() {
     }
 
     const char* terminals[] = { terminal_option, getenv("TERMINAL"), TERM,
-                                "urxvt", "alacritty", "roxterm", "xterm" };
+                                "urxvt", "alacritty", "roxterm", "xterm",
+                                "x-terminal-emulator", "terminator" };
     for (auto term : terminals)
         if (term && (terminal_command = path_lookup(term)) != nullptr)
             break;
@@ -775,30 +773,6 @@ static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
             "XDG_DATA_HOME=%s\n"
             "XDG_DATA_DIRS=%s\n", home, dirs);
     exit(xit);
-}
-
-void split_folders(const char* path_string, tCharVec& where) {
-    for (gchar** p = g_strsplit(path_string, ":", -1); *p; ++p) {
-        where.add(*p);
-    }
-}
-
-void process_apps(const tCharVec& where) {
-    for (const gchar* const * p = where.data; p < where.data + where.size;
-            ++p) {
-        proc_dir_rec(*p, 0, insert_app_info, "applications", "desktop");
-    }
-}
-
-/**
- * @return True if all categories received description data
- */
-void load_folder_descriptions(const tCharVec& where) {
-    for (const gchar* const * p = where.data; p < where.data + where.size;
-            ++p) {
-        proc_dir_rec(*p, 0, pickup_folder_info, "desktop-directories",
-                "directory");
-    }
 }
 
 #ifdef DEBUG_xxx
@@ -836,12 +810,12 @@ int main(int argc, char** argv) {
         return EXIT_SUCCESS;
     }
 
-    for (char** pArg = argv + 1; pArg < argv + argc; ++pArg) {
+    for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
             g_fprintf(stdout,
                     "icewm-menu-fdo "
                     VERSION
-                    ", Copyright 2015-2022 Eduard Bloch, 2017-2022 Bert Gijsbers.\n");
+                    ", Copyright 2015-2024 Eduard Bloch, 2017-2023 Bert Gijsbers.\n");
             exit(0);
         }
         else if (is_copying_switch(*pArg))
@@ -895,14 +869,25 @@ int main(int argc, char** argv) {
     }
 
     init();
+
+    auto split_folders = [](const char* path_string, tCharVec& where) {
+        for (auto p = g_strsplit(path_string, ":", -1); *p; ++p)
+            where.add(*p);
+    };
     split_folders(sysshare, sys_folders);
     split_folders(usershare, home_folders);
 
-    load_folder_descriptions(sys_folders);
-    load_folder_descriptions(home_folders);
+    for(auto& where: sys_home_folders) {
+        for (auto p = where->data; p < where->data + where->size; ++p) {
+            proc_dir_rec(*p, 0, pickup_folder_info, "desktop-directories",
+                    "directory");
+        }
+    }
 
-    process_apps(sys_folders);
-    process_apps(home_folders);
+    for(auto& where: sys_home_folders) {
+        for (auto p = where->data; p < where->data + where->size; ++p)
+            proc_dir_rec(*p, 0, insert_app_info, "applications", "desktop");
+    }
 
     root.print();
 

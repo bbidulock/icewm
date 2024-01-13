@@ -112,10 +112,10 @@ YXftFont::YXftFont(mstring name, bool use_xlfd):
 
                 if (fname.find(":lang=") < 0)
                 {
-                    auto lclocale = mstring(YLocale::getLcType()).lower();
-                    if (lclocale.length() >= 5 && lclocale[2] == '_') {
-                        fname = fname + ":lang=" + lclocale.substring(0,2) + "-"
-                                + lclocale.substring(3,2);
+                    auto lclocale = mstring(YLocale::getCheckedExplicitLocale(true));
+                    if (lclocale) {
+                        fname = (fname + ":lang=" + lclocale.substring(0,2) + "-"
+                                + lclocale.substring(3,2)).lower();
                     }
                 }
 

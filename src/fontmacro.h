@@ -2,7 +2,7 @@
 #define FONT_MACRO_H
 
 #ifndef CFGDIR
-#error include config.h
+#error config.h not included
 #endif
 
 #if !defined(FONTS_ADOBE) \

@@ -27,7 +27,7 @@ public:
     static wchar_t* wideCharString(const char* str, size_t len, size_t& out);
 #endif
     static char* narrowString(const wchar_t* uStr, size_t uLen, size_t& lLen);
-    static const char* getLcType();
+    static const char* getCheckedExplicitLocale(bool lctype=true);
 
 private:
     class YConverter* converter;
