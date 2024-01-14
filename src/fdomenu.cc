@@ -117,6 +117,9 @@ struct tListMeta {
     LPCSTR get_title() const {
         auto ret = title ? title : key;
         //printf("gt: %s\n", ret);
+        if (!load_state_title) {
+            return gettext(ret);
+        }
         return ret;
     }
 };
@@ -380,7 +383,8 @@ public:
             if (!**pCatKey)
                 continue; // empty?
             tListMeta *pResolved = lookup_category(*pCatKey);
-            if (!pResolved) continue;
+            if (!pResolved)
+                continue;
             if (!pResolved->parent_sec)
                 matched_main_cats.add(pResolved);
             else
@@ -391,7 +395,6 @@ public:
         if (!no_sub_cats) {
             for (tListMeta** p = matched_sub_cats.data;
                     p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
-
                 try_add_to_subcat(pNode, *p, matched_main_cats);
             }
         }
