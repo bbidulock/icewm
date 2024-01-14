@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[3.5.0],
+AC_INIT([icewm],[3.4.6.130],
         [https://github.com/bbidulock/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([3.5.0])
+AC_REVISION([3.4.6.130])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,10 +22,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2024-05-20'
+DATE='2024-09-24'
 AC_SUBST([DATE])
 
-MDOCDATE='May 20, 2024'
+MDOCDATE='September 24, 2024'
 AC_SUBST([MDOCDATE])
 
 BRANCH='icewm-1-4-BRANCH'
@@ -37,7 +37,7 @@ TESTCASES="$TESTCASES iceview icesame iceicon icerun icelist icebar" # iceclock
 features=''
 
 # Initialize Automake
-AM_INIT_AUTOMAKE([gnits 1.12 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
+AM_INIT_AUTOMAKE([1.12 dist-lzip no-dist-gzip std-options -Wall color-tests silent-rules tar-pax])
 AM_MAINTAINER_MODE
 AM_SILENT_RULES([yes])
 
@@ -87,7 +87,7 @@ LT_INIT([dlopen])
 LT_LANG([C++])
 AC_SUBST([LIBTOOL_DEPS])
 
-AM_GNU_GETTEXT_VERSION([0.19.2])
+AM_GNU_GETTEXT_VERSION([0.22])
 AM_GNU_GETTEXT([external])
 
 AC_ARG_ENABLE([i18n],
