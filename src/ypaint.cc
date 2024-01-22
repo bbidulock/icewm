@@ -576,7 +576,7 @@ void Graphics::drawPixmap(ref<YPixmap> pix, int sx, int sy,
     Picture source = pix->picture(), destin = picture();
     if (source && destin) {
         XRenderComposite(display(), PictOpOver, source, None, destin,
-                         0, 0, 0, 0, dx - xOrigin, dy - yOrigin, w, h);
+                         sx, sy, 0, 0, dx - xOrigin, dy - yOrigin, w, h);
         return;
     }
 
@@ -658,7 +658,7 @@ void Graphics::compositeImage(ref<YImage> img, int sx, int sy, unsigned w, unsig
             XRenderComposite(display(),
                              img->hasAlpha() ? PictOpOver : PictOpSrc,
                              source, None, picture(),
-                             0, 0, 0, 0, rx, ry,
+                             sx, sy, 0, 0, rx, ry,
                              unsigned(rw), unsigned(rh));
             return;
         }

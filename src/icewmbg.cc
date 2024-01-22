@@ -677,6 +677,15 @@ ref<YPixmap> Background::renderBackground(Image back, YColor color) {
         }
         ref<YPixmap> pixm = todraw->renderToPixmap(g.rdepth());
         if (pixm != null) {
+            if (verbose) {
+                tlog(" ... @%d,%d %ux%u+%d+%d",
+                             max(0, int(bw - width) / 2),
+                             max(0, int(bh - height) / 2),
+                             min(width, bw),
+                             min(height, bh),
+                             max(x, x + int(width - bw) / 2),
+                             max(y, y + int(height - bh) / 2));
+            }
             g.drawPixmap(pixm,
                          max(0, int(bw - width) / 2),
                          max(0, int(bh - height) / 2),
