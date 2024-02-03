@@ -692,10 +692,7 @@ void TaskBar::updateLocation() {
 
     int dx, dy;
     unsigned dw, dh;
-    int screen =
-        inrange(xineramaPrimaryScreen, 0, desktop->getScreenCount() - 1)
-        ? xineramaPrimaryScreen : -1;
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, screen);
+    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, -1);
 
     int x = dx;
     unsigned int w = 0;
