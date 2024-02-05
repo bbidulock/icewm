@@ -187,7 +187,7 @@ void YMenu::focusItem(int itemNo) {
 
                 int ny = y();
                 if (ny + iy + ih > dy + dh)
-                    ny = dx + dh - ih - iy;
+                    ny = dy + dh - ih - iy;
                 else if (ny + iy < dy)
                     ny = -iy;
                 setPosition(x(), ny);
