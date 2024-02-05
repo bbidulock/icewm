@@ -377,7 +377,8 @@ public:
         // now test the system icons folders specified by user or defaults
         csmart copy(newstr(iconPath));
         for (tokens folder(copy, ":"); folder; ++folder) {
-            probeIconFolder(folder.token(), false);
+            upath path(folder.token());
+            probeIconFolder(path.expand(), false);
         }
 
         dedupTestPath.clear();
