@@ -14,6 +14,7 @@
 #include "appnames.h"
 
 #define CFGDEF
+#define ICEWMBG
 #include "icewmbg_prefs.h"
 
 char const *ApplicationName = nullptr;
@@ -920,7 +921,8 @@ bool Background::become(bool replace) {
 }
 
 void Background::printOptions() {
-    for (cfoption* o = icewmbg_prefs; o && o->type; ++o) {
+    for (int k = 0; k < 10 && icewmbg_prefs[k].type; ++k) {
+        cfoption* o = &icewmbg_prefs[k];
         switch (o->type) {
             case cfoption::CF_BOOL:
                 printf("%-26s = %d\n", o->name, *o->v.b.bool_value);
