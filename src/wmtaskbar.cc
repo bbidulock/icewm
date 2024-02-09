@@ -302,7 +302,6 @@ void TaskBar::initApplets() {
     if (taskBarShowCollapseButton) {
         fCollapseButton = new ObjectButton(this, actionCollapseTaskbar);
         if (fCollapseButton) {
-            fCollapseButton->setWinGravity(StaticGravity);
             ref<YImage> image = leftToRight
                               ? taskbarCollapseImage : taskbarExpandImage;
             if (image != null) {
