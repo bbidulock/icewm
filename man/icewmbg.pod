@@ -2,7 +2,7 @@
 
 =head2 NAME
 
- icewmbg - a background desktop image manager for IceWM
+ icewmbg - a desktop background image manager for IceWM
 
 =head2 SYNOPSIS
 
@@ -134,6 +134,10 @@ A leading tilde or environment variable is expanded.
 =item B<--postpreferences>
 
 Print a list of all preference values that B<icewmbg> will use.
+
+=item B<--verbose>
+
+Print a log of actions and some events.
 
 =back
 
