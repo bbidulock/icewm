@@ -1027,7 +1027,20 @@ static void bgLoadConfig(const char *configFile, const char *overrideTheme)
         };
         YConfig(theme_prefs).load(configFile).load("theme");
     }
-    YConfig(icewmbg_prefs).load(configFile).loadTheme().loadOverride();
+    YConfig conf(icewmbg_prefs);
+    conf.load(configFile);
+
+    cfoption* o = icewmbg_prefs;
+    while (o->type && *o->name != 'X')
+        ++o;
+    cfoption::OptionType type = cfoption::CF_NONE;
+    if (o)
+        swap(type, o->type);
+    conf.loadTheme();
+    if (o)
+        swap(type, o->type);
+
+    conf.loadOverride();
 }
 
 static void bgParse(const char* name, const char* value) {
