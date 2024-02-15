@@ -3557,7 +3557,7 @@ void YWindowManager::undoArrange() {
         delete [] fArrangeInfo; fArrangeInfo = nullptr;
         fArrangeCount = 0;
         unlockFocus();
-        focusTopWindow();
+        focusLastWindow();
     }
     setShowingDesktop(false);
 }
