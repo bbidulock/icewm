@@ -23,11 +23,12 @@ typedef ref<YImage> Image;
 
 class Cache {
 public:
-    Cache() { }
+    Cache(bool verb) : verbose(verb) { }
     ~Cache() { clear(); }
     void clear() { iname = null; image = null; }
-    Image get(const mstring& name) {
+    Image get(mstring name) {
         if (iname != name) {
+            if (verbose) tlog("load %s", name.c_str());
             iname = name;
             image = YImage::load(iname);
             if (image == null && testOnce(iname, __LINE__)) {
@@ -39,6 +40,7 @@ public:
 private:
     mstring iname;
     Image image;
+    bool verbose;
 };
 
 class Background: public YXApplication, private YTimerListener {
@@ -163,6 +165,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     randInited(false),
     themeInited(false),
     imageInited(false),
+    cache(verb),
     mypid(getpid()),
     activeWorkspace(0),
     cycleOffset(0),
