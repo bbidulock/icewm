@@ -20,62 +20,65 @@ msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-12-28 19:22+0100\n"
-"PO-Revision-Date: 2004-10-03 21:56+0200\n"
-"Last-Translator: Jernej Kovacic <jkovacic AT email DOT si>\n"
-"Language-Team: Slovenian <translator-team-sl@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2024-02-23 01:42+0000\n"
+"Last-Translator: Arnold Marko <atomicmind@yahoo.com>\n"
+"Language-Team: Slovenian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sl/>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
+"%100==4 ? 2 : 3;\n"
+"X-Generator: Weblate 4.9.1\n"
 
 #: src/aapm.cc:113
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open the APM device %s"
-msgstr "Ne najdem zemljevida točk %s"
+msgstr "Ne morem odpreti APM naprave %s"
 
 #: src/aapm.cc:121 src/aapm.cc:139
 #, c-format
 msgid "Can't ioctl the APM device %s"
-msgstr ""
+msgstr "Ne morem izvesti ioctl za APM napravo %s"
 
 #: src/aapm.cc:169
 #, c-format
 msgid "Unknown format used by APM device %s (%d)."
-msgstr ""
+msgstr "APM naprava %s uporablja neznan format (%d)."
 
 #: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
 msgid " - Power"
-msgstr " - Napajanje"
+msgstr " - Napajalnik"
 
 #: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
 msgid "P"
-msgstr "P"
+msgstr "N"
 
 #: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
 msgid " - Charging"
-msgstr " - Polnim"
+msgstr " - Polnjenje"
 
 #: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
 msgid "C"
-msgstr "C"
+msgstr "P"
 
 #: src/aapm.cc:454
 msgid " - Full"
-msgstr ""
+msgstr " - Napolnjen"
 
 #: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "energija:\t%s"
 
 #: src/aclock.cc:195
 msgid "CLOCK"
-msgstr ""
+msgstr "URA"
 
 #: src/aclock.cc:201
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: src/aclock.cc:202 src/themes.cc:82
 msgid "Default"
@@ -84,22 +87,22 @@ msgstr "Privzeto"
 #: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
 #: src/amemstatus.cc:264
 msgid "_Disable"
-msgstr ""
+msgstr "_Onemogoči"
 
 #: src/aclock.cc:204
 msgid "_UTC"
-msgstr ""
+msgstr "_UTC"
 
 #. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
 #. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
 #: src/acpustatus.cc:348
 msgid "°C"
-msgstr ""
+msgstr "°C"
 
 #: src/acpustatus.cc:552
-#, fuzzy, c-format
+#, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Obremenitev CPE: %3.2f %3.2f %3.2f, %u procesov."
+msgstr "Obremenitev procesorja %s: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:558
 #, c-format
@@ -107,6 +110,8 @@ msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Pomnilnik (prosto):%5.3f (%.3f) G"
 
 #: src/acpustatus.cc:563
 #, c-format
@@ -114,6 +119,8 @@ msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
+"\n"
+"Izmenjava (prosto): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -121,6 +128,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI temperatura: "
 
 #: src/acpustatus.cc:592 src/acpustatus.cc:630
 #, c-format
@@ -128,15 +137,16 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"Frekv.procesorja: %.3fGHz"
 
 #: src/acpustatus.cc:607 src/acpustatus.cc:907
 msgid "CPU"
-msgstr ""
+msgstr "Procesor"
 
 #: src/acpustatus.cc:607
-#, fuzzy
 msgid "Load: "
-msgstr "Obremenitev CPE"
+msgstr "Obremenitev. "
 
 #: src/acpustatus.cc:622
 #, c-format
@@ -144,51 +154,52 @@ msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Pomnilnik (uporabnik): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:908
 #, c-format
 msgid "CPU%d"
-msgstr ""
+msgstr "Procesor %d"
 
 #: src/acpustatus.cc:914
 msgid "_Combine"
-msgstr ""
+msgstr "_Združi"
 
 #: src/acpustatus.cc:916
 msgid "_Separate"
-msgstr ""
+msgstr "_Razdruži"
 
 #: src/akeyboard.cc:83 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s je bil zaključen s statusom %d."
 
 #: src/akeyboard.cc:86 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:506
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s je bil uničen s signalom %d."
 
 #: src/akeyboard.cc:99
 msgid "rules:"
-msgstr ""
+msgstr "pravila:"
 
 #: src/akeyboard.cc:100
+#, fuzzy
 msgid "model:"
-msgstr ""
+msgstr "model:"
 
 #: src/akeyboard.cc:101
 msgid "layout:"
-msgstr ""
+msgstr "razpored:"
 
 #: src/akeyboard.cc:102
-#, fuzzy
-#| msgid "Bad option: %s"
 msgid "options:"
-msgstr "Slaba izbira: %s"
+msgstr "možnosti:"
 
 #: src/akeyboard.cc:158
 msgid "Keyboard"
-msgstr ""
+msgstr "Tipkovnica"
 
 #: src/amailbox.cc:64
 #, c-format
@@ -203,55 +214,55 @@ msgstr "Neveljavna pot do poštnega predala: \"%s\""
 #: src/amailbox.cc:140
 #, c-format
 msgid "DNS name lookup failed for %s"
-msgstr ""
+msgstr "Neuspešno preverjanje DNS imena za %s"
 
 #: src/amailbox.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid mailbox port: \"%s\""
-msgstr "Neveljavna pot do poštnega predala: \"%s\""
+msgstr "Neveljavna vrata poštnega predala: \"%s\""
 
 #: src/amailbox.cc:314
-#, fuzzy, c-format
+#, c-format
 msgid "Could not connect to %s: %s"
-msgstr "Ne morem se povezati s strežnikom YIFF: %s"
+msgstr "Ne morem se povezati na: %s:%s"
 
 #: src/amailbox.cc:334
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to find %s command"
-msgstr "Neuspešna izvedba %s: %s"
+msgstr "Ukaza %s ni bilo mogoče najti"
 
 #: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute %s"
-msgstr "Neuspešno odpiranje %s: %s"
+msgstr "Neuspešna izvedba %s"
 
 #: src/amailbox.cc:447
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Neuspešno zapisovanja na vtičnik: %s"
 
 #: src/amailbox.cc:694
 #, c-format
 msgid "Using MailBox \"%s\"\n"
-msgstr "Uporabljam poštni predal \"%s\"\n"
+msgstr "Uporabljen poštni predal \"%s\"\n"
 
 #: src/amailbox.cc:801
 msgid "Suspended"
-msgstr ""
+msgstr "Suspendirano"
 
 #: src/amailbox.cc:805
 msgid "Error checking mailbox."
 msgstr "Napaka pri preverjanju elektronske pošte."
 
 #: src/amailbox.cc:812
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld sporočilo."
+msgstr "Sporočilo je %ld , neprebranih je %ld."
 
 #: src/amailbox.cc:813
-#, fuzzy, c-format
+#, c-format
 msgid "%ld mail messages, %ld unread."
-msgstr "%ld sporočil."
+msgstr "Sporočil je %ld , neprebranih je %ld."
 
 #: src/amailbox.cc:819
 #, c-format
@@ -265,56 +276,58 @@ msgstr "%ld sporočil."
 
 #: src/amailbox.cc:961
 msgid "MAIL"
-msgstr ""
+msgstr "POŠTA"
 
 #: src/amailbox.cc:963
 msgid "_Check"
-msgstr ""
+msgstr "_Preveri"
 
 #: src/amailbox.cc:965
 msgid "_Suspend"
-msgstr ""
+msgstr "_Suspendiraj"
 
 #: src/amemstatus.cc:144
+#, fuzzy
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/amemstatus.cc:148
 #, fuzzy
 msgid "MB"
-msgstr "M"
+msgstr "MB"
 
 #: src/amemstatus.cc:152
+#, fuzzy
 msgid "kB"
-msgstr ""
+msgstr "kB"
 
 #: src/amemstatus.cc:156
 msgid "bytes"
-msgstr ""
+msgstr "bajtov"
 
 #: src/amemstatus.cc:176
 msgid "Memory Total: "
-msgstr ""
+msgstr "Skupaj pomnilnika: "
 
 #: src/amemstatus.cc:177
 msgid "Free: "
-msgstr ""
+msgstr "Prosto: "
 
 #: src/amemstatus.cc:178
 msgid "Cached: "
-msgstr ""
+msgstr "V predpomnilniku: "
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
-msgstr ""
+msgstr "Medpomnilniki: "
 
 #: src/amemstatus.cc:180
 msgid "User: "
-msgstr ""
+msgstr "Uporabnik: "
 
 #: src/amemstatus.cc:262
 msgid "MEM"
-msgstr ""
+msgstr "POMN"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -326,26 +339,22 @@ msgid ""
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 "Vmesnik %s:\n"
-"  Trenutna hitrost (notri/ven):\t%li %s/%li %s\n"
-"  Trenutno povprečje (notri/ven):\t%lli %s/%lli %s\n"
-"  Preneseno (notri/ven):\t%lli %s/%lli %s\n"
-"  Čas priklopa:\t%ld:%02ld:%02ld%s%s"
+"  Trenutna hitrost (v/iz):\t%li %s/%li %s\n"
+"  Trenutno povprečje (v/iz):\t%lli %s/%lli %s\n"
+"  Preneseno (v/iz):\t%lli %s/%lli %s\n"
+"  Trajanje povezave:\t%ld:%02ld:%02ld%s%s"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "icon name expected"
 msgid "disconnected"
-msgstr "pričakovano ime ikone"
+msgstr "ni povezave"
 
 #: src/apppstatus.cc:284
-#, fuzzy
-#| msgid "Rolldown"
 msgid "down"
-msgstr "Spravi navzdol"
+msgstr "ni na voljo"
 
 #: src/apppstatus.cc:705
 msgid "NET"
-msgstr ""
+msgstr "MREŽA"
 
 #: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
@@ -353,727 +362,702 @@ msgstr "Delovna površina: "
 
 #: src/decorate.cc:132
 msgid "Tabs"
-msgstr ""
+msgstr "Zavihki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:43
 msgid "2DGraphics"
-msgstr ""
+msgstr "2D grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:45
 msgid "3DGraphics"
-msgstr ""
+msgstr "3D grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
 #: src/fdospecgen.h:47 src/fdospecgen.h:49
 msgid "Accessibility"
-msgstr ""
+msgstr "Dostopnost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:51
 msgid "Accessories"
-msgstr ""
+msgstr "Pripomočki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:53
-#, fuzzy
-#| msgid "Same Game"
 msgid "ActionGame"
-msgstr "Ista igra"
+msgstr "Akcijska igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:55
 msgid "Adult"
-msgstr ""
+msgstr "Za odrasle"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:57
-#, fuzzy
-#| msgid "Same Game"
 msgid "AdventureGame"
-msgstr "Ista igra"
+msgstr "Pustolovščina"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:59
 msgid "Amusement"
-msgstr ""
+msgstr "Razvedrilo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:61
-#, fuzzy
-#| msgid "Same Game"
 msgid "ArcadeGame"
-msgstr "Ista igra"
+msgstr "Arkadna igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:63
 msgid "Archiving"
-msgstr ""
+msgstr "Arhiviranje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:65
 msgid "Art"
-msgstr ""
+msgstr "Umetnost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:67
 msgid "ArtificialIntelligence"
-msgstr ""
+msgstr "Umetna inteligenca"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:69
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:71
 msgid "Audio"
-msgstr ""
+msgstr "Zvok"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:73
 msgid "AudioVideo"
-msgstr ""
+msgstr "Zvok in video"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:75
 msgid "AudioVideoEditing"
-msgstr ""
+msgstr "Urejanje zvoka in videa"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:77
 msgid "Biology"
-msgstr ""
+msgstr "Biologija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:79
 msgid "BlocksGame"
-msgstr ""
+msgstr "Igra z bloki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:81
-#, fuzzy
-#| msgid "Same Game"
 msgid "BoardGame"
-msgstr "Ista igra"
+msgstr "Namizna igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:83
 msgid "Building"
-msgstr ""
+msgstr "Gradnja"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:85
 msgid "Calculator"
-msgstr ""
+msgstr "Kalkulator"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:87
 msgid "Calendar"
-msgstr ""
+msgstr "Koledar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:89
-#, fuzzy
-#| msgid "Same Game"
 msgid "CardGame"
-msgstr "Ista igra"
+msgstr "Igra s kartami"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:91
 msgid "Chart"
-msgstr ""
+msgstr "Graf"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:93
 msgid "Chat"
-msgstr ""
+msgstr "Klepet"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:95
 msgid "Chemistry"
-msgstr ""
+msgstr "Kemija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:97
 msgid "Clock"
-msgstr ""
+msgstr "Ura"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
 #: src/fdospecgen.h:99
 msgid "Compression"
-msgstr ""
+msgstr "Stiskanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:101
 msgid "ComputerScience"
-msgstr ""
+msgstr "Računalništvo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:103
 msgid "Construction"
-msgstr ""
+msgstr "Konstrukcija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:105
 msgid "ContactManagement"
-msgstr ""
+msgstr "Upravljanje stikov"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:107
 msgid "Core"
-msgstr ""
+msgstr "Jedro"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:109
 msgid "DataVisualization"
-msgstr ""
+msgstr "Prikaz podatkov"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
 #: src/fdospecgen.h:111
 msgid "Database"
-msgstr ""
+msgstr "Podatkovna baza"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:113
 msgid "Debugger"
-msgstr ""
+msgstr "Razhroščevanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:115
-#, fuzzy
-#| msgid "D_esktop"
 msgid "DesktopSettings"
-msgstr "_Namizje"
+msgstr "Nastavitve namizja"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:117
 msgid "Development"
-msgstr ""
+msgstr "Razvoj"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:119
 msgid "Dialup"
-msgstr ""
+msgstr "Klicanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
 #: src/fdospecgen.h:121
 msgid "Dictionary"
-msgstr ""
+msgstr "Slovar"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
 #: src/fdospecgen.h:123
 msgid "DiscBurning"
-msgstr ""
+msgstr "Zapisovanje diskov"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:125
 msgid "Documentation"
-msgstr ""
+msgstr "Dokumentacija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:127
 msgid "Economy"
-msgstr ""
+msgstr "Ekonomija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:129
 msgid "Editors"
-msgstr ""
+msgstr "Urejevalniki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:131
 msgid "Education"
-msgstr ""
+msgstr "Izobraževanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:133
 msgid "Electricity"
-msgstr ""
+msgstr "Elektrika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:135
 msgid "Electronics"
-msgstr ""
+msgstr "Elektronika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
 #: src/fdospecgen.h:137
 msgid "Email"
-msgstr ""
+msgstr "Pošta"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
 #: src/fdospecgen.h:139
+#, fuzzy
 msgid "Emulator"
-msgstr ""
+msgstr "Emulator"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:141
 msgid "Engineering"
-msgstr ""
+msgstr "Inženirstvo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:143
 msgid "Feed"
-msgstr ""
+msgstr "Vir"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
 #: src/fdospecgen.h:145
 msgid "FileManager"
-msgstr ""
+msgstr "Upravljalnik datotek"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
 #: src/fdospecgen.h:147
 msgid "FileTools"
-msgstr ""
+msgstr "Datotečno orodje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:149
 msgid "FileTransfer"
-msgstr ""
+msgstr "Prenos datotek"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
 #: src/fdospecgen.h:151
 msgid "Filesystem"
-msgstr ""
+msgstr "Datotečni sistem"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:153
-#, fuzzy
-#| msgid "Cancel"
 msgid "Finance"
-msgstr "Prekliči"
+msgstr "Finance"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:155
 msgid "FlowChart"
-msgstr ""
+msgstr "Graf poteka"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:157
 msgid "GUIDesigner"
-msgstr ""
+msgstr "Oblikovanje grafičnega vmesnika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:159
-#, fuzzy
-#| msgid "Same Game"
 msgid "Game"
-msgstr "Ista igra"
+msgstr "Igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:161
 msgid "Geography"
-msgstr ""
+msgstr "Geografija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:163
 msgid "Geology"
-msgstr ""
+msgstr "Geologija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:165
 msgid "Geoscience"
-msgstr ""
+msgstr "Geo-znanost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:167
 msgid "Graphics"
-msgstr ""
+msgstr "Grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
 #: src/fdospecgen.h:169
 msgid "HamRadio"
-msgstr ""
+msgstr "Radioamaterstvo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:171
 msgid "HardwareSettings"
-msgstr ""
+msgstr "Nastavitve strojne opreme"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:173
 msgid "History"
-msgstr ""
+msgstr "Zgodovina"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:175
 msgid "Humanities"
-msgstr ""
+msgstr "Družboslovje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:177
-#, fuzzy
-#| msgid "KDE"
 msgid "IDE"
-msgstr "KDE"
+msgstr "Integrirano razvojno okolje IDE"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:179
 msgid "IRCClient"
-msgstr ""
+msgstr "IRC odjemalec"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:181
-#, fuzzy
-#| msgid "_Terminate Process"
 msgid "ImageProcessing"
-msgstr "_Prekini proces"
+msgstr "Obdelava slik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:183
 msgid "InstantMessaging"
-msgstr ""
+msgstr "Hitro sporočanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:185
-#, fuzzy
-#| msgid "Same Game"
 msgid "KidsGame"
-msgstr "Ista igra"
+msgstr "Otroška igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:187
 msgid "Languages"
-msgstr ""
+msgstr "Jeziki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:189
 msgid "Literature"
-msgstr ""
+msgstr "Literatura"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:191
-#, fuzzy
-#| msgid "Same Game"
 msgid "LogicGame"
-msgstr "Ista igra"
+msgstr "Logična igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:193
 msgid "Maps"
-msgstr ""
+msgstr "Zemljevidi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:195
 msgid "Math"
-msgstr ""
+msgstr "Matematika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:197
 msgid "MedicalSoftware"
-msgstr ""
+msgstr "Medicina"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:199
+#, fuzzy
 msgid "Midi"
-msgstr ""
+msgstr "Midi"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:201
 msgid "Mixer"
-msgstr ""
+msgstr "Mešalka"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
 #: src/fdospecgen.h:203
 msgid "Monitor"
-msgstr ""
+msgstr "Zaslon"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:205
+#, fuzzy
 msgid "Motif"
-msgstr ""
+msgstr "Motif"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:207
 msgid "Multimedia"
-msgstr ""
+msgstr "Večpredstavnost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
 #: src/fdospecgen.h:209
 msgid "Music"
-msgstr ""
+msgstr "Glasba"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:211
 msgid "Network"
-msgstr ""
+msgstr "Omrežje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:213
 msgid "News"
-msgstr ""
+msgstr "Novice"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
 #: src/fdospecgen.h:215
 msgid "NumericalAnalysis"
-msgstr ""
+msgstr "Številčna analiza"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
 #: src/fdospecgen.h:217
 msgid "OCR"
-msgstr ""
+msgstr "Optično branje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:219
 msgid "Office"
-msgstr ""
+msgstr "Pisarna"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:221
 msgid "Other"
-msgstr ""
+msgstr "Drugo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:223
+#, fuzzy
 msgid "P2P"
-msgstr ""
+msgstr "P2P"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:225
+#, fuzzy
 msgid "PDA"
-msgstr ""
+msgstr "PDA"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
 #: src/fdospecgen.h:227
 msgid "PackageManager"
-msgstr ""
+msgstr "Upravljalnik paketov"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
 #: src/fdospecgen.h:229
 msgid "ParallelComputing"
-msgstr ""
+msgstr "Paralelni računalniki"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:231
 msgid "Photography"
-msgstr ""
+msgstr "Fotografija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:233
 msgid "Physics"
-msgstr ""
+msgstr "Fizika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:235
 msgid "Player"
-msgstr ""
+msgstr "Predvajalnik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:237
 msgid "Presentation"
-msgstr ""
+msgstr "Predstavitev"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
 #: src/fdospecgen.h:239
 msgid "Printing"
-msgstr ""
+msgstr "Tiskanje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:241
 msgid "Profiling"
-msgstr ""
+msgstr "Profiliranje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
 #: src/fdospecgen.h:243
 msgid "ProjectManagement"
-msgstr ""
+msgstr "Upravljanje projektov"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:245
 msgid "Publishing"
-msgstr ""
+msgstr "Založništvo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:247
 msgid "RasterGraphics"
-msgstr ""
+msgstr "Bitna grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
 #: src/fdospecgen.h:249
 msgid "Recorder"
-msgstr ""
+msgstr "Snemalnik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:251
 msgid "RemoteAccess"
-msgstr ""
+msgstr "Oddaljeni dostop"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:253
 msgid "RevisionControl"
-msgstr ""
+msgstr "Nadzor revizije"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:255
 msgid "Robotics"
-msgstr ""
+msgstr "Robotika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:257
 msgid "RolePlaying"
-msgstr ""
+msgstr "Igranje vlog"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
 #: src/fdospecgen.h:259
 msgid "Scanning"
-msgstr ""
+msgstr "Skeniranje"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:261
 msgid "Science"
-msgstr ""
+msgstr "Znanost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:263
 msgid "Screensavers"
-msgstr ""
+msgstr "Ohranjevalniki zaslona"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
 #: src/fdospecgen.h:265
 msgid "Security"
-msgstr ""
+msgstr "Varnost"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:267
 msgid "Sequencer"
-msgstr ""
+msgstr "Sekvencer"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:269
-#, fuzzy
-#| msgid "D_esktop"
 msgid "Settings"
-msgstr "_Namizje"
+msgstr "Nastavitve"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:271
 msgid "Shooter"
-msgstr ""
+msgstr "Streljačina"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:273
 msgid "Simulation"
-msgstr ""
+msgstr "Simulacija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
 #: src/fdospecgen.h:275
 msgid "Spirituality"
-msgstr ""
+msgstr "Duhovno"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
 #: src/fdospecgen.h:277
 msgid "Sports"
-msgstr ""
+msgstr "Šport"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:279
-#, fuzzy
-#| msgid "Same Game"
 msgid "SportsGame"
-msgstr "Ista igra"
+msgstr "Športna igra"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:281
 msgid "Spreadsheet"
-msgstr ""
+msgstr "Preglednica"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
 #: src/fdospecgen.h:283
-#, fuzzy
-#| msgid "Same Game"
 msgid "StrategyGame"
-msgstr "Ista igra"
+msgstr "Strategija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:285
 msgid "System"
-msgstr ""
+msgstr "Sistem"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
 #: src/fdospecgen.h:287
 msgid "TV"
-msgstr ""
+msgstr "TV"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:289
 msgid "Telephony"
-msgstr ""
+msgstr "Telefonija"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:291
 msgid "TelephonyTools"
-msgstr ""
+msgstr "Orodja za telefonijo"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
 #: src/fdospecgen.h:293
 msgid "TerminalEmulator"
-msgstr ""
+msgstr "Terminalski emulator"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:295
 msgid "TextEditor"
-msgstr ""
+msgstr "Urejevalnik besedila"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
 #: src/fdospecgen.h:297
 msgid "TextTools"
-msgstr ""
+msgstr "Besedilna orodja"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
 #: src/fdospecgen.h:299
 msgid "Translation"
-msgstr ""
+msgstr "Prevod"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
 #: src/fdospecgen.h:301
 msgid "Tuner"
-msgstr ""
+msgstr "Sprejemnik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:303
 msgid "Utility"
-msgstr ""
+msgstr "Orodja"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
 #: src/fdospecgen.h:305
 msgid "VectorGraphics"
-msgstr ""
+msgstr "Vektorska grafika"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:307
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:309
 msgid "VideoConference"
-msgstr ""
+msgstr "Video konferenca"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
 #: src/fdospecgen.h:311
 msgid "Viewer"
-msgstr ""
+msgstr "Prikazovalnik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
 #: src/fdospecgen.h:313
 msgid "WINE"
-msgstr ""
+msgstr "WINE"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:315
 msgid "WebBrowser"
-msgstr ""
+msgstr "Spletni brskalnik"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
 #: src/fdospecgen.h:317
 msgid "WebDevelopment"
-msgstr ""
+msgstr "Spletni razvoj"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
 #: src/fdospecgen.h:319
 msgid "WordProcessor"
-msgstr ""
+msgstr "Obdelava besedil"
 
 #: src/icehelp.cc:1348
 msgid "Back"
@@ -1109,35 +1093,31 @@ msgstr "Stvarno kazalo"
 
 #: src/icehelp.cc:1359
 msgid "Find..."
-msgstr ""
+msgstr "Najdi..."
 
 #: src/icehelp.cc:1359
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+F"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+F"
 
 #: src/icehelp.cc:1360
 msgid "Find next"
-msgstr ""
+msgstr "Najdi naslednje"
 
 #: src/icehelp.cc:1360
 msgid "F3"
-msgstr ""
+msgstr "F3"
 
 #: src/icehelp.cc:1362
 msgid "Open in Browser"
-msgstr ""
+msgstr "Odpri v brskalniku"
 
 #: src/icehelp.cc:1362
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+B"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+B"
 
 #: src/icehelp.cc:1364
 msgid "Reload"
-msgstr ""
+msgstr "Ponovno naloži"
 
 #: src/icehelp.cc:1364 src/icesame.cc:60
 msgid "Ctrl+R"
@@ -1153,44 +1133,39 @@ msgstr "Ctrl+Q"
 
 #: src/icehelp.cc:1370
 msgid "Icewm(1)"
-msgstr ""
+msgstr "Icewm(1)"
 
 #: src/icehelp.cc:1370
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+I"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+I"
 
 #: src/icehelp.cc:1372
 msgid "Icewmbg(1)"
-msgstr ""
+msgstr "Icewmbg(1)"
 
 #: src/icehelp.cc:1374
 msgid "Icesound(1)"
-msgstr ""
+msgstr "Icesound(1)"
 
 #: src/icehelp.cc:1376
 msgid "FAQ"
-msgstr ""
+msgstr "Pogosta vprašanja"
 
 #: src/icehelp.cc:1378
 msgid "Manual"
-msgstr ""
+msgstr "Priročnik"
 
 #: src/icehelp.cc:1378
-#, fuzzy
-#| msgid "Ctrl+Q"
 msgid "Ctrl+M"
-msgstr "Ctrl+Q"
+msgstr "Ctrl+M"
 
 #: src/icehelp.cc:1380
 msgid "Support"
-msgstr ""
+msgstr "Podpora"
 
 #: src/icehelp.cc:1382
-#, fuzzy
 msgid "Theme Howto"
-msgstr "Avtor teme:"
+msgstr "Vodnik po temah"
 
 #: src/icehelp.cc:1382 src/iceview.cc:60
 msgid "Ctrl+T"
@@ -1198,7 +1173,7 @@ msgstr "Ctrl+T"
 
 #: src/icehelp.cc:1384
 msgid "Website"
-msgstr ""
+msgstr "Spletna stran"
 
 #: src/icehelp.cc:1384 src/iceview.cc:61
 msgid "Ctrl+W"
@@ -1206,7 +1181,7 @@ msgstr "Ctrl+W"
 
 #: src/icehelp.cc:1386
 msgid "Github"
-msgstr ""
+msgstr "Github"
 
 #: src/icehelp.cc:1390 src/yinputline.cc:19
 msgid "Ctrl+X"
@@ -1217,9 +1192,8 @@ msgid "Ctrl+V"
 msgstr "Ctrl+V"
 
 #: src/icehelp.cc:2204
-#, fuzzy
 msgid "Unsupported protocol."
-msgstr "Nepodprt vmesnik: %s."
+msgstr "Nepodprt protokol."
 
 #: src/icehelp.cc:2283
 #, c-format
@@ -1228,34 +1202,33 @@ msgstr "Neveljavna pot: %s\n"
 
 #: src/icehelp.cc:2307
 msgid "Path does not refer to a file."
-msgstr ""
+msgstr "Pot se ne nanaša na datoteko."
 
 #: src/icehelp.cc:2312
 msgid "Failed to open file for reading."
-msgstr ""
+msgstr "Datoteke ni bilo mogoče odpreti za branje."
 
 #: src/icehelp.cc:2341
-#, fuzzy
 msgid "Failed to create a temporary file"
-msgstr "Neuspešna izdelava anonimne cevi: %s"
+msgstr "Začasne datoteke ni bilo mogoče ustvariti"
 
 #: src/icehelp.cc:2431
 #, c-format
 msgid "Failed to execute system(%s) (%d)"
-msgstr ""
+msgstr "Napaka pri izvajanju sistema (%s) (%d)"
 
 #: src/icehelp.cc:2453
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to decompress %s"
-msgstr "Neuspešno odpiranje %s: %s"
+msgstr "Neuspešno razširjanje %s"
 
 #: src/icehelp.cc:2461
 msgid "Could not locate curl or wget in PATH"
-msgstr ""
+msgstr "V PATH ni bilo mogoče najti curl ali wget"
 
 #: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
-msgstr ""
+msgstr "URL vsebuje nevarne znake"
 
 #: src/icehelp.cc:2502
 #, c-format
