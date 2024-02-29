@@ -37,34 +37,51 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 		COMMENT "Extracting translatable messages to ${_potFile} -- may require config restart!")
 	ADD_CUSTOM_TARGET(update_pot DEPENDS stamp-potfile)
+	message(VERBOSE "Adding update_pot target to update ${_potFile}")
 
-  if(EXISTS ${_potFile})
+	if(EXISTS ${_potFile})
 
-	if(SKIP_TRANSLATIONS)
-		ADD_CUSTOM_TARGET(translations)
-	else()
-		ADD_CUSTOM_TARGET(translations ALL)
+		if(SKIP_TRANSLATIONS)
+			message(VERBOSE "NOTE: SKIP_TRANSLATIONS is set, building i18n files is not part of the default build!")
+			ADD_CUSTOM_TARGET(translations)
+		else()
+			ADD_CUSTOM_TARGET(translations ALL)
+		endif()
+
+		foreach(_lang ${LANGUAGES})
+			SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
+			set(_srcPO "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po")
+			message(VERBOSE "Generating updated ${_tempPO} from ${_srcPO}")
+			ADD_CUSTOM_COMMAND(OUTPUT ${_tempPO}
+				COMMAND msgmerge -o "${_tempPO}" ${EXTRA_MSGMERGE} -s "${_srcPO}" "${_potFile}"
+				WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+				DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po" ${_potFile}
+				COMMENT "Updated: ${_tempPO}")
+			ADD_CUSTOM_TARGET(generate-${_lang}.po DEPENDS ${_tempPO})
+
+			if(PO_UPDATE)
+				set(SRC_UPDATE COMMAND ${CMAKE_COMMAND} -E copy_if_different "${_tempPO}" "${_srcPO}")
+			else()
+				set(SRC_UPDATE )
+			endif()
+
+			SET(_tempMO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo")
+			ADD_CUSTOM_COMMAND(OUTPUT "${_tempMO}"
+				COMMAND msgfmt -o ${_tempMO} ${EXTRA_MSGFMT} ${_tempPO}
+				${SRC_UPDATE}
+				DEPENDS ${_tempPO}
+				WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
+			#COMMENT "Compiled: ${_tempMO}")
+			ADD_CUSTOM_TARGET(generate-${_lang}.gmo DEPENDS ${_tempMO})
+			install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
+			add_dependencies(translations generate-${_lang}.gmo)
+		endforeach()
+
 	endif()
 
-	foreach(_lang ${LANGUAGES})
-		SET(_tempPO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.po")
-		ADD_CUSTOM_COMMAND(OUTPUT ${_tempPO}
-			COMMAND msgmerge -o ${_tempPO} ${EXTRA_MSGMERGE} -s ${CMAKE_CURRENT_SOURCE_DIR}/${_lang}.po ${_potFile}
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-			COMMENT "Updated: ${_tempPO}")
-		ADD_CUSTOM_TARGET(generate-${_lang}.po DEPENDS ${_tempPO})
-
-		SET(_tempMO "${CMAKE_CURRENT_BINARY_DIR}/${_lang}.gmo")
-		ADD_CUSTOM_COMMAND(OUTPUT ${_tempMO}
-			COMMAND msgfmt -o ${_tempMO} ${EXTRA_MSGFMT} ${_tempPO}
-			DEPENDS ${_tempPO}
-			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
-		#COMMENT "Compiled: ${_tempMO}")
-		ADD_CUSTOM_TARGET(generate-${_lang}.gmo DEPENDS ${_tempMO})
-		install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
-		add_dependencies(translations generate-${_lang}.gmo)
-	endforeach()
-
-  endif()
+else()
+	message(STATUS "Some of those tools not found, skipping translations! gettext, xgettext, msgmerge, msgfmt")
 
 endif()
+
+# vim: set noexpandtab:ts=2:shiftwidth=2:
