@@ -11,10 +11,10 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.31\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-12-28 19:22+0100\n"
-"PO-Revision-Date: 2023-02-07 14:14+0000\n"
+"PO-Revision-Date: 2024-03-01 16:42+0000\n"
 "Last-Translator: Davide Aiello <davide.aiello@novilingulists.com>\n"
-"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/it/>\n"
+"Language-Team: Italian <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2034,7 +2034,7 @@ msgstr "_Modalità ri_sparmio energetico"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Iberna"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2282,7 +2282,7 @@ msgstr ""
 
 #: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FILE   Reindirizza tutti gli output al FILE.\n"
 
 #: src/wmapp.cc:1638
 #, c-format
@@ -2447,13 +2447,11 @@ msgstr "_Informazioni"
 
 #: src/wmdialog.cc:95
 msgid "Reload win_options"
-msgstr ""
+msgstr "Ricarica win_options"
 
 #: src/wmdialog.cc:96
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Ricarica"
+msgstr "Ricarica ke_ys"
 
 #: src/wmframe.cc:1375
 msgid "Rename"
