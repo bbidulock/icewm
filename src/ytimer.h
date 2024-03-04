@@ -34,6 +34,7 @@ public:
     void runTimer(); // run timer handler immediately
     bool isRunning() const { return fRunning; }
     bool isFixed() const;
+    bool expires() const;
 
     timeval fuzziness() const { return (timeval) { 0L, fFuzziness*1000L }; }
     const timeval& timeout() const { return fTimeout; }
@@ -42,7 +43,7 @@ public:
     void decreaseTimeout(const timeval& diff) { fTimeout += diff; }
 
 private:
-    void enlist(bool enable);
+    void enlist();
     void fuzzTimer();
 
     YTimerListener *fListener;

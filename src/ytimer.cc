@@ -45,6 +45,10 @@ bool YTimer::isFixed() const {
     return fFixed || !fFuzziness;
 }
 
+bool YTimer::expires() const {
+    return isRunning() && timeout_min() < monotime();
+}
+
 void YTimer::setInterval(long ms) {
     fInterval = max(0L, ms);
 }
@@ -57,7 +61,7 @@ void YTimer::startTimer(long ms) {
 void YTimer::startTimer() {
     fTimeout = monotime() + millitime(fInterval);
     fuzzTimer();
-    enlist(true);
+    enlist();
 }
 
 void YTimer::fuzzTimer() {
@@ -73,21 +77,20 @@ void YTimer::fuzzTimer() {
 void YTimer::runTimer() {
     fTimeout = monotime();
     fuzzTimer();
-    enlist(true);
+    enlist();
 }
 
 void YTimer::stopTimer() {
-    enlist(false);
+    if (fRunning) {
+        fRunning = false;
+        mainLoop->unregisterTimer(this);
+    }
 }
 
-void YTimer::enlist(bool enable) {
-    if (fRunning != enable) {
-        fRunning = enable;
-        if (enable) {
-            mainLoop->registerTimer(this);
-        } else {
-            mainLoop->unregisterTimer(this);
-        }
+void YTimer::enlist() {
+    if (fRunning == false) {
+        fRunning = true;
+        mainLoop->registerTimer(this);
     }
 }
 

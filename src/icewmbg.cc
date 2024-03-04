@@ -124,6 +124,7 @@ private:
     bool randInited;
     bool themeInited;
     bool imageInited;
+    bool forceUpdate;
     Strings backgroundImages;
     YColors backgroundColors;
     Strings transparencyImages;
@@ -142,6 +143,7 @@ private:
     lazy<YTimer> cycleTimer;
     lazy<YTimer> checkTimer;
     lazy<YTimer> randrTimer;
+    lazy<YTimer> updateTimer;
 
     Atom _XA_XROOTPMAP_ID;
     Atom _XA_XROOTCOLOR_PIXEL;
@@ -165,6 +167,7 @@ Background::Background(int *argc, char ***argv, bool verb):
     randInited(false),
     themeInited(false),
     imageInited(false),
+    forceUpdate(false),
     cache(verb),
     mypid(getpid()),
     activeWorkspace(0),
@@ -254,7 +257,7 @@ Background::~Background() {
 }
 
 int Background::mainLoop() {
-    update();
+    changeBackground(false);
     if (0 < cycleBackgroundsPeriod) {
         cycleTimer->setTimer(cycleBackgroundsPeriod * 1000L, this, true);
     }
@@ -447,6 +450,14 @@ bool Background::handleTimer(YTimer* timer) {
             update(true);
         }
     }
+    else if (timer == updateTimer) {
+        if (cycleTimer && cycleTimer->expires()) {
+            cycleTimer->startTimer();
+            cycleOffset += desktopCount;
+        }
+        changeBackground(forceUpdate);
+        forceUpdate = false;
+    }
     return false;
 }
 
@@ -543,9 +554,8 @@ void Background::startShuffle() {
 }
 
 void Background::update(bool force) {
-    activeWorkspace = getWorkspace();
-    if (verbose) tlog("update %s %d", boolstr(force), activeWorkspace);
-    changeBackground(force);
+    forceUpdate |= force;
+    updateTimer->setTimer(0L, this, true);
 }
 
 long* Background::getLongProperties(Atom property, int n) const {
@@ -704,6 +714,10 @@ ref<YPixmap> Background::renderBackground(Image back, YColor color) {
 }
 
 void Background::changeBackground(bool force) {
+    activeWorkspace = getWorkspace();
+    if (verbose)
+        tlog("update f=%s ws=%d", boolstr(force), activeWorkspace);
+
     Image backgroundImage = getBackgroundImage();
     YColor backgroundColor(getBackgroundColor());
     if (force == false) {
