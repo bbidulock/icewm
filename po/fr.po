@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.2.15pre3\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2023-12-28 19:22+0100\n"
-"PO-Revision-Date: 2023-04-21 11:14+0000\n"
-"Last-Translator: Wallon <franckjl@hotmail.com>\n"
-"Language-Team: French <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/fr/>\n"
+"PO-Revision-Date: 2024-03-04 17:42+0000\n"
+"Last-Translator: Sophie Leroy <sophie@stoquart.com>\n"
+"Language-Team: French <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2052,7 +2052,7 @@ msgstr "_Mode veille"
 
 #: src/wmapp.cc:528 src/wmdialog.cc:91
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Hyberner"
 
 #: src/wmapp.cc:532
 msgid "Restart _Icewm"
@@ -2303,7 +2303,7 @@ msgstr ""
 
 #: src/wmapp.cc:1633
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=FICHIER   Rediriger toutes les sorties vers FICHIER.\n"
 
 #: src/wmapp.cc:1638
 #, c-format
