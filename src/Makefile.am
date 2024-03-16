@@ -90,6 +90,8 @@ libice_la_SOURCES = \
 	default.h \
 	guievent.h \
 	intl.h \
+	keysyms.cc \
+	keysyms.h \
 	logevent.cc \
 	logevent.h \
 	misc.cc \

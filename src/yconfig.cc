@@ -9,6 +9,7 @@
 #include "intl.h"
 #include "ascii.h"
 #include "argument.h"
+#include "keysyms.h"
 
 char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     char *p = source;
@@ -107,29 +108,40 @@ KeySym YConfig::parseKeySym(const char* arg) {
             return ch;
         if (inrange<int>(ch, ' ', '~'))
             return ch;
+        if (inrange<int>(ch, 0xa0, 0xff))
+            return ch;
         return NoSymbol;
     } else {
         int ch = 0;
         if (arg[2] == 0) {
-            if ((*arg & 0xe0) == 0xc0 && (arg[1] & 0xc0) == 0x80)
+            if ((*arg & 0xe0) == 0xc0 && (arg[1] & 0xc0) == 0x80) {
                 ch = ((*arg & 0x1f) << 6) | (arg[1] & 0x3f);
+            }
         } else if (arg[3] == 0) {
             if ((*arg & 0xf0) == 0xe0 && (arg[1] & 0xc0) == 0x80 &&
-                (arg[2] & 0xc0) == 0x80)
+                (arg[2] & 0xc0) == 0x80) {
                 ch = ((*arg & 0xf) << 12) | (arg[1] & 0x3f) << 6 |
                          (arg[2] & 0x3f);
+            }
         } else if (arg[4] == 0) {
             if ((*arg & 0xf8) == 0xf0 && (arg[1] & 0xc0) == 0x80 &&
-                (arg[2] & 0xc0) == 0x80 && (arg[3] & 0xc0) == 0x80)
+                (arg[2] & 0xc0) == 0x80 && (arg[3] & 0xc0) == 0x80) {
                 ch = ((*arg & 0x7) << 18) | (arg[1] & 0x3f) << 12 |
                          (arg[2] & 0x3f) << 6 | (arg[3] & 0x3f);
+            }
         }
         if (ch) {
+            KeySym ks;
             if (inrange(ch, 0xa0, 0xff))
-                return ch;
-            if (ch < 0x100)
-                return NoSymbol;
-            return ch | 0x01000000;
+                ks = ch;
+            else if (ch < 0x100)
+                ks = NoSymbol;
+            else {
+                ks = ucsToKeysym(ch);
+                if (ks == NoSymbol)
+                    ks = ch | 0x01000000;
+            }
+            return ks;
         }
     }
 

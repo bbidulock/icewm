@@ -153,6 +153,7 @@ private:
     void initPointers();
     void initIcons();
     void initIconSize();
+    void reparseKeyPrefs();
     void fixupPreferences();
 };
 

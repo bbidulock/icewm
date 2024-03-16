@@ -487,9 +487,24 @@ void YWMApp::initPointers() {
 }
 
 void YWMApp::keyboardRemap() {
-    fixupPreferences();
+    reparseKeyPrefs();
     for (KProgramIterType p = keyProgs.iterator(); ++p; ) {
         p->parse();
+    }
+    if (manager && !initializing && manager->isRunning()) {
+        manager->grabKeys();
+    }
+}
+
+void YWMApp::reparseKeyPrefs() {
+    extern cfoption icewm_preferences[];
+    for (cfoption* op = icewm_preferences; op->type; ++op) {
+        if (op->type == cfoption::CF_KEY) {
+            WMKey* key = op->v.k.key_value;
+            if (key->name) {
+                parseKey(key->name, &key->key, &key->mod);
+            }
+        }
     }
 }
 
