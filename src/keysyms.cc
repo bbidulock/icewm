@@ -1,4 +1,6 @@
-struct ucs_keysym {
+#include "keysyms.h"
+
+static struct ucs_keysym {
   unsigned short ucs;
   unsigned short keysym;
 } ucs_keysyms[] = {
@@ -772,7 +774,7 @@ unsigned short ucsToKeysym(int ucs) {
             if (ucs_keysyms[pv].ucs < ucs)
                 lo = pv + 1;
             else if (ucs_keysyms[pv].ucs > ucs)
-                hi = pv - 1;
+                hi = pv;
             else
                 return ucs_keysyms[pv].keysym;
         }
