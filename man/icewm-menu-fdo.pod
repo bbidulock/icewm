@@ -139,8 +139,9 @@ B<glib2-dev> package dependency.
 
 =head2 SEE ALSO
 
-L<Desktop Entry Specification>,
-L<Desktop Menu Specification>,
+L<Base Directory Specification|https://www.freedesktop.org/wiki/Specifications/basedir-spec/>,
+L<Desktop Entry Specification|https://www.freedesktop.org/wiki/Specifications/desktop-entry-spec/>,
+L<Desktop Menu Specification|https://www.freedesktop.org/wiki/Specifications/menu-spec/>,
 L<icewm(1)>,
 L<icewm-menu(5)>,
 L<icewm-preferences(5)>,
