@@ -1,5 +1,5 @@
-#ifndef __THEMES_H
-#define __THEMES_H
+#ifndef THEMES_H
+#define THEMES_H
 
 #include "objmenu.h"
 #include "obj.h"
@@ -10,7 +10,7 @@ class YActionListener;
 
 class DTheme: public DObject {
 public:
-    DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme);
+    DTheme(IApp* app, YSMListener* listener, mstring label, mstring theme);
     virtual ~DTheme();
 
     virtual void open();
@@ -21,27 +21,27 @@ private:
 
 class ThemesMenu: public ObjectMenu {
 public:
-    ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent = nullptr);
+    ThemesMenu(IApp *app, YSMListener *smListener, YActionListener *wmListener);
     virtual ~ThemesMenu();
 
     virtual void updatePopup();
     virtual void refresh();
 
 private:
-    void findThemes(const upath& path, ObjectMenu* container);
+    void findThemes(upath path, ObjectMenu* container);
 
     YMenuItem *newThemeItem(
         IApp *app,
         YSMListener *smActionListener,
-        const mstring& label,
-        const mstring& relThemeName,
+        mstring label,
+        mstring relThemeName,
         ObjectMenu* container);
 
     void findThemeAlternatives(
         IApp *app,
         YSMListener *smActionListener,
-        const upath& path,
-        const mstring& relName,
+        upath path,
+        mstring relName,
         YMenuItem *item,
         ObjectMenu* container);
 
@@ -49,7 +49,7 @@ private:
     // much better, we would have a themeCound from the last refresh
     // cycle and update it after menu construction, counting themes that
     // are actually added to menues
-    int countThemes(const upath& path);
+    int countThemes(upath path);
     int themeCount;
 
     YSMListener *smActionListener;

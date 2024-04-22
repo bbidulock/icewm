@@ -26,10 +26,11 @@
 const unsigned utf32ellipsis = 0x2026;
 extern YFont menuFont;
 
-DTheme::DTheme(IApp *app, YSMListener *smActionListener, const mstring &label, const mstring &theme):
-    DObject(app, label, null), fTheme(theme)
+DTheme::DTheme(IApp* app, YSMListener* listener, mstring label, mstring theme)
+    : DObject(app, label, null)
+    , smActionListener(listener)
+    , fTheme(theme)
 {
-    this->smActionListener = smActionListener;
 }
 
 DTheme::~DTheme() {
@@ -48,10 +49,10 @@ void DTheme::open() {
     smActionListener->handleSMAction(ICEWM_ACTION_RESTARTWM);
 }
 
-ThemesMenu::ThemesMenu(IApp *app, YSMListener *smActionListener, YActionListener *wmActionListener, YWindow *parent)
-    : ObjectMenu(wmActionListener, parent)
+ThemesMenu::ThemesMenu(IApp* app, YSMListener* smListener, YActionListener* wmListener)
+    : ObjectMenu(wmListener)
     , themeCount(0)
-    , smActionListener(smActionListener)
+    , smActionListener(smListener)
     , app(app)
 {
 }
@@ -86,7 +87,7 @@ void ThemesMenu::refresh() {
     }
 }
 
-int ThemesMenu::countThemes(const upath& path) {
+int ThemesMenu::countThemes(upath path) {
     int ret = 0;
     for (udir dir(path); dir.next(); ) {
         ret += (path + dir.entry() + "default.theme").isReadable();
@@ -100,8 +101,8 @@ ThemesMenu::~ThemesMenu() {
 YMenuItem* ThemesMenu::newThemeItem(
     IApp* app,
     YSMListener* smActionListener,
-    const mstring& label,
-    const mstring& relThemeName,
+    mstring label,
+    mstring relThemeName,
     ObjectMenu* container)
 {
     YMenuItem* item = nullptr;
@@ -117,7 +118,7 @@ YMenuItem* ThemesMenu::newThemeItem(
     return item;
 }
 
-void ThemesMenu::findThemes(const upath& path, ObjectMenu* container) {
+void ThemesMenu::findThemes(upath path, ObjectMenu* container) {
     mstring defTheme("/default.theme");
 
     bool bNesting = inrange(nestedThemeMenuMinNumber, 1, themeCount - 1);
@@ -198,8 +199,8 @@ void ThemesMenu::findThemes(const upath& path, ObjectMenu* container) {
 void ThemesMenu::findThemeAlternatives(
     IApp *app,
     YSMListener *smActionListener,
-    const upath& path,
-    const mstring& relName,
+    upath path,
+    mstring relName,
     YMenuItem *item,
     ObjectMenu* container)
 {
