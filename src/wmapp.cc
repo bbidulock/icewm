@@ -1605,7 +1605,7 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
                 manager->popupStartMenu(desktop);
             }
             else if (k1 == xapp->Win_R && k2 == xapp->Win_R) {
-                manager->doWMAction(ICEWM_ACTION_WINDOWLIST, true);
+                manager->doWMAction(ICEWM_ACTION_WINDOWLIST);
             }
         }
     }
@@ -2014,11 +2014,11 @@ void YWMApp::handleSMAction(WMAction message) {
         { ICEWM_ACTION_WINDOWLIST,    actionWindowList },
         { ICEWM_ACTION_RESTARTWM,     actionRestart },
         { ICEWM_ACTION_SUSPEND,       actionSuspend },
-        { ICEWM_ACTION_HIBERNATE,     actionHibernate },
         { ICEWM_ACTION_WINOPTIONS,    actionWinOptions },
         { ICEWM_ACTION_RELOADKEYS,    actionReloadKeys },
         { ICEWM_ACTION_ICEWMBG,       actionIcewmbg },
         { ICEWM_ACTION_REFRESH,       actionRefresh },
+        { ICEWM_ACTION_HIBERNATE,     actionHibernate },
     };
     for (auto p : pairs)
         if (message == p.left)

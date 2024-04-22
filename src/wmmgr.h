@@ -271,7 +271,7 @@ public:
     void reflectKeyboard(int configIndex, mstring keyboard);
     void kbLayout();
 
-    static void doWMAction(WMAction action, bool putback = false);
+    static void doWMAction(WMAction action);
     void lockFocus() {
         //MSG(("lockFocus %d", lockFocusCount));
         lockFocusCount++;
