@@ -1075,6 +1075,8 @@ void YWindowManager::setFocus(YFrameWindow *f, bool canWarp, bool reorder) {
             switchFocusTo(f, reorder);
 
         f->setWmUrgency(false);
+        if (c)
+            c->clearUrgency();
     }
 #ifdef DEBUG
     if (w == desktop) {

@@ -3825,9 +3825,9 @@ void YFrameWindow::updateNetWMFullscreenMonitors(int t, int b, int l, int r) {
     }
 }
 
-void YFrameWindow::setWmUrgency(bool wmUrgency) {
-    if ( !frameOption(foIgnoreUrgent) || !wmUrgency) {
-        if (wmUrgency != hasState(WinStateUrgent)) {
+void YFrameWindow::setWmUrgency(bool urgency) {
+    if ( !urgency || !frameOption(foIgnoreUrgent)) {
+        if (urgency != hasState(WinStateUrgent)) {
             fWinState ^= WinStateUrgent;
             client()->setStateHint(getState());
             updateTaskBar();

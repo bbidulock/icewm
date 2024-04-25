@@ -1284,6 +1284,13 @@ Pixmap YFrameClient::iconMaskHint() const {
     return wmHint(IconMaskHint) ? fHints->icon_mask : None;
 }
 
+void YFrameClient::clearUrgency() {
+    if (urgencyHint()) {
+        fHints->flags &= ~XUrgencyHint;
+        XSetWMHints(xapp->display(), handle(), fHints);
+    }
+}
+
 bool YFrameClient::isDockApp() const {
     return isDockAppIcon() || isDockAppWindow();
 }

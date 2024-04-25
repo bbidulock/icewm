@@ -220,6 +220,7 @@ public:
     Pixmap iconPixmapHint() const;
     Pixmap iconMaskHint() const;
     bool urgencyHint() const { return wmHint(XUrgencyHint); }
+    void clearUrgency();
     bool isDockApp() const;
     bool isDockAppIcon() const;
     bool isDockAppWindow() const;
