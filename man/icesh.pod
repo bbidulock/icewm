@@ -357,7 +357,7 @@ Minimize the window.
 
 =item B<restore>
 
-Restore the window to normal.
+Restore the window to normal and clear urgency.
 
 =item B<hide>
 
@@ -385,7 +385,7 @@ Show the window on just one workspace.
 
 =item B<urgent>
 
-Set the urgent flag to flash the task button.
+Set the urgency flag to flash the task button.
 
 =item B<resize> I<WIDTH> I<HEIGHT>
 

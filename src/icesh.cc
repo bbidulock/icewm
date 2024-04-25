@@ -3534,6 +3534,9 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             if (f & IconWindowHint) {
                 printf(" Window(0x%lx)", h->icon_window);
             }
+            if (f & XUrgencyHint) {
+                printf(" urgency");
+            }
             newline();
         }
         return;
@@ -5353,9 +5356,15 @@ void IceSh::parseAction()
                 YNetState(window) -= NetSkipPager | NetSkipTaskbar;
         }
         else if (isAction("restore", 0)) {
-            FOREACH_WINDOW(window)
+            FOREACH_WINDOW(window) {
                 YNetState(window) -= NetFullscreen | NetShaded | NetDemands |
                                      NetHorizontal | NetVertical;
+                xsmart<XWMHints> h(XGetWMHints(display, window));
+                if (h && hasbit(h->flags, XUrgencyHint)) {
+                    h->flags &= ~XUrgencyHint;
+                    XSetWMHints(display, window, h);
+                }
+            }
             changeState(NormalState);
         }
         else if (isAction("denormal", 0)) {
