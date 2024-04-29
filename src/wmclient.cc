@@ -1287,7 +1287,11 @@ Pixmap YFrameClient::iconMaskHint() const {
 void YFrameClient::clearUrgency() {
     if (urgencyHint()) {
         fHints->flags &= ~XUrgencyHint;
-        XSetWMHints(xapp->display(), handle(), fHints);
+        xsmart<XWMHints> h(XGetWMHints(xapp->display(), handle()));
+        if (h && hasbit(h->flags, XUrgencyHint)) {
+            h->flags &= ~XUrgencyHint;
+            XSetWMHints(xapp->display(), handle(), h);
+        }
     }
 }
 
