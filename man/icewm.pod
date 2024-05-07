@@ -187,6 +187,11 @@ it to search for configuration files.
 B<icewm> will search all the configuration directories for theme files
 and print a list of all found themes.
 
+=item B<-i>, B<--install>=I<THEME>
+
+Install I<THEME> from icewm-extra and exit. When I<THEME> is I<list>,
+print a listing of available themes to install.
+
 =item B<-p>, B<--postpreferences>
 
 This gives a long list of all the internal B<icewm> options with their

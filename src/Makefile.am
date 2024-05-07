@@ -346,6 +346,8 @@ icewm_SOURCES = \
 	ascii.h \
 	themes.cc \
 	themes.h \
+	theminst.cc \
+	theminst.h \
 	decorate.cc \
 	browse.cc \
 	browse.h \

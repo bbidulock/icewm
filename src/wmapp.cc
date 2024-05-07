@@ -28,6 +28,7 @@
 #include "prefs.h"
 #include "udir.h"
 #include "ascii.h"
+#include "theminst.h"
 #include "ycursor.h"
 #include "yxcontext.h"
 #include "ytooltip.h"
@@ -1852,15 +1853,7 @@ int main(int argc, char **argv) {
                 rewrite_prefs = true;
             else if (is_long_switch(*arg, "extensions"))
                 show_extensions = true;
-            else
-#ifdef DEBUG
-            if (is_long_switch(*arg, "debug"))
-                debug = true;
-            else if (is_long_switch(*arg, "debug-z"))
-                debug_z = true;
-            else
-#endif
-            if (is_switch(*arg, "r", "restart"))
+            else if (is_switch(*arg, "r", "restart"))
                 restart_wm = true;
             else if (is_long_switch(*arg, "replace"))
                 replace_wm = true;
@@ -1886,12 +1879,20 @@ int main(int argc, char **argv) {
                 YXApplication::alphaBlending = true;
             else if (GetArgument(value, "d", "display", arg, argv+argc))
                 displayName = value;
+            else if (GetArgument(value, "i", "install", arg, argv+argc))
+                install_theme(value);
             else if (GetArgument(value, "o", "output", arg, argv+argc))
                 outputFile = value;
             else if (GetArgument(value, "s", "splash", arg, argv+argc))
                 splashFile = value;
             else if (GetLongArgument(value, "trace", arg, argv+argc))
                 YTrace::tracing(value);
+#ifdef DEBUG
+            else if (is_long_switch(*arg, "debug"))
+                debug = true;
+            else if (is_long_switch(*arg, "debug-z"))
+                debug_z = true;
+#endif
             else
                 warn(_("Unrecognized option '%s'."), *arg);
         }

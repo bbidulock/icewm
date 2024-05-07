@@ -451,7 +451,7 @@ SET(ICEWM_SRCS
     wmabout.cc wmswitch.cc wmstatus.cc wmoption.cc
     wmcontainer.cc wmclient.cc wmmgr.cc wmapp.cc
     wmframe.cc wmbutton.cc wmminiicon.cc wmtitle.cc
-    movesize.cc themes.cc decorate.cc browse.cc
+    movesize.cc themes.cc theminst.cc decorate.cc browse.cc
     objbar.cc objbutton.cc objmenu.cc wmdock.cc
     wmmenu.cc wmprog.cc wmpref.cc atasks.cc aworkspaces.cc
     amailbox.cc aclock.cc acpustatus.cc amemstatus.cc
