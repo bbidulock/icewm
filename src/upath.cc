@@ -10,6 +10,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <fnmatch.h>
 #include "base.h"
@@ -87,9 +88,11 @@ mstring upath::expand() const {
     int c = fPath[0];
     if (c == '~') {
         int k = fPath[1];
-        if (k == -1 || isSeparator(k))
-            return (upath(userhome(nullptr)) +
+        if (k == -1 || isSeparator(k)) {
+            csmart home(userhome(nullptr));
+            return (upath(home) +
                     fPath.substring(size_t(min(2, length())))).fPath;
+        }
     }
     else if (c == '$') {
         mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
@@ -131,7 +134,12 @@ off_t upath::fileSize() {
 
 bool upath::dirExists() {
     struct stat sb;
-    return stat(&sb) == 0 && S_ISDIR(sb.st_mode);
+    if (stat(&sb) == 0) {
+        if (S_ISDIR(sb.st_mode))
+            return true;
+        errno = ENOTDIR;
+    }
+    return false;
 }
 
 bool upath::isReadable() {
