@@ -139,6 +139,7 @@ public:
 
     operator const char *() { return c_str(); }
     const char* c_str();
+    void fmt(const char* fmt, ...);
 };
 
 inline bool operator==(const char* s, const mstring& c) { return c == s; }

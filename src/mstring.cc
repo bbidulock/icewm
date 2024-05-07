@@ -357,4 +357,56 @@ mstring mstring::match(const char* regex, const char* flags) const {
     return mstring(data() + pos.rm_so, size_t(pos.rm_eo - pos.rm_so));
 }
 
+#include <errno.h>
+#include <stdarg.h>
+
+void mstring::fmt(const char* fmt, ...) {
+    const int en = errno;
+    va_list ap;
+    va_start(ap, fmt);
+    size_t len = strlen(fmt);
+    for (const char* s = fmt; *s; ++s) {
+        if (*s == '%' && s[1]) {
+            s++;
+            if (*s == 's') {
+                len += strlen(va_arg(ap, const char *));
+            }
+            if (*s == 'm') {
+                len += strlen(strerror(en));
+            }
+        }
+    }
+    va_end(ap);
+    MStringRef ref(len);
+    va_start(ap, fmt);
+    int i = 0;
+    for (const char* s = fmt; *s; ++s) {
+        if (*s == '%' && s[1]) {
+            s++;
+            if (*s == 's') {
+                const char* arg = va_arg(ap, const char *);
+                for (int k = 0; arg[k]; ++k)
+                    ref[i++] = arg[k];
+            }
+            if (*s == 'm') {
+                const char* arg = strerror(en);
+                for (int k = 0; arg[k]; ++k)
+                    ref[i++] = arg[k];
+            }
+            if (*s == '%') {
+                ref[i++] = '%';
+            }
+        } else {
+            ref[i++] = *s;
+        }
+    }
+    ref[i] = '\0';
+    va_end(ap);
+    release();
+    fRef = ref;
+    fOffset = 0;
+    fCount = i;
+    acquire();
+}
+
 // vim: set sw=4 ts=4 et:
