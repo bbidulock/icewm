@@ -1390,14 +1390,13 @@ in the XPM image is the sensitive point for the mouse pointer.
 
 =item F<icons>
 
-Contains icons that are used to identify applications.  Usually these
-files are in the XPM format, but the PNG and SVG image formats are also
-supported.  The names of icon files may follow a specific naming
-pattern, like F<app_32x32.xpm>.  They start with a base name, usually
-this is just a single word.  Then follows an underscore, followed by a
-size specification in the format C<SIZExSIZE>.  This is followed by a
-dot and the file extension, where the extension denotes the icon image
-format.  Common sizes are 16, 32 and 48 for small, large and huge icons.
+Contains icons for applications and keyboard layouts. These can be in
+XPM, PNG or SVG format.  The names of an application icon files may
+follow a specific naming pattern, like F<app_32x32.xpm>.  They start
+with a base name, which usually is just a single word.  Then follows
+an underscore, followed by a size specification, as in C<SIZExSIZE>.
+This is followed by a dot and the file extension, where the extension
+denotes the icon image format.  Common sizes are 16, 32 and 48.
 This depends on the respective C<IconSize> preferences options.
 
 =item F<ledclock>
