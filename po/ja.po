@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2023-07-21 10:15+0000\n"
+"PO-Revision-Date: 2024-05-10 00:56+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2281,7 +2281,7 @@ msgstr ""
 
 #: src/wmapp.cc:1655
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr ""
+msgstr "  -i, --install=THEME extra または 'list' からテーマをインストールします。\n"
 
 #: src/wmapp.cc:1658
 #, c-format
