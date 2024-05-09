@@ -1650,6 +1650,10 @@ static void print_usage(const char *argv0) {
              );
     char* joint_preferences = cstrJoin(usage_preferences, output_preferences,
                                        nullptr);
+    const char* install_preferences =
+             _(
+             "  -i, --install=THEME Install THEME from extra or 'list'.\n"
+             );
 
     printf(_("Usage: %s [OPTIONS]\n"
              "Starts the IceWM window manager.\n"
@@ -1658,19 +1662,17 @@ static void print_usage(const char *argv0) {
              "  -d, --display=NAME  NAME of the X server to use.\n"
              "%s"
              "  --sync              Synchronize X11 commands.\n"
-             "%s"
-             "\n"
+             "%s\n"
              "  -V, --version       Prints version information and exits.\n"
              "  -h, --help          Prints this usage screen and exits.\n"
-             "%s"
-             "\n"
+             "%s\n"
              "  --replace           Replace an existing window manager.\n"
              "  -r, --restart       Tell the running icewm to restart itself.\n"
              "\n"
              "  --configured        Print the compile time configuration.\n"
              "  --directories       Print the configuration directories.\n"
              "  -l, --list-themes   Print a list of all available themes.\n"
-             "\n"
+             "%s\n"
              "Environment variables:\n"
              "  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
              "                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
@@ -1684,6 +1686,7 @@ static void print_usage(const char *argv0) {
              usage_client_id,
              joint_preferences,
              usage_debug,
+             install_preferences,
              PACKAGE_BUGREPORT[0] ? PACKAGE_BUGREPORT :
              PACKAGE_URL[0] ? PACKAGE_URL :
              "https://ice-wm.org/");
