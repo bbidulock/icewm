@@ -7,6 +7,7 @@
 #include "ytrace.h"
 #include "yapp.h"
 #include "wmmgr.h"
+#include "ascii.h"
 #include "intl.h"
 #include <unistd.h>
 #include <sys/wait.h>
@@ -29,9 +30,7 @@ KeyboardStatus::KeyboardStatus(IApp* app, IAppletContainer* tb, YWindow* parent)
         setSize(w, h);
     }
     setTitle("Keyboard");
-    if (fKeyboard != null) {
-        fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
-    }
+    getIcon();
 }
 
 KeyboardStatus::~KeyboardStatus() {
@@ -53,11 +52,7 @@ void KeyboardStatus::updateKeyboard(mstring keyboard) {
                 break;
             }
         }
-        if (fKeyboard != null) {
-            fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
-        } else {
-            fIcon = null;
-        }
+        getIcon();
         repaint();
         if (toolTipVisible())
             updateToolTip();
@@ -237,6 +232,22 @@ void KeyboardStatus::draw(Graphics& g) {
             int w = fFont->textWidth(text);
             int x = max(1, (int(g.rwidth()) - w) / 2);
             g.drawChars(text, x, y);
+        }
+    }
+}
+
+void KeyboardStatus::getIcon() {
+    fIcon = null;
+    if (fKeyboard != null) {
+        size_t k = 0;
+        while (k < fKeyboard.length() && ASCII::isLower(fKeyboard[k])) {
+            k++;
+        }
+        if (k) {
+            fIcon = YIcon::getIcon(fKeyboard.substring(0, k));
+        }
+        if (fIcon == null && k != 2) {
+            fIcon = YIcon::getIcon(fKeyboard.substring(0, 2));
         }
     }
 }

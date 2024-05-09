@@ -33,6 +33,7 @@ private:
     mstring detectLayout();
     void fill(Graphics& g);
     void draw(Graphics& g);
+    void getIcon();
 
     IApp* app;
     IAppletContainer* taskBar;

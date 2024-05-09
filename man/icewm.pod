@@ -1391,7 +1391,7 @@ in the XPM image is the sensitive point for the mouse pointer.
 =item F<icons>
 
 Contains icons for applications and keyboard layouts. These can be in
-XPM, PNG or SVG format.  The names of an application icon files may
+XPM, PNG or SVG format.  The filename of an I<application icon> may
 follow a specific naming pattern, like F<app_32x32.xpm>.  They start
 with a base name, which usually is just a single word.  Then follows
 an underscore, followed by a size specification, as in C<SIZExSIZE>.
