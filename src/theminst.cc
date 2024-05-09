@@ -53,7 +53,7 @@ static void install_extra(const char* name, bool* result) {
     if (dir.isWritable() == false) {
         return fail("%s", dir.string());
     }
-    if (chdir(dir.string())) {
+    if (dir.chdir()) {
         return fail("%s", dir.string());
     }
 

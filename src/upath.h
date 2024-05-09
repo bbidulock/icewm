@@ -45,6 +45,7 @@ public:
     bool hasProtocol() const;
     int access(int mode = 0);
     int mkdir(int mode = 0700);
+    int chdir();
     int open(int flags, int mode = 0666);
     FILE* fopen(const char *mode);
     int stat(struct stat *st);

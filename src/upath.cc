@@ -124,7 +124,12 @@ bool upath::isRelative() const {
 
 bool upath::fileExists() {
     struct stat sb;
-    return stat(&sb) == 0 && S_ISREG(sb.st_mode);
+    if (stat(&sb) == 0) {
+        if (S_ISREG(sb.st_mode))
+            return true;
+        errno = S_ISDIR(sb.st_mode) ? EISDIR : EINVAL;
+    }
+    return false;
 }
 
 off_t upath::fileSize() {
@@ -164,6 +169,10 @@ bool upath::isSearchable() {
 
 int upath::mkdir(int mode) {
     return ::mkdir(string(), mode_t(mode));
+}
+
+int upath::chdir() {
+    return ::chdir(string());
 }
 
 int upath::open(int flags, int mode) {
