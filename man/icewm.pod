@@ -671,7 +671,7 @@ To control keyboard layouts on the task bar, define in F<preferences>
 the option B<KeyboardLayouts> to a comma-separated list of your
 preferred keyboard layouts. For example:
 
- KeyboardLayouts="de","fr","jp"
+  KeyboardLayouts = "de", "fr", "jp"
 
 A keyboard layout can simply be a name. Usually this is a two-letter
 country code. See the directory F</usr/share/X11/xkb/symbols> for
