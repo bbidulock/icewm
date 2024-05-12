@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.4.2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2024-05-10 17:43+0000\n"
+"PO-Revision-Date: 2024-05-12 08:43+0000\n"
 "Last-Translator: Dmitriy Khanzhin <jinn@altlinux.org>\n"
 "Language-Team: Russian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/ru/>\n"
@@ -1516,7 +1516,7 @@ msgstr "Неизвестная опция: '%s'"
 #: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
 msgid "restart %s."
-msgstr "перезапустить %s."
+msgstr "перезапуск %s."
 
 #: src/icesm.cc:513
 msgid ""
@@ -2281,8 +2281,7 @@ msgstr "  -o, --output=FILE   Перенаправить весь вывод в 
 #: src/wmapp.cc:1655
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
 msgstr ""
-"  -i, --install=THEME Установить тему THEME из дополнительных тем или "
-"'список тем'.\n"
+"  -i, --install=THEME Установить тему THEME из icewm-extra или 'list'.\n"
 
 #: src/wmapp.cc:1658
 #, c-format
@@ -2334,9 +2333,10 @@ msgstr ""
 "  -l, --list-themes   Напечатать список всех доступных тем.\n"
 "%s\n"
 "Переменные окружения:\n"
-"  ICEWM_PRIVCFG=ПУТЬ  Каталог, используемый для пользовательских\n"
+"  ICEWM_PRIVCFG=PATH  Каталог, используемый для пользовательских\n"
 "                      файлов конфигурации, \"$XDG_CONFIG_HOME/icewm\", если "
-"есть, или по умолчанию \"$HOME/.icewm/\".\n"
+"есть,\n"
+"                      или по умолчанию \"$HOME/.icewm/\".\n"
 "  DISPLAY=ИМЯ         Имя используемого X-сервера, по умолчанию зависит от "
 "Xlib.\n"
 "  MAIL=URL            Местонахождение Вашего почтового ящика. Если схема "
