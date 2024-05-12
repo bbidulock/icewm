@@ -30,7 +30,7 @@ AboutDlg::AboutDlg(YActionListener* al):
     mstring copyright = copyhead
                       + copysymb + " 1997-2012 Marko Macek, "
                       + copysymb + " 2001 Mathias Hasselmann,  \n\t"
-                      + copysymb + " 2016-2023 Bert Gijsbers. \n";
+                      + copysymb + " 2016-2024 Bert Gijsbers. \n";
 
     Ladder* ladder = new Ladder();
     *ladder += label(version);
