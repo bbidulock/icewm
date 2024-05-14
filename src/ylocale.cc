@@ -194,9 +194,6 @@ char* YLocale::localeString(const wchar_t* uStr, size_t uLen, size_t &lLen) {
 
     size_t lSize = 4 * uLen;
     char* lStr = new char[lSize + 1];
-#ifdef __NetBSD__
-    const
-#endif
     char* inbuf = (char *) uStr;
     char* outbuf = lStr;
     size_t inlen = uLen * sizeof(wchar_t);
@@ -230,9 +227,6 @@ wchar_t* YLocale::unicodeString(const char* lStr, size_t const lLen,
     iconv(instance->converter->unicode(), nullptr, nullptr, nullptr, nullptr);
 
     wchar_t* uStr(new wchar_t[lLen + 1]);
-#ifdef __NetBSD__
-    const
-#endif
     char* inbuf(const_cast<char *>(lStr));
     char* outbuf(reinterpret_cast<char *>(uStr));
     size_t inlen(lLen), outlen(4 * lLen);
