@@ -25,6 +25,7 @@ public:
     char* name() const { return de->d_name; }
     int length() const { return int(strlen(name())); }
     int size() const { return 1 + length(); }
+    int descriptor() const { return dirfd(ptr); }
     dirent* next() {
         while (read() && dots());
         return de;
@@ -152,7 +153,7 @@ void cdir::rewind() {
 }
 
 int cdir::descriptor() const {
-    return dirp ? dirfd(*dirp) : -1;
+    return dirp ? dirp->descriptor() : -1;
 }
 
 adir::adir(const char* path)
@@ -270,7 +271,7 @@ bool udir::nextFile() {
 }
 
 int udir::descriptor() const {
-    return dirp ? dirfd(*dirp) : -1;
+    return dirp ? dirp->descriptor() : -1;
 }
 
 sdir::sdir(upath path)
