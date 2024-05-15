@@ -713,6 +713,34 @@ void YInputLine::complete() {
         res_count++;
     if (1 <= res_count)
         setText(res, res_count == 1);
+    else {
+        int i = mstr.lastIndexOf(' ');
+        if (i > 0 && size_t(i + 1) < mstr.length()) {
+            mstring sub(mstr.substring(i + 1));
+            YStringArray list;
+            if (upath::glob(sub + "*", list, "/CS") && list.nonempty()) {
+                if (list.getCount() == 1) {
+                    mstring found(mstr.substring(0, i + 1) + list[0]);
+                    setText(found, true);
+                } else {
+                    int len = 0;
+                    for (; list[0][len]; ++len) {
+                        char ch = list[0][len];
+                        int j = 1;
+                        while (j < list.getCount() && ch == list[j][len])
+                            ++j;
+                        if (j < list.getCount())
+                            break;
+                    }
+                    if (len) {
+                        mstring common(list[0], len);
+                        mstring found(mstr.substring(0, i + 1) + common);
+                        setText(found, false);
+                    }
+                }
+            }
+        }
+    }
     free(res);
 }
 
