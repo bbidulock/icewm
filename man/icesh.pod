@@ -772,6 +772,7 @@ Let icewm execute the C<HibernateCommand>.
 =item B<winoptions>
 
 Let icewm reload the C<winoptions>.
+This only affects new windows.
 
 =item B<keys>
 

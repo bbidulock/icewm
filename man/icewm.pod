@@ -531,7 +531,7 @@ On C<Control+Enter> the command is executed in a terminal
 as given by B<TerminalCommand>.
 The address bar maintains a history that is navigable by the I<Up>
 and I<Down> keys.
-It supports command completion using C<Tab> or C<Ctrl+I>.
+It supports file completion using C<Tab> or C<Ctrl+I>.
 A rich set of editing operations is supported,
 including cut-/copy-/paste-operations.
 
