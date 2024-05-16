@@ -1,4 +1,4 @@
-[icewm -- read me first file.  2022-11-02]: #
+[icewm -- read me first file.  2024-03-25]: #
 
 Ice Window Manager (IceWM)
 ==========================
@@ -19,7 +19,7 @@ list, and various other GitHub forks.
 Release
 -------
 
-This is the `icewm-3.2.0` package, released 2022-11-02.  This release, and
+This is the `icewm-3.4.7` package, released 2024-03-25.  This release, and
 the latest version, can be obtained from [GitHub][1], using a command such as:
 
     $> git clone https://github.com/bbidulock/icewm.git
@@ -158,9 +158,9 @@ pull requests that get accepted, I will just give to push access to save time.
 Translations
 ------------
 
-You can provide translations by patching `.po` files and issuing pull requests,
-or you can use the [openSUSE weblate tool][11].  There are two XDG files,
-[icewm.desktop][17] and [icewm-session.desktop][18] than may need manual
+You can provide translations by using the [openSUSE weblate tool][11].
+There are two XDG files,
+[icewm.desktop][17] and [icewm-session.desktop][18] which may need manual
 translations.  If you have difficulties using the tools, just send me the updated
 `.po` file or a patch to apply.
 
@@ -175,7 +175,7 @@ translations.  If you have difficulties using the tools, just send me the update
 [8]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/BUGS
 [9]: https://github.com/bbidulock/icewm/blob/icewm-1-4-BRANCH/COPYING
 [10]: https://github.com/
-[11]: https://l10n.opensuse.org/
+[11]: https://l10n.opensuse.org/projects/icewm/icewm-1-4-branch/
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
