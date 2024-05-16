@@ -261,6 +261,7 @@ bool upath::glob(mstring pattern, YStringArray& list, const char* flags) {
                 case 'C': flagbits |= GLOB_NOCHECK; break;
                 case 'E': flagbits |= GLOB_NOESCAPE; break;
                 case 'S': flagbits |= GLOB_NOSORT; break;
+                case 'T': flagbits |= GLOB_TILDE; break;
                 default: break;
             }
         }

@@ -718,7 +718,12 @@ void YInputLine::complete() {
         if (i > 0 && size_t(i + 1) < mstr.length()) {
             mstring sub(mstr.substring(i + 1));
             YStringArray list;
-            if (upath::glob(sub + "*", list, "/S") && list.nonempty()) {
+            if (sub[0] == '~' && upath::glob(sub, list, "/ST") &&
+                list.getCount() == 1) {
+                mstring found(mstr.substring(0, i + 1) + list[0]);
+                setText(found, true);
+            }
+            else if (upath::glob(sub + "*", list, "/S") && list.nonempty()) {
                 if (list.getCount() == 1) {
                     mstring found(mstr.substring(0, i + 1) + list[0]);
                     setText(found, true);
