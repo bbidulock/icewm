@@ -179,18 +179,18 @@ translations.  If you have difficulties using the tools, just send me the update
 [12]: https://sourceforge.net/projects/icewm/
 [13]: https://ice-wm.org/
 [14]: https://ice-wm.org/FAQ/
-[15]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/doc/icewm.adoc
+[15]: https://ice-wm.org/manual/
 [16]: https://github.com/bbidulock/bbkeys/
 [17]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm.desktop
 [18]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/lib/icewm-session.desktop
 [19]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/INSTALL-cmakebuild.md
 [20]: https://github.com/bbidulock/xde-menu/
-[21]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesound.pod
-[22]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmbg.pod
-[23]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewmhint.pod
-[24]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-menu-fdo.pod
-[25]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icesh.pod
-[26]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm.pod
-[27]: https://github.com/bbidulock/@PACKAGE@/blob/@BRANCH@/man/icewm-session.pod
+[21]: https://ice-wm.org/man/icesound
+[22]: https://ice-wm.org/man/icewmbg
+[23]: https://ice-wm.org/man/icewmhint
+[24]: https://ice-wm.org/man/icewm-menu-fdo
+[25]: https://ice-wm.org/man/icesh
+[26]: https://ice-wm.org/man/icewm
+[27]: https://ice-wm.org/man/icewm-session
 
 [ vim: set ft=markdown sw=4 tw=80 nocin nosi fo+=tcqlorn spell: ]: #
