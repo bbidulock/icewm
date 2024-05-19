@@ -1750,6 +1750,7 @@ void YFrameWindow::wmLower() {
             doLower();
         }
         manager->focusTopWindow();
+        manager->lowerFocusFrame(this);
     }
 }
 
