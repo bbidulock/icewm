@@ -103,6 +103,7 @@ YFrameWindow::YFrameWindow(
     fShapeMoreTabs(false),
     fHaveStruts(false),
     indicatorsCreated(false),
+    loweringByAction(false),
     fWindowType(wtNormal)
 {
     setStyle(wsOverrideRedirect);
@@ -1310,12 +1311,12 @@ void YFrameWindow::actionPerformed(YAction action, unsigned int modifiers) {
             wmMaximizeHorz();
         break;
     case actionLower:
-        if (canLower())
-            wmLower();
+        loweringByAction = true;
+        wmLower();
+        loweringByAction = false;
         break;
     case actionRaise:
-        if (canRaise())
-            wmRaise();
+        wmRaise();
         break;
     case actionDepth:
         if (overlapped() && canRaise()) {
@@ -1731,7 +1732,7 @@ void YFrameWindow::wmLower() {
             wmapp->signalGuiEvent(geWindowLower);
         if (owner()) {
             for (YFrameWindow* w = this; w; w = w->owner()) {
-                w->doLower();
+                w->doLower(loweringByAction);
             }
         }
         else if (hasState(WinStateModal) && client()->clientLeader()) {
@@ -1743,22 +1744,24 @@ void YFrameWindow::wmLower() {
                     lower += w;
             }
             for (YFrameWindow* f : lower) {
-                f->doLower();
+                f->doLower(loweringByAction);
             }
         }
         else {
-            doLower();
+            doLower(loweringByAction);
         }
         manager->focusTopWindow();
     }
 }
 
-void YFrameWindow::doLower() {
+void YFrameWindow::doLower(bool lff) {
     if (next()) {
         if (manager->setAbove(this, nullptr)) {
             beneath(prev());
         }
     }
+    if (lff)
+        manager->lowerFocusFrame(this);
 }
 
 void YFrameWindow::wmRaise() {

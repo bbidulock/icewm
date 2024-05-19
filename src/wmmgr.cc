@@ -3948,8 +3948,9 @@ void YTopWindow::setFrame(YFrameWindow* frame) {
 bool YTopWindow::handleKey(const XKeyEvent& key) {
     if (key.type == KeyPress &&
         manager->netActiveWindow() == None &&
-        fHandle && fFrame && fFrame->visible() &&
+        fHandle && fFrame &&
         windowContext.find(fHandle) == fFrame &&
+        fFrame->visible() &&
         xapp->AltMask)
     {
         YFrameWindow* f = fFrame;

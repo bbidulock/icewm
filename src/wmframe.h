@@ -86,7 +86,7 @@ public:
     void wmHide();
     void wmShow();
     void wmLower();
-    void doLower();
+    void doLower(bool lff = false);
     void wmRaise();
     void doRaise();
     void wmClose();
@@ -520,6 +520,7 @@ private:
 
     bool fHaveStruts;
     bool indicatorsCreated;
+    bool loweringByAction;
 
     enum WindowType fWindowType;
 
