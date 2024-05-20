@@ -6,15 +6,9 @@
 #include "config.h"
 
 #include "upath.h"
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <stdio.h>
-#include <errno.h>
-#include <fcntl.h>
+#include "sysdep.h"
 #include <fnmatch.h>
 #include "base.h"
-#include "yapp.h"
 
 const mstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -93,6 +87,19 @@ mstring upath::expand() const {
             return (upath(home) +
                     fPath.substring(size_t(min(2, length())))).fPath;
         }
+        else {
+            k = 2;
+            while (k < length() && isSeparator(fPath[k]) == false)
+                k++;
+            mstring user(fPath.substring(1, k - 1));
+            csmart home(userhome(user));
+            if (home) {
+                upath path(home);
+                if (k < length())
+                    path += fPath.substring(k);
+                return path.fPath;
+            }
+        }
     }
     else if (c == '$') {
         mstring m(fPath.match("^\\$[_A-Za-z][_A-Za-z0-9]*"));
@@ -104,6 +111,11 @@ mstring upath::expand() const {
         }
     }
     return fPath;
+}
+
+mstring upath::real() {
+    char buf[PATH_MAX];
+    return realpath(string(), buf);
 }
 
 bool upath::isAbsolute() const {
@@ -307,6 +319,22 @@ void upath::redirectOutput(const char* outputFile) {
                 close(fd);
         }
     }
+}
+
+mstring upath::cwd() {
+    char buf[PATH_MAX];
+    if (::getcwd(buf, PATH_MAX) == buf)
+        return mstring(buf);
+
+    char* home = getenv("HOME");
+    if (home && ::access(home, X_OK) == 0 && ::chdir(home) == 0)
+        return mstring(home);
+
+    csmart user(userhome(nullptr));
+    if (user && ::chdir(user) == 0)
+        return mstring(user);
+
+    return mstring("/");
 }
 
 // vim: set sw=4 ts=4 et:

@@ -33,7 +33,7 @@ public:
     IceRun(int* argc, char*** argv);
     ~IceRun() { delete input; }
 
-    virtual void inputReturn(YInputLine* input) {
+    virtual void inputReturn(YInputLine* input, bool control) {
         mstring command(input->getText());
         if (command != cmdPrefix) {
             msg("%s", command.c_str());

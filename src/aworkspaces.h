@@ -56,7 +56,7 @@ private:
     virtual YDimension getTextSize();
     ref<YImage> getGradient();
 
-    virtual void inputReturn(YInputLine* input);
+    virtual void inputReturn(YInputLine* input, bool control);
     virtual void inputEscape(YInputLine* input);
     virtual void inputLostFocus(YInputLine* input);
     virtual void paint(Graphics &g, const YRect &r);

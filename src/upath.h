@@ -32,6 +32,7 @@ public:
     upath removeExtension() const;
     upath replaceExtension(const char *ext) const;
     mstring expand() const;
+    mstring real();
 
     bool fileExists();
     bool dirExists();
@@ -92,6 +93,7 @@ public:
     }
 
     static void redirectOutput(const char* outputFile);
+    static mstring cwd();
 
 private:
     mstring fPath;

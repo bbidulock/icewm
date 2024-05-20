@@ -1,11 +1,12 @@
-#ifndef __ADDRBAR_H
-#define __ADDRBAR_H
+#ifndef ADDRESS_BAR_H
+#define ADDRESS_BAR_H
 
 #include "yinputline.h"
+#include "upath.h"
 
 class IApp;
 
-class AddressBar: public YInputLine {
+class AddressBar: public YInputLine, private YInputListener {
 public:
     AddressBar(IApp *app, YWindow *parent = nullptr);
     virtual ~AddressBar();
@@ -18,13 +19,18 @@ public:
 
 private:
     void changeLocation(int newLocation);
-    bool handleReturn(int mask);
+    void handleReturn(bool control);
     bool appendCommand(const char* cmd, class YStringArray& args);
+    bool internal(mstring line);
+
+    void inputReturn(YInputLine* input, bool control);
+    void inputEscape(YInputLine* input);
+    void inputLostFocus(YInputLine* input);
 
     IApp *app;
     MStringArray history;
-    unsigned keyPressed;
     int location;
+    upath curdir, olddir;
 };
 
 #endif

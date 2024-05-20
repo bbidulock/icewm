@@ -2,13 +2,7 @@
 #include "yfileio.h"
 #include "ytime.h"
 #include "base.h"
-#include <errno.h>
-#include <fcntl.h>
-#include <limits.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/stat.h>
+#include "sysdep.h"
 
 filereader::filereader(const char* filename) :
     nFd(open(filename, O_RDONLY | O_NOCTTY))

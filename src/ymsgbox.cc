@@ -190,7 +190,7 @@ void YMsgBox::showFocused() {
     become();
 }
 
-void YMsgBox::inputReturn(YInputLine* input) {
+void YMsgBox::inputReturn(YInputLine* input, bool control) {
     if (fListener) {
         fListener->handleMsgBox(this, mbOK);
     }

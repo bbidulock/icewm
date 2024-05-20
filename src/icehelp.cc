@@ -1308,7 +1308,7 @@ private:
         operator int() const { return newf; }
     };
 
-    void inputReturn(YInputLine* inputline) {
+    void inputReturn(YInputLine* inputline, bool control) {
         search = input->getText();
         delete input; input = nullptr;
         startSearch();

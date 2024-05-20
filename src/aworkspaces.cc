@@ -170,7 +170,7 @@ bool WorkspaceButton::handleTimer(YTimer *t) {
     return false;
 }
 
-void WorkspaceButton::inputReturn(YInputLine* input) {
+void WorkspaceButton::inputReturn(YInputLine* input, bool control) {
     if (input == fInput) {
         mstring text(input->getText());
         if (text != name()) {

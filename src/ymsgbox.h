@@ -41,7 +41,7 @@ public:
     virtual void paint(Graphics &g, const YRect& r);
     virtual void handleClose();
     virtual void handleFocus(const XFocusChangeEvent &focus);
-    virtual void inputReturn(YInputLine* input);
+    virtual void inputReturn(YInputLine* input, bool control);
     virtual void inputEscape(YInputLine* input);
     virtual void inputLostFocus(YInputLine* input);
 

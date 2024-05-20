@@ -311,12 +311,15 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
             break;
         default:
             if (fListener &&
-                ((k == XK_Return && m == 0) ||
-                 (k == XK_KP_Enter && m == 0) ||
+                ((k == XK_Return && (m & ~ControlMask) == 0) ||
+                 (k == XK_KP_Enter && (m & ~ControlMask) == 0) ||
                  (k == XK_j && m == ControlMask) ||
                  (k == XK_m && m == ControlMask)))
             {
-                fListener->inputReturn(this);
+                bool control =
+                    (k == XK_Return || k == XK_KP_Enter)
+                    && (m == ControlMask);
+                fListener->inputReturn(this, control);
                 return true;
             }
             else
@@ -463,9 +466,9 @@ unsigned YInputLine::offsetToPos(int offset) {
 }
 
 void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
-    if (focus.type == FocusIn /* && fHasFocus == false*/
-        && focus.detail != NotifyPointer
-        && focus.detail != NotifyPointerRoot)
+    if (focus.type == FocusIn &&
+        focus.detail != NotifyPointer &&
+        focus.detail != NotifyPointerRoot)
     {
         fHasFocus = true;
         selectAll();

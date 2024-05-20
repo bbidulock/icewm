@@ -10,14 +10,17 @@
 #include "yxapp.h"
 #include "wmmgr.h"
 #include "default.h"
+#include <unistd.h>
+#include <errno.h>
 #include <X11/keysym.h>
 #include "ywordexp.h"
 
 AddressBar::AddressBar(IApp *app, YWindow *parent):
-    YInputLine(parent),
+    YInputLine(parent, this),
     app(app),
-    keyPressed(0),
-    location(0)
+    location(0),
+    curdir(upath::cwd()),
+    olddir(curdir)
 {
 }
 
@@ -25,28 +28,17 @@ AddressBar::~AddressBar() {
 }
 
 bool AddressBar::handleKey(const XKeyEvent &key) {
-    KeySym k = keyCodeToKeySym(key.keycode);
     if (key.type == KeyPress) {
-        keyPressed = k;
-        if (k == XK_KP_Enter || k == XK_Return) {
-            hideNow();
-            return handleReturn(KEY_MODMASK(key.state));
-        }
-        else if (k == XK_Up ||
-                (k == XK_KP_Up && !(key.state & xapp->NumLockMask)))
+        KeySym k = keyCodeToKeySym(key.keycode);
+        if (k == XK_Up ||
+           (k == XK_KP_Up && !(key.state & xapp->NumLockMask)))
         {
             return changeLocation(location - 1), true;
         }
-        else if (k == XK_Down ||
-                (k == XK_KP_Down && !(key.state & xapp->NumLockMask)))
+        if (k == XK_Down ||
+           (k == XK_KP_Down && !(key.state & xapp->NumLockMask)))
         {
             return changeLocation(location + 1), true;
-        }
-    }
-    else if (key.type == KeyRelease) {
-        if (k == XK_Escape && k == keyPressed) {
-            hideNow();
-            return true;
         }
     }
     return YInputLine::handleKey(key);
@@ -68,8 +60,7 @@ bool AddressBar::appendCommand(const char* cmd, class YStringArray& args) {
     return count < args.getCount();
 }
 
-bool AddressBar::handleReturn(int mask) {
-    const bool control(hasbit(mask, ControlMask));
+void AddressBar::handleReturn(bool control) {
     mstring line(getText());
     YStringArray args;
 
@@ -77,10 +68,13 @@ bool AddressBar::handleReturn(int mask) {
         history.append(line);
         location = history.getCount();
     }
+    if (internal(line))
+        return;
 
+    hideNow();
     if (control) {
         if ( ! appendCommand(terminalCommand, args))
-            return false;
+            return;
         args += "-e";
     }
     if ( ! appendCommand(addressBarCommand, args)) {
@@ -92,11 +86,50 @@ bool AddressBar::handleReturn(int mask) {
 
     if (line.isEmpty())
         args.replace(control, nullptr);
-    if (args[0])
+    if (args[0]) {
+        upath cwd(upath::cwd());
+        bool change = (cwd != curdir);
+        if (change)
+            curdir.chdir();
         app->runProgram(args[0], args.getCArray());
+        if (change)
+            cwd.chdir();
+    }
     selectAll();
+}
 
-    return true;
+bool AddressBar::internal(mstring line) {
+    mstring cmd(line.trim());
+    if (cmd == "pwd")
+        return setText(upath::cwd(), true), true;
+    if (cmd == "cd") {
+        olddir = curdir;
+        curdir = YApplication::getHomeDir();
+        return setText(curdir, true), true;
+    }
+    mstring arg;
+    if (cmd.startsWith("cd") && cmd.split(' ', &cmd, &arg) && cmd == "cd") {
+        arg = arg.trim();
+        if (strchr("$~", arg[0]))
+            arg = upath(arg).expand();
+        else if (arg == "-")
+            arg = olddir;
+        upath newdir((arg[0] == '/') ? upath(arg) : curdir + arg);
+        upath realdir = upath(newdir).real();
+        if (realdir.isEmpty()) {
+            arg.fmt("%s: %m", newdir.string());
+            return setText(arg, true), true;
+        }
+        else if (realdir.chdir()) {
+            arg.fmt("%s: %m", realdir.string());
+            return setText(arg, true), true;
+        } else {
+            olddir = curdir;
+            curdir = realdir;
+            return setText(curdir, true), true;
+        }
+    }
+    return false;
 }
 
 void AddressBar::changeLocation(int newLocation) {
@@ -130,6 +163,17 @@ void AddressBar::handleFocus(const XFocusChangeEvent &focus) {
         }
     }
     YInputLine::handleFocus(focus);
+}
+
+void AddressBar::inputReturn(YInputLine* input, bool control) {
+    handleReturn(control);
+}
+
+void AddressBar::inputEscape(YInputLine* input) {
+    hideNow();
+}
+
+void AddressBar::inputLostFocus(YInputLine* input) {
 }
 
 // vim: set sw=4 ts=4 et:

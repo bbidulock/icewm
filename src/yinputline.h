@@ -13,7 +13,7 @@ class YWideString;
 
 class YInputListener {
 public:
-    virtual void inputReturn(YInputLine* input) = 0;
+    virtual void inputReturn(YInputLine* input, bool control) = 0;
     virtual void inputEscape(YInputLine* input) = 0;
     virtual void inputLostFocus(YInputLine* input) = 0;
 protected:

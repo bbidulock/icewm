@@ -521,17 +521,24 @@ also be changed by bringing the drag icon to the screen edge.
 
 =head2 ADDRESS BAR
 
-If B<EnableAddressBar>=1 then B<KeySysAddressBar>=C<Alt+Ctrl+Space>
-activates the address bar in the task bar.
-If B<ShowAddressBar>=1 it is always shown. This is a command-line in
-the task bar where a shell command can be typed.
-Pressing C<Enter> will execute the command.
-B<AddressBarCommand>=C</bin/sh> will be used to execute the command.
-On C<Control+Enter> the command is executed in a terminal
+The task bar contains a command-line prompt called the address bar,
+if B<EnableAddressBar>=1. It is always shown when B<ShowAddressBar>=1,
+otherwise it is activated by B<KeySysAddressBar>=C<Alt+Ctrl+Space>.
+In it a shell command can be typed, which is executed by the
+B<AddressBarCommand>=C</bin/sh> when pressing C<Enter>.
+On C<Control+Enter> this command is executed in a new terminal
 as given by B<TerminalCommand>.
+
+Commands are executed relative to the working directory of icewm.
+This can be shown by executing C<pwd>. It can be changed using the C<cd>
+command. Without argument it defaults to the home directory. With one
+argument it is changed. This argument is expanded when it starts with a
+dollar or tilde. When it is equal to C<->, it reverts to the previous
+directory.
+
 The address bar has a history that is navigable by I<Up> and I<Down>.
-It supports file completion using C<Tab> or C<Ctrl+I>,
-editing operations and cut/copy/paste:
+It supports file completion using C<Tab> or C<Ctrl+I>, cut/copy/paste
+and these editing operations:
 
 =over
 
@@ -549,7 +556,7 @@ editing operations and cut/copy/paste:
 
 =item Ctrl+c: copy selection
 
-=item Ctrl+i: complete
+=item Ctrl+i: completion
 
 =item Ctrl+Left: back a word
 
@@ -566,6 +573,8 @@ editing operations and cut/copy/paste:
 =item Shift+Delete: cut selection
 
 =item Shift+Insert: paste selected
+
+=item Tab: completion
 
 =item Left: move cursor left
 
