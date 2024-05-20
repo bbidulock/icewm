@@ -120,7 +120,7 @@ bool AddressBar::internal(mstring line) {
             arg.fmt("%s: %m", newdir.string());
             return setText(arg, true), true;
         }
-        else if (realdir.chdir()) {
+        else if ( !realdir.dirExists() || !realdir.isExecutable()) {
             arg.fmt("%s: %m", realdir.string());
             return setText(arg, true), true;
         } else {
