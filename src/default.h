@@ -443,7 +443,7 @@ cfoption icewm_preferences[] = {
 ///    OSV("Theme",                                &themeName,                     "Theme name"),
     OSV("IconPath",                             &iconPath,                      "Icon search path (colon separated)"),
     OSV("IconThemes",                           &iconThemes,                    "Colon separated icon theme list with wildcard support. Minus prefix - can be used to exclude themes."),
-    OSV("MailBoxPath",                          &mailBoxPath,                   "Colon separated paths of your mailboxes, otherwise $MAILPATH or $MAIL is used"),
+    OSV("MailBoxPath",                          &mailBoxPath,                   "Paths of mailboxes separated by a space, otherwise $MAILPATH or $MAIL is used"),
     OSV("MailCommand",                          &mailCommand,                   "Command to run on mailbox"),
     OSV("MailClassHint",                        &mailClassHint,                 "WM_CLASS to allow runonce for MailCommand"),
     OSV("NewMailCommand",                       &newMailCommand,                "Command to run when new mail arrives"),
