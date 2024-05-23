@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2023-10-04 23:15+0000\n"
-"Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
+"PO-Revision-Date: 2024-05-23 22:46+0000\n"
+"Last-Translator: Rodrigo Macedo <sottomaiormacedotec@sottomaiormacedo.tech>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
 "Language: pt_BR\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.5.5\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:113
@@ -2297,7 +2297,7 @@ msgstr "  -o, --output=ARQUIVO   Redireciona toda as saídas para o ARQUIVO.\n"
 
 #: src/wmapp.cc:1655
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr ""
+msgstr "  -i, --install=THEME Instale o TEMA do extra ou da 'list'.\n"
 
 #: src/wmapp.cc:1658
 #, c-format
