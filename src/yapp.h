@@ -69,7 +69,7 @@ public:
     static const upath& getLibDir();
     static const upath& getConfigDir();
     static const upath& getPrivConfDir(bool create = false);
-    static upath getPrivConfFile(mstring basename, bool create = false);
+    static upath getPrivConfFile(mstring basename);
     static upath getHomeDir();
 
 private:
