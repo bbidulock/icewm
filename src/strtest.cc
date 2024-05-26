@@ -367,6 +367,8 @@ static void test_upath()
         expect(hm.expand(), getenv("HOME"));
         hm = "~/";
         assert(strlen(hm.expand()), 1 + strlen(getenv("HOME")));
+        hm = "~/bin";
+        assert(strlen(hm.expand()), 4 + strlen(getenv("HOME")));
     }
     upath hm = "$HOME";
     expect(hm.expand(), getenv("HOME"));
