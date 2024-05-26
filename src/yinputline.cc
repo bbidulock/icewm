@@ -719,14 +719,32 @@ void YInputLine::complete() {
     else {
         int i = mstr.lastIndexOf(' ');
         if (i > 0 && size_t(i + 1) < mstr.length()) {
+            mstring pre(mstr.substring(0, i + 1));
             mstring sub(mstr.substring(i + 1));
-            YStringArray list;
-            if (sub[0] == '~' && upath::glob(sub, list, "/ST") &&
-                list.getCount() == 1) {
-                mstring found(mstr.substring(0, i + 1) + list[0]);
-                setText(found, true);
+            if (sub[0] == '$' || sub[0] == '~') {
+                mstring exp = upath(sub).expand();
+                if (exp != sub && exp != null) {
+                    setText(pre + exp, false);
+                }
+                else if (sub.indexOf('/') == -1) {
+                    mstring var = sub.substring(1);
+                    if (var.nonempty()) {
+                        if (sub[0] == '$') {
+                            exp = completeVariable(var);
+                        } else {
+                            exp = completeUsername(var);
+                        }
+                        if (exp != var) {
+                            char doti[] = { char(sub[0]), '\0' };
+                            setText(pre + doti + exp, false);
+                        }
+                    }
+                }
+                return;
             }
-            else if (upath::glob(sub + "*", list, "/S") && list.nonempty()) {
+
+            YStringArray list;
+            if (upath::glob(sub + "*", list, "/S") && list.nonempty()) {
                 if (list.getCount() == 1) {
                     mstring found(mstr.substring(0, i + 1) + list[0]);
                     setText(found, true);
@@ -750,6 +768,64 @@ void YInputLine::complete() {
         }
     }
     free(res);
+}
+
+static size_t commonPrefix(const char* s, const char* t) {
+    size_t i = 0;
+    while (s[i] && s[i] == t[i])
+        i++;
+    return i;
+}
+
+mstring YInputLine::completeVariable(mstring var) {
+    extern char** environ;
+    char* best = nullptr;
+    size_t len = 0;
+    for (int i = 0; environ[i]; ++i) {
+        if ( !strncmp(environ[i], var, var.length())) {
+            char* eq = strchr(environ[i], '=');
+            size_t k = eq - environ[i];
+            if (eq && k >= var.length()) {
+                if (best == nullptr) {
+                    best = environ[i];
+                    len = k;
+                } else {
+                    size_t c = commonPrefix(best, environ[i]);
+                    if (len > c)
+                        len = c;
+                }
+            }
+        }
+    }
+    return (len > var.length()) ? mstring(best, len) : var;
+}
+
+mstring YInputLine::completeUsername(mstring var) {
+    FILE* fp = fopen("/etc/passwd", "r");
+    if (fp == nullptr)
+        return var;
+    char line[1024], best[1024];
+    size_t len = 0;
+    *best = '\0';
+    while (fgets(line, sizeof line, fp)) {
+        if ( !strncmp(line, var, var.length())) {
+            char* sep = strchr(line, ':');
+            if (sep && sep - line >= (ptrdiff_t) var.length()) {
+                *sep = '\0';
+                size_t k = sep - line;
+                if (*best == '\0') {
+                    memcpy(best, line, k + 1);
+                    len = k;
+                } else {
+                    size_t c = commonPrefix(best, line);
+                    if (len > c)
+                        len = c;
+                }
+            }
+        }
+    }
+    fclose(fp);
+    return (len > var.length()) ? mstring(best, len) : var;
 }
 
 bool YInputLine::isFocusTraversable() {

@@ -22,7 +22,7 @@ protected:
 
 class YInputLine:
     public YWindow,
-    private YTimerListener,
+    protected YTimerListener,
     private YActionListener,
     private YPopDownListener
 {
@@ -70,13 +70,16 @@ public:
     bool copySelection();
     void complete();
 
-private:
+protected:
     virtual bool handleTimer(YTimer *timer);
+private:
     virtual bool handleAutoScroll(const XMotionEvent &mouse);
 
     void limit();
     void autoScroll(int delta, const XMotionEvent *mouse);
     unsigned offsetToPos(int offset);
+    static mstring completeVariable(mstring var);
+    static mstring completeUsername(mstring user);
 
     YWideString fText;
     unsigned markPos;
