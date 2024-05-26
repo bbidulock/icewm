@@ -9,6 +9,7 @@
 #include "sysdep.h"
 #include <fnmatch.h>
 #include "base.h"
+#include "intl.h"
 
 const mstring upath::slash("/");
 const upath upath::rootPath(slash);
@@ -81,24 +82,24 @@ upath upath::replaceExtension(const char* ext) const {
 mstring upath::expand() const {
     int c = fPath[0];
     if (c == '~') {
-        int k = fPath[1];
-        if (k == -1 || isSeparator(k)) {
+        const int k = fPath.indexOf('/');
+        if (length() == 1) {
             csmart home(userhome(nullptr));
-            return (upath(home) +
-                    fPath.substring(size_t(min(2, length())))).fPath;
+            return upath(home);
         }
-        else {
-            k = 2;
-            while (k < length() && isSeparator(fPath[k]) == false)
-                k++;
+        else if (k == 1) {
+            csmart home(userhome(nullptr));
+            return upath(home) + fPath.substring(1);
+        }
+        else if (k == -1) {
             mstring user(fPath.substring(1, k - 1));
             csmart home(userhome(user));
-            if (home) {
-                upath path(home);
-                if (k < length())
-                    path += fPath.substring(k);
-                return path.fPath;
-            }
+            return upath(home);
+        }
+        else {
+            mstring user(fPath.substring(1, k - 1));
+            csmart home(userhome(user));
+            return upath(home) + fPath.substring(k);
         }
     }
     else if (c == '$') {
@@ -156,6 +157,19 @@ bool upath::dirExists() {
             return true;
         errno = ENOTDIR;
     }
+    return false;
+}
+
+bool upath::ensureDirectory() {
+    struct stat sb;
+    if (stat(&sb) == 0) {
+        if (S_ISDIR(sb.st_mode))
+            return true;
+        errno = EEXIST;
+    }
+    else if (mkdir())
+        return true;
+    fail(_("Unable to create directory %s"), string());
     return false;
 }
 

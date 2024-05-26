@@ -56,6 +56,7 @@ public:
     fcsmart loadText();
     bool copyFrom(upath from, int mode = 0666);
     bool testWritable(int mode = 0666);
+    bool ensureDirectory();
     int fnMatch(const char* pattern, int flags = 0);
 
     upath& operator=(const upath& p) {
