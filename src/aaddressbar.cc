@@ -12,6 +12,7 @@
 #include "default.h"
 #include <unistd.h>
 #include <errno.h>
+#include <sys/stat.h>
 #include <X11/keysym.h>
 #include "ywordexp.h"
 
@@ -19,12 +20,15 @@ AddressBar::AddressBar(IApp *app, YWindow *parent):
     YInputLine(parent, this),
     app(app),
     location(0),
+    restored(0),
     curdir(upath::cwd()),
     olddir(curdir)
 {
+    loadHistoryTimer->setTimer(500L, this, true);
 }
 
 AddressBar::~AddressBar() {
+    saveHistory();
 }
 
 bool AddressBar::handleKey(const XKeyEvent &key) {
@@ -67,6 +71,9 @@ void AddressBar::handleReturn(bool control) {
     if (line.nonempty()) {
         history.append(line);
         location = history.getCount();
+        if (saveHistoryTimer == nullptr) {
+            saveHistoryTimer->setTimer(minute(), this, true);
+        }
     }
     if (internal(line))
         return;
@@ -87,8 +94,10 @@ void AddressBar::handleReturn(bool control) {
     if (line.isEmpty())
         args.replace(control, nullptr);
     if (args[0]) {
-        upath cwd(upath::cwd());
-        bool change = (cwd != curdir);
+        bool change = false;
+        upath cwd;
+        if (curdir != null && curdir != (cwd = upath::cwd()))
+            change = true;
         if (change)
             curdir.chdir();
         app->runProgram(args[0], args.getCArray());
@@ -113,8 +122,10 @@ bool AddressBar::internal(mstring line) {
         if (strchr("$~", arg[0]))
             arg = upath(arg).expand();
         else if (arg == "-")
-            arg = olddir;
-        upath newdir((arg[0] == '/') ? upath(arg) : curdir + arg);
+            arg = (olddir != null) ? olddir.path() : upath::cwd();
+        upath newdir((arg[0] == '/') ? upath(arg) :
+                     (curdir != null) ? curdir + arg :
+                     upath(upath::cwd()) + arg);
         upath realdir = upath(newdir).real();
         if (realdir.isEmpty()) {
             arg.fmt("%s: %m", newdir.string());
@@ -124,7 +135,7 @@ bool AddressBar::internal(mstring line) {
             arg.fmt("%s: %m", realdir.string());
             return setText(arg, true), true;
         } else {
-            olddir = curdir;
+            olddir = (curdir != null) ? curdir : upath(upath::cwd());
             curdir = realdir;
             return setText(curdir, true), true;
         }
@@ -174,6 +185,65 @@ void AddressBar::inputEscape(YInputLine* input) {
 }
 
 void AddressBar::inputLostFocus(YInputLine* input) {
+}
+
+bool AddressBar::handleTimer(YTimer* timer) {
+    if (timer == loadHistoryTimer) {
+        loadHistory();
+        loadHistoryTimer = null;
+    }
+    else if (timer == saveHistoryTimer) {
+        saveHistory();
+        saveHistoryTimer = null;
+    }
+    else {
+        return YInputLine::handleTimer(timer);
+    }
+    return false;
+}
+
+upath AddressBar::historyFile() {
+    return YApplication::getPrivConfFile("ahistory");
+}
+
+void AddressBar::loadHistory() {
+    upath path(historyFile());
+    FILE* fp = path.fopen("r");
+    if (fp) {
+        char buf[4096];
+        int n = 0;
+        while (fgets(buf, sizeof buf, fp))
+            ++n;
+        rewind(fp);
+        for (int i = saveLines; i < n && fgets(buf, sizeof buf, fp); ++i)
+            ;
+        for (int i = 0; i < saveLines && fgets(buf, sizeof buf, fp); ++i) {
+            char* nl = strchr(buf, '\n');
+            if (nl)
+                *nl = '\0';
+            history.insert(i, buf);
+            location++;
+            restored++;
+        }
+        fclose(fp);
+    }
+}
+
+void AddressBar::saveHistory() {
+    if (restored < history.getCount()) {
+        upath path(historyFile());
+        FILE* fp = path.fopen("w");
+        if (fp) {
+            fchmod(fileno(fp), 0600);
+            const int first = max(0, history.getCount() - saveLines);
+            for (int i = first; i < history.getCount(); ++i) {
+                fputs(history[i], fp);
+                fputc('\n', fp);
+            }
+            fclose(fp);
+            restored = history.getCount();
+        }
+    }
 }
 
 // vim: set sw=4 ts=4 et:

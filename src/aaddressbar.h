@@ -6,7 +6,10 @@
 
 class IApp;
 
-class AddressBar: public YInputLine, private YInputListener {
+class AddressBar:
+    public YInputLine,
+    private YInputListener
+{
 public:
     AddressBar(IApp *app, YWindow *parent = nullptr);
     virtual ~AddressBar();
@@ -22,15 +25,23 @@ private:
     void handleReturn(bool control);
     bool appendCommand(const char* cmd, class YStringArray& args);
     bool internal(mstring line);
+    void loadHistory();
+    void saveHistory();
+    upath historyFile();
 
     void inputReturn(YInputLine* input, bool control);
     void inputEscape(YInputLine* input);
     void inputLostFocus(YInputLine* input);
+    bool handleTimer(YTimer* timer);
 
     IApp *app;
     MStringArray history;
     int location;
+    int restored;
+    const int saveLines = 64;
     upath curdir, olddir;
+    lazy<YTimer> loadHistoryTimer;
+    lazy<YTimer> saveHistoryTimer;
 };
 
 #endif
