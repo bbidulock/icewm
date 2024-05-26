@@ -114,18 +114,9 @@ void setLook(const char *name, const char *arg, bool) {
     }
 }
 
-static bool ensureDirectory(upath path) {
-    if (path.dirExists())
-        return true;
-    if (path.mkdir() != 0) {
-        fail(_("Unable to create directory %s"), path.string());
-    }
-    return path.dirExists();
-}
-
-static upath getDefaultsFilePath(const mstring& basename) {
-    upath prv(YApplication::getPrivConfDir());
-    if (ensureDirectory(prv)) {
+static upath getDefaultsFilePath(const char* basename) {
+    upath prv(YApplication::getPrivConfDir(true));
+    if (prv.dirExists()) {
         return prv + basename;
     }
     return null;
@@ -314,6 +305,9 @@ int WMConfig::rewritePrefs(cfoption* start_preferences, const char* config) {
     upath source(nonempty(config) ? config :
                  getDefaultsFilePath("preferences"));
 
+    if (source == null) {
+        return EXIT_FAILURE;
+    }
     if (origin == source) {
         errno = EDEADLK;
         fail("%s", origin.string());
