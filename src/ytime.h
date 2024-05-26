@@ -54,6 +54,8 @@ inline double toDouble(const timeval& t) {
 
 inline timeval zerotime() { return (timeval) { 0L, 0L }; }
 
+inline long minute() { return 60*1000L; }
+
 #endif
 
 // vim: set sw=4 ts=4 et:
