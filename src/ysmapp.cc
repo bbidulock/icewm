@@ -20,11 +20,8 @@ static char *newSessionId = nullptr;
 static char *sessionProg;
 
 upath getsesfile() {
-    upath path(YApplication::getPrivConfDir());
-    if (false == path.dirExists())
-        path.mkdir();
-    path += mstring("/.session-", newSessionId);
-    return path;
+    mstring name(".session-", newSessionId);
+    return YApplication::getPrivConfFile(name);
 }
 
 static void iceWatchFD(IceConn conn,
