@@ -523,22 +523,29 @@ also be changed by bringing the drag icon to the screen edge.
 
 The task bar contains a command-line prompt called the address bar,
 if B<EnableAddressBar>=1. It is always shown when B<ShowAddressBar>=1,
-otherwise it is activated by B<KeySysAddressBar>=C<Alt+Ctrl+Space>.
-In it a shell command can be typed, which is executed by the
-B<AddressBarCommand>=C</bin/sh> when pressing C<Enter>.
-On C<Control+Enter> this command is executed in a new terminal
-as given by B<TerminalCommand>.
+otherwise it is activated by B<KeySysAddressBar>=C<Alt+Ctrl+space>.
+In it a shell command can be typed. On I<Enter> it is executed by the
+B<AddressBarCommand>=C</bin/sh>.  On I<Control+Enter> this command is
+executed in a new terminal as given by B<TerminalCommand>.
 
 Commands are executed relative to the working directory of icewm.
-This can be shown by executing C<pwd>. It can be changed using the C<cd>
-command. Without argument it defaults to the home directory. With one
-argument it is changed. This argument is expanded when it starts with a
-dollar or tilde. When it is equal to C<->, it reverts to the previous
-directory.
+This is shown by C<pwd>. Change it with C<cd>.  Without argument C<cd>
+defaults to the home directory. With one argument it is changed.
+This argument is expanded when it starts with a dollar or tilde.
+When it is equal to C<->, it reverts to the previous directory.
 
 The address bar has a history that is navigable by I<Up> and I<Down>.
-It supports file completion using C<Tab> or C<Ctrl+I>, cut/copy/paste
-and these editing operations:
+This history is saved in a file F<ahistory> in your icewm directory
+and restored when icewm starts.
+
+Completion is supported using I<Tab> or I<Ctrl+I>. The leading command
+is completed from directories in your PATH, while file arguments are
+expanded from the location in the file system. In addition usernames
+and environment variables can also be expanded. For example, C<echo $TMP>
+and I<Tab> may expand to C<echo $TMPDIR> and C<echo ~ro> and I<Tab> may
+expand to C<echo ~root>.
+
+The address bar implements cut/copy/paste and these editing operations:
 
 =over
 
@@ -834,7 +841,7 @@ Rolls up the active window.
 
 Hides the active window.
 
-=item B<KeyWinMenu>=C<Alt+Space>
+=item B<KeyWinMenu>=C<Alt+space>
 
 Posts the window menu.
 
@@ -938,7 +945,7 @@ Activates the IceWM root menu in the lower left corner.
 
 Opens the IceWM system window list in the center of the screen.
 
-=item B<KeySysAddressBar>=C<Alt+Ctrl+Space>
+=item B<KeySysAddressBar>=C<Alt+Ctrl+space>
 
 Opens the address bar in the task bar where a command can be typed.
 
