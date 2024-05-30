@@ -708,14 +708,14 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    char* res = nullptr;
+    csmart res;
     mstring mstr(fText);
     int res_count = globit_best(mstr, &res, nullptr, nullptr);
     // directory is not a final match
     if (res_count == 1 && upath(res).dirExists())
         res_count++;
     if (1 <= res_count)
-        setText(res, res_count == 1);
+        setText(mstring(res), res_count == 1);
     else {
         int i = mstr.lastIndexOf(' ');
         if (i > 0 && size_t(i + 1) < mstr.length()) {
@@ -766,8 +766,14 @@ void YInputLine::complete() {
                 }
             }
         }
+        else if (i == -1 && mstr.length() > 1 && mstr.indexOf('/') == -1) {
+            if (mstr[0] == '$') {
+                mstring var = completeVariable(mstr.substring(1));
+                if (var != mstr.substring(1))
+                    setText(mstr.substring(0, 1) + var, false);
+            }
+        }
     }
-    free(res);
 }
 
 static size_t commonPrefix(const char* s, const char* t) {
