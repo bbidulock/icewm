@@ -213,7 +213,7 @@ YStringArray::YStringArray(const char* cstr[], SizeType num, SizeType cap) :
     }
 }
 
-static bool strequal(const char *a, const char *b) {
+bool strequal(const char* a, const char* b) {
     return a ? b && !strcmp(a, b) : !b;
 }
 

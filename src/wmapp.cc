@@ -1361,6 +1361,8 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     delete desktop;
 
     managerWindow = registerProtocols1(*argv, *argc);
+    if (notifyParent == false && strequal("icewm", getenv("DESKTOP_SESSION")))
+        warn("Better start icewm via icewm-session");
 
     manager = new YWindowManager(this, this, this, nullptr, root());
     PRECONDITION(desktop != nullptr);

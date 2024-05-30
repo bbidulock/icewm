@@ -156,6 +156,7 @@ void show_backtrace(const int limit = 0);
 int strpcmp(char const *str, char const *pfx, char const *delim = "=:");
 const char* errno_string();
 const char *my_basename(const char *filename);
+bool strequal(const char* a, const char* b);
 
 inline const char* boolstr(bool bval) {
     return bval ? "true" : "false";
