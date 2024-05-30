@@ -54,6 +54,7 @@ public:
     void createPointerWindows();
     void grabKeys();
 
+    void limitPos();
     void maybeFocus();
     void focus(bool canWarp = false);
     void activate(bool canWarp = false, bool curWork = true);

@@ -3877,7 +3877,11 @@ void YWindowManager::updateScreenSize(XEvent *event) {
 
         /// TODO #warning "make something better"
         if (arrangeWindowsOnScreenSizeChange && resize) {
-            wmActionListener->actionPerformed(actionArrange, 0);
+            for (YFrameIter frame(focusedIterator()); ++frame; ) {
+                if (frame->visible()) {
+                    frame->limitPos();
+                }
+            }
         }
         if (resize) {
             arrangeIcons();

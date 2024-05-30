@@ -2106,7 +2106,7 @@ void YFrameWindow::maybeFocus() {
     }
 }
 
-void YFrameWindow::focus(bool canWarp) {
+void YFrameWindow::limitPos() {
     if (limitPosition &&
         (x() >= int(desktop->width()) - borderX() ||
          y() >= int(desktop->height()) - borderY() - titleY() ||
@@ -2125,6 +2125,10 @@ void YFrameWindow::focus(bool canWarp) {
             newY = int(- borderY());
         setCurrentPositionOuter(newX, newY);
     }
+}
+
+void YFrameWindow::focus(bool canWarp) {
+    limitPos();
     manager->setFocus(this, canWarp);
     if (raiseOnFocus && manager->isRunning()) {
         wmRaise();
