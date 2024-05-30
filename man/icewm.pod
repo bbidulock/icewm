@@ -10,12 +10,12 @@ B<icewm> [I<OPTIONS>]
 
 =head2 DESCRIPTION
 
-B<icewm> is a window manager for the X11 window system.
-It aims to be small, fast and familiar to new users.
+B<icewm> is a small and fast window manager for the X11 window system.  It
+is best started by L<icewm-session(1)>, which also starts L<icewmbg(1)>.
 
-B<icewm> is called a re-parenting window manager,
-because it draws small frames around application windows.
-By dragging this frame with the mouse, windows are resized or moved.
+B<icewm> is called I<re-parenting>, because it draws frames around
+application windows.  Drag this frame with the mouse, to move or resize
+a window.
 
 Because windows may overlap, B<icewm> is also a stacking window manager.
 Many windows may exist, some hidden behind others.
@@ -26,6 +26,7 @@ By switching between workspaces, the user can attend to different tasks,
 while keeping oversight.  This is supported by a task bar and a pager.
 
 The installation comes with several themes. Choose a theme via a menu.
+Install extra themes automatically with the B<--install> option.
 
 B<icewm> is compliant with the ICCCM and EWMH window manager specifications.
 
