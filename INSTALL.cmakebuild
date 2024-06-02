@@ -35,8 +35,13 @@ Developer/Integrator notes:
 ```
    -DEXTRA_LIBS="-lsupc++"
    -DENABLE_LTO=ON
-   -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose
+   -DEXTRA_MSGMERGE=--verbose -DEXTRA_MSGFMT=--verbose --log-level=VERBOSE
 ```
+ * There is a special target called `update_pot` which refreshes the
+   translation master template
+ * Another special option is `-DPO_UPDATE=ON` which extends the `install`
+   target to replace the PO files in the input source code. NOTE: this might
+   trigger another recompilation of MO files later.
 
  * There is a configuration example for cmake builds in rebuild.sh.
    run: `./rebuild.sh -r --prefix=/usr`
