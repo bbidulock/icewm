@@ -708,8 +708,18 @@ void YInputLine::autoScroll(int delta, const XMotionEvent *motion) {
 }
 
 void YInputLine::complete() {
-    csmart res;
     mstring mstr(fText);
+    if (mstr[0] == '~' && mstr.length() > 1
+        && mstr.lastIndexOf(' ') == -1
+        && mstr.lastIndexOf('/') == -1) {
+        mstring var = mstr.substring(1);
+        mstring exp = completeUsername(var);
+        if (exp != var) {
+            setText(mstr.substring(0, 1) + exp, false);
+            return;
+        }
+    }
+    csmart res;
     int res_count = globit_best(mstr, &res, nullptr, nullptr);
     // directory is not a final match
     if (res_count == 1 && upath(res).dirExists())
