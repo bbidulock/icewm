@@ -1416,6 +1416,7 @@ private:
     void setBorderTitle(int border, int title);
     void sizeto();
     void sizeby();
+    void moveto();
     void detail();
     void extents();
     void details(Window window);
@@ -2141,6 +2142,70 @@ void IceSh::sizeby()
     }
     else {
         invalidArgument("sizeby parameters");
+    }
+}
+
+void IceSh::moveto()
+{
+    char* xa = getArg();
+    char* ya = getArg();
+    char* xs = &xa[isSign(xa[0]) && isSign(xa[1])];
+    char* ys = &ya[isSign(ya[0]) && isSign(ya[1])];
+    bool xper = *xs && xs[strlen(xs)-1] == '%';
+    bool yper = *ys && ys[strlen(ys)-1] == '%';
+    if (xper) xs[strlen(xs)-1] = '\0';
+    if (yper) ys[strlen(ys)-1] = '\0';
+    bool xneg = (xa < xs && *xa == '-');
+    bool yneg = (ya < ys && *ya == '-');
+    long lx = 0, ly = 0;
+    float fx = 0, fy = 0;
+    if ((xper ? tofloat(xs, fx) : tolong(xs, lx)) &&
+        (yper ? tofloat(ys, fy) : tolong(ys, ly))) {
+        FOREACH_WINDOW(window) {
+            use(window);
+            Window frame = getFrameWindow(window);
+            if (frame) {
+                int ax = 0, ay = 0, aw = displayWidth(), ah = displayHeight();
+                long xpos = lx;
+                long ypos = ly;
+                if (xper | yper) {
+                    getArea(window, ax, ay, aw, ah);
+                }
+                int gx, gy, gw, gh;
+                if (::getGeometry(frame, gx, gy, gw, gh)) {
+                    if (xneg && xper) {
+                        xpos = ax + aw - long(fx * aw / 100.0f) - gw;
+                    }
+                    else if (xper) {
+                        xpos = ax + long(fx * aw / 100.0f);
+                    }
+                    else if (xneg) {
+                        xpos = displayWidth() - gw + lx;
+                    }
+                    xpos = clamp(xpos, -30000L, 30000L);
+
+                    if (yneg && yper) {
+                        ypos = ay + ah - long(fy * ah / 100.0f) - gh;
+                    }
+                    else if (yper) {
+                        ypos = ay + long(fy * ah / 100.0f);
+                    }
+                    else if (yneg) {
+                        ypos = displayHeight() - gh + ly;
+                    }
+                    ypos = clamp(ypos, -30000L, 30000L);
+
+                    moveResize(window, NorthWestGravity,
+                               xpos, ypos, None, None, CWX | CWY);
+                    modified(window);
+                } else {
+                    window.discard();
+                }
+            }
+        }
+    }
+    else {
+        invalidArgument("move parameters");
     }
 }
 
@@ -4920,41 +4985,7 @@ void IceSh::parseAction()
             sizeby();
         }
         else if (isAction("move", 2)) {
-            const char* xa = getArg();
-            const char* ya = getArg();
-            const char* xs = &xa[isSign(xa[0]) && isSign(xa[1])];
-            const char* ys = &ya[isSign(ya[0]) && isSign(ya[1])];
-            long lx, ly;
-            if (tolong(xs, lx) && tolong(ys, ly)) {
-                FOREACH_WINDOW(window) {
-                    use(window);
-                    Window frame = getFrameWindow(window);
-                    if (frame) {
-                        int x, y, w, h;
-                        if (::getGeometry(frame, x, y, w, h)) {
-                            int tx, ty;
-                            if (xa < xs && *xa == '-') {
-                                tx = displayWidth() - w + lx;
-                            } else {
-                                tx = lx;
-                            }
-                            if (ya < ys && *ya == '-') {
-                                ty = displayHeight() - h + ly;
-                            } else {
-                                ty = ly;
-                            }
-                            moveResize(window, NorthWestGravity,
-                                       tx, ty, None, None, CWX | CWY);
-                            modified(window);
-                        } else {
-                            window.discard();
-                        }
-                    }
-                }
-            }
-            else {
-                invalidArgument("move parameters");
-            }
+            moveto();
         }
         else if (isAction("moveby", 2)) {
             const char* xs = getArg();

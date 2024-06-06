@@ -413,6 +413,8 @@ by 50% and increases the height by 200 pixels.
 Move the selected window or windows to the screen position I<X> I<Y>.
 To specify I<X> or I<Y> values relative to the right side or bottom side
 precede the value with an extra minus sign, like in C<move -+10 --20>.
+When I<X> or I<Y> end with a percent sign C<%>, they refer to a percentage
+of the desktop work area.
 
 =item B<moveby> I<X> I<Y>
 
