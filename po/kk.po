@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2022-12-23 17:13+0000\n"
+"PO-Revision-Date: 2024-06-09 06:46+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
-"Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/kk/>\n"
+"Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/kk/>\n"
 "Language: kk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.5.5\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -57,7 +57,7 @@ msgstr " - Толық"
 #: src/aapm.cc:940
 #, c-format
 msgid "power:\t%s"
-msgstr ""
+msgstr "эл. қорегі:\t%s"
 
 #: src/aclock.cc:195
 msgid "CLOCK"
@@ -89,7 +89,7 @@ msgstr "°C"
 #: src/acpustatus.cc:552
 #, c-format
 msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr ""
+msgstr "CPU %s жүктемесі: %3.2f %3.2f %3.2f, %u"
 
 #: src/acpustatus.cc:558
 #, c-format
@@ -97,6 +97,8 @@ msgid ""
 "\n"
 "Ram (free): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Жады (бос): %5.3f (%.3f) ГБ"
 
 #: src/acpustatus.cc:563
 #, c-format
@@ -104,6 +106,8 @@ msgid ""
 "\n"
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
+"\n"
+"Своп (бос): %.3f (%.3f) ГБ"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -111,6 +115,8 @@ msgid ""
 "\n"
 "ACPI Temp: "
 msgstr ""
+"\n"
+"ACPI температурасы: "
 
 #: src/acpustatus.cc:592 src/acpustatus.cc:630
 #, c-format
@@ -118,6 +124,8 @@ msgid ""
 "\n"
 "CPU Freq: %.3fGHz"
 msgstr ""
+"\n"
+"CPU жиілігі: %.3fГГц"
 
 #: src/acpustatus.cc:607 src/acpustatus.cc:907
 msgid "CPU"
@@ -125,7 +133,7 @@ msgstr "CPU"
 
 #: src/acpustatus.cc:607
 msgid "Load: "
-msgstr ""
+msgstr "Жүктемесі: "
 
 #: src/acpustatus.cc:622
 #, c-format
@@ -2193,10 +2201,8 @@ msgid "Reload win_options"
 msgstr ""
 
 #: src/wmdialog.cc:96
-#, fuzzy
-#| msgid "Reload"
 msgid "Reload ke_ys"
-msgstr "Қайта жүктеу"
+msgstr "Перне жарл_ықтарын қайта жүктеу"
 
 #: src/wmframe.cc:1375
 msgid "Rename"
