@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2024-06-09 06:46+0000\n"
+"PO-Revision-Date: 2024-06-09 09:46+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/kk/>\n"
@@ -141,6 +141,8 @@ msgid ""
 "\n"
 "Ram (user): %5.3f (%.3f) G"
 msgstr ""
+"\n"
+"Жады (пайдаланушы): %5.3f (%.3f) ГБ"
 
 #: src/acpustatus.cc:908
 #, c-format
@@ -149,21 +151,21 @@ msgstr "CPU%d"
 
 #: src/acpustatus.cc:914
 msgid "_Combine"
-msgstr ""
+msgstr "Бірі_ктіру"
 
 #: src/acpustatus.cc:916
 msgid "_Separate"
-msgstr ""
+msgstr "Бө_ліп жіберу"
 
 #: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:503
 #, c-format
 msgid "%s exited with status %d."
-msgstr ""
+msgstr "%s келесі кодымен аяқталды: %d."
 
 #: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:506
 #, c-format
 msgid "%s was killed by signal %d."
-msgstr ""
+msgstr "%s келесі сигналмен өлтірілді: %d."
 
 #: src/akeyboard.cc:94
 msgid "rules:"
@@ -593,17 +595,17 @@ msgstr ""
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
 #: src/fdospecgen.h:145
 msgid "FileManager"
-msgstr ""
+msgstr "Файлдар басқарушысы"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
 #: src/fdospecgen.h:147
 msgid "FileTools"
-msgstr ""
+msgstr "Файлдық құралдар"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
 #: src/fdospecgen.h:149
 msgid "FileTransfer"
-msgstr ""
+msgstr "Файлдарды тасымалдау"
 
 #. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
 #: src/fdospecgen.h:151
@@ -2289,11 +2291,11 @@ msgstr ""
 
 #: src/wmmgr.cc:3669
 msgid "Missing program setxkbmap"
-msgstr ""
+msgstr "setxkbmap қолданбасы жоқ болып тұр"
 
 #: src/wmmgr.cc:3670
 msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
+msgstr "Пернетақта жаймасын ауыстыру үшін setxkbmap орнатыңыз."
 
 #: src/wmoption.cc:285
 #, c-format
