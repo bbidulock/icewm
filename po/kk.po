@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-05-09 20:44+0200\n"
-"PO-Revision-Date: 2024-06-09 09:46+0000\n"
+"PO-Revision-Date: 2024-06-10 19:46+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/kk/>\n"
@@ -215,7 +215,7 @@ msgstr ""
 #: src/amailbox.cc:334
 #, c-format
 msgid "Failed to find %s command"
-msgstr ""
+msgstr "%s командасын табу сәтсіз аяқталды"
 
 #: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
