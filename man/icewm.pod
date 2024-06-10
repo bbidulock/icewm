@@ -245,7 +245,7 @@ Press left, then Alt, then release left, moves only the focused window
 to other workspace, without changing the current workspace.
 
 The workspaces are defined in the F<preferences> file.  To change a name
-for only this session, double click, edit the name and hit Enter.
+for only this session, double-click, edit the name and hit Enter.
 When C<PagerShowPreview> is turned on, a small graphical window summary
 for each workspace is shown. They support drag-and-drop: dragging a
 Firefox tab to a workspace button changes the current workspace.
@@ -1190,7 +1190,7 @@ When they start to flash, release the button to merge the frame tabs.
 The title frame of a window also listens for mouse clicks.  Left double
 clicking maximizes the window (C<TitleBarMaximizeButton=1>). Press
 Shift to only maximize vertically. Press Alt+Shift for horizontally.
-Middle double clicking rolls up the window (C<TitleBarRollupButton=2>).
+Middle double-clicking rolls up the window (C<TitleBarRollupButton=2>).
 Also press Shift to maximize horizontally. If B<TitleBarRollupButton>
 is either 4 or 5 then the scroll wheel controls rolling up or down.
 Pressing a mouse button and moving it will move the window.
@@ -1200,6 +1200,9 @@ When the mouse is on the window frame then a left click raises the
 window.  Dragging with the left button down resizes the window.
 Clicking the right button pops up the context menu.  Dragging with the
 right button moves the window.
+
+Double-clicking on the frame border (or corner) maximizes just that side
+of the window. Another double-click restores that side.
 
 Clicking on the desktop activates a menu.  The middle button shows the
 window list (C<DesktopWinListButton=2>).  The right button shows the

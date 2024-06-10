@@ -58,6 +58,10 @@ YFrameWindow::YFrameWindow(
     fPopupActive(nullptr),
     movingWindow(false),
     sizingWindow(false),
+    origX(0),
+    origY(0),
+    origW(0),
+    origH(0),
     topSide(None),
     leftSide(None),
     rightSide(None),
@@ -1032,12 +1036,89 @@ void YFrameWindow::configureClient(int cx, int cy, int cwidth, int cheight) {
     }
 }
 
-void YFrameWindow::handleClick(const XButtonEvent &up, int /*count*/) {
-    if (up.button == 3) {
+void YFrameWindow::handleClick(const XButtonEvent &up, int click) {
+    if (up.button == Button3) {
         popupSystemMenu(this, up.x_root, up.y_root,
                         YPopupWindow::pfCanFlipVertical |
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
+    }
+    else if (up.button == Button1 && up.window != up.subwindow &&
+             click == 2 && isResizable() && !isFullscreen()) {
+        YRect geo(geometry()), res(geo);
+        if (origW < 1 || origH < 1) {
+            origX = geo.xx; origY = geo.yy; origW = geo.ww; origH = geo.hh;
+        }
+        int al, at, ar, ab, unmax = 0;
+        manager->getWorkArea(this, &al, &at, &ar, &ab, getScreen());
+        const Window sub = up.subwindow;
+        const XSizeHints* sh = client()->sizeHints();
+        const int wi = sh->width_inc, hi = sh->height_inc;
+        if (sub == rightSide || sub == topRight || sub == bottomRight) {
+            if (isMaximizedHoriz()) {
+                unmax |= WinStateMaximizedHoriz;
+            } else {
+                int inc = ((ar - geo.xx - geo.ww) / wi) * wi;
+                if (inc) {
+                    origW = geo.ww;
+                    geo.ww += inc;
+                } else if (origW > 0 && origW < int(geo.ww)) {
+                    res.ww = origW;
+                }
+            }
+        }
+        if (sub == bottomSide || sub == bottomLeft || sub == bottomRight) {
+            if (isMaximizedVert()) {
+                unmax |= WinStateMaximizedVert;
+            } else {
+                int inc = ((ab - geo.yy - geo.hh) / hi) * hi;
+                if (inc) {
+                    origH = geo.hh;
+                    geo.hh += inc;
+                } else if (origH > 0 && origH < int(geo.hh)) {
+                    res.hh = origH;
+                }
+            }
+        }
+        if (sub == leftSide || sub == topLeft || sub == bottomLeft) {
+            if (isMaximizedHoriz()) {
+                unmax |= WinStateMaximizedHoriz;
+            } else {
+                int inc = ((geo.xx - al) / wi) * wi;
+                if (inc) {
+                    origX = geo.xx;
+                    origW = geo.ww;
+                    geo.xx -= inc;
+                    geo.ww += inc;
+                } else if (origW > 0 && origW < int(geo.ww) && origX > geo.xx) {
+                    res.xx = origX;
+                    res.ww = origW;
+                }
+            }
+        }
+        if (sub == topSide || sub == topLeft || sub == topRight) {
+            if (isMaximizedVert()) {
+                unmax |= WinStateMaximizedVert;
+            } else {
+                int inc = ((geo.yy - at) / hi) * hi;
+                if (inc) {
+                    origY = geo.yy;
+                    origH = geo.hh;
+                    geo.yy -= inc;
+                    geo.hh += inc;
+                } else if (origH > 0 && origH < int(geo.hh) && origY > geo.yy) {
+                    res.yy = origY;
+                    res.hh = origH;
+                }
+            }
+        }
+        if (geo != geometry()) {
+            setCurrentGeometryOuter(geo);
+        } else if (res != geometry()) {
+            setCurrentGeometryOuter(res);
+        } else if (unmax) {
+            setState(unmax, None);
+        }
     }
 }
 

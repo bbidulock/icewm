@@ -943,14 +943,14 @@ Desktop mouse-button click to show the root menu.
 
 =item B<TitleBarMaximizeButton>=1  [0-5]
 
-Title bar mouse-button double click to maximize the window to full
+Title bar mouse-button double-click to maximize the window to full
 screen with the frame border visible.
 Press Shift to maximize only in the vertical direction.
 Press Alt+Shift to maximize only in the horizontal direction.
 
 =item B<TitleBarRollupButton>=2  [0-5]
 
-Title bar mouse-button double click to rollup the window.
+Title bar mouse-button double-click to rollup the window.
 Press Shift to maximize in the horizontal direction.
 
 =back
