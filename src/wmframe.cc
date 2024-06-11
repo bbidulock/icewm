@@ -1043,7 +1043,7 @@ void YFrameWindow::handleClick(const XButtonEvent &up, int click) {
                         YPopupWindow::pfCanFlipHorizontal |
                         YPopupWindow::pfPopupMenu);
     }
-    else if (up.button == Button1 && up.window != up.subwindow &&
+    else if (up.button == Button1 && up.subwindow &&
              click == 2 && isResizable() && !isFullscreen()) {
         YRect geo(geometry()), res(geo);
         if (origW < 1 || origH < 1) {

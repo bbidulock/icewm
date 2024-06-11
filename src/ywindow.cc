@@ -897,8 +897,8 @@ void YWindow::handleMotion(const XMotionEvent &motion) {
         if (fClickDrag) {
             handleDrag(fClickEvent, motion);
         }
-        else if ((motion.state & xapp->ButtonMask) / Button1Mask
-                  == fClickButton) {
+        else if (int(motion.state & xapp->ButtonMask) ==
+                 Button1Mask << (fClickButton - Button1)) {
             if (motion.time >= fClickTime + ClickMotionDelay ||
                 sqr(motion.x_root - fClickEvent.x_root) +
                 sqr(motion.y_root - fClickEvent.y_root) >=
