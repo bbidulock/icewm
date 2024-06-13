@@ -1079,6 +1079,7 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
     lastEventTime(CurrentTime),
     fPopup(nullptr),
     xfd(this),
+    fXIM(initInput(fDisplay)),
     fXGrabWindow(nullptr),
     fGrabWindow(nullptr),
     fKeycodeMap(nullptr),
@@ -1098,6 +1099,17 @@ YXApplication::YXApplication(int *argc, char ***argv, const char *displayName):
 
     initAtoms();
     initModifiers();
+}
+
+XIM YXApplication::initInput(Display* dpy) {
+    XSetLocaleModifiers("");
+
+    XIM xim = XOpenIM(dpy, None, nullptr, nullptr);
+    if (xim == nullptr) {
+        XSetLocaleModifiers("@im=none");
+        xim = XOpenIM(dpy, None, nullptr, nullptr);
+    }
+    return xim;
 }
 
 void YExtension::init(Display* dis, QueryFunc ext, QueryFunc ver) {
@@ -1141,6 +1153,8 @@ YXApplication::~YXApplication() {
         XFreeColormap(display(), fColormap32);
     if (fKeycodeMap)
         XFree(fKeycodeMap);
+    if (fXIM)
+        XCloseIM(fXIM);
 
     xfd.unregisterPoll();
     XCloseDisplay(display());

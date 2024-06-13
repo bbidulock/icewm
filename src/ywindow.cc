@@ -565,6 +565,10 @@ void YWindow::raiseTo(YWindow* inferior) {
 }
 
 void YWindow::handleEvent(const XEvent &event) {
+    if (hasbit(flags, wfFiltering) &&
+        XFilterEvent(const_cast<XEvent*>(&event), fHandle))
+        return;
+
     switch (event.type) {
     case KeyPress:
     case KeyRelease:
@@ -1863,9 +1867,10 @@ bool YWindow::getCharFromEvent(const XKeyEvent &key, char *s, int maxLen) {
     char keyBuf[16];
     KeySym ksym;
     XKeyEvent kev = key;
+    static XComposeStatus compose = { NULL, 0 };
 
     // FIXME:
-    int klen = XLookupString(&kev, keyBuf, sizeof(keyBuf), &ksym, nullptr);
+    int klen = XLookupString(&kev, keyBuf, sizeof(keyBuf), &ksym, &compose);
 #ifndef USE_XmbLookupString
     if ((klen == 0)  && (ksym < 0x1000)) {
         klen = 1;

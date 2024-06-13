@@ -41,6 +41,7 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     fBlinkTime(333),
     fKeyPressed(0),
     fListener(listener),
+    inputContext(nullptr),
     inputFont(inputFontName),
     inputBg(&clrInput),
     inputFg(&clrInputText),
@@ -53,6 +54,8 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
 }
 
 YInputLine::~YInputLine() {
+    if (inputContext)
+        XDestroyIC(inputContext);
 }
 
 void YInputLine::setText(mstring text, bool asMarked) {
@@ -322,13 +325,16 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                 fListener->inputReturn(this, control);
                 return true;
             }
-            else
-            {
-                char s[16];
+            else {
+                const int n = 16;
+                wchar_t* s = new wchar_t[n];
 
-                if (getCharFromEvent(key, s, sizeof(s))) {
-                    replaceSelection(s, strlen(s));
+                int len = getWCharFromEvent(key, s, n);
+                if (len) {
+                    replaceSelection(s, len);
                     return true;
+                } else {
+                    delete[] s;
                 }
             }
         }
@@ -342,6 +348,18 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
         }
     }
     return YWindow::handleKey(key);
+}
+
+int YInputLine::getWCharFromEvent(const XKeyEvent& key, wchar_t* s, int maxLen) {
+    KeySym keysym = None;
+    Status status = None;
+    int len = XwcLookupString(inputContext, const_cast<XKeyEvent*>(&key),
+                              s, maxLen, &keysym, &status);
+
+    if (inrange(len, 0, maxLen - 1)) {
+        s[len] = None;
+    }
+    return len;
 }
 
 void YInputLine::handleButton(const XButtonEvent &button) {
@@ -429,6 +447,9 @@ void YInputLine::handleClick(const XButtonEvent &up, int /*count*/) {
         inputMenu->setPopDownListener(this);
     } else if (up.button == 2 && xapp->isButton(up.state, Button2Mask)) {
         requestSelection(true);
+    } else if (up.button == 1 && xapp->isButton(up.state, Button1Mask)) {
+        if (fHasFocus == false)
+            gotFocus();
     }
 }
 
@@ -466,18 +487,18 @@ unsigned YInputLine::offsetToPos(int offset) {
 }
 
 void YInputLine::handleFocus(const XFocusChangeEvent &focus) {
+    if (focus.mode == NotifyGrab || focus.mode == NotifyUngrab)
+        return;
+
     if (focus.type == FocusIn &&
         focus.detail != NotifyPointer &&
         focus.detail != NotifyPointerRoot)
     {
-        fHasFocus = true;
         selectAll();
-        cursorBlinkTimer->setTimer(fBlinkTime, this, true);
+        gotFocus();
     }
     else if (focus.type == FocusOut/* && fHasFocus == true*/) {
-        fHasFocus = false;
-        repaint();
-        cursorBlinkTimer = null;
+        lostFocus();
         if (inputMenu && inputMenu == xapp->popup()) {
         }
         else if (fListener) {
@@ -560,6 +581,16 @@ void YInputLine::replaceSelection(const char* insert, int amount) {
     unsigned from = min(curPos, markPos);
     unsigned to = max(curPos, markPos);
     YWideString wide(insert, amount);
+    fText.replace(from, to - from, wide);
+    curPos = markPos = from + wide.length();
+    limit();
+    repaint();
+}
+
+void YInputLine::replaceSelection(wchar_t* insert, int amount) {
+    unsigned from = min(curPos, markPos);
+    unsigned to = max(curPos, markPos);
+    YWideString wide(amount, insert);
     fText.replace(from, to - from, wide);
     curPos = markPos = from + wide.length();
     limit();
@@ -849,20 +880,43 @@ bool YInputLine::isFocusTraversable() {
 }
 
 void YInputLine::gotFocus() {
-    if (fHasFocus == false) {
-        fHasFocus = true;
-        fCursorVisible = true;
-        cursorBlinkTimer->setTimer(fBlinkTime, this, true);
+    fHasFocus = true;
+    fCursorVisible = true;
+    cursorBlinkTimer->setTimer(fBlinkTime, this, true);
+
+    if (focused() || (YWindow::gotFocus(), focused() == false))
         repaint();
+
+    if (inputContext == nullptr) {
+        inputContext =
+            XCreateIC(xapp->xim(),
+                      XNInputStyle,   XIMPreeditNothing | XIMStatusNothing,
+                      XNClientWindow, handle(),
+                      XNFocusWindow,  handle(),
+                      nullptr);
+        unsigned long mask = None;
+        XGetICValues(inputContext, XNFilterEvents, &mask, nullptr);
+        if (mask) {
+            addEventMask(mask);
+        }
+        eventFiltering(true);
     }
+
+    XSetICFocus(inputContext);
+    XwcResetIC(inputContext);
 }
 
 void YInputLine::lostFocus() {
-    if (cursorBlinkTimer) {
-        cursorBlinkTimer = null;
-        fHasFocus = false;
+    cursorBlinkTimer = null;
+    fCursorVisible = false;
+    fHasFocus = false;
+    if (focused())
+        YWindow::lostFocus();
+    else
         repaint();
-    }
+
+    if (inputContext)
+        XUnsetICFocus(inputContext);
 }
 
 // vim: set sw=4 ts=4 et:

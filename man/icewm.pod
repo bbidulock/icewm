@@ -528,6 +528,7 @@ otherwise it is activated by B<KeySysAddressBar>=C<Alt+Ctrl+space>.
 In it a shell command can be typed. On I<Enter> it is executed by the
 B<AddressBarCommand>=C</bin/sh>.  On I<Control+Enter> this command is
 executed in a new terminal as given by B<TerminalCommand>.
+I<Escape> cancels editing the address bar command.
 
 Commands are executed relative to the working directory of icewm.
 This is shown by C<pwd>. Change it with C<cd>.  Without argument C<cd>

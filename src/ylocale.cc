@@ -37,7 +37,6 @@ public:
     iconv_t localer() const { return toLocale; }
     const char* localeName() const { return fLocaleName; }
     const char* codesetName() const { return fCodeset; }
-    const char* modifiers() const { return fModifiers; }
 
 private:
     void getConverters();
@@ -47,7 +46,6 @@ private:
     iconv_t toUnicode;
     iconv_t toLocale;
     const char* fLocaleName;
-    const char* fModifiers;
     const char* fCodeset;
 };
 
@@ -61,7 +59,6 @@ YConverter::YConverter(const char* localeName) :
                "Falling back to 'C' locale'."));
         fLocaleName = setlocale(LC_ALL, "C");
     }
-    fModifiers = XSetLocaleModifiers("");
     fCodeset = getCodeset();
 
     MSG(("locale: %s, MB_CUR_MAX: %zd, codeset: %s, endian: %c",

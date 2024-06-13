@@ -194,6 +194,7 @@ public:
     void unshift(KeySym* key, unsigned* mod);
 
     static const char* getHelpText();
+    XIM xim() const { return fXIM; }
 
 protected:
     virtual int handleError(XErrorEvent* xev);
@@ -228,6 +229,7 @@ private:
     YPopupWindow *fPopup;
     friend class YXPoll;
     YXPoll xfd;
+    XIM fXIM;
 
     lazy<class YClipboard> fClip;
     YWindow *fXGrabWindow;
@@ -245,6 +247,7 @@ private:
     virtual void flushXEvents();
 
     void initModifiers();
+    static XIM initInput(Display* dpy);
     static void initAtoms();
 
     static const char* parseArgs(int argc, char **argv, const char *displayName);

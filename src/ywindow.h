@@ -291,6 +291,10 @@ public:
 
     void unmanageWindow() { removeWindow(); }
 
+protected:
+    void eventFiltering(bool f) { if (f) flags |= wfFiltering;
+                                  else flags &= ~wfFiltering; }
+
 private:
     enum WindowFlags {
         wfVisible   = 1 << 0,
@@ -300,6 +304,7 @@ private:
         wfToplevel  = 1 << 4,
         wfNullSize  = 1 << 5,
         wfFocused   = 1 << 6,
+        wfFiltering = 1 << 7,
     };
 
     Window create();
