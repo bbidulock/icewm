@@ -167,7 +167,7 @@ bool upath::ensureDirectory() {
             return true;
         errno = EEXIST;
     }
-    else if (mkdir())
+    else if (mkdir() == 0)
         return true;
     fail(_("Unable to create directory %s"), string());
     return false;
