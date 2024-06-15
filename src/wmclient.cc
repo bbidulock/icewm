@@ -955,8 +955,8 @@ void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
                message.format == 32)
     {
         if (getFrame())
-            getFrame()->startMoveSize(message.data.l[0], message.data.l[1],
-                                      message.data.l[2]);
+            getFrame()->netMoveSize(message.data.l[0], message.data.l[1],
+                                    message.data.l[2]);
     } else if (message.message_type == _XA_NET_MOVERESIZE_WINDOW) {
         if (getFrame()) {
             long flag = message.data.l[0];

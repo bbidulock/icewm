@@ -126,7 +126,7 @@ public:
     YFrameTitleBar *titlebar();
     YClientContainer *container() const { return fContainer; }
 
-    void startMoveSize(int x, int y, int direction);
+    void netMoveSize(int x, int y, int direction);
 
     void startMoveSize(bool doMove, bool byMouse,
                        int sideX, int sideY,

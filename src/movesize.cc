@@ -830,9 +830,11 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
     return true;
 }
 
-void YFrameWindow::startMoveSize(int x, int y,
-                                 int direction)
+void YFrameWindow::netMoveSize(int x, int y, int direction)
 {
+    if (movingWindow || sizingWindow)
+        return;
+
     int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, };
     int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, };
 
