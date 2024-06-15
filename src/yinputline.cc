@@ -365,8 +365,9 @@ int YInputLine::getWCharFromEvent(const XKeyEvent& key, wchar_t* s, int maxLen) 
         int len = 0;
         char buf[16];
         if (getCharFromEvent(key, buf, 16)) {
+            len = int(strlen(buf));
             YWideString w(buf, len);
-            memcpy(s, w.data(), w.length());
+            memcpy(s, w.data(), w.length() * sizeof(wchar_t));
         }
         return len;
     }
