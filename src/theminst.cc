@@ -63,7 +63,6 @@ static void install_extra(const char* name, bool* result) {
         long now = seconds();
         long lim = 31 * 86400L;
         if (now - node.st_ctime > lim ||
-            now - node.st_mtime > lim || 
             node.st_size < 1024*1024) {
             printf("Removing stale %s\n", base);
             remove(base);
