@@ -952,7 +952,7 @@ void YFrameWindow::endMoveSize() {
     sizingWindow = false;
 
     if (container()->buttoned() == false) {
-        if (overlapped())
+        if (overlapped() && isManaged())
             container()->grabButtons();
     } else if (focused()) {
         if (!raiseOnClickClient || !canRaise() || !overlapped())
