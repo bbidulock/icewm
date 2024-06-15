@@ -299,7 +299,7 @@ void YWindow::readAttributes() {
 }
 
 Window YWindow::create() {
-    if (flags & wfCreated)
+    if (flags & (wfCreated | wfDestroyed) || fParent == nullptr)
         return fHandle;
 
     XSetWindowAttributes attributes = { 0, };
