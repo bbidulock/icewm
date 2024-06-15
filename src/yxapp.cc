@@ -628,11 +628,13 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
                 w = w->getFocusWindow();
         }
 
-        for (; w && (w->handleKey(xev.xkey) == false); w = w->parent()) {
+        for (; w; w = w->parent()) {
+            if (w->destroyed() || w->handleKey(xev.xkey))
+                break;
             if (fGrabTree && w == fXGrabWindow)
                 break;
         }
-    } else {
+    } else if (win->destroyed() == false) {
         Window child;
 
         if (xev.type == MotionNotify) {
@@ -698,7 +700,7 @@ void YXApplication::handleGrabEvent(YWindow *winx, XEvent &xev) {
         }
         if (win.ptr == nullptr)
             return ;
-        {
+        else {
             YWindow *p = win.ptr;
             for (; p; p = p->parent()) {
                 if (p == fXGrabWindow)
