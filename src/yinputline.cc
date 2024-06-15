@@ -351,15 +351,27 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
 }
 
 int YInputLine::getWCharFromEvent(const XKeyEvent& key, wchar_t* s, int maxLen) {
-    KeySym keysym = None;
-    Status status = None;
-    int len = XwcLookupString(inputContext, const_cast<XKeyEvent*>(&key),
-                              s, maxLen, &keysym, &status);
+    if (inputContext) {
+        KeySym keysym = None;
+        Status status = None;
+        int len = XwcLookupString(inputContext, const_cast<XKeyEvent*>(&key),
+                                  s, maxLen, &keysym, &status);
 
-    if (inrange(len, 0, maxLen - 1)) {
-        s[len] = None;
+        if (inrange(len, 0, maxLen - 1)) {
+            s[len] = None;
+        }
+        return len;
+    } else {
+        int len = 0;
+        char buf[16];
+        if (getCharFromEvent(key, buf, 16)) {
+            for (; len + 1 < 16 && len + 1 < maxLen; ++len) {
+                s[len] = wchar_t(((unsigned char *) buf)[len]);
+                s[len + 1] = 0;
+            }
+        }
+        return len;
     }
-    return len;
 }
 
 void YInputLine::handleButton(const XButtonEvent &button) {
@@ -894,16 +906,25 @@ void YInputLine::gotFocus() {
                       XNClientWindow, handle(),
                       XNFocusWindow,  handle(),
                       nullptr);
-        unsigned long mask = None;
-        XGetICValues(inputContext, XNFilterEvents, &mask, nullptr);
-        if (mask) {
-            addEventMask(mask);
+        if (inputContext == nullptr) {
+            if (ONCE)
+                warn("Cannot create input context with XCreateIC");
+        } else {
+            unsigned long mask = None;
+            const char* name = XGetICValues(inputContext,
+                                            XNFilterEvents, &mask, nullptr);
+            if (name) {
+                warn("XGetICValues fails for %s", name);
+            } else if (mask) {
+                addEventMask(mask);
+            }
+            eventFiltering(true);
         }
-        eventFiltering(true);
     }
-
-    XSetICFocus(inputContext);
-    XwcResetIC(inputContext);
+    if (inputContext) {
+        XSetICFocus(inputContext);
+        XwcResetIC(inputContext);
+    }
 }
 
 void YInputLine::lostFocus() {
