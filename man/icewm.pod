@@ -191,7 +191,8 @@ and print a list of all found themes.
 =item B<-i>, B<--install>=I<THEME>
 
 Install I<THEME> from icewm-extra and exit. When I<THEME> is I<list>,
-print a listing of available themes to install.
+print a listing of available themes to install. This option requires
+the presence of the I<lzip>, I<tar> and I<wget> or I<curl> commands.
 
 =item B<-p>, B<--postpreferences>
 
