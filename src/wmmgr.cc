@@ -2425,10 +2425,12 @@ void YWindowManager::updateArea(int workspace, int screen_number,
     }
     for (int ws = low; ws <= lim; ++ws) {
         WorkAreaRect *wa = fWorkArea[ws] + screen_number;
-        if (l > wa->fMinX) wa->fMinX = l;
-        if (t > wa->fMinY) wa->fMinY = t;
-        if (r < wa->fMaxX) wa->fMaxX = r;
-        if (b < wa->fMaxY) wa->fMaxY = b;
+        if (l < wa->fMaxX && t < wa->fMaxY && r > wa->fMinX && b > wa->fMinY) {
+            if (l > wa->fMinX) wa->fMinX = l;
+            if (t > wa->fMinY) wa->fMinY = t;
+            if (r < wa->fMaxX) wa->fMaxX = r;
+            if (b < wa->fMaxY) wa->fMaxY = b;
+        }
     }
 }
 
@@ -2520,7 +2522,8 @@ bool YWindowManager::updateWorkAreaInner() {
             MSG(("strut %d %d %d %d", w->strutLeft(), w->strutTop(),
                                       w->strutRight(), w->strutBottom()));
             MSG(("limit %d %d %d %d", l, t, r, b));
-            updateArea(ws, s, l, t, r, b);
+            if (l < r && t < b)
+                updateArea(ws, s, l, t, r, b);
         }
 
         if ((w->doNotCover() ||
@@ -2559,7 +2562,8 @@ bool YWindowManager::updateWorkAreaInner() {
                 }
             }
             MSG(("dock limit %d %d %d %d", l, t, r, b));
-            updateArea(ws, s, l, t, r, b);
+            if (l < r && t < b)
+                updateArea(ws, s, l, t, r, b);
         }
         debugWorkArea("updated");
     }
@@ -3828,6 +3832,9 @@ void YWindowManager::doWMAction(WMAction action) {
     XClientMessageEvent& xev = event.xclient;
 
     xev.type = ClientMessage;
+    xev.serial = YWindow::getLastEnterNotifySerial();
+    xev.send_event = True;
+    xev.display = xapp->display();
     xev.window = xapp->root();
     xev.message_type = _XA_ICEWM_ACTION;
     xev.format = 32;
