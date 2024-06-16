@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2024-05-09 20:44+0200\n"
+"POT-Creation-Date: 2024-06-16 14:27+0200\n"
 "PO-Revision-Date: 2021-09-21 08:11+0000\n"
 "Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -1334,125 +1334,125 @@ msgstr "Ίδιο Παιχνίδι"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Για βοήθεια παρακαλούμε συμβουλευτείτε τη σελίδα man icesh(1).\n"
 
-#: src/icesh.cc:1667
+#: src/icesh.cc:1668
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Ονομασθέντα σύμβολα του domain `%s' (αριθμητικό εύρος: %ld-%ld):\n"
 
-#: src/icesh.cc:1736
+#: src/icesh.cc:1737
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Η επιφάνεια εργασίας είναι εκτός εμβέλειας: %ld"
 
-#: src/icesh.cc:1757
+#: src/icesh.cc:1758
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Μη έγκυρο όνομα επιφάνειας εργασίας: `%s'"
 
-#: src/icesh.cc:2204
+#: src/icesh.cc:2269
 msgid "GNOME window layer"
 msgstr "GNOME, επίπεδο παράθυρου"
 
-#: src/icesh.cc:2205
+#: src/icesh.cc:2270
 msgid "IceWM tray option"
 msgstr "Επιλογή του ραφιού του IceWM"
 
-#: src/icesh.cc:2206
+#: src/icesh.cc:2271
 msgid "Gravity symbols"
 msgstr "Σύμβολα βαρύτητας"
 
-#: src/icesh.cc:2207
+#: src/icesh.cc:2272
 msgid "Motif functions"
 msgstr "Λειτουργίες μοτίβου"
 
-#: src/icesh.cc:2208
+#: src/icesh.cc:2273
 msgid "Motif decorations"
 msgstr "Διακοσμήσεις μοτίβου"
 
-#: src/icesh.cc:2209
+#: src/icesh.cc:2274
 #, fuzzy
 #| msgid "GNOME window state"
 msgid "EWMH window state"
 msgstr "GNOME, κατάσταση παράθυρου"
 
-#: src/icesh.cc:2291 src/icesh.cc:2364
+#: src/icesh.cc:2356 src/icesh.cc:2429
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "επιφάνεια εργασίας #%d: `%s'\n"
 
-#: src/icesh.cc:2615 src/icesh.cc:4446 src/icesh.cc:5077
+#: src/icesh.cc:2680 src/icesh.cc:4511 src/icesh.cc:5108
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Μη έγκυρη κατάσταση: `%s' ."
 
-#: src/icesh.cc:2644 src/icesh.cc:4025 src/icesh.cc:4075 src/icesh.cc:5398
+#: src/icesh.cc:2709 src/icesh.cc:4090 src/icesh.cc:4140 src/icesh.cc:5429
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Μη έγκυρο όρισμα: `%s' ."
 
-#: src/icesh.cc:3645
+#: src/icesh.cc:3710
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Αδυναμία λήψης γεωμετρίας παραθύρου 0x%lx"
 
-#: src/icesh.cc:3670
+#: src/icesh.cc:3735
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Μη έγκυρο Xinerama: `%s' ."
 
-#: src/icesh.cc:3802 src/icesh.cc:3810 src/wmconfig.cc:148 src/wmsave.cc:65
+#: src/icesh.cc:3867 src/icesh.cc:3875 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Αδυναμία εγγραφής στο %s"
 
-#: src/icesh.cc:4041
+#: src/icesh.cc:4106
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Η ενέργεια `%s' απαιτεί τουλάχιστον %d ορίσματα."
 
-#: src/icesh.cc:4050
+#: src/icesh.cc:4115
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Μη έγκυρη έκφραση: `%s'"
 
-#: src/icesh.cc:4061 src/icesound.cc:800 src/icewmbg.cc:1087
-#: src/icewmhint.cc:37 src/wmapp.cc:1293 src/yxapp.cc:1046
+#: src/icesh.cc:4126 src/icesound.cc:800 src/icewmbg.cc:1087
+#: src/icewmhint.cc:37 src/wmapp.cc:1293 src/yxapp.cc:1049
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Δεν μπορώ να ανοίξω την προβολή: %s . Ο X θα πρέπει να τρέχει, και η "
 "μεταβλητή $DISPLAY να έχει οριστεί."
 
-#: src/icesh.cc:4177
+#: src/icesh.cc:4242
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "Μη αναμενόμενη λέξη κλειδί: %s"
 
-#: src/icesh.cc:4209
+#: src/icesh.cc:4274
 msgid "No windows found."
 msgstr "Δεν βρέθηκαν παράθυρα."
 
-#: src/icesh.cc:4225
+#: src/icesh.cc:4290
 msgid "No actions specified."
 msgstr "Δεν υπάρχουν καθορισμένες ενέργειες."
 
-#: src/icesh.cc:4370
+#: src/icesh.cc:4435
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Μη έγκυρο αναγνωριστικό παράθυρου: `%s'"
 
-#: src/icesh.cc:4386
+#: src/icesh.cc:4451
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Μη έγκυρο PID: `%s' ."
 
-#: src/icesh.cc:4419
+#: src/icesh.cc:4484
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Μη έγκυρο στρώμα: `%s' ."
 
-#: src/icesh.cc:5529
+#: src/icesh.cc:5560
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Άγνωστη ενέργεια: `%s'"
@@ -1951,7 +1951,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/icewmbg.cc:1248 src/wmapp.cc:1900
+#: src/icewmbg.cc:1248 src/wmapp.cc:1902
 #, c-format
 msgid "Unrecognized option '%s'."
 msgstr "Μη αναγνωρισμένη επιλογή '%s'."
@@ -1995,10 +1995,15 @@ msgstr ""
 "έξοδο.\n"
 "\n"
 
-#: src/movesize.cc:905
+#: src/movesize.cc:859
 #, c-format
 msgid "Unknown direction in move/resize request: %d"
 msgstr "Άγνωστη κατεύθυνση στην αίτηση μετακίνησης/αλλαγής-σχήματος: %d"
+
+#: src/upath.cc:172
+#, c-format
+msgid "Unable to create directory %s"
+msgstr "Αδυναμία δημιουργία του κατάλογου %s"
 
 #: src/wmabout.cc:29
 msgid "(C)"
@@ -2286,18 +2291,18 @@ msgid ""
 "as a terminal. Proceed?"
 msgstr ""
 
-#: src/wmapp.cc:1294 src/yxapp.cc:1047
+#: src/wmapp.cc:1294 src/yxapp.cc:1050
 msgid "<none>"
 msgstr "<κανένα>"
 
-#: src/wmapp.cc:1624
+#: src/wmapp.cc:1626
 msgid ""
 "  --client-id=ID      Client id to use when contacting session manager.\n"
 msgstr ""
 "  --client-id=ΤΑΥΤΟΤΗΤΑ      Ταυτότητα του πελάτη που θα χρησιμοποιηθεί όταν "
 "γίνεται επαφή με το διαχειριστή συνεδρίας.\n"
 
-#: src/wmapp.cc:1630
+#: src/wmapp.cc:1632
 msgid ""
 "\n"
 "  --debug             Print generic debug messages.\n"
@@ -2308,7 +2313,7 @@ msgstr ""
 "  --debug-z              Εκτύπωση μηνυμάτων αποσφαλμάτωσης σχετικά με το "
 "στοίβαγμα των παράθυρων.\n"
 
-#: src/wmapp.cc:1638
+#: src/wmapp.cc:1640
 #, fuzzy
 #| msgid ""
 #| "\n"
@@ -2338,15 +2343,15 @@ msgstr ""
 "  --trace=conf,icon   Ίχνη διαδρομών που χρησιμοποιούνται για τη φόρτωση "
 "ρυθμίσεων.\n"
 
-#: src/wmapp.cc:1649
+#: src/wmapp.cc:1651
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
 msgstr ""
 
-#: src/wmapp.cc:1655
+#: src/wmapp.cc:1657
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
 msgstr ""
 
-#: src/wmapp.cc:1658
+#: src/wmapp.cc:1660
 #, c-format
 msgid ""
 "Usage: %s [OPTIONS]\n"
@@ -2413,21 +2418,21 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/wmapp.cc:1724
+#: src/wmapp.cc:1726
 #, c-format
 msgid "%s configuration directories:\n"
 msgstr "%s κατάλογοι ρυθμίσεων:\n"
 
-#: src/wmapp.cc:1809
+#: src/wmapp.cc:1811
 #, c-format
 msgid "%s configured options:%s\n"
 msgstr "%s ρυθμισμένες επιλογές:%s\n"
 
-#: src/wmapp.cc:1950
+#: src/wmapp.cc:1952
 msgid "Confirm Logout"
 msgstr "Επιβεβαίωση αποσύνδεσης"
 
-#: src/wmapp.cc:1951
+#: src/wmapp.cc:1953
 msgid ""
 "Logout will close all active applications.\n"
 "Proceed?"
@@ -2481,12 +2486,7 @@ msgstr "Αδυναμία φορτώματος του θέματος %s"
 msgid "Unknown value '%s' for option '%s'."
 msgstr "Άγνωστη τιμή '%s' για την επιλογή '%s'."
 
-#: src/wmconfig.cc:121
-#, c-format
-msgid "Unable to create directory %s"
-msgstr "Αδυναμία δημιουργία του κατάλογου %s"
-
-#: src/wmconfig.cc:184 src/wmsave.cc:306
+#: src/wmconfig.cc:175 src/wmsave.cc:306
 #, c-format
 msgid "Unable to rename %s to %s"
 msgstr "Αδυναμία μετονομασίας του %s σε %s"
@@ -2524,15 +2524,15 @@ msgstr ""
 msgid "Reload ke_ys"
 msgstr "Επαναφόρτωση"
 
-#: src/wmframe.cc:1375
+#: src/wmframe.cc:1457
 msgid "Rename"
 msgstr ""
 
-#: src/wmframe.cc:1376
+#: src/wmframe.cc:1458
 msgid "Rename the window title"
 msgstr ""
 
-#: src/wmframe.cc:1868
+#: src/wmframe.cc:1952
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2542,7 +2542,7 @@ msgstr ""
 "\n"
 "Επιθυμείς να συνεχίσεις;"
 
-#: src/wmframe.cc:1873
+#: src/wmframe.cc:1957
 msgid "Kill Client: "
 msgstr "Σκότωμα του Πελάτη: "
 
@@ -2611,11 +2611,11 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3669
+#: src/wmmgr.cc:3673
 msgid "Missing program setxkbmap"
 msgstr "Λείπει το πρόγραμμα setxkbmap"
 
-#: src/wmmgr.cc:3670
+#: src/wmmgr.cc:3674
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
@@ -2913,25 +2913,25 @@ msgstr "Επιλογή _Όλων"
 msgid "Ctrl+A"
 msgstr "Ctrl+A"
 
-#: src/ylocale.cc:60
+#: src/ylocale.cc:58
 msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
 msgstr ""
 "Η τοπικοποίηση αυτή δεν υποστηρίζεται από τη βιβλιοθήκη C η το Xlib. Γίνεται "
 "υποχώρηση στη 'C' locale'."
 
-#: src/ylocale.cc:95
+#: src/ylocale.cc:92
 msgid ""
 "Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
 msgstr ""
 "Απέτυχε ο καθορισμός της τρέχουσας ομάδας κώδικα για την τοπικοποίηση. Το "
 "σύστημα θα υποθέσει την ISO-8859-1.\n"
 
-#: src/ylocale.cc:128 src/ylocale.cc:136
+#: src/ylocale.cc:125 src/ylocale.cc:133
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "το iconv δεν παρέχει (επαρκείς) μετατροπείς από %s σε %s ."
 
-#: src/ylocale.cc:247
+#: src/ylocale.cc:238
 #, c-format
 msgid "Invalid multibyte string \"%s\": %s"
 msgstr "Μη έγκυρος στίχος πολλαπλών μπάιτιων \"%s\": %s"
@@ -2940,7 +2940,7 @@ msgstr "Μη έγκυρος στίχος πολλαπλών μπάιτιων \"%
 msgid "_OK"
 msgstr "_Εντάξει"
 
-#: src/ysmapp.cc:98
+#: src/ysmapp.cc:95
 msgid "$USER or $LOGNAME not set?"
 msgstr "Μήπως το $USER ή το $LOGNAME δεν έχουν ρυθμιστεί;"
 
@@ -2959,7 +2959,7 @@ msgstr "Μη ολοκληρωμένη δεκαεξαδική φυγή στη δ�
 msgid "Invalid hex escape in URL at position %d."
 msgstr "Μη έγγυρη δεκαεξαδική φυγή στη διεύθυνση URL, στη θέση %d."
 
-#: src/yxapp.cc:1005
+#: src/yxapp.cc:1008
 msgid ""
 "  -d, --display=NAME  NAME of the X server to use.\n"
 "  --sync              Synchronize X11 commands.\n"
