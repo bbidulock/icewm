@@ -634,7 +634,8 @@ void YXApplication::dispatchEvent(YWindow *win, XEvent &xev) {
             if (fGrabTree && w == fXGrabWindow)
                 break;
         }
-    } else if (win->destroyed() == false) {
+    } else if (win->destroyed() == false ||
+               xev.type == DestroyNotify || xev.type == UnmapNotify) {
         Window child;
 
         if (xev.type == MotionNotify) {
@@ -1173,7 +1174,6 @@ bool YXApplication::handleXEvents() {
 #ifdef DEBUG
         xeventcount++;
 #endif
-        //msg("%d", xev.type);
 
         saveEventTime(xev);
 
@@ -1193,6 +1193,8 @@ bool YXApplication::handleXEvents() {
 #endif
         }
 #endif
+        if (XFilterEvent(&xev, None))
+            continue;
 
         if (filterEvent(xev)) {
         } else {

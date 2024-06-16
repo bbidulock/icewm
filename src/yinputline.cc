@@ -905,19 +905,13 @@ void YInputLine::gotFocus() {
                       XNClientWindow, handle(),
                       XNFocusWindow,  handle(),
                       nullptr);
-        if (inputContext == nullptr) {
-            if (ONCE)
-                warn("Cannot create input context with XCreateIC");
-        } else {
+        if (inputContext) {
             unsigned long mask = None;
             const char* name = XGetICValues(inputContext,
                                             XNFilterEvents, &mask, nullptr);
-            if (name) {
-                warn("XGetICValues fails for %s", name);
-            } else if (mask) {
+            if (name == nullptr && mask) {
                 addEventMask(mask);
             }
-            eventFiltering(true);
         }
     }
     if (inputContext) {

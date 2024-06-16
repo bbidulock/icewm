@@ -565,10 +565,6 @@ void YWindow::raiseTo(YWindow* inferior) {
 }
 
 void YWindow::handleEvent(const XEvent &event) {
-    if (hasbit(flags, wfFiltering) &&
-        XFilterEvent(const_cast<XEvent*>(&event), fHandle))
-        return;
-
     switch (event.type) {
     case KeyPress:
     case KeyRelease:
