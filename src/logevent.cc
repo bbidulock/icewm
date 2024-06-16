@@ -496,8 +496,8 @@ bool initLogEvents() {
     if (loggedEventsInited == false) {
         memset(loggedEvents, false, sizeof loggedEvents);
 
-        // setLogEvent(KeyPress, true);
-        // setLogEvent(KeyRelease, true);
+        setLogEvent(KeyPress, true);
+        setLogEvent(KeyRelease, true);
         setLogEvent(ButtonPress, true);
         setLogEvent(ButtonRelease, true);
         // setLogEvent(MotionNotify, true);
