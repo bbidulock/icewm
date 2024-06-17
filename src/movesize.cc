@@ -832,13 +832,17 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 
 void YFrameWindow::netMoveSize(int x, int y, int direction)
 {
-    if (movingWindow || sizingWindow)
+    if (movingWindow || sizingWindow) {
+        if (direction == _NET_WM_MOVERESIZE_CANCEL)
+            endMoveSize();
         return;
+    }
 
-    int sx[] = { -1, 0, 1, 1, 1, 0, -1, -1, };
-    int sy[] = { -1, -1, -1, 0, 1, 1, 1, 0, };
+    const int size = 8;
+    int sx[size] = { -1, 0, 1, 1, 1, 0, -1, -1, };
+    int sy[size] = { -1, -1, -1, 0, 1, 1, 1, 0, };
 
-    if (inrange(direction, 0, int ACOUNT(sx) - 1)) {
+    if (inrange(direction, 0, size - 1)) {
         MSG(("move size %d %d direction %d", x, y, direction));
         startMoveSize(false, true, sx[direction], sy[direction], x, y);
     }
