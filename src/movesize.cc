@@ -832,7 +832,7 @@ bool YFrameWindow::canSize(bool horiz, bool vert) {
 
 void YFrameWindow::netMoveSize(int x, int y, int direction)
 {
-    if (movingWindow || sizingWindow) {
+    if (hasMoveSize()) {
         if (direction == _NET_WM_MOVERESIZE_CANCEL)
             endMoveSize();
         return;
@@ -866,6 +866,9 @@ void YFrameWindow::netMoveSize(int x, int y, int direction)
 void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
                                  int sideX, int sideY,
                                  int mouseXroot, int mouseYroot) {
+    if (isMinimized() || isHidden() || isFullscreen() || hasMoveSize())
+        return;
+
     Cursor grabPointer = None;
 
     grabX = sideX;
@@ -1060,7 +1063,7 @@ void YFrameWindow::handleButton(const XButtonEvent &button) {
                 wmRaise();
         }
     } else if (button.type == ButtonRelease) {
-        if (movingWindow || sizingWindow) {
+        if (hasMoveSize()) {
             endMoveSize();
             return ;
         }

@@ -1931,6 +1931,8 @@ void YFrameWindow::wmCloseClient(YFrameClient* client, bool* confirm) {
 void YFrameWindow::wmClose() {
     if (!canClose())
         return ;
+    if (hasMoveSize())
+        endMoveSize();
 
     manager->grabServer();
     bool confirm = false;
@@ -1962,6 +1964,8 @@ void YFrameWindow::wmConfirmKill(const char* message) {
 void YFrameWindow::wmKill() {
     if (!canClose())
         return ;
+    if (hasMoveSize())
+        endMoveSize();
 #ifdef DEBUG
     if (debug)
         msg("No WM_DELETE_WINDOW protocol");
@@ -3525,6 +3529,9 @@ void YFrameWindow::setState(int mask, int state) {
          fWinState, fWinState ^ flip, gain, lose));
     fWinState ^= flip;
 
+    if (gain & (WinStateUnmapped | WinStateFullscreen | WinStateMaximizedBoth))
+        if (hasMoveSize())
+            endMoveSize();
     if (flip & WinStateMinimized) {
         MSG(("WinStateMinimized: %d", isMinimized()));
         if (gain & WinStateMinimized)
