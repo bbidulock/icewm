@@ -951,6 +951,10 @@ void YFrameWindow::startMoveSize(bool doMove, bool byMouse,
     }
 }
 
+bool YFrameWindow::notMoveSize() {
+    return hasMoveSize() == false || (endMoveSize(), true);
+}
+
 void YFrameWindow::endMoveSize() {
     xapp->releaseEvents();
     statusMoveSize->end();

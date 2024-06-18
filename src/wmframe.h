@@ -132,6 +132,7 @@ public:
                        int sideX, int sideY,
                        int mouseXroot, int mouseYroot);
     bool hasMoveSize() const { return movingWindow || sizingWindow; }
+    bool notMoveSize();
     void endMoveSize();
     void moveWindow(int newX, int newY);
     void manualPlace();

@@ -271,6 +271,7 @@ void YFrameWindow::changeTab(int delta) {
 void YFrameWindow::selectTab(YFrameClient* tab) {
     if (hasTab(tab) == false || tab == fClient)
         return;
+    notMoveSize();
 
     XSizeHints *sh = client()->sizeHints();
     int nw = sh ? sh->base_width + normalW * max(1, sh->width_inc) : normalW;
@@ -352,7 +353,7 @@ void YFrameWindow::createTab(YFrameClient* client, int place) {
 void YFrameWindow::removeTab(YFrameClient* client) {
     bool found = findRemove(fTabs, client);
     PRECONDITION(found);
-    if (found) {
+    if (found && notMoveSize()) {
         YClientContainer* conter = client->getContainer();
         independer(client);
         delete conter;
@@ -367,7 +368,7 @@ void YFrameWindow::removeTab(YFrameClient* client) {
 }
 
 void YFrameWindow::untab(YFrameClient* client) {
-    if (1 < tabCount()) {
+    if (1 < tabCount() && notMoveSize()) {
         int i = find(fTabs, client);
         PRECONDITION(0 <= i);
         if (0 <= i) {
@@ -2981,7 +2982,7 @@ bool YFrameWindow::getInputFocusHint() {
 void YFrameWindow::setWorkspace(int workspace) {
     if ( ! inrange(workspace, -1, workspaceCount - 1))
         return ;
-    if (workspace != fWinWorkspace) {
+    if (workspace != fWinWorkspace && notMoveSize()) {
         int previous = fWinWorkspace;
         int activeWS = int(manager->activeWorkspace());
         int oldState = fWinState;
