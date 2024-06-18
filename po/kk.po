@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.2.1.17\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2024-06-16 14:27+0200\n"
-"PO-Revision-Date: 2024-06-17 19:46+0000\n"
+"PO-Revision-Date: 2024-06-18 17:46+0000\n"
 "Last-Translator: Baurzhan Muftakhidinov <baurthefirst@gmail.com>\n"
 "Language-Team: Kazakh <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/kk/>\n"
@@ -220,12 +220,12 @@ msgstr "%s командасын табу сәтсіз аяқталды"
 #: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
 #, c-format
 msgid "Failed to execute %s"
-msgstr ""
+msgstr "%s орындау сәтсіз аяқталды"
 
 #: src/amailbox.cc:447
 #, c-format
 msgid "Write to socket failed: %s"
-msgstr ""
+msgstr "Сокетке жазу сәтсіз аяқталды: %s"
 
 #: src/amailbox.cc:694
 #, c-format
