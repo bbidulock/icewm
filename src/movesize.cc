@@ -577,7 +577,9 @@ void YFrameWindow::manualPlace() {
     drawMoveSizeFX(xx, yy, width(), height());
 
     MoveState state = MoveMoving;
-    while (state != MoveAccept && state != MoveCancel) {
+    while (state != MoveAccept && state != MoveCancel &&
+           client()->testDestroyed() == false)
+    {
         XEvent xev;
         XMaskEvent(xapp->display(),
                    KeyPressMask |
