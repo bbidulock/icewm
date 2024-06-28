@@ -240,20 +240,23 @@ int YApplication::mainLoop() {
 
     for (fExitLoop = fExitApp; (fExitApp | fExitLoop) == false; ) {
         bool didIdle = handleIdle();
-
+        int nfds = 0;
         fd_set read_fds;
         FD_ZERO(&read_fds);
         fd_set write_fds;
         FD_ZERO(&write_fds);
 
         for (YPollIterType iPoll = polls.iterator(); ++iPoll; ) {
-            PRECONDITION(iPoll->fd() >= 0);
+            const int fd = iPoll->fd();
+            PRECONDITION(fd >= 0);
             if (iPoll->forRead()) {
-                FD_SET(iPoll->fd(), &read_fds);
+                FD_SET(fd, &read_fds);
             }
             if (iPoll->forWrite()) {
-                FD_SET(iPoll->fd(), &write_fds);
+                FD_SET(fd, &write_fds);
             }
+            if (nfds <= fd)
+                nfds = fd + 1;
         }
 
         timeval timeout = {0, 0L};
@@ -266,7 +269,7 @@ int YApplication::mainLoop() {
 #endif
 
         int rc;
-        rc = select(sizeof(fd_set) * 8,
+        rc = select(nfds,
                     SELECT_TYPE_ARG234 &read_fds,
                     SELECT_TYPE_ARG234 &write_fds,
                     nullptr,
