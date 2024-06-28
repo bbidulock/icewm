@@ -147,6 +147,11 @@ the same process identifier as one of the selected windows.
 
 Selects the IceWM taskbar.
 
+=item B<-A>, B<-Await>
+
+Wait for one or more new client windows to appear and make that the new
+selection.
+
 =back
 
 =head2 FILTER OPTIONS

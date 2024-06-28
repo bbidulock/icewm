@@ -478,6 +478,7 @@ public:
         if (type) fType = type;
         if (leng) fLength = leng;
         if (fWindow && fProp && fLength) {
+            fRequest = fProp;
             fStatus = XGetWindowProperty(display, fWindow, fProp, 0L,
                                          fLength, False, fType, &type,
                                          &fFormat, &fCount, &fAfter, &fData);
@@ -559,7 +560,11 @@ private:
     int fFormat, fStatus;
 
     YProperty& operator=(const YProperty& copy);
+
+public:
+    static Atom fRequest;
 };
+Atom YProperty::fRequest;
 
 class YCardinal : public YProperty {
 public:
@@ -999,8 +1004,11 @@ public:
         }
     }
 
+    static YWindowTree lastClientList;
+
     void getClientList() {
         getWindowList(ATOM_NET_CLIENT_LIST);
+        lastClientList = *this;
     }
 
     void getSystrayList() {
@@ -1357,6 +1365,7 @@ private:
     vector<Window> fChildren;
     YTreeLeaf fLeaf;
 };
+YWindowTree YWindowTree::lastClientList;
 
 YTreeIter::operator Window() const { return fTree[fIndex]; }
 YTreeLeaf* YTreeIter::operator->() { return fTree.leaf(fIndex); }
@@ -1470,6 +1479,7 @@ private:
     bool desktop();
     bool wmcheck();
     bool change();
+    void await();
     bool loop();
     bool pick();
     bool sync();
@@ -2859,6 +2869,46 @@ bool IceSh::guiEvents()
     }
     signal(SIGINT, previous);
     return true;
+}
+
+void IceSh::await()
+{
+    windowList.release();
+    YWindowTree old = YWindowTree::lastClientList;
+    if (old == false)
+        old.getClientList();
+
+    running = true;
+    sighandler_t previous = signal(SIGINT, catcher);
+    XSelectInput(display, root, PropertyChangeMask);
+    while (running) {
+        if (XPending(display)) {
+            XEvent xev = { 0 };
+            XNextEvent(display, &xev);
+            if (xev.type == PropertyNotify &&
+                xev.xproperty.atom == ATOM_NET_CLIENT_LIST &&
+                xev.xproperty.state == PropertyNewValue)
+            {
+                YWindowTree now;
+                now.getClientList();
+                for (YTreeIter window(now); window; ++window) {
+                    if (old.have(window) == false)
+                        windowList.append(window);
+                }
+                if (windowList)
+                    break;
+                old = now;
+            }
+        }
+        else {
+            int fd = ConnectionNumber(display);
+            fd_set rfds;
+            FD_ZERO(&rfds);
+            FD_SET(fd, &rfds);
+            select(fd + 1, SELECT_TYPE_ARG234 &rfds, nullptr, nullptr, nullptr);
+        }
+    }
+    signal(SIGINT, previous);
 }
 
 bool IceSh::icewmAction()
@@ -4361,6 +4411,11 @@ void IceSh::flag(char* arg)
         selecting = true;
         return;
     }
+    if (isOptArg(arg, "-Await", "")) {
+        await();
+        selecting = true;
+        return;
+    }
     if (isOptArg(arg, "+group", "")) {
         extendGroup();
         return;
@@ -4900,19 +4955,22 @@ int IceSh::xerrors(Display* dpy, XErrorEvent* evt) {
 }
 
 void IceSh::xerror(XErrorEvent* evt) {
-    char message[80], req[80], number[80];
+    const int size = 80;
+    char message[size], req[size], number[size];
 
     if (evt->request_code == X_GetWindowAttributes)
         return;
-
-    snprintf(number, 80, "%d", evt->request_code);
-    XGetErrorDatabaseText(display, "XRequest",
-                          number, "",
-                          req, sizeof(req));
+    if (evt->request_code == X_GetProperty)
+        snprintf(req, size, "X_GetProperty(%s)", atomName(YProperty::fRequest));
+    else {
+        snprintf(number, size, "%d", evt->request_code);
+        XGetErrorDatabaseText(display, "XRequest", number,
+                              "", req, sizeof(req));
+    }
     if (req[0] == 0)
-        snprintf(req, 80, "[request_code=%d]", evt->request_code);
+        snprintf(req, size, "[request_code=%d]", evt->request_code);
 
-    if (XGetErrorText(display, evt->error_code, message, 80) != Success)
+    if (XGetErrorText(display, evt->error_code, message, size) != Success)
         *message = '\0';
 
     tlog("%s(0x%lx): %s", req, evt->resourceid, message);
