@@ -725,6 +725,11 @@ public:
     YStringProperty(Window window, Atom property, Atom kind = AnyPropertyType) :
         YProperty(window, property, kind, BUFSIZ)
     {
+        checkString(kind);
+    }
+
+private:
+    void checkString(Atom kind) {
         if (status() == Success && kind == AnyPropertyType) {
             if (type() == ATOM_COMPOUND_TEXT) {
                 XTextProperty text = { data<unsigned char>(), type(),
@@ -742,6 +747,11 @@ public:
                 substitute(nullptr, XA_STRING);
             }
         }
+    }
+
+public:
+    YStringProperty(const YProperty& prop) : YProperty(prop) {
+        checkString(AnyPropertyType);
     }
 
     const char* operator&() const { return data<char>(); }
@@ -3661,7 +3671,7 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
     if (prop.status() == Success && prop.data<void>()) {
         if (prop.format() == 8) {
             const char* name(atomName(atom));
-            printf("%s%s = ", prefix, (char*) name);
+            printf("%s%s = ", prefix, name);
             if (prop.type() == ATOM_GUI_EVENT) {
                 int gev = prop.data<unsigned char>(0);
                 if (inrange(1 + gev, 1, NUM_GUI_EVENTS)) {
@@ -3672,21 +3682,21 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
                 char* s = prop.data<char>();
                 int num = int(prop.count());
                 for (int i = 0; i < num; ++i)
-                    if (s[i] == '\0')
+                    if (s[i] == '\0' || isWhiteSpace(s[i]))
                         s[i] = ' ';
                 printf("%*.*s\n", num, num, s);
             }
             else {
-                for (int i = 0; i < prop.count(); ++i) {
-                    unsigned char ch = prop.data<unsigned char>(i);
-                    if (ch == '\0') {
-                        if (i + 1 == prop.count()) {
-                            break;
-                        }
-                    }
-                    putchar(isPrint(ch) ? ch : '.');
+                YStringProperty strp(prop);
+                char* s = strp.data<char>();
+                int num = int(strp.count());
+                while (num > 0 && s[num - 1] == '\0')
+                    --num;
+                for (int i = 0; i < num; ++i) {
+                    if (s[i] == '\0' || isWhiteSpace(s[i]))
+                        s[i] = ' ';
                 }
-                newline();
+                printf("%*.*s\n", num, num, s);
             }
         }
         else if (prop.format() == 32) {
