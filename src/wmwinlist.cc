@@ -188,46 +188,34 @@ void WindowListBox::actionPerformed(YAction action, unsigned int modifiers) {
 }
 
 bool WindowListBox::handleKey(const XKeyEvent &key) {
-    if (key.type == KeyPress) {
-        KeySym k = keyCodeToKeySym(key.keycode);
-        int m = KEY_MODMASK(key.state);
-        fKeyPressed = k;
+    const KeySym k = keyCodeToKeySym(key.keycode);
+    const int m = KEY_MODMASK(key.state);
 
-        switch (k) {
-        case XK_F10:
-        case XK_Menu:
-            if (k != XK_F10 || m == ShiftMask) {
-                if (hasSelection()) {
-                    YMenu* windowListPopup = windowList->getWindowListPopup();
-                    enableCommands(windowListPopup);
-                    windowListPopup->popup(nullptr, nullptr, nullptr,
-                                           key.x_root, key.y_root,
-                                           YPopupWindow::pfCanFlipVertical |
-                                           YPopupWindow::pfCanFlipHorizontal |
-                                           YPopupWindow::pfPopupMenu);
-                } else {
-                    YMenu* windowListAllPopup = windowList->getWindowListAllPopup();
-                    windowListAllPopup->popup(nullptr, nullptr, nullptr,
-                                              key.x_root, key.y_root,
-                                              YPopupWindow::pfCanFlipVertical |
-                                              YPopupWindow::pfCanFlipHorizontal |
-                                              YPopupWindow::pfPopupMenu);
-                }
+    if (key.type == KeyPress) {
+        fKeyPressed = k;
+        if (k == XK_Menu || (k == XK_F10 && m == ShiftMask)) {
+            YMenu* menu;
+            if (hasSelection()) {
+                menu = windowList->getWindowListPopup();
+                enableCommands(menu);
+            } else {
+                menu = windowList->getWindowListAllPopup();
             }
-            break;
-        case XK_Delete:
-            {
-                if (m & ShiftMask)
-                    actionPerformed(actionKill, key.state);
-                else
-                    actionPerformed(actionClose, key.state);
-            }
-            break;
+            menu->popup(nullptr, nullptr, nullptr, key.x_root, key.y_root,
+                        YPopupWindow::pfCanFlipVertical |
+                        YPopupWindow::pfCanFlipHorizontal |
+                        YPopupWindow::pfPopupMenu);
+            return true;
+        }
+        else if (k == XK_Delete) {
+            if (m & ShiftMask)
+                actionPerformed(actionKill, key.state);
+            else
+                actionPerformed(actionClose, key.state);
+            return true;
         }
     }
     else if (key.type == KeyRelease) {
-        KeySym k = keyCodeToKeySym(key.keycode);
-        int m = KEY_MODMASK(key.state);
         if (k == XK_Escape && k == fKeyPressed && m == 0) {
             windowList->handleClose();
             return true;
