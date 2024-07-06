@@ -2496,6 +2496,20 @@ bool YWindowManager::updateWorkAreaInner() {
     }
 
     debugWorkArea("before");
+    if (limitByDockLayer && fDockApp && fDockApp->layer() == WinLayerDock) {
+        if (fDockApp->visible()) {
+            int s = fDockApp->getScreen();
+            int x = xiInfo[s].x_org;
+            int y = xiInfo[s].y_org;
+            int w = x + xiInfo[s].width;
+            int h = y + xiInfo[s].height;
+            if (fDockApp->rightside())
+                w -= fDockApp->width();
+            else
+                x += fDockApp->width();
+            updateArea(WinWorkspaceInvalid, s, x, y, w, h);
+        }
+    }
 
     for (YFrameWindow *w = topLayer(); w; w = w->nextLayer()) {
         if (w->isUnmapped()) {

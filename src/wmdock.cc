@@ -86,6 +86,7 @@ bool DockApp::setup() {
     XChangeProperty(xapp->display(), handle(), XA_WM_CLASS, XA_STRING, 8,
                     PropModeReplace, wmClassName, sizeof(wmClassName));
     setNetWindowType(_XA_NET_WM_WINDOW_TYPE_DOCK);
+    setProperty(_XA_WIN_LAYER, XA_CARDINAL, layered);
     if (intern == None) {
         intern = xapp->atom(propertyName);
     }
@@ -203,6 +204,13 @@ bool DockApp::dock(YFrameClient* client) {
             client->setDocked(true);
             direction = +1;
             retime();
+            if (layered == WinLayerInvalid)
+                setup();
+            if (layered == WinLayerDock) {
+                extern bool limitByDockLayer;
+                if (limitByDockLayer)
+                    manager->requestWorkAreaUpdate();
+            }
         }
         else {
             XRemoveFromSaveSet(xapp->display(), icon);
@@ -264,12 +272,15 @@ bool DockApp::handleTimer(YTimer* t) {
 
 void DockApp::adapt() {
     if (docks.nonempty()) {
+        int sx, sy;
+        unsigned sw, sh;
+        desktop->getScreenGeometry(&sx, &sy, &sw, &sh);
         int mx, my, Mx, My;
         manager->getWorkArea(&mx, &my, &Mx, &My);
         int rows = min(docks.getCount(), (My - my) / 64);
         int cols = (docks.getCount() + (rows - 1)) / rows;
         rows = (docks.getCount() + (cols - 1)) / cols;
-        int xpos = isRight ? Mx - cols * 64 : 0;
+        int xpos = isRight ? sx + int(sw) - cols * 64 : sx;
         int ypos = (center == -1) ? 0
                  : (center == +1) ? (My - rows * 64)
                  : my + (My - my - rows * 64) / 2;

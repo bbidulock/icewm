@@ -21,12 +21,15 @@ public:
     using YWindow::handle;
     using YWindow::created;
     using YWindow::visible;
+    using YWindow::width;
+    using YWindow::getScreen;
 
     operator bool() const { return docks.nonempty(); }
     bool dock(YFrameClient* client);
     bool undock(YFrameClient* client);
     void adapt();
     int layer() const { return layered; }
+    bool rightside() const { return isRight; }
 
 private:
     void handleButton(const XButtonEvent& button) override;

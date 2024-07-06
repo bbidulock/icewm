@@ -684,8 +684,9 @@ Clock Date format for tooltip (strftime format string).
 
 =item B<DockApps>="right high desktop"
 
-Support DockApps (right, left, center, down, high, above, below,
-desktop, or empty to disable). Control with Ctrl+Mouse.
+Support DockApps (right, left, center, down, high, above, dock, ontop,
+normal, below, desktop, or empty to disable).  Control with Ctrl+Mouse.
+The first five control positioning, while the next six set the layer.
 
 =item B<XRRPrimaryScreenName>=""
 
