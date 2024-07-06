@@ -206,11 +206,6 @@ bool DockApp::dock(YFrameClient* client) {
             retime();
             if (layered == WinLayerInvalid)
                 setup();
-            if (layered == WinLayerDock) {
-                extern bool limitByDockLayer;
-                if (limitByDockLayer)
-                    manager->requestWorkAreaUpdate();
-            }
         }
         else {
             XRemoveFromSaveSet(xapp->display(), icon);
@@ -271,6 +266,7 @@ bool DockApp::handleTimer(YTimer* t) {
 }
 
 void DockApp::adapt() {
+    const unsigned wold = int(visible()) * width();
     if (docks.nonempty()) {
         int sx, sy;
         unsigned sw, sh;
@@ -346,6 +342,12 @@ void DockApp::adapt() {
     }
     if (timer)
         timer = null;
+
+    if (wold != int(visible()) * width() && layered == WinLayerDock) {
+        extern bool limitByDockLayer;
+        if (limitByDockLayer)
+            manager->requestWorkAreaUpdate();
+    }
 }
 
 void DockApp::proper() {
