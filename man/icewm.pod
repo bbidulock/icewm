@@ -447,6 +447,9 @@ mouse when the B<Ctrl> key is pressed down. Drag with the left mouse
 button, close with the middle mouse button, select a menu with the right
 mouse button and rotate with the scroll wheel.
 
+If maximizing a window should not overlap the I<DockApps> container, put
+it in the I<dock> layer and set the preference B<LimitByDockLayer=1>.
+
 =head2 TABBED WINDOWS
 
 A window frame may contain multiple client windows. Only one client can
