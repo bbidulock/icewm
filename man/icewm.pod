@@ -423,6 +423,30 @@ I<Layer>.  From there choose one of seven window layers.  These are
 ordered from higher to lower.  Windows in higher layers appear over
 windows in lower layers.
 
+There are 16 layers in total, but most are seldom or never used. They
+are numbered from zero for the lowest layer to fifteen for the topmost.
+Their names with their layer number are: Desktop (0), Below (2), Normal
+(4), OnTop (6), Dock (8), AboveDock (10), Menu (12), Fullscreen (14) and
+AboveAll (15). By default every window appears in the I<Normal> layer.
+Then I<Below> and I<OnTop> are used frequently to position windows below
+or above most others. Icewm menus appear in the I<Menu> layer and the
+I<Fullscreen> layer is reserved for windows in the fullscreen mode. The
+default layer for each application can be set with a I<winoption>.
+
+=head2 DOCKED APPLICATIONS
+
+Icewm has native support for L<Window Maker dockapps|https://dockapps.net>.
+It has a Dock container called B<DockApps>, which appears automatically
+when dockapps are started. The position and layer of this container are
+controlled by the C<DockApps> preference. It is a space separated list
+of keywords. The keywords C<right, left, center, down, high> control the
+position, while C<above, dock, ontop, normal, below, desktop> set the
+layer. When B<DockApps> is set to the empty string, support for dockapps
+is disabled. The dockapps in the container can be controlled using the
+mouse when the B<Ctrl> key is pressed down. Drag with the left mouse
+button, close with the middle mouse button, select a menu with the right
+mouse button and rotate with the scroll wheel.
+
 =head2 TABBED WINDOWS
 
 A window frame may contain multiple client windows. Only one client can
