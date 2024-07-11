@@ -576,12 +576,12 @@ void YWindow::handleEvent(const XEvent &event) {
         break;
 
     case ButtonPress:
-        captureEvents();
+        xapp->captureGrabEvents(this);
         handleButton(event.xbutton);
         break;
 
     case ButtonRelease:
-        releaseEvents();
+        xapp->releaseGrabEvents(this);
         handleButton(event.xbutton);
         break;
 
@@ -1225,14 +1225,6 @@ void YWindow::grabButton(int button, unsigned int modifiers) {
             grabButtonM(button, modifiers | xapp->NumLockMask | LockMask);
         }
     }
-}
-
-void YWindow::captureEvents() {
-    xapp->captureGrabEvents(this);
-}
-
-void YWindow::releaseEvents() {
-    xapp->releaseGrabEvents(this);
 }
 
 void YWindow::donePopup(YPopupWindow * /*command*/) {

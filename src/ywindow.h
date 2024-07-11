@@ -169,9 +169,6 @@ public:
     void grabButton(int button, unsigned modifiers);
     void grabVButton(int button, unsigned vmodifiers);
 
-    void captureEvents();
-    void releaseEvents();
-
     Window handle() { return (flags & wfCreated) ? fHandle : create(); }
     YWindow *parent() const { return fParent; }
     YWindow *window() { return this; }
