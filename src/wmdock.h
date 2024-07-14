@@ -39,6 +39,9 @@ private:
     void handleDrag(const XButtonEvent& down, const XMotionEvent& move) override;
     void handleEndDrag(const XButtonEvent& down, const XButtonEvent& up) override;
     void handlePopDown(YPopupWindow *popup) override;
+    void handleClientMessage(const XClientMessageEvent &message) override;
+    void handleClose() override {}
+    void gotFocus() override {}
     bool handleTimer(YTimer* timer) override;
     lazy<YTimer> timer;
     lazy<YMenu> menu;

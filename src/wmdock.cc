@@ -11,6 +11,7 @@
 #include <X11/Xatom.h>
 
 const char DockApp::propertyName[] = "_ICEWM_DOCKAPPS";
+extern bool limitByDockLayer;
 
 DockApp::DockApp():
     YWindow(nullptr, None,
@@ -344,7 +345,6 @@ void DockApp::adapt() {
         timer = null;
 
     if (wold != int(visible()) * width() && layered == WinLayerDock) {
-        extern bool limitByDockLayer;
         if (limitByDockLayer)
             manager->requestWorkAreaUpdate();
     }
@@ -578,6 +578,22 @@ void DockApp::handleEndDrag(const XButtonEvent& down, const XButtonEvent& up) {
                         dragxpos, dragypos);
         }
         dragged = nullptr;
+    }
+}
+
+void DockApp::handleClientMessage(const XClientMessageEvent& message) {
+    if (message.message_type == _XA_WIN_LAYER) {
+        long layer = message.data.l[0];
+        if (validLayer(layer) && layer != layered) {
+            bool work = (layer == WinLayerDock || layered == WinLayerDock);
+            layered = int(layer);
+            setProperty(_XA_WIN_LAYER, XA_CARDINAL, layer);
+            if (visible() && docks.nonempty()) {
+                manager->restackWindows();
+            }
+            if (work && limitByDockLayer)
+                manager->requestWorkAreaUpdate();
+        }
     }
 }
 
