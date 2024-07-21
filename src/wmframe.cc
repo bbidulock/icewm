@@ -1700,18 +1700,21 @@ YFrameClient* YFrameWindow::transient() const {
 }
 
 void YFrameWindow::minimizeTransients() {
+    YArray<YFrameWindow*> trans;
     for (YFrameClient* t = transient(); t; t = t->nextTransient()) {
         YFrameWindow* w = t->getFrame();
         if (w) {
-            MSG(("> isMinimized: %d\n", w->isMinimized()));
             if (w->isMinimized()) {
                 w->fWinState |= WinStateWasMinimized;
-            } else {
+            }
+            else if (find(trans, w) < 0 && w != this) {
                 w->fWinState &= ~WinStateWasMinimized;
-                w->wmMinimize();
+                trans += w;
             }
         }
     }
+    for (YFrameWindow* w : trans)
+        w->wmMinimize();
 }
 
 void YFrameWindow::restoreMinimizedTransients() {
@@ -1725,18 +1728,21 @@ void YFrameWindow::restoreMinimizedTransients() {
 }
 
 void YFrameWindow::hideTransients() {
+    YArray<YFrameWindow*> trans;
     for (YFrameClient* t = transient(); t; t = t->nextTransient()) {
         YFrameWindow* w = t->getFrame();
         if (w) {
-            MSG(("> isHidden: %d\n", w->isHidden()));
             if (w->isHidden()) {
                 w->fWinState |= WinStateWasHidden;
-            } else {
+            }
+            else if (find(trans, w) < 0 && w != this) {
                 w->fWinState&= ~WinStateWasHidden;
-                w->wmHide();
+                trans += w;
             }
         }
     }
+    for (YFrameWindow* w : trans)
+        w->wmHide();
 }
 
 void YFrameWindow::restoreHiddenTransients() {
@@ -1850,8 +1856,13 @@ void YFrameWindow::wmRaise() {
     if (canRaise()) {
         doRaise();
         manager->restackWindows();
-        if (focused() && container()->buttoned())
-            container()->releaseButtons();
+        if (focused()) {
+            if (container()->buttoned()) {
+                container()->releaseButtons();
+            }
+        } else {
+            manager->focusOverlap();
+        }
     }
 }
 

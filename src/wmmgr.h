@@ -261,6 +261,7 @@ public:
     void actionWindows(YAction action);
     void toggleDesktop();
     void cascadeWindows();
+    void focusOverlap();
 
     bool haveClients();
     void setupRootProxy();
@@ -342,7 +343,6 @@ private:
     bool handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm);
     void setWmState(WMState newWmState);
     void refresh();
-    void focusOverlap();
 
     IApp *app;
     YActionListener *wmActionListener;
