@@ -2133,11 +2133,7 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace
     if (workspace == AllWorkspaces)
         workspace = activeWorkspace();
 
-    YFrameWindow *toFocus = nullptr;
-
-    if (toFocus == nullptr) {
-        toFocus = workspaces[workspace].focused;
-    }
+    YFrameWindow *toFocus = workspaces[workspace].focused;
 
     if (toFocus != nullptr) {
         if (toFocus->isUnmapped() ||
@@ -2152,6 +2148,25 @@ YFrameWindow *YWindowManager::getLastFocus(bool skipAllWorkspaces, int workspace
 
     if (toFocus == nullptr && clickFocus == false) {
         toFocus = getFrameUnderMouse(workspace);
+        YFrameWindow* previous = nullptr;
+        while (toFocus != previous) {
+            previous = toFocus;
+            for (YFrameClient* trans = toFocus->transient();
+                 trans; trans = trans->nextTransient()) {
+                YFrameWindow* frame = trans->getFrame();
+                if (frame && frame != toFocus &&
+                    frame->isUnmapped() == false &&
+                    frame->visibleOn(workspace) &&
+                    frame->avoidFocus() == false &&
+                    trans->destroyed() == false &&
+                    trans != taskBar &&
+                    (frame->getActiveLayer() > toFocus->getActiveLayer() ||
+                     (frame->getActiveLayer() == toFocus->getActiveLayer()
+                      && frame->isBefore(toFocus)))) {
+                    toFocus = frame;
+                }
+            }
+        }
     }
 
     if (toFocus == nullptr) {
