@@ -365,13 +365,13 @@ void YFrameWindow::handleMoveMouse(const XMotionEvent &motion, int &newX, int &n
                     newY += EdgeResistance;
             }
         }
-        if (EdgeResistance == 10000 || (isMaximizedHoriz() && limitPosition)) {
+        if (EdgeResistance == 10000 || isMaximizedHoriz()) {
             if (newX + int(width()) + n * borderX() > Mx)
                 newX = Mx - int(width()) - n * borderX();
             if (newX < mx)
                 newX = mx;
         }
-        if (EdgeResistance == 10000 || (isMaximizedVert() && limitPosition)) {
+        if (EdgeResistance == 10000 || isMaximizedVert()) {
             if (newY + int(height()) + n * borderY() > My)
                 newY = My - int(height()) - n * borderY();
             if (newY < my)
