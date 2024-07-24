@@ -854,12 +854,19 @@ Some of the window actions require one or two I<EXPRESSION> arguments.
 
 =over
 
-=item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> }
+=item B<EXPRESSION> ::= I<SYMBOL> | I<EXPRESSION> { C<+> | C<|> | C<-> }
 I<SYMBOL>
 
 =back
 
-Each I<SYMBOL> may be from one of the following applicable domains:
+This says that an expression is either a I<SYMBOL> or an expression
+which is combined with an operator to a I<SYMBOL>. In other words,
+an expression is a sequence of symbols, which are combined using
+operators, where an operator may be a plus, a vertical bar or a minus.
+
+Each I<SYMBOL> may be either a number or a named symbol from one of the
+following applicable domains, depending upon the context in which it is
+used:
 
 =over
 
