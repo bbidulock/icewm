@@ -1226,7 +1226,8 @@ Also press Shift to maximize horizontally. If B<TitleBarRollupButton>
 is either 4 or 5 then the scroll wheel controls rolling up or down.
 
 Press a mouse button on the title bar and drag it to move the window.
-A C<Alt+Pointer_Button1> click lowers the window.
+To drag a maximized window, keep the Shift key down.
+A C<Alt+Pointer_Button1> click in the title bar lowers the window.
 
 When the mouse is on the window frame then a left click raises the
 window.  Dragging with the left button down resizes the window.
