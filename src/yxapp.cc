@@ -1404,7 +1404,9 @@ bool YXApplication::parseKey(const char* arg, KeySym* key, unsigned* mod) {
 
 void YXApplication::unshift(KeySym* ksym, unsigned* mod) {
     const unsigned key = unsigned(*ksym);
-    if ((' ' < key && key < 'a') || ('z' < key && key <= 0xff)) {
+    if ((' ' < key && key < 'a') || ('z' < key && key <= 0xFF) ||
+        (0x1008FE01U <= key && key <= 0x1008FFFFU)) /*XF86keysyms*/
+    {
         if (fKeycodeMap == nullptr) {
             XDisplayKeycodes(xapp->display(), &fKeycodeMin, &fKeycodeMax);
             fKeycodeMap = XGetKeyboardMapping(xapp->display(), fKeycodeMin,
