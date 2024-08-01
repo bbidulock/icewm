@@ -222,13 +222,7 @@ void PrefsMenu::handleMsgBox(YMsgBox* msgbox, int operation) {
         if (operation == YMsgBox::mbOK && modify) {
             if (modify->type == cfoption::CF_KEY && modify->key()) {
                 WMKey *wk = modify->key();
-                if (input.isEmpty() ? (wk->key = wk->mod = 0, true) :
-                    wmapp->parseKey(input, &wk->key, &wk->mod))
-                {
-                    if (!wk->initial)
-                        delete[] const_cast<char *>(wk->name);
-                    wk->name = newstr(input);
-                    wk->initial = false;
+                if (wk->set(input)) {
                     modified(modify);
                     msg("%s = \"%s\"", modify->name, wk->name);
                     wmapp->actionPerformed(actionReloadKeys);

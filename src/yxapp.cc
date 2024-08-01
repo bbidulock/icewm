@@ -1395,6 +1395,30 @@ void YXApplication::queryMouse(int* x, int* y) {
         *x = *y = 0;
 }
 
+bool WMKey::set(const char* arg) {
+    bool change = false;
+    if (isEmpty(arg)) {
+        key = mod = 0;
+        if (nonempty(name)) {
+            name = "";
+            change = true;
+            initial = true;
+        }
+    }
+    else if (xapp->parseKey(arg, &key, &mod)) {
+        if (initial == false)
+            delete[] const_cast<char *>(name);
+        name = newstr(arg);
+        initial = false;
+        change = true;
+    }
+    return change;
+}
+
+bool WMKey::parse() {
+    return (nonempty(name) && xapp->parseKey(name, &key, &mod));
+}
+
 bool YXApplication::parseKey(const char* arg, KeySym* key, unsigned* mod) {
     bool yes = YConfig::parseKey(arg, key, mod);
     if (yes)

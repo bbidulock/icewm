@@ -501,10 +501,7 @@ void YWMApp::reparseKeyPrefs() {
     extern cfoption icewm_preferences[];
     for (cfoption* op = icewm_preferences; op->type; ++op) {
         if (op->type == cfoption::CF_KEY) {
-            WMKey* key = op->v.k.key_value;
-            if (key->name) {
-                parseKey(key->name, &key->key, &key->mod);
-            }
+            op->v.k.key_value->parse();
         }
     }
 }
