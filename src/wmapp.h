@@ -216,7 +216,6 @@ extern lazy<TabsMenu> tabsMenu;
 
 class KProgram;
 typedef YObjectArray<KProgram> KProgramArrayType;
-typedef KProgramArrayType::IterType KProgramIterType;
 extern KProgramArrayType keyProgs;
 
 extern RebootShutdown rebootOrShutdown;

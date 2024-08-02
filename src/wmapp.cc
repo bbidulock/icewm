@@ -489,7 +489,7 @@ void YWMApp::initPointers() {
 
 void YWMApp::keyboardRemap() {
     reparseKeyPrefs();
-    for (KProgramIterType p = keyProgs.iterator(); ++p; ) {
+    for (KProgram* p : keyProgs) {
         p->parse();
     }
     if (manager && !initializing && manager->isRunning()) {

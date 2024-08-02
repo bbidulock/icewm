@@ -247,8 +247,7 @@ void YWindowManager::grabKeys() {
         grab(gKeySysKeyboardNext);
 
     {
-        KProgramIterType k = keyProgs.iterator();
-        while (++k) {
+        for (KProgram* k : keyProgs) {
             grabVKey(k->key(), k->modifiers());
         }
     }
@@ -417,7 +416,7 @@ bool YWindowManager::handleSwitchWorkspaceKey(const XKeyEvent& key,
 bool YWindowManager::handleWMKey(const XKeyEvent &key, KeySym k, unsigned vm) {
     YFrameWindow *frame = getFocus();
 
-    for (KProgramIterType p = keyProgs.iterator(); ++p; ) {
+    for (KProgram* p : keyProgs) {
         if (p->isKey(k, vm)) {
             XAllowEvents(xapp->display(), AsyncKeyboard, key.time);
             p->open(key.state);
@@ -690,8 +689,7 @@ void YWindowManager::handleButton(const XButtonEvent &button) {
             KeySym k = button.button - Button1 + XK_Pointer_Button1;
             unsigned int m = KEY_MODMASK(button.state);
             unsigned int vm = VMod(m);
-            KProgramIterType p = keyProgs.iterator();
-            while (++p) {
+            for (KProgram* p : keyProgs) {
                 if (p->isKey(k, vm)) {
                     p->open(m);
                     break;

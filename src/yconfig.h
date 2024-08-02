@@ -32,6 +32,7 @@
 
 #include <X11/X.h>
 #include "yfontname.h"
+#include "wmkey.h"
 
 #define kfShift  1
 #define kfCtrl   2
@@ -40,19 +41,6 @@
 #define kfSuper  16
 #define kfHyper  32
 #define kfAltGr  64
-
-struct WMKey {
-    KeySym key;
-    unsigned mod;
-    const char* name;
-    bool initial;
-
-    bool eq(KeySym k, unsigned m) const { return key == k && mod == m; }
-    bool operator==(const WMKey& o) const { return eq(o.key, o.mod); }
-    bool operator!=(const WMKey& o) const { return !eq(o.key, o.mod); }
-    bool parse();
-    bool set(const char* arg);
-};
 
 #ifdef CFGDESC
 #define DESC(d) d
