@@ -150,7 +150,7 @@ KeySym YConfig::parseKeySym(const char* arg) {
 
     if (strncmp(arg, "Pointer_Button", 14) == 0) {
         int button = 0;
-        if (sscanf(arg + 14, "%d", &button) == 1 && 0 < button)
+        if (sscanf(arg + 14, "%d", &button) == 1 && inrange(button, 1, 8))
             return button + XK_Pointer_Button1 - 1;
         return NoSymbol;
     }
