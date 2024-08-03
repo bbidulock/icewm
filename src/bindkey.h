@@ -98,10 +98,10 @@
 #define defgKeySysCollapseTaskBar       'h', kfAlt+kfCtrl, "Alt+Ctrl+h"
 
 #ifdef CFGDEF
-#define DEF_WMKEY(k) WMKey k = { def##k, true }
+#define DEF_WMKEY(k)    WMKey k( def##k )
 #else
 
-#define DEF_WMKEY(k) extern WMKey k
+#define DEF_WMKEY(k)    extern WMKey k
 #define IS_WMKEY(k,m,b) b.eq(k,m)
 #define KEY_NAME(k)     k.name
 #endif

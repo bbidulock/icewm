@@ -93,16 +93,11 @@ DProgram *DProgram::newProgram(
 KProgramArrayType keyProgs;
 
 KProgram::KProgram(const char *key, DProgram *prog, bool bIsDynSwitchMenuProg) :
+    wm(newstr(key)),
     bIsDynSwitchMenu(bIsDynSwitchMenuProg),
     fProg(prog),
     pSwitchWindow(nullptr)
 {
-    wm.name = newstr(key);
-    wm.initial = false;
-    wm.key = NoSymbol;
-    wm.mod = 0;
-    wm.parse();
-    keyProgs += this;
 }
 
 KProgram::~KProgram() {

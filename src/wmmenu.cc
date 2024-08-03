@@ -121,7 +121,11 @@ char* MenuLoader::parseKey(char *word, char *p)
         command.cstr(),
         args);
 
-    if (prog) new KProgram(key, prog, switchkey);
+    if (prog) {
+        KProgram* kp = new KProgram(key, prog, switchkey);
+        if (kp)
+            keyProgs += kp;
+    }
 
     return p;
 }
