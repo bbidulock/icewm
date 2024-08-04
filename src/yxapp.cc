@@ -503,9 +503,9 @@ void YXApplication::initModifiers() {
             for (int k = 0; k < xmk->max_keypermod; k++, c++) {
                 if (*c == NoSymbol)
                     continue;
-                KeySym kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 0);
+                KeySym kc = keyCodeToKeySym(*c);
                 if (kc == NoSymbol)
-                    kc = XkbKeycodeToKeysym(xapp->display(), *c, 0, 1);
+                    kc = keyCodeToKeySym(*c, 1);
                 if (kc == XK_Num_Lock && NumLockMask == 0)
                     NumLockMask = (1 << m);
                 if (kc == XK_Scroll_Lock && ScrollLockMask == 0)
@@ -1452,6 +1452,10 @@ void YXApplication::unshift(KeySym* ksym, unsigned* mod) {
             }
         }
     }
+}
+
+KeySym YXApplication::keyCodeToKeySym(unsigned keycode, unsigned index) {
+    return XkbKeycodeToKeysym(display(), KeyCode(keycode), 0, index);
 }
 
 bool YXApplication::windowExists(Window handle) const {

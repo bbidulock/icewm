@@ -190,6 +190,7 @@ public:
     bool isButton(unsigned state, unsigned mask) const {
         return mask == buttonModMask(state);
     }
+    KeySym keyCodeToKeySym(unsigned keycode, unsigned index = 0);
     bool parseKey(const char* arg, KeySym* key, unsigned* mod);
     void unshift(KeySym* key, unsigned* mod);
 
