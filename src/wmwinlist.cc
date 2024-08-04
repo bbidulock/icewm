@@ -433,33 +433,33 @@ YMenu* WindowList::getWindowListPopup() {
 }
 
 WindowListPopup::WindowListPopup() {
-    addItem(_("_Restore"), -2, KEY_NAME(gKeyWinRestore), actionRestore);
-    addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
-    addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-    addItem(_("Maximize_Vert"), -2, KEY_NAME(gKeyWinMaximizeVert), actionMaximizeVert);
-    addItem(_("MaximizeHori_z"), -2, KEY_NAME(gKeyWinMaximizeHoriz), actionMaximizeHoriz);
-    addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
+    addItem(_("_Restore"), -2, gKeyWinRestore.name, actionRestore);
+    addItem(_("Mi_nimize"), -2, gKeyWinMinimize.name, actionMinimize);
+    addItem(_("Ma_ximize"), -2, gKeyWinMaximize.name, actionMaximize);
+    addItem(_("Maximize_Vert"), -2, gKeyWinMaximizeVert.name, actionMaximizeVert);
+    addItem(_("MaximizeHori_z"), -2, gKeyWinMaximizeHoriz.name, actionMaximizeHoriz);
+    addItem(_("_Fullscreen"), -2, gKeyWinFullscreen.name, actionFullscreen);
     addItem(_("_Show"), -2, null, actionShow);
-    addItem(_("_Hide"), -2, KEY_NAME(gKeyWinHide), actionHide);
-    addItem(_("Roll_up"), -2, KEY_NAME(gKeyWinRollup), actionRollup);
-    addItem(_("_Raise"), -2, KEY_NAME(gKeyWinRaise), actionRaise);
-    addItem(_("_Lower"), -2, KEY_NAME(gKeyWinLower), actionLower);
+    addItem(_("_Hide"), -2, gKeyWinHide.name, actionHide);
+    addItem(_("Roll_up"), -2, gKeyWinRollup.name, actionRollup);
+    addItem(_("_Raise"), -2, gKeyWinRaise.name, actionRaise);
+    addItem(_("_Lower"), -2, gKeyWinLower.name, actionLower);
     addSubmenu(_("La_yer"), -2, layerMenu);
     addSubmenu(_("Tile"), -2, tileMenu);
     addSeparator();
     addSubmenu(_("Move _To"), -2, moveMenu);
-    addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+    addItem(_("Occupy _All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
     addItem(_("Tray _icon"), -2, null, actionToggleTray);
     addItem(_("R_ename title"), -2, null, actionRename);
     addSeparator();
-    addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-    addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-    addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-    addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
+    addItem(_("Tile _Vertically"), -2, gKeySysTileVertical.name, actionTileVertical);
+    addItem(_("T_ile Horizontally"), -2, gKeySysTileHorizontal.name, actionTileHorizontal);
+    addItem(_("Ca_scade"), -2, gKeySysCascade.name, actionCascade);
+    addItem(_("_Arrange"), -2, gKeySysArrange.name, actionArrange);
     addSeparator();
-    addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-    addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-    addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+    addItem(_("_Minimize All"), -2, gKeySysMinimizeAll.name, actionMinimizeAll);
+    addItem(_("_Hide All"), -2, gKeySysHideAll.name, actionHideAll);
+    addItem(_("_Undo"), -2, gKeySysUndoArrange.name, actionUndoArrange);
     addSeparator();
 
     YMenu *closeSubmenu = new YMenu();
@@ -485,13 +485,13 @@ YMenu* WindowList::getWindowListAllPopup() {
 }
 
 WindowListAllPopup::WindowListAllPopup() {
-    addItem(_("Tile _Vertically"), -2, KEY_NAME(gKeySysTileVertical), actionTileVertical);
-    addItem(_("T_ile Horizontally"), -2, KEY_NAME(gKeySysTileHorizontal), actionTileHorizontal);
-    addItem(_("Ca_scade"), -2, KEY_NAME(gKeySysCascade), actionCascade);
-    addItem(_("_Arrange"), -2, KEY_NAME(gKeySysArrange), actionArrange);
-    addItem(_("_Minimize All"), -2, KEY_NAME(gKeySysMinimizeAll), actionMinimizeAll);
-    addItem(_("_Hide All"), -2, KEY_NAME(gKeySysHideAll), actionHideAll);
-    addItem(_("_Undo"), -2, KEY_NAME(gKeySysUndoArrange), actionUndoArrange);
+    addItem(_("Tile _Vertically"), -2, gKeySysTileVertical.name, actionTileVertical);
+    addItem(_("T_ile Horizontally"), -2, gKeySysTileHorizontal.name, actionTileHorizontal);
+    addItem(_("Ca_scade"), -2, gKeySysCascade.name, actionCascade);
+    addItem(_("_Arrange"), -2, gKeySysArrange.name, actionArrange);
+    addItem(_("_Minimize All"), -2, gKeySysMinimizeAll.name, actionMinimizeAll);
+    addItem(_("_Hide All"), -2, gKeySysHideAll.name, actionHideAll);
+    addItem(_("_Undo"), -2, gKeySysUndoArrange.name, actionUndoArrange);
 }
 
 void WindowList::setupClient() {

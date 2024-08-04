@@ -85,6 +85,7 @@ libice_la_SOURCES = \
 	argument.h \
 	ascii.h \
 	base.h \
+	bindkey.cc \
 	bindkey.h \
 	debug.h \
 	default.h \

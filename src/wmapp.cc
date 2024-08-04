@@ -571,18 +571,18 @@ void MoveMenu::updatePopup() {
         char s[128];
         snprintf(s, sizeof s, "%2d.  %s ", w, workspaceNames[w - 1]);
         addItem(s, 1,
-                w ==  1 ? KEY_NAME(gKeySysWorkspace1TakeWin)  :
-                w ==  2 ? KEY_NAME(gKeySysWorkspace2TakeWin)  :
-                w ==  3 ? KEY_NAME(gKeySysWorkspace3TakeWin)  :
-                w ==  4 ? KEY_NAME(gKeySysWorkspace4TakeWin)  :
-                w ==  5 ? KEY_NAME(gKeySysWorkspace5TakeWin)  :
-                w ==  6 ? KEY_NAME(gKeySysWorkspace6TakeWin)  :
-                w ==  7 ? KEY_NAME(gKeySysWorkspace7TakeWin)  :
-                w ==  8 ? KEY_NAME(gKeySysWorkspace8TakeWin)  :
-                w ==  9 ? KEY_NAME(gKeySysWorkspace9TakeWin)  :
-                w == 10 ? KEY_NAME(gKeySysWorkspace10TakeWin) :
-                w == 11 ? KEY_NAME(gKeySysWorkspace11TakeWin) :
-                w == 12 ? KEY_NAME(gKeySysWorkspace12TakeWin) :
+                w ==  1 ? gKeySysWorkspace1TakeWin.name  :
+                w ==  2 ? gKeySysWorkspace2TakeWin.name  :
+                w ==  3 ? gKeySysWorkspace3TakeWin.name  :
+                w ==  4 ? gKeySysWorkspace4TakeWin.name  :
+                w ==  5 ? gKeySysWorkspace5TakeWin.name  :
+                w ==  6 ? gKeySysWorkspace6TakeWin.name  :
+                w ==  7 ? gKeySysWorkspace7TakeWin.name  :
+                w ==  8 ? gKeySysWorkspace8TakeWin.name  :
+                w ==  9 ? gKeySysWorkspace9TakeWin.name  :
+                w == 10 ? gKeySysWorkspace10TakeWin.name :
+                w == 11 ? gKeySysWorkspace11TakeWin.name :
+                w == 12 ? gKeySysWorkspace12TakeWin.name :
                 "", workspaceActionMoveTo[w - 1]);
     }
 }
@@ -639,34 +639,34 @@ YMenu* YWMApp::getWindowMenu() {
     windowMenu->setShared(true);
 
     if (strchr(winMenuItems, 'r'))
-        windowMenu->addItem(_("_Restore"),  -2, KEY_NAME(gKeyWinRestore), actionRestore);
+        windowMenu->addItem(_("_Restore"),  -2, gKeyWinRestore.name, actionRestore);
     if (strchr(winMenuItems, 'm'))
-        windowMenu->addItem(_("_Move"),     -2, KEY_NAME(gKeyWinMove), actionMove);
+        windowMenu->addItem(_("_Move"),     -2, gKeyWinMove.name, actionMove);
     if (strchr(winMenuItems, 's'))
-        windowMenu->addItem(_("_Size"),     -2, KEY_NAME(gKeyWinSize), actionSize);
+        windowMenu->addItem(_("_Size"),     -2, gKeyWinSize.name, actionSize);
     if (strchr(winMenuItems, 'n'))
-        windowMenu->addItem(_("Mi_nimize"), -2, KEY_NAME(gKeyWinMinimize), actionMinimize);
+        windowMenu->addItem(_("Mi_nimize"), -2, gKeyWinMinimize.name, actionMinimize);
     if (strchr(winMenuItems, 'x')) {
-        windowMenu->addItem(_("Ma_ximize"), -2, KEY_NAME(gKeyWinMaximize), actionMaximize);
-        windowMenu->addItem(_("Maximize_Vert"), -2, KEY_NAME(gKeyWinMaximizeVert), actionMaximizeVert);
-        windowMenu->addItem(_("MaximizeHori_z"), -2, KEY_NAME(gKeyWinMaximizeHoriz), actionMaximizeHoriz);
+        windowMenu->addItem(_("Ma_ximize"), -2, gKeyWinMaximize.name, actionMaximize);
+        windowMenu->addItem(_("Maximize_Vert"), -2, gKeyWinMaximizeVert.name, actionMaximizeVert);
+        windowMenu->addItem(_("MaximizeHori_z"), -2, gKeyWinMaximizeHoriz.name, actionMaximizeHoriz);
     }
     if (strchr(winMenuItems,'f') && allowFullscreen)
-        windowMenu->addItem(_("_Fullscreen"), -2, KEY_NAME(gKeyWinFullscreen), actionFullscreen);
+        windowMenu->addItem(_("_Fullscreen"), -2, gKeyWinFullscreen.name, actionFullscreen);
 
     if (strchr(winMenuItems, 'h'))
-        windowMenu->addItem(_("_Hide"),     -2, KEY_NAME(gKeyWinHide), actionHide);
+        windowMenu->addItem(_("_Hide"),     -2, gKeyWinHide.name, actionHide);
     if (strchr(winMenuItems, 'u'))
-        windowMenu->addItem(_("Roll_up"),   -2, KEY_NAME(gKeyWinRollup), actionRollup);
+        windowMenu->addItem(_("Roll_up"),   -2, gKeyWinRollup.name, actionRollup);
     if (strchr(winMenuItems, 'a') ||
         strchr(winMenuItems,'l') ||
         strchr(winMenuItems,'y') ||
         strchr(winMenuItems,'t'))
         windowMenu->addSeparator();
     if (strchr(winMenuItems, 'a'))
-        windowMenu->addItem(_("R_aise"),    -2, KEY_NAME(gKeyWinRaise), actionRaise);
+        windowMenu->addItem(_("R_aise"),    -2, gKeyWinRaise.name, actionRaise);
     if (strchr(winMenuItems, 'l'))
-        windowMenu->addItem(_("_Lower"),    -2, KEY_NAME(gKeyWinLower), actionLower);
+        windowMenu->addItem(_("_Lower"),    -2, gKeyWinLower.name, actionLower);
     if (strchr(winMenuItems, 'y'))
         windowMenu->addSubmenu(_("La_yer"), -2, layerMenu);
 
@@ -676,7 +676,7 @@ YMenu* YWMApp::getWindowMenu() {
     if (strchr(winMenuItems, 't') && workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
-        windowMenu->addItem(_("Occupy _All"), -2, KEY_NAME(gKeyWinOccupyAll), actionOccupyAllOrCurrent);
+        windowMenu->addItem(_("Occupy _All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
     }
 
     /// this should probably go away, cause fullscreen will do mostly the same thing
@@ -693,12 +693,12 @@ YMenu* YWMApp::getWindowMenu() {
     if (strchr(winMenuItems, 'c') || strchr(winMenuItems, 'k'))
         windowMenu->addSeparator();
     if (strchr(winMenuItems, 'c'))
-        windowMenu->addItem(_("_Close"), -2, KEY_NAME(gKeyWinClose), actionClose);
+        windowMenu->addItem(_("_Close"), -2, gKeyWinClose.name, actionClose);
     if (strchr(winMenuItems, 'k'))
         windowMenu->addItem(_("_Kill Client"), -2, null, actionKill);
     if (strchr(winMenuItems, 'w')) {
         windowMenu->addSeparator();
-        windowMenu->addItem(_("_Window list"), -2, KEY_NAME(gKeySysWindowList), actionWindowList);
+        windowMenu->addItem(_("_Window list"), -2, gKeySysWindowList.name, actionWindowList);
     }
 
     return windowMenu;
@@ -1596,9 +1596,9 @@ void YWMApp::afterWindowEvent(XEvent &xev) {
     static XEvent lastKeyEvent = { 0 };
 
     if (xev.type == KeyRelease && lastKeyEvent.type == KeyPress) {
-        KeySym k1 = XkbKeycodeToKeysym(xapp->display(), xev.xkey.keycode, 0, 0);
+        KeySym k1 = keyCodeToKeySym(xev.xkey.keycode);
         unsigned int m1 = KEY_MODMASK(lastKeyEvent.xkey.state);
-        KeySym k2 = XkbKeycodeToKeysym(xapp->display(), lastKeyEvent.xkey.keycode, 0, 0);
+        KeySym k2 = keyCodeToKeySym(lastKeyEvent.xkey.keycode);
 
         if (m1 == 0 && xapp->WinMask && win95keys) {
             if (k1 == xapp->Win_L && k2 == xapp->Win_L) {

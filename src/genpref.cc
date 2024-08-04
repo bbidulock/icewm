@@ -14,8 +14,6 @@ void addKeyboard(const char *, const char *, bool) {}
 void setLook(const char *, const char *, bool) {}
 void addBgImage(const char *, const char *, bool) {}
 
-//#include "bindkey.h"
-//#include "default.h"
 #define CFGDEF
 #define GENPREF
 #define extern

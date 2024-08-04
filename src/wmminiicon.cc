@@ -229,13 +229,13 @@ bool MiniIcon::handleKey(const XKeyEvent& key) {
         KeySym k = keyCodeToKeySym(key.keycode);
         unsigned int m = KEY_MODMASK(key.state);
         unsigned int vm = VMod(m);
-        if (IS_WMKEY(k, vm, gKeyWinClose)) {
+        if (gKeyWinClose.eq(k, vm)) {
             fFrame->actionPerformed(actionClose);
         }
-        else if (IS_WMKEY(k, vm, gKeyWinLower)) {
+        else if (gKeyWinLower.eq(k, vm)) {
             fFrame->actionPerformed(actionLower);
         }
-        else if (IS_WMKEY(k, vm, gKeyWinRestore)) {
+        else if (gKeyWinRestore.eq(k, vm)) {
             fFrame->actionPerformed(actionRestore);
         }
         else if (k == XK_Return || k == XK_KP_Enter) {
