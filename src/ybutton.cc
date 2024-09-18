@@ -71,14 +71,14 @@ void YButton::paint(Graphics &g, int const d, const YRect &r) {
 
     if (fIcon != null) {
         fIcon->draw(g,
-                    x + (w - fIconSize) / 2,
-                    y + (h - fIconSize) / 2,
+                    x + (w - fIconSize) / 2 + (isPressed() ? 1 : 0),
+                    y + (h - fIconSize) / 2 + (isPressed() ? 1 : 0),
                     fIconSize);
     }
     else if (fImage != null) {
         g.drawImage(fImage,
-                    x + (w - fImage->width()) / 2,
-                    y + (h - fImage->height()) / 2);
+                    x + (w - fImage->width()) / 2 + (isPressed() ? 1 : 0),
+                    y + (h - fImage->height()) / 2 + (isPressed() ? 1 : 0));
     }
     else if (fText != null) {
         YFont font(getFont());
@@ -271,11 +271,13 @@ void YButton::updatePopup() {
 void YButton::handleButton(const XButtonEvent &button) {
     if (fEnabled) {
         if (button.type == ButtonPress && button.button == Button1) {
+            setPressed(1);
             requestFocus(false);
             wasPopupActive = fArmed;
             setSelected(true);
             setArmed(true, true);
         } else if (button.type == ButtonRelease) {
+            setPressed(0);
             if (fPopup) {
                 int inWindow = (button.x >= 0 &&
                                 button.y >= 0 &&
