@@ -327,6 +327,8 @@ struct DesktopFile : public tLintRefcounted {
     }
 };
 
+using DesktopFilePtr = lint_ptr<DesktopFile>;
+
 #if 0
 
 #ifndef LPCSTR // mind the MFC
@@ -479,9 +481,9 @@ static void help(bool to_stderr, int xit) {
  * It's fetched on-demand with a supplied resolver function.
  */
 struct MenuNode {
-    void sink_in(lint_ptr<DesktopFile> df);
+    void sink_in(DesktopFilePtr df);
 
-    void print(std::ostream &prt_strm, const function<lint_ptr<DesktopFile>(const string&)> &menuDecoResolver);
+    void print(std::ostream &prt_strm, const function<DesktopFilePtr(const string&)> &menuDecoResolver);
 
     void collect_menu_names(const function<void(const string&)> &callback);
 
@@ -490,7 +492,7 @@ struct MenuNode {
 protected:
     map<string, MenuNode> submenues;
     // using a map instead of set+logics adds a minor memory overhead but allows simple duplicate detection (adding user's version first)
-    map<string, DesktopFile> apps;
+    map<string, DesktopFilePtr> apps;
     unordered_set<string> dont_add_mark;
 };
 
@@ -610,13 +612,12 @@ int main(int argc, char **argv) {
         desktop_loader.scan(sdir + "/applications");
     }
 
-    root.print(cout, [](const string&) {return lint_ptr<DesktopFile>();});
+    root.print(cout, [](const string&) {return DesktopFilePtr();});
 
     return EXIT_SUCCESS;
 }
 
-void MenuNode::sink_in(lint_ptr<DesktopFile> pDf) {
-    auto &df = *pDf;
+void MenuNode::sink_in(DesktopFilePtr pDf) {
     dont_add_mark.clear();
     bool bFoundCategories = false;
 
@@ -630,7 +631,7 @@ void MenuNode::sink_in(lint_ptr<DesktopFile> pDf) {
         return cur;
     };
 
-    for (const auto &cat : df.Categories) {
+    for (const auto &cat : pDf->Categories) {
         //cerr << "where does it fit? " << cat << endl;
         t_menu_path refval = {cat.c_str()};
         static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
@@ -643,7 +644,7 @@ void MenuNode::sink_in(lint_ptr<DesktopFile> pDf) {
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
                 auto &tgt = *add_sub_menues(*it);
-                tgt.apps.emplace(df.Name, df);
+                tgt.apps.emplace(pDf->Name, pDf);
             }
         }
     }
@@ -652,23 +653,32 @@ void MenuNode::sink_in(lint_ptr<DesktopFile> pDf) {
 static string ICON_FOLDER("folder");
 string indent_hint("");
 
-void MenuNode::print(std::ostream &prt_strm, const function<lint_ptr<DesktopFile>(const string&)> &menuDecoResolver) {
+void MenuNode::print(std::ostream &prt_strm, const function<DesktopFilePtr(const string&)> &menuDecoResolver) {
+    // translated name to icon and submenu (sorted by translated)
+    map<string, std::pair<string,MenuNode*>, tLessOp4Localized> sorted;
     for(auto& m: this->submenues) {
         auto& name = m.first;
         auto deco = menuDecoResolver(name);
-        prt_strm << indent_hint << "menu \"" << (deco ? deco->GetTranslatedName() : name) << "\" " << (deco ? deco->Icon : ICON_FOLDER) << " {\n";
+        sorted[deco ? deco->GetTranslatedName() : name] = make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+    }
+    for(auto& m: sorted) {
+        auto& name = m.first;
+        prt_strm << indent_hint << "menu \"" << name << "\" " << m.second.first << " {\n";
         
         indent_hint += "\t";
-        m.second.print(prt_strm, menuDecoResolver);
+        m.second.second->print(prt_strm, menuDecoResolver);
         indent_hint.pop_back();
 
         prt_strm << indent_hint << "}\n";
     }
-    for(auto& p: this->apps) {
+    map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
+    for(auto& p: this->apps)
+        sortedApps[p.second->GetTranslatedName()]=p.second;
+    
+    for(auto &p: sortedApps) {
         auto& pi=p.second;
-        prt_strm << indent_hint << "prog \"" << pi.GetTranslatedName() << "\" " << pi.Icon << " " << pi.GetCommand() << "\n";
+        prt_strm << indent_hint << "prog \"" << pi->GetTranslatedName() << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
-
 }
 
 void MenuNode::fixup() {
