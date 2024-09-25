@@ -235,13 +235,25 @@ vector<string> &Tokenize(const string &in, const char *sep,
     return inOutVec;
 }
 
-auto line_matcher = std::regex("^\\s*(Terminal|Type|Name|Exec|Icon|Categories)("
+void replace_all(std::string& str, const std::string& from, const std::string& to) {
+    if (from.empty()) {
+        return;
+    }
+
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+}
+
+auto line_matcher = std::regex("^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)("
                                "\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
                                std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
-    bool Terminal = false, IsApp = true;
-    string Name, NameLoc, Exec, Icon;
+    bool Terminal = false, IsApp = true, NoDisplay = false;
+    string Name, NameLoc, Exec, TryExec, Icon;
     vector<string> Categories;
 
     /// Translate with built-in l10n if needed
@@ -253,7 +265,15 @@ struct DesktopFile : public tLintRefcounted {
     }
 
     string GetCommand() {
-        #warning XXX: Find simple solution for terminal calling and launching with format strings
+        // let's try whether the command line is toxic, expecting stuff from https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
+        if (string::npos == Exec.find('%'))
+            return Exec;
+        if (!TryExec.empty())
+            return (Exec = TryExec); // copy over so we stick to it in case of later calls
+        for(const auto& bad: {"%F", "%U", "%f", "%u"})
+            replace_all(Exec, bad, "");
+        replace_all(Exec, "%c", Name);
+        replace_all(Exec, "%i", Icon);
         return Exec;
     }
     DesktopFile(string filePath, const string &lang) {
@@ -262,6 +282,7 @@ struct DesktopFile : public tLintRefcounted {
         dfile.open(filePath);
         string line;
         std::smatch m;
+        bool reading = false;
         while (dfile) {
             line.clear();
             std::getline(dfile, line);
@@ -270,6 +291,16 @@ struct DesktopFile : public tLintRefcounted {
                     break;
                 continue;
             }
+            if (startsWithSz(line, "[Desktop ")) {
+                if (startsWithSz(line, "[Desktop Entry")) {
+                    reading = true;
+                }
+                else if (reading) // finished with desktop entry contents, exit
+                    break;
+            }
+            if (!reading)
+                continue;
+
             std::regex_search(line, m, line_matcher);
             if (m.empty())
                 continue;
@@ -280,12 +311,16 @@ struct DesktopFile : public tLintRefcounted {
 
             if (m[1] == "Terminal")
                 Terminal = m[4].compare("true") == 0;
+            else if (m[1] == "NoDisplay")
+                NoDisplay = m[4].compare("true") == 0;
             else if (m[1] == "Icon")
                 Icon = m[4];
             else if (m[1] == "Categories") {
                 Tokenize(m[4], ";", Categories);
             } else if (m[1] == "Exec") {
                 Exec = m[4];
+            } else if (m[1] == "TryExec") {
+                TryExec = m[4];
             } else if (m[1] == "Type") {
                 if (m[4] == "Application")
                     IsApp = true;
@@ -300,67 +335,18 @@ struct DesktopFile : public tLintRefcounted {
                 else
                     Name = m[4];
             }
-
-#if 0
-                trimFront(line);
-                if (line[0] == '#' || line[0] == '[')
-                    continue;
-                
-                unsigned matchlen = 0;
-#define match(key)                                                             \
-    {                                                                          \
-        if (startsWithSz(line, key)) {                                         \
-            matchlen = sizeof(key) - 1;                                        \
-        }                                                                      \
-    }
-#define find_val_or_continue()                                                 \
-    auto p = line.find_first_not_of(KVJUNK, matchlen);                         \
-    if (p == string::npos)                                                     \
-        continue;
-                match("Terminal")
-                if (matchlen) {
-                    find_val_or_continue()
-                    Terminal = line[p] == 't';
-                    continue;
-                }
-                match("Type")
-                if (matchlen) {
-                    find_val_or_continue()
-                    if (0 == line.compare(p, LEN_AND_CSTR("Application")))
-                        IsApp = false;
-                    else if (0 == line.compare(p, LEN_AND_CSTR("Directory")))
-                        IsApp = true;
-                    continue;
-                }
-
-#define grab(x, y)                                                             \
-    match(x);                                                                  \
-    if (matchlen) {                                                            \
-        find_val_or_continue();                                                \
-        y = line.erase(p);                                                     \
-        continue;                                                              \
-    }
-                grab("Categories", Categories)
-                grab("Icon", Icon)
-                grab("Exec", Exec)
-
-                match("Name")
-                if (matchlen) {
-                    line.erase(matchlen);
-                    trimFront(line);
-#error murks
-                }
-#endif
         }
     }
 
-    static lint_ptr<DesktopFile> load(const string &path, const string &lang) {
+    static lint_ptr<DesktopFile> load_visible(const string &path, const string &lang) {
+        auto ret = lint_ptr<DesktopFile>();
         try {
-            auto ret = new DesktopFile(path, lang);
-            return lint_ptr<DesktopFile>(ret);
+            ret.reset(new DesktopFile(path, lang));
+            if (ret->NoDisplay)
+                ret.reset();
         } catch (const std::exception &) {
-            return lint_ptr<DesktopFile>();
         }
+        return ret;
     }
 };
 
@@ -414,6 +400,15 @@ const char *rtls[] = {
     "ur", // urdu
 };
 
+struct tLessOp4Localized {
+    std::locale loc; // default locale
+    const std::collate<char>& coll = std::use_facet<std::collate<char> >(loc);
+    bool operator() (const std::string& a, const std::string& b) {
+        return coll.compare (a.data(), a.data() + a.size(), 
+                                     b.data(), b.data()+b.size()) < 0;
+    }
+} locStringComper;
+
 #if 0
 typedef auto_raii<gpointer, g_free> auto_gfree;
 typedef auto_raii<gpointer, g_object_unref> auto_gunref;
@@ -439,14 +434,6 @@ struct tLtUtf8 {
     }
 } lessThanUtf8;
 */
-struct tLessOp4Localized {
-    std::locale loc; // default locale
-    const std::collate<char>& coll = std::use_facet<std::collate<char> >(loc);
-    bool operator() (const std::string& a, const std::string& b) {
-        return coll.compare (a.data(), a.data() + a.size(), 
-                                     b.data(), b.data()+b.size()) < 0;
-    }
-} locStringComper;
 
 class tDesktopInfo;
 typedef YVec<const gchar*> tCharVec;
@@ -1658,7 +1645,7 @@ int main(int argc, char **argv) {
 #ifdef DEBUG
             cerr << "reading: " << fPath << endl;
 #endif
-            auto df = DesktopFile::load(fPath, shortLang);
+            auto df = DesktopFile::load_visible(fPath, shortLang);
             if (df)
                 root.sink_in(df);
         },
@@ -1729,7 +1716,7 @@ void tMenuNode::print(std::ostream &prt_strm, const function<lint_ptr<DesktopFil
         
         indent_hint += "\t";
         m.second.print(prt_strm, menuDecoResolver);
-        indent_hint.erase(indent_hint.size()-1);
+        indent_hint.pop_back();
 
         prt_strm << indent_hint << "}\n";
     }
