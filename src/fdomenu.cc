@@ -12,47 +12,49 @@
  *  2015/02/05: Eduard Bloch <edi@gmx.de>
  *  - initial version
  *  2018/08:
- *  - overhauled program design and menu construction code, added sub-category handling
+ *  - overhauled program design and menu construction code, added sub-category
+ * handling
  */
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
 
-#include "config.h"
 #include "base.h"
-//#include "sysdep.h"
-#include "intl.h"
+#include "config.h"
+// #include "sysdep.h"
 #include "appnames.h"
+#include "intl.h"
 #include "ylocale.h"
 
+#include <cstring>
 #include <stack>
 #include <string>
-#include <cstring>
 // does not matter, string from C++11 is enough
-//#include <string_view>
+// #include <string_view>
 #include <algorithm>
+#include <array>
+#include <fstream>
+#include <iostream>
+#include <locale>
+#include <map>
+#include <memory>
+#include <regex>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
-#include <map>
-#include <set>
-#include <memory>
-#include <array>
-#include <locale>
 #include <vector>
-#include <fstream>
-#include <regex>
-#include <iostream>
 
 using namespace std;
 
 #include "fdospecgen.h"
 
-char const* ApplicationName;
+char const *ApplicationName;
 
 /*
-* Certain parts borrowed from apt-cacher-ng by its autor, either from older branches (C++11 compatible) or development branch.
-*/
+ * Certain parts borrowed from apt-cacher-ng by its autor, either from older
+ * branches (C++11 compatible) or development branch.
+ */
 #if 0
 constexpr unsigned int str2int(const char* str, int h = 0)
 {
@@ -84,28 +86,29 @@ inline void trimBack(std::string &s, const string_view junk=SPACECHARS)
 #define LEN_AND_CSTR(sz) sizeof(sz) - 1, sz
 #endif
 
-#define startsWith(where, what) (0==(where).compare(0, (what).size(), (what)))
-#define startsWithSz(where, what) (0==(where).compare(0, sizeof((what))-1, (what)))
-#define endsWith(where, what) ((where).size()>=(what).size() && \
-                0==(where).compare((where).size()-(what).size(), (what).size(), (what)))
-#define endsWithSzAr(where, what) ((where).size()>=(sizeof((what))-1) && \
-		0==(where).compare((where).size()-(sizeof((what))-1), (sizeof((what))-1), (what)))
+#define startsWith(where, what) (0 == (where).compare(0, (what).size(), (what)))
+#define startsWithSz(where, what)                                              \
+    (0 == (where).compare(0, sizeof((what)) - 1, (what)))
+#define endsWith(where, what)                                                  \
+    ((where).size() >= (what).size() &&                                        \
+     0 == (where).compare((where).size() - (what).size(), (what).size(),       \
+                          (what)))
+#define endsWithSzAr(where, what)                                              \
+    ((where).size() >= (sizeof((what)) - 1) &&                                 \
+     0 == (where).compare((where).size() - (sizeof((what)) - 1),               \
+                          (sizeof((what)) - 1), (what)))
 
 /**
  * Basic base implementation of a reference-counted class
  */
-struct tLintRefcounted
-{
-private:
-	size_t m_nRefCount = 0;
-public:
-	inline void __inc_ref() noexcept
-	{
-		m_nRefCount++;
-	}
-    inline void __dec_ref()
-    {
-        if(--m_nRefCount == 0)
+struct tLintRefcounted {
+  private:
+    size_t m_nRefCount = 0;
+
+  public:
+    inline void __inc_ref() noexcept { m_nRefCount++; }
+    inline void __dec_ref() {
+        if (--m_nRefCount == 0)
             delete this;
     }
     virtual ~tLintRefcounted() {}
@@ -115,156 +118,126 @@ public:
 /**
  * Lightweight intrusive smart pointer with ordinary reference counting
  */
-template<class T>
-class lint_ptr
-{
-	T * m_ptr = nullptr;
-public:
-	explicit lint_ptr()
-	{
-	}
-	/**
-	 * @brief lint_ptr Captures the pointer and ensures that it's released when the refcount goes to zero, unless initialyTakeRef is set to false.
-	 * If initialyTakeRef is false, the operation is asymmetric, i.e. one extra __dec_ref operation will happen in the end.
-	 *
-	 * @param rawPtr
-	 * @param initialyTakeRef
-	 */
-	explicit lint_ptr(T *rawPtr, bool initialyTakeRef = true) :
-		m_ptr(rawPtr)
-	{
-		if(rawPtr && initialyTakeRef)
-			rawPtr->__inc_ref();
-	}
-	T* construct()
-	{
-		reset(new T);
-		return m_ptr;
-	}
-	lint_ptr(const ::lint_ptr<T> & orig) :
-			m_ptr(orig.m_ptr)
-	{
-		if(!m_ptr) return;
-		m_ptr->__inc_ref();
-	}
-	lint_ptr(::lint_ptr<T> && orig)
-	{
-		if (this == &orig)
-			return;
-		m_ptr = orig.m_ptr;
-		orig.m_ptr = nullptr;
-	}
-	inline ~lint_ptr()
-	{
-		if(!m_ptr) return;
-		m_ptr->__dec_ref();
-	}
-	T* get() const
-	{
-		return m_ptr;
-	}
-	bool operator==(const T* raw) const
-	{
-		return get() == raw;
-	}
-	inline void reset(T *rawPtr) noexcept
-	{
-		if(rawPtr == m_ptr) // heh?
-			return;
-		reset();
-		m_ptr = rawPtr;
-		if(rawPtr)
-			rawPtr->__inc_ref();
-	}
-	inline void swap(lint_ptr<T>& other)
-	{
-		std::swap(m_ptr, other.m_ptr);
-	}
-	inline void reset() noexcept
-	{
-		if(m_ptr)
-			m_ptr->__dec_ref();
-		m_ptr = nullptr;
-	}
-	lint_ptr<T>& operator=(const lint_ptr<T> &other)
-	{
-		if(m_ptr == other.m_ptr)
-			return *this;
-		reset(other.m_ptr);
-		return *this;
-	}
-	lint_ptr<T>& operator=(lint_ptr<T> &&other)
-	{
-		if(m_ptr == other.m_ptr)
-			return *this;
+template <class T> class lint_ptr {
+    T *m_ptr = nullptr;
 
-		m_ptr = other.m_ptr;
-		other.m_ptr = nullptr;
-		return *this;
-	}
-	// pointer-like access options
-	explicit inline operator bool() const noexcept
-	{
-		return m_ptr;
-	}
-	inline T& operator*() const noexcept
-	{
-		return *m_ptr;
-	}
-	inline T* operator->() const noexcept
-	{
-		return m_ptr;
-	}
-	// pointer-like access options
-	inline bool operator<(const lint_ptr<T> &vs) const noexcept
-	{
-		return m_ptr < vs.m_ptr;
-	}
-	// pointer-like access options
-	inline bool operator==(const lint_ptr<T> &vs) const noexcept
-	{
-		return m_ptr == vs.m_ptr;
-	}
-	/**
-	 * @brief release returns the pointer and makes this invalid while keeping the refcount
-	 * @return Raw pointer
-	 */
-	T* release() noexcept
-	{
-		auto ret = m_ptr;
-		m_ptr = nullptr;
-		return ret;
-	}
+  public:
+    explicit lint_ptr() {}
+    /**
+     * @brief lint_ptr Captures the pointer and ensures that it's released when
+     * the refcount goes to zero, unless initialyTakeRef is set to false. If
+     * initialyTakeRef is false, the operation is asymmetric, i.e. one extra
+     * __dec_ref operation will happen in the end.
+     *
+     * @param rawPtr
+     * @param initialyTakeRef
+     */
+    explicit lint_ptr(T *rawPtr, bool initialyTakeRef = true) : m_ptr(rawPtr) {
+        if (rawPtr && initialyTakeRef)
+            rawPtr->__inc_ref();
+    }
+    T *construct() {
+        reset(new T);
+        return m_ptr;
+    }
+    lint_ptr(const ::lint_ptr<T> &orig) : m_ptr(orig.m_ptr) {
+        if (!m_ptr)
+            return;
+        m_ptr->__inc_ref();
+    }
+    lint_ptr(::lint_ptr<T> &&orig) {
+        if (this == &orig)
+            return;
+        m_ptr = orig.m_ptr;
+        orig.m_ptr = nullptr;
+    }
+    inline ~lint_ptr() {
+        if (!m_ptr)
+            return;
+        m_ptr->__dec_ref();
+    }
+    T *get() const { return m_ptr; }
+    bool operator==(const T *raw) const { return get() == raw; }
+    inline void reset(T *rawPtr) noexcept {
+        if (rawPtr == m_ptr) // heh?
+            return;
+        reset();
+        m_ptr = rawPtr;
+        if (rawPtr)
+            rawPtr->__inc_ref();
+    }
+    inline void swap(lint_ptr<T> &other) { std::swap(m_ptr, other.m_ptr); }
+    inline void reset() noexcept {
+        if (m_ptr)
+            m_ptr->__dec_ref();
+        m_ptr = nullptr;
+    }
+    lint_ptr<T> &operator=(const lint_ptr<T> &other) {
+        if (m_ptr == other.m_ptr)
+            return *this;
+        reset(other.m_ptr);
+        return *this;
+    }
+    lint_ptr<T> &operator=(lint_ptr<T> &&other) {
+        if (m_ptr == other.m_ptr)
+            return *this;
+
+        m_ptr = other.m_ptr;
+        other.m_ptr = nullptr;
+        return *this;
+    }
+    // pointer-like access options
+    explicit inline operator bool() const noexcept { return m_ptr; }
+    inline T &operator*() const noexcept { return *m_ptr; }
+    inline T *operator->() const noexcept { return m_ptr; }
+    // pointer-like access options
+    inline bool operator<(const lint_ptr<T> &vs) const noexcept {
+        return m_ptr < vs.m_ptr;
+    }
+    // pointer-like access options
+    inline bool operator==(const lint_ptr<T> &vs) const noexcept {
+        return m_ptr == vs.m_ptr;
+    }
+    /**
+     * @brief release returns the pointer and makes this invalid while keeping
+     * the refcount
+     * @return Raw pointer
+     */
+    T *release() noexcept {
+        auto ret = m_ptr;
+        m_ptr = nullptr;
+        return ret;
+    }
 };
 
-
 /*!
- * \brief Simple and convenient split function, outputs resulting tokens into a string vector.
- * Operates on user-provided vector, with or without purging the previous contents.
+ * \brief Simple and convenient split function, outputs resulting tokens into a
+ * string vector. Operates on user-provided vector, with or without purging the
+ * previous contents.
  */
-vector<string> & Tokenize(const string & in, const char *sep,
-		vector<string> & inOutVec, bool bAppend = false, std::string::size_type nStartOffset = 0)
-{
-	if(!bAppend)
-		inOutVec.clear();
-	
-	auto pos=nStartOffset, pos2=nStartOffset, oob=in.length();
-	while (pos<oob)
-	{
-		pos=in.find_first_not_of(sep, pos);
-		if (pos==string::npos) // no more tokens
-			break;
-		pos2=in.find_first_of(sep, pos);
-		if (pos2==string::npos) // no more terminators, EOL
-			pos2=oob;
-		inOutVec.emplace_back(in.substr(pos, pos2-pos));
-		pos=pos2+1;
-	}
+vector<string> &Tokenize(const string &in, const char *sep,
+                         vector<string> &inOutVec, bool bAppend = false,
+                         std::string::size_type nStartOffset = 0) {
+    if (!bAppend)
+        inOutVec.clear();
+
+    auto pos = nStartOffset, pos2 = nStartOffset, oob = in.length();
+    while (pos < oob) {
+        pos = in.find_first_not_of(sep, pos);
+        if (pos == string::npos) // no more tokens
+            break;
+        pos2 = in.find_first_of(sep, pos);
+        if (pos2 == string::npos) // no more terminators, EOL
+            pos2 = oob;
+        inOutVec.emplace_back(in.substr(pos, pos2 - pos));
+        pos = pos2 + 1;
+    }
     return inOutVec;
 }
 
-
-auto line_matcher = std::regex("^\\s*(Terminal|Type|Name|Exec|Icon|Categories)(\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$", std::regex_constants::ECMAScript);
+auto line_matcher = std::regex("^\\s*(Terminal|Type|Name|Exec|Icon|Categories)("
+                               "\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
+                               std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true;
@@ -272,70 +245,78 @@ struct DesktopFile : public tLintRefcounted {
     vector<string> Categories;
 
     /// Translate with built-in l10n if needed
-    string& GetTranslatedName() {
+    string &GetTranslatedName() {
         if (NameLoc.empty()) {
             NameLoc = gettext(Name.c_str());
         }
         return NameLoc;
     }
 
+    string GetCommand() {
+        #warning XXX: Find simple solution for terminal calling and launching with format strings
+        return Exec;
+    }
     DesktopFile(string filePath, const string &lang) {
+        //cout << "filterlang: " << lang <<endl;
         std::ifstream dfile;
         dfile.open(filePath);
         string line;
         std::smatch m;
         while (dfile) {
-                line.clear();
-                std::getline(dfile, line);
-                if (line.empty()) {
-                    if (dfile.eof())
-                        break;
-                    continue;
-                }
-                std::regex_search(line, m, line_matcher);
-                if (m.empty())
-                    continue;
-                if (m[3].matched && m[3].compare(lang))
-                    continue;
-                //for(auto x: m) cout << x << " - ";
-                //cout << " = " << m.size() << endl;
+            line.clear();
+            std::getline(dfile, line);
+            if (line.empty()) {
+                if (dfile.eof())
+                    break;
+                continue;
+            }
+            std::regex_search(line, m, line_matcher);
+            if (m.empty())
+                continue;
+            if (m[3].matched && m[3].compare(lang))
+                continue;
+            
+            //for(auto x: m) cout << x << " - "; cout << " = " << m.size() << endl;
 
-                if (m[1] == "Terminal")
-                    Terminal = m[4].compare("true") == 0;
-                else if (m[1] == "Icon")
-                    Icon = m[4];
-                else if (m[1] == "Categories") {
-                    Tokenize(m[4], ";", Categories);
-                }
-                else if (m[1] == "Exec") {
-                    Exec = m[4];
-                }
-                else if (m[1] == "Type") {
-                    if (m[4] == "Application")
-                        IsApp = true;
-                    else if (m[4] == "Directory")
-                        IsApp = false;
-                    else continue;
-                }
-                else { // must be name
-                    if (m[3].matched)
-                        NameLoc = m[4];
-                    else
-                        Name = m[4];
-                }
+            if (m[1] == "Terminal")
+                Terminal = m[4].compare("true") == 0;
+            else if (m[1] == "Icon")
+                Icon = m[4];
+            else if (m[1] == "Categories") {
+                Tokenize(m[4], ";", Categories);
+            } else if (m[1] == "Exec") {
+                Exec = m[4];
+            } else if (m[1] == "Type") {
+                if (m[4] == "Application")
+                    IsApp = true;
+                else if (m[4] == "Directory")
+                    IsApp = false;
+                else
+                    continue;
+            } else { // must be name
+                //cerr << "wtf? " << m[3].matched << "," << m[4] << endl;
+                if (m[3].matched)
+                    NameLoc = m[4];
+                else
+                    Name = m[4];
+            }
 
-
-                //cout << m.size() << endl;
-                //cout << m[0] << " - " << m[1] << " - " << m[2] << " - " << m[3] <<endl;
-                
-                #if 0
+#if 0
                 trimFront(line);
                 if (line[0] == '#' || line[0] == '[')
                     continue;
                 
                 unsigned matchlen = 0;
-                #define match(key) { if (startsWithSz(line, key)) {matchlen = sizeof(key) - 1;}}
-                #define find_val_or_continue() auto p = line.find_first_not_of(KVJUNK, matchlen); if (p == string::npos) continue;
+#define match(key)                                                             \
+    {                                                                          \
+        if (startsWithSz(line, key)) {                                         \
+            matchlen = sizeof(key) - 1;                                        \
+        }                                                                      \
+    }
+#define find_val_or_continue()                                                 \
+    auto p = line.find_first_not_of(KVJUNK, matchlen);                         \
+    if (p == string::npos)                                                     \
+        continue;
                 match("Terminal")
                 if (matchlen) {
                     find_val_or_continue()
@@ -351,8 +332,14 @@ struct DesktopFile : public tLintRefcounted {
                         IsApp = true;
                     continue;
                 }
-                
-                #define grab(x, y) match(x); if (matchlen) { find_val_or_continue(); y = line.erase(p); continue; }
+
+#define grab(x, y)                                                             \
+    match(x);                                                                  \
+    if (matchlen) {                                                            \
+        find_val_or_continue();                                                \
+        y = line.erase(p);                                                     \
+        continue;                                                              \
+    }
                 grab("Categories", Categories)
                 grab("Icon", Icon)
                 grab("Exec", Exec)
@@ -361,26 +348,21 @@ struct DesktopFile : public tLintRefcounted {
                 if (matchlen) {
                     line.erase(matchlen);
                     trimFront(line);
-                    #error murks
+#error murks
                 }
-                #endif
+#endif
         }
     }
 
-    static lint_ptr<DesktopFile> load(const string& path, const string& lang) {
-    try
-    {
-        auto ret = new DesktopFile(path, lang);
-        return lint_ptr<DesktopFile>(ret);
+    static lint_ptr<DesktopFile> load(const string &path, const string &lang) {
+        try {
+            auto ret = new DesktopFile(path, lang);
+            return lint_ptr<DesktopFile>(ret);
+        } catch (const std::exception &) {
+            return lint_ptr<DesktopFile>();
+        }
     }
-    catch(const std::exception&)
-    {
-        return lint_ptr<DesktopFile>();
-    }
-}
-
 };
-
 
 #if 0
 
@@ -389,12 +371,12 @@ struct DesktopFile : public tLintRefcounted {
 typedef const char* LPCSTR;
 #endif
 
+#include "ycollections.h"
+#include <gio/gdesktopappinfo.h>
 #include <glib.h>
-#include <gmodule.h>
 #include <glib/gprintf.h>
 #include <glib/gstdio.h>
-#include <gio/gdesktopappinfo.h>
-#include "ycollections.h"
+#include <gmodule.h>
 #endif
 
 // program options
@@ -411,29 +393,25 @@ bool match_in_section_only = false;
 auto substr_filter = "";
 auto substr_filter_nocase = "";
 auto flat_sep = " / ";
-char* terminal_command;
-char* terminal_option;
+char *terminal_command;
+char *terminal_option;
 
-template<typename T, typename C, C TFreeFunc(T)>
-struct auto_raii {
+template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
     T m_p;
-    auto_raii(T xp) :
-            m_p(xp) {
-    }
+    auto_raii(T xp) : m_p(xp) {}
     ~auto_raii() {
         if (m_p)
             TFreeFunc(m_p);
     }
 };
 
-
-const char* rtls[] = {
-    "ar",   // arabic
-    "fa",   // farsi
-    "he",   // hebrew
-    "ps",   // pashto
-    "sd",   // sindhi
-    "ur",   // urdu
+const char *rtls[] = {
+    "ar", // arabic
+    "fa", // farsi
+    "he", // hebrew
+    "ps", // pashto
+    "sd", // sindhi
+    "ur", // urdu
 };
 
 #if 0
@@ -558,12 +536,12 @@ public:
         auto use_direct_call = ret.find_first_of(":%") == string::npos;
 
         auto bForTerminal = false;
-    #if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
+#if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
         bForTerminal = g_desktop_app_info_get_boolean(pInfo, "Terminal");
-    #else
+#else
         // cannot check terminal property, callback is as safe bet
         use_direct_call = false;
-    #endif
+#endif
 
         if (use_direct_call && !bForTerminal) // best case
             return ret;
@@ -745,7 +723,7 @@ public:
 
 tListMeta* lookup_category(const std::string& key)
 {
-            #ifdef OLD_IMP
+#ifdef OLD_IMP
 
     auto it = meta_lookup_data.find(key);
     if (it == meta_lookup_data.end())
@@ -758,9 +736,9 @@ tListMeta* lookup_category(const std::string& key)
     //printf("Got title? %s -> %s\n", ret->key, ret->title);
 #endif
     return ret;
-    #else
+#else
 return nullptr;
-    #endif
+#endif
 }
 
 std::stack<std::string> flat_pfxes;
@@ -1038,7 +1016,7 @@ tListMeta::tListMeta(const tDesktopInfo& dinfo) {
     title = key = Elvis(dinfo.get_name(), "<UNKNOWN>");
 }
 
-        #ifdef OLD_IMP
+#ifdef OLD_IMP
 
 t_menu_node root(tListMeta::make_dummy());
 #endif
@@ -1095,12 +1073,12 @@ struct t_menu_node_app : t_menu_node
         }
 
         bool bForTerminal = false;
-    #if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
+#if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
         bForTerminal = g_desktop_app_info_get_boolean(dinfo.pInfo, "Terminal");
-    #else
+#else
         // cannot check terminal property, callback is as safe bet
         bUseSimplifiedCmd = false;
-    #endif
+#endif
 
         if (bUseSimplifiedCmd && !bForTerminal) // best case
             progCmd = cmdMod;
@@ -1186,7 +1164,7 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
     if (!pCat)
         return;
 
-        #ifdef OLD_IMP
+#ifdef OLD_IMP
     if (pCat->load_state_icon < tListMeta::SYSTEM_ICON) {
         LPCSTR icon_name = g_key_file_get_string (kf, "Desktop Entry",
                                                        "Icon", nullptr);
@@ -1223,7 +1201,7 @@ void pickup_folder_info(LPCSTR szDesktopFile) {
             t->load_state_icon = tListMeta::FALLBACK_ICON;
         }
     }
-                #endif
+#endif
 
 }
 
@@ -1282,7 +1260,8 @@ bool launch(LPCSTR dfile, char** argv, int argc) {
     GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename(dfile);
     if (!pInfo)
         return false;
-#if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't help
+#if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't
+      // help
     if (argc > 0)
     {
         GList* parms = NULL;
@@ -1336,7 +1315,6 @@ static void init() {
             break;
 }
 
-
 #ifdef DEBUG_xxx
 void dbgPrint(const gchar *msg)
 {
@@ -1347,7 +1325,7 @@ void dbgPrint(const gchar *msg)
 int main(int argc, char** argv) {
     ApplicationName = my_basename(argv[0]);
 
-#if !GLIB_CHECK_VERSION(2,36,0)
+#if !GLIB_CHECK_VERSION(2, 36, 0)
     g_type_init();
 #endif
 
@@ -1465,104 +1443,118 @@ int main(int argc, char** argv) {
 }
 #else
 
-#include <sys/types.h>
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 
-
-typedef void (*tFuncInsertInfo)(const string& absPath, intptr_t any);
+typedef void (*tFuncInsertInfo)(const string &absPath, intptr_t any);
 
 class FsScan {
-    private:
+  private:
     std::set<std::pair<ino_t, dev_t>> reclog;
-    function<void(const string&)> cb;
+    function<void(const string &)> cb;
     string sFileNameExtFilter;
 
-    public:
+  public:
     FsScan(decltype(FsScan::cb) cb, const string &sFileNameExtFilter = "") {
         this->cb = cb;
         this->sFileNameExtFilter = sFileNameExtFilter;
     }
-    void scan(const string &sStartdir) {
-        proc_dir_rec(sStartdir);
-    }
-private:
-void proc_dir_rec(const string &path) {
-    auto pdir = opendir(path.c_str());
-    if (!pdir)
-        return;
-    auto_raii<DIR*, int, closedir> dircloser(pdir);
-    auto fddir(dirfd(pdir));
+    void scan(const string &sStartdir) { proc_dir_rec(sStartdir); }
 
-    //const gchar *szFilename(nullptr);
-    dirent *pent;
-    struct stat stbuf;
+  private:
+    void proc_dir_rec(const string &path) {
+        auto pdir = opendir(path.c_str());
+        if (!pdir)
+            return;
+        auto_raii<DIR *, int, closedir> dircloser(pdir);
+        auto fddir(dirfd(pdir));
 
-    while (nullptr != (pent = readdir(pdir))) {
-        if (pent->d_name[0] == '.')
-            continue;
-        pent->d_name[255] = 0;
-        string fname(pent->d_name);
-        if (!sFileNameExtFilter.empty() && !endsWith(fname, sFileNameExtFilter))
-            continue;
-        if (fstatat(fddir, fname.c_str(), &stbuf, 0))
-            continue;
-        if (S_ISDIR(stbuf.st_mode)) {
-            // link loop detection
-            auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
-            auto hint = reclog.insert(prev);
-            if (hint.second) { // we added a new one, otherwise do not descend
-                proc_dir_rec(path + "/" + fname);
-                reclog.erase(hint.first);
+        // const gchar *szFilename(nullptr);
+        dirent *pent;
+        struct stat stbuf;
+
+        while (nullptr != (pent = readdir(pdir))) {
+            if (pent->d_name[0] == '.')
+                continue;
+            pent->d_name[255] = 0;
+            string fname(pent->d_name);
+            if (!sFileNameExtFilter.empty() &&
+                !endsWith(fname, sFileNameExtFilter))
+                continue;
+            if (fstatat(fddir, fname.c_str(), &stbuf, 0))
+                continue;
+            if (S_ISDIR(stbuf.st_mode)) {
+                // link loop detection
+                auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
+                auto hint = reclog.insert(prev);
+                if (hint.second) { // we added a new one, otherwise do not
+                                   // descend
+                    proc_dir_rec(path + "/" + fname);
+                    reclog.erase(hint.first);
+                }
             }
+
+            if (!S_ISREG(stbuf.st_mode))
+                continue;
+
+            cb(path + "/" + fname);
         }
-
-        if (!S_ISREG(stbuf.st_mode))
-            continue;
-
-        cb(path + "/" + fname);
     }
-}
-
 };
 
 static void help(bool to_stderr, int xit) {
-    (to_stderr ? cerr : cout) <<
-            "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
-            "OPTIONS:\n"
-            "-g, --generic\tInclude GenericName in parentheses of progs\n"
-            "-o, --output=FILE\tWrite the output to FILE\n"
-            "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
-            "--seps  \tPrint separators before and after contents\n"
-            "--sep-before\tPrint separator before the contents\n"
-            "--sep-after\tPrint separator only after contents\n"
-            "--no-sep-others\tNo separation of the 'Others' menu point\n"
-            "--no-sub-cats\tNo additional subcategories, just one level of menues\n"
-            "--flat\tDisplay all apps in one layer with category hints\n"
-            "--flat-sep STR\tCategory separator string used in flat mode (default: ' / ')\n"
-            "--match PAT\tDisplay only apps with title containing PAT\n"
-            "--imatch PAT\tLike --match but ignores the letter case\n"
-            "--match-sec\tApply --match or --imatch to apps AND sections\n"
-            "--match-osec\tApply --match or --imatch only to sections\n"
-            "FILENAME\tAny .desktop file to launch its application Exec command\n"
-            "This program also listens to environment variables defined by\n"
-            "the XDG Base Directory Specification:\n"
-            "XDG_DATA_HOME=" << Elvis(getenv("XDG_DATA_HOME"), (char*)"") << "\n"
-            "XDG_DATA_DIRS=" << Elvis(getenv("XDG_DATA_DIRS"), (char*)"") << endl;
+    (to_stderr ? cerr : cout)
+        << "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+           "OPTIONS:\n"
+           "-g, --generic\tInclude GenericName in parentheses of progs\n"
+           "-o, --output=FILE\tWrite the output to FILE\n"
+           "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+           "--seps  \tPrint separators before and after contents\n"
+           "--sep-before\tPrint separator before the contents\n"
+           "--sep-after\tPrint separator only after contents\n"
+           "--no-sep-others\tNo separation of the 'Others' menu point\n"
+           "--no-sub-cats\tNo additional subcategories, just one level of "
+           "menues\n"
+           "--flat\tDisplay all apps in one layer with category hints\n"
+           "--flat-sep STR\tCategory separator string used in flat mode "
+           "(default: ' / ')\n"
+           "--match PAT\tDisplay only apps with title containing PAT\n"
+           "--imatch PAT\tLike --match but ignores the letter case\n"
+           "--match-sec\tApply --match or --imatch to apps AND sections\n"
+           "--match-osec\tApply --match or --imatch only to sections\n"
+           "FILENAME\tAny .desktop file to launch its application Exec "
+           "command\n"
+           "This program also listens to environment variables defined by\n"
+           "the XDG Base Directory Specification:\n"
+           "XDG_DATA_HOME="
+        << Elvis(getenv("XDG_DATA_HOME"), (char *)"")
+        << "\n"
+           "XDG_DATA_DIRS="
+        << Elvis(getenv("XDG_DATA_DIRS"), (char *)"") << endl;
     exit(xit);
 }
 
+/**
+ * The own menu deco info is not part of this class.
+ * It's fetched on-demand with a supplied resolver function.
+ */
 struct tMenuNode {
     void sink_in(lint_ptr<DesktopFile> df);
 
-    map<string,tMenuNode> submenues;
-    map<string,tMenuNode> apps;
-    unordered_set<string> dont_add_mark;
+    void print(std::ostream &prt_strm, const function<lint_ptr<DesktopFile>(const string&)> &menuDecoResolver);
 
+    void collect_menu_names(const function<void(const string&)> &callback);
+
+protected:
+    map<string, tMenuNode> submenues;
+    // using a map instead of set+logics adds a minor memory overhead but allows simple duplicate detection (adding user's version first)
+    map<string, DesktopFile> apps;
+    unordered_set<string> dont_add_mark;
 };
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
     // basic framework and environment initialization
     ApplicationName = my_basename(argv[0]);
@@ -1571,11 +1563,10 @@ int main(int argc, char** argv) {
     setlocale(LC_ALL, "");
 
     auto msglang = YLocale::getCheckedExplicitLocale(false);
-    right_to_left = msglang && std::any_of(rtls, rtls + ACOUNT(rtls),
-        [&](const char* rtl) {
+    right_to_left =
+        msglang && std::any_of(rtls, rtls + ACOUNT(rtls), [&](const char *rtl) {
             return rtl[0] == msglang[0] && rtl[1] == msglang[1];
-        }
-    );
+        });
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
@@ -1601,17 +1592,16 @@ int main(int argc, char** argv) {
     if (sysshare && !*sysshare)
         Tokenize(sysshare, ":", sharedirs, true);
     else
-        sharedirs.push_back("/usr/local/share"), sharedirs.push_back("/usr/share");
+        sharedirs.push_back("/usr/local/share"),
+            sharedirs.push_back("/usr/share");
 
     for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
-            cout << "icewm-menu-fdo "
-                    VERSION
-                    ", Copyright 2015-2024 Eduard Bloch, 2017-2023 Bert Gijsbers."
-                <<endl;
+            cout << "icewm-menu-fdo " VERSION ", Copyright 2015-2024 Eduard "
+                                              "Bloch, 2017-2023 Bert Gijsbers."
+                 << endl;
             exit(0);
-        }
-        else if (is_copying_switch(*pArg))
+        } else if (is_copying_switch(*pArg))
             print_copying_exit();
         else if (is_help_switch(*pArg))
             help(false, EXIT_SUCCESS);
@@ -1641,14 +1631,12 @@ int main(int argc, char** argv) {
                 else if (*value == '$')
                     value = expand = dollar_expansion(value);
                 if (nonempty(value)) {
-                    if (freopen(value, "w", stdout) == nullptr) {
+                    if (freopen(value, "w", stdout) == nullptr)
                         fflush(stdout);
-                    }
                 }
                 if (expand)
                     delete[] expand;
-            }
-            else if (GetArgument(value, "m", "match", pArg, argv + argc))
+            } else if (GetArgument(value, "m", "match", pArg, argv + argc))
                 substr_filter = value;
             else if (GetArgument(value, "M", "imatch", pArg, argv + argc))
                 substr_filter_nocase = value;
@@ -1665,20 +1653,24 @@ int main(int argc, char** argv) {
 
     tMenuNode root;
 
-    auto desktop_loader = FsScan([&](const string& fPath) {
-            #ifdef DEBUG
-            cerr << "reading: " << fPath <<endl;
-            #endif
-            auto df = DesktopFile::load(fPath, msglang);
+    auto desktop_loader = FsScan(
+        [&](const string &fPath) {
+#ifdef DEBUG
+            cerr << "reading: " << fPath << endl;
+#endif
+            auto df = DesktopFile::load(fPath, shortLang);
             if (df)
                 root.sink_in(df);
-        }, ".desktop");
-    for(const auto& sdir: sharedirs) {
-        #ifdef DEBUG
+        },
+        ".desktop");
+    for (const auto &sdir : sharedirs) {
+#ifdef DEBUG
         cerr << "checkdir: " << sdir << endl;
-        #endif
+#endif
         desktop_loader.scan(sdir + "/applications");
     }
+
+    root.print(cout, [](const string&) {return lint_ptr<DesktopFile>();});
 
     /*
     cout << "lang: " << shortLang << endl;
@@ -1693,38 +1685,59 @@ int main(int argc, char** argv) {
 }
 #endif
 
-void tMenuNode::sink_in(lint_ptr<DesktopFile> pDf)
-{
-    auto& df=*pDf;
+void tMenuNode::sink_in(lint_ptr<DesktopFile> pDf) {
+    auto &df = *pDf;
     dont_add_mark.clear();
     bool bFoundCategories = false;
 
-    auto add_sub_menues = [&](const t_menu_path& mp) {
-        tMenuNode* cur = this;
-            for (auto it = std::rbegin(mp); it != std::rend(mp); ++it) {
-            cerr << "adding submenu: " <<*it <<endl;
+    auto add_sub_menues = [&](const t_menu_path &mp) {
+        tMenuNode *cur = this;
+        for (auto it = std::rbegin(mp); it != std::rend(mp); ++it) {
+            cerr << "adding submenu: " << *it << endl;
             cur = &cur->submenues[*it];
         }
         return cur;
     };
 
-    for(const auto& cat: df.Categories) {
+    for (const auto &cat : df.Categories) {
         cerr << "where does it fit? " << cat << endl;
-        t_menu_path refval = {df.Name.c_str()};
-        static auto comper = [](const t_menu_path& a, const t_menu_path& b) {
-            cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() << endl;
-             return strcmp(*a.begin(), *b.begin()) < 0;
-              };
-    for(const auto& w: valid_paths) {
-        auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
-        for(auto it = rng.first; it != rng.second; ++it) {
-            auto&tgt = * add_sub_menues(*it);
+        t_menu_path refval = {cat.c_str()};
+        static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
+            // cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() <<
+            // endl;
+            return strcmp(*a.begin(), *b.begin()) < 0;
+        };
+        for (const auto &w : valid_paths) {
+            // cerr << "try paths: " << (uintptr_t)&w << endl;
+            auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
+            for (auto it = rng.first; it != rng.second; ++it) {
+                auto &tgt = *add_sub_menues(*it);
+                tgt.apps.emplace(df.Name, df);
+            }
         }
+    }
+}
 
+static string ICON_FOLDER("folder");
+string indent_hint("");
+
+void tMenuNode::print(std::ostream &prt_strm, const function<lint_ptr<DesktopFile>(const string&)> &menuDecoResolver) {
+    for(auto& m: this->submenues) {
+        auto& name = m.first;
+        auto deco = menuDecoResolver(name);
+        prt_strm << indent_hint << "menu \"" << (deco ? deco->GetTranslatedName() : name) << "\" " << (deco ? deco->Icon : ICON_FOLDER) << " {\n";
+        
+        indent_hint += "\t";
+        m.second.print(prt_strm, menuDecoResolver);
+        indent_hint.erase(indent_hint.size()-1);
+
+        prt_strm << indent_hint << "}\n";
+    }
+    for(auto& p: this->apps) {
+        auto& pi=p.second;
+        prt_strm << indent_hint << "prog \"" << pi.GetTranslatedName() << "\" " << pi.Icon << " " << pi.GetCommand() << "\n";
     }
 
-    }
-    
 }
 
 // vim: set sw=4 ts=4 et:
