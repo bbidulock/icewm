@@ -504,7 +504,7 @@ static void help(bool to_stderr, int xit) {
 struct MenuNode {
     void sink_in(DesktopFilePtr df);
 
-    void print(std::ostream &prt_strm, const function<DesktopFilePtr(const string&)> &menuDecoResolver);
+    void print(std::ostream &prt_strm);
 
     //void collect_menu_names(const function<void(const string&)> &callback);
 
@@ -669,7 +669,7 @@ int main(int argc, char **argv) {
     }
 
 
-    root.print(cout, [](const string&) {return DesktopFilePtr();});
+    root.print(cout);
 
     return EXIT_SUCCESS;
 }
@@ -735,12 +735,12 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 static string ICON_FOLDER("folder");
 string indent_hint("");
 
-void MenuNode::print(std::ostream &prt_strm, const function<DesktopFilePtr(const string&)> &menuDecoResolver) {
+void MenuNode::print(std::ostream &prt_strm) {
     // translated name to icon and submenu (sorted by translated)
     map<string, std::pair<string,MenuNode*>, tLessOp4Localized> sorted;
     for(auto& m: this->submenues) {
         auto& name = m.first;
-        auto deco = menuDecoResolver(name);
+        auto& deco = m.second.deco;
         sorted[deco ? deco->GetTranslatedName() : name] = make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
     }
     for(auto& m: sorted) {
@@ -753,7 +753,7 @@ void MenuNode::print(std::ostream &prt_strm, const function<DesktopFilePtr(const
          << " {\n";
         
         indent_hint += "\t";
-        m.second.second->print(prt_strm, menuDecoResolver);
+        m.second.second->print(prt_strm);
         indent_hint.pop_back();
 
         prt_strm << indent_hint << "}\n";
