@@ -252,7 +252,8 @@ auto line_matcher = std::regex(
     std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
-    bool Terminal = false, IsApp = true, NoDisplay = false, CommandMassaged = false;
+    bool Terminal = false, IsApp = true, NoDisplay = false,
+         CommandMassaged = false;
     string Name, NameLoc, Exec, TryExec, Icon;
     vector<string> Categories;
 
@@ -264,7 +265,7 @@ struct DesktopFile : public tLintRefcounted {
         return NameLoc;
     }
 
-    const string& GetCommand() {
+    const string &GetCommand() {
 
         if (CommandMassaged)
             return Exec;
@@ -274,7 +275,7 @@ struct DesktopFile : public tLintRefcounted {
         if (Terminal && terminal_command) {
             Exec = string(terminal_command) + " -e " + Exec;
         }
-        
+
         // let's try whether the command line is toxic, expecting stuff from
         // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
         if (string::npos == Exec.find('%'))
@@ -282,7 +283,7 @@ struct DesktopFile : public tLintRefcounted {
         if (!TryExec.empty())
             return (Exec = TryExec); // copy over so we stick to it in case of
                                      // later calls
-        
+
         for (const auto &bad : {"%F", "%U", "%f", "%u"})
             replace_all(Exec, bad, "");
         replace_all(Exec, "%c", Name);
@@ -374,7 +375,6 @@ struct DesktopFile : public tLintRefcounted {
 };
 
 using DesktopFilePtr = lint_ptr<DesktopFile>;
-
 
 template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
     T m_p;
@@ -599,8 +599,7 @@ int main(int argc, char **argv) {
                 }
                 if (expand)
                     delete[] expand;
-            }
-            else if (GetArgument(value, "m", "match", pArg, argv + argc))
+            } else if (GetArgument(value, "m", "match", pArg, argv + argc))
                 substr_filter = value;
             else if (GetArgument(value, "M", "imatch", pArg, argv + argc))
                 substr_filter_nocase = value;
@@ -615,12 +614,13 @@ int main(int argc, char **argv) {
 
     auto shortLang = string(msglang ? msglang : "").substr(0, 2);
 
-    const char* terminals[] = { terminal_option, getenv("TERMINAL"), TERM,
-                                "urxvt", "alacritty", "roxterm", "xterm" };
+    const char *terminals[] = {terminal_option, getenv("TERMINAL"), TERM,
+                               "urxvt",         "alacritty",        "roxterm",
+                               "xterm"};
     for (auto term : terminals)
         if (term && (terminal_command = path_lookup(term)) != nullptr)
             break;
-    
+
     MenuNode root;
 
     auto desktop_loader = FsScan(
@@ -647,7 +647,8 @@ int main(int argc, char **argv) {
 
     auto dir_loader = FsScan(
         [&](const string &fPath) {
-            // XXX: Filter not working as intended, and probably pointless anyway because of the alternative checks, see below
+            // XXX: Filter not working as intended, and probably pointless
+            // anyway because of the alternative checks, see below
             auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
             if (!df)
                 return;
@@ -703,7 +704,8 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
         for (auto it = mp.end() - 1;; --it) {
 
             /*
-            #warning Insufficient, works only when the keywords have the "friendly" order
+            #warning Insufficient, works only when the keywords have the
+            "friendly" order
 
             auto wrong_one = cur->apps.find(pDf->Name);
             if (wrong_one != cur->apps.end() && wrong_one->second == pDf) {
@@ -745,6 +747,11 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
         };
         for (const auto &w : valid_paths) {
             // cerr << "try paths: " << (uintptr_t)&w << endl;
+
+            // ignore deeper paths, fallback to the main cats only
+            if (no_sub_cats && w.begin()->size() > 1)
+                continue;
+
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
                 auto &tgt = *add_sub_menues(*it);
