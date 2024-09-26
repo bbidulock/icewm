@@ -656,7 +656,11 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
-        for (auto it = std::rbegin(mp); it != std::rend(mp); ++it) {
+
+        // work around the lack of reverse iterator, can fixed in C++14 with std::rbegin() conversion
+        if(!mp.size())
+            return cur;
+        for (auto it = mp.end()-1; ; --it) {
 
 #warning Insufficient, works only when the keywords have the "friendly" order
             /*
@@ -681,6 +685,8 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 
             //cerr << "adding submenu: " << key << endl;
             //cur = &cur->submenues[key];
+            if (mp.begin() == it)
+                break;
         }
         return cur;
     };
