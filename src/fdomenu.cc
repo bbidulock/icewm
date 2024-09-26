@@ -45,12 +45,10 @@
 #include <unordered_set>
 #include <vector>
 
-
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-
 
 using namespace std;
 
@@ -212,7 +210,8 @@ vector<string> &Tokenize(const string &in, const char *sep,
     return inOutVec;
 }
 
-void replace_all(std::string& str, const std::string& from, const std::string& to) {
+void replace_all(std::string &str, const std::string &from,
+                 const std::string &to) {
     if (from.empty()) {
         return;
     }
@@ -224,9 +223,10 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
     }
 }
 
-auto line_matcher = std::regex("^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)("
-                               "\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
-                               std::regex_constants::ECMAScript);
+auto line_matcher = std::regex(
+    "^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)("
+    "\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
+    std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true, NoDisplay = false;
@@ -242,19 +242,22 @@ struct DesktopFile : public tLintRefcounted {
     }
 
     string GetCommand() {
-        // let's try whether the command line is toxic, expecting stuff from https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
+        // let's try whether the command line is toxic, expecting stuff from
+        // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
         if (string::npos == Exec.find('%'))
             return Exec;
         if (!TryExec.empty())
-            return (Exec = TryExec); // copy over so we stick to it in case of later calls
-        for(const auto& bad: {"%F", "%U", "%f", "%u"})
+            return (Exec = TryExec); // copy over so we stick to it in case of
+                                     // later calls
+        for (const auto &bad : {"%F", "%U", "%f", "%u"})
             replace_all(Exec, bad, "");
         replace_all(Exec, "%c", Name);
         replace_all(Exec, "%i", Icon);
         return Exec;
     }
-    DesktopFile(string filePath, const string &lang, const unordered_set<string>& allowed_names) {
-        //cout << "filterlang: " << lang <<endl;
+    DesktopFile(string filePath, const string &lang,
+                const unordered_set<string> &allowed_names) {
+        // cout << "filterlang: " << lang <<endl;
         std::ifstream dfile;
         dfile.open(filePath);
         string line;
@@ -271,8 +274,8 @@ struct DesktopFile : public tLintRefcounted {
             if (startsWithSz(line, "[Desktop ")) {
                 if (startsWithSz(line, "[Desktop Entry")) {
                     reading = true;
-                }
-                else if (reading) // finished with desktop entry contents, exit
+                } else if (reading) // finished with desktop entry contents,
+                                    // exit
                     break;
             }
             if (!reading)
@@ -283,8 +286,9 @@ struct DesktopFile : public tLintRefcounted {
                 continue;
             if (m[3].matched && m[3].compare(lang))
                 continue;
-            
-            //for(auto x: m) cout << x << " - "; cout << " = " << m.size() << endl;
+
+            // for(auto x: m) cout << x << " - "; cout << " = " << m.size() <<
+            // endl;
 
             if (m[1] == "Terminal")
                 Terminal = m[4].compare("true") == 0;
@@ -306,23 +310,24 @@ struct DesktopFile : public tLintRefcounted {
                 else
                     continue;
             } else { // must be name
-                //cerr << "wtf? " << m[3].matched << "," << m[4] << endl;
+                // cerr << "wtf? " << m[3].matched << "," << m[4] << endl;
                 if (m[3].matched)
                     NameLoc = m[4];
-                else
-                {
+                else {
                     Name = m[4];
                     // detect reading of a worthless desktop item ASAP
-                    if (!allowed_names.empty() && allowed_names.find(Name) != allowed_names.end())
+                    if (!allowed_names.empty() &&
+                        allowed_names.find(Name) != allowed_names.end())
                         break;
                 }
-                    
             }
         }
     }
 
-    static lint_ptr<DesktopFile> load_visible(const string &path, const string &lang, const unordered_set<string> &wanted_names = unordered_set<string>()) {
-        //cerr << "load_visiblie: " << path << endl;
+    static lint_ptr<DesktopFile> load_visible(
+        const string &path, const string &lang,
+        const unordered_set<string> &wanted_names = unordered_set<string>()) {
+        // cerr << "load_visiblie: " << path << endl;
         auto ret = lint_ptr<DesktopFile>();
         try {
             ret.reset(new DesktopFile(path, lang, wanted_names));
@@ -386,14 +391,12 @@ const char *rtls[] = {
     "ur", // urdu
 };
 
-
-
 struct tLessOp4Localized {
     std::locale loc; // default locale
-    const std::collate<char>& coll = std::use_facet<std::collate<char> >(loc);
-    bool operator() (const std::string& a, const std::string& b) {
-        return coll.compare (a.data(), a.data() + a.size(), 
-                                     b.data(), b.data()+b.size()) < 0;
+    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
+    bool operator()(const std::string &a, const std::string &b) {
+        return coll.compare(a.data(), a.data() + a.size(), b.data(),
+                            b.data() + b.size()) < 0;
     }
 } locStringComper;
 
@@ -430,9 +433,9 @@ class FsScan {
             if (pent->d_name[0] == '.')
                 continue;
             // XXX: this triggers a problem, don't do it for now
-            //cerr << "before: " << pent->d_name << endl;
-            //pent->d_name[0xff] = '\0';
-            //cerr << "after: " << pent->d_name << endl;
+            // cerr << "before: " << pent->d_name << endl;
+            // pent->d_name[0xff] = '\0';
+            // cerr << "after: " << pent->d_name << endl;
 
             string fname(pent->d_name);
 
@@ -455,7 +458,7 @@ class FsScan {
 
             if (!sFileNameExtFilter.empty() &&
                 !endsWith(fname, sFileNameExtFilter)) {
-                    
+
                 continue;
             }
 
@@ -505,17 +508,19 @@ struct MenuNode {
 
     void print(std::ostream &prt_strm);
 
-    //void collect_menu_names(const function<void(const string&)> &callback);
+    // void collect_menu_names(const function<void(const string&)> &callback);
 
     void fixup();
 
     map<string, MenuNode> submenues;
 
-    // using a map instead of set+logics adds a minor memory overhead but allows simple duplicate detection (adding user's version first)
+    // using a map instead of set+logics adds a minor memory overhead but allows
+    // simple duplicate detection (adding user's version first)
     unordered_map<string, DesktopFilePtr> apps;
-    //unordered_set<string> dont_add_mark;
+    // unordered_set<string> dont_add_mark;
 
-    static unordered_multimap<string, decltype(submenues)::iterator> menu_nodes_by_name;
+    static unordered_multimap<string, decltype(submenues)::iterator>
+        menu_nodes_by_name;
     DesktopFilePtr deco;
 };
 
@@ -565,7 +570,7 @@ int main(int argc, char **argv) {
     for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
             cout << "icewm-menu-fdo " VERSION ", Copyright 2015-2024 Eduard "
-                                              "Bloch, 2017-2023 Bert Gijsbers."
+                    "Bloch, 2017-2023 Bert Gijsbers."
                  << endl;
             exit(0);
         } else if (is_copying_switch(*pArg))
@@ -640,46 +645,46 @@ int main(int argc, char **argv) {
 
     root.fixup();
 
-/*
-    unordered_set<string> filter;
-    for(const auto& kv: root.menu_nodes_by_name)
-        filter.insert(kv.first);
-*/
+    /*
+        unordered_set<string> filter;
+        for(const auto& kv: root.menu_nodes_by_name)
+            filter.insert(kv.first);
+    */
 
-    auto dir_loader = FsScan([&](const string &fPath) {
-        #warning Filter apparently broken
-        auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
-        if (!df)
-            return;
-        
-        // get all menu nodes of that name
-        auto rng = root.menu_nodes_by_name.equal_range(df->Name);
-        for (auto it=rng.first; it != rng.second; ++it)
-        {
-            if (!it->second->second.deco)
-                            it->second->second.deco = df;
-        }
-        // No menus of that name? Try using the plain filename, some .directory files use the category as file name stem but differing in the Name attribute
-        if (rng.first == rng.second)
-        {
-            auto cpos = fPath.find_last_of("/");
-            auto mcatName = fPath.substr(cpos + 1, fPath.length()-cpos-11);
-            rng = root.menu_nodes_by_name.equal_range(mcatName);
-            cerr << "altname: " << mcatName <<endl;
+    auto dir_loader = FsScan(
+        [&](const string &fPath) {
+#warning Filter apparently broken
+            auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
+            if (!df)
+                return;
 
-            for (auto it=rng.first; it != rng.second; ++it)
-            {
+            // get all menu nodes of that name
+            auto rng = root.menu_nodes_by_name.equal_range(df->Name);
+            for (auto it = rng.first; it != rng.second; ++it) {
                 if (!it->second->second.deco)
-                                    it->second->second.deco = df;
+                    it->second->second.deco = df;
             }
-        }
-        
-    }, ".directory", false);
-    
+            // No menus of that name? Try using the plain filename, some
+            // .directory files use the category as file name stem but differing
+            // in the Name attribute
+            if (rng.first == rng.second) {
+                auto cpos = fPath.find_last_of("/");
+                auto mcatName =
+                    fPath.substr(cpos + 1, fPath.length() - cpos - 11);
+                rng = root.menu_nodes_by_name.equal_range(mcatName);
+                cerr << "altname: " << mcatName << endl;
+
+                for (auto it = rng.first; it != rng.second; ++it) {
+                    if (!it->second->second.deco)
+                        it->second->second.deco = df;
+                }
+            }
+        },
+        ".directory", false);
+
     for (const auto &sdir : sharedirs) {
         dir_loader.scan(sdir + "/desktop-directories");
     }
-
 
     root.print(cout);
 
@@ -691,10 +696,11 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
 
-        // work around the lack of reverse iterator, can fixed in C++14 with std::rbegin() conversion
-        if(!mp.size())
+        // work around the lack of reverse iterator, can fixed in C++14 with
+        // std::rbegin() conversion
+        if (!mp.size())
             return cur;
-        for (auto it = mp.end()-1; ; --it) {
+        for (auto it = mp.end() - 1;; --it) {
 
 #warning Insufficient, works only when the keywords have the "friendly" order
             /*
@@ -703,10 +709,13 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
                 cur->apps.erase(wrong_one);
             }
 
-            This gets overcomplicated. Could be solved by getting the menu paths for each keyword first, sorting them by length (descending),
-            then adding the deepest first and marking parent nodes as "visited" (another hashset or similar) to not add there again later.
+            This gets overcomplicated. Could be solved by getting the menu paths
+            for each keyword first, sorting them by length (descending), then
+            adding the deepest first and marking parent nodes as "visited"
+            (another hashset or similar) to not add there again later.
 
-            But then again, it's probably easier to just add them wherever they appear and use fixup() later.
+            But then again, it's probably easier to just add them wherever they
+            appear and use fixup() later.
 
             */
 
@@ -715,10 +724,10 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
             if (added.second) {
                 menu_nodes_by_name.insert({key, added.first});
             }
-            cur = & added.first->second;
+            cur = &added.first->second;
 
-            //cerr << "adding submenu: " << key << endl;
-            //cur = &cur->submenues[key];
+            // cerr << "adding submenu: " << key << endl;
+            // cur = &cur->submenues[key];
             if (mp.begin() == it)
                 break;
         }
@@ -726,7 +735,7 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
     };
 
     for (const auto &cat : pDf->Categories) {
-        //cerr << "where does it fit? " << cat << endl;
+        // cerr << "where does it fit? " << cat << endl;
         t_menu_path refval = {cat.c_str()};
         static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
             // cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() <<
@@ -749,21 +758,26 @@ string indent_hint("");
 
 void MenuNode::print(std::ostream &prt_strm) {
     // translated name to icon and submenu (sorted by translated)
-    map<string, std::pair<string,MenuNode*>, tLessOp4Localized> sorted;
-    for(auto& m: this->submenues) {
-        auto& name = m.first;
-        auto& deco = m.second.deco;
-        sorted[deco ? deco->GetTranslatedName() : name] = make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+    map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
+    for (auto &m : this->submenues) {
+        auto &name = m.first;
+        auto &deco = m.second.deco;
+        sorted[deco ? deco->GetTranslatedName() : name] =
+            make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
     }
-    for(auto& m: sorted) {
-        auto& name = m.first;
-        prt_strm << indent_hint << "menu \"" << (m.second.second->deco ?
-        m.second.second->deco->GetTranslatedName() : name) << "\" " <<
-        
-        ((m.second.second->deco && !m.second.second->deco->Icon.empty()) ?
-        m.second.second->deco->Icon : ICON_FOLDER)
-         << " {\n";
-        
+    for (auto &m : sorted) {
+        auto &name = m.first;
+        prt_strm << indent_hint << "menu \""
+                 << (m.second.second->deco
+                         ? m.second.second->deco->GetTranslatedName()
+                         : name)
+                 << "\" " <<
+
+            ((m.second.second->deco && !m.second.second->deco->Icon.empty())
+                 ? m.second.second->deco->Icon
+                 : ICON_FOLDER)
+                 << " {\n";
+
         indent_hint += "\t";
         m.second.second->print(prt_strm);
         indent_hint.pop_back();
@@ -771,17 +785,18 @@ void MenuNode::print(std::ostream &prt_strm) {
         prt_strm << indent_hint << "}\n";
     }
     map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
-    for(auto& p: this->apps)
-        sortedApps[p.second->GetTranslatedName()]=p.second;
-    
-    for(auto &p: sortedApps) {
-        auto& pi=p.second;
-        prt_strm << indent_hint << "prog \"" << pi->GetTranslatedName() << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+    for (auto &p : this->apps)
+        sortedApps[p.second->GetTranslatedName()] = p.second;
+
+    for (auto &p : sortedApps) {
+        auto &pi = p.second;
+        prt_strm << indent_hint << "prog \"" << pi->GetTranslatedName() << "\" "
+                 << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
 
 void MenuNode::fixup() {
-    //if (submenues.find("") != submenues.end()) {}
+    // if (submenues.find("") != submenues.end()) {}
 }
 
 // vim: set sw=4 ts=4 et:
