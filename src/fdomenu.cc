@@ -57,9 +57,9 @@ using namespace std;
 char const *ApplicationName;
 
 #ifdef DEBUG
-#define DBG(x) cerr << x << endl;
+#define DBGMSG(x) cerr << x << endl;
 #else
-#define DBG(x)
+#define DBGMSG(x)
 #endif
 
 // program options
@@ -434,7 +434,7 @@ class FsScan {
   private:
     void proc_dir_rec(const string &path) {
 
-        DBG("enter: " << path);
+        DBGMSG("enter: " << path);
 
         auto pdir = opendir(path.c_str());
         if (!pdir)
@@ -639,7 +639,7 @@ int main(int argc, char **argv) {
 
     auto desktop_loader = FsScan(
         [&](const string &fPath) {
-            DBG("reading: " << fPath);
+            DBGMSG("reading: " << fPath);
             auto df = DesktopFile::load_visible(fPath, shortLang);
             if (df)
                 root.sink_in(df);
@@ -647,7 +647,7 @@ int main(int argc, char **argv) {
         ".desktop");
 
     for (const auto &sdir : sharedirs) {
-        DBG("checkdir: " << sdir);
+        DBGMSG("checkdir: " << sdir);
         desktop_loader.scan(sdir + "/applications");
     }
 
@@ -661,7 +661,7 @@ int main(int argc, char **argv) {
 
     auto dir_loader = FsScan(
         [&](const string &fPath) {
-#warning Filter apparently broken
+            // XXX: Filter not working as intended, and probably pointless anyway because of the alternative checks, see below
             auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
             if (!df)
                 return;
@@ -680,7 +680,7 @@ int main(int argc, char **argv) {
                 auto mcatName =
                     fPath.substr(cpos + 1, fPath.length() - cpos - 11);
                 rng = root.menu_nodes_by_name.equal_range(mcatName);
-                DBG("altname: " << mcatName);
+                DBGMSG("altname: " << mcatName);
 
                 for (auto it = rng.first; it != rng.second; ++it) {
                     if (!it->second->second.deco)
