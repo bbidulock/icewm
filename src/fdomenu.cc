@@ -322,6 +322,7 @@ struct DesktopFile : public tLintRefcounted {
     }
 
     static lint_ptr<DesktopFile> load_visible(const string &path, const string &lang, const unordered_set<string> &wanted_names = unordered_set<string>()) {
+        //cerr << "load_visiblie: " << path << endl;
         auto ret = lint_ptr<DesktopFile>();
         try {
             ret.reset(new DesktopFile(path, lang, wanted_names));
@@ -413,6 +414,9 @@ class FsScan {
 
   private:
     void proc_dir_rec(const string &path) {
+
+                    cerr << "enter: " << path <<endl;
+
         auto pdir = opendir(path.c_str());
         if (!pdir)
             return;
@@ -426,13 +430,16 @@ class FsScan {
         while (nullptr != (pent = readdir(pdir))) {
             if (pent->d_name[0] == '.')
                 continue;
-            pent->d_name[255] = 0;
+            // XXX: this triggers a problem, don't do it for now
+            //cerr << "before: " << pent->d_name << endl;
+            //pent->d_name[0xff] = '\0';
+            //cerr << "after: " << pent->d_name << endl;
+
             string fname(pent->d_name);
-            if (!sFileNameExtFilter.empty() &&
-                !endsWith(fname, sFileNameExtFilter))
+
+            if (fstatat(fddir, pent->d_name, &stbuf, 0))
                 continue;
-            if (fstatat(fddir, fname.c_str(), &stbuf, 0))
-                continue;
+
             if (S_ISDIR(stbuf.st_mode)) {
                 // link loop detection
                 auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
@@ -446,6 +453,12 @@ class FsScan {
 
             if (!S_ISREG(stbuf.st_mode))
                 continue;
+
+            if (!sFileNameExtFilter.empty() &&
+                !endsWith(fname, sFileNameExtFilter)) {
+                    
+                continue;
+            }
 
             cb(path + "/" + fname);
         }
@@ -639,6 +652,15 @@ int main(int argc, char **argv) {
             auto rng = root.menu_nodes_by_name.equal_range(df->Name);
             for (auto it=rng.first; it != rng.second; ++it)
                 it->second->second.deco = df;
+            if (rng.first == rng.second) // empty? Try using the plain filename, some menus descriptors use the category as file name but a differing Name attribute
+            {
+                auto cpos = fPath.find_last_of("/");
+                auto mcatName = fPath.substr(cpos + 1, fPath.length()-cpos-11);
+                rng = root.menu_nodes_by_name.equal_range(mcatName);
+                cerr << "altname: " << mcatName <<endl;
+                for (auto it=rng.first; it != rng.second; ++it)
+                    it->second->second.deco = df;
+                }
         }
     }, ".directory");
     

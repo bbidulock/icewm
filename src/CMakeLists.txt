@@ -92,6 +92,9 @@ else()
     endif()
 endif()
 
+#list(APPEND CXXFLAGS_COMMON    -fsanitize=address -fsanitize=undefined)
+#list(APPEND EXTRA_LINKER_FLAGS -fsanitize=address -fsanitize=undefined)
+
 option(CONFIG_IMLIB2 "Imlib2 image loader" on)
 option(CONFIG_LIBPNG "PNGLIB image loader" off)
 option(CONFIG_LIBJPEG "JPEGLIB image loader" off)
