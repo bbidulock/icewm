@@ -62,6 +62,23 @@ char const *ApplicationName;
 #define DBG(x)
 #endif
 
+// program options
+bool add_sep_before = false;
+bool add_sep_after = false;
+bool no_sep_others = false;
+bool no_sub_cats = false;
+bool generic_name = false;
+bool right_to_left = false;
+bool flat_output = false;
+bool match_in_section = false;
+bool match_in_section_only = false;
+
+auto substr_filter = "";
+auto substr_filter_nocase = "";
+auto flat_sep = " / ";
+char *terminal_command;
+char *terminal_option;
+
 /*
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
  * branches (C++11 compatible) or development branch.
@@ -235,7 +252,7 @@ auto line_matcher = std::regex(
     std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
-    bool Terminal = false, IsApp = true, NoDisplay = false;
+    bool Terminal = false, IsApp = true, NoDisplay = false, CommandMassaged = false;
     string Name, NameLoc, Exec, TryExec, Icon;
     vector<string> Categories;
 
@@ -247,7 +264,17 @@ struct DesktopFile : public tLintRefcounted {
         return NameLoc;
     }
 
-    string GetCommand() {
+    const string& GetCommand() {
+
+        if (CommandMassaged)
+            return Exec;
+
+        CommandMassaged = true;
+
+        if (Terminal && terminal_command) {
+            Exec = string(terminal_command) + " -e " + Exec;
+        }
+        
         // let's try whether the command line is toxic, expecting stuff from
         // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
         if (string::npos == Exec.find('%'))
@@ -255,12 +282,15 @@ struct DesktopFile : public tLintRefcounted {
         if (!TryExec.empty())
             return (Exec = TryExec); // copy over so we stick to it in case of
                                      // later calls
+        
         for (const auto &bad : {"%F", "%U", "%f", "%u"})
             replace_all(Exec, bad, "");
         replace_all(Exec, "%c", Name);
         replace_all(Exec, "%i", Icon);
+
         return Exec;
     }
+
     DesktopFile(string filePath, const string &lang,
                 const unordered_set<string> &allowed_names) {
         // cout << "filterlang: " << lang <<endl;
@@ -359,23 +389,6 @@ typedef const char* LPCSTR;
 #include <glib/gstdio.h>
 #include <gmodule.h>
 #endif
-
-// program options
-bool add_sep_before = false;
-bool add_sep_after = false;
-bool no_sep_others = false;
-bool no_sub_cats = false;
-bool generic_name = false;
-bool right_to_left = false;
-bool flat_output = false;
-bool match_in_section = false;
-bool match_in_section_only = false;
-
-auto substr_filter = "";
-auto substr_filter_nocase = "";
-auto flat_sep = " / ";
-char *terminal_command;
-char *terminal_option;
 
 template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
     T m_p;
@@ -600,7 +613,8 @@ int main(int argc, char **argv) {
                 }
                 if (expand)
                     delete[] expand;
-            } else if (GetArgument(value, "m", "match", pArg, argv + argc))
+            }
+            else if (GetArgument(value, "m", "match", pArg, argv + argc))
                 substr_filter = value;
             else if (GetArgument(value, "M", "imatch", pArg, argv + argc))
                 substr_filter_nocase = value;
@@ -615,6 +629,12 @@ int main(int argc, char **argv) {
 
     auto shortLang = string(msglang ? msglang : "").substr(0, 2);
 
+    const char* terminals[] = { terminal_option, getenv("TERMINAL"), TERM,
+                                "urxvt", "alacritty", "roxterm", "xterm" };
+    for (auto term : terminals)
+        if (term && (terminal_command = path_lookup(term)) != nullptr)
+            break;
+    
     MenuNode root;
 
     auto desktop_loader = FsScan(
