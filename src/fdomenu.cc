@@ -477,7 +477,7 @@ static void help(bool to_stderr, int xit) {
            "--seps  \tPrint separators before and after contents\n"
            "--sep-before\tPrint separator before the contents\n"
            "--sep-after\tPrint separator only after contents\n"
-           "--no-sep-others\tNo separation of the 'Others' menu point\n"
+           "--no-sep-others\tLegacy, has no meaning\n"
            "--no-sub-cats\tNo additional subcategories, just one level of "
            "menues\n"
            "--flat\tDisplay all apps in one layer with category hints\n"
@@ -674,7 +674,13 @@ int main(int argc, char **argv) {
         dir_loader.scan(sdir + "/desktop-directories");
     }
 
+    if (add_sep_before)
+        cout << "separator" << endl;
+
     root.print(cout);
+
+    if (add_sep_after)
+        cout << "separator" << endl;
 
     return EXIT_SUCCESS;
 }
