@@ -56,6 +56,12 @@ using namespace std;
 
 char const *ApplicationName;
 
+#ifdef DEBUG
+#define DBG(x) cerr << x << endl;
+#else
+#define DBG(x)
+#endif
+
 /*
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
  * branches (C++11 compatible) or development branch.
@@ -310,7 +316,6 @@ struct DesktopFile : public tLintRefcounted {
                 else
                     continue;
             } else { // must be name
-                // cerr << "wtf? " << m[3].matched << "," << m[4] << endl;
                 if (m[3].matched)
                     NameLoc = m[4];
                 else {
@@ -327,7 +332,6 @@ struct DesktopFile : public tLintRefcounted {
     static lint_ptr<DesktopFile> load_visible(
         const string &path, const string &lang,
         const unordered_set<string> &wanted_names = unordered_set<string>()) {
-        // cerr << "load_visiblie: " << path << endl;
         auto ret = lint_ptr<DesktopFile>();
         try {
             ret.reset(new DesktopFile(path, lang, wanted_names));
@@ -417,7 +421,7 @@ class FsScan {
   private:
     void proc_dir_rec(const string &path) {
 
-        cerr << "enter: " << path << endl;
+        DBG("enter: " << path);
 
         auto pdir = opendir(path.c_str());
         if (!pdir)
@@ -432,10 +436,6 @@ class FsScan {
         while (nullptr != (pent = readdir(pdir))) {
             if (pent->d_name[0] == '.')
                 continue;
-            // XXX: this triggers a problem, don't do it for now
-            // cerr << "before: " << pent->d_name << endl;
-            // pent->d_name[0xff] = '\0';
-            // cerr << "after: " << pent->d_name << endl;
 
             string fname(pent->d_name);
 
@@ -627,9 +627,7 @@ int main(int argc, char **argv) {
 
     auto desktop_loader = FsScan(
         [&](const string &fPath) {
-#ifdef DEBUG
-            cerr << "reading: " << fPath << endl;
-#endif
+            DBG("reading: " << fPath);
             auto df = DesktopFile::load_visible(fPath, shortLang);
             if (df)
                 root.sink_in(df);
@@ -637,9 +635,7 @@ int main(int argc, char **argv) {
         ".desktop");
 
     for (const auto &sdir : sharedirs) {
-#ifdef DEBUG
-        cerr << "checkdir: " << sdir << endl;
-#endif
+        DBG("checkdir: " << sdir);
         desktop_loader.scan(sdir + "/applications");
     }
 
@@ -672,7 +668,7 @@ int main(int argc, char **argv) {
                 auto mcatName =
                     fPath.substr(cpos + 1, fPath.length() - cpos - 11);
                 rng = root.menu_nodes_by_name.equal_range(mcatName);
-                cerr << "altname: " << mcatName << endl;
+                DBG("altname: " << mcatName);
 
                 for (auto it = rng.first; it != rng.second; ++it) {
                     if (!it->second->second.deco)
