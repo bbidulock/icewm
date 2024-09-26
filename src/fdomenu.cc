@@ -543,14 +543,6 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-#warning FIXME, implement internal launcher which covers the damn %substitutions without glib
-#if 0
-    if (argc == 2 && ! endsWithSzAr(string(argv[1]), ".desktop"))
-            && launch(argv[1], argv + 2, argc - 2) {
-        return EXIT_SUCCESS;
-    }
-#endif
-
     vector<string> sharedirs;
     const char *p;
     auto pUserShare = getenv("XDG_DATA_HOME");
@@ -698,8 +690,9 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
             return cur;
         for (auto it = mp.end() - 1;; --it) {
 
-#warning Insufficient, works only when the keywords have the "friendly" order
             /*
+            #warning Insufficient, works only when the keywords have the "friendly" order
+
             auto wrong_one = cur->apps.find(pDf->Name);
             if (wrong_one != cur->apps.end() && wrong_one->second == pDf) {
                 cur->apps.erase(wrong_one);
@@ -792,7 +785,31 @@ void MenuNode::print(std::ostream &prt_strm) {
 }
 
 void MenuNode::fixup() {
-    // if (submenues.find("") != submenues.end()) {}
+
+    // descend deep and then check whether the same app has been added somewhere
+    // in the parent nodes, then remove it there
+    vector<MenuNode *> checkStack;
+    std::function<void(MenuNode *)> go_deeper;
+    go_deeper = [&](MenuNode *cur) {
+        checkStack.push_back(cur);
+
+        for (auto &sub : cur->submenues)
+            go_deeper(&sub.second);
+
+        for (auto &appIt : cur->apps) {
+            for (auto ancestorIt = checkStack.begin();
+                 ancestorIt != checkStack.end() - 1; ++ancestorIt) {
+                auto otherIt = (*ancestorIt)->apps.find(appIt.second->Name);
+                if (otherIt != (*ancestorIt)->apps.end() &&
+                    otherIt->second == appIt.second) {
+                    (*ancestorIt)->apps.erase(otherIt);
+                }
+            }
+        }
+
+        checkStack.pop_back();
+    };
+    go_deeper(this);
 }
 
 // vim: set sw=4 ts=4 et:
