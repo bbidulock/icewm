@@ -10,34 +10,27 @@ debug = True
 
 edges = collections.defaultdict(lambda: set())
 paths = collections.defaultdict(lambda: list())
+hints = dict()
 
-main_cats = (
-        "Accessibility",
-        "Settings",
-        "Screensavers",
-        "Accessories",
-        "Development",
-        "Education",
-        "Game",
-        "Graphics",
-        "Multimedia",
-        "Audio",
-        "Video",
-        "AudioVideo",
-        "Network",
-        "Office",
-        "Science",
-        "System",
-        "WINE",
-        "Editors",
-        "Utility",
-        "Other"
-)
+# a few special ones, those from the spec are added from table input
+main_cats = {"Accessibility", "Screensavers", "WINE", "Other"}
+
 
 def add_edges(key :str, multicand :list):
     global edges
     print(f"{key} -> {multicand}", file=sys.stderr)
     edges[key] |= set(multicand)
+
+
+with open('Main_Categories.csv', newline='') as csvfile:
+    rdr = csv.reader(csvfile, dialect='unix')
+    for row in rdr:
+        #print(row)
+        assert(len(row) == 3)
+        if " " in row[0]:  # the header
+            continue
+        main_cats.add(row[0].strip())
+        hints[row[0]] = row[1]
 
 
 with open('Additional_Categories.csv', newline='') as csvfile:
@@ -49,6 +42,7 @@ with open('Additional_Categories.csv', newline='') as csvfile:
             continue
         multicand = list(map(lambda s: s.strip(), re.split(r'\sor\s', row[2])))
         add_edges(row[0], multicand)
+        hints[row[0]] = row[1]
 
 
 #print(edges, file=sys.stderr)
@@ -121,7 +115,11 @@ for k in keysByLen:
     print(f"\n\t// menu locations of depth {k}\n\t{{")
     byFirst = sorted(paths[k], key=lambda l: l[0])
     for v in byFirst:
-        print("\t\t" + str(v).replace("'", '"').replace('[','{').replace(']','}') + ",")
+        print("\t\t{")
+        for t in v:
+            print("// TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: " + hints.get(t, t))
+            print("\t\t\tN_(\"" + t + "\"),")
+        print("\t\t},")
     print("\t},")
 
 print(f"""}};
