@@ -375,20 +375,6 @@ struct DesktopFile : public tLintRefcounted {
 
 using DesktopFilePtr = lint_ptr<DesktopFile>;
 
-#if 0
-
-#ifndef LPCSTR // mind the MFC
-// easier to read...
-typedef const char* LPCSTR;
-#endif
-
-#include "ycollections.h"
-#include <gio/gdesktopappinfo.h>
-#include <glib.h>
-#include <glib/gprintf.h>
-#include <glib/gstdio.h>
-#include <gmodule.h>
-#endif
 
 template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
     T m_p;
