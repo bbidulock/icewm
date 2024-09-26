@@ -11,6 +11,29 @@ debug = True
 edges = collections.defaultdict(lambda: set())
 paths = collections.defaultdict(lambda: list())
 
+main_cats = (
+        "Accessibility",
+        "Settings",
+        "Screensavers",
+        "Accessories",
+        "Development",
+        "Education",
+        "Game",
+        "Graphics",
+        "Multimedia",
+        "Audio",
+        "Video",
+        "AudioVideo",
+        "Network",
+        "Office",
+        "Science",
+        "System",
+        "WINE",
+        "Editors",
+        "Utility",
+        "Other"
+)
+
 def add_edges(key :str, multicand :list):
     global edges
     print(f"{key} -> {multicand}", file=sys.stderr)
@@ -22,6 +45,8 @@ with open('Additional_Categories.csv', newline='') as csvfile:
     for row in rdr:
         #print(row)
         assert(len(row) == 3)
+        if " " in row[0]:  # the header
+            continue
         multicand = list(map(lambda s: s.strip(), re.split(r'\sor\s', row[2])))
         add_edges(row[0], multicand)
 
@@ -58,30 +83,14 @@ for k, v in edges.items():
     for vv in v:
         #print(f"XX: {vv}")
         xp = [k] + list(reversed(vv.strip().split(';')))
+        if not xp[-1]:
+            xp[-1] = "Other"
+        if xp[-1] not in main_cats:
+            xp = ["Other"] + xp
         if debug: print(f"{len(xp)} -> {xp}", file=sys.stderr)
         paths[len(xp)].append(xp)
 
-paths[1] = list(map(lambda x: [x], [
-    "Accessibility",
-"Settings",
-"Screensavers",
-"Accessories",
-"Development",
-"Education",
-"Game",
-"Graphics",
-"Multimedia",
-"Audio",
-"Video",
-"AudioVideo",
-"Network",
-"Office",
-"Science",
-"System",
-"WINE",
-"Editors",
-"Utility"]
-                    ))
+paths[1] = list(map(lambda x: [x], main_cats))
 
 if debug: print(paths, file=sys.stderr)
 
