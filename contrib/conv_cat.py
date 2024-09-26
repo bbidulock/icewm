@@ -86,7 +86,7 @@ for k, v in edges.items():
         if not xp[-1]:
             xp[-1] = "Other"
         if xp[-1] not in main_cats:
-            xp = ["Other"] + xp
+            xp = xp + ["Other"]
         if debug: print(f"{len(xp)} -> {xp}", file=sys.stderr)
         paths[len(xp)].append(xp)
 
