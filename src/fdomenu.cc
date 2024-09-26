@@ -253,7 +253,7 @@ struct DesktopFile : public tLintRefcounted {
         replace_all(Exec, "%i", Icon);
         return Exec;
     }
-    DesktopFile(string filePath, const string &lang) {
+    DesktopFile(string filePath, const string &lang, const unordered_set<string>& allowed_names) {
         //cout << "filterlang: " << lang <<endl;
         std::ifstream dfile;
         dfile.open(filePath);
@@ -310,15 +310,21 @@ struct DesktopFile : public tLintRefcounted {
                 if (m[3].matched)
                     NameLoc = m[4];
                 else
+                {
                     Name = m[4];
+                    // detect reading of a worthless desktop item ASAP
+                    if (!allowed_names.empty() && allowed_names.find(Name) != allowed_names.end())
+                        break;
+                }
+                    
             }
         }
     }
 
-    static lint_ptr<DesktopFile> load_visible(const string &path, const string &lang) {
+    static lint_ptr<DesktopFile> load_visible(const string &path, const string &lang, const unordered_set<string> &wanted_names = unordered_set<string>()) {
         auto ret = lint_ptr<DesktopFile>();
         try {
-            ret.reset(new DesktopFile(path, lang));
+            ret.reset(new DesktopFile(path, lang, wanted_names));
             if (ret->NoDisplay)
                 ret.reset();
         } catch (const std::exception &) {
@@ -487,15 +493,21 @@ struct MenuNode {
 
     void print(std::ostream &prt_strm, const function<DesktopFilePtr(const string&)> &menuDecoResolver);
 
-    void collect_menu_names(const function<void(const string&)> &callback);
+    //void collect_menu_names(const function<void(const string&)> &callback);
 
     void fixup();
 
     map<string, MenuNode> submenues;
+
     // using a map instead of set+logics adds a minor memory overhead but allows simple duplicate detection (adding user's version first)
     unordered_map<string, DesktopFilePtr> apps;
-    unordered_set<string> dont_add_mark;
+    //unordered_set<string> dont_add_mark;
+
+    static unordered_multimap<string, decltype(submenues)::iterator> menu_nodes_by_name;
+    DesktopFilePtr deco;
 };
+
+decltype(MenuNode::menu_nodes_by_name) MenuNode::menu_nodes_by_name;
 
 int main(int argc, char **argv) {
 
@@ -606,6 +618,7 @@ int main(int argc, char **argv) {
                 root.sink_in(df);
         },
         ".desktop");
+
     for (const auto &sdir : sharedirs) {
 #ifdef DEBUG
         cerr << "checkdir: " << sdir << endl;
@@ -613,28 +626,61 @@ int main(int argc, char **argv) {
         desktop_loader.scan(sdir + "/applications");
     }
 
+    root.fixup();
+
+    unordered_set<string> filter;
+    for(const auto& kv: root.menu_nodes_by_name)
+        filter.insert(kv.first);
+
+    auto dir_loader = FsScan([&](const string &fPath) {
+        #warning Filter apparently broken
+        auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
+        if (df) {
+            auto rng = root.menu_nodes_by_name.equal_range(df->Name);
+            for (auto it=rng.first; it != rng.second; ++it)
+                it->second->second.deco = df;
+        }
+    }, ".directory");
+    
+    for (const auto &sdir : sharedirs) {
+        dir_loader.scan(sdir + "/desktop-directories");
+    }
+
+
     root.print(cout, [](const string&) {return DesktopFilePtr();});
 
     return EXIT_SUCCESS;
 }
 
 void MenuNode::sink_in(DesktopFilePtr pDf) {
-    dont_add_mark.clear();
-    bool bFoundCategories = false;
 
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
         for (auto it = std::rbegin(mp); it != std::rend(mp); ++it) {
 
 #warning Insufficient, works only when the keywords have the "friendly" order
+            /*
             auto wrong_one = cur->apps.find(pDf->Name);
             if (wrong_one != cur->apps.end() && wrong_one->second == pDf) {
                 cur->apps.erase(wrong_one);
             }
 
+            This gets overcomplicated. Could be solved by getting the menu paths for each keyword first, sorting them by length (descending),
+            then adding the deepest first and marking parent nodes as "visited" (another hashset or similar) to not add there again later.
+
+            But then again, it's probably easier to just add them wherever they appear and use fixup() later.
+
+            */
+
             auto key = (*it && **it) ? *it : "Other";
+            auto added = cur->submenues.emplace(key, MenuNode());
+            if (added.second) {
+                menu_nodes_by_name.insert({key, added.first});
+            }
+            cur = & added.first->second;
+
             //cerr << "adding submenu: " << key << endl;
-            cur = &cur->submenues[key];
+            //cur = &cur->submenues[key];
         }
         return cur;
     };
@@ -671,7 +717,12 @@ void MenuNode::print(std::ostream &prt_strm, const function<DesktopFilePtr(const
     }
     for(auto& m: sorted) {
         auto& name = m.first;
-        prt_strm << indent_hint << "menu \"" << name << "\" " << m.second.first << " {\n";
+        prt_strm << indent_hint << "menu \"" << (m.second.second->deco ?
+        m.second.second->deco->GetTranslatedName() : name) << "\" " <<
+        
+        ((m.second.second->deco && !m.second.second->deco->Icon.empty()) ?
+        m.second.second->deco->Icon : ICON_FOLDER)
+         << " {\n";
         
         indent_hint += "\t";
         m.second.second->print(prt_strm, menuDecoResolver);
