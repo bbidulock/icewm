@@ -379,6 +379,8 @@ const char *rtls[] = {
     "ur", // urdu
 };
 
+
+
 struct tLessOp4Localized {
     std::locale loc; // default locale
     const std::collate<char>& coll = std::use_facet<std::collate<char> >(loc);
@@ -489,10 +491,9 @@ struct MenuNode {
 
     void fixup();
 
-protected:
     map<string, MenuNode> submenues;
     // using a map instead of set+logics adds a minor memory overhead but allows simple duplicate detection (adding user's version first)
-    map<string, DesktopFilePtr> apps;
+    unordered_map<string, DesktopFilePtr> apps;
     unordered_set<string> dont_add_mark;
 };
 
@@ -624,6 +625,13 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
         for (auto it = std::rbegin(mp); it != std::rend(mp); ++it) {
+
+#warning Insufficient, works only when the keywords have the "friendly" order
+            auto wrong_one = cur->apps.find(pDf->Name);
+            if (wrong_one != cur->apps.end() && wrong_one->second == pDf) {
+                cur->apps.erase(wrong_one);
+            }
+
             auto key = (*it && **it) ? *it : "Other";
             //cerr << "adding submenu: " << key << endl;
             cur = &cur->submenues[key];
