@@ -397,25 +397,24 @@ struct tLessOp4Localized {
     }
 } locStringComper;
 
-typedef void (*tFuncInsertInfo)(const string &absPath, intptr_t any);
-
 class FsScan {
   private:
     std::set<std::pair<ino_t, dev_t>> reclog;
     function<void(const string &)> cb;
     string sFileNameExtFilter;
+    bool recursive;
 
   public:
-    FsScan(decltype(FsScan::cb) cb, const string &sFileNameExtFilter = "") {
-        this->cb = cb;
-        this->sFileNameExtFilter = sFileNameExtFilter;
+    FsScan(decltype(FsScan::cb) cb, const string &sFileNameExtFilter = "",
+           bool recursive = true)
+        : cb(cb), sFileNameExtFilter(sFileNameExtFilter), recursive(recursive) {
     }
     void scan(const string &sStartdir) { proc_dir_rec(sStartdir); }
 
   private:
     void proc_dir_rec(const string &path) {
 
-                    cerr << "enter: " << path <<endl;
+        cerr << "enter: " << path << endl;
 
         auto pdir = opendir(path.c_str());
         if (!pdir)
@@ -440,7 +439,7 @@ class FsScan {
             if (fstatat(fddir, pent->d_name, &stbuf, 0))
                 continue;
 
-            if (S_ISDIR(stbuf.st_mode)) {
+            if (recursive && S_ISDIR(stbuf.st_mode)) {
                 // link loop detection
                 auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
                 auto hint = reclog.insert(prev);
@@ -641,28 +640,41 @@ int main(int argc, char **argv) {
 
     root.fixup();
 
+/*
     unordered_set<string> filter;
     for(const auto& kv: root.menu_nodes_by_name)
         filter.insert(kv.first);
+*/
 
     auto dir_loader = FsScan([&](const string &fPath) {
         #warning Filter apparently broken
         auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
-        if (df) {
-            auto rng = root.menu_nodes_by_name.equal_range(df->Name);
-            for (auto it=rng.first; it != rng.second; ++it)
-                it->second->second.deco = df;
-            if (rng.first == rng.second) // empty? Try using the plain filename, some menus descriptors use the category as file name but a differing Name attribute
-            {
-                auto cpos = fPath.find_last_of("/");
-                auto mcatName = fPath.substr(cpos + 1, fPath.length()-cpos-11);
-                rng = root.menu_nodes_by_name.equal_range(mcatName);
-                cerr << "altname: " << mcatName <<endl;
-                for (auto it=rng.first; it != rng.second; ++it)
-                    it->second->second.deco = df;
-                }
+        if (!df)
+            return;
+        
+        // get all menu nodes of that name
+        auto rng = root.menu_nodes_by_name.equal_range(df->Name);
+        for (auto it=rng.first; it != rng.second; ++it)
+        {
+            if (!it->second->second.deco)
+                            it->second->second.deco = df;
         }
-    }, ".directory");
+        // No menus of that name? Try using the plain filename, some .directory files use the category as file name stem but differing in the Name attribute
+        if (rng.first == rng.second)
+        {
+            auto cpos = fPath.find_last_of("/");
+            auto mcatName = fPath.substr(cpos + 1, fPath.length()-cpos-11);
+            rng = root.menu_nodes_by_name.equal_range(mcatName);
+            cerr << "altname: " << mcatName <<endl;
+
+            for (auto it=rng.first; it != rng.second; ++it)
+            {
+                if (!it->second->second.deco)
+                                    it->second->second.deco = df;
+            }
+        }
+        
+    }, ".directory", false);
     
     for (const auto &sdir : sharedirs) {
         dir_loader.scan(sdir + "/desktop-directories");
