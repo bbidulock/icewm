@@ -503,27 +503,18 @@ static void help(bool to_stderr, int xit) {
  * It's fetched on-demand with a supplied resolver function.
  */
 struct MenuNode {
-    void sink_in(DesktopFilePtr df);
-
-    void print(std::ostream &prt_strm);
-
-    // void collect_menu_names(const function<void(const string&)> &callback);
-
-    void fixup();
 
     map<string, MenuNode> submenues;
-
-    // using a map instead of set+logics adds a minor memory overhead but allows
-    // simple duplicate detection (adding user's version first)
-    unordered_map<string, DesktopFilePtr> apps;
-    // unordered_set<string> dont_add_mark;
-
-    static unordered_multimap<string, decltype(submenues)::iterator>
-        menu_nodes_by_name;
     DesktopFilePtr deco;
-};
+    unordered_map<string, DesktopFilePtr> apps;
 
-decltype(MenuNode::menu_nodes_by_name) MenuNode::menu_nodes_by_name;
+    void sink_in(DesktopFilePtr df);
+    void print(std::ostream &prt_strm);
+    /**
+     * Returns a temporary list of visited node references.
+     */
+    unordered_multimap<string, MenuNode *> fixup();
+};
 
 int main(int argc, char **argv) {
 
@@ -637,7 +628,7 @@ int main(int argc, char **argv) {
         desktop_loader.scan(sdir + "/applications");
     }
 
-    root.fixup();
+    auto menu_lookup = root.fixup();
 
     /*
         unordered_set<string> filter;
@@ -654,10 +645,10 @@ int main(int argc, char **argv) {
                 return;
 
             // get all menu nodes of that name
-            auto rng = root.menu_nodes_by_name.equal_range(df->Name);
+            auto rng = menu_lookup.equal_range(df->Name);
             for (auto it = rng.first; it != rng.second; ++it) {
-                if (!it->second->second.deco)
-                    it->second->second.deco = df;
+                if (!it->second->deco)
+                    it->second->deco = df;
             }
             // No menus of that name? Try using the plain filename, some
             // .directory files use the category as file name stem but differing
@@ -666,12 +657,12 @@ int main(int argc, char **argv) {
                 auto cpos = fPath.find_last_of("/");
                 auto mcatName =
                     fPath.substr(cpos + 1, fPath.length() - cpos - 11);
-                rng = root.menu_nodes_by_name.equal_range(mcatName);
+                rng = menu_lookup.equal_range(mcatName);
                 DBGMSG("altname: " << mcatName);
 
                 for (auto it = rng.first; it != rng.second; ++it) {
-                    if (!it->second->second.deco)
-                        it->second->second.deco = df;
+                    if (!it->second->deco)
+                        it->second->deco = df;
                 }
             }
         },
@@ -697,37 +688,14 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
 
-        // work around the lack of reverse iterator, can fixed in C++14 with
-        // std::rbegin() conversion
+        // work around the lack of reverse iterator, can be made easier in C++14
+        // with std::rbegin() conversion
+
         if (!mp.size())
             return cur;
         for (auto it = mp.end() - 1;; --it) {
-
-            /*
-            #warning Insufficient, works only when the keywords have the
-            "friendly" order
-
-            auto wrong_one = cur->apps.find(pDf->Name);
-            if (wrong_one != cur->apps.end() && wrong_one->second == pDf) {
-                cur->apps.erase(wrong_one);
-            }
-
-            This gets overcomplicated. Could be solved by getting the menu paths
-            for each keyword first, sorting them by length (descending), then
-            adding the deepest first and marking parent nodes as "visited"
-            (another hashset or similar) to not add there again later.
-
-            But then again, it's probably easier to just add them wherever they
-            appear and use fixup() later.
-
-            */
-
             auto key = (*it && **it) ? *it : "Other";
-            auto added = cur->submenues.emplace(key, MenuNode());
-            if (added.second) {
-                menu_nodes_by_name.insert({key, added.first});
-            }
-            cur = &added.first->second;
+            cur = &cur->submenues[key];
 
             // cerr << "adding submenu: " << key << endl;
             // cur = &cur->submenues[key];
@@ -803,7 +771,9 @@ void MenuNode::print(std::ostream &prt_strm) {
     }
 }
 
-void MenuNode::fixup() {
+unordered_multimap<string, MenuNode *> MenuNode::fixup() {
+
+    unordered_multimap<string, MenuNode *> ret;
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
@@ -812,8 +782,11 @@ void MenuNode::fixup() {
     go_deeper = [&](MenuNode *cur) {
         checkStack.push_back(cur);
 
-        for (auto &sub : cur->submenues)
-            go_deeper(&sub.second);
+        for (auto it = cur->submenues.begin(); it != cur->submenues.end();
+             ++it) {
+            ret.insert(make_pair(it->first, &it->second));
+            go_deeper(&it->second);
+        }
 
         for (auto &appIt : cur->apps) {
             for (auto ancestorIt = checkStack.begin();
@@ -829,6 +802,7 @@ void MenuNode::fixup() {
         checkStack.pop_back();
     };
     go_deeper(this);
+    return ret;
 }
 
 // vim: set sw=4 ts=4 et:
