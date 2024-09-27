@@ -75,6 +75,13 @@ if(gettext AND xgettext AND msgmerge AND msgfmt)
 			ADD_CUSTOM_TARGET(generate-${_lang}.gmo DEPENDS ${_tempMO})
 			install(FILES ${_tempMO} DESTINATION "${LOCDIR}/${_lang}/LC_MESSAGES/" RENAME "${PACKAGE}.mo" OPTIONAL)
 			add_dependencies(translations generate-${_lang}.gmo)
+
+			# mimic the content of the installation folder, for development purposes
+			set(PG "${CMAKE_CURRENT_BINARY_DIR}/playground")
+			file(MAKE_DIRECTORY "${PG}")
+			file(MAKE_DIRECTORY "${PG}/${_lang}/LC_MESSAGES/")
+			file(CREATE_LINK ${_tempMO} "${PG}/${_lang}/LC_MESSAGES/${PACKAGE}.mo" SYMBOLIC)
+
 		endforeach()
 
 	endif()
