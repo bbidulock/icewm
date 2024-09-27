@@ -510,7 +510,7 @@ static void help(bool to_stderr, int xit) {
            "--seps  \tPrint separators before and after contents\n"
            "--sep-before\tPrint separator before the contents\n"
            "--sep-after\tPrint separator only after contents\n"
-           "--no-sep-others\tLegacy, has no meaning\n"
+           "--no-sep-others\tDon't print uncategorized apps in Other menu\n"
            "--no-sub-cats\tNo additional subcategories, just one level of "
            "menues\n"
            "--flat\tDisplay all apps in one layer with category hints\n"
@@ -795,6 +795,7 @@ void MenuNode::print(std::ostream &prt_strm) {
 
         prt_strm << indent_hint << "}\n";
     }
+
     map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
     for (auto &p : this->apps)
         sortedApps[p.second->GetTranslatedName()] = p.second;
@@ -824,6 +825,9 @@ void MenuNode::print(std::ostream &prt_strm) {
 unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 
     unordered_multimap<string, MenuNode *> ret;
+
+    if (no_sep_others)
+        submenues.erase("Other");
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there

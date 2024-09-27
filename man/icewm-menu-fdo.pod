@@ -49,7 +49,7 @@ Print a trailing separator.
 
 =item B<--no-sep-others>
 
-Don't print the C<Other> category last.
+Don't print the C<Other> category, only official categories.
 
 =item B<--no-sub-cats>
 
