@@ -438,10 +438,23 @@ class FsScan {
 
             string fname(pent->d_name);
 
+            // Take the shortcuts where possible, no need to analyze directory
+            // properties for descending if that's known to be a plain file
+            // already.
+            if (pent->d_type == DT_REG)
+                goto process_reg_file;
+
+            if (recursive && pent->d_type == DT_DIR)
+                goto process_dir;
+
             if (fstatat(fddir, pent->d_name, &stbuf, 0))
                 continue;
 
+            if (S_ISREG(stbuf.st_mode))
+                goto process_reg_file;
+
             if (recursive && S_ISDIR(stbuf.st_mode)) {
+            process_dir:
                 // link loop detection
                 auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
                 auto hint = reclog.insert(prev);
@@ -452,9 +465,7 @@ class FsScan {
                 }
             }
 
-            if (!S_ISREG(stbuf.st_mode))
-                continue;
-
+        process_reg_file:
             if (!sFileNameExtFilter.empty() &&
                 !endsWith(fname, sFileNameExtFilter)) {
 
