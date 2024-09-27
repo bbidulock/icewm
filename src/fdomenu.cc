@@ -247,7 +247,7 @@ void replace_all(std::string &str, const std::string &from,
 }
 
 auto line_matcher = std::regex(
-    "^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)"
+    "^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|Categories|NoDisplay)"
     "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
     std::regex_constants::ECMAScript);
 
@@ -263,6 +263,13 @@ struct DesktopFile : public tLintRefcounted {
             NameLoc = gettext(Name.c_str());
         }
         return NameLoc;
+    }
+
+    string &GetTranslatedGenericName() {
+        if (GenericNameLoc.empty()) {
+            GenericNameLoc = gettext(GenericName.c_str());
+        }
+        return GenericNameLoc;
     }
 
     const string &GetCommand() {
@@ -371,7 +378,7 @@ struct DesktopFile : public tLintRefcounted {
                     IsApp = false;
             } else if (key == "Name")
                 take_loc_best(value, langLong, langShort, Name, NameLoc);
-            else if (key == "GenericName")
+            else if (generic_name && key == "GenericName")
                 take_loc_best(value, langLong, langShort, GenericName,
                               GenericNameLoc);
         }
@@ -794,8 +801,23 @@ void MenuNode::print(std::ostream &prt_strm) {
 
     for (auto &p : sortedApps) {
         auto &pi = p.second;
-        prt_strm << indent_hint << "prog \"" << pi->GetTranslatedName() << "\" "
-                 << pi->Icon << " " << pi->GetCommand() << "\n";
+
+        prt_strm << indent_hint << "prog \"";
+        if (!generic_name)
+            prt_strm << pi->GetTranslatedName();
+        else {
+            auto &gn = pi->GetTranslatedGenericName();
+            if (gn.empty() || gn == pi->GetTranslatedName())
+                prt_strm << pi->GetTranslatedName();
+            else {
+                if (right_to_left)
+                    prt_strm << " (" << gn << ")" << pi->GetTranslatedName();
+                else
+                    prt_strm << pi->GetTranslatedName() << " (" << gn << ")";
+            }
+        }
+
+        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
 
