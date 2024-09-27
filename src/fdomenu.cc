@@ -247,14 +247,14 @@ void replace_all(std::string &str, const std::string &from,
 }
 
 auto line_matcher = std::regex(
-    "^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)("
-    "\\[(..)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
+    "^\\s*(Terminal|Type|Name|Exec|TryExec|Icon|Categories|NoDisplay)"
+    "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
     std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true, NoDisplay = false,
          CommandMassaged = false;
-    string Name, NameLoc, Exec, TryExec, Icon;
+    string Name, NameLoc, Exec, TryExec, Icon, GenericName, GenericNameLoc;
     vector<string> Categories;
 
     /// Translate with built-in l10n if needed
@@ -292,14 +292,36 @@ struct DesktopFile : public tLintRefcounted {
         return Exec;
     }
 
-    DesktopFile(string filePath, const string &lang,
-                const unordered_set<string> &allowed_names) {
+    DesktopFile(string filePath, const string &langWanted) {
         // cout << "filterlang: " << lang <<endl;
+
+        // bare short version to compare later
+        char langWantShort[] = {0, 0, 0};
+        if (langWanted.length() >= 2)
+            langWantShort[0] = langWanted[0], langWantShort[1] = langWanted[1];
+
         std::ifstream dfile;
         dfile.open(filePath);
         string line;
         std::smatch m;
         bool reading = false;
+
+        auto take_loc_best = [&langWanted,
+                              &langWantShort](decltype(m[0]) &value,
+                                              decltype(m[0]) &langLong,
+                                              decltype(m[0]) &langShort,
+                                              string &out, string &outLoc) {
+            if (langWanted.size() > 3 && langLong == langWanted) {
+                // perfect hit always takes preference
+                outLoc = value;
+            } else if (langShort.matched && langShort == langWantShort) {
+                if (outLoc.empty())
+                    outLoc = value;
+            } else if (!langLong.matched) {
+                out = value;
+            }
+        };
+
         while (dfile) {
             line.clear();
             std::getline(dfile, line);
@@ -321,51 +343,45 @@ struct DesktopFile : public tLintRefcounted {
             std::regex_search(line, m, line_matcher);
             if (m.empty())
                 continue;
-            if (m[3].matched && m[3].compare(lang))
-                continue;
 
             // for(auto x: m) cout << x << " - "; cout << " = " << m.size() <<
             // endl;
 
-            if (m[1] == "Terminal")
-                Terminal = m[4].compare("true") == 0;
-            else if (m[1] == "NoDisplay")
-                NoDisplay = m[4].compare("true") == 0;
-            else if (m[1] == "Icon")
-                Icon = m[4];
-            else if (m[1] == "Categories") {
-                Tokenize(m[4], ";", Categories);
-            } else if (m[1] == "Exec") {
-                Exec = m[4];
-            } else if (m[1] == "TryExec") {
-                TryExec = m[4];
-            } else if (m[1] == "Type") {
-                if (m[4] == "Application")
+            const auto &value = m[6], key = m[1], langLong = m[3],
+                       langShort = m[4];
+            // cerr << "val: " << value << ", key: " << key << ", langLong: " <<
+            // langLong << ", langShort: " << langShort << endl;
+
+            if (key == "Terminal")
+                Terminal = value.compare("true") == 0;
+            else if (key == "NoDisplay")
+                NoDisplay = value.compare("true") == 0;
+            else if (key == "Icon")
+                Icon = value;
+            else if (key == "Categories")
+                Tokenize(value, ";", Categories);
+            else if (key == "Exec")
+                Exec = value;
+            else if (key == "TryExec")
+                TryExec = value;
+            else if (key == "Type") {
+                if (value == "Application")
                     IsApp = true;
-                else if (m[4] == "Directory")
+                else if (value == "Directory")
                     IsApp = false;
-                else
-                    continue;
-            } else { // must be name
-                if (m[3].matched)
-                    NameLoc = m[4];
-                else {
-                    Name = m[4];
-                    // detect reading of a worthless desktop item ASAP
-                    if (!allowed_names.empty() &&
-                        allowed_names.find(Name) != allowed_names.end())
-                        break;
-                }
-            }
+            } else if (key == "Name")
+                take_loc_best(value, langLong, langShort, Name, NameLoc);
+            else if (key == "GenericName")
+                take_loc_best(value, langLong, langShort, GenericName,
+                              GenericNameLoc);
         }
     }
 
-    static lint_ptr<DesktopFile> load_visible(
-        const string &path, const string &lang,
-        const unordered_set<string> &wanted_names = unordered_set<string>()) {
+    static lint_ptr<DesktopFile> load_visible(const string &path,
+                                              const string &lang) {
         auto ret = lint_ptr<DesktopFile>();
         try {
-            ret.reset(new DesktopFile(path, lang, wanted_names));
+            ret.reset(new DesktopFile(path, lang));
             if (ret->NoDisplay)
                 ret.reset();
         } catch (const std::exception &) {
@@ -614,7 +630,8 @@ int main(int argc, char **argv) {
         }
     }
 
-    auto shortLang = string(msglang ? msglang : "").substr(0, 2);
+    auto justLang = string(msglang ? msglang : "");
+    justLang = justLang.substr(0, justLang.find('.'));
 
     const char *terminals[] = {terminal_option, getenv("TERMINAL"), TERM,
                                "urxvt",         "alacritty",        "roxterm",
@@ -628,7 +645,7 @@ int main(int argc, char **argv) {
     auto desktop_loader = FsScan(
         [&](const string &fPath) {
             DBGMSG("reading: " << fPath);
-            auto df = DesktopFile::load_visible(fPath, shortLang);
+            auto df = DesktopFile::load_visible(fPath, justLang);
             if (df)
                 root.sink_in(df);
         },
@@ -651,7 +668,7 @@ int main(int argc, char **argv) {
         [&](const string &fPath) {
             // XXX: Filter not working as intended, and probably pointless
             // anyway because of the alternative checks, see below
-            auto df = DesktopFile::load_visible(fPath, shortLang /*, filter*/);
+            auto df = DesktopFile::load_visible(fPath, justLang /*, filter*/);
             if (!df)
                 return;
 
