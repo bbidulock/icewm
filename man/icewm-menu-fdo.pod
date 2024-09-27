@@ -63,6 +63,17 @@ Write the output to I<FILE>.
 
 Use I<NAME> to start a terminal emulator that supports the '-e' option.
 
+=item B<-s>, B<--no-lone-app>
+
+Attempt to detect a single application with no other content in lower
+submenus and move this one to the parent submenu. Limitations: this
+looks only one level below, multiple moving is not supported yet.
+
+=item B<-S>, B<--no-lone-hint>
+
+Decorate app entries moved by the B<-s> option with a hint about the
+original menu where it would be displayed otherwise. Implies B<-s>.
+
 =item B<--flat>
 
 Display apps from all categories in one level with the title containing
@@ -122,7 +133,9 @@ a comprehensive set of menus for easy access to F<.desktop> files.
 B<XDG_DATA_HOME> or B<XDG_DATA_DIRS> are considered as suggested by XDG
 Base Directory Specification.
 
-B<TERMINAL> may define a terminal emulator that supports the '-e' option.
+B<TERMINAL> may define a terminal emulator that supports the '-e'
+option. The option is ignored if the specified command could not be
+found and a default is used instead.
 
 =head2 CONFORMING TO
 
@@ -134,8 +147,8 @@ March 2011.
 =head2 CAVEATS
 
 The B<icewm-menu-fdo> program is only built when the L<icewm(1)> package
-is configured with the B<--enable-menus-fdo> option, which requires the
-B<glib2-dev> package dependency.
+is configured with the B<--enable-menus-fdo> option and only works with
+B<--enable-i18n> option.
 
 =head2 SEE ALSO
 

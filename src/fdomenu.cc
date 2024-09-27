@@ -72,6 +72,8 @@ bool right_to_left = false;
 bool flat_output = false;
 bool match_in_section = false;
 bool match_in_section_only = false;
+bool no_only_child = false;
+bool no_only_child_hint = false;
 
 auto substr_filter = "";
 auto substr_filter_nocase = "";
@@ -246,10 +248,11 @@ void replace_all(std::string &str, const std::string &from,
     }
 }
 
-auto line_matcher = std::regex(
-    "^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|Categories|NoDisplay)"
-    "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
-    std::regex_constants::ECMAScript);
+auto line_matcher =
+    std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
+               "Categories|NoDisplay)"
+               "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
+               std::regex_constants::ECMAScript);
 
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true, NoDisplay = false,
@@ -257,7 +260,7 @@ struct DesktopFile : public tLintRefcounted {
     string Name, NameLoc, Exec, TryExec, Icon, GenericName, GenericNameLoc;
     vector<string> Categories;
 
-    /// Translate with built-in l10n if needed
+    /// Translate with built-in l10n if needed, and cache it
     string &GetTranslatedName() {
         if (NameLoc.empty()) {
             NameLoc = gettext(Name.c_str());
@@ -507,6 +510,9 @@ static void help(bool to_stderr, int xit) {
            "-g, --generic\tInclude GenericName in parentheses of progs\n"
            "-o, --output=FILE\tWrite the output to FILE\n"
            "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+           "-s, --no-lone-app\tMove lone elements to parent menu\n"
+           "-S, --no-lone-hint\tLike -s but append the original submenu's "
+           "title\n"
            "--seps  \tPrint separators before and after contents\n"
            "--sep-before\tPrint separator before the contents\n"
            "--sep-after\tPrint separator only after contents\n"
@@ -611,6 +617,10 @@ int main(int argc, char **argv) {
             match_in_section = match_in_section_only = true;
         else if (is_switch(*pArg, "g", "generic-name"))
             generic_name = true;
+        else if (is_switch(*pArg, "s", "no-lone-app"))
+            no_only_child = true;
+        else if (is_switch(*pArg, "S", "no-lone-hint"))
+            no_only_child = no_only_child_hint = true;
         else {
             char *value = nullptr, *expand = nullptr;
             if (GetArgument(value, "o", "output", pArg, argv + argc)) {
@@ -770,11 +780,45 @@ string indent_hint("");
 void MenuNode::print(std::ostream &prt_strm) {
     // translated name to icon and submenu (sorted by translated)
     map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
+
     for (auto &m : this->submenues) {
         auto &name = m.first;
         auto &deco = m.second.deco;
-        sorted[deco ? deco->GetTranslatedName() : name] =
-            make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+
+        // Special mode where we detect single elements, in which case the
+        // menu's apps are moved to ours and the menu is skipped from the
+        // printed set
+        if (no_only_child && m.second.apps.size() == 1 &&
+            m.second.submenues.empty()) {
+
+            auto &lone_app = m.second.apps.begin()->second;
+            auto &lone_app_key = m.second.apps.begin()->first;
+
+            if (no_only_child_hint) {
+                // we smuggle this into translated name because it remains
+                // cached
+                const auto &nameLoc = deco ? deco->GetTranslatedName() : name;
+                auto &appNameLoc = lone_app->GetTranslatedName();
+
+                if (generic_name) {
+                    auto &appGnameLoc = lone_app->GetTranslatedGenericName();
+                    if (nameLoc == appGnameLoc)
+                        goto skip_origin_hint;
+                }
+                if (right_to_left)
+                    appNameLoc = string("[") + nameLoc + "] " + appNameLoc;
+                else
+                    appNameLoc += string(" [") + nameLoc + "]";
+
+            skip_origin_hint:;
+            }
+
+            apps.emplace(lone_app_key, lone_app);
+            m.second.apps.clear();
+        } else {
+            sorted[deco ? deco->GetTranslatedName() : name] =
+                make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+        }
     }
     for (auto &m : sorted) {
         auto &name = m.first;
