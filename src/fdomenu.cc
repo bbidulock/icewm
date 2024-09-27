@@ -262,16 +262,15 @@ struct DesktopFile : public tLintRefcounted {
 
     /// Translate with built-in l10n if needed, and cache it
     string &GetTranslatedName() {
-        if (NameLoc.empty()) {
+        if (NameLoc.empty() && !Name.empty())
             NameLoc = gettext(Name.c_str());
-        }
         return NameLoc;
     }
 
     string &GetTranslatedGenericName() {
-        if (GenericNameLoc.empty()) {
+        if (GenericNameLoc.empty() && !GenericName.empty())
             GenericNameLoc = gettext(GenericName.c_str());
-        }
+
         return GenericNameLoc;
     }
 
@@ -822,15 +821,17 @@ void MenuNode::print(std::ostream &prt_strm) {
     }
     for (auto &m : sorted) {
         auto &name = m.first;
-        prt_strm << indent_hint << "menu \""
-                 << (m.second.second->deco
-                         ? m.second.second->deco->GetTranslatedName()
-                         : name)
-                 << "\" " <<
+        prt_strm << indent_hint << "menu \"";
+        if (m.second.second->deco)
+            prt_strm << m.second.second->deco->GetTranslatedName();
+        else
+            prt_strm << gettext(name.c_str());
 
-            ((m.second.second->deco && !m.second.second->deco->Icon.empty())
-                 ? m.second.second->deco->Icon
-                 : ICON_FOLDER)
+        prt_strm << "\" "
+                 << ((m.second.second->deco &&
+                      !m.second.second->deco->Icon.empty())
+                         ? m.second.second->deco->Icon
+                         : ICON_FOLDER)
                  << " {\n";
 
         indent_hint += "\t";
