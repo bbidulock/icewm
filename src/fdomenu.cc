@@ -246,158 +246,6 @@ void replace_all(std::string &str, const std::string &from,
     }
 }
 
-auto line_matcher =
-    std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
-               "Categories|NoDisplay)"
-               "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
-               std::regex_constants::ECMAScript);
-
-struct DesktopFile : public tLintRefcounted {
-    bool Terminal = false, IsApp = true, NoDisplay = false,
-         CommandMassaged = false;
-    string Name, NameLoc, Exec, TryExec, Icon, GenericName, GenericNameLoc;
-    vector<string> Categories;
-
-    /// Translate with built-in l10n if needed, and cache it
-    string &GetTranslatedName() {
-        if (NameLoc.empty() && !Name.empty())
-            NameLoc = gettext(Name.c_str());
-        return NameLoc;
-    }
-
-    string &GetTranslatedGenericName() {
-        if (GenericNameLoc.empty() && !GenericName.empty())
-            GenericNameLoc = gettext(GenericName.c_str());
-        return GenericNameLoc;
-    }
-
-    const string &GetCommand() {
-
-        if (CommandMassaged)
-            return Exec;
-
-        CommandMassaged = true;
-
-        if (Terminal && terminal_command) {
-            Exec = string(terminal_command) + " -e " + Exec;
-        }
-
-        // let's try whether the command line is toxic, expecting stuff from
-        // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
-        if (string::npos == Exec.find('%'))
-            return Exec;
-        if (!TryExec.empty())
-            return (Exec = TryExec); // copy over so we stick to it in case of
-                                     // later calls
-
-        for (const auto &bad : {"%F", "%U", "%f", "%u"})
-            replace_all(Exec, bad, "");
-        replace_all(Exec, "%c", Name);
-        replace_all(Exec, "%i", Icon);
-
-        return Exec;
-    }
-
-    DesktopFile(string filePath, const string &langWanted) {
-        // cout << "filterlang: " << lang <<endl;
-
-        // bare short version to compare later
-        char langWantShort[] = {0, 0, 0};
-        if (langWanted.length() >= 2)
-            langWantShort[0] = langWanted[0], langWantShort[1] = langWanted[1];
-
-        std::ifstream dfile;
-        dfile.open(filePath);
-        string line;
-        std::smatch m;
-        bool reading = false;
-
-        auto take_loc_best = [&langWanted,
-                              &langWantShort](decltype(m[0]) &value,
-                                              decltype(m[0]) &langLong,
-                                              decltype(m[0]) &langShort,
-                                              string &out, string &outLoc) {
-            if (langWanted.size() > 3 && langLong == langWanted) {
-                // perfect hit always takes preference
-                outLoc = value;
-            } else if (langShort.matched && langShort == langWantShort) {
-                if (outLoc.empty())
-                    outLoc = value;
-            } else if (!langLong.matched) {
-                out = value;
-            }
-        };
-
-        while (dfile) {
-            line.clear();
-            std::getline(dfile, line);
-            if (line.empty()) {
-                if (dfile.eof())
-                    break;
-                continue;
-            }
-            if (startsWithSz(line, "[Desktop ")) {
-                if (startsWithSz(line, "[Desktop Entry")) {
-                    reading = true;
-                } else if (reading) // finished with desktop entry contents,
-                                    // exit
-                    break;
-            }
-            if (!reading)
-                continue;
-
-            std::regex_search(line, m, line_matcher);
-            if (m.empty())
-                continue;
-
-            // for(auto x: m) cout << x << " - "; cout << " = " << m.size() <<
-            // endl;
-
-            const auto &value = m[6], key = m[1], langLong = m[3],
-                       langShort = m[4];
-            // cerr << "val: " << value << ", key: " << key << ", langLong: " <<
-            // langLong << ", langShort: " << langShort << endl;
-
-            if (key == "Terminal")
-                Terminal = value.compare("true") == 0;
-            else if (key == "NoDisplay")
-                NoDisplay = value.compare("true") == 0;
-            else if (key == "Icon")
-                Icon = value;
-            else if (key == "Categories")
-                Tokenize(value, ";", Categories);
-            else if (key == "Exec")
-                Exec = value;
-            else if (key == "TryExec")
-                TryExec = value;
-            else if (key == "Type") {
-                if (value == "Application")
-                    IsApp = true;
-                else if (value == "Directory")
-                    IsApp = false;
-            } else if (key == "Name")
-                take_loc_best(value, langLong, langShort, Name, NameLoc);
-            else if (generic_name && key == "GenericName")
-                take_loc_best(value, langLong, langShort, GenericName,
-                              GenericNameLoc);
-        }
-    }
-
-    static lint_ptr<DesktopFile> load_visible(const string &path,
-                                              const string &lang) {
-        auto ret = lint_ptr<DesktopFile>();
-        try {
-            ret.reset(new DesktopFile(path, lang));
-            if (ret->NoDisplay)
-                ret.reset();
-        } catch (const std::exception &) {
-        }
-        return ret;
-    }
-};
-
-using DesktopFilePtr = lint_ptr<DesktopFile>;
-
 template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
     T m_p;
     auto_raii(T xp) : m_p(xp) {}
@@ -416,6 +264,16 @@ const char *rtls[] = {
     "ur", // urdu
 };
 
+const char *getCheckedExplicitLocale(bool lctype) {
+    auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
+    if (loc == NULL)
+        return NULL;
+    return (islower(*loc & 0xff) && islower(loc[1] & 0xff) &&
+            !isalpha(loc[2] & 0xff))
+               ? loc
+               : NULL;
+}
+
 struct tLessOp4Localized {
     std::locale loc; // default locale
     const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
@@ -424,6 +282,158 @@ struct tLessOp4Localized {
                             b.data() + b.size()) < 0;
     }
 } locStringComper;
+
+auto line_matcher =
+    std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
+               "Categories|NoDisplay)"
+               "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
+               std::regex_constants::ECMAScript);
+
+struct DesktopFile : public tLintRefcounted {
+    bool Terminal = false, IsApp = true, NoDisplay = false,
+         CommandMassaged = false;
+    string Name, NameLoc, Exec, TryExec, Icon, GenericName, GenericNameLoc;
+    vector<string> Categories;
+
+    DesktopFile(string filePath, const string &langWanted);
+
+    const string &GetCommand();
+
+    /// Translate with built-in l10n if needed, and cache it
+    string &GetTranslatedName() {
+        if (NameLoc.empty() && !Name.empty())
+            NameLoc = gettext(Name.c_str());
+        return NameLoc;
+    }
+
+    string &GetTranslatedGenericName() {
+        if (GenericNameLoc.empty() && !GenericName.empty())
+            GenericNameLoc = gettext(GenericName.c_str());
+        return GenericNameLoc;
+    }
+
+    static lint_ptr<DesktopFile> load_visible(const string &path,
+                                              const string &lang) {
+        auto ret = lint_ptr<DesktopFile>();
+        try {
+            ret.reset(new DesktopFile(path, lang));
+            if (ret->NoDisplay)
+                ret.reset();
+        } catch (const std::exception &) {
+        }
+        return ret;
+    }
+};
+
+using DesktopFilePtr = lint_ptr<DesktopFile>;
+
+const string &DesktopFile::GetCommand() {
+
+    if (CommandMassaged)
+        return Exec;
+
+    CommandMassaged = true;
+
+    if (Terminal && terminal_command) {
+        Exec = string(terminal_command) + " -e " + Exec;
+    }
+
+    // let's try whether the command line is toxic, expecting stuff from
+    // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
+    if (string::npos == Exec.find('%'))
+        return Exec;
+    if (!TryExec.empty())
+        return (Exec = TryExec); // copy over so we stick to it in case of
+                                 // later calls
+
+    for (const auto &bad : {"%F", "%U", "%f", "%u"})
+        replace_all(Exec, bad, "");
+    replace_all(Exec, "%c", Name);
+    replace_all(Exec, "%i", Icon);
+
+    return Exec;
+}
+
+DesktopFile::DesktopFile(string filePath, const string &langWanted) {
+    // cout << "filterlang: " << lang <<endl;
+
+    // bare short version to compare later
+    auto langWantShort = langWanted.substr(0, 2);
+
+    std::ifstream dfile;
+    dfile.open(filePath);
+    string line;
+    std::smatch m;
+    bool reading = false;
+
+    auto take_loc_best = [&langWanted, &langWantShort](
+                             decltype(m[0]) &value, decltype(m[0]) &langLong,
+                             decltype(m[0]) &langShort, string &out,
+                             string &outLoc) {
+        if (langWanted.size() > 3 && langLong == langWanted) {
+            // perfect hit always takes preference
+            outLoc = value;
+        } else if (langShort.matched && langShort == langWantShort) {
+            if (outLoc.empty())
+                outLoc = value;
+        } else if (!langLong.matched) {
+            out = value;
+        }
+    };
+
+    while (dfile) {
+        line.clear();
+        std::getline(dfile, line);
+        if (line.empty()) {
+            if (dfile.eof())
+                break;
+            continue;
+        }
+        if (startsWithSz(line, "[Desktop ")) {
+            if (startsWithSz(line, "[Desktop Entry")) {
+                reading = true;
+            } else if (reading) // finished with desktop entry contents
+                break;
+        }
+        if (!reading)
+            continue;
+
+        std::regex_search(line, m, line_matcher);
+        if (m.empty())
+            continue;
+
+        // for(auto x: m) cout << x << " - "; cout << " = " << m.size() <<
+        // endl;
+
+        const auto &value = m[6], key = m[1], langLong = m[3], langShort = m[4];
+        // cerr << "val: " << value << ", key: " << key << ", langLong: " <<
+        // langLong << ", langShort: " << langShort << endl;
+
+        if (key == "Terminal")
+            Terminal = value.compare("true") == 0;
+        else if (key == "NoDisplay")
+            NoDisplay = value.compare("true") == 0;
+        else if (key == "Icon")
+            Icon = value;
+        else if (key == "Categories")
+            Tokenize(value, ";", Categories);
+        else if (key == "Exec")
+            Exec = value;
+        else if (key == "TryExec")
+            TryExec = value;
+        else if (key == "Type") {
+            if (value == "Application")
+                IsApp = true;
+            else if (value == "Directory")
+                IsApp = false;
+        } else if (key == "Name") {
+            take_loc_best(value, langLong, langShort, Name, NameLoc);
+        } else if (generic_name && key == "GenericName") {
+            take_loc_best(value, langLong, langShort, GenericName,
+                          GenericNameLoc);
+        }
+    }
+}
 
 class FsScan {
   private:
@@ -500,6 +510,199 @@ class FsScan {
     }
 };
 
+/**
+ * The own menu deco info is not part of this class.
+ * It's fetched on-demand with a supplied resolver function.
+ */
+struct MenuNode {
+
+    map<string, MenuNode> submenus;
+    DesktopFilePtr deco;
+    unordered_map<string, DesktopFilePtr> apps;
+
+    void sink_in(DesktopFilePtr df);
+    void print(std::ostream &prt_strm);
+    bool empty() { return apps.empty() && submenus.empty(); }
+    /**
+     * Returns a temporary list of visited node references.
+     */
+    unordered_multimap<string, MenuNode *> fixup();
+};
+
+void MenuNode::sink_in(DesktopFilePtr pDf) {
+
+    auto add_sub_menues = [&](const t_menu_path &mp) {
+        MenuNode *cur = this;
+
+        // work around the lack of reverse iterator, can be made easier in C++14
+        // with std::rbegin() conversion
+
+        if (!mp.size())
+            return cur;
+        for (auto it = mp.end() - 1;; --it) {
+            auto key = (*it && **it) ? *it : "Other";
+            cur = &cur->submenus[key];
+            // cerr << "adding submenu: " << key << endl;
+            if (mp.begin() == it)
+                break;
+        }
+        return cur;
+    };
+
+    for (const auto &cat : pDf->Categories) {
+        // cerr << "where does it fit? " << cat << endl;
+        t_menu_path refval = {cat.c_str()};
+        static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
+            // cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() <<
+            // endl;
+            return strcmp(*a.begin(), *b.begin()) < 0;
+        };
+        for (const auto &w : valid_paths) {
+            // cerr << "try paths: " << (uintptr_t)&w << endl;
+
+            // ignore deeper paths, fallback to the main cats only
+            if (no_sub_cats && w.begin()->size() > 1)
+                continue;
+
+            auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
+            for (auto it = rng.first; it != rng.second; ++it) {
+                auto &tgt = *add_sub_menues(*it);
+                tgt.apps.emplace(pDf->Name, pDf);
+            }
+        }
+    }
+}
+
+static string ICON_FOLDER("folder");
+string indent_hint("");
+
+void MenuNode::print(std::ostream &prt_strm) {
+    // translated name to icon and submenu (sorted by translated)
+    map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
+
+    for (auto &m : this->submenus) {
+        auto &name = m.first;
+        auto &deco = m.second.deco;
+
+        // Special mode where we detect single elements, in which case the
+        // menu's apps are moved to ours and the menu is skipped from the
+        // printed set
+        if (no_only_child && m.second.apps.size() == 1 &&
+            m.second.submenus.empty()) {
+
+            auto &lone_app = m.second.apps.begin()->second;
+            auto &lone_app_key = m.second.apps.begin()->first;
+
+            if (no_only_child_hint) {
+                // we smuggle this into translated name because it remains
+                // cached
+                const auto &nameLoc = deco ? deco->GetTranslatedName() : name;
+                auto &appNameLoc = lone_app->GetTranslatedName();
+
+                if (generic_name) {
+                    auto &appGnameLoc = lone_app->GetTranslatedGenericName();
+                    if (nameLoc == appGnameLoc)
+                        goto skip_origin_hint;
+                }
+                if (right_to_left)
+                    appNameLoc = string("[") + nameLoc + "] " + appNameLoc;
+                else
+                    appNameLoc += string(" [") + nameLoc + "]";
+
+            skip_origin_hint:;
+            }
+
+            apps.emplace(lone_app_key, lone_app);
+            m.second.apps.clear();
+        } else {
+            sorted[deco ? deco->GetTranslatedName() : name] =
+                make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+        }
+    }
+    for (auto &m : sorted) {
+        auto &name = m.first;
+        prt_strm << indent_hint << "menu \"";
+        if (m.second.second->deco)
+            prt_strm << m.second.second->deco->GetTranslatedName();
+        else
+            prt_strm << gettext(name.c_str());
+
+        prt_strm << "\" "
+                 << ((m.second.second->deco &&
+                      !m.second.second->deco->Icon.empty())
+                         ? m.second.second->deco->Icon
+                         : ICON_FOLDER)
+                 << " {\n";
+
+        indent_hint += "\t";
+        m.second.second->print(prt_strm);
+        indent_hint.pop_back();
+
+        prt_strm << indent_hint << "}\n";
+    }
+
+    map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
+    for (auto &p : this->apps)
+        sortedApps[p.second->GetTranslatedName()] = p.second;
+
+    for (auto &p : sortedApps) {
+        auto &pi = p.second;
+
+        prt_strm << indent_hint << "prog \"";
+        if (!generic_name)
+            prt_strm << pi->GetTranslatedName();
+        else {
+            auto &gn = pi->GetTranslatedGenericName();
+            if (gn.empty() || gn == pi->GetTranslatedName())
+                prt_strm << pi->GetTranslatedName();
+            else {
+                if (right_to_left)
+                    prt_strm << " (" << gn << ")" << pi->GetTranslatedName();
+                else
+                    prt_strm << pi->GetTranslatedName() << " (" << gn << ")";
+            }
+        }
+
+        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+    }
+}
+
+unordered_multimap<string, MenuNode *> MenuNode::fixup() {
+
+    unordered_multimap<string, MenuNode *> ret;
+
+    if (no_sep_others)
+        submenus.erase("Other");
+
+    // descend deep and then check whether the same app has been added somewhere
+    // in the parent nodes, then remove it there
+    vector<MenuNode *> checkStack;
+    std::function<void(MenuNode *)> go_deeper;
+    go_deeper = [&](MenuNode *cur) {
+        checkStack.push_back(cur);
+
+        for (auto it = cur->submenus.begin(); it != cur->submenus.end(); ++it) {
+            ret.insert(make_pair(it->first, &it->second));
+            go_deeper(&it->second);
+        }
+
+        for (auto &appIt : cur->apps) {
+            for (auto ancestorIt = checkStack.begin();
+                 ancestorIt != checkStack.end() - 1; ++ancestorIt) {
+                auto otherIt = (*ancestorIt)->apps.find(appIt.second->Name);
+                if (otherIt != (*ancestorIt)->apps.end() &&
+                    otherIt->second == appIt.second) {
+                    (*ancestorIt)->apps.erase(otherIt);
+                }
+            }
+        }
+
+        checkStack.pop_back();
+    };
+    go_deeper(this);
+    return ret;
+}
+
 static void help(bool to_stderr, int xit) {
     (to_stderr ? cerr : cout)
         << "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
@@ -538,35 +741,6 @@ static void help(bool to_stderr, int xit) {
     exit(xit);
 }
 
-/**
- * The own menu deco info is not part of this class.
- * It's fetched on-demand with a supplied resolver function.
- */
-struct MenuNode {
-
-    map<string, MenuNode> submenues;
-    DesktopFilePtr deco;
-    unordered_map<string, DesktopFilePtr> apps;
-
-    void sink_in(DesktopFilePtr df);
-    void print(std::ostream &prt_strm);
-    bool empty() { return apps.empty() && submenues.empty(); }
-    /**
-     * Returns a temporary list of visited node references.
-     */
-    unordered_multimap<string, MenuNode *> fixup();
-};
-
-const char *getCheckedExplicitLocale(bool lctype) {
-    auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
-    if (loc == NULL)
-        return NULL;
-    return (islower(*loc & 0xff) && islower(loc[1] & 0xff) &&
-            !isalpha(loc[2] & 0xff))
-               ? loc
-               : NULL;
-}
-
 int main(int argc, char **argv) {
 
     // basic framework and environment initialization
@@ -599,8 +773,7 @@ int main(int argc, char **argv) {
     if (sysshare && !*sysshare)
         Tokenize(sysshare, ":", sharedirs, true);
     else
-        sharedirs.push_back("/usr/local/share"),
-            sharedirs.push_back("/usr/share");
+        sharedirs.push_back({"/usr/local/share", "/usr/share"});
 
     // option parameters
     bool add_sep_before = false;
@@ -783,183 +956,6 @@ int main(int argc, char **argv) {
         cout << "separator" << endl;
 
     return EXIT_SUCCESS;
-}
-
-void MenuNode::sink_in(DesktopFilePtr pDf) {
-
-    auto add_sub_menues = [&](const t_menu_path &mp) {
-        MenuNode *cur = this;
-
-        // work around the lack of reverse iterator, can be made easier in C++14
-        // with std::rbegin() conversion
-
-        if (!mp.size())
-            return cur;
-        for (auto it = mp.end() - 1;; --it) {
-            auto key = (*it && **it) ? *it : "Other";
-            cur = &cur->submenues[key];
-
-            // cerr << "adding submenu: " << key << endl;
-            // cur = &cur->submenues[key];
-            if (mp.begin() == it)
-                break;
-        }
-        return cur;
-    };
-
-    for (const auto &cat : pDf->Categories) {
-        // cerr << "where does it fit? " << cat << endl;
-        t_menu_path refval = {cat.c_str()};
-        static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
-            // cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() <<
-            // endl;
-            return strcmp(*a.begin(), *b.begin()) < 0;
-        };
-        for (const auto &w : valid_paths) {
-            // cerr << "try paths: " << (uintptr_t)&w << endl;
-
-            // ignore deeper paths, fallback to the main cats only
-            if (no_sub_cats && w.begin()->size() > 1)
-                continue;
-
-            auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
-            for (auto it = rng.first; it != rng.second; ++it) {
-                auto &tgt = *add_sub_menues(*it);
-                tgt.apps.emplace(pDf->Name, pDf);
-            }
-        }
-    }
-}
-
-static string ICON_FOLDER("folder");
-string indent_hint("");
-
-void MenuNode::print(std::ostream &prt_strm) {
-    // translated name to icon and submenu (sorted by translated)
-    map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
-
-    for (auto &m : this->submenues) {
-        auto &name = m.first;
-        auto &deco = m.second.deco;
-
-        // Special mode where we detect single elements, in which case the
-        // menu's apps are moved to ours and the menu is skipped from the
-        // printed set
-        if (no_only_child && m.second.apps.size() == 1 &&
-            m.second.submenues.empty()) {
-
-            auto &lone_app = m.second.apps.begin()->second;
-            auto &lone_app_key = m.second.apps.begin()->first;
-
-            if (no_only_child_hint) {
-                // we smuggle this into translated name because it remains
-                // cached
-                const auto &nameLoc = deco ? deco->GetTranslatedName() : name;
-                auto &appNameLoc = lone_app->GetTranslatedName();
-
-                if (generic_name) {
-                    auto &appGnameLoc = lone_app->GetTranslatedGenericName();
-                    if (nameLoc == appGnameLoc)
-                        goto skip_origin_hint;
-                }
-                if (right_to_left)
-                    appNameLoc = string("[") + nameLoc + "] " + appNameLoc;
-                else
-                    appNameLoc += string(" [") + nameLoc + "]";
-
-            skip_origin_hint:;
-            }
-
-            apps.emplace(lone_app_key, lone_app);
-            m.second.apps.clear();
-        } else {
-            sorted[deco ? deco->GetTranslatedName() : name] =
-                make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
-        }
-    }
-    for (auto &m : sorted) {
-        auto &name = m.first;
-        prt_strm << indent_hint << "menu \"";
-        if (m.second.second->deco)
-            prt_strm << m.second.second->deco->GetTranslatedName();
-        else
-            prt_strm << gettext(name.c_str());
-
-        prt_strm << "\" "
-                 << ((m.second.second->deco &&
-                      !m.second.second->deco->Icon.empty())
-                         ? m.second.second->deco->Icon
-                         : ICON_FOLDER)
-                 << " {\n";
-
-        indent_hint += "\t";
-        m.second.second->print(prt_strm);
-        indent_hint.pop_back();
-
-        prt_strm << indent_hint << "}\n";
-    }
-
-    map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
-    for (auto &p : this->apps)
-        sortedApps[p.second->GetTranslatedName()] = p.second;
-
-    for (auto &p : sortedApps) {
-        auto &pi = p.second;
-
-        prt_strm << indent_hint << "prog \"";
-        if (!generic_name)
-            prt_strm << pi->GetTranslatedName();
-        else {
-            auto &gn = pi->GetTranslatedGenericName();
-            if (gn.empty() || gn == pi->GetTranslatedName())
-                prt_strm << pi->GetTranslatedName();
-            else {
-                if (right_to_left)
-                    prt_strm << " (" << gn << ")" << pi->GetTranslatedName();
-                else
-                    prt_strm << pi->GetTranslatedName() << " (" << gn << ")";
-            }
-        }
-
-        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
-    }
-}
-
-unordered_multimap<string, MenuNode *> MenuNode::fixup() {
-
-    unordered_multimap<string, MenuNode *> ret;
-
-    if (no_sep_others)
-        submenues.erase("Other");
-
-    // descend deep and then check whether the same app has been added somewhere
-    // in the parent nodes, then remove it there
-    vector<MenuNode *> checkStack;
-    std::function<void(MenuNode *)> go_deeper;
-    go_deeper = [&](MenuNode *cur) {
-        checkStack.push_back(cur);
-
-        for (auto it = cur->submenues.begin(); it != cur->submenues.end();
-             ++it) {
-            ret.insert(make_pair(it->first, &it->second));
-            go_deeper(&it->second);
-        }
-
-        for (auto &appIt : cur->apps) {
-            for (auto ancestorIt = checkStack.begin();
-                 ancestorIt != checkStack.end() - 1; ++ancestorIt) {
-                auto otherIt = (*ancestorIt)->apps.find(appIt.second->Name);
-                if (otherIt != (*ancestorIt)->apps.end() &&
-                    otherIt->second == appIt.second) {
-                    (*ancestorIt)->apps.erase(otherIt);
-                }
-            }
-        }
-
-        checkStack.pop_back();
-    };
-    go_deeper(this);
-    return ret;
 }
 
 // vim: set sw=4 ts=4 et:
