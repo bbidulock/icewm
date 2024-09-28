@@ -41,6 +41,9 @@
 #include <unordered_set>
 #include <vector>
 
+#include <functional>
+#include <initializer_list>
+
 #include <dirent.h>
 #include <fcntl.h>
 #include <sys/stat.h>
