@@ -20,9 +20,9 @@
 #define _GNU_SOURCE
 #endif
 
+#include "appnames.h"
 #include "base.h"
 #include "config.h"
-#include "appnames.h"
 #include "intl.h"
 
 #include <cstring>
@@ -31,6 +31,7 @@
 // does not matter, string from C++11 is enough
 // #include <string_view>
 #include <algorithm>
+#include <chrono>
 #include <fstream>
 #include <iostream>
 #include <locale>
@@ -62,8 +63,6 @@ char const *ApplicationName;
 #endif
 
 // program options
-bool add_sep_before = false;
-bool add_sep_after = false;
 bool no_sep_others = false;
 bool no_sub_cats = false;
 bool generic_name = false;
@@ -429,7 +428,7 @@ struct tLessOp4Localized {
 class FsScan {
   private:
     std::set<std::pair<ino_t, dev_t>> reclog;
-    function<void(const string &)> cb;
+    function<bool(const string &)> cb;
     string sFileNameExtFilter;
     bool recursive;
 
@@ -495,7 +494,8 @@ class FsScan {
                 continue;
             }
 
-            cb(path + "/" + fname);
+            if (!cb(path + "/" + fname))
+                break;
         }
     }
 };
@@ -508,7 +508,10 @@ static void help(bool to_stderr, int xit) {
            "-o, --output=FILE\tWrite the output to FILE\n"
            "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
            "-s, --no-lone-app\tMove lone elements to parent menu\n"
-           "-S, --no-lone-hint\tLike -s but append the original submenu's "
+           "-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+           "-d, --deadline-apps=N\tStop loading app information after N ms\n"
+           "-D, --deadline-all=N\tStop all loading and print what we got so "
+           "far\n"
            "title\n"
            "--seps  \tPrint separators before and after contents\n"
            "--sep-before\tPrint separator before the contents\n"
@@ -547,22 +550,21 @@ struct MenuNode {
 
     void sink_in(DesktopFilePtr df);
     void print(std::ostream &prt_strm);
+    bool empty() { return apps.empty() && submenues.empty(); }
     /**
      * Returns a temporary list of visited node references.
      */
     unordered_multimap<string, MenuNode *> fixup();
 };
 
-const char* getCheckedExplicitLocale(bool lctype)
-{
+const char *getCheckedExplicitLocale(bool lctype) {
     auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
     if (loc == NULL)
         return NULL;
-    return (islower(*loc & 0xff)
-        && islower(loc[1] & 0xff)
-        && !isalpha(loc[2] & 0xff))
-        ? loc
-        : NULL;
+    return (islower(*loc & 0xff) && islower(loc[1] & 0xff) &&
+            !isalpha(loc[2] & 0xff))
+               ? loc
+               : NULL;
 }
 
 int main(int argc, char **argv) {
@@ -599,6 +601,15 @@ int main(int argc, char **argv) {
     else
         sharedirs.push_back("/usr/local/share"),
             sharedirs.push_back("/usr/share");
+
+    // option parameters
+    bool add_sep_before = false;
+    bool add_sep_after = false;
+    const char *opt_deadline_apps = nullptr;
+    const char *opt_deadline_all = nullptr;
+
+    std::chrono::time_point<std::chrono::steady_clock> deadline_apps,
+        deadline_all;
 
     for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
@@ -653,9 +664,34 @@ int main(int argc, char **argv) {
                 flat_sep = value;
             else if (GetArgument(value, "t", "terminal", pArg, argv + argc))
                 terminal_option = value;
+            else if (GetArgument(value, "d", "deadline-apps", pArg,
+                                 argv + argc))
+                opt_deadline_apps = value;
+            else if (GetArgument(value, "D", "deadline-all", pArg, argv + argc))
+                opt_deadline_all = value;
             else // unknown option
                 help(true, EXIT_FAILURE);
         }
+    }
+
+    if (opt_deadline_all || opt_deadline_apps) {
+        auto a = opt_deadline_apps ? atoi(opt_deadline_apps) : 0;
+        auto b = opt_deadline_all ? atoi(opt_deadline_all) : 0;
+        if (!a && b)
+            a = b;
+        if (b && !a)
+            b = a;
+        if (a > b)
+            a = b;
+
+        // also need to preload gettext (preheat the cache), otherwise the
+        // remaining runtime on printing becomes unpredictable
+        b += (strlen(gettext("Audio")) > 1234) +
+             (strlen(gettext("Zarathustra")) > 5678);
+
+        auto now = std::chrono::steady_clock::now();
+        deadline_apps = now + std::chrono::milliseconds(a);
+        deadline_all = now + std::chrono::milliseconds(b);
     }
 
     auto justLang = string(msglang ? msglang : "");
@@ -673,9 +709,15 @@ int main(int argc, char **argv) {
     auto desktop_loader = FsScan(
         [&](const string &fPath) {
             DBGMSG("reading: " << fPath);
+            if (opt_deadline_apps &&
+                std::chrono::steady_clock::now() > deadline_apps)
+                return false;
+
             auto df = DesktopFile::load_visible(fPath, justLang);
             if (df)
                 root.sink_in(df);
+
+            return true;
         },
         ".desktop");
 
@@ -694,11 +736,13 @@ int main(int argc, char **argv) {
 
     auto dir_loader = FsScan(
         [&](const string &fPath) {
-            // XXX: Filter not working as intended, and probably pointless
-            // anyway because of the alternative checks, see below
+            if (opt_deadline_apps &&
+                std::chrono::steady_clock::now() > deadline_all)
+                return false;
+
             auto df = DesktopFile::load_visible(fPath, justLang /*, filter*/);
             if (!df)
-                return;
+                return true;
 
             // get all menu nodes of that name
             auto rng = menu_lookup.equal_range(df->Name);
@@ -721,6 +765,8 @@ int main(int argc, char **argv) {
                         it->second->deco = df;
                 }
             }
+
+            return true;
         },
         ".directory", false);
 
@@ -728,12 +774,12 @@ int main(int argc, char **argv) {
         dir_loader.scan(sdir + "/desktop-directories");
     }
 
-    if (add_sep_before)
+    if (add_sep_before && !root.empty())
         cout << "separator" << endl;
 
     root.print(cout);
 
-    if (add_sep_after)
+    if (add_sep_after && !root.empty())
         cout << "separator" << endl;
 
     return EXIT_SUCCESS;
