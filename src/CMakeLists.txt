@@ -201,7 +201,7 @@ set(HINT_IMG_LOADERS
 # image configuration error check
 if(CONFIG_IMLIB2 OR CONFIG_GDK_PIXBUF_XLIB)
     if (NOT CONFIG_LIBRSVG AND NOT CONFIG_NANOSVG)
-        message(WARNING "Support for SVG icons was not enabled")
+        message(WARNING "Support for SVG icons was not enabled (requires either CONFIG_LIBRSVG or CONFIG_NANOSVG)")
     endif()
 elseif(CONFIG_XPM AND CONFIG_LIBPNG)
     if (NOT CONFIG_LIBJPEG)
