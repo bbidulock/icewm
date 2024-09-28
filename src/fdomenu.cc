@@ -22,10 +22,8 @@
 
 #include "base.h"
 #include "config.h"
-// #include "sysdep.h"
 #include "appnames.h"
 #include "intl.h"
-#include "ylocale.h"
 
 #include <cstring>
 #include <stack>
@@ -33,12 +31,10 @@
 // does not matter, string from C++11 is enough
 // #include <string_view>
 #include <algorithm>
-#include <array>
 #include <fstream>
 #include <iostream>
 #include <locale>
 #include <map>
-#include <memory>
 #include <regex>
 #include <set>
 #include <unordered_map>
@@ -270,7 +266,6 @@ struct DesktopFile : public tLintRefcounted {
     string &GetTranslatedGenericName() {
         if (GenericNameLoc.empty() && !GenericName.empty())
             GenericNameLoc = gettext(GenericName.c_str());
-
         return GenericNameLoc;
     }
 
@@ -555,6 +550,18 @@ struct MenuNode {
     unordered_multimap<string, MenuNode *> fixup();
 };
 
+const char* getCheckedExplicitLocale(bool lctype)
+{
+    auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
+    if (loc == NULL)
+        return NULL;
+    return (islower(*loc & 0xff)
+        && islower(loc[1] & 0xff)
+        && !isalpha(loc[2] & 0xff))
+        ? loc
+        : NULL;
+}
+
 int main(int argc, char **argv) {
 
     // basic framework and environment initialization
@@ -563,7 +570,7 @@ int main(int argc, char **argv) {
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
 
-    auto msglang = YLocale::getCheckedExplicitLocale(false);
+    auto msglang = getCheckedExplicitLocale(false);
     right_to_left =
         msglang && std::any_of(rtls, rtls + ACOUNT(rtls), [&](const char *rtl) {
             return rtl[0] == msglang[0] && rtl[1] == msglang[1];

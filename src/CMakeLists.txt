@@ -484,12 +484,15 @@ if(BUILD_TESTING)
 endif()
 
 IF(CONFIG_FDO_MENUS)
-    ADD_EXECUTABLE(icewm-menu-fdo${EXEEXT} fdomenu.cc ycollections.cc)
-    target_compile_options(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_CFLAGS_OTHER} ${gio_unix_CFLAGS_OTHER})
-    target_include_directories(icewm-menu-fdo${EXEEXT} PUBLIC ${gio_INCLUDE_DIRS} ${gio_unix_INCLUDE_DIRS})
-    TARGET_LINK_LIBRARIES(icewm-menu-fdo${EXEEXT} ice ${x11_LDFLAGS}
-                          ${gio_LDFLAGS} ${nls_LIBS})
-    INSTALL(TARGETS icewm-menu-fdo${EXEEXT} DESTINATION ${BINDIR})
+    set(_tgt icewm-menu-fdo${EXEEXT})
+    ADD_EXECUTABLE(${_tgt} fdomenu.cc)
+    TARGET_LINK_LIBRARIES(${_tgt} ice)
+    # XXX: static linking or LTO make it actually slower
+    #target_compile_options(${_tgt} PUBLIC -flto)
+    #target_link_options(${_tgt} PUBLIC -flto)
+    #target_compile_options(${_tgt} PUBLIC -static)
+    #target_link_options(${_tgt} PUBLIC -static)
+    INSTALL(TARGETS ${_tgt} DESTINATION ${BINDIR})
 ENDIF()
 
 add_executable(icewm-session${EXEEXT} icesm.cc)
