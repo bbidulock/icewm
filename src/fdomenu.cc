@@ -567,6 +567,8 @@ int main(int argc, char **argv) {
     // basic framework and environment initialization
     ApplicationName = my_basename(argv[0]);
 
+    std::ios_base::sync_with_stdio(false);
+
 #ifdef CONFIG_I18N
     setlocale(LC_ALL, "");
 
