@@ -597,6 +597,9 @@ struct MenuNode {
      * Returns a temporary list of visited node references.
      */
     unordered_multimap<string, MenuNode *> fixup();
+
+    // Second run, contains all deco information now
+    void fixup2();
 };
 
 void MenuNode::sink_in(DesktopFilePtr pDf) {
@@ -637,7 +640,7 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
                 auto &tgt = *add_sub_menues(*it);
-                tgt.apps.emplace(pDf->GetNamePtr(), AppEntry{pDf});
+                tgt.apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
             }
         }
     }
@@ -655,26 +658,8 @@ void MenuNode::print(std::ostream &prt_strm) {
         auto &menu = m.second;
         auto &menuDeco = menu.deco;
 
-        // Special mode where we detect single elements, in which case the
-        // menu's apps are moved to ours and the menu is skipped from the
-        // printed set.
-
-        if (no_only_child && m.second.apps.size() == 1 &&
-            m.second.submenus.empty()) {
-
-            auto &lone_app_entry = m.second.apps.begin()->second;
-            auto &lone_app_key = m.second.apps.begin()->first;
-
-            if (no_only_child_hint)
-                lone_app_entry.AddSfx(
-                    menuDeco ? menuDeco->GetTranslatedName() : name, "[]");
-
-            apps.emplace(lone_app_key, move(lone_app_entry));
-            m.second.apps.clear();
-        } else {
-            sorted[menuDeco ? menuDeco->GetTranslatedName() : name] =
-                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
-        }
+        sorted[menuDeco ? menuDeco->GetTranslatedName() : name] =
+            make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
     }
     for (auto &m : sorted) {
         auto &name = m.first;
@@ -698,17 +683,17 @@ void MenuNode::print(std::ostream &prt_strm) {
         prt_strm << indent_hint << "}\n";
     }
 
-    map<const string *, AppEntry, tLessOp4LocalizedDeref> sortedApps;
+    map<const string *, AppEntry *, tLessOp4LocalizedDeref> sortedApps;
     for (auto &p : this->apps)
-        sortedApps[&(p.second.deco->GetTranslatedName())] = p.second;
+        sortedApps[&(p.second.deco->GetTranslatedName())] = &p.second;
 
     for (auto &p : sortedApps) {
-        auto &pi = p.second.deco;
+        auto &pi = p.second->deco;
 
         prt_strm << indent_hint << "prog \"";
         if (generic_name)
-            p.second.AddSfx(pi->GetTranslatedGenericName(), "()");
-        p.second.PrintWithSfx(prt_strm, pi->GetTranslatedName());
+            p.second->AddSfx(pi->GetTranslatedGenericName(), "()");
+        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
         prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
@@ -751,6 +736,70 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
     };
     go_deeper(this);
     return ret;
+}
+
+void MenuNode::fixup2() {
+    using t_iter = decltype(submenus)::iterator;
+
+    // the only operation applied here for now
+    if (!no_only_child)
+        return;
+
+    // Do a depth-first-scan
+    vector<t_iter> mpath;
+    std::function<bool(const string &, MenuNode &)> descend;
+
+    // subcalls may modify ancenstor's app but not submenus. Menu operation can
+    // get last node erased by returning false.
+    descend = [&](const string &menu_key, MenuNode &node) -> bool {
+        for (auto it = node.submenus.begin(); it != node.submenus.end();) {
+            mpath.push_back(it);
+            it =
+                descend(it->first, it->second) ? ++it : node.submenus.erase(it);
+            mpath.pop_back();
+        }
+
+        // Special mode where we detect single elements, in which case the
+        // menu's apps are moved to ours and the menu is skipped from the
+        // printed set.
+
+        if (mpath.size() > 1) {
+            auto &parent_apps = mpath[mpath.size() - 2]->second.apps;
+
+            auto relocate = [&](const string *app_key, AppEntry &app_entry) {
+                // if there is another one with the same key -> hands off!
+                if (parent_apps.find(app_key) != parent_apps.end())
+                    return false;
+
+                if (no_only_child_hint)
+                    app_entry.AddSfx(node.deco ? node.deco->GetTranslatedName()
+                                               : gettext(menu_key.c_str()),
+                                     "[]");
+                parent_apps.emplace(app_key, move(app_entry));
+
+                return true;
+            };
+            if (node.submenus.empty() && node.apps.size() == 1 &&
+                mpath.size() > 1) {
+
+                if (relocate(node.apps.begin()->first,
+                             node.apps.begin()->second))
+                    node.apps.clear();
+            }
+            // only one sub-menu which contains only applications
+            if (node.apps.empty() && node.submenus.size() == 1 &&
+                node.submenus.begin()->second.submenus.empty()) {
+                bool some_remained = false;
+                for (auto &it : node.submenus.begin()->second.apps)
+                    if (!relocate(it.first, it.second))
+                        some_remained = true;
+                if (!some_remained)
+                    node.submenus.clear();
+            }
+        }
+        return !node.empty();
+    };
+    descend("", *this);
 }
 
 static void help(bool to_stderr, int xit) {
@@ -1000,6 +1049,8 @@ int main(int argc, char **argv) {
 
     if (add_sep_before && !root.empty())
         cout << "separator" << endl;
+
+    root.fixup2();
 
     root.print(cout);
 
