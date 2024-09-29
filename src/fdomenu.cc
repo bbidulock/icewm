@@ -34,6 +34,7 @@
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <list>
 #include <locale>
 #include <map>
 #include <regex>
@@ -95,6 +96,32 @@ char *terminal_option;
     ((where).size() >= (sizeof((what)) - 1) &&                                 \
      0 == (where).compare((where).size() - (sizeof((what)) - 1),               \
                           (sizeof((what)) - 1), (what)))
+
+/**
+ * Container helpers and adaptors
+ */
+
+struct tLessOp4Localized {
+    std::locale loc; // default locale
+    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
+    bool operator()(const std::string &a, const std::string &b) {
+        return coll.compare(a.data(), a.data() + a.size(), b.data(),
+                            b.data() + b.size()) < 0;
+    }
+};
+
+struct tLessOp4LocalizedDeref {
+    std::locale loc; // default locale
+    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
+    bool operator()(const std::string *a, const std::string *b) {
+        return coll.compare(a->data(), a->data() + a->size(), b->data(),
+                            b->data() + b->size()) < 0;
+    }
+};
+
+template <typename T> struct lessByDerefAdaptor {
+    bool operator()(const T *a, const T *b) { return *a < *b; }
+};
 
 /**
  * Basic base implementation of a reference-counted class
@@ -274,15 +301,6 @@ const char *getCheckedExplicitLocale(bool lctype) {
                : NULL;
 }
 
-struct tLessOp4Localized {
-    std::locale loc; // default locale
-    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
-    bool operator()(const std::string &a, const std::string &b) {
-        return coll.compare(a.data(), a.data() + a.size(), b.data(),
-                            b.data() + b.size()) < 0;
-    }
-} locStringComper;
-
 auto line_matcher =
     std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
                "Categories|NoDisplay)"
@@ -292,21 +310,29 @@ auto line_matcher =
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true, NoDisplay = false,
          CommandMassaged = false;
-    string Name, NameLoc, Exec, TryExec, Icon, GenericName, GenericNameLoc;
+
+  private:
+    string Name, Exec, TryExec;
+    string NameLoc, GenericName, GenericNameLoc;
+
+  public:
+    string Icon;
     vector<string> Categories;
 
     DesktopFile(string filePath, const string &langWanted);
 
     const string &GetCommand();
+    const string &GetName() { return Name; }
+    const string *GetNamePtr() { return &Name; }
 
     /// Translate with built-in l10n if needed, and cache it
-    string &GetTranslatedName() {
+    const string &GetTranslatedName() {
         if (NameLoc.empty() && !Name.empty())
             NameLoc = gettext(Name.c_str());
         return NameLoc;
     }
 
-    string &GetTranslatedGenericName() {
+    const string &GetTranslatedGenericName() {
         if (GenericNameLoc.empty() && !GenericName.empty())
             GenericNameLoc = gettext(GenericName.c_str());
         return GenericNameLoc;
@@ -510,6 +536,36 @@ class FsScan {
     }
 };
 
+struct AppEntry {
+    DesktopFilePtr deco;
+    struct tSfx {
+        char before, after;
+        string sfx;
+    };
+    list<tSfx> extraSfx;
+    void AddSfx(const string &sfx, const char *deco) {
+        for (const auto &s : extraSfx)
+            if (s.sfx == sfx)
+                return;
+        extraSfx.emplace_back(tSfx{deco[0], deco[1], sfx});
+    }
+    void PrintWithSfx(ostream &strm, const string &sTitle) {
+        if (extraSfx.empty()) {
+            strm << sTitle;
+            return;
+        }
+        if (right_to_left) {
+            for (auto rit = extraSfx.rbegin(); rit != extraSfx.rend(); ++rit)
+                strm << rit->before << rit->sfx << rit->after << " ";
+            strm << sTitle;
+        } else {
+            strm << sTitle;
+            for (const auto &p : extraSfx)
+                strm << " " << p.before << p.sfx << p.after;
+        }
+    }
+};
+
 /**
  * The own menu deco info is not part of this class.
  * It's fetched on-demand with a supplied resolver function.
@@ -518,7 +574,7 @@ struct MenuNode {
 
     map<string, MenuNode> submenus;
     DesktopFilePtr deco;
-    unordered_map<string, DesktopFilePtr> apps;
+    map<const string *, AppEntry, lessByDerefAdaptor<string>> apps;
 
     void sink_in(DesktopFilePtr df);
     void print(std::ostream &prt_strm);
@@ -567,7 +623,7 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
                 auto &tgt = *add_sub_menues(*it);
-                tgt.apps.emplace(pDf->Name, pDf);
+                tgt.apps.emplace(pDf->GetNamePtr(), AppEntry{pDf});
             }
         }
     }
@@ -577,12 +633,13 @@ static string ICON_FOLDER("folder");
 string indent_hint("");
 
 void MenuNode::print(std::ostream &prt_strm) {
-    // translated name to icon and submenu (sorted by translated)
+    // translated name to icon and submenu (sorted by translated name)
     map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
 
     for (auto &m : this->submenus) {
         auto &name = m.first;
-        auto &deco = m.second.deco;
+        auto &menu = m.second;
+        auto &menuDeco = menu.deco;
 
         // Special mode where we detect single elements, in which case the
         // menu's apps are moved to ours and the menu is skipped from the
@@ -590,33 +647,18 @@ void MenuNode::print(std::ostream &prt_strm) {
         if (no_only_child && m.second.apps.size() == 1 &&
             m.second.submenus.empty()) {
 
-            auto &lone_app = m.second.apps.begin()->second;
+            auto &lone_app_entry = m.second.apps.begin()->second;
             auto &lone_app_key = m.second.apps.begin()->first;
 
-            if (no_only_child_hint) {
-                // we smuggle this into translated name because it remains
-                // cached
-                const auto &nameLoc = deco ? deco->GetTranslatedName() : name;
-                auto &appNameLoc = lone_app->GetTranslatedName();
+            if (no_only_child_hint)
+                lone_app_entry.AddSfx(
+                    menuDeco ? menuDeco->GetTranslatedName() : name, "[]");
 
-                if (generic_name) {
-                    auto &appGnameLoc = lone_app->GetTranslatedGenericName();
-                    if (nameLoc == appGnameLoc)
-                        goto skip_origin_hint;
-                }
-                if (right_to_left)
-                    appNameLoc = string("[") + nameLoc + "] " + appNameLoc;
-                else
-                    appNameLoc += string(" [") + nameLoc + "]";
-
-            skip_origin_hint:;
-            }
-
-            apps.emplace(lone_app_key, lone_app);
+            apps.emplace(lone_app_key, move(lone_app_entry));
             m.second.apps.clear();
         } else {
-            sorted[deco ? deco->GetTranslatedName() : name] =
-                make_pair(deco ? deco->Icon : ICON_FOLDER, &m.second);
+            sorted[menuDeco ? menuDeco->GetTranslatedName() : name] =
+                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
         }
     }
     for (auto &m : sorted) {
@@ -641,28 +683,17 @@ void MenuNode::print(std::ostream &prt_strm) {
         prt_strm << indent_hint << "}\n";
     }
 
-    map<string, DesktopFilePtr, tLessOp4Localized> sortedApps;
+    map<const string *, AppEntry, tLessOp4LocalizedDeref> sortedApps;
     for (auto &p : this->apps)
-        sortedApps[p.second->GetTranslatedName()] = p.second;
+        sortedApps[&(p.second.deco->GetTranslatedName())] = p.second;
 
     for (auto &p : sortedApps) {
-        auto &pi = p.second;
+        auto &pi = p.second.deco;
 
         prt_strm << indent_hint << "prog \"";
-        if (!generic_name)
-            prt_strm << pi->GetTranslatedName();
-        else {
-            auto &gn = pi->GetTranslatedGenericName();
-            if (gn.empty() || gn == pi->GetTranslatedName())
-                prt_strm << pi->GetTranslatedName();
-            else {
-                if (right_to_left)
-                    prt_strm << " (" << gn << ")" << pi->GetTranslatedName();
-                else
-                    prt_strm << pi->GetTranslatedName() << " (" << gn << ")";
-            }
-        }
-
+        if (generic_name)
+            p.second.AddSfx(pi->GetTranslatedGenericName(), "()");
+        p.second.PrintWithSfx(prt_strm, pi->GetTranslatedName());
         prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
@@ -687,12 +718,16 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
         }
 
         for (auto &appIt : cur->apps) {
+            // delete dupes in the parent menu nodes (compare by deco identity)
             for (auto ancestorIt = checkStack.begin();
                  ancestorIt != checkStack.end() - 1; ++ancestorIt) {
-                auto otherIt = (*ancestorIt)->apps.find(appIt.second->Name);
-                if (otherIt != (*ancestorIt)->apps.end() &&
-                    otherIt->second == appIt.second) {
-                    (*ancestorIt)->apps.erase(otherIt);
+
+                for (auto it = (**ancestorIt).apps.begin();
+                     it != (**ancestorIt).apps.end(); it++) {
+                    if (it->second.deco == appIt.second.deco) {
+                        (**ancestorIt).apps.erase(it);
+                        break;
+                    }
                 }
             }
         }
@@ -918,7 +953,7 @@ int main(int argc, char **argv) {
                 return true;
 
             // get all menu nodes of that name
-            auto rng = menu_lookup.equal_range(df->Name);
+            auto rng = menu_lookup.equal_range(df->GetName());
             for (auto it = rng.first; it != rng.second; ++it) {
                 if (!it->second->deco)
                     it->second->deco = df;
