@@ -301,6 +301,19 @@ const char *getCheckedExplicitLocale(bool lctype) {
                : NULL;
 }
 
+bool userFilter(const char *s, bool isSection) {
+    if (match_in_section_only && !isSection)
+        return true;
+    if ((!match_in_section && !match_in_section_only) && isSection)
+        return true;
+
+    if (*substr_filter_nocase)
+        return strcasestr(s, substr_filter_nocase);
+    if (*substr_filter)
+        return strstr(s, substr_filter);
+    return true;
+}
+
 auto line_matcher =
     std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
                "Categories|NoDisplay)"
@@ -343,7 +356,8 @@ struct DesktopFile : public tLintRefcounted {
         auto ret = lint_ptr<DesktopFile>();
         try {
             ret.reset(new DesktopFile(path, lang));
-            if (ret->NoDisplay)
+            if (ret->NoDisplay || !userFilter(ret->Name.c_str(), false) ||
+                !userFilter(ret->GetTranslatedName().c_str(), false))
                 ret.reset();
         } catch (const std::exception &) {
         }
@@ -640,6 +654,13 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
+                if ((*substr_filter || *substr_filter_nocase) &&
+                    any_of(it->begin(), it->end(), [](const char *s) {
+                        return !userFilter(s, true);
+                    })) {
+                    break;
+                }
+
                 auto &tgt = *add_sub_menues(*it);
                 tgt.apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
             }
