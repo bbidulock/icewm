@@ -26,7 +26,6 @@
 #include "intl.h"
 
 #include <cstring>
-#include <stack>
 #include <string>
 // does not matter, string from C++11 is enough
 // #include <string_view>
@@ -486,7 +485,6 @@ class FsScan {
         auto_raii<DIR *, int, closedir> dircloser(pdir);
         auto fddir(dirfd(pdir));
 
-        // const gchar *szFilename(nullptr);
         dirent *pent;
         struct stat stbuf;
 
@@ -496,14 +494,21 @@ class FsScan {
 
             string fname(pent->d_name);
 
+#if __linux__
             // Take the shortcuts where possible, no need to analyze directory
             // properties for descending if that's known to be a plain file
             // already.
             if (pent->d_type == DT_REG)
                 goto process_reg_file;
 
-            if (recursive && pent->d_type == DT_DIR)
+            // Don't have device id here, OTOH hitting another folder on another
+            // drive with exactly the same inode is very very unlikely!
+            if (recursive && pent->d_type == DT_DIR) {
+                stbuf.st_ino = pent->d_ino;
+                stbuf.st_dev = 0;
                 goto process_dir;
+            }
+#endif
 
             if (fstatat(fddir, pent->d_name, &stbuf, 0))
                 continue;
@@ -543,6 +548,15 @@ struct AppEntry {
         string sfx;
     };
     list<tSfx> extraSfx;
+
+    AppEntry(DesktopFilePtr a, list<tSfx> b = list<tSfx>())
+        : deco(a), extraSfx(b) {}
+
+    AppEntry(const AppEntry &orig) : deco(orig.deco), extraSfx(orig.extraSfx) {}
+
+    AppEntry(AppEntry &&orig)
+        : deco(orig.deco), extraSfx(move(orig.extraSfx)) {}
+
     void AddSfx(const string &sfx, const char *deco) {
         for (const auto &s : extraSfx)
             if (s.sfx == sfx)
@@ -643,7 +657,8 @@ void MenuNode::print(std::ostream &prt_strm) {
 
         // Special mode where we detect single elements, in which case the
         // menu's apps are moved to ours and the menu is skipped from the
-        // printed set
+        // printed set.
+
         if (no_only_child && m.second.apps.size() == 1 &&
             m.second.submenus.empty()) {
 
@@ -807,9 +822,10 @@ int main(int argc, char **argv) {
     auto sysshare = getenv("XDG_DATA_DIRS");
     if (sysshare && !*sysshare)
         Tokenize(sysshare, ":", sharedirs, true);
-    else
-        sharedirs.push_back({"/usr/local/share", "/usr/share"});
-
+    else {
+        sharedirs.push_back("/usr/local/share");
+        sharedirs.push_back("/usr/share");
+    }
     // option parameters
     bool add_sep_before = false;
     bool add_sep_after = false;
