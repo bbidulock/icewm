@@ -49,6 +49,7 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -884,6 +885,8 @@ int main(int argc, char **argv) {
     std::chrono::time_point<std::chrono::steady_clock> deadline_apps,
         deadline_all;
 
+    string desktop_file_to_start;
+
     for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
             cout << "icewm-menu-fdo " VERSION ", Copyright 2015-2024 Eduard "
@@ -942,9 +945,30 @@ int main(int argc, char **argv) {
                 opt_deadline_apps = value;
             else if (GetArgument(value, "D", "deadline-all", pArg, argv + argc))
                 opt_deadline_all = value;
-            else // unknown option
-                help(true, EXIT_FAILURE);
+            else {
+                if (argc == 2 && !(desktop_file_to_start = argv[1]).empty() &&
+                    endsWithSzAr(desktop_file_to_start, ".desktop")) {
+                    // cerr << "shall invoke: " << desktop_file_to_start <<
+                    // endl;
+                } else // unknown option
+                    help(true, EXIT_FAILURE);
+            }
         }
+    }
+
+    const char *terminals[] = {terminal_option, getenv("TERMINAL"), TERM,
+                               "urxvt",         "alacritty",        "roxterm",
+                               "xterm"};
+    for (auto term : terminals)
+        if (term && (terminal_command = path_lookup(term)) != nullptr)
+            break;
+
+    if (!desktop_file_to_start.empty()) {
+        DesktopFile df(argv[1], "");
+        auto cmd = df.GetCommand();
+        if (cmd.empty())
+            return EXIT_FAILURE;
+        return system(cmd.c_str());
     }
 
     if (opt_deadline_all || opt_deadline_apps) {
@@ -969,13 +993,6 @@ int main(int argc, char **argv) {
 
     auto justLang = string(msglang ? msglang : "");
     justLang = justLang.substr(0, justLang.find('.'));
-
-    const char *terminals[] = {terminal_option, getenv("TERMINAL"), TERM,
-                               "urxvt",         "alacritty",        "roxterm",
-                               "xterm"};
-    for (auto term : terminals)
-        if (term && (terminal_command = path_lookup(term)) != nullptr)
-            break;
 
     MenuNode root;
 
