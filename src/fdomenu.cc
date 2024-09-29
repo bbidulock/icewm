@@ -333,6 +333,9 @@ struct DesktopFile : public tLintRefcounted {
     vector<string> Categories;
 
     DesktopFile(string filePath, const string &langWanted);
+    DesktopFile(const string &_name, const string &_nameLoc,
+                const string &_icon)
+        : Name(_name), NameLoc(_nameLoc), Icon(_icon) {}
 
     const string &GetCommand();
     const string &GetName() { return Name; }
@@ -763,7 +766,18 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 void MenuNode::fixup2() {
     using t_iter = decltype(submenus)::iterator;
 
-    // the only operation applied here for now
+    auto vit = submenus.find("AudioVideo");
+    if (vit != submenus.end()) {
+        for (auto &s : {"Audio", "Video"}) {
+            auto donor = vit->second.deco;
+            auto it = submenus.find(s);
+            if (it != submenus.end() && !it->second.deco)
+                it->second.deco.reset(
+                    new DesktopFile(it->first, "", donor->Icon));
+        }
+    }
+
+    // the only operation applied in the following
     if (!no_only_child)
         return;
 
