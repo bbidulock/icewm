@@ -27,9 +27,8 @@
 
 #include <cstring>
 #include <string>
-// does not matter, string from C++11 is enough
-// #include <string_view>
 #include <algorithm>
+#include <utility>  // For std::move
 #include <chrono>
 #include <fstream>
 #include <iostream>
@@ -417,9 +416,10 @@ const string &DesktopFile::GetCommand() {
     // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
     if (string::npos == Exec.find('%'))
         return Exec;
+    // TryExec should contain the pure command which we prefer. Copy this over
+    // so that we stick to it
     if (!TryExec.empty())
-        return (Exec = TryExec); // copy over so we stick to it in case of
-                                 // later calls
+        return (Exec = TryExec);
 
     for (const auto &bad : {"%F", "%U", "%f", "%u"})
         replace_all(Exec, bad, "");
@@ -430,10 +430,6 @@ const string &DesktopFile::GetCommand() {
 }
 
 DesktopFile::DesktopFile(string filePath, const string &langWanted) {
-    // cout << "filterlang: " << lang <<endl;
-
-    // bare short version to compare later
-    auto langWantShort = langWanted.substr(0, 2);
 
     std::ifstream dfile;
     dfile.open(filePath);
@@ -441,14 +437,14 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
     std::smatch m;
     bool reading = false;
 
-    auto take_loc_best = [&langWanted, &langWantShort](
+    auto take_loc_best = [&langWanted](
                              decltype(m[0]) &value, decltype(m[0]) &langLong,
                              decltype(m[0]) &langShort, string &out,
                              string &outLoc) {
         if (langWanted.size() > 3 && langLong == langWanted) {
             // perfect hit always takes preference
             outLoc = value;
-        } else if (langShort.matched && langShort == langWantShort) {
+        } else if (langShort.matched && 0 == langWanted.compare(0, 2, langShort)) {
             if (outLoc.empty())
                 outLoc = value;
         } else if (!langLong.matched) {
@@ -544,7 +540,8 @@ class FsScan {
 
             string fname(pent->d_name);
 
-#if __linux__
+#if defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) ||        \
+    defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
             // Take the shortcuts where possible, no need to analyze directory
             // properties for descending if that's known to be a plain file
             // already.
@@ -605,7 +602,7 @@ struct AppEntry {
     AppEntry(const AppEntry &orig) : deco(orig.deco), extraSfx(orig.extraSfx) {}
 
     AppEntry(AppEntry &&orig)
-        : deco(orig.deco), extraSfx(move(orig.extraSfx)) {}
+        : deco(orig.deco), extraSfx(std::move(orig.extraSfx)) {}
 
     void AddSfx(const string &sfx, const char *deco) {
         if (sfx.empty())
@@ -685,35 +682,21 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
-
-        // work around the lack of reverse iterator, can be made easier in C++14
-        // with std::rbegin() conversion
-
-        if (!mp.size())
-            return cur;
-        for (auto it = mp.end() - 1;; --it) {
+        for (auto it = mp.end() - 1; it >= mp.begin(); --it) {
             auto key = (*it && **it) ? *it : "Other";
             cur = &cur->submenus[key];
-            // cerr << "adding submenu: " << key << endl;
-            if (mp.begin() == it)
-                break;
         }
         return cur;
     };
 
-    // for (const auto &cat : pDf->Categories) {
     for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
         auto cat = split.str();
-        // cerr << "where does it fit? " << cat << endl;
         t_menu_path refval = {cat.c_str()};
         static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
-            // cerr << "left: " << *a.begin() << " vs. right: " << *b.begin() <<
             // endl;
             return strcmp(*a.begin(), *b.begin()) < 0;
         };
         for (const auto &w : valid_paths) {
-            // cerr << "try paths: " << (uintptr_t)&w << endl;
-
             // ignore deeper paths, fallback to the main cats only
             if (no_sub_cats && w.begin()->size() > 1)
                 continue;
@@ -785,9 +768,6 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
 unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 
     unordered_multimap<string, MenuNode *> ret;
-
-    // if (no_sep_others)
-    //     submenus.erase("Other");
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
@@ -880,7 +860,7 @@ void MenuNode::fixup2() {
 
                 if (no_only_child_hint)
                     app_entry.AddSfx(safeTrans(node.deco, menu_key), "[]");
-                parent_apps.emplace(app_key, move(app_entry));
+                parent_apps.emplace(app_key, std::move(app_entry));
 
                 return true;
             };
@@ -1056,8 +1036,7 @@ int main(int argc, char **argv) {
             else {
                 if (argc == 2 && !(desktop_file_to_start = argv[1]).empty() &&
                     endsWithSzAr(desktop_file_to_start, ".desktop")) {
-                    // cerr << "shall invoke: " << desktop_file_to_start <<
-                    // endl;
+                    DBGMSG("shall invoke: " << desktop_file_to_start);
                 } else // unknown option
                     help(true, EXIT_FAILURE);
             }
@@ -1129,7 +1108,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    auto menu_lookup = root.fixup();
+    auto section_entries = root.fixup();
 
     // okay, now let's decorate the remaining menus
     {
@@ -1147,7 +1126,7 @@ int main(int argc, char **argv) {
                     return true;
 
                 // get all menu nodes of that name
-                auto rng = menu_lookup.equal_range(df->GetName());
+                auto rng = section_entries.equal_range(df->GetName());
                 for (auto it = rng.first; it != rng.second; ++it) {
                     if (!it->second->deco)
                         it->second->deco = df;
@@ -1159,7 +1138,7 @@ int main(int argc, char **argv) {
                     auto cpos = fPath.find_last_of("/");
                     auto mcatName =
                         fPath.substr(cpos + 1, fPath.length() - cpos - 11);
-                    rng = menu_lookup.equal_range(mcatName);
+                    rng = section_entries.equal_range(mcatName);
                     DBGMSG("altname: " << mcatName);
 
                     for (auto it = rng.first; it != rng.second; ++it) {
