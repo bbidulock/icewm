@@ -622,12 +622,14 @@ struct AppEntry {
         }
         if (right_to_left) {
             for (auto rit = extraSfx.rbegin(); rit != extraSfx.rend(); ++rit)
-                strm << rit->before << rit->sfx << rit->after << " ";
+                if (sTitle != rit->sfx)
+                    strm << rit->before << rit->sfx << rit->after << " ";
             strm << sTitle;
         } else {
             strm << sTitle;
             for (const auto &p : extraSfx)
-                strm << " " << p.before << p.sfx << p.after;
+                if (sTitle != p.sfx)
+                    strm << " " << p.before << p.sfx << p.after;
         }
     }
 };
@@ -784,8 +786,8 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 
     unordered_multimap<string, MenuNode *> ret;
 
-    //if (no_sep_others)
-    //    submenus.erase("Other");
+    // if (no_sep_others)
+    //     submenus.erase("Other");
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
