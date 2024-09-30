@@ -697,13 +697,6 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
 
             auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
             for (auto it = rng.first; it != rng.second; ++it) {
-                if ((*substr_filter || *substr_filter_nocase) &&
-                    any_of(it->begin(), it->end(), [](const char *s) {
-                        return !userFilter(s, true);
-                    })) {
-                    break;
-                }
-
                 auto &tgt = *add_sub_menues(*it);
                 tgt.apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
             }
@@ -837,11 +830,19 @@ void MenuNode::fixup2() {
         }
 
         // now do content processing
+
         if (generic_name) {
             for (auto &p : node.apps) {
                 p.second.AddSfx(p.second.deco->GetTranslatedGenericName(),
                                 "()");
             }
+        }
+
+        if (!(userFilter(menu_key.c_str(), true) ||
+              (node.deco &&
+               userFilter(node.deco->GetTranslatedName().c_str(), true)))) {
+
+            return false;
         }
 
         // Special mode where we detect single elements, in which case the
@@ -1102,11 +1103,7 @@ int main(int argc, char **argv) {
 
     auto menu_lookup = root.fixup();
 
-    /*
-        unordered_set<string> filter;
-        for(const auto& kv: root.menu_nodes_by_name)
-            filter.insert(kv.first);
-    */
+    // okay, now let's decorate the remaining menus
 
     auto dir_loader = FsScan(
         [&](const string &fPath) {
