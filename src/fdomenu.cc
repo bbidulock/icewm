@@ -381,6 +381,10 @@ struct DesktopFile : public tLintRefcounted {
 
 using DesktopFilePtr = lint_ptr<DesktopFile>;
 
+inline string safeTrans(DesktopFilePtr &node, const string &altRaw) {
+    return node ? node->GetTranslatedName() : gettext(altRaw.c_str());
+}
+
 const string &DesktopFile::GetCommand() {
 
     if (CommandMassaged)
@@ -641,9 +645,7 @@ struct MenuNode {
 
         for (auto &m : this->submenus) {
             auto &menuDeco = m.second.deco;
-            auto &name = menuDeco ? menuDeco->GetTranslatedName()
-                                  : gettext(m.first.c_str());
-            ret[name] =
+            ret[safeTrans(menuDeco, m.first)] =
                 make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
         }
         return ret;
@@ -711,9 +713,7 @@ void MenuNode::print(std::ostream &prt_strm) {
         auto &name = m.first;
         auto &deco = m.second.second->deco;
 
-        prt_strm << indent_hint << "menu \""
-                 << (deco ? deco->GetTranslatedName() : gettext(name.c_str()))
-                 << "\" "
+        prt_strm << indent_hint << "menu \"" << safeTrans(deco, name) << "\" "
                  << ((deco && !deco->Icon.empty()) ? deco->Icon : ICON_FOLDER)
                  << " {\n";
 
@@ -738,9 +738,9 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
     for (auto &m : sorted) {
         auto &name = m.first;
         auto &deco = m.second.second->deco;
-        auto nam = (deco ? deco->GetTranslatedName() : gettext(name.c_str()));
-        auto pfx = right_to_left ? (string(flat_sep) + nam + pfx_before)
-                                 : (pfx_before + nam + flat_sep);
+        auto pfx = right_to_left
+                       ? (string(flat_sep) + safeTrans(deco, name) + pfx_before)
+                       : (pfx_before + safeTrans(deco, name) + flat_sep);
         m.second.second->print_flat(prt_strm, pfx);
     }
 
@@ -807,11 +807,11 @@ void MenuNode::fixup2() {
     auto vit = submenus.find("AudioVideo");
     if (vit != submenus.end() && vit->second.deco) {
         for (auto &s : {"Audio", "Video"}) {
-            auto donor = vit->second.deco;
             auto it = submenus.find(s);
-            if (it != submenus.end() && !it->second.deco)
+            if (it != submenus.end() && !it->second.deco) {
                 it->second.deco.reset(
-                    new DesktopFile(it->first, "", donor->Icon));
+                    new DesktopFile(it->first, "", vit->second.deco->Icon));
+            }
         }
     }
 
@@ -858,9 +858,7 @@ void MenuNode::fixup2() {
                     return false;
 
                 if (no_only_child_hint)
-                    app_entry.AddSfx(node.deco ? node.deco->GetTranslatedName()
-                                               : gettext(menu_key.c_str()),
-                                     "[]");
+                    app_entry.AddSfx(safeTrans(node.deco, menu_key), "[]");
                 parent_apps.emplace(app_key, move(app_entry));
 
                 return true;
