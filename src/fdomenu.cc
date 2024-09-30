@@ -246,30 +246,48 @@ template <class T> class lint_ptr {
     }
 };
 
-/*!
- * \brief Simple and convenient split function, outputs resulting tokens into a
- * string vector. Operates on user-provided vector, with or without purging the
- * previous contents.
- */
-vector<string> &Tokenize(const string &in, const char *sep,
-                         vector<string> &inOutVec, bool bAppend = false,
-                         std::string::size_type nStartOffset = 0) {
-    if (!bAppend)
-        inOutVec.clear();
+class tSplitWalk {
+    using mstring = string;
+    using cmstring = const string;
+#define stmiss string::npos
 
-    auto pos = nStartOffset, pos2 = nStartOffset, oob = in.length();
-    while (pos < oob) {
-        pos = in.find_first_not_of(sep, pos);
-        if (pos == string::npos) // no more tokens
-            break;
-        pos2 = in.find_first_of(sep, pos);
-        if (pos2 == string::npos) // no more terminators, EOL
-            pos2 = oob;
-        inOutVec.emplace_back(in.substr(pos, pos2 - pos));
-        pos = pos2 + 1;
+    cmstring &s;
+    mutable mstring::size_type start, len, oob;
+    const char *m_seps;
+
+  public:
+    inline tSplitWalk(cmstring &line, decltype(m_seps) separators,
+                      unsigned begin = 0)
+        : s(line), start(begin), len(stmiss), oob(line.size()),
+          m_seps(separators) {}
+    inline bool Next() const {
+        if (len != stmiss) // not initial state, find the next position
+            start = start + len + 1;
+
+        if (start >= oob)
+            return false;
+
+        start = s.find_first_not_of(m_seps, start);
+
+        if (start < oob) {
+            len = s.find_first_of(m_seps, start);
+            len = (len == stmiss) ? oob - start : len - start;
+        } else if (len != stmiss) // not initial state, end reached
+            return false;
+        else if (s.empty()) // initial state, no parts
+            return false;
+        else // initial state, use the whole string
+        {
+            start = 0;
+            len = oob;
+        }
+
+        return true;
     }
-    return inOutVec;
-}
+    inline mstring str() const { return s.substr(start, len); }
+    inline operator mstring() const { return str(); }
+    inline const char *remainder() const { return s.c_str() + start; }
+};
 
 void replace_all(std::string &str, const std::string &from,
                  const std::string &to) {
@@ -340,8 +358,7 @@ struct DesktopFile : public tLintRefcounted {
     string NameLoc, GenericName, GenericNameLoc;
 
   public:
-    string Icon;
-    vector<string> Categories;
+    string Icon, Categories;
 
     DesktopFile(string filePath, const string &langWanted);
     DesktopFile(const string &_name, const string &_nameLoc,
@@ -474,7 +491,7 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
         else if (key == "Icon")
             Icon = value;
         else if (key == "Categories")
-            Tokenize(value, ";", Categories);
+            Categories = value;
         else if (key == "Exec")
             Exec = value;
         else if (key == "TryExec")
@@ -682,7 +699,9 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
         return cur;
     };
 
-    for (const auto &cat : pDf->Categories) {
+    // for (const auto &cat : pDf->Categories) {
+    for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
+        auto cat = split.str();
         // cerr << "where does it fit? " << cat << endl;
         t_menu_path refval = {cat.c_str()};
         static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
@@ -942,18 +961,21 @@ int main(int argc, char **argv) {
 #endif
 
     vector<string> sharedirs;
-    const char *p;
-    auto pUserShare = getenv("XDG_DATA_HOME");
-    if (pUserShare && *pUserShare)
-        Tokenize(pUserShare, ":", sharedirs, true);
-    else if (nullptr != (p = getenv("HOME")) && *p)
-        sharedirs.push_back(string(p) + "/.local/share");
+    auto add_split = [&](const char *p) {
+        if (!p || !*p)
+            return false;
+        string q(p);
+        for (tSplitWalk w(q, ":"); w.Next();)
+            sharedirs.push_back(w);
+        return true;
+    };
 
     // system dirs, either from environment or from static locations
-    auto sysshare = getenv("XDG_DATA_DIRS");
-    if (sysshare && !*sysshare)
-        Tokenize(sysshare, ":", sharedirs, true);
-    else {
+    const char *p;
+    if (!add_split(getenv("XDG_DATA_HOME")) && (p = getenv("HOME")) && *p)
+        sharedirs.push_back(string(p) + "/.local/share");
+
+    if (!add_split(getenv("XDG_DATA_DIRS"))) {
         sharedirs.push_back("/usr/local/share");
         sharedirs.push_back("/usr/share");
     }
@@ -1077,68 +1099,72 @@ int main(int argc, char **argv) {
 
     MenuNode root;
 
-    auto desktop_loader = FsScan(
-        [&](const string &fPath) {
-            DBGMSG("reading: " << fPath);
-            if (opt_deadline_apps &&
-                std::chrono::steady_clock::now() > deadline_apps)
-                return false;
+    {
+        auto desktop_loader = FsScan(
+            [&](const string &fPath) {
+                DBGMSG("reading: " << fPath);
+                if (opt_deadline_apps &&
+                    std::chrono::steady_clock::now() > deadline_apps)
+                    return false;
 
-            auto df = DesktopFile::load_visible(fPath, justLang);
-            if (df)
-                root.sink_in(df);
+                auto df = DesktopFile::load_visible(fPath, justLang);
+                if (df)
+                    root.sink_in(df);
 
-            return true;
-        },
-        ".desktop");
+                return true;
+            },
+            ".desktop");
 
-    for (const auto &sdir : sharedirs) {
-        DBGMSG("checkdir: " << sdir);
-        desktop_loader.scan(sdir + "/applications");
+        for (const auto &sdir : sharedirs) {
+            DBGMSG("checkdir: " << sdir);
+            desktop_loader.scan(sdir + "/applications");
+        }
     }
 
     auto menu_lookup = root.fixup();
 
     // okay, now let's decorate the remaining menus
+    {
+        auto dir_loader = FsScan(
+            [&](const string &fPath) {
+                if (opt_deadline_all &&
+                    std::chrono::steady_clock::now() > deadline_all)
+                    return false;
 
-    auto dir_loader = FsScan(
-        [&](const string &fPath) {
-            if (opt_deadline_all &&
-                std::chrono::steady_clock::now() > deadline_all)
-                return false;
+                auto df =
+                    DesktopFile::load_visible(fPath, justLang /*, filter*/);
+                if (!df)
+                    return true;
 
-            auto df = DesktopFile::load_visible(fPath, justLang /*, filter*/);
-            if (!df)
-                return true;
-
-            // get all menu nodes of that name
-            auto rng = menu_lookup.equal_range(df->GetName());
-            for (auto it = rng.first; it != rng.second; ++it) {
-                if (!it->second->deco)
-                    it->second->deco = df;
-            }
-            // No menus of that name? Try using the plain filename, some
-            // .directory files use the category as file name stem but differing
-            // in the Name attribute
-            if (rng.first == rng.second) {
-                auto cpos = fPath.find_last_of("/");
-                auto mcatName =
-                    fPath.substr(cpos + 1, fPath.length() - cpos - 11);
-                rng = menu_lookup.equal_range(mcatName);
-                DBGMSG("altname: " << mcatName);
-
+                // get all menu nodes of that name
+                auto rng = menu_lookup.equal_range(df->GetName());
                 for (auto it = rng.first; it != rng.second; ++it) {
                     if (!it->second->deco)
                         it->second->deco = df;
                 }
-            }
+                // No menus of that name? Try using the plain filename, some
+                // .directory files use the category as file name stem but
+                // differing in the Name attribute
+                if (rng.first == rng.second) {
+                    auto cpos = fPath.find_last_of("/");
+                    auto mcatName =
+                        fPath.substr(cpos + 1, fPath.length() - cpos - 11);
+                    rng = menu_lookup.equal_range(mcatName);
+                    DBGMSG("altname: " << mcatName);
 
-            return true;
-        },
-        ".directory", false);
+                    for (auto it = rng.first; it != rng.second; ++it) {
+                        if (!it->second->deco)
+                            it->second->deco = df;
+                    }
+                }
 
-    for (const auto &sdir : sharedirs) {
-        dir_loader.scan(sdir + "/desktop-directories");
+                return true;
+            },
+            ".directory", false);
+
+        for (const auto &sdir : sharedirs) {
+            dir_loader.scan(sdir + "/desktop-directories");
+        }
     }
 
     if (add_sep_before && !root.empty())
