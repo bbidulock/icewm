@@ -955,7 +955,8 @@ int main(int argc, char **argv) {
 
     auto msglang = getCheckedExplicitLocale(false);
     right_to_left =
-        msglang && std::any_of(rtls, rtls + ACOUNT(rtls), [&](const char *rtl) {
+        msglang && *msglang &&
+        std::any_of(rtls, rtls + ACOUNT(rtls), [&](const char *rtl) {
             return rtl[0] == msglang[0] && rtl[1] == msglang[1];
         });
     bindtextdomain(PACKAGE, LOCDIR);
@@ -1100,15 +1101,17 @@ int main(int argc, char **argv) {
     justLang = justLang.substr(0, justLang.find('.'));
 
     MenuNode *leaky = new MenuNode;
-    MenuNode &root = *leaky;
+    auto &root = *leaky;
+    bool in_timeout = false;
 
     {
         auto desktop_loader = FsScan(
             [&](const string &fPath) {
                 DBGMSG("reading: " << fPath);
                 if (opt_deadline_apps &&
-                    std::chrono::steady_clock::now() > deadline_apps)
+                    std::chrono::steady_clock::now() > deadline_apps) {
                     return false;
+                }
 
                 auto df = DesktopFile::load_visible(fPath, justLang);
                 if (df)
@@ -1131,8 +1134,10 @@ int main(int argc, char **argv) {
         auto dir_loader = FsScan(
             [&](const string &fPath) {
                 if (opt_deadline_all &&
-                    std::chrono::steady_clock::now() > deadline_all)
+                    std::chrono::steady_clock::now() > deadline_all) {
+                    in_timeout = true;
                     return false;
+                }
 
                 auto df =
                     DesktopFile::load_visible(fPath, justLang /*, filter*/);
@@ -1173,17 +1178,17 @@ int main(int argc, char **argv) {
     if (add_sep_before && !root.empty())
         cout << "separator" << endl;
 
-    root.fixup2();
+    if (!in_timeout)
+        root.fixup2();
 
     if (flat_output)
         root.print_flat(cout, "");
     else
         root.print(cout);
 
-    if ((opt_deadline_apps &&
-         std::chrono::steady_clock::now() > deadline_apps) ||
-        (opt_deadline_all && std::chrono::steady_clock::now() > deadline_all)) {
-        cout << "prog \"" << _("System too slow, failed to load menu content!")
+    if (in_timeout || (opt_deadline_apps &&
+                       std::chrono::steady_clock::now() > deadline_apps)) {
+        cout << "prog \"" << _("System too slow! Failed to load menu content!")
              << "\" stop " << argv[0]
              << " --match=to-be-never-matched --match-osec\n"
              << "prog \"" << _("Please push HERE and retry after some seconds.")
