@@ -784,8 +784,8 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 
     unordered_multimap<string, MenuNode *> ret;
 
-    if (no_sep_others)
-        submenus.erase("Other");
+    //if (no_sep_others)
+    //    submenus.erase("Other");
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
@@ -922,7 +922,7 @@ static void help(bool to_stderr, int xit) {
              "--seps  \tPrint separators before and after contents\n"
              "--sep-before\tPrint separator before the contents\n"
              "--sep-after\tPrint separator only after contents\n"
-             "--no-sep-others\tDon't print uncategorized apps in Other menu\n"
+             "--no-sep-others\tLegacy, has no effect\n"
              "--no-sub-cats\tNo additional subcategories, just one level of "
              "menues\n"
              "--flat\t\tDisplay all apps in one layer with category hints\n"

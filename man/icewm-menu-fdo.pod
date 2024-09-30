@@ -47,10 +47,6 @@ Print a leading separator.
 
 Print a trailing separator.
 
-=item B<--no-sep-others>
-
-Don't print the C<Other> category, only official categories.
-
 =item B<--no-sub-cats>
 
 Don't nest subcategories in submenus.
