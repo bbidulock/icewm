@@ -812,7 +812,7 @@ void MenuNode::fixup2() {
     using t_iter = decltype(submenus)::iterator;
 
     auto vit = submenus.find("AudioVideo");
-    if (vit != submenus.end()) {
+    if (vit != submenus.end() && vit->second.deco) {
         for (auto &s : {"Audio", "Video"}) {
             auto donor = vit->second.deco;
             auto it = submenus.find(s);
