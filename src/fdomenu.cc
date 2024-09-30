@@ -890,39 +890,37 @@ void MenuNode::fixup2() {
 
 static void help(bool to_stderr, int xit) {
     (to_stderr ? cerr : cout)
-        << "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
-           "OPTIONS:\n"
-           "-g, --generic\tInclude GenericName in parentheses of progs\n"
-           "-o, --output=FILE\tWrite the output to FILE\n"
-           "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
-           "-s, --no-lone-app\tMove lone elements to parent menu\n"
-           "-S, --no-lone-hint\tLike -s but append the original submenu's\n"
-           "-d, --deadline-apps=N\tStop loading app information after N ms\n"
-           "-D, --deadline-all=N\tStop all loading and print what we got so "
-           "far\n"
-           "title\n"
-           "--seps  \tPrint separators before and after contents\n"
-           "--sep-before\tPrint separator before the contents\n"
-           "--sep-after\tPrint separator only after contents\n"
-           "--no-sep-others\tDon't print uncategorized apps in Other menu\n"
-           "--no-sub-cats\tNo additional subcategories, just one level of "
-           "menues\n"
-           "--flat\tDisplay all apps in one layer with category hints\n"
-           "--flat-sep STR\tCategory separator string used in flat mode "
-           "(default: ' / ')\n"
-           "--match PAT\tDisplay only apps with title containing PAT\n"
-           "--imatch PAT\tLike --match but ignores the letter case\n"
-           "--match-sec\tApply --match or --imatch to apps AND sections\n"
-           "--match-osec\tApply --match or --imatch only to sections\n"
-           "FILENAME\tAny .desktop file to launch its application Exec "
-           "command\n"
-           "This program also listens to environment variables defined by\n"
-           "the XDG Base Directory Specification:\n"
-           "XDG_DATA_HOME="
-        << Elvis(getenv("XDG_DATA_HOME"), (char *)"")
-        << "\n"
-           "XDG_DATA_DIRS="
-        << Elvis(getenv("XDG_DATA_DIRS"), (char *)"") << endl;
+        << _("USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+             "OPTIONS:\n"
+             "-g, --generic\tInclude GenericName in parentheses of progs\n"
+             "-o, --output=FILE\tWrite the output to FILE\n"
+             "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+             "-s, --no-lone-app\tMove lone elements to parent menu\n"
+             "-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+             "-d, --deadline-apps=N\tStop loading app information after N ms\n"
+             "-D, --deadline-all=N\tStop all loading and print what we got so "
+             "far\n"
+             "title\n"
+             "--seps  \tPrint separators before and after contents\n"
+             "--sep-before\tPrint separator before the contents\n"
+             "--sep-after\tPrint separator only after contents\n"
+             "--no-sep-others\tDon't print uncategorized apps in Other menu\n"
+             "--no-sub-cats\tNo additional subcategories, just one level of "
+             "menues\n"
+             "--flat\tDisplay all apps in one layer with category hints\n"
+             "--flat-sep STR\tCategory separator string used in flat mode "
+             "(default: ' / ')\n"
+             "--match PAT\tDisplay only apps with title containing PAT\n"
+             "--imatch PAT\tLike --match but ignores the letter case\n"
+             "--match-sec\tApply --match or --imatch to apps AND sections\n"
+             "--match-osec\tApply --match or --imatch only to sections\n"
+             "FILENAME\tAny .desktop file to launch its application Exec "
+             "command\n"
+             "This program also listens to environment variables defined by\n"
+             "the XDG Base Directory Specification:\n")
+        << "XDG_DATA_HOME=" << Elvis(getenv("XDG_DATA_HOME"), (char *)"")
+        << "\nXDG_DATA_DIRS=" << Elvis(getenv("XDG_DATA_DIRS"), (char *)"")
+        << endl;
     exit(xit);
 }
 
@@ -1107,7 +1105,7 @@ int main(int argc, char **argv) {
 
     auto dir_loader = FsScan(
         [&](const string &fPath) {
-            if (opt_deadline_apps &&
+            if (opt_deadline_all &&
                 std::chrono::steady_clock::now() > deadline_all)
                 return false;
 
@@ -1154,6 +1152,17 @@ int main(int argc, char **argv) {
         root.print_flat(cout, "");
     else
         root.print(cout);
+
+    if ((opt_deadline_apps &&
+         std::chrono::steady_clock::now() > deadline_apps) ||
+        (opt_deadline_all && std::chrono::steady_clock::now() > deadline_all)) {
+        cout << "prog \"" << _("System too slow, failed to load menu content!")
+             << "\" stop " << argv[0]
+             << " --match=to-be-never-matched --match-osec\n"
+             << "prog \"" << _("Please push HERE and retry after some seconds.")
+             << "\" view-refresh " << argv[0]
+             << " --match=to-be-never-matched --match-osec\n";
+    }
 
     if (add_sep_after && !root.empty())
         cout << "separator" << endl;
