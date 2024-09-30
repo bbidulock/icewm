@@ -76,9 +76,20 @@ bool no_only_child_hint = false;
 
 auto substr_filter = "";
 auto substr_filter_nocase = "";
+
+// use a more visually appealing default with TTF fonts
+#ifdef CONFIG_COREFONTS
 auto flat_sep = " / ";
+#else
+auto flat_sep = " • ";
+#endif
+
 char *terminal_command;
 char *terminal_option;
+
+// global defaults
+static string ICON_FOLDER("folder");
+string indent_hint("");
 
 /*
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
@@ -576,6 +587,8 @@ struct AppEntry {
         : deco(orig.deco), extraSfx(move(orig.extraSfx)) {}
 
     void AddSfx(const string &sfx, const char *deco) {
+        if (sfx.empty())
+            return;
         for (const auto &s : extraSfx)
             if (s.sfx == sfx)
                 return;
@@ -610,6 +623,7 @@ struct MenuNode {
 
     void sink_in(DesktopFilePtr df);
     void print(std::ostream &prt_strm);
+    void print_flat(std::ostream &prt_strm, const string &pfx_before);
     bool empty() { return apps.empty() && submenus.empty(); }
     /**
      * Returns a temporary list of visited node references.
@@ -618,6 +632,32 @@ struct MenuNode {
 
     // Second run, contains all deco information now
     void fixup2();
+
+  private:
+    using t_sorted_menus =
+        map<string, std::pair<string, MenuNode *>, tLessOp4Localized>;
+    t_sorted_menus GetSortedMenus() {
+        t_sorted_menus ret;
+
+        for (auto &m : this->submenus) {
+            auto &menuDeco = m.second.deco;
+            auto &name = menuDeco ? menuDeco->GetTranslatedName()
+                                  : gettext(m.first.c_str());
+            ret[name] =
+                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
+        }
+        return ret;
+    }
+
+    using t_sorted_apps =
+        map<const string *, AppEntry *, tLessOp4LocalizedDeref>;
+    t_sorted_apps GetSortedApps() {
+        t_sorted_apps sortedApps;
+        for (auto &p : this->apps) {
+            sortedApps[&(p.second.deco->GetTranslatedName())] = &p.second;
+        }
+        return sortedApps;
+    }
 };
 
 void MenuNode::sink_in(DesktopFilePtr pDf) {
@@ -671,34 +711,17 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
     }
 }
 
-static string ICON_FOLDER("folder");
-string indent_hint("");
-
 void MenuNode::print(std::ostream &prt_strm) {
     // translated name to icon and submenu (sorted by translated name)
-    map<string, std::pair<string, MenuNode *>, tLessOp4Localized> sorted;
-
-    for (auto &m : this->submenus) {
-        auto &name = m.first;
-        auto &menu = m.second;
-        auto &menuDeco = menu.deco;
-
-        sorted[menuDeco ? menuDeco->GetTranslatedName() : name] =
-            make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
-    }
+    auto sorted = GetSortedMenus();
     for (auto &m : sorted) {
         auto &name = m.first;
-        prt_strm << indent_hint << "menu \"";
-        if (m.second.second->deco)
-            prt_strm << m.second.second->deco->GetTranslatedName();
-        else
-            prt_strm << gettext(name.c_str());
+        auto &deco = m.second.second->deco;
 
-        prt_strm << "\" "
-                 << ((m.second.second->deco &&
-                      !m.second.second->deco->Icon.empty())
-                         ? m.second.second->deco->Icon
-                         : ICON_FOLDER)
+        prt_strm << indent_hint << "menu \""
+                 << (deco ? deco->GetTranslatedName() : gettext(name.c_str()))
+                 << "\" "
+                 << ((deco && !deco->Icon.empty()) ? deco->Icon : ICON_FOLDER)
                  << " {\n";
 
         indent_hint += "\t";
@@ -708,17 +731,39 @@ void MenuNode::print(std::ostream &prt_strm) {
         prt_strm << indent_hint << "}\n";
     }
 
-    map<const string *, AppEntry *, tLessOp4LocalizedDeref> sortedApps;
-    for (auto &p : this->apps)
-        sortedApps[&(p.second.deco->GetTranslatedName())] = &p.second;
-
+    auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
         auto &pi = p.second->deco;
-
         prt_strm << indent_hint << "prog \"";
+        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
+        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+    }
+}
+
+void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
+    auto sorted = GetSortedMenus();
+    for (auto &m : sorted) {
+        auto &name = m.first;
+        auto &deco = m.second.second->deco;
+        auto nam = (deco ? deco->GetTranslatedName() : gettext(name.c_str()));
+        auto pfx = right_to_left ? (string(flat_sep) + nam + pfx_before)
+                                 : (pfx_before + nam + flat_sep);
+        m.second.second->print_flat(prt_strm, pfx);
+    }
+
+    auto sortedApps = GetSortedApps();
+    for (auto &p : sortedApps) {
+        auto &pi = p.second->deco;
         if (generic_name)
             p.second->AddSfx(pi->GetTranslatedGenericName(), "()");
-        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
+        prt_strm << "prog \"";
+        if (right_to_left) {
+            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
+            prt_strm << pfx_before;
+        } else {
+            prt_strm << pfx_before;
+            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
+        }
         prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
@@ -777,10 +822,6 @@ void MenuNode::fixup2() {
         }
     }
 
-    // the only operation applied in the following
-    if (!no_only_child)
-        return;
-
     // Do a depth-first-scan
     vector<t_iter> mpath;
     std::function<bool(const string &, MenuNode &)> descend;
@@ -795,11 +836,19 @@ void MenuNode::fixup2() {
             mpath.pop_back();
         }
 
+        // now do content processing
+        if (generic_name) {
+            for (auto &p : node.apps) {
+                p.second.AddSfx(p.second.deco->GetTranslatedGenericName(),
+                                "()");
+            }
+        }
+
         // Special mode where we detect single elements, in which case the
         // menu's apps are moved to ours and the menu is skipped from the
         // printed set.
 
-        if (mpath.size() > 1) {
+        if (no_only_child && mpath.size() > 1) {
             auto &parent_apps = mpath[mpath.size() - 2]->second.apps;
 
             auto relocate = [&](const string *app_key, AppEntry &app_entry) {
@@ -1104,7 +1153,10 @@ int main(int argc, char **argv) {
 
     root.fixup2();
 
-    root.print(cout);
+    if (flat_output)
+        root.print_flat(cout, "");
+    else
+        root.print(cout);
 
     if (add_sep_after && !root.empty())
         cout << "separator" << endl;
