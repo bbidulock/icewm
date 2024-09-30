@@ -1097,7 +1097,8 @@ int main(int argc, char **argv) {
     auto justLang = string(msglang ? msglang : "");
     justLang = justLang.substr(0, justLang.find('.'));
 
-    MenuNode root;
+    MenuNode *leaky = new MenuNode;
+    MenuNode &root = *leaky;
 
     {
         auto desktop_loader = FsScan(
