@@ -819,7 +819,6 @@ multimap<string, MenuNode *> MenuNode::fixup() {
 }
 
 void MenuNode::fixup2() {
-    using t_iter = decltype(submenus)::iterator;
 
     auto vit = submenus.find("AudioVideo");
     if (vit != submenus.end() && vit->second.deco) {
@@ -833,6 +832,7 @@ void MenuNode::fixup2() {
     }
 
     // Do a depth-first-scan
+    using t_iter = decltype(submenus)::iterator;
     deque<t_iter> mpath;
     std::function<bool(const string &, MenuNode &)> descend;
 
@@ -867,15 +867,16 @@ void MenuNode::fixup2() {
         // printed set.
 
         if (no_only_child && mpath.size() > 1) {
-            auto &parent_apps = mpath[mpath.size() - 2]->second.apps;
 
-            auto relocate = [&](const string *app_key, AppEntry &app_entry) {
+            auto relocate = [&](const string *app_key, AppEntry &app_entry,
+                                decltype(MenuNode::apps) &parent_apps,
+                                const string &origin) {
                 // if there is another one with the same key -> hands off!
                 if (parent_apps.find(app_key) != parent_apps.end())
                     return false;
 
                 if (no_only_child_hint)
-                    app_entry.AddSfx(safeTrans(node.deco, menu_key), "[]");
+                    app_entry.AddSfx(safeTrans(node.deco, origin), "[]");
                 parent_apps.emplace(app_key, std::move(app_entry));
 
                 return true;
@@ -884,16 +885,21 @@ void MenuNode::fixup2() {
                 mpath.size() > 1) {
 
                 if (relocate(node.apps.begin()->first,
-                             node.apps.begin()->second))
+                             node.apps.begin()->second,
+                             mpath[mpath.size() - 2]->second.apps, menu_key)) {
                     node.apps.clear();
+                }
             }
             // only one sub-menu which contains only applications
             if (node.apps.empty() && node.submenus.size() == 1 &&
                 node.submenus.begin()->second.submenus.empty()) {
                 bool some_remained = false;
-                for (auto &it : node.submenus.begin()->second.apps)
-                    if (!relocate(it.first, it.second))
-                        some_remained = true;
+                for (auto &it : node.submenus.begin()->second.apps) {
+                    some_remained |=
+                        !relocate(it.first, it.second,
+                                  mpath[mpath.size() - 1]->second.apps,
+                                  node.submenus.begin()->first);
+                }
                 if (!some_remained)
                     node.submenus.clear();
             }
