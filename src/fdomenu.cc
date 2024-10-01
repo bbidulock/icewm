@@ -789,7 +789,7 @@ unordered_multimap<string, MenuNode *> MenuNode::fixup() {
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
-    vector<MenuNode *> checkStack;
+    deque<MenuNode *> checkStack;
     std::function<void(MenuNode *)> go_deeper;
     go_deeper = [&](MenuNode *cur) {
         checkStack.push_back(cur);
@@ -835,7 +835,7 @@ void MenuNode::fixup2() {
     }
 
     // Do a depth-first-scan
-    vector<t_iter> mpath;
+    deque<t_iter> mpath;
     std::function<bool(const string &, MenuNode &)> descend;
 
     // subcalls may modify ancenstor's app but not submenus. Menu operation can
@@ -964,7 +964,7 @@ int main(int argc, char **argv) {
     textdomain(PACKAGE);
 #endif
 
-    vector<string> sharedirs;
+    deque<string> sharedirs;
     auto add_split = [&](const char *p) {
         if (!p || !*p)
             return false;
@@ -975,14 +975,13 @@ int main(int argc, char **argv) {
     };
 
     // system dirs, either from environment or from static locations
-    const char *p;
+    const char *p = nullptr;
     if (!add_split(getenv("XDG_DATA_HOME")) && (p = getenv("HOME")) && *p)
         sharedirs.push_back(string(p) + "/.local/share");
 
-    if (!add_split(getenv("XDG_DATA_DIRS"))) {
-        sharedirs.push_back("/usr/local/share");
-        sharedirs.push_back("/usr/share");
-    }
+    if (!add_split(getenv("XDG_DATA_DIRS")))
+        sharedirs.insert(sharedirs.end(), {"/usr/local/share", "/usr/share"});
+
     // option parameters
     bool add_sep_before = false;
     bool add_sep_after = false;
