@@ -37,8 +37,6 @@
 #include <regex>
 #include <set>
 #include <string>
-#include <unordered_map>
-#include <unordered_set>
 #include <utility> // For std::move
 
 #include <functional>
@@ -667,7 +665,7 @@ struct MenuNode {
     /**
      * Returns a temporary list of visited node references.
      */
-    unordered_multimap<string, MenuNode *> fixup();
+    multimap<string, MenuNode *> fixup();
 
     // Second run, contains all deco information now
     void fixup2();
@@ -699,32 +697,32 @@ struct MenuNode {
 
 void MenuNode::sink_in(DesktopFilePtr pDf) {
 
+    static const auto lessFirstStr = [](const t_menu_path &a,
+                                        const t_menu_path &b) {
+        return strcmp(*a.begin(), *b.begin()) < 0;
+    };
+
     auto add_sub_menues = [&](const t_menu_path &mp) {
         MenuNode *cur = this;
-        for (auto it = mp.end() - 1; it >= mp.begin(); --it) {
-            auto key = (*it && **it) ? *it : "Other";
-            cur = &cur->submenus[key];
-        }
+        for (auto it = mp.end() - 1; it >= mp.begin(); --it)
+            cur = &cur->submenus[(*it && **it) ? *it : "Other"];
         return cur;
     };
 
     for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
         auto cat = split.str();
         t_menu_path refval = {cat.c_str()};
-        static auto comper = [](const t_menu_path &a, const t_menu_path &b) {
-            // endl;
-            return strcmp(*a.begin(), *b.begin()) < 0;
-        };
-        for (const auto &w : valid_paths) {
-            // ignore deeper paths, fallback to the main cats only
-            if (no_sub_cats && w.begin()->size() > 1)
-                continue;
 
-            auto rng = std::equal_range(w.begin(), w.end(), refval, comper);
-            for (auto it = rng.first; it != rng.second; ++it) {
-                auto &tgt = *add_sub_menues(*it);
-                tgt.apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
-            }
+        // maybe start main cats only
+        for (auto w = no_sub_cats ? (valid_paths.end() - 1)
+                                  : valid_paths.begin();
+             w != valid_paths.end(); ++w) {
+
+            auto rng =
+                std::equal_range(w->begin(), w->end(), refval, lessFirstStr);
+            for (auto it = rng.first; it != rng.second; ++it)
+                (*add_sub_menues(*it))
+                    .apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
         }
     }
 }
@@ -783,9 +781,9 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
     }
 }
 
-unordered_multimap<string, MenuNode *> MenuNode::fixup() {
+multimap<string, MenuNode *> MenuNode::fixup() {
 
-    unordered_multimap<string, MenuNode *> ret;
+    multimap<string, MenuNode *> ret;
 
     // descend deep and then check whether the same app has been added somewhere
     // in the parent nodes, then remove it there
