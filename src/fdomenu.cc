@@ -25,11 +25,10 @@
 #include "config.h"
 #include "intl.h"
 
-#include <cstring>
-#include <string>
 #include <algorithm>
-#include <utility>  // For std::move
 #include <chrono>
+#include <cstring>
+#include <deque>
 #include <fstream>
 #include <iostream>
 #include <list>
@@ -37,9 +36,10 @@
 #include <map>
 #include <regex>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <vector>
+#include <utility> // For std::move
 
 #include <functional>
 #include <initializer_list>
@@ -72,6 +72,7 @@ bool match_in_section = false;
 bool match_in_section_only = false;
 bool no_only_child = false;
 bool no_only_child_hint = false;
+bool add_comments = false;
 
 auto substr_filter = "";
 auto substr_filter_nocase = "";
@@ -86,9 +87,11 @@ auto flat_sep = " • ";
 char *terminal_command;
 char *terminal_option;
 
-// global defaults
+// global defaults and helpers
 static string ICON_FOLDER("folder");
 string indent_hint("");
+// use this to dump optional comment data, deque is pointer-stable
+deque<string> comment_pool;
 
 /*
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
@@ -344,7 +347,7 @@ bool userFilter(const char *s, bool isSection) {
 
 auto line_matcher =
     std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
-               "Categories|NoDisplay)"
+               "Categories|NoDisplay|OnlyShowIn)"
                "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
                std::regex_constants::ECMAScript);
 
@@ -358,6 +361,7 @@ struct DesktopFile : public tLintRefcounted {
 
   public:
     string Icon, Categories;
+    const string *comment = nullptr;
 
     DesktopFile(string filePath, const string &langWanted);
     DesktopFile(const string &_name, const string &_nameLoc,
@@ -381,17 +385,29 @@ struct DesktopFile : public tLintRefcounted {
         return GenericNameLoc;
     }
 
-    static lint_ptr<DesktopFile> load_visible(const string &path,
+    static lint_ptr<DesktopFile> load_visible(string &&path,
                                               const string &lang) {
         auto ret = lint_ptr<DesktopFile>();
         try {
             ret.reset(new DesktopFile(path, lang));
             if (ret->NoDisplay || !userFilter(ret->Name.c_str(), false) ||
-                !userFilter(ret->GetTranslatedName().c_str(), false))
+                !userFilter(ret->GetTranslatedName().c_str(), false)) {
                 ret.reset();
+            } else {
+                if (add_comments) {
+                    comment_pool.push_back(std::move(path));
+                    ret->comment = (&comment_pool.back());
+                }
+            }
         } catch (const std::exception &) {
         }
         return ret;
+    }
+
+    ostream &print_comment(ostream &strm) {
+        if (comment)
+            strm << endl << indent_hint << "# " << *comment << endl;
+        return strm;
     }
 };
 
@@ -437,20 +453,20 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
     std::smatch m;
     bool reading = false;
 
-    auto take_loc_best = [&langWanted](
-                             decltype(m[0]) &value, decltype(m[0]) &langLong,
-                             decltype(m[0]) &langShort, string &out,
-                             string &outLoc) {
-        if (langWanted.size() > 3 && langLong == langWanted) {
-            // perfect hit always takes preference
-            outLoc = value;
-        } else if (langShort.matched && 0 == langWanted.compare(0, 2, langShort)) {
-            if (outLoc.empty())
+    auto take_loc_best =
+        [&langWanted](decltype(m[0]) &value, decltype(m[0]) &langLong,
+                      decltype(m[0]) &langShort, string &out, string &outLoc) {
+            if (langWanted.size() > 3 && langLong == langWanted) {
+                // perfect hit always takes preference
                 outLoc = value;
-        } else if (!langLong.matched) {
-            out = value;
-        }
-    };
+            } else if (langShort.matched &&
+                       0 == langWanted.compare(0, 2, langShort)) {
+                if (outLoc.empty())
+                    outLoc = value;
+            } else if (!langLong.matched) {
+                out = value;
+            }
+        };
 
     while (dfile) {
         line.clear();
@@ -484,6 +500,8 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
             Terminal = value.compare("true") == 0;
         else if (key == "NoDisplay")
             NoDisplay = value.compare("true") == 0;
+        else if (key == "OnlyShowIn")
+            NoDisplay = true;
         else if (key == "Icon")
             Icon = value;
         else if (key == "Categories")
@@ -509,7 +527,7 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
 class FsScan {
   private:
     std::set<std::pair<ino_t, dev_t>> reclog;
-    function<bool(const string &)> cb;
+    function<bool(string &&)> cb;
     string sFileNameExtFilter;
     bool recursive;
 
@@ -612,10 +630,10 @@ struct AppEntry {
                 return;
         extraSfx.emplace_back(tSfx{deco[0], deco[1], sfx});
     }
-    void PrintWithSfx(ostream &strm, const string &sTitle) {
+    ostream &PrintWithSfx(ostream &strm, const string &sTitle) {
         if (extraSfx.empty()) {
             strm << sTitle;
-            return;
+            return strm;
         }
         if (right_to_left) {
             for (auto rit = extraSfx.rbegin(); rit != extraSfx.rend(); ++rit)
@@ -628,6 +646,7 @@ struct AppEntry {
                 if (sTitle != p.sfx)
                     strm << " " << p.before << p.sfx << p.after;
         }
+        return strm;
     }
 };
 
@@ -731,9 +750,9 @@ void MenuNode::print(std::ostream &prt_strm) {
     auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
         auto &pi = p.second->deco;
-        prt_strm << indent_hint << "prog \"";
-        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
-        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+        pi->print_comment(prt_strm) << indent_hint << "prog \"";
+        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName())
+            << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
 
@@ -751,12 +770,11 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
     auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
         auto &pi = p.second->deco;
-        if (generic_name)
-            p.second->AddSfx(pi->GetTranslatedGenericName(), "()");
-        prt_strm << "prog \"";
+
+        pi->print_comment(prt_strm) << "prog \"";
         if (right_to_left) {
-            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
-            prt_strm << pfx_before;
+            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName())
+                << pfx_before;
         } else {
             prt_strm << pfx_before;
             p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
@@ -912,6 +930,7 @@ static void help(bool to_stderr, int xit) {
              "(default: ' / ')\n"
              "--match-sec\tApply --match or --imatch to apps AND sections\n"
              "--match-osec\tApply --match or --imatch only to sections\n"
+             "--orig-comment\tPrint source .desktop file as comment\n"
              "-C, --copying\tPrint copyright information\n"
              "-V, --version\tPrint version information\n"
              "-h, --help\tPrints this usage screen and exits.\n"
@@ -995,6 +1014,8 @@ int main(int argc, char **argv) {
             no_sep_others = true;
         else if (is_long_switch(*pArg, "no-sub-cats"))
             no_sub_cats = true;
+        else if (is_long_switch(*pArg, "orig-comment"))
+            add_comments = true;
         else if (is_long_switch(*pArg, "flat"))
             flat_output = no_sep_others = true;
         else if (is_long_switch(*pArg, "match-sec"))
@@ -1087,14 +1108,14 @@ int main(int argc, char **argv) {
 
     {
         auto desktop_loader = FsScan(
-            [&](const string &fPath) {
+            [&](string &&fPath) {
                 DBGMSG("reading: " << fPath);
                 if (opt_deadline_apps &&
                     std::chrono::steady_clock::now() > deadline_apps) {
                     return false;
                 }
 
-                auto df = DesktopFile::load_visible(fPath, justLang);
+                auto df = DesktopFile::load_visible(std::move(fPath), justLang);
                 if (df)
                     root.sink_in(df);
 
@@ -1113,15 +1134,14 @@ int main(int argc, char **argv) {
     // okay, now let's decorate the remaining menus
     {
         auto dir_loader = FsScan(
-            [&](const string &fPath) {
+            [&](string &&fPath) {
                 if (opt_deadline_all &&
                     std::chrono::steady_clock::now() > deadline_all) {
                     in_timeout = true;
                     return false;
                 }
 
-                auto df =
-                    DesktopFile::load_visible(fPath, justLang /*, filter*/);
+                auto df = DesktopFile::load_visible(std::move(fPath), justLang);
                 if (!df)
                     return true;
 
