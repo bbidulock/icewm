@@ -49,7 +49,10 @@ Print a trailing separator.
 
 =item B<--no-sub-cats>
 
-Don't nest subcategories in submenus.
+Don't nest subcategories in submenus. The correctness of the
+pigeonholing depends on correct application description which shall
+always specify a main category. Incorrectly tagged descriptions will be
+sorted into the C<Other> menu.
 
 =item B<-o>, B<--output=FILE>
 
@@ -105,7 +108,8 @@ within their title.
 
 =item B<-M filter>, B<--imatch=filter>
 
-Like C<--match> but applied with any letter case.
+Like C<--match> but applied with any letter case. Might deliver
+incorrect results with some locale settings.
 
 =item B<--match-sec>
 
@@ -138,9 +142,16 @@ executable in a B<menuprog> entry in a L<icewm-menu(5)>.
 =head2 EXAMPLES
 
 The following line in a L<icewm-menu(5)> file will dynamically generate
-a comprehensive set of menus for easy access to F<.desktop> files.
+a comprehensive set of menus for easy access to F<.desktop> files, added
+in a submenu called C<Desktop Apps>.
 
     menuprog "Desktop Apps" folder icewm-menu-fdo
+
+It can also be embedded directly into the loading menu like in the
+following example. There could be a separator line added before or after
+(or both) in case where the program could generate useful content.
+
+    includeprog icewm-menu-fdo --seps
 
 =head2 ENVIRONMENT
 
@@ -154,15 +165,19 @@ found and a default is used instead.
 =head2 CONFORMING TO
 
 B<icewm-menu-fdo> complies roughly to the XDG F<.desktop> file and menu
-specification, see L<Desktop Entry Specification>, Version 1.2alpha,
-2015-03-06 and L<Desktop Menu Specification>, Version 1.1-draft, 31
-March 2011.
+specification, see L<Desktop Entry Specification> (Date: 2020-04-27,
+Version: Version 1.5) and L<Desktop Menu Specification> (Date: 20 August
+2016, Version: Version 1.1).
 
 =head2 CAVEATS
 
 The B<icewm-menu-fdo> program is only built when the L<icewm(1)> package
 is configured with the B<--enable-menus-fdo> option and only works with
 B<--enable-i18n> option.
+
+Integration of XDG menu files is somewhat of varying quality, heavily
+depending on the correctness of metadata like translations and sections
+(menu category) hints.
 
 =head2 SEE ALSO
 
