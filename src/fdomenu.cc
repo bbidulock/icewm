@@ -425,10 +425,6 @@ const string &DesktopFile::GetCommand() {
     // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
     if (string::npos == Exec.find('%'))
         return Exec;
-    // TryExec should contain the pure command which we prefer. Copy this over
-    // so that we stick to it
-    if (!TryExec.empty())
-        return (Exec = TryExec);
 
     for (const auto &bad : {"%F", "%U", "%f", "%u"})
         replace_all(Exec, bad, "");
@@ -510,8 +506,8 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
 #define DFVALUE get_value(kl)
         if (DFCHECK("Terminal"))
             Terminal = DFVALUE.compare("true") == 0;
-        else if (DFCHECK("TryExec"))
-            TryExec = DFVALUE;
+//        else if (DFCHECK("TryExec"))
+//            TryExec = DFVALUE;
         else if (DFCHECK("Type")) {
             auto v = DFVALUE;
             if (v == "Application")
