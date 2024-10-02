@@ -91,6 +91,13 @@ calculated so far, therefore the timeout should be set a certain time
 before the actual hard deadline by which the program should be
 terminated. The output may lack translations and icons.
 
+=item B<-L MAX>, B<--limit-max-len=MAX>
+
+Cut the calculated program titles (after translation and adding
+hints, see C<-C> and C<-g>) at C<MAX> characters, followed by an
+ellipsis. This can help to restrict the width of the menus in cases
+where some entry length might get out of hand.
+
 =item B<--flat>
 
 Display apps from all categories in one level with the title containing

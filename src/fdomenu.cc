@@ -74,10 +74,14 @@ bool add_comments = false;
 auto substr_filter = "";
 auto substr_filter_nocase = "";
 
+unsigned prog_name_cut = 0;
+
 // use a more visually appealing default with TTF fonts
 #ifdef CONFIG_COREFONTS
+#define ellipsis "..."
 auto flat_sep = " / ";
 #else
+#define ellipsis "\xe2\x80\xa6"
 auto flat_sep = " • ";
 #endif
 
@@ -108,6 +112,10 @@ deque<string> comment_pool;
     ((where).size() >= (sizeof((what)) - 1) &&                                 \
      0 == (where).compare((where).size() - (sizeof((what)) - 1),               \
                           (sizeof((what)) - 1), (what)))
+inline void trimBack(string &s, const char *junk = SPACECHARS) {
+    auto pos = s.find_last_not_of(junk);
+    s.erase(pos + 1);
+}
 
 /**
  * Container helpers and adaptors
@@ -662,6 +670,11 @@ struct AppEntry {
                     ret += p.after;
                 }
         }
+        if (prog_name_cut > 0 && ret.size() > prog_name_cut) {
+            ret.erase(prog_name_cut);
+            trimBack(ret);
+            ret += ellipsis;
+        }
         return ret;
     }
 };
@@ -940,6 +953,7 @@ static void help(bool to_stderr, int xit) {
              "far\n"
              "-m, --match=PAT\t\tDisplay only apps with title containing PAT\n"
              "-M, --imatch=PAT\tLike --match but ignores the letter case\n"
+             "-L, --limit-max-len=N\tCrop app titles at length N, add ...\n"
              "--seps  \tPrint separators before and after contents\n"
              "--sep-before\tPrint separator before the contents\n"
              "--sep-after\tPrint separator only after contents\n"
@@ -1069,6 +1083,9 @@ int main(int argc, char **argv) {
                 flat_sep = value;
             else if (GetArgument(value, "t", "terminal", pArg, argv + argc))
                 terminal_option = value;
+            else if (GetArgument(value, "L", "limit-max-len", pArg,
+                                 argv + argc))
+                prog_name_cut = atoi(value);
             else if (GetArgument(value, "d", "deadline-apps", pArg,
                                  argv + argc))
                 opt_deadline_apps = value;
