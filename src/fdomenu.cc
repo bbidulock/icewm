@@ -464,29 +464,25 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
     auto take_loc_best = [&](size_t start, string &out, string &outLoc) {
         auto peq = line.find('=', start);
         if (peq == string::npos)
-            return; // no value assigned at all?
-
+            return; // w00t, no value assigned at all?
+        // calc value start and end
         auto v = line.find_first_not_of(SPACECHARS, peq + 1);
         if (v == string::npos)
             v = peq + 1;
         auto e = line.find_last_not_of(SPACECHARS, v);
         e = (e == string::npos) ? e + 1 : string::npos;
+        // identify language filter before value assignment
         auto l = line.find('[', start);
-
-        // neutral version
+        // i18n neutral version
         if (l >= peq || l == string::npos) {
             out = line.substr(v, e - v);
             return;
         }
-
-        // translated version but not looked for localized
+        // translation found but not looking for localized version here?
         if (langWanted.size() < 2)
             return;
-
-        // get localized
         l++;
-
-        // exact match always overrides, the short is considered optional
+        // the exact match always overrides, the short is considered optional
         if (0 == line.compare(l, langWanted.size(), langWanted))
             outLoc = line.substr(v, e - v);
         else if (outLoc.empty() && 0 == line.compare(l, 2, langWanted, 0, 2))
@@ -512,10 +508,9 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
         int kl = -1;
 #define DFCHECK(x) (kl = sizeof(x) - 1, strncmp(line.c_str(), x, kl) == 0)
 #define DFVALUE get_value(kl)
+#define DFTRUE(x) (0 == strcasecmp("true", x.c_str()))
         if (DFCHECK("Terminal"))
-            Terminal = DFVALUE.compare("true") == 0;
-        //        else if (DFCHECK("TryExec"))
-        //            TryExec = DFVALUE;
+            Terminal = DFTRUE(DFVALUE);
         else if (DFCHECK("Type")) {
             auto v = DFVALUE;
             if (v == "Application")
@@ -523,18 +518,16 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
             else if (v == "Directory")
                 IsApp = false;
         } else if (DFCHECK("NoDisplay"))
-            NoDisplay = DFVALUE.compare("true") == 0;
+            NoDisplay = DFTRUE(DFVALUE);
         else if (DFCHECK("Name"))
             take_loc_best(kl, Name, NameLoc);
         else if (DFCHECK("OnlyShowIn"))
             NoDisplay = true;
         else if (DFCHECK("Icon"))
             Icon = DFVALUE;
-        else if (DFCHECK("GenericName")) {
-            if (generic_name)
-                take_loc_best(kl, GenericName, GenericNameLoc);
-            continue;
-        } else if (DFCHECK("Categories"))
+        else if (DFCHECK("GenericName") && generic_name)
+            take_loc_best(kl, GenericName, GenericNameLoc);
+        else if (DFCHECK("Categories"))
             Categories = DFVALUE;
         else if (DFCHECK("Exec"))
             Exec = DFVALUE;
