@@ -506,8 +506,8 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
 #define DFVALUE get_value(kl)
         if (DFCHECK("Terminal"))
             Terminal = DFVALUE.compare("true") == 0;
-//        else if (DFCHECK("TryExec"))
-//            TryExec = DFVALUE;
+        //        else if (DFCHECK("TryExec"))
+        //            TryExec = DFVALUE;
         else if (DFCHECK("Type")) {
             auto v = DFVALUE;
             if (v == "Application")
@@ -639,23 +639,30 @@ struct AppEntry {
                 return;
         extraSfx.emplace_back(tSfx{deco[0], deco[1], sfx});
     }
-    ostream &PrintWithSfx(ostream &strm, const string &sTitle) {
-        if (extraSfx.empty()) {
-            strm << sTitle;
-            return strm;
-        }
+    string TransWithSfx() {
+        string ret;
+        const auto &sTitle = deco->GetTranslatedName();
         if (right_to_left) {
             for (auto rit = extraSfx.rbegin(); rit != extraSfx.rend(); ++rit)
-                if (sTitle != rit->sfx)
-                    strm << rit->before << rit->sfx << rit->after << " ";
-            strm << sTitle;
+                if (sTitle != rit->sfx) {
+                    ret += rit->before;
+                    ret += rit->sfx;
+                    ret += rit->after;
+                    ret += " ";
+                }
+
+            ret += sTitle;
         } else {
-            strm << sTitle;
+            ret = sTitle;
             for (const auto &p : extraSfx)
-                if (sTitle != p.sfx)
-                    strm << " " << p.before << p.sfx << p.after;
+                if (sTitle != p.sfx) {
+                    ret += " ";
+                    ret += p.before;
+                    ret += p.sfx;
+                    ret += p.after;
+                }
         }
-        return strm;
+        return ret;
     }
 };
 
@@ -760,9 +767,9 @@ void MenuNode::print(std::ostream &prt_strm) {
     auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
         auto &pi = p.second->deco;
-        pi->print_comment(prt_strm) << indent_hint << "prog \"";
-        p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName())
-            << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+        pi->print_comment(prt_strm)
+            << indent_hint << "prog \"" << p.second->TransWithSfx() << "\" "
+            << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
 
@@ -782,13 +789,11 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
         auto &pi = p.second->deco;
 
         pi->print_comment(prt_strm) << "prog \"";
-        if (right_to_left) {
-            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName())
-                << pfx_before;
-        } else {
-            prt_strm << pfx_before;
-            p.second->PrintWithSfx(prt_strm, pi->GetTranslatedName());
-        }
+        if (right_to_left)
+            prt_strm << p.second->TransWithSfx() << pfx_before;
+        else
+            prt_strm << pfx_before << p.second->TransWithSfx();
+
         prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
