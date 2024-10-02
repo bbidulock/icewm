@@ -34,7 +34,6 @@
 #include <list>
 #include <locale>
 #include <map>
-#include <regex>
 #include <set>
 #include <string>
 #include <utility> // For std::move
@@ -95,6 +94,8 @@ deque<string> comment_pool;
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
  * branches (C++11 compatible) or development branch.
  */
+
+#define SPACECHARS " \f\n\r\t\v"
 
 #define startsWith(where, what) (0 == (where).compare(0, (what).size(), (what)))
 #define startsWithSz(where, what)                                              \
@@ -343,12 +344,6 @@ bool userFilter(const char *s, bool isSection) {
     return true;
 }
 
-auto line_matcher =
-    std::regex("^\\s*(Terminal|Type|Name|GenericName|Exec|TryExec|Icon|"
-               "Categories|NoDisplay|OnlyShowIn)"
-               "(\\[((\\w\\w)(_\\w\\w)?)\\])?\\s*=\\s*(.*){0,1}?\\s*$",
-               std::regex_constants::ECMAScript);
-
 struct DesktopFile : public tLintRefcounted {
     bool Terminal = false, IsApp = true, NoDisplay = false,
          CommandMassaged = false;
@@ -448,23 +443,51 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
     std::ifstream dfile;
     dfile.open(filePath);
     string line;
-    std::smatch m;
     bool reading = false;
 
-    auto take_loc_best =
-        [&langWanted](decltype(m[0]) &value, decltype(m[0]) &langLong,
-                      decltype(m[0]) &langShort, string &out, string &outLoc) {
-            if (langWanted.size() > 3 && langLong == langWanted) {
-                // perfect hit always takes preference
-                outLoc = value;
-            } else if (langShort.matched &&
-                       0 == langWanted.compare(0, 2, langShort)) {
-                if (outLoc.empty())
-                    outLoc = value;
-            } else if (!langLong.matched) {
-                out = value;
-            }
-        };
+    auto get_value = [&](size_t start) -> string {
+        auto p = line.find('=', start);
+        if (p == string::npos)
+            p = start;
+        auto v = line.find_first_not_of(SPACECHARS, p + 1);
+        if (v == string::npos)
+            v = p + 1;
+        auto e = line.find_last_not_of(SPACECHARS, v);
+        e = (e == string::npos) ? e + 1 : string::npos;
+        return line.substr(v, e - v);
+    };
+
+    auto take_loc_best = [&](size_t start, string &out, string &outLoc) {
+        auto peq = line.find('=', start);
+        if (peq == string::npos)
+            return; // no value assigned at all?
+
+        auto v = line.find_first_not_of(SPACECHARS, peq + 1);
+        if (v == string::npos)
+            v = peq + 1;
+        auto e = line.find_last_not_of(SPACECHARS, v);
+        e = (e == string::npos) ? e + 1 : string::npos;
+        auto l = line.find('[', start);
+
+        // neutral version
+        if (l >= peq || l == string::npos) {
+            out = line.substr(v, e - v);
+            return;
+        }
+
+        // translated version but not looked for localized
+        if (langWanted.size() < 2)
+            return;
+
+        // get localized
+        l++;
+
+        // exact match always overrides, the short is considered optional
+        if (0 == line.compare(l, langWanted.size(), langWanted))
+            outLoc = line.substr(v, e - v);
+        else if (outLoc.empty() && 0 == line.compare(l, 2, langWanted, 0, 2))
+            outLoc = line.substr(v, e - v);
+    };
 
     while (dfile) {
         line.clear();
@@ -482,43 +505,35 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
         }
         if (!reading)
             continue;
-
-        std::regex_search(line, m, line_matcher);
-        if (m.empty())
-            continue;
-
-        // for(auto x: m) cout << x << " - "; cout << " = " << m.size() <<
-        // endl;
-
-        const auto &value = m[6], key = m[1], langLong = m[3], langShort = m[4];
-        // cerr << "val: " << value << ", key: " << key << ", langLong: " <<
-        // langLong << ", langShort: " << langShort << endl;
-
-        if (key == "Terminal")
-            Terminal = value.compare("true") == 0;
-        else if (key == "NoDisplay")
-            NoDisplay = value.compare("true") == 0;
-        else if (key == "OnlyShowIn")
-            NoDisplay = true;
-        else if (key == "Icon")
-            Icon = value;
-        else if (key == "Categories")
-            Categories = value;
-        else if (key == "Exec")
-            Exec = value;
-        else if (key == "TryExec")
-            TryExec = value;
-        else if (key == "Type") {
-            if (value == "Application")
+        int kl = -1;
+#define DFCHECK(x) (kl = sizeof(x) - 1, strncmp(line.c_str(), x, kl) == 0)
+#define DFVALUE get_value(kl)
+        if (DFCHECK("Terminal"))
+            Terminal = DFVALUE.compare("true") == 0;
+        else if (DFCHECK("TryExec"))
+            TryExec = DFVALUE;
+        else if (DFCHECK("Type")) {
+            auto v = DFVALUE;
+            if (v == "Application")
                 IsApp = true;
-            else if (value == "Directory")
+            else if (v == "Directory")
                 IsApp = false;
-        } else if (key == "Name") {
-            take_loc_best(value, langLong, langShort, Name, NameLoc);
-        } else if (generic_name && key == "GenericName") {
-            take_loc_best(value, langLong, langShort, GenericName,
-                          GenericNameLoc);
-        }
+        } else if (DFCHECK("NoDisplay"))
+            NoDisplay = DFVALUE.compare("true") == 0;
+        else if (DFCHECK("Name"))
+            take_loc_best(kl, Name, NameLoc);
+        else if (DFCHECK("OnlyShowIn"))
+            NoDisplay = true;
+        else if (DFCHECK("Icon"))
+            Icon = DFVALUE;
+        else if (DFCHECK("GenericName")) {
+            if (generic_name)
+                take_loc_best(kl, GenericName, GenericNameLoc);
+            continue;
+        } else if (DFCHECK("Categories"))
+            Categories = DFVALUE;
+        else if (DFCHECK("Exec"))
+            Exec = DFVALUE;
     }
 }
 
@@ -662,6 +677,7 @@ struct MenuNode {
     void print(std::ostream &prt_strm);
     void print_flat(std::ostream &prt_strm, const string &pfx_before);
     bool empty() { return apps.empty() && submenus.empty(); }
+
     /**
      * Returns a temporary list of visited node references.
      */
@@ -1075,7 +1091,7 @@ int main(int argc, char **argv) {
             break;
 
     if (!desktop_file_to_start.empty()) {
-        DesktopFile df(argv[1], "");
+        DesktopFile df(argv[1], Elvis(msglang, ""));
         auto cmd = df.GetCommand();
         if (cmd.empty())
             return EXIT_FAILURE;
