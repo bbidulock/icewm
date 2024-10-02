@@ -37,6 +37,7 @@
 #include <set>
 #include <string>
 #include <utility> // For std::move
+#include <vector>
 
 #include <functional>
 #include <initializer_list>
@@ -89,10 +90,11 @@ char *terminal_command;
 char *terminal_option;
 
 // global defaults and helpers
-static string ICON_FOLDER("folder");
+static const string ICON_FOLDER("folder"), OTH("Other");
 string indent_hint("");
 // use this to dump optional comment data, deque is pointer-stable
 deque<string> comment_pool;
+set<string> valid_main_cats;
 
 /*
  * Certain parts borrowed from apt-cacher-ng by its autor, either from older
@@ -142,6 +144,10 @@ struct tLessOp4LocalizedDeref {
 template <typename T> struct lessByDerefAdaptor {
     bool operator()(const T *a, const T *b) { return *a < *b; }
 };
+
+template <typename T> const T &iback(const initializer_list<T> &q) {
+    return *(q.end() - 1);
+}
 
 /**
  * Basic base implementation of a reference-counted class
@@ -720,34 +726,83 @@ struct MenuNode {
     }
 };
 
+const auto lessFirstStr = [](const t_menu_path &a, const t_menu_path &b) {
+    return strcmp(*a.begin(), *b.begin()) < 0;
+};
+
 void MenuNode::sink_in(DesktopFilePtr pDf) {
 
-    static const auto lessFirstStr = [](const t_menu_path &a,
-                                        const t_menu_path &b) {
-        return strcmp(*a.begin(), *b.begin()) < 0;
+    // XXX: use plain pointers, with length, or string_view? Probably alost
+    // worthless because SSO applies in the vast majority of cases
+    static vector<string> main_cats, sub_cats;
+    main_cats.clear();
+    sub_cats.clear();
+
+    for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
+        string k(split);
+        auto hit = valid_main_cats.find(k);
+        if (hit != valid_main_cats.end()) {
+            DBGMSG("mcat: " << k);
+            main_cats.push_back(std::move(k));
+        } else {
+            DBGMSG("scat: " << k);
+            sub_cats.push_back(std::move(k));
+        }
+    }
+    bool added_somewhere = false;
+    auto install = [&pDf, &added_somewhere](MenuNode *cur) {
+        if (!cur)
+            return;
+        added_somewhere = true;
+        cur->apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
     };
 
-    auto add_sub_menues = [&](const t_menu_path &mp) {
-        MenuNode *cur = this;
-        for (auto it = mp.end() - 1; it >= mp.begin(); --it)
-            cur = &cur->submenus[(*it && **it) ? *it : "Other"];
+    auto add_sub_menues = [&](const t_menu_path &mp, MenuNode *cur,
+                              int roffset = -1) {
+        auto itLast = mp.end() + roffset;
+        for (auto it = itLast; it >= mp.begin(); --it)
+            cur = &cur->submenus[*it];
         return cur;
     };
 
-    for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
-        auto cat = split.str();
-        t_menu_path refval = {cat.c_str()};
+    for (const auto &sk : sub_cats) {
+        t_menu_path refval = {sk.c_str()};
 
-        // maybe start main cats only
-        for (auto w = no_sub_cats ? (valid_paths.end() - 1)
-                                  : valid_paths.begin();
-             w != valid_paths.end(); ++w) {
-
+        for (auto w = valid_paths.begin(); w != valid_paths.end(); ++w) {
             auto rng =
                 std::equal_range(w->begin(), w->end(), refval, lessFirstStr);
-            for (auto it = rng.first; it != rng.second; ++it)
-                (*add_sub_menues(*it))
-                    .apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
+            for (auto iPath = rng.first; iPath != rng.second; ++iPath) {
+                string mk = iback(*iPath);
+                if (no_sub_cats) {
+                    if (!mk.empty())
+                        install(&submenus[mk]);
+                } else if (!mk.empty()) {
+                    // easy case, path to the exact main category is known
+                    install(add_sub_menues(*iPath, this, -1));
+                } else {
+                    // apply to all cats as per spec
+                    if (main_cats.empty())
+                        install(add_sub_menues(*iPath, &submenus[OTH], -2));
+                    else {
+
+                        for (const auto &any_mk : main_cats) {
+                            install(
+                                add_sub_menues(*iPath, &submenus[any_mk], -2));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // catch-all
+    if (!added_somewhere) {
+
+        if (main_cats.empty())
+            install(&submenus[OTH]);
+        else {
+            for (const auto &mk : main_cats)
+                install(&submenus[mk]);
         }
     }
 }
@@ -1128,6 +1183,9 @@ int main(int argc, char **argv) {
         deadline_apps = now + std::chrono::milliseconds(a);
         deadline_all = now + std::chrono::milliseconds(b);
     }
+
+    for (const auto &p : *(valid_paths.end() - 1))
+        valid_main_cats.insert(*p.begin());
 
     auto justLang = string(msglang ? msglang : "");
     justLang = justLang.substr(0, justLang.find('.'));
