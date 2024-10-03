@@ -702,25 +702,36 @@ struct MenuNode {
     void fixup2();
 
   private:
+    // XXX: this is actually a lame approach, a simple vector would be enough
+    // for sorting, and cheaper. Unfortunatelly std::sort breaks here because of
+    // STL's namespace reference idiocy on swap calls, i.e.
+    // https://stackoverflow.com/questions/52998768/how-do-i-make-stdsort-not-have-name-collision-between-stdswap-and-my-namespa
+    //
+    // OTOH the tree based sorting is not that expensive either for the small
+    // amount of element which we have here.
+    //
+
     using t_sorted_menus =
-        map<string, std::pair<string, MenuNode *>, tLessOp4Localized>;
+        multimap<string, std::pair<string, MenuNode *>, tLessOp4Localized>;
     t_sorted_menus GetSortedMenus() {
         t_sorted_menus ret;
 
         for (auto &m : this->submenus) {
             auto &menuDeco = m.second.deco;
-            ret[safeTrans(menuDeco, m.first)] =
-                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second);
+            ret.emplace(
+                safeTrans(menuDeco, m.first),
+                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second));
         }
         return ret;
     }
 
     using t_sorted_apps =
-        map<const string *, AppEntry *, tLessOp4LocalizedDeref>;
+        multimap<const string *, AppEntry *, tLessOp4LocalizedDeref>;
     t_sorted_apps GetSortedApps() {
         t_sorted_apps sortedApps;
         for (auto &p : this->apps) {
-            sortedApps[&(p.second.deco->GetTranslatedName())] = &p.second;
+            sortedApps.emplace(&(p.second.deco->GetTranslatedName()),
+                               &p.second);
         }
         return sortedApps;
     }
@@ -814,7 +825,7 @@ void MenuNode::print(std::ostream &prt_strm) {
         auto &name = m.first;
         auto &deco = m.second.second->deco;
 
-        prt_strm << indent_hint << "menu \"" << safeTrans(deco, name) << "\" "
+        prt_strm << indent_hint << "menu \"" << name << "\" "
                  << ((deco && !deco->Icon.empty()) ? deco->Icon : ICON_FOLDER)
                  << " {\n";
 
@@ -838,10 +849,8 @@ void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
     auto sorted = GetSortedMenus();
     for (auto &m : sorted) {
         auto &name = m.first;
-        auto &deco = m.second.second->deco;
-        auto pfx = right_to_left
-                       ? (string(flat_sep) + safeTrans(deco, name) + pfx_before)
-                       : (pfx_before + safeTrans(deco, name) + flat_sep);
+        auto pfx = right_to_left ? (string(flat_sep) + name + pfx_before)
+                                 : (pfx_before + name + flat_sep);
         m.second.second->print_flat(prt_strm, pfx);
     }
 
