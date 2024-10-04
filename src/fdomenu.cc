@@ -362,11 +362,11 @@ bool userFilter(const char *s, bool isSection) {
 }
 
 struct DesktopFile : public tLintRefcounted {
-    bool Terminal = false, IsApp = true, NoDisplay = false,
-         CommandMassaged = false;
+    bool IsTerminal = false, NoDisplay = false;
 
   private:
-    string Name, Exec, TryExec;
+    bool CommandMassaged = false;
+    string Name, Exec;
     string NameLoc, GenericName, GenericNameLoc;
 
   public:
@@ -402,6 +402,7 @@ struct DesktopFile : public tLintRefcounted {
             ret.reset(new DesktopFile(path, lang));
             if (ret->NoDisplay || !userFilter(ret->Name.c_str(), false) ||
                 !userFilter(ret->GetTranslatedName().c_str(), false)) {
+
                 ret.reset();
             } else {
                 if (add_comments) {
@@ -434,7 +435,7 @@ const string &DesktopFile::GetCommand() {
 
     CommandMassaged = true;
 
-    if (Terminal && terminal_command) {
+    if (IsTerminal && terminal_command) {
         Exec = string(terminal_command) + " -e " + Exec;
     }
 
@@ -510,25 +511,22 @@ DesktopFile::DesktopFile(string filePath, const string &langWanted) {
             if (startsWithSz(line, "[Desktop Entry")) {
                 reading = true;
             } else if (reading) // finished with desktop entry contents
-                break;
+                return;
         }
-        if (!reading)
+        if (!reading || line[0] == '#')
             continue;
+
         int kl = -1;
 #define DFCHECK(x) (kl = sizeof(x) - 1, strncmp(line.c_str(), x, kl) == 0)
 #define DFVALUE get_value(kl)
 #define DFTRUE(x) (0 == strcasecmp("true", x.c_str()))
         if (DFCHECK("Terminal"))
-            Terminal = DFTRUE(DFVALUE);
-        else if (DFCHECK("Type")) {
-            auto v = DFVALUE;
-            if (v == "Application")
-                IsApp = true;
-            else if (v == "Directory")
-                IsApp = false;
-        } else if (DFCHECK("NoDisplay"))
+            IsTerminal = DFTRUE(DFVALUE);
+        else if (DFCHECK("NoDisplay")) {
             NoDisplay = DFTRUE(DFVALUE);
-        else if (DFCHECK("Name"))
+            if (NoDisplay)
+                return;
+        } else if (DFCHECK("Name"))
             take_loc_best(kl, Name, NameLoc);
         else if (DFCHECK("OnlyShowIn"))
             NoDisplay = true;
