@@ -131,6 +131,7 @@ struct tLessOp4Localized {
                             b.data() + b.size()) < 0;
     }
 };
+tLessOp4Localized *loc_comper;
 
 struct tLessOp4LocalizedDeref {
     std::locale loc; // default locale
@@ -702,36 +703,59 @@ struct MenuNode {
     void fixup2();
 
   private:
-    // XXX: this is actually a lame approach, a simple vector would be enough
-    // for sorting, and cheaper. Unfortunatelly std::sort breaks here because of
-    // STL's namespace reference idiocy on swap calls, i.e.
-    // https://stackoverflow.com/questions/52998768/how-do-i-make-stdsort-not-have-name-collision-between-stdswap-and-my-namespa
-    //
-    // OTOH the tree based sorting is not that expensive either for the small
-    // amount of element which we have here.
-    //
+    struct t_menu_item {
+        string translated;
+        MenuNode *pNode;
+    };
+    using t_sorted_menus = vector<t_menu_item>;
 
-    using t_sorted_menus =
-        multimap<string, std::pair<string, MenuNode *>, tLessOp4Localized>;
     t_sorted_menus GetSortedMenus() {
         t_sorted_menus ret;
+        int n = submenus.size();
+        ret.reserve(n);
 
-        for (auto &m : this->submenus) {
-            auto &menuDeco = m.second.deco;
-            ret.emplace(
-                safeTrans(menuDeco, m.first),
-                make_pair(menuDeco ? menuDeco->Icon : ICON_FOLDER, &m.second));
+        for (auto &m : this->submenus)
+            ret.push_back(
+                t_menu_item{safeTrans(m.second.deco, m.first), &m.second});
+
+        // plain bubble sort is totally sufficient for in-place sorting on small
+        // ranges like here
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (loc_comper->operator()(ret[j + 1].translated,
+                                           ret[j].translated)) {
+                    std::swap(ret[j], ret[j + 1]);
+                }
+            }
         }
+
         return ret;
     }
 
-    using t_sorted_apps =
-        multimap<const string *, AppEntry *, tLessOp4LocalizedDeref>;
+    struct t_app_item {
+        const string *pTrName;
+        AppEntry *pAppEntry;
+    };
+    using t_sorted_apps = vector<t_app_item>;
+
     t_sorted_apps GetSortedApps() {
         t_sorted_apps sortedApps;
-        for (auto &p : this->apps) {
-            sortedApps.emplace(&(p.second.deco->GetTranslatedName()),
-                               &p.second);
+        int n = apps.size();
+        sortedApps.reserve(n);
+
+        for (auto &it : apps)
+            sortedApps.emplace_back(
+                t_app_item{&it.second.deco->GetTranslatedName(), &it.second});
+
+        // plain bubble sort is totally sufficient for in-place sorting on small
+        // ranges like here
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (loc_comper->operator()(*sortedApps[j + 1].pTrName,
+                                           *sortedApps[j].pTrName)) {
+                    std::swap(sortedApps[j], sortedApps[j + 1]);
+                }
+            }
         }
         return sortedApps;
     }
@@ -742,9 +766,8 @@ const auto lessFirstStr = [](const t_menu_path &a, const t_menu_path &b) {
 };
 
 void MenuNode::sink_in(DesktopFilePtr pDf) {
-
-    // XXX: use plain pointers, with length, or string_view? Probably alost
-    // worthless because SSO applies in the vast majority of cases
+    // XXX: that is okay for small strings here (because SSO) but might still
+    // switch to string_views
     static vector<string> main_cats, sub_cats;
     main_cats.clear();
     sub_cats.clear();
@@ -795,7 +818,6 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
                     if (main_cats.empty())
                         install(add_sub_menues(*iPath, &submenus[OTH], -2));
                     else {
-
                         for (const auto &any_mk : main_cats) {
                             install(
                                 add_sub_menues(*iPath, &submenus[any_mk], -2));
@@ -822,15 +844,14 @@ void MenuNode::print(std::ostream &prt_strm) {
     // translated name to icon and submenu (sorted by translated name)
     auto sorted = GetSortedMenus();
     for (auto &m : sorted) {
-        auto &name = m.first;
-        auto &deco = m.second.second->deco;
+        auto &deco = m.pNode->deco;
 
-        prt_strm << indent_hint << "menu \"" << name << "\" "
+        prt_strm << indent_hint << "menu \"" << m.translated << "\" "
                  << ((deco && !deco->Icon.empty()) ? deco->Icon : ICON_FOLDER)
                  << " {\n";
 
         indent_hint += "\t";
-        m.second.second->print(prt_strm);
+        m.pNode->print(prt_strm);
         indent_hint.pop_back();
 
         prt_strm << indent_hint << "}\n";
@@ -838,9 +859,9 @@ void MenuNode::print(std::ostream &prt_strm) {
 
     auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
-        auto &pi = p.second->deco;
+        auto &pi = p.pAppEntry->deco;
         pi->print_comment(prt_strm)
-            << indent_hint << "prog \"" << p.second->TransWithSfx() << "\" "
+            << indent_hint << "prog \"" << p.pAppEntry->TransWithSfx() << "\" "
             << pi->Icon << " " << pi->GetCommand() << "\n";
     }
 }
@@ -848,21 +869,21 @@ void MenuNode::print(std::ostream &prt_strm) {
 void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
     auto sorted = GetSortedMenus();
     for (auto &m : sorted) {
-        auto &name = m.first;
-        auto pfx = right_to_left ? (string(flat_sep) + name + pfx_before)
-                                 : (pfx_before + name + flat_sep);
-        m.second.second->print_flat(prt_strm, pfx);
+        auto pfx = right_to_left
+                       ? (string(flat_sep) + m.translated + pfx_before)
+                       : (pfx_before + m.translated + flat_sep);
+        m.pNode->print_flat(prt_strm, pfx);
     }
 
     auto sortedApps = GetSortedApps();
     for (auto &p : sortedApps) {
-        auto &pi = p.second->deco;
+        auto &pi = p.pAppEntry->deco;
 
         pi->print_comment(prt_strm) << "prog \"";
         if (right_to_left)
-            prt_strm << p.second->TransWithSfx() << pfx_before;
+            prt_strm << p.pAppEntry->TransWithSfx() << pfx_before;
         else
-            prt_strm << pfx_before << p.second->TransWithSfx();
+            prt_strm << pfx_before << p.pAppEntry->TransWithSfx();
 
         prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
     }
@@ -1055,6 +1076,7 @@ int main(int argc, char **argv) {
     bindtextdomain(PACKAGE, LOCDIR);
     textdomain(PACKAGE);
 #endif
+    loc_comper = new tLessOp4Localized();
 
     deque<string> sharedirs;
     auto add_split = [&](const char *p) {
