@@ -4,8 +4,14 @@ cmake_minimum_required(VERSION 3.13)
 
 PROJECT(ICEWM CXX)
 
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED on)
+set(CMAKE_CXX_STANDARD 14)
+# Do not fail (because we are still C++11 compliant), try to continue anyway
+# with -std=c++11.
+set(CMAKE_CXX_STANDARD_REQUIRED off)
+# Actually try to use C++20 as well where possible, to uncover potential issues.
+if(CMAKE_VERSION VERSION_GREATER_EQUAL "3.12")
+    set(CMAKE_CXX_STANDARD 20)
+endif()
 
 INCLUDE(CheckIncludeFiles)
 INCLUDE(CheckLibraryExists)
