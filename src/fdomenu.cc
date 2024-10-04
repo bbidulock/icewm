@@ -133,16 +133,8 @@ struct tLessOp4Localized {
                             b.data() + b.size()) < 0;
     }
 };
+// initialize the global instance AFTER i18n setup
 tLessOp4Localized *loc_comper;
-
-struct tLessOp4LocalizedDeref {
-    std::locale loc; // default locale
-    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
-    bool operator()(const std::string *a, const std::string *b) {
-        return coll.compare(a->data(), a->data() + a->size(), b->data(),
-                            b->data() + b->size()) < 0;
-    }
-};
 
 template <typename T> struct lessByDerefAdaptor {
     bool operator()(const T *a, const T *b) const { return *a < *b; }
@@ -151,118 +143,6 @@ template <typename T> struct lessByDerefAdaptor {
 template <typename T> const T &iback(const initializer_list<T> &q) {
     return *(q.end() - 1);
 }
-
-/**
- * Basic base implementation of a reference-counted class
- */
-struct tLintRefcounted {
-  private:
-    size_t m_nRefCount = 0;
-
-  public:
-    inline void __inc_ref() noexcept { m_nRefCount++; }
-    inline void __dec_ref() {
-        if (--m_nRefCount == 0)
-            delete this;
-    }
-    virtual ~tLintRefcounted() {}
-    inline size_t __ref_cnt() { return m_nRefCount; }
-};
-
-/**
- * Lightweight intrusive smart pointer with ordinary reference counting
- */
-template <class T> class lint_ptr {
-    T *m_ptr = nullptr;
-
-  public:
-    explicit lint_ptr() {}
-    /**
-     * @brief lint_ptr Captures the pointer and ensures that it's released when
-     * the refcount goes to zero, unless initialyTakeRef is set to false. If
-     * initialyTakeRef is false, the operation is asymmetric, i.e. one extra
-     * __dec_ref operation will happen in the end.
-     *
-     * @param rawPtr
-     * @param initialyTakeRef
-     */
-    explicit lint_ptr(T *rawPtr, bool initialyTakeRef = true) : m_ptr(rawPtr) {
-        if (rawPtr && initialyTakeRef)
-            rawPtr->__inc_ref();
-    }
-    T *construct() {
-        reset(new T);
-        return m_ptr;
-    }
-    lint_ptr(const ::lint_ptr<T> &orig) : m_ptr(orig.m_ptr) {
-        if (!m_ptr)
-            return;
-        m_ptr->__inc_ref();
-    }
-    lint_ptr(::lint_ptr<T> &&orig) {
-        if (this == &orig)
-            return;
-        m_ptr = orig.m_ptr;
-        orig.m_ptr = nullptr;
-    }
-    inline ~lint_ptr() {
-        if (!m_ptr)
-            return;
-        m_ptr->__dec_ref();
-    }
-    T *get() const { return m_ptr; }
-    bool operator==(const T *raw) const { return get() == raw; }
-    inline void reset(T *rawPtr) noexcept {
-        if (rawPtr == m_ptr) // heh?
-            return;
-        reset();
-        m_ptr = rawPtr;
-        if (rawPtr)
-            rawPtr->__inc_ref();
-    }
-    inline void swap(lint_ptr<T> &other) { std::swap(m_ptr, other.m_ptr); }
-    inline void reset() noexcept {
-        if (m_ptr)
-            m_ptr->__dec_ref();
-        m_ptr = nullptr;
-    }
-    lint_ptr<T> &operator=(const lint_ptr<T> &other) {
-        if (m_ptr == other.m_ptr)
-            return *this;
-        reset(other.m_ptr);
-        return *this;
-    }
-    lint_ptr<T> &operator=(lint_ptr<T> &&other) {
-        if (m_ptr == other.m_ptr)
-            return *this;
-
-        m_ptr = other.m_ptr;
-        other.m_ptr = nullptr;
-        return *this;
-    }
-    // pointer-like access options
-    explicit inline operator bool() const noexcept { return m_ptr; }
-    inline T &operator*() const noexcept { return *m_ptr; }
-    inline T *operator->() const noexcept { return m_ptr; }
-    // pointer-like access options
-    inline bool operator<(const lint_ptr<T> &vs) const noexcept {
-        return m_ptr < vs.m_ptr;
-    }
-    // pointer-like access options
-    inline bool operator==(const lint_ptr<T> &vs) const noexcept {
-        return m_ptr == vs.m_ptr;
-    }
-    /**
-     * @brief release returns the pointer and makes this invalid while keeping
-     * the refcount
-     * @return Raw pointer
-     */
-    T *release() noexcept {
-        auto ret = m_ptr;
-        m_ptr = nullptr;
-        return ret;
-    }
-};
 
 class tSplitWalk {
     using mstring = string;
@@ -299,7 +179,6 @@ class tSplitWalk {
             start = 0;
             len = oob;
         }
-
         return true;
     }
     inline mstring str() const { return s.substr(start, len); }
@@ -309,12 +188,10 @@ class tSplitWalk {
 
 void replace_all(std::string &str, const std::string &from,
                  const std::string &to) {
-    if (from.empty()) {
+    if (from.empty())
         return;
-    }
-
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+    for (size_t start_pos = 0;
+         string::npos != (start_pos = str.find(from, start_pos));) {
         str.replace(start_pos, from.length(), to);
         start_pos += to.length();
     }
@@ -361,7 +238,11 @@ bool userFilter(const char *s, bool isSection) {
     return true;
 }
 
-struct DesktopFile : public tLintRefcounted {
+class DesktopFile;
+using DesktopFilePtr = DesktopFile *;
+
+class DesktopFile {
+
     bool IsTerminal = false, NoDisplay = false;
 
   private:
@@ -395,24 +276,23 @@ struct DesktopFile : public tLintRefcounted {
         return GenericNameLoc;
     }
 
-    static lint_ptr<DesktopFile> load_visible(string &&path,
-                                              const string &lang) {
-        auto ret = lint_ptr<DesktopFile>();
+    static DesktopFilePtr load_visible(string &&path, const string &lang) {
         try {
-            ret.reset(new DesktopFile(path, lang));
+            auto ret = new DesktopFile(path, lang);
             if (ret->NoDisplay || !userFilter(ret->Name.c_str(), false) ||
                 !userFilter(ret->GetTranslatedName().c_str(), false)) {
-
-                ret.reset();
+                // matched conditions to hide the desktop entry?
+                ret = nullptr;
             } else {
                 if (add_comments) {
                     comment_pool.push_back(std::move(path));
                     ret->comment = (&comment_pool.back());
                 }
             }
+            return ret;
         } catch (const std::exception &) {
+            return DesktopFilePtr();
         }
-        return ret;
     }
 
     ostream &print_comment(ostream &strm) {
@@ -421,8 +301,6 @@ struct DesktopFile : public tLintRefcounted {
         return strm;
     }
 };
-
-using DesktopFilePtr = lint_ptr<DesktopFile>;
 
 inline string safeTrans(DesktopFilePtr &node, const string &altRaw) {
     return node ? node->GetTranslatedName() : gettext(altRaw.c_str());
@@ -836,15 +714,15 @@ void MenuNode::sink_in(DesktopFilePtr pDf) {
         }
     }
 
-    // catch-all
-    if (!added_somewhere) {
+    // catch-all?
+    if (added_somewhere)
+        return;
 
-        if (main_cats.empty())
-            install(&submenus[OTH]);
-        else {
-            for (const auto &mk : main_cats)
-                install(&submenus[mk]);
-        }
+    if (main_cats.empty())
+        install(&submenus[OTH]);
+    else {
+        for (const auto &mk : main_cats)
+            install(&submenus[mk]);
     }
 }
 
@@ -941,8 +819,8 @@ void MenuNode::fixup2() {
         for (auto &s : {"Audio", "Video"}) {
             auto it = submenus.find(s);
             if (it != submenus.end() && !it->second.deco) {
-                it->second.deco.reset(
-                    new DesktopFile(it->first, "", vit->second.deco->Icon));
+                it->second.deco =
+                    new DesktopFile(it->first, "", vit->second.deco->Icon);
             }
         }
     }
@@ -1329,5 +1207,4 @@ int main(int argc, char **argv) {
 
     return EXIT_SUCCESS;
 }
-
 // vim: set sw=4 ts=4 et:
