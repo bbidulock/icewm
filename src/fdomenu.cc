@@ -145,7 +145,7 @@ struct tLessOp4LocalizedDeref {
 };
 
 template <typename T> struct lessByDerefAdaptor {
-    bool operator()(const T *a, const T *b) { return *a < *b; }
+    bool operator()(const T *a, const T *b) const { return *a < *b; }
 };
 
 template <typename T> const T &iback(const initializer_list<T> &q) {
