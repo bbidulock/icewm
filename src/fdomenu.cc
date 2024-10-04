@@ -39,6 +39,8 @@
 #include <utility> // For std::move
 #include <vector>
 
+#include <codecvt>
+
 #include <functional>
 #include <initializer_list>
 
@@ -671,10 +673,18 @@ struct AppEntry {
                 }
         }
         if (prog_name_cut > 0 && ret.size() > prog_name_cut) {
-            ret.erase(prog_name_cut);
-            trimBack(ret);
-            ret += ellipsis;
+            auto u16_conv =
+                wstring_convert<codecvt_utf8_utf16<char16_t>, char16_t>{}
+                    .from_bytes(ret);
+            if (u16_conv.size() > prog_name_cut) {
+                u16_conv.erase(prog_name_cut);
+                ret = wstring_convert<codecvt_utf8_utf16<char16_t>, char16_t>{}
+                          .to_bytes(u16_conv);
+                trimBack(ret);
+                ret += ellipsis;
+            }
         }
+
         return ret;
     }
 };
