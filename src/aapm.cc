@@ -278,7 +278,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
 
     acIsOnLine = (ACstatus == AC_ONLINE);
     energyFull = energyNow = 0;
-    int batCount = 0;
 
     int n = 0;
     for (int i = 0; i < batteryNum; i++) {
@@ -422,7 +421,6 @@ void YApm::AcpiStr(char *s, bool Tool) {
         {
            energyFull += BATcapacity_full;
            energyNow += BATcapacity_remain;
-           batCount++;
         }
 
         bat_info[0] = 0;
@@ -660,7 +658,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
    fclose(fd);
 
    acIsOnLine = (power_present != 0);
-   int batCount = 0;
 
    char* s_end = s;
    for (int i = 0; i < batteryNum; ++i) {
@@ -701,7 +698,6 @@ void YApm::PmuStr(char *s, const bool tool_tip)
       {
          energyFull += max_charge;
          energyNow += charge;
-         batCount++;
       }
 
       if (tool_tip) {
@@ -949,7 +945,7 @@ bool YApm::updateState() {
 }
 
 bool YApm::picture() {
-    bool update = (hasPixmap() == false);
+    bool update = !hasPixmap();
     if (update || fStatusChanged) {
         Pixmap pixmap(IApplet::getPixmap());
         if (pixmap) {
