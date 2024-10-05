@@ -357,7 +357,7 @@ void DockApp::proper() {
     if (intern) {
         const int count = docks.getCount();
         if (count) {
-            Atom atoms[count];
+            asmart<Atom> atoms(new Atom[count]);
             for (int i = 0; i < count; ++i) {
                 atoms[i] = Atom(docks[i].client->handle());
             }

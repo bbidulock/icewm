@@ -3079,7 +3079,7 @@ void YWindowManager::setDesktopCount() {
 void YWindowManager::setDesktopViewport() {
     MSG(("setting: _NET_DESKTOP_VIEWPORT"));
     const int n = 2 * workspaceCount;
-    Atom data[n];
+    asmart<Atom> data(new Atom[n]);
     for (int i = 0; i < n; ++i)
         data[i] = 0;
     setProperty(_XA_NET_DESKTOP_VIEWPORT, XA_CARDINAL, data, n);

@@ -278,7 +278,8 @@ void YXftFont::drawLimitLeft(Graphics& g, XftFont* font, int x, int y,
             lo -= 1;
         if (0 < ew) {
             const int size = lo + 2;
-            wchar_t copy[size];
+            asmart<wchar_t> copy(new wchar_t[size]);
+
             memcpy(copy, str, lo * sizeof(wchar_t));
             copy[lo] = el;
             copy[lo + 1] = 0;
@@ -310,7 +311,7 @@ void YXftFont::drawLimitRight(Graphics& g, XftFont* font, int x, int y,
         }
         if (0 < ew) {
             const int size = lo + 2;
-            wchar_t copy[size];
+            asmart<wchar_t> copy(new wchar_t[size]);
             memcpy(copy + 1, str + len - lo, lo * sizeof(wchar_t));
             copy[0] = el;
             copy[lo + 1] = 0;

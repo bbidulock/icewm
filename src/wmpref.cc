@@ -42,7 +42,7 @@ PrefsMenu::PrefsMenu() :
     addSubmenu("S_calar", -2, sc = new YMenu, "key");
     addSubmenu("St_ring", -2, st = new YMenu, "key");
 
-    int index[count];
+    asmart<int> index(new int[count]);
     for (int i = 0; i < count; ++i) {
         index[i] = i;
     }

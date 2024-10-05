@@ -16,6 +16,7 @@
 #include "config.h"
 #include "mstring.h"
 #include "yarray.h"
+#include "ypointer.h"
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -125,7 +126,7 @@ void YBaseArray::extend(const SizeType extendedCount) {
 void YBaseArray::moveto(const SizeType index, const SizeType place) {
     PRECONDITION(index < fCount);
     PRECONDITION(place < fCount);
-    unsigned char copy[fElementSize];
+    asmart<unsigned char> copy(new unsigned char[fElementSize]);
     memcpy(copy, getElement(index), fElementSize);
     if (index < place) {
         memmove(getElement(index), getElement(index + 1),
