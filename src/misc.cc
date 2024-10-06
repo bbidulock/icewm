@@ -31,6 +31,7 @@
 
 #include "intl.h"
 #include "ascii.h"
+#include "ypointer.h"
 
 using namespace ASCII;
 
@@ -736,7 +737,7 @@ int process_close(FILE* fp, int pid) {
 void show_backtrace(const int limit) {
 #if defined(HAVE_BACKTRACE_SYMBOLS_FD) && defined(HAVE_EXECINFO_H)
     const int asize = Elvis(limit, 20);
-    void *array[asize];
+    asmart<void*> array(new void*[asize]);
     const int count = backtrace(array, asize);
     const char tool[] = "/usr/bin/addr2line";
     char* prog = progpath();

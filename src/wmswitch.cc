@@ -29,6 +29,7 @@ struct ZItem {
     bool operator==(YFrameWindow* f) const { return f == frame && f; }
     bool operator==(YFrameClient* c) const { return c == client && c; }
     bool operator==(bool b) const { return bool(*this) == b; }
+    bool operator!=(bool b) const { return bool(*this) != b; }
     bool operator!() const { return bool(*this) == false; }
 
     static int compare(const void* p1, const void* p2) {

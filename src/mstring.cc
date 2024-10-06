@@ -22,10 +22,9 @@ void MStringRef::create(const char* str, size_t len) {
     if (len) {
         alloc(len);
         if (str) {
-            strncpy(fStr->fStr, str, len);
-            fStr->fStr[len] = 0;
+            strncpy(fStr->fStr, str, len + 1);
         } else {
-            memset(fStr->fStr, 0, len + 1);
+            fStr->fStr[0]=0;
         }
     } else {
         fStr = nullptr;
@@ -45,9 +44,9 @@ mstring::mstring(const char* str1, size_t len1, const char* str2, size_t len2):
 {
     if (fRef) {
         if (len1)
-            strncpy(fRef->fStr, str1, len1);
+            strncpy(fRef->fStr, str1, len1 + 1);
         if (len2)
-            strncpy(fRef->fStr + len1, str2, len2);
+            strncpy(fRef->fStr + len1, str2, len2 + 1);
         fRef[fCount] = 0;
         fRef.acquire();
     }
