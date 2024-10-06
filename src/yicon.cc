@@ -27,7 +27,7 @@ YIcon::YIcon(upath filename) :
         loadedH(false), fCached(false), fPath(filename.expand())
 {
     // don't attempt to load if icon is disabled
-    if (fPath == "none" || fPath == "-")
+    if (fPath.equals("none") || fPath.equals("-"))
         loadedS = loadedL = loadedH = true;
 }
 

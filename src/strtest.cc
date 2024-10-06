@@ -16,7 +16,7 @@ static const char source[] = __FILE__;
 
 #define equal(p, s)     (mstring(p) == mstring(s))
 
-#define expect(u, s)    if (++testsrun, (u) == mstring(s) && equal(u, s)) \
+#define expect(u, s)    if (++testsrun, mstring(s).equals(u) && equal(u, s)) \
         ++passed; else test_failed(u, s, __LINE__)
 
 // XXX: those argument ordering and purpose := strange.

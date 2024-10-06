@@ -109,6 +109,16 @@ YXftFont::YXftFont(mstring name, bool use_xlfd):
             if (use_xlfd) {
                 font = XftFontOpenXlfd(xapp->display(), xapp->screen(), fname);
             } else {
+
+                if (fname.find(":lang=") < 0)
+                {
+                    auto lclocale = mstring(YLocale::getCheckedExplicitLocale(true));
+                    if (lclocale) {
+                        fname = (fname + ":lang=" + lclocale.substring(0,2) + "-"
+                                + lclocale.substring(3,2)).lower();
+                    }
+                }
+
                 font = XftFontOpenName(xapp->display(), xapp->screen(), fname);
             }
             if (font) {

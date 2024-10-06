@@ -2,7 +2,7 @@
 #define FONT_MACRO_H
 
 #ifndef CFGDIR
-#error include config.h
+#error config.h not included
 #endif
 
 #if !defined(FONTS_ADOBE) \
@@ -43,12 +43,17 @@
 
 #endif
 
+// Prefer DejaVu but fallback to some other Sans provider if needed,
+// influenced by :lang= later in yfontxft.cc.
+
 #define FQUOT(x) #x
 #define FSIZE(x) ":size=" FQUOT(x)
-#define FSANS   "DejaVu Sans" FSIZE(12)
-#define FBOLD   FSANS ":bold"
-#define FSMAL   "DejaVu Sans" FSIZE(10) ":bold"
-#define FMONO   "DejaVu Sans Mono:monospace" FSIZE(12)
-#define FMONB   FMONO ":bold"
+#define FSANSTOK "DejaVu Sans,Sans"
+#define FBOLDTOK ":bold"
+#define FSANS   FSANSTOK FSIZE(12)
+#define FBOLD   FSANS FBOLDTOK
+#define FSMAL   FSANSTOK FSIZE(10) FBOLDTOK
+#define FMONO   "DejaVu Sans Mono,Sans Mono:monospace" FSIZE(12)
+#define FMONB   FMONO FBOLDTOK
 
 #endif

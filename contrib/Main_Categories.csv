@@ -1,0 +1,14 @@
+Main Category,Description,Notes
+AudioVideo,"Application for presenting, creating, or processing multimedia (audio/video)", 
+Audio,An audio application,Desktop entry must include AudioVideo as well
+Video,A video application,Desktop entry must include AudioVideo as well
+Development,An application for development, 
+Education,Educational software, 
+Game,A game, 
+Graphics,"Application for viewing, creating, or processing graphics", 
+Network,Network application such as a web browser, 
+Office,An office type application, 
+Science,Scientific software, 
+Settings,Settings applications,"Entries may appear in a separate menu or as part of a ""Control Center"""
+System,"System application, ""System Tools"" such as say a log viewer or network monitor", 
+Utility,"Small utility application, ""Accessories""", 

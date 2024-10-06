@@ -10,6 +10,6 @@ prog NEdit nedit nedit
 prog Firefox firefox firefox
 prog Hexchat xchat hexchat
 prog Gimp gimp gimp
-includeprog icewm-menu-fdo --sep-before --no-sep-others
+includeprog icewm-menu-fdo --seps -d1400 -D1650 -S --limit-max-len=42
 menufile Programs folder programs
 menufile Tool_bar folder toolbar

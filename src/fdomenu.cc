@@ -1,6 +1,6 @@
 /*
  *  FDOmenu - Menu code generator for icewm
- *  Copyright (C) 2015-2022 Eduard Bloch
+ *  Copyright (C) 2015-2024 Eduard Bloch
  *
  *  Inspired by icewm-menu-gnome2 and Freedesktop.org specifications
  *  Using pure glib/gio code and a built-in menu structure instead
@@ -12,40 +12,57 @@
  *  2015/02/05: Eduard Bloch <edi@gmx.de>
  *  - initial version
  *  2018/08:
- *  - overhauled program design and menu construction code, added sub-category handling
+ *  - overhauled program design and menu construction code, added sub-category
+ * handling
  */
 
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
 
-#include "config.h"
-#include "base.h"
-#include "sysdep.h"
-#include "intl.h"
 #include "appnames.h"
-#include <ctype.h>
+#include "base.h"
+#include "config.h"
+#include "intl.h"
 
-#include <stack>
+#include <algorithm>
+#include <chrono>
+#include <cstring>
+#include <deque>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <locale>
+#include <map>
+#include <set>
 #include <string>
+#include <utility> // For std::move
+#include <vector>
 
-char const* ApplicationName;
+#include <codecvt>
 
-#ifndef LPCSTR // mind the MFC
-// easier to read...
-typedef const char* LPCSTR;
+#include <functional>
+#include <initializer_list>
+
+#include <dirent.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+using namespace std;
+
+#include "fdospecgen.h"
+
+char const *ApplicationName;
+
+#ifdef DEBUG
+#define DBGMSG(x) cerr << x << endl;
+#else
+#define DBGMSG(x)
 #endif
 
-#include <glib.h>
-#include <gmodule.h>
-#include <glib/gprintf.h>
-#include <glib/gstdio.h>
-#include <gio/gdesktopappinfo.h>
-#include "ycollections.h"
-
 // program options
-bool add_sep_before = false;
-bool add_sep_after = false;
 bool no_sep_others = false;
 bool no_sub_cats = false;
 bool generic_name = false;
@@ -53,801 +70,939 @@ bool right_to_left = false;
 bool flat_output = false;
 bool match_in_section = false;
 bool match_in_section_only = false;
+bool no_only_child = false;
+bool no_only_child_hint = false;
+bool add_comments = false;
 
 auto substr_filter = "";
 auto substr_filter_nocase = "";
-auto flat_sep = " / ";
-char* terminal_command;
-char* terminal_option;
 
-template<typename T, void TFreeFunc(T)>
-struct auto_raii {
-    T m_p;
-    auto_raii(T xp) :
-            m_p(xp) {
+unsigned prog_name_cut = 0;
+
+// use a more visually appealing default with TTF fonts
+#ifdef CONFIG_COREFONTS
+#define ellipsis "..."
+auto flat_sep = " / ";
+#else
+#define ellipsis "\xe2\x80\xa6"
+auto flat_sep = " • ";
+#endif
+
+char *terminal_command;
+char *terminal_option;
+
+// global defaults and helpers
+static const string ICON_FOLDER("folder"), OTH("Other");
+string indent_hint("");
+// use this to dump optional comment data, deque is pointer-stable
+deque<string> comment_pool;
+set<string> valid_main_cats;
+
+/*
+ * Certain parts borrowed from apt-cacher-ng by its autor, either from older
+ * branches (C++11 compatible) or development branch.
+ */
+
+#define SPACECHARS " \f\n\r\t\v"
+
+#define startsWith(where, what) (0 == (where).compare(0, (what).size(), (what)))
+#define startsWithSz(where, what)                                              \
+    (0 == (where).compare(0, sizeof((what)) - 1, (what)))
+#define endsWith(where, what)                                                  \
+    ((where).size() >= (what).size() &&                                        \
+     0 == (where).compare((where).size() - (what).size(), (what).size(),       \
+                          (what)))
+#define endsWithSzAr(where, what)                                              \
+    ((where).size() >= (sizeof((what)) - 1) &&                                 \
+     0 == (where).compare((where).size() - (sizeof((what)) - 1),               \
+                          (sizeof((what)) - 1), (what)))
+inline void trimBack(string &s, const char *junk = SPACECHARS) {
+    auto pos = s.find_last_not_of(junk);
+    s.erase(pos + 1);
+}
+
+/**
+ * Container helpers and adaptors
+ */
+
+struct tLessOp4Localized {
+    std::locale loc; // default locale
+    const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
+    bool operator()(const std::string &a, const std::string &b) {
+        return coll.compare(a.data(), a.data() + a.size(), b.data(),
+                            b.data() + b.size()) < 0;
     }
+};
+// initialize the global instance AFTER i18n setup
+tLessOp4Localized *loc_comper;
+
+template <typename T> struct lessByDerefAdaptor {
+    bool operator()(const T *a, const T *b) const { return *a < *b; }
+};
+
+template <typename T> const T &iback(const initializer_list<T> &q) {
+    return *(q.end() - 1);
+}
+
+class tSplitWalk {
+    using mstring = string;
+    using cmstring = const string;
+#define stmiss string::npos
+
+    cmstring &s;
+    mutable mstring::size_type start, len, oob;
+    const char *m_seps;
+
+  public:
+    inline tSplitWalk(cmstring &line, decltype(m_seps) separators,
+                      unsigned begin = 0)
+        : s(line), start(begin), len(stmiss), oob(line.size()),
+          m_seps(separators) {}
+    inline bool Next() const {
+        if (len != stmiss) // not initial state, find the next position
+            start = start + len + 1;
+
+        if (start >= oob)
+            return false;
+
+        start = s.find_first_not_of(m_seps, start);
+
+        if (start < oob) {
+            len = s.find_first_of(m_seps, start);
+            len = (len == stmiss) ? oob - start : len - start;
+        } else if (len != stmiss) // not initial state, end reached
+            return false;
+        else if (s.empty()) // initial state, no parts
+            return false;
+        else // initial state, use the whole string
+        {
+            start = 0;
+            len = oob;
+        }
+        return true;
+    }
+    inline mstring str() const { return s.substr(start, len); }
+    inline operator mstring() const { return str(); }
+    inline const char *remainder() const { return s.c_str() + start; }
+};
+
+void replace_all(std::string &str, const std::string &from,
+                 const std::string &to) {
+    if (from.empty())
+        return;
+    for (size_t start_pos = 0;
+         string::npos != (start_pos = str.find(from, start_pos));) {
+        str.replace(start_pos, from.length(), to);
+        start_pos += to.length();
+    }
+}
+
+template <typename T, typename C, C TFreeFunc(T)> struct auto_raii {
+    T m_p;
+    auto_raii(T xp) : m_p(xp) {}
     ~auto_raii() {
         if (m_p)
             TFreeFunc(m_p);
     }
 };
-typedef auto_raii<gpointer, g_free> auto_gfree;
-typedef auto_raii<gpointer, g_object_unref> auto_gunref;
 
-static int cmpUtf8(const void *p1, const void *p2) {
-    return g_utf8_collate((LPCSTR ) p1, (LPCSTR ) p2);
+const char *rtls[] = {
+    "ar", // arabic
+    "fa", // farsi
+    "he", // hebrew
+    "ps", // pashto
+    "sd", // sindhi
+    "ur", // urdu
+};
+
+const char *getCheckedExplicitLocale(bool lctype) {
+    auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
+    if (loc == NULL)
+        return NULL;
+    return (islower(*loc & 0xff) && islower(loc[1] & 0xff) &&
+            !isalpha(loc[2] & 0xff))
+               ? loc
+               : NULL;
 }
 
-class tDesktopInfo;
-typedef YVec<const gchar*> tCharVec;
-tCharVec sys_folders, home_folders;
-tCharVec* sys_home_folders[] = { &sys_folders, &home_folders, nullptr };
-tCharVec* home_sys_folders[] = { &home_folders, &sys_folders, nullptr };
+bool userFilter(const char *s, bool isSection) {
+    if (match_in_section_only && !isSection)
+        return true;
+    if ((!match_in_section && !match_in_section_only) && isSection)
+        return true;
 
-struct tListMeta {
-    LPCSTR title, key, icon;
-    LPCSTR const * const parent_sec;
-    enum eLoadFlags {
-        NONE = 0,
-        DEFAULT_TRANSLATED = 1,
-        SYSTEM_TRANSLATED = 2,
-        DEFAULT_ICON = 4,
-        FALLBACK_ICON = 8,
-        SYSTEM_ICON = 16,
-    };
-    short load_state_icon, load_state_title;
-};
-GHashTable* meta_lookup_data;
-tListMeta* lookup_category(LPCSTR key)
-{
-    tListMeta* ret = (tListMeta*) g_hash_table_lookup(meta_lookup_data, key);
-    if (ret)
-    {
-        // auto-translate the default title for the user's language
-        if (ret->title == nullptr)
-            ret->title = _(ret->key);
+    if (*substr_filter_nocase)
+        return strcasestr(s, substr_filter_nocase);
+    if (*substr_filter)
+        return strstr(s, substr_filter);
+    return true;
+}
+
+class DesktopFile;
+using DesktopFilePtr = DesktopFile *;
+
+class DesktopFile {
+
+    bool IsTerminal = false, NoDisplay = false;
+
+  private:
+    bool CommandMassaged = false;
+    string Name, Exec;
+    string NameLoc, GenericName, GenericNameLoc;
+
+  public:
+    string Icon, Categories;
+    const string *comment = nullptr;
+
+    DesktopFile(string filePath, const string &langWanted);
+    DesktopFile(const string &_name, const string &_nameLoc,
+                const string &_icon)
+        : Name(_name), NameLoc(_nameLoc), Icon(_icon) {}
+
+    const string &GetCommand();
+    const string &GetName() { return Name; }
+    const string *GetNamePtr() { return &Name; }
+
+    /// Translate with built-in l10n if needed, and cache it
+    const string &GetTranslatedName() {
+        if (NameLoc.empty() && !Name.empty())
+            NameLoc = gettext(Name.c_str());
+        return NameLoc;
     }
+
+    const string &GetTranslatedGenericName() {
+        if (GenericNameLoc.empty() && !GenericName.empty())
+            GenericNameLoc = gettext(GenericName.c_str());
+        return GenericNameLoc;
+    }
+
+    static DesktopFilePtr load_visible(string &&path, const string &lang) {
+        try {
+            auto ret = new DesktopFile(path, lang);
+            if (ret->NoDisplay || !userFilter(ret->Name.c_str(), false) ||
+                !userFilter(ret->GetTranslatedName().c_str(), false)) {
+                // matched conditions to hide the desktop entry?
+                ret = nullptr;
+            } else {
+                if (add_comments) {
+                    comment_pool.push_back(std::move(path));
+                    ret->comment = (&comment_pool.back());
+                }
+            }
+            return ret;
+        } catch (const std::exception &) {
+            return DesktopFilePtr();
+        }
+    }
+
+    ostream &print_comment(ostream &strm) {
+        if (comment)
+            strm << endl << indent_hint << "# " << *comment << endl;
+        return strm;
+    }
+};
+
+inline string safeTrans(DesktopFilePtr &node, const string &altRaw) {
+    return node ? node->GetTranslatedName() : gettext(altRaw.c_str());
+}
+
+const string &DesktopFile::GetCommand() {
+
+    if (CommandMassaged)
+        return Exec;
+
+    CommandMassaged = true;
+
+    if (IsTerminal && terminal_command) {
+        Exec = string(terminal_command) + " -e " + Exec;
+    }
+
+    // let's try whether the command line is toxic, expecting stuff from
+    // https://specifications.freedesktop.org/desktop-entry-spec/latest/exec-variables.html
+    if (string::npos == Exec.find('%'))
+        return Exec;
+
+    for (const auto &bad : {"%F", "%U", "%f", "%u"})
+        replace_all(Exec, bad, "");
+    replace_all(Exec, "%c", Name);
+    replace_all(Exec, "%i", Icon);
+
+    return Exec;
+}
+
+DesktopFile::DesktopFile(string filePath, const string &langWanted) {
+
+    std::ifstream dfile;
+    dfile.open(filePath);
+    string line;
+    bool reading = false;
+
+    auto get_value = [&](size_t start) -> string {
+        auto p = line.find('=', start);
+        if (p == string::npos)
+            p = start;
+        auto v = line.find_first_not_of(SPACECHARS, p + 1);
+        if (v == string::npos)
+            v = p + 1;
+        auto e = line.find_last_not_of(SPACECHARS, v);
+        e = (e == string::npos) ? e + 1 : string::npos;
+        return line.substr(v, e - v);
+    };
+
+    auto take_loc_best = [&](size_t start, string &out, string &outLoc) {
+        auto peq = line.find('=', start);
+        if (peq == string::npos)
+            return; // w00t, no value assigned at all?
+        // calc value start and end
+        auto v = line.find_first_not_of(SPACECHARS, peq + 1);
+        if (v == string::npos)
+            v = peq + 1;
+        auto e = line.find_last_not_of(SPACECHARS, v);
+        e = (e == string::npos) ? e + 1 : string::npos;
+        // identify language filter before value assignment
+        auto l = line.find('[', start);
+        // i18n neutral version
+        if (l >= peq || l == string::npos) {
+            out = line.substr(v, e - v);
+            return;
+        }
+        // translation found but not looking for localized version here?
+        if (langWanted.size() < 2)
+            return;
+        l++;
+        // the exact match always overrides, the short is considered optional
+        if (0 == line.compare(l, langWanted.size(), langWanted))
+            outLoc = line.substr(v, e - v);
+        else if (outLoc.empty() && 0 == line.compare(l, 2, langWanted, 0, 2))
+            outLoc = line.substr(v, e - v);
+    };
+
+    while (dfile) {
+        line.clear();
+        std::getline(dfile, line);
+        if (line.empty()) {
+            if (dfile.eof())
+                break;
+            continue;
+        }
+        if (startsWithSz(line, "[Desktop ")) {
+            if (startsWithSz(line, "[Desktop Entry")) {
+                reading = true;
+            } else if (reading) // finished with desktop entry contents
+                return;
+        }
+        if (!reading || line[0] == '#')
+            continue;
+
+        int kl = -1;
+#define DFCHECK(x) (kl = sizeof(x) - 1, strncmp(line.c_str(), x, kl) == 0)
+#define DFVALUE get_value(kl)
+#define DFTRUE(x) (0 == strcasecmp("true", x.c_str()))
+        if (DFCHECK("Terminal"))
+            IsTerminal = DFTRUE(DFVALUE);
+        else if (DFCHECK("NoDisplay")) {
+            NoDisplay = DFTRUE(DFVALUE);
+            if (NoDisplay)
+                return;
+        } else if (DFCHECK("Name"))
+            take_loc_best(kl, Name, NameLoc);
+        else if (DFCHECK("OnlyShowIn"))
+            NoDisplay = true;
+        else if (DFCHECK("Icon"))
+            Icon = DFVALUE;
+        else if (DFCHECK("GenericName") && generic_name)
+            take_loc_best(kl, GenericName, GenericNameLoc);
+        else if (DFCHECK("Categories"))
+            Categories = DFVALUE;
+        else if (DFCHECK("Exec"))
+            Exec = DFVALUE;
+    }
+}
+
+class FsScan {
+  private:
+    std::set<std::pair<ino_t, dev_t>> reclog;
+    function<bool(string &&)> cb;
+    string sFileNameExtFilter;
+    bool recursive;
+
+  public:
+    FsScan(decltype(FsScan::cb) cb, const string &sFileNameExtFilter = "",
+           bool recursive = true)
+        : cb(cb), sFileNameExtFilter(sFileNameExtFilter), recursive(recursive) {
+    }
+    void scan(const string &sStartdir) { proc_dir_rec(sStartdir); }
+
+  private:
+    void proc_dir_rec(const string &path) {
+
+        DBGMSG("enter: " << path);
+
+        auto pdir = opendir(path.c_str());
+        if (!pdir)
+            return;
+        auto_raii<DIR *, int, closedir> dircloser(pdir);
+        auto fddir(dirfd(pdir));
+
+        dirent *pent;
+        struct stat stbuf;
+
+        while (nullptr != (pent = readdir(pdir))) {
+            if (pent->d_name[0] == '.')
+                continue;
+
+            string fname(pent->d_name);
+
+#if defined(__linux__) || defined(__APPLE__) || defined(__FreeBSD__) ||        \
+    defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+            // Take the shortcuts where possible, no need to analyze directory
+            // properties for descending if that's known to be a plain file
+            // already.
+            if (pent->d_type == DT_REG)
+                goto process_reg_file;
+
+            // Don't have device id here, OTOH hitting another folder on another
+            // drive with exactly the same inode is very very unlikely!
+            if (recursive && pent->d_type == DT_DIR) {
+                stbuf.st_ino = pent->d_ino;
+                stbuf.st_dev = 0;
+                goto process_dir;
+            }
+#endif
+
+            if (fstatat(fddir, pent->d_name, &stbuf, 0))
+                continue;
+
+            if (S_ISREG(stbuf.st_mode))
+                goto process_reg_file;
+
+            if (recursive && S_ISDIR(stbuf.st_mode)) {
+            process_dir:
+                // link loop detection
+                auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
+                auto hint = reclog.insert(prev);
+                if (hint.second) { // we added a new one, otherwise do not
+                                   // descend
+                    proc_dir_rec(path + "/" + fname);
+                    reclog.erase(hint.first);
+                }
+            }
+
+        process_reg_file:
+            if (!sFileNameExtFilter.empty() &&
+                !endsWith(fname, sFileNameExtFilter)) {
+
+                continue;
+            }
+
+            if (!cb(path + "/" + fname))
+                break;
+        }
+    }
+};
+
+struct AppEntry {
+    DesktopFilePtr deco;
+    struct tSfx {
+        char before, after;
+        string sfx;
+    };
+    list<tSfx> extraSfx;
+
+    AppEntry(DesktopFilePtr a, list<tSfx> b = list<tSfx>())
+        : deco(a), extraSfx(b) {}
+
+    AppEntry(const AppEntry &orig) : deco(orig.deco), extraSfx(orig.extraSfx) {}
+
+    AppEntry(AppEntry &&orig)
+        : deco(orig.deco), extraSfx(std::move(orig.extraSfx)) {}
+
+    void AddSfx(const string &sfx, const char *deco) {
+        if (sfx.empty())
+            return;
+        for (const auto &s : extraSfx)
+            if (s.sfx == sfx)
+                return;
+        extraSfx.emplace_back(tSfx{deco[0], deco[1], sfx});
+    }
+    string TransWithSfx() {
+        string ret;
+        const auto &sTitle = deco->GetTranslatedName();
+        if (right_to_left) {
+            for (auto rit = extraSfx.rbegin(); rit != extraSfx.rend(); ++rit)
+                if (sTitle != rit->sfx) {
+                    ret += rit->before;
+                    ret += rit->sfx;
+                    ret += rit->after;
+                    ret += " ";
+                }
+
+            ret += sTitle;
+        } else {
+            ret = sTitle;
+            for (const auto &p : extraSfx)
+                if (sTitle != p.sfx) {
+                    ret += " ";
+                    ret += p.before;
+                    ret += p.sfx;
+                    ret += p.after;
+                }
+        }
+        if (prog_name_cut > 0 && ret.size() > prog_name_cut) {
+            auto u16_conv =
+                wstring_convert<codecvt_utf8_utf16<char16_t>, char16_t>{}
+                    .from_bytes(ret);
+            if (u16_conv.size() > prog_name_cut) {
+                u16_conv.erase(prog_name_cut);
+                ret = wstring_convert<codecvt_utf8_utf16<char16_t>, char16_t>{}
+                          .to_bytes(u16_conv);
+                trimBack(ret);
+                ret += ellipsis;
+            }
+        }
+
+        return ret;
+    }
+};
+
+/**
+ * The own menu deco info is not part of this class.
+ * It's fetched on-demand with a supplied resolver function.
+ */
+struct MenuNode {
+
+    map<string, MenuNode> submenus;
+    DesktopFilePtr deco;
+    map<const string *, AppEntry, lessByDerefAdaptor<string>> apps;
+
+    void sink_in(DesktopFilePtr df);
+    void print(std::ostream &prt_strm);
+    void print_flat(std::ostream &prt_strm, const string &pfx_before);
+    bool empty() { return apps.empty() && submenus.empty(); }
+
+    /**
+     * Returns a temporary list of visited node references.
+     */
+    multimap<string, MenuNode *> fixup();
+
+    // Second run, contains all deco information now
+    void fixup2();
+
+  private:
+    struct t_menu_item {
+        string translated;
+        MenuNode *pNode;
+    };
+    using t_sorted_menus = vector<t_menu_item>;
+
+    t_sorted_menus GetSortedMenus() {
+        t_sorted_menus ret;
+        int n = submenus.size();
+        ret.reserve(n);
+
+        for (auto &m : this->submenus)
+            ret.push_back(
+                t_menu_item{safeTrans(m.second.deco, m.first), &m.second});
+
+        // plain bubble sort is totally sufficient for in-place sorting on small
+        // ranges like here
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (loc_comper->operator()(ret[j + 1].translated,
+                                           ret[j].translated)) {
+                    std::swap(ret[j], ret[j + 1]);
+                }
+            }
+        }
+
+        return ret;
+    }
+
+    struct t_app_item {
+        const string *pTrName;
+        AppEntry *pAppEntry;
+    };
+    using t_sorted_apps = vector<t_app_item>;
+
+    t_sorted_apps GetSortedApps() {
+        t_sorted_apps sortedApps;
+        int n = apps.size();
+        sortedApps.reserve(n);
+
+        for (auto &it : apps)
+            sortedApps.emplace_back(
+                t_app_item{&it.second.deco->GetTranslatedName(), &it.second});
+
+        // plain bubble sort is totally sufficient for in-place sorting on small
+        // ranges like here
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (loc_comper->operator()(*sortedApps[j + 1].pTrName,
+                                           *sortedApps[j].pTrName)) {
+                    std::swap(sortedApps[j], sortedApps[j + 1]);
+                }
+            }
+        }
+        return sortedApps;
+    }
+};
+
+const auto lessFirstStr = [](const t_menu_path &a, const t_menu_path &b) {
+    return strcmp(*a.begin(), *b.begin()) < 0;
+};
+
+void MenuNode::sink_in(DesktopFilePtr pDf) {
+    // XXX: that is okay for small strings here (because SSO) but might still
+    // switch to string_views
+    static vector<string> main_cats, sub_cats;
+    main_cats.clear();
+    sub_cats.clear();
+
+    for (tSplitWalk split(pDf->Categories, ";"); split.Next();) {
+        string k(split);
+        auto hit = valid_main_cats.find(k);
+        if (hit != valid_main_cats.end()) {
+            DBGMSG("mcat: " << k);
+            main_cats.push_back(std::move(k));
+        } else {
+            DBGMSG("scat: " << k);
+            sub_cats.push_back(std::move(k));
+        }
+    }
+    bool added_somewhere = false;
+    auto install = [&pDf, &added_somewhere](MenuNode *cur) {
+        if (!cur)
+            return;
+        added_somewhere = true;
+        cur->apps.emplace(pDf->GetNamePtr(), AppEntry(pDf));
+    };
+
+    auto add_sub_menues = [&](const t_menu_path &mp, MenuNode *cur,
+                              int roffset = -1) {
+        auto itLast = mp.end() + roffset;
+        for (auto it = itLast; it >= mp.begin(); --it)
+            cur = &cur->submenus[*it];
+        return cur;
+    };
+
+    for (const auto &sk : sub_cats) {
+        t_menu_path refval = {sk.c_str()};
+
+        for (auto w = valid_paths.begin(); w != valid_paths.end(); ++w) {
+            auto rng =
+                std::equal_range(w->begin(), w->end(), refval, lessFirstStr);
+            for (auto iPath = rng.first; iPath != rng.second; ++iPath) {
+                string mk = iback(*iPath);
+                if (no_sub_cats) {
+                    if (!mk.empty())
+                        install(&submenus[mk]);
+                } else if (!mk.empty()) {
+                    // easy case, path to the exact main category is known
+                    install(add_sub_menues(*iPath, this, -1));
+                } else {
+                    // apply to all cats as per spec
+                    if (main_cats.empty())
+                        install(add_sub_menues(*iPath, &submenus[OTH], -2));
+                    else {
+                        for (const auto &any_mk : main_cats) {
+                            install(
+                                add_sub_menues(*iPath, &submenus[any_mk], -2));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // catch-all?
+    if (added_somewhere)
+        return;
+
+    if (main_cats.empty())
+        install(&submenus[OTH]);
+    else {
+        for (const auto &mk : main_cats)
+            install(&submenus[mk]);
+    }
+}
+
+void MenuNode::print(std::ostream &prt_strm) {
+    // translated name to icon and submenu (sorted by translated name)
+    auto sorted = GetSortedMenus();
+    for (auto &m : sorted) {
+        auto &deco = m.pNode->deco;
+
+        prt_strm << indent_hint << "menu \"" << m.translated << "\" "
+                 << ((deco && !deco->Icon.empty()) ? deco->Icon : ICON_FOLDER)
+                 << " {\n";
+
+        indent_hint += "\t";
+        m.pNode->print(prt_strm);
+        indent_hint.pop_back();
+
+        prt_strm << indent_hint << "}\n";
+    }
+
+    auto sortedApps = GetSortedApps();
+    for (auto &p : sortedApps) {
+        auto &pi = p.pAppEntry->deco;
+        pi->print_comment(prt_strm)
+            << indent_hint << "prog \"" << p.pAppEntry->TransWithSfx() << "\" "
+            << pi->Icon << " " << pi->GetCommand() << "\n";
+    }
+}
+
+void MenuNode::print_flat(std::ostream &prt_strm, const string &pfx_before) {
+    auto sorted = GetSortedMenus();
+    for (auto &m : sorted) {
+        auto pfx = right_to_left
+                       ? (string(flat_sep) + m.translated + pfx_before)
+                       : (pfx_before + m.translated + flat_sep);
+        m.pNode->print_flat(prt_strm, pfx);
+    }
+
+    auto sortedApps = GetSortedApps();
+    for (auto &p : sortedApps) {
+        auto &pi = p.pAppEntry->deco;
+
+        pi->print_comment(prt_strm) << "prog \"";
+        if (right_to_left)
+            prt_strm << p.pAppEntry->TransWithSfx() << pfx_before;
+        else
+            prt_strm << pfx_before << p.pAppEntry->TransWithSfx();
+
+        prt_strm << "\" " << pi->Icon << " " << pi->GetCommand() << "\n";
+    }
+}
+
+multimap<string, MenuNode *> MenuNode::fixup() {
+
+    multimap<string, MenuNode *> ret;
+
+    // descend deep and then check whether the same app has been added somewhere
+    // in the parent nodes, then remove it there
+    deque<MenuNode *> checkStack;
+    std::function<void(MenuNode *)> go_deeper;
+    go_deeper = [&](MenuNode *cur) {
+        checkStack.push_back(cur);
+
+        for (auto it = cur->submenus.begin(); it != cur->submenus.end(); ++it) {
+            ret.insert(make_pair(it->first, &it->second));
+            go_deeper(&it->second);
+        }
+
+        for (auto &appIt : cur->apps) {
+            // delete dupes in the parent menu nodes (compare by deco identity)
+            for (auto ancestorIt = checkStack.begin();
+                 ancestorIt != checkStack.end() - 1; ++ancestorIt) {
+
+                for (auto it = (**ancestorIt).apps.begin();
+                     it != (**ancestorIt).apps.end(); it++) {
+                    if (it->second.deco == appIt.second.deco) {
+                        (**ancestorIt).apps.erase(it);
+                        break;
+                    }
+                }
+            }
+        }
+
+        checkStack.pop_back();
+    };
+    go_deeper(this);
     return ret;
 }
 
-std::stack<std::string> flat_pfxes;
+void MenuNode::fixup2() {
 
-const char* flat_pfx()
-{
-    if (!flat_output || flat_pfxes.empty())
-        return "";
-    return flat_pfxes.top().c_str();
-}
-
-void flat_add_level(const char *name)
-{
-    if (!flat_output)
-        return;
-    if (flat_pfxes.empty())
-        flat_pfxes.push(std::string(name) + flat_sep);
-    else
-        flat_pfxes.push(flat_pfxes.top() + name + flat_sep);
-}
-
-void flat_drop_level()
-{
-    flat_pfxes.pop();
-}
-
-bool filter_matched(const char* title, const char* section_prefix)
-{
-    if (!match_in_section)
-        section_prefix = nullptr;
-    if (match_in_section_only)
-        title = nullptr;
-
-    bool hasFilter(substr_filter && *substr_filter),
-            hasIfilter (substr_filter_nocase && *substr_filter_nocase);
-
-    if (hasFilter) {
-         if(title && strstr(title, substr_filter))
-             return true;
-         if(section_prefix && strstr(section_prefix, substr_filter))
-             return true;
+    auto vit = submenus.find("AudioVideo");
+    if (vit != submenus.end() && vit->second.deco) {
+        for (auto &s : {"Audio", "Video"}) {
+            auto it = submenus.find(s);
+            if (it != submenus.end() && !it->second.deco) {
+                it->second.deco =
+                    new DesktopFile(it->first, "", vit->second.deco->Icon);
+            }
+        }
     }
-#ifdef __GNU_LIBRARY__
-    if (hasIfilter) {
-        if(title && strcasestr(title, substr_filter_nocase))
-            return true;
-        if(section_prefix && strcasestr(section_prefix, substr_filter_nocase))
-            return true;
-    }
-#endif
-    return ! (hasFilter || hasIfilter);
-}
 
-struct t_menu_node;
-extern t_menu_node root;
+    // Do a depth-first-scan
+    using t_iter = decltype(submenus)::iterator;
+    deque<t_iter> mpath;
+    std::function<bool(const string &, MenuNode &)> descend;
 
-// very basic, avoid vtables!
-struct t_menu_node {
-protected:
-    // for leafs -> NULL, otherwise sub-menu contents
-    GTree* store;
-    char* progCmd;
-    const char* generic;
-public:
-    const tListMeta *meta;
-    t_menu_node(const tListMeta* desc):
-        store(nullptr), progCmd(nullptr), generic(nullptr), meta(desc) {}
+    // subcalls may modify ancenstor's app but not submenus. Menu operation can
+    // get last node erased by returning false.
+    descend = [&](const string &menu_key, MenuNode &node) -> bool {
+        for (auto it = node.submenus.begin(); it != node.submenus.end();) {
+            mpath.push_back(it);
+            it =
+                descend(it->first, it->second) ? ++it : node.submenus.erase(it);
+            mpath.pop_back();
+        }
 
-    struct t_print_meta {
-        int count, level;
-        t_menu_node* print_separated;
+        // now do content processing
+
+        if (generic_name) {
+            for (auto &p : node.apps) {
+                p.second.AddSfx(p.second.deco->GetTranslatedGenericName(),
+                                "()");
+            }
+        }
+
+        if (!(userFilter(menu_key.c_str(), true) ||
+              (node.deco &&
+               userFilter(node.deco->GetTranslatedName().c_str(), true)))) {
+
+            return false;
+        }
+
+        // Special mode where we detect single elements, in which case the
+        // menu's apps are moved to ours and the menu is skipped from the
+        // printed set.
+
+        if (no_only_child && mpath.size() > 1) {
+
+            auto relocate = [&](const string *app_key, AppEntry &app_entry,
+                                decltype(MenuNode::apps) &parent_apps,
+                                const string &origin) {
+                // if there is another one with the same key -> hands off!
+                if (parent_apps.find(app_key) != parent_apps.end())
+                    return false;
+
+                if (no_only_child_hint)
+                    app_entry.AddSfx(safeTrans(node.deco, origin), "[]");
+                parent_apps.emplace(app_key, std::move(app_entry));
+
+                return true;
+            };
+            if (node.submenus.empty() && node.apps.size() == 1 &&
+                mpath.size() > 1) {
+
+                if (relocate(node.apps.begin()->first,
+                             node.apps.begin()->second,
+                             mpath[mpath.size() - 2]->second.apps, menu_key)) {
+                    node.apps.clear();
+                }
+            }
+            // only one sub-menu which contains only applications
+            if (node.apps.empty() && node.submenus.size() == 1 &&
+                node.submenus.begin()->second.submenus.empty()) {
+                bool some_remained = false;
+                for (auto &it : node.submenus.begin()->second.apps) {
+                    some_remained |=
+                        !relocate(it.first, it.second,
+                                  mpath[mpath.size() - 1]->second.apps,
+                                  node.submenus.begin()->first);
+                }
+                if (!some_remained)
+                    node.submenus.clear();
+            }
+        }
+        return !node.empty();
     };
-    static gboolean print_node(gpointer /*key*/, gpointer value, gpointer pr_meta) {
-        ((t_menu_node*) value)->print((t_print_meta*) pr_meta);
-        return FALSE;
-    }
-
-    void print(t_print_meta *ctx) {
-        if (!meta) return;
-        LPCSTR title = Elvis(meta->title, meta->key);
-
-        if (!store)
-        {
-            if (title && progCmd &&
-                    filter_matched(title, flat_pfxes.empty()
-                                   ? nullptr : flat_pfxes.top().c_str()))
-            {
-                if (ctx->count == 0 && add_sep_before)
-                    puts("separator");
-                if (nonempty(generic) && !strcasestr(title, generic)) {
-                    if (right_to_left) {
-                        printf("prog \"(%s) %s%s\" %s %s\n",
-                                generic, flat_pfx(), title, meta->icon, progCmd);
-                    } else {
-                        printf("prog \"%s%s (%s)\" %s %s\n",
-                                flat_pfx(), title, generic, meta->icon, progCmd);
-                    }
-                }
-                else
-                    printf("prog \"%s%s\" %s %s\n", flat_pfx(), title, meta->icon, progCmd);
-            }
-            ctx->count++;
-            return;
-        }
-
-        if (!g_tree_nnodes(store))
-            return;
-
-        if (ctx->level == 1 && !no_sep_others
-                && 0 == strcmp(meta->key, "Other")) {
-            ctx->print_separated = this;
-            return;
-        }
-
-        // root level does not have a name, for others open category menu
-        if (ctx->level > 0) {
-            if (ctx->count == 0 && add_sep_before)
-                puts("separator");
-            ctx->count++;
-            if (flat_output)
-                flat_add_level(title);
-            else
-                printf("menu \"%s\" %s {\n", title, meta->icon);
-        }
-        ctx->level++;
-        g_tree_foreach(store, print_node, ctx);
-        if (ctx->level == 1 && ctx->print_separated)
-        {
-            fflush(stdout);
-            puts("separator");
-            no_sep_others = true;
-            ctx->print_separated->print(ctx);
-        }
-        ctx->level--;
-        if (ctx->level > 0) {
-            if (flat_output)
-                flat_drop_level();
-            else {
-#ifndef DEBUG
-                puts("}");
-#else
-                printf("# end of menu \"%s\"\n}\n", title);
-#endif
-            }
-        }
-        if (add_sep_after && ctx->level == 0 && ctx->count > 0)
-            puts("separator");
-
-    }
-
-    /**
-     * Usual print method for the root node
-     */
-    void print() {
-        t_print_meta ctx = {0,0,nullptr};
-        print(&ctx);
-    }
-
-    void add(t_menu_node* node) {
-        if (!store)
-            store = g_tree_new(cmpUtf8);
-        if (node->meta->title || node->meta->key)
-            g_tree_replace(store, (gpointer) Elvis(node->meta->title, node->meta->key), (gpointer) node);
-    }
-
-    /**
-     * Returns a sub-menu which is named by the title (or key) of the provided information.
-     * Creates one as needed or finds existing one.
-     */
-    t_menu_node* get_subtree(const tListMeta* info) {
-        const char* title = Elvis(info->title, info->key);
-        if (store) {
-            void* existing = g_tree_lookup(store, title);
-            if (existing)
-                return (t_menu_node*) existing;
-        }
-        t_menu_node* tree = new t_menu_node(info);
-        add(tree);
-        return tree;
-    }
-
-    /**
-     * Find and examine the possible subcategory, try to assign it to the particular main category with the proper structure.
-     * When succeeded, blank out the main category pointer in matched_main_cats.
-     */
-    void try_add_to_subcat(t_menu_node* pNode, const tListMeta* subCatCandidate, YVec<tListMeta*> &matched_main_cats)
-    {
-        t_menu_node *pTree = &root;
-        // skip the rest of the further nesting (cannot fit into any)
-        bool skipping = false;
-
-        tListMeta* pNewCatInfo = nullptr;
-        tListMeta** ppLastMainCat = nullptr;
-
-        for (const char * const *pSubCatName = subCatCandidate->parent_sec;
-                *pSubCatName; ++pSubCatName) {
-            // stop nesting, add to the last visited/created submenu
-            bool store_here = **pSubCatName == '|';
-            if (skipping && store_here) {
-                skipping = false;
-                pTree = &root;
-                continue;
-            }
-            if (store_here) {
-                pTree->get_subtree(subCatCandidate)->add(pNode);
-                // main menu was served, don't come here again
-                if (ppLastMainCat)
-                    *ppLastMainCat = nullptr;
-            }
-
-            skipping = true;
-            // check main category filter, enter from root for main categories
-
-            for (tListMeta** ppMainCat = matched_main_cats.data;
-                    ppMainCat < matched_main_cats.data + matched_main_cats.size;
-                    ++ppMainCat) {
-
-                if (!*ppMainCat)
-                    continue;
-
-                // empty filter means ANY
-                if (**pSubCatName == '\0'
-                        || 0 == strcmp(*pSubCatName, (**ppMainCat).key)) {
-                    // the category is enabled!
-                    skipping = false;
-                    pTree = &root;
-                    pNewCatInfo = *ppMainCat;
-                    ppLastMainCat = ppMainCat;
-                    break;
-                }
-            }
-            if (skipping)
-                continue;
-            // if not on first node, make or find submenues for the comming tokens
-            if (!pNewCatInfo)
-                pNewCatInfo = lookup_category(*pSubCatName);
-            if (!pNewCatInfo)
-                return; // heh? fantasy category? Let caller handle it
-            pTree = pTree->get_subtree(pNewCatInfo);
-        }
-    }
-    void add_by_categories(t_menu_node* pNode, gchar **ppCats) {
-        static YVec<tListMeta*> matched_main_cats, matched_sub_cats;
-        matched_main_cats.size = matched_sub_cats.size = 0;
-
-        for (gchar **pCatKey = ppCats; pCatKey && *pCatKey; ++pCatKey) {
-            if (!**pCatKey)
-                continue; // empty?
-            tListMeta *pResolved = lookup_category(*pCatKey);
-            if (!pResolved) continue;
-            if (!pResolved->parent_sec)
-                matched_main_cats.add(pResolved);
-            else
-                matched_sub_cats.add(pResolved);
-        }
-        if (matched_main_cats.size == 0)
-            matched_main_cats.add(lookup_category("Other"));
-        if (!no_sub_cats) {
-            for (tListMeta** p = matched_sub_cats.data;
-                    p < matched_sub_cats.data + matched_sub_cats.size; ++p) {
-
-                try_add_to_subcat(pNode, *p, matched_main_cats);
-            }
-        }
-        for (tListMeta** p = matched_main_cats.data;
-                p < matched_main_cats.data + matched_main_cats.size; ++p) {
-
-            if (*p == nullptr)
-                continue;
-            get_subtree(*p)->add(pNode);
-        }
-    }
-};
-
-/*
- * Two relevant columns from https://specifications.freedesktop.org/menu-spec/latest/apas02.html
- * exported as CSV with , delimiter and with manual fix of HardwareSettings order.
- *
- * Powered by PERL! See contrib/conv_cat.pl
- */
-
-#include "fdospecgen.h"
-
-bool checkSuffix(const char* szFilename, const char* szFileSfx)
-{
-    const char* pSfx = strrchr(szFilename, '.');
-    return pSfx && 0 == strcmp(pSfx+1, szFileSfx);
+    descend("", *this);
 }
 
-// for short-living objects describing the information we get from desktop files
-class tDesktopInfo {
-public:
-    GDesktopAppInfo *pInfo;
-    LPCSTR d_file;
-    tDesktopInfo(LPCSTR szFileName) : d_file(szFileName)  {
-        pInfo = g_desktop_app_info_new_from_filename(szFileName);
-        if (!pInfo)
-            return;
-// tear down if not permitted
-        if (!g_app_info_should_show(*this)) {
-            g_object_unref(pInfo);
-            pInfo = nullptr;
-            return;
-        }
-    }
-
-    inline operator GAppInfo*() {
-        return (GAppInfo*) pInfo;
-    }
-
-    inline operator GDesktopAppInfo*() {
-        return pInfo;
-    }
-
-    ~tDesktopInfo() { }
-
-    LPCSTR get_name() const {
-        if (!pInfo)
-            return nullptr;
-        return g_app_info_get_display_name((GAppInfo*) pInfo);
-    }
-
-    LPCSTR get_generic() const {
-        if (!pInfo || !generic_name)
-            return nullptr;
-        return g_desktop_app_info_get_generic_name(pInfo);
-    }
-
-    char * get_icon_path() const {
-        GIcon *pIcon = g_app_info_get_icon((GAppInfo*) pInfo);
-        auto_gunref free_icon((GObject*) pIcon);
-
-        if (pIcon) {
-            char *icon_path = g_icon_to_string(pIcon);
-            if (!icon_path)
-                return nullptr;
-            // if absolute then we are done here
-            if (icon_path[0] == '/')
-                return icon_path;
-            // err, not owned! auto_gfree free_orig_icon_path(icon_path);
-            return icon_path;
-        }
-        return nullptr;
-    }
-};
-
-tListMeta no_description = {nullptr,nullptr,nullptr,nullptr};
-
-t_menu_node root(&no_description);
-
-// variant with local description data
-struct t_menu_node_app : t_menu_node
-{
-    tListMeta description;
-    t_menu_node_app(const tDesktopInfo& dinfo) : t_menu_node(&description),
-            description(no_description) {
-        description.icon = Elvis((const char*) dinfo.get_icon_path(), "-");
-
-        LPCSTR cmdraw = g_app_info_get_commandline((GAppInfo*) dinfo.pInfo);
-        if (!cmdraw || !*cmdraw)
-            return;
-
-        description.title = description.key = Elvis(dinfo.get_name(), "<UNKNOWN>");
-
-        // if the strings contains the exe and then only file/url tags that we wouldn't
-        // set anyway, THEN create a simplified version and use it later (if bSimpleCmd is true)
-        // OR use the original command through a wrapper (if bSimpleCmd is false)
-        bool bUseSimplifiedCmd = true;
-        gchar * cmdMod = g_strdup(cmdraw);
-        gchar *pcut = strpbrk(cmdMod, " \f\n\r\t\v");
-
-        if (pcut) {
-            bool bExpectXchar = false;
-            for (gchar *p = pcut; *p && bUseSimplifiedCmd; ++p) {
-                int c = (unsigned) *p;
-                if (bExpectXchar) {
-                    if (strchr("FfuU", c))
-                        bExpectXchar = false;
-                    else
-                        bUseSimplifiedCmd = false;
-                    continue;
-                } else if (c == '%') {
-                    bExpectXchar = true;
-                    continue;
-                } else {
-                    if (isspace(unsigned(c)))
-                        continue;
-                    else {
-                        if (!strchr(p, '%'))
-                            goto cmdMod_is_good_as_is;
-                        else
-                            bUseSimplifiedCmd = false;
-                    }
-                }
-            }
-
-            if (bExpectXchar)
-                bUseSimplifiedCmd = false;
-            if (bUseSimplifiedCmd)
-                *pcut = '\0';
-            cmdMod_is_good_as_is: ;
-        }
-
-        bool bForTerminal = false;
-    #if GLIB_VERSION_CUR_STABLE >= G_ENCODE_VERSION(2, 36)
-        bForTerminal = g_desktop_app_info_get_boolean(dinfo.pInfo, "Terminal");
-    #else
-        // cannot check terminal property, callback is as safe bet
-        bUseSimplifiedCmd = false;
-    #endif
-
-        if (bUseSimplifiedCmd && !bForTerminal) // best case
-            progCmd = cmdMod;
-        else if (bForTerminal && nonempty(terminal_command))
-            progCmd = g_strjoin(" ", terminal_command, "-e", cmdMod, NULL);
-        else
-            // not simple command or needs a terminal started via launcher callback, or both
-            progCmd = g_strdup_printf("%s \"%s\"", ApplicationName, dinfo.d_file);
-        if (cmdMod && cmdMod != progCmd)
-            g_free(cmdMod);
-        generic = dinfo.get_generic();
-    }
-    ~t_menu_node_app() {
-        g_free(progCmd);
-    }
-};
-
-struct tFromTo { LPCSTR from; LPCSTR to;};
-// match transformations applied by some DEs
-const tFromTo SameCatMap[] = {
-        {"Utilities", "Utility"},
-        {"Sound & Video", "AudioVideo"},
-        {"Sound", "Audio"},
-        {"File", "FileTools"},
-        {"Terminal Applications", "TerminalEmulator"},
-        {"Mathematics", "Math"},
-        {"Arcade", "ArcadeGame"},
-        {"Card Games", "CardGame"}
-};
-const tFromTo SameIconMap[] = {
-        { "AudioVideo", "Audio" },
-        { "AudioVideo", "Video" }
-};
-typedef void (*tFuncInsertInfo)(LPCSTR szDesktopFile);
-void pickup_folder_info(LPCSTR szDesktopFile) {
-    GKeyFile *kf = g_key_file_new();
-    auto_raii<GKeyFile*, g_key_file_free> free_kf(kf);
-
-    if (!g_key_file_load_from_file(kf, szDesktopFile, G_KEY_FILE_NONE, nullptr))
-        return;
-    LPCSTR cat_name = g_key_file_get_string(kf, "Desktop Entry", "Name", nullptr);
-    // looks like bad data
-    if (!cat_name || !*cat_name)
-        return;
-    // try a perfect match by name or file name
-    tListMeta* pCat = lookup_category(cat_name);
-    if (!pCat)
-    {
-        gchar* bn(g_path_get_basename(szDesktopFile));
-        auto_gfree cleanr(bn);
-        char* dot = strchr(bn, '.');
-        if (dot)
-        {
-            *dot = 0x0;
-            pCat = lookup_category(bn);
-        }
-    }
-    for (const tFromTo* p = SameCatMap;
-            !pCat && p < SameCatMap+ACOUNT(SameCatMap);
-            ++p) {
-
-        if (0 == strcmp(cat_name, p->from))
-            pCat = lookup_category(p->to);
-    }
-
-    if (!pCat)
-        return;
-    if (pCat->load_state_icon < tListMeta::SYSTEM_ICON) {
-        LPCSTR icon_name = g_key_file_get_string (kf, "Desktop Entry",
-                                                       "Icon", nullptr);
-        if (icon_name && *icon_name) {
-            pCat->icon = icon_name;
-            pCat->load_state_icon = tListMeta::SYSTEM_ICON;
-        }
-    }
-    if (pCat->load_state_title < tListMeta::SYSTEM_TRANSLATED) {
-        char* cat_title = g_key_file_get_locale_string(kf, "Desktop Entry",
-                                                       "Name", nullptr, nullptr);
-        if (!cat_title) return;
-        pCat->title = cat_title;
-        char* cat_title_c = g_key_file_get_string(kf, "Desktop Entry",
-                                                  "Name", nullptr);
-        bool same_trans = 0 == strcmp (cat_title_c, cat_title);
-        if (!same_trans) pCat->load_state_title = tListMeta::SYSTEM_TRANSLATED;
-        // otherwise: not sure, keep searching for a better translation
-    }
-    // something special, donate the icon to similar items unless they have a better one
-
-    for (const tFromTo* p = SameIconMap; p < SameIconMap + ACOUNT(SameIconMap);
-            ++p) {
-
-        if (strcmp (pCat->key, p->from))
-            continue;
-
-        tListMeta *t = lookup_category (p->to);
-        // give them at least some icon for now
-        if (t && t->load_state_icon < tListMeta::FALLBACK_ICON) {
-            t->icon = pCat->icon;
-            t->load_state_icon = tListMeta::FALLBACK_ICON;
-        }
-
-    }
-}
-
-void insert_app_info(const char* szDesktopFile) {
-    tDesktopInfo dinfo(szDesktopFile);
-    if (!dinfo.pInfo)
-        return;
-
-    LPCSTR pCats = g_desktop_app_info_get_categories(dinfo.pInfo);
-    if (!pCats)
-        pCats = "Other";
-    if (0 == strncmp(pCats, "X-", 2))
-        return;
-
-    t_menu_node* pNode = new t_menu_node_app(dinfo);
-    // Pigeonholing roughly by guessed menu structure
-
-    gchar **ppCats = g_strsplit(pCats, ";", -1);
-    root.add_by_categories(pNode, ppCats);
-    g_strfreev(ppCats);
-
-}
-
-void proc_dir_rec(LPCSTR syspath, unsigned depth,
-        tFuncInsertInfo process_keyfile, LPCSTR szSubfolder,
-        LPCSTR szFileSfx) {
-    gchar *path = g_strjoin("/", syspath, szSubfolder, NULL);
-    auto_gfree relmem_path(path);
-    GDir *pdir = g_dir_open(path, 0, nullptr);
-    if (!pdir)
-        return;
-    auto_raii<GDir*, g_dir_close> dircloser(pdir);
-
-    const gchar *szFilename(nullptr);
-    while (nullptr != (szFilename = g_dir_read_name(pdir))) {
-        if (!szFilename || !checkSuffix(szFilename, szFileSfx))
-            continue;
-
-        gchar *szFullName = g_strjoin("/", path, szFilename, NULL);
-        auto_gfree xxfree(szFullName);
-        static GStatBuf buf;
-        if (0 != g_stat(szFullName, &buf))
-            continue;
-        if (S_ISDIR(buf.st_mode)) {
-            static ino_t reclog[6];
-            for (unsigned i = 0; i < depth; ++i) {
-                if (reclog[i] == buf.st_ino)
-                    goto dir_visited_before;
-            }
-            if (depth < ACOUNT(reclog)) {
-                reclog[++depth] = buf.st_ino;
-                proc_dir_rec(szFullName, depth, process_keyfile, szSubfolder,
-                        szFileSfx);
-                --depth;
-            }
-            dir_visited_before: ;
-        }
-
-        if (!S_ISREG(buf.st_mode))
-            continue;
-
-        process_keyfile(szFullName);
-    }
-}
-
-bool launch(LPCSTR dfile, char** argv, int argc) {
-    GDesktopAppInfo *pInfo = g_desktop_app_info_new_from_filename(dfile);
-    if (!pInfo)
-        return false;
-#if 0 // g_file_get_uri crashes, no idea why, even enforcing file prefix doesn't help
-    if (argc > 0)
-    {
-        GList* parms = NULL;
-        for (int i = 0; i < argc; ++i)
-        parms = g_list_append(parms,
-                g_strdup_printf("%s%s", strstr(argv[i], "://") ? "" : "file://",
-                        argv[i]));
-        return g_app_info_launch ((GAppInfo *)pInfo,
-                parms, NULL, NULL);
-    }
-    else
-#else
-    (void) argv;
-    (void) argc;
-#endif
-    return g_app_info_launch((GAppInfo *) pInfo, nullptr, nullptr, nullptr);
-}
-
-static void init() {
-#ifdef CONFIG_I18N
-    const char* loc = setlocale(LC_ALL, "");
-    if (loc
-        && islower(*loc & 0xff)
-        && islower(loc[1] & 0xff)
-        && !isalpha(loc[2] & 0xff)) {
-        const char rtls[][4] = {
-            "ar",   // arabic
-            "fa",   // farsi
-            "he",   // hebrew
-            "ps",   // pashto
-            "sd",   // sindhi
-            "ur",   // urdu
-        };
-        for (const char* rtl : rtls) {
-            if (rtl[0] == loc[0] && rtl[1] == loc[1]) {
-                right_to_left = true;
-                break;
-            }
-        }
-    }
-#endif
-
-    bindtextdomain(PACKAGE, LOCDIR);
-    textdomain(PACKAGE);
-
-    meta_lookup_data = g_hash_table_new(g_str_hash, g_str_equal);
-
-    for (unsigned i = 0; i < ACOUNT(spec::menuinfo); ++i) {
-        tListMeta& what = spec::menuinfo[i];
-        if (no_sub_cats && what.parent_sec)
-            continue;
-        // enforce non-const since we are not destroying that data ever, no key_destroy_func set!
-        g_hash_table_insert(meta_lookup_data, (gpointer) what.key, &what);
-    }
-
-    const char* terminals[] = { terminal_option, getenv("TERMINAL"), TERM,
-                                "urxvt", "alacritty", "roxterm", "xterm" };
-    for (auto term : terminals)
-        if (term && (terminal_command = path_lookup(term)) != nullptr)
-            break;
-}
-
-static void help(LPCSTR home, LPCSTR dirs, FILE* out, int xit) {
-    g_fprintf(out,
-            "USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
-            "OPTIONS:\n"
-            "-g, --generic\tInclude GenericName in parentheses of progs\n"
-            "-o, --output=FILE\tWrite the output to FILE\n"
-            "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
-            "--seps  \tPrint separators before and after contents\n"
-            "--sep-before\tPrint separator before the contents\n"
-            "--sep-after\tPrint separator only after contents\n"
-            "--no-sep-others\tNo separation of the 'Others' menu point\n"
-            "--no-sub-cats\tNo additional subcategories, just one level of menues\n"
-            "--flat\tDisplay all apps in one layer with category hints\n"
-            "--flat-sep STR\tCategory separator string used in flat mode (default: ' / ')\n"
-            "--match PAT\tDisplay only apps with title containing PAT\n"
-            "--imatch PAT\tLike --match but ignores the letter case\n"
-            "--match-sec\tApply --match or --imatch to apps AND sections\n"
-            "--match-osec\tApply --match or --imatch only to sections\n"
-            "FILENAME\tAny .desktop file to launch its application Exec command\n"
-            "This program also listens to environment variables defined by\n"
-            "the XDG Base Directory Specification:\n"
-            "XDG_DATA_HOME=%s\n"
-            "XDG_DATA_DIRS=%s\n", home, dirs);
+static void help(bool to_stderr, int xit) {
+    (to_stderr ? cerr : cout)
+        << _("USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+             "OPTIONS:\n"
+             "-g, --generic\t\tInclude GenericName in parentheses of progs\n"
+             "-o, --output=FILE\tWrite the output to FILE\n"
+             "-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+             "-s, --no-lone-app\tMove lone elements to parent menu\n"
+             "-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+             "-d, --deadline-apps=N\tStop loading app information after N ms\n"
+             "-D, --deadline-all=N\tStop all loading and print what we got so "
+             "far\n"
+             "-m, --match=PAT\t\tDisplay only apps with title containing PAT\n"
+             "-M, --imatch=PAT\tLike --match but ignores the letter case\n"
+             "-L, --limit-max-len=N\tCrop app titles at length N, add ...\n"
+             "--seps  \tPrint separators before and after contents\n"
+             "--sep-before\tPrint separator before the contents\n"
+             "--sep-after\tPrint separator only after contents\n"
+             "--no-sep-others\tLegacy, has no effect\n"
+             "--no-sub-cats\tNo additional subcategories, just one level of "
+             "menues\n"
+             "--flat\t\tDisplay all apps in one layer with category hints\n"
+             "--flat-sep=STR\tCategory separator string used in flat mode "
+             "(default: ' / ')\n"
+             "--match-sec\tApply --match or --imatch to apps AND sections\n"
+             "--match-osec\tApply --match or --imatch only to sections\n"
+             "--orig-comment\tPrint source .desktop file as comment\n"
+             "-C, --copying\tPrint copyright information\n"
+             "-V, --version\tPrint version information\n"
+             "-h, --help\tPrints this usage screen and exits.\n"
+             "\nFILENAME\tAny .desktop file to launch its application Exec "
+             "command.\n\n"
+             "This program also listens to environment variables defined by\n"
+             "the XDG Base Directory Specification:\n")
+        << "XDG_DATA_HOME=" << Elvis(getenv("XDG_DATA_HOME"), (char *)"")
+        << "\nXDG_DATA_DIRS=" << Elvis(getenv("XDG_DATA_DIRS"), (char *)"")
+        << endl;
     exit(xit);
 }
 
-void split_folders(const char* path_string, tCharVec& where) {
-    for (gchar** p = g_strsplit(path_string, ":", -1); *p; ++p) {
-        where.add(*p);
-    }
-}
+int main(int argc, char **argv) {
 
-void process_apps(const tCharVec& where) {
-    for (const gchar* const * p = where.data; p < where.data + where.size;
-            ++p) {
-        proc_dir_rec(*p, 0, insert_app_info, "applications", "desktop");
-    }
-}
-
-/**
- * @return True if all categories received description data
- */
-void load_folder_descriptions(const tCharVec& where) {
-    for (const gchar* const * p = where.data; p < where.data + where.size;
-            ++p) {
-        proc_dir_rec(*p, 0, pickup_folder_info, "desktop-directories",
-                "directory");
-    }
-}
-
-#ifdef DEBUG_xxx
-void dbgPrint(const gchar *msg)
-{
-    tlog("%s", msg);
-}
-#endif
-
-int main(int argc, char** argv) {
+    // basic framework and environment initialization
     ApplicationName = my_basename(argv[0]);
 
-#if !GLIB_CHECK_VERSION(2,36,0)
-    g_type_init();
-#endif
+    std::ios_base::sync_with_stdio(false);
 
-#ifdef DEBUG_xxx
-    // XXX: if enabled, one probably also need to enable debug facilities in its code, like
-    // what --debug option does
-    g_set_printerr_handler(dbgPrint);
-    g_set_print_handler(dbgPrint);
-#endif
+#ifdef CONFIG_I18N
+    setlocale(LC_ALL, "");
 
-    char* usershare = getenv("XDG_DATA_HOME");
-    if (!usershare || !*usershare)
-        usershare = g_strjoin(nullptr, getenv("HOME"), "/.local/share", NULL);
+    auto msglang = getCheckedExplicitLocale(false);
+    right_to_left =
+        msglang && *msglang &&
+        std::any_of(rtls, rtls + ACOUNT(rtls), [&](const char *rtl) {
+            return rtl[0] == msglang[0] && rtl[1] == msglang[1];
+        });
+    bindtextdomain(PACKAGE, LOCDIR);
+    textdomain(PACKAGE);
+#endif
+    loc_comper = new tLessOp4Localized();
+
+    deque<string> sharedirs;
+    auto add_split = [&](const char *p) {
+        if (!p || !*p)
+            return false;
+        string q(p);
+        for (tSplitWalk w(q, ":"); w.Next();)
+            sharedirs.push_back(w);
+        return true;
+    };
 
     // system dirs, either from environment or from static locations
-    LPCSTR sysshare = getenv("XDG_DATA_DIRS");
-    if (!sysshare || !*sysshare)
-        sysshare = "/usr/local/share:/usr/share";
+    const char *p = nullptr;
+    if (!add_split(getenv("XDG_DATA_HOME")) && (p = getenv("HOME")) && *p)
+        sharedirs.push_back(string(p) + "/.local/share");
 
-    if (argc == 2 && checkSuffix(argv[1], "desktop")
-            && launch(argv[1], argv + 2, argc - 2)) {
-        return EXIT_SUCCESS;
-    }
+    if (!add_split(getenv("XDG_DATA_DIRS")))
+        sharedirs.insert(sharedirs.end(), {"/usr/local/share", "/usr/share"});
 
-    for (char** pArg = argv + 1; pArg < argv + argc; ++pArg) {
+    // option parameters
+    bool add_sep_before = false;
+    bool add_sep_after = false;
+    const char *opt_deadline_apps = nullptr;
+    const char *opt_deadline_all = nullptr;
+
+    std::chrono::time_point<std::chrono::steady_clock> deadline_apps,
+        deadline_all;
+
+    string desktop_file_to_start;
+
+    for (auto pArg = argv + 1; pArg < argv + argc; ++pArg) {
         if (is_version_switch(*pArg)) {
-            g_fprintf(stdout,
-                    "icewm-menu-fdo "
-                    VERSION
-                    ", Copyright 2015-2022 Eduard Bloch, 2017-2022 Bert Gijsbers.\n");
+            cout << "icewm-menu-fdo " VERSION ", Copyright 2015-2024 Eduard "
+                    "Bloch, 2017-2023 Bert Gijsbers."
+                 << endl;
             exit(0);
-        }
-        else if (is_copying_switch(*pArg))
+        } else if (is_copying_switch(*pArg))
             print_copying_exit();
         else if (is_help_switch(*pArg))
-            help(usershare, sysshare, stdout, EXIT_SUCCESS);
+            help(false, EXIT_SUCCESS);
         else if (is_long_switch(*pArg, "seps"))
             add_sep_before = add_sep_after = true;
         else if (is_long_switch(*pArg, "sep-before"))
@@ -858,6 +1013,8 @@ int main(int argc, char** argv) {
             no_sep_others = true;
         else if (is_long_switch(*pArg, "no-sub-cats"))
             no_sub_cats = true;
+        else if (is_long_switch(*pArg, "orig-comment"))
+            add_comments = true;
         else if (is_long_switch(*pArg, "flat"))
             flat_output = no_sep_others = true;
         else if (is_long_switch(*pArg, "match-sec"))
@@ -866,6 +1023,10 @@ int main(int argc, char** argv) {
             match_in_section = match_in_section_only = true;
         else if (is_switch(*pArg, "g", "generic-name"))
             generic_name = true;
+        else if (is_switch(*pArg, "s", "no-lone-app"))
+            no_only_child = true;
+        else if (is_switch(*pArg, "S", "no-lone-hint"))
+            no_only_child = no_only_child_hint = true;
         else {
             char *value = nullptr, *expand = nullptr;
             if (GetArgument(value, "o", "output", pArg, argv + argc)) {
@@ -874,14 +1035,12 @@ int main(int argc, char** argv) {
                 else if (*value == '$')
                     value = expand = dollar_expansion(value);
                 if (nonempty(value)) {
-                    if (freopen(value, "w", stdout) == nullptr) {
+                    if (freopen(value, "w", stdout) == nullptr)
                         fflush(stdout);
-                    }
                 }
                 if (expand)
                     delete[] expand;
-            }
-            else if (GetArgument(value, "m", "match", pArg, argv + argc))
+            } else if (GetArgument(value, "m", "match", pArg, argv + argc))
                 substr_filter = value;
             else if (GetArgument(value, "M", "imatch", pArg, argv + argc))
                 substr_filter_nocase = value;
@@ -889,28 +1048,163 @@ int main(int argc, char** argv) {
                 flat_sep = value;
             else if (GetArgument(value, "t", "terminal", pArg, argv + argc))
                 terminal_option = value;
-            else // unknown option
-                help(usershare, sysshare, stderr, EXIT_FAILURE);
+            else if (GetArgument(value, "L", "limit-max-len", pArg,
+                                 argv + argc))
+                prog_name_cut = atoi(value);
+            else if (GetArgument(value, "d", "deadline-apps", pArg,
+                                 argv + argc))
+                opt_deadline_apps = value;
+            else if (GetArgument(value, "D", "deadline-all", pArg, argv + argc))
+                opt_deadline_all = value;
+            else {
+                if (argc == 2 && !(desktop_file_to_start = argv[1]).empty() &&
+                    endsWithSzAr(desktop_file_to_start, ".desktop")) {
+                    DBGMSG("shall invoke: " << desktop_file_to_start);
+                } else // unknown option
+                    help(true, EXIT_FAILURE);
+            }
         }
     }
 
-    init();
-    split_folders(sysshare, sys_folders);
-    split_folders(usershare, home_folders);
+    const char *terminals[] = {terminal_option, getenv("TERMINAL"), TERM,
+                               "urxvt",         "alacritty",        "roxterm",
+                               "xterm"};
+    for (auto term : terminals)
+        if (term && (terminal_command = path_lookup(term)) != nullptr)
+            break;
 
-    load_folder_descriptions(sys_folders);
-    load_folder_descriptions(home_folders);
+    if (!desktop_file_to_start.empty()) {
+        DesktopFile df(argv[1], Elvis(msglang, ""));
+        auto cmd = df.GetCommand();
+        if (cmd.empty())
+            return EXIT_FAILURE;
+        return system(cmd.c_str());
+    }
 
-    process_apps(sys_folders);
-    process_apps(home_folders);
+    if (opt_deadline_all || opt_deadline_apps) {
+        auto a = opt_deadline_apps ? atoi(opt_deadline_apps) : 0;
+        auto b = opt_deadline_all ? atoi(opt_deadline_all) : 0;
+        if (!a && b)
+            a = b;
+        if (b && !a)
+            b = a;
+        if (a > b)
+            a = b;
 
-    root.print();
+        // also need to preload gettext (preheat the cache), otherwise the
+        // remaining runtime on printing becomes unpredictable
+        b += (strlen(gettext("Audio")) > 1234) +
+             (strlen(gettext("Zarathustra")) > 5678);
 
-    if (nonempty(usershare) && usershare != getenv("XDG_DATA_HOME"))
-        g_free(usershare);
-    delete[] terminal_command;
+        auto now = std::chrono::steady_clock::now();
+        deadline_apps = now + std::chrono::milliseconds(a);
+        deadline_all = now + std::chrono::milliseconds(b);
+    }
+
+    for (const auto &p : *(valid_paths.end() - 1))
+        valid_main_cats.insert(*p.begin());
+
+    auto justLang = string(msglang ? msglang : "");
+    justLang = justLang.substr(0, justLang.find('.'));
+
+    MenuNode *leaky = new MenuNode;
+    auto &root = *leaky;
+    bool in_timeout = false;
+
+    {
+        auto desktop_loader = FsScan(
+            [&](string &&fPath) {
+                DBGMSG("reading: " << fPath);
+                if (opt_deadline_apps &&
+                    std::chrono::steady_clock::now() > deadline_apps) {
+                    return false;
+                }
+
+                auto df = DesktopFile::load_visible(std::move(fPath), justLang);
+                if (df)
+                    root.sink_in(df);
+
+                return true;
+            },
+            ".desktop");
+
+        for (const auto &sdir : sharedirs) {
+            DBGMSG("checkdir: " << sdir);
+            desktop_loader.scan(sdir + "/applications");
+        }
+    }
+
+    auto section_entries = root.fixup();
+
+    // okay, now let's decorate the remaining menus
+    {
+        auto dir_loader = FsScan(
+            [&](string &&fPath) {
+                if (opt_deadline_all &&
+                    std::chrono::steady_clock::now() > deadline_all) {
+                    in_timeout = true;
+                    return false;
+                }
+
+                auto df = DesktopFile::load_visible(std::move(fPath), justLang);
+                if (!df)
+                    return true;
+
+                // get all menu nodes of that name
+                auto rng = section_entries.equal_range(df->GetName());
+                for (auto it = rng.first; it != rng.second; ++it) {
+                    if (!it->second->deco)
+                        it->second->deco = df;
+                }
+                // No menus of that name? Try using the plain filename, some
+                // .directory files use the category as file name stem but
+                // differing in the Name attribute
+                if (rng.first == rng.second) {
+                    auto cpos = fPath.find_last_of("/");
+                    auto mcatName =
+                        fPath.substr(cpos + 1, fPath.length() - cpos - 11);
+                    rng = section_entries.equal_range(mcatName);
+                    DBGMSG("altname: " << mcatName);
+
+                    for (auto it = rng.first; it != rng.second; ++it) {
+                        if (!it->second->deco)
+                            it->second->deco = df;
+                    }
+                }
+
+                return true;
+            },
+            ".directory", false);
+
+        for (const auto &sdir : sharedirs) {
+            dir_loader.scan(sdir + "/desktop-directories");
+        }
+    }
+
+    if (add_sep_before && !root.empty())
+        cout << "separator" << endl;
+
+    if (!in_timeout)
+        root.fixup2();
+
+    if (flat_output)
+        root.print_flat(cout, "");
+    else
+        root.print(cout);
+
+    if (in_timeout || (opt_deadline_apps &&
+                       std::chrono::steady_clock::now() > deadline_apps)) {
+        cout << "prog \"" << _("System too slow! Failed to load menu content!")
+             << "\" stop " << argv[0]
+             << " --match=to-be-never-matched --match-osec\n"
+             << "prog \"" << _("Please push HERE and retry after some seconds.")
+             << "\" view-refresh " << argv[0]
+             << " --match=to-be-never-matched --match-osec\n";
+    }
+
+    if (add_sep_after && !root.empty())
+        cout << "separator" << endl;
 
     return EXIT_SUCCESS;
 }
-
 // vim: set sw=4 ts=4 et:

@@ -25,6 +25,7 @@
 #include <assert.h>
 #include <X11/Xlib.h>
 #include <iconv.h>
+#include <ctype.h>
 
 const iconv_t invalid = iconv_t(-1);
 
@@ -311,6 +312,18 @@ char* YLocale::narrowString(const wchar_t* uStr, size_t uLen, size_t& lLen) {
 
     lLen = done;
     return dest;
+}
+
+const char *YLocale::getCheckedExplicitLocale(bool lctype)
+{
+    auto loc = setlocale(lctype ? LC_CTYPE : LC_MESSAGES, NULL);
+    if (loc == NULL)
+        return NULL;
+    return (islower(*loc & 0xff)
+        && islower(loc[1] & 0xff)
+        && !isalpha(loc[2] & 0xff))
+        ? loc
+        : NULL;
 }
 
 const char *YLocale::getLocaleName() {
