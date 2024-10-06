@@ -9,7 +9,8 @@ fi
 t=
 i=0
 
-for o in $(git tag --sort=-creatordate) ""; do
+# consider only tags starting with a number, i.e. skip local junk tags
+for o in $(git tag --sort=-creatordate | grep ^3) ""; do
 	if [ $i -ge 8 ]; then break; fi
 	i=$((i+1))
 	if [ -z "$t" ] ; then
@@ -43,7 +44,7 @@ for o in $(git tag --sort=-creatordate) ""; do
 			/usr/bin/echo -e "$cmd\n\n$notes\n"
 		fi
 	fi
-	cmd="git shortlog -e -n -w80,6,8 ${o}${o:+...}${t}"
+	cmd="git shortlog --no-merges -e -n -w80,6,8 ${o}${o:+...}${t}"
 	/usr/bin/echo -e "$cmd\n\n$(eval $cmd)\n"
 	t="$o"
 done|sed -r 's,[[:space:]][[:space:]]*$,,'

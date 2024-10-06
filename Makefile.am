@@ -47,7 +47,7 @@ AUTHORS:
 		)>$@ ; \
 	else touch $@ ; fi
 
-NEWS:
+NEWS: gennews.sh
 	$(AM_V_GEN)if test -x "`which git 2>/dev/null`" -a -d "$(srcdir)/.git" ; then \
 		( cd $(srcdir) ; \
 		  echo "$(PACKAGE) -- history of user-visible changes.  $(DATE)" ; \
