@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.14\n"
-"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2024-06-16 14:27+0200\n"
+"Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
+"POT-Creation-Date: 2024-10-06 18:14+0200\n"
 "PO-Revision-Date: 2022-03-10 16:12+0000\n"
 "Last-Translator: Tommi Nieminen <software@legisign.org>\n"
 "Language-Team: Finnish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -20,95 +20,24 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:113
-#, c-format
-msgid "Can't open the APM device %s"
-msgstr "APM -laitetta %s ei voitu avata"
-
-#: src/aapm.cc:121 src/aapm.cc:139
-#, c-format
-msgid "Can't ioctl the APM device %s"
-msgstr "ioctl APM-laitteelle %s ei onnistu"
-
-#: src/aapm.cc:169
-#, c-format
-msgid "Unknown format used by APM device %s (%d)."
-msgstr "APM-laite %s (%d) käyttää tuntematonta muotoa."
-
-#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
-msgid " - Power"
-msgstr " - Virta"
-
-#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
-msgid "P"
-msgstr "E"
-
-#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
-msgid " - Charging"
-msgstr " - Latautuu"
-
-#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
-msgid "C"
-msgstr "C"
-
-#: src/aapm.cc:454
-msgid " - Full"
-msgstr " - Täysi"
-
-#: src/aapm.cc:940
-#, c-format
-msgid "power:\t%s"
-msgstr "virta:\t%s"
-
-#: src/aclock.cc:195
-msgid "CLOCK"
-msgstr "KELLO"
-
-#: src/aclock.cc:201
-msgid "Date"
-msgstr "Päivämäärä"
-
-#: src/aclock.cc:202 src/themes.cc:83
-msgid "Default"
-msgstr "Oletus"
-
-#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
-#: src/amemstatus.cc:264
-msgid "_Disable"
-msgstr "_Pois"
-
-#: src/aclock.cc:204
-msgid "_UTC"
-msgstr "UT_C"
-
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:348
-msgid "°C"
-msgstr "°C"
-
-#: src/acpustatus.cc:552
-#, c-format
-msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU %s Kuorma: %3.2f %3.2f %3.2f, %u"
-
-#: src/acpustatus.cc:558
-#, c-format
+#: src/wmapp.cc:1629
 msgid ""
 "\n"
-"Ram (free): %5.3f (%.3f) G"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
-"\n"
-"Muisti (vapaa): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:563
-#, c-format
+#: src/wmapp.cc:1637
 msgid ""
 "\n"
-"Swap (free): %.3f (%.3f) G"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
-"\n"
-"Swap (vapaa): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -128,13 +57,30 @@ msgstr ""
 "\n"
 "CPU Taajuus: %.3fGHz"
 
-#: src/acpustatus.cc:607 src/acpustatus.cc:907
-msgid "CPU"
-msgstr "Suoritin"
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+"\n"
+"Vianjäljitysvalitsimet:\n"
+"  -v, --valgrind      Anna /usr/bin/valgrind’in ajaa icewm.\n"
+"                      Tarkistaa huolellisesti icewm:n suorituksen.\n"
+"  -g, --catchsegv     Anna /usr/bin/catchsegv:n ajaa icewm.\n"
+"                      Antaa pinolistauksen, jos icewm kaatuu.\n"
 
-#: src/acpustatus.cc:607
-msgid "Load: "
-msgstr "Kuorma: "
+#: src/acpustatus.cc:558
+#, c-format
+msgid ""
+"\n"
+"Ram (free): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Muisti (vapaa): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:622
 #, c-format
@@ -145,173 +91,1111 @@ msgstr ""
 "\n"
 "Muisti (käyttäjä): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:908
+#: src/acpustatus.cc:563
 #, c-format
-msgid "CPU%d"
-msgstr "CPU%d"
+msgid ""
+"\n"
+"Swap (free): %.3f (%.3f) G"
+msgstr ""
+"\n"
+"Swap (vapaa): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:914
-msgid "_Combine"
-msgstr "_Yhdistetty"
+#: src/wmapp.cc:1623
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
 
-#: src/acpustatus.cc:916
-msgid "_Separate"
-msgstr "_Erikseen"
+#: src/icesm.cc:69
+msgid ""
+"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+"\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
+"  -b, --nobg          Do not start icewmbg.\n"
+"  -n, --notray        Do not start icewmtray.\n"
+"  -s, --sound         Also start icesound.\n"
+msgstr ""
+"  -c, --config=TSTO   Lataa IceWM:n asetukset TSTOsta.\n"
+"  -t, --theme=TSTO    Lataa IceWM:n teema TSTOsta.\n"
+"\n"
+"  -d, --display=NIMI  Yhdistä X-palvelimeen NIMI.\n"
+"  -a, --alpha         Käytä 32-bittistä läpikuultavuutta.\n"
+"  --sync              Tahdista viestintä X11-palvelimeen.\n"
+"\n"
+"  -i, --icewm=TSTO    Käytä TSTOa IceWM:n ikkunanhallintana.\n"
+"  -o, --output=TSTO   Ohjaa kaikki tuloste TSTOon.\n"
+"\n"
+"  -b, --nobg          Älä käynnistä icewmbg:tä.\n"
+"  -n, --notray        Älä käynnistä icewmtraytä.\n"
+"  -s, --sound         Käynnistä myös icesound.\n"
 
-#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:503
-#, c-format
-msgid "%s exited with status %d."
-msgstr "%s poistunut tila %d."
+#: src/yxapp.cc:1008
+msgid ""
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+msgstr ""
 
-#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:506
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr "%s tapettiin signaalilla %d."
+#: src/wmapp.cc:1654
+msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
+msgstr ""
 
-#: src/akeyboard.cc:94
-msgid "rules:"
-msgstr "säännöt:"
+#: src/icetray.cc:220
+msgid ""
+"  -n, --notify        Notify parent process by sending signal USR1.\n"
+"  --display=NAME      Use NAME to connect to the X server.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load the theme from FILE.\n"
+msgstr ""
 
-#: src/akeyboard.cc:95
-msgid "model:"
-msgstr "malli:"
+#: src/wmapp.cc:1648
+msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
+msgstr ""
 
-#: src/akeyboard.cc:96
-msgid "layout:"
-msgstr "asettelu:"
+#: src/aapm.cc:207 src/aapm.cc:448 src/aapm.cc:613 src/aapm.cc:722
+msgid " - Charging"
+msgstr " - Latautuu"
 
-#: src/akeyboard.cc:97
-msgid "options:"
-msgstr "valitsimet:"
+#: src/aapm.cc:452
+msgid " - Full"
+msgstr " - Täysi"
 
-#: src/akeyboard.cc:153
-msgid "Keyboard"
-msgstr "Näppäimistö"
+#: src/aapm.cc:201 src/aapm.cc:471 src/aapm.cc:630 src/aapm.cc:754
+msgid " - Power"
+msgstr " - Virta"
 
-#: src/amailbox.cc:64
-#, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Virheellinen postilaatikkoprotokolla: \"%s\""
+#: src/icesm.cc:513
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+"\t3: Run a terminal?\n"
+msgstr ""
+" IceWM kaatui toistamiseen 10 sekunnin aikana. \n"
+" Haluatko:\n"
+"\n"
+"\t1: Käynnistää IceWM:n uudelleen?\n"
+"\t2: Lopettaa tämän istunnon?\n"
+"\t3: Käynnistää päätteen?\n"
 
-#: src/amailbox.cc:66
-#, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Virheellinen postilaatikon polku: \"%s\""
-
-#: src/amailbox.cc:140
-#, c-format
-msgid "DNS name lookup failed for %s"
-msgstr "DNS-nimen haku epäonnistui %s"
-
-#: src/amailbox.cc:156
-#, c-format
-msgid "Invalid mailbox port: \"%s\""
-msgstr "Virheellinen postilaatikon portti: \"%s\""
-
-#: src/amailbox.cc:314
-#, c-format
-msgid "Could not connect to %s: %s"
-msgstr "Yhteys epäonnistui %s: %s"
-
-#: src/amailbox.cc:334
-#, c-format
-msgid "Failed to find %s command"
-msgstr "Komentoa %s ei löytynyt"
-
-#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
-#, c-format
-msgid "Failed to execute %s"
-msgstr "Suorittaminen epäonnistui %s"
-
-#: src/amailbox.cc:447
-#, c-format
-msgid "Write to socket failed: %s"
-msgstr "Kirjoitus kantaan epäonnistui: %s"
-
-#: src/amailbox.cc:694
-#, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Käytetään postilaatikkoa \"%s\"\n"
-
-#: src/amailbox.cc:801
-msgid "Suspended"
-msgstr "Keskeytetty"
-
-#: src/amailbox.cc:805
-msgid "Error checking mailbox."
-msgstr "Virhe postilaatikon tarkistuksessa."
+#: src/ysmapp.cc:95
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER- tai $LOGNAME-ympäristömuuttujia ei määritelty?"
 
 #: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message, %ld unread."
 msgstr "%ld sähköpostiviesti, %ld lukematon."
 
-#: src/amailbox.cc:813
-#, c-format
-msgid "%ld mail messages, %ld unread."
-msgstr "%ld sähköpostiviestit, %ld lukematon."
-
 #: src/amailbox.cc:819
 #, c-format
 msgid "%ld mail message."
 msgstr "%ld viesti."
+
+#: src/amailbox.cc:813
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld sähköpostiviestit, %ld lukematon."
 
 #: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld viestiä."
 
-#: src/amailbox.cc:961
-msgid "MAIL"
-msgstr "POSTI"
+#: src/wmwinmenu.cc:100
+#, c-format
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Työpöytä %-.32s"
 
-#: src/amailbox.cc:963
-msgid "_Check"
-msgstr "_Tarkista"
+#: src/wmapp.cc:1723
+#, c-format
+msgid "%s configuration directories:\n"
+msgstr ""
 
-#: src/amailbox.cc:965
-msgid "_Suspend"
-msgstr "_Keskeytä"
+#: src/wmapp.cc:1808
+#, c-format
+msgid "%s configured options:%s\n"
+msgstr "%s määritetyt asetukset:%s\n"
 
-#: src/amemstatus.cc:144
-msgid "GB"
-msgstr "Gt"
+#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:507
+#, c-format
+msgid "%s exited with status %d."
+msgstr "%s poistunut tila %d."
 
-#: src/amemstatus.cc:148
-msgid "MB"
-msgstr "Mt"
+#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:510
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr "%s tapettiin signaalilla %d."
 
-#: src/amemstatus.cc:152
-msgid "kB"
-msgstr "kt"
+#: src/icesound.cc:329
+#, c-format
+msgid "%s: Invalid number of channels"
+msgstr "%s: Virheellinen määrä kanavia"
 
-#: src/amemstatus.cc:156
-msgid "bytes"
-msgstr "tavua"
+#: src/yapp.cc:299
+#, c-format
+msgid "%s: select failed"
+msgstr ""
 
-#: src/amemstatus.cc:176
-msgid "Memory Total: "
-msgstr "Muisti yhteensä: "
+#: src/wmmenu.cc:516
+#, c-format
+msgid "'%s' produces no output"
+msgstr ""
 
-#: src/amemstatus.cc:177
-msgid "Free: "
-msgstr "Vapaa: "
+#: src/wmmenu.cc:502
+#, c-format
+msgid "'%s' timed out!"
+msgstr ""
 
-#: src/amemstatus.cc:178
-msgid "Cached: "
-msgstr "Välimuistissa: "
+#: src/wmabout.cc:29
+msgid "(C)"
+msgstr "©"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: 2D based graphical application
+#: src/fdospecgen.h:120 src/fdospecgen.h:152 src/fdospecgen.h:162
+msgid "2DGraphics"
+msgstr "2D-grafiikka"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing 3-D graphics
+#: src/fdospecgen.h:168
+msgid "3DGraphics"
+msgstr "3D-grafiikka"
+
+#: src/wmapp.cc:1291 src/yxapp.cc:1050
+msgid "<none>"
+msgstr "<tyhjä>"
+
+#: src/wmapp.cc:91
+msgid "A window manager is already running, use --replace to replace it"
+msgstr "Ikkunanhallinta on jo käynnissä, käytä --replace sen korvaamiseksi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Accessibility
+#: src/fdospecgen.h:174 src/fdospecgen.h:180
+msgid "Accessibility"
+msgstr "Saavutettavuus"
+
+#: src/icesh.cc:4166
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Toiminto ”%s” vaatii ainakin %d parametria."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An action game
+#: src/fdospecgen.h:186
+msgid "ActionGame"
+msgstr "Toimintapeli"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application handles adult or explicit material
+#: src/fdospecgen.h:192
+msgid "Adult"
+msgstr "Aikuiset"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Adventure style game
+#: src/fdospecgen.h:198
+msgid "AdventureGame"
+msgstr "Seikkailupeli"
+
+#: src/wmwinlist.cc:83
+msgid "All Workspaces"
+msgstr "Kaikki työpöydät"
+
+#: src/wmabout.cc:62
+msgid "AlphaBlending"
+msgstr ""
+
+#: src/icehelp.cc:1348
+msgid "Alt+Left"
+msgstr "Alt+Vasen"
+
+#: src/icehelp.cc:1350
+msgid "Alt+Right"
+msgstr "Alt+Oikea"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simple amusement
+#: src/fdospecgen.h:204
+msgid "Amusement"
+msgstr "Viihde"
+
+#: src/wmapp.cc:740
+msgid "Another window manager already running, exiting..."
+msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Arcade style game
+#: src/fdospecgen.h:210
+msgid "ArcadeGame"
+msgstr "Kolikkopeli"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to archive/backup data
+#: src/fdospecgen.h:40 src/fdospecgen.h:216
+msgid "Archiving"
+msgstr "Arkistointi"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:230
+msgid "Arrange _Icons"
+msgstr "Järjestä _kuvakkeet"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to teach arts
+#: src/fdospecgen.h:222 src/fdospecgen.h:228
+msgid "Art"
+msgstr "Taide"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
+#: src/fdospecgen.h:234 src/fdospecgen.h:240
+#, fuzzy
+msgid "Artificialtelligence"
+msgstr "Tekoäly"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Astronomy software
+#: src/fdospecgen.h:246 src/fdospecgen.h:252
+msgid "Astronomy"
+msgstr "Tähtitiede"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An audio application
+#: src/fdomenu.cc:1096 src/fdospecgen.h:64 src/fdospecgen.h:72
+#: src/fdospecgen.h:128 src/fdospecgen.h:144 src/fdospecgen.h:260
+#: src/fdospecgen.h:614 src/fdospecgen.h:830 src/fdospecgen.h:884
+#: src/fdospecgen.h:1090
+msgid "Audio"
+msgstr "Ääni"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for presenting, creating, or processing multimedia (audio/video)
+#: src/fdospecgen.h:66 src/fdospecgen.h:74 src/fdospecgen.h:130
+#: src/fdospecgen.h:138 src/fdospecgen.h:146 src/fdospecgen.h:272
+#: src/fdospecgen.h:422 src/fdospecgen.h:452 src/fdospecgen.h:770
+#: src/fdospecgen.h:842 src/fdospecgen.h:896 src/fdospecgen.h:1094
+msgid "AudioVideo"
+msgstr "Ääni ja kuva"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to edit audio/video files
+#: src/fdospecgen.h:258 src/fdospecgen.h:264 src/fdospecgen.h:270
+msgid "AudioVideoEditing"
+msgstr "Ääni- ja kuvamuokkaus"
+
+#: src/ycursor.cc:179
+#, c-format
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "BUGI? Imlib onnistui lukemaan \"%s\""
+
+#: src/ycursor.cc:204
+#, c-format
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr ""
+"BUGI? Virheellinen XPM-otsikko mutta Imlib onnistui tulkitsemaan \"%s\""
+
+#: src/ycursor.cc:215
+#, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
+msgstr "BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
+
+#: src/ycursor.cc:212
+#, c-format
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr ""
+"BUGI? Odottamaton XPM-tiedoston loppu mutta Imlib onnistui tulkitsemaan "
+"\"%s\""
+
+#: src/icehelp.cc:1348
+msgid "Back"
+msgstr "Takaisin"
+
+#: src/wmmenu.cc:55
+#, fuzzy, c-format
+msgid "Bad argument %d to command '%s'"
+msgstr "Virheellinen argumentti: %s %s:lle"
+
+#: src/yconfig.cc:170 src/yconfig.cc:181 src/yconfig.cc:193
+#, c-format
+msgid "Bad argument: %s for %s [%d,%d]"
+msgstr "Virheellinen argumentti: %s kohteelle %s [%d,%d]"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Biology software
+#: src/fdospecgen.h:276 src/fdospecgen.h:282
+msgid "Biology"
+msgstr "Biologia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Falling blocks game
+#: src/fdospecgen.h:288
+msgid "BlocksGame"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A board game
+#: src/fdospecgen.h:294
+msgid "BoardGame"
+msgstr "Lautapeli"
+
+#: src/wmapp.cc:620
+msgid "Bottom Half"
+msgstr ""
+
+#: src/wmapp.cc:624
+msgid "Bottom Left"
+msgstr ""
+
+#: src/wmapp.cc:625
+msgid "Bottom Right"
+msgstr ""
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
 msgstr "Puskurissa: "
 
-#: src/amemstatus.cc:180
-msgid "User: "
-msgstr "Käyttäjä: "
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to build applications
+#: src/fdospecgen.h:300
+msgid "Building"
+msgstr "Rakentaminen"
 
-#: src/amemstatus.cc:262
-msgid "MEM"
-msgstr "MUISTI"
+#: src/aapm.cc:209 src/aapm.cc:450 src/aapm.cc:615
+msgid "C"
+msgstr "C"
+
+#: src/aclock.cc:195
+msgid "CLOCK"
+msgstr "KELLO"
+
+#: src/acpustatus.cc:607 src/acpustatus.cc:907
+msgid "CPU"
+msgstr "Suoritin"
+
+#: src/acpustatus.cc:552
+#, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
+msgstr "CPU %s Kuorma: %3.2f %3.2f %3.2f, %u"
+
+#: src/acpustatus.cc:908
+#, c-format
+msgid "CPU%d"
+msgstr "CPU%d"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:457 src/wmwinlist.cc:490
+msgid "Ca_scade"
+msgstr "Pu_dota"
+
+#: src/amemstatus.cc:178
+msgid "Cached: "
+msgstr "Välimuistissa: "
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A calculator
+#: src/fdospecgen.h:306
+msgid "Calculator"
+msgstr "Laskin"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Calendar application
+#: src/fdospecgen.h:312
+msgid "Calendar"
+msgstr "Kalenteri"
+
+#: src/aapm.cc:121 src/aapm.cc:139
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr "ioctl APM-laitteelle %s ei onnistu"
+
+#: src/icesh.cc:4186 src/icesound.cc:800 src/icewmbg.cc:1087
+#: src/icewmhint.cc:37 src/wmapp.cc:1290 src/yxapp.cc:1049
+#, c-format
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"Ei voida avata näyttöä: %s. X-palvelimen on oltava käynnissä ja $DISPLAYn "
+"asetettu."
+
+#: src/aapm.cc:113
+#, c-format
+msgid "Can't open the APM device %s"
+msgstr "APM -laitetta %s ei voitu avata"
+
+#: src/icesh.cc:3770
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr "Ikkunan 0x%lx geometriaa ei saatu"
+
+#: src/icewmbg.cc:1335
+msgid "Cannot start, because another icewmbg is still running."
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A card game
+#: src/fdospecgen.h:318
+msgid "CardGame"
+msgstr "Korttipeli"
+
+#: src/wmapp.cc:626
+msgid "Center"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chart application
+#: src/fdospecgen.h:324
+msgid "Chart"
+msgstr "Kaavio"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A chat client
+#: src/fdospecgen.h:330
+msgid "Chat"
+msgstr "Pikaviestintä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chemistry software
+#: src/fdospecgen.h:336 src/fdospecgen.h:342
+msgid "Chemistry"
+msgstr "Kemia"
+
+#: src/wmclient.cc:470
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A clock application/applet
+#: src/fdospecgen.h:348
+msgid "Clock"
+msgstr "Kello"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
+msgid "Close"
+msgstr "Sulje"
+
+#: src/wmabout.cc:56
+msgid "CodeSet:"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage compressed data/archives
+#: src/fdospecgen.h:38
+msgid "Compression"
+msgstr "Pakkaus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Computer Science software
+#: src/fdospecgen.h:104 src/fdospecgen.h:112 src/fdospecgen.h:354
+#: src/fdospecgen.h:360
+msgid "ComputerScience"
+msgstr "Tietotekniikka"
+
+#: src/wmapp.cc:1949
+msgid "Confirm Logout"
+msgstr "Varmista uloskirjautuminen"
+
+#: src/wmapp.cc:1003
+msgid "Confirm Restart as Terminal"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
+#: src/fdospecgen.h:366
+msgid "ConsoleOnly"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
+#: src/fdospecgen.h:372 src/fdospecgen.h:378
+msgid "Construction"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: E.g. an address book
+#: src/fdospecgen.h:384
+msgid "ContactManagement"
+msgstr "Yhteystietojen hallinta"
+
+#: src/icehelp.cc:1356
+msgid "Contents"
+msgstr "Sisältö"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Important application, core to the desktop such as a file manager or a help browser
+#: src/fdospecgen.h:390
+msgid "Core"
+msgstr "Pohja"
+
+#: src/amailbox.cc:314
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "Yhteys epäonnistui %s: %s"
+
+#: src/icesound.cc:862
+msgid "Could not get GUI event property"
+msgstr "Ei saatu GUI-tapahtuman ominaisuutta"
+
+#: src/yfontcore.cc:121 src/yfontxft.cc:127
+#, c-format
+msgid "Could not load font \"%s\"."
+msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
+
+#: src/yfontcore.cc:261
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Kirjasinsarjan \"%s\" lataaminen epäonnistui."
+
+#: src/yximage.cc:191 src/yximage.cc:214
+#, fuzzy, c-format
+msgid "Could not load image \"%s\""
+msgstr "Kuvaa %s ei löydy"
+
+#: src/icehelp.cc:2461
+msgid "Could not locate curl or wget in PATH"
+msgstr "Curl-tai wget-polkua ei löydy"
+
+#: src/icesound.cc:397
+#, c-format
+msgid "Could not open OSS device %s"
+msgstr "OSS -laitetta %s ei voitu avata"
+
+#: src/ycolor.cc:229 src/ycolor.cc:240
+#, fuzzy, c-format
+msgid "Could not parse color \"%s\""
+msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
+
+#: src/icesound.cc:368
+msgid "Could not post OSS"
+msgstr "OSS -tiedostoa ei voitu lähettää"
+
+#: src/icesound.cc:407
+msgid "Could not reset OSS DSP"
+msgstr "OSS:n DSP:tä ei voitu alustaa"
+
+#: src/wmapp.cc:815
+#, c-format
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Ei voitu uudelleenkäynnistää: %s\n"
+"Johtaako $PATH-määritys kohteeseen %s?"
+
+#: src/icesound.cc:335 src/icesound.cc:340
+msgid "Could not set OSS channels"
+msgstr "OSS-kanavia ei voitu asettaa"
+
+#: src/icesound.cc:412
+msgid "Could not set OSS format"
+msgstr "OSS-muotoa ei voitu asettaa"
+
+#: src/icesound.cc:402
+msgid "Could not set OSS stereo"
+msgstr "Ei voitu asettaa OSS-stereota"
+
+#: src/icesound.cc:345 src/icesound.cc:373
+msgid "Could not sync OSS"
+msgstr "OSS:ää ei voitu tahdistaa"
+
+#: src/yinputline.cc:23
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: src/icehelp.cc:1362
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: src/yinputline.cc:18
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/icehelp.cc:1359
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: src/iceview.cc:59
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: src/icehelp.cc:1370
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: src/icehelp.cc:1378
+msgid "Ctrl+M"
+msgstr "Ctrl+M"
+
+#: src/icesame.cc:59
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: src/yinputline.cc:21
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1364 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1382 src/iceview.cc:60
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1395 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:1384 src/iceview.cc:61
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1390 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icesame.cc:57
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: src/yinputline.cc:19
+msgid "Cu_t"
+msgstr "Lei_kkaa"
+
+#: src/wmprog.cc:348
+msgid "Custo_m"
+msgstr ""
+
+#: src/amailbox.cc:140
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "DNS-nimen haku epäonnistui %s"
+
+#: src/wmapp.cc:563
+msgid "D_esktop"
+msgstr "Työ_pöytä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Data visualization software
+#: src/fdospecgen.h:396 src/fdospecgen.h:402
+msgid "DataVisualization"
+msgstr "Tiedon visualisointi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage a database
+#: src/fdospecgen.h:408 src/fdospecgen.h:414 src/fdospecgen.h:420
+msgid "Database"
+msgstr "Tietokanta"
+
+#: src/aclock.cc:201
+msgid "Date"
+msgstr "Päivämäärä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to debug applications
+#: src/fdospecgen.h:426
+msgid "Debugger"
+msgstr "Vianjäljitys"
+
+#: src/aclock.cc:202 src/themes.cc:83
+msgid "Default"
+msgstr "Oletus"
+
+#: src/wmwinlist.cc:468
+msgid "Del"
+msgstr "Poista"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Configuration tool for the GUI
+#: src/fdospecgen.h:432
+msgid "DesktopSettings"
+msgstr "Työpöydän asetukset"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An application for development
+#: src/fdospecgen.h:302 src/fdospecgen.h:416 src/fdospecgen.h:428
+#: src/fdospecgen.h:566 src/fdospecgen.h:650 src/fdospecgen.h:854
+#: src/fdospecgen.h:866 src/fdospecgen.h:908 src/fdospecgen.h:1040
+#: src/fdospecgen.h:1076 src/fdospecgen.h:1098
+msgid "Development"
+msgstr "Kehitys"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dial-up program
+#: src/fdospecgen.h:438
+msgid "Dialup"
+msgstr "Puhelut"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dictionary
+#: src/fdospecgen.h:46 src/fdospecgen.h:444
+msgid "Dictionary"
+msgstr "Sanasto"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to burn a disc
+#: src/fdospecgen.h:450
+msgid "DiscBurning"
+msgstr "Levynkirjoitus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Help or documentation
+#: src/fdospecgen.h:456
+msgid "Documentation"
+msgstr "Ohjeistus"
+
+#: src/wmabout.cc:61
+msgid "DoubleBuffer"
+msgstr ""
+
+#: src/icesh.cc:2294
+msgid "EWMH window state"
+msgstr "EWMH-ikkunan tila"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Economy software
+#: src/fdospecgen.h:462 src/fdospecgen.h:468
+msgid "Economy"
+msgstr "Taloustiede"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Educational software
+#: src/fdospecgen.h:82 src/fdospecgen.h:106 src/fdospecgen.h:224
+#: src/fdospecgen.h:236 src/fdospecgen.h:248 src/fdospecgen.h:278
+#: src/fdospecgen.h:338 src/fdospecgen.h:356 src/fdospecgen.h:374
+#: src/fdospecgen.h:398 src/fdospecgen.h:464 src/fdospecgen.h:476
+#: src/fdospecgen.h:572 src/fdospecgen.h:584 src/fdospecgen.h:596
+#: src/fdospecgen.h:626 src/fdospecgen.h:638 src/fdospecgen.h:662
+#: src/fdospecgen.h:686 src/fdospecgen.h:698 src/fdospecgen.h:716
+#: src/fdospecgen.h:734 src/fdospecgen.h:746 src/fdospecgen.h:776
+#: src/fdospecgen.h:818 src/fdospecgen.h:914 src/fdospecgen.h:962
+#: src/fdospecgen.h:980 src/fdospecgen.h:1102
+msgid "Education"
+msgstr "Opetus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electricity software
+#: src/fdospecgen.h:474 src/fdospecgen.h:480
+msgid "Electricity"
+msgstr "Sähkö"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electronics software, e.g. a circuit designer
+#: src/fdospecgen.h:486
+msgid "Electronics"
+msgstr "Elektroniikka"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Email application
+#: src/fdospecgen.h:492 src/fdospecgen.h:498
+msgid "Email"
+msgstr "Sähköposti"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Emulator of another platform, such as a DOS emulator
+#: src/fdospecgen.h:504 src/fdospecgen.h:510
+msgid "Emulator"
+msgstr "Emulaattori"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Engineering software, e.g. CAD programs
+#: src/fdospecgen.h:516
+msgid "Engineering"
+msgstr "Insinööritieteet"
+
+#: src/wmpref.cc:179
+#, c-format
+msgid "Enter a new value for %s: "
+msgstr ""
+
+#: src/wmmenu.cc:160
+#, fuzzy, c-format
+msgid "Error at %s '%s'"
+msgstr "Virhe avaimessa %s"
+
+#: src/wmmenu.cc:369
+#, fuzzy, c-format
+msgid "Error at includeprog '%s'"
+msgstr "Virhe ohjelmassa %s"
+
+#: src/wmmenu.cc:110
+#, fuzzy, c-format
+msgid "Error at keyword '%s' for %s"
+msgstr "Virhe avaimessa %s"
+
+#: src/wmmenu.cc:280
+#, fuzzy, c-format
+msgid "Error at menuprog '%s'"
+msgstr "Virhe ohjelmassa %s"
+
+#: src/wmmenu.cc:324
+#, fuzzy, c-format
+msgid "Error at menuprogreload: '%s'"
+msgstr "Virhe ohjelmassa %s"
+
+#: src/amailbox.cc:805
+msgid "Error checking mailbox."
+msgstr "Virhe postilaatikon tarkistuksessa."
+
+#: src/iceview.cc:60
+msgid "Expand Tabs"
+msgstr "Laajenna tabulaattorit"
+
+#: src/icehelp.cc:1360
+msgid "F3"
+msgstr "F3"
+
+#: src/icehelp.cc:1376
+msgid "FAQ"
+msgstr "OHJE"
+
+#: src/wmapp.cc:107
+#, c-format
+msgid "Failed to become the owner of the %s selection"
+msgstr ""
+
+#: src/icesound.cc:934
+#, c-format
+msgid "Failed to connect to audio interfaces %s."
+msgstr "Yhdistäminen ääniliitäntöihin %s epäonnistui."
+
+#: src/icehelp.cc:2341
+msgid "Failed to create a temporary file"
+msgstr "Väliaikaisen tiedoston luominen epäonnistui"
+
+#: src/icehelp.cc:2453
+#, c-format
+msgid "Failed to decompress %s"
+msgstr "Purkaminen epäonnistui %s"
+
+#: src/ylocale.cc:93
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
+"Nykyisen kieliasetuksen merkistöä ei pystytty tunnistamaan. Oletetaan "
+"ISO-8859-1.\n"
+
+#: src/amailbox.cc:363 src/wmmenu.cc:475 src/wmmenu.cc:492 src/yapp.cc:436
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Suorittaminen epäonnistui %s"
+
+#: src/icehelp.cc:2431
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr "Järjestelmän suorittaminen epäonnistui(%s) (%d)"
+
+#: src/amailbox.cc:334
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Komentoa %s ei löytynyt"
+
+#: src/icewmbg.cc:35 src/icewmbg.cc:372
+#, c-format
+msgid "Failed to load image '%s'."
+msgstr "Kuvan '%s' lataus epäonnistui."
+
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
+#, c-format
+msgid "Failed to load theme %s"
+msgstr "Teeman lataus epäonnistui %s"
+
+#: src/icehelp.cc:2312
+msgid "Failed to open file for reading."
+msgstr "Tiedostoa ei voitu avata."
+
+#: src/yurl.cc:145
+#, c-format
+msgid "Failed to parse URL \"%s\"."
+msgstr "Verkko-osoitteen hakeminen epäonnistui \"%s\"."
+
+#: src/wmtaskbar.cc:336
+msgid "Favorite Applications"
+msgstr "Suosikki sovellukset"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: RSS, podcast and other subscription based contents
+#: src/fdospecgen.h:522
+msgid "Feed"
+msgstr "Syöte"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file manager
+#: src/fdospecgen.h:54
+msgid "FileManager"
+msgstr "Tiedostonhallinta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file tool utility
+#: src/fdospecgen.h:56 src/fdospecgen.h:528 src/fdospecgen.h:534
+msgid "FileTools"
+msgstr "Tiedostotyökalut"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tools like FTP or P2P programs
+#: src/fdospecgen.h:540
+msgid "FileTransfer"
+msgstr "Tiedostonsiirto"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file system tool
+#: src/fdospecgen.h:546
+msgid "Filesystem"
+msgstr "Tiedostojärjestelmä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage your finance
+#: src/fdospecgen.h:552
+msgid "Finance"
+msgstr "Rahoittaa"
+
+#: src/icehelp.cc:1360
+msgid "Find next"
+msgstr "Etsi seuraava"
+
+#: src/icehelp.cc:1359
+msgid "Find..."
+msgstr "Etsi…"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A flowchart application
+#: src/fdospecgen.h:558
+msgid "FlowChart"
+msgstr "Vuokaavio"
+
+#: src/icesh.cc:76
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Katso ohjeet man-sivulta icesh(1).\n"
+
+#: src/wmmgr.cc:3701
+msgid "For keyboard switching, please install setxkbmap."
+msgstr ""
+
+#: src/icehelp.cc:1350
+msgid "Forward"
+msgstr "Eteenpäin"
+
+#: src/amemstatus.cc:177
+msgid "Free: "
+msgstr "Vapaa: "
+
+#: src/amemstatus.cc:144
+msgid "GB"
+msgstr "Gt"
+
+#: src/icesh.cc:2289
+msgid "GNOME window layer"
+msgstr "GNOME-ikkunataso"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A GUI designer application
+#: src/fdospecgen.h:564
+msgid "GUIDesigner"
+msgstr "Käyttöliittymäsuunnittelu"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game
+#: src/fdospecgen.h:188 src/fdospecgen.h:200 src/fdospecgen.h:212
+#: src/fdospecgen.h:290 src/fdospecgen.h:296 src/fdospecgen.h:320
+#: src/fdospecgen.h:512 src/fdospecgen.h:680 src/fdospecgen.h:710
+#: src/fdospecgen.h:926 src/fdospecgen.h:950 src/fdospecgen.h:956
+#: src/fdospecgen.h:992 src/fdospecgen.h:1004 src/fdospecgen.h:1106
+msgid "Game"
+msgstr "Peli"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geography software
+#: src/fdospecgen.h:570 src/fdospecgen.h:576
+msgid "Geography"
+msgstr "Maantiede"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geology software
+#: src/fdospecgen.h:582 src/fdospecgen.h:588
+msgid "Geology"
+msgstr "Geologia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geoscience software, GIS
+#: src/fdospecgen.h:594 src/fdospecgen.h:600
+msgid "Geoscience"
+msgstr "Geotieteet"
+
+#: src/icehelp.cc:1386
+msgid "Github"
+msgstr "Github"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing graphics
+#: src/fdospecgen.h:98 src/fdospecgen.h:122 src/fdospecgen.h:154
+#: src/fdospecgen.h:164 src/fdospecgen.h:170 src/fdospecgen.h:806
+#: src/fdospecgen.h:872 src/fdospecgen.h:932 src/fdospecgen.h:1052
+#: src/fdospecgen.h:1110
+msgid "Graphics"
+msgstr "Grafiikka"
+
+#: src/icesh.cc:2291
+msgid "Gravity symbols"
+msgstr "Gravity-symbolit"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: HAM radio software
+#: src/fdospecgen.h:606 src/fdospecgen.h:612
+msgid "HamRadio"
+msgstr "Amatööriradio"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage hardware components, like sound cards, video cards or printers
+#: src/fdospecgen.h:28 src/fdospecgen.h:618
+msgid "HardwareSettings"
+msgstr "Laiteasetukset"
+
+#: src/iceview.cc:59
+msgid "Hex View"
+msgstr "Heksadesimaalinäkymä"
+
+#: src/wmbutton.cc:127
+msgid "Hide"
+msgstr "Piilota"
+
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
+msgid "Hide Taskbar"
+msgstr "Piilota tehtäväpalkki"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: History software
+#: src/fdospecgen.h:624 src/fdospecgen.h:630
+msgid "History"
+msgstr "Historia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for philosophy, psychology and other humanities
+#: src/fdospecgen.h:636 src/fdospecgen.h:642
+msgid "Humanities"
+msgstr "Ihmistieteet"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: IDE application
+#: src/fdospecgen.h:648
+msgid "IDE"
+msgstr "Kehityskäyttöliittymä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An IRC client
+#: src/fdospecgen.h:654
+msgid "IRCClient"
+msgstr "IRC-asiakas"
+
+#: src/icesm.cc:519
+msgid "IceWM crash response"
+msgstr "IceWM:n kaatumisvastaus"
+
+#: src/icesh.cc:2290
+msgid "IceWM tray option"
+msgstr "IceWM-ilmoitusaluevalinta"
+
+#: src/wmprog.cc:373
+msgid "Ice_Sound(1)"
+msgstr ""
+
+#: src/icehelp.cc:1374
+msgid "Icesound(1)"
+msgstr "Icesound(1)"
+
+#: src/icehelp.cc:1370
+msgid "Icewm(1)"
+msgstr "IceWM(1)"
+
+#: src/wmprog.cc:372
+msgid "Icewm_Bg(1)"
+msgstr ""
+
+#: src/icehelp.cc:1372
+msgid "Icewmbg(1)"
+msgstr "Icewmbg(1)"
+
+#: src/icelist.cc:61
+msgid "Icon View"
+msgstr "Kuvakenäkymä"
+
+#: src/icehelp.cc:2592
+#, c-format
+msgid "Ignoring option '%s'"
+msgstr "Tuntematon toiminto '%s'"
+
+#: src/wpixres.cc:93 src/wpixres.cc:100
+#, c-format
+msgid "Image not readable: %s"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Image Processing software
+#: src/fdospecgen.h:660 src/fdospecgen.h:666
+msgid "ImageProcessing"
+msgstr "Kuvankäsittely"
+
+#: src/yurl.cc:161
+#, c-format
+msgid "Incomplete hex escape in URL at position %d."
+msgstr ""
+
+#: src/icehelp.cc:1357
+msgid "Index"
+msgstr "Hakemisto"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An instant messaging client
+#: src/fdospecgen.h:672
+msgid "InstantMessaging"
+msgstr "Pikaviestintä"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -328,886 +1212,1043 @@ msgstr ""
 "  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
 "  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
-msgid "disconnected"
-msgstr "ei yhteyttä"
+#: src/icesh.cc:4516
+#, c-format
+msgid "Invalid PID: `%s'"
+msgstr "Virheellinen PID: ”%s”"
 
-#: src/apppstatus.cc:284
-msgid "down"
-msgstr "alemmas"
+#: src/icesh.cc:3795
+#, c-format
+msgid "Invalid Xinerama: `%s'."
+msgstr "Virheellinen Xinerama: \"%s”."
 
-#: src/apppstatus.cc:705
-msgid "NET"
-msgstr "NETTI"
+#: src/icesh.cc:2729 src/icesh.cc:4150 src/icesh.cc:4200 src/icesh.cc:5497
+#, c-format
+msgid "Invalid argument: `%s'"
+msgstr "Virheellinen parametri: ”%s”"
 
-#: src/aworkspaces.cc:685 src/wmstatus.cc:204
-msgid "Workspace: "
-msgstr "Työpöytä: "
+#: src/icesh.cc:4175
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Virheellinen lauseke: ”%s”"
 
-#: src/decorate.cc:132
-msgid "Tabs"
+#: src/yurl.cc:168
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
 msgstr ""
 
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:43
-msgid "2DGraphics"
-msgstr "2D-grafiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:45
-msgid "3DGraphics"
-msgstr "3D-grafiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
-#: src/fdospecgen.h:47 src/fdospecgen.h:49
-msgid "Accessibility"
-msgstr "Saavutettavuus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:51
-msgid "Accessories"
-msgstr "Apuohjelmat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:53
-msgid "ActionGame"
-msgstr "Toimintapeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:55
-msgid "Adult"
-msgstr "Aikuiset"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:57
-msgid "AdventureGame"
-msgstr "Seikkailupeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:59
-msgid "Amusement"
-msgstr "Viihde"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:61
-msgid "ArcadeGame"
-msgstr "Kolikkopeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:63
-msgid "Archiving"
-msgstr "Arkistointi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:65
-msgid "Art"
-msgstr "Taide"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:67
-msgid "ArtificialIntelligence"
-msgstr "Tekoäly"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:69
-msgid "Astronomy"
-msgstr "Tähtitiede"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:71
-msgid "Audio"
-msgstr "Ääni"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:73
-msgid "AudioVideo"
-msgstr "Ääni ja kuva"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:75
-msgid "AudioVideoEditing"
-msgstr "Ääni- ja kuvamuokkaus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:77
-msgid "Biology"
-msgstr "Biologia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:79
-msgid "BlocksGame"
-msgstr ""
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:81
-msgid "BoardGame"
-msgstr "Lautapeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:83
-msgid "Building"
-msgstr "Rakentaminen"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:85
-msgid "Calculator"
-msgstr "Laskin"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:87
-msgid "Calendar"
-msgstr "Kalenteri"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:89
-msgid "CardGame"
-msgstr "Korttipeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:91
-msgid "Chart"
-msgstr "Kaavio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:93
-msgid "Chat"
-msgstr "Pikaviestintä"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:95
-msgid "Chemistry"
-msgstr "Kemia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:97
-msgid "Clock"
-msgstr "Kello"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
-#: src/fdospecgen.h:99
-msgid "Compression"
-msgstr "Pakkaus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:101
-msgid "ComputerScience"
-msgstr "Tietotekniikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:103
-msgid "Construction"
-msgstr ""
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:105
-msgid "ContactManagement"
-msgstr "Yhteystietojen hallinta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:107
-msgid "Core"
-msgstr "Pohja"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:109
-msgid "DataVisualization"
-msgstr "Tiedon visualisointi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
-#: src/fdospecgen.h:111
-msgid "Database"
-msgstr "Tietokanta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:113
-msgid "Debugger"
-msgstr "Vianjäljitys"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:115
-msgid "DesktopSettings"
-msgstr "Työpöydän asetukset"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:117
-msgid "Development"
-msgstr "Kehitys"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:119
-msgid "Dialup"
-msgstr "Puhelut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
-#: src/fdospecgen.h:121
-msgid "Dictionary"
-msgstr "Sanasto"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
-#: src/fdospecgen.h:123
-msgid "DiscBurning"
-msgstr "Levynkirjoitus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:125
-msgid "Documentation"
-msgstr "Ohjeistus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:127
-msgid "Economy"
-msgstr "Taloustiede"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:129
-msgid "Editors"
-msgstr "Muokkaimet"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:131
-msgid "Education"
-msgstr "Opetus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:133
-msgid "Electricity"
-msgstr "Sähkö"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:135
-msgid "Electronics"
-msgstr "Elektroniikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
-#: src/fdospecgen.h:137
-msgid "Email"
-msgstr "Sähköposti"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
-#: src/fdospecgen.h:139
-msgid "Emulator"
-msgstr "Emulaattori"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:141
-msgid "Engineering"
-msgstr "Insinööritieteet"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:143
-msgid "Feed"
-msgstr "Syöte"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
-#: src/fdospecgen.h:145
-msgid "FileManager"
-msgstr "Tiedostonhallinta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
-#: src/fdospecgen.h:147
-msgid "FileTools"
-msgstr "Tiedostotyökalut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:149
-msgid "FileTransfer"
-msgstr "Tiedostonsiirto"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:151
-msgid "Filesystem"
-msgstr "Tiedostojärjestelmä"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:153
-msgid "Finance"
-msgstr "Rahoittaa"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:155
-msgid "FlowChart"
-msgstr "Vuokaavio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:157
-msgid "GUIDesigner"
-msgstr "Käyttöliittymäsuunnittelu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:159
-msgid "Game"
-msgstr "Peli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:161
-msgid "Geography"
-msgstr "Maantiede"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:163
-msgid "Geology"
-msgstr "Geologia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:165
-msgid "Geoscience"
-msgstr "Geotieteet"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:167
-msgid "Graphics"
-msgstr "Grafiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
-#: src/fdospecgen.h:169
-msgid "HamRadio"
-msgstr "Amatööriradio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:171
-msgid "HardwareSettings"
-msgstr "Laiteasetukset"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:173
-msgid "History"
-msgstr "Historia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:175
-msgid "Humanities"
-msgstr "Ihmistieteet"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:177
-msgid "IDE"
-msgstr "Kehityskäyttöliittymä"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:179
-msgid "IRCClient"
-msgstr "IRC-asiakas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:181
-msgid "ImageProcessing"
-msgstr "Kuvankäsittely"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:183
-msgid "InstantMessaging"
-msgstr "Pikaviestintä"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:185
-msgid "KidsGame"
-msgstr "Lasten peli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:187
-msgid "Languages"
-msgstr "Kielet"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:189
-msgid "Literature"
-msgstr "Kirjallisuus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:191
-msgid "LogicGame"
-msgstr "Logiikkapeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:193
-msgid "Maps"
-msgstr "Kartat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:195
-msgid "Math"
-msgstr "Matematiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:197
-msgid "MedicalSoftware"
-msgstr "Lääketieteellinen ohjelmisto"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:199
-msgid "Midi"
-msgstr "MIDI"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:201
-msgid "Mixer"
-msgstr "Mikseri"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
-#: src/fdospecgen.h:203
-msgid "Monitor"
-msgstr "Valvonta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:205
-msgid "Motif"
-msgstr "Motif"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:207
-msgid "Multimedia"
-msgstr "Multimedia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
-#: src/fdospecgen.h:209
-msgid "Music"
-msgstr "Musiikki"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:211
-msgid "Network"
-msgstr "Verkko"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:213
-msgid "News"
-msgstr "Uutiset"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
-#: src/fdospecgen.h:215
-msgid "NumericalAnalysis"
-msgstr "Numeerinen analyysi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
-#: src/fdospecgen.h:217
-msgid "OCR"
-msgstr "Tekstinluku"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:219
-msgid "Office"
-msgstr "Toimisto"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:221
-msgid "Other"
-msgstr "Muut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:223
-msgid "P2P"
-msgstr "P2P"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:225
-msgid "PDA"
-msgstr "Taskutietokone"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:227
-msgid "PackageManager"
-msgstr "Paketinhallinta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
-#: src/fdospecgen.h:229
-msgid "ParallelComputing"
-msgstr "Rinnakkaislaskenta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:231
-msgid "Photography"
-msgstr "Valokuvaus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:233
-msgid "Physics"
-msgstr "Fysiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:235
-msgid "Player"
-msgstr "Soitin"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:237
-msgid "Presentation"
-msgstr "Esitys"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
-#: src/fdospecgen.h:239
-msgid "Printing"
-msgstr "Tulostus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:241
-msgid "Profiling"
-msgstr "Profilointi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
-#: src/fdospecgen.h:243
-msgid "ProjectManagement"
-msgstr "Projektinhallinta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:245
-msgid "Publishing"
-msgstr "Julkaiseminen"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:247
-msgid "RasterGraphics"
-msgstr "Bittikarttagrafiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:249
-msgid "Recorder"
-msgstr "Tallennin"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:251
-msgid "RemoteAccess"
-msgstr "Etäkäyttö"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:253
-msgid "RevisionControl"
-msgstr "Versionhallinta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:255
-msgid "Robotics"
-msgstr "Robotiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:257
-msgid "RolePlaying"
-msgstr "Roolipelaaminen"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:259
-msgid "Scanning"
-msgstr "Kuvanluku"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:261
-msgid "Science"
-msgstr "Tiede"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:263
-msgid "Screensavers"
-msgstr "Näytönsäästäjät"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
-#: src/fdospecgen.h:265
-msgid "Security"
-msgstr "Tietoturva"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:267
-msgid "Sequencer"
-msgstr "Sekvensseri"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:269
-msgid "Settings"
-msgstr "Asetukset"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:271
-msgid "Shooter"
-msgstr "Ammuskelu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:273
-msgid "Simulation"
-msgstr "Simulointi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:275
-msgid "Spirituality"
-msgstr "Hengellisyys"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:277
-msgid "Sports"
-msgstr "Urheilu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:279
-msgid "SportsGame"
-msgstr "Urheilupeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:281
-msgid "Spreadsheet"
-msgstr "Taulukkolaskenta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:283
-msgid "StrategyGame"
-msgstr "Strategiapeli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:285
-msgid "System"
-msgstr "Järjestelmä"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
-#: src/fdospecgen.h:287
-msgid "TV"
-msgstr "TV"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:289
-msgid "Telephony"
-msgstr "Puhelut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:291
-msgid "TelephonyTools"
-msgstr "Puhelintyökalut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:293
-msgid "TerminalEmulator"
-msgstr "Pääte-emulointi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:295
-msgid "TextEditor"
-msgstr "Tekstimuokkain"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:297
-msgid "TextTools"
-msgstr "Tekstityökalut"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:299
-msgid "Translation"
-msgstr "Kääntäminen"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:301
-msgid "Tuner"
-msgstr "Viritin"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:303
-msgid "Utility"
-msgstr "Työkalu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:305
-msgid "VectorGraphics"
-msgstr "Vektorigrafiikka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:307
-msgid "Video"
-msgstr "Video"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:309
-msgid "VideoConference"
-msgstr "Videoneuvottelu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:311
-msgid "Viewer"
-msgstr "Katselin"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:313
-msgid "WINE"
-msgstr "WINE"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:315
-msgid "WebBrowser"
-msgstr "Verkkoselain"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
-#: src/fdospecgen.h:317
-msgid "WebDevelopment"
-msgstr "Verkkokehitys"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:319
-msgid "WordProcessor"
-msgstr "Tekstinkäsittely"
-
-#: src/icehelp.cc:1348
-msgid "Back"
-msgstr "Takaisin"
-
-#: src/icehelp.cc:1348
-msgid "Alt+Left"
-msgstr "Alt+Vasen"
-
-#: src/icehelp.cc:1350
-msgid "Forward"
-msgstr "Eteenpäin"
-
-#: src/icehelp.cc:1350
-msgid "Alt+Right"
-msgstr "Alt+Oikea"
-
-#: src/icehelp.cc:1353
-msgid "Previous"
-msgstr "Edellinen"
-
-#: src/icehelp.cc:1354
-msgid "Next"
-msgstr "Seuraava"
-
-#: src/icehelp.cc:1356
-msgid "Contents"
-msgstr "Sisältö"
-
-#: src/icehelp.cc:1357
-msgid "Index"
-msgstr "Hakemisto"
-
-#: src/icehelp.cc:1359
-msgid "Find..."
-msgstr "Etsi…"
-
-#: src/icehelp.cc:1359
-msgid "Ctrl+F"
-msgstr "Ctrl+F"
-
-#: src/icehelp.cc:1360
-msgid "Find next"
-msgstr "Etsi seuraava"
-
-#: src/icehelp.cc:1360
-msgid "F3"
-msgstr "F3"
-
-#: src/icehelp.cc:1362
-msgid "Open in Browser"
-msgstr "Avaa selaimeen"
-
-#: src/icehelp.cc:1362
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#: src/icehelp.cc:1364
-msgid "Reload"
-msgstr "Lataa uudelleen"
-
-#: src/icehelp.cc:1364 src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
-msgid "Close"
-msgstr "Sulje"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#: src/icehelp.cc:1370
-msgid "Icewm(1)"
-msgstr "IceWM(1)"
-
-#: src/icehelp.cc:1370
-msgid "Ctrl+I"
-msgstr "Ctrl+I"
-
-#: src/icehelp.cc:1372
-msgid "Icewmbg(1)"
-msgstr "Icewmbg(1)"
-
-#: src/icehelp.cc:1374
-msgid "Icesound(1)"
-msgstr "Icesound(1)"
-
-#: src/icehelp.cc:1376
-msgid "FAQ"
-msgstr "OHJE"
-
-#: src/icehelp.cc:1378
-msgid "Manual"
-msgstr "Manuaali"
-
-#: src/icehelp.cc:1378
-msgid "Ctrl+M"
-msgstr "Ctrl+M"
-
-#: src/icehelp.cc:1380
-msgid "Support"
-msgstr "Tuki"
-
-#: src/icehelp.cc:1382
-msgid "Theme Howto"
-msgstr "Teeman tekijä"
-
-#: src/icehelp.cc:1382 src/iceview.cc:60
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-#: src/icehelp.cc:1384
-msgid "Website"
-msgstr "Verkkosivusto"
-
-#: src/icehelp.cc:1384 src/iceview.cc:61
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-#: src/icehelp.cc:1386
-msgid "Github"
-msgstr "Github"
-
-#: src/icehelp.cc:1390 src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
-#: src/icehelp.cc:1395 src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
-
-#: src/icehelp.cc:2204
-msgid "Unsupported protocol."
-msgstr "Protokollaa ei tueta."
+#: src/icesh.cc:4549
+#, c-format
+msgid "Invalid layer: `%s'."
+msgstr "Virheellinen taso: ”%s”."
+
+#: src/amailbox.cc:66
+#, c-format
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Virheellinen postilaatikon polku: \"%s\""
+
+#: src/amailbox.cc:156
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Virheellinen postilaatikon portti: \"%s\""
+
+#: src/amailbox.cc:64
+#, c-format
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Virheellinen postilaatikkoprotokolla: \"%s\""
+
+#: src/ylocale.cc:239
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Virheellinen monitavuinen merkkijono \"%s\": %s"
 
 #: src/icehelp.cc:2283
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Virheellinen polku: %s\n"
 
+#: src/icesh.cc:2700 src/icesh.cc:4576 src/icesh.cc:5176
+#, c-format
+msgid "Invalid state: `%s'."
+msgstr "Virheellinen tila: ”%s”."
+
+#: src/icesh.cc:4500
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Virheellinen ikkunatunniste: ”%s”"
+
+#: src/icesh.cc:1778
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Virheellinen työtilan nimi: ”%s”"
+
+#: src/akeyboard.cc:153
+msgid "Keyboard"
+msgstr "Näppäimistö"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game for kids
+#: src/fdospecgen.h:678
+msgid "KidsGame"
+msgstr "Lasten peli"
+
+#: src/wmframe.cc:1971
+msgid "Kill Client: "
+msgstr "Tapa asiakasohjelma: "
+
+#: src/wmwinlist.cc:473
+msgid "Kill _Process"
+msgstr "Tapa _prosessi"
+
+#: src/wmapp.cc:671 src/wmwinlist.cc:447
+msgid "La_yer"
+msgstr "Tas_o"
+
+#: src/wmabout.cc:57
+msgid "Language:"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to learn foreign languages
+#: src/fdospecgen.h:684 src/fdospecgen.h:690
+msgid "Languages"
+msgstr "Kielet"
+
+#: src/wmapp.cc:617
+msgid "Left Half"
+msgstr ""
+
+#: src/wmapp.cc:685
+msgid "Limit _Workarea"
+msgstr "_Rajoita työtilaa"
+
+#: src/icelist.cc:60
+msgid "List View"
+msgstr "Listanäkymä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Literature software
+#: src/fdospecgen.h:696 src/fdospecgen.h:702
+msgid "Literature"
+msgstr "Kirjallisuus"
+
+#: src/acpustatus.cc:607
+msgid "Load: "
+msgstr "Kuorma: "
+
+#: src/ycursor.cc:135
+#, c-format
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Bittikartan \"%s\" lataaminen epäonnistui"
+
+#: src/ycursor.cc:110
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Bittikartan \"%s\" lataaminen epäonnistui: %s"
+
+#: src/wmdialog.cc:85
+msgid "Loc_k Workstation"
+msgstr "Lu_kitse työasema"
+
+#: src/ylocale.cc:59
+msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
+msgstr ""
+"C-kirjasto tai xlib ei tue kieliasetusta. Palataan takaisin 'C' locale'."
+
+#: src/wmapp.cc:533
+msgid "Lock _Workstation"
+msgstr "_Lukitse työasema"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Logic games like puzzles, etc
+#: src/fdospecgen.h:708
+msgid "LogicGame"
+msgstr "Logiikkapeli"
+
+#: src/wmapp.cc:1950
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Uloskirjautuminen sulkee kaikki aktiiviset sovellukset.\n"
+"Jatka?"
+
+#: src/amailbox.cc:961
+msgid "MAIL"
+msgstr "POSTI"
+
+#: src/amemstatus.cc:148
+msgid "MB"
+msgstr "Mt"
+
+#: src/amemstatus.cc:262
+msgid "MEM"
+msgstr "MUISTI"
+
+#: src/wmapp.cc:650 src/wmwinlist.cc:438
+msgid "Ma_ximize"
+msgstr "Suu_renna"
+
+#: src/icehelp.cc:1378
+msgid "Manual"
+msgstr "Manuaali"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for viewing maps, navigation, mapping, GPS
+#: src/fdospecgen.h:714 src/fdospecgen.h:720 src/fdospecgen.h:726
+msgid "Maps"
+msgstr "Kartat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Math software
+#: src/fdospecgen.h:80 src/fdospecgen.h:88 src/fdospecgen.h:732
+#: src/fdospecgen.h:738
+msgid "Math"
+msgstr "Matematiikka"
+
+#: src/wmbutton.cc:133
+msgid "Maximize"
+msgstr "Suurenna"
+
+#: src/wmapp.cc:652 src/wmwinlist.cc:440
+msgid "MaximizeHori_z"
+msgstr "SuurennaVaaka_z"
+
+#: src/wmapp.cc:651 src/wmwinlist.cc:439
+msgid "Maximize_Vert"
+msgstr "Suurenna_Pysty"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Medical software
+#: src/fdospecgen.h:744 src/fdospecgen.h:750
+msgid "MedicalSoftware"
+msgstr "Lääketieteellinen ohjelmisto"
+
+#: src/amemstatus.cc:176
+msgid "Memory Total: "
+msgstr "Muisti yhteensä: "
+
+#: src/wmapp.cc:648 src/wmwinlist.cc:437
+msgid "Mi_nimize"
+msgstr "_Pienennä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An app related to MIDI
+#: src/fdospecgen.h:62
+msgid "Midi"
+msgstr "MIDI"
+
+#: src/wmbutton.cc:137
+msgid "Minimize"
+msgstr "Pienennä"
+
+#: src/yfontcore.cc:233
+#, c-format
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "Puuttuva koodisarja kirjasinsarjasta \"%s\":"
+
+#: src/wmmenu.cc:37
+msgid "Missing command argument"
+msgstr "Puuttuva komentoargumentti"
+
+#: src/wmmenu.cc:351
+msgid "Missing filename argument to include statement"
+msgstr ""
+
+#: src/wmmgr.cc:3700
+msgid "Missing program setxkbmap"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Just a mixer
+#: src/fdospecgen.h:70
+msgid "Mixer"
+msgstr "Mikseri"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Monitor application/applet that monitors some resource or activity
+#: src/fdospecgen.h:756 src/fdospecgen.h:762
+msgid "Monitor"
+msgstr "Valvonta"
+
+#: src/icesh.cc:2293
+msgid "Motif decorations"
+msgstr "Motif-koristeet"
+
+#: src/icesh.cc:2292
+msgid "Motif functions"
+msgstr "Motif-funktiot"
+
+#: src/wmapp.cc:678 src/wmwinlist.cc:450
+msgid "Move _To"
+msgstr "Siirrä _työpöydälle"
+
+#: src/wmapp.cc:607 src/wmwinlist.cc:369
+msgid "Move to New _Window"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Musical software
+#: src/fdospecgen.h:768 src/fdospecgen.h:774
+msgid "Music"
+msgstr "Musiikki"
+
+#: src/apppstatus.cc:705
+msgid "NET"
+msgstr "NETTI"
+
+#: src/icesh.cc:1688
+#, c-format
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Alueen ”%s” nimetyt symbolit (lukualue: %ld–%ld):\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Network application such as a web browser
+#: src/fdospecgen.h:332 src/fdospecgen.h:440 src/fdospecgen.h:500
+#: src/fdospecgen.h:524 src/fdospecgen.h:542 src/fdospecgen.h:608
+#: src/fdospecgen.h:656 src/fdospecgen.h:674 src/fdospecgen.h:764
+#: src/fdospecgen.h:782 src/fdospecgen.h:788 src/fdospecgen.h:902
+#: src/fdospecgen.h:1010 src/fdospecgen.h:1046 src/fdospecgen.h:1064
+#: src/fdospecgen.h:1070 src/fdospecgen.h:1114
+msgid "Network"
+msgstr "Verkko"
+
+#: src/icesame.cc:59
+msgid "New"
+msgstr "Uusi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A news reader or a news ticker
+#: src/fdospecgen.h:780
+msgid "News"
+msgstr "Uutiset"
+
+#: src/icehelp.cc:1354
+msgid "Next"
+msgstr "Seuraava"
+
+#: src/icesh.cc:4350
+msgid "No actions specified."
+msgstr "Toimenpiteitä ei ole määritetty."
+
+#: src/icesound.cc:785
+#, c-format
+msgid "No audio for %s"
+msgstr "Ei ääntä: %s"
+
+#: src/icesh.cc:4334
+msgid "No windows found."
+msgstr "Ikkunoita ei löytynyt."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Numerical analysis software
+#: src/fdospecgen.h:78 src/fdospecgen.h:86
+msgid "NumericalAnalysis"
+msgstr "Numeerinen analyysi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Optical character recognition application
+#: src/fdospecgen.h:94
+msgid "OCR"
+msgstr "Tekstinluku"
+
+#: src/icesound.cc:361
+#, c-format
+msgid "OSS incomplete write (%d/%d)"
+msgstr "Puutteellinen kirjoitus OSS:ään (%d/%d)"
+
+#: src/icesound.cc:357
+msgid "OSS write failed"
+msgstr "OSS:ään kirjoittaminen epäonnistui"
+
+#: src/wmapp.cc:679 src/wmwinlist.cc:451
+msgid "Occupy _All"
+msgstr "Näytä k_aikilla työpöydillä"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An office type application
+#: src/fdospecgen.h:314 src/fdospecgen.h:326 src/fdospecgen.h:386
+#: src/fdospecgen.h:410 src/fdospecgen.h:446 src/fdospecgen.h:494
+#: src/fdospecgen.h:554 src/fdospecgen.h:560 src/fdospecgen.h:794
+#: src/fdospecgen.h:812 src/fdospecgen.h:848 src/fdospecgen.h:860
+#: src/fdospecgen.h:878 src/fdospecgen.h:998 src/fdospecgen.h:1058
+#: src/fdospecgen.h:1082 src/fdospecgen.h:1118
+msgid "Office"
+msgstr "Toimisto"
+
+#: src/icelist.cc:65
+msgid "Open"
+msgstr "Avaa"
+
+#: src/icehelp.cc:1362
+msgid "Open in Browser"
+msgstr "Avaa selaimeen"
+
+#: src/icewmhint.cc:57
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "Muisti loppu (len=%d)."
+
+#: src/aapm.cc:203 src/aapm.cc:474 src/aapm.cc:633
+msgid "P"
+msgstr "E"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A P2P program
+#: src/fdospecgen.h:786
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to manage your PDA
+#: src/fdospecgen.h:792
+msgid "PDA"
+msgstr "Taskutietokone"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A package manager application
+#: src/fdospecgen.h:798
+msgid "PackageManager"
+msgstr "Paketinhallinta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Parallel computing software
+#: src/fdospecgen.h:102 src/fdospecgen.h:110
+msgid "ParallelComputing"
+msgstr "Rinnakkaislaskenta"
+
+#: src/yinputline.cc:21
+msgid "Paste _Selection"
+msgstr "Liitä _valinta"
+
 #: src/icehelp.cc:2307
 msgid "Path does not refer to a file."
 msgstr "Polku ei viittaa tiedostoon."
 
-#: src/icehelp.cc:2312
-msgid "Failed to open file for reading."
-msgstr "Tiedostoa ei voitu avata."
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Camera tools, etc.
+#: src/fdospecgen.h:804 src/fdospecgen.h:810
+msgid "Photography"
+msgstr "Valokuvaus"
 
-#: src/icehelp.cc:2341
-msgid "Failed to create a temporary file"
-msgstr "Väliaikaisen tiedoston luominen epäonnistui"
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Physics software
+#: src/fdospecgen.h:816 src/fdospecgen.h:822
+msgid "Physics"
+msgstr "Fysiikka"
 
-#: src/icehelp.cc:2431
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to play audio/video files
+#: src/fdospecgen.h:828 src/fdospecgen.h:834 src/fdospecgen.h:840
+msgid "Player"
+msgstr "Soitin"
+
+#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
-msgid "Failed to execute system(%s) (%d)"
-msgstr "Järjestelmän suorittaminen epäonnistui(%s) (%d)"
+msgid "Playing sample #%d (%s)"
+msgstr "Toistetaan näytettä %d (%s)"
 
-#: src/icehelp.cc:2453
+#: src/fdomenu.cc:1200
+msgid "Please push HERE and retry after some seconds."
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
+#: src/fdospecgen.h:846
+msgid "Presentation"
+msgstr "Esitys"
+
+#: src/icehelp.cc:1353
+msgid "Previous"
+msgstr "Edellinen"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage printers
+#: src/fdospecgen.h:24
+msgid "Printing"
+msgstr "Tulostus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A profiling tool
+#: src/fdospecgen.h:852
+msgid "Profiling"
+msgstr "Profilointi"
+
+#: src/wmprog.cc:422
+msgid "Programs"
+msgstr "Ohjelmat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Project management application
+#: src/fdospecgen.h:858 src/fdospecgen.h:864
+msgid "ProjectManagement"
+msgstr "Projektinhallinta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Desktop Publishing applications and Color Management tools
+#: src/fdospecgen.h:870 src/fdospecgen.h:876
+msgid "Publishing"
+msgstr "Julkaiseminen"
+
+#: src/wmapp.cc:667
+msgid "R_aise"
+msgstr "Nos_ta"
+
+#: src/wmapp.cc:691 src/wmwinlist.cc:453
+msgid "R_ename title"
+msgstr ""
+
+#: src/wmbutton.cc:124
+msgid "Raise/Lower"
+msgstr "Nosta/Laske"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing raster (bitmap) graphics
+#: src/fdospecgen.h:118
+msgid "RasterGraphics"
+msgstr "Bittikarttagrafiikka"
+
+#: src/wmapp.cc:535 src/wmdialog.cc:89
+msgid "Re_boot"
+msgstr "_Uudelleenkäynnistä"
+
+#: src/icesound.cc:870
 #, c-format
-msgid "Failed to decompress %s"
-msgstr "Purkaminen epäonnistui %s"
+msgid "Received GUI event %s"
+msgstr "Vastaanotettiin GUI-tapahtuma %s"
 
-#: src/icehelp.cc:2461
-msgid "Could not locate curl or wget in PATH"
-msgstr "Curl-tai wget-polkua ei löydy"
+#: src/icesound.cc:866
+#, c-format
+msgid "Received invalid GUI event %d"
+msgstr "Vastaanotettiin virheellinen GUI-tapahtuma %d"
+
+#: src/icesound.cc:946
+#, c-format
+msgid "Received signal %s: Terminating..."
+msgstr "Havaittiin signaali %s: Lopetetaan..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to record audio/video files
+#: src/fdospecgen.h:882 src/fdospecgen.h:888 src/fdospecgen.h:894
+msgid "Recorder"
+msgstr "Tallennin"
+
+#: src/icehelp.cc:1364
+msgid "Reload"
+msgstr "Lataa uudelleen"
+
+#: src/wmdialog.cc:96
+#, fuzzy
+msgid "Reload ke_ys"
+msgstr "Lataa uudelleen"
+
+#: src/wmdialog.cc:95
+msgid "Reload win_options"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to remotely manage your PC
+#: src/fdospecgen.h:900
+msgid "RemoteAccess"
+msgstr "Etäkäyttö"
+
+#: src/wmframe.cc:1458
+msgid "Rename"
+msgstr ""
+
+#: src/wmframe.cc:1459
+msgid "Rename the window title"
+msgstr ""
+
+#: src/wmabout.cc:63
+msgid "Renderer:"
+msgstr ""
+
+#: src/icesame.cc:60
+msgid "Restart"
+msgstr "Käynnistä"
+
+#: src/wmapp.cc:545
+msgid "Restart _Icewm"
+msgstr "Uudelleenkäynnistä _IceWM"
+
+#: src/wmapp.cc:547
+msgid "Restart _Xterm"
+msgstr "Uudelleenkäynnistä _Xterm"
+
+#: src/wmbutton.cc:131
+msgid "Restore"
+msgstr "Palauta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Applications like cvs or subversion
+#: src/fdospecgen.h:906
+msgid "RevisionControl"
+msgstr "Versionhallinta"
+
+#: src/wmapp.cc:618
+msgid "Right Half"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Robotics software
+#: src/fdospecgen.h:912 src/fdospecgen.h:918
+msgid "Robotics"
+msgstr "Robotiikka"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A role playing game
+#: src/fdospecgen.h:924
+msgid "RolePlaying"
+msgstr "Roolipelaaminen"
+
+#: src/wmapp.cc:660 src/wmwinlist.cc:444
+msgid "Roll_up"
+msgstr "Rullaa _ylös"
+
+#: src/wmbutton.cc:141
+msgid "Rolldown"
+msgstr "Rullaa alas"
+
+#: src/wmbutton.cc:143
+msgid "Rollup"
+msgstr "Rullaa ylös"
+
+#: src/wmprog.cc:346
+msgid "S_trict mouse focus"
+msgstr ""
+
+#: src/icesame.cc:65
+msgid "Same Game"
+msgstr "Sama-peli"
+
+#: src/wmpref.cc:101
+msgid "Save Modifications"
+msgstr "Tallenna muutokset"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to scan a file/text
+#: src/fdospecgen.h:96 src/fdospecgen.h:930
+msgid "Scanning"
+msgstr "Kuvanluku"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Scientific software
+#: src/fdospecgen.h:90 src/fdospecgen.h:114 src/fdospecgen.h:230
+#: src/fdospecgen.h:242 src/fdospecgen.h:254 src/fdospecgen.h:284
+#: src/fdospecgen.h:344 src/fdospecgen.h:362 src/fdospecgen.h:380
+#: src/fdospecgen.h:404 src/fdospecgen.h:470 src/fdospecgen.h:482
+#: src/fdospecgen.h:578 src/fdospecgen.h:590 src/fdospecgen.h:602
+#: src/fdospecgen.h:632 src/fdospecgen.h:644 src/fdospecgen.h:668
+#: src/fdospecgen.h:692 src/fdospecgen.h:704 src/fdospecgen.h:722
+#: src/fdospecgen.h:740 src/fdospecgen.h:752 src/fdospecgen.h:824
+#: src/fdospecgen.h:920 src/fdospecgen.h:968 src/fdospecgen.h:986
+#: src/fdospecgen.h:1122
+msgid "Science"
+msgstr "Tiede"
+
+#: src/wmprog.cc:460
+msgid "Se_ttings"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A security tool
+#: src/fdospecgen.h:936 src/fdospecgen.h:942
+msgid "Security"
+msgstr "Tietoturva"
+
+#: src/yinputline.cc:23
+msgid "Select _All"
+msgstr "Valitse k_aikki"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sequencer
+#: src/fdospecgen.h:126
+msgid "Sequencer"
+msgstr "Sekvensseri"
+
+#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
+#, c-format
+msgid "Session Manager: Unknown line %s"
+msgstr "Istuntomanageri: Tuntematon rivi %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Settings applications
+#: src/fdospecgen.h:26 src/fdospecgen.h:30 src/fdospecgen.h:176
+#: src/fdospecgen.h:434 src/fdospecgen.h:620 src/fdospecgen.h:800
+#: src/fdospecgen.h:938 src/fdospecgen.h:1126
+msgid "Settings"
+msgstr "Asetukset"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A shooter game
+#: src/fdospecgen.h:948
+msgid "Shooter"
+msgstr "Ammuskelu"
+
+#: src/wmtaskbar.cc:372
+msgid "Show Desktop"
+msgstr "Näytä työpöytä"
+
+#: src/wmtaskbar.cc:1025
+msgid "Show Taskbar"
+msgstr "Näytä tehtäväpalkki"
+
+#: src/wmapp.cc:537 src/wmdialog.cc:90
+msgid "Shut_down"
+msgstr "_Sammuta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simulation game
+#: src/fdospecgen.h:954
+msgid "Simulation"
+msgstr "Simulointi"
+
+#: src/iceskt.cc:41
+#, c-format
+msgid "Socket error: %d"
+msgstr "Pistokevirhe: %d"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Religious and spiritual software, theology
+#: src/fdospecgen.h:960 src/fdospecgen.h:966 src/fdospecgen.h:972
+msgid "Spirituality"
+msgstr "Hengellisyys"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Sports software
+#: src/fdospecgen.h:978 src/fdospecgen.h:984
+msgid "Sports"
+msgstr "Urheilu"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sports game
+#: src/fdospecgen.h:990
+msgid "SportsGame"
+msgstr "Urheilupeli"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A spreadsheet
+#: src/fdospecgen.h:996
+msgid "Spreadsheet"
+msgstr "Taulukkolaskenta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A strategy game
+#: src/fdospecgen.h:1002
+msgid "StrategyGame"
+msgstr "Strategiapeli"
+
+#: src/icehelp.cc:1380
+msgid "Support"
+msgstr "Tuki"
+
+#: src/yximage.cc:181
+msgid "Support for JPEG images was not enabled"
+msgstr ""
+
+#: src/yximage.cc:173
+#, fuzzy
+msgid "Support for PNG images was not enabled"
+msgstr "Tukea liitännälle %s ei ole käännetty mukaan."
+
+#: src/icesound.cc:888
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "Tukea liitännälle %s ei ole käännetty mukaan."
+
+#: src/amailbox.cc:801
+msgid "Suspended"
+msgstr "Keskeytetty"
+
+#: src/wmoption.cc:357
+#, c-format
+msgid "Syntax error in window options on line %d of %s"
+msgstr "Kielioppivirhe ikkunaoptioissa rivillä %d / %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: System application, "System Tools" such as say a log viewer or network monitor
+#: src/fdospecgen.h:58 src/fdospecgen.h:506 src/fdospecgen.h:536
+#: src/fdospecgen.h:548 src/fdospecgen.h:758 src/fdospecgen.h:944
+#: src/fdospecgen.h:1022 src/fdospecgen.h:1130
+msgid "System"
+msgstr "Järjestelmä"
+
+#: src/fdomenu.cc:1197
+msgid "System too slow! Failed to load menu content!"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
+#: src/fdospecgen.h:134
+msgid "TV"
+msgstr "TV"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:628 src/wmtaskbar.cc:217 src/wmwinlist.cc:456
+#: src/wmwinlist.cc:489
+msgid "T_ile Horizontally"
+msgstr "Lomita _horisontaalisesti"
+
+#: src/decorate.cc:132
+msgid "Tabs"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony via PC
+#: src/fdospecgen.h:1008
+msgid "Telephony"
+msgstr "Puhelut"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony tools, to dial a number, manage PBX, ...
+#: src/fdospecgen.h:1014
+msgid "TelephonyTools"
+msgstr "Puhelintyökalut"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A terminal emulator application
+#: src/fdospecgen.h:1020
+msgid "TerminalEmulator"
+msgstr "Pääte-emulointi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text editor
+#: src/fdospecgen.h:1026
+msgid "TextEditor"
+msgstr "Tekstimuokkain"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text tool utility
+#: src/fdospecgen.h:48 src/fdospecgen.h:1032
+msgid "TextTools"
+msgstr "Tekstityökalut"
+
+#: src/wmabout.cc:47
+msgid "Theme Author:"
+msgstr "Teeman tekijä:"
+
+#: src/wmabout.cc:46
+msgid "Theme Description:"
+msgstr "Teeman kuvaus:"
+
+#: src/icehelp.cc:1382
+msgid "Theme Howto"
+msgstr "Teeman tekijä"
+
+#: src/wmabout.cc:45
+msgid "Theme:"
+msgstr "Teema:"
+
+#: src/wmapp.cc:674 src/wmwinlist.cc:448
+msgid "Tile"
+msgstr ""
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:630 src/wmtaskbar.cc:215 src/wmwinlist.cc:455
+#: src/wmwinlist.cc:488
+msgid "Tile _Vertically"
+msgstr "Lomita _vertikaalisesti"
+
+#: src/icesound.cc:884
+#, c-format
+msgid "Too quick; ignoring %s."
+msgstr "Liian nopea; sivuutetaan %s."
+
+#: src/wmapp.cc:619
+msgid "Top Half"
+msgstr ""
+
+#: src/wmapp.cc:622
+msgid "Top Left"
+msgstr ""
+
+#: src/wmapp.cc:623
+msgid "Top Right"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A translation tool
+#: src/fdospecgen.h:1038
+msgid "Translation"
+msgstr "Kääntäminen"
+
+#: src/wmapp.cc:689 src/wmwinlist.cc:452
+msgid "Tray _icon"
+msgstr "Tarjotinkuvak_e"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tuner
+#: src/fdospecgen.h:142
+msgid "Tuner"
+msgstr "Viritin"
+
+#: src/fdomenu.cc:908
+msgid ""
+"USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+"OPTIONS:\n"
+"-g, --generic\t\tInclude GenericName in parentheses of progs\n"
+"-o, --output=FILE\tWrite the output to FILE\n"
+"-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+"-s, --no-lone-app\tMove lone elements to parent menu\n"
+"-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+"-d, --deadline-apps=N\tStop loading app information after N ms\n"
+"-D, --deadline-all=N\tStop all loading and print what we got so far\n"
+"-m, --match=PAT\t\tDisplay only apps with title containing PAT\n"
+"-M, --imatch=PAT\tLike --match but ignores the letter case\n"
+"-L, --limit-max-len=N\tCrop app titles at length N, add ...\n"
+"--seps  \tPrint separators before and after contents\n"
+"--sep-before\tPrint separator before the contents\n"
+"--sep-after\tPrint separator only after contents\n"
+"--no-sep-others\tLegacy, has no effect\n"
+"--no-sub-cats\tNo additional subcategories, just one level of menues\n"
+"--flat\t\tDisplay all apps in one layer with category hints\n"
+"--flat-sep=STR\tCategory separator string used in flat mode (default: ' / "
+"')\n"
+"--match-sec\tApply --match or --imatch to apps AND sections\n"
+"--match-osec\tApply --match or --imatch only to sections\n"
+"--orig-comment\tPrint source .desktop file as comment\n"
+"-C, --copying\tPrint copyright information\n"
+"-V, --version\tPrint version information\n"
+"-h, --help\tPrints this usage screen and exits.\n"
+"\n"
+"FILENAME\tAny .desktop file to launch its application Exec command.\n"
+"\n"
+"This program also listens to environment variables defined by\n"
+"the XDG Base Directory Specification:\n"
+msgstr ""
+
+#: src/upath.cc:172
+#, c-format
+msgid "Unable to create directory %s"
+msgstr "Hakemistoa ei voi luoda %s"
+
+#: src/wmconfig.cc:175 src/wmsave.cc:306
+#, c-format
+msgid "Unable to rename %s to %s"
+msgstr "Ei voida nimetä %s / %s"
+
+#: src/icesh.cc:3927 src/icesh.cc:3935 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/wmsave.cc:298 src/wmsave.cc:301
+#, c-format
+msgid "Unable to write to %s"
+msgstr ""
+
+#: src/icesame.cc:57
+msgid "Undo"
+msgstr "Peru"
+
+#: src/wmmenu.cc:226
+#, fuzzy, c-format
+msgid "Unexepected menu keyword: '%s'"
+msgstr "Tuntematon toiminto: `%s'"
+
+#: src/icesh.cc:4302
+#, c-format
+msgid "Unexpected: `%s'."
+msgstr "Odottamaton: ”%s”."
+
+#: src/icesh.cc:5628
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Tuntematon toiminto: ”%s”"
+
+#: src/movesize.cc:865
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Tuntematon suunta siirto-/koonmuutospyynnössä: %d"
+
+#: src/aapm.cc:169
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr "APM-laite %s (%d) käyttää tuntematonta muotoa."
+
+#: src/yconfig.cc:83
+#, c-format
+msgid "Unknown key name %s in %s"
+msgstr "Tuntematon avainnimi %s %s:ssa"
+
+#: src/wmmenu.cc:412
+#, fuzzy, c-format
+msgid "Unknown keyword '%s'"
+msgstr "Tuntematon toiminto: `%s'"
+
+#: src/wmmenu.cc:423
+#, c-format
+msgid ""
+"Unknown keyword for a non-container: '%s'.\n"
+"Expected either 'key' or 'runonce' here.\n"
+msgstr ""
+
+#: src/icesm.cc:188
+#, c-format
+msgid "Unknown option '%s'"
+msgstr "Tuntematon valitsin ”%s”"
+
+#: src/wmconfig.cc:113
+#, c-format
+msgid "Unknown value '%s' for option '%s'."
+msgstr "Tuntematon arvo '%s' valinnalla '%s'."
+
+#: src/wmoption.cc:285
+#, c-format
+msgid "Unknown window option: %s"
+msgstr "Tuntematon ikkunatoiminto: %s"
+
+#: src/wmapp.cc:1004
+msgid ""
+"Unmanage all applications and restart\n"
+"as a terminal. Proceed?"
+msgstr ""
+
+#: src/icesound.cc:683 src/icesound.cc:978
+#, c-format
+msgid "Unrecognized argument: %s\n"
+msgstr "Tuntematon argumentti: %s\n"
+
+#: src/icewmbg.cc:1248 src/wmapp.cc:1899
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Tuntematon optio '%s'."
+
+#: src/icesound.cc:680
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Tuntematon optio: %s\n"
 
 #: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Kelvottomat merkit URL-osoitteessa"
+
+#: src/yximage.cc:187
+#, fuzzy, c-format
+msgid "Unsupported file format: %s"
+msgstr "Liitäntää ei tueta: %s."
+
+#: src/icesound.cc:921
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Liitäntää ei tueta: %s."
+
+#: src/icehelp.cc:2204
+msgid "Unsupported protocol."
+msgstr "Protokollaa ei tueta."
+
+#: src/misc.cc:395
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Options:\n"
+"%s\n"
+"  -C, --copying       Prints license information and exits.\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+msgstr ""
+
+#: src/wmapp.cc:1657
+#, fuzzy, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"%s\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  -l, --list-themes   Print a list of all available themes.\n"
+"%s\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
+"                      \"$HOME/.icewm\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"  MAIL=URL            Location of your mailbox.\n"
+"\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
+msgstr ""
+"Käyttö: %s [OPTIOT]\n"
+"Käynnistää IceWM ikkunahallinnan.\n"
+"\n"
+"Optiot:\n"
+"  --display=NIMI          X-palvelimen nimi jota käytetään\n"
+"%s  --sync             Synkronoi X11 komennot\n"
+"\n"
+"  -c, --config=TIEDOSTO   Lataa asetukset tiedostosta\n"
+"  -t, --theme=TIEDOSTO    Lataa teema tiedostosta\n"
+"  -n, --no-configure      Älä huomioi asetustiedostoa\n"
+"\n"
+"  -v, --version           Tulostaa versiotiedot ja poistuu\n"
+"  -h, --help              Tulostaa ohjeet ja poistuu\n"
+"%s --restart           Älä käytä tätä; vain sisäiseen käyttöön\n"
+"%s\n"
+"Ympäristömuuttujat:\n"
+"  ICEWM_PRIVCFG=POLKU     Hakemisto, johon käyttäjän asetukset "
+"tallennetaan.\n"
+"                          Oletuksena \"$HOME/.icewm/\"\n"
+"  DISPLAY=NIMI            X-palvelimen nimi jota käytetään, oletus riippuu\n"
+"                          Xlib:sta.\n"
+"  MAIL=URL                Postilaatikkosi sijainti. Jos resurssi jätetään "
+"pois\n"
+"                          käytetään paikallista \"tiedosto\" metodia.\n"
+"\n"
+"Käy osoitteessa https://ice-wm.org/ kun haluat ilmoittaa virheestä, kaipaat\n"
+"apua tai jos haluat vain antaa kommenttisi.\n"
 
 #: src/icehelp.cc:2502
 #, c-format
@@ -1279,320 +2320,6 @@ msgstr ""
 "Vikailmoitukset, tukipyynnöt ja kommentit voi jättää sivulle:\n"
 "%s\n"
 "\n"
-
-#: src/icehelp.cc:2592
-#, c-format
-msgid "Ignoring option '%s'"
-msgstr "Tuntematon toiminto '%s'"
-
-#: src/icelist.cc:60
-msgid "List View"
-msgstr "Listanäkymä"
-
-#: src/icelist.cc:61
-msgid "Icon View"
-msgstr "Kuvakenäkymä"
-
-#: src/icelist.cc:65
-msgid "Open"
-msgstr "Avaa"
-
-#: src/icesame.cc:57
-msgid "Undo"
-msgstr "Peru"
-
-#: src/icesame.cc:57
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
-
-#: src/icesame.cc:59
-msgid "New"
-msgstr "Uusi"
-
-#: src/icesame.cc:59
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
-
-#: src/icesame.cc:60
-msgid "Restart"
-msgstr "Käynnistä"
-
-#: src/icesame.cc:65
-msgid "Same Game"
-msgstr "Sama-peli"
-
-#: src/icesh.cc:76
-msgid "For help please consult the man page icesh(1).\n"
-msgstr "Katso ohjeet man-sivulta icesh(1).\n"
-
-#: src/icesh.cc:1668
-#, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Alueen ”%s” nimetyt symbolit (lukualue: %ld–%ld):\n"
-
-#: src/icesh.cc:1737
-#, c-format
-msgid "Workspace out of range: %ld"
-msgstr "Työtila arvoalueen ulkopuolella: %ld"
-
-#: src/icesh.cc:1758
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Virheellinen työtilan nimi: ”%s”"
-
-#: src/icesh.cc:2269
-msgid "GNOME window layer"
-msgstr "GNOME-ikkunataso"
-
-#: src/icesh.cc:2270
-msgid "IceWM tray option"
-msgstr "IceWM-ilmoitusaluevalinta"
-
-#: src/icesh.cc:2271
-msgid "Gravity symbols"
-msgstr "Gravity-symbolit"
-
-#: src/icesh.cc:2272
-msgid "Motif functions"
-msgstr "Motif-funktiot"
-
-#: src/icesh.cc:2273
-msgid "Motif decorations"
-msgstr "Motif-koristeet"
-
-#: src/icesh.cc:2274
-msgid "EWMH window state"
-msgstr "EWMH-ikkunan tila"
-
-#: src/icesh.cc:2356 src/icesh.cc:2429
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "työtila %d: ”%s”\n"
-
-#: src/icesh.cc:2680 src/icesh.cc:4511 src/icesh.cc:5108
-#, c-format
-msgid "Invalid state: `%s'."
-msgstr "Virheellinen tila: ”%s”."
-
-#: src/icesh.cc:2709 src/icesh.cc:4090 src/icesh.cc:4140 src/icesh.cc:5429
-#, c-format
-msgid "Invalid argument: `%s'"
-msgstr "Virheellinen parametri: ”%s”"
-
-#: src/icesh.cc:3710
-#, c-format
-msgid "Cannot get geometry of window 0x%lx"
-msgstr "Ikkunan 0x%lx geometriaa ei saatu"
-
-#: src/icesh.cc:3735
-#, c-format
-msgid "Invalid Xinerama: `%s'."
-msgstr "Virheellinen Xinerama: \"%s”."
-
-#: src/icesh.cc:3867 src/icesh.cc:3875 src/wmconfig.cc:139 src/wmsave.cc:65
-#: src/wmsave.cc:298 src/wmsave.cc:301
-#, c-format
-msgid "Unable to write to %s"
-msgstr ""
-
-#: src/icesh.cc:4106
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Toiminto ”%s” vaatii ainakin %d parametria."
-
-#: src/icesh.cc:4115
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Virheellinen lauseke: ”%s”"
-
-#: src/icesh.cc:4126 src/icesound.cc:800 src/icewmbg.cc:1087
-#: src/icewmhint.cc:37 src/wmapp.cc:1293 src/yxapp.cc:1049
-#, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
-"Ei voida avata näyttöä: %s. X-palvelimen on oltava käynnissä ja $DISPLAYn "
-"asetettu."
-
-#: src/icesh.cc:4242
-#, c-format
-msgid "Unexpected: `%s'."
-msgstr "Odottamaton: ”%s”."
-
-#: src/icesh.cc:4274
-msgid "No windows found."
-msgstr "Ikkunoita ei löytynyt."
-
-#: src/icesh.cc:4290
-msgid "No actions specified."
-msgstr "Toimenpiteitä ei ole määritetty."
-
-#: src/icesh.cc:4435
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Virheellinen ikkunatunniste: ”%s”"
-
-#: src/icesh.cc:4451
-#, c-format
-msgid "Invalid PID: `%s'"
-msgstr "Virheellinen PID: ”%s”"
-
-#: src/icesh.cc:4484
-#, c-format
-msgid "Invalid layer: `%s'."
-msgstr "Virheellinen taso: ”%s”."
-
-#: src/icesh.cc:5560
-#, c-format
-msgid "Unknown action: `%s'"
-msgstr "Tuntematon toiminto: ”%s”"
-
-#: src/iceskt.cc:41
-#, c-format
-msgid "Socket error: %d"
-msgstr "Pistokevirhe: %d"
-
-#: src/icesm.cc:69
-msgid ""
-"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-"\n"
-"  -d, --display=NAME  Use NAME to connect to the X server.\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-"  -o, --output=FILE   Redirect all output to FILE.\n"
-"\n"
-"  -b, --nobg          Do not start icewmbg.\n"
-"  -n, --notray        Do not start icewmtray.\n"
-"  -s, --sound         Also start icesound.\n"
-msgstr ""
-"  -c, --config=TSTO   Lataa IceWM:n asetukset TSTOsta.\n"
-"  -t, --theme=TSTO    Lataa IceWM:n teema TSTOsta.\n"
-"\n"
-"  -d, --display=NIMI  Yhdistä X-palvelimeen NIMI.\n"
-"  -a, --alpha         Käytä 32-bittistä läpikuultavuutta.\n"
-"  --sync              Tahdista viestintä X11-palvelimeen.\n"
-"\n"
-"  -i, --icewm=TSTO    Käytä TSTOa IceWM:n ikkunanhallintana.\n"
-"  -o, --output=TSTO   Ohjaa kaikki tuloste TSTOon.\n"
-"\n"
-"  -b, --nobg          Älä käynnistä icewmbg:tä.\n"
-"  -n, --notray        Älä käynnistä icewmtraytä.\n"
-"  -s, --sound         Käynnistä myös icesound.\n"
-
-#: src/icesm.cc:85
-msgid ""
-"\n"
-"Debugging options:\n"
-"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
-"                      Thoroughly examines the execution of icewm.\n"
-"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
-"                      Gives a backtrace if icewm segfaults.\n"
-msgstr ""
-"\n"
-"Vianjäljitysvalitsimet:\n"
-"  -v, --valgrind      Anna /usr/bin/valgrind’in ajaa icewm.\n"
-"                      Tarkistaa huolellisesti icewm:n suorituksen.\n"
-"  -g, --catchsegv     Anna /usr/bin/catchsegv:n ajaa icewm.\n"
-"                      Antaa pinolistauksen, jos icewm kaatuu.\n"
-
-#: src/icesm.cc:188
-#, c-format
-msgid "Unknown option '%s'"
-msgstr "Tuntematon valitsin ”%s”"
-
-#: src/icesm.cc:462 src/icesm.cc:622
-#, c-format
-msgid "restart %s."
-msgstr "Käynnistä %s."
-
-#: src/icesm.cc:513
-msgid ""
-" IceWM crashed for the second time in 10 seconds. \n"
-" Do you wish to:\n"
-"\n"
-"\t1: Restart IceWM?\n"
-"\t2: Abort this session?\n"
-"\t3: Run a terminal?\n"
-msgstr ""
-" IceWM kaatui toistamiseen 10 sekunnin aikana. \n"
-" Haluatko:\n"
-"\n"
-"\t1: Käynnistää IceWM:n uudelleen?\n"
-"\t2: Lopettaa tämän istunnon?\n"
-"\t3: Käynnistää päätteen?\n"
-
-#: src/icesm.cc:519
-msgid "IceWM crash response"
-msgstr "IceWM:n kaatumisvastaus"
-
-#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
-#, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Toistetaan näytettä %d (%s)"
-
-#: src/icesound.cc:329
-#, c-format
-msgid "%s: Invalid number of channels"
-msgstr "%s: Virheellinen määrä kanavia"
-
-#: src/icesound.cc:335 src/icesound.cc:340
-msgid "Could not set OSS channels"
-msgstr "OSS-kanavia ei voitu asettaa"
-
-#: src/icesound.cc:345 src/icesound.cc:373
-msgid "Could not sync OSS"
-msgstr "OSS:ää ei voitu tahdistaa"
-
-#: src/icesound.cc:357
-msgid "OSS write failed"
-msgstr "OSS:ään kirjoittaminen epäonnistui"
-
-#: src/icesound.cc:361
-#, c-format
-msgid "OSS incomplete write (%d/%d)"
-msgstr "Puutteellinen kirjoitus OSS:ään (%d/%d)"
-
-#: src/icesound.cc:368
-msgid "Could not post OSS"
-msgstr "OSS -tiedostoa ei voitu lähettää"
-
-#: src/icesound.cc:397
-#, c-format
-msgid "Could not open OSS device %s"
-msgstr "OSS -laitetta %s ei voitu avata"
-
-#: src/icesound.cc:402
-msgid "Could not set OSS stereo"
-msgstr "Ei voitu asettaa OSS-stereota"
-
-#: src/icesound.cc:407
-msgid "Could not reset OSS DSP"
-msgstr "OSS:n DSP:tä ei voitu alustaa"
-
-#: src/icesound.cc:412
-msgid "Could not set OSS format"
-msgstr "OSS-muotoa ei voitu asettaa"
-
-#: src/icesound.cc:499
-#, c-format
-msgid "ao_open_live failed with %d"
-msgstr "ao_open_live epäonnistui: %d"
-
-#: src/icesound.cc:510
-msgid "ao_play failed"
-msgstr "ao_play epäonnistui"
-
-#: src/icesound.cc:680
-#, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Tuntematon optio: %s\n"
-
-#: src/icesound.cc:683 src/icesound.cc:978
-#, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Tuntematon argumentti: %s\n"
 
 #: src/icesound.cc:694
 #, c-format
@@ -1694,86 +2421,6 @@ msgstr ""
 "  3    Alijärjestelmävirhe (ei voida yhdistää palvelimeen).\n"
 "\n"
 
-#: src/icesound.cc:785
-#, c-format
-msgid "No audio for %s"
-msgstr "Ei ääntä: %s"
-
-#: src/icesound.cc:862
-msgid "Could not get GUI event property"
-msgstr "Ei saatu GUI-tapahtuman ominaisuutta"
-
-#: src/icesound.cc:866
-#, c-format
-msgid "Received invalid GUI event %d"
-msgstr "Vastaanotettiin virheellinen GUI-tapahtuma %d"
-
-#: src/icesound.cc:870
-#, c-format
-msgid "Received GUI event %s"
-msgstr "Vastaanotettiin GUI-tapahtuma %s"
-
-#: src/icesound.cc:884
-#, c-format
-msgid "Too quick; ignoring %s."
-msgstr "Liian nopea; sivuutetaan %s."
-
-#: src/icesound.cc:888
-#, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Tukea liitännälle %s ei ole käännetty mukaan."
-
-#: src/icesound.cc:921
-#, c-format
-msgid "Unsupported interface: %s."
-msgstr "Liitäntää ei tueta: %s."
-
-#: src/icesound.cc:930
-#, c-format
-msgid "Using %s audio."
-msgstr "Käytetään ääntä %s."
-
-#: src/icesound.cc:934
-#, c-format
-msgid "Failed to connect to audio interfaces %s."
-msgstr "Yhdistäminen ääniliitäntöihin %s epäonnistui."
-
-#: src/icesound.cc:946
-#, c-format
-msgid "Received signal %s: Terminating..."
-msgstr "Havaittiin signaali %s: Lopetetaan..."
-
-#: src/icetray.cc:220
-msgid ""
-"  -n, --notify        Notify parent process by sending signal USR1.\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load the theme from FILE.\n"
-msgstr ""
-
-#: src/iceview.cc:59
-msgid "Hex View"
-msgstr "Heksadesimaalinäkymä"
-
-#: src/iceview.cc:59
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-#: src/iceview.cc:60
-msgid "Expand Tabs"
-msgstr "Laajenna tabulaattorit"
-
-#: src/iceview.cc:61
-msgid "Wrap Lines"
-msgstr "Katkaise rivit"
-
-#: src/icewmbg.cc:35 src/icewmbg.cc:372
-#, c-format
-msgid "Failed to load image '%s'."
-msgstr "Kuvan '%s' lataus epäonnistui."
-
 #: src/icewmbg.cc:969
 #, fuzzy
 msgid ""
@@ -1836,543 +2483,55 @@ msgstr ""
 " DesktopTransparencyColor - väri jota läpikuultavat päätteet näyttävät\n"
 " DesktopTransparencyImage - kuva jota läpikuultavat päätteet näyttävät\n"
 
-#: src/icewmbg.cc:1248 src/wmapp.cc:1902
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "Tuntematon optio '%s'."
-
-#: src/icewmbg.cc:1335
-msgid "Cannot start, because another icewmbg is still running."
-msgstr ""
-
 #: src/icewmhint.cc:20
 msgid "Usage: icewmhint class.instance option arg\n"
 msgstr "Käyttö: icewmhint class.instance optio arg\n"
 
-#: src/icewmhint.cc:57
+#: src/amemstatus.cc:180
+msgid "User: "
+msgstr "Käyttäjä: "
+
+#: src/icesound.cc:930
 #, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Muisti loppu (len=%d)."
+msgid "Using %s audio."
+msgstr "Käytetään ääntä %s."
 
-#: src/misc.cc:71 src/misc.cc:83
-msgid "Warning: "
-msgstr "Varoitus: "
-
-#: src/misc.cc:394
+#: src/amailbox.cc:694
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Options:\n"
-"%s\n"
-"  -C, --copying       Prints license information and exits.\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"\n"
-msgstr ""
-
-#: src/movesize.cc:859
-#, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr "Tuntematon suunta siirto-/koonmuutospyynnössä: %d"
-
-#: src/upath.cc:172
-#, c-format
-msgid "Unable to create directory %s"
-msgstr "Hakemistoa ei voi luoda %s"
-
-#: src/wmabout.cc:29
-msgid "(C)"
-msgstr "©"
-
-#: src/wmabout.cc:45
-msgid "Theme:"
-msgstr "Teema:"
-
-#: src/wmabout.cc:46
-msgid "Theme Description:"
-msgstr "Teeman kuvaus:"
-
-#: src/wmabout.cc:47
-msgid "Theme Author:"
-msgstr "Teeman tekijä:"
-
-#: src/wmabout.cc:56
-msgid "CodeSet:"
-msgstr ""
-
-#: src/wmabout.cc:57
-msgid "Language:"
-msgstr ""
-
-#: src/wmabout.cc:61
-msgid "DoubleBuffer"
-msgstr ""
-
-#: src/wmabout.cc:62
-msgid "AlphaBlending"
-msgstr ""
-
-#: src/wmabout.cc:63
-msgid "Renderer:"
-msgstr ""
-
-#: src/wmabout.cc:71
-msgid "icewm - About"
-msgstr "IceWM - Tietoja"
-
-#: src/wmapp.cc:91
-msgid "A window manager is already running, use --replace to replace it"
-msgstr "Ikkunanhallinta on jo käynnissä, käytä --replace sen korvaamiseksi"
-
-#: src/wmapp.cc:107
-#, c-format
-msgid "Failed to become the owner of the %s selection"
-msgstr ""
-
-#: src/wmapp.cc:111
-msgid "Waiting to replace the old window manager"
-msgstr ""
-
-#: src/wmapp.cc:116
-msgid "done."
-msgstr ""
-
-#: src/wmapp.cc:529
-msgid "_Logout"
-msgstr "_Kirjaudu ulos"
-
-#: src/wmapp.cc:530
-msgid "_Cancel logout"
-msgstr "_Peruuta uloskirjautuminen"
-
-#: src/wmapp.cc:536
-msgid "Lock _Workstation"
-msgstr "_Lukitse työasema"
-
-#: src/wmapp.cc:538 src/wmdialog.cc:89
-msgid "Re_boot"
-msgstr "_Uudelleenkäynnistä"
-
-#: src/wmapp.cc:540 src/wmdialog.cc:90
-msgid "Shut_down"
-msgstr "_Sammuta"
-
-#: src/wmapp.cc:542 src/wmdialog.cc:86
-msgid "_Sleep mode"
-msgstr ""
-
-#: src/wmapp.cc:544 src/wmdialog.cc:91
-msgid "_Hibernate"
-msgstr ""
-
-#: src/wmapp.cc:548
-msgid "Restart _Icewm"
-msgstr "Uudelleenkäynnistä _IceWM"
-
-#: src/wmapp.cc:550
-msgid "Restart _Xterm"
-msgstr "Uudelleenkäynnistä _Xterm"
-
-#: src/wmapp.cc:560
-msgid "_Menu"
-msgstr "_Valikko"
-
-#: src/wmapp.cc:561
-msgid "_Above Dock"
-msgstr "Telakan _yläpuolella"
-
-#: src/wmapp.cc:562
-msgid "_Dock"
-msgstr "T_elakka"
-
-#: src/wmapp.cc:563
-msgid "_OnTop"
-msgstr "P_äällä"
-
-#: src/wmapp.cc:564
-msgid "_Normal"
-msgstr "_Tavallinen"
-
-#: src/wmapp.cc:565
-msgid "_Below"
-msgstr "A_lla"
-
-#: src/wmapp.cc:566
-msgid "D_esktop"
-msgstr "Työ_pöytä"
-
-#: src/wmapp.cc:610 src/wmwinlist.cc:381
-msgid "Move to New _Window"
-msgstr ""
-
-#: src/wmapp.cc:620
-msgid "Left Half"
-msgstr ""
-
-#: src/wmapp.cc:621
-msgid "Right Half"
-msgstr ""
-
-#: src/wmapp.cc:622
-msgid "Top Half"
-msgstr ""
-
-#: src/wmapp.cc:623
-msgid "Bottom Half"
-msgstr ""
-
-#: src/wmapp.cc:625
-msgid "Top Left"
-msgstr ""
-
-#: src/wmapp.cc:626
-msgid "Top Right"
-msgstr ""
-
-#: src/wmapp.cc:627
-msgid "Bottom Left"
-msgstr ""
-
-#: src/wmapp.cc:628
-msgid "Bottom Right"
-msgstr ""
-
-#: src/wmapp.cc:629
-msgid "Center"
-msgstr ""
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:631 src/wmtaskbar.cc:217 src/wmwinlist.cc:468
-#: src/wmwinlist.cc:501
-msgid "T_ile Horizontally"
-msgstr "Lomita _horisontaalisesti"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:633 src/wmtaskbar.cc:215 src/wmwinlist.cc:467
-#: src/wmwinlist.cc:500
-msgid "Tile _Vertically"
-msgstr "Lomita _vertikaalisesti"
-
-#: src/wmapp.cc:645 src/wmwinlist.cc:448
-msgid "_Restore"
-msgstr "Pala_uta"
-
-#: src/wmapp.cc:647
-msgid "_Move"
-msgstr "_Siirrä"
-
-#: src/wmapp.cc:649
-msgid "_Size"
-msgstr "_Muuta kokoa"
-
-#: src/wmapp.cc:651 src/wmwinlist.cc:449
-msgid "Mi_nimize"
-msgstr "_Pienennä"
-
-#: src/wmapp.cc:653 src/wmwinlist.cc:450
-msgid "Ma_ximize"
-msgstr "Suu_renna"
-
-#: src/wmapp.cc:654 src/wmwinlist.cc:451
-msgid "Maximize_Vert"
-msgstr "Suurenna_Pysty"
-
-#: src/wmapp.cc:655 src/wmwinlist.cc:452
-msgid "MaximizeHori_z"
-msgstr "SuurennaVaaka_z"
-
-#: src/wmapp.cc:658 src/wmwinlist.cc:453
-msgid "_Fullscreen"
-msgstr "Koko _näyttö"
-
-#: src/wmapp.cc:661 src/wmwinlist.cc:455
-msgid "_Hide"
-msgstr "Pii_lota"
-
-#: src/wmapp.cc:663 src/wmwinlist.cc:456
-msgid "Roll_up"
-msgstr "Rullaa _ylös"
-
-#: src/wmapp.cc:670
-msgid "R_aise"
-msgstr "Nos_ta"
-
-#: src/wmapp.cc:672 src/wmwinlist.cc:458
-msgid "_Lower"
-msgstr "Las_ke"
-
-#: src/wmapp.cc:674 src/wmwinlist.cc:459
-msgid "La_yer"
-msgstr "Tas_o"
-
-#: src/wmapp.cc:677 src/wmwinlist.cc:460
-msgid "Tile"
-msgstr ""
-
-#: src/wmapp.cc:681 src/wmwinlist.cc:462
-msgid "Move _To"
-msgstr "Siirrä _työpöydälle"
-
-#: src/wmapp.cc:682 src/wmwinlist.cc:463
-msgid "Occupy _All"
-msgstr "Näytä k_aikilla työpöydillä"
-
-#: src/wmapp.cc:688
-msgid "Limit _Workarea"
-msgstr "_Rajoita työtilaa"
-
-#: src/wmapp.cc:692 src/wmwinlist.cc:464
-msgid "Tray _icon"
-msgstr "Tarjotinkuvak_e"
-
-#: src/wmapp.cc:694 src/wmwinlist.cc:465
-msgid "R_ename title"
-msgstr ""
-
-#: src/wmapp.cc:699 src/wmwinlist.cc:480 src/wmwinlist.cc:488
-msgid "_Close"
-msgstr "_Sulje"
-
-#: src/wmapp.cc:701 src/wmwinlist.cc:482
-msgid "_Kill Client"
-msgstr "_Tapa asiakasohjelma"
-
-#: src/wmapp.cc:704 src/wmdialog.cc:92 src/wmwinmenu.cc:141
-msgid "_Window list"
-msgstr "_Ikkunaluettelo"
-
-#: src/wmapp.cc:743
-msgid "Another window manager already running, exiting..."
-msgstr "Toinen ikkunamangeri on jo käynnissä, poistutaan..."
-
-#: src/wmapp.cc:818
-#, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Ei voitu uudelleenkäynnistää: %s\n"
-"Johtaako $PATH-määritys kohteeseen %s?"
-
-#: src/wmapp.cc:1006
-msgid "Confirm Restart as Terminal"
-msgstr ""
-
-#: src/wmapp.cc:1007
-msgid ""
-"Unmanage all applications and restart\n"
-"as a terminal. Proceed?"
-msgstr ""
-
-#: src/wmapp.cc:1294 src/yxapp.cc:1050
-msgid "<none>"
-msgstr "<tyhjä>"
-
-#: src/wmapp.cc:1626
-msgid ""
-"  --client-id=ID      Client id to use when contacting session manager.\n"
-msgstr ""
-
-#: src/wmapp.cc:1632
-msgid ""
-"\n"
-"  --debug             Print generic debug messages.\n"
-"  --debug-z           Print debug messages regarding window stacking.\n"
-msgstr ""
-
-#: src/wmapp.cc:1640
-msgid ""
-"\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-"  -p, --postpreferences  Print preferences after all processing.\n"
-"  --rewrite-preferences  Update an existing preferences file.\n"
-"  --trace=conf,icon   Trace paths used to load configuration.\n"
-msgstr ""
-
-#: src/wmapp.cc:1651
-msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
-
-#: src/wmapp.cc:1657
-msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr ""
-
-#: src/wmapp.cc:1660
-#, fuzzy, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"%s\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s\n"
-"  --replace           Replace an existing window manager.\n"
-"  -r, --restart       Tell the running icewm to restart itself.\n"
-"\n"
-"  --configured        Print the compile time configuration.\n"
-"  --directories       Print the configuration directories.\n"
-"  -l, --list-themes   Print a list of all available themes.\n"
-"%s\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
-"                      \"$HOME/.icewm\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use.\n"
-"  MAIL=URL            Location of your mailbox.\n"
-"\n"
-"To report bugs, support requests, comments please visit:\n"
-"%s\n"
-"\n"
-msgstr ""
-"Käyttö: %s [OPTIOT]\n"
-"Käynnistää IceWM ikkunahallinnan.\n"
-"\n"
-"Optiot:\n"
-"  --display=NIMI          X-palvelimen nimi jota käytetään\n"
-"%s  --sync             Synkronoi X11 komennot\n"
-"\n"
-"  -c, --config=TIEDOSTO   Lataa asetukset tiedostosta\n"
-"  -t, --theme=TIEDOSTO    Lataa teema tiedostosta\n"
-"  -n, --no-configure      Älä huomioi asetustiedostoa\n"
-"\n"
-"  -v, --version           Tulostaa versiotiedot ja poistuu\n"
-"  -h, --help              Tulostaa ohjeet ja poistuu\n"
-"%s --restart           Älä käytä tätä; vain sisäiseen käyttöön\n"
-"%s\n"
-"Ympäristömuuttujat:\n"
-"  ICEWM_PRIVCFG=POLKU     Hakemisto, johon käyttäjän asetukset "
-"tallennetaan.\n"
-"                          Oletuksena \"$HOME/.icewm/\"\n"
-"  DISPLAY=NIMI            X-palvelimen nimi jota käytetään, oletus riippuu\n"
-"                          Xlib:sta.\n"
-"  MAIL=URL                Postilaatikkosi sijainti. Jos resurssi jätetään "
-"pois\n"
-"                          käytetään paikallista \"tiedosto\" metodia.\n"
-"\n"
-"Käy osoitteessa https://ice-wm.org/ kun haluat ilmoittaa virheestä, kaipaat\n"
-"apua tai jos haluat vain antaa kommenttisi.\n"
-
-#: src/wmapp.cc:1726
-#, c-format
-msgid "%s configuration directories:\n"
-msgstr ""
-
-#: src/wmapp.cc:1811
-#, c-format
-msgid "%s configured options:%s\n"
-msgstr "%s määritetyt asetukset:%s\n"
-
-#: src/wmapp.cc:1952
-msgid "Confirm Logout"
-msgstr "Varmista uloskirjautuminen"
-
-#: src/wmapp.cc:1953
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Uloskirjautuminen sulkee kaikki aktiiviset sovellukset.\n"
-"Jatka?"
-
-#: src/wmbutton.cc:124
-msgid "Raise/Lower"
-msgstr "Nosta/Laske"
-
-#: src/wmbutton.cc:127
-msgid "Hide"
-msgstr "Piilota"
-
-#: src/wmbutton.cc:131
-msgid "Restore"
-msgstr "Palauta"
-
-#: src/wmbutton.cc:133
-msgid "Maximize"
-msgstr "Suurenna"
-
-#: src/wmbutton.cc:137
-msgid "Minimize"
-msgstr "Pienennä"
-
-#: src/wmbutton.cc:141
-msgid "Rolldown"
-msgstr "Rullaa alas"
-
-#: src/wmbutton.cc:143
-msgid "Rollup"
-msgstr "Rullaa ylös"
-
-#: src/wmclient.cc:470
-#, c-format
-msgid ""
-"Client %s with PID %ld fails to respond.\n"
-"Do you wish to terminate this client?\n"
-msgstr ""
-
-#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
-#, c-format
-msgid "Failed to load theme %s"
-msgstr "Teeman lataus epäonnistui %s"
-
-#: src/wmconfig.cc:113
-#, c-format
-msgid "Unknown value '%s' for option '%s'."
-msgstr "Tuntematon arvo '%s' valinnalla '%s'."
-
-#: src/wmconfig.cc:175 src/wmsave.cc:306
-#, c-format
-msgid "Unable to rename %s to %s"
-msgstr "Ei voida nimetä %s / %s"
-
-#: src/wmdialog.cc:85
-msgid "Loc_k Workstation"
-msgstr "Lu_kitse työasema"
-
-#: src/wmdialog.cc:87 src/ymsgbox.cc:51
-msgid "_Cancel"
-msgstr "_Peruuta"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:88 src/wmprog.cc:466 src/wmprog.cc:468 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
-msgid "_Logout..."
-msgstr "_Kirjaudu ulos..."
-
-#: src/wmdialog.cc:93
-msgid "_Restart icewm"
-msgstr "Uudelleenkäynnistä _IceWM"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:94 src/wmprog.cc:434 src/wmtaskbar.cc:238
-msgid "_About"
-msgstr "_Tietoja"
-
-#: src/wmdialog.cc:95
-msgid "Reload win_options"
-msgstr ""
-
-#: src/wmdialog.cc:96
-#, fuzzy
-#| msgid "Reload"
-msgid "Reload ke_ys"
-msgstr "Lataa uudelleen"
-
-#: src/wmframe.cc:1457
-msgid "Rename"
-msgstr ""
-
-#: src/wmframe.cc:1458
-msgid "Rename the window title"
-msgstr ""
-
-#: src/wmframe.cc:1952
+msgid "Using MailBox \"%s\"\n"
+msgstr "Käytetään postilaatikkoa \"%s\"\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Small utility application, "Accessories"
+#: src/fdospecgen.h:42 src/fdospecgen.h:50 src/fdospecgen.h:182
+#: src/fdospecgen.h:218 src/fdospecgen.h:308 src/fdospecgen.h:350
+#: src/fdospecgen.h:530 src/fdospecgen.h:728 src/fdospecgen.h:974
+#: src/fdospecgen.h:1016 src/fdospecgen.h:1028 src/fdospecgen.h:1034
+#: src/fdospecgen.h:1134
+msgid "Utility"
+msgstr "Työkalu"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing vector graphics
+#: src/fdospecgen.h:150
+msgid "VectorGraphics"
+msgstr "Vektorigrafiikka"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A video application
+#: src/fdospecgen.h:136 src/fdospecgen.h:266 src/fdospecgen.h:836
+#: src/fdospecgen.h:890 src/fdospecgen.h:1138
+msgid "Video"
+msgstr "Video"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Video Conference software
+#: src/fdospecgen.h:1044
+msgid "VideoConference"
+msgstr "Videoneuvottelu"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to view e.g. a graphic or pdf file
+#: src/fdospecgen.h:1050 src/fdospecgen.h:1056
+msgid "Viewer"
+msgstr "Katselin"
+
+#: src/wmframe.cc:1966
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2380,454 +2539,355 @@ msgstr ""
 "VAROITUS! Kaikki tallentamattomat muutokset tässä\n"
 "asiakkaassa menetetään kun se tapetaan. Haluatko jatkaa?"
 
-#: src/wmframe.cc:1957
-msgid "Kill Client: "
-msgstr "Tapa asiakasohjelma: "
-
-#: src/wmmenu.cc:37
-msgid "Missing command argument"
-msgstr "Puuttuva komentoargumentti"
-
-#: src/wmmenu.cc:55
-#, fuzzy, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Virheellinen argumentti: %s %s:lle"
-
-#: src/wmmenu.cc:110
-#, fuzzy, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Virhe avaimessa %s"
-
-#: src/wmmenu.cc:156
-#, fuzzy, c-format
-msgid "Error at %s '%s'"
-msgstr "Virhe avaimessa %s"
-
-#: src/wmmenu.cc:222
-#, fuzzy, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Tuntematon toiminto: `%s'"
-
-#: src/wmmenu.cc:276
-#, fuzzy, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Virhe ohjelmassa %s"
-
-#: src/wmmenu.cc:320
-#, fuzzy, c-format
-msgid "Error at menuprogreload: '%s'"
-msgstr "Virhe ohjelmassa %s"
-
-#: src/wmmenu.cc:347
-msgid "Missing filename argument to include statement"
+#: src/wmapp.cc:111
+msgid "Waiting to replace the old window manager"
 msgstr ""
 
-#: src/wmmenu.cc:365
-#, fuzzy, c-format
-msgid "Error at includeprog '%s'"
-msgstr "Virhe ohjelmassa %s"
+#: src/misc.cc:72 src/misc.cc:84
+msgid "Warning: "
+msgstr "Varoitus: "
 
-#: src/wmmenu.cc:408
-#, fuzzy, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Tuntematon toiminto: `%s'"
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A web browser
+#: src/fdospecgen.h:1062
+msgid "WebBrowser"
+msgstr "Verkkoselain"
 
-#: src/wmmenu.cc:419
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool for web developers
+#: src/fdospecgen.h:1068 src/fdospecgen.h:1074
+msgid "WebDevelopment"
+msgstr "Verkkokehitys"
+
+#: src/icehelp.cc:1384
+msgid "Website"
+msgstr "Verkkosivusto"
+
+#: src/wmtaskbar.cc:362
+msgid "Window List Menu"
+msgstr "Ikkunaluettelon valikko"
+
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509
+msgid "Window list"
+msgstr "Ikkunalista"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A word processor
+#: src/fdospecgen.h:1080
+msgid "WordProcessor"
+msgstr "Tekstinkäsittely"
+
+#: src/icesh.cc:1757
 #, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
-msgstr ""
+msgid "Workspace out of range: %ld"
+msgstr "Työtila arvoalueen ulkopuolella: %ld"
 
-#: src/wmmenu.cc:498
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
+msgid "Workspace: "
+msgstr "Työpöytä: "
+
+#: src/iceview.cc:61
+msgid "Wrap Lines"
+msgstr "Katkaise rivit"
+
+#: src/amailbox.cc:447
 #, c-format
-msgid "'%s' timed out!"
+msgid "Write to socket failed: %s"
+msgstr "Kirjoitus kantaan epäonnistui: %s"
+
+#: src/fdomenu.cc:1097
+msgid "Zarathustra"
 msgstr ""
-
-#: src/wmmenu.cc:512
-#, c-format
-msgid "'%s' produces no output"
-msgstr ""
-
-#: src/wmmgr.cc:3673
-msgid "Missing program setxkbmap"
-msgstr ""
-
-#: src/wmmgr.cc:3674
-msgid "For keyboard switching, please install setxkbmap."
-msgstr ""
-
-#: src/wmoption.cc:285
-#, c-format
-msgid "Unknown window option: %s"
-msgstr "Tuntematon ikkunatoiminto: %s"
-
-#: src/wmoption.cc:357
-#, c-format
-msgid "Syntax error in window options on line %d of %s"
-msgstr "Kielioppivirhe ikkunaoptioissa rivillä %d / %s"
-
-#: src/wmpref.cc:101
-msgid "Save Modifications"
-msgstr "Tallenna muutokset"
-
-#: src/wmpref.cc:179
-#, c-format
-msgid "Enter a new value for %s: "
-msgstr ""
-
-#: src/wmprog.cc:341
-msgid "_Click to focus"
-msgstr ""
-
-#: src/wmprog.cc:342
-msgid "_Explicit focus"
-msgstr ""
-
-#: src/wmprog.cc:343
-msgid "_Sloppy mouse focus"
-msgstr ""
-
-#: src/wmprog.cc:344
-msgid "S_trict mouse focus"
-msgstr ""
-
-#: src/wmprog.cc:345
-msgid "_Quiet sloppy focus"
-msgstr ""
-
-#: src/wmprog.cc:346
-msgid "Custo_m"
-msgstr ""
-
-#: src/wmprog.cc:368
-msgid "_Manual"
-msgstr ""
-
-#: src/wmprog.cc:369
-msgid "_Icewm(1)"
-msgstr ""
-
-#: src/wmprog.cc:370
-msgid "Icewm_Bg(1)"
-msgstr ""
-
-#: src/wmprog.cc:371
-msgid "Ice_Sound(1)"
-msgstr ""
-
-#: src/wmprog.cc:420
-msgid "Programs"
-msgstr "Ohjelmat"
-
-#: src/wmprog.cc:424
-msgid "_Run..."
-msgstr "_Suorita..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:428 src/wmtaskbar.cc:233
-msgid "_Windows"
-msgstr "_Ikkunat"
+#: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
+msgid "_About"
+msgstr "_Tietoja"
 
-#: src/wmprog.cc:439
-msgid "_Help"
-msgstr "O_hje"
-
-#: src/wmprog.cc:444
-msgid "_Focus"
-msgstr ""
-
-#: src/wmprog.cc:449
-msgid "_Preferences"
-msgstr ""
-
-#: src/wmprog.cc:454
-msgid "_Themes"
-msgstr "_Teemat"
-
-#: src/wmprog.cc:458
-msgid "Se_ttings"
-msgstr ""
-
-#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Istuntomanageri: Tuntematon rivi %s"
+#: src/wmapp.cc:558
+msgid "_Above Dock"
+msgstr "Telakan _yläpuolella"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:469 src/wmwinlist.cc:502
-msgid "Ca_scade"
-msgstr "Pu_dota"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:470 src/wmwinlist.cc:503
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:458 src/wmwinlist.cc:491
 msgid "_Arrange"
 msgstr "_Järjestä"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:472 src/wmwinlist.cc:504
-msgid "_Minimize All"
-msgstr "_Pienennä kaikki"
+#: src/wmapp.cc:562
+msgid "_Below"
+msgstr "A_lla"
+
+#: src/wmdialog.cc:87 src/ymsgbox.cc:51
+msgid "_Cancel"
+msgstr "_Peruuta"
+
+#: src/wmapp.cc:527
+msgid "_Cancel logout"
+msgstr "_Peruuta uloskirjautuminen"
+
+#: src/amailbox.cc:963
+msgid "_Check"
+msgstr "_Tarkista"
+
+#: src/wmprog.cc:343
+msgid "_Click to focus"
+msgstr ""
+
+#: src/wmapp.cc:696 src/wmwinlist.cc:468 src/wmwinlist.cc:476
+msgid "_Close"
+msgstr "_Sulje"
+
+#: src/acpustatus.cc:914
+msgid "_Combine"
+msgstr "_Yhdistetty"
+
+#: src/yinputline.cc:18
+msgid "_Copy"
+msgstr "_Kopioi"
+
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/amemstatus.cc:264
+msgid "_Disable"
+msgstr "_Pois"
+
+#: src/wmapp.cc:559
+msgid "_Dock"
+msgstr "T_elakka"
+
+#: src/wmprog.cc:344
+msgid "_Explicit focus"
+msgstr ""
+
+#: src/wmprog.cc:446
+msgid "_Focus"
+msgstr ""
+
+#: src/wmapp.cc:655 src/wmwinlist.cc:441
+msgid "_Fullscreen"
+msgstr "Koko _näyttö"
+
+#: src/wmprog.cc:441
+msgid "_Help"
+msgstr "O_hje"
+
+#: src/wmapp.cc:541 src/wmdialog.cc:91
+msgid "_Hibernate"
+msgstr ""
+
+#: src/wmapp.cc:658 src/wmwinlist.cc:443
+msgid "_Hide"
+msgstr "Pii_lota"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:473 src/wmwinlist.cc:505
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:461 src/wmwinlist.cc:493
 msgid "_Hide All"
 msgstr "P_iilota kaikki"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:474 src/wmwinlist.cc:506
-msgid "_Undo"
-msgstr "Per_u"
+#: src/wmprog.cc:371
+msgid "_Icewm(1)"
+msgstr ""
+
+#: src/wmapp.cc:698 src/wmwinlist.cc:470
+msgid "_Kill Client"
+msgstr "_Tapa asiakasohjelma"
+
+#: src/wmapp.cc:526
+msgid "_Logout"
+msgstr "_Kirjaudu ulos"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
-msgid "Arrange _Icons"
-msgstr "Järjestä _kuvakkeet"
+#: src/wmdialog.cc:88 src/wmprog.cc:468 src/wmprog.cc:470 src/wmtaskbar.cc:243
+#: src/wmtaskbar.cc:245
+msgid "_Logout..."
+msgstr "_Kirjaudu ulos..."
+
+#: src/wmapp.cc:669 src/wmwinlist.cc:446
+msgid "_Lower"
+msgstr "Las_ke"
+
+#: src/wmprog.cc:370
+msgid "_Manual"
+msgstr ""
+
+#: src/wmapp.cc:557
+msgid "_Menu"
+msgstr "_Valikko"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:460 src/wmwinlist.cc:492
+msgid "_Minimize All"
+msgstr "_Pienennä kaikki"
+
+#: src/wmapp.cc:644
+msgid "_Move"
+msgstr "_Siirrä"
+
+#: src/wmapp.cc:561
+msgid "_Normal"
+msgstr "_Tavallinen"
+
+#: src/ymsgbox.cc:48
+msgid "_OK"
+msgstr "_OK"
+
+#: src/wmapp.cc:560
+msgid "_OnTop"
+msgstr "P_äällä"
+
+#: src/yinputline.cc:20
+msgid "_Paste"
+msgstr "_Liitä"
+
+#: src/wmprog.cc:451
+msgid "_Preferences"
+msgstr ""
+
+#: src/wmprog.cc:347
+msgid "_Quiet sloppy focus"
+msgstr ""
+
+#: src/wmwinlist.cc:445
+msgid "_Raise"
+msgstr "Nos_ta"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
 msgid "_Refresh"
 msgstr "_Päivitä"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
-msgid "Hide Taskbar"
-msgstr "Piilota tehtäväpalkki"
+#: src/wmdialog.cc:93
+msgid "_Restart icewm"
+msgstr "Uudelleenkäynnistä _IceWM"
 
-#: src/wmtaskbar.cc:336
-msgid "Favorite Applications"
-msgstr "Suosikki sovellukset"
+#: src/wmapp.cc:642 src/wmwinlist.cc:436
+msgid "_Restore"
+msgstr "Pala_uta"
 
-#: src/wmtaskbar.cc:362
-msgid "Window List Menu"
-msgstr "Ikkunaluettelon valikko"
+#: src/wmprog.cc:426
+msgid "_Run..."
+msgstr "_Suorita..."
 
-#: src/wmtaskbar.cc:372
-msgid "Show Desktop"
-msgstr "Näytä työpöytä"
+#: src/acpustatus.cc:916
+msgid "_Separate"
+msgstr "_Erikseen"
 
-#: src/wmtaskbar.cc:1025
-msgid "Show Taskbar"
-msgstr "Näytä tehtäväpalkki"
-
-#: src/wmwinlist.cc:83
-msgid "All Workspaces"
-msgstr "Kaikki työpöydät"
-
-#: src/wmwinlist.cc:454
+#: src/wmwinlist.cc:442
 msgid "_Show"
 msgstr "_Näytä"
 
-#: src/wmwinlist.cc:457
-msgid "_Raise"
-msgstr "Nos_ta"
+#: src/wmapp.cc:646
+msgid "_Size"
+msgstr "_Muuta kokoa"
 
-#: src/wmwinlist.cc:480
-msgid "Del"
-msgstr "Poista"
+#: src/wmapp.cc:539 src/wmdialog.cc:86
+msgid "_Sleep mode"
+msgstr ""
 
-#: src/wmwinlist.cc:484
+#: src/wmprog.cc:345
+msgid "_Sloppy mouse focus"
+msgstr ""
+
+#: src/amailbox.cc:965
+msgid "_Suspend"
+msgstr "_Keskeytä"
+
+#: src/wmwinlist.cc:472
 msgid "_Terminate Process"
 msgstr "_Lopeta prosessi"
 
-#: src/wmwinlist.cc:485
-msgid "Kill _Process"
-msgstr "Tapa _prosessi"
+#: src/wmprog.cc:456
+msgid "_Themes"
+msgstr "_Teemat"
 
-#: src/wmwinlist.cc:520 src/wmwinlist.cc:521
-msgid "Window list"
-msgstr "Ikkunalista"
+#: src/aclock.cc:204
+msgid "_UTC"
+msgstr "UT_C"
 
-#: src/wmwinmenu.cc:100
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:462 src/wmwinlist.cc:494
+msgid "_Undo"
+msgstr "Per_u"
+
+#: src/wmapp.cc:701 src/wmdialog.cc:92 src/wmwinmenu.cc:141
+msgid "_Window list"
+msgstr "_Ikkunaluettelo"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:430 src/wmtaskbar.cc:233
+msgid "_Windows"
+msgstr "_Ikkunat"
+
+#: src/icesound.cc:499
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Työpöytä %-.32s"
+msgid "ao_open_live failed with %d"
+msgstr "ao_open_live epäonnistui: %d"
 
-#: src/wpixres.cc:93 src/wpixres.cc:100
-#, c-format
-msgid "Image not readable: %s"
+#: src/icesound.cc:510
+msgid "ao_play failed"
+msgstr "ao_play epäonnistui"
+
+#: src/amemstatus.cc:156
+msgid "bytes"
+msgstr "tavua"
+
+#: src/apppstatus.cc:284
+msgid "disconnected"
+msgstr "ei yhteyttä"
+
+#: src/wmapp.cc:116
+msgid "done."
 msgstr ""
 
-#: src/yapp.cc:296
-#, c-format
-msgid "%s: select failed"
-msgstr ""
+#: src/apppstatus.cc:284
+msgid "down"
+msgstr "alemmas"
 
-#: src/ycolor.cc:229 src/ycolor.cc:240
-#, fuzzy, c-format
-#| msgid "Could not load font \"%s\"."
-msgid "Could not parse color \"%s\""
-msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
+#: src/wmabout.cc:71
+msgid "icewm - About"
+msgstr "IceWM - Tietoja"
 
-#: src/yconfig.cc:84
-#, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Tuntematon avainnimi %s %s:ssa"
-
-#: src/yconfig.cc:171 src/yconfig.cc:182 src/yconfig.cc:194
-#, c-format
-msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Virheellinen argumentti: %s kohteelle %s [%d,%d]"
-
-#: src/ycursor.cc:110
-#, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Bittikartan \"%s\" lataaminen epäonnistui: %s"
-
-#: src/ycursor.cc:135
-#, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Bittikartan \"%s\" lataaminen epäonnistui"
-
-#: src/ycursor.cc:179
-#, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "BUGI? Imlib onnistui lukemaan \"%s\""
-
-#: src/ycursor.cc:204
-#, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr ""
-"BUGI? Virheellinen XPM-otsikko mutta Imlib onnistui tulkitsemaan \"%s\""
-
-#: src/ycursor.cc:212
-#, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"BUGI? Odottamaton XPM-tiedoston loppu mutta Imlib onnistui tulkitsemaan \"%s"
-"\""
-
-#: src/ycursor.cc:215
-#, c-format
-msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "BUGI? Odottamaton merkki mutta Imlib onnistui tulkitsemaan \"%s\""
-
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
-#, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Kirjasimen \"%s\" lataaminen epäonnistui."
-
-#: src/yfontcore.cc:233
-#, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Puuttuva koodisarja kirjasinsarjasta \"%s\":"
-
-#: src/yfontcore.cc:261
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Kirjasinsarjan \"%s\" lataaminen epäonnistui."
-
-#: src/yinputline.cc:18
-msgid "_Copy"
-msgstr "_Kopioi"
-
-#: src/yinputline.cc:18
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
-
-#: src/yinputline.cc:19
-msgid "Cu_t"
-msgstr "Lei_kkaa"
-
-#: src/yinputline.cc:20
-msgid "_Paste"
-msgstr "_Liitä"
-
-#: src/yinputline.cc:21
-msgid "Paste _Selection"
-msgstr "Liitä _valinta"
-
-#: src/yinputline.cc:21
-msgid "Ctrl+P"
-msgstr "Ctrl+P"
-
-#: src/yinputline.cc:23
-msgid "Select _All"
-msgstr "Valitse k_aikki"
-
-#: src/yinputline.cc:23
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
-
-#: src/ylocale.cc:58
-msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr ""
-"C-kirjasto tai xlib ei tue kieliasetusta. Palataan takaisin 'C' locale'."
-
-#: src/ylocale.cc:92
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-"Nykyisen kieliasetuksen merkistöä ei pystytty tunnistamaan. Oletetaan "
-"ISO-8859-1.\n"
-
-#: src/ylocale.cc:125 src/ylocale.cc:133
+#: src/ylocale.cc:126 src/ylocale.cc:134
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv ei tarjoa (riittävää) muunnosta %s:sta %s:iin."
 
-#: src/ylocale.cc:238
+#: src/amemstatus.cc:152
+msgid "kB"
+msgstr "kt"
+
+#: src/akeyboard.cc:96
+msgid "layout:"
+msgstr "asettelu:"
+
+#: src/akeyboard.cc:95
+msgid "model:"
+msgstr "malli:"
+
+#: src/akeyboard.cc:97
+msgid "options:"
+msgstr "valitsimet:"
+
+#: src/aapm.cc:936
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Virheellinen monitavuinen merkkijono \"%s\": %s"
+msgid "power:\t%s"
+msgstr "virta:\t%s"
 
-#: src/ymsgbox.cc:48
-msgid "_OK"
-msgstr "_OK"
-
-#: src/ysmapp.cc:95
-msgid "$USER or $LOGNAME not set?"
-msgstr "$USER- tai $LOGNAME-ympäristömuuttujia ei määritelty?"
-
-#: src/yurl.cc:145
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
-msgid "Failed to parse URL \"%s\"."
-msgstr "Verkko-osoitteen hakeminen epäonnistui \"%s\"."
+msgid "restart %s."
+msgstr "Käynnistä %s."
 
-#: src/yurl.cc:161
+#: src/akeyboard.cc:94
+msgid "rules:"
+msgstr "säännöt:"
+
+#: src/icesh.cc:2376 src/icesh.cc:2449
 #, c-format
-msgid "Incomplete hex escape in URL at position %d."
-msgstr ""
+msgid "workspace #%d: `%s'\n"
+msgstr "työtila %d: ”%s”\n"
 
-#: src/yurl.cc:168
-#, c-format
-msgid "Invalid hex escape in URL at position %d."
-msgstr ""
-
-#: src/yxapp.cc:1008
-msgid ""
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"  --sync              Synchronize X11 commands.\n"
-msgstr ""
-
-#: src/yximage.cc:173
-#, fuzzy
-#| msgid "Support for the %s interface not compiled."
-msgid "Support for PNG images was not enabled"
-msgstr "Tukea liitännälle %s ei ole käännetty mukaan."
-
-#: src/yximage.cc:181
-msgid "Support for JPEG images was not enabled"
-msgstr ""
-
-#: src/yximage.cc:187
-#, fuzzy, c-format
-#| msgid "Unsupported interface: %s."
-msgid "Unsupported file format: %s"
-msgstr "Liitäntää ei tueta: %s."
-
-#: src/yximage.cc:191 src/yximage.cc:214
-#, fuzzy, c-format
-#| msgid "Could not find image %s"
-msgid "Could not load image \"%s\""
-msgstr "Kuvaa %s ei löydy"
-
-#, fuzzy
-#~| msgid "Close"
-#~ msgid "Clos_e"
-#~ msgstr "Sulje"
-
-#~ msgid "Loading of fallback font \"%s\" failed."
-#~ msgstr "Varakirjasimen \"%s\" lataaminen epäonnistui."
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:348
+msgid "°C"
+msgstr "°C"
 
 #~ msgid ""
 #~ "\n"
@@ -2836,14 +2896,325 @@ msgstr "Kuvaa %s ei löydy"
 #~ "\n"
 #~ "  Soittajan ID:\t"
 
-#~ msgid "GNOME window state"
-#~ msgstr "GNOME ikkunan tila"
+#, fuzzy
+#~ msgid ""
+#~ "             Usage: %s [OPTION]...\n"
+#~ "             \n"
+#~ "             Plays audio files on GUI events raised by IceWM.\n"
+#~ "             \n"
+#~ "             Options:\n"
+#~ "             \n"
+#~ "             -d, --display=DISPLAY         Display used by IceWM "
+#~ "(default: $DISPLAY).\n"
+#~ "             -s, --sample-dir=DIR          Specifies the directory which "
+#~ "contains\n"
+#~ "             the sound files (ie ~/.icewm/sounds).\n"
+#~ "             -i, --interface=TARGET        Specifies the sound output "
+#~ "target\n"
+#~ "             interface, one of OSS, YIFF, ESD\n"
+#~ "             -D, --device=DEVICE           (OSS only) specifies the "
+#~ "digital signal\n"
+#~ "             processor (default /dev/dsp).\n"
+#~ "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
+#~ "address and\n"
+#~ "             port number (default localhost:16001 for ESD\n"
+#~ "             and localhost:9433 for YIFF).\n"
+#~ "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+#~ "Audio mode (leave\n"
+#~ "             blank to get a list).\n"
+#~ "             --audio-mode-auto          (YIFF only) change Audio mode on "
+#~ "the fly to\n"
+#~ "             best match sample's Audio (can cause\n"
+#~ "             problems with other Y clients, overrides\n"
+#~ "             --audio-mode).\n"
+#~ "             \n"
+#~ "             -v, --verbose                 Be verbose (prints out each "
+#~ "sound event to\n"
+#~ "             stdout).\n"
+#~ "             -V, --version                 Prints version information and "
+#~ "exits.\n"
+#~ "             -h, --help                    Prints (this) help screen and "
+#~ "exits.\n"
+#~ "             \n"
+#~ "             Return values:\n"
+#~ "             \n"
+#~ "             0     Success.\n"
+#~ "             1     General error.\n"
+#~ "             2     Command line error.\n"
+#~ "             3     Subsystems error (ie cannot connect to server).\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Käyttö: %s [OPTIO]...\n"
+#~ "\n"
+#~ "Toistaa äänitiedostoja IceWM GUI-tapahtumien mukaan.\n"
+#~ "\n"
+#~ "Optiot:\n"
+#~ "\n"
+#~ "  -d, --display=NÄYTTÖ          Näyttö, jota IceWM käyttää (oletus: "
+#~ "$DISPLAY).\n"
+#~ "  -s, --sample-dir=HAKEMISTO    Määrittää äänitiedostot sisältävän "
+#~ "hakemiston.\n"
+#~ "\t\t\t\t(esim. ~/.icewm/sounds).\n"
+#~ "  -i, --interface=KOHDE         Määrittää äänen ulosannon (OSS, YIFF tai "
+#~ "ESD).\n"
+#~ "  -D, --device=LAITE            (vain OSS) Määrittää käytettävän dsp-"
+#~ "laitteen.\n"
+#~ "\t\t\t\t(oletus: /dev/dsp).\n"
+#~ "  -S, --server=OSOITE:PORTTI    (ESD ja YIFF) Määrittää äänipalvelimen\n"
+#~ "\t\t\t\tosoitteen ja portin (oletus: localhost:16001\n"
+#~ "\t\t\t\tESD:lle ja localhost:9433 YIFF:lle)\n"
+#~ "  -m, --audio-mode[=TILA]       (vain YIFF) Määrittää äänitilan (jätä\n"
+#~ "\t\t\t\ttyhjäksi saadaksesi listan vaihtoehdoista).\n"
+#~ "  --audio-mode-auto             (vain YIFF) vaihda äänitilaa lennossa\n"
+#~ "\t\t\t\tvastaamaan parhaiten näytteen formaattia\n"
+#~ "\t\t\t\t(voi aiheuttaa ongelmia muiden Y-asiakkaiden\n"
+#~ "\t\t\t\tkanssa, korvaa --audio-mode).\n"
+#~ "\n"
+#~ "  -v, --verbose                 Ole puhelias (tulostaa kaikki "
+#~ "äänitapahtumat\n"
+#~ "\t\t\t\tstdout-virtaan).\n"
+#~ "  -V, --version                 Tulostaa versiotiedot ja poistuu.\n"
+#~ "  -h, --help                    Tulostaa tämän ohjeen ja poistuu.\n"
+#~ "\n"
+#~ "Palautusarvot:\n"
+#~ "\n"
+#~ "  0     Onnistui\n"
+#~ "  1     Yleinen virhe\n"
+#~ "  2     Komentorivivirhe\n"
+#~ "  3     Alijärjestelmävirhe (ei voida yhdistää palvelimeen)\n"
+#~ "\n"
+
+#~ msgid " processes."
+#~ msgstr " prosessia"
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" ei sisällä resurssikuvausta"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "\"%s\" ei kuvaa mitään yleistä Internet-resurssia"
+
+#~ msgid ""
+#~ "%s: unrecognized option `%s'\n"
+#~ "Try `%s --help' for more information.\n"
+#~ msgstr ""
+#~ "%s: tuntematon optio `%s'\n"
+#~ "Kokeile `%s --help' lisätietojen saamiseksi.\n"
+
+#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
+#~ msgstr "%s:%d: %d-bittisiä tiloja ei tueta (vielä)"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
+#~ msgstr ""
+#~ "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui (%d:%d-"
+#~ "%dx%d)"
+
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
+
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - Tuntematon formaatti (%d)"
+
+#~ msgid "Accessories"
+#~ msgstr "Apuohjelmat"
+
+#~ msgid "Argument required for %s switch"
+#~ msgstr "Parametri %s vaatii argumentin"
+
+#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
+#~ msgstr ""
+#~ "Äänitilan vaihto havaittu, automaattinen äänitilan vaihto pois käytöstä."
+
+#~ msgid ""
+#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+#~ msgstr "Äänitilan vaihto havaittu, alkuperäinen tila `%s' ei enää käytössä."
+
+#~ msgid "Bad Look name"
+#~ msgstr "Virheellinen tyylin nimi"
+
+#~ msgid "Bad argument %d"
+#~ msgstr "Virheellinen argumentti %d"
+
+#~ msgid "Can't change to audio mode `%s'."
+#~ msgstr "Ei voida vaihtaa äänitilaa `%s'."
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "ESounD demoniin ei voitu yhdistää: %s"
+
+#, fuzzy
+#~| msgid "Close"
+#~ msgid "Clos_e"
+#~ msgstr "Sulje"
+
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr "Käännetty DEBUG-lipun kanssa. Debuggausviestit tulostetaan."
+
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "RGB-puskuria %s ei löydy"
+
+#, fuzzy
+#~ msgid "Could not find image: %s"
+#~ msgstr "Bittikarttaa %s ei löydy"
+
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "Bittikarttaa %s ei löydy"
+
+#~ msgid "Editors"
+#~ msgstr "Muokkaimet"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Tapahtui virhe <%d> ladattaessa `%s:%s'"
+
+#, fuzzy
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Virhe avaimessa %s"
+
+#~ msgid "Error in window option: %s"
+#~ msgstr "Virhe ikkunatoiminnossa: %s"
+
+#~ msgid "Failed to create anonymous pipe (errno=%d)."
+#~ msgstr "Nimettömän putken luominen epäonnistui (virhe=%d)."
+
+#~ msgid "Failed to duplicate file descriptor: %s"
+#~ msgstr "Tiedostokuvauksen kahdentaminen epäonnistui: %s"
+
+#~ msgid "Forking failed (errno=%d)"
+#~ msgstr "Haaroitus epäonnistui (virhe=%d)"
 
 #~ msgid "GNOME window hint"
 #~ msgstr "GNOME ikkunan vihje"
 
+#~ msgid "GNOME window state"
+#~ msgstr "GNOME ikkunan tila"
+
+#~ msgid "Identifier expected"
+#~ msgstr "Odotettiin tunnistetta"
+
+#~ msgid "Imlib: Acquisition of X pixmap failed"
+#~ msgstr "Imlib: X-bittikartan hankkiminen epäonnistui"
+
+#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
+#~ msgstr "Imlib: Imlib-kuvasta X-bittikartaksi muunnos epäonnistui"
+
+#~ msgid ""
+#~ "Interface %s:\n"
+#~ "  Current rate (in/out):\t%li %s/%li %s\n"
+#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
+#~ "  Total average (in/out):\t%li %s/%li %s\n"
+#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
+#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
+#~ msgstr ""
+#~ "Liitäntä %s:\n"
+#~ "  Nyk. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
+#~ "  Nyk. keskim. siirtonopeus (sisään/ulos):\t%lli %s/%lli %s\n"
+#~ "  Kok. keskim. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
+#~ "  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
+#~ "  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
+
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
+#~ msgstr "Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
+
 #~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
 #~ msgstr "Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
+
+#~ msgid "Invalid path: "
+#~ msgstr "Virheellinen polku: "
+
+#~ msgid "Invalid token"
+#~ msgstr "Virheellinen merkki"
+
+#~ msgid "Loading image %s failed"
+#~ msgstr "Kuvan %s lataaminen epäonnistui"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Varakirjasimen \"%s\" lataaminen epäonnistui."
+
+#~ msgid "Loading of image \"%s\" failed"
+#~ msgstr "Kuvan \"%s\" lataaminen epäonnistui"
+
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr "Viestisilmukka: valinta epäonnistui (virhe=%d)"
+
+#~ msgid "Motif"
+#~ msgstr "Motif"
+
+#~ msgid "Multimedia"
+#~ msgstr "Multimedia"
+
+#, fuzzy
+#~ msgid "Multiple references for gradient '%s' in theme '%s'."
+#~ msgstr "Useita viitteitä gradientille \"%s\""
+
+#~ msgid "Multiple sound interfaces given."
+#~ msgstr "Annettu useita ääniliitäntöjä."
+
+#~ msgid "No such device: %s"
+#~ msgstr "Laitetta ei ole olemassa: %s"
+
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "%c%c (\"%s\") ei ole heksadesimaaliluku"
+
+#~ msgid "Not a regular file: %s"
+#~ msgstr "%s ei ole tavallinen tiedosto"
+
+#~ msgid "Other"
+#~ msgstr "Muut"
+
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "Muisti ei riitä RGB-puskuria %s varten"
+
+#, fuzzy
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
+
+#, fuzzy
+#~ msgid "Out of memory for image: %s"
+#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
+
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "Muisti ei riitä bittikarttaa %s varten"
+
+#~ msgid "Out of memory for pixmap \"%s\""
+#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Ikkunaoptioiden muisti loppu"
+
+#~ msgid "Overriding previous audio mode `%s'."
+#~ msgstr "Korvataan edellinen äänitila `%s'."
+
+#~ msgid "Pair of hexadecimal digits expected"
+#~ msgstr "Odotettiin heksadesimaalinumeroparia"
+
+#, fuzzy
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Toistetaan näytettä #%d"
+
+#~ msgid "Received signal %d: Reloading samples..."
+#~ msgstr "Havaittiin signaali %d: Uudelleenladataan näytteet..."
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Näyte <%d> ladattu `%s:%s'"
+
+#~ msgid "Screensavers"
+#~ msgstr "Näytönsäästäjät"
+
+#~ msgid "Separator expected"
+#~ msgstr "Odotettiin erotinta"
+
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Istunnonhallinta: IceAddConnectionWatch epäonnistui."
+
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Istunnonhallinta: Alustusvirhe: %s"
+
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "LIIAN MONTA ICE-YHTEYTTÄ -- ei tuettu"
+
+#~ msgid "Task Bar"
+#~ msgstr "Tehtäväpalkki"
 
 #~ msgid "Unable to get current font path."
 #~ msgstr "Nykyistä kirjasinpolkua ei saatu."
@@ -2851,11 +3222,28 @@ msgstr "Kuvaa %s ei löydy"
 #~ msgid "Unexpected format of ICEWM_FONT_PATH property"
 #~ msgstr "Odottamaton formaatti ominaisuudella ICEWM_FONT_PATH"
 
-#~ msgid "Task Bar"
-#~ msgstr "Tehtäväpalkki"
+#~ msgid "Unexpected identifier"
+#~ msgstr "Odottamaton tunniste"
 
-#~ msgid "_License"
-#~ msgstr "_Lisenssi"
+#, fuzzy
+#~ msgid "Unknown gradient name '%s' in theme '%s'."
+#~ msgstr "Tuntematon gradientinnimi: %s"
+
+#~ msgid "Usage error: "
+#~ msgstr "Käyttövirhe: "
+
+#~ msgid ""
+#~ "Usage: %s FILENAME\n"
+#~ "\n"
+#~ "A very simple HTML browser displaying the document specified by "
+#~ "FILENAME.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Käyttö: %s TIEDOSTONIMI\n"
+#~ "\n"
+#~ "Hyvin yksinkertainen HTML-selain, joka näyttää TIEDOSTONIMI-nimisen "
+#~ "dokumentin.\n"
+#~ "\n"
 
 #, fuzzy
 #~ msgid ""
@@ -2966,247 +3354,6 @@ msgstr "Kuvaa %s ei löydy"
 #~ "  LAUSEKE ::= SYMBOLI | LAUSEKE ( `+' | `|' ) SYMBOLI\n"
 #~ "\n"
 
-#~ msgid "Can't connect to ESound daemon: %s"
-#~ msgstr "ESounD demoniin ei voitu yhdistää: %s"
-
-#~ msgid "Error <%d> while uploading `%s:%s'"
-#~ msgstr "Tapahtui virhe <%d> ladattaessa `%s:%s'"
-
-#~ msgid "Sample <%d> uploaded as `%s:%s'"
-#~ msgstr "Näyte <%d> ladattu `%s:%s'"
-
-#, fuzzy
-#~ msgid "Playing sample #%d: %d"
-#~ msgstr "Toistetaan näytettä #%d"
-
-#~ msgid "Usage error: "
-#~ msgstr "Käyttövirhe: "
-
-#, fuzzy
-#~ msgid "Out of memory for image %s"
-#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
-
-#~ msgid "_Minimize"
-#~ msgstr "_Pienennä"
-
-#, fuzzy
-#~ msgid "Error at %s: '%s'"
-#~ msgstr "Virhe avaimessa %s"
-
-#~ msgid "\"%s\" contains no scheme description"
-#~ msgstr "\"%s\" ei sisällä resurssikuvausta"
-
-#~ msgid "\"%s\" doesn't describe a common internet scheme"
-#~ msgstr "\"%s\" ei kuvaa mitään yleistä Internet-resurssia"
-
-#~ msgid "Out of memory for pixmap \"%s\""
-#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
-
-#~ msgid "Out of memory for window options"
-#~ msgstr "Ikkunaoptioiden muisti loppu"
-
-#~ msgid "Error in window option: %s"
-#~ msgstr "Virhe ikkunatoiminnossa: %s"
-
-#~ msgid ""
-#~ "Usage: %s FILENAME\n"
-#~ "\n"
-#~ "A very simple HTML browser displaying the document specified by "
-#~ "FILENAME.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Käyttö: %s TIEDOSTONIMI\n"
-#~ "\n"
-#~ "Hyvin yksinkertainen HTML-selain, joka näyttää TIEDOSTONIMI-nimisen "
-#~ "dokumentin.\n"
-#~ "\n"
-
-#~ msgid "No such device: %s"
-#~ msgstr "Laitetta ei ole olemassa: %s"
-
-#~ msgid "Can't change to audio mode `%s'."
-#~ msgstr "Ei voida vaihtaa äänitilaa `%s'."
-
-#~ msgid ""
-#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-#~ msgstr "Äänitilan vaihto havaittu, alkuperäinen tila `%s' ei enää käytössä."
-
-#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
-#~ msgstr ""
-#~ "Äänitilan vaihto havaittu, automaattinen äänitilan vaihto pois käytöstä."
-
-#~ msgid "Overriding previous audio mode `%s'."
-#~ msgstr "Korvataan edellinen äänitila `%s'."
-
-#~ msgid "Multiple sound interfaces given."
-#~ msgstr "Annettu useita ääniliitäntöjä."
-
-#~ msgid "Received signal %d: Reloading samples..."
-#~ msgstr "Havaittiin signaali %d: Uudelleenladataan näytteet..."
-
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Viestisilmukka: valinta epäonnistui (virhe=%d)"
-
-#~ msgid "Argument required for %s switch"
-#~ msgstr "Parametri %s vaatii argumentin"
-
-#~ msgid "Loading of image \"%s\" failed"
-#~ msgstr "Kuvan \"%s\" lataaminen epäonnistui"
-
-#~ msgid "Imlib: Acquisition of X pixmap failed"
-#~ msgstr "Imlib: X-bittikartan hankkiminen epäonnistui"
-
-#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
-#~ msgstr "Imlib: Imlib-kuvasta X-bittikartaksi muunnos epäonnistui"
-
-#~ msgid ""
-#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-#~ "blue): %0*x/%0*x/%0*x)"
-#~ msgstr ""
-#~ "Käytetään varamekanismia pikselien muuntamiseen (syvyys: %d; maskit "
-#~ "(punainen/vihreä/sininen): %0*x/%0*x/%0*x)"
-
-#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
-#~ msgstr "%s:%d: %d-bittisiä tiloja ei tueta (vielä)"
-
-#, fuzzy
-#~ msgid "Multiple references for gradient '%s' in theme '%s'."
-#~ msgstr "Useita viitteitä gradientille \"%s\""
-
-#, fuzzy
-#~ msgid "Unknown gradient name '%s' in theme '%s'."
-#~ msgstr "Tuntematon gradientinnimi: %s"
-
-#~ msgid "Bad Look name"
-#~ msgstr "Virheellinen tyylin nimi"
-
-#~ msgid ""
-#~ "%s: unrecognized option `%s'\n"
-#~ "Try `%s --help' for more information.\n"
-#~ msgstr ""
-#~ "%s: tuntematon optio `%s'\n"
-#~ "Kokeile `%s --help' lisätietojen saamiseksi.\n"
-
-#~ msgid "Loading image %s failed"
-#~ msgstr "Kuvan %s lataaminen epäonnistui"
-
-#~ msgid "Bad argument %d"
-#~ msgstr "Virheellinen argumentti %d"
-
-#, fuzzy
-#~ msgid "Out of memory for image: %s"
-#~ msgstr "Muisti ei riitä bittikarttaa \"%s\" varten"
-
-#, fuzzy
-#~ msgid "Could not find image: %s"
-#~ msgstr "Bittikarttaa %s ei löydy"
-
-#~ msgid "Invalid path: "
-#~ msgstr "Virheellinen polku: "
-
-#~ msgid ""
-#~ "Interface %s:\n"
-#~ "  Current rate (in/out):\t%li %s/%li %s\n"
-#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
-#~ "  Total average (in/out):\t%li %s/%li %s\n"
-#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
-#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
-#~ msgstr ""
-#~ "Liitäntä %s:\n"
-#~ "  Nyk. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
-#~ "  Nyk. keskim. siirtonopeus (sisään/ulos):\t%lli %s/%lli %s\n"
-#~ "  Kok. keskim. siirtonopeus (sisään/ulos):\t%li %s/%li %s\n"
-#~ "  Siirretty datamäärä (sisään/ulos):\t%lli %s/%lli %s\n"
-#~ "  Yhteysaika:\t%ld:%02ld:%02ld%s%s"
-
-#, fuzzy
-#~ msgid ""
-#~ "             Usage: %s [OPTION]...\n"
-#~ "             \n"
-#~ "             Plays audio files on GUI events raised by IceWM.\n"
-#~ "             \n"
-#~ "             Options:\n"
-#~ "             \n"
-#~ "             -d, --display=DISPLAY         Display used by IceWM "
-#~ "(default: $DISPLAY).\n"
-#~ "             -s, --sample-dir=DIR          Specifies the directory which "
-#~ "contains\n"
-#~ "             the sound files (ie ~/.icewm/sounds).\n"
-#~ "             -i, --interface=TARGET        Specifies the sound output "
-#~ "target\n"
-#~ "             interface, one of OSS, YIFF, ESD\n"
-#~ "             -D, --device=DEVICE           (OSS only) specifies the "
-#~ "digital signal\n"
-#~ "             processor (default /dev/dsp).\n"
-#~ "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
-#~ "address and\n"
-#~ "             port number (default localhost:16001 for ESD\n"
-#~ "             and localhost:9433 for YIFF).\n"
-#~ "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-#~ "Audio mode (leave\n"
-#~ "             blank to get a list).\n"
-#~ "             --audio-mode-auto          (YIFF only) change Audio mode on "
-#~ "the fly to\n"
-#~ "             best match sample's Audio (can cause\n"
-#~ "             problems with other Y clients, overrides\n"
-#~ "             --audio-mode).\n"
-#~ "             \n"
-#~ "             -v, --verbose                 Be verbose (prints out each "
-#~ "sound event to\n"
-#~ "             stdout).\n"
-#~ "             -V, --version                 Prints version information and "
-#~ "exits.\n"
-#~ "             -h, --help                    Prints (this) help screen and "
-#~ "exits.\n"
-#~ "             \n"
-#~ "             Return values:\n"
-#~ "             \n"
-#~ "             0     Success.\n"
-#~ "             1     General error.\n"
-#~ "             2     Command line error.\n"
-#~ "             3     Subsystems error (ie cannot connect to server).\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Käyttö: %s [OPTIO]...\n"
-#~ "\n"
-#~ "Toistaa äänitiedostoja IceWM GUI-tapahtumien mukaan.\n"
-#~ "\n"
-#~ "Optiot:\n"
-#~ "\n"
-#~ "  -d, --display=NÄYTTÖ          Näyttö, jota IceWM käyttää (oletus: "
-#~ "$DISPLAY).\n"
-#~ "  -s, --sample-dir=HAKEMISTO    Määrittää äänitiedostot sisältävän "
-#~ "hakemiston.\n"
-#~ "\t\t\t\t(esim. ~/.icewm/sounds).\n"
-#~ "  -i, --interface=KOHDE         Määrittää äänen ulosannon (OSS, YIFF tai "
-#~ "ESD).\n"
-#~ "  -D, --device=LAITE            (vain OSS) Määrittää käytettävän dsp-"
-#~ "laitteen.\n"
-#~ "\t\t\t\t(oletus: /dev/dsp).\n"
-#~ "  -S, --server=OSOITE:PORTTI    (ESD ja YIFF) Määrittää äänipalvelimen\n"
-#~ "\t\t\t\tosoitteen ja portin (oletus: localhost:16001\n"
-#~ "\t\t\t\tESD:lle ja localhost:9433 YIFF:lle)\n"
-#~ "  -m, --audio-mode[=TILA]       (vain YIFF) Määrittää äänitilan (jätä\n"
-#~ "\t\t\t\ttyhjäksi saadaksesi listan vaihtoehdoista).\n"
-#~ "  --audio-mode-auto             (vain YIFF) vaihda äänitilaa lennossa\n"
-#~ "\t\t\t\tvastaamaan parhaiten näytteen formaattia\n"
-#~ "\t\t\t\t(voi aiheuttaa ongelmia muiden Y-asiakkaiden\n"
-#~ "\t\t\t\tkanssa, korvaa --audio-mode).\n"
-#~ "\n"
-#~ "  -v, --verbose                 Ole puhelias (tulostaa kaikki "
-#~ "äänitapahtumat\n"
-#~ "\t\t\t\tstdout-virtaan).\n"
-#~ "  -V, --version                 Tulostaa versiotiedot ja poistuu.\n"
-#~ "  -h, --help                    Tulostaa tämän ohjeen ja poistuu.\n"
-#~ "\n"
-#~ "Palautusarvot:\n"
-#~ "\n"
-#~ "  0     Onnistui\n"
-#~ "  1     Yleinen virhe\n"
-#~ "  2     Komentorivivirhe\n"
-#~ "  3     Alijärjestelmävirhe (ei voida yhdistää palvelimeen)\n"
-#~ "\n"
-
 #~ msgid ""
 #~ "Usage: icewmbg [ -r | -q ]\n"
 #~ " -r  Restart icewmbg\n"
@@ -3233,65 +3380,39 @@ msgstr "Kuvaa %s ei löydy"
 #~ " DesktopTransparencyColor - väri jota läpikuultavat päätteet näyttävät\n"
 #~ " DesktopTransparencyImage - kuva jota läpikuultavat päätteet näyttävät\n"
 
-#~ msgid "Could not find pixel map %s"
-#~ msgstr "Bittikarttaa %s ei löydy"
+#~ msgid ""
+#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+#~ "blue): %0*x/%0*x/%0*x)"
+#~ msgstr ""
+#~ "Käytetään varamekanismia pikselien muuntamiseen (syvyys: %d; maskit "
+#~ "(punainen/vihreä/sininen): %0*x/%0*x/%0*x)"
 
-#~ msgid "Out of memory for pixel map %s"
-#~ msgstr "Muisti ei riitä bittikarttaa %s varten"
+#~ msgid "WINE"
+#~ msgstr "WINE"
 
-#~ msgid "Out of memory for RGB pixel buffer %s"
-#~ msgstr "Muisti ei riitä RGB-puskuria %s varten"
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X-virhe %s(0x%lX): %s"
 
-#~ msgid "Could not find RGB pixel buffer %s"
-#~ msgstr "RGB-puskuria %s ei löydy"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree epäonnistui ikkunalle 0x%x"
 
-#~ msgid " processes."
-#~ msgstr " prosessia"
+#~ msgid "_Exclusive"
+#~ msgstr "_Ainoastaan"
 
-#~ msgid "program label expected"
-#~ msgstr "Odotettiin ohjelman nimeä"
+#~ msgid "_License"
+#~ msgstr "_Lisenssi"
 
-#~ msgid "window management class expected"
-#~ msgstr "odotettiin ikkunanhallinnan luokkaa"
+#~ msgid "_Minimize"
+#~ msgstr "_Pienennä"
 
-#~ msgid "menu caption expected"
-#~ msgstr "Odotettiin menuotsikkoa"
+#~ msgid "_Minimized"
+#~ msgstr "_Pienennettynä"
 
-#~ msgid "opening curly expected"
-#~ msgstr "Odotettiin avaavaa aaltosulkua"
+#~ msgid "_No icon"
+#~ msgstr "_Ei kuvaketta"
 
 #~ msgid "action name expected"
 #~ msgstr "Odotettiin toiminnon nimeä"
-
-#~ msgid "unknown action"
-#~ msgstr "tuntematon toiminto"
-
-#~ msgid "Not a regular file: %s"
-#~ msgstr "%s ei ole tavallinen tiedosto"
-
-#~ msgid "Pair of hexadecimal digits expected"
-#~ msgstr "Odotettiin heksadesimaalinumeroparia"
-
-#~ msgid "Unexpected identifier"
-#~ msgstr "Odottamaton tunniste"
-
-#~ msgid "Identifier expected"
-#~ msgstr "Odotettiin tunnistetta"
-
-#~ msgid "Separator expected"
-#~ msgstr "Odotettiin erotinta"
-
-#~ msgid "Invalid token"
-#~ msgstr "Virheellinen merkki"
-
-#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr "%c%c (\"%s\") ei ole heksadesimaaliluku"
-
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - Tuntematon formaatti (%d)"
-
-#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-#~ msgstr "tilasto:\tuser = %i, nice = %i, sys = %i, idle = %i"
 
 #~ msgid "bars:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
 #~ msgstr "palkit:\tuser = %i, nice = %i, sys = %i (h = %i)\n"
@@ -3302,52 +3423,20 @@ msgstr "Kuvaa %s ei löydy"
 #~ msgid "kstat finds too many cpus: should be %d"
 #~ msgstr "kstat löytää liian monta suoritinta: niitä pitäisi olla %d"
 
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
+#~ msgid "menu caption expected"
+#~ msgstr "Odotettiin menuotsikkoa"
 
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "XQueryTree epäonnistui ikkunalle 0x%x"
+#~ msgid "opening curly expected"
+#~ msgstr "Odotettiin avaavaa aaltosulkua"
 
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr "Käännetty DEBUG-lipun kanssa. Debuggausviestit tulostetaan."
+#~ msgid "program label expected"
+#~ msgstr "Odotettiin ohjelman nimeä"
 
-#~ msgid "_No icon"
-#~ msgstr "_Ei kuvaketta"
+#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr "tilasto:\tuser = %i, nice = %i, sys = %i, idle = %i"
 
-#~ msgid "_Minimized"
-#~ msgstr "_Pienennettynä"
+#~ msgid "unknown action"
+#~ msgstr "tuntematon toiminto"
 
-#~ msgid "_Exclusive"
-#~ msgstr "_Ainoastaan"
-
-#~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "X-virhe %s(0x%lX): %s"
-
-#~ msgid "Forking failed (errno=%d)"
-#~ msgstr "Haaroitus epäonnistui (virhe=%d)"
-
-#~ msgid "Failed to create anonymous pipe (errno=%d)."
-#~ msgstr "Nimettömän putken luominen epäonnistui (virhe=%d)."
-
-#~ msgid "Invalid cursor pixmap: \"%s\" contains too many unique colors"
-#~ msgstr "Virheellinen osoitin-bittikartta: \"%s\" sisältää liikaa värejä"
-
-#~ msgid "Failed to duplicate file descriptor: %s"
-#~ msgstr "Tiedostokuvauksen kahdentaminen epäonnistui: %s"
-
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui"
-
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d"
-#~ msgstr ""
-#~ "%s:%d: Piirrettävän 0x%x kopioiminen pikselipuskuriin epäonnistui (%d:%d-"
-#~ "%dx%d)"
-
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "LIIAN MONTA ICE-YHTEYTTÄ -- ei tuettu"
-
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Istunnonhallinta: IceAddConnectionWatch epäonnistui."
-
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Istunnonhallinta: Alustusvirhe: %s"
+#~ msgid "window management class expected"
+#~ msgstr "odotettiin ikkunanhallinnan luokkaa"

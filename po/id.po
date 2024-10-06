@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
-"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2024-06-16 14:27+0200\n"
+"Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
+"POT-Creation-Date: 2024-10-06 18:14+0200\n"
 "PO-Revision-Date: 2023-08-08 15:15+0000\n"
 "Last-Translator: Kukuh Syafaat <syafaatkukuh@gmail.com>\n"
 "Language-Team: Indonesian <https://l10n.opensuse.org/projects/icewm/"
@@ -19,97 +19,35 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.9.1\n"
 
-#: src/aapm.cc:113
-#, c-format
-msgid "Can't open the APM device %s"
-msgstr "Tidak bisa membuka perangkat APM %s"
-
-#: src/aapm.cc:121 src/aapm.cc:139
-#, c-format
-msgid "Can't ioctl the APM device %s"
-msgstr "Tidak bisa ioctl perangkat APM %s"
-
-#: src/aapm.cc:169
-#, c-format
-msgid "Unknown format used by APM device %s (%d)."
-msgstr "Format tidak dikenal yang digunakan oleh perangkat APM %s (%d)."
-
-#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
-msgid " - Power"
-msgstr " - Daya"
-
-# P: Power
-#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
-msgid "P"
-msgstr "D"
-
-#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
-msgid " - Charging"
-msgstr " - Mengisi"
-
-# C; Charging
-#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
-msgid "C"
-msgstr "I"
-
-#: src/aapm.cc:454
-msgid " - Full"
-msgstr " - Penuh"
-
-#: src/aapm.cc:940
-#, c-format
-msgid "power:\t%s"
-msgstr "daya:\t%s"
-
-#: src/aclock.cc:195
-msgid "CLOCK"
-msgstr "JAM"
-
-#: src/aclock.cc:201
-msgid "Date"
-msgstr "Tanggal"
-
-#: src/aclock.cc:202 src/themes.cc:83
-msgid "Default"
-msgstr "Bawaan"
-
-#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
-#: src/amemstatus.cc:264
-msgid "_Disable"
-msgstr "_Nonaktif"
-
-#: src/aclock.cc:204
-msgid "_UTC"
-msgstr "_UTC"
-
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:348
-msgid "°C"
-msgstr "°C"
-
-#: src/acpustatus.cc:552
-#, c-format
-msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "CPU %s Beban: %3.2f %3.2f %3.2f, %u"
-
-#: src/acpustatus.cc:558
-#, c-format
+#: src/wmapp.cc:1629
 msgid ""
 "\n"
-"Ram (free): %5.3f (%.3f) G"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 "\n"
-"Ram (bebas): %5.3f (%.3f) G"
+"  --debug             Cetak pesan awakutu umum.\n"
+"  --debug-z           Cetak pesan awakutu tentang penumpukan jendela.\n"
 
-#: src/acpustatus.cc:563
-#, c-format
+#: src/wmapp.cc:1637
 msgid ""
 "\n"
-"Swap (free): %.3f (%.3f) G"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"Swap (bebas): %.3f (%.3f) G"
+"  -a, --alpha         Gunakan visual 32-bit untuk tembus pandang.\n"
+"  -c, --config=FILE   Muat preferensi dari FILE.\n"
+"  -t, --theme=FILE    Muat tema dari FILE.\n"
+"  -s, --splash=IMAGE  Perlihatkan secara singkat IMAGE pada saat awal mula.\n"
+"  -p, --postpreferences  Preferensi cetak setelah semua pemrosesan.\n"
+"  --rewrite-preferences  Mutakhirkan berkas preferensi yang ada.\n"
+"  --trace=conf,icon   Path jejak yang digunakan untuk memuat konfigurasi.\n"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -129,13 +67,30 @@ msgstr ""
 "\n"
 "Frekuensi CPU: %.3fGHz"
 
-#: src/acpustatus.cc:607 src/acpustatus.cc:907
-msgid "CPU"
-msgstr "CPU"
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+"\n"
+"Opsi awakutu:\n"
+"   -v, --valgrind      Biarkan \"/usr/bin/valgrind\" menjalankan icewm.\n"
+"                       Secara menyeluruh memeriksa eksekusi icewm.\n"
+"   -g, --catchsegv     Biarkan \"/usr/bin/catchsegv\" menjalankan icewm.\n"
+"                       Berikan backtrace jika icewm segfaults.\n"
 
-#: src/acpustatus.cc:607
-msgid "Load: "
-msgstr "Beban: "
+#: src/acpustatus.cc:558
+#, c-format
+msgid ""
+"\n"
+"Ram (free): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (bebas): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:622
 #, c-format
@@ -146,110 +101,118 @@ msgstr ""
 "\n"
 "Ram (pengguna): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:908
+#: src/acpustatus.cc:563
 #, c-format
-msgid "CPU%d"
-msgstr "CPU%d"
+msgid ""
+"\n"
+"Swap (free): %.3f (%.3f) G"
+msgstr ""
+"\n"
+"Swap (bebas): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:914
-msgid "_Combine"
-msgstr "_Gabung"
+#: src/wmapp.cc:1623
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+"  --client-id=ID      Klien id yang digunakan saat menghubungi pengelola "
+"sesi.\n"
 
-#: src/acpustatus.cc:916
-msgid "_Separate"
-msgstr "Pi_sahkan"
+#: src/icesm.cc:69
+msgid ""
+"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+"\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
+"  -b, --nobg          Do not start icewmbg.\n"
+"  -n, --notray        Do not start icewmtray.\n"
+"  -s, --sound         Also start icesound.\n"
+msgstr ""
+"  -c, --config=FILE   Biarkan IceWM memuat preferensi dari FILE.\n"
+"  -t, --theme=FILE    Biarkan IceWM memuat tema dari FILE.\n"
+"\n"
+"  -d, --display=NAME  Gunakan NAME untuk terhubung ke peladen X.\n"
+"  -a, --alpha         Gunakan visual 32-bit untuk tembus pandang.\n"
+"  --sync              Sinkronisasi komunikasi dengan peladen X11.\n"
+"  -o, --output=FILE   Mengarahkan semua output ke BERKAS.\n"
+"  -i, --icewm=FILE    Gunakan FILE sebagai pengelola jendela IceWM.\n"
+"  -b, --nobg          Jangan mulai icewmbg.\n"
+"  -n, --notray        Jangan mulai icewmtray.\n"
+"  -s, --sound         Juga mulai icesound.\n"
 
-#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:503
-#, c-format
-msgid "%s exited with status %d."
-msgstr "%s keluar dengan status %d."
+#: src/yxapp.cc:1008
+msgid ""
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+msgstr ""
+"  -d, --display=NAME  NAME dari peladen X yang akan digunakan..\n"
+"  --sync              Sinkronisasi perintah X11.\n"
 
-#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:506
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr "%s dibunuh oleh sinyal %d."
+#: src/wmapp.cc:1654
+msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
+msgstr ""
 
-#: src/akeyboard.cc:94
-msgid "rules:"
-msgstr "aturan:"
+#: src/icetray.cc:220
+msgid ""
+"  -n, --notify        Notify parent process by sending signal USR1.\n"
+"  --display=NAME      Use NAME to connect to the X server.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load the theme from FILE.\n"
+msgstr ""
+"  -n, --notify        Beri tahu proses induk dengan mengirimkan sinyal "
+"USR1.\n"
+"  --display=NAME      Gunakan NAME untuk terhubung ke peladen X.\n"
+"  --sync              Sinkronisasi komunikasi dengan peladen X11 server.\n"
+"\n"
+"  -c, --config=FILE   Muat preferensi dari FILE.\n"
+"  -t, --theme=FILE    Muat tema dari FILE.\n"
 
-#: src/akeyboard.cc:95
-msgid "model:"
-msgstr "model:"
+#: src/wmapp.cc:1648
+msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
+msgstr "  -o, --output=BERKAS   Alihkan semua keluaran ke BERKAS.\n"
 
-#: src/akeyboard.cc:96
-msgid "layout:"
-msgstr "tata letak:"
+#: src/aapm.cc:207 src/aapm.cc:448 src/aapm.cc:613 src/aapm.cc:722
+msgid " - Charging"
+msgstr " - Mengisi"
 
-#: src/akeyboard.cc:97
-msgid "options:"
-msgstr "opsi:"
+#: src/aapm.cc:452
+msgid " - Full"
+msgstr " - Penuh"
 
-#: src/akeyboard.cc:153
-msgid "Keyboard"
-msgstr "Papan Tik"
+#: src/aapm.cc:201 src/aapm.cc:471 src/aapm.cc:630 src/aapm.cc:754
+msgid " - Power"
+msgstr " - Daya"
 
-#: src/amailbox.cc:64
-#, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protokol kotak surat tidak valid: \"%s\""
+#: src/icesm.cc:513
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+"\t3: Run a terminal?\n"
+msgstr ""
+" IceWM macet untuk kedua kalinya dalam 10 detik. \n"
+" Apakah Anda ingin:\n"
+"\n"
+"\t1: Memulai ulang IceWM?\n"
+"\t2: Gugurkan sesi ini?\n"
+"\t3: Jalankan terminal?\n"
 
-#: src/amailbox.cc:66
-#, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Path kotak surat tidak valid: \"%s\""
-
-#: src/amailbox.cc:140
-#, c-format
-msgid "DNS name lookup failed for %s"
-msgstr "Pencarian nama DNS gagal untuk %s"
-
-#: src/amailbox.cc:156
-#, c-format
-msgid "Invalid mailbox port: \"%s\""
-msgstr "Path kotak surat tidak valid: \"%s\""
-
-#: src/amailbox.cc:314
-#, c-format
-msgid "Could not connect to %s: %s"
-msgstr "Tidak dapat terhubung ke %s: %s"
-
-#: src/amailbox.cc:334
-#, c-format
-msgid "Failed to find %s command"
-msgstr "Gagal menemukan perintah %s"
-
-#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
-#, c-format
-msgid "Failed to execute %s"
-msgstr "Gagal mengeksekusi %s"
-
-#: src/amailbox.cc:447
-#, c-format
-msgid "Write to socket failed: %s"
-msgstr "Menulis ke soket gagal: %s"
-
-#: src/amailbox.cc:694
-#, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Menggunakan Kotak Surat \"%s\"\n"
-
-#: src/amailbox.cc:801
-msgid "Suspended"
-msgstr "Ditangguhkan"
-
-#: src/amailbox.cc:805
-msgid "Error checking mailbox."
-msgstr "Galat memeriksa kotak surat."
+#: src/ysmapp.cc:95
+msgid "$USER or $LOGNAME not set?"
+msgstr "$USER atau $LOGNAME tidak diatur?"
 
 #: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld pesan surel, %ld belum dibaca."
-
-#: src/amailbox.cc:813
-#, c-format
-msgid "%ld mail messages, %ld unread."
 msgstr "%ld pesan surel, %ld belum dibaca."
 
 #: src/amailbox.cc:819
@@ -257,62 +220,1000 @@ msgstr "%ld pesan surel, %ld belum dibaca."
 msgid "%ld mail message."
 msgstr "%ld pesan surel."
 
+#: src/amailbox.cc:813
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld pesan surel, %ld belum dibaca."
+
 #: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld pesan surel."
 
-#: src/amailbox.cc:961
-msgid "MAIL"
-msgstr "SUREL"
+#: src/wmwinmenu.cc:100
+#, c-format
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Ruang kerja %-.32s"
 
-#: src/amailbox.cc:963
-msgid "_Check"
-msgstr "_Periksa"
+#: src/wmapp.cc:1723
+#, c-format
+msgid "%s configuration directories:\n"
+msgstr "Direktori konfigurasi %s:\n"
 
-#: src/amailbox.cc:965
-msgid "_Suspend"
-msgstr "_Suspensi"
+#: src/wmapp.cc:1808
+#, c-format
+msgid "%s configured options:%s\n"
+msgstr "Opsi %s yang dikonfigurasi: %s\n"
 
-#: src/amemstatus.cc:144
-msgid "GB"
-msgstr "GB"
+#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:507
+#, c-format
+msgid "%s exited with status %d."
+msgstr "%s keluar dengan status %d."
 
-#: src/amemstatus.cc:148
-msgid "MB"
-msgstr "MB"
+#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:510
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr "%s dibunuh oleh sinyal %d."
 
-#: src/amemstatus.cc:152
-msgid "kB"
-msgstr "kB"
+#: src/icesound.cc:329
+#, c-format
+msgid "%s: Invalid number of channels"
+msgstr "%s: Jumlah kanal tidak valid"
 
-#: src/amemstatus.cc:156
-msgid "bytes"
-msgstr "bita"
+#: src/yapp.cc:299
+#, c-format
+msgid "%s: select failed"
+msgstr "%s: pilih gagal"
 
-#: src/amemstatus.cc:176
-msgid "Memory Total: "
-msgstr "Total Memori: "
+#: src/wmmenu.cc:516
+#, c-format
+msgid "'%s' produces no output"
+msgstr "'%s' tidak menghasilkan keluaran"
 
-#: src/amemstatus.cc:177
-msgid "Free: "
-msgstr "Bebas: "
+#: src/wmmenu.cc:502
+#, c-format
+msgid "'%s' timed out!"
+msgstr "'%s' waktunya habis!"
 
-#: src/amemstatus.cc:178
-msgid "Cached: "
-msgstr "Disinggahkan: "
+#: src/wmabout.cc:29
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: 2D based graphical application
+#: src/fdospecgen.h:120 src/fdospecgen.h:152 src/fdospecgen.h:162
+msgid "2DGraphics"
+msgstr "Grafis 2D"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing 3-D graphics
+#: src/fdospecgen.h:168
+msgid "3DGraphics"
+msgstr "Grafis 3D"
+
+#: src/wmapp.cc:1291 src/yxapp.cc:1050
+msgid "<none>"
+msgstr "<NIHIL>"
+
+#: src/wmapp.cc:91
+msgid "A window manager is already running, use --replace to replace it"
+msgstr "Pengelola jendela sudah berjalan, gunakan --replace untuk menggantinya"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Accessibility
+#: src/fdospecgen.h:174 src/fdospecgen.h:180
+msgid "Accessibility"
+msgstr "Aksesibilitas"
+
+#: src/icesh.cc:4166
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "Aksi '%s' memerlukan setidaknya argumen %d."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An action game
+#: src/fdospecgen.h:186
+msgid "ActionGame"
+msgstr "Permainan Aksi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application handles adult or explicit material
+#: src/fdospecgen.h:192
+msgid "Adult"
+msgstr "Dewasa"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Adventure style game
+#: src/fdospecgen.h:198
+msgid "AdventureGame"
+msgstr "Permainan Petualangan"
+
+#: src/wmwinlist.cc:83
+msgid "All Workspaces"
+msgstr "Semua Ruang kerja"
+
+#: src/wmabout.cc:62
+msgid "AlphaBlending"
+msgstr "Alfa Blending"
+
+#: src/icehelp.cc:1348
+msgid "Alt+Left"
+msgstr "Alt+Kiri"
+
+#: src/icehelp.cc:1350
+msgid "Alt+Right"
+msgstr "Alt+Kanan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simple amusement
+#: src/fdospecgen.h:204
+msgid "Amusement"
+msgstr "Hiburan"
+
+#: src/wmapp.cc:740
+msgid "Another window manager already running, exiting..."
+msgstr "Pengelola jendela yang lain sudah berjalan, keluar..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Arcade style game
+#: src/fdospecgen.h:210
+msgid "ArcadeGame"
+msgstr "Permainan Arkade"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to archive/backup data
+#: src/fdospecgen.h:40 src/fdospecgen.h:216
+msgid "Archiving"
+msgstr "Pengarsipan"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:230
+msgid "Arrange _Icons"
+msgstr "Atur _Ikon"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to teach arts
+#: src/fdospecgen.h:222 src/fdospecgen.h:228
+msgid "Art"
+msgstr "Seni"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
+#: src/fdospecgen.h:234 src/fdospecgen.h:240
+#, fuzzy
+msgid "Artificialtelligence"
+msgstr "Kecerdasan Buatan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Astronomy software
+#: src/fdospecgen.h:246 src/fdospecgen.h:252
+msgid "Astronomy"
+msgstr "Astronomi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An audio application
+#: src/fdomenu.cc:1096 src/fdospecgen.h:64 src/fdospecgen.h:72
+#: src/fdospecgen.h:128 src/fdospecgen.h:144 src/fdospecgen.h:260
+#: src/fdospecgen.h:614 src/fdospecgen.h:830 src/fdospecgen.h:884
+#: src/fdospecgen.h:1090
+msgid "Audio"
+msgstr "Audio"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for presenting, creating, or processing multimedia (audio/video)
+#: src/fdospecgen.h:66 src/fdospecgen.h:74 src/fdospecgen.h:130
+#: src/fdospecgen.h:138 src/fdospecgen.h:146 src/fdospecgen.h:272
+#: src/fdospecgen.h:422 src/fdospecgen.h:452 src/fdospecgen.h:770
+#: src/fdospecgen.h:842 src/fdospecgen.h:896 src/fdospecgen.h:1094
+msgid "AudioVideo"
+msgstr "Audio Video"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to edit audio/video files
+#: src/fdospecgen.h:258 src/fdospecgen.h:264 src/fdospecgen.h:270
+msgid "AudioVideoEditing"
+msgstr "Penyunting Audio Video"
+
+#: src/ycursor.cc:179
+#, c-format
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "KUTU? Imlib dapat membaca \"%s\""
+
+#: src/ycursor.cc:204
+#, c-format
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "Kutu? Tajuk XPM salah format tetapi Imlib dapat menguraikan \"%s\""
+
+#: src/ycursor.cc:215
+#, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
+msgstr "KUTU? Karakter tidak terduga tetapi Imlib dapat menguraikan \"%s\""
+
+#: src/ycursor.cc:212
+#, c-format
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr ""
+"KUTU? Akhir berkas XPM yang tidak terduga tetapi Imlib dapat menguraikan "
+"\"%s\""
+
+#: src/icehelp.cc:1348
+msgid "Back"
+msgstr "Kembali"
+
+#: src/wmmenu.cc:55
+#, c-format
+msgid "Bad argument %d to command '%s'"
+msgstr "Argumen buruk %d untuk perintah '%s'"
+
+#: src/yconfig.cc:170 src/yconfig.cc:181 src/yconfig.cc:193
+#, c-format
+msgid "Bad argument: %s for %s [%d,%d]"
+msgstr "Argumen buruk: %s untuk %s [%d,%d]"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Biology software
+#: src/fdospecgen.h:276 src/fdospecgen.h:282
+msgid "Biology"
+msgstr "Biologi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Falling blocks game
+#: src/fdospecgen.h:288
+msgid "BlocksGame"
+msgstr "Permainan Blok"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A board game
+#: src/fdospecgen.h:294
+msgid "BoardGame"
+msgstr "Permainan Papan"
+
+#: src/wmapp.cc:620
+msgid "Bottom Half"
+msgstr "Belahan Bawah"
+
+#: src/wmapp.cc:624
+msgid "Bottom Left"
+msgstr "Kiri Bawah"
+
+#: src/wmapp.cc:625
+msgid "Bottom Right"
+msgstr "Kanan Bawah"
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
 msgstr "Penyangga: "
 
-#: src/amemstatus.cc:180
-msgid "User: "
-msgstr "Pengguna: "
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to build applications
+#: src/fdospecgen.h:300
+msgid "Building"
+msgstr "Bangunan"
 
-#: src/amemstatus.cc:262
-msgid "MEM"
-msgstr "MEM"
+# C; Charging
+#: src/aapm.cc:209 src/aapm.cc:450 src/aapm.cc:615
+msgid "C"
+msgstr "I"
+
+#: src/aclock.cc:195
+msgid "CLOCK"
+msgstr "JAM"
+
+#: src/acpustatus.cc:607 src/acpustatus.cc:907
+msgid "CPU"
+msgstr "CPU"
+
+#: src/acpustatus.cc:552
+#, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
+msgstr "CPU %s Beban: %3.2f %3.2f %3.2f, %u"
+
+#: src/acpustatus.cc:908
+#, c-format
+msgid "CPU%d"
+msgstr "CPU%d"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:457 src/wmwinlist.cc:490
+msgid "Ca_scade"
+msgstr "Bertin_gkat"
+
+#: src/amemstatus.cc:178
+msgid "Cached: "
+msgstr "Disinggahkan: "
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A calculator
+#: src/fdospecgen.h:306
+msgid "Calculator"
+msgstr "Kalkulator"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Calendar application
+#: src/fdospecgen.h:312
+msgid "Calendar"
+msgstr "Kalender"
+
+#: src/aapm.cc:121 src/aapm.cc:139
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr "Tidak bisa ioctl perangkat APM %s"
+
+#: src/icesh.cc:4186 src/icesound.cc:800 src/icewmbg.cc:1087
+#: src/icewmhint.cc:37 src/wmapp.cc:1290 src/yxapp.cc:1049
+#, c-format
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr "Tidak dapat membuka tampilan: %s. X harus berjalan dan atur $DISPLAY."
+
+#: src/aapm.cc:113
+#, c-format
+msgid "Can't open the APM device %s"
+msgstr "Tidak bisa membuka perangkat APM %s"
+
+#: src/icesh.cc:3770
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr "Tidak dapat mendapatkan geometri jendela 0x%lx"
+
+#: src/icewmbg.cc:1335
+msgid "Cannot start, because another icewmbg is still running."
+msgstr "Tidak dapat memulai, karena icewmbg lain masih berjalan."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A card game
+#: src/fdospecgen.h:318
+msgid "CardGame"
+msgstr "Permainan Kartu"
+
+#: src/wmapp.cc:626
+msgid "Center"
+msgstr "Tengah"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chart application
+#: src/fdospecgen.h:324
+msgid "Chart"
+msgstr "Bagan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A chat client
+#: src/fdospecgen.h:330
+msgid "Chat"
+msgstr "Obrolan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chemistry software
+#: src/fdospecgen.h:336 src/fdospecgen.h:342
+msgid "Chemistry"
+msgstr "Kimia"
+
+#: src/wmclient.cc:470
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+"Klien %s dengan PID %ld gagal merespon.\n"
+"Apakah Anda ingin mengakhiri klien ini?\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A clock application/applet
+#: src/fdospecgen.h:348
+msgid "Clock"
+msgstr "Jam"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
+msgid "Close"
+msgstr "Tutup"
+
+#: src/wmabout.cc:56
+msgid "CodeSet:"
+msgstr "SetKode:"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage compressed data/archives
+#: src/fdospecgen.h:38
+msgid "Compression"
+msgstr "Kompresi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Computer Science software
+#: src/fdospecgen.h:104 src/fdospecgen.h:112 src/fdospecgen.h:354
+#: src/fdospecgen.h:360
+msgid "ComputerScience"
+msgstr "Ilmu Komputer"
+
+#: src/wmapp.cc:1949
+msgid "Confirm Logout"
+msgstr "Konfirmasi Log Keluar"
+
+#: src/wmapp.cc:1003
+msgid "Confirm Restart as Terminal"
+msgstr "Konfirmasi Mulai Ulang sebagai Terminal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
+#: src/fdospecgen.h:366
+msgid "ConsoleOnly"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
+#: src/fdospecgen.h:372 src/fdospecgen.h:378
+msgid "Construction"
+msgstr "Konstruksi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: E.g. an address book
+#: src/fdospecgen.h:384
+msgid "ContactManagement"
+msgstr "Pengelola Kontak"
+
+#: src/icehelp.cc:1356
+msgid "Contents"
+msgstr "Isi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Important application, core to the desktop such as a file manager or a help browser
+#: src/fdospecgen.h:390
+msgid "Core"
+msgstr "Inti"
+
+#: src/amailbox.cc:314
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "Tidak dapat terhubung ke %s: %s"
+
+#: src/icesound.cc:862
+msgid "Could not get GUI event property"
+msgstr "Tidak dapat mendapatkan properti peristiwa GUI"
+
+#: src/yfontcore.cc:121 src/yfontxft.cc:127
+#, c-format
+msgid "Could not load font \"%s\"."
+msgstr "Tidak dapat memuat fonta \"%s\"."
+
+#: src/yfontcore.cc:261
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "Tidak dapat memuat set fonta \"%s\"."
+
+#: src/yximage.cc:191 src/yximage.cc:214
+#, c-format
+msgid "Could not load image \"%s\""
+msgstr "Tidak dapat memuat gambar “%s”."
+
+#: src/icehelp.cc:2461
+msgid "Could not locate curl or wget in PATH"
+msgstr "Tidak dapat menemukan curl atau wget di PATH"
+
+#: src/icesound.cc:397
+#, c-format
+msgid "Could not open OSS device %s"
+msgstr "Tidak dapat membuka perangkat OSS %s"
+
+#: src/ycolor.cc:229 src/ycolor.cc:240
+#, c-format
+msgid "Could not parse color \"%s\""
+msgstr "Tidak dapat mengurai warna '%s'"
+
+#: src/icesound.cc:368
+msgid "Could not post OSS"
+msgstr "Tidak dapat mempos OSS"
+
+#: src/icesound.cc:407
+msgid "Could not reset OSS DSP"
+msgstr "Tidak dapat mengatur ulang OSS DSP"
+
+#: src/wmapp.cc:815
+#, c-format
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"Tidak dapat memulai ulang: %s\n"
+"Apakah $PATH menuju ke %s?"
+
+#: src/icesound.cc:335 src/icesound.cc:340
+msgid "Could not set OSS channels"
+msgstr "Tidak dapat mengatur kanal OSS"
+
+#: src/icesound.cc:412
+msgid "Could not set OSS format"
+msgstr "Tidak dapat mengatur format OSS"
+
+#: src/icesound.cc:402
+msgid "Could not set OSS stereo"
+msgstr "Tidak dapat mengatur stereo OSS"
+
+#: src/icesound.cc:345 src/icesound.cc:373
+msgid "Could not sync OSS"
+msgstr "Tidak dapat menyinkronkan OSS"
+
+#: src/yinputline.cc:23
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: src/icehelp.cc:1362
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: src/yinputline.cc:18
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/icehelp.cc:1359
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: src/iceview.cc:59
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: src/icehelp.cc:1370
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: src/icehelp.cc:1378
+msgid "Ctrl+M"
+msgstr "Ctrl+M"
+
+#: src/icesame.cc:59
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: src/yinputline.cc:21
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1364 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1382 src/iceview.cc:60
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1395 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:1384 src/iceview.cc:61
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1390 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icesame.cc:57
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: src/yinputline.cc:19
+msgid "Cu_t"
+msgstr "Po_tong"
+
+#: src/wmprog.cc:348
+msgid "Custo_m"
+msgstr "Ubaha_n"
+
+#: src/amailbox.cc:140
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "Pencarian nama DNS gagal untuk %s"
+
+#: src/wmapp.cc:563
+msgid "D_esktop"
+msgstr "D_estop"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Data visualization software
+#: src/fdospecgen.h:396 src/fdospecgen.h:402
+msgid "DataVisualization"
+msgstr "Visualisasi Data"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage a database
+#: src/fdospecgen.h:408 src/fdospecgen.h:414 src/fdospecgen.h:420
+msgid "Database"
+msgstr "Basis data"
+
+#: src/aclock.cc:201
+msgid "Date"
+msgstr "Tanggal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to debug applications
+#: src/fdospecgen.h:426
+msgid "Debugger"
+msgstr "Pengawakutu"
+
+#: src/aclock.cc:202 src/themes.cc:83
+msgid "Default"
+msgstr "Bawaan"
+
+#: src/wmwinlist.cc:468
+msgid "Del"
+msgstr "Hapus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Configuration tool for the GUI
+#: src/fdospecgen.h:432
+msgid "DesktopSettings"
+msgstr "Pengaturan Destop"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An application for development
+#: src/fdospecgen.h:302 src/fdospecgen.h:416 src/fdospecgen.h:428
+#: src/fdospecgen.h:566 src/fdospecgen.h:650 src/fdospecgen.h:854
+#: src/fdospecgen.h:866 src/fdospecgen.h:908 src/fdospecgen.h:1040
+#: src/fdospecgen.h:1076 src/fdospecgen.h:1098
+msgid "Development"
+msgstr "Pengembangan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dial-up program
+#: src/fdospecgen.h:438
+msgid "Dialup"
+msgstr "Dialup"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dictionary
+#: src/fdospecgen.h:46 src/fdospecgen.h:444
+msgid "Dictionary"
+msgstr "Kamus"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to burn a disc
+#: src/fdospecgen.h:450
+msgid "DiscBurning"
+msgstr "Pembakar Diska"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Help or documentation
+#: src/fdospecgen.h:456
+msgid "Documentation"
+msgstr "Dokumentasi"
+
+#: src/wmabout.cc:61
+msgid "DoubleBuffer"
+msgstr "Buffer Ganda"
+
+#: src/icesh.cc:2294
+msgid "EWMH window state"
+msgstr "Keadaan jendela EWMH"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Economy software
+#: src/fdospecgen.h:462 src/fdospecgen.h:468
+msgid "Economy"
+msgstr "Ekonomi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Educational software
+#: src/fdospecgen.h:82 src/fdospecgen.h:106 src/fdospecgen.h:224
+#: src/fdospecgen.h:236 src/fdospecgen.h:248 src/fdospecgen.h:278
+#: src/fdospecgen.h:338 src/fdospecgen.h:356 src/fdospecgen.h:374
+#: src/fdospecgen.h:398 src/fdospecgen.h:464 src/fdospecgen.h:476
+#: src/fdospecgen.h:572 src/fdospecgen.h:584 src/fdospecgen.h:596
+#: src/fdospecgen.h:626 src/fdospecgen.h:638 src/fdospecgen.h:662
+#: src/fdospecgen.h:686 src/fdospecgen.h:698 src/fdospecgen.h:716
+#: src/fdospecgen.h:734 src/fdospecgen.h:746 src/fdospecgen.h:776
+#: src/fdospecgen.h:818 src/fdospecgen.h:914 src/fdospecgen.h:962
+#: src/fdospecgen.h:980 src/fdospecgen.h:1102
+msgid "Education"
+msgstr "Pendidikan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electricity software
+#: src/fdospecgen.h:474 src/fdospecgen.h:480
+msgid "Electricity"
+msgstr "Kelistrikan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electronics software, e.g. a circuit designer
+#: src/fdospecgen.h:486
+msgid "Electronics"
+msgstr "Elektronik"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Email application
+#: src/fdospecgen.h:492 src/fdospecgen.h:498
+msgid "Email"
+msgstr "Surel"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Emulator of another platform, such as a DOS emulator
+#: src/fdospecgen.h:504 src/fdospecgen.h:510
+msgid "Emulator"
+msgstr "Emulator"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Engineering software, e.g. CAD programs
+#: src/fdospecgen.h:516
+msgid "Engineering"
+msgstr "Teknik"
+
+#: src/wmpref.cc:179
+#, c-format
+msgid "Enter a new value for %s: "
+msgstr "Masukkan nilai baru untuk %s: "
+
+#: src/wmmenu.cc:160
+#, c-format
+msgid "Error at %s '%s'"
+msgstr "Kesalahan pada %s '%s'"
+
+#: src/wmmenu.cc:369
+#, c-format
+msgid "Error at includeprog '%s'"
+msgstr "Kesalahan di includeprog '%s'"
+
+#: src/wmmenu.cc:110
+#, c-format
+msgid "Error at keyword '%s' for %s"
+msgstr "Kesalahan pada kata kunci '%s' untuk %s"
+
+#: src/wmmenu.cc:280
+#, c-format
+msgid "Error at menuprog '%s'"
+msgstr "Kesalahan saat menuprog '%s'"
+
+#: src/wmmenu.cc:324
+#, c-format
+msgid "Error at menuprogreload: '%s'"
+msgstr "Kesalahan di menuprogreload: '%s'"
+
+#: src/amailbox.cc:805
+msgid "Error checking mailbox."
+msgstr "Galat memeriksa kotak surat."
+
+#: src/iceview.cc:60
+msgid "Expand Tabs"
+msgstr "Perluas Tab"
+
+#: src/icehelp.cc:1360
+msgid "F3"
+msgstr "F3"
+
+#: src/icehelp.cc:1376
+msgid "FAQ"
+msgstr "FAQ"
+
+#: src/wmapp.cc:107
+#, c-format
+msgid "Failed to become the owner of the %s selection"
+msgstr "Gagal menjadi pemilik pilihan %s"
+
+#: src/icesound.cc:934
+#, c-format
+msgid "Failed to connect to audio interfaces %s."
+msgstr "Gagal terhubung ke antarmuka audio %s."
+
+#: src/icehelp.cc:2341
+msgid "Failed to create a temporary file"
+msgstr "Gagal membuat berkas sementara"
+
+#: src/icehelp.cc:2453
+#, c-format
+msgid "Failed to decompress %s"
+msgstr "Gagal untuk dekompresi %s"
+
+#: src/ylocale.cc:93
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
+"Gagal untuk menentukan set kode locale saat ini. Dengan asumsi ISO-8859-1.\n"
+
+#: src/amailbox.cc:363 src/wmmenu.cc:475 src/wmmenu.cc:492 src/yapp.cc:436
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Gagal mengeksekusi %s"
+
+#: src/icehelp.cc:2431
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr "Gagal mengeksekusi sistem(%s) (%d)"
+
+#: src/amailbox.cc:334
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Gagal menemukan perintah %s"
+
+#: src/icewmbg.cc:35 src/icewmbg.cc:372
+#, c-format
+msgid "Failed to load image '%s'."
+msgstr "Gagal memuat berkas gambar '%s'."
+
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
+#, c-format
+msgid "Failed to load theme %s"
+msgstr "Gagal memuat tema %s"
+
+#: src/icehelp.cc:2312
+msgid "Failed to open file for reading."
+msgstr "Gagal membuka berkas untuk membaca."
+
+#: src/yurl.cc:145
+#, c-format
+msgid "Failed to parse URL \"%s\"."
+msgstr "Gagal untuk mengurai URL \"%s\"."
+
+#: src/wmtaskbar.cc:336
+msgid "Favorite Applications"
+msgstr "Aplikasi Favorit"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: RSS, podcast and other subscription based contents
+#: src/fdospecgen.h:522
+msgid "Feed"
+msgstr "Asupan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file manager
+#: src/fdospecgen.h:54
+msgid "FileManager"
+msgstr "Pengelola Berkas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file tool utility
+#: src/fdospecgen.h:56 src/fdospecgen.h:528 src/fdospecgen.h:534
+msgid "FileTools"
+msgstr "Perkakas Berkas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tools like FTP or P2P programs
+#: src/fdospecgen.h:540
+msgid "FileTransfer"
+msgstr "Transfer Berkas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file system tool
+#: src/fdospecgen.h:546
+msgid "Filesystem"
+msgstr "Sistem Berkas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage your finance
+#: src/fdospecgen.h:552
+msgid "Finance"
+msgstr "Keuangan"
+
+#: src/icehelp.cc:1360
+msgid "Find next"
+msgstr "Temukan berikutnya"
+
+#: src/icehelp.cc:1359
+msgid "Find..."
+msgstr "Temukan…"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A flowchart application
+#: src/fdospecgen.h:558
+msgid "FlowChart"
+msgstr "Diagram Alir"
+
+#: src/icesh.cc:76
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Untuk bantuan silahkan baca halaman manual icesh(1).\n"
+
+#: src/wmmgr.cc:3701
+msgid "For keyboard switching, please install setxkbmap."
+msgstr "Untuk mengubah papan tik, silakan instal setxkbmap."
+
+#: src/icehelp.cc:1350
+msgid "Forward"
+msgstr "Maju"
+
+#: src/amemstatus.cc:177
+msgid "Free: "
+msgstr "Bebas: "
+
+#: src/amemstatus.cc:144
+msgid "GB"
+msgstr "GB"
+
+#: src/icesh.cc:2289
+msgid "GNOME window layer"
+msgstr "Lapisan jendela GNOME"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A GUI designer application
+#: src/fdospecgen.h:564
+msgid "GUIDesigner"
+msgstr "Perancang Antarmuka"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game
+#: src/fdospecgen.h:188 src/fdospecgen.h:200 src/fdospecgen.h:212
+#: src/fdospecgen.h:290 src/fdospecgen.h:296 src/fdospecgen.h:320
+#: src/fdospecgen.h:512 src/fdospecgen.h:680 src/fdospecgen.h:710
+#: src/fdospecgen.h:926 src/fdospecgen.h:950 src/fdospecgen.h:956
+#: src/fdospecgen.h:992 src/fdospecgen.h:1004 src/fdospecgen.h:1106
+msgid "Game"
+msgstr "Permainan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geography software
+#: src/fdospecgen.h:570 src/fdospecgen.h:576
+msgid "Geography"
+msgstr "Geografi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geology software
+#: src/fdospecgen.h:582 src/fdospecgen.h:588
+msgid "Geology"
+msgstr "Geologi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geoscience software, GIS
+#: src/fdospecgen.h:594 src/fdospecgen.h:600
+msgid "Geoscience"
+msgstr "Geosains"
+
+#: src/icehelp.cc:1386
+msgid "Github"
+msgstr "Github"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing graphics
+#: src/fdospecgen.h:98 src/fdospecgen.h:122 src/fdospecgen.h:154
+#: src/fdospecgen.h:164 src/fdospecgen.h:170 src/fdospecgen.h:806
+#: src/fdospecgen.h:872 src/fdospecgen.h:932 src/fdospecgen.h:1052
+#: src/fdospecgen.h:1110
+msgid "Graphics"
+msgstr "Grafis"
+
+#: src/icesh.cc:2291
+msgid "Gravity symbols"
+msgstr "Simbol gravitasi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: HAM radio software
+#: src/fdospecgen.h:606 src/fdospecgen.h:612
+msgid "HamRadio"
+msgstr "HamRadio"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage hardware components, like sound cards, video cards or printers
+#: src/fdospecgen.h:28 src/fdospecgen.h:618
+msgid "HardwareSettings"
+msgstr "Pengaturan Perangkat Keras"
+
+#: src/iceview.cc:59
+msgid "Hex View"
+msgstr "Tampilan Heksa"
+
+#: src/wmbutton.cc:127
+msgid "Hide"
+msgstr "Sembunyikan"
+
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
+msgid "Hide Taskbar"
+msgstr "Sembunyikan bilah tugas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: History software
+#: src/fdospecgen.h:624 src/fdospecgen.h:630
+msgid "History"
+msgstr "Riwayat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for philosophy, psychology and other humanities
+#: src/fdospecgen.h:636 src/fdospecgen.h:642
+msgid "Humanities"
+msgstr "Humaniora"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: IDE application
+#: src/fdospecgen.h:648
+msgid "IDE"
+msgstr "IDE"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An IRC client
+#: src/fdospecgen.h:654
+msgid "IRCClient"
+msgstr "Klien IRC"
+
+#: src/icesm.cc:519
+msgid "IceWM crash response"
+msgstr "Respon kres IceWM"
+
+#: src/icesh.cc:2290
+msgid "IceWM tray option"
+msgstr "Opsi baki IceWM"
+
+#: src/wmprog.cc:373
+msgid "Ice_Sound(1)"
+msgstr "Ice_Sound(1)"
+
+#: src/icehelp.cc:1374
+msgid "Icesound(1)"
+msgstr "Icesound(1)"
+
+#: src/icehelp.cc:1370
+msgid "Icewm(1)"
+msgstr "Icewm(1)"
+
+#: src/wmprog.cc:372
+msgid "Icewm_Bg(1)"
+msgstr "Icewm_Bg(1)"
+
+#: src/icehelp.cc:1372
+msgid "Icewmbg(1)"
+msgstr "Icewmbg(1)"
+
+#: src/icelist.cc:61
+msgid "Icon View"
+msgstr "Tampilan Ikon"
+
+#: src/icehelp.cc:2592
+#, c-format
+msgid "Ignoring option '%s'"
+msgstr "Mengabaikan opsi '%s'"
+
+#: src/wpixres.cc:93 src/wpixres.cc:100
+#, c-format
+msgid "Image not readable: %s"
+msgstr "Gambar tidak dapat dibaca: %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Image Processing software
+#: src/fdospecgen.h:660 src/fdospecgen.h:666
+msgid "ImageProcessing"
+msgstr "Pengolahan Citra"
+
+#: src/yurl.cc:161
+#, c-format
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "Pelarian hex tidak lengkap di URL pada posisi %d."
+
+#: src/icehelp.cc:1357
+msgid "Index"
+msgstr "Indeks"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An instant messaging client
+#: src/fdospecgen.h:672
+msgid "InstantMessaging"
+msgstr "Pesan Instan"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -329,886 +1230,1053 @@ msgstr ""
 "  Ditransfer (masuk/keluar):\t%lli %s/%lli %s\n"
 "  Waktu daring:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
-msgid "disconnected"
-msgstr "terputus"
-
-#: src/apppstatus.cc:284
-msgid "down"
-msgstr "turun"
-
-#: src/apppstatus.cc:705
-msgid "NET"
-msgstr "NET"
-
-#: src/aworkspaces.cc:685 src/wmstatus.cc:204
-msgid "Workspace: "
-msgstr "Ruang kerja: "
-
-#: src/decorate.cc:132
-msgid "Tabs"
-msgstr "Tab"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:43
-msgid "2DGraphics"
-msgstr "Grafis 2D"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:45
-msgid "3DGraphics"
-msgstr "Grafis 3D"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
-#: src/fdospecgen.h:47 src/fdospecgen.h:49
-msgid "Accessibility"
-msgstr "Aksesibilitas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:51
-msgid "Accessories"
-msgstr "Aksesoris"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:53
-msgid "ActionGame"
-msgstr "Permainan Aksi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:55
-msgid "Adult"
-msgstr "Dewasa"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:57
-msgid "AdventureGame"
-msgstr "Permainan Petualangan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:59
-msgid "Amusement"
-msgstr "Hiburan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:61
-msgid "ArcadeGame"
-msgstr "Permainan Arkade"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:63
-msgid "Archiving"
-msgstr "Pengarsipan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:65
-msgid "Art"
-msgstr "Seni"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:67
-msgid "ArtificialIntelligence"
-msgstr "Kecerdasan Buatan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:69
-msgid "Astronomy"
-msgstr "Astronomi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:71
-msgid "Audio"
-msgstr "Audio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:73
-msgid "AudioVideo"
-msgstr "Audio Video"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:75
-msgid "AudioVideoEditing"
-msgstr "Penyunting Audio Video"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:77
-msgid "Biology"
-msgstr "Biologi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:79
-msgid "BlocksGame"
-msgstr "Permainan Blok"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:81
-msgid "BoardGame"
-msgstr "Permainan Papan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:83
-msgid "Building"
-msgstr "Bangunan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:85
-msgid "Calculator"
-msgstr "Kalkulator"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:87
-msgid "Calendar"
-msgstr "Kalender"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:89
-msgid "CardGame"
-msgstr "Permainan Kartu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:91
-msgid "Chart"
-msgstr "Bagan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:93
-msgid "Chat"
-msgstr "Obrolan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:95
-msgid "Chemistry"
-msgstr "Kimia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:97
-msgid "Clock"
-msgstr "Jam"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
-#: src/fdospecgen.h:99
-msgid "Compression"
-msgstr "Kompresi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:101
-msgid "ComputerScience"
-msgstr "Ilmu Komputer"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:103
-msgid "Construction"
-msgstr "Konstruksi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:105
-msgid "ContactManagement"
-msgstr "Pengelola Kontak"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:107
-msgid "Core"
-msgstr "Inti"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:109
-msgid "DataVisualization"
-msgstr "Visualisasi Data"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
-#: src/fdospecgen.h:111
-msgid "Database"
-msgstr "Basis data"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:113
-msgid "Debugger"
-msgstr "Pengawakutu"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:115
-msgid "DesktopSettings"
-msgstr "Pengaturan Destop"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:117
-msgid "Development"
-msgstr "Pengembangan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:119
-msgid "Dialup"
-msgstr "Dialup"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
-#: src/fdospecgen.h:121
-msgid "Dictionary"
-msgstr "Kamus"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
-#: src/fdospecgen.h:123
-msgid "DiscBurning"
-msgstr "Pembakar Diska"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:125
-msgid "Documentation"
-msgstr "Dokumentasi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:127
-msgid "Economy"
-msgstr "Ekonomi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:129
-msgid "Editors"
-msgstr "Penyunting"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:131
-msgid "Education"
-msgstr "Pendidikan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:133
-msgid "Electricity"
-msgstr "Kelistrikan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:135
-msgid "Electronics"
-msgstr "Elektronik"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
-#: src/fdospecgen.h:137
-msgid "Email"
-msgstr "Surel"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
-#: src/fdospecgen.h:139
-msgid "Emulator"
-msgstr "Emulator"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:141
-msgid "Engineering"
-msgstr "Teknik"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:143
-msgid "Feed"
-msgstr "Asupan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
-#: src/fdospecgen.h:145
-msgid "FileManager"
-msgstr "Pengelola Berkas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
-#: src/fdospecgen.h:147
-msgid "FileTools"
-msgstr "Perkakas Berkas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:149
-msgid "FileTransfer"
-msgstr "Transfer Berkas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:151
-msgid "Filesystem"
-msgstr "Sistem Berkas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:153
-msgid "Finance"
-msgstr "Keuangan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:155
-msgid "FlowChart"
-msgstr "Diagram Alir"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:157
-msgid "GUIDesigner"
-msgstr "Perancang Antarmuka"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:159
-msgid "Game"
-msgstr "Permainan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:161
-msgid "Geography"
-msgstr "Geografi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:163
-msgid "Geology"
-msgstr "Geologi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:165
-msgid "Geoscience"
-msgstr "Geosains"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:167
-msgid "Graphics"
-msgstr "Grafis"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
-#: src/fdospecgen.h:169
-msgid "HamRadio"
-msgstr "HamRadio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:171
-msgid "HardwareSettings"
-msgstr "Pengaturan Perangkat Keras"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:173
-msgid "History"
-msgstr "Riwayat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:175
-msgid "Humanities"
-msgstr "Humaniora"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:177
-msgid "IDE"
-msgstr "IDE"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:179
-msgid "IRCClient"
-msgstr "Klien IRC"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:181
-msgid "ImageProcessing"
-msgstr "Pengolahan Citra"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:183
-msgid "InstantMessaging"
-msgstr "Pesan Instan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:185
-msgid "KidsGame"
-msgstr "Permainan Anak"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:187
-msgid "Languages"
-msgstr "Bahasa"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:189
-msgid "Literature"
-msgstr "Literatur"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:191
-msgid "LogicGame"
-msgstr "Permainan Logika"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:193
-msgid "Maps"
-msgstr "Peta"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:195
-msgid "Math"
-msgstr "Matematika"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:197
-msgid "MedicalSoftware"
-msgstr "Perangkat Lunak Medis"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:199
-msgid "Midi"
-msgstr "Midi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:201
-msgid "Mixer"
-msgstr "Mixer"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
-#: src/fdospecgen.h:203
-msgid "Monitor"
-msgstr "Monitor"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:205
-msgid "Motif"
-msgstr "Motif"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:207
-msgid "Multimedia"
-msgstr "Multimedia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
-#: src/fdospecgen.h:209
-msgid "Music"
-msgstr "Musik"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:211
-msgid "Network"
-msgstr "Jaringan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:213
-msgid "News"
-msgstr "Berita"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
-#: src/fdospecgen.h:215
-msgid "NumericalAnalysis"
-msgstr "Analisis Numerik"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
-#: src/fdospecgen.h:217
-msgid "OCR"
-msgstr "OCR"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:219
-msgid "Office"
-msgstr "Kantor"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:221
-msgid "Other"
-msgstr "Lainnya"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:223
-msgid "P2P"
-msgstr "P2P"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:225
-msgid "PDA"
-msgstr "PDA"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:227
-msgid "PackageManager"
-msgstr "Pengelola Paket"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
-#: src/fdospecgen.h:229
-msgid "ParallelComputing"
-msgstr "Komputasi Paralel"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:231
-msgid "Photography"
-msgstr "Fotografi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:233
-msgid "Physics"
-msgstr "Fisika"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:235
-msgid "Player"
-msgstr "Pemain"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:237
-msgid "Presentation"
-msgstr "Presentasi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
-#: src/fdospecgen.h:239
-msgid "Printing"
-msgstr "Pencetakan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:241
-msgid "Profiling"
-msgstr "Profil"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
-#: src/fdospecgen.h:243
-msgid "ProjectManagement"
-msgstr "Manajemen Proyek"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:245
-msgid "Publishing"
-msgstr "Penerbitan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:247
-msgid "RasterGraphics"
-msgstr "Grafis Raster"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:249
-msgid "Recorder"
-msgstr "Perekam"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:251
-msgid "RemoteAccess"
-msgstr "Akses Jauh"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:253
-msgid "RevisionControl"
-msgstr "Kontrol Revisi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:255
-msgid "Robotics"
-msgstr "Robotika"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:257
-msgid "RolePlaying"
-msgstr "Memainkan Peran"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:259
-msgid "Scanning"
-msgstr "Pemindaian"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:261
-msgid "Science"
-msgstr "Sains"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:263
-msgid "Screensavers"
-msgstr "Screensaver"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
-#: src/fdospecgen.h:265
-msgid "Security"
-msgstr "Keamanan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:267
-msgid "Sequencer"
-msgstr "Sequencer"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:269
-msgid "Settings"
-msgstr "Pengaturan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:271
-msgid "Shooter"
-msgstr "Penembak"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:273
-msgid "Simulation"
-msgstr "Simulasi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:275
-msgid "Spirituality"
-msgstr "Spiritualitas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:277
-msgid "Sports"
-msgstr "Olahraga"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:279
-msgid "SportsGame"
-msgstr "Permainan Olahraga"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:281
-msgid "Spreadsheet"
-msgstr "Lembar Kerja"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:283
-msgid "StrategyGame"
-msgstr "Permainan Strategi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:285
-msgid "System"
-msgstr "Sistem"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
-#: src/fdospecgen.h:287
-msgid "TV"
-msgstr "TV"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:289
-msgid "Telephony"
-msgstr "Telefoni"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:291
-msgid "TelephonyTools"
-msgstr "Perkakas Telephony"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:293
-msgid "TerminalEmulator"
-msgstr "Emulator Terminal"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:295
-msgid "TextEditor"
-msgstr "Penyunting Teks"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:297
-msgid "TextTools"
-msgstr "Perkakas Teks"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:299
-msgid "Translation"
-msgstr "Terjemahan"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:301
-msgid "Tuner"
-msgstr "Penyetem"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:303
-msgid "Utility"
-msgstr "Utilitas"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:305
-msgid "VectorGraphics"
-msgstr "Grafis Vektor"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:307
-msgid "Video"
-msgstr "Video"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:309
-msgid "VideoConference"
-msgstr "Konferensi Video"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:311
-msgid "Viewer"
-msgstr "Penampil"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:313
-msgid "WINE"
-msgstr "WINE"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:315
-msgid "WebBrowser"
-msgstr "Peramban Web"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
-#: src/fdospecgen.h:317
-msgid "WebDevelopment"
-msgstr "Pengembangan Web"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:319
-msgid "WordProcessor"
-msgstr "Pengolah Kata"
-
-#: src/icehelp.cc:1348
-msgid "Back"
-msgstr "Kembali"
-
-#: src/icehelp.cc:1348
-msgid "Alt+Left"
-msgstr "Alt+Kiri"
-
-#: src/icehelp.cc:1350
-msgid "Forward"
-msgstr "Maju"
-
-#: src/icehelp.cc:1350
-msgid "Alt+Right"
-msgstr "Alt+Kanan"
-
-#: src/icehelp.cc:1353
-msgid "Previous"
-msgstr "Sebelumnya"
-
-#: src/icehelp.cc:1354
-msgid "Next"
-msgstr "Berikutnya"
-
-#: src/icehelp.cc:1356
-msgid "Contents"
-msgstr "Isi"
-
-#: src/icehelp.cc:1357
-msgid "Index"
-msgstr "Indeks"
-
-#: src/icehelp.cc:1359
-msgid "Find..."
-msgstr "Temukan…"
-
-#: src/icehelp.cc:1359
-msgid "Ctrl+F"
-msgstr "Ctrl+F"
-
-#: src/icehelp.cc:1360
-msgid "Find next"
-msgstr "Temukan berikutnya"
-
-#: src/icehelp.cc:1360
-msgid "F3"
-msgstr "F3"
-
-#: src/icehelp.cc:1362
-msgid "Open in Browser"
-msgstr "Buka di Peramban"
-
-#: src/icehelp.cc:1362
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#: src/icehelp.cc:1364
-msgid "Reload"
-msgstr "Muat ulang"
-
-#: src/icehelp.cc:1364 src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
-msgid "Close"
-msgstr "Tutup"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#: src/icehelp.cc:1370
-msgid "Icewm(1)"
-msgstr "Icewm(1)"
-
-#: src/icehelp.cc:1370
-msgid "Ctrl+I"
-msgstr "Ctrl+I"
-
-#: src/icehelp.cc:1372
-msgid "Icewmbg(1)"
-msgstr "Icewmbg(1)"
-
-#: src/icehelp.cc:1374
-msgid "Icesound(1)"
-msgstr "Icesound(1)"
-
-#: src/icehelp.cc:1376
-msgid "FAQ"
-msgstr "FAQ"
-
-#: src/icehelp.cc:1378
-msgid "Manual"
-msgstr "Manual"
-
-#: src/icehelp.cc:1378
-msgid "Ctrl+M"
-msgstr "Ctrl+M"
-
-#: src/icehelp.cc:1380
-msgid "Support"
-msgstr "Dukungan"
-
-#: src/icehelp.cc:1382
-msgid "Theme Howto"
-msgstr "Tema Howto"
-
-#: src/icehelp.cc:1382 src/iceview.cc:60
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-#: src/icehelp.cc:1384
-msgid "Website"
-msgstr "Situs Web"
-
-#: src/icehelp.cc:1384 src/iceview.cc:61
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-#: src/icehelp.cc:1386
-msgid "Github"
-msgstr "Github"
-
-#: src/icehelp.cc:1390 src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
-#: src/icehelp.cc:1395 src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
-
-#: src/icehelp.cc:2204
-msgid "Unsupported protocol."
-msgstr "Protokol tidak didukung."
+#: src/icesh.cc:4516
+#, c-format
+msgid "Invalid PID: `%s'"
+msgstr "PID tidak valid: '%s'"
+
+#: src/icesh.cc:3795
+#, c-format
+msgid "Invalid Xinerama: `%s'."
+msgstr "Xinerama tidak valid: `%s'."
+
+#: src/icesh.cc:2729 src/icesh.cc:4150 src/icesh.cc:4200 src/icesh.cc:5497
+#, c-format
+msgid "Invalid argument: `%s'"
+msgstr "Argumen tidak valid: '%s'"
+
+#: src/icesh.cc:4175
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Ekspresi tidak valid: '%s'"
+
+#: src/yurl.cc:168
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "Pelarian hex tidak valid di URL pada posisi %d."
+
+#: src/icesh.cc:4549
+#, c-format
+msgid "Invalid layer: `%s'."
+msgstr "Lapisan tidak valid: `%s'."
+
+#: src/amailbox.cc:66
+#, c-format
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Path kotak surat tidak valid: \"%s\""
+
+#: src/amailbox.cc:156
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Path kotak surat tidak valid: \"%s\""
+
+#: src/amailbox.cc:64
+#, c-format
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Protokol kotak surat tidak valid: \"%s\""
+
+#: src/ylocale.cc:239
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "String multibyte \"%s\": %s tidak valid"
 
 #: src/icehelp.cc:2283
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Path tidak valid: %s\n"
 
+#: src/icesh.cc:2700 src/icesh.cc:4576 src/icesh.cc:5176
+#, c-format
+msgid "Invalid state: `%s'."
+msgstr "Keadaan tidak valid: '%s'."
+
+#: src/icesh.cc:4500
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Pengidentifikasi jendela tidak valid: '%s'"
+
+#: src/icesh.cc:1778
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Nama ruang kerja tidak valid: `%s'"
+
+#: src/akeyboard.cc:153
+msgid "Keyboard"
+msgstr "Papan Tik"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game for kids
+#: src/fdospecgen.h:678
+msgid "KidsGame"
+msgstr "Permainan Anak"
+
+#: src/wmframe.cc:1971
+msgid "Kill Client: "
+msgstr "Bunuh Klien: "
+
+#: src/wmwinlist.cc:473
+msgid "Kill _Process"
+msgstr "Bunuh _Process"
+
+#: src/wmapp.cc:671 src/wmwinlist.cc:447
+msgid "La_yer"
+msgstr "La_pisan"
+
+#: src/wmabout.cc:57
+msgid "Language:"
+msgstr "Bahasa:"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to learn foreign languages
+#: src/fdospecgen.h:684 src/fdospecgen.h:690
+msgid "Languages"
+msgstr "Bahasa"
+
+#: src/wmapp.cc:617
+msgid "Left Half"
+msgstr "Belahan Kiri"
+
+#: src/wmapp.cc:685
+msgid "Limit _Workarea"
+msgstr "Batasi Area Ker_ja"
+
+#: src/icelist.cc:60
+msgid "List View"
+msgstr "Tampilan Daftar"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Literature software
+#: src/fdospecgen.h:696 src/fdospecgen.h:702
+msgid "Literature"
+msgstr "Literatur"
+
+#: src/acpustatus.cc:607
+msgid "Load: "
+msgstr "Beban: "
+
+#: src/ycursor.cc:135
+#, c-format
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Gagal memuat pixmap \"%s\""
+
+#: src/ycursor.cc:110
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "Gagal memuat pixmap \"%s\" : %s"
+
+#: src/wmdialog.cc:85
+msgid "Loc_k Workstation"
+msgstr "_Kunci Workstation"
+
+#: src/ylocale.cc:59
+msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
+msgstr "Locale tidak didukung oleh pustaka C. Kembali ke locale 'C'."
+
+#: src/wmapp.cc:533
+msgid "Lock _Workstation"
+msgstr "Kunci _Workstation"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Logic games like puzzles, etc
+#: src/fdospecgen.h:708
+msgid "LogicGame"
+msgstr "Permainan Logika"
+
+#: src/wmapp.cc:1950
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Log keluar akan menutup semua aplikasi yang aktif.\n"
+"Proses?"
+
+#: src/amailbox.cc:961
+msgid "MAIL"
+msgstr "SUREL"
+
+#: src/amemstatus.cc:148
+msgid "MB"
+msgstr "MB"
+
+#: src/amemstatus.cc:262
+msgid "MEM"
+msgstr "MEM"
+
+#: src/wmapp.cc:650 src/wmwinlist.cc:438
+msgid "Ma_ximize"
+msgstr "Maksima_lkan"
+
+#: src/icehelp.cc:1378
+msgid "Manual"
+msgstr "Manual"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for viewing maps, navigation, mapping, GPS
+#: src/fdospecgen.h:714 src/fdospecgen.h:720 src/fdospecgen.h:726
+msgid "Maps"
+msgstr "Peta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Math software
+#: src/fdospecgen.h:80 src/fdospecgen.h:88 src/fdospecgen.h:732
+#: src/fdospecgen.h:738
+msgid "Math"
+msgstr "Matematika"
+
+#: src/wmbutton.cc:133
+msgid "Maximize"
+msgstr "Maksimalkan"
+
+#: src/wmapp.cc:652 src/wmwinlist.cc:440
+msgid "MaximizeHori_z"
+msgstr "MaksimalkanHori_zontal"
+
+#: src/wmapp.cc:651 src/wmwinlist.cc:439
+msgid "Maximize_Vert"
+msgstr "Maksimalkan_Vertikal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Medical software
+#: src/fdospecgen.h:744 src/fdospecgen.h:750
+msgid "MedicalSoftware"
+msgstr "Perangkat Lunak Medis"
+
+#: src/amemstatus.cc:176
+msgid "Memory Total: "
+msgstr "Total Memori: "
+
+#: src/wmapp.cc:648 src/wmwinlist.cc:437
+msgid "Mi_nimize"
+msgstr "Mi_nimalkan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An app related to MIDI
+#: src/fdospecgen.h:62
+msgid "Midi"
+msgstr "Midi"
+
+#: src/wmbutton.cc:137
+msgid "Minimize"
+msgstr "Minimalkan"
+
+#: src/yfontcore.cc:233
+#, c-format
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "Set kode tidak ada untuk set fonta \"%s\":"
+
+#: src/wmmenu.cc:37
+msgid "Missing command argument"
+msgstr "Argumen perintah tidak ada"
+
+#: src/wmmenu.cc:351
+msgid "Missing filename argument to include statement"
+msgstr "Argumen nama berkas hilang untuk menyertakan pernyataan"
+
+#: src/wmmgr.cc:3700
+msgid "Missing program setxkbmap"
+msgstr "Tak ada program setxkbmap"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Just a mixer
+#: src/fdospecgen.h:70
+msgid "Mixer"
+msgstr "Mixer"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Monitor application/applet that monitors some resource or activity
+#: src/fdospecgen.h:756 src/fdospecgen.h:762
+msgid "Monitor"
+msgstr "Monitor"
+
+#: src/icesh.cc:2293
+msgid "Motif decorations"
+msgstr "Hiasan motif"
+
+#: src/icesh.cc:2292
+msgid "Motif functions"
+msgstr "Fungsi motif"
+
+#: src/wmapp.cc:678 src/wmwinlist.cc:450
+msgid "Move _To"
+msgstr "Pindah _Ke"
+
+#: src/wmapp.cc:607 src/wmwinlist.cc:369
+msgid "Move to New _Window"
+msgstr "Pindah ke _Jendela Baru"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Musical software
+#: src/fdospecgen.h:768 src/fdospecgen.h:774
+msgid "Music"
+msgstr "Musik"
+
+#: src/apppstatus.cc:705
+msgid "NET"
+msgstr "NET"
+
+#: src/icesh.cc:1688
+#, c-format
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Nama simbol dari domain `%s' (rentang numerik: %ld-%ld):\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Network application such as a web browser
+#: src/fdospecgen.h:332 src/fdospecgen.h:440 src/fdospecgen.h:500
+#: src/fdospecgen.h:524 src/fdospecgen.h:542 src/fdospecgen.h:608
+#: src/fdospecgen.h:656 src/fdospecgen.h:674 src/fdospecgen.h:764
+#: src/fdospecgen.h:782 src/fdospecgen.h:788 src/fdospecgen.h:902
+#: src/fdospecgen.h:1010 src/fdospecgen.h:1046 src/fdospecgen.h:1064
+#: src/fdospecgen.h:1070 src/fdospecgen.h:1114
+msgid "Network"
+msgstr "Jaringan"
+
+#: src/icesame.cc:59
+msgid "New"
+msgstr "Baru"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A news reader or a news ticker
+#: src/fdospecgen.h:780
+msgid "News"
+msgstr "Berita"
+
+#: src/icehelp.cc:1354
+msgid "Next"
+msgstr "Berikutnya"
+
+#: src/icesh.cc:4350
+msgid "No actions specified."
+msgstr "Tidak ada aksi yang ditentukan."
+
+#: src/icesound.cc:785
+#, c-format
+msgid "No audio for %s"
+msgstr "Tidak ada audio untuk %s"
+
+#: src/icesh.cc:4334
+msgid "No windows found."
+msgstr "Tidak ada jendela yang ditemukan."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Numerical analysis software
+#: src/fdospecgen.h:78 src/fdospecgen.h:86
+msgid "NumericalAnalysis"
+msgstr "Analisis Numerik"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Optical character recognition application
+#: src/fdospecgen.h:94
+msgid "OCR"
+msgstr "OCR"
+
+#: src/icesound.cc:361
+#, c-format
+msgid "OSS incomplete write (%d/%d)"
+msgstr "OSS ditulis tidak lengkap (%d/%d)"
+
+#: src/icesound.cc:357
+msgid "OSS write failed"
+msgstr "Gagal menulis OSS"
+
+#: src/wmapp.cc:679 src/wmwinlist.cc:451
+msgid "Occupy _All"
+msgstr "Tempati Semu_a"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An office type application
+#: src/fdospecgen.h:314 src/fdospecgen.h:326 src/fdospecgen.h:386
+#: src/fdospecgen.h:410 src/fdospecgen.h:446 src/fdospecgen.h:494
+#: src/fdospecgen.h:554 src/fdospecgen.h:560 src/fdospecgen.h:794
+#: src/fdospecgen.h:812 src/fdospecgen.h:848 src/fdospecgen.h:860
+#: src/fdospecgen.h:878 src/fdospecgen.h:998 src/fdospecgen.h:1058
+#: src/fdospecgen.h:1082 src/fdospecgen.h:1118
+msgid "Office"
+msgstr "Kantor"
+
+#: src/icelist.cc:65
+msgid "Open"
+msgstr "Buka"
+
+#: src/icehelp.cc:1362
+msgid "Open in Browser"
+msgstr "Buka di Peramban"
+
+#: src/icewmhint.cc:57
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "Kehabisan memori (len=%d)."
+
+# P: Power
+#: src/aapm.cc:203 src/aapm.cc:474 src/aapm.cc:633
+msgid "P"
+msgstr "D"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A P2P program
+#: src/fdospecgen.h:786
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to manage your PDA
+#: src/fdospecgen.h:792
+msgid "PDA"
+msgstr "PDA"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A package manager application
+#: src/fdospecgen.h:798
+msgid "PackageManager"
+msgstr "Pengelola Paket"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Parallel computing software
+#: src/fdospecgen.h:102 src/fdospecgen.h:110
+msgid "ParallelComputing"
+msgstr "Komputasi Paralel"
+
+#: src/yinputline.cc:21
+msgid "Paste _Selection"
+msgstr "Te_mpel Pilihan"
+
 #: src/icehelp.cc:2307
 msgid "Path does not refer to a file."
 msgstr "Path tidak merujuk ke berkas."
 
-#: src/icehelp.cc:2312
-msgid "Failed to open file for reading."
-msgstr "Gagal membuka berkas untuk membaca."
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Camera tools, etc.
+#: src/fdospecgen.h:804 src/fdospecgen.h:810
+msgid "Photography"
+msgstr "Fotografi"
 
-#: src/icehelp.cc:2341
-msgid "Failed to create a temporary file"
-msgstr "Gagal membuat berkas sementara"
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Physics software
+#: src/fdospecgen.h:816 src/fdospecgen.h:822
+msgid "Physics"
+msgstr "Fisika"
 
-#: src/icehelp.cc:2431
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to play audio/video files
+#: src/fdospecgen.h:828 src/fdospecgen.h:834 src/fdospecgen.h:840
+msgid "Player"
+msgstr "Pemain"
+
+#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
-msgid "Failed to execute system(%s) (%d)"
-msgstr "Gagal mengeksekusi sistem(%s) (%d)"
+msgid "Playing sample #%d (%s)"
+msgstr "Bermain sampel #%d (%s)"
 
-#: src/icehelp.cc:2453
+#: src/fdomenu.cc:1200
+msgid "Please push HERE and retry after some seconds."
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
+#: src/fdospecgen.h:846
+msgid "Presentation"
+msgstr "Presentasi"
+
+#: src/icehelp.cc:1353
+msgid "Previous"
+msgstr "Sebelumnya"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage printers
+#: src/fdospecgen.h:24
+msgid "Printing"
+msgstr "Pencetakan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A profiling tool
+#: src/fdospecgen.h:852
+msgid "Profiling"
+msgstr "Profil"
+
+#: src/wmprog.cc:422
+msgid "Programs"
+msgstr "Program"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Project management application
+#: src/fdospecgen.h:858 src/fdospecgen.h:864
+msgid "ProjectManagement"
+msgstr "Manajemen Proyek"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Desktop Publishing applications and Color Management tools
+#: src/fdospecgen.h:870 src/fdospecgen.h:876
+msgid "Publishing"
+msgstr "Penerbitan"
+
+#: src/wmapp.cc:667
+msgid "R_aise"
+msgstr "N_aik"
+
+#: src/wmapp.cc:691 src/wmwinlist.cc:453
+msgid "R_ename title"
+msgstr "G_anti judul"
+
+#: src/wmbutton.cc:124
+msgid "Raise/Lower"
+msgstr "Naikkan/Turunkan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing raster (bitmap) graphics
+#: src/fdospecgen.h:118
+msgid "RasterGraphics"
+msgstr "Grafis Raster"
+
+#: src/wmapp.cc:535 src/wmdialog.cc:89
+msgid "Re_boot"
+msgstr "Mulai Ulan_g"
+
+#: src/icesound.cc:870
 #, c-format
-msgid "Failed to decompress %s"
-msgstr "Gagal untuk dekompresi %s"
+msgid "Received GUI event %s"
+msgstr "Menerima peristiwa GUI %s"
 
-#: src/icehelp.cc:2461
-msgid "Could not locate curl or wget in PATH"
-msgstr "Tidak dapat menemukan curl atau wget di PATH"
+#: src/icesound.cc:866
+#, c-format
+msgid "Received invalid GUI event %d"
+msgstr "Menerima peristiwa GUI yang tidak valid %d"
+
+#: src/icesound.cc:946
+#, c-format
+msgid "Received signal %s: Terminating..."
+msgstr "Menerima sinyal %s: Menghentikan..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to record audio/video files
+#: src/fdospecgen.h:882 src/fdospecgen.h:888 src/fdospecgen.h:894
+msgid "Recorder"
+msgstr "Perekam"
+
+#: src/icehelp.cc:1364
+msgid "Reload"
+msgstr "Muat ulang"
+
+#: src/wmdialog.cc:96
+msgid "Reload ke_ys"
+msgstr "Muat ulang tombo_l"
+
+#: src/wmdialog.cc:95
+msgid "Reload win_options"
+msgstr "Muat ulang win_options"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to remotely manage your PC
+#: src/fdospecgen.h:900
+msgid "RemoteAccess"
+msgstr "Akses Jauh"
+
+#: src/wmframe.cc:1458
+msgid "Rename"
+msgstr "Ganti nama"
+
+#: src/wmframe.cc:1459
+msgid "Rename the window title"
+msgstr "Ganti nama judul jendela"
+
+#: src/wmabout.cc:63
+msgid "Renderer:"
+msgstr "Perender:"
+
+#: src/icesame.cc:60
+msgid "Restart"
+msgstr "Mulai Ulang"
+
+#: src/wmapp.cc:545
+msgid "Restart _Icewm"
+msgstr "Mulai ulang _Icewm"
+
+#: src/wmapp.cc:547
+msgid "Restart _Xterm"
+msgstr "Mulai ulang _Xterm"
+
+#: src/wmbutton.cc:131
+msgid "Restore"
+msgstr "Pulihkan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Applications like cvs or subversion
+#: src/fdospecgen.h:906
+msgid "RevisionControl"
+msgstr "Kontrol Revisi"
+
+#: src/wmapp.cc:618
+msgid "Right Half"
+msgstr "Belahan Kanan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Robotics software
+#: src/fdospecgen.h:912 src/fdospecgen.h:918
+msgid "Robotics"
+msgstr "Robotika"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A role playing game
+#: src/fdospecgen.h:924
+msgid "RolePlaying"
+msgstr "Memainkan Peran"
+
+#: src/wmapp.cc:660 src/wmwinlist.cc:444
+msgid "Roll_up"
+msgstr "G_ulung"
+
+#: src/wmbutton.cc:141
+msgid "Rolldown"
+msgstr "Gulung bawah"
+
+#: src/wmbutton.cc:143
+msgid "Rollup"
+msgstr "Gulung atas"
+
+#: src/wmprog.cc:346
+msgid "S_trict mouse focus"
+msgstr "Fokus _tetikus yang ketat"
+
+#: src/icesame.cc:65
+msgid "Same Game"
+msgstr "Permainan yang Sama"
+
+#: src/wmpref.cc:101
+msgid "Save Modifications"
+msgstr "Simpan Modifikasi"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to scan a file/text
+#: src/fdospecgen.h:96 src/fdospecgen.h:930
+msgid "Scanning"
+msgstr "Pemindaian"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Scientific software
+#: src/fdospecgen.h:90 src/fdospecgen.h:114 src/fdospecgen.h:230
+#: src/fdospecgen.h:242 src/fdospecgen.h:254 src/fdospecgen.h:284
+#: src/fdospecgen.h:344 src/fdospecgen.h:362 src/fdospecgen.h:380
+#: src/fdospecgen.h:404 src/fdospecgen.h:470 src/fdospecgen.h:482
+#: src/fdospecgen.h:578 src/fdospecgen.h:590 src/fdospecgen.h:602
+#: src/fdospecgen.h:632 src/fdospecgen.h:644 src/fdospecgen.h:668
+#: src/fdospecgen.h:692 src/fdospecgen.h:704 src/fdospecgen.h:722
+#: src/fdospecgen.h:740 src/fdospecgen.h:752 src/fdospecgen.h:824
+#: src/fdospecgen.h:920 src/fdospecgen.h:968 src/fdospecgen.h:986
+#: src/fdospecgen.h:1122
+msgid "Science"
+msgstr "Sains"
+
+#: src/wmprog.cc:460
+msgid "Se_ttings"
+msgstr "Penga_turan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A security tool
+#: src/fdospecgen.h:936 src/fdospecgen.h:942
+msgid "Security"
+msgstr "Keamanan"
+
+#: src/yinputline.cc:23
+msgid "Select _All"
+msgstr "Pilih Semu_a"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sequencer
+#: src/fdospecgen.h:126
+msgid "Sequencer"
+msgstr "Sequencer"
+
+#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
+#, c-format
+msgid "Session Manager: Unknown line %s"
+msgstr "Pengelola Sesi: Baris tidak diketahui %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Settings applications
+#: src/fdospecgen.h:26 src/fdospecgen.h:30 src/fdospecgen.h:176
+#: src/fdospecgen.h:434 src/fdospecgen.h:620 src/fdospecgen.h:800
+#: src/fdospecgen.h:938 src/fdospecgen.h:1126
+msgid "Settings"
+msgstr "Pengaturan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A shooter game
+#: src/fdospecgen.h:948
+msgid "Shooter"
+msgstr "Penembak"
+
+#: src/wmtaskbar.cc:372
+msgid "Show Desktop"
+msgstr "Tampilkan Destop"
+
+#: src/wmtaskbar.cc:1025
+msgid "Show Taskbar"
+msgstr "Tampilkan bilah tugas"
+
+#: src/wmapp.cc:537 src/wmdialog.cc:90
+msgid "Shut_down"
+msgstr "Ma_tikan"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simulation game
+#: src/fdospecgen.h:954
+msgid "Simulation"
+msgstr "Simulasi"
+
+#: src/iceskt.cc:41
+#, c-format
+msgid "Socket error: %d"
+msgstr "Galat soket: %d"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Religious and spiritual software, theology
+#: src/fdospecgen.h:960 src/fdospecgen.h:966 src/fdospecgen.h:972
+msgid "Spirituality"
+msgstr "Spiritualitas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Sports software
+#: src/fdospecgen.h:978 src/fdospecgen.h:984
+msgid "Sports"
+msgstr "Olahraga"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sports game
+#: src/fdospecgen.h:990
+msgid "SportsGame"
+msgstr "Permainan Olahraga"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A spreadsheet
+#: src/fdospecgen.h:996
+msgid "Spreadsheet"
+msgstr "Lembar Kerja"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A strategy game
+#: src/fdospecgen.h:1002
+msgid "StrategyGame"
+msgstr "Permainan Strategi"
+
+#: src/icehelp.cc:1380
+msgid "Support"
+msgstr "Dukungan"
+
+#: src/yximage.cc:181
+msgid "Support for JPEG images was not enabled"
+msgstr "Dukungan untuk gambar JPEG tidak diaktifkan"
+
+#: src/yximage.cc:173
+msgid "Support for PNG images was not enabled"
+msgstr "Dukungan untuk gambar PNG tidak diaktifkan"
+
+#: src/icesound.cc:888
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "Dukungan untuk antarmuka %s tidak dikompilasi."
+
+#: src/amailbox.cc:801
+msgid "Suspended"
+msgstr "Ditangguhkan"
+
+#: src/wmoption.cc:357
+#, c-format
+msgid "Syntax error in window options on line %d of %s"
+msgstr "Kesalahan sintaks dalam opsi jendela pada baris %d dari %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: System application, "System Tools" such as say a log viewer or network monitor
+#: src/fdospecgen.h:58 src/fdospecgen.h:506 src/fdospecgen.h:536
+#: src/fdospecgen.h:548 src/fdospecgen.h:758 src/fdospecgen.h:944
+#: src/fdospecgen.h:1022 src/fdospecgen.h:1130
+msgid "System"
+msgstr "Sistem"
+
+#: src/fdomenu.cc:1197
+msgid "System too slow! Failed to load menu content!"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
+#: src/fdospecgen.h:134
+msgid "TV"
+msgstr "TV"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:628 src/wmtaskbar.cc:217 src/wmwinlist.cc:456
+#: src/wmwinlist.cc:489
+msgid "T_ile Horizontally"
+msgstr "Ub_in Secara Horizontal"
+
+#: src/decorate.cc:132
+msgid "Tabs"
+msgstr "Tab"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony via PC
+#: src/fdospecgen.h:1008
+msgid "Telephony"
+msgstr "Telefoni"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony tools, to dial a number, manage PBX, ...
+#: src/fdospecgen.h:1014
+msgid "TelephonyTools"
+msgstr "Perkakas Telephony"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A terminal emulator application
+#: src/fdospecgen.h:1020
+msgid "TerminalEmulator"
+msgstr "Emulator Terminal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text editor
+#: src/fdospecgen.h:1026
+msgid "TextEditor"
+msgstr "Penyunting Teks"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text tool utility
+#: src/fdospecgen.h:48 src/fdospecgen.h:1032
+msgid "TextTools"
+msgstr "Perkakas Teks"
+
+#: src/wmabout.cc:47
+msgid "Theme Author:"
+msgstr "Penulis Tema:"
+
+#: src/wmabout.cc:46
+msgid "Theme Description:"
+msgstr "Deskripsi Tema:"
+
+#: src/icehelp.cc:1382
+msgid "Theme Howto"
+msgstr "Tema Howto"
+
+#: src/wmabout.cc:45
+msgid "Theme:"
+msgstr "Tema:"
+
+#: src/wmapp.cc:674 src/wmwinlist.cc:448
+msgid "Tile"
+msgstr "Jejeran"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:630 src/wmtaskbar.cc:215 src/wmwinlist.cc:455
+#: src/wmwinlist.cc:488
+msgid "Tile _Vertically"
+msgstr "Ubin Secara _Vertikal"
+
+#: src/icesound.cc:884
+#, c-format
+msgid "Too quick; ignoring %s."
+msgstr "Terlalu cepat; mengabaikan %s."
+
+#: src/wmapp.cc:619
+msgid "Top Half"
+msgstr "Belahan Puncak"
+
+#: src/wmapp.cc:622
+msgid "Top Left"
+msgstr "Kiri Atas"
+
+#: src/wmapp.cc:623
+msgid "Top Right"
+msgstr "Kanan Atas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A translation tool
+#: src/fdospecgen.h:1038
+msgid "Translation"
+msgstr "Terjemahan"
+
+#: src/wmapp.cc:689 src/wmwinlist.cc:452
+msgid "Tray _icon"
+msgstr "_Ikon baki"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tuner
+#: src/fdospecgen.h:142
+msgid "Tuner"
+msgstr "Penyetem"
+
+#: src/fdomenu.cc:908
+msgid ""
+"USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+"OPTIONS:\n"
+"-g, --generic\t\tInclude GenericName in parentheses of progs\n"
+"-o, --output=FILE\tWrite the output to FILE\n"
+"-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+"-s, --no-lone-app\tMove lone elements to parent menu\n"
+"-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+"-d, --deadline-apps=N\tStop loading app information after N ms\n"
+"-D, --deadline-all=N\tStop all loading and print what we got so far\n"
+"-m, --match=PAT\t\tDisplay only apps with title containing PAT\n"
+"-M, --imatch=PAT\tLike --match but ignores the letter case\n"
+"-L, --limit-max-len=N\tCrop app titles at length N, add ...\n"
+"--seps  \tPrint separators before and after contents\n"
+"--sep-before\tPrint separator before the contents\n"
+"--sep-after\tPrint separator only after contents\n"
+"--no-sep-others\tLegacy, has no effect\n"
+"--no-sub-cats\tNo additional subcategories, just one level of menues\n"
+"--flat\t\tDisplay all apps in one layer with category hints\n"
+"--flat-sep=STR\tCategory separator string used in flat mode (default: ' / "
+"')\n"
+"--match-sec\tApply --match or --imatch to apps AND sections\n"
+"--match-osec\tApply --match or --imatch only to sections\n"
+"--orig-comment\tPrint source .desktop file as comment\n"
+"-C, --copying\tPrint copyright information\n"
+"-V, --version\tPrint version information\n"
+"-h, --help\tPrints this usage screen and exits.\n"
+"\n"
+"FILENAME\tAny .desktop file to launch its application Exec command.\n"
+"\n"
+"This program also listens to environment variables defined by\n"
+"the XDG Base Directory Specification:\n"
+msgstr ""
+
+#: src/upath.cc:172
+#, c-format
+msgid "Unable to create directory %s"
+msgstr "Tidak dapat membuat direktori %s"
+
+#: src/wmconfig.cc:175 src/wmsave.cc:306
+#, c-format
+msgid "Unable to rename %s to %s"
+msgstr "Tidak dapat mengganti nama %s menjadi %s"
+
+#: src/icesh.cc:3927 src/icesh.cc:3935 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/wmsave.cc:298 src/wmsave.cc:301
+#, c-format
+msgid "Unable to write to %s"
+msgstr "Tidak dapat menulis ke %s"
+
+#: src/icesame.cc:57
+msgid "Undo"
+msgstr "Tak jadi"
+
+#: src/wmmenu.cc:226
+#, c-format
+msgid "Unexepected menu keyword: '%s'"
+msgstr "Kata kunci menu yang tidak dipilih: '%s'"
+
+#: src/icesh.cc:4302
+#, c-format
+msgid "Unexpected: `%s'."
+msgstr "Tak diharapkan: `%s'."
+
+#: src/icesh.cc:5628
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Aksi tidak diketahui: '%s'"
+
+#: src/movesize.cc:865
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Arah tidak dikenal dalam memindahkan/mengubah  permintaan: %d"
+
+#: src/aapm.cc:169
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr "Format tidak dikenal yang digunakan oleh perangkat APM %s (%d)."
+
+#: src/yconfig.cc:83
+#, c-format
+msgid "Unknown key name %s in %s"
+msgstr "Nama kunci %s tidak dikenal dalam %s"
+
+#: src/wmmenu.cc:412
+#, c-format
+msgid "Unknown keyword '%s'"
+msgstr "Kata kunci tidak dikenal '%s'"
+
+#: src/wmmenu.cc:423
+#, c-format
+msgid ""
+"Unknown keyword for a non-container: '%s'.\n"
+"Expected either 'key' or 'runonce' here.\n"
+msgstr ""
+"Kata kunci tidak dikenal untuk penampung non-kontainer: '%s'.\n"
+"Diharapkan 'kunci' atau 'runonce' di sini.\n"
+
+#: src/icesm.cc:188
+#, c-format
+msgid "Unknown option '%s'"
+msgstr "Opsi tidak diketahui '%s'"
+
+#: src/wmconfig.cc:113
+#, c-format
+msgid "Unknown value '%s' for option '%s'."
+msgstr "Nilai '%s' yang tidak diketahui untuk opsi '%s'."
+
+#: src/wmoption.cc:285
+#, c-format
+msgid "Unknown window option: %s"
+msgstr "Opsi jendela tidak dikenal: %s"
+
+#: src/wmapp.cc:1004
+msgid ""
+"Unmanage all applications and restart\n"
+"as a terminal. Proceed?"
+msgstr ""
+"Lepaskan semua aplikasi dan mulai ulang\n"
+"sebagai terminal. Melanjutkan?"
+
+#: src/icesound.cc:683 src/icesound.cc:978
+#, c-format
+msgid "Unrecognized argument: %s\n"
+msgstr "Argumen yang tidak dikenal: %s\n"
+
+#: src/icewmbg.cc:1248 src/wmapp.cc:1899
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Opsi yang tidak dikenali '%s'."
+
+#: src/icesound.cc:680
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Opsi tidak dikenal: %s\n"
 
 #: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Karakter yang tidak aman di URL"
+
+#: src/yximage.cc:187
+#, c-format
+msgid "Unsupported file format: %s"
+msgstr "Format berkas yang tidak didukung: %s"
+
+#: src/icesound.cc:921
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Antarmuka yang tidak didukung: %s."
+
+#: src/icehelp.cc:2204
+msgid "Unsupported protocol."
+msgstr "Protokol tidak didukung."
+
+#: src/misc.cc:395
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Options:\n"
+"%s\n"
+"  -C, --copying       Prints license information and exits.\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+msgstr ""
+"Penggunaan: %s [OPTIONS]\n"
+"Opsi:\n"
+"%s\n"
+"  -C, --copying       Cetak informasi lisensi dan keluar.\n"
+"  -V, --version       Cetak informasi versi dan keluar.\n"
+"  -h, --help          Cetak layar penggunaan ini dan keluar.\n"
+"\n"
+
+#: src/wmapp.cc:1657
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"%s\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  -l, --list-themes   Print a list of all available themes.\n"
+"%s\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
+"                      \"$HOME/.icewm\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"  MAIL=URL            Location of your mailbox.\n"
+"\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
+msgstr ""
+"Penggunan: %s [OPTIONS]\n"
+"Mulai pengelola jendela IceWM.\n"
+"\n"
+"Opsi:\n"
+"  -d, --display=NAME  NAME dari peladen X yang akan digunakan.\n"
+"%s  --sync              Sinkronisasi perintah X11.\n"
+"%s\n"
+"  -V, --version       Cetak informasi versi dan keluar.\n"
+"  -h, --help          Cetak layar penggunaan ini dan keluar.\n"
+"%s\n"
+"  --replace           Ganti pengelola jendela yang ada.\n"
+"  -r, --restart       Beri tahu icewm yang sedang berjalan untuk memulai "
+"kembali sendiri.\n"
+"\n"
+"  --configured        Cetak konfigurasi waktu kompilasi.\n"
+"  --directories       Cetak direktori konfigurasi.\n"
+"  -l, --list-themes   Cetak daftar semua tema yang tersedia.\n"
+"%s\n"
+"Variabel lingkungan:\n"
+"  ICEWM_PRIVCFG=PATH  Direktori untuk berkas konfigurasi pengguna,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" jika ada atau\n"
+"                      \"$HOME/.icewm\" secara bawaan.\n"
+"  DISPLAY=NAME        Nama peladen X yang digunakan.\n"
+"  MAIL=URL            Lokasi kotak surat Anda.\n"
+"\n"
+"Untuk melaporkan kutu, permintaan dukungan, komentar silakan kunjungi:\n"
+"%s\n"
+"\n"
 
 #: src/icehelp.cc:2502
 #, c-format
@@ -1281,316 +2349,6 @@ msgstr ""
 "Untuk melaporkan kutu, permintaan dukungan, komentar silakan kunjungi:\n"
 "%s\n"
 "\n"
-
-#: src/icehelp.cc:2592
-#, c-format
-msgid "Ignoring option '%s'"
-msgstr "Mengabaikan opsi '%s'"
-
-#: src/icelist.cc:60
-msgid "List View"
-msgstr "Tampilan Daftar"
-
-#: src/icelist.cc:61
-msgid "Icon View"
-msgstr "Tampilan Ikon"
-
-#: src/icelist.cc:65
-msgid "Open"
-msgstr "Buka"
-
-#: src/icesame.cc:57
-msgid "Undo"
-msgstr "Tak jadi"
-
-#: src/icesame.cc:57
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
-
-#: src/icesame.cc:59
-msgid "New"
-msgstr "Baru"
-
-#: src/icesame.cc:59
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
-
-#: src/icesame.cc:60
-msgid "Restart"
-msgstr "Mulai Ulang"
-
-#: src/icesame.cc:65
-msgid "Same Game"
-msgstr "Permainan yang Sama"
-
-#: src/icesh.cc:76
-msgid "For help please consult the man page icesh(1).\n"
-msgstr "Untuk bantuan silahkan baca halaman manual icesh(1).\n"
-
-#: src/icesh.cc:1668
-#, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Nama simbol dari domain `%s' (rentang numerik: %ld-%ld):\n"
-
-#: src/icesh.cc:1737
-#, c-format
-msgid "Workspace out of range: %ld"
-msgstr "Ruang kerja di luar jangkauan: %ld"
-
-#: src/icesh.cc:1758
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Nama ruang kerja tidak valid: `%s'"
-
-#: src/icesh.cc:2269
-msgid "GNOME window layer"
-msgstr "Lapisan jendela GNOME"
-
-#: src/icesh.cc:2270
-msgid "IceWM tray option"
-msgstr "Opsi baki IceWM"
-
-#: src/icesh.cc:2271
-msgid "Gravity symbols"
-msgstr "Simbol gravitasi"
-
-#: src/icesh.cc:2272
-msgid "Motif functions"
-msgstr "Fungsi motif"
-
-#: src/icesh.cc:2273
-msgid "Motif decorations"
-msgstr "Hiasan motif"
-
-#: src/icesh.cc:2274
-msgid "EWMH window state"
-msgstr "Keadaan jendela EWMH"
-
-#: src/icesh.cc:2356 src/icesh.cc:2429
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "ruang kerja #%d: `%s'\n"
-
-#: src/icesh.cc:2680 src/icesh.cc:4511 src/icesh.cc:5108
-#, c-format
-msgid "Invalid state: `%s'."
-msgstr "Keadaan tidak valid: '%s'."
-
-#: src/icesh.cc:2709 src/icesh.cc:4090 src/icesh.cc:4140 src/icesh.cc:5429
-#, c-format
-msgid "Invalid argument: `%s'"
-msgstr "Argumen tidak valid: '%s'"
-
-#: src/icesh.cc:3710
-#, c-format
-msgid "Cannot get geometry of window 0x%lx"
-msgstr "Tidak dapat mendapatkan geometri jendela 0x%lx"
-
-#: src/icesh.cc:3735
-#, c-format
-msgid "Invalid Xinerama: `%s'."
-msgstr "Xinerama tidak valid: `%s'."
-
-#: src/icesh.cc:3867 src/icesh.cc:3875 src/wmconfig.cc:139 src/wmsave.cc:65
-#: src/wmsave.cc:298 src/wmsave.cc:301
-#, c-format
-msgid "Unable to write to %s"
-msgstr "Tidak dapat menulis ke %s"
-
-#: src/icesh.cc:4106
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "Aksi '%s' memerlukan setidaknya argumen %d."
-
-#: src/icesh.cc:4115
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Ekspresi tidak valid: '%s'"
-
-#: src/icesh.cc:4126 src/icesound.cc:800 src/icewmbg.cc:1087
-#: src/icewmhint.cc:37 src/wmapp.cc:1293 src/yxapp.cc:1049
-#, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr "Tidak dapat membuka tampilan: %s. X harus berjalan dan atur $DISPLAY."
-
-#: src/icesh.cc:4242
-#, c-format
-msgid "Unexpected: `%s'."
-msgstr "Tak diharapkan: `%s'."
-
-#: src/icesh.cc:4274
-msgid "No windows found."
-msgstr "Tidak ada jendela yang ditemukan."
-
-#: src/icesh.cc:4290
-msgid "No actions specified."
-msgstr "Tidak ada aksi yang ditentukan."
-
-#: src/icesh.cc:4435
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Pengidentifikasi jendela tidak valid: '%s'"
-
-#: src/icesh.cc:4451
-#, c-format
-msgid "Invalid PID: `%s'"
-msgstr "PID tidak valid: '%s'"
-
-#: src/icesh.cc:4484
-#, c-format
-msgid "Invalid layer: `%s'."
-msgstr "Lapisan tidak valid: `%s'."
-
-#: src/icesh.cc:5560
-#, c-format
-msgid "Unknown action: `%s'"
-msgstr "Aksi tidak diketahui: '%s'"
-
-#: src/iceskt.cc:41
-#, c-format
-msgid "Socket error: %d"
-msgstr "Galat soket: %d"
-
-#: src/icesm.cc:69
-msgid ""
-"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-"\n"
-"  -d, --display=NAME  Use NAME to connect to the X server.\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-"  -o, --output=FILE   Redirect all output to FILE.\n"
-"\n"
-"  -b, --nobg          Do not start icewmbg.\n"
-"  -n, --notray        Do not start icewmtray.\n"
-"  -s, --sound         Also start icesound.\n"
-msgstr ""
-"  -c, --config=FILE   Biarkan IceWM memuat preferensi dari FILE.\n"
-"  -t, --theme=FILE    Biarkan IceWM memuat tema dari FILE.\n"
-"\n"
-"  -d, --display=NAME  Gunakan NAME untuk terhubung ke peladen X.\n"
-"  -a, --alpha         Gunakan visual 32-bit untuk tembus pandang.\n"
-"  --sync              Sinkronisasi komunikasi dengan peladen X11.\n"
-"  -o, --output=FILE   Mengarahkan semua output ke BERKAS.\n"
-"  -i, --icewm=FILE    Gunakan FILE sebagai pengelola jendela IceWM.\n"
-"  -b, --nobg          Jangan mulai icewmbg.\n"
-"  -n, --notray        Jangan mulai icewmtray.\n"
-"  -s, --sound         Juga mulai icesound.\n"
-
-#: src/icesm.cc:85
-msgid ""
-"\n"
-"Debugging options:\n"
-"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
-"                      Thoroughly examines the execution of icewm.\n"
-"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
-"                      Gives a backtrace if icewm segfaults.\n"
-msgstr ""
-"\n"
-"Opsi awakutu:\n"
-"   -v, --valgrind      Biarkan \"/usr/bin/valgrind\" menjalankan icewm.\n"
-"                       Secara menyeluruh memeriksa eksekusi icewm.\n"
-"   -g, --catchsegv     Biarkan \"/usr/bin/catchsegv\" menjalankan icewm.\n"
-"                       Berikan backtrace jika icewm segfaults.\n"
-
-#: src/icesm.cc:188
-#, c-format
-msgid "Unknown option '%s'"
-msgstr "Opsi tidak diketahui '%s'"
-
-#: src/icesm.cc:462 src/icesm.cc:622
-#, c-format
-msgid "restart %s."
-msgstr "mulai ulang %s."
-
-#: src/icesm.cc:513
-msgid ""
-" IceWM crashed for the second time in 10 seconds. \n"
-" Do you wish to:\n"
-"\n"
-"\t1: Restart IceWM?\n"
-"\t2: Abort this session?\n"
-"\t3: Run a terminal?\n"
-msgstr ""
-" IceWM macet untuk kedua kalinya dalam 10 detik. \n"
-" Apakah Anda ingin:\n"
-"\n"
-"\t1: Memulai ulang IceWM?\n"
-"\t2: Gugurkan sesi ini?\n"
-"\t3: Jalankan terminal?\n"
-
-#: src/icesm.cc:519
-msgid "IceWM crash response"
-msgstr "Respon kres IceWM"
-
-#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
-#, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Bermain sampel #%d (%s)"
-
-#: src/icesound.cc:329
-#, c-format
-msgid "%s: Invalid number of channels"
-msgstr "%s: Jumlah kanal tidak valid"
-
-#: src/icesound.cc:335 src/icesound.cc:340
-msgid "Could not set OSS channels"
-msgstr "Tidak dapat mengatur kanal OSS"
-
-#: src/icesound.cc:345 src/icesound.cc:373
-msgid "Could not sync OSS"
-msgstr "Tidak dapat menyinkronkan OSS"
-
-#: src/icesound.cc:357
-msgid "OSS write failed"
-msgstr "Gagal menulis OSS"
-
-#: src/icesound.cc:361
-#, c-format
-msgid "OSS incomplete write (%d/%d)"
-msgstr "OSS ditulis tidak lengkap (%d/%d)"
-
-#: src/icesound.cc:368
-msgid "Could not post OSS"
-msgstr "Tidak dapat mempos OSS"
-
-#: src/icesound.cc:397
-#, c-format
-msgid "Could not open OSS device %s"
-msgstr "Tidak dapat membuka perangkat OSS %s"
-
-#: src/icesound.cc:402
-msgid "Could not set OSS stereo"
-msgstr "Tidak dapat mengatur stereo OSS"
-
-#: src/icesound.cc:407
-msgid "Could not reset OSS DSP"
-msgstr "Tidak dapat mengatur ulang OSS DSP"
-
-#: src/icesound.cc:412
-msgid "Could not set OSS format"
-msgstr "Tidak dapat mengatur format OSS"
-
-#: src/icesound.cc:499
-#, c-format
-msgid "ao_open_live failed with %d"
-msgstr "ao_open_live gagal dengan %d"
-
-#: src/icesound.cc:510
-msgid "ao_play failed"
-msgstr "ao_play gagal"
-
-#: src/icesound.cc:680
-#, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Opsi tidak dikenal: %s\n"
-
-#: src/icesound.cc:683 src/icesound.cc:978
-#, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Argumen yang tidak dikenal: %s\n"
 
 #: src/icesound.cc:694
 #, c-format
@@ -1698,93 +2456,6 @@ msgstr ""
 "  3    Galat subsistem (mis. tidak dapat terhubung ke peladen).\n"
 "\n"
 
-#: src/icesound.cc:785
-#, c-format
-msgid "No audio for %s"
-msgstr "Tidak ada audio untuk %s"
-
-#: src/icesound.cc:862
-msgid "Could not get GUI event property"
-msgstr "Tidak dapat mendapatkan properti peristiwa GUI"
-
-#: src/icesound.cc:866
-#, c-format
-msgid "Received invalid GUI event %d"
-msgstr "Menerima peristiwa GUI yang tidak valid %d"
-
-#: src/icesound.cc:870
-#, c-format
-msgid "Received GUI event %s"
-msgstr "Menerima peristiwa GUI %s"
-
-#: src/icesound.cc:884
-#, c-format
-msgid "Too quick; ignoring %s."
-msgstr "Terlalu cepat; mengabaikan %s."
-
-#: src/icesound.cc:888
-#, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "Dukungan untuk antarmuka %s tidak dikompilasi."
-
-#: src/icesound.cc:921
-#, c-format
-msgid "Unsupported interface: %s."
-msgstr "Antarmuka yang tidak didukung: %s."
-
-#: src/icesound.cc:930
-#, c-format
-msgid "Using %s audio."
-msgstr "Menggunakan audio %s."
-
-#: src/icesound.cc:934
-#, c-format
-msgid "Failed to connect to audio interfaces %s."
-msgstr "Gagal terhubung ke antarmuka audio %s."
-
-#: src/icesound.cc:946
-#, c-format
-msgid "Received signal %s: Terminating..."
-msgstr "Menerima sinyal %s: Menghentikan..."
-
-#: src/icetray.cc:220
-msgid ""
-"  -n, --notify        Notify parent process by sending signal USR1.\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load the theme from FILE.\n"
-msgstr ""
-"  -n, --notify        Beri tahu proses induk dengan mengirimkan sinyal "
-"USR1.\n"
-"  --display=NAME      Gunakan NAME untuk terhubung ke peladen X.\n"
-"  --sync              Sinkronisasi komunikasi dengan peladen X11 server.\n"
-"\n"
-"  -c, --config=FILE   Muat preferensi dari FILE.\n"
-"  -t, --theme=FILE    Muat tema dari FILE.\n"
-
-#: src/iceview.cc:59
-msgid "Hex View"
-msgstr "Tampilan Heksa"
-
-#: src/iceview.cc:59
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-#: src/iceview.cc:60
-msgid "Expand Tabs"
-msgstr "Perluas Tab"
-
-#: src/iceview.cc:61
-msgid "Wrap Lines"
-msgstr "Lipat Baris"
-
-#: src/icewmbg.cc:35 src/icewmbg.cc:372
-#, c-format
-msgid "Failed to load image '%s'."
-msgstr "Gagal memuat berkas gambar '%s'."
-
 #: src/icewmbg.cc:969
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1885,568 +2556,57 @@ msgstr ""
 " center:0 scaled:1 = isi kedua dimensi dan pertahankan rasio aspek\n"
 "\n"
 
-#: src/icewmbg.cc:1248 src/wmapp.cc:1902
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "Opsi yang tidak dikenali '%s'."
-
-#: src/icewmbg.cc:1335
-msgid "Cannot start, because another icewmbg is still running."
-msgstr "Tidak dapat memulai, karena icewmbg lain masih berjalan."
-
 #: src/icewmhint.cc:20
 msgid "Usage: icewmhint class.instance option arg\n"
 msgstr ""
 "Penggunaan: icewmhint class.instance opsi arg\n"
 "\n"
 
-#: src/icewmhint.cc:57
+#: src/amemstatus.cc:180
+msgid "User: "
+msgstr "Pengguna: "
+
+#: src/icesound.cc:930
 #, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Kehabisan memori (len=%d)."
+msgid "Using %s audio."
+msgstr "Menggunakan audio %s."
 
-#: src/misc.cc:71 src/misc.cc:83
-msgid "Warning: "
-msgstr "Peringatan: "
-
-#: src/misc.cc:394
+#: src/amailbox.cc:694
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Options:\n"
-"%s\n"
-"  -C, --copying       Prints license information and exits.\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"\n"
-msgstr ""
-"Penggunaan: %s [OPTIONS]\n"
-"Opsi:\n"
-"%s\n"
-"  -C, --copying       Cetak informasi lisensi dan keluar.\n"
-"  -V, --version       Cetak informasi versi dan keluar.\n"
-"  -h, --help          Cetak layar penggunaan ini dan keluar.\n"
-"\n"
-
-#: src/movesize.cc:859
-#, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr "Arah tidak dikenal dalam memindahkan/mengubah  permintaan: %d"
-
-#: src/upath.cc:172
-#, c-format
-msgid "Unable to create directory %s"
-msgstr "Tidak dapat membuat direktori %s"
-
-#: src/wmabout.cc:29
-msgid "(C)"
-msgstr "(C)"
-
-#: src/wmabout.cc:45
-msgid "Theme:"
-msgstr "Tema:"
-
-#: src/wmabout.cc:46
-msgid "Theme Description:"
-msgstr "Deskripsi Tema:"
-
-#: src/wmabout.cc:47
-msgid "Theme Author:"
-msgstr "Penulis Tema:"
-
-#: src/wmabout.cc:56
-msgid "CodeSet:"
-msgstr "SetKode:"
-
-#: src/wmabout.cc:57
-msgid "Language:"
-msgstr "Bahasa:"
-
-#: src/wmabout.cc:61
-msgid "DoubleBuffer"
-msgstr "Buffer Ganda"
-
-#: src/wmabout.cc:62
-msgid "AlphaBlending"
-msgstr "Alfa Blending"
-
-#: src/wmabout.cc:63
-msgid "Renderer:"
-msgstr "Perender:"
-
-#: src/wmabout.cc:71
-msgid "icewm - About"
-msgstr "icewm - Tentang"
-
-#: src/wmapp.cc:91
-msgid "A window manager is already running, use --replace to replace it"
-msgstr "Pengelola jendela sudah berjalan, gunakan --replace untuk menggantinya"
-
-#: src/wmapp.cc:107
-#, c-format
-msgid "Failed to become the owner of the %s selection"
-msgstr "Gagal menjadi pemilik pilihan %s"
-
-#: src/wmapp.cc:111
-msgid "Waiting to replace the old window manager"
-msgstr "Menunggu untuk mengganti pengelola jendela lama"
-
-#: src/wmapp.cc:116
-msgid "done."
-msgstr "selesai."
-
-#: src/wmapp.cc:529
-msgid "_Logout"
-msgstr "_Keluar"
-
-#: src/wmapp.cc:530
-msgid "_Cancel logout"
-msgstr "Batal kelua_r"
-
-#: src/wmapp.cc:536
-msgid "Lock _Workstation"
-msgstr "Kunci _Workstation"
-
-#: src/wmapp.cc:538 src/wmdialog.cc:89
-msgid "Re_boot"
-msgstr "Mulai Ulan_g"
-
-#: src/wmapp.cc:540 src/wmdialog.cc:90
-msgid "Shut_down"
-msgstr "Ma_tikan"
-
-#: src/wmapp.cc:542 src/wmdialog.cc:86
-msgid "_Sleep mode"
-msgstr "Mode _Tidur"
-
-#: src/wmapp.cc:544 src/wmdialog.cc:91
-msgid "_Hibernate"
-msgstr "_Hibernasi"
-
-#: src/wmapp.cc:548
-msgid "Restart _Icewm"
-msgstr "Mulai ulang _Icewm"
-
-#: src/wmapp.cc:550
-msgid "Restart _Xterm"
-msgstr "Mulai ulang _Xterm"
-
-#: src/wmapp.cc:560
-msgid "_Menu"
-msgstr "_Menu"
-
-#: src/wmapp.cc:561
-msgid "_Above Dock"
-msgstr "Di _Atas Dok"
-
-#: src/wmapp.cc:562
-msgid "_Dock"
-msgstr "_Dok"
-
-#: src/wmapp.cc:563
-msgid "_OnTop"
-msgstr "D_i Atas"
-
-#: src/wmapp.cc:564
-msgid "_Normal"
-msgstr "_Normal"
-
-#: src/wmapp.cc:565
-msgid "_Below"
-msgstr "Di _Bawah"
-
-#: src/wmapp.cc:566
-msgid "D_esktop"
-msgstr "D_estop"
-
-#: src/wmapp.cc:610 src/wmwinlist.cc:381
-msgid "Move to New _Window"
-msgstr "Pindah ke _Jendela Baru"
-
-#: src/wmapp.cc:620
-msgid "Left Half"
-msgstr "Belahan Kiri"
-
-#: src/wmapp.cc:621
-msgid "Right Half"
-msgstr "Belahan Kanan"
-
-#: src/wmapp.cc:622
-msgid "Top Half"
-msgstr "Belahan Puncak"
-
-#: src/wmapp.cc:623
-msgid "Bottom Half"
-msgstr "Belahan Bawah"
-
-#: src/wmapp.cc:625
-msgid "Top Left"
-msgstr "Kiri Atas"
-
-#: src/wmapp.cc:626
-msgid "Top Right"
-msgstr "Kanan Atas"
-
-#: src/wmapp.cc:627
-msgid "Bottom Left"
-msgstr "Kiri Bawah"
-
-#: src/wmapp.cc:628
-msgid "Bottom Right"
-msgstr "Kanan Bawah"
-
-#: src/wmapp.cc:629
-msgid "Center"
-msgstr "Tengah"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:631 src/wmtaskbar.cc:217 src/wmwinlist.cc:468
-#: src/wmwinlist.cc:501
-msgid "T_ile Horizontally"
-msgstr "Ub_in Secara Horizontal"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:633 src/wmtaskbar.cc:215 src/wmwinlist.cc:467
-#: src/wmwinlist.cc:500
-msgid "Tile _Vertically"
-msgstr "Ubin Secara _Vertikal"
-
-#: src/wmapp.cc:645 src/wmwinlist.cc:448
-msgid "_Restore"
-msgstr "P_ulihkan"
-
-#: src/wmapp.cc:647
-msgid "_Move"
-msgstr "_Pindahkan"
-
-#: src/wmapp.cc:649
-msgid "_Size"
-msgstr "U_kuran"
-
-#: src/wmapp.cc:651 src/wmwinlist.cc:449
-msgid "Mi_nimize"
-msgstr "Mi_nimalkan"
-
-#: src/wmapp.cc:653 src/wmwinlist.cc:450
-msgid "Ma_ximize"
-msgstr "Maksima_lkan"
-
-#: src/wmapp.cc:654 src/wmwinlist.cc:451
-msgid "Maximize_Vert"
-msgstr "Maksimalkan_Vertikal"
-
-#: src/wmapp.cc:655 src/wmwinlist.cc:452
-msgid "MaximizeHori_z"
-msgstr "MaksimalkanHori_zontal"
-
-#: src/wmapp.cc:658 src/wmwinlist.cc:453
-msgid "_Fullscreen"
-msgstr "Layar Penu_h"
-
-#: src/wmapp.cc:661 src/wmwinlist.cc:455
-msgid "_Hide"
-msgstr "Sembun_yikan"
-
-#: src/wmapp.cc:663 src/wmwinlist.cc:456
-msgid "Roll_up"
-msgstr "G_ulung"
-
-#: src/wmapp.cc:670
-msgid "R_aise"
-msgstr "N_aik"
-
-#: src/wmapp.cc:672 src/wmwinlist.cc:458
-msgid "_Lower"
-msgstr "Tur_un"
-
-#: src/wmapp.cc:674 src/wmwinlist.cc:459
-msgid "La_yer"
-msgstr "La_pisan"
-
-#: src/wmapp.cc:677 src/wmwinlist.cc:460
-msgid "Tile"
-msgstr "Jejeran"
-
-#: src/wmapp.cc:681 src/wmwinlist.cc:462
-msgid "Move _To"
-msgstr "Pindah _Ke"
-
-#: src/wmapp.cc:682 src/wmwinlist.cc:463
-msgid "Occupy _All"
-msgstr "Tempati Semu_a"
-
-#: src/wmapp.cc:688
-msgid "Limit _Workarea"
-msgstr "Batasi Area Ker_ja"
-
-#: src/wmapp.cc:692 src/wmwinlist.cc:464
-msgid "Tray _icon"
-msgstr "_Ikon baki"
-
-#: src/wmapp.cc:694 src/wmwinlist.cc:465
-msgid "R_ename title"
-msgstr "G_anti judul"
-
-#: src/wmapp.cc:699 src/wmwinlist.cc:480 src/wmwinlist.cc:488
-msgid "_Close"
-msgstr "_Tutup"
-
-#: src/wmapp.cc:701 src/wmwinlist.cc:482
-msgid "_Kill Client"
-msgstr "Bunuh _Klien"
-
-#: src/wmapp.cc:704 src/wmdialog.cc:92 src/wmwinmenu.cc:141
-msgid "_Window list"
-msgstr "Daftar _jendela"
-
-#: src/wmapp.cc:743
-msgid "Another window manager already running, exiting..."
-msgstr "Pengelola jendela yang lain sudah berjalan, keluar..."
-
-#: src/wmapp.cc:818
-#, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"Tidak dapat memulai ulang: %s\n"
-"Apakah $PATH menuju ke %s?"
-
-#: src/wmapp.cc:1006
-msgid "Confirm Restart as Terminal"
-msgstr "Konfirmasi Mulai Ulang sebagai Terminal"
-
-#: src/wmapp.cc:1007
-msgid ""
-"Unmanage all applications and restart\n"
-"as a terminal. Proceed?"
-msgstr ""
-"Lepaskan semua aplikasi dan mulai ulang\n"
-"sebagai terminal. Melanjutkan?"
-
-#: src/wmapp.cc:1294 src/yxapp.cc:1050
-msgid "<none>"
-msgstr "<NIHIL>"
-
-#: src/wmapp.cc:1626
-msgid ""
-"  --client-id=ID      Client id to use when contacting session manager.\n"
-msgstr ""
-"  --client-id=ID      Klien id yang digunakan saat menghubungi pengelola "
-"sesi.\n"
-
-#: src/wmapp.cc:1632
-msgid ""
-"\n"
-"  --debug             Print generic debug messages.\n"
-"  --debug-z           Print debug messages regarding window stacking.\n"
-msgstr ""
-"\n"
-"  --debug             Cetak pesan awakutu umum.\n"
-"  --debug-z           Cetak pesan awakutu tentang penumpukan jendela.\n"
-
-#: src/wmapp.cc:1640
-msgid ""
-"\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-"  -p, --postpreferences  Print preferences after all processing.\n"
-"  --rewrite-preferences  Update an existing preferences file.\n"
-"  --trace=conf,icon   Trace paths used to load configuration.\n"
-msgstr ""
-"\n"
-"  -a, --alpha         Gunakan visual 32-bit untuk tembus pandang.\n"
-"  -c, --config=FILE   Muat preferensi dari FILE.\n"
-"  -t, --theme=FILE    Muat tema dari FILE.\n"
-"  -s, --splash=IMAGE  Perlihatkan secara singkat IMAGE pada saat awal mula.\n"
-"  -p, --postpreferences  Preferensi cetak setelah semua pemrosesan.\n"
-"  --rewrite-preferences  Mutakhirkan berkas preferensi yang ada.\n"
-"  --trace=conf,icon   Path jejak yang digunakan untuk memuat konfigurasi.\n"
-
-#: src/wmapp.cc:1651
-msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr "  -o, --output=BERKAS   Alihkan semua keluaran ke BERKAS.\n"
-
-#: src/wmapp.cc:1657
-msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr ""
-
-#: src/wmapp.cc:1660
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"%s\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s\n"
-"  --replace           Replace an existing window manager.\n"
-"  -r, --restart       Tell the running icewm to restart itself.\n"
-"\n"
-"  --configured        Print the compile time configuration.\n"
-"  --directories       Print the configuration directories.\n"
-"  -l, --list-themes   Print a list of all available themes.\n"
-"%s\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
-"                      \"$HOME/.icewm\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use.\n"
-"  MAIL=URL            Location of your mailbox.\n"
-"\n"
-"To report bugs, support requests, comments please visit:\n"
-"%s\n"
-"\n"
-msgstr ""
-"Penggunan: %s [OPTIONS]\n"
-"Mulai pengelola jendela IceWM.\n"
-"\n"
-"Opsi:\n"
-"  -d, --display=NAME  NAME dari peladen X yang akan digunakan.\n"
-"%s  --sync              Sinkronisasi perintah X11.\n"
-"%s\n"
-"  -V, --version       Cetak informasi versi dan keluar.\n"
-"  -h, --help          Cetak layar penggunaan ini dan keluar.\n"
-"%s\n"
-"  --replace           Ganti pengelola jendela yang ada.\n"
-"  -r, --restart       Beri tahu icewm yang sedang berjalan untuk memulai "
-"kembali sendiri.\n"
-"\n"
-"  --configured        Cetak konfigurasi waktu kompilasi.\n"
-"  --directories       Cetak direktori konfigurasi.\n"
-"  -l, --list-themes   Cetak daftar semua tema yang tersedia.\n"
-"%s\n"
-"Variabel lingkungan:\n"
-"  ICEWM_PRIVCFG=PATH  Direktori untuk berkas konfigurasi pengguna,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" jika ada atau\n"
-"                      \"$HOME/.icewm\" secara bawaan.\n"
-"  DISPLAY=NAME        Nama peladen X yang digunakan.\n"
-"  MAIL=URL            Lokasi kotak surat Anda.\n"
-"\n"
-"Untuk melaporkan kutu, permintaan dukungan, komentar silakan kunjungi:\n"
-"%s\n"
-"\n"
-
-#: src/wmapp.cc:1726
-#, c-format
-msgid "%s configuration directories:\n"
-msgstr "Direktori konfigurasi %s:\n"
-
-#: src/wmapp.cc:1811
-#, c-format
-msgid "%s configured options:%s\n"
-msgstr "Opsi %s yang dikonfigurasi: %s\n"
-
-#: src/wmapp.cc:1952
-msgid "Confirm Logout"
-msgstr "Konfirmasi Log Keluar"
-
-#: src/wmapp.cc:1953
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Log keluar akan menutup semua aplikasi yang aktif.\n"
-"Proses?"
-
-#: src/wmbutton.cc:124
-msgid "Raise/Lower"
-msgstr "Naikkan/Turunkan"
-
-#: src/wmbutton.cc:127
-msgid "Hide"
-msgstr "Sembunyikan"
-
-#: src/wmbutton.cc:131
-msgid "Restore"
-msgstr "Pulihkan"
-
-#: src/wmbutton.cc:133
-msgid "Maximize"
-msgstr "Maksimalkan"
-
-#: src/wmbutton.cc:137
-msgid "Minimize"
-msgstr "Minimalkan"
-
-#: src/wmbutton.cc:141
-msgid "Rolldown"
-msgstr "Gulung bawah"
-
-#: src/wmbutton.cc:143
-msgid "Rollup"
-msgstr "Gulung atas"
-
-#: src/wmclient.cc:470
-#, c-format
-msgid ""
-"Client %s with PID %ld fails to respond.\n"
-"Do you wish to terminate this client?\n"
-msgstr ""
-"Klien %s dengan PID %ld gagal merespon.\n"
-"Apakah Anda ingin mengakhiri klien ini?\n"
-
-#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
-#, c-format
-msgid "Failed to load theme %s"
-msgstr "Gagal memuat tema %s"
-
-#: src/wmconfig.cc:113
-#, c-format
-msgid "Unknown value '%s' for option '%s'."
-msgstr "Nilai '%s' yang tidak diketahui untuk opsi '%s'."
-
-#: src/wmconfig.cc:175 src/wmsave.cc:306
-#, c-format
-msgid "Unable to rename %s to %s"
-msgstr "Tidak dapat mengganti nama %s menjadi %s"
-
-#: src/wmdialog.cc:85
-msgid "Loc_k Workstation"
-msgstr "_Kunci Workstation"
-
-#: src/wmdialog.cc:87 src/ymsgbox.cc:51
-msgid "_Cancel"
-msgstr "_Batal"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:88 src/wmprog.cc:466 src/wmprog.cc:468 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
-msgid "_Logout..."
-msgstr "_Keluar..."
-
-#: src/wmdialog.cc:93
-msgid "_Restart icewm"
-msgstr "Mu_lai ulang icewm"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:94 src/wmprog.cc:434 src/wmtaskbar.cc:238
-msgid "_About"
-msgstr "Tent_ang"
-
-#: src/wmdialog.cc:95
-msgid "Reload win_options"
-msgstr "Muat ulang win_options"
-
-#: src/wmdialog.cc:96
-msgid "Reload ke_ys"
-msgstr "Muat ulang tombo_l"
-
-#: src/wmframe.cc:1457
-msgid "Rename"
-msgstr "Ganti nama"
-
-#: src/wmframe.cc:1458
-msgid "Rename the window title"
-msgstr "Ganti nama judul jendela"
-
-#: src/wmframe.cc:1952
+msgid "Using MailBox \"%s\"\n"
+msgstr "Menggunakan Kotak Surat \"%s\"\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Small utility application, "Accessories"
+#: src/fdospecgen.h:42 src/fdospecgen.h:50 src/fdospecgen.h:182
+#: src/fdospecgen.h:218 src/fdospecgen.h:308 src/fdospecgen.h:350
+#: src/fdospecgen.h:530 src/fdospecgen.h:728 src/fdospecgen.h:974
+#: src/fdospecgen.h:1016 src/fdospecgen.h:1028 src/fdospecgen.h:1034
+#: src/fdospecgen.h:1134
+msgid "Utility"
+msgstr "Utilitas"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing vector graphics
+#: src/fdospecgen.h:150
+msgid "VectorGraphics"
+msgstr "Grafis Vektor"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A video application
+#: src/fdospecgen.h:136 src/fdospecgen.h:266 src/fdospecgen.h:836
+#: src/fdospecgen.h:890 src/fdospecgen.h:1138
+msgid "Video"
+msgstr "Video"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Video Conference software
+#: src/fdospecgen.h:1044
+msgid "VideoConference"
+msgstr "Konferensi Video"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to view e.g. a graphic or pdf file
+#: src/fdospecgen.h:1050 src/fdospecgen.h:1056
+msgid "Viewer"
+msgstr "Penampil"
+
+#: src/wmframe.cc:1966
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2454,448 +2614,355 @@ msgstr ""
 "PERINGATAN! Semua perubahan yang belum disimpan akan hilang saat\n"
 "klien ini terbunuh. Apakah Anda ingin melanjutkan?"
 
-#: src/wmframe.cc:1957
-msgid "Kill Client: "
-msgstr "Bunuh Klien: "
+#: src/wmapp.cc:111
+msgid "Waiting to replace the old window manager"
+msgstr "Menunggu untuk mengganti pengelola jendela lama"
 
-#: src/wmmenu.cc:37
-msgid "Missing command argument"
-msgstr "Argumen perintah tidak ada"
+#: src/misc.cc:72 src/misc.cc:84
+msgid "Warning: "
+msgstr "Peringatan: "
 
-#: src/wmmenu.cc:55
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A web browser
+#: src/fdospecgen.h:1062
+msgid "WebBrowser"
+msgstr "Peramban Web"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool for web developers
+#: src/fdospecgen.h:1068 src/fdospecgen.h:1074
+msgid "WebDevelopment"
+msgstr "Pengembangan Web"
+
+#: src/icehelp.cc:1384
+msgid "Website"
+msgstr "Situs Web"
+
+#: src/wmtaskbar.cc:362
+msgid "Window List Menu"
+msgstr "Menu Daftar Jendela"
+
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509
+msgid "Window list"
+msgstr "Daftar jendela"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A word processor
+#: src/fdospecgen.h:1080
+msgid "WordProcessor"
+msgstr "Pengolah Kata"
+
+#: src/icesh.cc:1757
 #, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Argumen buruk %d untuk perintah '%s'"
+msgid "Workspace out of range: %ld"
+msgstr "Ruang kerja di luar jangkauan: %ld"
 
-#: src/wmmenu.cc:110
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
+msgid "Workspace: "
+msgstr "Ruang kerja: "
+
+#: src/iceview.cc:61
+msgid "Wrap Lines"
+msgstr "Lipat Baris"
+
+#: src/amailbox.cc:447
 #, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Kesalahan pada kata kunci '%s' untuk %s"
+msgid "Write to socket failed: %s"
+msgstr "Menulis ke soket gagal: %s"
 
-#: src/wmmenu.cc:156
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "Kesalahan pada %s '%s'"
-
-#: src/wmmenu.cc:222
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Kata kunci menu yang tidak dipilih: '%s'"
-
-#: src/wmmenu.cc:276
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Kesalahan saat menuprog '%s'"
-
-#: src/wmmenu.cc:320
-#, c-format
-msgid "Error at menuprogreload: '%s'"
-msgstr "Kesalahan di menuprogreload: '%s'"
-
-#: src/wmmenu.cc:347
-msgid "Missing filename argument to include statement"
-msgstr "Argumen nama berkas hilang untuk menyertakan pernyataan"
-
-#: src/wmmenu.cc:365
-#, c-format
-msgid "Error at includeprog '%s'"
-msgstr "Kesalahan di includeprog '%s'"
-
-#: src/wmmenu.cc:408
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Kata kunci tidak dikenal '%s'"
-
-#: src/wmmenu.cc:419
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
+#: src/fdomenu.cc:1097
+msgid "Zarathustra"
 msgstr ""
-"Kata kunci tidak dikenal untuk penampung non-kontainer: '%s'.\n"
-"Diharapkan 'kunci' atau 'runonce' di sini.\n"
-
-#: src/wmmenu.cc:498
-#, c-format
-msgid "'%s' timed out!"
-msgstr "'%s' waktunya habis!"
-
-#: src/wmmenu.cc:512
-#, c-format
-msgid "'%s' produces no output"
-msgstr "'%s' tidak menghasilkan keluaran"
-
-#: src/wmmgr.cc:3673
-msgid "Missing program setxkbmap"
-msgstr "Tak ada program setxkbmap"
-
-#: src/wmmgr.cc:3674
-msgid "For keyboard switching, please install setxkbmap."
-msgstr "Untuk mengubah papan tik, silakan instal setxkbmap."
-
-#: src/wmoption.cc:285
-#, c-format
-msgid "Unknown window option: %s"
-msgstr "Opsi jendela tidak dikenal: %s"
-
-#: src/wmoption.cc:357
-#, c-format
-msgid "Syntax error in window options on line %d of %s"
-msgstr "Kesalahan sintaks dalam opsi jendela pada baris %d dari %s"
-
-#: src/wmpref.cc:101
-msgid "Save Modifications"
-msgstr "Simpan Modifikasi"
-
-#: src/wmpref.cc:179
-#, c-format
-msgid "Enter a new value for %s: "
-msgstr "Masukkan nilai baru untuk %s: "
-
-#: src/wmprog.cc:341
-msgid "_Click to focus"
-msgstr "_Klik untuk fokus"
-
-#: src/wmprog.cc:342
-msgid "_Explicit focus"
-msgstr "Fokus _Eksplicit"
-
-#: src/wmprog.cc:343
-msgid "_Sloppy mouse focus"
-msgstr "Foku_s tetikus yang ceroboh"
-
-#: src/wmprog.cc:344
-msgid "S_trict mouse focus"
-msgstr "Fokus _tetikus yang ketat"
-
-#: src/wmprog.cc:345
-msgid "_Quiet sloppy focus"
-msgstr "Fokus ceroboh yang tenan_g"
-
-#: src/wmprog.cc:346
-msgid "Custo_m"
-msgstr "Ubaha_n"
-
-#: src/wmprog.cc:368
-msgid "_Manual"
-msgstr "_Manual"
-
-#: src/wmprog.cc:369
-msgid "_Icewm(1)"
-msgstr "_Icewm(1)"
-
-#: src/wmprog.cc:370
-msgid "Icewm_Bg(1)"
-msgstr "Icewm_Bg(1)"
-
-#: src/wmprog.cc:371
-msgid "Ice_Sound(1)"
-msgstr "Ice_Sound(1)"
-
-#: src/wmprog.cc:420
-msgid "Programs"
-msgstr "Program"
-
-#: src/wmprog.cc:424
-msgid "_Run..."
-msgstr "Jalan_kan..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:428 src/wmtaskbar.cc:233
-msgid "_Windows"
-msgstr "_Jendela"
+#: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
+msgid "_About"
+msgstr "Tent_ang"
 
-#: src/wmprog.cc:439
-msgid "_Help"
-msgstr "_Bantuan"
-
-#: src/wmprog.cc:444
-msgid "_Focus"
-msgstr "_Fokus"
-
-#: src/wmprog.cc:449
-msgid "_Preferences"
-msgstr "_Preferensi"
-
-#: src/wmprog.cc:454
-msgid "_Themes"
-msgstr "_Tema"
-
-#: src/wmprog.cc:458
-msgid "Se_ttings"
-msgstr "Penga_turan"
-
-#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Pengelola Sesi: Baris tidak diketahui %s"
+#: src/wmapp.cc:558
+msgid "_Above Dock"
+msgstr "Di _Atas Dok"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:469 src/wmwinlist.cc:502
-msgid "Ca_scade"
-msgstr "Bertin_gkat"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:470 src/wmwinlist.cc:503
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:458 src/wmwinlist.cc:491
 msgid "_Arrange"
 msgstr "_Atur"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:472 src/wmwinlist.cc:504
-msgid "_Minimize All"
-msgstr "_Minimalkan Semua"
+#: src/wmapp.cc:562
+msgid "_Below"
+msgstr "Di _Bawah"
+
+#: src/wmdialog.cc:87 src/ymsgbox.cc:51
+msgid "_Cancel"
+msgstr "_Batal"
+
+#: src/wmapp.cc:527
+msgid "_Cancel logout"
+msgstr "Batal kelua_r"
+
+#: src/amailbox.cc:963
+msgid "_Check"
+msgstr "_Periksa"
+
+#: src/wmprog.cc:343
+msgid "_Click to focus"
+msgstr "_Klik untuk fokus"
+
+#: src/wmapp.cc:696 src/wmwinlist.cc:468 src/wmwinlist.cc:476
+msgid "_Close"
+msgstr "_Tutup"
+
+#: src/acpustatus.cc:914
+msgid "_Combine"
+msgstr "_Gabung"
+
+#: src/yinputline.cc:18
+msgid "_Copy"
+msgstr "_Salin"
+
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/amemstatus.cc:264
+msgid "_Disable"
+msgstr "_Nonaktif"
+
+#: src/wmapp.cc:559
+msgid "_Dock"
+msgstr "_Dok"
+
+#: src/wmprog.cc:344
+msgid "_Explicit focus"
+msgstr "Fokus _Eksplicit"
+
+#: src/wmprog.cc:446
+msgid "_Focus"
+msgstr "_Fokus"
+
+#: src/wmapp.cc:655 src/wmwinlist.cc:441
+msgid "_Fullscreen"
+msgstr "Layar Penu_h"
+
+#: src/wmprog.cc:441
+msgid "_Help"
+msgstr "_Bantuan"
+
+#: src/wmapp.cc:541 src/wmdialog.cc:91
+msgid "_Hibernate"
+msgstr "_Hibernasi"
+
+#: src/wmapp.cc:658 src/wmwinlist.cc:443
+msgid "_Hide"
+msgstr "Sembun_yikan"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:473 src/wmwinlist.cc:505
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:461 src/wmwinlist.cc:493
 msgid "_Hide All"
 msgstr "_Sembunyikan Semua"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:474 src/wmwinlist.cc:506
-msgid "_Undo"
-msgstr "Ta_k Jadi"
+#: src/wmprog.cc:371
+msgid "_Icewm(1)"
+msgstr "_Icewm(1)"
+
+#: src/wmapp.cc:698 src/wmwinlist.cc:470
+msgid "_Kill Client"
+msgstr "Bunuh _Klien"
+
+#: src/wmapp.cc:526
+msgid "_Logout"
+msgstr "_Keluar"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
-msgid "Arrange _Icons"
-msgstr "Atur _Ikon"
+#: src/wmdialog.cc:88 src/wmprog.cc:468 src/wmprog.cc:470 src/wmtaskbar.cc:243
+#: src/wmtaskbar.cc:245
+msgid "_Logout..."
+msgstr "_Keluar..."
+
+#: src/wmapp.cc:669 src/wmwinlist.cc:446
+msgid "_Lower"
+msgstr "Tur_un"
+
+#: src/wmprog.cc:370
+msgid "_Manual"
+msgstr "_Manual"
+
+#: src/wmapp.cc:557
+msgid "_Menu"
+msgstr "_Menu"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:460 src/wmwinlist.cc:492
+msgid "_Minimize All"
+msgstr "_Minimalkan Semua"
+
+#: src/wmapp.cc:644
+msgid "_Move"
+msgstr "_Pindahkan"
+
+#: src/wmapp.cc:561
+msgid "_Normal"
+msgstr "_Normal"
+
+#: src/ymsgbox.cc:48
+msgid "_OK"
+msgstr "_OK"
+
+#: src/wmapp.cc:560
+msgid "_OnTop"
+msgstr "D_i Atas"
+
+#: src/yinputline.cc:20
+msgid "_Paste"
+msgstr "Tem_pel"
+
+#: src/wmprog.cc:451
+msgid "_Preferences"
+msgstr "_Preferensi"
+
+#: src/wmprog.cc:347
+msgid "_Quiet sloppy focus"
+msgstr "Fokus ceroboh yang tenan_g"
+
+#: src/wmwinlist.cc:445
+msgid "_Raise"
+msgstr "_Naikkan"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
 msgid "_Refresh"
 msgstr "Sega_rkan"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
-msgid "Hide Taskbar"
-msgstr "Sembunyikan bilah tugas"
+#: src/wmdialog.cc:93
+msgid "_Restart icewm"
+msgstr "Mu_lai ulang icewm"
 
-#: src/wmtaskbar.cc:336
-msgid "Favorite Applications"
-msgstr "Aplikasi Favorit"
+#: src/wmapp.cc:642 src/wmwinlist.cc:436
+msgid "_Restore"
+msgstr "P_ulihkan"
 
-#: src/wmtaskbar.cc:362
-msgid "Window List Menu"
-msgstr "Menu Daftar Jendela"
+#: src/wmprog.cc:426
+msgid "_Run..."
+msgstr "Jalan_kan..."
 
-#: src/wmtaskbar.cc:372
-msgid "Show Desktop"
-msgstr "Tampilkan Destop"
+#: src/acpustatus.cc:916
+msgid "_Separate"
+msgstr "Pi_sahkan"
 
-#: src/wmtaskbar.cc:1025
-msgid "Show Taskbar"
-msgstr "Tampilkan bilah tugas"
-
-#: src/wmwinlist.cc:83
-msgid "All Workspaces"
-msgstr "Semua Ruang kerja"
-
-#: src/wmwinlist.cc:454
+#: src/wmwinlist.cc:442
 msgid "_Show"
 msgstr "_Tampilkan"
 
-#: src/wmwinlist.cc:457
-msgid "_Raise"
-msgstr "_Naikkan"
+#: src/wmapp.cc:646
+msgid "_Size"
+msgstr "U_kuran"
 
-#: src/wmwinlist.cc:480
-msgid "Del"
-msgstr "Hapus"
+#: src/wmapp.cc:539 src/wmdialog.cc:86
+msgid "_Sleep mode"
+msgstr "Mode _Tidur"
 
-#: src/wmwinlist.cc:484
+#: src/wmprog.cc:345
+msgid "_Sloppy mouse focus"
+msgstr "Foku_s tetikus yang ceroboh"
+
+#: src/amailbox.cc:965
+msgid "_Suspend"
+msgstr "_Suspensi"
+
+#: src/wmwinlist.cc:472
 msgid "_Terminate Process"
 msgstr "Hen_tikan Proses"
 
-#: src/wmwinlist.cc:485
-msgid "Kill _Process"
-msgstr "Bunuh _Process"
+#: src/wmprog.cc:456
+msgid "_Themes"
+msgstr "_Tema"
 
-#: src/wmwinlist.cc:520 src/wmwinlist.cc:521
-msgid "Window list"
-msgstr "Daftar jendela"
+#: src/aclock.cc:204
+msgid "_UTC"
+msgstr "_UTC"
 
-#: src/wmwinmenu.cc:100
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:462 src/wmwinlist.cc:494
+msgid "_Undo"
+msgstr "Ta_k Jadi"
+
+#: src/wmapp.cc:701 src/wmdialog.cc:92 src/wmwinmenu.cc:141
+msgid "_Window list"
+msgstr "Daftar _jendela"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:430 src/wmtaskbar.cc:233
+msgid "_Windows"
+msgstr "_Jendela"
+
+#: src/icesound.cc:499
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Ruang kerja %-.32s"
+msgid "ao_open_live failed with %d"
+msgstr "ao_open_live gagal dengan %d"
 
-#: src/wpixres.cc:93 src/wpixres.cc:100
-#, c-format
-msgid "Image not readable: %s"
-msgstr "Gambar tidak dapat dibaca: %s"
+#: src/icesound.cc:510
+msgid "ao_play failed"
+msgstr "ao_play gagal"
 
-#: src/yapp.cc:296
-#, c-format
-msgid "%s: select failed"
-msgstr "%s: pilih gagal"
+#: src/amemstatus.cc:156
+msgid "bytes"
+msgstr "bita"
 
-#: src/ycolor.cc:229 src/ycolor.cc:240
-#, c-format
-msgid "Could not parse color \"%s\""
-msgstr "Tidak dapat mengurai warna '%s'"
+#: src/apppstatus.cc:284
+msgid "disconnected"
+msgstr "terputus"
 
-#: src/yconfig.cc:84
-#, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Nama kunci %s tidak dikenal dalam %s"
+#: src/wmapp.cc:116
+msgid "done."
+msgstr "selesai."
 
-#: src/yconfig.cc:171 src/yconfig.cc:182 src/yconfig.cc:194
-#, c-format
-msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Argumen buruk: %s untuk %s [%d,%d]"
+#: src/apppstatus.cc:284
+msgid "down"
+msgstr "turun"
 
-#: src/ycursor.cc:110
-#, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "Gagal memuat pixmap \"%s\" : %s"
+#: src/wmabout.cc:71
+msgid "icewm - About"
+msgstr "icewm - Tentang"
 
-#: src/ycursor.cc:135
-#, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Gagal memuat pixmap \"%s\""
-
-#: src/ycursor.cc:179
-#, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "KUTU? Imlib dapat membaca \"%s\""
-
-#: src/ycursor.cc:204
-#, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "Kutu? Tajuk XPM salah format tetapi Imlib dapat menguraikan \"%s\""
-
-#: src/ycursor.cc:212
-#, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"KUTU? Akhir berkas XPM yang tidak terduga tetapi Imlib dapat menguraikan \"%s"
-"\""
-
-#: src/ycursor.cc:215
-#, c-format
-msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "KUTU? Karakter tidak terduga tetapi Imlib dapat menguraikan \"%s\""
-
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
-#, c-format
-msgid "Could not load font \"%s\"."
-msgstr "Tidak dapat memuat fonta \"%s\"."
-
-#: src/yfontcore.cc:233
-#, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "Set kode tidak ada untuk set fonta \"%s\":"
-
-#: src/yfontcore.cc:261
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "Tidak dapat memuat set fonta \"%s\"."
-
-#: src/yinputline.cc:18
-msgid "_Copy"
-msgstr "_Salin"
-
-#: src/yinputline.cc:18
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
-
-#: src/yinputline.cc:19
-msgid "Cu_t"
-msgstr "Po_tong"
-
-#: src/yinputline.cc:20
-msgid "_Paste"
-msgstr "Tem_pel"
-
-#: src/yinputline.cc:21
-msgid "Paste _Selection"
-msgstr "Te_mpel Pilihan"
-
-#: src/yinputline.cc:21
-msgid "Ctrl+P"
-msgstr "Ctrl+P"
-
-#: src/yinputline.cc:23
-msgid "Select _All"
-msgstr "Pilih Semu_a"
-
-#: src/yinputline.cc:23
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
-
-#: src/ylocale.cc:58
-msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr "Locale tidak didukung oleh pustaka C. Kembali ke locale 'C'."
-
-#: src/ylocale.cc:92
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-"Gagal untuk menentukan set kode locale saat ini. Dengan asumsi ISO-8859-1.\n"
-
-#: src/ylocale.cc:125 src/ylocale.cc:133
+#: src/ylocale.cc:126 src/ylocale.cc:134
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv tidak menyediakan (cukup) %s ke %s konverter."
 
-#: src/ylocale.cc:238
+#: src/amemstatus.cc:152
+msgid "kB"
+msgstr "kB"
+
+#: src/akeyboard.cc:96
+msgid "layout:"
+msgstr "tata letak:"
+
+#: src/akeyboard.cc:95
+msgid "model:"
+msgstr "model:"
+
+#: src/akeyboard.cc:97
+msgid "options:"
+msgstr "opsi:"
+
+#: src/aapm.cc:936
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "String multibyte \"%s\": %s tidak valid"
+msgid "power:\t%s"
+msgstr "daya:\t%s"
 
-#: src/ymsgbox.cc:48
-msgid "_OK"
-msgstr "_OK"
-
-#: src/ysmapp.cc:95
-msgid "$USER or $LOGNAME not set?"
-msgstr "$USER atau $LOGNAME tidak diatur?"
-
-#: src/yurl.cc:145
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
-msgid "Failed to parse URL \"%s\"."
-msgstr "Gagal untuk mengurai URL \"%s\"."
+msgid "restart %s."
+msgstr "mulai ulang %s."
 
-#: src/yurl.cc:161
+#: src/akeyboard.cc:94
+msgid "rules:"
+msgstr "aturan:"
+
+#: src/icesh.cc:2376 src/icesh.cc:2449
 #, c-format
-msgid "Incomplete hex escape in URL at position %d."
-msgstr "Pelarian hex tidak lengkap di URL pada posisi %d."
+msgid "workspace #%d: `%s'\n"
+msgstr "ruang kerja #%d: `%s'\n"
 
-#: src/yurl.cc:168
-#, c-format
-msgid "Invalid hex escape in URL at position %d."
-msgstr "Pelarian hex tidak valid di URL pada posisi %d."
-
-#: src/yxapp.cc:1008
-msgid ""
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"  --sync              Synchronize X11 commands.\n"
-msgstr ""
-"  -d, --display=NAME  NAME dari peladen X yang akan digunakan..\n"
-"  --sync              Sinkronisasi perintah X11.\n"
-
-#: src/yximage.cc:173
-msgid "Support for PNG images was not enabled"
-msgstr "Dukungan untuk gambar PNG tidak diaktifkan"
-
-#: src/yximage.cc:181
-msgid "Support for JPEG images was not enabled"
-msgstr "Dukungan untuk gambar JPEG tidak diaktifkan"
-
-#: src/yximage.cc:187
-#, c-format
-msgid "Unsupported file format: %s"
-msgstr "Format berkas yang tidak didukung: %s"
-
-#: src/yximage.cc:191 src/yximage.cc:214
-#, c-format
-msgid "Could not load image \"%s\""
-msgstr "Tidak dapat memuat gambar “%s”."
-
-#~ msgid "Clos_e"
-#~ msgstr "Tut_up"
-
-#~ msgid "Loading of fallback font \"%s\" failed."
-#~ msgstr "Gagal memuat fonta fallback \"%s\"."
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:348
+msgid "°C"
+msgstr "°C"
 
 #~ msgid ""
 #~ "\n"
@@ -2903,36 +2970,6 @@ msgstr "Tidak dapat memuat gambar “%s”."
 #~ msgstr ""
 #~ "\n"
 #~ "  Id pemanggil:\t"
-
-#~ msgid "Kill IceWM, replace with Xterm"
-#~ msgstr "Bunuh IceWM, ganti dengan Xterm"
-
-#~ msgid "GNOME window state"
-#~ msgstr "Keadaan jendela GNOME"
-
-#~ msgid "GNOME window hint"
-#~ msgstr "Petunjuk jendela GNOME"
-
-#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-#~ msgstr ""
-#~ "Pixmap kursor tidak valid: \"%s\" mengandung terlalu banyak warna unik"
-
-#~ msgid ""
-#~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
-#~ "intr = %llu, softirq = %llu, steal = %llu\n"
-#~ msgstr ""
-#~ "stat:\tpengguna = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
-#~ "%llu, intr = %llu, softirq = %llu, steal = %llu\n"
-
-#~ msgid ""
-#~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
-#~ "softirq = %llu, steal = %llu (h = %i)\n"
-#~ msgstr ""
-#~ "bilah:\tpengguna = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
-#~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
-
-#~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-#~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
 
 #~ msgid ""
 #~ " IceWM crashed for the second time in 10 seconds. \n"
@@ -2947,17 +2984,250 @@ msgstr "Tidak dapat memuat gambar “%s”."
 #~ "\t1: Memulai ulang IceWM?\n"
 #~ "\t2: Gugurkan sesi ini?\n"
 
+#~ msgid " processes."
+#~ msgstr " proses."
+
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\" tidak terdapat deskripsi skema"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "\"%s\" tidak menjelaskan skema internet secara umum"
+
+#~ msgid ""
+#~ "%s: unrecognized option `%s'\n"
+#~ "Try `%s --help' for more information.\n"
+#~ msgstr ""
+#~ "%s: opsi tidak dikenali `%s'\n"
+#~ "Coba `%s --help' untuk informasi lebih lanjut.\n"
+
+#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
+#~ msgstr "%s:%d: %d bit visuals tidak didukung (lagi)"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d)"
+#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer (%d:%d-%dx%d)"
+
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - format tidak diketahui (%d)"
+
+#~ msgid "Accessories"
+#~ msgstr "Aksesoris"
+
+#~ msgid "Argument required for %s switch"
+#~ msgstr "Argumen diperlukan untuk %s penggantian"
+
+#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
+#~ msgstr ""
+#~ "Penggantian mode audio terdeteksi, mengganti mode audio secara otomatis "
+#~ "dinonaktifkan."
+
+#~ msgid ""
+#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+#~ msgstr ""
+#~ "Penggantian mode audio terdeteksi, mode audio inisial `%s' tidak lagi "
+#~ "berlaku."
+
+#~ msgid "Bad Look name"
+#~ msgstr "Nama terlihat buruk"
+
+#~ msgid "Bad argument %d"
+#~ msgstr "Argumen %d buruk"
+
+#~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+#~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid "Can't change to audio mode `%s'."
+#~ msgstr "Tidak dapat berganti ke mode audio `%s'."
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "Tidak dapat tersambung ke ESound daemon: %s"
+
+#~ msgid "Clos_e"
+#~ msgstr "Tut_up"
+
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan."
+
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "Tidak dapat mencari RGB piksel buffer %s"
+
+#~ msgid "Could not find image: %s"
+#~ msgstr "Tidak dapat mencari piksel map: %s"
+
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "Tidak dapat mencari piksel map %s"
+
+#~ msgid "Editors"
+#~ msgstr "Penyunting"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Kesalahan <%d> saat mengunggah `%s:%s'"
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Kesalahan pada %s: '%s'"
+
+#~ msgid "Error in window option: %s"
+#~ msgstr "Kesalahan dalam opsi jendela: %s"
+
+#~ msgid "Failed to duplicate file descriptor: %s"
+#~ msgstr "Gagal menduplikasi deskripsi file: %s"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "Petunjuk jendela GNOME"
+
+#~ msgid "GNOME window state"
+#~ msgstr "Keadaan jendela GNOME"
+
+#~ msgid "Identifier expected"
+#~ msgstr "Diperkirakan ada Identifiernya"
+
+#~ msgid "Imlib: Acquisition of X pixmap failed"
+#~ msgstr "Imlib: Gagal mengakuisisi X pixmap"
+
+#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
+#~ msgstr "Imlib: Gagal memetakan gambar Imlib pada X pixmap"
+
+#~ msgid ""
+#~ "Interface %s:\n"
+#~ "  Current rate (in/out):\t%li %s/%li %s\n"
+#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
+#~ "  Total average (in/out):\t%li %s/%li %s\n"
+#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
+#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
+#~ msgstr ""
+#~ "Perangkat %s:\n"
+#~ "  Kecepatan saat ini (in/out):\t%li %s/%li %s\n"
+#~ "  Rata-rata saat ini (in/out):\t%lli %s/%lli %s\n"
+#~ "  Jumlah rata-rata (in/out):\t%li %s/%li %s\n"
+#~ "  Pengiriman (in/out):\t%lli %s/%lli %s\n"
+#~ "  Waktu Sambung:\t%ld:%02ld:%02ld%s%s"
+
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+#~ msgstr ""
+#~ "Pixmap kursor tidak valid: \"%s\" mengandung terlalu banyak warna unik"
+
+#~ msgid "Invalid path: "
+#~ msgstr "Jalur tidak valid: "
+
+#~ msgid "Invalid token"
+#~ msgstr "Token tidak benar"
+
+#~ msgid "Kill IceWM, replace with Xterm"
+#~ msgstr "Bunuh IceWM, ganti dengan Xterm"
+
+#~ msgid "Loading image %s failed"
+#~ msgstr "Gagal memuat gambar %s"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Gagal memuat fonta fallback \"%s\"."
+
+#~ msgid "Loading of image \"%s\" failed"
+#~ msgstr "Pemuatan gambar \"%s\" gagal"
+
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr "Pesan Loop: gagal memilih (errno=%d)"
+
+#~ msgid "Motif"
+#~ msgstr "Motif"
+
+#~ msgid "Multimedia"
+#~ msgstr "Multimedia"
+
+#, fuzzy
+#~ msgid "Multiple references for gradient '%s' in theme '%s'."
+#~ msgstr "Beberapa referensi untuk gradien \"%s\""
+
+#~ msgid "Multiple sound interfaces given."
+#~ msgstr "Beberapa antarmuka suara diberikan."
+
+#~ msgid "No such device: %s"
+#~ msgstr "Perangkat tidak ada: %s"
+
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "Bukan angka heksadesimal: %c%c (dalam \"%s\")"
+
+#~ msgid "Not a regular file: %s"
+#~ msgstr "Bukan sebuah file regular: %s"
+
+#~ msgid "Other"
+#~ msgstr "Lainnya"
+
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "Kehabisan memory untuk RGB piksel buffer %s"
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Kehabisan memori untuk gambar %s"
+
+#~ msgid "Out of memory for image: %s"
+#~ msgstr "Kehabisan memory untuk piksel map: %s"
+
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "Kehabisan memory untuk piksel map %s"
+
+#~ msgid "Out of memory for pixmap \"%s\""
+#~ msgstr "Kehabisan memori untuk pixmap \"%s\""
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Kehabisan memori untuk opsi jendela"
+
+#~ msgid "Overriding previous audio mode `%s'."
+#~ msgstr "Mengesampingkan mode audio sebelumnya `%s'."
+
+#, fuzzy
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Memutar sampel #%d"
+
+#~ msgid "Received signal %d: Reloading samples..."
+#~ msgstr "Menerima sinyal %d: Memuat ulang sampel..."
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Sampel <%d> diunggah sebagai `%s:%s'"
+
+#~ msgid "Screensavers"
+#~ msgstr "Screensaver"
+
+#~ msgid "Separator expected"
+#~ msgstr "Diperkirakan ada pemisahnya"
+
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Session Manager: IceAddConnetionWatch gagal."
+
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Session Manager: Init salah: %s"
+
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "TERLALU BANYAK KONEKSI ICE -- tidak disupport"
+
+#~ msgid "Task Bar"
+#~ msgstr "Bilah tugas"
+
 #~ msgid "Unable to get current font path."
 #~ msgstr "Tidak dapat mendapatkan path fonta saat ini."
 
 #~ msgid "Unexpected format of ICEWM_FONT_PATH property"
 #~ msgstr "Format properti ICEWM_FONT_PATH yang tidak terduga"
 
-#~ msgid "Task Bar"
-#~ msgstr "Bilah tugas"
+#, fuzzy
+#~ msgid "Unknown gradient name '%s' in theme '%s'."
+#~ msgstr "Nama gradien tidak diketahui: %s"
 
-#~ msgid "_License"
-#~ msgstr "_Lisensi"
+#~ msgid "Usage error: "
+#~ msgstr "Kesalahan penggunaan: "
+
+#~ msgid ""
+#~ "Usage: %s FILENAME\n"
+#~ "\n"
+#~ "A very simple HTML browser displaying the document specified by "
+#~ "FILENAME.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Penggunaan: %s NAMABERKAS\n"
+#~ "\n"
+#~ "Sebuah peramban HTML sederhana untuk menampilkan dokumen yang ditentukan "
+#~ "oleh NAMABERKAS.\n"
+#~ "\n"
 
 #, fuzzy
 #~| msgid ""
@@ -3133,158 +3403,6 @@ msgstr "Tidak dapat memuat gambar “%s”."
 #~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 #~ "\n"
 
-#~ msgid "Can't connect to ESound daemon: %s"
-#~ msgstr "Tidak dapat tersambung ke ESound daemon: %s"
-
-#~ msgid "Error <%d> while uploading `%s:%s'"
-#~ msgstr "Kesalahan <%d> saat mengunggah `%s:%s'"
-
-#~ msgid "Sample <%d> uploaded as `%s:%s'"
-#~ msgstr "Sampel <%d> diunggah sebagai `%s:%s'"
-
-#, fuzzy
-#~ msgid "Playing sample #%d: %d"
-#~ msgstr "Memutar sampel #%d"
-
-#~ msgid "Usage error: "
-#~ msgstr "Kesalahan penggunaan: "
-
-#~ msgid "Out of memory for image %s"
-#~ msgstr "Kehabisan memori untuk gambar %s"
-
-#~ msgid "_Minimize"
-#~ msgstr "_Kecilkan"
-
-#~ msgid "Error at %s: '%s'"
-#~ msgstr "Kesalahan pada %s: '%s'"
-
-#~ msgid "\"%s\" contains no scheme description"
-#~ msgstr "\"%s\" tidak terdapat deskripsi skema"
-
-#~ msgid "\"%s\" doesn't describe a common internet scheme"
-#~ msgstr "\"%s\" tidak menjelaskan skema internet secara umum"
-
-#~ msgid "Out of memory for pixmap \"%s\""
-#~ msgstr "Kehabisan memori untuk pixmap \"%s\""
-
-#~ msgid "Out of memory for window options"
-#~ msgstr "Kehabisan memori untuk opsi jendela"
-
-#~ msgid "Error in window option: %s"
-#~ msgstr "Kesalahan dalam opsi jendela: %s"
-
-#~ msgid ""
-#~ "Usage: %s FILENAME\n"
-#~ "\n"
-#~ "A very simple HTML browser displaying the document specified by "
-#~ "FILENAME.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Penggunaan: %s NAMABERKAS\n"
-#~ "\n"
-#~ "Sebuah peramban HTML sederhana untuk menampilkan dokumen yang ditentukan "
-#~ "oleh NAMABERKAS.\n"
-#~ "\n"
-
-#~ msgid "No such device: %s"
-#~ msgstr "Perangkat tidak ada: %s"
-
-#~ msgid "Can't change to audio mode `%s'."
-#~ msgstr "Tidak dapat berganti ke mode audio `%s'."
-
-#~ msgid ""
-#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-#~ msgstr ""
-#~ "Penggantian mode audio terdeteksi, mode audio inisial `%s' tidak lagi "
-#~ "berlaku."
-
-#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
-#~ msgstr ""
-#~ "Penggantian mode audio terdeteksi, mengganti mode audio secara otomatis "
-#~ "dinonaktifkan."
-
-#~ msgid "Overriding previous audio mode `%s'."
-#~ msgstr "Mengesampingkan mode audio sebelumnya `%s'."
-
-#~ msgid "Multiple sound interfaces given."
-#~ msgstr "Beberapa antarmuka suara diberikan."
-
-#~ msgid "Received signal %d: Reloading samples..."
-#~ msgstr "Menerima sinyal %d: Memuat ulang sampel..."
-
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Pesan Loop: gagal memilih (errno=%d)"
-
-#~ msgid "Argument required for %s switch"
-#~ msgstr "Argumen diperlukan untuk %s penggantian"
-
-#~ msgid "Loading of image \"%s\" failed"
-#~ msgstr "Pemuatan gambar \"%s\" gagal"
-
-#~ msgid "Imlib: Acquisition of X pixmap failed"
-#~ msgstr "Imlib: Gagal mengakuisisi X pixmap"
-
-#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
-#~ msgstr "Imlib: Gagal memetakan gambar Imlib pada X pixmap"
-
-#~ msgid ""
-#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-#~ "blue): %0*x/%0*x/%0*x)"
-#~ msgstr ""
-#~ "Menggunakan mekanisme fallback untuk mengkonversi piksel (kedalaman: %d; "
-#~ "masks (red/green/blue): %0*x/%0*x/%0*x)"
-
-#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
-#~ msgstr "%s:%d: %d bit visuals tidak didukung (lagi)"
-
-#, fuzzy
-#~ msgid "Multiple references for gradient '%s' in theme '%s'."
-#~ msgstr "Beberapa referensi untuk gradien \"%s\""
-
-#, fuzzy
-#~ msgid "Unknown gradient name '%s' in theme '%s'."
-#~ msgstr "Nama gradien tidak diketahui: %s"
-
-#~ msgid "Bad Look name"
-#~ msgstr "Nama terlihat buruk"
-
-#~ msgid ""
-#~ "%s: unrecognized option `%s'\n"
-#~ "Try `%s --help' for more information.\n"
-#~ msgstr ""
-#~ "%s: opsi tidak dikenali `%s'\n"
-#~ "Coba `%s --help' untuk informasi lebih lanjut.\n"
-
-#~ msgid "Loading image %s failed"
-#~ msgstr "Gagal memuat gambar %s"
-
-#~ msgid "Bad argument %d"
-#~ msgstr "Argumen %d buruk"
-
-#~ msgid "Out of memory for image: %s"
-#~ msgstr "Kehabisan memory untuk piksel map: %s"
-
-#~ msgid "Could not find image: %s"
-#~ msgstr "Tidak dapat mencari piksel map: %s"
-
-#~ msgid "Invalid path: "
-#~ msgstr "Jalur tidak valid: "
-
-#~ msgid ""
-#~ "Interface %s:\n"
-#~ "  Current rate (in/out):\t%li %s/%li %s\n"
-#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
-#~ "  Total average (in/out):\t%li %s/%li %s\n"
-#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
-#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
-#~ msgstr ""
-#~ "Perangkat %s:\n"
-#~ "  Kecepatan saat ini (in/out):\t%li %s/%li %s\n"
-#~ "  Rata-rata saat ini (in/out):\t%lli %s/%lli %s\n"
-#~ "  Jumlah rata-rata (in/out):\t%li %s/%li %s\n"
-#~ "  Pengiriman (in/out):\t%lli %s/%lli %s\n"
-#~ "  Waktu Sambung:\t%ld:%02ld:%02ld%s%s"
-
 #~ msgid ""
 #~ "Usage: icewmbg [ -r | -q ]\n"
 #~ " -r  Restart icewmbg\n"
@@ -3314,47 +3432,37 @@ msgstr "Tidak dapat memuat gambar “%s”."
 #~ " DesktopTransparencyImage - Image to announce for semi-transparent "
 #~ "windows\n"
 
-#~ msgid "Out of memory for pixel map %s"
-#~ msgstr "Kehabisan memory untuk piksel map %s"
+#~ msgid ""
+#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+#~ "blue): %0*x/%0*x/%0*x)"
+#~ msgstr ""
+#~ "Menggunakan mekanisme fallback untuk mengkonversi piksel (kedalaman: %d; "
+#~ "masks (red/green/blue): %0*x/%0*x/%0*x)"
 
-#~ msgid "Could not find pixel map %s"
-#~ msgstr "Tidak dapat mencari piksel map %s"
+#~ msgid "WINE"
+#~ msgstr "WINE"
 
-#~ msgid "Out of memory for RGB pixel buffer %s"
-#~ msgstr "Kehabisan memory untuk RGB piksel buffer %s"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree gagal untuk window 0x%x"
 
-#~ msgid "Could not find RGB pixel buffer %s"
-#~ msgstr "Tidak dapat mencari RGB piksel buffer %s"
+#~ msgid "_License"
+#~ msgstr "_Lisensi"
 
-#~ msgid " processes."
-#~ msgstr " proses."
+#~ msgid "_Minimize"
+#~ msgstr "_Kecilkan"
 
-#~ msgid "program label expected"
-#~ msgstr "Diperkiran label program"
+#~ msgid "_Minimized"
+#~ msgstr "_Minimal"
 
-#~ msgid "unknown action"
-#~ msgstr "Aksi tidak diketahui"
+#~ msgid "_No icon"
+#~ msgstr "_Tidak ada ikon"
 
-#~ msgid "Not a regular file: %s"
-#~ msgstr "Bukan sebuah file regular: %s"
-
-#~ msgid "Identifier expected"
-#~ msgstr "Diperkirakan ada Identifiernya"
-
-#~ msgid "Separator expected"
-#~ msgstr "Diperkirakan ada pemisahnya"
-
-#~ msgid "Invalid token"
-#~ msgstr "Token tidak benar"
-
-#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr "Bukan angka heksadesimal: %c%c (dalam \"%s\")"
-
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - format tidak diketahui (%d)"
-
-#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
-#~ msgstr "status:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgid ""
+#~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+#~ "softirq = %llu, steal = %llu (h = %i)\n"
+#~ msgstr ""
+#~ "bilah:\tpengguna = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = "
+#~ "%llu, softirq = %llu, steal = %llu (h = %i)\n"
 
 #~ msgid "cpu: %d %d %d %d %d %d %d"
 #~ msgstr "cpu: %d %d %d %d %d %d %d"
@@ -3362,32 +3470,18 @@ msgstr "Tidak dapat memuat gambar “%s”."
 #~ msgid "kstat finds too many cpus: should be %d"
 #~ msgstr "kstat menemukan terlalu banyak prosesor: seharusnya %d"
 
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "XQueryTree gagal untuk window 0x%x"
+#~ msgid "program label expected"
+#~ msgstr "Diperkiran label program"
 
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr "Di kompile dengan DEBUG flag. Pesan debug akan ditampilkan."
+#~ msgid "stat:\tuser = %i, nice = %i, sys = %i, idle = %i"
+#~ msgstr "status:\tuser = %i, nice = %i, sys = %i, idle = %i"
 
-#~ msgid "_No icon"
-#~ msgstr "_Tidak ada ikon"
+#~ msgid ""
+#~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+#~ "intr = %llu, softirq = %llu, steal = %llu\n"
+#~ msgstr ""
+#~ "stat:\tpengguna = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = "
+#~ "%llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
-#~ msgid "_Minimized"
-#~ msgstr "_Minimal"
-
-#~ msgid "Failed to duplicate file descriptor: %s"
-#~ msgstr "Gagal menduplikasi deskripsi file: %s"
-
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
-#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer"
-
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer (%d:%d-%dx%d)"
-#~ msgstr "%s:%d: Gagal menyalin drawable 0x%x ke piksel buffer (%d:%d-%dx%d)"
-
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "TERLALU BANYAK KONEKSI ICE -- tidak disupport"
-
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Session Manager: IceAddConnetionWatch gagal."
-
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Session Manager: Init salah: %s"
+#~ msgid "unknown action"
+#~ msgstr "Aksi tidak diketahui"

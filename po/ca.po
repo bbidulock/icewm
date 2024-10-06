@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
-"Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
-"POT-Creation-Date: 2024-06-16 14:27+0200\n"
+"Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
+"POT-Creation-Date: 2024-10-06 18:14+0200\n"
 "PO-Revision-Date: 2024-05-14 16:46+0000\n"
 "Last-Translator: David Medina <medipas@gmail.com>\n"
 "Language-Team: Catalan <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -18,95 +18,37 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.5.5\n"
 
-#: src/aapm.cc:113
-#, c-format
-msgid "Can't open the APM device %s"
-msgstr "No es pot obrir el dispositiu d'APM %s."
-
-#: src/aapm.cc:121 src/aapm.cc:139
-#, c-format
-msgid "Can't ioctl the APM device %s"
-msgstr "No es pot aplicar ioctl al dispositiu APM %s."
-
-#: src/aapm.cc:169
-#, c-format
-msgid "Unknown format used by APM device %s (%d)."
-msgstr "Format desconegut usat per al dispositiu PM %s (%d)."
-
-#: src/aapm.cc:201 src/aapm.cc:473 src/aapm.cc:632 src/aapm.cc:758
-msgid " - Power"
-msgstr " - Energia"
-
-#: src/aapm.cc:203 src/aapm.cc:476 src/aapm.cc:635
-msgid "P"
-msgstr "P"
-
-#: src/aapm.cc:207 src/aapm.cc:450 src/aapm.cc:615 src/aapm.cc:726
-msgid " - Charging"
-msgstr " - Carregant"
-
-#: src/aapm.cc:209 src/aapm.cc:452 src/aapm.cc:617
-msgid "C"
-msgstr "C"
-
-#: src/aapm.cc:454
-msgid " - Full"
-msgstr " - Plena"
-
-#: src/aapm.cc:940
-#, c-format
-msgid "power:\t%s"
-msgstr "energia:\t%s"
-
-#: src/aclock.cc:195
-msgid "CLOCK"
-msgstr "RELLOTGE"
-
-#: src/aclock.cc:201
-msgid "Date"
-msgstr "Data"
-
-#: src/aclock.cc:202 src/themes.cc:83
-msgid "Default"
-msgstr "Per defecte"
-
-#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
-#: src/amemstatus.cc:264
-msgid "_Disable"
-msgstr "Inha_bilita"
-
-#: src/aclock.cc:204
-msgid "_UTC"
-msgstr "_UTC"
-
-#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
-#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
-#: src/acpustatus.cc:348
-msgid "°C"
-msgstr "°C"
-
-#: src/acpustatus.cc:552
-#, c-format
-msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
-msgstr "Càrrega de la CPU %s: %3.2f %3.2f %3.2f, %u"
-
-#: src/acpustatus.cc:558
-#, c-format
+#: src/wmapp.cc:1629
 msgid ""
 "\n"
-"Ram (free): %5.3f (%.3f) G"
+"  --debug             Print generic debug messages.\n"
+"  --debug-z           Print debug messages regarding window stacking.\n"
 msgstr ""
 "\n"
-"Ram (lliure): %5.3f (%.3f) G"
+"  --debug             Imprimeix els missatges de depuració genèrics.\n"
+"  --debug-z           Imprimeix els missatges de depuració sobre l'apilament "
+"de finestres.\n"
 
-#: src/acpustatus.cc:563
-#, c-format
+#: src/wmapp.cc:1637
 msgid ""
 "\n"
-"Swap (free): %.3f (%.3f) G"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load theme from FILE.\n"
+"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
+"  -p, --postpreferences  Print preferences after all processing.\n"
+"  --rewrite-preferences  Update an existing preferences file.\n"
+"  --trace=conf,icon   Trace paths used to load configuration.\n"
 msgstr ""
 "\n"
-"Intercanvi (lliure): %.3f (%.3f) G"
+"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
+"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
+"  -s, --splash=IMAGE      Mostra breument la imatge en iniciar.\n"
+"  -p, --postpreferences   Imprimeix les preferències després de tot el "
+"processament.\n"
+"  --rewrite-preferences  Actualitza un fitxer de preferències existent.\n"
+"  --trace=conf,icon   Traça els camins usats per carregar la configuració.\n"
 
 #: src/acpustatus.cc:571
 #, c-format
@@ -126,13 +68,31 @@ msgstr ""
 "\n"
 "Freq. CPU: %.3fGHz"
 
-#: src/acpustatus.cc:607 src/acpustatus.cc:907
-msgid "CPU"
-msgstr "CPU"
+#: src/icesm.cc:85
+msgid ""
+"\n"
+"Debugging options:\n"
+"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
+"                      Thoroughly examines the execution of icewm.\n"
+"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
+"                      Gives a backtrace if icewm segfaults.\n"
+msgstr ""
+"\n"
+"Opcions de depuració:\n"
+"  -v, --valgrind      Permet que \"/usr/bin/valgrind\" executi icewm.\n"
+"                      Examina a fons l 'execució de l'icewm.\n"
+"  -g, --catchsegv     Permet que \"/usr/bin/catchsegv\" executi icewm.\n"
+"                      Dona una traça posterior si icewm té fallades de "
+"segmentació.\n"
 
-#: src/acpustatus.cc:607
-msgid "Load: "
-msgstr "Càrrega: "
+#: src/acpustatus.cc:558
+#, c-format
+msgid ""
+"\n"
+"Ram (free): %5.3f (%.3f) G"
+msgstr ""
+"\n"
+"Ram (lliure): %5.3f (%.3f) G"
 
 #: src/acpustatus.cc:622
 #, c-format
@@ -143,110 +103,120 @@ msgstr ""
 "\n"
 "Ram (usuari): %5.3f (%.3f) G"
 
-#: src/acpustatus.cc:908
+#: src/acpustatus.cc:563
 #, c-format
-msgid "CPU%d"
-msgstr "CPU %d"
+msgid ""
+"\n"
+"Swap (free): %.3f (%.3f) G"
+msgstr ""
+"\n"
+"Intercanvi (lliure): %.3f (%.3f) G"
 
-#: src/acpustatus.cc:914
-msgid "_Combine"
-msgstr "_Combina"
+#: src/wmapp.cc:1623
+msgid ""
+"  --client-id=ID      Client id to use when contacting session manager.\n"
+msgstr ""
+"  --client-id=ID      Id de client per usar quan es contacti amb el gestor "
+"de sessions.\n"
 
-#: src/acpustatus.cc:916
-msgid "_Separate"
-msgstr "_Separa"
+#: src/icesm.cc:69
+msgid ""
+"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
+"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
+"\n"
+"  -d, --display=NAME  Use NAME to connect to the X server.\n"
+"  -a, --alpha         Use a 32-bit visual for translucency.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
+"  -o, --output=FILE   Redirect all output to FILE.\n"
+"\n"
+"  -b, --nobg          Do not start icewmbg.\n"
+"  -n, --notray        Do not start icewmtray.\n"
+"  -s, --sound         Also start icesound.\n"
+msgstr ""
+"  -c, --config=FILE   Permet que l'IceWM carregui preferències des del "
+"FITXER.\n"
+"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des del FITXER.\n"
+"\n"
+"  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
+"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
+"  --sync              Sincronitza la comunicació amb el servidor X11.\n"
+"\n"
+"  -i, --icewm=FILE    Usa el FITXER com a gestor de finestres de l'IceWM.\n"
+"  -o, --output=FILE   Redirecciona tota la sortida al FITXER.\n"
+"\n"
+"  -b, --nobg          No iniciïs l'icewmbg.\n"
+"  -n, --notray        No iniciïs l'icewmtray.\n"
+"  -s, --sound         Inicia també l'icesound.\n"
 
-#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:503
-#, c-format
-msgid "%s exited with status %d."
-msgstr "%s ha sortit amb l'estat %d."
+#: src/yxapp.cc:1008
+msgid ""
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"  --sync              Synchronize X11 commands.\n"
+msgstr ""
+"  -d, --display=NAME      Nom del servidor X per usar.\n"
+"  --sync              Sincronitza les ordres d'X11.\n"
 
-#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:506
-#, c-format
-msgid "%s was killed by signal %d."
-msgstr "%s ha estat matat pel senyal %d."
+#: src/wmapp.cc:1654
+msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
+msgstr "  -i, --install=TEMA Instal·la el TEMA des de l'extra o llista.\n"
 
-#: src/akeyboard.cc:94
-msgid "rules:"
-msgstr "regles:"
+#: src/icetray.cc:220
+msgid ""
+"  -n, --notify        Notify parent process by sending signal USR1.\n"
+"  --display=NAME      Use NAME to connect to the X server.\n"
+"  --sync              Synchronize communication with X11 server.\n"
+"\n"
+"  -c, --config=FILE   Load preferences from FILE.\n"
+"  -t, --theme=FILE    Load the theme from FILE.\n"
+msgstr ""
+"  --notify            Notifica-ho al procés pare enviant el senyal USR1.\n"
+"  --display=NAME      Usa el NOM per connectar al servidor X.\n"
+"  --sync              Sincronitza la  comunicació amb el servidor X11.\n"
+"\n"
+"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
+"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
 
-#: src/akeyboard.cc:95
-msgid "model:"
-msgstr "model:"
+#: src/wmapp.cc:1648
+msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
+msgstr "  -o, --output=FITXER Redirigeix tota la sortida al FITXER.\n"
 
-#: src/akeyboard.cc:96
-msgid "layout:"
-msgstr "disposició:"
+#: src/aapm.cc:207 src/aapm.cc:448 src/aapm.cc:613 src/aapm.cc:722
+msgid " - Charging"
+msgstr " - Carregant"
 
-#: src/akeyboard.cc:97
-msgid "options:"
-msgstr "opcions:"
+#: src/aapm.cc:452
+msgid " - Full"
+msgstr " - Plena"
 
-#: src/akeyboard.cc:153
-msgid "Keyboard"
-msgstr "Teclat"
+#: src/aapm.cc:201 src/aapm.cc:471 src/aapm.cc:630 src/aapm.cc:754
+msgid " - Power"
+msgstr " - Energia"
 
-#: src/amailbox.cc:64
-#, c-format
-msgid "Invalid mailbox protocol: \"%s\""
-msgstr "Protocol de bústia no vàlid: %s"
+#: src/icesm.cc:513
+msgid ""
+" IceWM crashed for the second time in 10 seconds. \n"
+" Do you wish to:\n"
+"\n"
+"\t1: Restart IceWM?\n"
+"\t2: Abort this session?\n"
+"\t3: Run a terminal?\n"
+msgstr ""
+" L'IceWM ha fallat un segon cop durant 10 segons. \n"
+" Què voleu fer?\n"
+"\n"
+"\t1 Reiniciar l'IceWM?\n"
+"\t2 Avortar aquesta sessió?\n"
+" \t3 Executar un terminal?\n"
 
-#: src/amailbox.cc:66
-#, c-format
-msgid "Invalid mailbox path: \"%s\""
-msgstr "Camí de bústia no vàlid: %s"
-
-#: src/amailbox.cc:140
-#, c-format
-msgid "DNS name lookup failed for %s"
-msgstr "La cerca del nom de DNS ha fallat per a %s."
-
-#: src/amailbox.cc:156
-#, c-format
-msgid "Invalid mailbox port: \"%s\""
-msgstr "Port de bústia no vàlid: %s"
-
-#: src/amailbox.cc:314
-#, c-format
-msgid "Could not connect to %s: %s"
-msgstr "No s'ha pogut connectar a %s: %s"
-
-#: src/amailbox.cc:334
-#, c-format
-msgid "Failed to find %s command"
-msgstr "Ha fallat trobar l'ordre %s."
-
-#: src/amailbox.cc:363 src/wmmenu.cc:471 src/wmmenu.cc:488 src/yapp.cc:433
-#, c-format
-msgid "Failed to execute %s"
-msgstr "Ha fallat executar %s."
-
-#: src/amailbox.cc:447
-#, c-format
-msgid "Write to socket failed: %s"
-msgstr "Ha fallat l'escriptura al sòcol: %s"
-
-#: src/amailbox.cc:694
-#, c-format
-msgid "Using MailBox \"%s\"\n"
-msgstr "Ús de la bústia \"%s\"\n"
-
-#: src/amailbox.cc:801
-msgid "Suspended"
-msgstr "Suspès"
-
-#: src/amailbox.cc:805
-msgid "Error checking mailbox."
-msgstr "Error en comprovar la bústia."
+#: src/ysmapp.cc:95
+msgid "$USER or $LOGNAME not set?"
+msgstr "¿$USUARI o $NOMD'ENTRADA no configurat?"
 
 #: src/amailbox.cc:812
 #, c-format
 msgid "%ld mail message, %ld unread."
-msgstr "%ld missatges de correu, %ld per llegir."
-
-#: src/amailbox.cc:813
-#, c-format
-msgid "%ld mail messages, %ld unread."
 msgstr "%ld missatges de correu, %ld per llegir."
 
 #: src/amailbox.cc:819
@@ -254,62 +224,1001 @@ msgstr "%ld missatges de correu, %ld per llegir."
 msgid "%ld mail message."
 msgstr "%ld missatge de correu."
 
+#: src/amailbox.cc:813
+#, c-format
+msgid "%ld mail messages, %ld unread."
+msgstr "%ld missatges de correu, %ld per llegir."
+
 #: src/amailbox.cc:820
 #, c-format
 msgid "%ld mail messages."
 msgstr "%ld missatges de correu."
 
-#: src/amailbox.cc:961
-msgid "MAIL"
-msgstr "CORREU"
+#: src/wmwinmenu.cc:100
+#, c-format
+msgid "%lu. Workspace %-.32s"
+msgstr "%lu. Espai de treball %-.32s"
 
-#: src/amailbox.cc:963
-msgid "_Check"
-msgstr "_Comprova"
+#: src/wmapp.cc:1723
+#, c-format
+msgid "%s configuration directories:\n"
+msgstr "%s directoris de configuració:\n"
 
-#: src/amailbox.cc:965
-msgid "_Suspend"
-msgstr "_Suspèn"
+#: src/wmapp.cc:1808
+#, c-format
+msgid "%s configured options:%s\n"
+msgstr "%s opcions configurades:%s\n"
 
-#: src/amemstatus.cc:144
-msgid "GB"
-msgstr "GB"
+#: src/akeyboard.cc:78 src/icesm.cc:468 src/wmmenu.cc:507
+#, c-format
+msgid "%s exited with status %d."
+msgstr "%s ha sortit amb l'estat %d."
 
-#: src/amemstatus.cc:148
-msgid "MB"
-msgstr "MB"
+#: src/akeyboard.cc:81 src/icesm.cc:474 src/icesm.cc:628 src/wmmenu.cc:510
+#, c-format
+msgid "%s was killed by signal %d."
+msgstr "%s ha estat matat pel senyal %d."
 
-#: src/amemstatus.cc:152
-msgid "kB"
-msgstr "kB"
+#: src/icesound.cc:329
+#, c-format
+msgid "%s: Invalid number of channels"
+msgstr "%s: nombre no vàlid de canals"
 
-#: src/amemstatus.cc:156
-msgid "bytes"
-msgstr "bytes"
+#: src/yapp.cc:299
+#, c-format
+msgid "%s: select failed"
+msgstr "%s: ha fallat la selecció"
 
-#: src/amemstatus.cc:176
-msgid "Memory Total: "
-msgstr "Memòria total: "
+#: src/wmmenu.cc:516
+#, c-format
+msgid "'%s' produces no output"
+msgstr "\"%s\" no produeix cap sortida"
 
-#: src/amemstatus.cc:177
-msgid "Free: "
-msgstr "Lliure: "
+#: src/wmmenu.cc:502
+#, c-format
+msgid "'%s' timed out!"
+msgstr "%s ha assolit el temps d'espera!"
 
-#: src/amemstatus.cc:178
-msgid "Cached: "
-msgstr "A la cau: "
+#: src/wmabout.cc:29
+msgid "(C)"
+msgstr "(C)"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: 2D based graphical application
+#: src/fdospecgen.h:120 src/fdospecgen.h:152 src/fdospecgen.h:162
+msgid "2DGraphics"
+msgstr "Gràfics en 2D"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing 3-D graphics
+#: src/fdospecgen.h:168
+msgid "3DGraphics"
+msgstr "Gràfics en 3D"
+
+#: src/wmapp.cc:1291 src/yxapp.cc:1050
+msgid "<none>"
+msgstr "<cap>"
+
+#: src/wmapp.cc:91
+msgid "A window manager is already running, use --replace to replace it"
+msgstr "Ja s'executa un gestor de finestres. Useu --replace per reemplaçar-lo."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Accessibility
+#: src/fdospecgen.h:174 src/fdospecgen.h:180
+msgid "Accessibility"
+msgstr "Accessibilitat"
+
+#: src/icesh.cc:4166
+#, c-format
+msgid "Action `%s' requires at least %d arguments."
+msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An action game
+#: src/fdospecgen.h:186
+msgid "ActionGame"
+msgstr "Jocs d'acció"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application handles adult or explicit material
+#: src/fdospecgen.h:192
+msgid "Adult"
+msgstr "Adults"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Adventure style game
+#: src/fdospecgen.h:198
+msgid "AdventureGame"
+msgstr "Jocs d'aventures"
+
+#: src/wmwinlist.cc:83
+msgid "All Workspaces"
+msgstr "Tots els espais de treball"
+
+#: src/wmabout.cc:62
+msgid "AlphaBlending"
+msgstr "Mescla d'alfa"
+
+#: src/icehelp.cc:1348
+msgid "Alt+Left"
+msgstr "Alt+Esquerra"
+
+#: src/icehelp.cc:1350
+msgid "Alt+Right"
+msgstr "Alt+Dreta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simple amusement
+#: src/fdospecgen.h:204
+msgid "Amusement"
+msgstr "Oci"
+
+#: src/wmapp.cc:740
+msgid "Another window manager already running, exiting..."
+msgstr "Un altre gestor de finestres està en ús, sortint..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Arcade style game
+#: src/fdospecgen.h:210
+msgid "ArcadeGame"
+msgstr "Jocs d'arcade"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to archive/backup data
+#: src/fdospecgen.h:40 src/fdospecgen.h:216
+msgid "Archiving"
+msgstr "Gestió d'arxius"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:230
+msgid "Arrange _Icons"
+msgstr "Organitza les _icones"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to teach arts
+#: src/fdospecgen.h:222 src/fdospecgen.h:228
+msgid "Art"
+msgstr "Art"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
+#: src/fdospecgen.h:234 src/fdospecgen.h:240
+#, fuzzy
+msgid "Artificialtelligence"
+msgstr "Intel·ligència artificial"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Astronomy software
+#: src/fdospecgen.h:246 src/fdospecgen.h:252
+msgid "Astronomy"
+msgstr "Astronomia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An audio application
+#: src/fdomenu.cc:1096 src/fdospecgen.h:64 src/fdospecgen.h:72
+#: src/fdospecgen.h:128 src/fdospecgen.h:144 src/fdospecgen.h:260
+#: src/fdospecgen.h:614 src/fdospecgen.h:830 src/fdospecgen.h:884
+#: src/fdospecgen.h:1090
+msgid "Audio"
+msgstr "Àudio"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for presenting, creating, or processing multimedia (audio/video)
+#: src/fdospecgen.h:66 src/fdospecgen.h:74 src/fdospecgen.h:130
+#: src/fdospecgen.h:138 src/fdospecgen.h:146 src/fdospecgen.h:272
+#: src/fdospecgen.h:422 src/fdospecgen.h:452 src/fdospecgen.h:770
+#: src/fdospecgen.h:842 src/fdospecgen.h:896 src/fdospecgen.h:1094
+msgid "AudioVideo"
+msgstr "Àudio i vídeo"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to edit audio/video files
+#: src/fdospecgen.h:258 src/fdospecgen.h:264 src/fdospecgen.h:270
+msgid "AudioVideoEditing"
+msgstr "Edició d'àudio i vídeo"
+
+#: src/ycursor.cc:179
+#, c-format
+msgid "BUG? Imlib was able to read \"%s\""
+msgstr "ERROR? Imlib ha estat capaç de llegir \"%s\""
+
+#: src/ycursor.cc:204
+#, c-format
+msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
+msgstr "ERROR? Capçalera XPM malformada, però Imlib ha pogut analitzar \"%s\""
+
+#: src/ycursor.cc:215
+#, c-format
+msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
+msgstr "ERROR? Caràcter imprevist, però Imlib ha pogut analitzar \"%s\""
+
+#: src/ycursor.cc:212
+#, c-format
+msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
+msgstr ""
+"ERROR? Final del fitxer XPM imprevist, però Imlib ha pogut analitzar \"%s\""
+
+#: src/icehelp.cc:1348
+msgid "Back"
+msgstr "Enrere"
+
+#: src/wmmenu.cc:55
+#, c-format
+msgid "Bad argument %d to command '%s'"
+msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
+
+#: src/yconfig.cc:170 src/yconfig.cc:181 src/yconfig.cc:193
+#, c-format
+msgid "Bad argument: %s for %s [%d,%d]"
+msgstr "Argument erroni: %s per a %s [%d,%d]"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Biology software
+#: src/fdospecgen.h:276 src/fdospecgen.h:282
+msgid "Biology"
+msgstr "Biologia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Falling blocks game
+#: src/fdospecgen.h:288
+msgid "BlocksGame"
+msgstr "Jocs amb blocs"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A board game
+#: src/fdospecgen.h:294
+msgid "BoardGame"
+msgstr "Jocs de taula"
+
+#: src/wmapp.cc:620
+msgid "Bottom Half"
+msgstr "Meitat inferior"
+
+#: src/wmapp.cc:624
+msgid "Bottom Left"
+msgstr "A baix a l'esquerra"
+
+#: src/wmapp.cc:625
+msgid "Bottom Right"
+msgstr "A baix a la dreta"
 
 #: src/amemstatus.cc:179
 msgid "Buffers: "
 msgstr "Memòries intermèdies: "
 
-#: src/amemstatus.cc:180
-msgid "User: "
-msgstr "Usuari: "
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to build applications
+#: src/fdospecgen.h:300
+msgid "Building"
+msgstr "Construcció"
 
-#: src/amemstatus.cc:262
-msgid "MEM"
-msgstr "MEM"
+#: src/aapm.cc:209 src/aapm.cc:450 src/aapm.cc:615
+msgid "C"
+msgstr "C"
+
+#: src/aclock.cc:195
+msgid "CLOCK"
+msgstr "RELLOTGE"
+
+#: src/acpustatus.cc:607 src/acpustatus.cc:907
+msgid "CPU"
+msgstr "CPU"
+
+#: src/acpustatus.cc:552
+#, c-format
+msgid "CPU %s Load: %3.2f %3.2f %3.2f, %u"
+msgstr "Càrrega de la CPU %s: %3.2f %3.2f %3.2f, %u"
+
+#: src/acpustatus.cc:908
+#, c-format
+msgid "CPU%d"
+msgstr "CPU %d"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:219 src/wmwinlist.cc:457 src/wmwinlist.cc:490
+msgid "Ca_scade"
+msgstr "Ca_scada"
+
+#: src/amemstatus.cc:178
+msgid "Cached: "
+msgstr "A la cau: "
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A calculator
+#: src/fdospecgen.h:306
+msgid "Calculator"
+msgstr "Calculadora"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Calendar application
+#: src/fdospecgen.h:312
+msgid "Calendar"
+msgstr "Calendari"
+
+#: src/aapm.cc:121 src/aapm.cc:139
+#, c-format
+msgid "Can't ioctl the APM device %s"
+msgstr "No es pot aplicar ioctl al dispositiu APM %s."
+
+#: src/icesh.cc:4186 src/icesound.cc:800 src/icewmbg.cc:1087
+#: src/icewmhint.cc:37 src/wmapp.cc:1290 src/yxapp.cc:1049
+#, c-format
+msgid "Can't open display: %s. X must be running and $DISPLAY set."
+msgstr ""
+"No es pot obrir la pantalla: %s. X ha d'estar funcionant i $DISPLAY "
+"configurat."
+
+#: src/aapm.cc:113
+#, c-format
+msgid "Can't open the APM device %s"
+msgstr "No es pot obrir el dispositiu d'APM %s."
+
+#: src/icesh.cc:3770
+#, c-format
+msgid "Cannot get geometry of window 0x%lx"
+msgstr "No es pot obtenir una geometria de finestra de 0x%lx."
+
+#: src/icewmbg.cc:1335
+msgid "Cannot start, because another icewmbg is still running."
+msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A card game
+#: src/fdospecgen.h:318
+msgid "CardGame"
+msgstr "Jocs de cartes"
+
+#: src/wmapp.cc:626
+msgid "Center"
+msgstr "Al mig"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chart application
+#: src/fdospecgen.h:324
+msgid "Chart"
+msgstr "Diagrames"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A chat client
+#: src/fdospecgen.h:330
+msgid "Chat"
+msgstr "Xat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chemistry software
+#: src/fdospecgen.h:336 src/fdospecgen.h:342
+msgid "Chemistry"
+msgstr "Química"
+
+#: src/wmclient.cc:470
+#, c-format
+msgid ""
+"Client %s with PID %ld fails to respond.\n"
+"Do you wish to terminate this client?\n"
+msgstr ""
+"El client %s amb el PID %ld no respon.\n"
+"Voleu acabar aquest client?\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A clock application/applet
+#: src/fdospecgen.h:348
+msgid "Clock"
+msgstr "Rellotge"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
+msgid "Close"
+msgstr "Tanca"
+
+#: src/wmabout.cc:56
+msgid "CodeSet:"
+msgstr "Conjunt de codi:"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage compressed data/archives
+#: src/fdospecgen.h:38
+msgid "Compression"
+msgstr "Comprensió"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Computer Science software
+#: src/fdospecgen.h:104 src/fdospecgen.h:112 src/fdospecgen.h:354
+#: src/fdospecgen.h:360
+msgid "ComputerScience"
+msgstr "Informàtica"
+
+#: src/wmapp.cc:1949
+msgid "Confirm Logout"
+msgstr "Confirmació de la sortida"
+
+#: src/wmapp.cc:1003
+msgid "Confirm Restart as Terminal"
+msgstr "Confirmeu el reinici com a terminal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
+#: src/fdospecgen.h:366
+msgid "ConsoleOnly"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
+#: src/fdospecgen.h:372 src/fdospecgen.h:378
+msgid "Construction"
+msgstr "Construcció"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: E.g. an address book
+#: src/fdospecgen.h:384
+msgid "ContactManagement"
+msgstr "Gestió de contactes"
+
+#: src/icehelp.cc:1356
+msgid "Contents"
+msgstr "Continguts"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Important application, core to the desktop such as a file manager or a help browser
+#: src/fdospecgen.h:390
+msgid "Core"
+msgstr "Nucli"
+
+#: src/amailbox.cc:314
+#, c-format
+msgid "Could not connect to %s: %s"
+msgstr "No s'ha pogut connectar a %s: %s"
+
+#: src/icesound.cc:862
+msgid "Could not get GUI event property"
+msgstr "No s'ha pogut obtenir la propietat d'esdeveniment IGU"
+
+#: src/yfontcore.cc:121 src/yfontxft.cc:127
+#, c-format
+msgid "Could not load font \"%s\"."
+msgstr "No s'ha pogut carregar la lletra \"%s\"."
+
+#: src/yfontcore.cc:261
+#, c-format
+msgid "Could not load fontset \"%s\"."
+msgstr "No s'ha pogut carregar la lletra \"%s\"."
+
+#: src/yximage.cc:191 src/yximage.cc:214
+#, c-format
+msgid "Could not load image \"%s\""
+msgstr "No s'ha pogut carregar la imatge %s."
+
+#: src/icehelp.cc:2461
+msgid "Could not locate curl or wget in PATH"
+msgstr "No s'ha pogut ubicar curl o wget al CAMÍ"
+
+#: src/icesound.cc:397
+#, c-format
+msgid "Could not open OSS device %s"
+msgstr "No s'ha pogut obrir el dispositiu d'OSS %s"
+
+#: src/ycolor.cc:229 src/ycolor.cc:240
+#, c-format
+msgid "Could not parse color \"%s\""
+msgstr "No s'ha pogut analitzar el color %s"
+
+#: src/icesound.cc:368
+msgid "Could not post OSS"
+msgstr "No s'ha pogut enviar l'OSS"
+
+#: src/icesound.cc:407
+msgid "Could not reset OSS DSP"
+msgstr "No s'ha pogut restablir DSP OSS"
+
+#: src/wmapp.cc:815
+#, c-format
+msgid ""
+"Could not restart: %s\n"
+"Does $PATH lead to %s?"
+msgstr ""
+"No s'a pogut reiniciar: %s\n"
+"Apunta $PATH a %s?"
+
+#: src/icesound.cc:335 src/icesound.cc:340
+msgid "Could not set OSS channels"
+msgstr "No s'han pogut establir canals OSS"
+
+#: src/icesound.cc:412
+msgid "Could not set OSS format"
+msgstr "No s'ha pogut establir el format d'OSS"
+
+#: src/icesound.cc:402
+msgid "Could not set OSS stereo"
+msgstr "No s'ha pogut establir l'OSS estèreo"
+
+#: src/icesound.cc:345 src/icesound.cc:373
+msgid "Could not sync OSS"
+msgstr "No s'ha pogut sincronitzar l'OSS"
+
+#: src/yinputline.cc:23
+msgid "Ctrl+A"
+msgstr "Ctrl+A"
+
+#: src/icehelp.cc:1362
+msgid "Ctrl+B"
+msgstr "Ctrl+B"
+
+#: src/yinputline.cc:18
+msgid "Ctrl+C"
+msgstr "Ctrl+C"
+
+#: src/icehelp.cc:1359
+msgid "Ctrl+F"
+msgstr "Ctrl+F"
+
+#: src/iceview.cc:59
+msgid "Ctrl+H"
+msgstr "Ctrl+H"
+
+#: src/icehelp.cc:1370
+msgid "Ctrl+I"
+msgstr "Ctrl+I"
+
+#: src/icehelp.cc:1378
+msgid "Ctrl+M"
+msgstr "Ctrl+M"
+
+#: src/icesame.cc:59
+msgid "Ctrl+N"
+msgstr "Ctrl+N"
+
+#: src/yinputline.cc:21
+msgid "Ctrl+P"
+msgstr "Ctrl+P"
+
+#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
+msgid "Ctrl+Q"
+msgstr "Ctrl+Q"
+
+#: src/icehelp.cc:1364 src/icesame.cc:60
+msgid "Ctrl+R"
+msgstr "Ctrl+R"
+
+#: src/icehelp.cc:1382 src/iceview.cc:60
+msgid "Ctrl+T"
+msgstr "Ctrl+T"
+
+#: src/icehelp.cc:1395 src/yinputline.cc:20
+msgid "Ctrl+V"
+msgstr "Ctrl+V"
+
+#: src/icehelp.cc:1384 src/iceview.cc:61
+msgid "Ctrl+W"
+msgstr "Ctrl+W"
+
+#: src/icehelp.cc:1390 src/yinputline.cc:19
+msgid "Ctrl+X"
+msgstr "Ctrl+X"
+
+#: src/icesame.cc:57
+msgid "Ctrl+Z"
+msgstr "Ctrl+Z"
+
+#: src/yinputline.cc:19
+msgid "Cu_t"
+msgstr "Re_talla"
+
+#: src/wmprog.cc:348
+msgid "Custo_m"
+msgstr "_Personalitzat"
+
+#: src/amailbox.cc:140
+#, c-format
+msgid "DNS name lookup failed for %s"
+msgstr "La cerca del nom de DNS ha fallat per a %s."
+
+#: src/wmapp.cc:563
+msgid "D_esktop"
+msgstr "_Escriptori"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Data visualization software
+#: src/fdospecgen.h:396 src/fdospecgen.h:402
+msgid "DataVisualization"
+msgstr "Visualització de dades"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage a database
+#: src/fdospecgen.h:408 src/fdospecgen.h:414 src/fdospecgen.h:420
+msgid "Database"
+msgstr "Base de dades"
+
+#: src/aclock.cc:201
+msgid "Date"
+msgstr "Data"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to debug applications
+#: src/fdospecgen.h:426
+msgid "Debugger"
+msgstr "Depurador"
+
+#: src/aclock.cc:202 src/themes.cc:83
+msgid "Default"
+msgstr "Per defecte"
+
+#: src/wmwinlist.cc:468
+msgid "Del"
+msgstr "Supr"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Configuration tool for the GUI
+#: src/fdospecgen.h:432
+msgid "DesktopSettings"
+msgstr "Paràmetres de l'escriptori"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An application for development
+#: src/fdospecgen.h:302 src/fdospecgen.h:416 src/fdospecgen.h:428
+#: src/fdospecgen.h:566 src/fdospecgen.h:650 src/fdospecgen.h:854
+#: src/fdospecgen.h:866 src/fdospecgen.h:908 src/fdospecgen.h:1040
+#: src/fdospecgen.h:1076 src/fdospecgen.h:1098
+msgid "Development"
+msgstr "Desenvolupament"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dial-up program
+#: src/fdospecgen.h:438
+msgid "Dialup"
+msgstr "Marcatge telefònic"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dictionary
+#: src/fdospecgen.h:46 src/fdospecgen.h:444
+msgid "Dictionary"
+msgstr "Diccionari"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to burn a disc
+#: src/fdospecgen.h:450
+msgid "DiscBurning"
+msgstr "Gravació de discs"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Help or documentation
+#: src/fdospecgen.h:456
+msgid "Documentation"
+msgstr "Documentació"
+
+#: src/wmabout.cc:61
+msgid "DoubleBuffer"
+msgstr "Memòria intermèdia doble"
+
+#: src/icesh.cc:2294
+msgid "EWMH window state"
+msgstr "Estat de la finestra de l'EWMH"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Economy software
+#: src/fdospecgen.h:462 src/fdospecgen.h:468
+msgid "Economy"
+msgstr "Economia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Educational software
+#: src/fdospecgen.h:82 src/fdospecgen.h:106 src/fdospecgen.h:224
+#: src/fdospecgen.h:236 src/fdospecgen.h:248 src/fdospecgen.h:278
+#: src/fdospecgen.h:338 src/fdospecgen.h:356 src/fdospecgen.h:374
+#: src/fdospecgen.h:398 src/fdospecgen.h:464 src/fdospecgen.h:476
+#: src/fdospecgen.h:572 src/fdospecgen.h:584 src/fdospecgen.h:596
+#: src/fdospecgen.h:626 src/fdospecgen.h:638 src/fdospecgen.h:662
+#: src/fdospecgen.h:686 src/fdospecgen.h:698 src/fdospecgen.h:716
+#: src/fdospecgen.h:734 src/fdospecgen.h:746 src/fdospecgen.h:776
+#: src/fdospecgen.h:818 src/fdospecgen.h:914 src/fdospecgen.h:962
+#: src/fdospecgen.h:980 src/fdospecgen.h:1102
+msgid "Education"
+msgstr "Educació"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electricity software
+#: src/fdospecgen.h:474 src/fdospecgen.h:480
+msgid "Electricity"
+msgstr "Electricitat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Electronics software, e.g. a circuit designer
+#: src/fdospecgen.h:486
+msgid "Electronics"
+msgstr "Electrònica"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Email application
+#: src/fdospecgen.h:492 src/fdospecgen.h:498
+msgid "Email"
+msgstr "Correu electrònic"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Emulator of another platform, such as a DOS emulator
+#: src/fdospecgen.h:504 src/fdospecgen.h:510
+msgid "Emulator"
+msgstr "Emulador"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Engineering software, e.g. CAD programs
+#: src/fdospecgen.h:516
+msgid "Engineering"
+msgstr "Enginyeria"
+
+#: src/wmpref.cc:179
+#, c-format
+msgid "Enter a new value for %s: "
+msgstr "Introduïu un valor nou per a %s: "
+
+#: src/wmmenu.cc:160
+#, c-format
+msgid "Error at %s '%s'"
+msgstr "Error a %s \"%s\""
+
+#: src/wmmenu.cc:369
+#, c-format
+msgid "Error at includeprog '%s'"
+msgstr "Error a includeprog: %s"
+
+#: src/wmmenu.cc:110
+#, c-format
+msgid "Error at keyword '%s' for %s"
+msgstr "Error a la paraula clau \"%s\" per a %s"
+
+#: src/wmmenu.cc:280
+#, c-format
+msgid "Error at menuprog '%s'"
+msgstr "Error a menuprog \"%s\""
+
+#: src/wmmenu.cc:324
+#, c-format
+msgid "Error at menuprogreload: '%s'"
+msgstr "Error a menuprogreload: %s"
+
+#: src/amailbox.cc:805
+msgid "Error checking mailbox."
+msgstr "Error en comprovar la bústia."
+
+#: src/iceview.cc:60
+msgid "Expand Tabs"
+msgstr "Expandeix les pestanyes"
+
+#: src/icehelp.cc:1360
+msgid "F3"
+msgstr "F3"
+
+#: src/icehelp.cc:1376
+msgid "FAQ"
+msgstr "PMF"
+
+#: src/wmapp.cc:107
+#, c-format
+msgid "Failed to become the owner of the %s selection"
+msgstr "Ha fallat esdevenir el propietari de la selecció %s"
+
+#: src/icesound.cc:934
+#, c-format
+msgid "Failed to connect to audio interfaces %s."
+msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
+
+#: src/icehelp.cc:2341
+msgid "Failed to create a temporary file"
+msgstr "Ha fallat crear un fitxer temporal"
+
+#: src/icehelp.cc:2453
+#, c-format
+msgid "Failed to decompress %s"
+msgstr "Ha fallat descomprimir %s"
+
+#: src/ylocale.cc:93
+msgid ""
+"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
+msgstr ""
+"Ha fallat determinar el conjunt de codis de la llengua actual. S'assumeix "
+"ISO-8859-1.\n"
+
+#: src/amailbox.cc:363 src/wmmenu.cc:475 src/wmmenu.cc:492 src/yapp.cc:436
+#, c-format
+msgid "Failed to execute %s"
+msgstr "Ha fallat executar %s."
+
+#: src/icehelp.cc:2431
+#, c-format
+msgid "Failed to execute system(%s) (%d)"
+msgstr "Ha fallat executar el sistema (%s) (%d)"
+
+#: src/amailbox.cc:334
+#, c-format
+msgid "Failed to find %s command"
+msgstr "Ha fallat trobar l'ordre %s."
+
+#: src/icewmbg.cc:35 src/icewmbg.cc:372
+#, c-format
+msgid "Failed to load image '%s'."
+msgstr "Ha fallat carregar la imatge \"%s\"."
+
+#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
+#, c-format
+msgid "Failed to load theme %s"
+msgstr "Ha fallat carregar el tema %s"
+
+#: src/icehelp.cc:2312
+msgid "Failed to open file for reading."
+msgstr "Ha fallat obrir el fitxer per llegir-lo."
+
+#: src/yurl.cc:145
+#, c-format
+msgid "Failed to parse URL \"%s\"."
+msgstr "Ha fallat analitzar l'URL \"%s\"."
+
+#: src/wmtaskbar.cc:336
+msgid "Favorite Applications"
+msgstr "Aplicacions preferides"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: RSS, podcast and other subscription based contents
+#: src/fdospecgen.h:522
+msgid "Feed"
+msgstr "Canals"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file manager
+#: src/fdospecgen.h:54
+msgid "FileManager"
+msgstr "Gestor de fitxers"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file tool utility
+#: src/fdospecgen.h:56 src/fdospecgen.h:528 src/fdospecgen.h:534
+msgid "FileTools"
+msgstr "Eines de fitxers"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tools like FTP or P2P programs
+#: src/fdospecgen.h:540
+msgid "FileTransfer"
+msgstr "Transferència de fitxers"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file system tool
+#: src/fdospecgen.h:546
+msgid "Filesystem"
+msgstr "Sistema de fitxers"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage your finance
+#: src/fdospecgen.h:552
+msgid "Finance"
+msgstr "Finances"
+
+#: src/icehelp.cc:1360
+msgid "Find next"
+msgstr "Troba el següent"
+
+#: src/icehelp.cc:1359
+msgid "Find..."
+msgstr "Troba..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A flowchart application
+#: src/fdospecgen.h:558
+msgid "FlowChart"
+msgstr "Diagrames de flux"
+
+#: src/icesh.cc:76
+msgid "For help please consult the man page icesh(1).\n"
+msgstr "Per a l'ajuda, consulteu la pàgina del manual icesh(1).\n"
+
+#: src/wmmgr.cc:3701
+msgid "For keyboard switching, please install setxkbmap."
+msgstr "Per canviar el teclat, si us plau, instal·leu setxkbmap."
+
+#: src/icehelp.cc:1350
+msgid "Forward"
+msgstr "Endavant"
+
+#: src/amemstatus.cc:177
+msgid "Free: "
+msgstr "Lliure: "
+
+#: src/amemstatus.cc:144
+msgid "GB"
+msgstr "GB"
+
+#: src/icesh.cc:2289
+msgid "GNOME window layer"
+msgstr "Capa de finestra del GNOME"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A GUI designer application
+#: src/fdospecgen.h:564
+msgid "GUIDesigner"
+msgstr "Disseny d'interfícies"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game
+#: src/fdospecgen.h:188 src/fdospecgen.h:200 src/fdospecgen.h:212
+#: src/fdospecgen.h:290 src/fdospecgen.h:296 src/fdospecgen.h:320
+#: src/fdospecgen.h:512 src/fdospecgen.h:680 src/fdospecgen.h:710
+#: src/fdospecgen.h:926 src/fdospecgen.h:950 src/fdospecgen.h:956
+#: src/fdospecgen.h:992 src/fdospecgen.h:1004 src/fdospecgen.h:1106
+msgid "Game"
+msgstr "Jocs"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geography software
+#: src/fdospecgen.h:570 src/fdospecgen.h:576
+msgid "Geography"
+msgstr "Geografia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geology software
+#: src/fdospecgen.h:582 src/fdospecgen.h:588
+msgid "Geology"
+msgstr "Geologia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geoscience software, GIS
+#: src/fdospecgen.h:594 src/fdospecgen.h:600
+msgid "Geoscience"
+msgstr "Ciències de la Terra"
+
+#: src/icehelp.cc:1386
+msgid "Github"
+msgstr "Github"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing graphics
+#: src/fdospecgen.h:98 src/fdospecgen.h:122 src/fdospecgen.h:154
+#: src/fdospecgen.h:164 src/fdospecgen.h:170 src/fdospecgen.h:806
+#: src/fdospecgen.h:872 src/fdospecgen.h:932 src/fdospecgen.h:1052
+#: src/fdospecgen.h:1110
+msgid "Graphics"
+msgstr "Gràfics"
+
+#: src/icesh.cc:2291
+msgid "Gravity symbols"
+msgstr "Símbols de gravetat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: HAM radio software
+#: src/fdospecgen.h:606 src/fdospecgen.h:612
+msgid "HamRadio"
+msgstr "Ràdio Ham"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage hardware components, like sound cards, video cards or printers
+#: src/fdospecgen.h:28 src/fdospecgen.h:618
+msgid "HardwareSettings"
+msgstr "Paràmetres del maquinari"
+
+#: src/iceview.cc:59
+msgid "Hex View"
+msgstr "Vista Hex"
+
+#: src/wmbutton.cc:127
+msgid "Hide"
+msgstr "Amaga"
+
+#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
+msgid "Hide Taskbar"
+msgstr "Amaga la barra de tasques"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: History software
+#: src/fdospecgen.h:624 src/fdospecgen.h:630
+msgid "History"
+msgstr "Història"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for philosophy, psychology and other humanities
+#: src/fdospecgen.h:636 src/fdospecgen.h:642
+msgid "Humanities"
+msgstr "Humanitats"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: IDE application
+#: src/fdospecgen.h:648
+msgid "IDE"
+msgstr "IDE"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An IRC client
+#: src/fdospecgen.h:654
+msgid "IRCClient"
+msgstr "Client d'IRC"
+
+#: src/icesm.cc:519
+msgid "IceWM crash response"
+msgstr "Resposta de fallada de l'IceWM"
+
+#: src/icesh.cc:2290
+msgid "IceWM tray option"
+msgstr "Opció de la safata de l'IceWM"
+
+#: src/wmprog.cc:373
+msgid "Ice_Sound(1)"
+msgstr "Ice_Sound(1)"
+
+#: src/icehelp.cc:1374
+msgid "Icesound(1)"
+msgstr "Icesound (1)"
+
+#: src/icehelp.cc:1370
+msgid "Icewm(1)"
+msgstr "Icewm (1)"
+
+#: src/wmprog.cc:372
+msgid "Icewm_Bg(1)"
+msgstr "Icewm_Bg(1)"
+
+#: src/icehelp.cc:1372
+msgid "Icewmbg(1)"
+msgstr "Icewmbg (1)"
+
+#: src/icelist.cc:61
+msgid "Icon View"
+msgstr "Vista d'icones"
+
+#: src/icehelp.cc:2592
+#, c-format
+msgid "Ignoring option '%s'"
+msgstr "S'ignora l'opció \"%s\""
+
+#: src/wpixres.cc:93 src/wpixres.cc:100
+#, c-format
+msgid "Image not readable: %s"
+msgstr "Imatge no llegible: %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Image Processing software
+#: src/fdospecgen.h:660 src/fdospecgen.h:666
+msgid "ImageProcessing"
+msgstr "Processament d'imatges"
+
+#: src/yurl.cc:161
+#, c-format
+msgid "Incomplete hex escape in URL at position %d."
+msgstr "Escapament hex incomplet dins l'URL a la posició %d."
+
+#: src/icehelp.cc:1357
+msgid "Index"
+msgstr "Índex"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An instant messaging client
+#: src/fdospecgen.h:672
+msgid "InstantMessaging"
+msgstr "Missatgeria instantània"
 
 #: src/apppstatus.cc:268
 #, c-format
@@ -326,886 +1235,1053 @@ msgstr ""
 " Transferit (entrada/sortida): %lli %s/%lli %s\n"
 " Temps en línia:        %ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
-msgid "disconnected"
-msgstr "desconnectat"
-
-#: src/apppstatus.cc:284
-msgid "down"
-msgstr "avall"
-
-#: src/apppstatus.cc:705
-msgid "NET"
-msgstr "XARXA"
-
-#: src/aworkspaces.cc:685 src/wmstatus.cc:204
-msgid "Workspace: "
-msgstr "Espai de treball: "
-
-#: src/decorate.cc:132
-msgid "Tabs"
-msgstr "Pestanyes"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:43
-msgid "2DGraphics"
-msgstr "Gràfics en 2D"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:45
-msgid "3DGraphics"
-msgstr "Gràfics en 3D"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or Utility
-#: src/fdospecgen.h:47 src/fdospecgen.h:49
-msgid "Accessibility"
-msgstr "Accessibilitat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:51
-msgid "Accessories"
-msgstr "Accessoris"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:53
-msgid "ActionGame"
-msgstr "Jocs d'acció"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:55
-msgid "Adult"
-msgstr "Adults"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:57
-msgid "AdventureGame"
-msgstr "Jocs d'aventures"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:59
-msgid "Amusement"
-msgstr "Oci"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:61
-msgid "ArcadeGame"
-msgstr "Jocs d'arcade"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:63
-msgid "Archiving"
-msgstr "Gestió d'arxius"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:65
-msgid "Art"
-msgstr "Art"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:67
-msgid "ArtificialIntelligence"
-msgstr "Intel·ligència artificial"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:69
-msgid "Astronomy"
-msgstr "Astronomia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:71
-msgid "Audio"
-msgstr "Àudio"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:73
-msgid "AudioVideo"
-msgstr "Àudio i vídeo"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:75
-msgid "AudioVideoEditing"
-msgstr "Edició d'àudio i vídeo"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:77
-msgid "Biology"
-msgstr "Biologia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:79
-msgid "BlocksGame"
-msgstr "Jocs amb blocs"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:81
-msgid "BoardGame"
-msgstr "Jocs de taula"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:83
-msgid "Building"
-msgstr "Construcció"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:85
-msgid "Calculator"
-msgstr "Calculadora"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:87
-msgid "Calendar"
-msgstr "Calendari"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:89
-msgid "CardGame"
-msgstr "Jocs de cartes"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:91
-msgid "Chart"
-msgstr "Diagrames"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:93
-msgid "Chat"
-msgstr "Xat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:95
-msgid "Chemistry"
-msgstr "Química"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:97
-msgid "Clock"
-msgstr "Rellotge"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility;Archiving
-#: src/fdospecgen.h:99
-msgid "Compression"
-msgstr "Comprensió"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:101
-msgid "ComputerScience"
-msgstr "Informàtica"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:103
-msgid "Construction"
-msgstr "Construcció"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:105
-msgid "ContactManagement"
-msgstr "Gestió de contactes"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:107
-msgid "Core"
-msgstr "Nucli"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:109
-msgid "DataVisualization"
-msgstr "Visualització de dades"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development or AudioVideo
-#: src/fdospecgen.h:111
-msgid "Database"
-msgstr "Base de dades"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:113
-msgid "Debugger"
-msgstr "Depurador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:115
-msgid "DesktopSettings"
-msgstr "Paràmetres de l'escriptori"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:117
-msgid "Development"
-msgstr "Desenvolupament"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:119
-msgid "Dialup"
-msgstr "Marcatge telefònic"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or TextTools
-#: src/fdospecgen.h:121
-msgid "Dictionary"
-msgstr "Diccionari"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo
-#: src/fdospecgen.h:123
-msgid "DiscBurning"
-msgstr "Gravació de discs"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:125
-msgid "Documentation"
-msgstr "Documentació"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:127
-msgid "Economy"
-msgstr "Economia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:129
-msgid "Editors"
-msgstr "Editors"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:131
-msgid "Education"
-msgstr "Educació"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:133
-msgid "Electricity"
-msgstr "Electricitat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:135
-msgid "Electronics"
-msgstr "Electrònica"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Network
-#: src/fdospecgen.h:137
-msgid "Email"
-msgstr "Correu electrònic"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Game
-#: src/fdospecgen.h:139
-msgid "Emulator"
-msgstr "Emulador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:141
-msgid "Engineering"
-msgstr "Enginyeria"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:143
-msgid "Feed"
-msgstr "Canals"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System;FileTools
-#: src/fdospecgen.h:145
-msgid "FileManager"
-msgstr "Gestor de fitxers"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility or System
-#: src/fdospecgen.h:147
-msgid "FileTools"
-msgstr "Eines de fitxers"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:149
-msgid "FileTransfer"
-msgstr "Transferència de fitxers"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:151
-msgid "Filesystem"
-msgstr "Sistema de fitxers"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:153
-msgid "Finance"
-msgstr "Finances"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:155
-msgid "FlowChart"
-msgstr "Diagrames de flux"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:157
-msgid "GUIDesigner"
-msgstr "Disseny d'interfícies"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:159
-msgid "Game"
-msgstr "Jocs"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:161
-msgid "Geography"
-msgstr "Geografia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:163
-msgid "Geology"
-msgstr "Geologia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:165
-msgid "Geoscience"
-msgstr "Ciències de la Terra"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:167
-msgid "Graphics"
-msgstr "Gràfics"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Audio
-#: src/fdospecgen.h:169
-msgid "HamRadio"
-msgstr "Ràdio Ham"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:171
-msgid "HardwareSettings"
-msgstr "Paràmetres del maquinari"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:173
-msgid "History"
-msgstr "Història"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:175
-msgid "Humanities"
-msgstr "Humanitats"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:177
-msgid "IDE"
-msgstr "IDE"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:179
-msgid "IRCClient"
-msgstr "Client d'IRC"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:181
-msgid "ImageProcessing"
-msgstr "Processament d'imatges"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:183
-msgid "InstantMessaging"
-msgstr "Missatgeria instantània"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:185
-msgid "KidsGame"
-msgstr "Jocs infantils"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:187
-msgid "Languages"
-msgstr "Llengües"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:189
-msgid "Literature"
-msgstr "Literatura"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:191
-msgid "LogicGame"
-msgstr "Jocs de lògica"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:193
-msgid "Maps"
-msgstr "Mapes"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:195
-msgid "Math"
-msgstr "Matemàtiques"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:197
-msgid "MedicalSoftware"
-msgstr "Programari mèdic"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:199
-msgid "Midi"
-msgstr "Midi"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:201
-msgid "Mixer"
-msgstr "Mesclador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System or Network
-#: src/fdospecgen.h:203
-msgid "Monitor"
-msgstr "Monitor"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:205
-msgid "Motif"
-msgstr "Motif"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:207
-msgid "Multimedia"
-msgstr "Multimèdia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo or Education
-#: src/fdospecgen.h:209
-msgid "Music"
-msgstr "Música"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:211
-msgid "Network"
-msgstr "Xarxa"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:213
-msgid "News"
-msgstr "Notícies"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;Math or Science;Math
-#: src/fdospecgen.h:215
-msgid "NumericalAnalysis"
-msgstr "Anàlisi numèrica"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;Scanning
-#: src/fdospecgen.h:217
-msgid "OCR"
-msgstr "OCR"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:219
-msgid "Office"
-msgstr "Oficina"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:221
-msgid "Other"
-msgstr "Altres"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:223
-msgid "P2P"
-msgstr "P2P"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:225
-msgid "PDA"
-msgstr "PDA"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings
-#: src/fdospecgen.h:227
-msgid "PackageManager"
-msgstr "Gestor de paquets"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education;ComputerScience or Science;ComputerScience
-#: src/fdospecgen.h:229
-msgid "ParallelComputing"
-msgstr "Computació en paral·lel"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:231
-msgid "Photography"
-msgstr "Fotografia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:233
-msgid "Physics"
-msgstr "Física"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:235
-msgid "Player"
-msgstr "Reproductor"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:237
-msgid "Presentation"
-msgstr "Presentació"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings;HardwareSettings
-#: src/fdospecgen.h:239
-msgid "Printing"
-msgstr "Impressió"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:241
-msgid "Profiling"
-msgstr "Gestió de perfils"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office or Development
-#: src/fdospecgen.h:243
-msgid "ProjectManagement"
-msgstr "Gestió de projectes"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:245
-msgid "Publishing"
-msgstr "Publicacions"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:247
-msgid "RasterGraphics"
-msgstr "Gràfics d'escombratge"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Audio or Video or AudioVideo
-#: src/fdospecgen.h:249
-msgid "Recorder"
-msgstr "Gravador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:251
-msgid "RemoteAccess"
-msgstr "Accés remot"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:253
-msgid "RevisionControl"
-msgstr "Control de revisions"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:255
-msgid "Robotics"
-msgstr "Robòtica"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:257
-msgid "RolePlaying"
-msgstr "Jocs de rol"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics
-#: src/fdospecgen.h:259
-msgid "Scanning"
-msgstr "Escaneig"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:261
-msgid "Science"
-msgstr "Ciència"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:263
-msgid "Screensavers"
-msgstr "Protectors de pantalla"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Settings or System
-#: src/fdospecgen.h:265
-msgid "Security"
-msgstr "Seguretat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:267
-msgid "Sequencer"
-msgstr "Seqüenciador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:269
-msgid "Settings"
-msgstr "Paràmetres"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:271
-msgid "Shooter"
-msgstr "Tirador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:273
-msgid "Simulation"
-msgstr "Simulació"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science or Utility
-#: src/fdospecgen.h:275
-msgid "Spirituality"
-msgstr "Espiritualitat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Education or Science
-#: src/fdospecgen.h:277
-msgid "Sports"
-msgstr "Esports"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:279
-msgid "SportsGame"
-msgstr "Jocs d'esport"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:281
-msgid "Spreadsheet"
-msgstr "Full de càlcul"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Game
-#: src/fdospecgen.h:283
-msgid "StrategyGame"
-msgstr "Jocs d'estratègia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:285
-msgid "System"
-msgstr "Sistema"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Video
-#: src/fdospecgen.h:287
-msgid "TV"
-msgstr "Televisió"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:289
-msgid "Telephony"
-msgstr "Telefonia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:291
-msgid "TelephonyTools"
-msgstr "Eines de telefonia"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: System
-#: src/fdospecgen.h:293
-msgid "TerminalEmulator"
-msgstr "Emulador de terminal"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:295
-msgid "TextEditor"
-msgstr "Editor de text"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Utility
-#: src/fdospecgen.h:297
-msgid "TextTools"
-msgstr "Eines de text"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Development
-#: src/fdospecgen.h:299
-msgid "Translation"
-msgstr "Traducció"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: AudioVideo;Audio
-#: src/fdospecgen.h:301
-msgid "Tuner"
-msgstr "Sintonitzador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:303
-msgid "Utility"
-msgstr "Utilitat"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics;2DGraphics
-#: src/fdospecgen.h:305
-msgid "VectorGraphics"
-msgstr "Gràfics vectorials"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:307
-msgid "Video"
-msgstr "Vídeo"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:309
-msgid "VideoConference"
-msgstr "Videoconferència"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Graphics or Office
-#: src/fdospecgen.h:311
-msgid "Viewer"
-msgstr "Visualitzador"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes.
-#: src/fdospecgen.h:313
-msgid "WINE"
-msgstr "WINE"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network
-#: src/fdospecgen.h:315
-msgid "WebBrowser"
-msgstr "Navegador web"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Network or Development
-#: src/fdospecgen.h:317
-msgid "WebDevelopment"
-msgstr "Desenvolupament web"
-
-#. TRANSLATORS: This is a menu category name from freedesktop.org. Please add spaces as needed but no double-quotes. Context: Office
-#: src/fdospecgen.h:319
-msgid "WordProcessor"
-msgstr "Processador de textos"
-
-#: src/icehelp.cc:1348
-msgid "Back"
-msgstr "Enrere"
-
-#: src/icehelp.cc:1348
-msgid "Alt+Left"
-msgstr "Alt+Esquerra"
-
-#: src/icehelp.cc:1350
-msgid "Forward"
-msgstr "Endavant"
-
-#: src/icehelp.cc:1350
-msgid "Alt+Right"
-msgstr "Alt+Dreta"
-
-#: src/icehelp.cc:1353
-msgid "Previous"
-msgstr "Anterior"
-
-#: src/icehelp.cc:1354
-msgid "Next"
-msgstr "Següent"
-
-#: src/icehelp.cc:1356
-msgid "Contents"
-msgstr "Continguts"
-
-#: src/icehelp.cc:1357
-msgid "Index"
-msgstr "Índex"
-
-#: src/icehelp.cc:1359
-msgid "Find..."
-msgstr "Troba..."
-
-#: src/icehelp.cc:1359
-msgid "Ctrl+F"
-msgstr "Ctrl+F"
-
-#: src/icehelp.cc:1360
-msgid "Find next"
-msgstr "Troba el següent"
-
-#: src/icehelp.cc:1360
-msgid "F3"
-msgstr "F3"
-
-#: src/icehelp.cc:1362
-msgid "Open in Browser"
-msgstr "Obre-ho al navegador"
-
-#: src/icehelp.cc:1362
-msgid "Ctrl+B"
-msgstr "Ctrl+B"
-
-#: src/icehelp.cc:1364
-msgid "Reload"
-msgstr "Torna a carregar"
-
-#: src/icehelp.cc:1364 src/icesame.cc:60
-msgid "Ctrl+R"
-msgstr "Ctrl+R"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63 src/wmbutton.cc:147
-msgid "Close"
-msgstr "Tanca"
-
-#: src/icehelp.cc:1365 src/icesame.cc:62 src/iceview.cc:63
-msgid "Ctrl+Q"
-msgstr "Ctrl+Q"
-
-#: src/icehelp.cc:1370
-msgid "Icewm(1)"
-msgstr "Icewm (1)"
-
-#: src/icehelp.cc:1370
-msgid "Ctrl+I"
-msgstr "Ctrl+I"
-
-#: src/icehelp.cc:1372
-msgid "Icewmbg(1)"
-msgstr "Icewmbg (1)"
-
-#: src/icehelp.cc:1374
-msgid "Icesound(1)"
-msgstr "Icesound (1)"
-
-#: src/icehelp.cc:1376
-msgid "FAQ"
-msgstr "PMF"
-
-#: src/icehelp.cc:1378
-msgid "Manual"
-msgstr "Manual"
-
-#: src/icehelp.cc:1378
-msgid "Ctrl+M"
-msgstr "Ctrl+M"
-
-#: src/icehelp.cc:1380
-msgid "Support"
-msgstr "Suport"
-
-#: src/icehelp.cc:1382
-msgid "Theme Howto"
-msgstr "Gestió del tema"
-
-#: src/icehelp.cc:1382 src/iceview.cc:60
-msgid "Ctrl+T"
-msgstr "Ctrl+T"
-
-#: src/icehelp.cc:1384
-msgid "Website"
-msgstr "Lloc web"
-
-#: src/icehelp.cc:1384 src/iceview.cc:61
-msgid "Ctrl+W"
-msgstr "Ctrl+W"
-
-#: src/icehelp.cc:1386
-msgid "Github"
-msgstr "Github"
-
-#: src/icehelp.cc:1390 src/yinputline.cc:19
-msgid "Ctrl+X"
-msgstr "Ctrl+X"
-
-#: src/icehelp.cc:1395 src/yinputline.cc:20
-msgid "Ctrl+V"
-msgstr "Ctrl+V"
-
-#: src/icehelp.cc:2204
-msgid "Unsupported protocol."
-msgstr "Protocol no admès."
+#: src/icesh.cc:4516
+#, c-format
+msgid "Invalid PID: `%s'"
+msgstr "PID no vàlid: %s"
+
+#: src/icesh.cc:3795
+#, c-format
+msgid "Invalid Xinerama: `%s'."
+msgstr "Xinerama no vàlid: %s."
+
+#: src/icesh.cc:2729 src/icesh.cc:4150 src/icesh.cc:4200 src/icesh.cc:5497
+#, c-format
+msgid "Invalid argument: `%s'"
+msgstr "Argument no vàlid: %s"
+
+#: src/icesh.cc:4175
+#, c-format
+msgid "Invalid expression: `%s'"
+msgstr "Expressió no vàlida: %s"
+
+#: src/yurl.cc:168
+#, c-format
+msgid "Invalid hex escape in URL at position %d."
+msgstr "Escapament hex no vàlid dins l'URL a la posició %d."
+
+#: src/icesh.cc:4549
+#, c-format
+msgid "Invalid layer: `%s'."
+msgstr "Capa no vàlida: %s."
+
+#: src/amailbox.cc:66
+#, c-format
+msgid "Invalid mailbox path: \"%s\""
+msgstr "Camí de bústia no vàlid: %s"
+
+#: src/amailbox.cc:156
+#, c-format
+msgid "Invalid mailbox port: \"%s\""
+msgstr "Port de bústia no vàlid: %s"
+
+#: src/amailbox.cc:64
+#, c-format
+msgid "Invalid mailbox protocol: \"%s\""
+msgstr "Protocol de bústia no vàlid: %s"
+
+#: src/ylocale.cc:239
+#, c-format
+msgid "Invalid multibyte string \"%s\": %s"
+msgstr "Cadena multibyte no vàlida \"%s\": %s"
 
 #: src/icehelp.cc:2283
 #, c-format
 msgid "Invalid path: %s\n"
 msgstr "Camí no vàlid: %s\n"
 
+#: src/icesh.cc:2700 src/icesh.cc:4576 src/icesh.cc:5176
+#, c-format
+msgid "Invalid state: `%s'."
+msgstr "Estat no vàlid: %s."
+
+#: src/icesh.cc:4500
+#, c-format
+msgid "Invalid window identifier: `%s'"
+msgstr "Identificador de finestra no vàlid: %s"
+
+#: src/icesh.cc:1778
+#, c-format
+msgid "Invalid workspace name: `%s'"
+msgstr "Nom d'escriptori no vàlid: %s"
+
+#: src/akeyboard.cc:153
+msgid "Keyboard"
+msgstr "Teclat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game for kids
+#: src/fdospecgen.h:678
+msgid "KidsGame"
+msgstr "Jocs infantils"
+
+#: src/wmframe.cc:1971
+msgid "Kill Client: "
+msgstr "Mata el client: "
+
+#: src/wmwinlist.cc:473
+msgid "Kill _Process"
+msgstr "_Mata el procés"
+
+#: src/wmapp.cc:671 src/wmwinlist.cc:447
+msgid "La_yer"
+msgstr "_Capa"
+
+#: src/wmabout.cc:57
+msgid "Language:"
+msgstr "Llengua:"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to learn foreign languages
+#: src/fdospecgen.h:684 src/fdospecgen.h:690
+msgid "Languages"
+msgstr "Llengües"
+
+#: src/wmapp.cc:617
+msgid "Left Half"
+msgstr "Meitat esquerra"
+
+#: src/wmapp.cc:685
+msgid "Limit _Workarea"
+msgstr "Límit de l'àrea de tre_ball"
+
+#: src/icelist.cc:60
+msgid "List View"
+msgstr "Vista de llista"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Literature software
+#: src/fdospecgen.h:696 src/fdospecgen.h:702
+msgid "Literature"
+msgstr "Literatura"
+
+#: src/acpustatus.cc:607
+msgid "Load: "
+msgstr "Càrrega: "
+
+#: src/ycursor.cc:135
+#, c-format
+msgid "Loading of pixmap \"%s\" failed"
+msgstr "Ha fallat la càrrega del mapa de píxels \"%s\""
+
+#: src/ycursor.cc:110
+#, c-format
+msgid "Loading of pixmap \"%s\" failed: %s"
+msgstr "La càrrega del mapa de píxels \"%s\" ha fallat: %s"
+
+#: src/wmdialog.cc:85
+msgid "Loc_k Workstation"
+msgstr "Bloque_ja l'estació de treball"
+
+#: src/ylocale.cc:59
+msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
+msgstr ""
+"Llengua no admesa per la biblioteca C o Xlib. Es torna per defecte a \"C\"."
+
+#: src/wmapp.cc:533
+msgid "Lock _Workstation"
+msgstr "Bloque_ja l'estació de treball"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Logic games like puzzles, etc
+#: src/fdospecgen.h:708
+msgid "LogicGame"
+msgstr "Jocs de lògica"
+
+#: src/wmapp.cc:1950
+msgid ""
+"Logout will close all active applications.\n"
+"Proceed?"
+msgstr ""
+"Sortir tancarà totes les aplicacions actives.\n"
+"Voleu continuar?"
+
+#: src/amailbox.cc:961
+msgid "MAIL"
+msgstr "CORREU"
+
+#: src/amemstatus.cc:148
+msgid "MB"
+msgstr "MB"
+
+#: src/amemstatus.cc:262
+msgid "MEM"
+msgstr "MEM"
+
+#: src/wmapp.cc:650 src/wmwinlist.cc:438
+msgid "Ma_ximize"
+msgstr "Ma_ximitza"
+
+#: src/icehelp.cc:1378
+msgid "Manual"
+msgstr "Manual"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for viewing maps, navigation, mapping, GPS
+#: src/fdospecgen.h:714 src/fdospecgen.h:720 src/fdospecgen.h:726
+msgid "Maps"
+msgstr "Mapes"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Math software
+#: src/fdospecgen.h:80 src/fdospecgen.h:88 src/fdospecgen.h:732
+#: src/fdospecgen.h:738
+msgid "Math"
+msgstr "Matemàtiques"
+
+#: src/wmbutton.cc:133
+msgid "Maximize"
+msgstr "Maximitza"
+
+#: src/wmapp.cc:652 src/wmwinlist.cc:440
+msgid "MaximizeHori_z"
+msgstr "Maximització horit_zontal"
+
+#: src/wmapp.cc:651 src/wmwinlist.cc:439
+msgid "Maximize_Vert"
+msgstr "Maximització _vertical"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Medical software
+#: src/fdospecgen.h:744 src/fdospecgen.h:750
+msgid "MedicalSoftware"
+msgstr "Programari mèdic"
+
+#: src/amemstatus.cc:176
+msgid "Memory Total: "
+msgstr "Memòria total: "
+
+#: src/wmapp.cc:648 src/wmwinlist.cc:437
+msgid "Mi_nimize"
+msgstr "Mi_nimitza"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An app related to MIDI
+#: src/fdospecgen.h:62
+msgid "Midi"
+msgstr "Midi"
+
+#: src/wmbutton.cc:137
+msgid "Minimize"
+msgstr "Minimitza"
+
+#: src/yfontcore.cc:233
+#, c-format
+msgid "Missing codesets for fontset \"%s\":"
+msgstr "No s'ha trobat codificació per a la lletra \"%s\":"
+
+#: src/wmmenu.cc:37
+msgid "Missing command argument"
+msgstr "Falta l'argument de l'ordre"
+
+#: src/wmmenu.cc:351
+msgid "Missing filename argument to include statement"
+msgstr "Falta l'argument del nom de fitxer per incloure el comunicat"
+
+#: src/wmmgr.cc:3700
+msgid "Missing program setxkbmap"
+msgstr "Manca el programa setxkbmap."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Just a mixer
+#: src/fdospecgen.h:70
+msgid "Mixer"
+msgstr "Mesclador"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Monitor application/applet that monitors some resource or activity
+#: src/fdospecgen.h:756 src/fdospecgen.h:762
+msgid "Monitor"
+msgstr "Monitor"
+
+#: src/icesh.cc:2293
+msgid "Motif decorations"
+msgstr "Decoracions del Motif"
+
+#: src/icesh.cc:2292
+msgid "Motif functions"
+msgstr "Funcions del Motif"
+
+#: src/wmapp.cc:678 src/wmwinlist.cc:450
+msgid "Move _To"
+msgstr "Mo_u a"
+
+#: src/wmapp.cc:607 src/wmwinlist.cc:369
+msgid "Move to New _Window"
+msgstr "Mou a la finestra no_va"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Musical software
+#: src/fdospecgen.h:768 src/fdospecgen.h:774
+msgid "Music"
+msgstr "Música"
+
+#: src/apppstatus.cc:705
+msgid "NET"
+msgstr "XARXA"
+
+#: src/icesh.cc:1688
+#, c-format
+msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
+msgstr "Símbols anomenats del domini \"%s\" (gamma numèrica: %ld-%ld):\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Network application such as a web browser
+#: src/fdospecgen.h:332 src/fdospecgen.h:440 src/fdospecgen.h:500
+#: src/fdospecgen.h:524 src/fdospecgen.h:542 src/fdospecgen.h:608
+#: src/fdospecgen.h:656 src/fdospecgen.h:674 src/fdospecgen.h:764
+#: src/fdospecgen.h:782 src/fdospecgen.h:788 src/fdospecgen.h:902
+#: src/fdospecgen.h:1010 src/fdospecgen.h:1046 src/fdospecgen.h:1064
+#: src/fdospecgen.h:1070 src/fdospecgen.h:1114
+msgid "Network"
+msgstr "Xarxa"
+
+#: src/icesame.cc:59
+msgid "New"
+msgstr "Nou"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A news reader or a news ticker
+#: src/fdospecgen.h:780
+msgid "News"
+msgstr "Notícies"
+
+#: src/icehelp.cc:1354
+msgid "Next"
+msgstr "Següent"
+
+#: src/icesh.cc:4350
+msgid "No actions specified."
+msgstr "No s'ha especificat cap acció."
+
+#: src/icesound.cc:785
+#, c-format
+msgid "No audio for %s"
+msgstr "No hi ha àudio per a %s"
+
+#: src/icesh.cc:4334
+msgid "No windows found."
+msgstr "No s'ha trobat cap finestra."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Numerical analysis software
+#: src/fdospecgen.h:78 src/fdospecgen.h:86
+msgid "NumericalAnalysis"
+msgstr "Anàlisi numèrica"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Optical character recognition application
+#: src/fdospecgen.h:94
+msgid "OCR"
+msgstr "OCR"
+
+#: src/icesound.cc:361
+#, c-format
+msgid "OSS incomplete write (%d/%d)"
+msgstr "Escriptura d'OSS incompleta (%d/%d)"
+
+#: src/icesound.cc:357
+msgid "OSS write failed"
+msgstr "Ha fallat l'escriptura d'OSS"
+
+#: src/wmapp.cc:679 src/wmwinlist.cc:451
+msgid "Occupy _All"
+msgstr "Ocupa-ho _tot"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An office type application
+#: src/fdospecgen.h:314 src/fdospecgen.h:326 src/fdospecgen.h:386
+#: src/fdospecgen.h:410 src/fdospecgen.h:446 src/fdospecgen.h:494
+#: src/fdospecgen.h:554 src/fdospecgen.h:560 src/fdospecgen.h:794
+#: src/fdospecgen.h:812 src/fdospecgen.h:848 src/fdospecgen.h:860
+#: src/fdospecgen.h:878 src/fdospecgen.h:998 src/fdospecgen.h:1058
+#: src/fdospecgen.h:1082 src/fdospecgen.h:1118
+msgid "Office"
+msgstr "Oficina"
+
+#: src/icelist.cc:65
+msgid "Open"
+msgstr "Obre"
+
+#: src/icehelp.cc:1362
+msgid "Open in Browser"
+msgstr "Obre-ho al navegador"
+
+#: src/icewmhint.cc:57
+#, c-format
+msgid "Out of memory (len=%d)."
+msgstr "Sense memòria (len=%d)."
+
+#: src/aapm.cc:203 src/aapm.cc:474 src/aapm.cc:633
+msgid "P"
+msgstr "P"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A P2P program
+#: src/fdospecgen.h:786
+msgid "P2P"
+msgstr "P2P"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to manage your PDA
+#: src/fdospecgen.h:792
+msgid "PDA"
+msgstr "PDA"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A package manager application
+#: src/fdospecgen.h:798
+msgid "PackageManager"
+msgstr "Gestor de paquets"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Parallel computing software
+#: src/fdospecgen.h:102 src/fdospecgen.h:110
+msgid "ParallelComputing"
+msgstr "Computació en paral·lel"
+
+#: src/yinputline.cc:21
+msgid "Paste _Selection"
+msgstr "Enganxa la _selecció"
+
 #: src/icehelp.cc:2307
 msgid "Path does not refer to a file."
 msgstr "El camí no fa referència a un fitxer."
 
-#: src/icehelp.cc:2312
-msgid "Failed to open file for reading."
-msgstr "Ha fallat obrir el fitxer per llegir-lo."
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Camera tools, etc.
+#: src/fdospecgen.h:804 src/fdospecgen.h:810
+msgid "Photography"
+msgstr "Fotografia"
 
-#: src/icehelp.cc:2341
-msgid "Failed to create a temporary file"
-msgstr "Ha fallat crear un fitxer temporal"
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Physics software
+#: src/fdospecgen.h:816 src/fdospecgen.h:822
+msgid "Physics"
+msgstr "Física"
 
-#: src/icehelp.cc:2431
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to play audio/video files
+#: src/fdospecgen.h:828 src/fdospecgen.h:834 src/fdospecgen.h:840
+msgid "Player"
+msgstr "Reproductor"
+
+#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
 #, c-format
-msgid "Failed to execute system(%s) (%d)"
-msgstr "Ha fallat executar el sistema (%s) (%d)"
+msgid "Playing sample #%d (%s)"
+msgstr "Reproduint l'exemple #%d (%s)"
 
-#: src/icehelp.cc:2453
+#: src/fdomenu.cc:1200
+msgid "Please push HERE and retry after some seconds."
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
+#: src/fdospecgen.h:846
+msgid "Presentation"
+msgstr "Presentació"
+
+#: src/icehelp.cc:1353
+msgid "Previous"
+msgstr "Anterior"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage printers
+#: src/fdospecgen.h:24
+msgid "Printing"
+msgstr "Impressió"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A profiling tool
+#: src/fdospecgen.h:852
+msgid "Profiling"
+msgstr "Gestió de perfils"
+
+#: src/wmprog.cc:422
+msgid "Programs"
+msgstr "Programes"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Project management application
+#: src/fdospecgen.h:858 src/fdospecgen.h:864
+msgid "ProjectManagement"
+msgstr "Gestió de projectes"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Desktop Publishing applications and Color Management tools
+#: src/fdospecgen.h:870 src/fdospecgen.h:876
+msgid "Publishing"
+msgstr "Publicacions"
+
+#: src/wmapp.cc:667
+msgid "R_aise"
+msgstr "_Apuja"
+
+#: src/wmapp.cc:691 src/wmwinlist.cc:453
+msgid "R_ename title"
+msgstr "Canvia de nom _el títol"
+
+#: src/wmbutton.cc:124
+msgid "Raise/Lower"
+msgstr "Apuja / Abaixa"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing raster (bitmap) graphics
+#: src/fdospecgen.h:118
+msgid "RasterGraphics"
+msgstr "Gràfics d'escombratge"
+
+#: src/wmapp.cc:535 src/wmdialog.cc:89
+msgid "Re_boot"
+msgstr "_Reinicia"
+
+#: src/icesound.cc:870
 #, c-format
-msgid "Failed to decompress %s"
-msgstr "Ha fallat descomprimir %s"
+msgid "Received GUI event %s"
+msgstr "Esdeveniment IGU rebut: %s"
 
-#: src/icehelp.cc:2461
-msgid "Could not locate curl or wget in PATH"
-msgstr "No s'ha pogut ubicar curl o wget al CAMÍ"
+#: src/icesound.cc:866
+#, c-format
+msgid "Received invalid GUI event %d"
+msgstr "Esdeveniment IGU rebut no vàlid: %d"
+
+#: src/icesound.cc:946
+#, c-format
+msgid "Received signal %s: Terminating..."
+msgstr "Senyal %s rebut: acabant..."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to record audio/video files
+#: src/fdospecgen.h:882 src/fdospecgen.h:888 src/fdospecgen.h:894
+msgid "Recorder"
+msgstr "Gravador"
+
+#: src/icehelp.cc:1364
+msgid "Reload"
+msgstr "Torna a carregar"
+
+#: src/wmdialog.cc:96
+msgid "Reload ke_ys"
+msgstr "Torna a carregar les claus"
+
+#: src/wmdialog.cc:95
+msgid "Reload win_options"
+msgstr "Torna a carregar les opcions de la finestra"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to remotely manage your PC
+#: src/fdospecgen.h:900
+msgid "RemoteAccess"
+msgstr "Accés remot"
+
+#: src/wmframe.cc:1458
+msgid "Rename"
+msgstr "Canvia'n el nom"
+
+#: src/wmframe.cc:1459
+msgid "Rename the window title"
+msgstr "Canvia de nom el títol de la finestra"
+
+#: src/wmabout.cc:63
+msgid "Renderer:"
+msgstr "Renderitzador:"
+
+#: src/icesame.cc:60
+msgid "Restart"
+msgstr "Reinicia"
+
+#: src/wmapp.cc:545
+msgid "Restart _Icewm"
+msgstr "Reinicia l'_Icewm"
+
+#: src/wmapp.cc:547
+msgid "Restart _Xterm"
+msgstr "Reinicia l'_Xterm"
+
+#: src/wmbutton.cc:131
+msgid "Restore"
+msgstr "Restaura"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Applications like cvs or subversion
+#: src/fdospecgen.h:906
+msgid "RevisionControl"
+msgstr "Control de revisions"
+
+#: src/wmapp.cc:618
+msgid "Right Half"
+msgstr "Meitat dreta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Robotics software
+#: src/fdospecgen.h:912 src/fdospecgen.h:918
+msgid "Robotics"
+msgstr "Robòtica"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A role playing game
+#: src/fdospecgen.h:924
+msgid "RolePlaying"
+msgstr "Jocs de rol"
+
+#: src/wmapp.cc:660 src/wmwinlist.cc:444
+msgid "Roll_up"
+msgstr "Enr_otlla"
+
+#: src/wmbutton.cc:141
+msgid "Rolldown"
+msgstr "Desenrotlla"
+
+#: src/wmbutton.cc:143
+msgid "Rollup"
+msgstr "Enrotlla"
+
+#: src/wmprog.cc:346
+msgid "S_trict mouse focus"
+msgstr "Focus del ratolí es_tricte"
+
+#: src/icesame.cc:65
+msgid "Same Game"
+msgstr "El mateix joc"
+
+#: src/wmpref.cc:101
+msgid "Save Modifications"
+msgstr "Desa les modificacions"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to scan a file/text
+#: src/fdospecgen.h:96 src/fdospecgen.h:930
+msgid "Scanning"
+msgstr "Escaneig"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Scientific software
+#: src/fdospecgen.h:90 src/fdospecgen.h:114 src/fdospecgen.h:230
+#: src/fdospecgen.h:242 src/fdospecgen.h:254 src/fdospecgen.h:284
+#: src/fdospecgen.h:344 src/fdospecgen.h:362 src/fdospecgen.h:380
+#: src/fdospecgen.h:404 src/fdospecgen.h:470 src/fdospecgen.h:482
+#: src/fdospecgen.h:578 src/fdospecgen.h:590 src/fdospecgen.h:602
+#: src/fdospecgen.h:632 src/fdospecgen.h:644 src/fdospecgen.h:668
+#: src/fdospecgen.h:692 src/fdospecgen.h:704 src/fdospecgen.h:722
+#: src/fdospecgen.h:740 src/fdospecgen.h:752 src/fdospecgen.h:824
+#: src/fdospecgen.h:920 src/fdospecgen.h:968 src/fdospecgen.h:986
+#: src/fdospecgen.h:1122
+msgid "Science"
+msgstr "Ciència"
+
+#: src/wmprog.cc:460
+msgid "Se_ttings"
+msgstr "Paràme_tres"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A security tool
+#: src/fdospecgen.h:936 src/fdospecgen.h:942
+msgid "Security"
+msgstr "Seguretat"
+
+#: src/yinputline.cc:23
+msgid "Select _All"
+msgstr "Selecciona-ho _tot"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sequencer
+#: src/fdospecgen.h:126
+msgid "Sequencer"
+msgstr "Seqüenciador"
+
+#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
+#, c-format
+msgid "Session Manager: Unknown line %s"
+msgstr "Gestor de sessions: línia desconeguda: %s"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Settings applications
+#: src/fdospecgen.h:26 src/fdospecgen.h:30 src/fdospecgen.h:176
+#: src/fdospecgen.h:434 src/fdospecgen.h:620 src/fdospecgen.h:800
+#: src/fdospecgen.h:938 src/fdospecgen.h:1126
+msgid "Settings"
+msgstr "Paràmetres"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A shooter game
+#: src/fdospecgen.h:948
+msgid "Shooter"
+msgstr "Tirador"
+
+#: src/wmtaskbar.cc:372
+msgid "Show Desktop"
+msgstr "Mostra l'escriptori"
+
+#: src/wmtaskbar.cc:1025
+msgid "Show Taskbar"
+msgstr "Mostra la barra de tasques"
+
+#: src/wmapp.cc:537 src/wmdialog.cc:90
+msgid "Shut_down"
+msgstr "At_ura"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simulation game
+#: src/fdospecgen.h:954
+msgid "Simulation"
+msgstr "Simulació"
+
+#: src/iceskt.cc:41
+#, c-format
+msgid "Socket error: %d"
+msgstr "Error de sòcol: %d"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Religious and spiritual software, theology
+#: src/fdospecgen.h:960 src/fdospecgen.h:966 src/fdospecgen.h:972
+msgid "Spirituality"
+msgstr "Espiritualitat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Sports software
+#: src/fdospecgen.h:978 src/fdospecgen.h:984
+msgid "Sports"
+msgstr "Esports"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sports game
+#: src/fdospecgen.h:990
+msgid "SportsGame"
+msgstr "Jocs d'esport"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A spreadsheet
+#: src/fdospecgen.h:996
+msgid "Spreadsheet"
+msgstr "Full de càlcul"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A strategy game
+#: src/fdospecgen.h:1002
+msgid "StrategyGame"
+msgstr "Jocs d'estratègia"
+
+#: src/icehelp.cc:1380
+msgid "Support"
+msgstr "Suport"
+
+#: src/yximage.cc:181
+msgid "Support for JPEG images was not enabled"
+msgstr "El suport per a imatges JPEG no s'ha habilitat."
+
+#: src/yximage.cc:173
+msgid "Support for PNG images was not enabled"
+msgstr "El suport per a imatges PNG no s'ha habilitat."
+
+#: src/icesound.cc:888
+#, c-format
+msgid "Support for the %s interface not compiled."
+msgstr "El suport per a la interfície %s no s'ha compilat."
+
+#: src/amailbox.cc:801
+msgid "Suspended"
+msgstr "Suspès"
+
+#: src/wmoption.cc:357
+#, c-format
+msgid "Syntax error in window options on line %d of %s"
+msgstr "Error de sintaxi de les opcions de finestra a la línia %d de %s."
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: System application, "System Tools" such as say a log viewer or network monitor
+#: src/fdospecgen.h:58 src/fdospecgen.h:506 src/fdospecgen.h:536
+#: src/fdospecgen.h:548 src/fdospecgen.h:758 src/fdospecgen.h:944
+#: src/fdospecgen.h:1022 src/fdospecgen.h:1130
+msgid "System"
+msgstr "Sistema"
+
+#: src/fdomenu.cc:1197
+msgid "System too slow! Failed to load menu content!"
+msgstr ""
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
+#: src/fdospecgen.h:134
+msgid "TV"
+msgstr "Televisió"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:628 src/wmtaskbar.cc:217 src/wmwinlist.cc:456
+#: src/wmwinlist.cc:489
+msgid "T_ile Horizontally"
+msgstr "Mosaic _horitzontal"
+
+#: src/decorate.cc:132
+msgid "Tabs"
+msgstr "Pestanyes"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony via PC
+#: src/fdospecgen.h:1008
+msgid "Telephony"
+msgstr "Telefonia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony tools, to dial a number, manage PBX, ...
+#: src/fdospecgen.h:1014
+msgid "TelephonyTools"
+msgstr "Eines de telefonia"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A terminal emulator application
+#: src/fdospecgen.h:1020
+msgid "TerminalEmulator"
+msgstr "Emulador de terminal"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text editor
+#: src/fdospecgen.h:1026
+msgid "TextEditor"
+msgstr "Editor de text"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text tool utility
+#: src/fdospecgen.h:48 src/fdospecgen.h:1032
+msgid "TextTools"
+msgstr "Eines de text"
+
+#: src/wmabout.cc:47
+msgid "Theme Author:"
+msgstr "Autor del tema:"
+
+#: src/wmabout.cc:46
+msgid "Theme Description:"
+msgstr "Descripció del tema:"
+
+#: src/icehelp.cc:1382
+msgid "Theme Howto"
+msgstr "Gestió del tema"
+
+#: src/wmabout.cc:45
+msgid "Theme:"
+msgstr "Tema:"
+
+#: src/wmapp.cc:674 src/wmwinlist.cc:448
+msgid "Tile"
+msgstr "Mosaic"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmapp.cc:630 src/wmtaskbar.cc:215 src/wmwinlist.cc:455
+#: src/wmwinlist.cc:488
+msgid "Tile _Vertically"
+msgstr "Mosaic _vertical"
+
+#: src/icesound.cc:884
+#, c-format
+msgid "Too quick; ignoring %s."
+msgstr "Massa ràpid. S'ignora %s."
+
+#: src/wmapp.cc:619
+msgid "Top Half"
+msgstr "Meitat superior"
+
+#: src/wmapp.cc:622
+msgid "Top Left"
+msgstr "A dalt a l'esquerra"
+
+#: src/wmapp.cc:623
+msgid "Top Right"
+msgstr "A dalt a la dreta"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A translation tool
+#: src/fdospecgen.h:1038
+msgid "Translation"
+msgstr "Traducció"
+
+#: src/wmapp.cc:689 src/wmwinlist.cc:452
+msgid "Tray _icon"
+msgstr "_Icona de la safata"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tuner
+#: src/fdospecgen.h:142
+msgid "Tuner"
+msgstr "Sintonitzador"
+
+#: src/fdomenu.cc:908
+msgid ""
+"USAGE: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+"OPTIONS:\n"
+"-g, --generic\t\tInclude GenericName in parentheses of progs\n"
+"-o, --output=FILE\tWrite the output to FILE\n"
+"-t, --terminal=NAME\tUse NAME for a terminal that has '-e'\n"
+"-s, --no-lone-app\tMove lone elements to parent menu\n"
+"-S, --no-lone-hint\tLike -s but append the original submenu's\n"
+"-d, --deadline-apps=N\tStop loading app information after N ms\n"
+"-D, --deadline-all=N\tStop all loading and print what we got so far\n"
+"-m, --match=PAT\t\tDisplay only apps with title containing PAT\n"
+"-M, --imatch=PAT\tLike --match but ignores the letter case\n"
+"-L, --limit-max-len=N\tCrop app titles at length N, add ...\n"
+"--seps  \tPrint separators before and after contents\n"
+"--sep-before\tPrint separator before the contents\n"
+"--sep-after\tPrint separator only after contents\n"
+"--no-sep-others\tLegacy, has no effect\n"
+"--no-sub-cats\tNo additional subcategories, just one level of menues\n"
+"--flat\t\tDisplay all apps in one layer with category hints\n"
+"--flat-sep=STR\tCategory separator string used in flat mode (default: ' / "
+"')\n"
+"--match-sec\tApply --match or --imatch to apps AND sections\n"
+"--match-osec\tApply --match or --imatch only to sections\n"
+"--orig-comment\tPrint source .desktop file as comment\n"
+"-C, --copying\tPrint copyright information\n"
+"-V, --version\tPrint version information\n"
+"-h, --help\tPrints this usage screen and exits.\n"
+"\n"
+"FILENAME\tAny .desktop file to launch its application Exec command.\n"
+"\n"
+"This program also listens to environment variables defined by\n"
+"the XDG Base Directory Specification:\n"
+msgstr ""
+
+#: src/upath.cc:172
+#, c-format
+msgid "Unable to create directory %s"
+msgstr "No es pot crear el directori %s"
+
+#: src/wmconfig.cc:175 src/wmsave.cc:306
+#, c-format
+msgid "Unable to rename %s to %s"
+msgstr "No es pot canviar el nom \"%s\" a \"%s\""
+
+#: src/icesh.cc:3927 src/icesh.cc:3935 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/wmsave.cc:298 src/wmsave.cc:301
+#, c-format
+msgid "Unable to write to %s"
+msgstr "No es pot escriure a %s"
+
+#: src/icesame.cc:57
+msgid "Undo"
+msgstr "Desfés"
+
+#: src/wmmenu.cc:226
+#, c-format
+msgid "Unexepected menu keyword: '%s'"
+msgstr "Paraula clau del menú no esperada: %s"
+
+#: src/icesh.cc:4302
+#, c-format
+msgid "Unexpected: `%s'."
+msgstr "No esperat: %s."
+
+#: src/icesh.cc:5628
+#, c-format
+msgid "Unknown action: `%s'"
+msgstr "Acció desconeguda: \"%s\""
+
+#: src/movesize.cc:865
+#, c-format
+msgid "Unknown direction in move/resize request: %d"
+msgstr "Indicació desconeguda a la petició de mou/redimensiona: %d"
+
+#: src/aapm.cc:169
+#, c-format
+msgid "Unknown format used by APM device %s (%d)."
+msgstr "Format desconegut usat per al dispositiu PM %s (%d)."
+
+#: src/yconfig.cc:83
+#, c-format
+msgid "Unknown key name %s in %s"
+msgstr "Nom clau %s desconegut a %s"
+
+#: src/wmmenu.cc:412
+#, c-format
+msgid "Unknown keyword '%s'"
+msgstr "Paraula clau desconeguda: \"%s\""
+
+#: src/wmmenu.cc:423
+#, c-format
+msgid ""
+"Unknown keyword for a non-container: '%s'.\n"
+"Expected either 'key' or 'runonce' here.\n"
+msgstr ""
+"Paraula clau desconeguda per a un no-contenidor: \"%s\"\n"
+"Aquí s'esperava o bé \"key\" o bé \"runonce\".\n"
+
+#: src/icesm.cc:188
+#, c-format
+msgid "Unknown option '%s'"
+msgstr "Opció desconeguda: \"%s\""
+
+#: src/wmconfig.cc:113
+#, c-format
+msgid "Unknown value '%s' for option '%s'."
+msgstr "Valor desconegut, \"%s\", per a l'opció \"%s\"."
+
+#: src/wmoption.cc:285
+#, c-format
+msgid "Unknown window option: %s"
+msgstr "Opció de finestra desconeguda: %s"
+
+#: src/wmapp.cc:1004
+msgid ""
+"Unmanage all applications and restart\n"
+"as a terminal. Proceed?"
+msgstr ""
+"Deixa de gestionar totes les aplicacions\n"
+"i reinicia com a terminal. Endavant?"
+
+#: src/icesound.cc:683 src/icesound.cc:978
+#, c-format
+msgid "Unrecognized argument: %s\n"
+msgstr "Argument no reconegut: %s\n"
+
+#: src/icewmbg.cc:1248 src/wmapp.cc:1899
+#, c-format
+msgid "Unrecognized option '%s'."
+msgstr "Opció no reconeguda: \"%s\"."
+
+#: src/icesound.cc:680
+#, c-format
+msgid "Unrecognized option: %s\n"
+msgstr "Opció no reconeguda: %s\n"
 
 #: src/icehelp.cc:2465
 msgid "Unsafe characters in URL"
 msgstr "Caràcters no segurs a l'URL"
+
+#: src/yximage.cc:187
+#, c-format
+msgid "Unsupported file format: %s"
+msgstr "Format de fitxer no admès: %s"
+
+#: src/icesound.cc:921
+#, c-format
+msgid "Unsupported interface: %s."
+msgstr "Interfície no admesa: %s."
+
+#: src/icehelp.cc:2204
+msgid "Unsupported protocol."
+msgstr "Protocol no admès."
+
+#: src/misc.cc:395
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Options:\n"
+"%s\n"
+"  -C, --copying       Prints license information and exits.\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"\n"
+msgstr ""
+"Ús: %s [OPCIONS]\n"
+"Opcions:\n"
+"%s\n"
+"  -C, --copying       Imprimeix la informació de la llicència i surt.\n"
+"  -V, --version       Imprimeix la informació de la versió i surt.\n"
+"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
+"\n"
+
+#: src/wmapp.cc:1657
+#, c-format
+msgid ""
+"Usage: %s [OPTIONS]\n"
+"Starts the IceWM window manager.\n"
+"\n"
+"Options:\n"
+"  -d, --display=NAME  NAME of the X server to use.\n"
+"%s  --sync              Synchronize X11 commands.\n"
+"%s\n"
+"  -V, --version       Prints version information and exits.\n"
+"  -h, --help          Prints this usage screen and exits.\n"
+"%s\n"
+"  --replace           Replace an existing window manager.\n"
+"  -r, --restart       Tell the running icewm to restart itself.\n"
+"\n"
+"  --configured        Print the compile time configuration.\n"
+"  --directories       Print the configuration directories.\n"
+"  -l, --list-themes   Print a list of all available themes.\n"
+"%s\n"
+"Environment variables:\n"
+"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
+"                      \"$HOME/.icewm\" by default.\n"
+"  DISPLAY=NAME        Name of the X server to use.\n"
+"  MAIL=URL            Location of your mailbox.\n"
+"\n"
+"To report bugs, support requests, comments please visit:\n"
+"%s\n"
+"\n"
+msgstr ""
+"Ús: %s [OPCIONS]\n"
+"Inicia el gestor de finestres de l'IceWM.\n"
+"\n"
+"Opcions:\n"
+" -d,  --display=NAME      NOM del servidor X per usar.\n"
+"%s  --sync              Sincronitza ordres d'X11.\n"
+"%s\n"
+"  -V, --version       Imprimeix la informació de la versió i surt.\n"
+"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
+"%s\n"
+"  --replace           Reemplaça un gestor de finestres existent.\n"
+"  -r, --restart       Digues a l'icewm en execució que es reiniciï.\n"
+"\n"
+"  --configured        Imprimeix la configuració de l'hora de la compilació.\n"
+"  --directories       Imprimeix els directoris de configuració.\n"
+"  -l, --list-themes   Imprimeix una llista dels temes disponibles.\n"
+"%s\n"
+"Variables de l'entorn:\n"
+" ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de l'usuari,\n"
+"                      \"$XDG_CONFIG_HOME/icewm\" si existeix, o bé\n"
+"                      \"$HOME/.icewm/\" per defecte.\n"
+"  DISPLAY=NAME        Nom del servidor X per usar.\n"
+"  MAIL=URL            Ubicació de la bústia de correu.\n"
+"\n"
+"Per informar d'errors, fer peticions de suport o comentaris, si us plau, "
+"visiteu\n"
+"%s.\n"
+"\n"
 
 #: src/icehelp.cc:2502
 #, c-format
@@ -1280,322 +2356,6 @@ msgstr ""
 "visiteu\n"
 "%s.\n"
 "\n"
-
-#: src/icehelp.cc:2592
-#, c-format
-msgid "Ignoring option '%s'"
-msgstr "S'ignora l'opció \"%s\""
-
-#: src/icelist.cc:60
-msgid "List View"
-msgstr "Vista de llista"
-
-#: src/icelist.cc:61
-msgid "Icon View"
-msgstr "Vista d'icones"
-
-#: src/icelist.cc:65
-msgid "Open"
-msgstr "Obre"
-
-#: src/icesame.cc:57
-msgid "Undo"
-msgstr "Desfés"
-
-#: src/icesame.cc:57
-msgid "Ctrl+Z"
-msgstr "Ctrl+Z"
-
-#: src/icesame.cc:59
-msgid "New"
-msgstr "Nou"
-
-#: src/icesame.cc:59
-msgid "Ctrl+N"
-msgstr "Ctrl+N"
-
-#: src/icesame.cc:60
-msgid "Restart"
-msgstr "Reinicia"
-
-#: src/icesame.cc:65
-msgid "Same Game"
-msgstr "El mateix joc"
-
-#: src/icesh.cc:76
-msgid "For help please consult the man page icesh(1).\n"
-msgstr "Per a l'ajuda, consulteu la pàgina del manual icesh(1).\n"
-
-#: src/icesh.cc:1668
-#, c-format
-msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
-msgstr "Símbols anomenats del domini \"%s\" (gamma numèrica: %ld-%ld):\n"
-
-#: src/icesh.cc:1737
-#, c-format
-msgid "Workspace out of range: %ld"
-msgstr "Escriptori fora de l'abast: %ld"
-
-#: src/icesh.cc:1758
-#, c-format
-msgid "Invalid workspace name: `%s'"
-msgstr "Nom d'escriptori no vàlid: %s"
-
-#: src/icesh.cc:2269
-msgid "GNOME window layer"
-msgstr "Capa de finestra del GNOME"
-
-#: src/icesh.cc:2270
-msgid "IceWM tray option"
-msgstr "Opció de la safata de l'IceWM"
-
-#: src/icesh.cc:2271
-msgid "Gravity symbols"
-msgstr "Símbols de gravetat"
-
-#: src/icesh.cc:2272
-msgid "Motif functions"
-msgstr "Funcions del Motif"
-
-#: src/icesh.cc:2273
-msgid "Motif decorations"
-msgstr "Decoracions del Motif"
-
-#: src/icesh.cc:2274
-msgid "EWMH window state"
-msgstr "Estat de la finestra de l'EWMH"
-
-#: src/icesh.cc:2356 src/icesh.cc:2429
-#, c-format
-msgid "workspace #%d: `%s'\n"
-msgstr "Escriptori #%d: \"%s\"\n"
-
-#: src/icesh.cc:2680 src/icesh.cc:4511 src/icesh.cc:5108
-#, c-format
-msgid "Invalid state: `%s'."
-msgstr "Estat no vàlid: %s."
-
-#: src/icesh.cc:2709 src/icesh.cc:4090 src/icesh.cc:4140 src/icesh.cc:5429
-#, c-format
-msgid "Invalid argument: `%s'"
-msgstr "Argument no vàlid: %s"
-
-#: src/icesh.cc:3710
-#, c-format
-msgid "Cannot get geometry of window 0x%lx"
-msgstr "No es pot obtenir una geometria de finestra de 0x%lx."
-
-#: src/icesh.cc:3735
-#, c-format
-msgid "Invalid Xinerama: `%s'."
-msgstr "Xinerama no vàlid: %s."
-
-#: src/icesh.cc:3867 src/icesh.cc:3875 src/wmconfig.cc:139 src/wmsave.cc:65
-#: src/wmsave.cc:298 src/wmsave.cc:301
-#, c-format
-msgid "Unable to write to %s"
-msgstr "No es pot escriure a %s"
-
-#: src/icesh.cc:4106
-#, c-format
-msgid "Action `%s' requires at least %d arguments."
-msgstr "L'acció \"%s\" necessita com a mínim %d arguments."
-
-#: src/icesh.cc:4115
-#, c-format
-msgid "Invalid expression: `%s'"
-msgstr "Expressió no vàlida: %s"
-
-#: src/icesh.cc:4126 src/icesound.cc:800 src/icewmbg.cc:1087
-#: src/icewmhint.cc:37 src/wmapp.cc:1293 src/yxapp.cc:1049
-#, c-format
-msgid "Can't open display: %s. X must be running and $DISPLAY set."
-msgstr ""
-"No es pot obrir la pantalla: %s. X ha d'estar funcionant i $DISPLAY "
-"configurat."
-
-#: src/icesh.cc:4242
-#, c-format
-msgid "Unexpected: `%s'."
-msgstr "No esperat: %s."
-
-#: src/icesh.cc:4274
-msgid "No windows found."
-msgstr "No s'ha trobat cap finestra."
-
-#: src/icesh.cc:4290
-msgid "No actions specified."
-msgstr "No s'ha especificat cap acció."
-
-#: src/icesh.cc:4435
-#, c-format
-msgid "Invalid window identifier: `%s'"
-msgstr "Identificador de finestra no vàlid: %s"
-
-#: src/icesh.cc:4451
-#, c-format
-msgid "Invalid PID: `%s'"
-msgstr "PID no vàlid: %s"
-
-#: src/icesh.cc:4484
-#, c-format
-msgid "Invalid layer: `%s'."
-msgstr "Capa no vàlida: %s."
-
-#: src/icesh.cc:5560
-#, c-format
-msgid "Unknown action: `%s'"
-msgstr "Acció desconeguda: \"%s\""
-
-#: src/iceskt.cc:41
-#, c-format
-msgid "Socket error: %d"
-msgstr "Error de sòcol: %d"
-
-#: src/icesm.cc:69
-msgid ""
-"  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
-"  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
-"\n"
-"  -d, --display=NAME  Use NAME to connect to the X server.\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -i, --icewm=FILE    Use FILE as the IceWM window manager.\n"
-"  -o, --output=FILE   Redirect all output to FILE.\n"
-"\n"
-"  -b, --nobg          Do not start icewmbg.\n"
-"  -n, --notray        Do not start icewmtray.\n"
-"  -s, --sound         Also start icesound.\n"
-msgstr ""
-"  -c, --config=FILE   Permet que l'IceWM carregui preferències des del "
-"FITXER.\n"
-"  -t, --theme=FILE    Permet que l'IceWM carregui el tema des del FITXER.\n"
-"\n"
-"  -d, --display=NAME      Usa el NOM per connectar al servidor X.\n"
-"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
-"  --sync              Sincronitza la comunicació amb el servidor X11.\n"
-"\n"
-"  -i, --icewm=FILE    Usa el FITXER com a gestor de finestres de l'IceWM.\n"
-"  -o, --output=FILE   Redirecciona tota la sortida al FITXER.\n"
-"\n"
-"  -b, --nobg          No iniciïs l'icewmbg.\n"
-"  -n, --notray        No iniciïs l'icewmtray.\n"
-"  -s, --sound         Inicia també l'icesound.\n"
-
-#: src/icesm.cc:85
-msgid ""
-"\n"
-"Debugging options:\n"
-"  -v, --valgrind      Let \"/usr/bin/valgrind\" run icewm.\n"
-"                      Thoroughly examines the execution of icewm.\n"
-"  -g, --catchsegv     Let \"/usr/bin/catchsegv\" run icewm.\n"
-"                      Gives a backtrace if icewm segfaults.\n"
-msgstr ""
-"\n"
-"Opcions de depuració:\n"
-"  -v, --valgrind      Permet que \"/usr/bin/valgrind\" executi icewm.\n"
-"                      Examina a fons l 'execució de l'icewm.\n"
-"  -g, --catchsegv     Permet que \"/usr/bin/catchsegv\" executi icewm.\n"
-"                      Dona una traça posterior si icewm té fallades de "
-"segmentació.\n"
-
-#: src/icesm.cc:188
-#, c-format
-msgid "Unknown option '%s'"
-msgstr "Opció desconeguda: \"%s\""
-
-#: src/icesm.cc:462 src/icesm.cc:622
-#, c-format
-msgid "restart %s."
-msgstr "Reinicia %s."
-
-#: src/icesm.cc:513
-msgid ""
-" IceWM crashed for the second time in 10 seconds. \n"
-" Do you wish to:\n"
-"\n"
-"\t1: Restart IceWM?\n"
-"\t2: Abort this session?\n"
-"\t3: Run a terminal?\n"
-msgstr ""
-" L'IceWM ha fallat un segon cop durant 10 segons. \n"
-" Què voleu fer?\n"
-"\n"
-"\t1 Reiniciar l'IceWM?\n"
-"\t2 Avortar aquesta sessió?\n"
-" \t3 Executar un terminal?\n"
-
-#: src/icesm.cc:519
-msgid "IceWM crash response"
-msgstr "Resposta de fallada de l'IceWM"
-
-#: src/icesound.cc:211 src/icesound.cc:319 src/icesound.cc:479
-#, c-format
-msgid "Playing sample #%d (%s)"
-msgstr "Reproduint l'exemple #%d (%s)"
-
-#: src/icesound.cc:329
-#, c-format
-msgid "%s: Invalid number of channels"
-msgstr "%s: nombre no vàlid de canals"
-
-#: src/icesound.cc:335 src/icesound.cc:340
-msgid "Could not set OSS channels"
-msgstr "No s'han pogut establir canals OSS"
-
-#: src/icesound.cc:345 src/icesound.cc:373
-msgid "Could not sync OSS"
-msgstr "No s'ha pogut sincronitzar l'OSS"
-
-#: src/icesound.cc:357
-msgid "OSS write failed"
-msgstr "Ha fallat l'escriptura d'OSS"
-
-#: src/icesound.cc:361
-#, c-format
-msgid "OSS incomplete write (%d/%d)"
-msgstr "Escriptura d'OSS incompleta (%d/%d)"
-
-#: src/icesound.cc:368
-msgid "Could not post OSS"
-msgstr "No s'ha pogut enviar l'OSS"
-
-#: src/icesound.cc:397
-#, c-format
-msgid "Could not open OSS device %s"
-msgstr "No s'ha pogut obrir el dispositiu d'OSS %s"
-
-#: src/icesound.cc:402
-msgid "Could not set OSS stereo"
-msgstr "No s'ha pogut establir l'OSS estèreo"
-
-#: src/icesound.cc:407
-msgid "Could not reset OSS DSP"
-msgstr "No s'ha pogut restablir DSP OSS"
-
-#: src/icesound.cc:412
-msgid "Could not set OSS format"
-msgstr "No s'ha pogut establir el format d'OSS"
-
-#: src/icesound.cc:499
-#, c-format
-msgid "ao_open_live failed with %d"
-msgstr "ao_open_live ha fallat amb %d"
-
-#: src/icesound.cc:510
-msgid "ao_play failed"
-msgstr "ao_play ha fallat"
-
-#: src/icesound.cc:680
-#, c-format
-msgid "Unrecognized option: %s\n"
-msgstr "Opció no reconeguda: %s\n"
-
-#: src/icesound.cc:683 src/icesound.cc:978
-#, c-format
-msgid "Unrecognized argument: %s\n"
-msgstr "Argument no reconegut: %s\n"
 
 #: src/icesound.cc:694
 #, c-format
@@ -1704,92 +2464,6 @@ msgstr ""
 "3     Error de subsistemes (p. e., no es pot connectar amb el servidor).\n"
 "\n"
 
-#: src/icesound.cc:785
-#, c-format
-msgid "No audio for %s"
-msgstr "No hi ha àudio per a %s"
-
-#: src/icesound.cc:862
-msgid "Could not get GUI event property"
-msgstr "No s'ha pogut obtenir la propietat d'esdeveniment IGU"
-
-#: src/icesound.cc:866
-#, c-format
-msgid "Received invalid GUI event %d"
-msgstr "Esdeveniment IGU rebut no vàlid: %d"
-
-#: src/icesound.cc:870
-#, c-format
-msgid "Received GUI event %s"
-msgstr "Esdeveniment IGU rebut: %s"
-
-#: src/icesound.cc:884
-#, c-format
-msgid "Too quick; ignoring %s."
-msgstr "Massa ràpid. S'ignora %s."
-
-#: src/icesound.cc:888
-#, c-format
-msgid "Support for the %s interface not compiled."
-msgstr "El suport per a la interfície %s no s'ha compilat."
-
-#: src/icesound.cc:921
-#, c-format
-msgid "Unsupported interface: %s."
-msgstr "Interfície no admesa: %s."
-
-#: src/icesound.cc:930
-#, c-format
-msgid "Using %s audio."
-msgstr "S'usa l'àudio %s."
-
-#: src/icesound.cc:934
-#, c-format
-msgid "Failed to connect to audio interfaces %s."
-msgstr "Ha fallat connectar amb les interfícies d'àudio %s."
-
-#: src/icesound.cc:946
-#, c-format
-msgid "Received signal %s: Terminating..."
-msgstr "Senyal %s rebut: acabant..."
-
-#: src/icetray.cc:220
-msgid ""
-"  -n, --notify        Notify parent process by sending signal USR1.\n"
-"  --display=NAME      Use NAME to connect to the X server.\n"
-"  --sync              Synchronize communication with X11 server.\n"
-"\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load the theme from FILE.\n"
-msgstr ""
-"  --notify            Notifica-ho al procés pare enviant el senyal USR1.\n"
-"  --display=NAME      Usa el NOM per connectar al servidor X.\n"
-"  --sync              Sincronitza la  comunicació amb el servidor X11.\n"
-"\n"
-"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
-
-#: src/iceview.cc:59
-msgid "Hex View"
-msgstr "Vista Hex"
-
-#: src/iceview.cc:59
-msgid "Ctrl+H"
-msgstr "Ctrl+H"
-
-#: src/iceview.cc:60
-msgid "Expand Tabs"
-msgstr "Expandeix les pestanyes"
-
-#: src/iceview.cc:61
-msgid "Wrap Lines"
-msgstr "Ajusta les línies"
-
-#: src/icewmbg.cc:35 src/icewmbg.cc:372
-#, c-format
-msgid "Failed to load image '%s'."
-msgstr "Ha fallat carregar la imatge \"%s\"."
-
 #: src/icewmbg.cc:969
 msgid ""
 "Usage: icewmbg [OPTIONS]\n"
@@ -1889,568 +2563,55 @@ msgstr ""
 " center:0 scaled:1 = omple ambdues dimensions i mantén la ràtio d'aspecte\n"
 "\n"
 
-#: src/icewmbg.cc:1248 src/wmapp.cc:1902
-#, c-format
-msgid "Unrecognized option '%s'."
-msgstr "Opció no reconeguda: \"%s\"."
-
-#: src/icewmbg.cc:1335
-msgid "Cannot start, because another icewmbg is still running."
-msgstr "No es pot iniciar, perquè encara s'executa un altre icewmbg."
-
 #: src/icewmhint.cc:20
 msgid "Usage: icewmhint class.instance option arg\n"
 msgstr "Usage: icewmhint classe.instància opció arg\n"
 
-#: src/icewmhint.cc:57
+#: src/amemstatus.cc:180
+msgid "User: "
+msgstr "Usuari: "
+
+#: src/icesound.cc:930
 #, c-format
-msgid "Out of memory (len=%d)."
-msgstr "Sense memòria (len=%d)."
+msgid "Using %s audio."
+msgstr "S'usa l'àudio %s."
 
-#: src/misc.cc:71 src/misc.cc:83
-msgid "Warning: "
-msgstr "Atenció: "
-
-#: src/misc.cc:394
+#: src/amailbox.cc:694
 #, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Options:\n"
-"%s\n"
-"  -C, --copying       Prints license information and exits.\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"\n"
-msgstr ""
-"Ús: %s [OPCIONS]\n"
-"Opcions:\n"
-"%s\n"
-"  -C, --copying       Imprimeix la informació de la llicència i surt.\n"
-"  -V, --version       Imprimeix la informació de la versió i surt.\n"
-"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
-"\n"
-
-#: src/movesize.cc:859
-#, c-format
-msgid "Unknown direction in move/resize request: %d"
-msgstr "Indicació desconeguda a la petició de mou/redimensiona: %d"
-
-#: src/upath.cc:172
-#, c-format
-msgid "Unable to create directory %s"
-msgstr "No es pot crear el directori %s"
-
-#: src/wmabout.cc:29
-msgid "(C)"
-msgstr "(C)"
-
-#: src/wmabout.cc:45
-msgid "Theme:"
-msgstr "Tema:"
-
-#: src/wmabout.cc:46
-msgid "Theme Description:"
-msgstr "Descripció del tema:"
-
-#: src/wmabout.cc:47
-msgid "Theme Author:"
-msgstr "Autor del tema:"
-
-#: src/wmabout.cc:56
-msgid "CodeSet:"
-msgstr "Conjunt de codi:"
-
-#: src/wmabout.cc:57
-msgid "Language:"
-msgstr "Llengua:"
-
-#: src/wmabout.cc:61
-msgid "DoubleBuffer"
-msgstr "Memòria intermèdia doble"
-
-#: src/wmabout.cc:62
-msgid "AlphaBlending"
-msgstr "Mescla d'alfa"
-
-#: src/wmabout.cc:63
-msgid "Renderer:"
-msgstr "Renderitzador:"
-
-#: src/wmabout.cc:71
-msgid "icewm - About"
-msgstr "icewm - Quant a"
-
-#: src/wmapp.cc:91
-msgid "A window manager is already running, use --replace to replace it"
-msgstr "Ja s'executa un gestor de finestres. Useu --replace per reemplaçar-lo."
-
-#: src/wmapp.cc:107
-#, c-format
-msgid "Failed to become the owner of the %s selection"
-msgstr "Ha fallat esdevenir el propietari de la selecció %s"
-
-#: src/wmapp.cc:111
-msgid "Waiting to replace the old window manager"
-msgstr "S'espera per reemplaçar el gestor de finestres anterior."
-
-#: src/wmapp.cc:116
-msgid "done."
-msgstr "fet."
-
-#: src/wmapp.cc:529
-msgid "_Logout"
-msgstr "_Surt"
-
-#: src/wmapp.cc:530
-msgid "_Cancel logout"
-msgstr "_Cancel·la la sortida"
-
-#: src/wmapp.cc:536
-msgid "Lock _Workstation"
-msgstr "Bloque_ja l'estació de treball"
-
-#: src/wmapp.cc:538 src/wmdialog.cc:89
-msgid "Re_boot"
-msgstr "_Reinicia"
-
-#: src/wmapp.cc:540 src/wmdialog.cc:90
-msgid "Shut_down"
-msgstr "At_ura"
-
-#: src/wmapp.cc:542 src/wmdialog.cc:86
-msgid "_Sleep mode"
-msgstr "Mode de _suspensió"
-
-#: src/wmapp.cc:544 src/wmdialog.cc:91
-msgid "_Hibernate"
-msgstr "_Hiberna"
-
-#: src/wmapp.cc:548
-msgid "Restart _Icewm"
-msgstr "Reinicia l'_Icewm"
-
-#: src/wmapp.cc:550
-msgid "Restart _Xterm"
-msgstr "Reinicia l'_Xterm"
-
-#: src/wmapp.cc:560
-msgid "_Menu"
-msgstr "_Menú"
-
-#: src/wmapp.cc:561
-msgid "_Above Dock"
-msgstr "_Acoblador de dalt"
-
-#: src/wmapp.cc:562
-msgid "_Dock"
-msgstr "Acobla_dor"
-
-#: src/wmapp.cc:563
-msgid "_OnTop"
-msgstr "A da_lt"
-
-#: src/wmapp.cc:564
-msgid "_Normal"
-msgstr "_Normal"
-
-#: src/wmapp.cc:565
-msgid "_Below"
-msgstr "A bai_x"
-
-#: src/wmapp.cc:566
-msgid "D_esktop"
-msgstr "_Escriptori"
-
-#: src/wmapp.cc:610 src/wmwinlist.cc:381
-msgid "Move to New _Window"
-msgstr "Mou a la finestra no_va"
-
-#: src/wmapp.cc:620
-msgid "Left Half"
-msgstr "Meitat esquerra"
-
-#: src/wmapp.cc:621
-msgid "Right Half"
-msgstr "Meitat dreta"
-
-#: src/wmapp.cc:622
-msgid "Top Half"
-msgstr "Meitat superior"
-
-#: src/wmapp.cc:623
-msgid "Bottom Half"
-msgstr "Meitat inferior"
-
-#: src/wmapp.cc:625
-msgid "Top Left"
-msgstr "A dalt a l'esquerra"
-
-#: src/wmapp.cc:626
-msgid "Top Right"
-msgstr "A dalt a la dreta"
-
-#: src/wmapp.cc:627
-msgid "Bottom Left"
-msgstr "A baix a l'esquerra"
-
-#: src/wmapp.cc:628
-msgid "Bottom Right"
-msgstr "A baix a la dreta"
-
-#: src/wmapp.cc:629
-msgid "Center"
-msgstr "Al mig"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:631 src/wmtaskbar.cc:217 src/wmwinlist.cc:468
-#: src/wmwinlist.cc:501
-msgid "T_ile Horizontally"
-msgstr "Mosaic _horitzontal"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmapp.cc:633 src/wmtaskbar.cc:215 src/wmwinlist.cc:467
-#: src/wmwinlist.cc:500
-msgid "Tile _Vertically"
-msgstr "Mosaic _vertical"
-
-#: src/wmapp.cc:645 src/wmwinlist.cc:448
-msgid "_Restore"
-msgstr "_Restaura"
-
-#: src/wmapp.cc:647
-msgid "_Move"
-msgstr "_Mou"
-
-#: src/wmapp.cc:649
-msgid "_Size"
-msgstr "M_ida"
-
-#: src/wmapp.cc:651 src/wmwinlist.cc:449
-msgid "Mi_nimize"
-msgstr "Mi_nimitza"
-
-#: src/wmapp.cc:653 src/wmwinlist.cc:450
-msgid "Ma_ximize"
-msgstr "Ma_ximitza"
-
-#: src/wmapp.cc:654 src/wmwinlist.cc:451
-msgid "Maximize_Vert"
-msgstr "Maximització _vertical"
-
-#: src/wmapp.cc:655 src/wmwinlist.cc:452
-msgid "MaximizeHori_z"
-msgstr "Maximització horit_zontal"
-
-#: src/wmapp.cc:658 src/wmwinlist.cc:453
-msgid "_Fullscreen"
-msgstr "_Pantalla completa"
-
-#: src/wmapp.cc:661 src/wmwinlist.cc:455
-msgid "_Hide"
-msgstr "Ama_ga"
-
-#: src/wmapp.cc:663 src/wmwinlist.cc:456
-msgid "Roll_up"
-msgstr "Enr_otlla"
-
-#: src/wmapp.cc:670
-msgid "R_aise"
-msgstr "_Apuja"
-
-#: src/wmapp.cc:672 src/wmwinlist.cc:458
-msgid "_Lower"
-msgstr "Més _baix"
-
-#: src/wmapp.cc:674 src/wmwinlist.cc:459
-msgid "La_yer"
-msgstr "_Capa"
-
-#: src/wmapp.cc:677 src/wmwinlist.cc:460
-msgid "Tile"
-msgstr "Mosaic"
-
-#: src/wmapp.cc:681 src/wmwinlist.cc:462
-msgid "Move _To"
-msgstr "Mo_u a"
-
-#: src/wmapp.cc:682 src/wmwinlist.cc:463
-msgid "Occupy _All"
-msgstr "Ocupa-ho _tot"
-
-#: src/wmapp.cc:688
-msgid "Limit _Workarea"
-msgstr "Límit de l'àrea de tre_ball"
-
-#: src/wmapp.cc:692 src/wmwinlist.cc:464
-msgid "Tray _icon"
-msgstr "_Icona de la safata"
-
-#: src/wmapp.cc:694 src/wmwinlist.cc:465
-msgid "R_ename title"
-msgstr "Canvia de nom _el títol"
-
-#: src/wmapp.cc:699 src/wmwinlist.cc:480 src/wmwinlist.cc:488
-msgid "_Close"
-msgstr "_Tanca"
-
-#: src/wmapp.cc:701 src/wmwinlist.cc:482
-msgid "_Kill Client"
-msgstr "_Mata el client"
-
-#: src/wmapp.cc:704 src/wmdialog.cc:92 src/wmwinmenu.cc:141
-msgid "_Window list"
-msgstr "Llista de _finestres"
-
-#: src/wmapp.cc:743
-msgid "Another window manager already running, exiting..."
-msgstr "Un altre gestor de finestres està en ús, sortint..."
-
-#: src/wmapp.cc:818
-#, c-format
-msgid ""
-"Could not restart: %s\n"
-"Does $PATH lead to %s?"
-msgstr ""
-"No s'a pogut reiniciar: %s\n"
-"Apunta $PATH a %s?"
-
-#: src/wmapp.cc:1006
-msgid "Confirm Restart as Terminal"
-msgstr "Confirmeu el reinici com a terminal"
-
-#: src/wmapp.cc:1007
-msgid ""
-"Unmanage all applications and restart\n"
-"as a terminal. Proceed?"
-msgstr ""
-"Deixa de gestionar totes les aplicacions\n"
-"i reinicia com a terminal. Endavant?"
-
-#: src/wmapp.cc:1294 src/yxapp.cc:1050
-msgid "<none>"
-msgstr "<cap>"
-
-#: src/wmapp.cc:1626
-msgid ""
-"  --client-id=ID      Client id to use when contacting session manager.\n"
-msgstr ""
-"  --client-id=ID      Id de client per usar quan es contacti amb el gestor "
-"de sessions.\n"
-
-#: src/wmapp.cc:1632
-msgid ""
-"\n"
-"  --debug             Print generic debug messages.\n"
-"  --debug-z           Print debug messages regarding window stacking.\n"
-msgstr ""
-"\n"
-"  --debug             Imprimeix els missatges de depuració genèrics.\n"
-"  --debug-z           Imprimeix els missatges de depuració sobre l'apilament "
-"de finestres.\n"
-
-#: src/wmapp.cc:1640
-msgid ""
-"\n"
-"  -a, --alpha         Use a 32-bit visual for translucency.\n"
-"  -c, --config=FILE   Load preferences from FILE.\n"
-"  -t, --theme=FILE    Load theme from FILE.\n"
-"  -s, --splash=IMAGE  Briefly show IMAGE on startup.\n"
-"  -p, --postpreferences  Print preferences after all processing.\n"
-"  --rewrite-preferences  Update an existing preferences file.\n"
-"  --trace=conf,icon   Trace paths used to load configuration.\n"
-msgstr ""
-"\n"
-"  -a, --alpha         Usa un visual de 32 bits per a la translucidesa.\n"
-"  -c, --config=FILE   Carrega preferències des del FITXER.\n"
-"  -t, --theme=FILE    Carrega el tema des del FITXER.\n"
-"  -s, --splash=IMAGE      Mostra breument la imatge en iniciar.\n"
-"  -p, --postpreferences   Imprimeix les preferències després de tot el "
-"processament.\n"
-"  --rewrite-preferences  Actualitza un fitxer de preferències existent.\n"
-"  --trace=conf,icon   Traça els camins usats per carregar la configuració.\n"
-
-#: src/wmapp.cc:1651
-msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr "  -o, --output=FITXER Redirigeix tota la sortida al FITXER.\n"
-
-#: src/wmapp.cc:1657
-msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr "  -i, --install=TEMA Instal·la el TEMA des de l'extra o llista.\n"
-
-#: src/wmapp.cc:1660
-#, c-format
-msgid ""
-"Usage: %s [OPTIONS]\n"
-"Starts the IceWM window manager.\n"
-"\n"
-"Options:\n"
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"%s  --sync              Synchronize X11 commands.\n"
-"%s\n"
-"  -V, --version       Prints version information and exits.\n"
-"  -h, --help          Prints this usage screen and exits.\n"
-"%s\n"
-"  --replace           Replace an existing window manager.\n"
-"  -r, --restart       Tell the running icewm to restart itself.\n"
-"\n"
-"  --configured        Print the compile time configuration.\n"
-"  --directories       Print the configuration directories.\n"
-"  -l, --list-themes   Print a list of all available themes.\n"
-"%s\n"
-"Environment variables:\n"
-"  ICEWM_PRIVCFG=PATH  Directory for user configuration files,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" if exists or\n"
-"                      \"$HOME/.icewm\" by default.\n"
-"  DISPLAY=NAME        Name of the X server to use.\n"
-"  MAIL=URL            Location of your mailbox.\n"
-"\n"
-"To report bugs, support requests, comments please visit:\n"
-"%s\n"
-"\n"
-msgstr ""
-"Ús: %s [OPCIONS]\n"
-"Inicia el gestor de finestres de l'IceWM.\n"
-"\n"
-"Opcions:\n"
-" -d,  --display=NAME      NOM del servidor X per usar.\n"
-"%s  --sync              Sincronitza ordres d'X11.\n"
-"%s\n"
-"  -V, --version       Imprimeix la informació de la versió i surt.\n"
-"  -h, --help          Imprimeix aquesta pantalla d'ajuda i surt.\n"
-"%s\n"
-"  --replace           Reemplaça un gestor de finestres existent.\n"
-"  -r, --restart       Digues a l'icewm en execució que es reiniciï.\n"
-"\n"
-"  --configured        Imprimeix la configuració de l'hora de la compilació.\n"
-"  --directories       Imprimeix els directoris de configuració.\n"
-"  -l, --list-themes   Imprimeix una llista dels temes disponibles.\n"
-"%s\n"
-"Variables de l'entorn:\n"
-" ICEWM_PRIVCFG=PATH  Directori per als fitxers de configuració de l'usuari,\n"
-"                      \"$XDG_CONFIG_HOME/icewm\" si existeix, o bé\n"
-"                      \"$HOME/.icewm/\" per defecte.\n"
-"  DISPLAY=NAME        Nom del servidor X per usar.\n"
-"  MAIL=URL            Ubicació de la bústia de correu.\n"
-"\n"
-"Per informar d'errors, fer peticions de suport o comentaris, si us plau, "
-"visiteu\n"
-"%s.\n"
-"\n"
-
-#: src/wmapp.cc:1726
-#, c-format
-msgid "%s configuration directories:\n"
-msgstr "%s directoris de configuració:\n"
-
-#: src/wmapp.cc:1811
-#, c-format
-msgid "%s configured options:%s\n"
-msgstr "%s opcions configurades:%s\n"
-
-#: src/wmapp.cc:1952
-msgid "Confirm Logout"
-msgstr "Confirmació de la sortida"
-
-#: src/wmapp.cc:1953
-msgid ""
-"Logout will close all active applications.\n"
-"Proceed?"
-msgstr ""
-"Sortir tancarà totes les aplicacions actives.\n"
-"Voleu continuar?"
-
-#: src/wmbutton.cc:124
-msgid "Raise/Lower"
-msgstr "Apuja / Abaixa"
-
-#: src/wmbutton.cc:127
-msgid "Hide"
-msgstr "Amaga"
-
-#: src/wmbutton.cc:131
-msgid "Restore"
-msgstr "Restaura"
-
-#: src/wmbutton.cc:133
-msgid "Maximize"
-msgstr "Maximitza"
-
-#: src/wmbutton.cc:137
-msgid "Minimize"
-msgstr "Minimitza"
-
-#: src/wmbutton.cc:141
-msgid "Rolldown"
-msgstr "Desenrotlla"
-
-#: src/wmbutton.cc:143
-msgid "Rollup"
-msgstr "Enrotlla"
-
-#: src/wmclient.cc:470
-#, c-format
-msgid ""
-"Client %s with PID %ld fails to respond.\n"
-"Do you wish to terminate this client?\n"
-msgstr ""
-"El client %s amb el PID %ld no respon.\n"
-"Voleu acabar aquest client?\n"
-
-#: src/wmconfig.cc:35 src/wmconfig.cc:40 src/wmconfig.cc:46
-#, c-format
-msgid "Failed to load theme %s"
-msgstr "Ha fallat carregar el tema %s"
-
-#: src/wmconfig.cc:113
-#, c-format
-msgid "Unknown value '%s' for option '%s'."
-msgstr "Valor desconegut, \"%s\", per a l'opció \"%s\"."
-
-#: src/wmconfig.cc:175 src/wmsave.cc:306
-#, c-format
-msgid "Unable to rename %s to %s"
-msgstr "No es pot canviar el nom \"%s\" a \"%s\""
-
-#: src/wmdialog.cc:85
-msgid "Loc_k Workstation"
-msgstr "Bloque_ja l'estació de treball"
-
-#: src/wmdialog.cc:87 src/ymsgbox.cc:51
-msgid "_Cancel"
-msgstr "_Cancel·la"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:88 src/wmprog.cc:466 src/wmprog.cc:468 src/wmtaskbar.cc:243
-#: src/wmtaskbar.cc:245
-msgid "_Logout..."
-msgstr "_Surt..."
-
-#: src/wmdialog.cc:93
-msgid "_Restart icewm"
-msgstr "_Reinicia l'icewm"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmdialog.cc:94 src/wmprog.cc:434 src/wmtaskbar.cc:238
-msgid "_About"
-msgstr "_Quant a"
-
-#: src/wmdialog.cc:95
-msgid "Reload win_options"
-msgstr "Torna a carregar les opcions de la finestra"
-
-#: src/wmdialog.cc:96
-msgid "Reload ke_ys"
-msgstr "Torna a carregar les claus"
-
-#: src/wmframe.cc:1457
-msgid "Rename"
-msgstr "Canvia'n el nom"
-
-#: src/wmframe.cc:1458
-msgid "Rename the window title"
-msgstr "Canvia de nom el títol de la finestra"
-
-#: src/wmframe.cc:1952
+msgid "Using MailBox \"%s\"\n"
+msgstr "Ús de la bústia \"%s\"\n"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Small utility application, "Accessories"
+#: src/fdospecgen.h:42 src/fdospecgen.h:50 src/fdospecgen.h:182
+#: src/fdospecgen.h:218 src/fdospecgen.h:308 src/fdospecgen.h:350
+#: src/fdospecgen.h:530 src/fdospecgen.h:728 src/fdospecgen.h:974
+#: src/fdospecgen.h:1016 src/fdospecgen.h:1028 src/fdospecgen.h:1034
+#: src/fdospecgen.h:1134
+msgid "Utility"
+msgstr "Utilitat"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing vector graphics
+#: src/fdospecgen.h:150
+msgid "VectorGraphics"
+msgstr "Gràfics vectorials"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A video application
+#: src/fdospecgen.h:136 src/fdospecgen.h:266 src/fdospecgen.h:836
+#: src/fdospecgen.h:890 src/fdospecgen.h:1138
+msgid "Video"
+msgstr "Vídeo"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Video Conference software
+#: src/fdospecgen.h:1044
+msgid "VideoConference"
+msgstr "Videoconferència"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to view e.g. a graphic or pdf file
+#: src/fdospecgen.h:1050 src/fdospecgen.h:1056
+msgid "Viewer"
+msgstr "Visualitzador"
+
+#: src/wmframe.cc:1966
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
@@ -2458,449 +2619,355 @@ msgstr ""
 "ATENCIÓ! Tots els canvis no desats es perdran en\n"
 "matar el client. Encara voleu continuar?"
 
-#: src/wmframe.cc:1957
-msgid "Kill Client: "
-msgstr "Mata el client: "
+#: src/wmapp.cc:111
+msgid "Waiting to replace the old window manager"
+msgstr "S'espera per reemplaçar el gestor de finestres anterior."
 
-#: src/wmmenu.cc:37
-msgid "Missing command argument"
-msgstr "Falta l'argument de l'ordre"
+#: src/misc.cc:72 src/misc.cc:84
+msgid "Warning: "
+msgstr "Atenció: "
 
-#: src/wmmenu.cc:55
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A web browser
+#: src/fdospecgen.h:1062
+msgid "WebBrowser"
+msgstr "Navegador web"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool for web developers
+#: src/fdospecgen.h:1068 src/fdospecgen.h:1074
+msgid "WebDevelopment"
+msgstr "Desenvolupament web"
+
+#: src/icehelp.cc:1384
+msgid "Website"
+msgstr "Lloc web"
+
+#: src/wmtaskbar.cc:362
+msgid "Window List Menu"
+msgstr "Menú de llista de finestres"
+
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509
+msgid "Window list"
+msgstr "Llista de finestres"
+
+#. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A word processor
+#: src/fdospecgen.h:1080
+msgid "WordProcessor"
+msgstr "Processador de textos"
+
+#: src/icesh.cc:1757
 #, c-format
-msgid "Bad argument %d to command '%s'"
-msgstr "Argument erroni, \"%d\", per a l'ordre \"%s\"."
+msgid "Workspace out of range: %ld"
+msgstr "Escriptori fora de l'abast: %ld"
 
-#: src/wmmenu.cc:110
+#: src/aworkspaces.cc:685 src/wmstatus.cc:204
+msgid "Workspace: "
+msgstr "Espai de treball: "
+
+#: src/iceview.cc:61
+msgid "Wrap Lines"
+msgstr "Ajusta les línies"
+
+#: src/amailbox.cc:447
 #, c-format
-msgid "Error at keyword '%s' for %s"
-msgstr "Error a la paraula clau \"%s\" per a %s"
+msgid "Write to socket failed: %s"
+msgstr "Ha fallat l'escriptura al sòcol: %s"
 
-#: src/wmmenu.cc:156
-#, c-format
-msgid "Error at %s '%s'"
-msgstr "Error a %s \"%s\""
-
-#: src/wmmenu.cc:222
-#, c-format
-msgid "Unexepected menu keyword: '%s'"
-msgstr "Paraula clau del menú no esperada: %s"
-
-#: src/wmmenu.cc:276
-#, c-format
-msgid "Error at menuprog '%s'"
-msgstr "Error a menuprog \"%s\""
-
-#: src/wmmenu.cc:320
-#, c-format
-msgid "Error at menuprogreload: '%s'"
-msgstr "Error a menuprogreload: %s"
-
-#: src/wmmenu.cc:347
-msgid "Missing filename argument to include statement"
-msgstr "Falta l'argument del nom de fitxer per incloure el comunicat"
-
-#: src/wmmenu.cc:365
-#, c-format
-msgid "Error at includeprog '%s'"
-msgstr "Error a includeprog: %s"
-
-#: src/wmmenu.cc:408
-#, c-format
-msgid "Unknown keyword '%s'"
-msgstr "Paraula clau desconeguda: \"%s\""
-
-#: src/wmmenu.cc:419
-#, c-format
-msgid ""
-"Unknown keyword for a non-container: '%s'.\n"
-"Expected either 'key' or 'runonce' here.\n"
+#: src/fdomenu.cc:1097
+msgid "Zarathustra"
 msgstr ""
-"Paraula clau desconeguda per a un no-contenidor: \"%s\"\n"
-"Aquí s'esperava o bé \"key\" o bé \"runonce\".\n"
-
-#: src/wmmenu.cc:498
-#, c-format
-msgid "'%s' timed out!"
-msgstr "%s ha assolit el temps d'espera!"
-
-#: src/wmmenu.cc:512
-#, c-format
-msgid "'%s' produces no output"
-msgstr "\"%s\" no produeix cap sortida"
-
-#: src/wmmgr.cc:3673
-msgid "Missing program setxkbmap"
-msgstr "Manca el programa setxkbmap."
-
-#: src/wmmgr.cc:3674
-msgid "For keyboard switching, please install setxkbmap."
-msgstr "Per canviar el teclat, si us plau, instal·leu setxkbmap."
-
-#: src/wmoption.cc:285
-#, c-format
-msgid "Unknown window option: %s"
-msgstr "Opció de finestra desconeguda: %s"
-
-#: src/wmoption.cc:357
-#, c-format
-msgid "Syntax error in window options on line %d of %s"
-msgstr "Error de sintaxi de les opcions de finestra a la línia %d de %s."
-
-#: src/wmpref.cc:101
-msgid "Save Modifications"
-msgstr "Desa les modificacions"
-
-#: src/wmpref.cc:179
-#, c-format
-msgid "Enter a new value for %s: "
-msgstr "Introduïu un valor nou per a %s: "
-
-#: src/wmprog.cc:341
-msgid "_Click to focus"
-msgstr "_Cliqueu-hi per focalitzar-ho"
-
-#: src/wmprog.cc:342
-msgid "_Explicit focus"
-msgstr "Focus _explícit"
-
-#: src/wmprog.cc:343
-msgid "_Sloppy mouse focus"
-msgstr "_Focus del ratolí descurat"
-
-#: src/wmprog.cc:344
-msgid "S_trict mouse focus"
-msgstr "Focus del ratolí es_tricte"
-
-#: src/wmprog.cc:345
-msgid "_Quiet sloppy focus"
-msgstr "Focus _tènue silenciós"
-
-#: src/wmprog.cc:346
-msgid "Custo_m"
-msgstr "_Personalitzat"
-
-#: src/wmprog.cc:368
-msgid "_Manual"
-msgstr "_Manual"
-
-#: src/wmprog.cc:369
-msgid "_Icewm(1)"
-msgstr "_Icewm(1)"
-
-#: src/wmprog.cc:370
-msgid "Icewm_Bg(1)"
-msgstr "Icewm_Bg(1)"
-
-#: src/wmprog.cc:371
-msgid "Ice_Sound(1)"
-msgstr "Ice_Sound(1)"
-
-#: src/wmprog.cc:420
-msgid "Programs"
-msgstr "Programes"
-
-#: src/wmprog.cc:424
-msgid "_Run..."
-msgstr "_Executa..."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmprog.cc:428 src/wmtaskbar.cc:233
-msgid "_Windows"
-msgstr "_Finestres"
+#: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
+msgid "_About"
+msgstr "_Quant a"
 
-#: src/wmprog.cc:439
-msgid "_Help"
-msgstr "_Ajuda"
-
-#: src/wmprog.cc:444
-msgid "_Focus"
-msgstr "_Focus"
-
-#: src/wmprog.cc:449
-msgid "_Preferences"
-msgstr "_Preferències"
-
-#: src/wmprog.cc:454
-msgid "_Themes"
-msgstr "_Temes"
-
-#: src/wmprog.cc:458
-msgid "Se_ttings"
-msgstr "Paràme_tres"
-
-#: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
-#, c-format
-msgid "Session Manager: Unknown line %s"
-msgstr "Gestor de sessions: línia desconeguda: %s"
+#: src/wmapp.cc:558
+msgid "_Above Dock"
+msgstr "_Acoblador de dalt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:219 src/wmwinlist.cc:469 src/wmwinlist.cc:502
-msgid "Ca_scade"
-msgstr "Ca_scada"
-
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:221 src/wmwinlist.cc:470 src/wmwinlist.cc:503
+#: src/wmtaskbar.cc:221 src/wmwinlist.cc:458 src/wmwinlist.cc:491
 msgid "_Arrange"
 msgstr "_Organitza"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:223 src/wmwinlist.cc:472 src/wmwinlist.cc:504
-msgid "_Minimize All"
-msgstr "_Minimitza-ho tot"
+#: src/wmapp.cc:562
+msgid "_Below"
+msgstr "A bai_x"
+
+#: src/wmdialog.cc:87 src/ymsgbox.cc:51
+msgid "_Cancel"
+msgstr "_Cancel·la"
+
+#: src/wmapp.cc:527
+msgid "_Cancel logout"
+msgstr "_Cancel·la la sortida"
+
+#: src/amailbox.cc:963
+msgid "_Check"
+msgstr "_Comprova"
+
+#: src/wmprog.cc:343
+msgid "_Click to focus"
+msgstr "_Cliqueu-hi per focalitzar-ho"
+
+#: src/wmapp.cc:696 src/wmwinlist.cc:468 src/wmwinlist.cc:476
+msgid "_Close"
+msgstr "_Tanca"
+
+#: src/acpustatus.cc:914
+msgid "_Combine"
+msgstr "_Combina"
+
+#: src/yinputline.cc:18
+msgid "_Copy"
+msgstr "_Copia"
+
+#: src/aclock.cc:203 src/acpustatus.cc:912 src/amailbox.cc:964
+#: src/amemstatus.cc:264
+msgid "_Disable"
+msgstr "Inha_bilita"
+
+#: src/wmapp.cc:559
+msgid "_Dock"
+msgstr "Acobla_dor"
+
+#: src/wmprog.cc:344
+msgid "_Explicit focus"
+msgstr "Focus _explícit"
+
+#: src/wmprog.cc:446
+msgid "_Focus"
+msgstr "_Focus"
+
+#: src/wmapp.cc:655 src/wmwinlist.cc:441
+msgid "_Fullscreen"
+msgstr "_Pantalla completa"
+
+#: src/wmprog.cc:441
+msgid "_Help"
+msgstr "_Ajuda"
+
+#: src/wmapp.cc:541 src/wmdialog.cc:91
+msgid "_Hibernate"
+msgstr "_Hiberna"
+
+#: src/wmapp.cc:658 src/wmwinlist.cc:443
+msgid "_Hide"
+msgstr "Ama_ga"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:225 src/wmwinlist.cc:473 src/wmwinlist.cc:505
+#: src/wmtaskbar.cc:225 src/wmwinlist.cc:461 src/wmwinlist.cc:493
 msgid "_Hide All"
 msgstr "_Amaga-ho tot"
 
-#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:227 src/wmwinlist.cc:474 src/wmwinlist.cc:506
-msgid "_Undo"
-msgstr "_Desfés"
+#: src/wmprog.cc:371
+msgid "_Icewm(1)"
+msgstr "_Icewm(1)"
+
+#: src/wmapp.cc:698 src/wmwinlist.cc:470
+msgid "_Kill Client"
+msgstr "_Mata el client"
+
+#: src/wmapp.cc:526
+msgid "_Logout"
+msgstr "_Surt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
-#: src/wmtaskbar.cc:230
-msgid "Arrange _Icons"
-msgstr "Organitza les _icones"
+#: src/wmdialog.cc:88 src/wmprog.cc:468 src/wmprog.cc:470 src/wmtaskbar.cc:243
+#: src/wmtaskbar.cc:245
+msgid "_Logout..."
+msgstr "_Surt..."
+
+#: src/wmapp.cc:669 src/wmwinlist.cc:446
+msgid "_Lower"
+msgstr "Més _baix"
+
+#: src/wmprog.cc:370
+msgid "_Manual"
+msgstr "_Manual"
+
+#: src/wmapp.cc:557
+msgid "_Menu"
+msgstr "_Menú"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:223 src/wmwinlist.cc:460 src/wmwinlist.cc:492
+msgid "_Minimize All"
+msgstr "_Minimitza-ho tot"
+
+#: src/wmapp.cc:644
+msgid "_Move"
+msgstr "_Mou"
+
+#: src/wmapp.cc:561
+msgid "_Normal"
+msgstr "_Normal"
+
+#: src/ymsgbox.cc:48
+msgid "_OK"
+msgstr "D'ac_ord"
+
+#: src/wmapp.cc:560
+msgid "_OnTop"
+msgstr "A da_lt"
+
+#: src/yinputline.cc:20
+msgid "_Paste"
+msgstr "_Enganxa"
+
+#: src/wmprog.cc:451
+msgid "_Preferences"
+msgstr "_Preferències"
+
+#: src/wmprog.cc:347
+msgid "_Quiet sloppy focus"
+msgstr "Focus _tènue silenciós"
+
+#: src/wmwinlist.cc:445
+msgid "_Raise"
+msgstr "Apu_ja"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
 msgid "_Refresh"
 msgstr "_Refresca"
 
-#: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1025
-msgid "Hide Taskbar"
-msgstr "Amaga la barra de tasques"
+#: src/wmdialog.cc:93
+msgid "_Restart icewm"
+msgstr "_Reinicia l'icewm"
 
-#: src/wmtaskbar.cc:336
-msgid "Favorite Applications"
-msgstr "Aplicacions preferides"
+#: src/wmapp.cc:642 src/wmwinlist.cc:436
+msgid "_Restore"
+msgstr "_Restaura"
 
-#: src/wmtaskbar.cc:362
-msgid "Window List Menu"
-msgstr "Menú de llista de finestres"
+#: src/wmprog.cc:426
+msgid "_Run..."
+msgstr "_Executa..."
 
-#: src/wmtaskbar.cc:372
-msgid "Show Desktop"
-msgstr "Mostra l'escriptori"
+#: src/acpustatus.cc:916
+msgid "_Separate"
+msgstr "_Separa"
 
-#: src/wmtaskbar.cc:1025
-msgid "Show Taskbar"
-msgstr "Mostra la barra de tasques"
-
-#: src/wmwinlist.cc:83
-msgid "All Workspaces"
-msgstr "Tots els espais de treball"
-
-#: src/wmwinlist.cc:454
+#: src/wmwinlist.cc:442
 msgid "_Show"
 msgstr "_Mostra"
 
-#: src/wmwinlist.cc:457
-msgid "_Raise"
-msgstr "Apu_ja"
+#: src/wmapp.cc:646
+msgid "_Size"
+msgstr "M_ida"
 
-#: src/wmwinlist.cc:480
-msgid "Del"
-msgstr "Supr"
+#: src/wmapp.cc:539 src/wmdialog.cc:86
+msgid "_Sleep mode"
+msgstr "Mode de _suspensió"
 
-#: src/wmwinlist.cc:484
+#: src/wmprog.cc:345
+msgid "_Sloppy mouse focus"
+msgstr "_Focus del ratolí descurat"
+
+#: src/amailbox.cc:965
+msgid "_Suspend"
+msgstr "_Suspèn"
+
+#: src/wmwinlist.cc:472
 msgid "_Terminate Process"
 msgstr "_Acaba el procés"
 
-#: src/wmwinlist.cc:485
-msgid "Kill _Process"
-msgstr "_Mata el procés"
+#: src/wmprog.cc:456
+msgid "_Themes"
+msgstr "_Temes"
 
-#: src/wmwinlist.cc:520 src/wmwinlist.cc:521
-msgid "Window list"
-msgstr "Llista de finestres"
+#: src/aclock.cc:204
+msgid "_UTC"
+msgstr "_UTC"
 
-#: src/wmwinmenu.cc:100
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmtaskbar.cc:227 src/wmwinlist.cc:462 src/wmwinlist.cc:494
+msgid "_Undo"
+msgstr "_Desfés"
+
+#: src/wmapp.cc:701 src/wmdialog.cc:92 src/wmwinmenu.cc:141
+msgid "_Window list"
+msgstr "Llista de _finestres"
+
+#. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
+#: src/wmprog.cc:430 src/wmtaskbar.cc:233
+msgid "_Windows"
+msgstr "_Finestres"
+
+#: src/icesound.cc:499
 #, c-format
-msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Espai de treball %-.32s"
+msgid "ao_open_live failed with %d"
+msgstr "ao_open_live ha fallat amb %d"
 
-#: src/wpixres.cc:93 src/wpixres.cc:100
-#, c-format
-msgid "Image not readable: %s"
-msgstr "Imatge no llegible: %s"
+#: src/icesound.cc:510
+msgid "ao_play failed"
+msgstr "ao_play ha fallat"
 
-#: src/yapp.cc:296
-#, c-format
-msgid "%s: select failed"
-msgstr "%s: ha fallat la selecció"
+#: src/amemstatus.cc:156
+msgid "bytes"
+msgstr "bytes"
 
-#: src/ycolor.cc:229 src/ycolor.cc:240
-#, c-format
-msgid "Could not parse color \"%s\""
-msgstr "No s'ha pogut analitzar el color %s"
+#: src/apppstatus.cc:284
+msgid "disconnected"
+msgstr "desconnectat"
 
-#: src/yconfig.cc:84
-#, c-format
-msgid "Unknown key name %s in %s"
-msgstr "Nom clau %s desconegut a %s"
+#: src/wmapp.cc:116
+msgid "done."
+msgstr "fet."
 
-#: src/yconfig.cc:171 src/yconfig.cc:182 src/yconfig.cc:194
-#, c-format
-msgid "Bad argument: %s for %s [%d,%d]"
-msgstr "Argument erroni: %s per a %s [%d,%d]"
+#: src/apppstatus.cc:284
+msgid "down"
+msgstr "avall"
 
-#: src/ycursor.cc:110
-#, c-format
-msgid "Loading of pixmap \"%s\" failed: %s"
-msgstr "La càrrega del mapa de píxels \"%s\" ha fallat: %s"
+#: src/wmabout.cc:71
+msgid "icewm - About"
+msgstr "icewm - Quant a"
 
-#: src/ycursor.cc:135
-#, c-format
-msgid "Loading of pixmap \"%s\" failed"
-msgstr "Ha fallat la càrrega del mapa de píxels \"%s\""
-
-#: src/ycursor.cc:179
-#, c-format
-msgid "BUG? Imlib was able to read \"%s\""
-msgstr "ERROR? Imlib ha estat capaç de llegir \"%s\""
-
-#: src/ycursor.cc:204
-#, c-format
-msgid "BUG? Malformed XPM header but Imlib was able to parse \"%s\""
-msgstr "ERROR? Capçalera XPM malformada, però Imlib ha pogut analitzar \"%s\""
-
-#: src/ycursor.cc:212
-#, c-format
-msgid "BUG? Unexpected end of XPM file but Imlib was able to parse \"%s\""
-msgstr ""
-"ERROR? Final del fitxer XPM imprevist, però Imlib ha pogut analitzar \"%s\""
-
-#: src/ycursor.cc:215
-#, c-format
-msgid "BUG? Unexpected character but Imlib was able to parse \"%s\""
-msgstr "ERROR? Caràcter imprevist, però Imlib ha pogut analitzar \"%s\""
-
-#: src/yfontcore.cc:121 src/yfontxft.cc:117
-#, c-format
-msgid "Could not load font \"%s\"."
-msgstr "No s'ha pogut carregar la lletra \"%s\"."
-
-#: src/yfontcore.cc:233
-#, c-format
-msgid "Missing codesets for fontset \"%s\":"
-msgstr "No s'ha trobat codificació per a la lletra \"%s\":"
-
-#: src/yfontcore.cc:261
-#, c-format
-msgid "Could not load fontset \"%s\"."
-msgstr "No s'ha pogut carregar la lletra \"%s\"."
-
-#: src/yinputline.cc:18
-msgid "_Copy"
-msgstr "_Copia"
-
-#: src/yinputline.cc:18
-msgid "Ctrl+C"
-msgstr "Ctrl+C"
-
-#: src/yinputline.cc:19
-msgid "Cu_t"
-msgstr "Re_talla"
-
-#: src/yinputline.cc:20
-msgid "_Paste"
-msgstr "_Enganxa"
-
-#: src/yinputline.cc:21
-msgid "Paste _Selection"
-msgstr "Enganxa la _selecció"
-
-#: src/yinputline.cc:21
-msgid "Ctrl+P"
-msgstr "Ctrl+P"
-
-#: src/yinputline.cc:23
-msgid "Select _All"
-msgstr "Selecciona-ho _tot"
-
-#: src/yinputline.cc:23
-msgid "Ctrl+A"
-msgstr "Ctrl+A"
-
-#: src/ylocale.cc:58
-msgid "Locale not supported by C library or Xlib. Falling back to 'C' locale'."
-msgstr ""
-"Llengua no admesa per la biblioteca C o Xlib. Es torna per defecte a \"C\"."
-
-#: src/ylocale.cc:92
-msgid ""
-"Failed to determinate the current locale's codeset. Assuming ISO-8859-1.\n"
-msgstr ""
-"Ha fallat determinar el conjunt de codis de la llengua actual. S'assumeix "
-"ISO-8859-1.\n"
-
-#: src/ylocale.cc:125 src/ylocale.cc:133
+#: src/ylocale.cc:126 src/ylocale.cc:134
 #, c-format
 msgid "iconv doesn't supply (sufficient) %s to %s converters."
 msgstr "iconv no proporciona %s (suficients) a convertidors %s."
 
-#: src/ylocale.cc:238
+#: src/amemstatus.cc:152
+msgid "kB"
+msgstr "kB"
+
+#: src/akeyboard.cc:96
+msgid "layout:"
+msgstr "disposició:"
+
+#: src/akeyboard.cc:95
+msgid "model:"
+msgstr "model:"
+
+#: src/akeyboard.cc:97
+msgid "options:"
+msgstr "opcions:"
+
+#: src/aapm.cc:936
 #, c-format
-msgid "Invalid multibyte string \"%s\": %s"
-msgstr "Cadena multibyte no vàlida \"%s\": %s"
+msgid "power:\t%s"
+msgstr "energia:\t%s"
 
-#: src/ymsgbox.cc:48
-msgid "_OK"
-msgstr "D'ac_ord"
-
-#: src/ysmapp.cc:95
-msgid "$USER or $LOGNAME not set?"
-msgstr "¿$USUARI o $NOMD'ENTRADA no configurat?"
-
-#: src/yurl.cc:145
+#: src/icesm.cc:462 src/icesm.cc:622
 #, c-format
-msgid "Failed to parse URL \"%s\"."
-msgstr "Ha fallat analitzar l'URL \"%s\"."
+msgid "restart %s."
+msgstr "Reinicia %s."
 
-#: src/yurl.cc:161
+#: src/akeyboard.cc:94
+msgid "rules:"
+msgstr "regles:"
+
+#: src/icesh.cc:2376 src/icesh.cc:2449
 #, c-format
-msgid "Incomplete hex escape in URL at position %d."
-msgstr "Escapament hex incomplet dins l'URL a la posició %d."
+msgid "workspace #%d: `%s'\n"
+msgstr "Escriptori #%d: \"%s\"\n"
 
-#: src/yurl.cc:168
-#, c-format
-msgid "Invalid hex escape in URL at position %d."
-msgstr "Escapament hex no vàlid dins l'URL a la posició %d."
-
-#: src/yxapp.cc:1008
-msgid ""
-"  -d, --display=NAME  NAME of the X server to use.\n"
-"  --sync              Synchronize X11 commands.\n"
-msgstr ""
-"  -d, --display=NAME      Nom del servidor X per usar.\n"
-"  --sync              Sincronitza les ordres d'X11.\n"
-
-#: src/yximage.cc:173
-msgid "Support for PNG images was not enabled"
-msgstr "El suport per a imatges PNG no s'ha habilitat."
-
-#: src/yximage.cc:181
-msgid "Support for JPEG images was not enabled"
-msgstr "El suport per a imatges JPEG no s'ha habilitat."
-
-#: src/yximage.cc:187
-#, c-format
-msgid "Unsupported file format: %s"
-msgstr "Format de fitxer no admès: %s"
-
-#: src/yximage.cc:191 src/yximage.cc:214
-#, c-format
-msgid "Could not load image \"%s\""
-msgstr "No s'ha pogut carregar la imatge %s."
-
-#~ msgid "Clos_e"
-#~ msgstr "Tan_ca"
-
-#~ msgid "Loading of fallback font \"%s\" failed."
-#~ msgstr "Ha fallat la càrrega de la lletra \"%s\"."
+#. TRANSLATORS: Please translate the string "C" into "Celsius Temperature" in your language.
+#. TRANSLATORS: Please make sure the translated string could be shown in your non-utf8 locale.
+#: src/acpustatus.cc:348
+msgid "°C"
+msgstr "°C"
 
 #~ msgid ""
 #~ "\n"
@@ -2909,34 +2976,95 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "\n"
 #~ "  Identificació de trucada:\t"
 
-#~ msgid "Kill IceWM, replace with Xterm"
-#~ msgstr "Mata l'IceWM, reemplaça'l per l'Xterm"
-
-#~ msgid "GNOME window state"
-#~ msgstr "Estat de la finestra del GNOME"
-
-#~ msgid "GNOME window hint"
-#~ msgstr "Suggeriment de finestra del GNOME"
-
-#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
-#~ msgstr "Cursor de mapa de píxels no vàlid: %s té massa colors únics."
-
+#, fuzzy
 #~ msgid ""
-#~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
-#~ "intr = %llu, softirq = %llu, steal = %llu\n"
+#~ "             Usage: %s [OPTION]...\n"
+#~ "             \n"
+#~ "             Plays audio files on GUI events raised by IceWM.\n"
+#~ "             \n"
+#~ "             Options:\n"
+#~ "             \n"
+#~ "             -d, --display=DISPLAY         Display used by IceWM "
+#~ "(default: $DISPLAY).\n"
+#~ "             -s, --sample-dir=DIR          Specifies the directory which "
+#~ "contains\n"
+#~ "             the sound files (ie ~/.icewm/sounds).\n"
+#~ "             -i, --interface=TARGET        Specifies the sound output "
+#~ "target\n"
+#~ "             interface, one of OSS, YIFF, ESD\n"
+#~ "             -D, --device=DEVICE           (OSS only) specifies the "
+#~ "digital signal\n"
+#~ "             processor (default /dev/dsp).\n"
+#~ "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
+#~ "address and\n"
+#~ "             port number (default localhost:16001 for ESD\n"
+#~ "             and localhost:9433 for YIFF).\n"
+#~ "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
+#~ "Audio mode (leave\n"
+#~ "             blank to get a list).\n"
+#~ "             --audio-mode-auto          (YIFF only) change Audio mode on "
+#~ "the fly to\n"
+#~ "             best match sample's Audio (can cause\n"
+#~ "             problems with other Y clients, overrides\n"
+#~ "             --audio-mode).\n"
+#~ "             \n"
+#~ "             -v, --verbose                 Be verbose (prints out each "
+#~ "sound event to\n"
+#~ "             stdout).\n"
+#~ "             -V, --version                 Prints version information and "
+#~ "exits.\n"
+#~ "             -h, --help                    Prints (this) help screen and "
+#~ "exits.\n"
+#~ "             \n"
+#~ "             Return values:\n"
+#~ "             \n"
+#~ "             0     Success.\n"
+#~ "             1     General error.\n"
+#~ "             2     Command line error.\n"
+#~ "             3     Subsystems error (ie cannot connect to server).\n"
+#~ "\n"
 #~ msgstr ""
-#~ "estadística:\tusuari = %llu, nice = %llu, sys = %llu, inactiu = %llu, e/s."
-#~ "espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
-
-#~ msgid ""
-#~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
-#~ "softirq = %llu, steal = %llu (h = %i)\n"
-#~ msgstr ""
-#~ "barres:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr "
-#~ "= %llu, softirq = %llu, steal = %llu (h = %i)\n"
-
-#~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
-#~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+#~ "Us: %s [OPTION]...\n"
+#~ "\n"
+#~ "Toca arxius de audio en events GUI gestionats per IceWM.\n"
+#~ "\n"
+#~ "Opcions:\n"
+#~ "\n"
+#~ "  -d, --display=DISPLAY         Pantalla emprada per IceWM (per defecte: "
+#~ "$DISPLAY).\n"
+#~ "  -s, --sample-dir=DIR          Especifica el directori que conte\n"
+#~ "                                els arxius de so (ie ~/.icewm/sounds).\n"
+#~ "  -i, --interface=TARGET        Especifica l'interficie de so \n"
+#~ "                                , a escollir: OSS, YIFF, ESD\n"
+#~ "  -D, --device=DEVICE           (sols OSS) especifica el processador de "
+#~ "senyal                                 (per defecte /dev/dsp).\n"
+#~ "  -S, --server=ADDR:PORT\t(ESD i YIFF) especifica la adreça i port del "
+#~ "servidor\n"
+#~ "                                (per defecte localhost:16001 per a ESD i\n"
+#~ "                                localhost:9433 per a YIFF).\n"
+#~ "  -m, --audio-mode[=MODE]       (sols YIFF) especica el mode de Audio "
+#~ "(deixau en\n"
+#~ "                                blanc per a obtindre un llistat).\n"
+#~ "  --audio-mode-auto       \t(sols YIFF) canvia el mode de  Audio al vol "
+#~ "la millor\n"
+#~ "                                mostra de Audio corresponent (pot "
+#~ "provocar problemes\n"
+#~ "                                amb altres clients Y, sobreescriu  --"
+#~ "audio-mode).\n"
+#~ "  -v, --verbose                 Be verbose (mostra cada event de so per "
+#~ "la eixida \n"
+#~ "                                estandard \"stdout\").\n"
+#~ "  -V, --version                 Mostra la informació sobre la  versió i "
+#~ "acaba.\n"
+#~ "  -h, --help                    Mostra (aquesta) pantalla d'ajuda i "
+#~ "acaba.\n"
+#~ "\n"
+#~ "Valors de retorn:\n"
+#~ "\n"
+#~ "  0     Èxit.\n"
+#~ "  1     Errada General.\n"
+#~ "  2     Errada a la linea de comandes.\n"
+#~ "  3     Error de subsistema(ie: no pot conectar al servidor).\n"
 
 #~ msgid ""
 #~ " IceWM crashed for the second time in 10 seconds. \n"
@@ -2951,20 +3079,290 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "\t1: Reiniciar l'IceWM?\n"
 #~ "\t2: Avortar aquesta sessió?\n"
 
+#~ msgid "\"%s\" contains no scheme description"
+#~ msgstr "\"%s\"no conté cap descripció d'esquema"
+
+#~ msgid "\"%s\" doesn't describe a common internet scheme"
+#~ msgstr "\"%s\" no descriu un esquema comú d'Internet"
+
+#~ msgid ""
+#~ "# NOTE: All settings are commented out by default, be sure to\n"
+#~ "#       uncomment them if you change them!\n"
+#~ "\n"
+#~ msgstr ""
+#~ "# NOTA: Totes les configuracions estan comentades per defecte, assegurat\n"
+#~ "# de descomentar-les si les vols canviar!!\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "# preferences(%s) - generated by genpref\n"
+#~ "\n"
+#~ msgstr "# preferències(%s) - generat per genpref\n"
+
+#~ msgid ""
+#~ "%s: unrecognized option `%s'\n"
+#~ "Try `%s --help' for more information.\n"
+#~ msgstr ""
+#~ "%s: opció no reconeguda \"%s\"\n"
+#~ "proveu \"%s --help\" per a més informació.\n"
+
+#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
+#~ msgstr "%s:%d: %d bits visuals no admesos (encara)"
+
+#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgstr ""
+#~ "%s:%d: Fallada en copiar dibuixable 0x%x a la memòria intermèdia del pixel"
+
+#~ msgid "%s@%d: %s\n"
+#~ msgstr "%s@%d: %s\n"
+
+#~ msgid "/proc/apm - unknown format (%d)"
+#~ msgstr "/proc/apm - format desconegut (%d)"
+
+#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+
+#~ msgid "Accessories"
+#~ msgstr "Accessoris"
+
+#~ msgid "Argument required for %s switch"
+#~ msgstr "Argument requerit per commutar %s"
+
+#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
+#~ msgstr ""
+#~ "Canvi de mode d'àudio detectat, canvi de mode d'àudio automàtic "
+#~ "inhabilitat."
+
+#~ msgid ""
+#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
+#~ msgstr ""
+#~ "Canvi de mode d'àudio detectat, mode d'àudio inicial: %s, ja sense efecte."
+
+#~ msgid "Bad Look name"
+#~ msgstr "Nom Look erroni"
+
+#~ msgid "Bad argument %d"
+#~ msgstr "Argument erroni: %d"
+
+#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
+#~ msgstr "Càrrega de la CPU: %3.2f %3.2f %3.2f, %d procesos."
+
+#~ msgid "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+#~ msgstr "CPU: %llu %llu %llu %llu %llu %llu %llu %llu"
+
+#~ msgid "Can't change to audio mode `%s'."
+#~ msgstr "No es pot canviar al mode d'àudio %s."
+
+#~ msgid "Can't connect to ESound daemon: %s"
+#~ msgstr "No es pot connectar al dimoni Esound: %s"
+
+#~ msgid "Can't establish %s to %s conversion"
+#~ msgstr "No es pot establir la converssió de %s a %s"
+
+#~ msgid "Clos_e"
+#~ msgstr "Tan_ca"
+
+#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
+#~ msgstr ""
+#~ "En cas de estar compilat amb l'etiqueta DEBUG, es mostraran els missatges "
+#~ "de depuració."
+
+#~ msgid "Could not find RGB pixel buffer %s"
+#~ msgstr "No es pot trobar el buffer RGB %s"
+
+#~ msgid "Could not find image: %s"
+#~ msgstr "No s'ha pogut trobar la imatge: %s"
+
+#~ msgid "Could not find pixel map %s"
+#~ msgstr "No es pot trobar el mapa de pixels %s"
+
+#~ msgid "Editors"
+#~ msgstr "Editors"
+
+#~ msgid "Error <%d> while uploading `%s:%s'"
+#~ msgstr "Error <%d> mentre es carregava \"%s:%s\""
+
+#~ msgid "Error at %s: '%s'"
+#~ msgstr "Error a %s: \"%s\""
+
+#~ msgid "Error in window option: %s"
+#~ msgstr "Error en l'opció de finestra: %s"
+
+#~ msgid "GNOME window hint"
+#~ msgstr "Suggeriment de finestra del GNOME"
+
+#~ msgid "GNOME window state"
+#~ msgstr "Estat de la finestra del GNOME"
+
+#~ msgid "Gnome"
+#~ msgstr "Gnome"
+
+#~ msgid "Gnome User Apps"
+#~ msgstr "Aplicacions d'Usuari de Gnome"
+
+#~ msgid "Identifier expected"
+#~ msgstr "Identificador esperat"
+
+#~ msgid "Imlib: Acquisition of X pixmap failed"
+#~ msgstr "Imlib: error en adquirir el pixmap  X"
+
+#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
+#~ msgstr "Imlib: ha fallat la imatge Imlib a mapatge de mapa de píxels X"
+
+#, fuzzy
+#~ msgid ""
+#~ "Interface %s:\n"
+#~ "  Current rate (in/out):\t%li %s/%li %s\n"
+#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
+#~ "  Total average (in/out):\t%li %s/%li %s\n"
+#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
+#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
+#~ msgstr ""
+#~ "Interficie %s\n"
+#~ " Ratio actual (entrada/eixida): %d %s/%d %s\n"
+#~ " Ratio mitjà  (entrada/eixida): %d %s/%d %s\n"
+#~ " Transferit   (entrada/eixida): %d %s/%d %s\n"
+#~ " Temps En línea:        %d:%02d:%02d%s%s"
+
+#~ msgid "Invalid cursor pixmap: \"%s\" contains too much unique colors"
+#~ msgstr "Cursor de mapa de píxels no vàlid: %s té massa colors únics."
+
+#~ msgid "Invalid path: "
+#~ msgstr "Camí no vàlid: "
+
+#, fuzzy
+#~ msgid "Invalid token"
+#~ msgstr "Camí no vàlid: "
+
+#~ msgid "Kill IceWM, replace with Xterm"
+#~ msgstr "Mata l'IceWM, reemplaça'l per l'Xterm"
+
+#~ msgid "Loading image %s failed"
+#~ msgstr "Error en la càrrega de la imatge %s"
+
+#~ msgid "Loading of fallback font \"%s\" failed."
+#~ msgstr "Ha fallat la càrrega de la lletra \"%s\"."
+
+#~ msgid "Loading of image \"%s\" failed"
+#~ msgstr "Ha fallat la càrrega de la imatge \"%s\""
+
+#~ msgid "Message Loop: select failed (errno=%d)"
+#~ msgstr "Bucle de missatge: ha fallat la selecció (errno=%d)"
+
+#~ msgid "Motif"
+#~ msgstr "Motif"
+
+#~ msgid "Multimedia"
+#~ msgstr "Multimèdia"
+
+#~ msgid "Multiple references for gradient '%s' in theme '%s'."
+#~ msgstr "Referencies múltiples per al gradient \"%s\" al tema %s."
+
+#~ msgid "Multiple sound interfaces given."
+#~ msgstr "S'han donat interfícies múltiples de so."
+
+#~ msgid "No such device: %s"
+#~ msgstr "No hi ha tal dispositiu: %s"
+
+#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
+#~ msgstr "No és un nombre hexadecimal: %c%c (en \"%s\")"
+
+#~ msgid "Obsolete option: %s"
+#~ msgstr "Opció obsoleta: %s"
+
+#~ msgid "Other"
+#~ msgstr "Altres"
+
+#~ msgid "Out of memory for RGB pixel buffer %s"
+#~ msgstr "Sense memòria per al buffer RGB %s"
+
+#~ msgid "Out of memory for image %s"
+#~ msgstr "Sense memòria per a la imatge %s"
+
+#~ msgid "Out of memory for image: %s"
+#~ msgstr "Sense memòria per a la imatge: %s"
+
+#~ msgid "Out of memory for pixel map %s"
+#~ msgstr "Sense memòria per al mapa de pixels %s"
+
+#~ msgid "Out of memory for pixmap \"%s\""
+#~ msgstr "Sense memòria per al mapa de píxels \"%s\""
+
+#~ msgid "Out of memory for window options"
+#~ msgstr "Sense memòria per a l'opció de finestra"
+
+#~ msgid "Overriding previous audio mode `%s'."
+#~ msgstr "Passant per alt el mode d'àudio anterior: \"%s\"."
+
+#~ msgid "Pair of hexadecimal digits expected"
+#~ msgstr "Parella de digits hexadecimals prevists"
+
+#~ msgid "Pipe creation failed (errno=%d)."
+#~ msgstr "Creación de Pipe fallida (errno=%d)."
+
+#~ msgid "Playing sample #%d: %d"
+#~ msgstr "Reproduint l'exemple %d:%d"
+
+#~ msgid "Please note that not all options are currently configured.\n"
+#~ msgstr ""
+#~ "Si us plau, tingueu en compte que no totes les opcions estan "
+#~ "configurades.\n"
+
+#~ msgid "Received signal %d: Reloading samples..."
+#~ msgstr "Senyal %d rebut. Es tornen a carregar els exemples..."
+
+#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+#~ msgstr ""
+#~ "Assignació de recursos per a la cadena rotada \"%s\" (%dx%d px) fallada"
+
+#~ msgid "Sample <%d> uploaded as `%s:%s'"
+#~ msgstr "Exemple <%d> carregat com a \"%s:%s\""
+
+#~ msgid "Screensavers"
+#~ msgstr "Protectors de pantalla"
+
+#~ msgid "Separator expected"
+#~ msgstr "Separador esperat"
+
+#~ msgid "Session Manager: IceAddConnectionWatch failed."
+#~ msgstr "Gestor de Sessions: IceAddConnectionWatch fallit."
+
+#~ msgid "Session Manager: Init error: %s"
+#~ msgstr "Gestor de Sessions: Error de Init: %s"
+
+#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
+#~ msgstr "MASSA CONEXIONS D'ICE -- no suportat"
+
+#~ msgid "Task Bar"
+#~ msgstr "Barra de tasques"
+
 #~ msgid "Unable to get current font path."
 #~ msgstr "No s'ha pogut accedir al camí de les lletres."
 
 #~ msgid "Unexpected format of ICEWM_FONT_PATH property"
 #~ msgstr "Format no esperat a les propietats d'ICEWM_FONT_PATH"
 
-#~ msgid "Task Bar"
-#~ msgstr "Barra de tasques"
+#~ msgid "Unexpected identifier"
+#~ msgstr "Identificador imprevist"
 
-#~ msgid "_License"
-#~ msgstr "_Llicència"
+#~ msgid "Unknown gradient name '%s' in theme '%s'."
+#~ msgstr "Nom del gradient desconegut, \"%s\", al tema \"%s\"."
 
-#~ msgid "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
-#~ msgstr "0x%-8lx %-14s: %-20s %dx%d%+d%+d\n"
+#~ msgid "Usage error: "
+#~ msgstr "Error d'ús: "
+
+#~ msgid ""
+#~ "Usage: %s FILENAME\n"
+#~ "\n"
+#~ "A very simple HTML browser displaying the document specified by "
+#~ "FILENAME.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Ús: %s NOM FITXER\n"
+#~ "\n"
+#~ "Un senzill navegador HTML que mostra el document especificat per NOM del "
+#~ "FITXER.\n"
+#~ "\n"
 
 #~ msgid ""
 #~ "Usage: %s [OPTIONS] ACTIONS\n"
@@ -3100,334 +3498,6 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "  EXPRESSION ::= SYMBOL | EXPRESSION ( `+' | `|' ) SYMBOL\n"
 #~ "\n"
 
-#~ msgid "Can't connect to ESound daemon: %s"
-#~ msgstr "No es pot connectar al dimoni Esound: %s"
-
-#~ msgid "Error <%d> while uploading `%s:%s'"
-#~ msgstr "Error <%d> mentre es carregava \"%s:%s\""
-
-#~ msgid "Sample <%d> uploaded as `%s:%s'"
-#~ msgstr "Exemple <%d> carregat com a \"%s:%s\""
-
-#~ msgid "Playing sample #%d: %d"
-#~ msgstr "Reproduint l'exemple %d:%d"
-
-#~ msgid "Usage error: "
-#~ msgstr "Error d'ús: "
-
-#~ msgid "Out of memory for image %s"
-#~ msgstr "Sense memòria per a la imatge %s"
-
-#~ msgid "_Minimize"
-#~ msgstr "_Minimitza"
-
-#~ msgid "Error at %s: '%s'"
-#~ msgstr "Error a %s: \"%s\""
-
-#~ msgid "\"%s\" contains no scheme description"
-#~ msgstr "\"%s\"no conté cap descripció d'esquema"
-
-#~ msgid "Please note that not all options are currently configured.\n"
-#~ msgstr ""
-#~ "Si us plau, tingueu en compte que no totes les opcions estan "
-#~ "configurades.\n"
-
-#~ msgid "\"%s\" doesn't describe a common internet scheme"
-#~ msgstr "\"%s\" no descriu un esquema comú d'Internet"
-
-#~ msgid "Out of memory for pixmap \"%s\""
-#~ msgstr "Sense memòria per al mapa de píxels \"%s\""
-
-#~ msgid "Out of memory for window options"
-#~ msgstr "Sense memòria per a l'opció de finestra"
-
-#~ msgid "Error in window option: %s"
-#~ msgstr "Error en l'opció de finestra: %s"
-
-#~ msgid ""
-#~ "Usage: %s FILENAME\n"
-#~ "\n"
-#~ "A very simple HTML browser displaying the document specified by "
-#~ "FILENAME.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Ús: %s NOM FITXER\n"
-#~ "\n"
-#~ "Un senzill navegador HTML que mostra el document especificat per NOM del "
-#~ "FITXER.\n"
-#~ "\n"
-
-#~ msgid "No such device: %s"
-#~ msgstr "No hi ha tal dispositiu: %s"
-
-#~ msgid "Can't change to audio mode `%s'."
-#~ msgstr "No es pot canviar al mode d'àudio %s."
-
-#~ msgid ""
-#~ "Audio mode switch detected, initial audio mode `%s' no longer in effect."
-#~ msgstr ""
-#~ "Canvi de mode d'àudio detectat, mode d'àudio inicial: %s, ja sense efecte."
-
-#~ msgid "Audio mode switch detected, automatic audio mode changing disabled."
-#~ msgstr ""
-#~ "Canvi de mode d'àudio detectat, canvi de mode d'àudio automàtic "
-#~ "inhabilitat."
-
-#~ msgid "Overriding previous audio mode `%s'."
-#~ msgstr "Passant per alt el mode d'àudio anterior: \"%s\"."
-
-#~ msgid "Multiple sound interfaces given."
-#~ msgstr "S'han donat interfícies múltiples de so."
-
-#~ msgid "Received signal %d: Reloading samples..."
-#~ msgstr "Senyal %d rebut. Es tornen a carregar els exemples..."
-
-#~ msgid "Message Loop: select failed (errno=%d)"
-#~ msgstr "Bucle de missatge: ha fallat la selecció (errno=%d)"
-
-#~ msgid "Argument required for %s switch"
-#~ msgstr "Argument requerit per commutar %s"
-
-#~ msgid "Loading of image \"%s\" failed"
-#~ msgstr "Ha fallat la càrrega de la imatge \"%s\""
-
-#~ msgid "Imlib: Acquisition of X pixmap failed"
-#~ msgstr "Imlib: error en adquirir el pixmap  X"
-
-#~ msgid "Imlib: Imlib image to X pixmap mapping failed"
-#~ msgstr "Imlib: ha fallat la imatge Imlib a mapatge de mapa de píxels X"
-
-#~ msgid ""
-#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
-#~ "blue): %0*x/%0*x/%0*x)"
-#~ msgstr ""
-#~ "S'usa el mecanisme alternatiu per convertir píxels (profunditat: %d; "
-#~ "màscares (roig/verd/blau): %0*x/%0*x/%0*x)"
-
-#~ msgid "%s:%d: %d bit visuals are not supported (yet)"
-#~ msgstr "%s:%d: %d bits visuals no admesos (encara)"
-
-#~ msgid "Multiple references for gradient '%s' in theme '%s'."
-#~ msgstr "Referencies múltiples per al gradient \"%s\" al tema %s."
-
-#~ msgid "Unknown gradient name '%s' in theme '%s'."
-#~ msgstr "Nom del gradient desconegut, \"%s\", al tema \"%s\"."
-
-#~ msgid "Bad Look name"
-#~ msgstr "Nom Look erroni"
-
-#~ msgid ""
-#~ "%s: unrecognized option `%s'\n"
-#~ "Try `%s --help' for more information.\n"
-#~ msgstr ""
-#~ "%s: opció no reconeguda \"%s\"\n"
-#~ "proveu \"%s --help\" per a més informació.\n"
-
-#~ msgid "Loading image %s failed"
-#~ msgstr "Error en la càrrega de la imatge %s"
-
-#~ msgid "Bad argument %d"
-#~ msgstr "Argument erroni: %d"
-
-#~ msgid "Out of memory for image: %s"
-#~ msgstr "Sense memòria per a la imatge: %s"
-
-#~ msgid "Could not find image: %s"
-#~ msgstr "No s'ha pogut trobar la imatge: %s"
-
-#~ msgid "Invalid path: "
-#~ msgstr "Camí no vàlid: "
-
-#, fuzzy
-#~ msgid ""
-#~ "Interface %s:\n"
-#~ "  Current rate (in/out):\t%li %s/%li %s\n"
-#~ "  Current average (in/out):\t%lli %s/%lli %s\n"
-#~ "  Total average (in/out):\t%li %s/%li %s\n"
-#~ "  Transferred (in/out):\t%lli %s/%lli %s\n"
-#~ "  Online time:\t%ld:%02ld:%02ld%s%s"
-#~ msgstr ""
-#~ "Interficie %s\n"
-#~ " Ratio actual (entrada/eixida): %d %s/%d %s\n"
-#~ " Ratio mitjà  (entrada/eixida): %d %s/%d %s\n"
-#~ " Transferit   (entrada/eixida): %d %s/%d %s\n"
-#~ " Temps En línea:        %d:%02d:%02d%s%s"
-
-#, fuzzy
-#~ msgid ""
-#~ "             Usage: %s [OPTION]...\n"
-#~ "             \n"
-#~ "             Plays audio files on GUI events raised by IceWM.\n"
-#~ "             \n"
-#~ "             Options:\n"
-#~ "             \n"
-#~ "             -d, --display=DISPLAY         Display used by IceWM "
-#~ "(default: $DISPLAY).\n"
-#~ "             -s, --sample-dir=DIR          Specifies the directory which "
-#~ "contains\n"
-#~ "             the sound files (ie ~/.icewm/sounds).\n"
-#~ "             -i, --interface=TARGET        Specifies the sound output "
-#~ "target\n"
-#~ "             interface, one of OSS, YIFF, ESD\n"
-#~ "             -D, --device=DEVICE           (OSS only) specifies the "
-#~ "digital signal\n"
-#~ "             processor (default /dev/dsp).\n"
-#~ "             -S, --server=ADDR:PORT     (ESD and YIFF) specifies server "
-#~ "address and\n"
-#~ "             port number (default localhost:16001 for ESD\n"
-#~ "             and localhost:9433 for YIFF).\n"
-#~ "             -m, --audio-mode[=MODE]       (YIFF only) specifies the "
-#~ "Audio mode (leave\n"
-#~ "             blank to get a list).\n"
-#~ "             --audio-mode-auto          (YIFF only) change Audio mode on "
-#~ "the fly to\n"
-#~ "             best match sample's Audio (can cause\n"
-#~ "             problems with other Y clients, overrides\n"
-#~ "             --audio-mode).\n"
-#~ "             \n"
-#~ "             -v, --verbose                 Be verbose (prints out each "
-#~ "sound event to\n"
-#~ "             stdout).\n"
-#~ "             -V, --version                 Prints version information and "
-#~ "exits.\n"
-#~ "             -h, --help                    Prints (this) help screen and "
-#~ "exits.\n"
-#~ "             \n"
-#~ "             Return values:\n"
-#~ "             \n"
-#~ "             0     Success.\n"
-#~ "             1     General error.\n"
-#~ "             2     Command line error.\n"
-#~ "             3     Subsystems error (ie cannot connect to server).\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Us: %s [OPTION]...\n"
-#~ "\n"
-#~ "Toca arxius de audio en events GUI gestionats per IceWM.\n"
-#~ "\n"
-#~ "Opcions:\n"
-#~ "\n"
-#~ "  -d, --display=DISPLAY         Pantalla emprada per IceWM (per defecte: "
-#~ "$DISPLAY).\n"
-#~ "  -s, --sample-dir=DIR          Especifica el directori que conte\n"
-#~ "                                els arxius de so (ie ~/.icewm/sounds).\n"
-#~ "  -i, --interface=TARGET        Especifica l'interficie de so \n"
-#~ "                                , a escollir: OSS, YIFF, ESD\n"
-#~ "  -D, --device=DEVICE           (sols OSS) especifica el processador de "
-#~ "senyal                                 (per defecte /dev/dsp).\n"
-#~ "  -S, --server=ADDR:PORT\t(ESD i YIFF) especifica la adreça i port del "
-#~ "servidor\n"
-#~ "                                (per defecte localhost:16001 per a ESD i\n"
-#~ "                                localhost:9433 per a YIFF).\n"
-#~ "  -m, --audio-mode[=MODE]       (sols YIFF) especica el mode de Audio "
-#~ "(deixau en\n"
-#~ "                                blanc per a obtindre un llistat).\n"
-#~ "  --audio-mode-auto       \t(sols YIFF) canvia el mode de  Audio al vol "
-#~ "la millor\n"
-#~ "                                mostra de Audio corresponent (pot "
-#~ "provocar problemes\n"
-#~ "                                amb altres clients Y, sobreescriu  --"
-#~ "audio-mode).\n"
-#~ "  -v, --verbose                 Be verbose (mostra cada event de so per "
-#~ "la eixida \n"
-#~ "                                estandard \"stdout\").\n"
-#~ "  -V, --version                 Mostra la informació sobre la  versió i "
-#~ "acaba.\n"
-#~ "  -h, --help                    Mostra (aquesta) pantalla d'ajuda i "
-#~ "acaba.\n"
-#~ "\n"
-#~ "Valors de retorn:\n"
-#~ "\n"
-#~ "  0     Èxit.\n"
-#~ "  1     Errada General.\n"
-#~ "  2     Errada a la linea de comandes.\n"
-#~ "  3     Error de subsistema(ie: no pot conectar al servidor).\n"
-
-#~ msgid "Could not find pixel map %s"
-#~ msgstr "No es pot trobar el mapa de pixels %s"
-
-#~ msgid "Out of memory for pixel map %s"
-#~ msgstr "Sense memòria per al mapa de pixels %s"
-
-#~ msgid "Out of memory for RGB pixel buffer %s"
-#~ msgstr "Sense memòria per al buffer RGB %s"
-
-#~ msgid "Could not find RGB pixel buffer %s"
-#~ msgstr "No es pot trobar el buffer RGB %s"
-
-#, fuzzy
-#~ msgid "program label expected"
-#~ msgstr "Separador esperat"
-
-#, fuzzy
-#~ msgid "menu caption expected"
-#~ msgstr "Separador esperat"
-
-#, fuzzy
-#~ msgid "opening curly expected"
-#~ msgstr "Identificador esperat"
-
-#, fuzzy
-#~ msgid "action name expected"
-#~ msgstr "Separador esperat"
-
-#, fuzzy
-#~ msgid "unknown action"
-#~ msgstr "Acció desconeguda: %s"
-
-#~ msgid "Pair of hexadecimal digits expected"
-#~ msgstr "Parella de digits hexadecimals prevists"
-
-#~ msgid "Unexpected identifier"
-#~ msgstr "Identificador imprevist"
-
-#~ msgid "Identifier expected"
-#~ msgstr "Identificador esperat"
-
-#~ msgid "Separator expected"
-#~ msgstr "Separador esperat"
-
-#, fuzzy
-#~ msgid "Invalid token"
-#~ msgstr "Camí no vàlid: "
-
-#~ msgid "Not a hexadecimal number: %c%c (in \"%s\")"
-#~ msgstr "No és un nombre hexadecimal: %c%c (en \"%s\")"
-
-#~ msgid "/proc/apm - unknown format (%d)"
-#~ msgstr "/proc/apm - format desconegut (%d)"
-
-#~ msgid "cpu: %d %d %d %d"
-#~ msgstr "cpu: %d %d %d %d"
-
-#~ msgid "kstat finds too many cpus: should be %d"
-#~ msgstr "kstat troba massa CPU's: deurien de ser %d"
-
-#~ msgid "%s@%d: %s\n"
-#~ msgstr "%s@%d: %s\n"
-
-#~ msgid ""
-#~ "# preferences(%s) - generated by genpref\n"
-#~ "\n"
-#~ msgstr "# preferències(%s) - generat per genpref\n"
-
-#~ msgid ""
-#~ "# NOTE: All settings are commented out by default, be sure to\n"
-#~ "#       uncomment them if you change them!\n"
-#~ "\n"
-#~ msgstr ""
-#~ "# NOTA: Totes les configuracions estan comentades per defecte, assegurat\n"
-#~ "# de descomentar-les si les vols canviar!!\n"
-#~ "\n"
-
-#~ msgid "XQueryTree failed for window 0x%x"
-#~ msgstr "XQueryTree fallada per a la finestra 0x%x"
-
-#~ msgid "Compiled with DEBUG flag. Debugging messages will be printed."
-#~ msgstr ""
-#~ "En cas de estar compilat amb l'etiqueta DEBUG, es mostraran els missatges "
-#~ "de depuració."
-
 #~ msgid ""
 #~ "Usage: icewmbg [OPTION]... pixmap1 [pixmap2]...\n"
 #~ "Changes desktop background on workspace switches.\n"
@@ -3442,20 +3512,15 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "-s, --semitransparency Activa el suport per a terminals amb semi-"
 #~ "trasparència\n"
 
-#~ msgid "©"
-#~ msgstr "©"
+#~ msgid ""
+#~ "Using fallback mechanism to convert pixels (depth: %d; masks (red/green/"
+#~ "blue): %0*x/%0*x/%0*x)"
+#~ msgstr ""
+#~ "S'usa el mecanisme alternatiu per convertir píxels (profunditat: %d; "
+#~ "màscares (roig/verd/blau): %0*x/%0*x/%0*x)"
 
-#~ msgid "_Ignore"
-#~ msgstr "_Ignorar"
-
-#~ msgid "_Minimized"
-#~ msgstr "_Minimitzat"
-
-#~ msgid "_Exclusive"
-#~ msgstr "_Exclussiu"
-
-#~ msgid "X error %s(0x%lX): %s"
-#~ msgstr "X error %s(0x%lX): %s"
+#~ msgid "WINE"
+#~ msgstr "WINE"
 
 #~ msgid ""
 #~ "Window %p has no XA_ICEWM_PID property. Export the LD_PRELOAD variable to "
@@ -3464,37 +3529,66 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "La finestra %p no té adecuadament XA_ICEWM_PID. Exportar la variable "
 #~ "LD_PRELOAD per a precarregar la biblioteca."
 
-#~ msgid "Obsolete option: %s"
-#~ msgstr "Opció obsoleta: %s"
+#~ msgid "X error %s(0x%lX): %s"
+#~ msgstr "X error %s(0x%lX): %s"
 
-#~ msgid "Gnome"
-#~ msgstr "Gnome"
+#~ msgid "XQueryTree failed for window 0x%x"
+#~ msgstr "XQueryTree fallada per a la finestra 0x%x"
 
-#~ msgid "Gnome User Apps"
-#~ msgstr "Aplicacions d'Usuari de Gnome"
+#~ msgid "_Exclusive"
+#~ msgstr "_Exclussiu"
 
-#~ msgid "TOO MANY ICE CONNECTIONS -- not supported"
-#~ msgstr "MASSA CONEXIONS D'ICE -- no suportat"
+#~ msgid "_Ignore"
+#~ msgstr "_Ignorar"
 
-#~ msgid "Session Manager: IceAddConnectionWatch failed."
-#~ msgstr "Gestor de Sessions: IceAddConnectionWatch fallit."
+#~ msgid "_License"
+#~ msgstr "_Llicència"
 
-#~ msgid "Session Manager: Init error: %s"
-#~ msgstr "Gestor de Sessions: Error de Init: %s"
+#~ msgid "_Minimize"
+#~ msgstr "_Minimitza"
 
-#~ msgid "Pipe creation failed (errno=%d)."
-#~ msgstr "Creación de Pipe fallida (errno=%d)."
+#~ msgid "_Minimized"
+#~ msgstr "_Minimitzat"
 
-#~ msgid "Can't establish %s to %s conversion"
-#~ msgstr "No es pot establir la converssió de %s a %s"
+#, fuzzy
+#~ msgid "action name expected"
+#~ msgstr "Separador esperat"
 
-#~ msgid "Resource allocation for rotated string \"%s\" (%dx%d px) failed"
+#~ msgid ""
+#~ "bars:\tuser = %llu, nice = %llu, sys = %llu, iowait = %llu, intr = %llu, "
+#~ "softirq = %llu, steal = %llu (h = %i)\n"
 #~ msgstr ""
-#~ "Assignació de recursos per a la cadena rotada \"%s\" (%dx%d px) fallada"
+#~ "barres:\tusuari = %llu, nice = %llu, sys = %llu, e/s.espera = %llu, intr "
+#~ "= %llu, softirq = %llu, steal = %llu (h = %i)\n"
 
-#~ msgid "%s:%d: Failed to copy drawable 0x%x to pixel buffer"
+#~ msgid "cpu: %d %d %d %d"
+#~ msgstr "cpu: %d %d %d %d"
+
+#~ msgid "kstat finds too many cpus: should be %d"
+#~ msgstr "kstat troba massa CPU's: deurien de ser %d"
+
+#, fuzzy
+#~ msgid "menu caption expected"
+#~ msgstr "Separador esperat"
+
+#, fuzzy
+#~ msgid "opening curly expected"
+#~ msgstr "Identificador esperat"
+
+#, fuzzy
+#~ msgid "program label expected"
+#~ msgstr "Separador esperat"
+
+#~ msgid ""
+#~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
+#~ "intr = %llu, softirq = %llu, steal = %llu\n"
 #~ msgstr ""
-#~ "%s:%d: Fallada en copiar dibuixable 0x%x a la memòria intermèdia del pixel"
+#~ "estadística:\tusuari = %llu, nice = %llu, sys = %llu, inactiu = %llu, e/s."
+#~ "espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
-#~ msgid "CPU Load: %3.2f %3.2f %3.2f, %d processes."
-#~ msgstr "Càrrega de la CPU: %3.2f %3.2f %3.2f, %d procesos."
+#, fuzzy
+#~ msgid "unknown action"
+#~ msgstr "Acció desconeguda: %s"
+
+#~ msgid "©"
+#~ msgstr "©"
