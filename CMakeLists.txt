@@ -42,13 +42,17 @@ find_package(Git)
 find_program(SED_EXECUTABLE sed)
 
 if(Git_FOUND AND IS_DIRECTORY "${CMAKE_SOURCE_DIR}/.git")
-	execute_process(COMMAND "${GIT_EXECUTABLE}" "describe" "--tags"
-		COMMAND "${SED_EXECUTABLE}" "s,[-_],.,g;s,\\.g.*$,,"
-		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-		OUTPUT_VARIABLE VERSION
-		OUTPUT_STRIP_TRAILING_WHITESPACE
+	if(NOT DEFINED VERSION)
+		execute_process(COMMAND "${GIT_EXECUTABLE}" "describe" "--tags"
+			COMMAND "${SED_EXECUTABLE}" "s,[-_],.,g;s,\\.g.*$,,"
+			WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+			OUTPUT_VARIABLE VERSION
+			OUTPUT_STRIP_TRAILING_WHITESPACE
 		)
-	set(PACKAGE "icewm")
+	endif()
+	if(NOT DEFINED PACKAGE)
+		set(PACKAGE "icewm")
+	endif()
 else()
 	FILE(READ "${CMAKE_SOURCE_DIR}/VERSION" vfilecontents)
 	STRING(REGEX REPLACE "\n" ";" vfilecontents "${vfilecontents}")
@@ -70,3 +74,4 @@ add_subdirectory(man)
 
 install(FILES icewm-set-gnomewm contrib/icewm-menu-xrandr DESTINATION ${BINDIR} PERMISSIONS WORLD_EXECUTE OWNER_EXECUTE GROUP_EXECUTE WORLD_READ OWNER_READ OWNER_WRITE GROUP_READ)
 
+# vim: set sw=2 ts=2 noet:
