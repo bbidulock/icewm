@@ -65,14 +65,7 @@ foreach(_src ${SRCS_IN})
     list(APPEND SRCS ${_src})
 endforeach()
 
-file(GLOB POS "${CMAKE_CURRENT_SOURCE_DIR}/*.po")
-foreach(_src ${POS})
-    get_filename_component(_src "${_src}" NAME_WE)
-    # Ignore junk
-    if("${_src}" MATCHES "^[a-z][a-z](_[A-Z][A-Z])?$")
-        list(APPEND LANGUAGES ${_src})
-    endif()
-endforeach()
+file (STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/LINGUAS" LANGUAGES)
 
 set(XGETTEXT_CMD xgettext -f po/POTFILES.in --from-code=UTF-8 -language=CXX --add-comments=TRANSLATORS: --keyword=_ --keyword=N_  --package-name=${PACKAGE} --copyright-holder="${COPYRIGHT_HOLDER}"  --package-version="${VERSION}" --msgid-bugs-address="${BUG_ADDRESS}" -o "${_potFile}" )
 
