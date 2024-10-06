@@ -179,3 +179,18 @@ RELEASE.txt
 
 man/*.html
 pod2htmd.tmp
+
+build
+build-*
+builddir
+obj-*-gnu
+Doxyfile
+doc/design
+icewm-3.*.*
+.idea
+.vscode
+tmp
+FIXME
+*.diff
+CMakeLists.txt.user
+TODO.*
