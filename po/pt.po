@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
 "POT-Creation-Date: 2024-10-06 18:14+0200\n"
-"PO-Revision-Date: 2024-05-23 01:46+0000\n"
+"PO-Revision-Date: 2024-10-07 15:48+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.5.5\n"
+"X-Generator: Weblate 5.7.2\n"
 
 #: src/wmapp.cc:1629
 msgid ""
@@ -373,7 +373,6 @@ msgstr "Arte"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
 msgstr "Inteligência artificial"
 
@@ -609,7 +608,7 @@ msgstr "Confirmar Reiniciar como Terminal"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "Apenas consola"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -1649,7 +1648,7 @@ msgstr "A tocar amostra #%d (%s)"
 
 #: src/fdomenu.cc:1200
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "Carregue AQUI e tente novamente após alguns segundos."
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
 #: src/fdospecgen.h:846
@@ -1949,7 +1948,7 @@ msgstr "Sistema"
 
 #: src/fdomenu.cc:1197
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "Sistema demasiado lento! Falha ao carregar o conteúdo do menu!"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -2082,6 +2081,40 @@ msgid ""
 "This program also listens to environment variables defined by\n"
 "the XDG Base Directory Specification:\n"
 msgstr ""
+"UTILIZAÇÃO: icewm-menu-fdo [OPTIONS] [FILENAME]\n"
+"OPÇÕES:\n"
+"-g, --generic Incluir GenericName entre parênteses nos progs\n"
+"-o, --output=FILE Grava o resultado para FILE\n"
+"-t, --terminal=NOME Usa NAME para um terminal que tem '-e'\n"
+"-s, --no-lone-app Move elementos isolados para o menu principal\n"
+"-S, --no-lone-hint Como o -s mas acrescenta o submenu original\n"
+"-d, --deadline-apps=N Pára de carregar a informação da aplicação após N ms\n"
+"-D, --deadline-all=N Pára todo o carregamento e imprime o que temos até "
+"agora\n"
+"-m, --match=PAT Mostrar apenas aplicações com título contendo PAT\n"
+"-M, --imatch=PAT Como --match mas ignora as letras maiúsculas e minúsculas\n"
+"-L, --limit-max-len=N Cortar títulos de aplicações com comprimento N, "
+"adicionar ...\n"
+"--seps Imprime separadores antes e depois do conteúdo\n"
+"--sep-before Exibe separador antes do conteúdo\n"
+"--sep-after Exibe separador apenas depois do conteúdo\n"
+"--no-sep-others Legado, não tem efeito\n"
+"--no-sub-cats Nenhuma subcategoria adicional, apenas um nível de menus\n"
+"--flat Mostrar todas as aplicações numa camada com dicas de categoria\n"
+"--flat-sep=STR Cadeia separadora de categorias utilizada no modo plano "
+"(predefinição: ' / ')\n"
+"--match-sec Aplicar --match ou --imatch a aplicações E secções\n"
+"--match-osec Aplicar --match ou --imatch apenas a secções\n"
+"--orig-comment Imprime o ficheiro .desktop de origem como comentário\n"
+"-C, --copying Imprimir informações de direitos de autor\n"
+"-V, --version Imprime informações sobre a versão\n"
+"-h, --help Imprime este ecrã de utilização e sai.\n"
+"\n"
+"FILENAME Qualquer ficheiro .desktop para lançar a sua aplicação Comando Exec."
+"\n"
+"\n"
+"Este programa também escuta as variáveis de ambiente definidas pela\n"
+"Especificação do Diretório Base do XDG:\n"
 
 #: src/upath.cc:172
 #, c-format
@@ -2671,7 +2704,7 @@ msgstr "Falha ao gravar no socket: %s"
 
 #: src/fdomenu.cc:1097
 msgid "Zarathustra"
-msgstr ""
+msgstr "Zaratustra"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
