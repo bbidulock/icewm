@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: IceWM 1.2.12\n"
 "Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
 "POT-Creation-Date: 2024-10-06 18:14+0200\n"
-"PO-Revision-Date: 2024-05-14 07:43+0000\n"
+"PO-Revision-Date: 2024-10-07 06:40+0000\n"
 "Last-Translator: Mehmet Akif 9oglu <madanadam@gmail.com>\n"
-"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/tr/>\n"
+"Language-Team: Turkish <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.7.2\n"
 
 #: src/wmapp.cc:1629
 msgid ""
@@ -373,7 +373,6 @@ msgstr "Sanat"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
 msgstr "YapayZeka"
 
@@ -612,7 +611,7 @@ msgstr "Uçbirim Olarak Yeniden Başlatmayı Onaylayın"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "KonsolTabanlı"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -1652,7 +1651,7 @@ msgstr "#%d müziği çalınıyor (%s)"
 
 #: src/fdomenu.cc:1200
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "Lütfen BURAYA basın ve birkaç saniye sonra tekrar deneyin."
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
 #: src/fdospecgen.h:846
@@ -1952,7 +1951,7 @@ msgstr "Sistem"
 
 #: src/fdomenu.cc:1197
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "Sistem çok yavaş! Menü içeriği yüklenemedi!"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -2085,6 +2084,39 @@ msgid ""
 "This program also listens to environment variables defined by\n"
 "the XDG Base Directory Specification:\n"
 msgstr ""
+"KULLANIM: icewm-menu-fdo [SEÇENEKLER] [DOSYA ADI]\n"
+"SEÇENEKLER:\n"
+"-g, --generic\t\tUygulama parantez içinde Jenerik Adı içersin\n"
+"-o, --output=DOSYA\tÇıktıyı  DOSYAya yaz\n"
+"-t, --terminal=AD\t'-e' seçeneği olan bir uçbirim ADı kullan\n"
+"-s, --no-lone-app\tTek öğeleri üst menüye taşı\n"
+"-S, --no-lone-hint\t-s'ye benzer ancak orijinal alt menüleri ekler\n"
+"-d, --deadline-apps=N\tN ms sonra uygulama bilgilerini yüklemeyi durdur\n"
+"-D, --deadline-all=N\tTüm yüklemeyi durdurun ve şu ana kadar elde edileni "
+"yazdır\n"
+"-m, --match=PAT\t\tYalnızca başlığı PAT içeren uygulamaları görüntüle\n"
+"-M, --imatch=PAT\t--match gibi ama büyük/küçük harf dikkate alınmaz\n"
+"-L, --limit-max-len=N\tUygulama başlıklarını N uzunluğunda kırp, ... ekle\n"
+"--seps  \tİçeriklerden önce ve sonra ayırıcıları yazdır\n"
+"--sep-before\tİçeriklerden önce ayırıcı yazdır\n"
+"--sep-after\tİçeriklerden sonra ayırıcı yazdır\n"
+"--no-sep-others\tEski, hiçbir etkisi yok\n"
+"--no-sub-cats\tEk alt kategori yok, yalnızca tek düzey menüler\n"
+"--flat\t\tKategori ipuçlarıyla tüm uygulamaları tek katmanda görüntüle\n"
+"--flat-sep=STR\tDüz modda kullanılan kategori ayırıcı dize (varsayılan: ' / "
+"')\n"
+"--match-sec\tUygulamalara VE bölümlere --match veya --imatch uygula\n"
+"--match-osec\t--match veya --imatch'i yalnızca bölümlere uygula\n"
+"--orig-comment\tKaynak .desktop dosyasını yorum olarak yaz\n"
+"-C, --copying\tTelif hakkı bilgisini yazdır\n"
+"-V, --version\tSürüm bilgilerini yazdır\n"
+"-h, --help\tBu kullanım ekranını yazdır ve çık.\n"
+"\n"
+"FILENAME\tHerhangi bir .desktop dosyasının uygulamasını başlatmak için Exec "
+"komutu kullanılır.\n"
+"\n"
+"Bu program ayrıca XDG Temel Dizin Belirtimi tarafından\n"
+" tanımlanan ortam değişkenlerini de dinler:\n"
 
 #: src/upath.cc:172
 #, c-format
@@ -2682,7 +2714,7 @@ msgstr "Sokete yazma başarısız oldu: %s"
 
 #: src/fdomenu.cc:1097
 msgid "Zarathustra"
-msgstr ""
+msgstr "Zerdüşt"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
