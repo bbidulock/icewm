@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.22\n"
 "Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
 "POT-Creation-Date: 2024-10-06 18:14+0200\n"
-"PO-Revision-Date: 2024-05-10 17:43+0000\n"
+"PO-Revision-Date: 2024-10-08 18:48+0000\n"
 "Last-Translator: Ferdinand Galko <galko.ferdinand@gmail.com>\n"
-"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/sk/>\n"
+"Language-Team: Slovak <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.7.2\n"
 
 #: src/wmapp.cc:1629
 msgid ""
@@ -370,7 +370,6 @@ msgstr "Umenie"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
 msgstr "Umelá inteligencia"
 
@@ -608,7 +607,7 @@ msgstr "Potvrdiť reštart ako terminál"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "Len pre konzolu"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -1648,7 +1647,7 @@ msgstr "Hrám vzorku #%d (%s)"
 
 #: src/fdomenu.cc:1200
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "Stlačte TU a po niekoľkých sekundách to skúste znova."
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
 #: src/fdospecgen.h:846
@@ -1949,7 +1948,7 @@ msgstr "Systém"
 
 #: src/fdomenu.cc:1197
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "Systém je príliš pomalý! Nepodarilo sa načítať obsah menu!"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -2669,7 +2668,7 @@ msgstr "Zápis na soket zlyhal: %s"
 
 #: src/fdomenu.cc:1097
 msgid "Zarathustra"
-msgstr ""
+msgstr "Zarathustra"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
