@@ -425,12 +425,13 @@ class FsScan {
     function<bool(string &&)> cb;
     string sFileNameExtFilter;
     bool recursive;
+    set<string> m_dirBlackList;
 
   public:
     FsScan(decltype(FsScan::cb) cb, const string &sFileNameExtFilter = "",
-           bool recursive = true)
-        : cb(cb), sFileNameExtFilter(sFileNameExtFilter), recursive(recursive) {
-    }
+           set<string> dirBlackList = {}, bool recursive = true)
+        : cb(cb), sFileNameExtFilter(sFileNameExtFilter), recursive(recursive),
+          m_dirBlackList(dirBlackList) {}
     void scan(const string &sStartdir) { proc_dir_rec(sStartdir); }
 
   private:
@@ -478,13 +479,15 @@ class FsScan {
 
             if (recursive && S_ISDIR(stbuf.st_mode)) {
             process_dir:
-                // link loop detection
-                auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
-                auto hint = reclog.insert(prev);
-                if (hint.second) { // we added a new one, otherwise do not
-                                   // descend
-                    proc_dir_rec(path + "/" + fname);
-                    reclog.erase(hint.first);
+                if (m_dirBlackList.find(fname) == m_dirBlackList.end()) {
+                    // link loop detection
+                    auto prev = make_pair(stbuf.st_ino, stbuf.st_dev);
+                    auto hint = reclog.insert(prev);
+                    if (hint.second) { // we added a new one, otherwise do not
+                                       // descend
+                        proc_dir_rec(path + "/" + fname);
+                        reclog.erase(hint.first);
+                    }
                 }
             }
 
@@ -1126,7 +1129,7 @@ int main(int argc, char **argv) {
 
                 return true;
             },
-            ".desktop");
+            ".desktop", {"menu-xdg"});
 
         for (const auto &sdir : sharedirs) {
             DBGMSG("checkdir: " << sdir);
@@ -1174,7 +1177,7 @@ int main(int argc, char **argv) {
 
                 return true;
             },
-            ".directory", false);
+            ".directory", {"menu-xdg"});
 
         for (const auto &sdir : sharedirs) {
             dir_loader.scan(sdir + "/desktop-directories");
