@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
 "POT-Creation-Date: 2024-10-06 18:14+0200\n"
-"PO-Revision-Date: 2024-05-10 00:56+0000\n"
+"PO-Revision-Date: 2024-10-17 00:48+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.7.2\n"
 
 #: src/wmapp.cc:1629
 msgid ""
@@ -378,7 +378,6 @@ msgstr "アート"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
 msgstr "人工知能"
 
@@ -620,7 +619,7 @@ msgstr "端末として再起動を行なう確認"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "コンソールのみ"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -1663,7 +1662,7 @@ msgstr "サンプル #%d を再生しています (%s)"
 
 #: src/fdomenu.cc:1200
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "こちらを押してからしばらくお待ちください。"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
 #: src/fdospecgen.h:846
@@ -1963,7 +1962,7 @@ msgstr "システム"
 
 #: src/fdomenu.cc:1197
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "システムが遅すぎます！ メニューコンテンツの読み込みに失敗しました！"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -2096,6 +2095,43 @@ msgid ""
 "This program also listens to environment variables defined by\n"
 "the XDG Base Directory Specification:\n"
 msgstr ""
+"USAGE: icewm-menu-fdo [オプション] [ファイル名]\n"
+"オプション:\n"
+"-g, --generic\t\tプログラムの GenericName を括弧内に含めます\n"
+"-o, --output=ファイル名\tファイル名で指定したファイルに出力を書き込みます\n"
+"-t, --terminal=NAME\t'-e' の端末に NAME で指定したものを使用します\n"
+"-s, --no-lone-app\t孤立した要素を親のメニューに移動します\n"
+"-S, --no-lone-hint\t-s と同様ですが、元のサブメニューを追記します\n"
+"-d, --deadline-apps="
+"N\t指定したミリ秒が経過した時点でアプリケーションの読み込みを停止します\n"
+"-D, --deadline-all="
+"N\t指定したミリ秒が経過した時点で全ての読み込みを停止して結果を表示します\n"
+"-m, --match=PAT\t\tタイトルに PAT を含むアプリケーションのみを表示します\n"
+"-M, --imatch=PAT\t--match と似たような効果ですが、"
+"こちらは大文字と小文字を区別しません\n"
+"-L, --limit-max-len=N\tタイトルの長さを N までに制限し、 ... を追加します\n"
+"--seps  \t内容の前後に区切り文字を表示します\n"
+"--sep-before\t内容の前に区切り文字を表示します\n"
+"--sep-after\t内容の後にのみ区切り文字を表示します\n"
+"--no-sep-others\t古いオプションです。指定しても意味はありません\n"
+"--no-sub-cats\t副分類を表示せず 1 階層のみを使用します\n"
+"--flat\t\t全てのアプリケーションを分類ヒント付きの 1 階層で表示します\n"
+"--flat-sep=STR\t1 階層で表示する場合の分類名の区切り文字を指定します (既定値:"
+" ' / ')\n"
+"--match-sec\t--match や --imatch "
+"でのフィルタをアプリケーション名とセクション名の両方に適用します\n"
+"--match-osec\t--match や --imatch "
+"でのフィルタをセクション名にのみ適用します\n"
+"--orig-comment\t元の .desktop ファイルをコメントとして表示します\n"
+"-C, --copying\t著作権表記を表示します\n"
+"-V, --version\tバージョン情報を表示します\n"
+"-h, --help\t使用方法を表示して終了します\n"
+"\n"
+"ファイル名\tアプリケーションを Exec コマンドで実行するための任意の .desktop "
+"ファイルを指定します。\n"
+"\n"
+"このプログラムは XDG ベースディレクトリ仕様で規定された\n"
+"環境変数も合わせて参照します:\n"
 
 #: src/upath.cc:172
 #, c-format
@@ -2693,7 +2729,7 @@ msgstr "ソケットへの書き込みに失敗しました: %s"
 
 #: src/fdomenu.cc:1097
 msgid "Zarathustra"
-msgstr ""
+msgstr "Zarathustra"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
