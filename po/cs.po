@@ -9,16 +9,16 @@ msgstr ""
 "Project-Id-Version: icewm-1.2.30\n"
 "Report-Msgid-Bugs-To: \"https://github.com/bbidulock/icewm/issues\"\n"
 "POT-Creation-Date: 2024-10-06 18:14+0200\n"
-"PO-Revision-Date: 2024-05-13 22:43+0000\n"
+"PO-Revision-Date: 2024-10-18 14:48+0000\n"
 "Last-Translator: Aleš Kastner <alkas@volny.cz>\n"
-"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/cs/>\n"
+"Language-Team: Czech <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 5.7.2\n"
 
 #: src/wmapp.cc:1629
 msgid ""
@@ -373,7 +373,6 @@ msgstr "Umění"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
 msgstr "Umělá inteligence"
 
@@ -611,7 +610,7 @@ msgstr "Potvrďte Restart jako terminál"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "Pouze pro konzoli"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -1652,7 +1651,7 @@ msgstr "Přehrávání vzorku #%d (%s)"
 
 #: src/fdomenu.cc:1200
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "Stiskněte ZDE a po několika sekundách to zkuste znovu."
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Presentation software
 #: src/fdospecgen.h:846
@@ -1952,7 +1951,7 @@ msgstr "Systém"
 
 #: src/fdomenu.cc:1197
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "Systém je příliš pomalý! Nepodařilo se načíst obsah menu!"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -2085,6 +2084,39 @@ msgid ""
 "This program also listens to environment variables defined by\n"
 "the XDG Base Directory Specification:\n"
 msgstr ""
+"POUŽITÍ: icewm-menu-fdo [VOLBY] [NÁZEV_SOUBORU]\n"
+"MOŽNOSTI:\n"
+"-g, --generic \tZahrnout GenericName do závorek progs \n"
+"-o, --output=FILE\t Zapsat výstup do FILE\n"
+"-t, --terminal=NAME \tPoužít NAME pro terminál, který má '-e' \n"
+"-s, --no-lone-app \tPřesunout osamocené prvky do nadřazeného menu \n"
+"-S, --no-lone-hint \tJako -s, ale připojit původní podmenu \n"
+"-d, --deadline-apps=N \tZastaví načítání informací o aplikaci po N ms \n"
+"-D, --deadline-all=N \tZastaví veškeré načítání a vypíše, co jsme zatím "
+"dostali \n"
+"-m, --match=PAT \tZobrazí pouze aplikace s názvem obsahujícím PAT \n"
+"-M, --imatch=PAT \tJako --match, ale ignoruje malá a velká písmena \n"
+"-L, --limit-max-len=N\t Ořízne názvy aplikací na délku N, přidá ... \n"
+"--seps \tTisk oddělovačů před a za obsahem \n"
+"--sep-before \tTisk oddělovače před obsahem \n"
+"--sep-after \tTisk oddělovače pouze za obsahem \n"
+"--no-sep-others\t Pozůstatek, nemá žádný vliv \n"
+"--no-sub-cats \tŽádné další podkategorie, pouze jedna úroveň menu \n"
+"--flat \tZobrazí všechny aplikace v jedné vrstvě s nápovědou kategorie \n"
+"--flat-sep=STR \tŘetězec oddělovače kategorií použitý v plochém režimu "
+"(výchozí:  ' /')\n"
+"--match-sec \tPoužít --match nebo --imatch na aplikace A sekce\n"
+"--match-osec \tPoužít  --match nebo --imatch pouze na sekce \n"
+"--orig-comment \tVytisknout zdroj . desktop jako komentář \n"
+"-C, --copying \tVypíše informace o autorských právech \n"
+"-V, --version \tVypíše informace o verzi -h, \n"
+"--help \tVypíše tuto obrazovku o použití a skončí.\n"
+"\n"
+"NÁZEV_SOUBORU\tJakýkoli soubor .desktop spustit jeho aplikaci příkazem Exec."
+"\n"
+"\n"
+"Tento program také naslouchá proměnným prostředí definovaným ve specifikaci\n"
+"XDG Base Directory Specification:\n"
 
 #: src/upath.cc:172
 #, c-format
@@ -2669,7 +2701,7 @@ msgstr "Zápis na soket selhal: %s"
 
 #: src/fdomenu.cc:1097
 msgid "Zarathustra"
-msgstr ""
+msgstr "Zarathustra"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:94 src/wmprog.cc:436 src/wmtaskbar.cc:238
