@@ -1201,6 +1201,13 @@ Dimension of the large icons.
 
 Dimension of the large icons.
 
+=item B<InputIgnorePrefix>="nohup|(nice[[:space:]]+-n[[:space:]]*[[:digit:]]+)|sudo|(LANG|LC_[[:alnum:]]]*)(=|=[^[:space:]]+)"
+
+Regular expression (POSIX Extended flavor) which marks the begin of a
+command line in command input fields. Such prefixes are ignored while
+the auto-completion action is performed, typically for commands acting
+as pass-through wrapper, executing the specified command.
+
 =item B<QuickSwitchHorzMargin>=3  [0-64]
 
 Horizontal margin of the quickswitch window.

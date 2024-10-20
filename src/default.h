@@ -240,6 +240,8 @@ XSV(const char *, fmtTimeAlt,                   NULL)
 XSV(const char *, fmtDate,                      "%Y-%m-%d %H:%M:%S %z %B %A")
 #endif
 
+XSV(const char *, inputIgnorePfx,               "nohup|(nice[[:space:]]+-n[[:space:]]*[[:digit:]]+)|sudo|(LANG|LC_[[:alnum:]]]*)(=|=[^[:space:]]+)")
+
 #ifdef CFGDEF
 
 cfoption icewm_preferences[] = {
@@ -574,6 +576,8 @@ cfoption icewm_preferences[] = {
     OKF("WorkspaceNames",                       addWorkspace, "Add a workspace"),
     OKF("KeyboardLayouts",                      addKeyboard, "Add a keyboard layout"),
     OSV("WinMenuItems",                         &winMenuItems,                  "The list of items to be supported in the menu window (rmsnxfhualytieckw)"),
+
+    OSV("InputIgnorePrefix",                    &inputIgnorePfx,                "Prefix to ignore while tab-completing (POSIX Extended Regular Expression)"),
     OK0()
 };
 

@@ -10,6 +10,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 #include "intl.h"
+#include "regex.h"
 #include <X11/keysym.h>
 
 class YInputMenu: public YMenu {
@@ -46,16 +47,30 @@ YInputLine::YInputLine(YWindow *parent, YInputListener *listener):
     inputBg(&clrInput),
     inputFg(&clrInputText),
     inputSelectionBg(&clrInputSelection),
-    inputSelectionFg(&clrInputSelectionText)
+    inputSelectionFg(&clrInputSelectionText),
+    prefixRegex(nullptr)
 {
     addStyle(wsNoExpose);
     if (inputFont != null)
         setSize(width(), inputFont->height() + 2);
+    if (inputIgnorePfx && *inputIgnorePfx) {
+        prefixRegex = new regex_t;
+        mstring reFullPrefix("^(", inputIgnorePfx, ")[[:space:]]+");
+        if (0 != regcomp(prefixRegex, reFullPrefix, REG_EXTENDED)) {
+            delete prefixRegex;
+            prefixRegex = nullptr;
+        }
+    }
 }
 
 YInputLine::~YInputLine() {
     if (inputContext)
         XDestroyIC(inputContext);
+    if (prefixRegex) {
+        regfree(prefixRegex);
+        delete prefixRegex;
+        prefixRegex = nullptr;
+    }
 }
 
 void YInputLine::setText(mstring text, bool asMarked) {
@@ -762,12 +777,21 @@ void YInputLine::complete() {
         }
     }
     csmart res;
+
+    mstring ignoredPfx;
+    if (prefixRegex) {
+        regmatch_t full_match;
+        if (0 == regexec(prefixRegex, mstr, 1, &full_match, 0)) {
+            ignoredPfx = mstr.substring(0, full_match.rm_eo);
+            mstr = mstr.substring(full_match.rm_eo);
+        }
+    }
     int res_count = globit_best(mstr, &res, nullptr, nullptr);
     // directory is not a final match
     if (res_count == 1 && upath(res).dirExists())
         res_count++;
     if (1 <= res_count)
-        setText(mstring(res), res_count == 1);
+        setText(ignoredPfx + mstring(res), res_count == 1);
     else {
         int i = mstr.lastIndexOf(' ');
         if (i > 0 && size_t(i + 1) < mstr.length()) {
@@ -776,7 +800,7 @@ void YInputLine::complete() {
             if (sub[0] == '$' || sub[0] == '~') {
                 mstring exp = upath(sub).expand();
                 if (exp != sub && exp != null) {
-                    setText(pre + exp, false);
+                    setText(ignoredPfx + pre + exp, false);
                 }
                 else if (sub.indexOf('/') == -1) {
                     mstring var = sub.substring(1);
@@ -788,7 +812,7 @@ void YInputLine::complete() {
                         }
                         if (exp != var) {
                             char doti[] = { char(sub[0]), '\0' };
-                            setText(pre + doti + exp, false);
+                            setText(ignoredPfx + pre + doti + exp, false);
                         }
                     }
                 }
@@ -799,7 +823,7 @@ void YInputLine::complete() {
             if (upath::glob(sub + "*", list, "/S") && list.nonempty()) {
                 if (list.getCount() == 1) {
                     mstring found(mstr.substring(0, i + 1) + list[0]);
-                    setText(found, true);
+                    setText(ignoredPfx + found, true);
                 } else {
                     int len = 0;
                     for (; list[0][len]; ++len) {
@@ -813,7 +837,7 @@ void YInputLine::complete() {
                     if (len) {
                         mstring common(list[0], len);
                         mstring found(mstr.substring(0, i + 1) + common);
-                        setText(found, false);
+                        setText(ignoredPfx + found, false);
                     }
                 }
             }
@@ -822,7 +846,7 @@ void YInputLine::complete() {
             if (mstr[0] == '$') {
                 mstring var = completeVariable(mstr.substring(1));
                 if (var != mstr.substring(1))
-                    setText(mstr.substring(0, 1) + var, false);
+                    setText(ignoredPfx + mstr.substring(0, 1) + var, false);
             }
         }
     }
