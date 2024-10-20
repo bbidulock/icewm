@@ -270,8 +270,10 @@ bool YInputLine::handleKey(const XKeyEvent &key) {
                         return true;
                 }
             } else {
-                if (curPos < textLen) {
-                    if (move(curPos + 1, extend))
+                if (curPos <= textLen) {
+                    // advance cursor unless at EOL, where the move is a
+                    // no-op BUT it would remove the unwanted text marking
+                    if (move(curPos + (curPos < textLen), extend))
                         return true;
                 }
             }
