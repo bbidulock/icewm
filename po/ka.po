@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.3.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2025-02-22 16:19+0100\n"
-"PO-Revision-Date: 2025-02-26 11:50+0000\n"
+"PO-Revision-Date: 2025-08-31 12:59+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/ka/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10.1\n"
+"X-Generator: Weblate 5.13\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -435,7 +435,7 @@ msgstr "ლექსიკონი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text tool utility
 #: src/fdospecgen.h:48 src/fdospecgen.h:1032
 msgid "TextTools"
-msgstr ""
+msgstr "ტექსტის ხელსაწყოები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file manager
 #: src/fdospecgen.h:54
@@ -475,7 +475,7 @@ msgstr "მიქსერი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Numerical analysis software
 #: src/fdospecgen.h:78 src/fdospecgen.h:86
 msgid "NumericalAnalysis"
-msgstr ""
+msgstr "რიცხვითი ანალიზი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Math software
 #: src/fdospecgen.h:80 src/fdospecgen.h:88 src/fdospecgen.h:732
@@ -532,7 +532,7 @@ msgstr "გრაფიკა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Parallel computing software
 #: src/fdospecgen.h:102 src/fdospecgen.h:110
 msgid "ParallelComputing"
-msgstr ""
+msgstr "პარალელური გამოთვლა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Computer Science software
 #: src/fdospecgen.h:104 src/fdospecgen.h:112 src/fdospecgen.h:354
@@ -543,7 +543,7 @@ msgstr "კომპიუტერული მეცნიერება"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing raster (bitmap) graphics
 #: src/fdospecgen.h:118
 msgid "RasterGraphics"
-msgstr ""
+msgstr "რასტრული გრაფიკა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: 2D based graphical application
 #: src/fdospecgen.h:120 src/fdospecgen.h:152 src/fdospecgen.h:162
@@ -553,7 +553,7 @@ msgstr "2Dგრაფიკა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sequencer
 #: src/fdospecgen.h:126
 msgid "Sequencer"
-msgstr ""
+msgstr "სეკვენსერი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A TV application
 #: src/fdospecgen.h:134
@@ -569,12 +569,12 @@ msgstr "ვიდეო"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tuner
 #: src/fdospecgen.h:142
 msgid "Tuner"
-msgstr ""
+msgstr "ტუნერი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing vector graphics
 #: src/fdospecgen.h:150
 msgid "VectorGraphics"
-msgstr ""
+msgstr "ვექტორული გრაფიკა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing 3-D graphics
 #: src/fdospecgen.h:168
@@ -589,7 +589,7 @@ msgstr "წვდომადობა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An action game
 #: src/fdospecgen.h:186
 msgid "ActionGame"
-msgstr ""
+msgstr "აქტიური თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game
 #: src/fdospecgen.h:188 src/fdospecgen.h:200 src/fdospecgen.h:212
@@ -866,7 +866,7 @@ msgstr "ისტორია"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for philosophy, psychology and other humanities
 #: src/fdospecgen.h:636 src/fdospecgen.h:642
 msgid "Humanities"
-msgstr ""
+msgstr "ადამიანურობები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: IDE application
 #: src/fdospecgen.h:648
@@ -876,22 +876,22 @@ msgstr "IDE"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An IRC client
 #: src/fdospecgen.h:654
 msgid "IRCClient"
-msgstr ""
+msgstr "IRCClient"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Image Processing software
 #: src/fdospecgen.h:660 src/fdospecgen.h:666
 msgid "ImageProcessing"
-msgstr ""
+msgstr "გამოსახულების დამუშავება"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An instant messaging client
 #: src/fdospecgen.h:672
 msgid "InstantMessaging"
-msgstr ""
+msgstr "ჩატის პროგრამები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game for kids
 #: src/fdospecgen.h:678
 msgid "KidsGame"
-msgstr ""
+msgstr "საბავშვო თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to learn foreign languages
 #: src/fdospecgen.h:684 src/fdospecgen.h:690
@@ -906,7 +906,7 @@ msgstr "ლიტერატურა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Logic games like puzzles, etc
 #: src/fdospecgen.h:708
 msgid "LogicGame"
-msgstr ""
+msgstr "ლოგიკური თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for viewing maps, navigation, mapping, GPS
 #: src/fdospecgen.h:714 src/fdospecgen.h:720 src/fdospecgen.h:726
@@ -916,7 +916,7 @@ msgstr "რუკები"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Medical software
 #: src/fdospecgen.h:744 src/fdospecgen.h:750
 msgid "MedicalSoftware"
-msgstr ""
+msgstr "სამედიცინო პროგრამები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Monitor application/applet that monitors some resource or activity
 #: src/fdospecgen.h:756 src/fdospecgen.h:762
@@ -946,7 +946,7 @@ msgstr "PDA"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A package manager application
 #: src/fdospecgen.h:798
 msgid "PackageManager"
-msgstr ""
+msgstr "პაკეტების მართვა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Camera tools, etc.
 #: src/fdospecgen.h:804 src/fdospecgen.h:810
@@ -976,7 +976,7 @@ msgstr "Profiling"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Project management application
 #: src/fdospecgen.h:858 src/fdospecgen.h:864
 msgid "ProjectManagement"
-msgstr ""
+msgstr "პროექტების მართვა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Desktop Publishing applications and Color Management tools
 #: src/fdospecgen.h:870 src/fdospecgen.h:876
@@ -991,12 +991,12 @@ msgstr "ჩამწერი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to remotely manage your PC
 #: src/fdospecgen.h:900
 msgid "RemoteAccess"
-msgstr ""
+msgstr "დაშორებული წვდომა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Applications like cvs or subversion
 #: src/fdospecgen.h:906
 msgid "RevisionControl"
-msgstr ""
+msgstr "რევიზიის კონტროლი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Robotics software
 #: src/fdospecgen.h:912 src/fdospecgen.h:918
@@ -1006,7 +1006,7 @@ msgstr "რობოტიკა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A role playing game
 #: src/fdospecgen.h:924
 msgid "RolePlaying"
-msgstr ""
+msgstr "როლური თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A security tool
 #: src/fdospecgen.h:936 src/fdospecgen.h:942
@@ -1026,7 +1026,7 @@ msgstr "სიმულაცია"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Religious and spiritual software, theology
 #: src/fdospecgen.h:960 src/fdospecgen.h:966 src/fdospecgen.h:972
 msgid "Spirituality"
-msgstr ""
+msgstr "სულიერობა"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Sports software
 #: src/fdospecgen.h:978 src/fdospecgen.h:984
@@ -1036,7 +1036,7 @@ msgstr "სპორტი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sports game
 #: src/fdospecgen.h:990
 msgid "SportsGame"
-msgstr ""
+msgstr "სპორტული თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A spreadsheet
 #: src/fdospecgen.h:996
@@ -1046,7 +1046,7 @@ msgstr "ელექტრონული ცხრილი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A strategy game
 #: src/fdospecgen.h:1002
 msgid "StrategyGame"
-msgstr ""
+msgstr "სტრატეგიული თამაშები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony via PC
 #: src/fdospecgen.h:1008
@@ -1056,17 +1056,17 @@ msgstr "ტელეფონია"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony tools, to dial a number, manage PBX, ...
 #: src/fdospecgen.h:1014
 msgid "TelephonyTools"
-msgstr ""
+msgstr "ტელეფონიის პროგრამები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A terminal emulator application
 #: src/fdospecgen.h:1020
 msgid "TerminalEmulator"
-msgstr ""
+msgstr "ტერმინალის ემულატორი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text editor
 #: src/fdospecgen.h:1026
 msgid "TextEditor"
-msgstr ""
+msgstr "ტექსტური რედაქტორები"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A translation tool
 #: src/fdospecgen.h:1038
@@ -1076,7 +1076,7 @@ msgstr "თარგმანი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Video Conference software
 #: src/fdospecgen.h:1044
 msgid "VideoConference"
-msgstr ""
+msgstr "ვიდეოკონფერენცია"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to view e.g. a graphic or pdf file
 #: src/fdospecgen.h:1050 src/fdospecgen.h:1056
@@ -1086,17 +1086,17 @@ msgstr "მაყურებელი"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A web browser
 #: src/fdospecgen.h:1062
 msgid "WebBrowser"
-msgstr ""
+msgstr "ბრაუზერი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool for web developers
 #: src/fdospecgen.h:1068 src/fdospecgen.h:1074
 msgid "WebDevelopment"
-msgstr ""
+msgstr "ვებ-დეველოპმენტი"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A word processor
 #: src/fdospecgen.h:1080
 msgid "WordProcessor"
-msgstr ""
+msgstr "ტექსტის დამუშავება"
 
 #: src/icehelp.cc:1348
 msgid "Back"
@@ -1839,7 +1839,7 @@ msgstr "თემის ავტორი:"
 
 #: src/wmabout.cc:56
 msgid "CodeSet:"
-msgstr ""
+msgstr "კოდირება:"
 
 #: src/wmabout.cc:57
 msgid "Language:"
@@ -1847,11 +1847,11 @@ msgstr "ენა:"
 
 #: src/wmabout.cc:61
 msgid "DoubleBuffer"
-msgstr ""
+msgstr "ორმაგი ბუფერი"
 
 #: src/wmabout.cc:62
 msgid "AlphaBlending"
-msgstr ""
+msgstr "ალფაშერევა"
 
 #: src/wmabout.cc:63
 msgid "Renderer:"
