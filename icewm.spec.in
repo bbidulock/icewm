@@ -8,7 +8,7 @@ Group:		User Interface/Desktops
 License:	LGPL
 URL:		https://ice-wm.org/
 Packager:       Marko Macek <Marko.Macek@gmx.net>
-Source:		https://github.com/bbidulock/icewm/releases/download/%{version}/%{name}-%{version}.tar.bz2
+Source:		https://github.com/ice-wm/icewm/releases/download/%{version}/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %define pkgdata %{_datadir}/%{name}
