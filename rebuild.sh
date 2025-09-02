@@ -100,7 +100,6 @@ if [[ -v DBGCM ]]; then
         -DCONFIG_LIBRSVG=$RSV \
         -DCONFIG_NANOSVG=$NSV \
         -DCONFIG_XRANDR=ON \
-        -DCONFIG_XPM=ON \
         -DCMAKE_INSTALL_PREFIX="$prefix" \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DICEHELPIDX="$prefix/share/doc/icewm-common/html/icewm.html" \
@@ -125,7 +124,6 @@ if [[ -v RELCM ]]; then
         -DCONFIG_IMLIB2=$IM2 \
         -DCONFIG_LIBRSVG=$RSV \
         -DCONFIG_NANOSVG=$NSV \
-        -DCONFIG_XPM=ON \
         -DCMAKE_VERBOSE_MAKEFILE=ON \
         -DCONFIG_XRANDR=ON \
         -DENABLE_LTO=ON \
@@ -145,7 +143,7 @@ if [[ -v DEPEN ]]; then
         sndfile alsa ao \
         gio-2.0 gio-unix-2.0 \
         gdk-pixbuf-xlib-2.0 librsvg-2.0 \
-        imlib2 xpm libpng libjpeg
+        imlib2 libpng libjpeg
     do
         printf "%-20s: " "$p"
         pkg-config --modversion --print-errors --errors-to-stdout $p
