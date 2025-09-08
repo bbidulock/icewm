@@ -118,7 +118,7 @@ void MailCheck::resolve() {
     setState(IDLE);
 
     fPort = portNumber();
-    if (inrange(fPort, 1, USHRT_MAX)) {
+    if (1 <= fPort && fPort <= USHRT_MAX) {
         if (ssl()) return; // fAddr is unnecessary for SSL
 
         addrinfo hints = {};
