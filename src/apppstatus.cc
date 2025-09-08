@@ -761,7 +761,8 @@ bool NetStatusControl::readNetDev(char* data, size_t size) {
     if (fNetDev < 0) {
         fNetDev = open(path, O_RDONLY | O_CLOEXEC);
         if (fNetDev < 0) {
-            fail("open %s", path);
+            if (testOnce(path, errno))
+                fail("open %s", path);
             return false;
         }
     }
