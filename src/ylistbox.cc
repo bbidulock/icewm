@@ -13,6 +13,7 @@
 #include "yicon.h"
 #include "wpixmaps.h"
 #include "yscrollview.h"
+#include "keysyms.h"
 
 #include "yxapp.h"
 #include "prefs.h"
