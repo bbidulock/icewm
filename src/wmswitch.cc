@@ -1142,6 +1142,16 @@ void SwitchWindow::handleButton(const XButtonEvent &button) {
             zItems->destroyTarget();
         }
         break;
+    case Button3:
+        m_hlItemFromMotion = -1;
+        if ((hint = hintedItem(button.x, button.y)) >= 0) {
+            target(hint - zItems->getActiveItem());
+            YFrameWindow* frame = zItems->current();
+            frame->popupSystemMenu(this, button.x_root, button.y_root,
+                                   YPopupWindow::pfCanFlipVertical |
+                                   YPopupWindow::pfCanFlipHorizontal);
+        }
+        break;
     case Button4:
         target(-1);
         break;
