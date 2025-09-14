@@ -13,6 +13,7 @@
 #include "yxapp.h"
 #include "prefs.h"
 #include "yprefs.h"
+#include "keysyms.h"
 
 struct ZItem {
     int prio;
@@ -984,6 +985,7 @@ void SwitchWindow::target(int delta) {
 
 bool SwitchWindow::handleKey(const XKeyEvent &key) {
     KeySym k = keyCodeToKeySym(key.keycode);
+    k = mapKeypad(k);
     if (key.type == KeyPress) {
         keyPressed = k;
         if (isKey(key)) {
@@ -1033,6 +1035,15 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         }
         else if (k == XK_Home) {
             target(-zItems->getActiveItem());
+        }
+        else if (k == XK_Next) {
+            int num = zItems->getCount();
+            int act = zItems->getActiveItem();
+            target(min(act + 10, num - 1) - act);
+        }
+        else if (k == XK_Prior) {
+            int act = zItems->getActiveItem();
+            target(max(act - 10, 0) - act);
         }
         else if (k == XK_Delete) {
             zItems->destroyTarget();

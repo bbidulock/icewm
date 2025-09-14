@@ -6,5 +6,6 @@
 #define IS_MODIFIER(key) (0x0000FFE1U <= key && key <= 0x0000FFEEU)
 
 unsigned short ucsToKeysym(int ucs);
+unsigned mapKeypad(unsigned keysym);
 
 #endif

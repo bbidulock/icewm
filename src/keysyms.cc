@@ -782,3 +782,54 @@ unsigned short ucsToKeysym(int ucs) {
 
     return 0;
 }
+
+#include <X11/keysym.h>
+
+unsigned mapKeypad(unsigned keysym) {
+    switch (keysym) {
+
+        case XK_KP_0: return XK_0;
+        case XK_KP_1: return XK_1;
+        case XK_KP_2: return XK_2;
+        case XK_KP_3: return XK_3;
+        case XK_KP_4: return XK_4;
+        case XK_KP_5: return XK_5;
+        case XK_KP_6: return XK_6;
+        case XK_KP_7: return XK_7;
+        case XK_KP_8: return XK_8;
+        case XK_KP_9: return XK_9;
+
+        case XK_KP_Decimal: return XK_period;
+        case XK_KP_Separator: return XK_comma;
+        case XK_KP_Divide: return XK_slash;
+        case XK_KP_Multiply: return XK_asterisk;
+        case XK_KP_Subtract: return XK_minus;
+        case XK_KP_Add: return XK_plus;
+        case XK_KP_Equal: return XK_equal;
+        case XK_KP_Enter: return XK_Return;
+
+        case XK_KP_Home: return XK_Home;
+        case XK_KP_Insert: return XK_Insert;
+        case XK_KP_Delete: return XK_Delete;
+        case XK_KP_End: return XK_End;
+        case XK_KP_Prior: return XK_Prior;
+        case XK_KP_Next: return XK_Next;
+        case XK_KP_Left: return XK_Left;
+        case XK_KP_Right: return XK_Right;
+        case XK_KP_Up: return XK_Up;
+        case XK_KP_Down: return XK_Down;
+        case XK_KP_Begin: return XK_Begin;
+
+        case XK_KP_F1: return XK_F1;
+        case XK_KP_F2: return XK_F2;
+        case XK_KP_F3: return XK_F3;
+        case XK_KP_F4: return XK_F4;
+
+        case XK_KP_Tab: return XK_Tab;
+        case XK_KP_Space: return XK_space;
+
+        default: return keysym;
+    }
+}
+
+// vim: set sw=4 ts=4 et:
