@@ -8,6 +8,7 @@
 #include "yxcontext.h"
 #include "yconfig.h"
 #include "guievent.h"
+#include "ascii.h"
 #include "intl.h"
 #undef override
 #include <X11/Xproto.h>
@@ -1500,8 +1501,22 @@ YTextProperty::YTextProperty(Window handle, Atom property) {
                 XFreeStringList(list);
                 XFree(value);
                 value = (unsigned char *) copy;
+                nitems = copy ? int(strlen(copy)) : 0;
                 encoding = XA_STRING;
+                format = 8;
             }
+        }
+        const int limit = 128;
+        if (nitems > limit) {
+            using namespace ASCII;
+            unsigned char* s = value + limit;
+            while (s > value && (utf0(*s) ||
+                   is_combining_mark(codepoint(s)))) {
+                --s;
+            }
+            *s = '\0';
+            nitems = s - value;
+            value = (unsigned char *) realloc(value, nitems + 1);
         }
     }
 }
