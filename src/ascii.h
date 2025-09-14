@@ -104,24 +104,70 @@ namespace ASCII {
         return i;
     }
 
-    inline bool utf0(char c) { return (c & 0xC0) == 0x80; }
+    template<class T>
+    bool utf0(T c) { return (c & 0xC0) == 0x80; }
 
-    inline bool utf1(char c) { return (c & 0xE0) == 0xC0; }
+    template<class T>
+    bool utf1(T c) { return (c & 0xE0) == 0xC0; }
 
-    inline bool utf2(char c) { return (c & 0xF0) == 0xE0; }
+    template<class T>
+    bool utf2(T c) { return (c & 0xF0) == 0xE0; }
 
-    inline bool utf3(char c) { return (c & 0xF8) == 0xF0; }
+    template<class T>
+    bool utf3(T c) { return (c & 0xF8) == 0xF0; }
 
-    inline bool utf1(char c, char d) {
+    template<class T>
+    bool utf1(T c, T d) {
         return utf1(c) && utf0(d);
     }
 
-    inline bool utf2(char c, char d, char e) {
+    template<class T>
+    bool utf2(T c, T d, T e) {
         return utf2(c) && utf0(d) && utf0(e);
     }
 
-    inline bool utf3(char c, char d, char e, char f) {
+    template<class T>
+    bool utf3(T c, T d, T e, T f) {
         return utf3(c) && utf0(d) && utf0(e) && utf0(f);
+    }
+
+    template<class T>
+    int codepoint_size(T c) {
+        return utf1(c) ? 2 : utf2(c) ? 3 : utf3(c) ? 4 : 1;
+    }
+
+    template<class T>
+    unsigned codepoint(T* s) {
+        if (utf1(s[0])) {
+            if (utf0(s[1])) {
+               return ((s[0] & 0x1F) << 6) | (s[1] & 0x3F);
+            }
+        }
+        else if (utf2(s[0])) {
+            if (utf0(s[1]) && utf0(s[2])) {
+                return ((s[0] & 0x0F) << 12)
+                     | ((s[1] & 0x3F) << 6)
+                     | (s[2] & 0x3F);
+            }
+        }
+        else if (utf3(s[0])) {
+            if (utf0(s[1]) && utf0(s[2]) && utf0(s[3])) {
+                return ((s[0] & 0x07) << 18)
+                     | ((s[1] & 0x3F) << 12)
+                     | ((s[2] & 0x3F) << 6)
+                     | (s[3] & 0x3F);
+            }
+        }
+        return (s[0] & 0xFF);
+    }
+
+    template<class T>
+    bool is_combining_mark(T cp) {
+        return (cp >= 0x0300 && cp <= 0x036F) ||
+               (cp >= 0x1AB0 && cp <= 0x1AFF) ||
+               (cp >= 0x1DC0 && cp <= 0x1DFF) ||
+               (cp >= 0x20D0 && cp <= 0x20FF) ||
+               (cp >= 0xFE20 && cp <= 0xFE2F);
     }
 }
 
