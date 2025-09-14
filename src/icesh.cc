@@ -2273,14 +2273,11 @@ void IceSh::details(Window w)
     if (len > size - 4) {
         len = size - 4;
         int cp = 0;
-        while (cp > -3 && utf0(name[len + cp])) {
+        while (len + cp > 0 && (utf0(name[len + cp]) ||
+               is_combining_mark(codepoint(&name[len + cp])))) {
             cp--;
         }
-        if (utf1(name[len + cp]) ||
-            utf2(name[len + cp]) ||
-            utf3(name[len + cp])) {
-            len += cp;
-        }
+        len += cp;
         name[len] = '\0';
     }
     char title[size] = "";
