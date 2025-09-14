@@ -246,18 +246,11 @@ void YListBox::repaint() {
 bool YListBox::handleKey(const XKeyEvent &key) {
     if (key.type == KeyPress) {
         KeySym k = keyCodeToKeySym(key.keycode);
+        k = mapKeypad(k);
         int m = KEY_MODMASK(key.state);
 
         bool clear = notbit(m, ControlMask);
         bool extend = hasbit(m, ShiftMask);
-
-        //int SelPos, OldPos = fFocusedItem, count = getItemCount();
-
-        //if (m & ShiftMask) {
-        //    SelPos = fFocusedItem;
-        //} else {
-        //    SelPos = -1;
-        //}
 
         switch (k) {
         case XK_Return:
