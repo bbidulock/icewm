@@ -387,7 +387,8 @@ The selection can be changed by repeatedly pressing the Tab key, while
 keeping the Alt key down. If a Shift key is also down, the direction of
 traversal is reversed. Or use the scroll wheel of the mouse.  Or use
 one of the digit keys to select the corresponding window from the list.
-All the navigation keys are available as well.
+By pressing the first letter of the application class name, the next
+such application is selected. All navigation keys are also supported.
 
 To make a selected window the active window, just release the Alt key,
 or hit the Return key, or click on it.  To cancel the QuickSwitch,

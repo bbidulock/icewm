@@ -42,6 +42,7 @@ public:
 
     virtual bool isKey(const XKeyEvent& key) = 0;
     virtual unsigned modifiers() = 0;
+    virtual int nextKey(KeySym key) { return -1; }
 
     // Filter items by WM_CLASS
     virtual bool setWMClass(char* wmclass) = 0;

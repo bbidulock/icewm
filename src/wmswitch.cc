@@ -14,6 +14,7 @@
 #include "prefs.h"
 #include "yprefs.h"
 #include "keysyms.h"
+#include <ctype.h>
 
 struct ZItem {
     int prio;
@@ -345,6 +346,8 @@ public:
                 return i;
         return -1;
     }
+
+    int nextKey(KeySym key);
 };
 
 void WindowItemsCtrlr::updateList() {
@@ -436,6 +439,27 @@ void WindowItemsCtrlr::sort() {
     }
     if (fLastItem && lookupClient(fLastItem.client) < 0)
         fLastItem.reset();
+}
+
+int WindowItemsCtrlr::nextKey(KeySym keysym) {
+    if ((keysym & 0xff) == keysym && isalpha(keysym & 0xff)) {
+        unsigned char lower = tolower((unsigned char) keysym);
+        for (int i = zTarget + 1; i < zList.getCount(); ++i) {
+            ZItem act = zList[i];
+            ClassHint* hint = act.client->classHint();
+            if (hint) {
+                if (hint->res_class && lower ==
+                    tolower((unsigned char) *hint->res_class)) {
+                    return i;
+                }
+                if (hint->res_name && lower ==
+                    tolower((unsigned char) *hint->res_name)) {
+                    return i;
+                }
+            }
+        }
+    }
+    return -1;
 }
 
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
@@ -1058,6 +1082,12 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
         else if (zItems->isKey(key) && !modDown(key.state)) {
             accept();
         }
+        else {
+            int i = zItems->nextKey(k);
+            if (i >= 0) {
+                target(i - zItems->getActiveItem());
+            }
+        }
     }
     else if (key.type == KeyRelease) {
         if ((isKey(key) && !modDown(key.state)) || isModKey(key.keycode)) {
@@ -1147,9 +1177,11 @@ void SwitchWindow::handleButton(const XButtonEvent &button) {
         if ((hint = hintedItem(button.x, button.y)) >= 0) {
             target(hint - zItems->getActiveItem());
             YFrameWindow* frame = zItems->current();
-            frame->popupSystemMenu(this, button.x_root, button.y_root,
-                                   YPopupWindow::pfCanFlipVertical |
-                                   YPopupWindow::pfCanFlipHorizontal);
+            if (frame) {
+                frame->popupSystemMenu(this, button.x_root, button.y_root,
+                                       YPopupWindow::pfCanFlipVertical |
+                                       YPopupWindow::pfCanFlipHorizontal);
+            }
         }
         break;
     case Button4:
