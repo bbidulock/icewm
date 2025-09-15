@@ -56,13 +56,14 @@ private:
     void changeTimeFormat(const char* format);
     using IApplet::getPixmap;
     ref<YPixmap> getPixmap(char ch);
+    ref<YPixmap> makePixmap(char c);
     int calcWidth(const char* str, int count);
     bool hasTransparency();
     bool draw(Graphics& g);
     void fill(Graphics& g);
     void fill(Graphics& g, int x, int y, int w, int h);
     bool paintPretty(Graphics& g, const char* str, int len);
-    bool paintPlain(Graphics& g, const char* str, int len);
+    bool paintPlain(Graphics& g, const char* str, int len, int x);
 
     int negativePosition;
     int positions[TimeSize];

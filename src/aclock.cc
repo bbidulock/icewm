@@ -300,7 +300,7 @@ bool YClock::draw(Graphics& g) {
         memcpy(lastTime, str, TimeSize);
         drawn = prettyClock
              ? paintPretty(g, str, len)
-             : paintPlain(g, str, len);
+             : paintPlain(g, str, len, 2);
     }
 
     timezone(restore);
@@ -408,13 +408,13 @@ bool YClock::paintPretty(Graphics& g, const char* str, int len) {
     return paint;
 }
 
-bool YClock::paintPlain(Graphics& g, const char* str, int len) {
+bool YClock::paintPlain(Graphics& g, const char* str, int len, int x) {
     fill(g);
     if (!prettyClock && (clockFont || (clockFont = clockFontName) != null)) {
         int y = clockFont->ascent() + (height() - 1 - clockFont->height()) / 2;
         g.setColor(clockFg);
         g.setFont(clockFont);
-        g.drawChars(str, 0, len, 2, y);
+        g.drawChars(str, 0, len, x, y);
     }
     return true;
 }
@@ -470,7 +470,20 @@ ref<YPixmap> YClock::getPixmap(char c) {
         pix = ledPixM;
         break;
     }
-    return pix;
+    return pix != null ? pix : makePixmap(c);
+}
+
+ref<YPixmap> YClock::makePixmap(char c) {
+    prettyClock = false;
+    ref<YPixmap> pix;
+    unsigned w = calcWidth(&c, 1);
+    if (w && ledPixNum[8] != null) {
+        pix = YPixmap::create(w, ledPixNum[8]->height(), depth());
+        Graphics g(pix);
+        paintPlain(g, &c, 1, 0);
+    }
+    prettyClock = true;
+    return pix != null ? pix : ledPixSpace;
 }
 
 int YClock::calcWidth(const char* str, int count) {
