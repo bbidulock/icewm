@@ -84,7 +84,9 @@ private:
     // remember what was highlighted by mouse tracking
     int m_hlItemFromMotion;
     // hints for fast identification of the entry under the cursor
-    int m_hintAreaStart, m_hintAreaStep, m_hintAreaFirst, m_hintAreaLimit;
+    int m_hintAreaStart, m_hintAreaStep;
+    int m_hintAreaFirst, m_hintAreaLimit;
+    int m_hintAreaBanks, m_hintFirstBank;
 
     int fWorkspace;
     ref<YImage> fGradient;

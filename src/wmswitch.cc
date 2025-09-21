@@ -473,6 +473,8 @@ SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
     m_hintAreaStep(1),
     m_hintAreaFirst(0),
     m_hintAreaLimit(1),
+    m_hintAreaBanks(1),
+    m_hintFirstBank(0),
     fWorkspace(WorkspaceInvalid),
     switchFg(&clrQuickSwitchText),
     switchBg(&clrQuickSwitch),
@@ -528,92 +530,121 @@ SwitchWindow::~SwitchWindow() {
 }
 
 void SwitchWindow::resize(int xiscreen, bool reposition) {
-    int dx, dy;
-    unsigned dw, dh;
-
-    desktop->getScreenGeometry(&dx, &dy, &dw, &dh, xiscreen);
+    const int zCount = zItems->getCount();
+    const int active = zItems->getActiveItem();
+    const int vMargins = 2 * max(quickSwitchVMargin, quickSwitchIMargin);
+    const YRect geom(desktop->getScreenGeometry(xiscreen));
+    const int dx = geom.xx, dy = geom.yy, dw = int(geom.ww), dh = int(geom.hh);
+    const int maxWidth = dw * 6/7;
 
     MSG(("got geometry for %d: %d %d %d %d", xiscreen, dx, dy, dw, dh));
 
-    mstring cTitle = zItems->getTitle(zItems->getActiveItem());
-
-    int aWidth =
-        quickSwitchSmallWindow ?
-        (int) dw * 1/3
-        : (m_verticalStyle ? (int) dw * 2/5 : (int) dw * 3/5);
-
-    int tWidth = 0;
-    if (quickSwitchMaxWidth && switchFont) {
+    int assumeWidth = quickSwitchSmallWindow ? dw * 1/3 :
+                             m_verticalStyle ? dw * 2/5 : dw * 3/5;
+    int txtWidth = min(maxWidth, 10 * int(YIcon::largeSize()));
+    if (switchFont) {
+        const int limit = min(zCount, 99);
         const int space = int(switchFont->textWidth(" "));
-        const int zCount = zItems->getCount();
-        for (int i = 0; i < zCount; i++) {
-            mstring title = zItems->getTitle(i);
-            if (title.nonempty()) {
-                int oWidth = (int) switchFont->textWidth(title) + space;
-                if (tWidth < oWidth)
-                    tWidth = oWidth;
+        mstring a = zItems->getTitle(active), b, c;
+        for (int i = 0; i < limit; i++) {
+            if (i != active) {
+                mstring title = zItems->getTitle(i);
+                if (title.length() > a.length()) {
+                    c = b, b = a, a = title;
+                }
+                else if (title.length() > b.length()) {
+                    if (title != a)
+                        c = b, b = title;
+                }
+                else if (title.length() > c.length()) {
+                    if (title != a && title != b)
+                        c = title;
+                }
+            }
+        }
+        for (mstring d : { a, b, c } ) {
+            if (d.nonempty()) {
+                int titleWidth = switchFont->textWidth(d) + 2*space;
+                if (txtWidth < titleWidth)
+                    txtWidth = titleWidth;
             }
         }
     }
-    else if (cTitle.nonempty() && switchFont) {
-        tWidth = switchFont->textWidth(cTitle);
-    }
 
     if (m_verticalStyle || !quickSwitchAllIcons)
-        tWidth += 2 * quickSwitchIMargin + YIcon::largeSize() + 3;
-    if (tWidth > aWidth)
-        aWidth = tWidth;
+        txtWidth += 2 * quickSwitchIMargin + YIcon::largeSize() + 3;
+    if (assumeWidth < txtWidth)
+        assumeWidth = txtWidth;
 
-    int w = aWidth;
+    int w = assumeWidth;
     int h = switchFont ? switchFont->height() : 1;
-    int const mWidth(dw * 6/7);
-    const int vMargins = 2 * max(quickSwitchVMargin, quickSwitchIMargin);
 
     if (m_verticalStyle) {
-        w = aWidth;
-        if (w >= mWidth)
-            w = mWidth;
-        w += quickSwitchSepSize;
-
+        m_hintAreaBanks = 1;
         m_hintAreaStep = YIcon::largeSize() + quickSwitchIMargin;
         m_hintAreaStart = quickSwitchVMargin - quickSwitchIBorder;
-        h = zItems->getCount() * m_hintAreaStep;
-        if (h + vMargins > int(dh))
-            h = (unsigned(dh) - vMargins) / m_hintAreaStep * m_hintAreaStep;
-    } else {
-
-        int iWidth =
-            zItems->getCount() * (YIcon::largeSize() + 2 * quickSwitchIMargin) +
-            (quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0);
-
-        int const iHeight =
-            (quickSwitchHugeIcon ?
-             YIcon::hugeSize() : YIcon::largeSize()) + quickSwitchIMargin * 2;
-
-        if (iWidth > aWidth)
-            aWidth = iWidth;
-
-        if (quickSwitchAllIcons) {
-            if (aWidth > w)
-                w = aWidth;
+        h = zCount * m_hintAreaStep;
+        const int vertical = (dh - (reposition ? 0 : (y() - dy)));
+        if (h > vertical - m_hintAreaStep - vMargins) {
+            h = (vertical - m_hintAreaStep - vMargins)
+                / m_hintAreaStep * m_hintAreaStep;
+            if (w * 3/2 < maxWidth) {
+                int n = h / m_hintAreaStep;
+                m_hintAreaBanks = max(2, min(maxWidth / txtWidth,
+                                      (zCount + n - 1) / n));
+                w = min(maxWidth, m_hintAreaBanks * txtWidth);
+                int k = (zCount + (m_hintAreaBanks - 1))
+                        / m_hintAreaBanks * m_hintAreaStep;
+                if (h > k)
+                    h = k;
+            }
         }
-        if (w >= mWidth)
-            w = mWidth;
+
+        if (w > maxWidth)
+            w = maxWidth;
+        w += quickSwitchSepSize * m_hintAreaBanks;
+    } else {
+        m_hintAreaBanks = 1;
+        int perIcon = YIcon::largeSize() + 2 * quickSwitchIMargin;
+        int perHuge = quickSwitchHugeIcon
+                    ? YIcon::hugeSize() - YIcon::largeSize() : 0;
+        int iconWidth = zCount * perIcon + perHuge;
+        int iconHeight = perIcon + perHuge;
+
+        if (assumeWidth < iconWidth)
+            w = iconWidth;
+        else if (assumeWidth > max(iconWidth, txtWidth))
+            w = max(iconWidth, txtWidth);
+        else
+            w = assumeWidth;
 
         if (quickSwitchAllIcons)
-            h += quickSwitchSepSize + iHeight;
-        else {
-            if (iHeight > h)
-                h = iHeight;
+            h += quickSwitchSepSize + iconHeight;
+        else if (h < iconHeight)
+            h = iconHeight;
+
+        if (w > maxWidth) {
+            int num = max(1,
+                      int(maxWidth - perHuge - 2*quickSwitchHMargin) / perIcon);
+            int banks = (zCount + (num - 1)) / num;
+            num = (zCount + (banks - 1)) / banks;
+            w = num * perIcon + perHuge + 2*quickSwitchHMargin;
+            int maxBanks = (dh - vMargins - perHuge - perIcon
+                            - quickSwitchSepSize) / perIcon;
+            m_hintAreaBanks = max(1, min(banks, maxBanks));
+        }
+        if (w > maxWidth) {
+            w = maxWidth;
+        }
+        if (m_hintAreaBanks > 1) {
+            h += (m_hintAreaBanks - 1) * iconHeight;
         }
     }
     h += vMargins;
-    w += quickSwitchHMargin * 2;
+    w += 2*quickSwitchHMargin;
 
     if (reposition) {
-        setGeometry(YRect(dx + ((dw - w) >> 1),
-                          dy + ((dh - h) >> 1),
-                          w, h));
+        setGeometry(YRect(dx + (dw - w)/2, dy + (dh - h)/2, w, h));
     } else {
         setSize(w, h);
     }
@@ -706,7 +737,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                                switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs;
             const int y(quickSwitchAllIcons
                         ? quickSwitchTextFirst
-                        ? quickSwitchVMargin + switchFont->ascent()
+                        ? quickSwitchVMargin + switchFont->ascent() + 1
                         : height() - quickSwitchVMargin - switchFont->descent()
                         : ((height() + switchFont->height()) >> 1) -
                         switchFont->descent());
@@ -714,9 +745,9 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
             g.drawChars(cTitle, x, y);
 
             if (quickSwitchAllIcons && quickSwitchSepSize) {
-                int const h(quickSwitchVMargin + iconSize +
-                            quickSwitchIMargin * 2 +
-                            quickSwitchSepSize / 2);
+                int const h(quickSwitchVMargin +
+                            (iconSize + 2*quickSwitchIMargin) * m_hintAreaBanks
+                            + quickSwitchSepSize / 2);
                 int const y(quickSwitchTextFirst ? height() - h : h);
 
                 g.setColor(switchBg->darker());
@@ -733,28 +764,31 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 
             const int visIcons = (width() - 2 * quickSwitchHMargin - ds) / dx;
 
-            int const y(quickSwitchTextFirst
-                        ? height() - quickSwitchVMargin - iconSize - quickSwitchIMargin + ds / 2
-                        : quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2);
+            int y = quickSwitchTextFirst
+                    ? quickSwitchVMargin + (switchFont ? switchFont->height() : 1)
+                      + quickSwitchIMargin + quickSwitchTextFirst + ds
+                    : quickSwitchVMargin + ds + quickSwitchIMargin - ds / 2;
 
             YColor frameColor = switchHl ? switchHl : switchBg->brighter();
             g.setColor(frameColor);
 
             const int zCount = zItems->getCount();
-            const int off = max(0, min(active - visIcons / 2,
-                                       zCount - visIcons));
-            const int end = off + min(visIcons, zCount);
 
             int x = (width() - min(visIcons, zCount) * dx - ds) /  2 +
                      quickSwitchIMargin;
 
             m_hintAreaStart = x;
             m_hintAreaStep = dx;
-            m_hintAreaFirst = off;
-            m_hintAreaLimit = end;
+            m_hintAreaFirst = visIcons * m_hintFirstBank;
+            m_hintAreaLimit = min(zCount, visIcons *
+                                  (m_hintFirstBank + m_hintAreaBanks));
 
-            for (int i = 0; i < zCount; i++) {
-                if (i >= off && i < end) {
+            int xcopy = x;
+            for (int b = 0; b < m_hintAreaBanks; ++b) {
+                int first = (b + m_hintFirstBank) * visIcons;
+                int limit = min((b + 1) * visIcons, zCount);
+                x = xcopy;
+                for (int i = first; i < limit; i++) {
                     ref<YIcon> icon = zItems->getIcon(i);
                     if (icon != null) {
                         if (i == m_hlItemFromMotion &&
@@ -789,6 +823,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                         x += dx;
                     }
                 }
+                y += dx + ds;
             }
         }
     }
@@ -796,17 +831,20 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
 
 int SwitchWindow::hintedItem(int x, int y)
 {
-    int count = m_hintAreaLimit - m_hintAreaFirst;
-    int ends = m_hintAreaStart + m_hintAreaStep * count;
     if (m_verticalStyle) {
+        int count = (int(height()) - m_hintAreaStart) / m_hintAreaStep;
+        int ends = m_hintAreaStart + m_hintAreaStep * count;
         if (x >= 0 && x < int(width()) &&
             y >= m_hintAreaStart && y < ends) {
             int i = (y - m_hintAreaStart) / m_hintAreaStep + m_hintAreaFirst;
+            i += count * (x / (int(width()) / m_hintAreaBanks));
             if (i >= 0 && i < zItems->getCount())
                 return i;
         }
     }
     else if (quickSwitchAllIcons) {
+        int count = m_hintAreaLimit - m_hintAreaFirst;
+        int ends = m_hintAreaStart + m_hintAreaStep * count;
         int ds = quickSwitchHugeIcon ? YIcon::hugeSize() - YIcon::largeSize() : 0;
         if (y >= 0 && y < int(height()) &&
             x >= m_hintAreaStart && x < ends + ds) {
@@ -832,27 +870,30 @@ void SwitchWindow::handleMotion(const XMotionEvent& motion) {
 void SwitchWindow::paintVertical(Graphics &g) {
     const int iconSize = YIcon::largeSize();
     const int active = zItems->getActiveItem();
+    const int maxWid = width() - 2; // reduce due to 3D edge
+    const int bankWidth = maxWid / m_hintAreaBanks;
+    const int itemWidth = bankWidth - 2*quickSwitchHMargin;
+    const int frameWid = itemWidth + 2*quickSwitchIBorder;
+    const int frameHght = iconSize + 2*quickSwitchIBorder;
+    const int vMargins = 2 * max(quickSwitchVMargin, quickSwitchIMargin);
+    const int bankCount = (height() - vMargins) / m_hintAreaStep;
 
-    if (active >= 0) {
-        const int maxWid = width() - 2; // reduce due to 3D edge
-        const int contentX = quickSwitchHMargin;
-        const int titleX = quickSwitchTextFirst ? contentX
-                : contentX + iconSize + quickSwitchSepSize;
-        const int itemWidth = maxWid - quickSwitchHMargin*2;
+    for (int bank = 0; bank < m_hintAreaBanks && 0 <= active; ++bank) {
+        const int bankStart = bank * bankWidth;
+        const int contentX = bankStart + quickSwitchHMargin;
+        const int titleX = quickSwitchTextFirst ? contentX :
+                           contentX + iconSize + quickSwitchSepSize;
         const int frameX = contentX - quickSwitchIBorder;
-        const int frameWid = itemWidth + 2 * quickSwitchIBorder;
-        const int frameHght = iconSize + 2*quickSwitchIBorder;
-        const int strWid = itemWidth - iconSize - quickSwitchSepSize - 2*quickSwitchHMargin;
+        const int strWid = itemWidth - iconSize - quickSwitchSepSize
+                           - 2*quickSwitchHMargin;
         const int sepX = quickSwitchTextFirst
-                ? maxWid - iconSize - quickSwitchSepSize/2 - 1
-                        :  contentX + iconSize + quickSwitchSepSize/2 - 1;
-        const int vMargins = 2 * max(quickSwitchVMargin, quickSwitchIMargin);
-        const int maxCount = non_zero((height() - vMargins) / m_hintAreaStep);
-        const int zCount = min(maxCount, zItems->getCount());
-        const int first = max(0, min(active - maxCount / 2,
-                                     zItems->getCount() - maxCount));
-        m_hintAreaFirst = first;
-        m_hintAreaLimit = zCount;
+                         ? bankStart + bankWidth
+                                    - iconSize - quickSwitchSepSize/2 - 1
+                         : contentX + iconSize + quickSwitchSepSize/2 - 1;
+        const int first = (bank + m_hintFirstBank) * bankCount;
+        const int zCount = min(first + bankCount, zItems->getCount()) - first;
+        m_hintAreaFirst = m_hintFirstBank * bankCount;
+        m_hintAreaLimit = first + zCount;
 
         int contentY = quickSwitchVMargin + quickSwitchIBorder;
 
@@ -864,10 +905,12 @@ void SwitchWindow::paintVertical(Graphics &g) {
             if (contentY + frameHght > int(quickSwitchIBorder + height()))
                 break;
             if (i > 0 && zItems->getWorkspace(i) != zItems->getWorkspace(i-1)) {
+                int x0 = 1 + bank * bankWidth;
+                int x1 = x0 + bankWidth - 2;
                 g.setColor(switchBg->darker());
-                g.drawLine(1, contentY - 4, width() - 2, contentY - 4);
+                g.drawLine(x0, contentY - 4, x1, contentY - 4);
                 g.setColor(switchBg->brighter());
-                g.drawLine(1, contentY - 3, width() - 2, contentY - 3);
+                g.drawLine(x0, contentY - 3, x1, contentY - 3);
             }
             if (i == active) {
                 g.setColor(switchMbg);
@@ -886,7 +929,7 @@ void SwitchWindow::paintVertical(Graphics &g) {
             ref<YIcon> icon = zItems->getIcon(i);
             if (icon != null) {
                 int iconX = quickSwitchTextFirst
-                        ? width() - quickSwitchHMargin - iconSize
+                        ? bankStart + bankWidth - quickSwitchHMargin - iconSize
                         : contentX;
                 icon->draw(g, iconX, contentY, iconSize);
             }
@@ -900,9 +943,15 @@ void SwitchWindow::paintVertical(Graphics &g) {
         }
         if (quickSwitchSepSize) {
             g.setColor(switchBg->darker());
-            g.drawLine(sepX + 0, 1, sepX + 0, height() - 2);
+            g.drawLine(sepX + 0, 1, sepX + 0, height() - 3);
             g.setColor(switchBg->brighter());
-            g.drawLine(sepX + 1, 1, sepX + 1, height() - 2);
+            g.drawLine(sepX + 1, 1, sepX + 1, height() - 3);
+        }
+        if (bank) {
+            g.setColor(switchBg->darker());
+            g.drawLine(bankStart - 1, 1, bankStart - 1, height() - 3);
+            g.setColor(switchBg->brighter());
+            g.drawLine(bankStart, 1, bankStart, height() - 3);
         }
     }
 }
@@ -996,12 +1045,43 @@ YFrameWindow* SwitchWindow::current() {
     return zItems->current();
 }
 
+
+int add_modulo(int active, int delta, int count) {
+    return ((active + delta) % count + count) % count;
+}
+
 void SwitchWindow::target(int delta) {
     if (delta) {
         m_hlItemFromMotion = -1;
         int active = zItems->getActiveItem();
         int count = zItems->getCount();
-        int index = (1 < count) ? (active + delta + count) % count : 0;
+        int index = (1 < count) ? add_modulo(active, delta, count) : 0;
+        int banksize = 0;
+
+        if (m_verticalStyle) {
+            banksize = (int(height()) - m_hintAreaStart) / m_hintAreaStep;
+        }
+        else if (quickSwitchAllIcons) {
+            int dx = YIcon::largeSize() + 2*quickSwitchIMargin;
+            int ds = quickSwitchHugeIcon ? YIcon::hugeSize() -
+                      YIcon::largeSize() : 0;
+            banksize = (width() - 2*quickSwitchHMargin - ds) / dx;
+        }
+
+        if (banksize) {
+            if (index < active) {
+                while (index < m_hintFirstBank * banksize) {
+                    m_hintFirstBank--;
+                }
+            }
+            else {
+                while (index >=
+                       (m_hintFirstBank + m_hintAreaBanks) * banksize) {
+                    m_hintFirstBank++;
+                }
+            }
+        }
+
         zItems->setTarget(index);
         displayFocus();
     }
@@ -1040,17 +1120,55 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
                 cancel();
             }
         }
-        else if (k == XK_Down && m_verticalStyle) {
-            target(+1);
+        else if (k == XK_Down) {
+            if (m_verticalStyle) {
+                target(+1);
+            } else {
+                int dx = YIcon::largeSize() + 2*quickSwitchIMargin;
+                int ds = quickSwitchHugeIcon ? YIcon::hugeSize() -
+                          YIcon::largeSize() : 0;
+                int count = (width() - 2*quickSwitchHMargin - ds) / dx;
+                int activ = zItems->getActiveItem();
+                if (activ + count < zItems->getCount()) {
+                    target(+count);
+                }
+            }
         }
-        else if (k == XK_Up && m_verticalStyle) {
-            target(-1);
+        else if (k == XK_Up) {
+            if (m_verticalStyle) {
+                target(-1);
+            } else {
+                int dx = YIcon::largeSize() + 2*quickSwitchIMargin;
+                int ds = quickSwitchHugeIcon ? YIcon::hugeSize() -
+                          YIcon::largeSize() : 0;
+                int count = (width() - 2*quickSwitchHMargin - ds) / dx;
+                int activ = zItems->getActiveItem();
+                if (activ >= count) {
+                    target(-count);
+                }
+            }
         }
-        else if (k == XK_Right && !m_verticalStyle) {
-            target(+1);
+        else if (k == XK_Right) {
+            if ( !m_verticalStyle) {
+                target(+1);
+            } else {
+                int count = (int(height()) - m_hintAreaStart) / m_hintAreaStep;
+                int activ = zItems->getActiveItem();
+                if (activ + count < zItems->getCount()) {
+                    target(+count);
+                }
+            }
         }
-        else if (k == XK_Left && !m_verticalStyle) {
-            target(-1);
+        else if (k == XK_Left) {
+            if ( !m_verticalStyle) {
+                target(-1);
+            } else {
+                int count = (int(height()) - m_hintAreaStart) / m_hintAreaStep;
+                int activ = zItems->getActiveItem();
+                if (activ >= count) {
+                    target(-count);
+                }
+            }
         }
         else if (k == XK_End) {
             int num = zItems->getCount();
@@ -1058,6 +1176,7 @@ bool SwitchWindow::handleKey(const XKeyEvent &key) {
             target(num - 1 - act);
         }
         else if (k == XK_Home) {
+            m_hintFirstBank = 0;
             target(-zItems->getActiveItem());
         }
         else if (k == XK_Next) {
