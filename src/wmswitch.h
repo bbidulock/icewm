@@ -87,6 +87,7 @@ private:
     int m_hintAreaStart, m_hintAreaStep;
     int m_hintAreaFirst, m_hintAreaLimit;
     int m_hintAreaBanks, m_hintFirstBank;
+    int m_hintAreaOther, m_hintOtherEnds;
 
     int fWorkspace;
     ref<YImage> fGradient;
