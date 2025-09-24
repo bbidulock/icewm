@@ -3627,8 +3627,8 @@ msgstr "No s'ha pogut carregar la imatge %s."
 #~ "stat:\tuser = %llu, nice = %llu, sys = %llu, idle = %llu, iowait = %llu, "
 #~ "intr = %llu, softirq = %llu, steal = %llu\n"
 #~ msgstr ""
-#~ "estadística:\tusuari = %llu, nice = %llu, sys = %llu, inactiu = %llu, e/s."
-#~ "espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
+#~ "estadística:\tusuari = %llu, nice = %llu, sys = %llu, inactiu = %llu, e/"
+#~ "s.espera = %llu, intr = %llu, softirq = %llu, steal = %llu\n"
 
 #, fuzzy
 #~ msgid "unknown action"
