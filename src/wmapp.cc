@@ -699,7 +699,7 @@ YMenu* YWMApp::getWindowMenu() {
     if (strchr(winMenuItems, 't') && workspaceCount > 1) {
         windowMenu->addSeparator();
         windowMenu->addSubmenu(_("Move _To"), -2, moveMenu);
-        windowMenu->addItem(_("Occupy _All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
+        windowMenu->addItem(_("_Occupy All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
     }
 
     if (strchr(winMenuItems, 'i') && taskBarShowTray)

@@ -449,7 +449,7 @@ WindowListPopup::WindowListPopup() {
     addSubmenu(_("Tile"), -2, tileMenu);
     addSeparator();
     addSubmenu(_("Move _To"), -2, moveMenu);
-    addItem(_("Occupy _All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
+    addItem(_("_Occupy All"), -2, gKeyWinOccupyAll.name, actionOccupyAllOrCurrent);
     addItem(_("Tray _icon"), -2, null, actionToggleTray);
     addItem(_("R_ename title"), -2, null, actionRename);
     addSeparator();
