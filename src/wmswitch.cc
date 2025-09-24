@@ -691,31 +691,26 @@ void SwitchWindow::paint(Graphics &g, const YRect &/*r*/) {
 void SwitchWindow::paintHorizontal(Graphics &g) {
     const int active = zItems->getActiveItem();
     if (active >= 0) {
+        const int iconSize = quickSwitchHugeIcon
+                           ? YIcon::hugeSize()
+                           : YIcon::largeSize();
         int tOfs = 0;
-        int iconSize = quickSwitchHugeIcon
-                     ? YIcon::hugeSize()
-                     : YIcon::largeSize();
 
-        ref<YIcon> icon;
-        if (!quickSwitchAllIcons &&
-                (icon = zItems->getIcon(active)) != null) {
-            int iconWidth = iconSize, iconHeight = iconSize;
+        ref<YIcon> icon = zItems->getIcon(active);
+        if ( !quickSwitchAllIcons && icon != null) {
+            const int iconWidth = iconSize, iconHeight = iconSize;
+            if (quickSwitchTextFirst) {
+                icon->draw(g,
+                           width() - iconWidth - quickSwitchIMargin,
+                           (height() - iconHeight - quickSwitchIMargin) / 2,
+                           iconSize);
+            } else {
+                icon->draw(g,
+                           quickSwitchIMargin,
+                           (height() - iconHeight - quickSwitchIMargin) / 2,
+                           iconSize);
 
-            if (icon != null) {
-                if (quickSwitchTextFirst) {
-                    icon->draw(g,
-                               width() - iconWidth - quickSwitchIMargin,
-                               (height() - iconHeight - quickSwitchIMargin) / 2,
-                               iconSize);
-                } else {
-                    icon->draw(g,
-                               quickSwitchIMargin,
-                               (height() - iconHeight - quickSwitchIMargin) / 2,
-                               iconSize);
-
-                    tOfs = iconWidth + quickSwitchIMargin
-                        + quickSwitchSepSize;
-                }
+                tOfs = iconWidth + quickSwitchIMargin + quickSwitchSepSize;
             }
 
             if (quickSwitchSepSize) {
@@ -731,9 +726,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
         }
 
         g.setColor(switchFg);
-        if (switchFont) {
-            g.setFont(switchFont);
-        }
+        g.setFont(switchFont);
 
         mstring cTitle = zItems->getTitle(active);
         if (cTitle != null && switchFont) {
@@ -741,7 +734,7 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                                switchFont->textWidth(cTitle)) >> 1, 0U) + tOfs;
             const int y(quickSwitchAllIcons
                         ? quickSwitchTextFirst
-                        ? quickSwitchVMargin + switchFont->ascent() + 1
+                        ? quickSwitchVMargin + switchFont->ascent() + 2
                         : height() - quickSwitchVMargin - switchFont->descent()
                         : ((height() + switchFont->height()) >> 1) -
                             switchFont->descent());
@@ -828,6 +821,20 @@ void SwitchWindow::paintHorizontal(Graphics &g) {
                             icon->draw(g, x, y, YIcon::largeSize());
                         }
                         x += dx;
+                        if (quickSwitchGroupWorkspaces && i + 1 < limit &&
+                            zItems->getWorkspace(i) != zItems->getWorkspace(i+1))
+                        {
+                            int xoffset = x - quickSwitchIMargin;
+                            int y2 = (i == active || i + 1 == active)
+                                     ? ds / 4 : 0;
+                            g.setColor(switchBg->darker());
+                            g.drawLine(xoffset - 1, y - y2 - quickSwitchIMargin,
+                                       xoffset - 1, y + y2 + dx);
+                            g.setColor(switchBg->brighter());
+                            g.drawLine(xoffset, y - y2 - quickSwitchIMargin,
+                                       xoffset, y + y2 + dx);
+                            g.setColor(frameColor);
+                        }
                     }
                 }
                 y += dx + ds;
@@ -860,7 +867,7 @@ int SwitchWindow::hintedItem(int x, int y)
         if (y >= m_hintAreaOther - ds/2 &&
             y < m_hintOtherEnds + iconsize &&
             x >= m_hintAreaStart && x < ends + ds) {
-            int b = (y - m_hintAreaOther + ds) / (m_hintAreaStep + ds);
+            int b = (y - m_hintAreaOther + ds/2) / (m_hintAreaStep + ds);
             int o = (x - m_hintAreaStart) / m_hintAreaStep;
             int i = (b + m_hintFirstBank) * count + o;
             if (i > active && quickSwitchHugeIcon &&
@@ -960,10 +967,12 @@ void SwitchWindow::paintVertical(Graphics &g) {
             contentY += m_hintAreaStep;
         }
         if (quickSwitchSepSize) {
+            const int margin = quickSwitchVMargin;
+            const int bottom = height() - margin - 2;
             g.setColor(switchBg->darker());
-            g.drawLine(sepX + 0, 1, sepX + 0, height() - 3);
+            g.drawLine(sepX + 0, margin, sepX + 0, bottom);
             g.setColor(switchBg->brighter());
-            g.drawLine(sepX + 1, 1, sepX + 1, height() - 3);
+            g.drawLine(sepX + 1, margin, sepX + 1, bottom);
         }
         if (bank) {
             g.setColor(switchBg->darker());
