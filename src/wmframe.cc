@@ -3191,6 +3191,8 @@ bool YFrameWindow::affectsWorkArea() const {
 }
 
 bool YFrameWindow::inWorkArea() const {
+    if (client() == nullptr)
+        return false;
     if (doNotCover())
         return false;
     if (isFullscreen())
@@ -3203,11 +3205,14 @@ bool YFrameWindow::inWorkArea() const {
 }
 
 void YFrameWindow::getNormalGeometryInner(int *x, int *y, int *w, int *h) const {
-    XSizeHints *sh = client()->sizeHints();
-    *x = normalX;
-    *y = normalY;
-    *w = sh ? normalW * max(1, sh->width_inc) + sh->base_width : normalW;
-    *h = sh ? normalH * max(1, sh->height_inc) + sh->base_height : normalH;
+    *x = normalX; *y = normalY; *w = normalW; *h = normalH;
+    if (client()) {
+        XSizeHints* sh = client()->sizeHints();
+        if (sh) {
+            *w = normalW * max(1, sh->width_inc) + sh->base_width;
+            *h = normalH * max(1, sh->height_inc) + sh->base_height;
+        }
+    }
 }
 
 void YFrameWindow::setNormalGeometryOuter(int ox, int oy, int ow, int oh) {
