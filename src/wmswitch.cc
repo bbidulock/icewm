@@ -347,7 +347,7 @@ public:
         return -1;
     }
 
-    int nextKey(KeySym key);
+    int nextKey(KeySym key) override;
 };
 
 void WindowItemsCtrlr::updateList() {
