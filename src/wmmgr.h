@@ -426,6 +426,12 @@ public:
     ~YFullscreenLock() { manager->setFullscreenEnabled(true); }
 };
 
+class YWorkAreaLock {
+public:
+    YWorkAreaLock() { manager->lockWorkArea(); }
+    ~YWorkAreaLock() { manager->unlockWorkArea(); }
+};
+
 void dumpZorder(const char *oper, YFrameWindow *w, YFrameWindow *a = nullptr);
 
 extern Atom _XA_WIN_ICONS;

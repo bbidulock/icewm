@@ -2045,6 +2045,7 @@ void YWindowManager::unmanageClient(YFrameClient* client) {
     MSG(("unmanaging window 0x%lX", client->handle()));
     YFrameWindow* frame = client->getFrame();
     if (frame) {
+        YWorkAreaLock lock;
         frame->closeTab(client);
         if (frame->isEmpty())
             delete frame;
