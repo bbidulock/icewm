@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: icewm 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2025-09-24 21:01+0200\n"
-"PO-Revision-Date: 2024-10-17 00:48+0000\n"
+"PO-Revision-Date: 2025-09-25 09:59+0000\n"
 "Last-Translator: Yasuhiko Kamata <belphegor@belbel.or.jp>\n"
-"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
-"branch/ja/>\n"
+"Language-Team: Japanese <https://l10n.opensuse.org/projects/icewm/"
+"icewm-1-4-branch/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -2294,10 +2294,8 @@ msgid "Move _To"
 msgstr "移動 (_T)"
 
 #: src/wmapp.cc:702 src/wmwinlist.cc:452
-#, fuzzy
-#| msgid "Occupy _All"
 msgid "_Occupy All"
-msgstr "居座る (_A)"
+msgstr "全てに居座る (_O)"
 
 #: src/wmapp.cc:706 src/wmwinlist.cc:453
 msgid "Tray _icon"
@@ -2553,10 +2551,8 @@ msgid "Reload ke_ys"
 msgstr "キーの再読み込み (_Y)"
 
 #: src/wmdialog.cc:94
-#, fuzzy
-#| msgid "Reload win_options"
 msgid "Reload _toolbar"
-msgstr "winoptions の再読み込み (_O)"
+msgstr "ツールバーの再読み込み (_T)"
 
 #: src/wmdialog.cc:95
 msgid "Reload win_options"
