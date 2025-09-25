@@ -11,6 +11,7 @@
 #include "ascii.h"
 #include "intl.h"
 #undef override
+#include <ctype.h>
 #include <X11/Xproto.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
@@ -1515,6 +1516,14 @@ YTextProperty::YTextProperty(Window handle, Atom property) {
                 --s;
             }
             *s = '\0';
+            nitems = s - value;
+            value = (unsigned char *) realloc(value, nitems + 1);
+        }
+        if (nitems > 0 && isspace(value[nitems - 1])) {
+            unsigned char* s = value + nitems;
+            while (s > value && isspace(s[-1])) {
+                *--s = '\0';
+            }
             nitems = s - value;
             value = (unsigned char *) realloc(value, nitems + 1);
         }
