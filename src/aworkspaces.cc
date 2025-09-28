@@ -755,10 +755,11 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                 continue;
             }
             int dw = int(desktop->width());
+            int dh = int(desktop->height());
             int wx = x + (yfw->x() * w + (dw / 2)) / dw;
-            int wy = y + (yfw->y() * w + (dw / 2)) / dw;
+            int wy = y + (yfw->y() * h + (dh / 2)) / dh;
             int ww = (int(yfw->width()) * w + (dw / 2)) / dw;
-            int wh = (int(yfw->height()) * w + (dw / 2)) / dw;
+            int wh = (int(yfw->height()) * h + (dh / 2)) / dh;
             if (ww <= 1 || wh <= 1)
                 continue;
             if (yfw->isMaximizedVert()) { // !!! hack
@@ -777,20 +778,12 @@ void WorkspaceButton::paint(Graphics &g, const YRect& r) {
                     g.fillRect(wx+1, wy+1, ww-2, wh-2);
 
                     if (pagerShowWindowIcons) {
-                        for (int size : {64, 48, 32, 24, 16}) {
-                            if (size <= int(smallIconSize) &&
-                                ww > 1 + int(size) &&
-                                wh > 1 + int(size)) {
-                                icon = yfw->getIcon();
-                                if (icon != null) {
-                                    ref<YImage> sc(icon->getScaledIcon(size));
-                                    if (sc != null) {
-                                        g.drawImage(sc,
-                                                    wx + (ww - size) / 2,
-                                                    wy + (wh - size) / 2);
-                                    }
-                                }
-                                break;
+                        int size = min(64, max(12, min(ww - 3, wh - 3)));
+                        if (ww > 1 + size && wh > 1 + size) {
+                            icon = yfw->getIcon();
+                            if (icon != null) {
+                                icon->draw(g, wx + (ww - size) / 2,
+                                              wy + (wh - size) / 2, size);
                             }
                         }
                     }
