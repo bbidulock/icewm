@@ -185,10 +185,10 @@ cfoption icewm_themable_preferences[] = {
     OUV("ScrollBarX",                           &scrollBarWidth, 0, 64,         "Scrollbar width"),
     OUV("ScrollBarY",                           &scrollBarHeight, 0, 64,        "Scrollbar (button) height"),
 
-    OUV("MenuIconSize",                         &menuIconSize, 8, 128,          "Menu icon size"),
-    OUV("SmallIconSize",                        &smallIconSize, 8, 128,         "Dimension of the small icons"),
-    OUV("LargeIconSize",                        &largeIconSize, 8, 128,         "Dimension of the large icons"),
-    OUV("HugeIconSize",                         &hugeIconSize, 8, 128,          "Dimension of the large icons"),
+    OUV("MenuIconSize",                         &menuIconSize, 16, 128,          "Menu icon size"),
+    OUV("SmallIconSize",                        &smallIconSize, 16, 128,         "Dimension of the small icons"),
+    OUV("LargeIconSize",                        &largeIconSize, 16, 128,         "Dimension of the large icons"),
+    OUV("HugeIconSize",                         &hugeIconSize, 16, 128,          "Dimension of the large icons"),
 
     OUV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
     OUV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
