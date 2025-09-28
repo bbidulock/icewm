@@ -388,7 +388,6 @@ cfoption icewm_preferences[] = {
 #ifdef CONFIG_SHAPE
     OBV("ShapesProtectClientWindow",            &protectClientWindow,           "Don't cut client windows by shapes set trough frame corner pixmap"),
 #endif
-    OBV("DoubleBuffer",                         &doubleBuffer,                  "Use double buffering when redrawing the display"),
     OBV("XRRDisable",                           &xrrDisable,                    "Disable use of new XRANDR API for dual head (nvidia workaround)"),
     OBV("PreferFreetypeFonts",                  &fontPreferFreetype,            "Favour Xft fonts over core X11 fonts where possible"),
     OIV("DelayFuzziness",                       &DelayFuzziness, 0, 100,        "Delay fuzziness in ms, to allow merging of multiple timer timeouts into one for notebook power saving"),
@@ -579,7 +578,7 @@ cfoption icewm_preferences[] = {
 
 #if defined(GENPREF) || defined(WMAPP)
 
-static bool alphaBlending;
+static bool alphaBlending = true;
 static bool synchronizeX11;
 static const char* outputFile;
 static const char* splashFile(ICESPLASH);

@@ -58,7 +58,7 @@ AboutDlg::AboutDlg(YActionListener* al):
 
     char text[123];
     snprintf(text, sizeof text, "%s %s %s %s",
-             YImage::renderName(), doubleBuffer ? _("DoubleBuffer") : "",
+             YImage::renderName(), _("DoubleBuffer"),
              xapp->alpha() ? _("AlphaBlending") : "",
              YIcon::supportSVG() ? "SVG" : "");
     foldspaces(text);
