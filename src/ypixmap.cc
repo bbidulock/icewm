@@ -107,6 +107,12 @@ void YPixmap::forgetImage() {
     }
 }
 
+void YPixmap::forgetPicture() {
+    if (fPicture) {
+        fPicture = None;
+    }
+}
+
 void YPixmap::freePicture() {
     if (fPicture) {
         if (xapp != nullptr)
@@ -168,9 +174,9 @@ ref<YPixmap> YPixmap::scale(unsigned const w, unsigned const h) {
                 { 0, XDoubleToFixed(double(fHeight) / h), 0 },
                 { 0, 0, XDoubleToFixed(1) }
             } };
-            XRenderSetPictureTransform(xapp->display(), picture(), &transform);
             XRenderSetPictureFilter(xapp->display(), picture(),
                                     FilterBilinear, NULL, 0);
+            XRenderSetPictureTransform(xapp->display(), picture(), &transform);
             XRenderComposite(xapp->display(), PictOpSrc,
                              picture(), None, dpic,
                              0, 0, 0, 0,  // source x, y, mask x, y

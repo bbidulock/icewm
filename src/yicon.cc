@@ -23,8 +23,10 @@
 IResourceLocator* YIcon::iconResourceLocator;
 
 YIcon::YIcon(upath filename) :
-        fSmall(null), fLarge(null), fHuge(null), loadedS(false), loadedL(false),
-        loadedH(false), fCached(false), fPath(filename.expand())
+        fSmall(null), fLarge(null), fHuge(null),
+        pSmall(None), pLarge(None), pHuge(None), pOther(None), otherSize(0),
+        loadedS(false), loadedL(false), loadedH(false),
+        fCached(false), fPath(filename.expand())
 {
     // don't attempt to load if icon is disabled
     if (fPath.equals("none") || fPath.equals("-"))
@@ -32,12 +34,23 @@ YIcon::YIcon(upath filename) :
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
-        fSmall(small), fLarge(large), fHuge(huge), loadedS(small != null),
-        loadedL(large != null), loadedH(huge != null), fCached(false),
-        fPath(null) {
+        fSmall(small), fLarge(large), fHuge(huge),
+        pSmall(None), pLarge(None), pHuge(None), pOther(None), otherSize(0),
+        loadedS(small != null), loadedL(large != null), loadedH(huge != null),
+        fCached(false), fPath(null) {
 }
 
 YIcon::~YIcon() {
+    if (xapp != nullptr) {
+        if (pSmall)
+            XRenderFreePicture(xapp->display(), pSmall);
+        if (pLarge)
+            XRenderFreePicture(xapp->display(), pLarge);
+        if (pHuge)
+            XRenderFreePicture(xapp->display(), pHuge);
+        if (pOther)
+            XRenderFreePicture(xapp->display(), pOther);
+    }
 }
 
 bool YIcon::fSupportSVG;
@@ -639,30 +652,92 @@ void YIcon::freeIcons() {
     iconIndex = null;
 }
 
-unsigned YIcon::menuSize() {
-    return menuIconSize;
-}
-
-unsigned YIcon::smallSize() {
-    return smallIconSize;
-}
-
-unsigned YIcon::largeSize() {
-    return largeIconSize;
-}
-
-unsigned YIcon::hugeSize() {
-    return hugeIconSize;
-}
-
-bool YIcon::draw(Graphics& g, int x, int y, int size) {
-    ref<YImage> image = getScaledIcon(size);
-    if (image != null) {
-        if (!doubleBuffer) {
-            g.drawImage(image, x, y);
-        } else {
-            g.compositeImage(image, 0, 0, size, size, x, y);
+unsigned YIcon::fixIconSize(unsigned size) {
+    const int n = 8;
+    unsigned a[n] = { 16, 22, 24, 32, 48, 64, 128, 256 };
+    for (int i = 0; i < n; i++) {
+        if (a[i] == size)
+            return size;
+        if (a[i] > size) {
+            if (i > 0 && size - a[i - 1] <= a[i] - size)
+                return a[i - 1];
+            return a[i];
         }
+    }
+    return a[n - 1];
+}
+
+void YIcon::fixIconSizes() {
+    menuIconSize = fixIconSize(menuIconSize);
+    smallIconSize = fixIconSize(smallIconSize);
+    largeIconSize = fixIconSize(largeIconSize);
+    hugeIconSize = fixIconSize(hugeIconSize);
+}
+
+bool YIcon::draw(Graphics& g, int x, int y, unsigned size) {
+    ref<YImage> icon;
+    Picture pict = None;
+    if (size == smallSize()) {
+        if (pSmall == None) {
+            icon = small();
+            if (icon != null) {
+                ref<YPixmap> pixmap = icon->renderToPixmap(32, true);
+                if (pixmap != null) {
+                    pSmall = pixmap->picture();
+                    pixmap->forgetPicture();
+                }
+            }
+        }
+        pict = pSmall;
+    }
+    else if (size == largeSize()) {
+        if (pLarge == None) {
+            icon = large();
+            if (icon != null) {
+                ref<YPixmap> pixmap = icon->renderToPixmap(32, true);
+                if (pixmap != null) {
+                    pLarge = pixmap->picture();
+                    pixmap->forgetPicture();
+                }
+            }
+        }
+        pict = pLarge;
+    }
+    else if (size == hugeSize()) {
+        if (pHuge == None) {
+            icon = huge();
+            if (icon != null) {
+                ref<YPixmap> pixmap = icon->renderToPixmap(32, true);
+                if (pixmap != null) {
+                    pHuge = pixmap->picture();
+                    pixmap->forgetPicture();
+                }
+            }
+        }
+        pict = pHuge;
+    }
+    else if (size == otherSize && pOther) {
+        pict = pOther;
+    }
+    if (pict == None) {
+        icon = getScaledIcon(size);
+        if (icon != null) {
+            ref<YPixmap> pixmap = icon->renderToPixmap(32, true);
+            if (pixmap != null) {
+                pict = pixmap->picture();
+                pixmap->forgetPicture();
+                if (pOther) {
+                    XRenderFreePicture(xapp->display(), pOther);
+                }
+                pOther = pict;
+                otherSize = size;
+            }
+        }
+    }
+    if (pict) {
+        XRenderComposite(xapp->display(), PictOpOver,
+                         pict, None, g.picture(), 0, 0, 0, 0,
+                         x - g.xorigin(), y - g.yorigin(), size, size);
         return true;
     }
     return false;

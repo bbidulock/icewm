@@ -36,6 +36,7 @@ public:
     Picture picture();
     void freePicture();
     void forgetImage();
+    void forgetPicture();
     ref<YPixmap> scale(unsigned w, unsigned h);
     ref<YPixmap> subimage(unsigned x, unsigned y, unsigned w, unsigned h);
 

@@ -18,15 +18,25 @@ public:
     static class IResourceLocator* iconResourceLocator;
     static ref<YIcon> getIcon(const char *name);
     static void freeIcons();
-    bool isCached() { return fCached; }
+    bool isCached() const { return fCached; }
     void setCached(bool cached) { fCached = cached; }
 
-    static unsigned menuSize();
-    static unsigned smallSize();
-    static unsigned largeSize();
-    static unsigned hugeSize();
+    static unsigned menuSize() {
+        extern unsigned menuIconSize;
+        return menuIconSize; }
+    static unsigned smallSize() {
+        extern unsigned smallIconSize;
+        return smallIconSize; }
+    static unsigned largeSize() {
+        extern unsigned largeIconSize;
+        return largeIconSize; }
+    static unsigned hugeSize() {
+        extern unsigned hugeIconSize;
+        return hugeIconSize; }
+    static void fixIconSizes();
+    static unsigned fixIconSize(unsigned size);
 
-    bool draw(Graphics &g, int x, int y, int size);
+    bool draw(Graphics &g, int x, int y, unsigned size);
     upath findIcon(unsigned size);
     static bool supportSVG();
 
@@ -49,6 +59,11 @@ private:
     ref<YImage> fSmall;
     ref<YImage> fLarge;
     ref<YImage> fHuge;
+    Picture pSmall;
+    Picture pLarge;
+    Picture pHuge;
+    Picture pOther;
+    unsigned otherSize;
 
     bool loadedS;
     bool loadedL;
