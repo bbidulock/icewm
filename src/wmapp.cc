@@ -1405,6 +1405,7 @@ YWMApp::YWMApp(int *argc, char ***argv, const char *displayName,
     WMConfig::loadConfiguration("prefoverride");
     if (focusMode != FocusCustom)
         initFocusMode();
+    YIcon::fixIconSizes();
 
     if (post_preferences)
         WMConfig::printPrefs(focusMode, wmapp_preferences);
