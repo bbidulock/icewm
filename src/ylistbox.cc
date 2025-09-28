@@ -552,12 +552,9 @@ void YListBox::paintItem(Graphics &g, int n) {
 
     ref<YIcon> icon = a->getIcon();
     if (icon != null) {
-        ref<YImage> scaled = icon->small();
-        if (scaled != null) {
-            int dx = xpos + x - fOffsetX;
-            int dy = y - fOffsetY + 1;
-            g.drawImage(scaled, dx, dy);
-        }
+        int dx = xpos + x - fOffsetX;
+        int dy = y - fOffsetY + 1;
+        icon->draw(g, dx, dy, getIconSize());
     }
 
     mstring title(a->getText());
