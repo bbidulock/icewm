@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ "$(uname)" = SunOS ]; then
     alias gettext=ggettext
 fi
@@ -13,7 +15,7 @@ GTVERSION=$(gettext --version|head -1|awk '{print$NF}'|sed -r 's,(^[^\.]*\.[^\.]
 if [ -x "`which git 2>/dev/null`" -a -d .git ]; then
 	VERSION_VERSION=$(grep -s ^VERSION= VERSION | sed 's|VERSION=||')
 	VERSION_RAW=$(git describe --tags || echo ${VERSION_VERSION:-1.2.3.4})
-	VERSION=$(echo $VERSION_RAW | sed 's,[-_],.,g;s,\.g.*$,,')
+	VERSION=$(echo $VERSION_RAW | sed 's,[-_],.,g;s,\.g.*$,,;s,.*/,,')
 	DATE=$(git show -s --format=%ci HEAD^{commit}|awk '{print$1}')
 	MDOCDATE=$(date --date="$DATE" +'%B %-d, %Y' 2>/dev/null || date +'%B %-d, %Y')
 	BRANCH=$(git tag --sort=-creatordate|head -1)
@@ -43,10 +45,13 @@ else
 		-e "s:^AM_GNU_GETTEXT_VERSION.*:AM_GNU_GETTEXT_VERSION([$GTVERSION]):"
 fi
 
-mkdir m4 2>/dev/null
+mkdir -p m4 2>/dev/null
 
 autoreconf -fiv
 
 # cscope target won't work without this
 #
-[ -f po/Makefile.in.in ] && printf '\n%%:\n\t@:\n\n' >> po/Makefile.in.in
+if [ -f po/Makefile.in.in ] ; then
+        printf '\n%%:\n\t@:\n\n' >> po/Makefile.in.in
+fi
+
