@@ -1679,7 +1679,10 @@ bool YWindow::hasPopup() {
 }
 
 YDesktop::YDesktop(YWindow *aParent, Window win):
-    YWindow(aParent, win)
+    YWindow(aParent, win,
+            DefaultDepth(xapp->display(), xapp->screen()),
+            DefaultVisual(xapp->display(), xapp->screen()),
+            DefaultColormap(xapp->display(), xapp->screen()))
 {
     desktop = this;
     unsigned w = 0, h = 0;
