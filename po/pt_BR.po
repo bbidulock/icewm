@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.3.4pre2\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2025-09-24 21:01+0200\n"
-"PO-Revision-Date: 2025-08-27 17:59+0000\n"
+"PO-Revision-Date: 2025-10-02 15:59+0000\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive68@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt_BR/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.13.3\n"
 "X-Language: pt_BR\n"
 
 #: src/aapm.cc:113
@@ -109,7 +109,7 @@ msgid ""
 "Swap (free): %.3f (%.3f) G"
 msgstr ""
 "\n"
-"Partição de Trocas Swap (disponível): %.3f (%.3f) G"
+"Partição swap (disponível): %.3f (%.3f) G"
 
 #: src/acpustatus.cc:580
 #, c-format
@@ -127,7 +127,7 @@ msgid ""
 "CPU Freq: %.3fGHz"
 msgstr ""
 "\n"
-"Frequência do Processador: %.3fGHz"
+"Frequência do processador: %.3fGHz"
 
 #: src/acpustatus.cc:616 src/acpustatus.cc:904
 msgid "CPU"
@@ -343,7 +343,7 @@ msgstr "Rede"
 
 #: src/aworkspaces.cc:685 src/wmstatus.cc:204
 msgid "Workspace: "
-msgstr "Área de Trabalho: "
+msgstr "Área de trabalho: "
 
 #: src/decorate.cc:129
 msgid "Tabs"
@@ -455,7 +455,7 @@ msgstr "Configurações"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage hardware components, like sound cards, video cards or printers
 #: src/fdospecgen.h:28 src/fdospecgen.h:618
 msgid "HardwareSettings"
-msgstr "Configurações de Dispositivo"
+msgstr "Configurações de dispositivo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage compressed data/archives
 #: src/fdospecgen.h:38
@@ -484,17 +484,17 @@ msgstr "Dicionário"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text tool utility
 #: src/fdospecgen.h:48 src/fdospecgen.h:1032
 msgid "TextTools"
-msgstr "Ferramentas de Texto"
+msgstr "Ferramentas de texto"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file manager
 #: src/fdospecgen.h:54
 msgid "FileManager"
-msgstr "Gerenciador de Arquivos"
+msgstr "Gerenciador de arquivos"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file tool utility
 #: src/fdospecgen.h:56 src/fdospecgen.h:528 src/fdospecgen.h:534
 msgid "FileTools"
-msgstr "Ferramentas de Arquivo"
+msgstr "Ferramentas de arquivo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: System application, "System Tools" such as say a log viewer or network monitor
 #: src/fdospecgen.h:58 src/fdospecgen.h:506 src/fdospecgen.h:536
@@ -514,17 +514,17 @@ msgstr "MIDI"
 #: src/fdospecgen.h:422 src/fdospecgen.h:452 src/fdospecgen.h:770
 #: src/fdospecgen.h:842 src/fdospecgen.h:896 src/fdospecgen.h:1094
 msgid "AudioVideo"
-msgstr "Áudio e Vídeo"
+msgstr "Áudio e vídeo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Just a mixer
 #: src/fdospecgen.h:70
 msgid "Mixer"
-msgstr "Misturador de Áudio"
+msgstr "Misturador de áudio"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Numerical analysis software
 #: src/fdospecgen.h:78 src/fdospecgen.h:86
 msgid "NumericalAnalysis"
-msgstr "Análise Numérica"
+msgstr "Análise numérica"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Math software
 #: src/fdospecgen.h:80 src/fdospecgen.h:88 src/fdospecgen.h:732
@@ -563,7 +563,7 @@ msgstr "Ciência"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Optical character recognition application
 #: src/fdospecgen.h:94
 msgid "OCR"
-msgstr "Reconhecimento de Caracteres"
+msgstr "Reconhecimento de caracteres"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to scan a file/text
 #: src/fdospecgen.h:96 src/fdospecgen.h:930
@@ -581,18 +581,18 @@ msgstr "Gráficos"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Parallel computing software
 #: src/fdospecgen.h:102 src/fdospecgen.h:110
 msgid "ParallelComputing"
-msgstr "Computação Paralela"
+msgstr "Computação paralela"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Computer Science software
 #: src/fdospecgen.h:104 src/fdospecgen.h:112 src/fdospecgen.h:354
 #: src/fdospecgen.h:360
 msgid "ComputerScience"
-msgstr "Ciências da Computação"
+msgstr "Ciências da computação"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing raster (bitmap) graphics
 #: src/fdospecgen.h:118
 msgid "RasterGraphics"
-msgstr "Gráficos Rasterizáveis"
+msgstr "Gráficos rasterizáveis"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: 2D based graphical application
 #: src/fdospecgen.h:120 src/fdospecgen.h:152 src/fdospecgen.h:162
@@ -623,7 +623,7 @@ msgstr "Sintonizador"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing vector graphics
 #: src/fdospecgen.h:150
 msgid "VectorGraphics"
-msgstr "Gráficos Vetoriais"
+msgstr "Gráficos vetoriais"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for viewing, creating, or processing 3-D graphics
 #: src/fdospecgen.h:168
@@ -638,7 +638,7 @@ msgstr "Acessibilidade"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An action game
 #: src/fdospecgen.h:186
 msgid "ActionGame"
-msgstr "Jogo de Ação"
+msgstr "Jogo de ação"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game
 #: src/fdospecgen.h:188 src/fdospecgen.h:200 src/fdospecgen.h:212
@@ -657,7 +657,7 @@ msgstr "Adulto"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Adventure style game
 #: src/fdospecgen.h:198
 msgid "AdventureGame"
-msgstr "Jogo de Aventura"
+msgstr "Jogo de aventura"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A simple amusement
 #: src/fdospecgen.h:204
@@ -667,7 +667,7 @@ msgstr "Diversão"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Arcade style game
 #: src/fdospecgen.h:210
 msgid "ArcadeGame"
-msgstr "Jogo de Fliperama"
+msgstr "Jogo de fliperama"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to teach arts
 #: src/fdospecgen.h:222 src/fdospecgen.h:228
@@ -687,7 +687,7 @@ msgstr "Astronomia"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to edit audio/video files
 #: src/fdospecgen.h:258 src/fdospecgen.h:264 src/fdospecgen.h:270
 msgid "AudioVideoEditing"
-msgstr "Edição de Áudio e Vídeo"
+msgstr "Edição de áudio e vídeo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Biology software
 #: src/fdospecgen.h:276 src/fdospecgen.h:282
@@ -697,12 +697,12 @@ msgstr "Biologia"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Falling blocks game
 #: src/fdospecgen.h:288
 msgid "BlocksGame"
-msgstr "Jogo de Blocos"
+msgstr "Jogo de blocos"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A board game
 #: src/fdospecgen.h:294
 msgid "BoardGame"
-msgstr "Jogo de Tabuleiro"
+msgstr "Jogo de tabuleiro"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to build applications
 #: src/fdospecgen.h:300
@@ -740,7 +740,7 @@ msgstr "Escritório"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A card game
 #: src/fdospecgen.h:318
 msgid "CardGame"
-msgstr "Jogo de Cartas"
+msgstr "Jogo de cartas"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Chart application
 #: src/fdospecgen.h:324
@@ -750,7 +750,7 @@ msgstr "Gráfico"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A chat client
 #: src/fdospecgen.h:330
 msgid "Chat"
-msgstr "Bate-Papo"
+msgstr "Bate-papo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Network application such as a web browser
 #: src/fdospecgen.h:332 src/fdospecgen.h:440 src/fdospecgen.h:500
@@ -785,7 +785,7 @@ msgstr "Construção"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: E.g. an address book
 #: src/fdospecgen.h:384
 msgid "ContactManagement"
-msgstr "Gerenciamento de Contatos"
+msgstr "Gerenciamento de contatos"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Important application, core to the desktop such as a file manager or a help browser
 #: src/fdospecgen.h:390
@@ -795,12 +795,12 @@ msgstr "Núcleo"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Data visualization software
 #: src/fdospecgen.h:396 src/fdospecgen.h:402
 msgid "DataVisualization"
-msgstr "Visualização de Dados"
+msgstr "Visualização de dados"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage a database
 #: src/fdospecgen.h:408 src/fdospecgen.h:414 src/fdospecgen.h:420
 msgid "Database"
-msgstr "Banco de Dados"
+msgstr "Banco de dados"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to debug applications
 #: src/fdospecgen.h:426
@@ -810,7 +810,7 @@ msgstr "Depuração"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Configuration tool for the GUI
 #: src/fdospecgen.h:432
 msgid "DesktopSettings"
-msgstr "Configurações da Área de Trabalho"
+msgstr "Configurações da área de trabalho"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A dial-up program
 #: src/fdospecgen.h:438
@@ -820,7 +820,7 @@ msgstr "Discagem"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to burn a disc
 #: src/fdospecgen.h:450
 msgid "DiscBurning"
-msgstr "Gravação de Disco"
+msgstr "Gravação de disco"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Help or documentation
 #: src/fdospecgen.h:456
@@ -860,17 +860,17 @@ msgstr "Engenharia"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: RSS, podcast and other subscription based contents
 #: src/fdospecgen.h:522
 msgid "Feed"
-msgstr "Fonte de Notícias"
+msgstr "Fonte de notícias"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tools like FTP or P2P programs
 #: src/fdospecgen.h:540
 msgid "FileTransfer"
-msgstr "Transferência de Arquivo"
+msgstr "Transferência de arquivo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A file system tool
 #: src/fdospecgen.h:546
 msgid "Filesystem"
-msgstr "Sistema de Arquivos"
+msgstr "Sistema de arquivos"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application to manage your finance
 #: src/fdospecgen.h:552
@@ -880,12 +880,12 @@ msgstr "Finanças"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A flowchart application
 #: src/fdospecgen.h:558
 msgid "FlowChart"
-msgstr "Gráfico de Fluxo"
+msgstr "Gráfico de fluxo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A GUI designer application
 #: src/fdospecgen.h:564
 msgid "GUIDesigner"
-msgstr "Programa de Desenvolvimento de Desenho Gráfico"
+msgstr "Programa de desenvolvimento de desenho gráfico"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Geography software
 #: src/fdospecgen.h:570 src/fdospecgen.h:576
@@ -905,7 +905,7 @@ msgstr "Geociência"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: HAM radio software
 #: src/fdospecgen.h:606 src/fdospecgen.h:612
 msgid "HamRadio"
-msgstr "Rádio Amador"
+msgstr "Rádio amador"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: History software
 #: src/fdospecgen.h:624 src/fdospecgen.h:630
@@ -920,7 +920,7 @@ msgstr "Humanidades"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: IDE application
 #: src/fdospecgen.h:648
 msgid "IDE"
-msgstr "Ambiente de Desenvolvimento Integrado"
+msgstr "Ambiente de desenvolvimento integrado"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An IRC client
 #: src/fdospecgen.h:654
@@ -930,17 +930,17 @@ msgstr "Cliente de IRC"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Image Processing software
 #: src/fdospecgen.h:660 src/fdospecgen.h:666
 msgid "ImageProcessing"
-msgstr "Processamento de Imagem"
+msgstr "Processamento de imagem"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An instant messaging client
 #: src/fdospecgen.h:672
 msgid "InstantMessaging"
-msgstr "Mensageiro Instantâneo"
+msgstr "Mensageiro instantâneo"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A game for kids
 #: src/fdospecgen.h:678
 msgid "KidsGame"
-msgstr "Jogo Infantil"
+msgstr "Jogo infantil"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software to learn foreign languages
 #: src/fdospecgen.h:684 src/fdospecgen.h:690
@@ -955,7 +955,7 @@ msgstr "Literatura"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Logic games like puzzles, etc
 #: src/fdospecgen.h:708
 msgid "LogicGame"
-msgstr "Jogo de Lógica"
+msgstr "Jogo de lógica"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Software for viewing maps, navigation, mapping, GPS
 #: src/fdospecgen.h:714 src/fdospecgen.h:720 src/fdospecgen.h:726
@@ -965,7 +965,7 @@ msgstr "Mapas"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Medical software
 #: src/fdospecgen.h:744 src/fdospecgen.h:750
 msgid "MedicalSoftware"
-msgstr "Programa Médico"
+msgstr "Programa médico"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Monitor application/applet that monitors some resource or activity
 #: src/fdospecgen.h:756 src/fdospecgen.h:762
@@ -985,17 +985,17 @@ msgstr "Notícias"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A P2P program
 #: src/fdospecgen.h:786
 msgid "P2P"
-msgstr "Ponto a Ponto P2P"
+msgstr "Ponto a ponto P2P"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to manage your PDA
 #: src/fdospecgen.h:792
 msgid "PDA"
-msgstr "Assistente Digital Pessoal PDA"
+msgstr "Assistente digital pessoal PDA"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A package manager application
 #: src/fdospecgen.h:798
 msgid "PackageManager"
-msgstr "Gerenciador de Pacotes"
+msgstr "Gerenciador de pacotes"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Camera tools, etc.
 #: src/fdospecgen.h:804 src/fdospecgen.h:810
@@ -1020,12 +1020,12 @@ msgstr "Apresentação"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A profiling tool
 #: src/fdospecgen.h:852
 msgid "Profiling"
-msgstr "Análise de Performance"
+msgstr "Análise de performance"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Project management application
 #: src/fdospecgen.h:858 src/fdospecgen.h:864
 msgid "ProjectManagement"
-msgstr "Gerenciamento de Projeto"
+msgstr "Gerenciamento de projeto"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Desktop Publishing applications and Color Management tools
 #: src/fdospecgen.h:870 src/fdospecgen.h:876
@@ -1040,12 +1040,12 @@ msgstr "Gravador"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to remotely manage your PC
 #: src/fdospecgen.h:900
 msgid "RemoteAccess"
-msgstr "Acesso Remoto"
+msgstr "Acesso remoto"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Applications like cvs or subversion
 #: src/fdospecgen.h:906
 msgid "RevisionControl"
-msgstr "Controle de Revisão"
+msgstr "Controle de revisão"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Robotics software
 #: src/fdospecgen.h:912 src/fdospecgen.h:918
@@ -1085,17 +1085,17 @@ msgstr "Esportes"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A sports game
 #: src/fdospecgen.h:990
 msgid "SportsGame"
-msgstr "Jogo de Esporte"
+msgstr "Jogo de esporte"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A spreadsheet
 #: src/fdospecgen.h:996
 msgid "Spreadsheet"
-msgstr "Planilha Eletrônica"
+msgstr "Planilha eletrônica"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A strategy game
 #: src/fdospecgen.h:1002
 msgid "StrategyGame"
-msgstr "Jogo de Estratégia"
+msgstr "Jogo de estratégia"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony via PC
 #: src/fdospecgen.h:1008
@@ -1105,17 +1105,17 @@ msgstr "Telefonia"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Telephony tools, to dial a number, manage PBX, ...
 #: src/fdospecgen.h:1014
 msgid "TelephonyTools"
-msgstr "Ferramentas de Telefone"
+msgstr "Ferramentas de telefone"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A terminal emulator application
 #: src/fdospecgen.h:1020
 msgid "TerminalEmulator"
-msgstr "Emulador de Terminal"
+msgstr "Emulador de terminal"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A text editor
 #: src/fdospecgen.h:1026
 msgid "TextEditor"
-msgstr "Editor de Texto"
+msgstr "Editor de texto"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A translation tool
 #: src/fdospecgen.h:1038
@@ -1125,7 +1125,7 @@ msgstr "Tradução"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Video Conference software
 #: src/fdospecgen.h:1044
 msgid "VideoConference"
-msgstr "Vídeo Conferência"
+msgstr "Vídeo conferência"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Tool to view e.g. a graphic or pdf file
 #: src/fdospecgen.h:1050 src/fdospecgen.h:1056
@@ -1140,12 +1140,12 @@ msgstr "Navegador de Internet"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool for web developers
 #: src/fdospecgen.h:1068 src/fdospecgen.h:1074
 msgid "WebDevelopment"
-msgstr "Desenvolvimento para Web"
+msgstr "Desenvolvimento para web"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A word processor
 #: src/fdospecgen.h:1080
 msgid "WordProcessor"
-msgstr "Processador de Texto"
+msgstr "Processador de texto"
 
 #: src/icehelp.cc:1348
 msgid "Back"
@@ -1153,7 +1153,7 @@ msgstr "Voltar"
 
 #: src/icehelp.cc:1348
 msgid "Alt+Left"
-msgstr "Alt+Esquerda"
+msgstr "Alt+esquerda"
 
 #: src/icehelp.cc:1350
 msgid "Forward"
@@ -1161,7 +1161,7 @@ msgstr "Avançar"
 
 #: src/icehelp.cc:1350
 msgid "Alt+Right"
-msgstr "Alt+Direita"
+msgstr "Alt+direita"
 
 #: src/icehelp.cc:1353
 msgid "Previous"
@@ -1197,7 +1197,7 @@ msgstr "F3"
 
 #: src/icehelp.cc:1362
 msgid "Open in Browser"
-msgstr "Abrir no Navegador de Internet"
+msgstr "Abrir no navegador de Internet"
 
 #: src/icehelp.cc:1362
 msgid "Ctrl+B"
@@ -1253,7 +1253,7 @@ msgstr "Suporte"
 
 #: src/icehelp.cc:1382
 msgid "Theme Howto"
-msgstr "Dicas do Tema"
+msgstr "Dicas do tema"
 
 #: src/icehelp.cc:1382 src/iceview.cc:60
 msgid "Ctrl+T"
@@ -1261,7 +1261,7 @@ msgstr "Ctrl+T"
 
 #: src/icehelp.cc:1384
 msgid "Website"
-msgstr "Página Eletrônica"
+msgstr "Site"
 
 #: src/icehelp.cc:1384 src/iceview.cc:61
 msgid "Ctrl+W"
@@ -1434,7 +1434,7 @@ msgstr "Reiniciar"
 
 #: src/icesame.cc:65
 msgid "Same Game"
-msgstr "Mesmo Jogo"
+msgstr "Mesmo jogo"
 
 #: src/icesh.cc:85
 msgid "For help please consult the man page icesh(1).\n"
@@ -1482,7 +1482,7 @@ msgstr "Estado da janela EWMH"
 #: src/icesh.cc:2887 src/icesh.cc:2960
 #, c-format
 msgid "workspace #%d: `%s'\n"
-msgstr "Área de Trabalho #%d: `%s'\n"
+msgstr "Área de trabalho #%d: `%s'\n"
 
 #: src/icesh.cc:3210 src/icesh.cc:5093 src/icesh.cc:5693
 #, c-format
@@ -1893,7 +1893,7 @@ msgstr ""
 
 #: src/iceview.cc:59
 msgid "Hex View"
-msgstr "Visualizar em Hexadecimal"
+msgstr "Visualizar em hexadecimal"
 
 #: src/iceview.cc:59
 msgid "Ctrl+H"
@@ -1901,11 +1901,11 @@ msgstr "Ctrl+H"
 
 #: src/iceview.cc:60
 msgid "Expand Tabs"
-msgstr "Expandir as Abas"
+msgstr "Expandir abas"
 
 #: src/iceview.cc:61
 msgid "Wrap Lines"
-msgstr "Envolver as Linhas"
+msgstr "Envolver linhas"
 
 #: src/icewmbg.cc:35 src/icewmbg.cc:374
 #, c-format
@@ -2081,11 +2081,11 @@ msgstr "Tema:"
 
 #: src/wmabout.cc:46
 msgid "Theme Description:"
-msgstr "Descrição do Tema:"
+msgstr "Descrição do tema:"
 
 #: src/wmabout.cc:47
 msgid "Theme Author:"
-msgstr "Autor do Tema:"
+msgstr "Autor do tema:"
 
 #: src/wmabout.cc:56
 msgid "CodeSet:"
@@ -2097,11 +2097,11 @@ msgstr "Idioma:"
 
 #: src/wmabout.cc:61
 msgid "DoubleBuffer"
-msgstr "Buffer Duplo"
+msgstr "Buffer duplo"
 
 #: src/wmabout.cc:62
 msgid "AlphaBlending"
-msgstr "Mistura de Alfa"
+msgstr "Mistura de alfa"
 
 #: src/wmabout.cc:65
 msgid "Renderer:"
@@ -2132,15 +2132,15 @@ msgstr "Concluído."
 
 #: src/wmapp.cc:549
 msgid "_Logout"
-msgstr "_Sair da Sessão"
+msgstr "_Sair da sessão"
 
 #: src/wmapp.cc:550
 msgid "_Cancel logout"
-msgstr "_Cancelar a Saída"
+msgstr "_Cancelar a saída"
 
 #: src/wmapp.cc:556
 msgid "Lock _Workstation"
-msgstr "Bloquear Á_rea de Trabalho"
+msgstr "Bloquear á_rea de trabalho"
 
 #: src/wmapp.cc:558 src/wmdialog.cc:88
 msgid "Re_boot"
@@ -2172,7 +2172,7 @@ msgstr "_Menu"
 
 #: src/wmapp.cc:581
 msgid "_Above Dock"
-msgstr "_Sobre a Doca"
+msgstr "_Sobre a doca"
 
 #: src/wmapp.cc:582
 msgid "_Dock"
@@ -2180,7 +2180,7 @@ msgstr "_Doca"
 
 #: src/wmapp.cc:583
 msgid "_OnTop"
-msgstr "Em _Cima"
+msgstr "Em _cima"
 
 #: src/wmapp.cc:584
 msgid "_Normal"
@@ -2192,43 +2192,43 @@ msgstr "Em_baixo"
 
 #: src/wmapp.cc:586
 msgid "D_esktop"
-msgstr "Ár_ea de Trabalho"
+msgstr "Ár_ea de trabalho"
 
 #: src/wmapp.cc:630 src/wmwinlist.cc:369
 msgid "Move to New _Window"
-msgstr "Mover para a Nova _janela"
+msgstr "Mover para nova _janela"
 
 #: src/wmapp.cc:640
 msgid "Left Half"
-msgstr "Mão Esquerda"
+msgstr "Mão esquerda"
 
 #: src/wmapp.cc:641
 msgid "Right Half"
-msgstr "Mão Direita"
+msgstr "Mão direita"
 
 #: src/wmapp.cc:642
 msgid "Top Half"
-msgstr "Metade Superior"
+msgstr "Metade superior"
 
 #: src/wmapp.cc:643
 msgid "Bottom Half"
-msgstr "Metade Inferior"
+msgstr "Metade inferior"
 
 #: src/wmapp.cc:645
 msgid "Top Left"
-msgstr "Superior Esquerdo"
+msgstr "Superior esquerdo"
 
 #: src/wmapp.cc:646
 msgid "Top Right"
-msgstr "Superior Direito"
+msgstr "Superior direito"
 
 #: src/wmapp.cc:647
 msgid "Bottom Left"
-msgstr "Inferior Esquerdo"
+msgstr "Inferior esquerdo"
 
 #: src/wmapp.cc:648
 msgid "Bottom Right"
-msgstr "Inferior Direito"
+msgstr "Inferior direito"
 
 #: src/wmapp.cc:649
 msgid "Center"
@@ -2238,13 +2238,13 @@ msgstr "Centro"
 #: src/wmapp.cc:651 src/wmtaskbar.cc:217 src/wmwinlist.cc:457
 #: src/wmwinlist.cc:490
 msgid "T_ile Horizontally"
-msgstr "Agrupar Hor_izontalmente"
+msgstr "Agrupar hor_izontalmente"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmapp.cc:653 src/wmtaskbar.cc:215 src/wmwinlist.cc:456
 #: src/wmwinlist.cc:489
 msgid "Tile _Vertically"
-msgstr "Agrupar _Verticalmente"
+msgstr "Agrupar _verticalmente"
 
 #: src/wmapp.cc:665 src/wmwinlist.cc:437
 msgid "_Restore"
@@ -2268,15 +2268,15 @@ msgstr "Ma_ximizar"
 
 #: src/wmapp.cc:674 src/wmwinlist.cc:440
 msgid "Maximize_Vert"
-msgstr "Maximizar _Vertical"
+msgstr "Maximizar _vertical"
 
 #: src/wmapp.cc:675 src/wmwinlist.cc:441
 msgid "MaximizeHori_z"
-msgstr "Maximizar Hori_zontal"
+msgstr "Maximizar hori_zontal"
 
 #: src/wmapp.cc:678 src/wmwinlist.cc:442
 msgid "_Fullscreen"
-msgstr "Tela _Cheia"
+msgstr "Tela _cheia"
 
 #: src/wmapp.cc:681 src/wmwinlist.cc:444
 msgid "_Hide"
@@ -2288,11 +2288,11 @@ msgstr "Enrol_ar"
 
 #: src/wmapp.cc:690
 msgid "R_aise"
-msgstr "Para _Frente"
+msgstr "Para _frente"
 
 #: src/wmapp.cc:692 src/wmwinlist.cc:447
 msgid "_Lower"
-msgstr "Para Trá_s"
+msgstr "Para trá_s"
 
 #: src/wmapp.cc:694 src/wmwinlist.cc:448
 msgid "La_yer"
@@ -2304,17 +2304,15 @@ msgstr "Agrupar"
 
 #: src/wmapp.cc:701 src/wmwinlist.cc:451
 msgid "Move _To"
-msgstr "Mover _Para"
+msgstr "Mover _para"
 
 #: src/wmapp.cc:702 src/wmwinlist.cc:452
-#, fuzzy
-#| msgid "Occupy _All"
 msgid "_Occupy All"
-msgstr "Oc_upar Todas"
+msgstr "_Ocupar todas"
 
 #: src/wmapp.cc:706 src/wmwinlist.cc:453
 msgid "Tray _icon"
-msgstr "Ícone da Área de _Notificação"
+msgstr "Ícone da área de _notificação"
 
 #: src/wmapp.cc:708 src/wmwinlist.cc:454
 msgid "R_ename title"
@@ -2326,7 +2324,7 @@ msgstr "Fec_har"
 
 #: src/wmapp.cc:715 src/wmwinlist.cc:471
 msgid "_Kill Client"
-msgstr "_Interromper o Cliente"
+msgstr "_Interromper cliente"
 
 #: src/wmapp.cc:718 src/wmdialog.cc:91 src/wmwinmenu.cc:141
 msgid "_Window list"
@@ -2347,7 +2345,7 @@ msgstr ""
 
 #: src/wmapp.cc:1033
 msgid "Confirm Restart as Terminal"
-msgstr "Confirmar o Reinício com o Terminal"
+msgstr "Confirmar o reinício com o terminal"
 
 #: src/wmapp.cc:1034
 msgid ""
@@ -2482,7 +2480,7 @@ msgstr "%s opções estão configuradas: %s\n"
 
 #: src/wmapp.cc:2030
 msgid "Confirm Logout"
-msgstr "Confirmar a Saída"
+msgstr "Confirmar saída"
 
 #: src/wmapp.cc:2031
 msgid ""
@@ -2494,7 +2492,7 @@ msgstr ""
 
 #: src/wmbutton.cc:124
 msgid "Raise/Lower"
-msgstr "Subir/Descer"
+msgstr "Subir/descer"
 
 #: src/wmbutton.cc:127
 msgid "Hide"
@@ -2546,7 +2544,7 @@ msgstr "Não foi possível renomear %s para %s"
 
 #: src/wmdialog.cc:84
 msgid "Loc_k Workstation"
-msgstr "Blo_quear a Área de Trabalho"
+msgstr "Blo_quear área de trabalho"
 
 #: src/wmdialog.cc:86 src/ymsgbox.cc:51
 msgid "_Cancel"
@@ -2567,10 +2565,8 @@ msgid "Reload ke_ys"
 msgstr "Recarregar c_haves"
 
 #: src/wmdialog.cc:94
-#, fuzzy
-#| msgid "Reload win_options"
 msgid "Reload _toolbar"
-msgstr "Recarregar win_options"
+msgstr "Recarregar _barra de ferramentas"
 
 #: src/wmdialog.cc:95
 msgid "Reload win_options"
@@ -2601,7 +2597,7 @@ msgstr ""
 
 #: src/wmframe.cc:1929
 msgid "Kill Client: "
-msgstr "Interromper o Cliente: "
+msgstr "Interromper cliente: "
 
 #: src/wmmenu.cc:37
 msgid "Missing command argument"
@@ -2690,7 +2686,7 @@ msgstr "Ocorreu um erro de sintaxe nas opções da janela na linha %d de %s."
 
 #: src/wmpref.cc:101
 msgid "Save Modifications"
-msgstr "Salvar as Modificações"
+msgstr "Salvar modificações"
 
 #: src/wmpref.cc:179
 #, c-format
@@ -2773,7 +2769,7 @@ msgstr "Con_figurações"
 #: src/wmsession.cc:214 src/wmsession.cc:230 src/wmsession.cc:240
 #, c-format
 msgid "Session Manager: Unknown line %s"
-msgstr "Gerenciador de Sessão: A linha %s não é conhecida."
+msgstr "Gerenciador de sessão: A linha %s não é conhecida."
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:219 src/wmwinlist.cc:458 src/wmwinlist.cc:491
@@ -2788,12 +2784,12 @@ msgstr "_Organizar"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:223 src/wmwinlist.cc:461 src/wmwinlist.cc:493
 msgid "_Minimize All"
-msgstr "_Minimizar Tudo"
+msgstr "_Minimizar tudo"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:225 src/wmwinlist.cc:462 src/wmwinlist.cc:494
 msgid "_Hide All"
-msgstr "Ocultar _Tudo"
+msgstr "Ocultar _tudo"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:227 src/wmwinlist.cc:463 src/wmwinlist.cc:495
@@ -2803,7 +2799,7 @@ msgstr "_Desfazer"
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:230
 msgid "Arrange _Icons"
-msgstr "Organizar os Ico_nes"
+msgstr "Organizar íco_nes"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmtaskbar.cc:236
@@ -2812,11 +2808,11 @@ msgstr "_Recarregar"
 
 #: src/wmtaskbar.cc:313 src/wmtaskbar.cc:1044
 msgid "Hide Taskbar"
-msgstr "Ocultar a Barra de Tarefas"
+msgstr "Ocultar barra de tarefas"
 
 #: src/wmtaskbar.cc:336
 msgid "Favorite Applications"
-msgstr "Aplicativos Favoritos"
+msgstr "Aplicativos favoritos"
 
 #: src/wmtaskbar.cc:351
 msgid "Window List Menu"
@@ -2824,15 +2820,15 @@ msgstr "Menu da lista de janelas"
 
 #: src/wmtaskbar.cc:361
 msgid "Show Desktop"
-msgstr "Exibir a Área de Trabalho"
+msgstr "Exibir área de trabalho"
 
 #: src/wmtaskbar.cc:1044
 msgid "Show Taskbar"
-msgstr "Exibir a Barra de Tarefas"
+msgstr "Exibir barra de tarefas"
 
 #: src/wmwinlist.cc:83
 msgid "All Workspaces"
-msgstr "Todas as Áreas de Trabalho"
+msgstr "Todas as áreas de trabalho"
 
 #: src/wmwinlist.cc:443
 msgid "_Show"
@@ -2848,11 +2844,11 @@ msgstr "Apagar"
 
 #: src/wmwinlist.cc:473
 msgid "_Terminate Process"
-msgstr "T_erminar o Processo"
+msgstr "T_erminar processo"
 
 #: src/wmwinlist.cc:474
 msgid "Kill _Process"
-msgstr "Interromper o _Processo"
+msgstr "Interromper _processo"
 
 #: src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
@@ -2861,7 +2857,7 @@ msgstr "Lista de janelas"
 #: src/wmwinmenu.cc:100
 #, c-format
 msgid "%lu. Workspace %-.32s"
-msgstr "%lu. Área de Trabalho %-.32s."
+msgstr "%lu. Área de trabalho %-.32s."
 
 #: src/wpixres.cc:93 src/wpixres.cc:100
 #, c-format
@@ -2958,7 +2954,7 @@ msgstr "Co_lar"
 
 #: src/yinputline.cc:45
 msgid "Paste _Selection"
-msgstr "Colar a _Seleção"
+msgstr "Colar a _seleção"
 
 #: src/yinputline.cc:45
 msgid "Ctrl+P"
@@ -2966,7 +2962,7 @@ msgstr "Ctrl+P"
 
 #: src/yinputline.cc:47
 msgid "Select _All"
-msgstr "Selecion_ar Tudo"
+msgstr "Selecion_ar tudo"
 
 #: src/yinputline.cc:47
 msgid "Ctrl+A"
