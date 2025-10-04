@@ -2252,7 +2252,10 @@ void YFrameWindow::refresh() {
 
 void YFrameWindow::repaint() {
     if (hasBorders()) {
-        paint(getGraphics(), geometry());
+        XGCValues gcv = { GXclear, };
+        gcv.graphics_exposures = False;
+        Graphics g(*this, GCGraphicsExposures, &gcv);
+        paint(g, geometry());
     }
 }
 

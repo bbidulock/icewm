@@ -115,11 +115,10 @@ YWindow::YWindow(YWindow *parent, Window win, int depth,
     fHandle(win), flags(0), fStyle(0),
     fX(0), fY(0), fWidth(1), fHeight(1),
     unmapCount(0),
-    fPointer(0),
-    fGraphics(nullptr),
     fEventMask(KeyPressMask|KeyReleaseMask|FocusChangeMask|
                LeaveWindowMask|EnterWindowMask),
     fWinGravity(NorthWestGravity), fBitGravity(ForgetGravity),
+    fPointer(0),
     accel(nullptr),
     fToolTip(nullptr)
 {
@@ -154,9 +153,6 @@ YWindow::~YWindow() {
     }
     if (fClickWindow == this)
         fClickWindow = nullptr;
-    if (fGraphics) {
-        delete fGraphics; fGraphics = nullptr;
-    }
     if (flags & wfCreated)
         destroy();
 }
@@ -243,16 +239,12 @@ void YWindow::setStyle(unsigned aStyle) {
     }
 }
 
-void YWindow::addEventMask(long mask) {
+void YWindow::addEventMask(int mask) {
     if (hasbits(fEventMask, mask) == false) {
         fEventMask |= mask;
         if (flags & wfCreated)
             XSelectInput(xapp->display(), fHandle, fEventMask);
     }
-}
-
-Graphics &YWindow::getGraphics() {
-    return *(fGraphics ? fGraphics : fGraphics = new Graphics(*this));
 }
 
 void YWindow::repaint() {
@@ -761,7 +753,10 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
     ew = min(ew, int(width()) - ex);
     eh = min(eh, int(height()) - ey);
     if (ew > 0 && eh > 0) {
-        Graphics& g(getGraphics());
+        XGCValues gcv = { GXclear, };
+        gcv.graphics_exposures = False;
+        Graphics g(*this, GCGraphicsExposures, &gcv);
+
         XRectangle r = {
             short(ex),
             short(ey),
@@ -775,11 +770,11 @@ void YWindow::paintExpose(int ex, int ey, int ew, int eh) {
 }
 
 void YWindow::handleExpose(const XExposeEvent &expose) {
-    paintExpose(expose.x, expose.y, expose.width, expose.height);
+    // paintExpose(expose.x, expose.y, expose.width, expose.height);
 }
 
 void YWindow::handleGraphicsExpose(const XGraphicsExposeEvent &expose) {
-    paintExpose(expose.x, expose.y, expose.width, expose.height);
+    // paintExpose(expose.x, expose.y, expose.width, expose.height);
 }
 
 void YWindow::handleConfigure(const XConfigureEvent &configure) {
@@ -1764,19 +1759,16 @@ void YWindow::scrollWindow(int dx, int dy) {
         return ;
     }
 
-    Graphics &g = getGraphics();
+    XGCValues gcv = { GXclear, };
+    gcv.graphics_exposures = False;
+    unsigned long gcvflags = GCGraphicsExposures;
+    Graphics g(*this, gcvflags, &gcv);
+
     XRectangle r[2];
     int nr = 0;
 
-    XGCValues gcv;
-    gcv.graphics_exposures = False;
-    unsigned long gcvflags = GCGraphicsExposures;
-    GC scrollGC = XCreateGC(xapp->display(), handle(), gcvflags, &gcv);
-
-    XCopyArea(xapp->display(), handle(), handle(), scrollGC,
+    XCopyArea(xapp->display(), handle(), handle(), g.handleX(),
               dx, dy, width(), height(), 0, 0);
-
-    XFreeGC(xapp->display(), scrollGC);
 
     dx = - dx;
     dy = - dy;
@@ -1835,7 +1827,11 @@ void YWindow::clearArea(int x, int y, unsigned w, unsigned h, bool exposures) {
 }
 
 Pixmap YWindow::createPixmap() {
-    return XCreatePixmap(xapp->display(), xapp->root(), fWidth, fHeight, fDepth);
+    return XCreatePixmap(xapp->display(), handle(), fWidth, fHeight, fDepth);
+}
+
+Pixmap YWindow::createPixmap(unsigned width, unsigned height) {
+    return XCreatePixmap(xapp->display(), handle(), width, height, fDepth);
 }
 
 XRenderPictFormat* YWindow::format() {

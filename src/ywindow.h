@@ -78,8 +78,8 @@ public:
     void setStyle(unsigned aStyle);
     void addStyle(unsigned aStyle) { setStyle(fStyle | aStyle); }
     unsigned getStyle() const { return fStyle; }
-    long getEventMask() const { return fEventMask; }
-    void addEventMask(long mask);
+    int getEventMask() const { return fEventMask; }
+    void addEventMask(int mask);
 
     void setVisible(bool enable);
     void show();
@@ -173,7 +173,6 @@ public:
 
     void paintExpose(int ex, int ey, int ew, int eh);
 
-    Graphics& getGraphics();
     virtual ref<YImage> getGradient() {
         return (parent() ? parent()->getGradient() : null); }
 
@@ -267,6 +266,7 @@ public:
     void clearWindow();
     void clearArea(int x, int y, unsigned w, unsigned h, bool expos = false);
     Pixmap createPixmap();
+    Pixmap createPixmap(unsigned width, unsigned height);
     XRenderPictFormat* format();
     Picture createPicture();
 
@@ -318,10 +318,9 @@ private:
     int fX, fY;
     unsigned fWidth, fHeight;
     int unmapCount;
-    Cursor fPointer;
-    Graphics *fGraphics;
-    long fEventMask;
+    int fEventMask;
     int fWinGravity, fBitGravity;
+    Cursor fPointer;
 
     struct YAccelerator {
         unsigned key;

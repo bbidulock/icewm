@@ -1175,8 +1175,11 @@ void TaskPane::handleClick(const XButtonEvent& up, int count) {
 }
 
 void TaskPane::handleExpose(const XExposeEvent& expose) {
+    XGCValues gcv = { GXclear, };
+    gcv.graphics_exposures = False;
+    Graphics g(*this, GCGraphicsExposures, &gcv);
     YRect r(expose.x, expose.y, expose.width, expose.height);
-    paint(getGraphics(), r);
+    paint(g, r);
 }
 
 void TaskPane::paint(Graphics& g, const YRect& r) {
