@@ -138,6 +138,9 @@ public:
     Colormap colormapForVisual(Visual* visual) const;
     XRenderPictFormat* formatForDepth(unsigned depth) const;
     XRenderPictFormat* format() const { return formatForDepth(fDepth); }
+    Picture createPicture(Pixmap pixmap, XRenderPictFormat* format) const;
+    void freePicture(Picture picture) const;
+    void freePixmap(Pixmap pixmap) const;
 
     void saveEventTime(const XEvent &xev);
     Time getEventTime(const char *debug) const;

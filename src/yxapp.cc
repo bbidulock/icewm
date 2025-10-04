@@ -1462,6 +1462,19 @@ bool YXApplication::windowExists(Window handle) const {
     return XGetWindowAttributes(display(), handle, &attributes);
 }
 
+Picture YXApplication::createPicture(Pixmap pixmap, XRenderPictFormat* format)
+    const {
+    return XRenderCreatePicture(display(), pixmap, format, None, nullptr);
+}
+
+void YXApplication::freePicture(Picture picture) const {
+    XRenderFreePicture(display(), picture);
+}
+
+void YXApplication::freePixmap(Pixmap pixmap) const {
+    XFreePixmap(xapp->display(), pixmap);
+}
+
 void YXPoll::notifyRead() {
     owner()->handleXEvents();
 }
