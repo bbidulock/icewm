@@ -1724,10 +1724,6 @@ void YWindowManager::placeWindow(YFrameWindow *frame,
             posX -= 2 * borderWidth - client->getBorder() - 1;
         if (gy > 0)
             posY -= 2 * borderHeight + titleHeight - client->getBorder() - 1;
-        if (gx == 0 && gy == 0 && client->winGravity() == StaticGravity) {
-            posX -= borderWidth;
-            posY -= borderHeight + titleHeight;
-        }
         posY -= borderOffset;
     }
 
