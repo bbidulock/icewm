@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.6.6.83\n"
 "Report-Msgid-Bugs-To: https://github.com/bbidulock/icewm/issues\n"
 "POT-Creation-Date: 2025-09-24 21:01+0200\n"
-"PO-Revision-Date: 2024-10-07 15:48+0000\n"
+"PO-Revision-Date: 2025-10-15 10:59+0000\n"
 "Last-Translator: Hugo Carvalho <hugokarvalho@hotmail.com>\n"
 "Language-Team: Portuguese <https://l10n.opensuse.org/projects/icewm/"
 "icewm-1-4-branch/pt/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.7.2\n"
+"X-Generator: Weblate 5.13.3\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -2279,10 +2279,8 @@ msgid "Move _To"
 msgstr "Mover _para"
 
 #: src/wmapp.cc:702 src/wmwinlist.cc:452
-#, fuzzy
-#| msgid "Occupy _All"
 msgid "_Occupy All"
-msgstr "Oc_upar todas"
+msgstr "_Ocupar tudo"
 
 #: src/wmapp.cc:706 src/wmwinlist.cc:453
 msgid "Tray _icon"
@@ -2536,10 +2534,8 @@ msgid "Reload ke_ys"
 msgstr "Recarregar tec_las"
 
 #: src/wmdialog.cc:94
-#, fuzzy
-#| msgid "Reload win_options"
 msgid "Reload _toolbar"
-msgstr "Recarregar win_options"
+msgstr "Recarregar barra de _ferramentas"
 
 #: src/wmdialog.cc:95
 msgid "Reload win_options"
