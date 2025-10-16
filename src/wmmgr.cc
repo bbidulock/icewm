@@ -1907,9 +1907,7 @@ void YWindowManager::manageClient(YFrameClient* client, bool mapClient) {
             posHeight += frame->titleYN();
         }
 
-        if (limitPosition &&
-            !(client->sizeHints() &&
-              (client->sizeHints()->flags & USPosition)))
+        if (limitPosition)
         {
             int mx, my, Mx, My;
             getWorkArea(frame, &mx, &my, &Mx, &My);
