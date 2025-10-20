@@ -12,6 +12,7 @@
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma clang diagnostic ignored "-Wno-unknown-pragmas"
 #pragma clang diagnostic ignored "-Wvla-cxx-extension"
+#pragma clang diagnostic ignored "-Wc++11-narrowing"
 #endif
 
 #ifdef DEBUG
