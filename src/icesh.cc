@@ -2024,7 +2024,9 @@ public:
 
     long count() const { return max(*fCount, 1L); }
     operator bool() const { return fCount && fNames; }
-    bool valid(long i) const { return inrange(i, 0L, count() - 1L); }
+    bool valid(long i) const {
+        return inrange(i, 0L, count() - 1L) && i < fNames.count();
+    }
     const char* operator[](int i) const {
         return valid(i) ? fNames[i] : (i == -1) ? "All" : "";
     }
@@ -2970,20 +2972,13 @@ bool IceSh::addWorkspace()
     char* name = getArg();
     YCardinal prop(root, ATOM_NET_NUMBER_OF_DESKTOPS);
     if (prop) {
-        long workspace = *prop;
-        if (inrange(workspace, 0L, 1233L)) {
-            send(ATOM_NET_NUMBER_OF_DESKTOPS, root, workspace + 1L, 0L);
-            for (int i = 0; i < 3; ++i) {
-                doSync();
-                prop.update();
-                if (prop && workspace < *prop) {
-                    YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
-                    names.set(int(workspace), name);
-                    names.commit();
-                    doSync();
-                    break;
-                }
-            }
+        long count = *prop;
+        if (inrange(count, None, 1233L)) {
+            YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
+            names.set(int(count), name);
+            names.commit();
+            doSync();
+            send(ATOM_NET_NUMBER_OF_DESKTOPS, root, count + 1L, 0L);
         }
     }
     return true;
