@@ -861,7 +861,7 @@ public:
                 for (int i = 0; i < num; ++i) {
                     size += 1 + strlen(i == index ? name : fList[i]);
                 }
-                char* data = (char *) malloc(size);
+                char* data = (char *) malloc(size + 1);
                 char* copy = data;
                 if (copy) {
                     copy[size] = '\0';
