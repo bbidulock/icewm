@@ -4107,6 +4107,12 @@ void IceSh::showProperty(Window window, Atom atom, const char* prefix) {
             if (h.flags & PBaseSize) {
                 printf(" Base(%d,%d)", h.base_width, h.base_height);
             }
+            if (h.flags & PWinGravity) {
+                const char* name = nullptr;
+                if (gravities.lookup(h.win_gravity, &name)) {
+                    printf(" %s", name);
+                }
+            }
             newline();
         }
         return;
@@ -4381,10 +4387,18 @@ void IceSh::loadIcon(Window window, char* file)
                 setProp(window, ATOM_NET_WM_ICON, XA_CARDINAL,
                         card, 2 + width * height);
                 delete[] card;
+                if ( !quietude)
+                    printf("Loaded icon from %s to window 0x%lx\n", file, window);
+            } else {
+                warn("Insufficient icon data in file %s", file);
             }
             delete[] data;
+        } else {
+            warn("Unsuitable icon header in file %s", file);
         }
         close(fd);
+    } else {
+        fail("Could not load icon from %s", file);
     }
 }
 
@@ -4414,7 +4428,9 @@ void IceSh::saveIcon(Window window, char* file)
             }
         }
         if (bestW && bestH) {
-            for (int i = 0; i <= 100; ++i) {
+            bool nomore = false;
+            int loop = -1;
+            while (++loop <= 100) {
                 const int flags = O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW;
                 const int fd = open(file, flags, 0600);
                 if (fd == -1 && errno == EEXIST) {
@@ -4422,14 +4438,18 @@ void IceSh::saveIcon(Window window, char* file)
                     while (k >= 0 && file[k] != '/' &&
                             (file[k] < '0' || '8' < file[k]))
                         --k;
-                    if (k < 0 || file[k] < '0' || '8' < file[k])
+                    if (k < 0 || file[k] < '0' || '8' < file[k]) {
+                        nomore = true;
                         break;
+                    }
                     ++file[k];
                     while (file[k + 1] == '9')
                         file[++k] = '0';
                 }
-                else if (fd == -1)
+                else if (fd == -1) {
+                    fail("Cannot open icon %s for window 0x%lx", file, window);
                     break;
+                }
                 else {
                     char buf[128];
                     snprintf(buf, sizeof buf,
@@ -4451,10 +4471,19 @@ void IceSh::saveIcon(Window window, char* file)
                         delete[] data;
                     }
                     close(fd);
+                    if ( !quietude)
+                        printf("Wrote icon for 0x%lx to %s\n", window, file);
                     break;
                 }
             }
+            if (loop > 100 || nomore) {
+                warn("Failed to compute a filename for window 0x%lx", window);
+            }
+        } else {
+            warn("No suitable icon on window 0x%lx", window);
         }
+    } else {
+        warn("No icon property on window 0x%lx", window);
     }
 }
 
@@ -4837,7 +4866,7 @@ void IceSh::flags()
             else if (windowList)
                 parseAction();
             else if (selecting | filtering) {
-                if (!quietude)
+                if ( !quietude)
                     msg(_("No windows found."));
                 throw 1;
             }

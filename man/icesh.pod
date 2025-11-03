@@ -636,6 +636,7 @@ with dimensions at most 256, a depth of 4, and type I<RGB_ALPHA>.
 
 Save an icon to a new file in the PAM image format. Digits are
 increased to generate a unique new filename for each window.
+The window must have a I<_NET_WM_ICON> property.
 
 =item B<usertime>
 
