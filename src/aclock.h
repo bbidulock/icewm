@@ -55,7 +55,7 @@ private:
 
     void changeTimeFormat(const char* format);
     using IApplet::getPixmap;
-    ref<YPixmap> getPixmap(char ch);
+    ref<YPixmap> getPixmap(const char* str, int i, int len);
     ref<YPixmap> makePixmap(char c);
     int calcWidth(const char* str, int count);
     bool hasTransparency();
