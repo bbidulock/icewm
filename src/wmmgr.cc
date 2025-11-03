@@ -2969,6 +2969,8 @@ void YWindowManager::readDesktopNames(bool init, bool net) {
             workspaces.add(configWorkspaces[i]);
         if (workspaces.count() < 1)
             workspaces + " 1 " + " 2 " + " 3 " + " 4 ";
+        for (int i = workspaces.count(); i < netList.count; ++i)
+            workspaces + netList[i];
     }
 
     if (haveNet) {
