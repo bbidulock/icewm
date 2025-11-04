@@ -621,6 +621,13 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         wlist[i].w->setGeometry(r);
         if (wlist[i].show)
             wlist[i].w->show();
+        int more = int(wlist[i].w->width()) - ww;
+        if (more > 0) {
+            if (wlist[i].left)
+                left[wlist[i].row] += more;
+            else
+                right[wlist[i].row] -= more;
+        }
     }
 
     wlist.clear();
