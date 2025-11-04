@@ -2969,8 +2969,15 @@ void YWindowManager::readDesktopNames(bool init, bool net) {
             workspaces.add(configWorkspaces[i]);
         if (workspaces.count() < 1)
             workspaces + " 1 " + " 2 " + " 3 " + " 4 ";
-        for (int i = workspaces.count(); i < netList.count; ++i)
-            workspaces + netList[i];
+        if (netList.count > workspaces.count()) {
+            YProperty prop(this, _XA_NET_NUMBER_OF_DESKTOPS,
+                           F32, 1L, XA_CARDINAL);
+            if (prop) {
+                int number = min<int>(*prop, netList.count);
+                for (int i = workspaces.count(); i < number; ++i)
+                    workspaces + netList[i];
+            }
+        }
     }
 
     if (haveNet) {
