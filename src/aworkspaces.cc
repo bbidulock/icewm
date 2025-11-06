@@ -369,8 +369,10 @@ void WorkspacesPane::repositionButtons() {
 }
 
 void WorkspacesPane::relabelButtons() {
-    for (IterType wk = iterator(); ++wk; )
+    for (IterType wk = iterator(); ++wk; ) {
+        wk->setStale();
         label(*wk);
+    }
 
     if ( !pagerShowPreview)
         repositionButtons();

@@ -2885,6 +2885,7 @@ void YWindowManager::updateWorkspaces(bool increase) {
     }
     if (taskBar) {
         taskBar->workspacesUpdateButtons();
+        taskBar->workspacesRelabelButtons();
     }
     if (windowList) {
         windowList->updateWorkspaces();
