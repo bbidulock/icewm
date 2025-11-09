@@ -1779,6 +1779,8 @@ private:
     void setWindowType(const char* arg);
     bool addWorkspace();
     bool listWorkspaces();
+    bool getWorkspaceName();
+    bool getWorkspaceNames();
     bool setWorkspaceName();
     bool setWorkspaceNames();
     void changeState(const char* arg);
@@ -2984,6 +2986,35 @@ bool IceSh::addWorkspace()
     return true;
 }
 
+bool IceSh::getWorkspaceName()
+{
+    if ( !isAction("getWorkspaceName", 1))
+        return false;
+
+    char* id = getArg();
+    long ws;
+    if (id && tolong(id, ws) && inrange(ws, None, 1233L)) {
+        YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
+        if (ws < names.count()) {
+            puts(names[ws]);
+        }
+    }
+    return true;
+}
+
+bool IceSh::getWorkspaceNames()
+{
+    if ( !isAction("getWorkspaceNames", 0))
+        return false;
+
+    YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
+    for (int i = 0; i < names.count(); ++i) {
+        puts(names[i]);
+    }
+
+    return true;
+}
+
 bool IceSh::setWorkspaceName()
 {
     if ( !isAction("setWorkspaceName", 2))
@@ -2992,7 +3023,7 @@ bool IceSh::setWorkspaceName()
     char* id = getArg();
     char* nm = getArg();
     long ws;
-    if (id && nm && tolong(id, ws)) {
+    if (id && nm && tolong(id, ws) && inrange(ws, None, 1233L)) {
         YTextProperty names(root, ATOM_NET_DESKTOP_NAMES, YEmby);
         names.set(int(ws), nm);
         names.commit();
@@ -3457,6 +3488,8 @@ bool IceSh::icewmAction()
     return guiEvents()
         || setWorkspaceNames()
         || setWorkspaceName()
+        || getWorkspaceNames()
+        || getWorkspaceName()
         || listWorkspaces()
         || addWorkspace()
         || listScreens()

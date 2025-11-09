@@ -766,6 +766,15 @@ subsequent workspace or C<prev> for the preceding workspace.
 Print the number of workspaces if I<COUNT> is not given,
 otherwise set the number of workspaces to I<COUNT>.
 
+=item B<getWorkspaceName> I<INDEX>
+
+Print the name of workspace I<INDEX>, where I<INDEX> is
+a workspace number starting from zero.
+
+=item B<getWorkspaceNames>
+
+Print the name of all workspaces, one per line of output.
+
 =item B<setWorkspaceName> I<INDEX> I<NAME>
 
 Change the name of the workspace I<INDEX> to I<NAME>, where I<INDEX> is
