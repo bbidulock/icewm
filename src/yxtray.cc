@@ -434,7 +434,7 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, int depth, Window win, Window ldr, 
     fLeader(Elvis(ldr, win)),
     fTitle(title),
     fDamage(None),
-    fComposing(xapp->alpha() && composite.supported &&
+    fComposing(xapp->alpha() && composite.supported && depth == 32 &&
                xapp->format() && damage.supported),
     fOrder(getOrder(fTitle))
 {
@@ -444,17 +444,6 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, int depth, Window win, Window ldr, 
     setStyle(wsManager | wsNoExpose);
     if (depth == int(tray->depth()))
         setParentRelative();
-    else {
-        ref<YImage> grad(getGradient());
-        if (grad != null) {
-            Pixmap pmap = createPixmap();
-            Graphics g(pmap, width(), height(), depth);
-            g.drawImage(grad, x(), y(), width(), height(), 0, 0);
-            setBackgroundPixmap(pmap);
-            clearWindow();
-            xapp->freePixmap(pmap);
-        }
-    }
     setTitle("YXTrayEmbedder");
 
     fClient->setBorderWidth(0);
