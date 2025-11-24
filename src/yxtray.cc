@@ -538,7 +538,13 @@ void YXTrayEmbedder::handleClientMap(Window win) {
 
 void YXTrayEmbedder::paint(Graphics &g, const YRect& r) {
     extern ref<YPixmap> taskbackPixmap;
-    if (taskbackPixmap != null) {
+
+    ref<YImage> grad(getGradient());
+    if (grad != null) {
+        g.drawImage(grad, fTray->x() + x(), fTray->y() + y(),
+                    width(), height(), 0, 0);
+    }
+    else if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap,
                      r.x(), r.y(), r.width(), r.height(),
                      x() + r.x(), y() + r.y() + parent()->y());
