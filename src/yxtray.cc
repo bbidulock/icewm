@@ -418,8 +418,16 @@ void YXTrayProxy::handleClientMessage(const XClientMessageEvent &message) {
     }
 }
 
-YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, mstring title):
-    YWindow(tray),
+static unsigned windowDepth(Window win) {
+    XWindowAttributes attr;
+    return None == XGetWindowAttributes(xapp->display(), win, &attr)
+        ? None : attr.depth;
+}
+
+YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, int depth, Window win, Window ldr, mstring title):
+    YWindow(tray, None, depth,
+            xapp->visualForDepth(depth),
+            xapp->colormapForDepth(depth)),
     fVisible(false),
     fTray(tray),
     fClient(new YXEmbedClient(this, this, win)),
@@ -434,7 +442,19 @@ YXTrayEmbedder::YXTrayEmbedder(YXTray *tray, Window win, Window ldr, mstring tit
         return;
 
     setStyle(wsManager | wsNoExpose);
-    setParentRelative();
+    if (depth == int(tray->depth()))
+        setParentRelative();
+    else {
+        ref<YImage> grad(getGradient());
+        if (grad != null) {
+            Pixmap pmap = createPixmap();
+            Graphics g(pmap, width(), height(), depth);
+            g.drawImage(grad, x(), y(), width(), height(), 0, 0);
+            setBackgroundPixmap(pmap);
+            clearWindow();
+            xapp->freePixmap(pmap);
+        }
+    }
     setTitle("YXTrayEmbedder");
 
     fClient->setBorderWidth(0);
@@ -636,7 +656,10 @@ bool YXTray::trayRequestDock(Window win, mstring title) {
         return false;
     }
 
-    YXTrayEmbedder *embed = new YXTrayEmbedder(this, win, leader, title);
+    int depth = windowDepth(win);
+    if (trace())
+        tlog("systray embedding window 0x%08lx depth %d", win, depth);
+    YXTrayEmbedder *embed = new YXTrayEmbedder(this, depth, win, leader, title);
 
     unsigned ww = embed->client()->width();
     unsigned hh = embed->client()->height();

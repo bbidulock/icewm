@@ -22,7 +22,7 @@ protected:
 
 class YXTrayEmbedder: public YWindow, public YXEmbed {
 public:
-    YXTrayEmbedder(YXTray *tray, Window win, Window leader, mstring title);
+    YXTrayEmbedder(YXTray *tray, int depth, Window win, Window leader, mstring title);
     ~YXTrayEmbedder();
     virtual void paint(Graphics &g, const YRect &r);
     virtual void repaint();
