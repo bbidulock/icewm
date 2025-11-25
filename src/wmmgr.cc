@@ -3679,17 +3679,11 @@ void YWindowManager::setKeyboard(mstring keyboard) {
         char program[] = "setxkbmap";
         csmart path(path_lookup(program));
         if (path) {
-            wordexp_t exp = {};
-            exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
-                exp.we_wordv[0] = program;
-                wmapp->runProgram(path, exp.we_wordv);
-                exp.we_wordv[0] = nullptr;
-                wordfree(&exp);
-            }
-            if (taskBar) {
-                taskBar->keyboardUpdate(keyboard);
-            }
+            YStringArray args;
+            args.append( path.data() );
+            args.append( keyboard );
+            args.append( NULL );
+            wmapp->runProgram( path, args.getCArray() );
         }
         else if (ONCE) {
             new YMsgBox(YMsgBox::mbOK,
