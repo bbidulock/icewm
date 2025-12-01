@@ -3679,14 +3679,8 @@ void YWindowManager::setKeyboard(mstring keyboard) {
         char program[] = "setxkbmap";
         csmart path(path_lookup(program));
         if (path) {
-            wordexp_t exp = {};
-            exp.we_offs = 1;
-            if (wordexp(keyboard, &exp, WRDE_NOCMD | WRDE_DOOFFS) == 0) {
-                exp.we_wordv[0] = program;
-                wmapp->runProgram(path, exp.we_wordv);
-                exp.we_wordv[0] = nullptr;
-                wordfree(&exp);
-            }
+            mstring cmdline(path, " ", keyboard);
+            wmapp->runCommand(cmdline);
             if (taskBar) {
                 taskBar->keyboardUpdate(keyboard);
             }
