@@ -18,7 +18,8 @@ bool YXApplication::popup(YWindow *forWindow, YPopupWindow *popup) {
 
         if (!grabEvents(forWindow ? forWindow : popup, cursor,
                         ButtonPressMask | ButtonReleaseMask |
-                        (menuMouseTracking ? PointerMotionMask : ButtonMotionMask)))
+                        ((menuMouseTracking || popup->pointerMotion())
+                        ? PointerMotionMask : ButtonMotionMask)))
         {
             return false;
         }
@@ -50,6 +51,7 @@ YPopupWindow::YPopupWindow(YWindow *aParent): YWindow(aParent) {
     fOwner = nullptr;
     fFlags = 0;
     fUp = false;
+    fPointerMotion = false;
     fXiScreen = -1;
     setStyle(wsSaveUnder | wsOverrideRedirect);
 }

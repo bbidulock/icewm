@@ -72,6 +72,10 @@ public:
 
     YWindow *popupOwner() { return fOwner; }
     int getXiScreen() { return fXiScreen; }
+    bool isUp() const { return fUp; }
+    bool pointerMotion() const { return fPointerMotion; }
+    void setPointerMotion(bool on) { fPointerMotion = on; }
+
 private:
     unsigned int fFlags;
     YWindow *fForWindow;
@@ -79,6 +83,7 @@ private:
     YPopupWindow *fPrevPopup;
     YWindow *fOwner;
     bool fUp;
+    bool fPointerMotion;
     int fXiScreen;
 };
 
