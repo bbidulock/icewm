@@ -1471,6 +1471,10 @@ void YXApplication::freePicture(Picture picture) const {
     XRenderFreePicture(display(), picture);
 }
 
+Pixmap YXApplication::createPixmap(unsigned wid, unsigned hei, unsigned dep) {
+    return XCreatePixmap(display(), root(), wid, hei, dep);
+}
+
 void YXApplication::freePixmap(Pixmap pixmap) const {
     XFreePixmap(xapp->display(), pixmap);
 }
@@ -1505,6 +1509,7 @@ YTextProperty::YTextProperty(const char* str) {
 YTextProperty::YTextProperty(Window handle, Atom property) {
     nitems = 0;
     value = nullptr;
+    YProperty::fRequest = property;
     if (XGetTextProperty(xapp->display(), handle, this, property)) {
         if (encoding == _XA_COMPOUND_TEXT) {
             char** list = nullptr;

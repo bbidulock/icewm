@@ -140,6 +140,7 @@ public:
     XRenderPictFormat* format() const { return formatForDepth(fDepth); }
     Picture createPicture(Pixmap pixmap, XRenderPictFormat* format) const;
     void freePicture(Picture picture) const;
+    Pixmap createPixmap(unsigned width, unsigned height, unsigned depth);
     void freePixmap(Pixmap pixmap) const;
 
     void saveEventTime(const XEvent &xev);
