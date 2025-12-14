@@ -128,7 +128,7 @@ inline void trimBack(string &s, const char *junk = SPACECHARS) {
  */
 
 struct tLessOp4Localized {
-    std::locale loc; // default locale
+    std::locale loc = std::locale(""); // default locale
     const std::collate<char> &coll = std::use_facet<std::collate<char>>(loc);
     bool operator()(const std::string &a, const std::string &b) {
         return coll.compare(a.data(), a.data() + a.size(), b.data(),
