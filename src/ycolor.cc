@@ -395,6 +395,11 @@ unsigned long YColor::pixel() {
     return fPixel ? fPixel->pixel() : xapp->black();
 }
 
+YColor::operator XRenderColor() const {
+    return { fPixel->red(), fPixel->green(), fPixel->blue(),
+             Elvis<unsigned short>(fPixel->alpha(), USHRT_MAX) };
+}
+
 YColor YColor::darker() {
     return fPixel ? fPixel->darker() : *this;
 }

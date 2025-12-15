@@ -1,5 +1,6 @@
-#ifndef __YCOLOR_H
-#define __YCOLOR_H
+#ifndef YCOLOR_H
+#define YCOLOR_H
+#include <X11/extensions/Xrender.h>
 
 class YPixel;
 class YColorName;
@@ -24,6 +25,7 @@ public:
     bool operator!=(YColor& c);
     operator bool() { return fPixel; }
     operator bool() const { return fPixel; }
+    operator XRenderColor() const;
     void release() { fPixel = nullptr; }
 
     unsigned char red();
