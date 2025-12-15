@@ -1103,8 +1103,8 @@ Here is a different solution using conditionals.
 
     icesh -f if -P _NET_FRAME_EXTENTS=0 then bordered else borderless
 
-Here is a conditional to either toggle the visibility of a roxterm
-that has a WM_ROLE value of C<special> or start it with B<runonce>.
+Here is a conditional to either toggle the visibility of a roxterm that
+has a WM_WINDOW_ROLE value of C<special> or start it with B<runonce>.
 
     icesh if -c roxterm.Roxterm -R special then \
         if -v then hide \
