@@ -187,8 +187,8 @@ cfoption icewm_themable_preferences[] = {
 
     OUV("MenuIconSize",                         &menuIconSize, 16, 128,          "Menu icon size"),
     OUV("SmallIconSize",                        &smallIconSize, 16, 128,         "Dimension of the small icons"),
-    OUV("LargeIconSize",                        &largeIconSize, 16, 128,         "Dimension of the large icons"),
-    OUV("HugeIconSize",                         &hugeIconSize, 16, 128,          "Dimension of the large icons"),
+    OUV("LargeIconSize",                        &largeIconSize, 16, 256,         "Dimension of the large icons"),
+    OUV("HugeIconSize",                         &hugeIconSize, 16, 256,          "Dimension of the large icons"),
 
     OUV("QuickSwitchHorzMargin",                &quickSwitchHMargin, 0, 64,     "Horizontal margin of the quickswitch window"),
     OUV("QuickSwitchVertMargin",                &quickSwitchVMargin, 0, 64,     "Vertical margin of the quickswitch window"),
