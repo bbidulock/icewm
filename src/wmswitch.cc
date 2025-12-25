@@ -462,12 +462,16 @@ int WindowItemsCtrlr::nextKey(KeySym keysym) {
     return -1;
 }
 
+Switcher* Switcher::newSwitchWindow(YWindow* parent, ISwitchItems* items,
+                                    bool verticalStyle) {
+    return new SwitchWindow(parent, items, verticalStyle);
+}
+
 SwitchWindow::SwitchWindow(YWindow *parent, ISwitchItems *items,
                            bool verticalStyle):
-    YPopupWindow(parent),
+    Switcher(parent),
     zItems(items ? items : new WindowItemsCtrlr),
     m_verticalStyle(verticalStyle),
-    m_oldMenuMouseTracking(menuMouseTracking),
     m_hlItemFromMotion(-1),
     m_hintAreaStart(0),
     m_hintAreaStep(1),
@@ -986,8 +990,7 @@ void SwitchWindow::paintVertical(Graphics &g) {
 void SwitchWindow::begin(bool zdown, unsigned mods, char* wmclass) {
     bool change = zItems->setWMClass(wmclass);
     modsDown = KEY_MODMASK(mods);
-    m_oldMenuMouseTracking = menuMouseTracking;
-    menuMouseTracking = true;
+    setPointerMotion(true);
 
     if (zItems->isEmpty() || change || !quickSwitchPersistence ||
         (fWorkspace != manager->activeWorkspace() &&
@@ -1016,7 +1019,6 @@ void SwitchWindow::activatePopup(int flags) {
 }
 
 void SwitchWindow::deactivatePopup() {
-    menuMouseTracking = m_oldMenuMouseTracking;
     m_hlItemFromMotion = -1;
 }
 

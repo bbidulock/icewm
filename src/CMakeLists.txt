@@ -473,7 +473,7 @@ SET(ICEWM_SRCS
     objbar.cc objbutton.cc objmenu.cc wmdock.cc
     wmmenu.cc wmprog.cc wmpref.cc atasks.cc aworkspaces.cc
     amailbox.cc aclock.cc acpustatus.cc amemstatus.cc
-    applet.cc apppstatus.cc aaddressbar.cc
+    applet.cc apppstatus.cc aaddressbar.cc preview.cc
     akeyboard.cc aapm.cc atray.cc ysmapp.cc yxtray.cc
     )
 do_auto_inc_headers(ICEWM_SRCS)

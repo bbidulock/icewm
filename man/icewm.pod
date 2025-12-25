@@ -399,10 +399,17 @@ mouse button.  The right mouse button opens the system menu for the
 selected window.  While the QuickSwitch window is up, one can still
 change workspace with the usual workspace hotkeys.
 
-The QuickSwitch has two distinct modes: vertical and horizontal.
-The window list can include all windows or be limited to the current
-workspace. There is an option to raise the selected candidate.
-See the many preferences available for the QuickSwitch.
+The QuickSwitch has three distinct modes: vertical, horizontal and
+preview.  The window list can include all windows or be limited to
+the current workspace.  There is an option to raise the selected
+candidate.  See the many preferences available for the QuickSwitch.
+
+The preview mode shows a small preview window for every application
+window that has been shown earlier by icewm. When the preview quick
+switch is active, this preview is continuously updated. This mode works
+best with a desktop background manager that updates the C<_XROOTPMAP_ID>
+property on the root window, such as L<icewmbg(1)>, L<nitrogen(1)>,
+L<hsetroot(1)> or L<feh(1)>.
 
 =head2 WINDOW PLACEMENT
 

@@ -213,6 +213,8 @@ void YFrameWindow::mergeTabs(YFrameWindow* frame) {
     bool focus = frame->focused();
     if (focus)
         manager->switchFocusFrom(frame);
+    manager->aboutToHide(client());
+
     if (1 < frame->tabCount())
         findRemove(tabbedFrames, frame);
     for (YFrameClient* client : frame->fTabs) {
@@ -280,6 +282,8 @@ void YFrameWindow::selectTab(YFrameClient* tab) {
         fWinState &= ~WinStateFocused;
         client()->setStateHint(getState());
     }
+
+    manager->aboutToHide(client());
     YClientContainer* formerConter = container();
     formerConter->lower();
     YFrameClient* formerClient = client();
@@ -3153,8 +3157,6 @@ void YFrameWindow::updateState() {
     if (!isManaged() || !client() || client()->destroyed())
         return ;
 
-    client()->setStateHint(getState());
-
     // some code is probably against the ICCCM.
     // some applications misbehave either way.
     // (some hide windows on iconize, this is bad when switching workspaces
@@ -3163,8 +3165,12 @@ void YFrameWindow::updateState() {
     bool iconic = isHidden() || isMinimized();
     bool hidden = iconic || isRollup() || !visibleNow();
 
+    if (hidden && visible())
+        manager->aboutToHide(client());
+
     MSG(("updateState: winState=0x%X, client=%d", fWinState, !hidden));
 
+    client()->setStateHint(getState());
     client()->setFrameState(iconic ? IconicState : NormalState);
 
     if (hidden) {

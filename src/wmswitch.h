@@ -1,5 +1,6 @@
-#ifndef SWITCH_H
-#define SWITCH_H
+#ifndef WMSWITCH_H
+#define WMSWITCH_H
+#include "switcher.h"
 
 class YFrameWindow;
 class YWindowManager;
@@ -52,7 +53,7 @@ public:
     virtual void sort() { }
 };
 
-class SwitchWindow: public YPopupWindow {
+class SwitchWindow: public Switcher {
 public:
     SwitchWindow(YWindow* parent, ISwitchItems* items, bool verticalStyle);
     ~SwitchWindow();
@@ -79,8 +80,6 @@ public:
 private:
     ISwitchItems* zItems;
     bool m_verticalStyle;
-    // backup of user's config, needs to be enforced temporarily
-    bool m_oldMenuMouseTracking;
     // remember what was highlighted by mouse tracking
     int m_hlItemFromMotion;
     // hints for fast identification of the entry under the cursor

@@ -10,7 +10,7 @@
 #include "wmtaskbar.h"
 #include "wmwinlist.h"
 #include "wmwinmenu.h"
-#include "wmswitch.h"
+#include "switcher.h"
 #include "wmstatus.h"
 #include "wmminiicon.h"
 #include "wmcontainer.h"
@@ -144,13 +144,13 @@ YWindowManager::YWindowManager(
 }
 
 YWindowManager::~YWindowManager() {
+    switchWindowDestroy();
     if (fWorkArea) {
         delete [] fWorkArea[0];
         delete [] fWorkArea;
     }
     delete fTopWin;
     delete fBottom;
-    delete fSwitchWindow;
     delete fDockApp;
     if (manager == this)
         manager = nullptr;
@@ -286,7 +286,7 @@ void YWindowManager::grabKeys() {
 bool YWindowManager::handleTimer(YTimer* timer) {
     if (timer == fSwitchDownTimer) {
         fSwitchDownTimer = null;
-        if (switchWindowVisible() == false) {
+        if (fSwitchWindow && fSwitchWindow->isUp() == false) {
             delete fSwitchWindow;
             fSwitchWindow = nullptr;
         }
@@ -304,21 +304,43 @@ bool YWindowManager::handleTimer(YTimer* timer) {
 }
 
 void YWindowManager::handlePopDown(YPopupWindow* popup) {
-    if (popup == fSwitchWindow) {
+    if (popup == fSwitchWindow && fSwitchWindow->previews() == false) {
         long delay = quickSwitchPersistence * 1000L;
         fSwitchDownTimer->setTimer(delay, this, true);
     }
 }
 
-SwitchWindow* YWindowManager::getSwitchWindow() {
+void YWindowManager::aboutToHide(YFrameClient* client) const {
+    if (fSwitchWindow) {
+        fSwitchWindow->hiding(client);
+    }
+}
+
+Switcher* YWindowManager::getSwitchWindow() {
+    if (fSwitchWindow && fSwitchWindow->previews() != quickSwitchPreview) {
+        switchWindowDestroy();
+    }
     if (fSwitchWindow == nullptr && quickSwitch) {
-        fSwitchWindow = new SwitchWindow(desktop, nullptr, quickSwitchVertical);
+        if (quickSwitchPreview) {
+            fSwitchWindow = Switcher::newSwitchPreview(desktop);
+        } else {
+            fSwitchWindow = Switcher::newSwitchWindow(desktop, nullptr,
+                                                      quickSwitchVertical);
+        }
     }
     return fSwitchWindow;
 }
 
+void YWindowManager::switchWindowDestroy() {
+    if (fSwitchWindow) {
+        if (fSwitchWindow->isUp())
+            fSwitchWindow->cancelPopup();
+        delete fSwitchWindow; fSwitchWindow = nullptr;
+    }
+}
+
 bool YWindowManager::switchWindowVisible() const {
-    return fSwitchWindow && fSwitchWindow->visible();
+    return fSwitchWindow && fSwitchWindow->isUp();
 }
 
 bool YWindowManager::handleSwitchWorkspaceKey(const XKeyEvent& key) {
@@ -1328,6 +1350,11 @@ void YWindowManager::manageClients() {
         for (int i = 0; i < res->count; ++i) {
             tabbing.remove(res->tabs[i]);
         }
+    }
+
+    if (quickSwitchPreview && quickSwitch) {
+        switchWindowDestroy();
+        fSwitchWindow = getSwitchWindow();
     }
 }
 
@@ -3225,6 +3252,12 @@ void YWindowManager::handleProperty(const XPropertyEvent &property) {
     else if (property.atom == _XA_NET_DESKTOP_LAYOUT) {
         readDesktopLayout();
     }
+    else if (property.atom == _XA_XROOTCOLOR_PIXEL ||
+             property.atom == _XA_XROOTPMAP_ID) {
+        if (fSwitchWindow) {
+            fSwitchWindow->handleProperty(property);
+        }
+    }
 }
 
 void YWindowManager::updateClientList() {
@@ -3859,6 +3892,12 @@ void YWindowManager::doWMAction(WMAction action) {
     xev.data.l[1] = action;
 
     XPutBackEvent(xapp->display(), &event);
+}
+
+void YWindowManager::handleDamageNotify(const XDamageNotifyEvent& damage) {
+    if (fSwitchWindow) {
+        fSwitchWindow->handleDamageNotify(damage);
+    }
 }
 
 #ifdef CONFIG_XRANDR

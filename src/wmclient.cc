@@ -656,6 +656,9 @@ void YFrameClient::handleUnmap(const XUnmapEvent &unmap) {
 }
 
 void YFrameClient::handleProperty(const XPropertyEvent &property) {
+    if (destroyed())
+        return;
+
     bool new_prop = (property.state != PropertyDelete);
 
     if (property.window != handle()) {
@@ -851,6 +854,13 @@ void YFrameClient::handleDestroyWindow(const XDestroyWindowEvent &destroyWindow)
         manager->unmanageClient(this);
 }
 
+void YFrameClient::handleDamageNotify(const XDamageNotifyEvent& damage) {
+    if (destroyed())
+        return;
+
+    manager->handleDamageNotify(damage);
+}
+
 #ifdef CONFIG_SHAPE
 void YFrameClient::handleShapeNotify(const XShapeEvent &shape) {
     if (shapes.supported) {
@@ -956,6 +966,9 @@ void YFrameClient::setNetWMAllowedActions(Atom *actions, int count) {
 }
 
 void YFrameClient::handleClientMessage(const XClientMessageEvent &message) {
+    if (destroyed())
+        return;
+
     if (message.message_type == _XA_WM_CHANGE_STATE) {
         const long state = message.data.l[0];
         YFrameWindow* frame = getFrame();

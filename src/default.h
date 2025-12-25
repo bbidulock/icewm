@@ -108,6 +108,7 @@ XIV(bool, quickSwitchVertical,                  true)
 XIV(bool, quickSwitchSmallWindow,               false)
 XIV(bool, quickSwitchHugeIcon,                  false)
 XIV(bool, quickSwitchFillSelection,             false)
+XIV(bool, quickSwitchPreview,                   false)
 XIV(bool, countMailMessages,                    false)
 XIV(bool, strongPointerFocus,                   false)
 XIV(bool, snapMove,                             true)
@@ -308,6 +309,7 @@ cfoption icewm_preferences[] = {
     OBV("QuickSwitchVertical",                  &quickSwitchVertical,           "Place the icons and titles vertical instead of horizontal"),
     OBV("QuickSwitchHugeIcon",                  &quickSwitchHugeIcon,           "Show the huge window icon for the active window"),
     OBV("QuickSwitchFillSelection",             &quickSwitchFillSelection,      "Fill the rectangle highlighting the current icon"),
+    OBV("QuickSwitchPreview",                   &quickSwitchPreview,            "Use a QuickSwitch that shows previews of applications"),
     OBV("GrabRootWindow",                       &grabRootWindow,                "Manage root window (EXPERIMENTAL - normally enabled!)"),
     OBV("SnapMove",                             &snapMove,                      "Snap to nearest screen edge/window when moving windows"),
     OBV("EdgeSwitch",                           &edgeHorzWorkspaceSwitching,    "Workspace switches by moving mouse to left/right screen edge"),

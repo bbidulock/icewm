@@ -7,7 +7,7 @@
 class ObjectContainer;
 class YSMListener;
 class YActionListener;
-class SwitchWindow;
+class Switcher;
 class MenuProgSwitchItems;
 
 class MenuLoader {
@@ -94,7 +94,7 @@ private:
     // The instance is NOT deleted because there is apparently
     // interference with ywindows cleanup sequence and this
     // object here is cached over process lifetime anyway.
-    SwitchWindow *pSwitchWindow;
+    Switcher *pSwitchWindow;
 };
 
 class DProgram: public DObject, public RProgram {

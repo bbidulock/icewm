@@ -14,7 +14,7 @@ class YWindowManager;
 class YFrameClient;
 class YFrameWindow;
 class YSMListener;
-class SwitchWindow;
+class Switcher;
 class MiniIcon;
 class DockApp;
 class IApp;
@@ -100,6 +100,7 @@ public:
     virtual void handleClientMessage(const XClientMessageEvent &message);
     virtual void handleProperty(const XPropertyEvent &property);
     virtual void handleFocus(const XFocusChangeEvent &focus);
+    virtual void handleDamageNotify(const XDamageNotifyEvent& damage);
 #ifdef CONFIG_XRANDR
     virtual void handleRRScreenChangeNotify(const XRRScreenChangeNotifyEvent &xrrsc);
     virtual void handleRRNotify(const XRRNotifyEvent &notify);
@@ -315,8 +316,10 @@ public:
     bool handleWMKey(const XKeyEvent &key, bool repeating);
 
     int getSwitchScreen();
+    void switchWindowDestroy();
     bool switchWindowVisible() const;
-    SwitchWindow* getSwitchWindow();
+    void aboutToHide(YFrameClient* client) const;
+    Switcher* getSwitchWindow();
     Window netActiveWindow() const { return fActiveWindow; }
     int edgeWorkspace(int x, int y);
 
@@ -405,7 +408,7 @@ private:
     Time fKeyReleaseTime;
     unsigned fKeyReleaseState;
     unsigned fKeyReleaseKCode;
-    SwitchWindow* fSwitchWindow;
+    Switcher* fSwitchWindow;
     lazy<YTimer> fSwitchDownTimer;
     lazy<YTimer> fLayoutTimer;
     lazy<YTimer> fUpdateTimer;
