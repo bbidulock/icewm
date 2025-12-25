@@ -9,7 +9,8 @@ nxterm.icon: xterm
 emacs.Emacs.icon: emacs
 
 # plank with picom
-#plank.doNotManage: 1
+plank.doNotManage: 1
+plank.layer: Below
 
 # make Evince resizable
 evince.dBorder: 1
