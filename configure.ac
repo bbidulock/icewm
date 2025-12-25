@@ -432,6 +432,7 @@ then
            test -s src/nanosvgrast.h
         then
             AC_DEFINE([CONFIG_NANOSVG],[1],[Define to enable nanosvg rendering.])
+            image_library="$image_library nanosvg"
         else
             AC_MSG_WARN([Nanosvg includes are missing. SVG is not supported.])
         fi
