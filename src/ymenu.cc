@@ -1205,14 +1205,13 @@ void YMenu::paintItem(Graphics &g, const int i, const int l, const int t,
                         cascadePos + 1, t + top + pad + ih);
             delta = (delta && active);
         }
+        int asize = (9 * menuIconSize) >> 4;
         if (wmLook == lookGtk || wmLook == lookMotif) {
-            int asize = 9;
             int ax = delta + width() - r - 1 - asize * 3 / 2;
             int ay = delta + t + top + pad + (ih - asize) / 2;
             g.setColor(menuBg);
             g.drawArrow(Right, ax, ay, asize, active);
         } else {
-            int asize = 9;
             int ax = width() - r - 1 - asize;
             int ay = delta + t + top + pad + (ih - asize) / 2;
             g.setColor(fg);
