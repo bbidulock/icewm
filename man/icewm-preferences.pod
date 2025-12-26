@@ -344,6 +344,10 @@ Group windows by workspace together in Alt+Tab.
 
 Time in seconds to remember the state of Alt+Tab.
 
+=item B<QuickSwitchPreview>=0
+
+Use a QuickSwitch that shows previews of applications.
+
 =item B<QuickSwitchRaiseCandidate>=0
 
 Raise a selected window while Alt+Tabbing in the QuickSwitch.
@@ -623,10 +627,6 @@ Confirm logout.
 =item B<ShapesProtectClientWindow>=1
 
 Don't cut client windows by shapes set trough frame corner pixmap.
-
-=item B<DoubleBuffer>=1
-
-Use double buffering when redrawing the display.
 
 =item B<XRRDisable>=1
 
