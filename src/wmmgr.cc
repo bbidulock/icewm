@@ -3127,7 +3127,7 @@ void YWindowManager::getIconPosition(MiniIcon* iw, int *iconX, int *iconY) {
     const int margin = 4;
 
     if (miniIconsPlaceHorizontal) {
-        getWorkArea(&mcol, &mrow, &Mcol, &Mrow, activeWorkspace());
+        getWorkArea(iw->getFrame(), &mcol, &mrow, &Mcol, &Mrow);
         width = iw->width() + 2 * margin;
         height = iw->height() + 2 * margin;
         drow = miniIconsBottomToTop ? -1 : +1;
@@ -3135,7 +3135,7 @@ void YWindowManager::getIconPosition(MiniIcon* iw, int *iconX, int *iconY) {
         iconRow = iconY;
         iconCol = iconX;
     } else {
-        getWorkArea(&mrow, &mcol, &Mrow, &Mcol, activeWorkspace());
+        getWorkArea(iw->getFrame(), &mrow, &mcol, &Mrow, &Mcol);
         width = iw->height() + 2 * margin;
         height = iw->width() + 2 * margin;
         drow = miniIconsRightToLeft ? -1 : +1;
