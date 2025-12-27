@@ -1,6 +1,6 @@
 
 # to use target_link_options
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.5...3.15)
 
 PROJECT(ICEWM CXX)
 
