@@ -692,7 +692,7 @@ void SwitchPreview::handleDamageNotify(const XDamageNotifyEvent& damage) {
 
 bool SwitchPreview::point(int x, int y) {
     for (PreviewIterator iter = views.iterator(); ++iter; ) {
-        if (iter->priority && iter->inside(x, y)) {
+        if (iter->placed() && iter->inside(x, y)) {
             if (iter.where() != active) {
                 target(iter.where() - active);
             }
@@ -844,7 +844,7 @@ bool SwitchPreview::handleKey(const XKeyEvent& key) {
         else if (k >= '1' && k <= '9') {
             int index = int(k - '0');
             for (PreviewIterator iter = views.iterator(); ++iter; ) {
-                if (iter->priority && --index == 0) {
+                if (iter->placed() && --index == 0) {
                     if (active != iter.where()) {
                         target(iter.where() - active);
                     }
@@ -859,7 +859,7 @@ bool SwitchPreview::handleKey(const XKeyEvent& key) {
             char c = char(tolower((unsigned char) k));
             for (int i = 1; i < viewables; ++i) {
                 int n = (active + i) % viewables;
-                if (n >= 0 && views[n]->letter == c && views[n]->priority) {
+                if (n >= 0 && views[n]->letter == c && views[n]->placed()) {
                     target(n - active);
                     break;
                 }
