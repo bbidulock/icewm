@@ -331,7 +331,7 @@ void YWMApp::initIconSize() {
                 delta = gap;
         }
         is->min_width = is->min_height = int(sizes[0]);
-        is->max_width = is->max_height = int(sizes[count - 1]);
+        is->max_width = is->max_height = int(max(sizes[count - 1], 128U));
         is->width_inc = is->height_inc = int(delta);
         XSetIconSizes(xapp->display(), desktop->handle(), is, 1);
         XFree(is);
