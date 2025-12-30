@@ -23,10 +23,11 @@
 IResourceLocator* YIcon::iconResourceLocator;
 
 YIcon::YIcon(upath filename) :
-        fSmall(null), fLarge(null), fHuge(null),
-        pSmall(None), pLarge(None), pHuge(None), pOther(None), otherSize(0),
-        loadedS(false), loadedL(false), loadedH(false),
-        fCached(false), fPath(filename.expand())
+    fPath(filename.expand()),
+    fSmall(null), fLarge(null), fHuge(null),
+    pSmall(None), pLarge(None), pHuge(None),
+    pOther(None), otherSize(0), fCached(false),
+    loadedS(false), loadedL(false), loadedH(false)
 {
     // don't attempt to load if icon is disabled
     if (fPath.equals("none") || fPath.equals("-"))
@@ -34,14 +35,15 @@ YIcon::YIcon(upath filename) :
 }
 
 YIcon::YIcon(ref<YImage> small, ref<YImage> large, ref<YImage> huge) :
-        fSmall(small), fLarge(large), fHuge(huge),
-        pSmall(None), pLarge(None), pHuge(None), pOther(None), otherSize(0),
-        loadedS(small != null), loadedL(large != null), loadedH(huge != null),
-        fCached(false), fPath(null) {
+    fSmall(small), fLarge(large), fHuge(huge),
+    pSmall(None), pLarge(None), pHuge(None),
+    pOther(None), otherSize(0), fCached(false),
+    loadedS(small != null), loadedL(large != null), loadedH(huge != null)
+{
 }
 
 YIcon::~YIcon() {
-    if (xapp != nullptr) {
+    if (xapp) {
         if (pSmall)
             XRenderFreePicture(xapp->display(), pSmall);
         if (pLarge)
@@ -99,7 +101,6 @@ public:
             // last resort
             + 128
             + 64
-            + 32
             ;
         if (YIcon::supportSVG())
             seen[last++] = SCALABLE;
@@ -741,6 +742,14 @@ bool YIcon::draw(Graphics& g, int x, int y, unsigned size) {
         return true;
     }
     return false;
+}
+
+void YIcon::setOther(Picture pict, unsigned size) {
+    if (pOther) {
+        XRenderFreePicture(xapp->display(), pOther);
+    }
+    pOther = pict;
+    otherSize = size;
 }
 
 // vim: set sw=4 ts=4 et:

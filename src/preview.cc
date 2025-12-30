@@ -75,6 +75,38 @@ void Preview::draw(SwitchPreview* parent, bool active) {
         XRenderFillRectangle(xapp->display(), PictOpSrc, picture, &color,
                              0, 0, w, h);
         ref<YIcon> icon = client->getIcon();
+        unsigned meta = 128;
+        if (icon != null && hugeIconSize < meta && client->haveMetaIcon()) {
+            const unsigned sizes[] = { 3 * meta, 2 * meta, 3 * meta / 2, meta };
+            unsigned size = meta;
+            for (unsigned k : sizes) {
+                if (k < unsigned(NoteSize)) {
+                    size = k;
+                    break;
+                }
+            }
+            if (size != icon->getOtherSize()) {
+                ref<YImage> image = client->getMetaIcon();
+                if (image != null && size != image->width()) {
+                    image = image->scale(size, size);
+                }
+                if (image != null && size == image->width()) {
+                    ref<YPixmap> pixmap = image->renderToPixmap(32, true);
+                    if (pixmap != null) {
+                        Picture picture = pixmap->picture();
+                        if (picture) {
+                            icon->setOther(picture, size);
+                            pixmap->forgetPicture();
+                        }
+                    }
+                }
+            }
+            if (size == icon->getOtherSize()) {
+                icon->draw(g, p + (NoteSize - size) / 2,
+                           q + (NoteSize - size) / 2, size);
+                icon = null;
+            }
+        }
         if (icon != null) {
             const int hu = hugeIconSize, la = largeIconSize, sm = smallIconSize;
             const int sz[] = { 3 * hu, 2 * hu, hu, la, sm, NoteSize / 2 };

@@ -264,6 +264,8 @@ public:
     void refreshIcon();
     void obtainIcon();
     ref<YIcon> getIcon();
+    bool haveMetaIcon() const { return fMetaIcon; }
+    ref<YImage> getMetaIcon();
 
     void setWorkspaceHint(int workspace);
 
@@ -350,6 +352,7 @@ private:
     bool fTimedOut;
     bool fFixedTitle;
     bool fIconize;
+    bool fMetaIcon;
     bool fPinging;
     long fPingTime;
     long fPid;

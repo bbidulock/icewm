@@ -67,6 +67,7 @@ YFrameClient::YFrameClient(YWindow *parent, YFrameWindow *frame, Window win,
     fTimedOut(false),
     fFixedTitle(false),
     fIconize(true),
+    fMetaIcon(false),
     fPinging(false),
     fPingTime(0),
     fPid(0),
@@ -1567,7 +1568,11 @@ void YFrameClient::obtainIcon() {
                 {
                     largestOffset = d;
                     largestSize = w;
+                    largestIcon = null;
                 }
+            }
+            if (w == 128 && h == 128) {
+                fMetaIcon = true;
             }
         }
 
@@ -1633,6 +1638,25 @@ void YFrameClient::obtainIcon() {
     if (fIcon == null) {
         fIcon = oldIcon;
     }
+}
+
+ref<YImage> YFrameClient::getMetaIcon() {
+    ref<YImage> image;
+    long count;
+    long* elem;
+
+    if (getNetWMIcon(&count, &elem)) {
+        for (long *e = elem;
+             e + 2 < elem + count && e[0] > 0 && e[1] > 0;
+             e += 2 + e[0] * e[1]) {
+            long w = e[0], h = e[1], *d = e + 2;
+            if (w == 128 && h == 128 && d + w*h <= elem + count) {
+                image = YImage::createFromIconProperty(d, w, h);
+                break;
+            }
+        }
+    }
+    return image;
 }
 
 bool YFrameClient::getKwmIcon(long* count, Pixmap** pixmap) {
