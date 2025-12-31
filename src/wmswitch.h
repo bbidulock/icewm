@@ -61,7 +61,7 @@ public:
     virtual void paint(Graphics& g, const YRect& r) override;
     virtual void repaint() override;
 
-    void begin(bool zdown, unsigned mods, char* wmclass = nullptr);
+    void begin(bool zdown, unsigned mods, char* wmclass = nullptr) override;
 
     virtual void activatePopup(int flags) override;
     virtual void deactivatePopup() override;
@@ -70,12 +70,12 @@ public:
     virtual bool handleKey(const XKeyEvent& key) override;
     virtual void handleButton(const XButtonEvent& button) override;
     virtual void handleMotion(const XMotionEvent& motion) override;
-    void destroyedClient(YFrameClient* client);
-    void destroyedFrame(YFrameWindow* frame);
-    void createdFrame(YFrameWindow* frame);
-    void createdClient(YFrameWindow* frame, YFrameClient* client);
-    void transfer(YFrameClient* client, YFrameWindow* frame);
-    YFrameWindow* current();
+    void destroyedClient(YFrameClient* client) override;
+    void destroyedFrame(YFrameWindow* frame) override;
+    void createdFrame(YFrameWindow* frame) override;
+    void createdClient(YFrameWindow* frame, YFrameClient* client) override;
+    void transfer(YFrameClient* client, YFrameWindow* frame) override;
+    YFrameWindow* current() override;
 
 private:
     ISwitchItems* zItems;
