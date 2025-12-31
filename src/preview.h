@@ -153,7 +153,6 @@ public:
 private:
     int active;
     int viewables;
-    int numer, denom;
     bool exposed;
     unsigned keyPressed;
     unsigned modsDown;

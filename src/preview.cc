@@ -60,8 +60,10 @@ void Preview::draw(SwitchPreview* parent, bool active) {
     Graphics g(pixmap, w, h, xapp->depth());
     g.setFont(font);
 
-    XRenderColor color = active ? parent->activeFlat.color()
-                                : parent->background.color();
+    XRenderColor color = active ? parent->activeFlat
+                       ? parent->activeFlat.color()
+                       : parent->background.color().brighter()
+                       : parent->background.color();
     if (updated) {
         XRenderFillRectangle(xapp->display(), PictOpSrc, picture, &color,
                              0, 0, w, q);
@@ -119,7 +121,8 @@ void Preview::draw(SwitchPreview* parent, bool active) {
             }
         }
     }
-    g.setColor(active ? parent->activeText : parent->foreground);
+    g.setColor(active ? parent->activeText ? parent->activeText :
+               parent->foreground.brighter() : parent->foreground);
 
     int y = quickSwitchVMargin + font->ascent();
     ClassHint* ch = client->classHint();
@@ -337,8 +340,6 @@ SwitchPreview::SwitchPreview(YWindow* parent) :
     switchFont(switchFontName),
     active(-1),
     viewables(0),
-    numer(numerator()),
-    denom(120),
     exposed(false),
     keyPressed(0),
     modsDown(0)
@@ -377,12 +378,12 @@ SwitchPreview::~SwitchPreview() {
 }
 
 int SwitchPreview::numerator() {
-    int size = int(min(desktop->width(), desktop->height()) / 10);
+    int size = int(min(width(), height()) / 10);
     return clamp(size, 120, 200);
 }
 
 int SwitchPreview::scale(int value) {
-    return value * numer / denom;
+    return value * numerator() / 120;
 }
 
 void SwitchPreview::discard() {
@@ -417,10 +418,10 @@ void SwitchPreview::backdrop() {
         discard();
         rootPixmap = (unsigned long) *rootprop;
         Picture rootPict = xapp->createPicture(rootPixmap, desktop->format());
-        backPixmap = createPixmap(desktop->width(), desktop->height());
+        backPixmap = createPixmap(width(), height());
         Picture backPict = xapp->createPicture(backPixmap, format());
         XRenderComposite(xapp->display(), PictOpSrc, rootPict, None, backPict,
-                         0, 0, 0, 0, 0, 0, desktop->width(), desktop->height());
+                         x(), y(), 0, 0, 0, 0, width(), height());
 
         setBackgroundPixmap(backPixmap);
         clearWindow();
@@ -432,13 +433,22 @@ void SwitchPreview::backdrop() {
 
     int prevWidth = previewWidth();
     int prevHeight = previewHeight();
-    int horiMarg = scale(100);
+    int horiMarg = scale(100), vertMarg = horiMarg;
+    if (width() > height() * 2) {
+        horiMarg = (width() - 2*(height() - 2*vertMarg)) / 2;
+    }
+    else if (height() > width() * 2) {
+        vertMarg = (height() - 2*(width() - 2*horiMarg)) / 2;
+    }
     if (horiMarg * 2 + prevWidth > int(width())) {
         horiMarg = max(0, (int(width()) - prevWidth) / 2);
     }
-    int vertMarg = scale(100);
     if (vertMarg * 2 + prevHeight > int(height())) {
         vertMarg = max(0, (int(height()) - prevHeight) / 2);
+    }
+    if ((int(height()) - 2*vertMarg - 10) / prevHeight == 1 &&
+        2*prevHeight + 30 <= int(height()) && height() < width()) {
+        vertMarg = (int(height()) - 10 - 2*prevHeight) / 2;
     }
     rect.setRect(horiMarg, vertMarg, width() - 2*horiMarg, height() - 2*vertMarg);
     backfill(rect.xx, rect.yy, rect.ww, rect.hh);
@@ -1021,16 +1031,17 @@ void SwitchPreview::handleExpose(const XExposeEvent& expose) {
 }
 
 void SwitchPreview::handleProperty(const XPropertyEvent& property) {
-    if (isUp() && property.state == PropertyNewValue) {
+    if (property.state == PropertyNewValue) {
         if (property.atom == _XA_XROOTCOLOR_PIXEL) {
-            tlog("backcolor");
-            // backcolor();
+            backcolor();
         }
         else if (property.atom == _XA_XROOTPMAP_ID) {
-            YProperty rootprop(desktop, _XA_XROOTPMAP_ID, F32, 1, XA_PIXMAP);
-            if (rootprop && (unsigned long) *rootprop != rootPixmap) {
-                backdrop();
-                drawViews();
+            if (isUp()) {
+                YProperty rootprop(desktop, _XA_XROOTPMAP_ID, F32, 1, XA_PIXMAP);
+                if (rootprop && (unsigned long) *rootprop != rootPixmap) {
+                    backdrop();
+                    drawViews();
+                }
             }
         }
     }
