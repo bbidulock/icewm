@@ -131,6 +131,12 @@ void Preview::draw(SwitchPreview* parent, bool active) {
         strlcpy(title, ch->res_class, sizeof(title));
     else if (ch && nonempty(ch->res_name))
         strlcpy(title, ch->res_name, sizeof(title));
+    else {
+        YProperty cmd(client, _XA_WM_COMMAND, F8, 80, XA_STRING);
+        if (cmd) {
+            strlcpy(title, my_basename(cmd.data<char>()), sizeof(title));
+        }
+    }
     for (int i = 0; title[i] && isupper((unsigned char) title[i]); ++i) {
         title[i] = tolower((unsigned char) title[i]);
     }
