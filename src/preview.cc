@@ -552,11 +552,12 @@ void SwitchPreview::placeViews(int skip) {
     place.reset();
     place.top(rect.xx, rect.yy);
     place.size(previewWidth(), previewHeight());
-    int margin = scale(10);
-    place.hori = max(1, int(rect.ww) / (place.wide + margin));
+    int margin = min(rect.ww / place.wide, rect.hh / place.high) < 3
+                 ? scale(2) : scale(10);
+    place.hori = max(1, int(rect.ww - margin) / (place.wide + margin));
     place.hgap = max(1, int(rect.ww - (place.hori * place.wide))
                             / (place.hori + 1));
-    place.vert = max(1, int(rect.hh) / (place.high + margin));
+    place.vert = max(1, int(rect.hh - margin) / (place.high + margin));
     place.vgap = max(1, int(rect.hh - (place.vert * place.high))
                             / (place.vert + 1));
     int skipped = 0;
