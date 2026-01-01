@@ -1169,7 +1169,7 @@ L<xwininfo(1)>, L<XParseGeometry(3)>.
 
 =head2 BUGS
 
-Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/ice-wm/icewm/issues>.
 
 =head2 AUTHOR
 

@@ -29,7 +29,7 @@ Further information can be found at https://ice-wm.org/[the IceWM
 website],
 at the https://github.com/bbidulock/icewm/[current site of
 development],
-which includes the https://github.com/bbidulock/icewm/issues/[support
+which includes the https://github.com/ice-wm/icewm/issues/[support
 requests].
 
 [[copying]]

@@ -41,7 +41,7 @@ find_program(msgmerge msgmerge)
 find_program(msgfmt msgfmt)
 
 set(COPYRIGHT_HOLDER "Marko Macek <Marko.Macek@gmx.net>")
-set(BUG_ADDRESS "https://github.com/bbidulock/icewm/issues")
+set(BUG_ADDRESS "https://github.com/ice-wm/icewm/issues")
 
 if(NOT gettext OR NOT xgettext OR NOT msgmerge OR NOT msgfmt)
     message(STATUS "Some of those tools not found, skipping translations! gettext, xgettext, msgmerge, msgfmt")

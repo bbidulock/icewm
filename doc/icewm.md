@@ -14,7 +14,7 @@ IceWM originally was designed to emulate the look of Motif, OS/2 Warp 4, OS/2 Wa
 
 Further information can be found at [the IceWM website](https://ice-wm.org/),
 at the [current site of development](https://github.com/bbidulock/icewm/),
-which includes the [support requests](https://github.com/bbidulock/icewm/issues/).
+which includes the [support requests](https://github.com/ice-wm/icewm/issues/).
 
 Copying
 =======

@@ -237,7 +237,7 @@ advanced features are as follows:
 
 =head2 BUGS
 
-Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/ice-wm/icewm/issues>.
 
 =head2 AUTHOR
 

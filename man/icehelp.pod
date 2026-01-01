@@ -104,7 +104,7 @@ Print copying permissions to F<stdout> for the program and exit.
 
 =head2 BUGS
 
-Please report bugs at L<https://github.com/bbidulock/icewm/issues>.
+Please report bugs at L<https://github.com/ice-wm/icewm/issues>.
 
 =head2 AUTHOR
 
