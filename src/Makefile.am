@@ -322,6 +322,7 @@ icewm_SOURCES = \
 	wmswitch.cc \
 	wmswitch.h \
 	preview.cc \
+	preview.h \
 	switcher.h \
 	wmstatus.cc \
 	wmstatus.h \
