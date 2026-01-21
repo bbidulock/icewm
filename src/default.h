@@ -376,7 +376,7 @@ cfoption icewm_preferences[] = {
     OBV("ShowLogoutMenu",                       &showLogoutMenu,                "Show logout menu in the program menu"),
     OBV("ShowHelp",                             &showHelp,                      "Show the help menu item in the program menu"),
     OBV("ShowLogoutSubMenu",                    &showLogoutSubMenu,             "Show logout submenu in the program menu"),
-    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item in the program menu"),
+    OBV("ShowAbout",                            &showAbout,                     "Show the about menu item in the program menu when ShowTaskBar=0"),
     OBV("ShowRun",                              &showRun,                       "Show the run menu item in the program menu"),
     OBV("ShowWindowList",                       &showWindowList,                "Show the window menu item in the program menu"),
     OBV("AllowFullscreen",                      &allowFullscreen,               "Allow to switch a window to fullscreen"),
