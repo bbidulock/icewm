@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 1.4.2.1038\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
 "POT-Creation-Date: 2026-01-01 12:41+0100\n"
-"PO-Revision-Date: 2026-02-03 12:04+0000\n"
+"PO-Revision-Date: 2026-02-18 17:04+0000\n"
 "Last-Translator: Peter Andreasen <noesgaard@gmail.com>\n"
 "Language-Team: Danish <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/da/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -2528,9 +2528,8 @@ msgid "_Restart icewm"
 msgstr "Gensta_rt icewm"
 
 #: src/wmdialog.cc:93
-#, fuzzy
 msgid "Reload ke_ys"
-msgstr "Genindlæs nøgler"
+msgstr "Genindlæs genvejstaster"
 
 #: src/wmdialog.cc:94
 msgid "Reload _toolbar"
