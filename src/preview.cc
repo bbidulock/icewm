@@ -44,14 +44,14 @@ Preview::Preview(YFrameClient* client, YFrameWindow* frame,
 }
 
 Preview::~Preview() {
-    if (pixmap)
-        xapp->freePixmap(pixmap);
-    if (damage)
-        XDamageDestroy(xapp->display(), damage);
     if (picture)
         xapp->freePicture(picture);
     if (source)
         xapp->freePicture(source);
+    if (pixmap)
+        xapp->freePixmap(pixmap);
+    if (damage)
+        XDamageDestroy(xapp->display(), damage);
 }
 
 void Preview::draw(SwitchPreview* parent, bool active) {
