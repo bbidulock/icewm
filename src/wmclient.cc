@@ -1895,16 +1895,17 @@ bool YFrameClient::getNetStartupId(unsigned& time) {
 
     YTextProperty id(nullptr);
     if (XGetTextProperty(xapp->display(), handle(), &id, _XA_NET_STARTUP_ID)) {
-        char* str = strstr((char *)id.value, "_TIME");
-        if (str) {
-            long long ltime = atoll(str + 5);
-            if (ltime < 0 || ltime == LLONG_MAX)
-            {
-                // Value parsing failed
+        char* token = strstr((char *)id.value, "_TIME");
+        if (token && token[5] && token[5] != '-') {
+            char* begin = token + 5;
+            char* end = begin;
+            errno = 0;
+            unsigned long number = strtoul(begin, &end, 10);
+            if (errno || end == begin || *end || number > UINT_MAX) {
                 return false;
             }
 
-            time = unsigned(ltime & 0xffffffff);
+            time = unsigned(number);
             if (time == -1U)
                 time = -2U;
             return true;
