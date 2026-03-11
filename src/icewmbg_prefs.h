@@ -1,9 +1,9 @@
 #ifndef ICEWMBG_PREFS_H
 #define ICEWMBG_PREFS_H
 
-/* Synchronize with MAXWORKSPACES from wmmgr.h */
+/* Synchronize with OldMaxWorkspaces in workspaces.h */
 #define MAX_WORKSPACES  20
-#define ICEBG_MAX_ARGS  8000
+#define ICEBG_MAX_ARGS  10000
 
 #include "yconfig.h"
 
