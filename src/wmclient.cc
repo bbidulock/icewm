@@ -1931,7 +1931,9 @@ bool YFrameClient::getUserTime(Window window, unsigned& time) {
 
 
 bool YFrameClient::getUserTimeWindow() {
-    if (!prop.net_wm_user_time_window) {
+    if (!prop.net_wm_user_time_window ||
+        frameOption(YFrameWindow::foIgnoreUserTime))
+    {
         if (fUserTimeWindow) {
             windowContext.remove(fUserTimeWindow);
             fUserTimeWindow = None;
@@ -1963,6 +1965,8 @@ bool YFrameClient::getUserTime() {
     bool updated = false;
     unsigned time = None;
 
+    if (frameOption(YFrameWindow::foIgnoreUserTime))
+        return updated;
     if (prop.net_startup_id &&
         getNetStartupId(time)) {
         updated = fUserTime.update(time);

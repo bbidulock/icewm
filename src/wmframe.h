@@ -267,6 +267,7 @@ public:
         foClose                    = (1 << 22),
         foIgnoreOverrideRedirect   = (1 << 23),
         foDoNotManage              = (1 << 24),
+        foIgnoreUserTime           = (1 << 25),
     };
 
     unsigned frameFunctions() const { return fFrameFunctions; }

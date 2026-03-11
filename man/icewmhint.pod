@@ -210,6 +210,7 @@ advanced features are as follows:
     ignoreWinList             not on window list.
     ignoreActivationMessages  only user can focus window.
     ignoreOverrideRedirect    ignore the override redirect flag.
+    ignoreUserTime:           ignore wm_user_time and startup_id.
     noFocusOnAppRaise         no focus on raise.
     noFocusOnMap              do not focus when mapped.
     noIgnoreTaskBar           on task bar.
