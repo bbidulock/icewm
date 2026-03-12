@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: icewm 3.3.2.22\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
 "POT-Creation-Date: 2026-01-01 12:41+0100\n"
-"PO-Revision-Date: 2025-08-31 12:59+0000\n"
+"PO-Revision-Date: 2026-03-12 09:04+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/ka/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.16.2\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -457,7 +457,7 @@ msgstr "სისტემა"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An app related to MIDI
 #: src/fdospecgen.h:62
 msgid "Midi"
-msgstr "MIDI"
+msgstr "Midi"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application for presenting, creating, or processing multimedia (audio/video)
 #: src/fdospecgen.h:66 src/fdospecgen.h:74 src/fdospecgen.h:130
