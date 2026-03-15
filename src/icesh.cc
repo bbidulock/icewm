@@ -242,6 +242,7 @@ static NAtom ATOM_NET_ACTIVE_WINDOW("_NET_ACTIVE_WINDOW");
 static NAtom ATOM_NET_FRAME_EXTENTS("_NET_FRAME_EXTENTS");
 static NAtom ATOM_NET_RESTACK_WINDOW("_NET_RESTACK_WINDOW");
 static NAtom ATOM_NET_MOVERESIZE_WINDOW("_NET_MOVERESIZE_WINDOW");
+static NAtom ATOM_NET_WM_MOVERESIZE("_NET_WM_MOVERESIZE");
 static NAtom ATOM_NET_WM_WINDOW_OPACITY("_NET_WM_WINDOW_OPACITY");
 static NAtom ATOM_NET_WM_WINDOW_TYPE("_NET_WM_WINDOW_TYPE");
 static NAtom ATOM_NET_SYSTEM_TRAY_WINDOWS("_KDE_NET_SYSTEM_TRAY_WINDOWS");
@@ -1741,6 +1742,7 @@ private:
     void sizeto();
     void sizeby();
     void moveto();
+    void mousemove();
     void detail();
     void extents();
     void details(Window window);
@@ -2668,6 +2670,22 @@ void IceSh::sizeby()
     }
     else {
         invalidArgument("sizeby parameters");
+    }
+}
+
+void IceSh::mousemove()
+{
+    enum { MOVERESIZE_MOVE = 8, };
+    Window rw, cw;
+    int rx, ry, wx, wy;
+    unsigned mask;
+    if (XQueryPointer(display, root, &rw, &cw, &rx, &ry, &wx, &wy, &mask)) {
+        FOREACH_WINDOW(window) {
+            use(window);
+            send(ATOM_NET_WM_MOVERESIZE, window, rx, ry,
+                 MOVERESIZE_MOVE, None, SourceIndication);
+            doSync();
+        }
     }
 }
 
@@ -5625,6 +5643,9 @@ void IceSh::parseAction()
         }
         else if (isAction("sizeby", 2)) {
             sizeby();
+        }
+        else if (isAction("mousemove", 0)) {
+            mousemove();
         }
         else if (isAction("move", 2)) {
             moveto();

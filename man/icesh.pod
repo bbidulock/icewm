@@ -435,6 +435,10 @@ of the desktop work area.
 
 Displace window by I<X> I<Y> pixels.
 
+=item B<mousemove>
+
+Start a mouse controlled movement of the window.
+
 =item B<center>
 
 Position the window in the center of the desktop work area.
