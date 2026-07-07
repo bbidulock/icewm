@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
 "POT-Creation-Date: 2026-01-01 12:41+0100\n"
-"PO-Revision-Date: 2021-12-18 21:14+0000\n"
-"Last-Translator: Taras Panchenko <top39@ukr.net>\n"
+"PO-Revision-Date: 2026-07-07 22:12+0000\n"
+"Last-Translator: Eugene Krater <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/uk/>\n"
 "Language: uk\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.9.1\n"
+"X-Generator: Weblate 2026.7\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -341,7 +341,7 @@ msgstr "Робочий простір: "
 
 #: src/decorate.cc:129
 msgid "Tabs"
-msgstr ""
+msgstr "Вкладки"
 
 #: src/fdomenu.cc:976
 msgid ""
@@ -392,11 +392,11 @@ msgstr ""
 
 #: src/fdomenu.cc:1261
 msgid "System too slow! Failed to load menu content!"
-msgstr ""
+msgstr "Система працює занадто повільно! Не вдалося завантажити вміст меню!"
 
 #: src/fdomenu.cc:1264
 msgid "Please push HERE and retry after some seconds."
-msgstr ""
+msgstr "Будь ласка, натисніть ТУТ і спробуйте ще раз через кілька секунд."
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: A tool to manage printers
 #: src/fdospecgen.h:24
@@ -634,9 +634,8 @@ msgstr "Мистецтво"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
-msgstr "Штучний інтелект"
+msgstr "Штучниїнтелект"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Astronomy software
 #: src/fdospecgen.h:246 src/fdospecgen.h:252
@@ -734,7 +733,7 @@ msgstr "Годинник"
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Application that only works inside a terminal (text-based or command line application)
 #: src/fdospecgen.h:366
 msgid "ConsoleOnly"
-msgstr ""
+msgstr "Консольні"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside:  
 #: src/fdospecgen.h:372 src/fdospecgen.h:378
@@ -2094,7 +2093,7 @@ msgstr "При_спати"
 
 #: src/wmapp.cc:564 src/wmdialog.cc:90
 msgid "_Hibernate"
-msgstr ""
+msgstr "_Глибокий сон"
 
 #: src/wmapp.cc:568
 msgid "Restart _Icewm"
@@ -2134,7 +2133,7 @@ msgstr "Стільниця"
 
 #: src/wmapp.cc:630 src/wmwinlist.cc:369
 msgid "Move to New _Window"
-msgstr ""
+msgstr "Перемістити в нове _вікно"
 
 #: src/wmapp.cc:640
 msgid "Left Half"
@@ -2245,10 +2244,8 @@ msgid "Move _To"
 msgstr "Перенести _на"
 
 #: src/wmapp.cc:702 src/wmwinlist.cc:452
-#, fuzzy
-#| msgid "Occupy _All"
 msgid "_Occupy All"
-msgstr "Видно _на всіх"
+msgstr "_Видно на всіх"
 
 #: src/wmapp.cc:706 src/wmwinlist.cc:453
 msgid "Tray _icon"
@@ -2256,7 +2253,7 @@ msgstr "_Піктограма на панелі"
 
 #: src/wmapp.cc:708 src/wmwinlist.cc:454
 msgid "R_ename title"
-msgstr ""
+msgstr "Пе_рейменувати заголовок"
 
 #: src/wmapp.cc:713 src/wmwinlist.cc:469 src/wmwinlist.cc:477
 msgid "_Close"
