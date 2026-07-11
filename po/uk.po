@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: IceWM 1.0.6\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
 "POT-Creation-Date: 2026-01-01 12:41+0100\n"
-"PO-Revision-Date: 2026-07-07 22:12+0000\n"
+"PO-Revision-Date: 2026-07-11 18:12+0000\n"
 "Last-Translator: Eugene Krater <lachend@gmail.com>\n"
 "Language-Team: Ukrainian <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/uk/>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2026.7\n"
+"X-Generator: Weblate 2026.7.1\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -377,6 +377,41 @@ msgid ""
 "This program also listens to environment variables defined by\n"
 "the XDG Base Directory Specification:\n"
 msgstr ""
+"ВИКОРИСТАННЯ: icewm-menu-fdo [ОПЦІЇ] [НАЗВА ФАЙЛУ]\n"
+"ОПЦІЇ:\n"
+"-g, --generic        Включити GenericName у дужки програм\n"
+"-o, --output=ФАЙЛ\tЗаписати вихідні дані у ФАЙЛ\n"
+"-t, --terminal=НАЗВА    Використовувати НАЗВУ для терміналу, що має опцію “-e"
+"”\n"
+"-s, --no-lone-app    Перемістити окремі елементи до батьківського меню\n"
+"-S, --no-lone-hint    Як -s, але додати оригінальні підменю\n"
+"-d, --deadline-apps=N    Припинити завантаження інформації про програми "
+"через N мс\n"
+"-D, --deadline-all=N    Припинити все завантаження та вивести те, що "
+"отримано на цей момент\n"
+"-m, --match=PAT        Відобразити лише програми, назва яких містить PAT\n"
+"-M, --imatch=PAT    Як --match, але ігнорує регістр літер\n"
+"-L, --limit-max-len=N    Обрізати назви програм до довжини N, додати ...\n"
+"--seps      Вивести роздільники перед і після вмісту\n"
+"--sep-before    Вивести роздільник перед вмістом\n"
+"--sep-after    Вивести роздільник лише після вмісту\n"
+"--no-sep-others    Застаріла опція, не має ефекту\n"
+"--no-sub-cats    Без додаткових підкатегорій, лише один рівень меню\n"
+"--flat        Відобразити всі програми в одному шарі з підказками щодо "
+"категорій\n"
+"--flat-sep=STR    Строка-роздільник категорій, що використовується у "
+"плоскому режимі (за замовчуванням: “ / ”)\n"
+"--match-sec    Застосувати --match або --imatch до програм ТА розділів\n"
+"--match-osec    Застосувати --match або --imatch лише до розділів\n"
+"--orig-comment    Вивести вихідний файл .desktop як коментар\n"
+"-C, --copying    Вивести інформацію про авторські права\n"
+"-V, --version    Вивести інформацію про версію\n"
+"-h, --help    Вивести це вікно довідки та завершити роботу.\n"
+"\n"
+"FILENAME    Будь-який файл .desktop, що запускає програму командою Exec.\n"
+"\n"
+"Ця програма також реагує на змінні середовища, визначені\n"
+"специфікацією базового каталогу XDG:\n"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: An audio application
 #: src/fdomenu.cc:1164 src/fdospecgen.h:64 src/fdospecgen.h:72
@@ -388,7 +423,7 @@ msgstr "Аудіо"
 
 #: src/fdomenu.cc:1165
 msgid "Zarathustra"
-msgstr ""
+msgstr "Заратустра"
 
 #: src/fdomenu.cc:1261
 msgid "System too slow! Failed to load menu content!"
@@ -2337,11 +2372,11 @@ msgstr ""
 
 #: src/wmapp.cc:1729
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=ФАЙЛ         Перенаправити весь вивід у ФАЙЛ.\n"
 
 #: src/wmapp.cc:1735
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
-msgstr ""
+msgstr "  -i, --install=ТЕМА        Встановити ТЕМУ з icewm-extra або 'list'.\n"
 
 #: src/wmapp.cc:1738
 #, c-format
@@ -2497,17 +2532,16 @@ msgid "_Restart icewm"
 msgstr "_Перезапустити IceWM"
 
 #: src/wmdialog.cc:93
-#, fuzzy
 msgid "Reload ke_ys"
-msgstr "Перезавантажити"
+msgstr "Перезавантажити ke_ys"
 
 #: src/wmdialog.cc:94
 msgid "Reload _toolbar"
-msgstr ""
+msgstr "Перезавантажити _toolbar"
 
 #: src/wmdialog.cc:95
 msgid "Reload win_options"
-msgstr ""
+msgstr "Перечитати win_options"
 
 #. TRANSLATORS: This appears in a group with others items, so please make the hotkeys unique in the set: # T_ile Horizontally, Ca_scade, _Arrange, _Minimize All, _Hide All, _Undo, Arrange _Icons, _Windows, _Refresh, _About, _Logout
 #: src/wmdialog.cc:96 src/wmprog.cc:382 src/wmtaskbar.cc:238
@@ -2516,23 +2550,23 @@ msgstr "_Про"
 
 #: src/wmframe.cc:1437
 msgid "Rename"
-msgstr ""
+msgstr "Перейменувати"
 
 #: src/wmframe.cc:1438
 msgid "Rename the window title"
-msgstr ""
+msgstr "Перейменувати заголовок вікна"
 
 #: src/wmframe.cc:1928
 msgid ""
 "WARNING! All unsaved changes will be lost when\n"
 "this client is killed. Do you wish to proceed?"
 msgstr ""
-"УВАГА! Всі незбережені дані будуть втрачені\n"
-"при знищенні цього клієнта. Бажаєте продовжити?"
+"УВАГА! Незбережені зміни буде втрачено якщо\n"
+"закрити цей клієнт. Бажаєте продовжити?"
 
 #: src/wmframe.cc:1933
 msgid "Kill Client: "
-msgstr "Знищити клієнта: "
+msgstr "Закрити клієнт: "
 
 #: src/wmmenu.cc:37
 msgid "Missing command argument"
