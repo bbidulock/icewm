@@ -10,6 +10,25 @@
 #include "argument.h"
 #include "keysyms.h"
 
+// is there a single double quote in the next two non-empty lines?
+static bool isContinuedString(char *p) {
+    int quotes = 0, lines = 0, bytes = 0;
+    for (; *p; ++p) {
+        if (*p == '"' && 1 < ++quotes)
+            break;
+        if (*p == '=' || (*p == '#' && bytes == 0))
+            break;
+        if (*p == '\n') {
+            if (quotes == 1 || bytes < 3 || 1 < ++lines)
+                break;
+            bytes = 0;
+        }
+        if (ASCII::isWhiteSpace(*p) == false)
+            ++bytes;
+    }
+    return (quotes == 1 && (*p == '\n' || *p == '\0'));
+}
+
 char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     char *p = source;
     while (ASCII::isSpaceOrTab(*p))
@@ -19,15 +38,38 @@ char *YConfig::getArgument(Argument *dest, char *source, bool comma) {
     for (; *p; p = *p ? 1 + p : p) {
         if (*p == '\'') {
             while (*++p && *p != '\'') {
+                if (*p == '\r')
+                    continue;
+                if (*p == '\n')
+                    break;
                 *dest += *p;
             }
+            if (*p == '\n')
+                break;
         }
         else if (*p == '"') {
             while (*++p && *p != '"') {
+                if (*p == '\r')
+                    continue;
+                if (*p == '\n') {
+                    // support old themes
+                    if (isContinuedString(p + 1)) {
+                        *dest += '\n';
+                        continue;
+                    }
+                    else
+                        break;
+                }
+                if (ASCII::isEscapedLineEnding(p)) {
+                    p += 2 + (p[1] == '\r');
+                    continue;
+                }
                 if (*p == '\\' && p[1] == '"')
                     ++p;
                 *dest += *p;
             }
+            if (*p == '\n')
+                break;
         }
         else if (*p == '\\' && p[1] && p[1] != '\n' && p[1] != '\r') {
             // add any char protected by backslash and move forward
