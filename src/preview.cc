@@ -417,24 +417,26 @@ bool SwitchPreview::backcolor() {
 void SwitchPreview::backdrop() {
     manager->grabServer();
     YProperty rootprop(desktop, _XA_XROOTPMAP_ID, F32, 1, XA_PIXMAP);
+    discard();
+    Picture rootPict = None;
     if (rootprop == false) {
-        printf("no XROOTPMAP\n");
+        rootPixmap = None;
+        rootPict = desktop->createPicture();
     }
     else if (rootPixmap != (unsigned long) *rootprop) {
-        discard();
         rootPixmap = (unsigned long) *rootprop;
-        Picture rootPict = xapp->createPicture(rootPixmap, desktop->format());
-        backPixmap = createPixmap(width(), height());
-        Picture backPict = xapp->createPicture(backPixmap, format());
-        XRenderComposite(xapp->display(), PictOpSrc, rootPict, None, backPict,
-                         x(), y(), 0, 0, 0, 0, width(), height());
-
-        setBackgroundPixmap(backPixmap);
-        clearWindow();
-        xapp->sync();
-        xapp->freePicture(rootPict);
-        xapp->freePicture(backPict);
+        rootPict = xapp->createPicture(rootPixmap, desktop->format());
     }
+    backPixmap = createPixmap(width(), height());
+    Picture backPict = xapp->createPicture(backPixmap, format());
+    XRenderComposite(xapp->display(), PictOpSrc, rootPict, None, backPict,
+                     x(), y(), 0, 0, 0, 0, width(), height());
+
+    setBackgroundPixmap(backPixmap);
+    clearWindow();
+    xapp->sync();
+    xapp->freePicture(rootPict);
+    xapp->freePicture(backPict);
     manager->ungrabServer();
 
     int prevWidth = previewWidth();
