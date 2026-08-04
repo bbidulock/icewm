@@ -580,7 +580,7 @@ cfoption icewm_preferences[] = {
 
 #if defined(GENPREF) || defined(WMAPP)
 
-static bool alphaBlending = true;
+static bool alphaBlending = false;
 static bool synchronizeX11;
 static const char* outputFile;
 static const char* splashFile(ICESPLASH);
