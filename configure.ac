@@ -2,10 +2,10 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([icewm],[4.0.0],
+AC_INIT([icewm],[4.1.0],
         [https://github.com/ice-wm/icewm/issues],
         [icewm],[https://ice-wm.org])
-AC_REVISION([4.0.0])
+AC_REVISION([4.1.0])
 
 # set better defaults
 AC_PREFIX_DEFAULT([/usr])
@@ -22,10 +22,10 @@ AC_CONFIG_AUX_DIR([scripts])
 AC_USE_SYSTEM_EXTENSIONS
 AC_CANONICAL_TARGET
 
-DATE='2026-01-01'
+DATE='2026-08-06'
 AC_SUBST([DATE])
 
-MDOCDATE='January 1, 2026'
+MDOCDATE='August 6, 2026'
 AC_SUBST([MDOCDATE])
 
 BRANCH='icewm-1-4-BRANCH'
