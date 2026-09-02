@@ -25,6 +25,13 @@
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <net/if.h>
+/* for getifaddrs */
+#include <arpa/inet.h>
+#include <ifaddrs.h>
+/* for sockaddr_in in *BSD */
+#if __FreeBSD__ || __FreeBSD_kernel__ || __OpenBSD__ || __NetBSD__
+#include <netinet/in.h>
+#endif
 
 #if __FreeBSD__ || __FreeBSD_kernel__
 #include <sys/sysctl.h>
@@ -212,6 +219,23 @@ void NetStatus::timedUpdate(const char* sharedData, bool forceDown) {
     }
 }
 
+mstring getIpAddress(mstring& devIfName) {
+    mstring devIpAddr = _("Unknown");
+    struct ifaddrs *ifap, *ifa;
+
+    getifaddrs(&ifap);
+    for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
+	if (ifa->ifa_addr && ifa->ifa_addr->sa_family == AF_INET) {
+	    if (strcmp(ifa->ifa_name, devIfName.c_str()) == 0 ) {
+		devIpAddr = inet_ntoa(((struct sockaddr_in *)ifa->ifa_addr)->sin_addr);
+		break;
+		}
+	    }
+	}
+    freeifaddrs(ifap);
+    return devIpAddr;
+    }
+
 void NetStatus::updateToolTip() {
     char status[400];
 
@@ -265,13 +289,13 @@ void NetStatus::updateToolTip() {
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"), */
-                _("Interface %s:\n"
+                _("Interface %s:  IP address: %s\n"
                   "  Current rate (in/out):\t%li %s/%li %s\n"
                   "  Current average (in/out):\t%lli %s/%lli %s\n"
                   "  Transferred (in/out):\t%lli %s/%lli %s\n"
                   "  Online time:\t%ld:%02ld:%02ld"
                   "%s%s"),
-                fDevName.c_str(),
+                fDevName.c_str(), getIpAddress(fDevName).c_str(),
                 ci, ciUnit, co, coUnit,
                 cai, caiUnit, cao, caoUnit,
 /*              ai, aiUnit, ao, aoUnit, */
