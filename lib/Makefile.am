@@ -28,6 +28,7 @@ nobase_dist_pkgdata_DATA = \
 	icons/bomb_16x16.xpm \
 	icons/bomb_32x32.xpm \
 	icons/cancel-logout_16x16.xpm \
+	icons/cancel-logout_32x32.xpm \
 	icons/emacs_16x16.xpm \
 	icons/emacs_32x32.xpm \
 	icons/file_16x16.xpm \
