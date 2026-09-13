@@ -48,6 +48,7 @@ nobase_dist_pkgdata_DATA = \
 	icons/hibernate_32x32.xpm \
 	icons/icewm_16x16.png \
 	icons/icewm_32x32.png \
+	icons/icewm_48x48.png \
 	icons/java_16x16.xpm \
 	icons/java_32x32.xpm \
 	icons/kde_16x16.xpm \
