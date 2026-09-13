@@ -333,7 +333,7 @@ void logShape(const XEvent& xev) {
         shp.window, "ShapeEvent",
         shp.kind == ShapeBounding ? "ShapeBounding" :
         shp.kind == ShapeClip ? "ShapeClip" : "unknown_shape_kind",
-        shp.x, shp.y, shp.width, shp.height, boolstr(shp.shaped), shp.time);
+        shp.x, shp.y, shp.width, shp.height, boolStr(shp.shaped), shp.time);
 }
 #endif
 
@@ -565,6 +565,33 @@ void logClientMessage(const XClientMessageEvent& event) {
             data[0] == 1 ? "NormalState" :
             data[0] == 3 ? "IconicState" : "?";
         tlog("%sClientMessage %s %s\n", head, name, op);
+    }
+    else if (strcmp(name, "XdndEnter") == 0) {
+        long version = ((data[1] >> 24) & 0xF);
+        tlog("%s%s source=0x%lX version=%ld %ld %ld %ld",
+             head, name, data[0], version, data[2], data[3], data[4]);
+    }
+    else if (strcmp(name, "XdndLeave") == 0) {
+        tlog("%s%s source=0x%lX", head, name, data[0]);
+    }
+    else if (strcmp(name, "XdndPosition") == 0) {
+        int x = short(data[2] >> 16);
+        int y = short(data[2] & 0xFFFF);
+        tlog("%s%s source=0x%lX x=%d, y=%d",
+             head, name, data[0], x, y);
+    }
+    else if (strcmp(name, "XdndStatus") == 0) {
+        tlog("%s%s target=0x%lX accept=%s",
+             head, name, data[0], boolStr(data[1] & 1));
+    }
+    else if (strcmp(name, "XdndDrop") == 0) {
+        tlog("%s%s source=0x%lX time=%ld.%03ld",
+             head, name, data[0], data[2] / 1000, data[2] % 1000);
+    }
+    else if (strcmp(name, "XdndFinished") == 0) {
+        tlog("%s%s target=0x%lX accept=%s action=%s",
+             head, name, data[0], boolStr(data[1] & 1),
+             atomName(data[2]));
     }
     else {
         tlog("%sClientMessage %s fmt=%d data=%ld,0x%lX,0x%lX",
