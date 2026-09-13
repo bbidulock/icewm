@@ -557,13 +557,36 @@ in the window menu of the window frame.
 
 =head2 DRAG AND DROP
 
-The task bar supports drag and drop operations. When a drag
-is in progress, the destination window can be activated by
-hovering the drag icon over the task button for that window.
-Alternatively, the current workspace can be changed by
-hovering the drag icon over the desired workspace button.
-When edge switching is enabled, the current workspace can
-also be changed by bringing the drag icon to the screen edge.
+Drag and drop is supported in the following ways:
+
+=over
+
+=item
+
+Hovering a drag icon over a task button or a tray icon for
+I<AutoRaiseDelay> milliseconds raises the application window.
+
+=item
+
+Hovering a drag icon over a workspace button for at least
+I<AutoRaiseDelay> milliseconds activates that workspace.
+
+=item
+
+When edge switching is enabled, bringing the drag icon to the screen
+edge for I<EdgeSwitchDelay> milliseconds changes the current workspace.
+
+=item
+
+A hidden taskbar is shown after hovering a drag icon
+over its edge for I<AutoShowDelay> milliseconds.
+
+=item
+
+A window list window that has scrollbars will scroll when hovering
+a drag icon over the scrollbar scroll arrows.
+
+=back
 
 =head2 ADDRESS BAR
 
