@@ -44,10 +44,12 @@ Preview::Preview(YFrameClient* client, YFrameWindow* frame,
 }
 
 Preview::~Preview() {
-    if (picture)
-        xapp->freePicture(picture);
-    if (source)
-        xapp->freePicture(source);
+    if (manager->notShutting()) {
+        if (picture)
+            xapp->freePicture(picture);
+        if (source)
+            xapp->freePicture(source);
+    }
     if (pixmap)
         xapp->freePixmap(pixmap);
     if (damage)
