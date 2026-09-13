@@ -736,16 +736,21 @@ void YWindowManager::handleConfigureRequest(const XConfigureRequestEvent &config
     } else {
         MSG(("root configure request -- client"));
 
-        XWindowChanges xwc;
-        xwc.x = configureRequest.x;
-        xwc.y = configureRequest.y;
-        xwc.width = configureRequest.width;
-        xwc.height = configureRequest.height;
-        xwc.border_width = configureRequest.border_width;
-        xwc.stack_mode = configureRequest.detail;
-        xwc.sibling = configureRequest.above;
+        XWindowChanges xwc = {
+            configureRequest.x,
+            configureRequest.y,
+            configureRequest.width,
+            configureRequest.height,
+            configureRequest.border_width,
+            configureRequest.above,
+            configureRequest.detail,
+        };
+
+        Window ignoring = xapp->ignorable;
+        xapp->ignorable = configureRequest.window;
         XConfigureWindow(xapp->display(), configureRequest.window,
                          configureRequest.value_mask, &xwc);
+        xapp->ignorable = ignoring;
     }
 }
 
