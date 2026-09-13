@@ -515,6 +515,7 @@ void WindowList::setupClient() {
                     WinHintsSkipWindowMenu);
     setWorkspaceHint(AllWorkspaces);
     setLayerHint(WinLayerAboveDock);
+    setDND(true);
 }
 
 WindowList::~WindowList() {
