@@ -566,6 +566,7 @@ void logClientMessage(const XClientMessageEvent& event) {
             data[0] == 3 ? "IconicState" : "?";
         tlog("%sClientMessage %s %s\n", head, name, op);
     }
+#if LOGEVENTS
     else if (strcmp(name, "XdndEnter") == 0) {
         long version = ((data[1] >> 24) & 0xF);
         tlog("%s%s source=0x%lX version=%ld %ld %ld %ld",
@@ -593,6 +594,7 @@ void logClientMessage(const XClientMessageEvent& event) {
              head, name, data[0], boolStr(data[1] & 1),
              atomName(data[2]));
     }
+#endif
     else {
         tlog("%sClientMessage %s fmt=%d data=%ld,0x%lX,0x%lX",
             head, name, event.format, data[0], data[1], data[2]);
