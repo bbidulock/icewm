@@ -688,7 +688,7 @@ MailBoxStatus::MailBoxStatus(MailHandler* handler,
     fUnread(0),
     fSuspended(false)
 {
-    setSize(16, 16);
+    setSize(YIcon::smallSize(), YIcon::smallSize());
     setTitle("MailBox");
     if (mailbox != null) {
         MSG((_("Using MailBox \"%s\"\n"), mailbox.c_str()));
