@@ -505,7 +505,7 @@ void WindowList::setupClient() {
 
     setGeometry(YRect(w / 4, h / 4, w / 2, h / 2));
 
-    setTitle("WindowList");
+    setTitle(_("Window list"));
     setWindowTitle(_("Window list"));
     setIconTitle(_("Window list"));
     setClassHint("windowList", "IceWM");

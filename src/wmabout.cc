@@ -69,7 +69,7 @@ AboutDlg::AboutDlg(YActionListener* al):
     fSizeable = new Padder(ladder, 20, 20);
     fSizeable->layout(this);
 
-    setTitle("About");
+    setTitle(_("icewm - About"));
     setWindowTitle(_("icewm - About"));
     setClassHint("about", "IceWM");
 
