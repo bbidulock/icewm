@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.10\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
-"POT-Creation-Date: 2026-01-01 12:41+0100\n"
+"POT-Creation-Date: 2026-09-22 18:32+0300\n"
 "PO-Revision-Date: 2017-02-26 21:51+0000\n"
 "Last-Translator: Shyukri Shyukriev <shshyukriev@suse.com>\n"
 "Language-Team: Bulgarian <https://l10n.opensuse.org/projects/icewm/icewm-1-3-"
@@ -314,32 +314,37 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:268
+#: src/apppstatus.cc:223
+#, fuzzy, c-format
+msgid "Unknown"
+msgstr "Неизвестно"
+
+#: src/apppstatus.cc:292
 #, fuzzy, c-format
 msgid ""
-"Interface %s:\n"
+"Interface %s:  IP address: %s\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
 "  Current average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Интерфейс %s:\n"
+"Интерфейс %s:  IP адрес: %s\n"
 "  Текуща скорост (вход/изход):\t%li %s/%li %s\n"
 "  Текуща средна скорост (вход/изход):\t%lli %s/%lli %s\n"
 "  Прехвърлени (вход/изход):\t%lli %s/%lli %s\n"
 "  Време:\t%d:%02d:%02d%s%s"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "disconnected"
 msgstr "icon name expected"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "down"
 msgstr "Развива"
 
-#: src/apppstatus.cc:705
+#: src/apppstatus.cc:729
 msgid "NET"
 msgstr ""
 
@@ -1398,125 +1403,125 @@ msgstr "Игра"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2000
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Именувани символи в областта `%s' (числов диапазон: %ld-%ld):\n"
 
-#: src/icesh.cc:2069
+#: src/icesh.cc:2071
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Работно поле извън обхват: %d"
 
-#: src/icesh.cc:2090
+#: src/icesh.cc:2092
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Неправилно име на работно поле: `%s'"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2813
 msgid "GNOME window layer"
 msgstr "GNOME слой на прозорец"
 
-#: src/icesh.cc:2796
+#: src/icesh.cc:2814
 msgid "IceWM tray option"
 msgstr "Опция на IceWM панела за задачи"
 
-#: src/icesh.cc:2797
+#: src/icesh.cc:2815
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2798
+#: src/icesh.cc:2816
 #, fuzzy
 msgid "Motif functions"
 msgstr "Любими приложения"
 
-#: src/icesh.cc:2799
+#: src/icesh.cc:2817
 #, fuzzy
 msgid "Motif decorations"
 msgstr "Любими приложения"
 
-#: src/icesh.cc:2800
+#: src/icesh.cc:2818
 #, fuzzy
 msgid "EWMH window state"
 msgstr "GNOME състояние на прозорец"
 
-#: src/icesh.cc:2891 src/icesh.cc:2964
+#: src/icesh.cc:2909 src/icesh.cc:2982
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "работно поле #%d: `%s'\n"
 
-#: src/icesh.cc:3236 src/icesh.cc:5150 src/icesh.cc:5750
+#: src/icesh.cc:3254 src/icesh.cc:5168 src/icesh.cc:5771
 #, fuzzy, c-format
 msgid "Invalid state: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:3267 src/icesh.cc:4714 src/icesh.cc:4764 src/icesh.cc:6077
+#: src/icesh.cc:3285 src/icesh.cc:4732 src/icesh.cc:4782 src/icesh.cc:6098
 #, fuzzy, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:4305
+#: src/icesh.cc:4323
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:4330
+#: src/icesh.cc:4348
 #, fuzzy, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:4487 src/icesh.cc:4498 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/icesh.cc:4505 src/icesh.cc:4516 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/icesh.cc:4730
+#: src/icesh.cc:4748
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Действие `%s' изисква минимум %d аргумента"
 
-#: src/icesh.cc:4739
+#: src/icesh.cc:4757
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Неправилен израз: `%s'"
 
-#: src/icesh.cc:4750 src/icesound.cc:800 src/icewmbg.cc:1090
+#: src/icesh.cc:4768 src/icesound.cc:800 src/icewmbg.cc:1090
 #: src/icewmhint.cc:37 src/wmapp.cc:1374 src/yxapp.cc:1051
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 "Не мога да отворя display: %s. X трябва да е стартиран и $DISPLAY установена"
 
-#: src/icesh.cc:4866
+#: src/icesh.cc:4884
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "Неочаквана ключова дума: %s"
 
-#: src/icesh.cc:4898
+#: src/icesh.cc:4916
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:4914
+#: src/icesh.cc:4932
 msgid "No actions specified."
 msgstr "Няма указани действия."
 
-#: src/icesh.cc:5074
+#: src/icesh.cc:5092
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Неправилен идентификатор на прозорец: `%s'"
 
-#: src/icesh.cc:5090
+#: src/icesh.cc:5108
 #, fuzzy, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:5123
+#: src/icesh.cc:5141
 #, fuzzy, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Неправилен аргумент: `%s'."
 
-#: src/icesh.cc:6216
+#: src/icesh.cc:6237
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Неизвестно действие: `%s'"
@@ -1959,7 +1964,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:73
+#: src/wmabout.cc:72 src/wmabout.cc:73
 msgid "icewm - About"
 msgstr "За IceWM"
 
@@ -2494,20 +2499,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3723
+#: src/wmmgr.cc:3728
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3724
+#: src/wmmgr.cc:3729
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:285
+#: src/wmoption.cc:286
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Непозната опция на прозореца: %s"
 
-#: src/wmoption.cc:357
+#: src/wmoption.cc:358
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Синтактична грешка в опциите на прозореца"
@@ -2684,7 +2689,7 @@ msgstr "_Прекрати Процес"
 msgid "Kill _Process"
 msgstr "Убий _Процес"
 
-#: src/wmwinlist.cc:509 src/wmwinlist.cc:510
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
 msgstr "Списък на прозорци"
 
@@ -2708,12 +2713,12 @@ msgstr ""
 msgid "Could not parse color \"%s\""
 msgstr "Не мога да заредя шрифт \"%s\"."
 
-#: src/yconfig.cc:87
+#: src/yconfig.cc:129
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Непознато име на ключ %s в %s"
 
-#: src/yconfig.cc:172 src/yconfig.cc:183 src/yconfig.cc:195
+#: src/yconfig.cc:214 src/yconfig.cc:225 src/yconfig.cc:237
 #, fuzzy, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Неправилен аргумент: %s за %s"

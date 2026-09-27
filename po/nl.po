@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.2.23\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
-"POT-Creation-Date: 2026-01-01 12:41+0100\n"
+"POT-Creation-Date: 2026-09-22 18:32+0300\n"
 "PO-Revision-Date: 2025-09-25 13:59+0000\n"
 "Last-Translator: Freek de Kruijf <freek@opensuse.org>\n"
 "Language-Team: Dutch <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -311,30 +311,35 @@ msgstr "Gebruiker: "
 msgid "MEM"
 msgstr "GEH"
 
-#: src/apppstatus.cc:268
-#, c-format
+#: src/apppstatus.cc:223
+#, fuzzy, c-format
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: src/apppstatus.cc:292
+#, fuzzy, c-format
 msgid ""
-"Interface %s:\n"
+"Interface %s:  IP address: %s\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
 "  Current average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Interface %s:\n"
+"Interface %s:  IP-adres: %s\n"
 "  Huidige   (in/uit):\t%li %s/%li %s\n"
 "  Gemiddeld (in/uit):\t%lli %s/%lli %s\n"
 "  Totaal    (in/uit):\t%lli %s/%lli %s\n"
 "  Online-tijd:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 msgid "disconnected"
 msgstr "verbinding verbroken"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 msgid "down"
 msgstr "niet actief"
 
-#: src/apppstatus.cc:705
+#: src/apppstatus.cc:729
 msgid "NET"
 msgstr "NET"
 
@@ -1434,87 +1439,87 @@ msgstr "Hetzelfde spel"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr "Voor hulp bekijk de manpagina icesh(1).\n"
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2000
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Genoemde symbolen van het domein »%s« (Bereik: %ld-%ld):\n"
 
-#: src/icesh.cc:2069
+#: src/icesh.cc:2071
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Werkruimte buiten bereik: %ld"
 
-#: src/icesh.cc:2090
+#: src/icesh.cc:2092
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ongeldig werkruimtenummer: »%s«"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2813
 msgid "GNOME window layer"
 msgstr "GNOME venster laag"
 
-#: src/icesh.cc:2796
+#: src/icesh.cc:2814
 msgid "IceWM tray option"
 msgstr "IceWM tray optie"
 
-#: src/icesh.cc:2797
+#: src/icesh.cc:2815
 msgid "Gravity symbols"
 msgstr "Gravitatiesymbolen"
 
-#: src/icesh.cc:2798
+#: src/icesh.cc:2816
 msgid "Motif functions"
 msgstr "Motif-functies"
 
-#: src/icesh.cc:2799
+#: src/icesh.cc:2817
 msgid "Motif decorations"
 msgstr "Motif-decoraties"
 
-#: src/icesh.cc:2800
+#: src/icesh.cc:2818
 msgid "EWMH window state"
 msgstr "EWMH-vensterstatus"
 
-#: src/icesh.cc:2891 src/icesh.cc:2964
+#: src/icesh.cc:2909 src/icesh.cc:2982
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "Werkruimte #%d: »%s«\n"
 
-#: src/icesh.cc:3236 src/icesh.cc:5150 src/icesh.cc:5750
+#: src/icesh.cc:3254 src/icesh.cc:5168 src/icesh.cc:5771
 #, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ongeldige status: `%s'."
 
-#: src/icesh.cc:3267 src/icesh.cc:4714 src/icesh.cc:4764 src/icesh.cc:6077
+#: src/icesh.cc:3285 src/icesh.cc:4732 src/icesh.cc:4782 src/icesh.cc:6098
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Ongeldig argument: '%s'"
 
-#: src/icesh.cc:4305
+#: src/icesh.cc:4323
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr "Kan geometrie van venster 0x%lx niet ophalen"
 
-#: src/icesh.cc:4330
+#: src/icesh.cc:4348
 #, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ongeldig Xinerama: `%s'."
 
-#: src/icesh.cc:4487 src/icesh.cc:4498 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/icesh.cc:4505 src/icesh.cc:4516 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "Schrijven naar %s lukt niet"
 
-#: src/icesh.cc:4730
+#: src/icesh.cc:4748
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "Actie `%s' heeft minimaal %d argumenten nodig."
 
-#: src/icesh.cc:4739
+#: src/icesh.cc:4757
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Ongeldige expressie: »%s«"
 
-#: src/icesh.cc:4750 src/icesound.cc:800 src/icewmbg.cc:1090
+#: src/icesh.cc:4768 src/icesound.cc:800 src/icewmbg.cc:1090
 #: src/icewmhint.cc:37 src/wmapp.cc:1374 src/yxapp.cc:1051
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
@@ -1522,35 +1527,35 @@ msgstr ""
 "Kan het display %s niet openen. De X-Server moet werken en de "
 "omgevingsvariabele $DISPLAY moet hiernaar verwijzen."
 
-#: src/icesh.cc:4866
+#: src/icesh.cc:4884
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr "Onverwacht: '%s'."
 
-#: src/icesh.cc:4898
+#: src/icesh.cc:4916
 msgid "No windows found."
 msgstr "Geen vensters gevonden."
 
-#: src/icesh.cc:4914
+#: src/icesh.cc:4932
 msgid "No actions specified."
 msgstr "Geen aktie aangegeven."
 
-#: src/icesh.cc:5074
+#: src/icesh.cc:5092
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Ongeldige venster identificatie: »%s«"
 
-#: src/icesh.cc:5090
+#: src/icesh.cc:5108
 #, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ongeldige PID: `%s'"
 
-#: src/icesh.cc:5123
+#: src/icesh.cc:5141
 #, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ongeldige laag: `%s'."
 
-#: src/icesh.cc:6216
+#: src/icesh.cc:6237
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Onbekende actie: »%s«"
@@ -2086,7 +2091,7 @@ msgstr "AlphaBlending"
 msgid "Renderer:"
 msgstr "Renderer:"
 
-#: src/wmabout.cc:73
+#: src/wmabout.cc:72 src/wmabout.cc:73
 msgid "icewm - About"
 msgstr "IceWM - Over"
 
@@ -2641,20 +2646,20 @@ msgstr "Tijdoverschrijding met '%s'!"
 msgid "'%s' produces no output"
 msgstr "'%s' produceert geen uitvoer"
 
-#: src/wmmgr.cc:3723
+#: src/wmmgr.cc:3728
 msgid "Missing program setxkbmap"
 msgstr "Programma setxkbmap ontbreekt"
 
-#: src/wmmgr.cc:3724
+#: src/wmmgr.cc:3729
 msgid "For keyboard switching, please install setxkbmap."
 msgstr "Om van toetsenbord te wisselen, installeer setxkbmap."
 
-#: src/wmoption.cc:285
+#: src/wmoption.cc:286
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Onbekende window optie: %s"
 
-#: src/wmoption.cc:357
+#: src/wmoption.cc:358
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Syntaxisfout in windowopties op lijn %d van %s"
@@ -2825,7 +2830,7 @@ msgstr "Programma stoppen"
 msgid "Kill _Process"
 msgstr "Programma stoppen"
 
-#: src/wmwinlist.cc:509 src/wmwinlist.cc:510
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
 msgstr "Window lijst"
 
@@ -2849,12 +2854,12 @@ msgstr "%s: selecteren mislukt"
 msgid "Could not parse color \"%s\""
 msgstr "Kleur \"%s\" ontleden lukt niet"
 
-#: src/yconfig.cc:87
+#: src/yconfig.cc:129
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Onbekende toets %s in %s"
 
-#: src/yconfig.cc:172 src/yconfig.cc:183 src/yconfig.cc:195
+#: src/yconfig.cc:214 src/yconfig.cc:225 src/yconfig.cc:237
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Ongeldig argument: %s voor %s [%d,%d]"

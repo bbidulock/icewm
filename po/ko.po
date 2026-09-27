@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IceWM 1.2.35\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
-"POT-Creation-Date: 2026-01-01 12:41+0100\n"
+"POT-Creation-Date: 2026-09-22 18:32+0300\n"
 "PO-Revision-Date: 2019-02-07 06:32+0000\n"
 "Last-Translator: Hwajin Kim <hwajin.kim@e4net.net>\n"
 "Language-Team: Korean <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
@@ -314,32 +314,36 @@ msgstr "사용자: "
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:268
-#, c-format
+#: src/apppstatus.cc:223
+msgid "Unknown"
+msgstr ""
+
+#: src/apppstatus.cc:292
+#, fuzzy, c-format
 msgid ""
-"Interface %s:\n"
+"Interface %s:  IP address: %s\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
 "  Current average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"인터페이스 %s:\n"
+"인터페이스 %s:  IP: %s\n"
 "  현재 전송률 (입력/출력):\t%li %s/%li %s\n"
 "  현재 평균 (입력/출력):\t%lli %s/%lli %s\n"
 "  전송량 (입력/출력):\t%lli %s/%lli %s\n"
 "  온라인 시간:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "disconnected"
 msgstr "아이콘 이름 예상됨"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "down"
 msgstr "말아내리기"
 
-#: src/apppstatus.cc:705
+#: src/apppstatus.cc:729
 msgid "NET"
 msgstr "NET"
 
@@ -1407,124 +1411,124 @@ msgstr "같은 게임"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2000
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "`%s' 도메인의 지명된 심볼들 (숫자 범위: %ld-%ld):\n"
 
-#: src/icesh.cc:2069
+#: src/icesh.cc:2071
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr "범위 밖의 작업공간: %ld"
 
-#: src/icesh.cc:2090
+#: src/icesh.cc:2092
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "잘못된 작업공간 이름: `%s'"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2813
 msgid "GNOME window layer"
 msgstr "GNOME 창 레이어"
 
-#: src/icesh.cc:2796
+#: src/icesh.cc:2814
 msgid "IceWM tray option"
 msgstr "IceWM 트레이 옵션"
 
-#: src/icesh.cc:2797
+#: src/icesh.cc:2815
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2798
+#: src/icesh.cc:2816
 #, fuzzy
 msgid "Motif functions"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:2799
+#: src/icesh.cc:2817
 #, fuzzy
 msgid "Motif decorations"
 msgstr "수정 사항 저장"
 
-#: src/icesh.cc:2800
+#: src/icesh.cc:2818
 #, fuzzy
 msgid "EWMH window state"
 msgstr "GNOME 창 상태"
 
-#: src/icesh.cc:2891 src/icesh.cc:2964
+#: src/icesh.cc:2909 src/icesh.cc:2982
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "작업공간 #%d: `%s'\n"
 
-#: src/icesh.cc:3236 src/icesh.cc:5150 src/icesh.cc:5750
+#: src/icesh.cc:3254 src/icesh.cc:5168 src/icesh.cc:5771
 #, fuzzy, c-format
 msgid "Invalid state: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:3267 src/icesh.cc:4714 src/icesh.cc:4764 src/icesh.cc:6077
+#: src/icesh.cc:3285 src/icesh.cc:4732 src/icesh.cc:4782 src/icesh.cc:6098
 #, fuzzy, c-format
 msgid "Invalid argument: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:4305
+#: src/icesh.cc:4323
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:4330
+#: src/icesh.cc:4348
 #, fuzzy, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:4487 src/icesh.cc:4498 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/icesh.cc:4505 src/icesh.cc:4516 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr "%s에 쓸 수 없음"
 
-#: src/icesh.cc:4730
+#: src/icesh.cc:4748
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr "`%s' 동작은 최소 %d 개의 인수를 요구한다."
 
-#: src/icesh.cc:4739
+#: src/icesh.cc:4757
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr "잘못된 표현: `%s'"
 
-#: src/icesh.cc:4750 src/icesound.cc:800 src/icewmbg.cc:1090
+#: src/icesh.cc:4768 src/icesound.cc:800 src/icewmbg.cc:1090
 #: src/icewmhint.cc:37 src/wmapp.cc:1374 src/yxapp.cc:1051
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "디스플레이를 열지 못함: %s. X 실행 중여야 하고 $DISPLAY 정해야 함."
 
-#: src/icesh.cc:4866
+#: src/icesh.cc:4884
 #, fuzzy, c-format
 msgid "Unexpected: `%s'."
 msgstr "예기치 않은 메뉴 키워드: '%s'"
 
-#: src/icesh.cc:4898
+#: src/icesh.cc:4916
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:4914
+#: src/icesh.cc:4932
 msgid "No actions specified."
 msgstr "아무 동작도 지정하지 않음."
 
-#: src/icesh.cc:5074
+#: src/icesh.cc:5092
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "잘못된 창 식별명: `%s'"
 
-#: src/icesh.cc:5090
+#: src/icesh.cc:5108
 #, fuzzy, c-format
 msgid "Invalid PID: `%s'"
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:5123
+#: src/icesh.cc:5141
 #, fuzzy, c-format
 msgid "Invalid layer: `%s'."
 msgstr "잘못된 인수: `%s'."
 
-#: src/icesh.cc:6216
+#: src/icesh.cc:6237
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "알 수 없는 동작: `%s'"
@@ -2046,7 +2050,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:73
+#: src/wmabout.cc:72 src/wmabout.cc:73
 msgid "icewm - About"
 msgstr "icewm에 관하여"
 
@@ -2591,20 +2595,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr "'%s'은(는) 출력이 없습니다."
 
-#: src/wmmgr.cc:3723
+#: src/wmmgr.cc:3728
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3724
+#: src/wmmgr.cc:3729
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:285
+#: src/wmoption.cc:286
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "알 수 없는 창 옵션: %s"
 
-#: src/wmoption.cc:357
+#: src/wmoption.cc:358
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "%d 라인(%s)에 있는 창 옵션 구문 오류"
@@ -2775,7 +2779,7 @@ msgstr "프로세스 종결(_T)"
 msgid "Kill _Process"
 msgstr "프로세스 죽이기(_P)"
 
-#: src/wmwinlist.cc:509 src/wmwinlist.cc:510
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
 msgstr "창 목록"
 
@@ -2799,12 +2803,12 @@ msgstr "%s: 선택 실패"
 msgid "Could not parse color \"%s\""
 msgstr "\"%s\" 폰트를 읽지 못함."
 
-#: src/yconfig.cc:87
+#: src/yconfig.cc:129
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "알 수 없는 키 이름 %s: %s"
 
-#: src/yconfig.cc:172 src/yconfig.cc:183 src/yconfig.cc:195
+#: src/yconfig.cc:214 src/yconfig.cc:225 src/yconfig.cc:237
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "잘못된 인수: %s for %s [%d,%d]"

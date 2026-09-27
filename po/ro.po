@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.0.9\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
-"POT-Creation-Date: 2026-01-01 12:41+0100\n"
+"POT-Creation-Date: 2026-09-22 18:32+0300\n"
 "PO-Revision-Date: 2002-10-04 12:30+0200\n"
 "Last-Translator: Tiberiu Micu <tibimicu@gmx.net>\n"
 "Language-Team: Romanian <ro@li.org>\n"
@@ -301,31 +301,36 @@ msgstr ""
 msgid "MEM"
 msgstr ""
 
-#: src/apppstatus.cc:268
-#, c-format
+#: src/apppstatus.cc:223
+#, fuzzy, c-format
+msgid "Unknown"
+msgstr "Necunoscut"
+
+#: src/apppstatus.cc:292
+#, fuzzy, c-format
 msgid ""
-"Interface %s:\n"
+"Interface %s:  IP address: %s\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
 "  Current average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
-"Interfaţa %s:\n"
+"Interfaţa %s:  Adresa IP: %s\n"
 "  Debit curent (intrare/ieşire):\t%li %s/%li %s\n"
 "  Debit mediu (intrare/ieşire):\t%lli %s/%lli %s\n"
 "  Transferat (intrare/ieşire):\t%lli %s/%lli %s\n"
 "  Perioada de conectare:\t%ld:%02ld:%02ld%s%s"
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 msgid "disconnected"
 msgstr ""
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "down"
 msgstr "Rulează în jos"
 
-#: src/apppstatus.cc:705
+#: src/apppstatus.cc:729
 msgid "NET"
 msgstr ""
 
@@ -1374,124 +1379,124 @@ msgstr "Acelaşi joc"
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2000
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr "Denumiri simbolice ale domeniului `%s' (interval numeric: %ld-%ld):\n"
 
-#: src/icesh.cc:2069
+#: src/icesh.cc:2071
 #, fuzzy, c-format
 msgid "Workspace out of range: %ld"
 msgstr "Spaţiu de lucru în afara domeniului: %d"
 
-#: src/icesh.cc:2090
+#: src/icesh.cc:2092
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Spaţiu de lucru invalid: `%s'"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2813
 msgid "GNOME window layer"
 msgstr "Fereastra strat GNOME"
 
-#: src/icesh.cc:2796
+#: src/icesh.cc:2814
 msgid "IceWM tray option"
 msgstr "Opţiune Icewm tray"
 
-#: src/icesh.cc:2797
+#: src/icesh.cc:2815
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2798
+#: src/icesh.cc:2816
 #, fuzzy
 msgid "Motif functions"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:2799
+#: src/icesh.cc:2817
 #, fuzzy
 msgid "Motif decorations"
 msgstr "Aplicaţii favorite"
 
-#: src/icesh.cc:2800
+#: src/icesh.cc:2818
 #, fuzzy
 msgid "EWMH window state"
 msgstr "Fereastra de stare GNOME"
 
-#: src/icesh.cc:2891 src/icesh.cc:2964
+#: src/icesh.cc:2909 src/icesh.cc:2982
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "spaţiu de lucru #%d: `%s'\n"
 
-#: src/icesh.cc:3236 src/icesh.cc:5150 src/icesh.cc:5750
+#: src/icesh.cc:3254 src/icesh.cc:5168 src/icesh.cc:5771
 #, fuzzy, c-format
 msgid "Invalid state: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:3267 src/icesh.cc:4714 src/icesh.cc:4764 src/icesh.cc:6077
+#: src/icesh.cc:3285 src/icesh.cc:4732 src/icesh.cc:4782 src/icesh.cc:6098
 #, fuzzy, c-format
 msgid "Invalid argument: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:4305
+#: src/icesh.cc:4323
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:4330
+#: src/icesh.cc:4348
 #, fuzzy, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:4487 src/icesh.cc:4498 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/icesh.cc:4505 src/icesh.cc:4516 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/icesh.cc:4730
+#: src/icesh.cc:4748
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:4739
+#: src/icesh.cc:4757
 #, fuzzy, c-format
 msgid "Invalid expression: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:4750 src/icesound.cc:800 src/icewmbg.cc:1090
+#: src/icesh.cc:4768 src/icesound.cc:800 src/icewmbg.cc:1090
 #: src/icewmhint.cc:37 src/wmapp.cc:1374 src/yxapp.cc:1051
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr "Nu pot porni afişarea: %s. Trebuie să ruleze X şi setat $DISPLAY."
 
-#: src/icesh.cc:4866
+#: src/icesh.cc:4884
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr ""
 
-#: src/icesh.cc:4898
+#: src/icesh.cc:4916
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:4914
+#: src/icesh.cc:4932
 msgid "No actions specified."
 msgstr "Nici o acţiune specificată"
 
-#: src/icesh.cc:5074
+#: src/icesh.cc:5092
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr "Identificator de ferestră invalid: `%s'"
 
-#: src/icesh.cc:5090
+#: src/icesh.cc:5108
 #, fuzzy, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:5123
+#: src/icesh.cc:5141
 #, fuzzy, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Argument invalid: `%s'."
 
-#: src/icesh.cc:6216
+#: src/icesh.cc:6237
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Acţiune necunoscută: `%s'"
@@ -1925,7 +1930,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:73
+#: src/wmabout.cc:72 src/wmabout.cc:73
 msgid "icewm - About"
 msgstr "icewm - Despre"
 
@@ -2435,20 +2440,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3723
+#: src/wmmgr.cc:3728
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3724
+#: src/wmmgr.cc:3729
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:285
+#: src/wmoption.cc:286
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Opţiune necunoscută a ferestrei: %s"
 
-#: src/wmoption.cc:357
+#: src/wmoption.cc:358
 #, fuzzy, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr "Eroare de sintaxă la opţiunea ferestrei"
@@ -2628,7 +2633,7 @@ msgstr "Termină procesul"
 msgid "Kill _Process"
 msgstr "Opreşte procesul"
 
-#: src/wmwinlist.cc:509 src/wmwinlist.cc:510
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
 msgstr "Lista ferestre"
 
@@ -2652,12 +2657,12 @@ msgstr ""
 msgid "Could not parse color \"%s\""
 msgstr "Nu pot încărca fontul \"%s\"."
 
-#: src/yconfig.cc:87
+#: src/yconfig.cc:129
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr "Numele tastei %s necunoscut în %s"
 
-#: src/yconfig.cc:172 src/yconfig.cc:183 src/yconfig.cc:195
+#: src/yconfig.cc:214 src/yconfig.cc:225 src/yconfig.cc:237
 #, fuzzy, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr "Argument greşit: %s pentru %s"

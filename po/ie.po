@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: icewm 1.4.2.1830\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
-"POT-Creation-Date: 2026-01-01 12:41+0100\n"
+"POT-Creation-Date: 2026-09-22 18:32+0300\n"
 "PO-Revision-Date: 2019-06-15 19:49+0000\n"
 "Last-Translator: Olga Smirnova <mistresssilvara@hotmail.com>\n"
 "Language-Team: Occidental <https://l10n.opensuse.org/projects/icewm/"
@@ -313,26 +313,30 @@ msgstr "Usator: "
 msgid "MEM"
 msgstr "MEM"
 
-#: src/apppstatus.cc:268
+#: src/apppstatus.cc:223
+msgid "Unknown"
+msgstr ""
+
+#: src/apppstatus.cc:292
 #, c-format
 msgid ""
-"Interface %s:\n"
+"Interface %s:  IP address: %s\n"
 "  Current rate (in/out):\t%li %s/%li %s\n"
 "  Current average (in/out):\t%lli %s/%lli %s\n"
 "  Transferred (in/out):\t%lli %s/%lli %s\n"
 "  Online time:\t%ld:%02ld:%02ld%s%s"
 msgstr ""
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 msgid "disconnected"
 msgstr ""
 
-#: src/apppstatus.cc:284
+#: src/apppstatus.cc:308
 #, fuzzy
 msgid "down"
 msgstr "Devoluer"
 
-#: src/apppstatus.cc:705
+#: src/apppstatus.cc:729
 msgid "NET"
 msgstr "RETE"
 
@@ -1366,124 +1370,124 @@ msgstr ""
 msgid "For help please consult the man page icesh(1).\n"
 msgstr ""
 
-#: src/icesh.cc:1998
+#: src/icesh.cc:2000
 #, c-format
 msgid "Named symbols of the domain `%s' (numeric range: %ld-%ld):\n"
 msgstr ""
 
-#: src/icesh.cc:2069
+#: src/icesh.cc:2071
 #, c-format
 msgid "Workspace out of range: %ld"
 msgstr ""
 
-#: src/icesh.cc:2090
+#: src/icesh.cc:2092
 #, c-format
 msgid "Invalid workspace name: `%s'"
 msgstr "Ínvalid nómine de labor-spacie: «%s»"
 
-#: src/icesh.cc:2795
+#: src/icesh.cc:2813
 msgid "GNOME window layer"
 msgstr ""
 
-#: src/icesh.cc:2796
+#: src/icesh.cc:2814
 msgid "IceWM tray option"
 msgstr ""
 
-#: src/icesh.cc:2797
+#: src/icesh.cc:2815
 msgid "Gravity symbols"
 msgstr ""
 
-#: src/icesh.cc:2798
+#: src/icesh.cc:2816
 #, fuzzy
 msgid "Motif functions"
 msgstr "Gardar li modificationes"
 
-#: src/icesh.cc:2799
+#: src/icesh.cc:2817
 #, fuzzy
 msgid "Motif decorations"
 msgstr "Gardar li modificationes"
 
-#: src/icesh.cc:2800
+#: src/icesh.cc:2818
 #, fuzzy
 msgid "EWMH window state"
 msgstr "Liste de fenestres"
 
-#: src/icesh.cc:2891 src/icesh.cc:2964
+#: src/icesh.cc:2909 src/icesh.cc:2982
 #, c-format
 msgid "workspace #%d: `%s'\n"
 msgstr "labor-spacie nró %d: «%s»\n"
 
-#: src/icesh.cc:3236 src/icesh.cc:5150 src/icesh.cc:5750
+#: src/icesh.cc:3254 src/icesh.cc:5168 src/icesh.cc:5771
 #, fuzzy, c-format
 msgid "Invalid state: `%s'."
 msgstr "Ínvalid rute: %s\n"
 
-#: src/icesh.cc:3267 src/icesh.cc:4714 src/icesh.cc:4764 src/icesh.cc:6077
+#: src/icesh.cc:3285 src/icesh.cc:4732 src/icesh.cc:4782 src/icesh.cc:6098
 #, c-format
 msgid "Invalid argument: `%s'"
 msgstr ""
 
-#: src/icesh.cc:4305
+#: src/icesh.cc:4323
 #, c-format
 msgid "Cannot get geometry of window 0x%lx"
 msgstr ""
 
-#: src/icesh.cc:4330
+#: src/icesh.cc:4348
 #, fuzzy, c-format
 msgid "Invalid Xinerama: `%s'."
 msgstr "Ínvalid nómine de labor-spacie: «%s»"
 
-#: src/icesh.cc:4487 src/icesh.cc:4498 src/wmconfig.cc:139 src/wmsave.cc:65
+#: src/icesh.cc:4505 src/icesh.cc:4516 src/wmconfig.cc:139 src/wmsave.cc:65
 #: src/wmsave.cc:298 src/wmsave.cc:301
 #, c-format
 msgid "Unable to write to %s"
 msgstr ""
 
-#: src/icesh.cc:4730
+#: src/icesh.cc:4748
 #, c-format
 msgid "Action `%s' requires at least %d arguments."
 msgstr ""
 
-#: src/icesh.cc:4739
+#: src/icesh.cc:4757
 #, c-format
 msgid "Invalid expression: `%s'"
 msgstr ""
 
-#: src/icesh.cc:4750 src/icesound.cc:800 src/icewmbg.cc:1090
+#: src/icesh.cc:4768 src/icesound.cc:800 src/icewmbg.cc:1090
 #: src/icewmhint.cc:37 src/wmapp.cc:1374 src/yxapp.cc:1051
 #, c-format
 msgid "Can't open display: %s. X must be running and $DISPLAY set."
 msgstr ""
 
-#: src/icesh.cc:4866
+#: src/icesh.cc:4884
 #, c-format
 msgid "Unexpected: `%s'."
 msgstr ""
 
-#: src/icesh.cc:4898
+#: src/icesh.cc:4916
 msgid "No windows found."
 msgstr ""
 
-#: src/icesh.cc:4914
+#: src/icesh.cc:4932
 msgid "No actions specified."
 msgstr "Null actiones providet."
 
-#: src/icesh.cc:5074
+#: src/icesh.cc:5092
 #, c-format
 msgid "Invalid window identifier: `%s'"
 msgstr ""
 
-#: src/icesh.cc:5090
+#: src/icesh.cc:5108
 #, fuzzy, c-format
 msgid "Invalid PID: `%s'"
 msgstr "Ínvalid rute: %s\n"
 
-#: src/icesh.cc:5123
+#: src/icesh.cc:5141
 #, fuzzy, c-format
 msgid "Invalid layer: `%s'."
 msgstr "Ínvalid rute: %s\n"
 
-#: src/icesh.cc:6216
+#: src/icesh.cc:6237
 #, c-format
 msgid "Unknown action: `%s'"
 msgstr "Ínconosset action: «%s»"
@@ -1890,7 +1894,7 @@ msgstr ""
 msgid "Renderer:"
 msgstr ""
 
-#: src/wmabout.cc:73
+#: src/wmabout.cc:72 src/wmabout.cc:73
 msgid "icewm - About"
 msgstr "Pri icewm"
 
@@ -2392,20 +2396,20 @@ msgstr ""
 msgid "'%s' produces no output"
 msgstr ""
 
-#: src/wmmgr.cc:3723
+#: src/wmmgr.cc:3728
 msgid "Missing program setxkbmap"
 msgstr ""
 
-#: src/wmmgr.cc:3724
+#: src/wmmgr.cc:3729
 msgid "For keyboard switching, please install setxkbmap."
 msgstr ""
 
-#: src/wmoption.cc:285
+#: src/wmoption.cc:286
 #, c-format
 msgid "Unknown window option: %s"
 msgstr "Ínconosset option de fenestre: %s"
 
-#: src/wmoption.cc:357
+#: src/wmoption.cc:358
 #, c-format
 msgid "Syntax error in window options on line %d of %s"
 msgstr ""
@@ -2576,7 +2580,7 @@ msgstr "_Finir li processu"
 msgid "Kill _Process"
 msgstr "_Terminar li processu"
 
-#: src/wmwinlist.cc:509 src/wmwinlist.cc:510
+#: src/wmwinlist.cc:508 src/wmwinlist.cc:509 src/wmwinlist.cc:510
 msgid "Window list"
 msgstr "Liste de fenestres"
 
@@ -2600,12 +2604,12 @@ msgstr ""
 msgid "Could not parse color \"%s\""
 msgstr ""
 
-#: src/yconfig.cc:87
+#: src/yconfig.cc:129
 #, c-format
 msgid "Unknown key name %s in %s"
 msgstr ""
 
-#: src/yconfig.cc:172 src/yconfig.cc:183 src/yconfig.cc:195
+#: src/yconfig.cc:214 src/yconfig.cc:225 src/yconfig.cc:237
 #, c-format
 msgid "Bad argument: %s for %s [%d,%d]"
 msgstr ""
