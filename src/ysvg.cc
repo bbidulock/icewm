@@ -86,6 +86,10 @@ ref<YImage> YImage::loadsvg(upath filename) {
             rsvg_handle_get_dimensions(handle, &dim);
             GdkPixbuf* pixbuf = rsvg_handle_get_pixbuf(handle);
             rsvg_handle_close(handle, &error);
+            g_clear_error(&error);
+            g_object_unref(G_OBJECT(handle));
+            if (pixbuf == nullptr)
+                return icon;
             bool alpha = gdk_pixbuf_get_has_alpha(pixbuf);
             int nchans = gdk_pixbuf_get_n_channels(pixbuf);
             int stride = gdk_pixbuf_get_rowstride(pixbuf);
