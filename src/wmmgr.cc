@@ -1768,6 +1768,15 @@ setGeo:
     frame->setNormalGeometryOuter(posX, posY, posWidth, posHeight);
 }
 
+bool YWindowManager::notManaging(const char* resource) {
+    WindowOption wo(resource);
+    if (hintOptions)
+        hintOptions->mergeWindowOption(wo, resource, false);
+    if (defOptions)
+        defOptions->mergeWindowOption(wo, resource, false);
+    return wo.hasOption(YFrameWindow::foDoNotManage);
+}
+
 bool YWindowManager::isManageable(Window win, bool mapClient) {
     bool manage = true;
     if (WindowOptions::anyOption(YFrameWindow::foDoNotManage)) {
@@ -1775,12 +1784,14 @@ bool YWindowManager::isManageable(Window win, bool mapClient) {
         if (hint.get(win) &&
             nonempty(hint.res_name) && hint.res_name[0] != '/')
         {
-            WindowOption wo(hint.res_name);
-            if (hintOptions)
-                hintOptions->mergeWindowOption(wo, hint.res_name, false);
-            if (defOptions)
-                defOptions->mergeWindowOption(wo, hint.res_name, false);
-            if (wo.hasOption(YFrameWindow::foDoNotManage))
+            YProperty prop(win, _XA_WM_WINDOW_ROLE, F8, 256, XA_STRING);
+            char* role = prop.data<char>();
+            if (nonempty(role) && *role != '/') {
+                mstring res(hint.res_name, ".", role);
+                if (notManaging(res))
+                    manage = false;
+            }
+            if (manage && notManaging(hint.res_name))
                 manage = false;
             if (manage == false && mapClient)
                 XMapWindow(xapp->display(), win);
