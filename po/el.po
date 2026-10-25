@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: https://github.com/ice-wm/icewm/issues\n"
 "POT-Creation-Date: 2026-01-01 12:41+0100\n"
-"PO-Revision-Date: 2026-02-24 01:04+0000\n"
-"Last-Translator: Efstathios Iosifidis <eiosifidis@yandex.com>\n"
+"PO-Revision-Date: 2026-10-26 00:13+0000\n"
+"Last-Translator: Efstathios Iosifidis <eiosifidis@gmail.com>\n"
 "Language-Team: Greek <https://l10n.opensuse.org/projects/icewm/icewm-1-4-"
 "branch/el/>\n"
 "Language: el\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 2026.10.1\n"
 
 #: src/aapm.cc:113
 #, c-format
@@ -669,9 +669,8 @@ msgstr "Τέχνη"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Artificial Intelligence software
 #: src/fdospecgen.h:234 src/fdospecgen.h:240
-#, fuzzy
 msgid "Artificialtelligence"
-msgstr "Τεχνητή νοημοσύνη"
+msgstr "ΤεχνητήΝοημοσύνη"
 
 #. TRANSLATORS: This is a SHORT category menu name from freedesktop.org. Please add compact punctuation if needed but no double-quotes! Hint for the content inside: Astronomy software
 #: src/fdospecgen.h:246 src/fdospecgen.h:252
@@ -1561,7 +1560,6 @@ msgid "Socket error: %d"
 msgstr "Σφάλμα υποδοχής (socket): %d"
 
 #: src/icesm.cc:69
-#, fuzzy
 msgid ""
 "  -c, --config=FILE   Let IceWM load preferences from FILE.\n"
 "  -t, --theme=FILE    Let IceWM load the theme from FILE.\n"
@@ -1582,11 +1580,15 @@ msgstr ""
 "  -t, --theme=ΑΡΧΕΙΟ   Αφήνει το IceWM να φορτώσει το θέμα από το ΑΡΧΕΙΟ.\n"
 "\n"
 "  -d, --display=ΟΝΟΜΑ  Χρήση του «ΟΝΟΜΑ», για σύνδεση στον εξυπηρετητή X .\n"
-"  --sync               Συγχρονισμός των επικοινωνιών, με τον εξυπηρετητή "
-"X11 .\n"
+"  -a, --alpha          Χρήση οπτικού 32-bit για διαφάνεια.\n"
+"  --sync               Συγχρονισμός των επικοινωνιών, με τον εξυπηρετητή X11 "
+".\n"
 "\n"
 "  -i, --icewm=ΑΡΧΕΙΟ   Χρήση του «ΑΡΧΕΙΟ» ως διαχειριστή παραθύρων του "
 "IceWM.\n"
+"  -o, --output=ΑΡΧΕΙΟ  Ανακατεύθυνση όλης της εξόδου στο ΑΡΧΕΙΟ.\n"
+"\n"
+"  -b, --nobg           Να μην εκκινηθεί το icewmbg.\n"
 "  -n, --notray         Να μην εκκινηθεί το icewmtray.\n"
 "  -s, --sound          Επίσης, να εκκινηθεί το icesound.\n"
 
@@ -2394,7 +2396,7 @@ msgstr ""
 
 #: src/wmapp.cc:1729
 msgid "  -o, --output=FILE   Redirect all output to FILE.\n"
-msgstr ""
+msgstr "  -o, --output=ΑΡΧΕΙΟ  Ανακατεύθυνση όλης της εξόδου στο ΑΡΧΕΙΟ.\n"
 
 #: src/wmapp.cc:1735
 msgid "  -i, --install=THEME Install THEME from extra or 'list'.\n"
