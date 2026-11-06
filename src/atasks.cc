@@ -1076,6 +1076,11 @@ void TaskPane::relayout(bool force) {
     }
 }
 
+bool TaskPane::needRelayout() const {
+    return fNeedRelayout ||
+        (fTaskGrouping != taskBarTaskGrouping && !dragging());
+}
+
 bool TaskPane::handleTimer(YTimer* t) {
     bool repeat = false;
     if (t == fRelayoutTimer) {
