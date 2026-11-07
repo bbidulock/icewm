@@ -133,6 +133,7 @@ public:
     static unsigned maxHeight();
     void relayout(bool force = false);
     void relayoutNow(bool force = false);
+    bool needRelayout() const;
 
     virtual void configure(const YRect2& r);
     virtual void handleClick(const XButtonEvent& up, int count);

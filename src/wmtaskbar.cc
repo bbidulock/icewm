@@ -679,7 +679,7 @@ void TaskBar::relayoutNow() {
     if (fNeedRelayout) {
         updateLocation();
     }
-    if (taskPane())
+    if (taskPane() && taskPane()->needRelayout())
         taskPane()->relayout();
     if (fButtonUpdate) {
         fButtonUpdate = false;
