@@ -240,8 +240,21 @@ WorkspacesPane::WorkspacesPane(YWindow* parent, unsigned tall):
     createButtons();
 }
 
+unsigned WorkspacesPane::side() const {
+    return max(smallIconSize + 8, fTall);
+}
+
 void WorkspacesPane::createButtons() {
     fReconfiguring = true;
+    if (taskBarVertical()) {
+        for (int i = 0, n = workspaceCount; i < n; ++i) {
+            create(i, side());
+        }
+        repositionVertical();
+        setPressed(manager->activeWorkspace(), true);
+        fReconfiguring = false;
+        return;
+    }
     unsigned width = 0;
     unsigned height = max(smallIconSize + 8, fTall);
     for (int i = 0, n = workspaceCount; i < n; ++i) {
@@ -265,7 +278,7 @@ void WorkspacesPane::resize(unsigned width, unsigned height) {
         fMoved = min(0, fMoved + excess);
         repositionButtons();
     }
-    else if (rightToLeft && (fReconfiguring | fRepositioning) == false)
+    else if (workspacesFlipped() && (fReconfiguring | fRepositioning) == false)
         repositionButtons();
 }
 
@@ -344,8 +357,37 @@ long WorkspacesPane::limitWidth(long paneWidth) {
     return min(paneWidth, limit);
 }
 
+void WorkspacesPane::repositionVertical() {
+    const bool save(fRepositioning);
+    fRepositioning = true;
+    int w = 1;
+    int total = 0;
+    for (auto wk : fButtons) {
+        w = max(w, int(wk->width()));
+        total += pagerShowPreview ? int(wk->height()) : int(side());
+    }
+    total = max(total, 1);
+    const bool bottomUp = (taskBarDirection == 0);
+    int top = 0;
+    for (auto wk : fButtons) {
+        const int h = pagerShowPreview ? int(wk->height()) : int(side());
+        const int y = bottomUp ? total - top - h : top;
+        if (int(wk->width()) != w || int(wk->height()) != h)
+            wk->setSize(unsigned(w), unsigned(h));
+        wk->setPosition(0, y);
+        top += h;
+    }
+    if (w != int(width()) || total != int(height()))
+        setSize(unsigned(w), unsigned(total));
+    fRepositioning = save;
+}
+
 void WorkspacesPane::repositionButtons() {
     MSG(("WorkspacesPane::repositionButtons()"));
+    if (taskBarVertical()) {
+        repositionVertical();
+        return;
+    }
     fRepositioning = true;
     int width = 0;
     asmart<int> xs(new int[count()]);
@@ -382,6 +424,11 @@ void WorkspacesPane::relabelButtons() {
 }
 
 void WorkspacesPane::configure(const YRect2& r) {
+    if (taskBarVertical()) {
+        if ((fReconfiguring | fRepositioning) == false && r.resized())
+            repositionVertical();
+        return;
+    }
     if ((fReconfiguring | fRepositioning) == false && r.resized()) {
         if (pagerShowPreview && r.hh != r.old.hh && 1 < r.old.hh) {
             rescaleButtons();
@@ -392,6 +439,16 @@ void WorkspacesPane::configure(const YRect2& r) {
 }
 
 void WorkspacesPane::rescaleButtons() {
+    if (taskBarVertical()) {
+        for (auto wk : fButtons) {
+            scale(wk, side());
+        }
+        repositionVertical();
+        for (auto wk : fButtons) {
+            wk->show();
+        }
+        return;
+    }
     for (auto wk : fButtons) {
         scale(wk, max(height(), fTall));
     }
@@ -409,7 +466,7 @@ void WorkspacesPane::updateButtons() {
          count(), int(workspaceCount)));
 
     while (workspaceCount < count() && 1 < count()) {
-        fButtons.remove(rightToLeft ? 0 : count() - 1);
+        fButtons.remove(workspacesFlipped() ? 0 : count() - 1);
     }
 
     if (fDesktop != desktop->dimension()) {
@@ -420,10 +477,19 @@ void WorkspacesPane::updateButtons() {
         }
     }
 
+    if (taskBarVertical()) {
+        for (int i = count(), n = workspaceCount; i < n; ++i) {
+            create(i, side());
+        }
+        repositionVertical();
+        paths = null;
+        return;
+    }
+
     int width = extent() - fMoved;
     for (int i = count(), n = workspaceCount; i < n; ++i) {
         WorkspaceButton* wk = create(i, height());
-        int x = rightToLeft ? fButtons[0]->x() - wk->width() : width;
+        int x = workspacesFlipped() ? fButtons[0]->x() - wk->width() : width;
         wk->setPosition(x + fMoved, 0);
         width += wk->width();
         if (wk->extent() > 0 && wk->x() < max(width, int(this->width())))
@@ -432,7 +498,7 @@ void WorkspacesPane::updateButtons() {
 
     resize(width, height());
     int limit = int(this->width());
-    if (fMoved + width < limit || rightToLeft) {
+    if (fMoved + width < limit || workspacesFlipped()) {
         fMoved = limit - width;
         repositionButtons();
     }
@@ -443,13 +509,19 @@ void WorkspacesPane::updateButtons() {
 void WorkspacesPane::scale(WorkspaceButton* button, unsigned height) {
     unsigned dw = desktop->width();
     unsigned dh = desktop->height();
+    if (taskBarVertical()) {
+        // here "height" is the fixed width of the column
+        unsigned scaledHeight = (height * dh + (dw / 2)) / dw;
+        button->setSize(height, max(1U, scaledHeight));
+        return;
+    }
     unsigned scaled = (height * dw + (dh / 2)) / dh;
     button->setSize(scaled, height);
 }
 
 WorkspaceButton* WorkspacesPane::create(int workspace, unsigned height) {
     WorkspaceButton *wk = new WorkspaceButton(workspace, this, this);
-    fButtons.insert(rightToLeft ? 0 : count(), wk);
+    fButtons.insert(workspacesFlipped() ? 0 : count(), wk);
     if (pagerShowPreview) {
         scale(wk, height);
         wk->updateName();

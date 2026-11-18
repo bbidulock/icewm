@@ -82,6 +82,7 @@ public:
     virtual ~YXTrayProxy();
 
     virtual void handleClientMessage(const XClientMessageEvent &message);
+    void setOrientation(bool vertical);
 private:
     YAtom _NET_SYSTEM_TRAY_S0;
     YXTray *fTray;
@@ -151,6 +152,14 @@ YXTrayProxy::YXTrayProxy(const YAtom& atom, YXTray *tray):
     xev.data.l[2] = handle();
 
     xapp->send(xev, desktop->handle(), StructureNotifyMask);
+}
+
+void YXTrayProxy::setOrientation(bool vertical) {
+    if (isExternal()) {
+        long orientation = vertical ? SYSTEM_TRAY_ORIENTATION_VERT
+                                    : SYSTEM_TRAY_ORIENTATION_HORZ;
+        setProperty(_XA_NET_SYSTEM_TRAY_ORIENTATION, XA_CARDINAL, orientation);
+    }
 }
 
 YXTrayProxy::~YXTrayProxy() {
@@ -536,7 +545,8 @@ void YXTrayEmbedder::paint(Graphics &g, const YRect& r) {
     else if (taskbackPixmap != null) {
         g.fillPixmap(taskbackPixmap,
                      r.x(), r.y(), r.width(), r.height(),
-                     x() + r.x(), y() + r.y() + parent()->y());
+                     x() + r.x() + (fTray->vertical() ? parent()->x() : 0),
+                     y() + r.y() + parent()->y());
     }
     else {
         g.setColor(taskBarBg);
@@ -596,7 +606,9 @@ YXTray::YXTray(YXTrayNotifier *notifier,
     fLocked(false),
     fRunProxy(internal == false),
     fTrace(YTrace::traces("systray")),
-    fDrawBevel(drawBevel)
+    fDrawBevel(drawBevel),
+    fVertical(false),
+    fBottomUp(false)
 {
     DBG { fTrace = true; }
     addStyle(wsNoExpose);
@@ -609,6 +621,15 @@ YXTray::YXTray(YXTrayNotifier *notifier,
 
 YXTray::~YXTray() {
     delete fTrayProxy; fTrayProxy = nullptr;
+}
+
+void YXTray::setVertical(bool vertical, bool bottomUp) {
+    fBottomUp = bottomUp;
+    if (fVertical != vertical) {
+        fVertical = vertical;
+        if (fTrayProxy)
+            fTrayProxy->setOrientation(vertical);
+    }
 }
 
 void YXTray::getScaleSize(unsigned& w, unsigned& h)
@@ -690,6 +711,10 @@ bool YXTray::trayRequestDock(Window win, mstring title) {
 
     unsigned w = max(width(), 2U * fDrawBevel) + ww;
     unsigned h = max(height(), hh + fDrawBevel);
+    if (fVertical) {
+        w = trayIconMaxWidth + 2U * fDrawBevel;
+        h = max(height(), 2U * fDrawBevel) + hh;
+    }
     trayUpdateGeometry(w, h, true);
     relayout(true);
     return true;
@@ -813,6 +838,11 @@ void YXTray::relayout(bool enforced) {
     if (enforced == false)
         return;
 
+    if (fVertical) {
+        relayoutVertical();
+        return;
+    }
+
     for (IterType ec = rightToLeft
                      ? fDocked.reverseIterator()
                      : fDocked.iterator(); ++ec; ) {
@@ -859,15 +889,72 @@ void YXTray::relayout(bool enforced) {
          fDocked.getCount(), width(), boolstr(visible())));
 }
 
+void YXTray::relayoutVertical() {
+    const unsigned column = trayIconMaxWidth;
+    const int bevel = fDrawBevel;
+    XWindowAttributes attr;
+    int countVisible = 0;
+    int ah = bevel;
+
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
+        if (false == ec->fVisible) {
+            // skip
+        }
+        else if (ec->client()->getWindowAttributes(&attr)) {
+            int ew = ec->width();
+            int eh = ec->height();
+            int ax = bevel + (int(column) - ew) / 2;
+            ec->setGeometry(YRect(ax, ah, ew, eh));
+            ec->client()->setGeometry(YRect(0, 0, ew, eh));
+            ah += eh;
+            countVisible++;
+        }
+        else {
+            if (trace())
+                tlog("systray sanity remove %08lx", ec->client_handle());
+            ec.remove();
+            updateTrayWindows();
+            --ec;
+        }
+    }
+    ah += bevel;
+
+    if (fBottomUp) {
+        // first docked icon at the bottom
+        for (IterType ec = fDocked.iterator(); ++ec; ) {
+            if (ec->fVisible) {
+                ec->setPosition(ec->x(), ah - ec->y() - int(ec->height()));
+            }
+        }
+    }
+
+    unsigned w = column + 2U * fDrawBevel;
+    unsigned h = ah;
+    if (fDrawBevel && h < 4)
+        h = 0;
+    trayUpdateGeometry(w, h, countVisible > 0);
+
+    for (IterType ec = fDocked.iterator(); ++ec; ) {
+        if (ec->fVisible)
+            ec->show();
+    }
+}
+
 void YXTray::trayUpdateGeometry(unsigned w, unsigned h, bool visible) {
     if (visible == false) {
         hide();
         w = 0;
+        if (fVertical)
+            h = 0;
     }
     MSG(("relayout %d %d : %d %d", w, h, width(), height()));
     if (w != width() || h != height()) {
-        int ypos = (h == height()) ? y() : 1;
-        fGeometry.setRect(x() + int(width()) - int(w), ypos, w, h);
+        if (fVertical) {
+            fGeometry.setRect(x(), y(), w, h);
+        } else {
+            int ypos = (h == height()) ? y() : 1;
+            fGeometry.setRect(x() + int(width()) - int(w), ypos, w, h);
+        }
         setGeometry(fGeometry);
         if (visible)
             show();

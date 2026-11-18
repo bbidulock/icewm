@@ -4,6 +4,11 @@
 #include "ybutton.h"
 #include "yinputline.h"
 
+bool taskBarVertical();
+bool taskBarMirrored();
+
+inline bool workspacesFlipped() { return !taskBarVertical() && taskBarMirrored(); }
+
 class WorkspaceDragger {
  public:
     virtual void drag(int ws, int dx, bool start, bool end) = 0;
@@ -148,8 +153,7 @@ private:
     ArrayType fButtons;
 
     WorkspaceButton* index(int ws) const {
-        extern bool rightToLeft;
-        return fButtons[rightToLeft ? count() - ws - 1 : ws];
+        return fButtons[workspacesFlipped() ? count() - ws - 1 : ws];
     }
     int count() const { return fButtons.getCount(); }
     IterType iterator() { return fButtons.iterator(); }
@@ -167,6 +171,8 @@ private:
     void repositionButtons();
     void resize(unsigned width, unsigned height);
     long limitWidth(long paneWidth);
+    unsigned side() const;
+    void repositionVertical();
 
     virtual void drag(int ws, int dx, bool start, bool end);
     virtual void stopDrag();

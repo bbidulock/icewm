@@ -15,6 +15,9 @@
 class TrayPane;
 class ClientData;
 
+bool taskBarVertical();
+bool taskBarMirrored();
+
 class TrayApp: public YWindow, public YTimerListener {
 public:
     TrayApp(ClientData *frame, TrayPane *trayPane, YWindow *aParent);

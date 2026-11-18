@@ -29,6 +29,8 @@ public:
     bool nonempty() const { return objects.nonempty(); }
 
 private:
+    void layoutVertical();
+
     ArrayType objects;
 };
 

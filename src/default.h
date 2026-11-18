@@ -35,6 +35,11 @@ XIV(bool, hideTitleBarWhenMaximized,            false)
 XSV(const char *, winMenuItems,                 "rmsnxfhualytiecw")
 XIV(bool, showTaskBar,                          true)
 XIV(bool, taskBarAtTop,                         false)
+XIV(int, taskBarPosition,                       0)
+XIV(int, taskBarDirection,                      0)
+XIV(int, taskBarVerticalWidth,                  0)
+XIV(bool, taskBarRotateTaskText,                false)
+XIV(bool, taskBarRotateTaskIcons,               false)
 XIV(bool, taskBarKeepBelow,                     false)
 XIV(bool, taskBarShowClock,                     true)
 XIV(bool, taskBarShowApm,                       false)
@@ -320,6 +325,11 @@ cfoption icewm_preferences[] = {
     OBV("ArrangeWindowsOnScreenSizeChange",     &arrangeWindowsOnScreenSizeChange, "Automatically arrange windows when screen size changes"),
     OBV("ShowTaskBar",                          &showTaskBar,                   "Show task bar"),
     OBV("TaskBarAtTop",                         &taskBarAtTop,                  "Task bar at top of the screen"),
+    OIV("TaskBarPosition",                      &taskBarPosition, 0, 3,         "Task bar position: 0=bottom, 1=top, 2=left, 3=right (overrides TaskBarAtTop when not 0)"),
+    OIV("TaskBarDirection",                     &taskBarDirection, 0, 1,        "Task bar direction: 0=normal (left to right, or bottom to top when vertical), 1=reversed"),
+    OIV("TaskBarVerticalWidth",                 &taskBarVerticalWidth, 0, 2000, "Width in pixels of a vertical task bar, 0 for automatic"),
+    OBV("TaskBarRotateTaskText",                &taskBarRotateTaskText,         "Vertical task bar: draw task buttons rotated, with theme images and text (left bar reads bottom to top, right bar top to bottom)"),
+    OBV("TaskBarRotateTaskIcons",               &taskBarRotateTaskIcons,        "With TaskBarRotateTaskText: rotate the task icons too, otherwise they stay upright"),
     OBV("TaskBarKeepBelow",                     &taskBarKeepBelow,              "Keep the task bar below regular windows"),
     OBV("TaskBarAutoHide",                      &taskBarAutoHide,               "Auto hide task bar after delay"),
     OBV("TaskBarFullscreenAutoShow",            &taskBarFullscreenAutoShow,     "Auto show task bar when fullscreen window active"),
