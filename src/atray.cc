@@ -359,12 +359,32 @@ unsigned TrayPane::countShownApps() const {
 }
 
 void TrayPane::relayoutNow() {
-    if (!fNeedRelayout || height() == 1)
+    if (!fNeedRelayout || (taskBarVertical() ? width() == 1 : height() == 1))
         return ;
 
     fNeedRelayout = false;
 
     const unsigned count = countShownApps();;
+
+    if (taskBarVertical()) {
+        const unsigned s = width() > 4 ? width() - 4 : 1;
+        const unsigned nh = count ? 4 + count * s : 1;
+        if (nh != height()) {
+            setGeometry(YRect(x(), y(), width(), nh));
+            fTaskBar->relayout();
+        }
+        int yy = 2;
+        for (TrayApp* f : fApps) {
+            if (f->getShown()) {
+                f->setGeometry(YRect(2, yy, s, s));
+                f->show();
+                yy += s;
+            } else
+                f->hide();
+        }
+        return;
+    }
+
     const unsigned nw = count ? 4 + count * (height() - 4) : 1;
     if (nw != width()) {
         MSG(("tray: nw=%d x=%d w=%d", nw, x(), width()));
@@ -380,7 +400,7 @@ void TrayPane::relayoutNow() {
     for (TrayApp* f : fApps) {
         if (f->getShown()) {
             YRect r(x, y, w, h);
-            if (rightToLeft) {
+            if (taskBarMirrored()) {
                 r.xx = nw - r.xx - r.ww - 1;
             }
             f->setGeometry(r);

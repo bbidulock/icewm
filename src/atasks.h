@@ -13,6 +13,10 @@ class IAppletContainer;
 class ClientData;
 class YMenu;
 
+bool taskBarVertical();
+bool taskBarMirrored();
+bool taskBarRotateTasks();
+
 class TaskBarApp {
 public:
     TaskBarApp(ClientData* frame, TaskButton* button);
@@ -87,6 +91,8 @@ public:
     TaskPane* taskPane() const { return fTaskPane; }
     int grouping() const { return fTaskGrouping; }
     int estimate();
+    void paintLogical(Graphics& g, int w, int h, bool deferIcon, int* iconPos);
+    void paintRotated(Graphics& g);
     static unsigned maxHeight();
 
 private:

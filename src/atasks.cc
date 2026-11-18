@@ -377,7 +377,86 @@ void TaskButton::handleExpose(const XExposeEvent& exp) {
     }
 }
 
+bool taskBarRotateTasks() {
+    return taskBarVertical() && taskBarRotateTaskText;
+}
+
 void TaskButton::paint(Graphics& g, const YRect& r) {
+    if (taskBarRotateTasks() && width() > 1 && height() > 1) {
+        paintRotated(g);
+    } else {
+        paintLogical(g, int(width()), int(height()), false, nullptr);
+    }
+}
+
+void TaskButton::paintRotated(Graphics& g) {
+    const int RW = int(width());
+    const int RH = int(height());
+    const int LW = RH;
+    const int LH = RW;
+    const bool ccw = (taskBarPosition != 3);
+    Display* dpy = xapp->display();
+    const unsigned dep = depth() ? depth() : xapp->depth();
+
+    Pixmap tmp = XCreatePixmap(dpy, handle(), unsigned(LW), unsigned(LH), dep);
+    if (tmp == None)
+        return;
+
+    int pos[2] = { -1, -1 };
+    {
+        Graphics gt(tmp, unsigned(LW), unsigned(LH), dep);
+        gt.setColor(taskBarBg);
+        gt.fillRect(0, 0, unsigned(LW), unsigned(LH));
+        paintLogical(gt, LW, LH, !taskBarRotateTaskIcons, pos);
+    }
+
+    XImage* src = XGetImage(dpy, tmp, 0, 0, unsigned(LW), unsigned(LH),
+                            AllPlanes, ZPixmap);
+    XFreePixmap(dpy, tmp);
+    if (src == nullptr)
+        return;
+
+    XImage* dst = XCreateImage(dpy, visual(), dep, ZPixmap, 0, nullptr,
+                               unsigned(RW), unsigned(RH), 32, 0);
+    if (dst == nullptr) {
+        XDestroyImage(src);
+        return;
+    }
+    dst->data = static_cast<char*>(calloc(size_t(dst->bytes_per_line),
+                                          size_t(RH)));
+    if (dst->data == nullptr) {
+        XDestroyImage(src);
+        XDestroyImage(dst);
+        return;
+    }
+
+    for (int ly = 0; ly < LH; ++ly) {
+        for (int lx = 0; lx < LW; ++lx) {
+            const unsigned long px = XGetPixel(src, lx, ly);
+            if (ccw)
+                XPutPixel(dst, ly, LW - 1 - lx, px);
+            else
+                XPutPixel(dst, RW - 1 - ly, lx, px);
+        }
+    }
+    XPutImage(dpy, g.drawable(), g.handleX(), dst, 0, 0, 0, 0,
+              unsigned(RW), unsigned(RH));
+    XDestroyImage(src);
+    XDestroyImage(dst);
+
+    if (pos[0] >= 0 && fActive) {
+        ref<YIcon> icon = getFrame()->getIcon();
+        const int s = int(YIcon::smallSize());
+        if (icon != null) {
+            const int ix = ccw ? pos[1] : RW - pos[1] - s;
+            const int iy = ccw ? LW - pos[0] - s : pos[0];
+            icon->draw(g, ix, iy, s);
+        }
+    }
+    g.maxOpacity();
+}
+
+void TaskButton::paintLogical(Graphics& g, int W, int H, bool deferIcon, int* iconPos) {
     YColor bg, fg;
     ref<YPixmap> bgPix;
     ref<YPixmap> bgLeft;
@@ -457,43 +536,43 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
     if (style == 3) {
         p = 2;
         g.setColor(YColor::black);
-        g.drawRect(0, 0, width() - 1, height() - 1);
+        g.drawRect(0, 0, W - 1, H - 1);
         g.setColor(bg);
-        g.fillRect(1, 1, width() - 2, height() - 2);
+        g.fillRect(1, 1, W - 2, H - 2);
     } else {
         g.setColor(bg);
 
         if (style == 2) {
             p = 2;
             if (wmLook == lookMetal) {
-                g.drawBorderM(0, 0, width() - 1, height() - 1, false);
+                g.drawBorderM(0, 0, W - 1, H - 1, false);
             } else if (wmLook == lookGtk) {
-                g.drawBorderG(0, 0, width() - 1, height() - 1, false);
+                g.drawBorderG(0, 0, W - 1, H - 1, false);
             }
             else if (wmLook != lookFlat)
-                g.drawBorderW(0, 0, width() - 1, height() - 1, false);
+                g.drawBorderW(0, 0, W - 1, H - 1, false);
         } else {
             p = 1;
             if (wmLook == lookMetal) {
                 p = 2;
-                g.drawBorderM(0, 0, width() - 1, height() - 1, true);
+                g.drawBorderM(0, 0, W - 1, H - 1, true);
             } else if (wmLook == lookGtk) {
-                g.drawBorderG(0, 0, width() - 1, height() - 1, true);
+                g.drawBorderG(0, 0, W - 1, H - 1, true);
             }
             else if (wmLook != lookFlat)
-                g.drawBorderW(0, 0, width() - 1, height() - 1, true);
+                g.drawBorderW(0, 0, W - 1, H - 1, true);
         }
 
         int const dp(wmLook == lookFlat ? 0: wmLook == lookMetal ? 2 : p);
         int const ds(wmLook == lookFlat ? 0: wmLook == lookMetal ? 4 : 3);
         border_size = ds;
 
-        if ((int) width() > ds && (int) height() > ds) {
+        if ((int) W > ds && (int) H > ds) {
             if (bgGrad != null) {
                 int x = dp;
                 int y = dp;
-                unsigned w = width() - ds;
-                unsigned h = height() - ds;
+                unsigned w = W - ds;
+                unsigned h = H - ds;
                 if (taskbuttonIconOffset &&
                     bgLeftG != null &&
                     bgRightG != null &&
@@ -511,8 +590,8 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
             else if (bgPix != null) {
                 int x = dp;
                 int y = dp;
-                unsigned w = width() - ds;
-                unsigned h = height() - ds;
+                unsigned w = W - ds;
+                unsigned h = H - ds;
                 if (taskbuttonIconOffset &&
                     bgLeft != null &&
                     bgRight != null &&
@@ -528,7 +607,7 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                 g.fillPixmap(bgPix, x, y, w, h);
             }
             else {
-                g.fillRect(dp, dp, width() - ds, height() - ds);
+                g.fillRect(dp, dp, W - ds, H - ds);
             }
         }
     }
@@ -543,12 +622,21 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
         }
     }
     if (icon != null) {
-        int const y((height() - 3 - iconSize -
+        int const y((H - 3 - iconSize -
                      (wmLook == lookMetal)) / 2);
         iconX = p + max(1, left);
         iconY = p + 1 + y;
-        iconDrawn = icon->draw(g, iconX, iconY, iconSize);
-        if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(width())) {
+        if (deferIcon) {
+            // the caller draws the icon upright after rotating the rest
+            iconDrawn = true;
+            if (iconPos) {
+                iconPos[0] = iconX;
+                iconPos[1] = iconY;
+            }
+        } else {
+            iconDrawn = icon->draw(g, iconX, iconY, iconSize);
+        }
+        if (iconDrawn && p + max(1, left) + iconSize + 5 >= int(W)) {
             if (bgGrad != null) {
                 g.maxOpacity();
             }
@@ -573,14 +661,14 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
         int crumbStep = crumbSize + crumb_gap;
         g.setColor(crumbsBg);
 
-        int x = width() / 2 - crumbStep * groupCount / 2;
-        int y = height() - border_size;
+        int x = W / 2 - crumbStep * groupCount / 2;
+        int y = H - border_size;
         // please check if border_size is correctly above
 
         int count = groupCount;
         if (x < 0) {
             x = 0;
-            count = (width() + crumbSize) / crumbStep;
+            count = (W + crumbSize) / crumbStep;
         }
 
         for (int dn = 0; dn < count; dn++) {
@@ -612,13 +700,13 @@ void TaskButton::paint(Graphics& g, const YRect& r) {
                 pad += 2;
             }
             int const tx = pad + iconSize;
-            int const ty = max(2U,
-                               (height() + font->height() -
-                               (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
-                               font->descent());
-            int const wm = int(width()) - p - pad - iconSize - 2;
+            int const ty = max(2,
+                            (H + font->height() -
+                            (LOOK(lookMetal | lookFlat) ? 2 : 1)) / 2 -
+                            font->descent());
+            int const wm = int(W) - p - pad - iconSize - 2;
 
-            if (0 < wm && p + tx + wm < int(width())) {
+            if (0 < wm && p + tx + wm < int(W)) {
                 textX = p + tx;
                 textY = p + ty;
                 int x = 0;
@@ -725,6 +813,10 @@ void TaskButton::popupGroup() {
         }
     }
     int x = 0, y = taskBarAtTop * height();
+    if (taskBarVertical()) {
+        x = (taskBarPosition == 2) ? int(width()) : 0;
+        y = 0;
+    }
     mapToGlobal(x, y);
     fMenu->popup(this, nullptr, this, x, y,
                  YPopupWindow::pfCanFlipVertical |
@@ -1136,6 +1228,55 @@ void TaskPane::relayoutNow(bool force) {
     }
     if (tc == 0)
         return;
+
+    if (taskBarRotateTasks()) {
+        // Rotated task buttons: thickness is the pane width
+        const int slots = max(tc, int(taskBarButtonWidthDivisor));
+        const int wid = (int(height()) - 2) / slots;
+        const int rem = (int(height()) - 2) % slots;
+        int pos = 0;
+        int lc = 0;
+        for (TaskButton* task : fTasks) {
+            if (task->getShown()) {
+                const int len = taskBarShowWindowTitles
+                              ? wid + (lc < rem) : task->estimate();
+                const int ty = (taskBarDirection == 0)
+                             ? int(height()) - pos - len : pos;
+                if (task != dragging()) {
+                    task->setGeometry(YRect(0, ty, width(),
+                                            unsigned(max(1, len))));
+                    task->show();
+                }
+                pos += len;
+                lc++;
+            }
+        }
+        if (dragging())
+            dragging()->show();
+        return;
+    }
+
+    if (taskBarVertical()) {
+        int rowh = max(int(YIcon::smallSize()) + 8, int(maxHeight()));
+        if (rowh * tc > int(height()))
+            rowh = max(1, int(height()) / tc);
+        int k = 0;
+        for (TaskButton* task : fTasks) {
+            if (task->getShown()) {
+                int ty = (taskBarDirection == 0)
+                       ? int(height()) - (k + 1) * rowh : k * rowh;
+                if (task != dragging()) {
+                    task->setGeometry(YRect(0, ty, width(), unsigned(rowh)));
+                    task->show();
+                }
+                k++;
+            }
+        }
+        if (dragging())
+            dragging()->show();
+        return;
+    }
+
     tc = max(tc, taskBarButtonWidthDivisor);
 
     const int wid = (width() - 2) / tc;
@@ -1150,7 +1291,7 @@ void TaskPane::relayoutNow(bool force) {
                          : task->estimate();
             if (task != dragging()) {
                 YRect r(x, 0, unsigned(w1), height());
-                if (rightToLeft) {
+                if (taskBarMirrored()) {
                     r.xx = width() - r.xx - r.ww - 1;
                 }
                 task->setGeometry(r);
@@ -1236,6 +1377,39 @@ void TaskPane::startDrag(TaskButton* drag, int /*byMouse*/, int sx, int sy) {
 void TaskPane::processDrag(int mx, int my) {
     if (fDragging == nullptr)
         return;
+
+    if (taskBarVertical()) {
+        const int h2 = height() - fDragging->height() - 2;
+        const int ox = fDragX - fDragging->x();
+        const int oy = fDragY - fDragging->y();
+        const int cx = clamp(mx, ox - 1, ox + 1);
+        const int cy = clamp(my, oy, oy + h2);
+        const int dx = cx - fDragX;
+        const int dy = cy - fDragY;
+        if (dx == 0 && dy == 0)
+            return;
+
+        fDragging->setPosition(fDragging->x() + dx, fDragging->y() + dy);
+
+        int drag = -1;
+        int drop = -1;
+        for (IterTask task = fTasks.iterator(); ++task; ) {
+            if (task->getShown()) {
+                if (task == fDragging)
+                    drag = task.where();
+                else if (inrange(cy, task->y(),
+                                 task->y() + (int) task->height() - 1))
+                    drop = task.where();
+            }
+        }
+        if (drag >= 0 && drop >= 0) {
+            fTasks.swap(drag, drop);
+        }
+        fDragX += dx;
+        fDragY += dy;
+        relayout(true);
+        return;
+    }
 
     const int w2 = width() - fDragging->width() - 2;
     const int ox = fDragX - fDragging->x();

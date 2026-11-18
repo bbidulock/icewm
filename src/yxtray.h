@@ -97,10 +97,14 @@ public:
     bool destroyedClient(Window win);
     bool trace() const { return fTrace; }
 
+    void setVertical(bool vertical, bool bottomUp = false);
+    bool vertical() const { return fVertical; }
+
 private:
     static void getScaleSize(unsigned& w, unsigned& h);
     Window getLeader(Window win);
     void trayUpdateGeometry(unsigned w, unsigned h, bool visible);
+    void relayoutVertical();
 
     YXTrayProxy *fTrayProxy;
     typedef YObjectArray<YXTrayEmbedder> DockedType;
@@ -113,6 +117,8 @@ private:
     bool fRunProxy;
     bool fTrace;
     bool fDrawBevel;
+    bool fVertical;
+    bool fBottomUp;
 };
 
 #endif

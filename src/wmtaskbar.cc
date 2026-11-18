@@ -41,6 +41,25 @@ TaskBar *taskBar;
 
 YColorName taskBarBg(&clrDefaultTaskBar);
 
+bool taskBarVertical() {
+    return taskBarPosition == 2 || taskBarPosition == 3;
+}
+
+bool taskBarMirrored() {
+    bool mirror = rightToLeft;
+    if (taskBarDirection == 1 && !taskBarVertical())
+        mirror = !mirror;
+    return mirror;
+}
+
+// TaskBarAtTop only applies if TaskBarPosition = 0 (bottom)
+static void syncTaskBarPosition() {
+    if (taskBarPosition == 0 && taskBarAtTop)
+        taskBarPosition = 1;
+    taskBarPosition = clamp(taskBarPosition, 0, 3);
+    taskBarAtTop = (taskBarPosition == 1);
+}
+
 EdgeTrigger::EdgeTrigger(TaskBar *owner):
     fTaskBar(owner),
     fHideOrShow(Hide)
@@ -139,6 +158,7 @@ TaskBar::TaskBar(IApp *app, YWindow *aParent, YActionListener *wmActionListener,
     fButtonUpdate(false),
     fWorkspacesUpdate(false)
 {
+    syncTaskBarPosition();
     taskBar = this;
 
     addStyle(wsDesktopAware | wsTakeFocus | wsNoExpose);
@@ -543,6 +563,88 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     wlist.append(nw);
     const int wcount = wlist.getCount();
 
+    if (fDesktopTray)
+        fDesktopTray->setVertical(taskBarVertical(), taskBarDirection == 0);
+
+    if (taskBarVertical()) {
+        const unsigned dh = desktop->getScreenGeometry().height();
+        const int len = int((dh * unsigned(taskBarWidthPercentage)) / 100U);
+        const int border = (taskBarPosition == 3) ? 1 : 0;
+        const bool fromBottom = (taskBarDirection == 0);
+
+        unsigned thick = YIcon::smallSize() + 8;
+        if (taskBarVerticalWidth > 0) {
+            thick = unsigned(taskBarVerticalWidth);
+        } else {
+            for (int i = 0; i < wcount; i++) {
+                YWindow* iw = wlist[i].w;
+                if (iw && iw != fWindowTray &&
+                    (wlist[i].show || iw->visible()))
+                {
+                    thick = max(thick, iw->width());
+                }
+            }
+            if (taskBarShowWindows && taskBarShowWindowTitles &&
+                !taskBarRotateTasks())
+                thick = max(thick, 150U);
+        }
+
+        int lo = 0, hi = len;
+        for (int i = 0; i < wcount; i++) {
+            YWindow* iw = wlist[i].w;
+            if (iw == nullptr || (!wlist[i].show && !iw->visible()))
+                continue;
+            const int hh = int(iw->height());
+            const int ww = (iw == fWindowTray) ? int(thick) : int(iw->width());
+            int s;
+            if (wlist[i].left) {
+                s = lo + wlist[i].pre;
+                lo += hh + wlist[i].pre + wlist[i].post;
+            } else {
+                s = hi - hh - wlist[i].pre;
+                hi -= hh + wlist[i].pre + wlist[i].post;
+            }
+            const int py = fromBottom ? len - s - hh : s;
+            const int px = border + max(0, (int(thick) - ww) / 2);
+            iw->setGeometry(YRect(px, py, unsigned(ww), unsigned(hh)));
+            if (wlist[i].show)
+                iw->show();
+            const int more = int(iw->height()) - hh;
+            if (more > 0) {
+                if (wlist[i].left)
+                    lo += more;
+                else
+                    hi -= more;
+            }
+        }
+        wlist.clear();
+
+        const int span = max(1, hi - lo);
+        if (taskBarShowWindows && fTasks) {
+            fTasks->hide();
+            const int py = fromBottom ? len - lo - span : lo;
+            fTasks->setGeometry(YRect(border, py, thick, unsigned(span)));
+            fTasks->show();
+            fTasks->relayout();
+        }
+        if (fAddressBar) {
+            const int rowh = int(YIcon::smallSize()) + 8;
+            const int py = fromBottom ? len - lo - rowh : lo;
+            fAddressBar->setGeometry(YRect(border + 2, py + 2,
+                                           unsigned(max(1, int(thick) - 4)),
+                                           unsigned(rowh - 4)));
+            if (::showAddressBar) {
+                if (taskBarDoubleHeight || !taskBarShowWindows) {
+                    fAddressBar->raise();
+                    fAddressBar->show();
+                }
+            }
+        }
+        size_w = thick + 1;
+        size_h = unsigned(len);
+        return;
+    }
+
     int y[2] = { 0, 0 };
     unsigned h[2] = { 0, 0 };
     int left[2] = { 0, 0 };
@@ -615,7 +717,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         if (w - 1 == r.xx + r.ww)
             r.xx++;
 
-        if (rightToLeft) {
+        if (taskBarMirrored()) {
             r.xx = w - r.xx - r.ww;
         }
         wlist[i].w->setGeometry(r);
@@ -636,7 +738,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
     if (taskBarShowWindows && fTasks) {
         fTasks->hide();
         YRect r(left[0], y[0], unsigned(max(1, right[0] - left[0])), h[0]);
-        if (rightToLeft) {
+        if (taskBarMirrored()) {
             r.xx = w - r.xx - r.ww;
         }
         fTasks->setGeometry(r);
@@ -649,7 +751,7 @@ void TaskBar::updateLayout(unsigned &size_w, unsigned &size_h) {
         if (wid < 1)
             wid = max(1, int(tw) - left[row]);
         YRect r(left[row], y[row] + 2, unsigned(wid), h[row] - 4);
-        if (rightToLeft) {
+        if (taskBarMirrored()) {
             r.xx = w - r.xx - r.ww;
         }
         fAddressBar->setGeometry(r);
@@ -720,7 +822,7 @@ void TaskBar::updateLocation() {
     unsigned int w = 0;
     unsigned int h = 0;
 
-    if (taskBarWidthPercentage < 100) {
+    if (taskBarWidthPercentage < 100 && !taskBarVertical()) {
         w = (dw * taskBarWidthPercentage + 50) / 100;
         if (nonempty(taskBarJustify)) {
             if (strcmp(taskBarJustify, "left") == 0)
@@ -749,11 +851,26 @@ void TaskBar::updateLocation() {
         x = rightToLeft ? dx : dx + (dw - w);
     }
 
-    int by = taskBarAtTop ? dy : dy + dh - 1;
-
-    fEdgeTrigger->setGeometry(YRect(x, by, w, 1U));
-
-    int y = taskBarAtTop ? dy : dy + dh - h;
+    int y = dy;
+    if (taskBarVertical()) {
+        x = (taskBarPosition == 2) ? dx : dx + int(dw) - int(w);
+        if (fIsCollapsed) {
+            y = (taskBarDirection == 0) ? dy + int(dh) - int(h) : dy;
+        }
+        else if (taskBarWidthPercentage < 100 && nonempty(taskBarJustify)) {
+            if (strcmp(taskBarJustify, "right") == 0)
+                y = dy + int(dh) - int(h);
+            else if (strcmp(taskBarJustify, "center") == 0)
+                y = dy + (int(dh) - int(h)) / 2;
+        }
+        fEdgeTrigger->setGeometry(YRect(
+            taskBarPosition == 2 ? dx : dx + int(dw) - 1, y, 1U, h));
+    }
+    else {
+        int by = taskBarAtTop ? dy : dy + dh - 1;
+        fEdgeTrigger->setGeometry(YRect(x, by, w, 1U));
+        y = taskBarAtTop ? dy : dy + dh - h;
+    }
 
     if ( !fIsHidden || fIsCollapsed) {
         if (getFrame()) {
@@ -786,7 +903,15 @@ void TaskBar::updateWMHints() {
     YStrut strut;
     if (!taskBarAutoHide && !fIsCollapsed) {
         YRect geo = desktop->getScreenGeometry();
-        if (y() + height() == geo.y() + geo.height()) {
+        if (taskBarVertical()) {
+            if (x() == geo.x()) {
+                strut.left = Atom(width());
+            }
+            else if (x() + int(width()) == geo.x() + int(geo.width())) {
+                strut.right = Atom(width());
+            }
+        }
+        else if (y() + height() == geo.y() + geo.height()) {
             strut.bottom = Atom(height());
         }
         else if (y() == geo.y()) {
@@ -854,6 +979,22 @@ void TaskBar::handleCrossing(const XCrossingEvent &crossing) {
 }
 
 void TaskBar::paint(Graphics &g, const YRect& r) {
+    if (taskBarVertical()) {
+        fGradient = null;
+        g.setColor(taskBarBg);
+        if (taskbackPixmap != null) {
+            g.fillPixmap(taskbackPixmap, r.x(), r.y(), r.width(), r.height(),
+                         r.x(), r.y());
+        } else {
+            g.fillRect(r.x(), r.y(), r.width(), r.height());
+        }
+        int ex = (taskBarPosition == 2) ? int(width()) - 1 : 0;
+        if (r.x() <= ex && ex < r.x() + int(r.width())) {
+            g.setColor(taskBarBg->brighter());
+            g.drawLine(ex, r.y(), ex, r.y() + int(r.height()));
+        }
+        return;
+    }
     if (taskbackPixbuf != null &&
         (fGradient == null ||
          fGradient->width() != width() ||
@@ -950,19 +1091,33 @@ void TaskBar::handleEndDrag(const XButtonEvent &/*down*/, const XButtonEvent &/*
     xapp->releaseEvents();
 }
 void TaskBar::handleDrag(const XButtonEvent &/*down*/, const XMotionEvent &motion) {
-    bool newPosition = false;
+    int newPosition = 0;
 
     xapp->grabEvents(this, YWMApp::movePointer,
                          ButtonPressMask |
                          ButtonReleaseMask |
                          PointerMotionMask);
 
+    const int px = motion.x_root;
+    const int py = motion.y_root;
+    const int W = int(desktop->width());
+    const int H = int(desktop->height());
+    newPosition = (py < H / 2) ? 1 : 0;
+    if (py >= H / 8 && py < H - H / 8) {
+        if (px < W / 6)
+            newPosition = 2;
+        else if (px >= W - W / 6)
+            newPosition = 3;
+    }
 
-    if (motion.y_root < int(desktop->height() / 2))
-        newPosition = true;
-
-    if (taskBarAtTop != newPosition) {
-        taskBarAtTop = newPosition;
+    if (taskBarPosition != newPosition) {
+        taskBarPosition = newPosition;
+        taskBarAtTop = (newPosition == 1);
+        if (fDesktopTray) {
+            fDesktopTray->setVertical(taskBarVertical(), taskBarDirection == 0);
+            fDesktopTray->relayout(true);
+        }
+        relayoutTray();
         updateLocation();
     }
 }
